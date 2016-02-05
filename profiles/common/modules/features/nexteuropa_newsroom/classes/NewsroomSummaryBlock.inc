@@ -10,10 +10,9 @@
  */
 class NewsroomSummaryBlock {
 
-  private $blocks = array();
-  private $types = array();
-  private $topics = array();
-  private $operator = 'OR';
+  protected $types = array();
+  protected $topics = array();
+  protected $operator = 'OR';
 
   /**
    * Getter.
@@ -46,20 +45,6 @@ class NewsroomSummaryBlock {
   /**
    * Getter.
    */
-  public function getBlocks() {
-    return $this->blocks;
-  }
-
-  /**
-   * Setter.
-   */
-  public function addBlock($value) {
-    return $this->blocks[] = $value;
-  }
-
-  /**
-   * Getter.
-   */
   public function getOperator() {
     return $this->operator;
   }
@@ -72,21 +57,21 @@ class NewsroomSummaryBlock {
   }
 
   protected function generateRSS() {
-    $topic_url = '';
     $topics = $this->getTopics();
-    $topic_name = NULL;
-
+    $url_parts = array();
+    $names = array();
+    
     if (count($topics) > 0) {
       foreach ($topics as $topic_item) {
-        $topic_url .= '+' + $topic_item->tid;
-        $topic_name .= ', ' + $topic_item->name;
+        $url_parts[] = $topic_item->tid;
+        $names[] = $topic_item->name;
       }
     } else {
-      $topic_url = 'all';
+      $url_parts[] = 'all';
     }
 
-    $rss_path = NewsroomHelper::getNewsroomUrl('all', $topic_url, 'feed');
-    $rss_title = 'RSS feed : ' . $topic_name;
+    $rss_path = NewsroomHelper::getNewsroomUrl('all', implode('+', $url_parts), 'feed');
+    $rss_title = count($names) ? 'RSS feed : ' . implode(', ', $names) : 'RSS feed';
 
     $rss = '<div class="newsroom_rss">';
     $rss .= theme('feed_icon', array(
@@ -183,27 +168,24 @@ class NewsroomSummaryBlock {
   }
 
   public function generateContent() {
+
     $this->getFilters();
     $events_terms = NewsroomHelper::getEventsTermsIds();
 
+    $blocks = array();
     foreach ($this->getTypes() as $key => $type) {
       if (in_array($type->tid, $events_terms)) {
         continue;
       }
 
-      $this->addBlock(new NewsroomBlock($type, $this->getTopics(), $this->getOperator()));
+      $blocks[] = new NewsroomBlock($type, $this->getTopics(), $this->getOperator());
     }
 
-    foreach ($this->getBlocks() as $block) {
-      $block->generateContent();
-    }
-
-    $this->addBlock(new NewsroomBlockAgenda($type, $this->getTopics()));
-    $blocks = $this->getBlocks();
+    $blocks[] = new NewsroomBlockAgenda(NULL, $this->getTopics(), $this->getOperator());
     usort($blocks, array('NewsroomSummaryBlock', 'sortBlocks'));
 
-    return theme('newsroom_summary_block', array(
-      'items' => $this->getBlocks(),
+    return theme('newsroom_summary', array(
+      'items' => $blocks,
       'rss' => $this->generateRSS(),
     ));
   }
@@ -212,28 +194,28 @@ class NewsroomSummaryBlock {
    * Sort newsroom boxes.
    */
   function sortBlocks($a, $b) {
-    // Highligths at begining or end - based on setting.
-    if ($a->getHighlighted() !== $b->getHighlighted()) {
-      return variable_get('newsroom_display_highlights_begin', 0) ? $a->getHighlighted() == FALSE : $a->getHighlighted() == TRUE;
-    }
-    // Sort Agenda before or after highlighted  - based on setting.
-    if ($a->getHighlighted() && ($a->getIsAgenda() !== $b->getIsAgenda())) {
-      return variable_get('newsroom_agenda_after_highlights', 0) ? $a->getIsAgenda() == TRUE : $a->getIsAgenda() == FALSE;
-    }
-    // Sort based on last update  - based on setting.
-    if (variable_get('newsroom_order_by_last_update', 0)) {
-      return $a->getLatestDate() < $b->getLatestDate();
+    $display_highlights_begin = variable_get('newsroom_display_highlights_begin', 0);
+    $agenda_after_highlights = variable_get('newsroom_agenda_after_highlights', 0);
+    $order_by_last_update = variable_get('newsroom_order_by_last_update', 0);
+    if ($a->getHighlighted() < $b->getHighlighted()) {
+      return $display_highlights_begin ? 1 : -1;
+    } else if ($a->getHighlighted() > $b->getHighlighted()) {
+      return $display_highlights_begin ? -1 : 1;
+    } else if ($a->getIsAgenda() < $b->getIsAgenda()) {
+      return $agenda_after_highlights ? 1 : -1;
+    } else if ($a->getIsAgenda() > $b->getIsAgenda()) {
+      return $agenda_after_highlights ? -1 : 1;
+    } else if ($a->getLatestDate() < $b->getLatestDate()) {
+      return $order_by_last_update ? 1 : -1;
+    } else if ($a->getLatestDate() > $b->getLatestDate()) {
+      return $order_by_last_update ? -1 : 1;
     } else {
       return 0;
-    }
+    }    
   }
 
   protected function checkEventTypes() {
     array('consultation_funding', 'events');
-  }
-
-  protected function getTitle() {
-    
   }
 
 }

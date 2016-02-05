@@ -157,36 +157,20 @@ function nexteuropa_newsroom_menu() {
     'description' => 'Displays Newsroom items as Agenda',
     'page callback' => '_nexteuropa_newsroom_agenda',
     'access arguments' => array('access content'),
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
+    'file' => 'nexteuropa_newsroom.pages.inc',
+  );
+  $items['newsletters-list'] = array(
+    'title' => 'Newsletters',
+    'description' => 'Newsletters service list',
+    'page callback' => '_nexteuropa_newsroom_newsletters_page',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'nexteuropa_newsroom.pages.inc',
   );
 
   return $items;
-}
-
-/**
- * Agenda menu callback.
- *
- * @param string $view
- *   View: schedule, month, week, day.
- * @param string $arg1
- *   Type name.
- * @param string $arg2
- *   Topic name.
- * @param string $arg3
- *   Date param.
- * @param string $arg4
- *   Date param.
- * @param string $arg5
- *   Date param.
- *
- * @return string
- *   Agenda content,
- */
-function _nexteuropa_newsroom_agenda($view, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL, $arg4 = NULL, $arg5 = NULL) {
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
-
-  $factory = new NewsroomAgendaFactory();
-  return $factory->buildAgenda($view, $arg1, $arg2, $arg3, $arg4, $arg5)->getAgenda();
 }
 
 /**
@@ -843,20 +827,7 @@ function _nexteuropa_newsroom_rebuild_importers() {
   );
 
   foreach ($importers as $key => $importer) {
-    // Delete the tampers associated with the importer.
-    $tampers = feeds_tamper_load_by_importer($importer);
-    if (!empty($tampers)) {
-      foreach ($tampers as $instances) {
-        foreach ($instances as $instance) {
-          $id = $instance->id;
-          feeds_tamper_delete_instance($id);
-        }
-      }
-    }
-
-    // Delete the importer.
     feeds_importer($importer)->delete();
-
     // Recreate them.
     call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
   }
@@ -1077,6 +1048,7 @@ function nexteuropa_newsroom_views_query_alter(&$view, &$query) {
  */
 function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
   if ($node->type == NEWSROOM_CONTENT_TYPE && $view_mode == 'full') {
+
     $node_wrapper = entity_metadata_wrapper('node', $node);
     $type = $node_wrapper->field_newsroom_item_type->value();
     $type_wrapper = entity_metadata_wrapper('taxonomy_term', $type);
@@ -1092,28 +1064,11 @@ function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
         }
       }
     }
-
+    
     // Fetch menu context for item so we can have an active trail set for it.
     // Basically we try to find a menu item (node||term) that has the same Topic
     // associated than the NR item has as primary topic (or as normal topic).
-    $path = FALSE;
-
-    // Get primary topic if any.
-    $primary_topics = $node_wrapper->field_primary_topic->value();
-    if (!empty($primary_topics)) {
-      $primary_topics = !is_array($primary_topics) ? array($primary_topics) : $primary_topics;
-    } else {
-      $primary_topics = array();
-    }
-    // Get regular topics.
-    $topics = $node_wrapper->field_newsroom_topics->value();
-    if (!empty($topics)) {
-      $topics = !is_array($topics) ? array($topics) : $topics;
-    } else {
-      $topics = array();
-    }
-
-    $topics = array_merge($primary_topics, $topics);
+    $topics = NewsroomHelper::getNodeTopics($node_wrapper);
     // Loop through topics (start with primary) to find menu item.
     foreach ($topics as $topic) {
       if ($path = NewsroomHelper::fetchActiveMenu($topic->tid)) {
@@ -1700,6 +1655,24 @@ function nexteuropa_newsroom_views_pre_view(&$view, &$display_id, array &$args) 
  */
 function nexteuropa_newsroom_theme($existing, $type, $theme, $path) {
   return array(
+    'newsroom_services_page' => array(
+      'variables' => array(
+        'central_items' => NULL,
+        'basic_items' => NULL,
+        'privacy_statement' => NULL,
+      ),
+      'template' => 'newsroom-service-page',
+      'path' =>  $path . '/theme',
+    ),
+    'newsroom_services_items' => array(
+      'variables' => array(
+        'items' => array(),
+        'css_class' => NULL,
+        'title' => NULL,
+      ),
+      'template' => 'newsroom-service-items',
+      'path' =>  $path . '/theme',
+    ),
     'newsroom_related_content' => array(
       'variables' => array(
         'parent_items' => array(),
@@ -1770,6 +1743,7 @@ function nexteuropa_newsroom_theme($existing, $type, $theme, $path) {
         'next_event_items' => array(),
         'items' => array(),
         'navigation' => NULL,
+        'is_block' => FALSE,
       ),
       'template' => 'newsroom-agenda',
       'path' => $path . '/theme',
@@ -2226,4 +2200,15 @@ function nexteuropa_newsroom_items_mapping(&$item, $start_date_exp, $end_date_ex
   if (isset($item[$end_date_exp]) && empty($item[$end_date_exp])) {
     $item[$end_date_exp] = $item[$start_date_exp];
   }
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function nexteuropa_newsroom_flush_caches() {
+  return array(NEWSROOM_CACHE_TABLE);
+}
+
+function nexteuropa_newsroom_menu_breadcrumb_alter(&$active_trail, $item) {
+
 }

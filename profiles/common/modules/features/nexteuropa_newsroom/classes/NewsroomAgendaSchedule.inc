@@ -9,7 +9,7 @@
  */
 class NewsroomAgendaSchedule extends NewsroomAgenda {
 
-  private $lastAgendaDate = NULL;
+  protected $lastAgendaDate = NULL;
 
   /**
    * Getter.

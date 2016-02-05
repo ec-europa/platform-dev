@@ -479,6 +479,15 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
     'field_service_type' => array(
       'query' => 'infsonewsroom:BasicSvType',
     ),
+    'description' => array(
+      'query' => 'description/text()',
+    ),
+    'field_newsroom_basic_mailing' => array(
+      'query' => 'infsonewsroom:BasicSvMailing/text()',
+    ),
+    'field_newsroom_service_image:uri' => array(
+      'query' => 'infsonewsroom:BasicSvVisuUrl/text()',
+    ),
     'parentguid' => array(
       'query' => '@infsonewsroom:parentTopicId',
       'tamper' => array(

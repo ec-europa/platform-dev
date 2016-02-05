@@ -6,8 +6,8 @@
  */
 class NewsroomAgendaItem {
 
-  private $items = array();
-  private $date = NULL;
+  protected $items = array();
+  protected $date = NULL;
 
   public function getItems() {
     return $this->items;

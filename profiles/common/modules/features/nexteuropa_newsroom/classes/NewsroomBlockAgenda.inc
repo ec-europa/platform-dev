@@ -33,9 +33,16 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
 //      $content = $cache->data;
 //    } else {
       $factory = new NewsroomAgendaFactory();
-      $agenda = $factory->build('schedule', $this->getType(), $this->getTopics(), new DateTime());
-      $content = $agenda->getBlockAgenda();
-//
+      $agenda = $factory->build(NewsroomAgenda::AGENDA_VIEW_SCHEDULE_BLOCK, $this->getType(), $this->getTopics(), new DateTime(), $this->getOperator());
+      
+      $content = theme('newsroom_summary_block', array(
+        'content' => $agenda->getBlockAgenda(),
+        'css_classes' => $this->getCssClasses(),
+        'title' => $this->getTitle(),
+        'type_url' => 'agenda',
+        'url' => NewsroomHelper::getNewsroomAgendaUrl(NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $this->getTypeUrl(), $this->getTopicUrl()),
+      ));
+
 //      cache_set($cache_key, $content, NEWSROOM_CACHE_TABLE, time() + 3600);
 //    }
 

@@ -84,6 +84,7 @@ function _nexteuropa_nexteuropa_get_summary_blocks() {
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomSummaryBlock');
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomBlock');
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomBlockAgenda');
+  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaBlockSchedule');
 
   $summary_block = new NewsroomSummaryBlock();
   return $summary_block->generateContent();

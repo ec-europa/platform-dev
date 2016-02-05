@@ -55,7 +55,7 @@ class NewsroomHelper {
   public static function getNewsroomUrl() {
     return 'newsroom/' . implode('/', func_get_args());
   }
-  
+
   /**
    * Returns newsroom agenda URL.
    *
@@ -189,6 +189,46 @@ class NewsroomHelper {
     }
     return $data;
   }
+  
+  /**
+   * Get combined node newsroom topics.
+   *
+   * @param object $node_wrapper
+   *   Node wrapper
+   *
+   * @return array
+   *   Newsroom topics.
+   */
+  public static function getNodeTopics($node_wrapper) {
+    $cache_key = 'get_node_topics:' . $node_wrapper->nid->value();
+    $cache = cache_get($cache_key, NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $topics = $cache->data;
+    } else {
+      $primary_topics = $node_wrapper->field_primary_topic->value();
+      if (!empty($primary_topics)) {
+        $primary_topics = !is_array($primary_topics) ? array($primary_topics) : $primary_topics;
+      } else {
+        $primary_topics = array();
+      }
+
+      // Get regular topics.
+      $topics = $node_wrapper->field_newsroom_topics->value();
+      if (!empty($topics)) {
+        $topics = !is_array($topics) ? array($topics) : $topics;
+      } else {
+        $topics = array();
+      }
+
+      $topics = array_merge($primary_topics, $topics);
+
+      cache_set($cache_key, $topics, NEWSROOM_CACHE_TABLE);
+    }
+    return $topics;
+
+    // Get primary topic if any.
+    
+  }
 
   /**
    * Active menu for newsroom items.
@@ -197,52 +237,60 @@ class NewsroomHelper {
    * based on the assigned topics.
    */
   public static function fetchActiveMenu($topic_id) {
-    $path = FALSE;
+    $cache_key = 'fetch_active_menu' . $topic_id;
+    $cache = cache_get($cache_key, NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $path = $cache->data;
+    } else {
+      $path = FALSE;
 
-    // Check if they are added to menu.
-    $menu_items = array();
-    // Fetch entities associated to topic using the special field.
-    $topic_entities = NewsroomHelper::getNodesAssociatedToTopics($topic_id);
+      // Check if they are added to menu.
+      $menu_items = array();
+      // Fetch entities associated to topic using the special field.
+      $topic_entities = NewsroomHelper::getNodesAssociatedToTopics($topic_id);
 
-    if (count($topic_entities) > 0) {
-      foreach ($topic_entities as $entity) {
-        // Could use entity_uri() but we would have to load the full entity...
-        $menu_link_items = NewsroomHelper::getMenuByPath(str_replace('_', '/', $entity['entity_type']) . '/' . $entity['entity_id']);
+      if (count($topic_entities) > 0) {
+        foreach ($topic_entities as $entity) {
+          // Could use entity_uri() but we would have to load the full entity...
+          $menu_link_items = NewsroomHelper::getMenuByPath(str_replace('_', '/', $entity['entity_type']) . '/' . $entity['entity_id']);
 
-        if ($menu_link_items !== FALSE) {
-          foreach ($menu_link_items as $menu_item) {
-            $menu_items[] = $menu_item;
+          if ($menu_link_items !== FALSE) {
+            foreach ($menu_link_items as $menu_item) {
+              $menu_items[] = $menu_item;
+            }
           }
         }
       }
-    }
 
-    if (count($menu_items) > 0) {
-      // Favor terms over nodes and lower entity ID in case we have multiple.
-      usort($menu_items, function ($a, $b) {
-        if ($a['router_path'] == 'taxonomy/term/%' && $b['router_path'] == 'node/%') {
-          return -1;
-        } elseif ($a['router_path'] == 'node/%' && $b['router_path'] == 'taxonomy/term/%') {
-          return 1;
-        } else {
-          if ($a['plid'] == $b['plid']) {
-            if ($a['weight'] == $b['weight']) {
-              if ($a['mlid'] == $b['mlid']) {
-                return 0;
+      if (count($menu_items) > 0) {
+        // Favor terms over nodes and lower entity ID in case we have multiple.
+        usort($menu_items, function ($a, $b) {
+          if ($a['router_path'] == 'taxonomy/term/%' && $b['router_path'] == 'node/%') {
+            return -1;
+          } elseif ($a['router_path'] == 'node/%' && $b['router_path'] == 'taxonomy/term/%') {
+            return 1;
+          } else {
+            if ($a['plid'] == $b['plid']) {
+              if ($a['weight'] == $b['weight']) {
+                if ($a['mlid'] == $b['mlid']) {
+                  return 0;
+                } else {
+                  return $a['mlid'] < $b['mlid'] ? -1 : 1;
+                }
               } else {
-                return $a['mlid'] < $b['mlid'] ? -1 : 1;
+                return $a['weight'] < $b['weight'] ? -1 : 1;
               }
             } else {
-              return $a['weight'] < $b['weight'] ? -1 : 1;
+              return $a['plid'] < $b['plid'] ? -1 : 1;
             }
-          } else {
-            return $a['plid'] < $b['plid'] ? -1 : 1;
           }
-        }
-      });
+        });
 
-      $menu_item_link = array_shift($menu_items);
-      $path = $menu_item_link['link_path'];
+        $menu_item_link = array_shift($menu_items);
+        $path = $menu_item_link['link_path'];
+      }
+
+      cache_set($cache_key, $path, NEWSROOM_CACHE_TABLE);
     }
 
     return $path;
@@ -422,12 +470,16 @@ class NewsroomHelper {
     }
     return $taxonomy_term;
   }
-  
+
   public static function getTermTranslatedName($taxonomy_term) {
     global $language;
     $curr_lang = $language->language;
     $translation = field_get_items('taxonomy_term', $taxonomy_term, 'name_field', $curr_lang);
     return $translation ? $translation[0]['safe_value'] : $taxonomy_term->name;
+  }
+  
+  public static function isNewItem($created, $nid) {
+    return user_is_logged_in() && $created > time() - 14 * 86400 && !node_last_viewed($nid);
   }
 
 }

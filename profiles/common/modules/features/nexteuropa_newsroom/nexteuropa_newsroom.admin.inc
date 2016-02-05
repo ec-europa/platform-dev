@@ -11,6 +11,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   // Be aware about the selected content types in the fields fieldset.
   $sel_ct = NewsroomHelper::getFieldInstances('select');
   $top_ct = NewsroomHelper::getFieldInstances('topic');
+  $newsroom_universe_id = variable_get('newsroom_universe_id', NULL);
   // Get some information basing on the activation of the universe id.
   $universe_id = _nexteuropa_newsroom_check_universe_id();
 
@@ -20,9 +21,9 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Newsroom Universe ID'),
     '#attributes' => array('class' => array($universe_id['class'])),
   );
-
+  
   // After initital setup disable Universe ID field.
-  if (variable_get('newsroom_universe_id', NULL) !== NULL) {
+  if ($newsroom_universe_id !== NULL) {
     $universe_id_disabled = TRUE;
     $universe_id_description = t('To change the Newsroom Universe ID contact the site administrator.');
     $proposal = 'http://ec.europa.eu/newsroom/' . variable_get('newsroom_universe_id') . '/propose-item.cfm';
@@ -39,7 +40,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#required' => TRUE,
     '#disabled' => $universe_id['disabled'],
     '#description' => $universe_id['description'],
-    '#default_value' => variable_get('newsroom_universe_id', NULL),
+    '#default_value' => $newsroom_universe_id,
     '#element_validate' => array('nexteuropa_newsroom_universe_id_validate'),
   );
 
@@ -55,17 +56,30 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#access' => user_access('administer newsroom advanced settings'),
   );
 
-  $form['newsroom_others']['rebuild'] = array(
+  if ($newsroom_universe_id) {
+    $form['newsroom_others']['rebuild'] = array(
+      '#type' => 'submit',
+      '#value' => t('Rebuild importers on the fly'),
+      '#prefix' => '<div id="newsroom_rebuild">',
+      '#suffix' => '<div class="description">' . t("Rebuild the importers if you enabled or disabled languages or if you are noticing unexpected behaviors like fields not imported.") . '</div></div>',
+      '#ajax' => array(
+        'callback' => '_nexteuropa_newsroom_rebuild_importers',
+        'event' => 'click',
+        'wrapper' => 'newsroom_rebuild',
+        'effect' => 'fade',
+        'method' => 'replace',
+      ),
+    );
+  }
+  
+  $form['newsroom_others']['clean_cache'] = array(
     '#type' => 'submit',
-    '#value' => 'Rebuild importers on the fly',
-    '#prefix' => '<div id="newsroom_rebuild">',
-    '#suffix' => '<div class="description">' . t("Rebuild the importers if you enabled or disabled languages or if you are noticing unexpected behaviors like fields not imported.") . '</div></div>',
+    '#value' => 'Clean newsroom cache',
+    '#description' => t('Clean all newsroom cache entries'),
+    '#prefix' => '<div id="newsroom_clean_cache">',
+    '#suffix' => '<div class="feedback"></div></div>',
     '#ajax' => array(
-      'callback' => '_nexteuropa_newsroom_rebuild_importers',
-      'event' => 'click',
-      'wrapper' => 'newsroom_rebuild',
-      'effect' => 'fade',
-      'method' => 'replace',
+      'callback' => '_nexteuropa_newsroom_clean_cache',
     ),
   );
 
@@ -258,6 +272,18 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('URL chunk to edit an item in the Newsroom'),
     '#default_value' => variable_get('newsroom_single_item_edit_segment', 'item.cfm?item_id='),
   );
+  
+  $form['newsroom_pages'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Newsroom page settings'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['newsroom_pages']['newsroom_newsletter_privacy'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Privacy statement'),
+    '#default_value' => variable_get('newsroom_newsletter_privacy', NULL),
+  );
 
   // Settings about the newsroom blocks.
   $form['newsroom_blocks'] = array(
@@ -325,7 +351,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   // Submit handler.
   $form['#submit'][] = 'nexteuropa_newsroom_admin_settings_form_submit';
 
-  if (variable_get('newsroom_universe_id') != NULL) {
+  if ($newsroom_universe_id) {
     $form['actions']['run'] = array(
       '#type' => 'submit',
       '#value' => t('Run the importers'),
@@ -538,4 +564,14 @@ function _nexteuropa_newsroom_reset_paths($form, &$form_state) {
   }
 
   return $form['newsroom_paths'];
+}
+
+/**
+ * Cleans newsroom cache.
+ */
+function _nexteuropa_newsroom_clean_cache() {
+  cache_clear_all('*', NEWSROOM_CACHE_TABLE, TRUE);
+  $commands[] = ajax_command_replace('#newsroom_clean_cache .feedback', '<div class="messages status">Cache cleaned</div>' . cache_clear_all(NULL, NEWSROOM_CACHE_TABLE));
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }

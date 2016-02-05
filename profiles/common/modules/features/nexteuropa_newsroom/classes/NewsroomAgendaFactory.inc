@@ -35,13 +35,13 @@ class NewsroomAgendaFactory {
    * @return object
    *   Agenda item.
    */
-  public function buildAgenda($view, $type_name, $topic_name, $arg1, $arg2, $arg3) {
+  public function buildAgenda($view = 'scedule', $type_name = 'all', $topic_name = 'all', $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
     $agenda = NULL;
     $current_date = new DateTime();
     $type = $this->getType($type_name);
     $topic = $this->getTopic($topic_name);
     switch ($view) {
-      case 'month':
+      case NewsroomAgenda::AGENDA_VIEW_MONTH:
         $month = $this->getMonth($arg1);
         $year = $this->getYear($arg2);
         $current_date->setDate($year, $month, 1);
@@ -49,7 +49,7 @@ class NewsroomAgendaFactory {
         $agenda = new NewsroomAgendaMonth($type, $topic, $current_date);
         break;
 
-      case 'week':
+      case NewsroomAgenda::AGENDA_VIEW_WEEK:
         $week = $this->getWeek($arg1);
         $year = $this->getYear($arg2);
         $current_date->setISODate($year, $week);
@@ -57,7 +57,7 @@ class NewsroomAgendaFactory {
         $agenda = new NewsroomAgendaWeek($type, $topic, $current_date);
         break;
 
-      case 'day':
+      case NewsroomAgenda::AGENDA_VIEW_DAY:
         $day = $this->getDay($arg1);
         $month = $this->getMonth($arg2);
         $year = $this->getYear($arg3);
@@ -95,23 +95,26 @@ class NewsroomAgendaFactory {
    * @return object
    *   Agenda item.
    */
-  public function build($view, $type, $topics, DateTime $date) {
+  public function build($view, $type, $topics, DateTime $date, $operator = 'OR') {
     $agenda = NULL;
     switch ($view) {
-      case 'month':
-        $agenda = new NewsroomAgendaMonth($view, $type, $topics, $date);
+      case NewsroomAgenda::AGENDA_VIEW_MONTH:
+        $agenda = new NewsroomAgendaMonth($type, $topics, $date);
         break;
 
-      case 'week':
-        $agenda = new NewsroomAgendaWeek($view, $type, $topics, $date);
+      case NewsroomAgenda::AGENDA_VIEW_WEEK:
+        $agenda = new NewsroomAgendaWeek($type, $topics, $date);
         break;
 
-      case 'day':
-        $agenda = new NewsroomAgendaDay($view, $type, $topics, $date);
+      case NewsroomAgenda::AGENDA_VIEW_DAY:
+        $agenda = new NewsroomAgendaDay($type, $topics, $date);
+        break;
+      case NewsroomAgenda::AGENDA_VIEW_SCHEDULE_BLOCK:
+        $agenda = new NewsroomAgendaBlockSchedule($type, $topics, $date, $operator);
         break;
 
       default:
-        $agenda = new NewsroomAgendaSchedule($view, $type, $topics, $date);
+        $agenda = new NewsroomAgendaSchedule($type, $topics, $date);
         break;
 
     }
