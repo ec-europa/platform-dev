@@ -25,10 +25,12 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   if (variable_get('newsroom_universe_id', NULL) !== NULL) {
     $universe_id_disabled = TRUE;
     $universe_id_description = t('To change the Newsroom Universe ID contact the site administrator.');
+    $proposal = 'http://ec.europa.eu/newsroom/' . variable_get('newsroom_universe_id') . '/propose-item.cfm';
   }
   else {
     $universe_id_disabled = FALSE;
     $universe_id_description = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
+    $proposal = FALSE;
   }
 
   $form['universe_id']['newsroom_universe_id'] = array(
@@ -91,11 +93,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#default_value' => variable_get('newsroom_agenda_after_highlights', 1),
   );
 
-  $form['newsroom_others']['newsroom_proposal_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Newsroom proposal URL'),
-    '#default_value' => variable_get('newsroom_proposal_url', NULL),
-  );
+  if ($proposal) {
+    $form['newsroom_others']['newsroom_proposal_url'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Newsroom proposal URL'),
+      '#default_value' => variable_get('newsroom_proposal_url', $proposal),
+    );
+  }
 
   $vocabulary = taxonomy_vocabulary_machine_name_load(NEWSROOM_TYPE_VOCABULARY);
   $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
