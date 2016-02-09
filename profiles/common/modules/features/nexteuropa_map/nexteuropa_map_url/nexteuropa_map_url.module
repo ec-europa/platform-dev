@@ -1,0 +1,163 @@
+<?php
+/**
+ * @file
+ * Provides functionality for the Nexteuropa map URL module.
+ */
+
+/**
+ * Alters map layer content.
+ *
+ * See MapLayerController->buildContent();
+ */
+function nexteuropa_map_url_layer_content_alter(&$content, $wrapper, $entity) {
+
+  // Fetches map data from URL layer.
+  if ($entity->type == 'url_layer') {
+    $settings = drupal_json_decode($wrapper->settings->value());
+    if (nexteuropa_map_layer_fieldcheck('map_url', $wrapper)) {
+      foreach ($wrapper->map_url->getIterator() as $delta => $item) {
+        $urls[] = $item->url->value();
+      }
+      $layers[] = array(
+        'layer_settings' => $settings,
+        'label' => $wrapper->title->value(),
+        'urls' => $urls,
+        'id' => nexteuropa_map_layer_id($wrapper->title->value()),
+      );
+      $content['#attached']['js'][] = array(
+        'data' => array(
+          'url_layers' => $layers,
+        ),
+        'type' => 'setting',
+      );
+    }
+  }
+  return $content;
+}
+
+/**
+ * Alters the inline entity form of the map layer.
+ *
+ * See MapLayerInlineEntityFormController->EntityForm().
+ */
+function nexteuropa_map_url_layer_inline_entity_form_alter(&$entity_form, $settings, $type) {
+  if ($type == 'url_layer') {
+    $entity_form['popup'] = nexteuropa_map_layer_form_elements('popup', $settings);
+    $entity_form['clustering'] = nexteuropa_map_layer_form_elements('clustering', $settings);
+    $entity_form['icon'] = nexteuropa_map_layer_form_elements('icon', $settings);
+    $entity_form['attribution'] = nexteuropa_map_layer_form_elements('attribution', $settings);
+  }
+  return $entity_form;
+}
+
+/**
+ * Alters the map layer settings.
+ *
+ * See MapLayerInlineEntityFormController->entityFormSubmit() and
+ * nexteuropa_map_layer_form_submit().
+ */
+function nexteuropa_map_url_map_layer_settings_alter(&$settings, $map_layer, $form_state) {
+  if ($map_layer->type == 'url_layer') {
+    $settings['popup'] = $map_layer->popup;
+    $settings['icon'] = $map_layer->icon;
+    $settings['attribution'] = $map_layer->attribution;
+    $settings['control'] = $map_layer->control;
+    $settings['clustering'] = $map_layer->clustering;
+  }
+  return $settings;
+}
+
+/**
+ * Alters map content.
+ *
+ * See MapController->buildContent().
+ */
+function nexteuropa_map_url_map_content_alter(&$custom_js) {
+  $url_layer_js = base_path() . drupal_get_path('module', 'nexteuropa_map_url') . "/js/url_layer.js?v=" . rand(0, 33333);
+  $custom_js[] = $url_layer_js;
+  return $custom_js;
+}
+
+/**
+ * Creates list of countries from URL data.
+ */
+function url_map_items($data) {
+  $lines = explode("\n", $data);
+  $csv_data = array();
+  foreach ($lines as $line) {
+    if (isset($line[0])) {
+      $csv_data[] = str_getcsv($line);
+    }
+  }
+  foreach ($csv_data as $item) {
+    $code = strtoupper($item[0]);
+    $countries[$code] = array(
+      'name' => isset($item[1]) ? check_plain($item[1]) : NULL,
+      'url' => isset($item[2]) ? trim($item[2]) : NULL,
+      'value' => isset($item[3]) ? trim($item[3]) : 1,
+      'level' => isset($item[4]) ? trim($item[4]) : 0,
+      'color' => isset($item[5]) ? trim($item[5]) : '#C8E9F2',
+    );
+  }
+  return $countries;
+}
+
+/**
+ * Helper function to standardize forms between field formatters and others.
+ *
+ * Returns a fully loaded form element.
+ */
+function nexteuropa_map_url_form_elements($group, $settings) {
+  $form_element = NULL;
+  switch ($group) {
+    case 'style':
+      $form_element = array(
+        '#type' => 'fieldset',
+        '#title' => t('Style'),
+        '#weight' => 16,
+      );
+      $form_element['show_label'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Show url label'),
+        '#default_value' => $settings[$group]['show_label'],
+      );
+      $form_element['fill_color'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Fill color'),
+        '#default_value' => $settings[$group]['fill_color'],
+        '#size' => 24,
+      );
+      $form_element['fill_opacity'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Fill opacity'),
+        '#default_value' => $settings[$group]['fill_opacity'],
+        '#size' => 24,
+      );
+      $form_element['border_weight'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Border weight'),
+        '#default_value' => $settings[$group]['border_weight'],
+        '#size' => 24,
+      );
+      $form_element['border_color'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Border color'),
+        '#default_value' => $settings[$group]['border_color'],
+        '#size' => 24,
+      );
+      $form_element['border_opacity'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Border opacity'),
+        '#default_value' => $settings[$group]['border_opacity'],
+        '#size' => 24,
+      );
+      $form_element['dash_array'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Dash array'),
+        '#default_value' => $settings[$group]['dash_array'],
+        '#size' => 24,
+      );
+      break;
+  }
+  return $form_element;
+}
