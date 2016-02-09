@@ -265,8 +265,6 @@ function nexteuropa_map_form_elements($group, $settings, $options = NULL) {
         '#weight' => 12,
       );
 
-      // @todo validate zoom.
-
       $form_element['initialZoom'] = array(
         '#title' => t('Initial zoom level'),
         '#description' => t('The starting zoom level when this map is rendered.  Restricted by min and max zoom settings.'),
@@ -425,15 +423,6 @@ function nexteuropa_map_validate_height(&$form, &$form_state) {
       form_error($form['height'], t('Map height needs to be a positive number'));
     }
   }
-}
-
-/**
- * Validates zoom level.
- *
- * Checks e.g. that initial zoom is higher than maximum zoom.
- */
-function _validate_zoom() {
-  // @todo. write validate zoom. See leaflet module.
 }
 
 /**

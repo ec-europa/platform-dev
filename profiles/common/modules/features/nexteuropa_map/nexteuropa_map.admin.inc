@@ -63,7 +63,6 @@ function map_form($form, &$form_state, $map) {
 
   // Provides the zoom fields whose values is stored as json in the settings.
   $form['zoom'] = nexteuropa_map_form_elements('zoom', $settings);
-  $form['#validate'][] = 'nexteuropa_map_form_validate';
 
   // Provides the tiles field whose values is stored as json in the settings.
   $form['tiles'] = nexteuropa_map_form_elements('tiles', $settings);
@@ -119,15 +118,7 @@ function map_form($form, &$form_state, $map) {
       '#submit' => array('nexteuropa_map_form_submit_delete'),
     );
   }
-  $form['#validate'][] = 'nexteuropa_map_form_validate';
   return $form;
-}
-
-/**
- * Provides validation for the map form.
- */
-function nexteuropa_map_form_validate($form, &$form_state) {
-  // @todo. Add validation.
 }
 
 /**

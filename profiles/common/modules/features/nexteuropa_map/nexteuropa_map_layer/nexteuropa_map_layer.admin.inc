@@ -234,14 +234,7 @@ function map_layer_form($form, &$form_state, $map_layer) {
       '#submit' => array('nexteuropa_map_layer_form_submit_delete'),
     );
   }
-  $form['#validate'][] = 'nexteuropa_map_layer_form_validate';
   return $form;
-}
-
-/**
- * Validates map layer form submission.
- */
-function nexteuropa_map_layer_form_validate($form, &$form_state) {
 }
 
 /**
