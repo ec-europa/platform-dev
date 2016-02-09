@@ -163,7 +163,7 @@ Feature: Multilingual features
 	And I fill in "edit-translations-fr" with "Mon Groupe Couleur"
 	And I press the "Save translation" button
 	Then I should see the success message "The string has been saved."
-	# Now we can check behavior of Field  label
+	# Now we can check behavior of field label
 	# Test English language
 	When I go to "content/title-english_en"
 	Then I should see "Title in English" in the "#page-title" element
