@@ -117,7 +117,7 @@ Feature: Multilingual features
 
 	# Add and translate field and field Group
 	# Field creation: selectcolor
-    When I go to "admin/structure/types/manage/page/fields"
+	When I go to "admin/structure/types/manage/page/fields"
 	And I fill in "edit-fields-add-new-field-label" with "Select a Color"
 	And I fill in "edit-fields-add-new-field-field-name" with "selectcolor"
 	And I select "list_text" from "edit-fields-add-new-field-type"
@@ -130,7 +130,7 @@ Feature: Multilingual features
 	"""
 	And I press the "Save field settings" button
 	And I check the box "edit-field-translatable"
-    And I press the "Save settings" button
+	And I press the "Save settings" button
 	Then I should see the success message "Saved Select a Color configuration."
 	# Field translation: selectcolor
 	When I go to "admin/structure/types/manage/page/fields/field_selectcolor/translate/fr"
