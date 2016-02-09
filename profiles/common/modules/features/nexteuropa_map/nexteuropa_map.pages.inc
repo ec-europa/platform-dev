@@ -20,7 +20,7 @@ function nexteuropa_map_view($map) {
  */
 function nexteuropa_map_webtools() {
   global $base_url;
-  $load_js = variable_get('nexteuropa_map_webtools_environment', NE_MAP_WEBTOOLS_ENVIRONMENT);
+  $load_js = variable_get('nexteuropa_map_webtools_environment', NEXTEUROPA_MAP_WEBTOOLS_ENVIRONMENT);
   $element = array(
     '#type' => 'markup',
     '#markup' => "<script async src='${load_js}' type='text/javascript'></script>",

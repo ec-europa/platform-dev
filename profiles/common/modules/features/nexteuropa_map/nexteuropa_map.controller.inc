@@ -55,7 +55,7 @@ class MapController extends EntityAPIController {
       ),
     ) + $field_defaults;
 
-    $settings = new NEMapSettings();
+    $settings = new MapSettings();
     $settings->customize(drupal_json_decode($wrapper->settings->value()));
 
     // @todo prevent this.
@@ -144,7 +144,7 @@ class MapBuild {
     $this->build = array();
 
     // Loads map service via load.js (general JavaScript service).
-    $load_js = variable_get('nexteuropa_map_webtools_environment', NE_MAP_WEBTOOLS_ENVIRONMENT);
+    $load_js = variable_get('nexteuropa_map_webtools_environment', NEXTEUROPA_MAP_WEBTOOLS_ENVIRONMENT);
     $element = array(
       '#type' => 'markup',
       '#markup' => "<script async src='$load_js' type='text/javascript'></script>",

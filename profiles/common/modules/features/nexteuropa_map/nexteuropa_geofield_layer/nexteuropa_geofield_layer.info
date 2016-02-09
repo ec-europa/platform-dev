@@ -1,5 +1,0 @@
-name = Nexteuropa geofield layer
-description = Provides a map layer bundle to store Nexteuropa geofield data and settings for a map.
-core = 7.x
-dependencies[] = map_layer
-dependencies[] = nexteuropa_geofield

@@ -27,21 +27,22 @@ function nexteuropa_map_country_layer_content_alter(&$content, $wrapper, $entity
       if (nexteuropa_map_layer_fieldcheck('map_countries', $wrapper)) {
         $countries = array_merge($countries, country_map_items($wrapper->map_countries->value()));
       }
-    $layers[] = array(
-      'layer_settings' => $settings,
-      'label' => $wrapper->title->value(),
-      'countries' => $countries,
-      'id' => nexteuropa_map_layer_id($wrapper->title->value()),
-    );
-    $content['#attached']['js'][] = array(
-      'data' => array(
-        'country_layers' => $layers,
-      ),
-      'type' => 'setting',
-    );
+      $layers[] = array(
+        'layer_settings' => $settings,
+        'label' => $wrapper->title->value(),
+        'countries' => $countries,
+        'id' => nexteuropa_map_layer_id($wrapper->title->value()),
+      );
+      $content['#attached']['js'][] = array(
+        'data' => array(
+          'country_layers' => $layers,
+        ),
+        'type' => 'setting',
+      );
       return $content;
+    }
   }
-}}
+}
 
 /**
  * Alters the inline entity form of the map layer.

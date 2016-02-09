@@ -296,9 +296,6 @@ function nexteuropa_map_layer_access($op, $map_layer, $account = NULL, $entity_t
  * Load a map layer.
  */
 function map_layer_load($mlid, $reset = FALSE) {
-
-  dd($mlid);
-
   $map_layers = map_layer_load_multiple(array($mlid), array(), $reset);
   return reset($map_layers);
 }
@@ -668,8 +665,6 @@ function nexteuropa_map_layer_admin_paths() {
  * Map layer view callback.
  */
 function nexteuropa_map_layer_view($map_layer) {
-  dd('hit or miss');
-
   drupal_set_title(entity_label('map_layer', $map_layer));
   return entity_view('map_layer', array(entity_id('map_layer', $map_layer) => $map_layer), 'default');
 }

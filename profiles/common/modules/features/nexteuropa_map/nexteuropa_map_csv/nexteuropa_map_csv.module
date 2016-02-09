@@ -16,21 +16,20 @@ function nexteuropa_map_csv_layer_content_alter(&$content, $wrapper, $entity) {
     $settings = drupal_json_decode($wrapper->settings->value());
     if (nexteuropa_map_layer_fieldcheck('map_csv', $wrapper)) {
       $features = nexteuropa_map_csv_features($wrapper->map_csv->value());
-      dpm($features);
       $layers[] = array(
         'layer_settings' => $settings,
         'label' => $wrapper->title->value(),
         'features' => $features,
         'id' => nexteuropa_map_layer_id($wrapper->title->value()),
       );
-    $content['#attached']['js'][] = array(
-      'data' => array(
-        'csv_layers' => $layers,
-      ),
-      'type' => 'setting',
-    );
-  }
-  return $content;
+      $content['#attached']['js'][] = array(
+        'data' => array(
+          'csv_layers' => $layers,
+        ),
+        'type' => 'setting',
+      );
+    }
+    return $content;
   }
 }
 

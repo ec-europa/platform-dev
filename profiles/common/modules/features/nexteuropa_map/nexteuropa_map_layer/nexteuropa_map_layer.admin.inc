@@ -154,6 +154,7 @@ function nexteuropa_map_layer_add($type) {
  * Defines the stand alone map layer form.
  *
  * See also MapLayerInlineEntityFormController->entityForm().
+ *
  * @todo find out how to rename to nexteuropa_map_layer_form().
  */
 function map_layer_form($form, &$form_state, $map_layer) {
@@ -247,9 +248,6 @@ function nexteuropa_map_layer_form_validate($form, &$form_state) {
  * Map layer submit handler.
  */
 function nexteuropa_map_layer_form_submit($form, &$form_state) {
-
-  dpm($form_state['values']);
-
   $map_layer = $form_state['map_layer'];
 
   // Copies submitted values to entity properties for simple entity forms.

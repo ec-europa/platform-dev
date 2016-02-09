@@ -4,7 +4,7 @@
  * Provides field definition for a Node layer field for maps.
  */
 
-module_load_include('inc', 'nexteuropa_map_node', 'node_layer.formatter');
+module_load_include('inc', 'nexteuropa_map_node', 'nexteuropa_map_node.formatter');
 
 /**
  * Alters map layer content.

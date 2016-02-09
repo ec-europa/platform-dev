@@ -4,7 +4,7 @@
  * Provides functionality for the map entity.
  */
 
-define('NE_MAP_WEBTOOLS_ENVIRONMENT', '//europa.eu/webtools/load.js');
+define('NEXTEUROPA_MAP_WEBTOOLS_ENVIRONMENT', '//europa.eu/webtools/load.js');
 
 /**
  * Implements hook_entity_info().
@@ -485,7 +485,7 @@ function nexteuropa_map_save($map) {
 /**
  * Class providing JavaScript settings for a map.
  */
-class NEMapSettings {
+class MapSettings {
 
   /**
    * Provides the settings array and default values.

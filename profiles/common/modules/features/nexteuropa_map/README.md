@@ -1,5 +1,5 @@
 Nexteuropa map
-======
+==============
 
 Nexteuropa map provides functionality for creating maps with the webtools map JavaScript library (https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Map).
 

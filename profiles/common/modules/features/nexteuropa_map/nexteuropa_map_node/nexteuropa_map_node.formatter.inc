@@ -13,7 +13,7 @@ function nexteuropa_map_node_field_formatter_info() {
   if (module_exists('geofield') || module_exists('nexteuropa_geofield')) {
 
     // Fetches default settings.
-    $settings = new NEMapSettings();
+    $settings = new MapSettings();
 
     // @todo. how to prevent this?
     $settings = $settings->settings;
@@ -147,7 +147,7 @@ function nexteuropa_map_node_field_formatter_view($entity_type, $entity, $field,
       );
 
       // Defines the map settings.
-      $map_settings = new NEMapSettings();
+      $map_settings = new MapSettings();
 
       // Fetches map settings from display settings.
       $custom_map_settings = array(
@@ -157,6 +157,13 @@ function nexteuropa_map_node_field_formatter_view($entity_type, $entity, $field,
         'zoom' => $display['settings']['zoom'],
         'center' => $display['settings']['center'],
       );
+
+      // Sets the center of the map to the first map item if the center
+      // coordinates are left empty.
+      if (empty($display['settings']['center']['lat']) && empty($display['settings']['center']['lon'])) {
+        $custom_map_settings['center']['lat'] = $items[0]['lat'];
+        $custom_map_settings['center']['lon'] = $items[0]['lon'];
+      }
 
       $map_settings->customize($custom_map_settings);
 
