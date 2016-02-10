@@ -389,11 +389,17 @@ function nexteuropa_map_layer_views_api() {
 }
 
 /**
- * Helper function to standardize forms between field formatters and others.
+ * Provides shared form elements (used in stand-alone and inline entity form).
  *
- * Returns a form element.
+ * @param array $group
+ *   The form elements group (fieldset or container).
+ * @param array $settings
+ *   The map settings that can hold default values.
+ *
+ * @return
+ *   A form element.
  */
-function nexteuropa_map_layer_form_elements($group, $settings) {
+function _nexteuropa_map_layer_form_elements($group, $settings) {
   $form_element = NULL;
   switch ($group) {
     case 'popup':
@@ -441,7 +447,7 @@ function nexteuropa_map_layer_form_elements($group, $settings) {
       $form_element['icon'] = array(
         '#type' => 'select',
         '#title' => t('Icon'),
-        '#options' => nexteuropa_map_layer_icons(),
+        '#options' => _nexteuropa_map_layer_icons(),
         '#default_value' => $settings[$group]['icon'],
       );
       break;
@@ -468,7 +474,7 @@ function nexteuropa_map_layer_form_elements($group, $settings) {
         '#type' => 'select',
         '#title' => t('Tiles'),
         '#default_value' => $settings[$group]['tiles'],
-        '#options' => nexteuropa_map_tiles(),
+        '#options' => _nexteuropa_map_tiles(),
       );
       break;
 
@@ -496,8 +502,11 @@ function nexteuropa_map_layer_form_elements($group, $settings) {
 
 /**
  * Provides list of available icon colors.
+ *
+ * @return
+ *   List of possible icon colors that can be used in a form select.
  */
-function nexteuropa_map_layer_icons() {
+function _nexteuropa_map_layer_icons() {
   return array(
     'black' => 'Black',
     'blue' => 'Blue',
@@ -512,8 +521,16 @@ function nexteuropa_map_layer_icons() {
 
 /**
  * Checks if wrapped entity fields have a value.
+ *
+ * @param string $field
+ *   Name of the field.
+ * @param object $wrapper
+ *   Wrapped entity.
+ *
+ * @return
+ *   True if the field has a value.
  */
-function nexteuropa_map_layer_fieldcheck($field, $wrapper) {
+function _nexteuropa_map_layer_fieldcheck($field, $wrapper) {
   if ($wrapper->__isset($field)) {
     $fieldvalue = $wrapper->$field->value();
     if (!empty($fieldvalue)) {
@@ -526,11 +543,15 @@ function nexteuropa_map_layer_fieldcheck($field, $wrapper) {
 }
 
 /**
- * Generates an ID from a string.
+ * Generates an ID from a string to be used in JavaScript.
  *
- * @todo make more sophisticated.
+ * @param string $string
+ *   A string.
+ *
+ * @return
+ *   A string that can be used as ID.
  */
-function nexteuropa_map_layer_id($string) {
+function _nexteuropa_map_layer_id($string) {
   return strtolower(preg_replace('/[^a-zA-Z0-9-]+/', '-', $string));
 }
 

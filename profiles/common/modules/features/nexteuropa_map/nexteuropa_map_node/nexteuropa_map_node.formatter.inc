@@ -43,12 +43,12 @@ function nexteuropa_map_node_field_formatter_settings_form($field, $instance, $v
   $settings = $display['settings'];
   $element = array();
 
-  // Defnies formatter settings form by using shared form elements.
+  // Defines formatter settings form by using shared form elements.
   if ($display['type'] == 'ec_webtools_map') {
     $element['tiles'] = _nexteuropa_map_form_elements('tiles', $settings);
     $element['height'] = _nexteuropa_map_form_elements('height', $settings);
     $element['zoom'] = _nexteuropa_map_form_elements('zoom', $settings);
-    $element['icon'] = nexteuropa_map_layer_form_elements('icon', $settings);
+    $element['icon'] = _nexteuropa_map_layer_form_elements('icon', $settings);
     $element['center'] = _nexteuropa_map_form_elements('center', $settings);
     $element['attribution'] = _nexteuropa_map_form_elements('attribution', $settings);
   }
@@ -96,7 +96,7 @@ function nexteuropa_map_node_field_formatter_view($entity_type, $entity, $field,
       // Fetches layers settings from display settings.
       $layer_settings['icon'] = $display['settings']['icon'];
 
-      // Returns geojson formatted geofield data. Uses same approach as
+      // Returns GeoJSON formatted geofield data. Uses same approach as
       // map content type and view. _nexteuropa_map_node_prepare_features
       // expects multiple items that hold multiple features.
       $field_items = array(

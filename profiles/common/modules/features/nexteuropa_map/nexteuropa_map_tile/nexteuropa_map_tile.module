@@ -18,7 +18,7 @@ function nexteuropa_map_tile_layer_content_alter(&$content, $wrapper, $entity) {
     $layers[] = array(
       'layer_settings' => $settings,
       'label' => $wrapper->title->value(),
-      'id' => nexteuropa_map_layer_id($wrapper->title->value()),
+      'id' => _nexteuropa_map_layer_id($wrapper->title->value()),
     );
     $content['#attached']['js'][] = array(
       'data' => array(
@@ -37,8 +37,8 @@ function nexteuropa_map_tile_layer_content_alter(&$content, $wrapper, $entity) {
  */
 function nexteuropa_map_tile_layer_inline_entity_form_alter(&$entity_form, $settings, $type) {
   if ($type == 'tile_layer') {
-    $entity_form['tiles'] = nexteuropa_map_layer_form_elements('tiles', $settings);
-    $entity_form['attribution'] = nexteuropa_map_layer_form_elements('attribution', $settings);
+    $entity_form['tiles'] = _nexteuropa_map_layer_form_elements('tiles', $settings);
+    $entity_form['attribution'] = _nexteuropa_map_layer_form_elements('attribution', $settings);
   }
   return $entity_form;
 }

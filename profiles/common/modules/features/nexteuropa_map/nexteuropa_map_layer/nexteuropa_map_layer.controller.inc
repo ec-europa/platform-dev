@@ -187,6 +187,8 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
 
   /**
    * Overrides EntityInlineEntityFormController::entityForm().
+   *
+   * @todo figure out how to merge / cooperate stand alone form.
    */
   public function entityForm($entity_form, &$form_state) {
 
@@ -213,8 +215,8 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     );
 
     // Adds control form element using uniform form elements defined in
-    // nexteuropa_map_layer_form_elements().
-    $entity_form['control'] = nexteuropa_map_layer_form_elements('control', $settings);
+    // _nexteuropa_map_layer_form_elements().
+    $entity_form['control'] = _nexteuropa_map_layer_form_elements('control', $settings);
 
     // Adds custom field API fields.
     field_attach_form('map_layer', $map_layer, $entity_form, $form_state);

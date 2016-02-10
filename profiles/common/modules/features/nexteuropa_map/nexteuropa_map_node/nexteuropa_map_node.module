@@ -59,7 +59,7 @@ function nexteuropa_map_node_layer_content_alter(&$content, $wrapper, $entity) {
         'layer_settings' => $settings,
         'label' => $wrapper->title->value(),
         'features' => $features,
-        'id' => nexteuropa_map_layer_id($wrapper->title->value()),
+        'id' => _nexteuropa_map_layer_id($wrapper->title->value()),
       );
       $content['#attached']['js'][] = array(
         'data' => array(
@@ -129,16 +129,16 @@ function _nexteuropa_map_node_shared_form(&$form, $settings) {
   $form['#tree'] = TRUE;
 
   // Adds pop up fields.
-  $form['popup'] = nexteuropa_map_layer_form_elements('popup', $settings);
+  $form['popup'] = _nexteuropa_map_layer_form_elements('popup', $settings);
 
   // Adds clustering fields.
-  $form['clustering'] = nexteuropa_map_layer_form_elements('clustering', $settings);
+  $form['clustering'] = _nexteuropa_map_layer_form_elements('clustering', $settings);
 
   // Adds attribution fields.
-  $form['attribution'] = nexteuropa_map_layer_form_elements('attribution', $settings);
+  $form['attribution'] = _nexteuropa_map_layer_form_elements('attribution', $settings);
 
   // Adds icon fields.
-  $form['icon'] = nexteuropa_map_layer_form_elements('icon', $settings);
+  $form['icon'] = _nexteuropa_map_layer_form_elements('icon', $settings);
 
   // Adds a filter fieldset.
   $form['node_filters'] = array(

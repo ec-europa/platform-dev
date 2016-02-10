@@ -65,15 +65,15 @@ function map_layer_type_form($form, &$form_state, $map_layer_type, $op = 'edit')
 }
 
 /**
- * Submit handler for creating/editing map layer_type.
+ * Handles submit creating and editing map layer_type.
  */
 function map_layer_type_form_submit(&$form, &$form_state) {
   $map_layer_type = entity_ui_form_submit_build_entity($form, $form_state);
 
-  // Save and go back.
+  // Saves and goes back.
   nexteuropa_map_layer_type_save($map_layer_type);
 
-  // Redirect user back to list of map layer types.
+  // Redirects user back to list of map layer types.
   $form_state['redirect'] = 'admin/structure/map-layer-types';
 }
 
@@ -85,7 +85,7 @@ function nexteuropa_map_layer_type_form_submit_delete(&$form, &$form_state) {
 }
 
 /**
- * Map layer type delete form.
+ * Defines map layer type deletion form.
  */
 function nexteuropa_map_layer_type_form_delete_confirm($form, &$form_state, $map_layer_type) {
   $form_state['map_layer_type'] = $map_layer_type;
@@ -105,7 +105,7 @@ function nexteuropa_map_layer_type_form_delete_confirm($form, &$form_state, $map
 }
 
 /**
- * Map layer type delete form submit handler.
+ * Handles map layer type deletion form submission.
  */
 function nexteuropa_map_layer_type_form_delete_confirm_submit($form, &$form_state) {
   $map_layer_type = $form_state['map_layer_type'];
@@ -123,7 +123,7 @@ function nexteuropa_map_layer_type_form_delete_confirm_submit($form, &$form_stat
 }
 
 /**
- * Page to select map layer type to add new map layer.
+ * Provides page to select map layer type to add new map layer.
  */
 function nexteuropa_map_layer_admin_add_page() {
   $items = array();
@@ -156,6 +156,7 @@ function nexteuropa_map_layer_add($type) {
  * See also MapLayerInlineEntityFormController->entityForm().
  *
  * @todo find out how to rename to nexteuropa_map_layer_form().
+ * @todo figure out how to re-use the map layer inline entity form.
  */
 function map_layer_form($form, &$form_state, $map_layer) {
 
@@ -188,7 +189,7 @@ function map_layer_form($form, &$form_state, $map_layer) {
   // @todo. figure out what are map layer defaults.
 
   // Provides checkboxes to define how the layer is shown in the layer control.
-  $form['control'] = nexteuropa_map_layer_form_elements('control', $settings);
+  $form['control'] = _nexteuropa_map_layer_form_elements('control', $settings);
   $form['show_settings'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show settings'),
@@ -238,7 +239,7 @@ function map_layer_form($form, &$form_state, $map_layer) {
 }
 
 /**
- * Map layer submit handler.
+ * Handles map layer form submission.
  */
 function nexteuropa_map_layer_form_submit($form, &$form_state) {
   $map_layer = $form_state['map_layer'];
@@ -275,7 +276,7 @@ function nexteuropa_map_layer_form_submit_delete($form, &$form_state) {
 }
 
 /**
- * Delete confirmation form.
+ * Defines deletion confirmation form.
  */
 function nexteuropa_map_layer_delete_form($form, &$form_state, $map_layer) {
   $form_state['map_layer'] = $map_layer;
@@ -295,7 +296,7 @@ function nexteuropa_map_layer_delete_form($form, &$form_state, $map_layer) {
 }
 
 /**
- * Delete form submit handler.
+ * Handles deletion form submission.
  */
 function nexteuropa_map_layer_delete_form_submit($form, &$form_state) {
   $map_layer = $form_state['map_layer'];

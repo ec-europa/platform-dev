@@ -14,7 +14,7 @@ function nexteuropa_map_url_layer_content_alter(&$content, $wrapper, $entity) {
   // Fetches map data from URL layer.
   if ($entity->type == 'url_layer') {
     $settings = drupal_json_decode($wrapper->settings->value());
-    if (nexteuropa_map_layer_fieldcheck('map_url', $wrapper)) {
+    if (_nexteuropa_map_layer_fieldcheck('map_url', $wrapper)) {
       foreach ($wrapper->map_url->getIterator() as $delta => $item) {
         $urls[] = $item->url->value();
       }
@@ -22,7 +22,7 @@ function nexteuropa_map_url_layer_content_alter(&$content, $wrapper, $entity) {
         'layer_settings' => $settings,
         'label' => $wrapper->title->value(),
         'urls' => $urls,
-        'id' => nexteuropa_map_layer_id($wrapper->title->value()),
+        'id' => _nexteuropa_map_layer_id($wrapper->title->value()),
       );
       $content['#attached']['js'][] = array(
         'data' => array(
@@ -42,10 +42,10 @@ function nexteuropa_map_url_layer_content_alter(&$content, $wrapper, $entity) {
  */
 function nexteuropa_map_url_layer_inline_entity_form_alter(&$entity_form, $settings, $type) {
   if ($type == 'url_layer') {
-    $entity_form['popup'] = nexteuropa_map_layer_form_elements('popup', $settings);
-    $entity_form['clustering'] = nexteuropa_map_layer_form_elements('clustering', $settings);
-    $entity_form['icon'] = nexteuropa_map_layer_form_elements('icon', $settings);
-    $entity_form['attribution'] = nexteuropa_map_layer_form_elements('attribution', $settings);
+    $entity_form['popup'] = _nexteuropa_map_layer_form_elements('popup', $settings);
+    $entity_form['clustering'] = _nexteuropa_map_layer_form_elements('clustering', $settings);
+    $entity_form['icon'] = _nexteuropa_map_layer_form_elements('icon', $settings);
+    $entity_form['attribution'] = _nexteuropa_map_layer_form_elements('attribution', $settings);
   }
   return $entity_form;
 }

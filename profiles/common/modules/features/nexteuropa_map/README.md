@@ -15,7 +15,7 @@ It allows users to create a map in a familiar Drupal UI. You can add several lay
 ## Layer types
 
 A couple of layer types (map layer bundles) will be included:
-* URL layer. Layer that fetches map data from external URLs (KML or geojson).
+* URL layer. Layer that fetches map data from external URLs (KML or GeoJSON).
 * Country layer. Layer that creates map data (country outlines) from country codes. Each country can be styled individually.
 * Nodes layer. Layer that fetches map data from drupal nodes.
 * Tile layer. Layer that provides additional background images (tiles)).
@@ -25,7 +25,7 @@ A couple of layer types (map layer bundles) will be included:
 
 * As an anonymous user I can view maps
 * As an editor I can create a map with multiple layers that can be enabled using the map layer control
-* As an editor I can create map layers by entering URLs (kml geojson)
+* As an editor I can create map layers by entering URLs (kml GeoJSON)
 * As an editor I can create map layers by entering country codes
 * As an editor I can create map layers by entering CSV data with lat and lon
 * As an editor I can create map layers by choosing background tiles (from EC tile server)
