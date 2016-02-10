@@ -180,7 +180,6 @@ function nexteuropa_map_entity_property_info_alter(&$info) {
   );
 }
 
-
 /*******************************************************************************
  ********************************* Map API's **********************************
  ******************************************************************************/
@@ -211,7 +210,7 @@ function nexteuropa_map_access($op, $map, $account = NULL, $entity_type = NULL) 
 }
 
 /**
- * Load a map.
+ * Loads a map.
  */
 function nexteuropa_map_load($mid, $reset = FALSE) {
   $maps = nexteuropa_map_load_multiple(array($mid), array(), $reset);
@@ -219,32 +218,38 @@ function nexteuropa_map_load($mid, $reset = FALSE) {
 }
 
 /**
- * Load multiple maps based on certain conditions.
+ * Loads multiple maps based on certain conditions.
  */
 function nexteuropa_map_load_multiple($mids = array(), $conditions = array(), $reset = FALSE) {
   return entity_load('map', $mids, $conditions, $reset);
 }
 
 /**
- * Delete single map.
+ * Deletes single map.
  */
 function nexteuropa_map_delete($map) {
   entity_delete('map', entity_id('map', $map));
 }
 
 /**
- * Delete multiple maps.
+ * Deletes multiple maps.
  */
 function nexteuropa_map_delete_multiple($map_ids) {
   entity_delete_multiple('map', $map_ids);
 }
 
 /**
- * Helper function to standardize forms between field formatters and others.
+ * Provides shared form elements (used in stand-alone and inline entity form).
  *
- * Returns a form element.
+ * @param array $group
+ *   The form elements group (fieldset or container).
+ * @param array $settings
+ *   The map settings that can hold default values.
+ *
+ * @return
+ *   A form element.
  */
-function nexteuropa_map_form_elements($group, $settings, $options = NULL) {
+function _nexteuropa_map_form_elements($group, $settings) {
   $form_element = NULL;
   switch ($group) {
     case 'zoom':
@@ -298,7 +303,7 @@ function nexteuropa_map_form_elements($group, $settings, $options = NULL) {
         '#title' => t('Tiles'),
         '#description' => t('Tiles to use a map background'),
         '#default_value' => isset($settings[$group]['tiles']) ? $settings[$group]['tiles'] : 'osmec',
-        '#options' => nexteuropa_map_tiles(),
+        '#options' => _nexteuropa_map_tiles(),
       );
       break;
 
@@ -394,9 +399,10 @@ function nexteuropa_map_form_elements($group, $settings, $options = NULL) {
 /**
  * Provides available tiles.
  *
- * Populate the tiles field in the map node type.
+ * @return
+ *   A list of tile names that can be used in a form select element.
  */
-function nexteuropa_map_tiles() {
+function _nexteuropa_map_tiles() {
   return array(
     'osmec' => 'Open Street Map customised for European Commission',
     'graybg' => 'Gray background with country outlines',
@@ -425,11 +431,14 @@ function nexteuropa_map_validate_height(&$form, &$form_state) {
 }
 
 /**
- * Save map layer.
+ * Saves map entity.
  *
  * Collects values for storing as JSON in settings.
+ *
+ * @param object $map
+ *   Map object before saving.
  */
-function map_save($map) {
+function nexteuropa_map_save($map) {
 
   // Fetches field values from form state.
   $settings = array(
@@ -459,16 +468,6 @@ function map_save($map) {
   $map->changed = REQUEST_TIME;
   entity_save('map', $map);
 }
-
-
-/**
- * Save map.
- */
-function nexteuropa_map_save($map) {
-  // @todo. re-enamble map save?
-  // entity_save('map', $map);.
-}
-
 
 /**
  * Class providing JavaScript settings for a map.

@@ -67,7 +67,7 @@ class MapController extends EntityAPIController {
     // Defines custom JavaScripts to be passed to load.js.
     $custom_js = array();
 
-    // Allow modules to alter the map build.
+    // Allows modules to alter the map build.
     drupal_alter('map_content', $custom_js);
 
     // Adds the map layer JavaScript as first (needs to be listed before any
@@ -200,7 +200,7 @@ class MapBuild {
   }
 
   /**
-   * Defines map build array for geofield map data (coordinates).
+   * Adds map features as JavaScript attachment to the build array.
    */
   public function setFeatures($features) {
     $this->build['#attached']['js'][] = array(

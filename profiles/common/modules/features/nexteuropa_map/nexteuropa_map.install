@@ -91,7 +91,7 @@ function nexteuropa_map_install() {
  * entity form as widget. It is a multivalue field and it displays 'map_layer'
  * as default view mode.
  */
-function nexteuropa_map_create_map_layer_field() {
+function _nexteuropa_map_create_map_layer_field() {
   if (field_info_field('map_layers')) {
     watchdog('nexteuropa_map_layer', 'Field Map Countries not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
   }
@@ -192,7 +192,7 @@ function nexteuropa_map_enable() {
   $t = get_t();
 
   // Creates map layer field.
-  nexteuropa_map_create_map_layer_field();
+  _nexteuropa_map_create_map_layer_field();
 
   drupal_set_message($t('Nexteuropa map has been enabled.'));
 }

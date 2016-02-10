@@ -13,10 +13,10 @@ function nexteuropa_map_view($map) {
 }
 
 /**
- * Provides an example of a webtools map.
+ * Provides a page with a webtools map.
  *
- * Uses example.js so interference from Drupal is minimal. Is useful to have a
- * clean interaction with maps service.
+ * @return
+ *   Build array for map page.
  */
 function nexteuropa_map_webtools() {
   global $base_url;

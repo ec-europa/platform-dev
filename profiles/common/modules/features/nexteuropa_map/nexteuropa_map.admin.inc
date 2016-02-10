@@ -10,7 +10,7 @@
 function nexteuropa_map_add() {
   $map = entity_create('map', array('type' => 'map'));
   drupal_set_title(t('Create map'));
-  $output = drupal_get_form('nexteuropa_map_form', $map);
+  $output = drupal_get_form('map_form', $map);
   return $output;
 }
 
@@ -52,28 +52,28 @@ function map_form($form, &$form_state, $map) {
 
   // @todo decide on availibility of certain fields.
   // Provides the height field whose values are stored as json in the settings.
-  $form['height'] = nexteuropa_map_form_elements('height', $settings);
+  $form['height'] = _nexteuropa_map_form_elements('height', $settings);
 
   // Provides the map center field whose values is stored as json in the
   // settings.
-  $form['center'] = nexteuropa_map_form_elements('center', $settings);
+  $form['center'] = _nexteuropa_map_form_elements('center', $settings);
 
   // Provides the pop-up fields whose values is stored as json in the settings.
-  $form['popup'] = nexteuropa_map_form_elements('popup', $settings);
+  $form['popup'] = _nexteuropa_map_form_elements('popup', $settings);
 
   // Provides the zoom fields whose values is stored as json in the settings.
-  $form['zoom'] = nexteuropa_map_form_elements('zoom', $settings);
+  $form['zoom'] = _nexteuropa_map_form_elements('zoom', $settings);
 
   // Provides the tiles field whose values is stored as json in the settings.
-  $form['tiles'] = nexteuropa_map_form_elements('tiles', $settings);
+  $form['tiles'] = _nexteuropa_map_form_elements('tiles', $settings);
 
   // Provides the attribution fields whose values is stored as json in the
   // settings.
-  $form['attribution'] = nexteuropa_map_form_elements('attribution', $settings);
+  $form['attribution'] = _nexteuropa_map_form_elements('attribution', $settings);
 
   // Provides the clustering field whose values is stored as json in the
   // settings.
-  $form['clustering'] = nexteuropa_map_form_elements('clustering', $settings);
+  $form['clustering'] = _nexteuropa_map_form_elements('clustering', $settings);
 
   // Provides a checkbox to show /hide settings field.
   $form['show_settings'] = array(
@@ -127,7 +127,7 @@ function map_form($form, &$form_state, $map) {
 function nexteuropa_map_form_submit($form, &$form_state) {
   $map = $form_state['map'];
   entity_form_submit_build_entity('map', $map, $form, $form_state);
-  map_save($map);
+  nexteuropa_map_save($map);
   $map_uri = entity_uri('map', $map);
   $form_state['redirect'] = $map_uri['path'];
   drupal_set_message(t('Map %title saved.', array('%title' => entity_label('map', $map))));
@@ -143,7 +143,7 @@ function nexteuropa_map_form_submit_delete($form, &$form_state) {
 }
 
 /**
- * Delete confirmation form.
+ * Defines deletion confirmation form.
  */
 function nexteuropa_map_delete_form($form, &$form_state, $map) {
   $form_state['map'] = $map;
@@ -164,7 +164,7 @@ function nexteuropa_map_delete_form($form, &$form_state, $map) {
 }
 
 /**
- * Delete form submit handler.
+ * Handles deletion form submit.
  */
 function nexteuropa_map_delete_form_submit($form, &$form_state) {
   $map = $form_state['map'];
