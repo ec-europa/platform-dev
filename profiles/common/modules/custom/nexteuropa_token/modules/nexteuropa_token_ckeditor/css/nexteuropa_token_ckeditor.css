@@ -28,3 +28,28 @@
 .nexteuropa-token-dialog-container table th.views-field-nexteuropa-token-ckeditor-widget-selection {
   width: 15px;
 }
+
+.nexteuropa-token-dialog-container .token-ckeditor-input {
+  border: 1px solid #ccc;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+  padding: 2px 4px;
+  margin-left: 3px;
+  width: 100px;
+  text-align: center;
+}
+
+.token-ckeditor-tips-container {
+  border: 1px solid #ccc !important;
+  margin-top: 20px !important;
+  padding: 20px !important;
+}
+.token-ckeditor-tips-container ol {
+  padding: 20px;
+}
+.token-ckeditor-tips-container pre {
+  display: inline;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 11px;
+}
+
