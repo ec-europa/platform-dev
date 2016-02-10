@@ -10,19 +10,19 @@
 function nexteuropa_map_url_install() {
 
   // Creates the URL map layer.
-  nexteuropa_map_url_create_layer();
+  _nexteuropa_map_url_create_layer();
 
   // Adds fields to URL map layer.
-  nexteuropa_map_url_create_url_field();
+  _nexteuropa_map_url_create_url_field();
 
   // Changes map layers field to add url layer as target bundle.
-  nexteuropa_map_url_change_map_layers_field();
+  _nexteuropa_map_url_change_map_layers_field();
 }
 
 /**
  * Creates the URL map layer bundle.
  */
-function nexteuropa_map_url_create_layer() {
+function _nexteuropa_map_url_create_layer() {
   $bundle = new stdClass();
   $bundle->type = 'url_layer';
   $bundle->label = t('URL layer');
@@ -35,7 +35,7 @@ function nexteuropa_map_url_create_layer() {
 /**
  * Defines and creates the Map URL base and instance field.
  */
-function nexteuropa_map_url_create_url_field() {
+function _nexteuropa_map_url_create_url_field() {
   if (field_info_field('map_url')) {
     watchdog('url_layer', 'Field Map URL not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
   }
@@ -142,7 +142,7 @@ function nexteuropa_map_url_create_url_field() {
  *
  * Adds url layer as target bundles.
  */
-function nexteuropa_map_url_change_map_layers_field() {
+function _nexteuropa_map_url_change_map_layers_field() {
   $field_info = field_read_field('map_layers');
 
   // Adds url layer as target bundles.
