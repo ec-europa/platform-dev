@@ -7,7 +7,7 @@
 module_load_include('inc', 'nexteuropa_map_node', 'nexteuropa_map_node.formatter');
 
 /**
- * Alters map layer content.
+ * Implements hook_layer_content_alter().
  *
  * See MapLayerController->buildContent();
  */
@@ -73,7 +73,7 @@ function nexteuropa_map_node_layer_content_alter(&$content, $wrapper, $entity) {
 }
 
 /**
- * Alters map content.
+ * Implements hook_map_content_alter().
  *
  * See MapController->buildContent().
  */
@@ -84,7 +84,7 @@ function nexteuropa_map_node_map_content_alter(&$custom_js) {
 }
 
 /**
- * Alters the inline entity form of the map layer.
+ * Implements hook_layer_inline_entity_form_alter().
  *
  * See MapLayerInlineEntityFormController->EntityForm().
  */
@@ -93,7 +93,6 @@ function nexteuropa_map_node_layer_inline_entity_form_alter(&$entity_form, $sett
 
     // Defines the form elements shared by inline entity and stand alone form.
     $entity_form = nexteuropa_map_node_form_elements($entity_form, $settings);
-
   }
   return $entity_form;
 }
@@ -106,6 +105,7 @@ function nexteuropa_map_node_layer_inline_entity_form_alter(&$entity_form, $sett
  */
 function nexteuropa_map_node_form_map_layer_form_alter(&$form, &$form_state, $form_id) {
   if ($form_state['map_layer']->type == 'node_layer') {
+
     // Defines the form elements shared by inline entity and stand alone form.
     $settings = $form_state['settings'];
     $form = nexteuropa_map_node_form_elements($form, $settings);
@@ -118,6 +118,7 @@ function nexteuropa_map_node_form_map_layer_form_alter(&$form, &$form_state, $fo
  * Form elements that are shared by the stand-alone and the inline entity form.
  */
 function nexteuropa_map_node_form_elements(&$form, $settings) {
+  $form['#tree'] = TRUE;
 
   // Adds pop up fields.
   $form['popup'] = nexteuropa_map_layer_form_elements('popup', $settings);
@@ -266,6 +267,7 @@ function nexteuropa_map_node_get_geofields($bundle) {
  */
 function nexteuropa_map_node_get_taxonomy_fields() {
 
+  $taxnonomy_fields = array();
   // Cycles through all the fields of all the content types that contains
   // geofield to find vocabularies.
   $content_types = nexteuropa_map_node_get_content_types();
@@ -298,7 +300,6 @@ function nexteuropa_map_node_fetch_nodes($filters) {
 
     // Filters result by bundle.
     $query->entityCondition('entity_type', 'node')
-
       // @todo clean up.
       // ->addTag('efq_debug')
       ->entityCondition('bundle', $filters['map_content_type']);
@@ -421,12 +422,12 @@ function nexteuropa_map_node_prepare_features($items = array()) {
 }
 
 /**
- * Alters the map layer settings.
+ * Implements hook_map_layer_settings_alter().
  *
  * See MapLayerInlineEntityFormController->entityFormSubmit() and
  * nexteuropa_map_layer_form_submit().
  */
-function nexteuropa_map_node_map_layer_settings_alter(&$settings, $map_layer, $form_state) {
+function nexteuropa_map_node_map_layer_settings_alter(&$settings, $map_layer) {
   if ($map_layer->type == 'node_layer') {
     $settings['attribution'] = $map_layer->attribution;
     $settings['popup'] = $map_layer->popup;
@@ -439,38 +440,23 @@ function nexteuropa_map_node_map_layer_settings_alter(&$settings, $map_layer, $f
   return $settings;
 }
 
-
 /**
- * Alters map layer settings.
+ * Implements hook_stand_alone_map_layer_settings_alter().
  *
  * See nexteuropa_map_layer_form_submit().
  *
- * @todo merge w above
+ * @todo merge with nexteuropa_map_node_map_layer_settings_alter.
  */
-function ____map_layer_settings_alter(&$settings, $map_layer, $form_state) {
+function nexteuropa_map_node_stand_alone_map_layer_settings_alter(&$settings, $form_state) {
   if ($form_state['map_layer']->type == 'node_layer') {
-    $settings['node_filters'] = array();
-
-    // Adds bundle as node filter.
-    $settings['node_filters']['map_content_type'] = $form_state['values']['map_content_type'];
-
-    // Adds geofield as node filter.
-    $settings['node_filters']['geofield'] = $form_state['values']['geofield'];
-
-    // Adds terms as node filter.
-    $fields = nexteuropa_map_node_get_taxonomy_fields();
-    foreach ($fields as $field) {
-      $field_name = $field['field'];
-      foreach ($form_state['values'][$field_name] as $term) {
-        $settings['node_filters']['terms'][$field_name][] = $term;
-      }
-    }
-
-    // Adds node status as filter.
-    $settings['node_filters']['show_unpublished'] = $form_state['values']['show_unpublished'];
-
-    // Adds the chosen view mode to the settings.
-    $settings['view_mode'] = $form_state['values']['view_mode'];
+    $values = $form_state['values'];
+    $settings['attribution'] = $values['attribution'];
+    $settings['popup'] = $values['popup'];
+    $settings['icon'] = $values['icon'];
+    $settings['control'] = $values['control'];
+    $settings['clustering'] = $values['clustering'];
+    $settings['node_filters'] = $values['node_filters'];
+    $settings['view_mode'] = $values['view_mode'];
   }
   return $settings;
 }

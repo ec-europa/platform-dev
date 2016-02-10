@@ -247,16 +247,11 @@ function nexteuropa_map_layer_form_submit($form, &$form_state) {
   entity_form_submit_build_entity('map_layer', $map_layer, $form, $form_state);
 
   // Constructs the layer settings for simple json storage in text field.
-  $settings = array(
-    'control' => array(
-      'show_in_control' => $form_state['values']['show_in_control'],
-      'enabled' => $form_state['values']['enabled'],
-    ),
-    'show_settings' => $form_state['values']['show_settings'],
-  );
+  $settings['control'] = $form_state['values']['control'];
+  $settings['show_settings'] = $form_state['values']['show_settings'];
 
   // Allows modules to alter the map_layer settings.
-  drupal_alter('map_layer_settings', $settings, $map_layer);
+  drupal_alter('stand_alone_map_layer_settings', $settings, $form_state);
 
   // Stores settings in json.
   $map_layer->settings = json_encode($settings);

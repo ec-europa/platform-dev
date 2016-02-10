@@ -5,7 +5,7 @@
  */
 
 /**
- * Alters map layer content.
+ * Implements hook_layer_content_alter().
  *
  * See MapLayerController->buildContent();
  */
@@ -36,7 +36,7 @@ function nexteuropa_map_url_layer_content_alter(&$content, $wrapper, $entity) {
 }
 
 /**
- * Alters the inline entity form of the map layer.
+ * Implements hook_layer_inline_entity_form_alter().
  *
  * See MapLayerInlineEntityFormController->EntityForm().
  */
@@ -51,7 +51,7 @@ function nexteuropa_map_url_layer_inline_entity_form_alter(&$entity_form, $setti
 }
 
 /**
- * Alters the map layer settings.
+ * Implements hook_map_layer_settings_alter().
  *
  * See MapLayerInlineEntityFormController->entityFormSubmit() and
  * nexteuropa_map_layer_form_submit().
@@ -68,7 +68,7 @@ function nexteuropa_map_url_map_layer_settings_alter(&$settings, $map_layer, $fo
 }
 
 /**
- * Alters map content.
+ * Implements hook_map_content_alter().
  *
  * See MapController->buildContent().
  */
@@ -105,7 +105,7 @@ function url_map_items($data) {
 /**
  * Helper function to standardize forms between field formatters and others.
  *
- * Returns a fully loaded form element.
+ * Returns a form element.
  */
 function nexteuropa_map_url_form_elements($group, $settings) {
   $form_element = NULL;

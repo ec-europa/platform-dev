@@ -239,11 +239,10 @@ function nexteuropa_map_delete_multiple($map_ids) {
   entity_delete_multiple('map', $map_ids);
 }
 
-
 /**
  * Helper function to standardize forms between field formatters and others.
  *
- * Returns a fully loaded form element.
+ * Returns a form element.
  */
 function nexteuropa_map_form_elements($group, $settings, $options = NULL) {
   $form_element = NULL;

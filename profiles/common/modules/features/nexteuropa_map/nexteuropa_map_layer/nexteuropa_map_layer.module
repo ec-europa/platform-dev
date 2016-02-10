@@ -391,9 +391,7 @@ function nexteuropa_map_layer_views_api() {
 /**
  * Helper function to standardize forms between field formatters and others.
  *
- * Returns a fully loaded form element.
- *
- * @move to generic module.
+ * Returns a form element.
  */
 function nexteuropa_map_layer_form_elements($group, $settings) {
   $form_element = NULL;
@@ -497,11 +495,7 @@ function nexteuropa_map_layer_form_elements($group, $settings) {
 }
 
 /**
- * Provides icon colors.
- *
- * Populates the icon field in the map node type.
- *
- * @todo move to generic map module.
+ * Provides list of available icon colors.
  */
 function nexteuropa_map_layer_icons() {
   return array(
@@ -517,22 +511,7 @@ function nexteuropa_map_layer_icons() {
 }
 
 /**
- * Inspects wrapped entities & fields.
- *
- * @todo move to generic map module.
- */
-function nexteuropa_map_layer_wrapper_inspect($w) {
-  $values = array();
-  foreach ($w->getPropertyInfo() as $key => $val) {
-    $values[$key] = $w->$key->value();
-  }
-  return $values;
-}
-
-/**
  * Checks if wrapped entity fields have a value.
- *
- * @todo move to generic map module.
  */
 function nexteuropa_map_layer_fieldcheck($field, $wrapper) {
   if ($wrapper->__isset($field)) {

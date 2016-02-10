@@ -5,7 +5,7 @@
  */
 
 /**
- * Alters map layer content.
+ * Implements hook_layer_content_alter().
  *
  * See MapLayerController->buildContent();
  */
@@ -31,7 +31,7 @@ function nexteuropa_map_tile_layer_content_alter(&$content, $wrapper, $entity) {
 }
 
 /**
- * Alters the inline entity form of the map layer.
+ * Implements hook_layer_inline_entity_form_alter().
  *
  * See MapLayerInlineEntityFormController->EntityForm().
  */
@@ -44,7 +44,7 @@ function nexteuropa_map_tile_layer_inline_entity_form_alter(&$entity_form, $sett
 }
 
 /**
- * Alters the map layer settings.
+ * Implements hook_map_layer_settings_alter().
  *
  * See MapLayerInlineEntityFormController->entityFormSubmit() and
  * nexteuropa_map_layer_form_submit().
@@ -59,7 +59,7 @@ function nexteuropa_map_tile_map_layer_settings_alter(&$settings, $map_layer, $f
 }
 
 /**
- * Alters map content.
+ * Implements hook_map_content_alter().
  *
  * See MapController->buildContent().
  */
