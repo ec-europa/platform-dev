@@ -45,12 +45,12 @@ function nexteuropa_map_node_field_formatter_settings_form($field, $instance, $v
 
   // Defnies formatter settings form by using shared form elements.
   if ($display['type'] == 'ec_webtools_map') {
-    $element['tiles'] = nexteuropa_map_form_elements('tiles', $settings);
-    $element['height'] = nexteuropa_map_form_elements('height', $settings);
-    $element['zoom'] = nexteuropa_map_form_elements('zoom', $settings);
+    $element['tiles'] = _nexteuropa_map_form_elements('tiles', $settings);
+    $element['height'] = _nexteuropa_map_form_elements('height', $settings);
+    $element['zoom'] = _nexteuropa_map_form_elements('zoom', $settings);
     $element['icon'] = nexteuropa_map_layer_form_elements('icon', $settings);
-    $element['center'] = nexteuropa_map_form_elements('center', $settings);
-    $element['attribution'] = nexteuropa_map_form_elements('attribution', $settings);
+    $element['center'] = _nexteuropa_map_form_elements('center', $settings);
+    $element['attribution'] = _nexteuropa_map_form_elements('attribution', $settings);
   }
   return $element;
 }
@@ -107,7 +107,7 @@ function nexteuropa_map_node_field_formatter_view($entity_type, $entity, $field,
 
       // Processes geo data from geofield.
       if ($field['type'] == 'geofield') {
-        $features = nexteuropa_map_node_prepare_features($field_items);
+        $features = _nexteuropa_map_node_prepare_features($field_items);
 
         // Disables popup for the field formatter because there is no pop up
         // information in the geofield.

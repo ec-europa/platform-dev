@@ -2,11 +2,11 @@
 
 /**
  * @file
- * Provides feature in geojson format for Nexteuropa map node module.
+ * Provides feature in GeoJSON format for Nexteuropa map node module.
  */
 
 /**
- * Class providing feature in geojson format for map.
+ * Class providing feature in GeoJSON format for map.
  */
 class MapeditorGeoFeature {
 

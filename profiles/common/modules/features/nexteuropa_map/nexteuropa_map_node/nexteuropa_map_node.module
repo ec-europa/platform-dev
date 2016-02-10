@@ -19,7 +19,7 @@ function nexteuropa_map_node_layer_content_alter(&$content, $wrapper, $entity) {
 
     // Fetches nodes using chosen filters.
     $filters = $settings['node_filters'];
-    $nodes = nexteuropa_map_node_fetch_nodes($filters);
+    $nodes = _nexteuropa_map_node_fetch_nodes($filters);
     if ($nodes) {
       $items = array();
       foreach ($nodes as $node) {
@@ -44,7 +44,7 @@ function nexteuropa_map_node_layer_content_alter(&$content, $wrapper, $entity) {
       // stored in.
       $type = field_info_field($filters['geofield'])['type'];
       if ($type == 'geofield') {
-        $features = nexteuropa_map_node_prepare_features($items);
+        $features = _nexteuropa_map_node_prepare_features($items);
       }
       elseif ($type == 'geofield_geojson') {
         foreach ($items as $key => $item) {
@@ -92,7 +92,7 @@ function nexteuropa_map_node_layer_inline_entity_form_alter(&$entity_form, $sett
   if ($type == 'node_layer') {
 
     // Defines the form elements shared by inline entity and stand alone form.
-    $entity_form = nexteuropa_map_node_form_elements($entity_form, $settings);
+    $entity_form = _nexteuropa_map_node_shared_form($entity_form, $settings);
   }
   return $entity_form;
 }
@@ -108,7 +108,7 @@ function nexteuropa_map_node_form_map_layer_form_alter(&$form, &$form_state, $fo
 
     // Defines the form elements shared by inline entity and stand alone form.
     $settings = $form_state['settings'];
-    $form = nexteuropa_map_node_form_elements($form, $settings);
+    $form = _nexteuropa_map_node_shared_form($form, $settings);
   }
 }
 
@@ -116,8 +116,16 @@ function nexteuropa_map_node_form_map_layer_form_alter(&$form, &$form_state, $fo
  * Provides shared form elements.
  *
  * Form elements that are shared by the stand-alone and the inline entity form.
+ *
+ * @param array $form
+ *   The form before adding the shared elements.
+ * @param array $settings
+ *   The map settings that can hold default values.
+ *
+ * @return
+ *   The form with the shared elements added.
  */
-function nexteuropa_map_node_form_elements(&$form, $settings) {
+function _nexteuropa_map_node_shared_form(&$form, $settings) {
   $form['#tree'] = TRUE;
 
   // Adds pop up fields.
@@ -140,7 +148,7 @@ function nexteuropa_map_node_form_elements(&$form, $settings) {
   // Adds map content type filter field.
   $form['node_filters']['map_content_type'] = array(
     '#type' => 'select',
-    '#options' => nexteuropa_map_node_get_content_types(),
+    '#options' => _nexteuropa_map_node_get_content_types(),
     '#title' => t('Content type'),
     '#description' => t('Content type that contains the geospatial data'),
     '#default_value' => isset($settings['node_filters']['map_content_type']) ? $settings['node_filters']['map_content_type'] : 0,
@@ -149,8 +157,8 @@ function nexteuropa_map_node_form_elements(&$form, $settings) {
   // Provides a geofield selection field to choose in which field to find geo
   // data.
   $geofield_options = array();
-  foreach (nexteuropa_map_node_get_content_types() as $key => $content_type) {
-    foreach (nexteuropa_map_node_get_geofields($key) as $key => $field) {
+  foreach (_nexteuropa_map_node_get_content_types() as $key => $content_type) {
+    foreach (_nexteuropa_map_node_get_geofields($key) as $key => $field) {
       $geofield_options[$key] = $field;
     }
   }
@@ -165,12 +173,12 @@ function nexteuropa_map_node_form_elements(&$form, $settings) {
   );
 
   // Provides taxonomy term filter fields based on vocabularies.
-  $taxonomy_fields = nexteuropa_map_node_get_taxonomy_fields();
+  $taxonomy_fields = _nexteuropa_map_node_get_taxonomy_fields();
   foreach ($taxonomy_fields as $taxonomy_field) {
     if ($taxonomy_field) {
       $field = $taxonomy_field['field'];
       $vocabulary = taxonomy_vocabulary_machine_name_load($taxonomy_field['vocabulary']);
-      $options = nexteuropa_map_node_get_taxonomy_term_options($taxonomy_field['vocabulary']);
+      $options = _nexteuropa_map_node_get_taxonomy_term_options($taxonomy_field['vocabulary']);
       $form['node_filters']['terms'][$field] = array(
         '#type' => 'select',
         '#options' => $options,
@@ -208,8 +216,14 @@ function nexteuropa_map_node_form_elements(&$form, $settings) {
 
 /**
  * Populates a list of terms for use in a form api select.
+ *
+ * @param string $machine_name
+ *   The machine name of the vocabulary
+ *
+ * @return
+ *   A list of terms that can be used in a form select element.
  */
-function nexteuropa_map_node_get_taxonomy_term_options($machine_name) {
+function _nexteuropa_map_node_get_taxonomy_term_options($machine_name) {
   $options = array();
   $vid = taxonomy_vocabulary_machine_name_load($machine_name)->vid;
   $options_source = taxonomy_get_tree($vid);
@@ -221,11 +235,13 @@ function nexteuropa_map_node_get_taxonomy_term_options($machine_name) {
   return $options;
 }
 
-
 /**
  * Provides list of content types that have a geofield.
+ *
+ * @return
+ *   A list of content types that can be used in a form select element.
  */
-function nexteuropa_map_node_get_content_types() {
+function _nexteuropa_map_node_get_content_types() {
   $geofielded_content_types = array();
 
   // Fetches all the site's content types.
@@ -246,9 +262,12 @@ function nexteuropa_map_node_get_content_types() {
 }
 
 /**
- * Finds taxonomy fields in a content type.
+ * Finds geofields in a content type.
+ *
+ * @return
+ *   A list of geofields that can be used in a form select element.
  */
-function nexteuropa_map_node_get_geofields($bundle) {
+function _nexteuropa_map_node_get_geofields($bundle) {
   $geofields = array();
   $fields = field_read_instances(array('bundle' => $bundle));
   foreach ($fields as $field) {
@@ -263,14 +282,17 @@ function nexteuropa_map_node_get_geofields($bundle) {
 /**
  * Provides list of vocabularies in content types with geofield.
  *
+ * @return
+ *   A list of taxonomy term fields that are used in content with geofield.
+ *
  * @todo add entity reference fields.
  */
-function nexteuropa_map_node_get_taxonomy_fields() {
+function _nexteuropa_map_node_get_taxonomy_fields() {
 
   $taxnonomy_fields = array();
   // Cycles through all the fields of all the content types that contains
   // geofield to find vocabularies.
-  $content_types = nexteuropa_map_node_get_content_types();
+  $content_types = _nexteuropa_map_node_get_content_types();
   foreach ($content_types as $key => $content_type) {
     $fields = field_read_instances(array('bundle' => $key));
     foreach ($fields as $field) {
@@ -291,9 +313,13 @@ function nexteuropa_map_node_get_taxonomy_fields() {
 /**
  * Fetches nodes.
  *
- * @todo consider selecting country data to display on map.
+ * @param array $filters
+ *   List of query conditions.
+ *
+ * @return array List of NIDs of nodes that match the filters.
+ *   List of IDs of nodes that match the filters.
  */
-function nexteuropa_map_node_fetch_nodes($filters) {
+function _nexteuropa_map_node_fetch_nodes($filters) {
   if ($filters['map_content_type']) {
     $nodes = array();
     $query = new EntityFieldQuery();
@@ -347,12 +373,17 @@ function nexteuropa_map_node_fetch_nodes($filters) {
 }
 
 /**
- * Turns field items into geojson features.
+ * Turns field items into GeoJSON features.
  *
- * Return geojson formatted map features. Shameless copy from
- * leaflet_process_geofield().
+ * @param array $items
+ *   Field values.
+ *
+ * @return
+ *   An array containing a GeoJSON formatted map feature.
+ *
+ * Shameless copy from leaflet_process_geofield().
  */
-function nexteuropa_map_node_prepare_features($items = array()) {
+function _nexteuropa_map_node_prepare_features($items = array()) {
   $features = array();
   geophp_load();
   foreach ($items as $item) {

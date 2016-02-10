@@ -7,9 +7,9 @@
  */
 
 // Checks for node layers, adds node features to map and layer control.
-// Checks for node layers, adds geoJson features from to map and prepares layer
+// Checks for node layers, adds GeoJSON features from to map and prepares layer
 // control. Layers and layer control are activated in map.js. The Leaflet
-// L.marker method can be used which accepts geoJson features as input.
+// L.marker method can be used which accepts GeoJSON features as input.
 if (typeof Drupal.settings.node_layers !== 'undefined') {
 
   // Create layers array if none.
@@ -112,13 +112,13 @@ if (typeof Drupal.settings.node_layers !== 'undefined') {
  */
 function buildPopupContent(feature) {
 
-  // Returns pop up content if defined in the geojson object.
+  // Returns pop up content if defined in the GeoJSON object.
   if (typeof feature.properties.popupContent != 'undefined') {
     return feature.properties.popupContent;
   }
 
   // Creates pop up content from name and description if not defined in the
-  // geojson object. This follows the markup of the the theme_popup function.
+  // GeoJSON object. This follows the markup of the the theme_popup function.
   // Ideally this should be dealt with in php.
   // @todo create Jira issue to discuss.
   else if (typeof feature.properties.name != 'undefined' && feature.properties.description != 'undefined') {

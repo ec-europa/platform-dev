@@ -10,16 +10,16 @@
 function nexteuropa_map_node_install() {
 
   // Creates the node map layer.
-  nexteuropa_map_node_create_layer();
+  _nexteuropa_map_node_create_layer();
 
   // Changes map layers field to add node layer as target bundle.
-  nexteuropa_map_node_change_map_layers_field();
+  _nexteuropa_map_node_change_map_layers_field();
 }
 
 /**
  * Creates the node map layer bundle.
  */
-function nexteuropa_map_node_create_layer() {
+function _nexteuropa_map_node_create_layer() {
   $bundle = new stdClass();
   $bundle->type = 'node_layer';
   $bundle->label = t('Node layer');
@@ -34,7 +34,7 @@ function nexteuropa_map_node_create_layer() {
  *
  * Adds node layer as target bundles.
  */
-function nexteuropa_map_node_change_map_layers_field() {
+function _nexteuropa_map_node_change_map_layers_field() {
   $field_info = field_read_field('map_layers');
 
   // Adds node layer as target bundles.
