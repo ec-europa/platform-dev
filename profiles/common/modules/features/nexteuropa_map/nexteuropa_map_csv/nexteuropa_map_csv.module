@@ -79,7 +79,13 @@ function nexteuropa_map_csv_map_content_alter(&$custom_js) {
 }
 
 /**
- * Creates a geoJson feature from CSV data.
+ * Creates a GeoJSON feature from CSV data.
+ *
+ * @param string $data
+ *   String containing CSV data.
+ *
+ * @return
+ *   GeoJSON formatted map features.
  */
 function nexteuropa_map_csv_features($data) {
   $lines = explode("\n", $data);

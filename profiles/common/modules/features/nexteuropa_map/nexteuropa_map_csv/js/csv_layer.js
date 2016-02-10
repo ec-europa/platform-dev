@@ -7,9 +7,9 @@
  */
 
 // Checks for CSV layers, adds CSV features to map and layer control.
-// Checks for CSV layers, adds geoJson features from to map and prepares layer
+// Checks for CSV layers, adds GeoJSON features from to map and prepares layer
 // control. Layers and layer control are activated in map.js. The Leaflet
-// L.marker method can be used which accepts geoJson features as input.
+// L.marker method can be used which accepts GeoJSON features as input.
 if (typeof Drupal.settings.csv_layers !== 'undefined') {
 
   // Create layers to control array if none.
