@@ -10,15 +10,16 @@
 function nexteuropa_map_tile_install() {
 
   // Creates the tile layer.
-  nexteuropa_map_tile_create_layer();
+  _nexteuropa_map_tile_create_layer();
 
   // Changes map layers field to add tile layer as target bundle.
-  nexteuropa_map_tile_change_map_layers_field();
+  _nexteuropa_map_tile_change_map_layers_field();
 }
+
 /**
  * Creates the tile map layer bundle.
  */
-function nexteuropa_map_tile_create_layer() {
+function _nexteuropa_map_tile_create_layer() {
   $bundle = new stdClass();
   $bundle->type = 'tile_layer';
   $bundle->label = t('Tile layer');
@@ -33,7 +34,7 @@ function nexteuropa_map_tile_create_layer() {
  *
  * Adds tile layer as target bundles.
  */
-function nexteuropa_map_tile_change_map_layers_field() {
+function _nexteuropa_map_tile_change_map_layers_field() {
   $field_info = field_read_field('map_layers');
 
   // Adds tile layer as target bundles.
