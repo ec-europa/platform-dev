@@ -10,22 +10,22 @@
 function nexteuropa_map_country_install() {
 
   // Creates country layer.
-  nexteuropa_map_country_create_country_layer();
+  _nexteuropa_map_country_create_country_layer();
 
   // Creates countries field.
-  nexteuropa_map_country_create_map_countries_field();
+  _nexteuropa_map_country_create_map_countries_field();
 
   // Creates country list field.
-  nexteuropa_map_country_create_map_country_list_field();
+  _nexteuropa_map_country_create_map_country_list_field();
 
   // Changes map layers field.
-  nexteuropa_map_country_change_map_layers_field();
+  _nexteuropa_map_country_change_map_layers_field();
 }
 
 /**
  * Creates the country map layer bundle.
  */
-function nexteuropa_map_country_create_country_layer() {
+function _nexteuropa_map_country_create_country_layer() {
   $bundle = new stdClass();
   $bundle->type = 'country_layer';
   $bundle->label = t('Country layer');
@@ -38,7 +38,7 @@ function nexteuropa_map_country_create_country_layer() {
 /**
  * Defines and creates map countries field.
  */
-function nexteuropa_map_country_create_map_countries_field() {
+function _nexteuropa_map_country_create_map_countries_field() {
   if (field_info_field('map_countries')) {
     watchdog('country_layer', 'Field Map Countries not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
   }
@@ -121,7 +121,7 @@ function nexteuropa_map_country_create_map_countries_field() {
  *
  * Creates single textfield for list of country codes.
  */
-function nexteuropa_map_country_create_map_country_list_field() {
+function _nexteuropa_map_country_create_map_country_list_field() {
   if (field_info_field('map_country_list')) {
     watchdog('country_layer', 'Field Map country list not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
   }
@@ -205,7 +205,7 @@ function nexteuropa_map_country_create_map_country_list_field() {
  *
  * Adds country layer as target bundles.
  */
-function nexteuropa_map_country_change_map_layers_field() {
+function _nexteuropa_map_country_change_map_layers_field() {
   $field_info = field_read_field('map_layers');
 
   // Adds country layer as target bundles.
