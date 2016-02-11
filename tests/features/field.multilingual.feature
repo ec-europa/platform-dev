@@ -6,15 +6,16 @@ Feature: Field Multilingual features
 
 
   Background:
+
     Given the following languages are available:
       | languages |
       | en        |
       | fr        |
       | de        |
 	And I am viewing a multilingual "page" content:
-	  | language | title            |field_selectcolor|
-	  | en       | Title in English | Red |
-	  | fr       | Titre en Français  | Red |
+      | language | title             |field_selectcolor|
+      | en       | Title in English  | Red             |
+      | fr       | Titre en Français | Red             |
 
   Scenario: Administrator can create and translate field and field group labels
 	Given I am logged in as a user with the 'administrator' role
@@ -63,27 +64,27 @@ Feature: Field Multilingual features
 	And I press the "Filter" button
 	And I click "edit"
 	And I fill in "edit-translations-fr" with "Mon Groupe Couleur"
-	And I press the "Save translation" button
+	And I press the "Save translations" button
 	Then I should see the success message "The string has been saved."
-	
-	
+
 	@api
 	Scenario Outline: Check translation of field and field group labels
+	# fix missing translation (deleted because languages are deleted at the end of scenario)
+	Given I run drush "sqlq" '"INSERT INTO locales_target SELECT lid , 0x4d6f6e2047726f75706520436f756c657572, \\"fr\\",  0, 0, 0 FROM locales_source WHERE source = \\"My Group Color\\""'
 	Given I am an anonymous user
 	When I go to "<url>"
 	Then I should see "<title>" in the "#page-title" element
 	And I should see "<grouplabel>" in the "fieldset.group-groupcolor span.fieldset-legend" element
 	And I should see "<fieldlabel>" in the "div.field-name-field-selectcolor div.field-label" element
 	And I should see "<fieldvalue>" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
-	
-	Examples:
-      | url											| title				| grouplabel			| fieldlabel				| fieldvalue	|
-      | content/title-english_en					| Title in English	| My Group Color		| Select a Color			| Red			|
-      | content/title-english_fr					| Titre en Français	| Mon Groupe Couleur	| Selectionner une Couleur	| Rouge			|
-      | content/title-english_de					| Title in English	| My Group Color		| Select a Color			| Red			|
-      | content/title-english_en?2nd-language=fr	| Title in English	| My Group Color		| Select a Color			| Red			|
-      | content/title-english_de?2nd-language=fr	| Titre en Français	| Mon Groupe Couleur	| Selectionner une Couleur	| Rouge			|
 
+	Examples:
+      | url                                       | title             | grouplabel         | fieldlabel               | fieldvalue |
+      | content/title-english_en                  | Title in English  | My Group Color     | Select a Color           | Red        |
+      | content/title-english_fr                  | Titre en Français | Mon Groupe Couleur | Selectionner une Couleur | Rouge      |
+      | content/title-english_de                  | Title in English  | My Group Color     | Select a Color           | Red        |
+      | content/title-english_en?2nd-language=fr  | Title in English  | My Group Color     | Select a Color           | Red        |
+      | content/title-english_de?2nd-language=fr  | Titre en Français | Mon Groupe Couleur | Selectionner une Couleur | Rouge      |
 	
 	Scenario: Administrator can delete field group labels
 	# Finally, delete the added fields
