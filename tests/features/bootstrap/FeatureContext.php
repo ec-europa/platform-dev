@@ -380,11 +380,12 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     });
 
     return new TableNode($table);
-   
+}
+
   /**
    * Prepare for PHP errors log.
    *
-   * @BeforeSuite
+   * @BeforeStep
    */
   public static function preparePhpErrors($event) {
     // Clear out the watchdog table at the beginning of each test suite.
@@ -394,7 +395,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Check for PHP errors log.
    *
-   * @AfterSuite
+   * @AfterStep
    */
   public static function checkPhpErrors($event) {
     // Find any PHP errors at the end of the suite
