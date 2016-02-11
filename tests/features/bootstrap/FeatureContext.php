@@ -407,7 +407,14 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       ->fetchAll();
     if (!empty($log)) {
       $errors = count($log);
-      $message = "$errors PHP errors were logged to the watchdog in this suite:\n\n";
+      $step_text = $event->getStep()->getText();
+      $feature_title = $event->getFeature()->getTitle();
+      $feature_file = $event->getFeature()->getFile();
+      $message = "$errors PHP errors were logged to the watchdog\n";
+      $message .= "Feature: '$feature_title' on '$feature_file'\n";
+      $message .= "Step: '$step_text'\n";
+      $message .= "Errors:\n";
+      $message .= "----------\n";
       foreach ($log as $error) {
         $error->variables = unserialize($error->variables);
         $date = date('Y-m-d H:i:sP', $error->timestamp);
@@ -416,6 +423,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         $message .= "Referer: $error->referer\n";
         $message .= "Date/Time: $date\n\n";
       }
+      $message .= "----------\n";
       throw new Exception($message);
     }
   }
