@@ -81,7 +81,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   // Page specific visibility configurations.
   $php_access = user_access('use PHP for tracking visibility');
   $visibility = variable_get('nexteuropa_piwik_visibility_pages', 0);
-  $pages = variable_get('nexteuropa_piwik_pages', PIWIK_PAGES);
+  $pages = variable_get('nexteuropa_piwik_pages', NEXTEUROPA_PIWIK_PAGES);
 
   $form['tracking']['page_vis_settings'] = array(
     '#type' => 'fieldset',
