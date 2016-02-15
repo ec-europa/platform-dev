@@ -116,14 +116,12 @@ function nexteuropa_piwik_page_alter(&$page) {
     if (!empty($site_section)) {
       $webtools_piwik_settings['siteSection'] = $site_section;
     }
-    $webtools_piwik_settings = json_encode($webtools_piwik_settings);
+    $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
 
-    // Add webtools snippet.
-    $webtools_json = "<script type=\"application/json\">";
-    $webtools_json = $webtools_json . $webtools_piwik_settings;
-    $webtools_json = $webtools_json . "</script>";
     // Add tracker code to scope.
-    drupal_add_js($webtools_json, array('type' => 'inline'));
+    $page['content']['next_europapiwik']['#markup'] = $webtools_piwik_settings;
+    $page['content']['next_europapiwik']['#prefix'] = "<script type=\"application/json\">";
+    $page['content']['next_europapiwik']['#suffix'] = "</script>";
   }
 }
 
