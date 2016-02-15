@@ -101,7 +101,7 @@ function nexteuropa_piwik_page_alter(&$page) {
 
     // Create settings array.
     $webtools_piwik_settings = array(
-      'utility' => 'piwik',
+      'utility' => 'EuropaAnalytics',
       'siteID' => $id,
       'sitePath' => array($site_path),
       'is404' => FALSE,
