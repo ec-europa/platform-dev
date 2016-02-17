@@ -35,6 +35,12 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
+; https://www.drupal.org/node/2657666
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
+;https://www.drupal.org/node/2333447#comment-10826660
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -524,6 +530,8 @@ projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
 projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
+; @see https://www.drupal.org/node/2489134
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
