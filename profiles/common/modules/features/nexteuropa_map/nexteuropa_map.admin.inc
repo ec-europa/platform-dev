@@ -7,7 +7,7 @@
 /**
  * Add new map page callback.
  */
-function nexteuropa_map_add() {
+function nexteuropa_map_add_map() {
   $map = entity_create('map', array('type' => 'map'));
   drupal_set_title(t('Create map'));
   $output = drupal_get_form('map_form', $map);

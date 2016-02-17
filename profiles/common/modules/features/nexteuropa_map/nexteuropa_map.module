@@ -59,7 +59,7 @@ function nexteuropa_map_menu() {
 
   $items['map/add'] = array(
     'title' => 'Add map',
-    'page callback' => 'nexteuropa_map_add',
+    'page callback' => 'nexteuropa_map_add_map',
     'access callback' => 'entity_access',
     'access arguments' => array('create', 'map', 'map'),
     'file' => 'nexteuropa_map.admin.inc',
@@ -74,7 +74,7 @@ function nexteuropa_map_menu() {
   $items[$map_uri] = array(
     'title callback' => 'entity_label',
     'title arguments' => array('map', $map_uri_argument_position),
-    'page callback' => 'nexteuropa_map_view',
+    'page callback' => '_nexteuropa_map_view',
     'page arguments' => array($map_uri_argument_position),
     'access callback' => 'entity_access',
     'access arguments' => array('view', 'map', $map_uri_argument_position),
@@ -111,7 +111,7 @@ function nexteuropa_map_menu() {
 
   $items['nexteuropa_map/webtools'] = array(
     'title' => 'Webtools example',
-    'page callback' => 'nexteuropa_map_webtools',
+    'page callback' => '_nexteuropa_map_webtools',
     'access arguments' => array('access content'),
     'type' => MENU_SUGGESTED_ITEM,
     'file' => 'nexteuropa_map.pages.inc',
