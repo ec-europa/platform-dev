@@ -216,6 +216,10 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta1"
 
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][version] = "1.x-dev"
+projects[feeds_et][patch][] = https://www.drupal.org/files/feeds_et_link_support-2078069-1.patch
+
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
 
@@ -598,6 +602,9 @@ projects[views_slideshow][version] = "3.1"
 projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
 
+projects[views_tree][subdir] = "contrib"
+projects[views_tree][version] = "2.0"
+
 projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
 
@@ -640,6 +647,8 @@ projects[wysiwyg][version] = "2.2"
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7359
+projects[wysiwyg][patch][] = patches/wysiwyg.features.inc.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -763,11 +772,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7
+; mpdf 5.7.4a
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet

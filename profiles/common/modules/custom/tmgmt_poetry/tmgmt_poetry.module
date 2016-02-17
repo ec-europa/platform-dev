@@ -115,7 +115,13 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
       $form['translator_wrapper']['#access'] = FALSE;
     }
 
-    $job_items = $form_state['tmgmt_job']->getItems();
+    $job = $form_state['tmgmt_job'];
+
+    if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
+      $form['translator_wrapper']['#collapsed'] = TRUE;
+    }
+
+    $job_items = $job->getItems();
     if (count($job_items) > 0) {
       $job_item = array_shift($job_items);
     }
