@@ -16,8 +16,11 @@ include_once 'nexteuropa_newsroom.install.inc';
 function nexteuropa_newsroom_enable() {
   drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
   cache_clear_all('plugins:feeds:plugins', 'cache');
+  if (!db_table_exists(NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
+    db_create_table(NEXTEUROPA_NEWSROOM_CACHE_TABLE, drupal_get_schema_unprocessed('system', 'cache'));
+  }
   // Add to solR.
-  multisite_drupal_toolbox_config_solr_bundle(NEWSROOM_CONTENT_TYPE, 'add');
+  multisite_drupal_toolbox_config_solr_bundle(NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'add');
 }
 
 /**
@@ -25,18 +28,11 @@ function nexteuropa_newsroom_enable() {
  */
 function nexteuropa_newsroom_disable() {
   drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
-
+  if (db_table_exists(NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
+    db_drop_table(NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+  }
   // Delete from solR.
-  multisite_drupal_toolbox_config_solr_bundle(NEWSROOM_CONTENT_TYPE, 'delete');
-}
-
-/**
- * Implements hook_schema().
- */
-function nexteuropa_newsroom_schema() {
-  $schema[NEWSROOM_CACHE_TABLE] = drupal_get_schema_unprocessed('system', 'cache');
-  $schema[NEWSROOM_CACHE_TABLE]['description'] = 'Cache table for the Newsroom module to store already menu paths for newsroom items and other variables.';
-  return $schema;
+  multisite_drupal_toolbox_config_solr_bundle(NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'delete');
 }
 
 /**

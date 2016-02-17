@@ -46,15 +46,17 @@ function _nexteuropa_newsroom_newsletters_page() {
     $view->set_display($basic_display);
     $view->pre_execute();
     $view->execute();
-    
+
     $basic_newsletters_title = $view->get_title();
     $basic_newsletters = $view->result;
-    
+
     $view->destroy();
+    
+    $view = views_get_view('newsroom_services');
     $view->set_display($central_display);
     $view->pre_execute();
     $view->execute();
-    
+
     $central_newsletters_title = $view->get_title();
     $central_newsletters = $view->result;
 
@@ -75,6 +77,6 @@ function _nexteuropa_newsroom_newsletters_page() {
     ));
     $build['#markup'] = $content;
   }
-  
+
   return $build;
 }

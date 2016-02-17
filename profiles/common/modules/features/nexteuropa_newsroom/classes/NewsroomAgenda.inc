@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NewsroomAgenda class.
@@ -8,12 +9,13 @@
  * NewsroomAgenda class base class.
  */
 abstract class NewsroomAgenda {
-  const ITEMS_NUMBER = 10;
+
   const AGENDA_VIEW_SCHEDULE = 'schedule';
   const AGENDA_VIEW_MONTH = 'month';
   const AGENDA_VIEW_WEEK = 'week';
   const AGENDA_VIEW_DAY = 'day';
   const AGENDA_VIEW_SCHEDULE_BLOCK = 'schedule-block';
+
   protected $view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE;
   protected $topicUrl = 'all';
   protected $topics = array();
@@ -39,12 +41,22 @@ abstract class NewsroomAgenda {
   }
 
   /**
+   * Get minimal items number per agenda page.
+   *
+   * @return int
+   *   Number of items.
+   */
+  public function getItemsNumber() {
+    return variable_get('newsroom_agenda_page_items_number', 10);
+  }
+
+  /**
    * Setter.
    */
   public function setDisplayCalendar($value) {
-    return $this->displayCalendar = $value;
+    $this->displayCalendar = $value;
   }
-  
+
   /**
    * Getter.
    */
@@ -56,7 +68,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setIsBlock($value) {
-    return $this->isBlock = $value;
+    $this->isBlock = $value;
   }
 
   /**
@@ -70,7 +82,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setView($value) {
-    return $this->view = $value;
+    $this->view = $value;
   }
 
   /**
@@ -98,7 +110,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setTopicUrl($value) {
-    return $this->topicUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
+    $this->topicUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
   }
 
   /**
@@ -112,7 +124,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setTypeUrl($value) {
-    return $this->typeUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
+    $this->typeUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
   }
 
   /**
@@ -126,7 +138,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setCurrentItems($value) {
-    return $this->currentItems = $this->sortItems($value);
+    $this->currentItems = $this->sortItems($value);
   }
 
   /**
@@ -140,7 +152,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setNextItems($value) {
-    return $this->nextItems = $this->sortItems($value);
+    $this->nextItems = $this->sortItems($value);
   }
 
   /**
@@ -154,7 +166,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setNextDate($value) {
-    return $this->nextDate = $value;
+    $this->nextDate = $value;
   }
 
   /**
@@ -168,7 +180,7 @@ abstract class NewsroomAgenda {
    * Getter.
    */
   public function setPreviousDate($value) {
-    return $this->previousDate = $value;
+    $this->previousDate = $value;
   }
 
   /**
@@ -183,7 +195,7 @@ abstract class NewsroomAgenda {
    */
   public function setCurrentDate($value) {
     $value->setTime(0, 0, 0);
-    return $this->currentDate = $value;
+    $this->currentDate = $value;
   }
 
   /**
@@ -197,7 +209,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setQuery($value) {
-    return $this->query = $value;
+    $this->query = $value;
   }
 
   /**
@@ -211,14 +223,14 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setResult($value) {
-    return $this->result = $value;
+    $this->result = $value;
   }
 
   /**
    * Setter.
    */
   public function setTypeId($value) {
-    return $this->typeId = $value;
+    $this->typeId = $value;
   }
 
   /**
@@ -232,7 +244,7 @@ abstract class NewsroomAgenda {
    * Setter.
    */
   public function setTopics($value) {
-    return $this->topics = $value;
+    $this->topics = $value;
   }
 
   /**
@@ -271,7 +283,7 @@ abstract class NewsroomAgenda {
    *
    * @param string $type
    *   Newsroom type.
-   * @param mix $topics
+   * @param array $topics
    *   Newsroom topics.
    */
   public function __construct($type, $topics = array()) {
@@ -333,7 +345,8 @@ abstract class NewsroomAgenda {
   protected function getForm($form_id) {
     $topics = $this->getTopics();
     $topic_id = count($topics) == 1 ? $topics[0]->tid : NULL;
-    return drupal_get_form($form_id, $this->getView(), $this->getTypeId(), $topic_id, $this->getCurrentDate()->format('Y-m-d'));
+    $result_topics = $form_id == 'nexteuropa_newsroom_agenda_filter_form' ? $this->getResultTopicsId() : NULL;
+    return drupal_get_form($form_id, $this->getView(), $this->getTypeId(), $topic_id, $this->getCurrentDate()->format('Y-m-d'), $result_topics);
   }
 
   /**
@@ -343,43 +356,76 @@ abstract class NewsroomAgenda {
    *   HTML.
    */
   public function getAgenda() {
-    $this->prepareAgenda();
-    return theme('newsroom_agenda_page', array(
-      'filter_form' => $this->getForm('nexteuropa_newsroom_agenda_filter_form'),
-      'date_form' => $this->getDisplayCalendar() ? $this->getForm('nexteuropa_newsroom_agenda_datepicker_form') : NULL,
-      'items' => $this->getCurrentItems(),
-      'next_event_items' => $this->getNextItems(),
-      'is_block' => $this->getIsBlock(),
-      'navigation' => array(
-        'previous' => $this->getPreviousDate() ? $this->getNavigationLink($this->getPreviousTitle(), $this->getPreviousDate()) : NULL,
-        'next' => $this->getNextDate() ? $this->getNavigationLink($this->getNextTitle(), $this->getNextDate()) : NULL,
-      ),
-    ));
-  }
-  
-  public function getBlockAgenda() {
-    $this->prepareAgenda();
-    return theme('newsroom_agenda_page', array(
-      'filter_form' => NULL,
-      'date_form' => NULL,
-      'items' => $this->getCurrentItems(),
-      'is_block' => $this->getIsBlock(),
-      'next_event_items' => $this->getNextItems(),
-      'navigation' => array(),
-    ));
+    $cache_key = 'get_agenda:page:' . $this->getUniqueCachePart();
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $content = $cache->data;
+    }
+    else {
+      $this->prepareAgenda();
+      $content = theme('newsroom_agenda_page', array(
+        'filter_form' => $this->getForm('nexteuropa_newsroom_agenda_filter_form'),
+        'date_form' => $this->getDisplayCalendar() ? $this->getForm('nexteuropa_newsroom_agenda_datepicker_form') : NULL,
+        'items' => $this->getCurrentItems(),
+        'next_event_items' => $this->getNextItems(),
+        'is_block' => $this->getIsBlock(),
+        'navigation' => array(
+          'previous' => $this->getPreviousDate() ? $this->getNavigationLink($this->getPreviousTitle(), $this->getPreviousDate()) : NULL,
+          'next' => $this->getNextDate() ? $this->getNavigationLink($this->getNextTitle(), $this->getNextDate()) : NULL,
+        ),
+      ));
+      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+    }
+
+    return $content;
   }
 
   /**
-   * Returns the base query.
+   * Generate content for Agenda block.
+   *
+   * @return string
+   *   Content of the block.
+   */
+  public function getBlockAgenda() {
+    $cache_key = 'get_agenda:block:' . $this->getUniqueCachePart();
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $content = $cache->data;
+    }
+    else {
+      $this->prepareAgenda();
+      $content = theme('newsroom_agenda_page', array(
+        'filter_form' => NULL,
+        'date_form' => NULL,
+        'items' => $this->getCurrentItems(),
+        'is_block' => $this->getIsBlock(),
+        'next_event_items' => $this->getNextItems(),
+        'navigation' => array(),
+      ));
+      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+    }
+    return $content;
+  }
+
+  /**
+   * Gets the unique part for cache value.
+   *
+   * @return string
+   *   Cache key unique value.
+   */
+  protected function getUniqueCachePart() {
+    return md5($this->getCurrentDate()->format('Y-m-d') . $this->getTypeId() . implode('', $this->getTopicsId()));
+  }
+
+  /**
+   * Returns the base query for agenda presentation.
    */
   public function getBaseQuery() {
-    $events_taxonomy_terms = NewsroomHelper::getEventsTermsIds();
-
     $query = db_select('node', 'n');
     $query->distinct();
     $query->fields('n', array('nid', 'title', 'created'));
     $query->fields('tt', array('name'));
-    $query->addField('tt', 'tid', 'typeId');
+    $query->addField('tt', 'tid', 'type_id');
     $query->addField('d', 'field_newsroom_item_date_value', 'start_date');
     $query->addField('d', 'field_newsroom_item_date_value2', 'end_date');
     $query->join('field_data_field_newsroom_item_date', 'd', 'd.entity_id = n.nid');
@@ -388,7 +434,7 @@ abstract class NewsroomAgenda {
     $query->leftJoin('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
     $query->leftJoin('taxonomy_term_data', 'topic_data', 'topic_data.tid = topic_field.field_newsroom_topics_tid');
     $query->condition('n.status', 1);
-    $query->condition('tf.field_newsroom_item_type_tid', $events_taxonomy_terms);
+    $query->condition('tf.field_newsroom_item_type_tid', NewsroomHelper::getEventsTermsIds());
     $query->orderBy('d.field_newsroom_item_date_value');
     $query->orderBy('d.field_newsroom_item_date_value2');
 
@@ -396,11 +442,12 @@ abstract class NewsroomAgenda {
       $query->condition('tt.tid', NewsroomHelper::getTermChildren($this->getTypeId()));
     }
 
-    $query = $this->processQuery($query);
-    $this->setQuery($query);
-
+    $this->setQuery($this->processQuery($query));
   }
 
+  /**
+   * TBC.
+   */
   protected function processQuery($query) {
     if (count($this->getTopics()) > 0) {
       $query->condition('topic_data.tid', $this->getTopicsId());
@@ -573,13 +620,49 @@ abstract class NewsroomAgenda {
 
     return $items;
   }
-  
+
+  /**
+   * Get IDs array from topics array.
+   *
+   * @return array
+   *   Array of IDs.
+   */
   protected function getTopicsId() {
     $topic_ids = array();
-    foreach ($this->getTopics() as $topic) {
-      $topic_ids[] = $topic->tid;
+    if (count($this->getTopics()) > 0) {
+      foreach ($this->getTopics() as $topic) {
+        $topic_ids[] = $topic->tid;
+      }
     }
     return $topic_ids;
+  }
+
+  /**
+   * Get IDs array from topics array.
+   *
+   * @return array
+   *   Array of IDs.
+   */
+  protected function getResultTopicsId() {
+    $cache_key = 'result_topics';
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $tids = $cache->data;
+    }
+    else {
+      $query = db_select('node', 'n');
+      $query->distinct();
+      $query->fields('topic_data', array('tid'));
+      $query->join('field_data_field_newsroom_item_type', 'tf', 'tf.entity_id = n.nid');
+      $query->join('taxonomy_term_data', 'tt', 'tt.tid = tf.field_newsroom_item_type_tid');
+      $query->join('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
+      $query->join('taxonomy_term_data', 'topic_data', 'topic_data.tid = topic_field.field_newsroom_topics_tid');
+      $query->condition('n.status', 1);
+      $query->condition('tf.field_newsroom_item_type_tid', NewsroomHelper::getEventsTermsIds());
+      $tids = $query->execute()->fetchAllKeyed(0, 0);
+      cache_set($cache_key, $tids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+    }
+    return $tids;
   }
 
   /**

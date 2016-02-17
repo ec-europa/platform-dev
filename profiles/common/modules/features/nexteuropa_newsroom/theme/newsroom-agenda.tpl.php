@@ -10,7 +10,7 @@
   <?php echo drupal_render($filter_form); ?>
 </div>
 <?php endif; ?>
-<div class="<?php echo !$is_block? 'newsroomAgenda-container' : NULL; ?>">
+<div class="<?php echo !$is_block ? 'newsroomAgenda-container' : NULL; ?>">
   <div class="currentDate">
     <?php if (count($items) > 0) : ?>
       <?php foreach ($items as $agenda_item): ?>
@@ -47,7 +47,7 @@
   </div>
   <?php if (count($next_event_items) > 0) : ?>
   <div class="furtherDates">
-      <h3><?php echo t('Further events'); ?></h3>
+      <h3 class="newsroom_title"><?php echo t('Further events'); ?></h3>
       <?php foreach ($next_event_items as $agenda_item): ?>
         <div class="date-row">
           <div class="date-date">
@@ -62,7 +62,7 @@
                   <span class="newsroom_type"><?php echo $item->name; ?>: </span>
                   <div class="newsroom_title">
                     <?php $prefix = $item->new ? '<span class="itemFlag flagHot newItem">New</span>' : NULL; ?>
-                    <?php echo l($prefix . $item->title, 'node/' . $item->nid); ?>
+                    <?php echo l($prefix . $item->title, 'node/' . $item->nid, array('html' => TRUE)); ?>
                   </div>
                   <div class="newsroom_item_metadata">
                     <?php echo t('From @start_date', array('@start_date' => $item->start_date_obj->format('d/m/Y'))); ?>

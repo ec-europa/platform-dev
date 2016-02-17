@@ -29,13 +29,15 @@
                 </ul>
               <?php endif; ?>
             </li>
-            <?php foreach ($brother_items as $brother_id => $item): ?>
-              <li>
-                <?php if ($current_item->nid != $brother_id): ?>
-                  <?php echo l($item, 'node/' . $brother_id); ?>
-                <?php endif; ?>
-              </li>
-            <?php endforeach; ?>
+            <?php if ($cnt_brother > 0): ?>
+              <?php foreach ($brother_items as $brother_id => $item): ?>
+                <li>
+                  <?php if ($current_item->nid != $brother_id): ?>
+                    <?php echo l($item, 'node/' . $brother_id); ?>
+                  <?php endif; ?>
+                </li>
+              <?php endforeach; ?>
+            <?php endif; ?>
           </ul>
         <?php endif; ?>
       </li>

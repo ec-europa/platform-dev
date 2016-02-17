@@ -56,17 +56,24 @@ class NewsroomSummaryBlock {
     return $this->operator = $value;
   }
 
-  protected function generateRSS() {
+  /**
+   * Generates RSS link based on topics.
+   *
+   * @return string
+   *   RSS link.
+   */
+  protected function generateRss() {
     $topics = $this->getTopics();
     $url_parts = array();
     $names = array();
-    
+
     if (count($topics) > 0) {
       foreach ($topics as $topic_item) {
         $url_parts[] = $topic_item->tid;
         $names[] = $topic_item->name;
       }
-    } else {
+    }
+    else {
       $url_parts[] = 'all';
     }
 
@@ -84,15 +91,19 @@ class NewsroomSummaryBlock {
     return $rss;
   }
 
+  /**
+   * Get filters: type, topics based on the request.
+   */
   protected function getFilters() {
     $path = md5(current_path());
     $cache_key = 'newsroom:summary_filter:' . $path;
-    $cache = cache_get($cache_key, NEWSROOM_CACHE_TABLE);
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
 
     if ($cache) {
       $config = $cache->data;
-    } else {
-      $topic_operator = NEWSROOM_TOPIC_OPERATOR_OR;
+    }
+    else {
+      $topic_operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR;
       $selected_topics = array();
       $selected_types = array();
 
@@ -120,7 +131,8 @@ class NewsroomSummaryBlock {
               $selected_types[] = $term_ref['tid'];
             }
           }
-        } elseif (isset($entity->field_associated_newsroom_topic) && !empty($entity->field_associated_newsroom_topic)) {
+        }
+        elseif (isset($entity->field_associated_newsroom_topic) && !empty($entity->field_associated_newsroom_topic)) {
           // If it has the associated field, try to load topic.
           $selected_topics = array($entity->field_associated_newsroom_topic['und'][0]['tid']);
         }
@@ -130,14 +142,21 @@ class NewsroomSummaryBlock {
       $config['topic_operator'] = $topic_operator;
       $config['type'] = NewsroomHelper::getGroupTypeTerms($selected_types);
 
-      cache_set($cache_key, $config, NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $config, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
     }
 
     $this->setTopics($config['topic']);
     $this->setTypes($config['type']);
     $this->setOperator($config['topic_operator']);
+    $this->getOperator($config['topic_operator']);
   }
 
+  /**
+   * Tries to find the entity based on request.
+   *
+   * @return object
+   *   Drupal entity: node, taxonomy term.
+   */
   protected function getEntityFromRequest() {
     $entity = NULL;
     $current_path = menu_get_item();
@@ -150,10 +169,12 @@ class NewsroomSummaryBlock {
       if (is_numeric($last_argument_element)) {
         $entity = taxonomy_term_load($last_argument_element);
       }
-    } elseif ($current_path['page_callback'] === 'node_page_view') {
+    }
+    elseif ($current_path['page_callback'] === 'node_page_view') {
       // It is a node page take node entity from request.
       $entity = $current_path['map'][1];
-    } elseif (isset($current_path['page_arguments'][0]->tid)) {
+    }
+    elseif (isset($current_path['page_arguments'][0]->tid)) {
       // It's taxonomy term without views.
       $entity = $current_path['page_arguments'][0];
     }
@@ -167,11 +188,16 @@ class NewsroomSummaryBlock {
     return $entity;
   }
 
+  /**
+   * Generates the summary block.
+   *
+   * @return string
+   *   The content of the block.
+   */
   public function generateContent() {
 
     $this->getFilters();
     $events_terms = NewsroomHelper::getEventsTermsIds();
-
     $blocks = array();
     foreach ($this->getTypes() as $key => $type) {
       if (in_array($type->tid, $events_terms)) {
@@ -182,40 +208,42 @@ class NewsroomSummaryBlock {
     }
 
     $blocks[] = new NewsroomBlockAgenda(NULL, $this->getTopics(), $this->getOperator());
-    usort($blocks, array('NewsroomSummaryBlock', 'sortBlocks'));
 
+    usort($blocks, array('NewsroomSummaryBlock', 'sortBlocks'));
     return theme('newsroom_summary', array(
       'items' => $blocks,
-      'rss' => $this->generateRSS(),
+      'rss' => $this->generateRss(),
     ));
   }
 
   /**
    * Sort newsroom boxes.
    */
-  function sortBlocks($a, $b) {
+  public function sortBlocks($a, $b) {
     $display_highlights_begin = variable_get('newsroom_display_highlights_begin', 0);
     $agenda_after_highlights = variable_get('newsroom_agenda_after_highlights', 0);
     $order_by_last_update = variable_get('newsroom_order_by_last_update', 0);
     if ($a->getHighlighted() < $b->getHighlighted()) {
       return $display_highlights_begin ? 1 : -1;
-    } else if ($a->getHighlighted() > $b->getHighlighted()) {
+    }
+    elseif ($a->getHighlighted() > $b->getHighlighted()) {
       return $display_highlights_begin ? -1 : 1;
-    } else if ($a->getIsAgenda() < $b->getIsAgenda()) {
+    }
+    elseif ($a->getIsAgenda() < $b->getIsAgenda()) {
       return $agenda_after_highlights ? 1 : -1;
-    } else if ($a->getIsAgenda() > $b->getIsAgenda()) {
+    }
+    elseif ($a->getIsAgenda() > $b->getIsAgenda()) {
       return $agenda_after_highlights ? -1 : 1;
-    } else if ($a->getLatestDate() < $b->getLatestDate()) {
+    }
+    elseif ($a->getLatestDate() < $b->getLatestDate()) {
       return $order_by_last_update ? 1 : -1;
-    } else if ($a->getLatestDate() > $b->getLatestDate()) {
+    }
+    elseif ($a->getLatestDate() > $b->getLatestDate()) {
       return $order_by_last_update ? -1 : 1;
-    } else {
+    }
+    else {
       return 0;
-    }    
-  }
-
-  protected function checkEventTypes() {
-    array('consultation_funding', 'events');
+    }
   }
 
 }

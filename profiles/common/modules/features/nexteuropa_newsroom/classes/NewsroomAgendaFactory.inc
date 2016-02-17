@@ -70,7 +70,7 @@ class NewsroomAgendaFactory {
         $day = $this->getDay($arg1);
         $month = $this->getMonth($arg2);
         $year = $this->getYear($arg3);
-        
+
         $current_date->setDate($year, $month, $day);
         $agenda = new NewsroomAgendaSchedule($type, $topic, $current_date);
         break;
@@ -87,7 +87,7 @@ class NewsroomAgendaFactory {
    *   View (presentation type): schedule, month, week, day.
    * @param string $type
    *   Newsroom type.
-   * @param mix $topics
+   * @param array $topics
    *   Newsroom topic.
    * @param DateTime $date
    *   Current date.
@@ -109,6 +109,7 @@ class NewsroomAgendaFactory {
       case NewsroomAgenda::AGENDA_VIEW_DAY:
         $agenda = new NewsroomAgendaDay($type, $topics, $date);
         break;
+
       case NewsroomAgenda::AGENDA_VIEW_SCHEDULE_BLOCK:
         $agenda = new NewsroomAgendaBlockSchedule($type, $topics, $date, $operator);
         break;

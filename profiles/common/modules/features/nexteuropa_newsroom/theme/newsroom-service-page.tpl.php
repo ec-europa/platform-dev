@@ -7,12 +7,12 @@ global $user;
 ?>
 <div class="newsroom-service-page">
   <?php if (user_is_logged_in()): ?>
-    <h3><?php echo t('You e-mail'); ?></h3>
+    <h2><?php echo t('Your e-mail'); ?></h2>
     <div class="newsroom-service-email-description">
       <?php echo $user->mail; ?>
     </div>
   <?php else: ?>
-    <h3><span><?php echo t('Step 1'); ?></span> - <?php echo t('You e-mail'); ?></h3>
+    <h2><span><?php echo t('Step 1'); ?></span> - <?php echo t('Your e-mail'); ?></h2>
     <div>
       <input type="text" class="newsroom-service-email" id="newsroom-service-email" />
     </div>
@@ -22,30 +22,32 @@ global $user;
   <?php endif; ?>
 
   <?php if (user_is_logged_in()): ?>
-    <h3><?php echo t('Subscribe to newsletters'); ?></h3>
+    <h2><?php echo t('Subscribe to newsletters'); ?></h2>
   <?php else: ?>
-    <h3><span><?php echo t('Step 2'); ?></span> - <?php echo t('Subscribe to newsletters'); ?></h3>
+    <h2><span><?php echo t('Step 2'); ?></span> - <?php echo t('Subscribe to newsletters'); ?></h2>
   <?php endif; ?>
 
   <?php echo $central_items; ?>
   <?php echo $basic_items; ?>    
 
   <?php if (!empty($privacy_text)): ?>
-    <h3><?php echo t('Privacy Statement'); ?></h3>
+    <h2><?php echo t('Privacy Statement'); ?></h2>
     <?php echo $privacy_text; ?>
   <?php endif; ?>
 </div>
-
 <script type="text/javascript">
   (function ($) {
+    $('.serviceItemContainer input[type="submit"]').each(function(){
+      $(this).prop('disabled', <?php echo !user_is_logged_in(); ?>);
+    });
     $('#newsroom-service-email').change(function() {
       var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       var email = $(this).val();
       if (regex.test($(this).val())) {
-        $('.service-item-container input[name="email"]').each(function(){
+        $('.serviceItemContainer input[name="email"]').each(function(){
           $(this).val(email);
         });
-        $('.service-item-container input[type="submit"]').each(function(){
+        $('.serviceItemContainer input[type="submit"]').each(function(){
           $(this).prop('disabled', false);
         });
       } else {
@@ -54,4 +56,3 @@ global $user;
     });
   })(jQuery);
 </script>
-

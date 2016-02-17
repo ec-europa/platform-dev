@@ -14,7 +14,7 @@ class NewsroomAgendaMonth extends NewsroomAgenda {
    *
    * @param object $type
    *   Newsroom type.
-   * @param mix $topics
+   * @param array $topics
    *   Newsroom topics.
    * @param DateTime $current_month
    *   Current month.

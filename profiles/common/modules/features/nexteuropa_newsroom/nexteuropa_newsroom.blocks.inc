@@ -1,7 +1,9 @@
 <?php
 
-/* 
+/**
+ * @file
  * To change this license header, choose License Headers in Project Properties.
+ *
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -31,6 +33,9 @@ function nexteuropa_newsroom_block_info() {
   );
   $blocks['newsroom_proposal'] = array(
     'info' => t('News proposal'),
+  );
+  $blocks['newsroom_agenda_block'] = array(
+    'info' => t('Newsroom agenda block'),
   );
   return $blocks;
 }
@@ -71,13 +76,59 @@ function nexteuropa_newsroom_block_view($delta = '') {
       break;
 
     case 'newsroom_proposal':
-      $blocks['subject'] = t('Newsroom item proposal');
-      $blocks['content'] = _nexteuropa_newsroom_block_news_proposal();
+      $block['subject'] = t('Newsroom item proposal');
+      $block['content'] = _nexteuropa_newsroom_block_news_proposal();
+      break;
+
+    case 'newsroom_agenda_block':
+      $block['subject'] = NULL;
+      $block['content'] = _nexteuropa_newsroom_agenda_block();
       break;
   }
   return $block;
 }
 
+/**
+ * Gets newsroom agenda block content.
+ *
+ * @return string
+ *   Content.
+ */
+function _nexteuropa_newsroom_agenda_block() {
+  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
+  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomBlockBase');
+  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomBlockAgenda');
+  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaBlockSchedule');
+
+  $type = _nexteuropa_nexteuropa_agenda_block_reaction();
+  $agenda_block = new NewsroomBlockAgenda($type, array());
+  return $agenda_block->generateContent();
+}
+
+/**
+ * Implements hook_detect_social_media_reaction().
+ */
+function _nexteuropa_nexteuropa_agenda_block_reaction() {
+  $type = NULL;
+  $active_contexts = context_active_contexts();
+  foreach ($active_contexts as $active_context) {
+    if (is_array($active_context->reactions) && count($active_context->reactions) > 0) {
+      foreach ($active_context->reactions as $reaction_type => $current_reaction) {
+        if ($reaction_type == 'newsroom_agenda_block') {
+          $social_media_settings = $current_reaction;
+          if (isset($current_reaction['type_id'])) {
+            $type = taxonomy_term_load($current_reaction['type_id']);
+          }
+        }
+      }
+    }
+  }
+  return $type;
+}
+
+/**
+ * Helper function to get summary of the blocks.
+ */
 function _nexteuropa_nexteuropa_get_summary_blocks() {
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomBlockBase');
@@ -98,12 +149,13 @@ function _nexteuropa_nexteuropa_get_summary_blocks() {
  */
 function _nexteuropa_nexteuropa_related_content() {
   $node = menu_get_object();
+  $content = '';
   if ($node) {
     $children_related_items = _nexteuropa_nexteuropa_get_related_content('field_related_content', $node);
     $parent_related_items = _nexteuropa_nexteuropa_get_related_content('field_newsroom_parent_content', $node);
     $parent_nid = count($parent_related_items) > 0 ? key($parent_related_items) : NULL;
     if ($parent_related_items || $children_related_items) {
-      return theme('newsroom_related_content', array(
+      $content = theme('newsroom_related_content', array(
         'parent_items' => $parent_related_items,
         'current_item' => $node,
         'brother_items' => _nexteuropa_newsroom_get_related_children('field_newsroom_parent_content', $parent_nid),
@@ -111,6 +163,7 @@ function _nexteuropa_nexteuropa_related_content() {
       ));
     }
   }
+  return $content;
 }
 
 /**
@@ -118,10 +171,8 @@ function _nexteuropa_nexteuropa_related_content() {
  *
  * @param string $field_name
  *   The mapping field.
- * @param string $field_value
- *   The mapping field value.
- * @param bool $reset
- *   If set to TRUE, will return an empty string if no mapping found.
+ * @param string $nid
+ *   The node id.
  *
  * @return array
  *   Taxonomy ids.
@@ -138,7 +189,7 @@ function _nexteuropa_newsroom_get_related_children($field_name, $nid) {
     if (isset($result['node'])) {
       $ids = array_keys($result['node']);
 
-      foreach($ids as $id) {
+      foreach ($ids as $id) {
         $items[$id] = _nexteuropa_newsroom_get_node_title($id);
       }
     }
@@ -159,14 +210,12 @@ function _nexteuropa_newsroom_get_related_children($field_name, $nid) {
  */
 function _nexteuropa_nexteuropa_get_related_content($field_name, $node) {
   $items = array();
-  $field = $node->$field_name;
-  
-  if (isset($field[LANGUAGE_NONE])) {
-    foreach($field[LANGUAGE_NONE] as $item) {
+  $field = isset($node->$field_name) ? $node->$field_name : NULL;
+  if ($field && isset($field[LANGUAGE_NONE])) {
+    foreach ($field[LANGUAGE_NONE] as $item) {
       $items[$item['target_id']] = isset($item['entity']) ? $item['entity']->title : _nexteuropa_newsroom_get_node_title($item['target_id']);
     }
   }
-  
   return $items;
 }
 
@@ -175,15 +224,17 @@ function _nexteuropa_nexteuropa_get_related_content($field_name, $node) {
  */
 function _nexteuropa_newsroom_get_node_title($nid) {
   $cache_key = 'newsroom:node_title:' . $nid;
-  $cache = cache_get($cache_key, NEWSROOM_CACHE_TABLE);
+  $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
   if ($cache) {
     $node_title = $cache->data;
   }
   else {
-    $node_title = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
-    cache_set($cache_key, $node_title, NEWSROOM_CACHE_TABLE, time() + 3600);
+    $node_title = db_query('SELECT title_field_value FROM {field_data_title_field} WHERE entity_id = :nid', array(':nid' => $nid))->fetchField();
+    if (empty($node_title)) {
+      $node_title = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
+    }
+    cache_set($cache_key, $node_title, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
   }
-
   return $node_title;
 }
 
@@ -251,7 +302,7 @@ function _nexteuropa_newsroom_tools() {
     $newsroom_id_field = field_get_items('node', $newsroom_item, 'field_newsroom_item_id');
     $newsroom_id = $newsroom_id_field[0]['value'];
     $links = array();
-    if (user_access(NEWSROOM_EDIT_ACCESS)) {
+    if (user_access(NEXTEUROPA_NEWSROOM_EDIT_ACCESS)) {
       global $_newsroom_universe_url;
       $links['edit'] = array(
         'text' => '<span class="glyphicon glyphicon-edit"></span> Edit item in the Newsroom',
@@ -262,7 +313,7 @@ function _nexteuropa_newsroom_tools() {
         ),
       );
     }
-    if (user_access(NEWSROOM_IMPORT_ACCESS)) {
+    if (user_access(NEXTEUROPA_NEWSROOM_IMPORT_ACCESS)) {
       $links['reimport'] = array(
         'text' => '<span class="glyphicon glyphicon-refresh"></span> Re-import from the Newsroom',
         'path' => 'news-import/' . $newsroom_id . '/reimport',
@@ -334,7 +385,7 @@ function _nexteuropa_newsroom_build_rss_link(array $topic_tids, $topic_name) {
  * Returns the newsroom list filter form.
  */
 function _nexteuropa_newsroom_list_filter() {
-  $topics_vocanulary = taxonomy_vocabulary_machine_name_load(NEWSROOM_TOPIC_VOCABULARY);
+  $topics_vocanulary = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY);
 
   // Load all relevant nids by loading the same view without pager.
   $menu_object = menu_get_item();
@@ -401,7 +452,7 @@ function _nexteuropa_newsroom_list_filter() {
     // Change values from tid keys term name based.
     $countries = _nexteuropa_newsroom_options_tid_to_name($countries);
     $topics = _nexteuropa_newsroom_options_tid_to_name($topics);
-    
+
     // Add - None - option.
     $none = array('0' => t('- None -'));
     $countries = $none + $countries;
@@ -440,7 +491,7 @@ function _nexteuropa_newsroom_options_tid_to_name($options) {
  */
 function _nexteuropa_newsroom_block_news_proposal() {
 
-  if (!user_access(NEWSROOM_PROPOSAL_ACCESS)) {
+  if (!user_access(NEXTEUROPA_NEWSROOM_PROPOSAL_ACCESS)) {
     return NULL;
   }
 
@@ -497,7 +548,7 @@ function _nexteuropa_newsroom_block_news_proposal() {
 function _nexteuropa_newsroom_get_summary_block_tid() {
 
   $current_path = menu_get_item();
-  $topic_operator = NEWSROOM_TOPIC_OPERATOR_OR;
+  $topic_operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR;
   $selected_topics = array();
   $selected_types = array();
   $config['display'] = FALSE;
@@ -560,7 +611,7 @@ function _nexteuropa_newsroom_get_summary_block_tid() {
     $selected_topics = array($entity->field_associated_newsroom_topic['und'][0]['tid']);
     $config['display'] = TRUE;
   }
-  
+
   $config['topic'] = count($selected_topics) > 0 ? taxonomy_term_load_multiple($selected_topics) : array();
   $config['topic_operator'] = $topic_operator;
   $config['type'] = NewsroomHelper::getGroupTypeTerms($selected_types);
@@ -583,7 +634,7 @@ function _nexteuropa_newsroom_get_summary_block_tid() {
  * @return string
  *   Content.
  */
-function _nexteuropa_newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE, $newsroom_topic_tids = 'all', $sticky = NULL, $topics = array(), $topic_operator = NEWSROOM_TOPIC_OPERATOR_OR) {
+function _nexteuropa_newsroom_content(array $newsroom_grouping_terms, $full_display = FALSE, $newsroom_topic_tids = 'all', $sticky = NULL, $topics = array(), $topic_operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR) {
   $newsroom_boxes = array();
 
   // We skip the newsroom topic param if it is empty string.
@@ -594,7 +645,7 @@ function _nexteuropa_newsroom_content(array $newsroom_grouping_terms, $full_disp
   // Custom Agenda block if needed.
   if (variable_get('newsroom_display_agenda', 1) && $agenda_types = NewsroomHelper::getEventsTermsIds()) {
     $view_arguments[0] = implode('+', $agenda_types);
-    $agenda_box = _nexteuropa_newsroom_fetch_content_view($view_arguments, NEWSROOM_CALENDAR_BLOCK, 'agenda', $sticky, $full_display, $topic_operator);
+    $agenda_box = _nexteuropa_newsroom_fetch_content_view($view_arguments, NEXTEUROPA_NEWSROOM_CALENDAR_BLOCK, 'agenda', $sticky, $full_display, $topic_operator);
 
     if ($agenda_box && $agenda_box['block']['content'] != '') {
       $full_list_url = NewsroomHelper::getNewsroomUrl('calendar');
@@ -640,7 +691,7 @@ function _nexteuropa_newsroom_content(array $newsroom_grouping_terms, $full_disp
 
       // If we have some content, let's add a title.
       if ($newsroom_view_exec && $newsroom_view_exec['block']['content'] != '') {
-        
+
         $topic_is_highlighted = _nexteuropa_newsroom_type_is_highlighted($newsroom_grouping_term);
 
         if ($topic_is_highlighted) {
@@ -776,7 +827,7 @@ function _nexteuropa_newsroom_sort_newsroom_boxes(array $a, array $b) {
  *   is highlighted or not
  */
 function _nexteuropa_newsroom_type_is_highlighted($term) {
-  if ($term === NEWSROOM_CALENDAR_BLOCK) {
+  if ($term === NEXTEUROPA_NEWSROOM_CALENDAR_BLOCK) {
     return FALSE;
   }
   $item_wrapper = entity_metadata_wrapper('taxonomy_term', $term);
@@ -796,14 +847,14 @@ function _nexteuropa_newsroom_fetch_content_view($view_arguments, $newsroom_grou
   }
 
   $view->newsroom_display_type = FALSE;
-  $view->newsroom_type_name = $newsroom_grouping_term_name === NEWSROOM_CALENDAR_BLOCK ? t('Calendar') : $newsroom_grouping_term_name->name;
+  $view->newsroom_type_name = $newsroom_grouping_term_name === NEXTEUROPA_NEWSROOM_CALENDAR_BLOCK ? t('Calendar') : $newsroom_grouping_term_name->name;
   $view->set_arguments($view_arguments);
   $view->set_display($default_view_display);
   $view->sticky = $sticky;
 
   // Use topic operator from newsroom selection for topic context filter.
   $arguments_settings = $view->display[$view->current_display]->handler->get_option('arguments');
-  if ($topic_operator != NEWSROOM_TOPIC_OPERATOR_OR && isset($arguments_settings['newsroom_term_node_tid_depth']['use_and'])) {
+  if ($topic_operator != NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR && isset($arguments_settings['newsroom_term_node_tid_depth']['use_and'])) {
     $arguments_settings['newsroom_term_node_tid_depth']['use_and'] = 1;
     $view->display[$view->current_display]->handler->set_option('arguments', $arguments_settings);
   }
@@ -833,6 +884,6 @@ function _nexteuropa_newsroom_fetch_content_view($view_arguments, $newsroom_grou
 
   $view->display_handler->set_option('pager', $pager);
   $view->execute_display($default_view_display);
-  
+
   return array('block' => $view->execute_display($default_view_display), 'view' => $view);
 }

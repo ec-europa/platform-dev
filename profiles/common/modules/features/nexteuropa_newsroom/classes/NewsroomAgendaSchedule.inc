@@ -22,7 +22,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    * Setter.
    */
   public function setLastAgendaDate($value) {
-    return $this->lastAgendaDate = $value;
+    $this->lastAgendaDate = $value;
   }
 
   /**
@@ -74,21 +74,20 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
     $start_date = clone $this->getCurrentDate();
     // We start from the next day after the current.
     $start_date->modify('+1 day');
+    $this->setLastAgendaDate($start_date);
     $next_items = array();
     // We add one day to include the last day also.
     $last_event_date = $this->getUtmostDate(FALSE);
     if ($last_event_date) {
       $last_event_date->modify('+1 day');
-      while ($start_date <= $last_event_date) {
+      $number_to_display = $this->getItemsNumber();
+      while ($this->getItemsCount() < $number_to_display && $start_date <= $last_event_date) {
         $next_day = clone $start_date;
         $next_day->modify('+1 day');
-        $next_items = array_merge($next_items, $this->buildAgenda($start_date, $next_day, FALSE));
+        $current_items = $this->buildAgenda($start_date, $next_day, FALSE);
+        $next_items = array_merge($next_items, $current_items);
 
-        if ($this->getItemsCount() >= NewsroomAgenda::ITEMS_NUMBER) {
-          $this->setLastAgendaDate($start_date);
-          break;
-        }
-
+        $this->setLastAgendaDate($start_date);
         $start_date->modify('+1 day');
       }
     }
@@ -130,7 +129,6 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
     if ($last_agenda_date && $last_event_date) {
       // We start from the next day after the current.
       $start_date = clone $last_agenda_date;
-      $start_date->modify('+1 day');
 
       $last_event_date->modify('+1 day');
       while ($start_date <= $last_event_date) {
@@ -175,7 +173,16 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    *   Result.
    */
   protected function loadResult() {
-    return $this->getQuery()->execute()->fetchAll();
+    $cache_key = 'schedule_result:' . md5($this->getQuery());
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $data = $cache->data;
+    }
+    else {
+      $data = $this->getQuery()->execute()->fetchAll();
+      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+    }
+    return $data;
   }
 
   /**

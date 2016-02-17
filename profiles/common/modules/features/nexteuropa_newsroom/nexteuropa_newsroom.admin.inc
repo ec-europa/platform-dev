@@ -21,17 +21,15 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Newsroom Universe ID'),
     '#attributes' => array('class' => array($universe_id['class'])),
   );
-  
+
   // After initital setup disable Universe ID field.
   if ($newsroom_universe_id !== NULL) {
     $universe_id_disabled = TRUE;
     $universe_id_description = t('To change the Newsroom Universe ID contact the site administrator.');
-    $proposal = 'http://ec.europa.eu/newsroom/' . variable_get('newsroom_universe_id') . '/propose-item.cfm';
   }
   else {
     $universe_id_disabled = FALSE;
     $universe_id_description = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
-    $proposal = FALSE;
   }
 
   $form['universe_id']['newsroom_universe_id'] = array(
@@ -71,7 +69,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       ),
     );
   }
-  
+
   $form['newsroom_others']['clean_cache'] = array(
     '#type' => 'submit',
     '#value' => 'Clean newsroom cache',
@@ -80,6 +78,17 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#suffix' => '<div class="feedback"></div></div>',
     '#ajax' => array(
       'callback' => '_nexteuropa_newsroom_clean_cache',
+    ),
+  );
+
+  $form['newsroom_others']['toggle_title'] = array(
+    '#type' => 'submit',
+    '#value' => 'Switch title fields',
+    '#description' => t('Switch title and name fields'),
+    '#prefix' => '<div id="newsroom_toggle_title">',
+    '#suffix' => '<div class="feedback"></div></div>',
+    '#ajax' => array(
+      'callback' => '_nexteuropa_newsroom_toggle_title',
     ),
   );
 
@@ -107,15 +116,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#default_value' => variable_get('newsroom_agenda_after_highlights', 1),
   );
 
-  if ($proposal) {
-    $form['newsroom_others']['newsroom_proposal_url'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Newsroom proposal URL'),
-      '#default_value' => variable_get('newsroom_proposal_url', $proposal),
-    );
-  }
+  $form['newsroom_others']['newsroom_proposal_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Newsroom proposal URL'),
+    '#default_value' => variable_get('newsroom_proposal_url', NULL),
+  );
 
-  $vocabulary = taxonomy_vocabulary_machine_name_load(NEWSROOM_TYPE_VOCABULARY);
+  $vocabulary = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
   $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
 
   if (!empty($types)) {
@@ -125,7 +132,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       '#prefix' => '<div id="newsroom_reset">',
       '#suffix' => '</div>',
       '#description' => t("You can define here a root path for your items basing on the item type. The default behavior is to have sections correponding to the types, so if you have two types like
-            news and events you will get pattern like news/[node:title], events/[node:title], you can override the root path for your elements here. Do not use leading por trailing slashes"),
+            news and events you will get pattern like news/[node:title], events/[node:title], you can override the root path for your elements here. Do not use leading or trailing slashes"),
       '#collapsible' => TRUE,
       '#collapsed' => TRUE,
       '#access' => user_access('administer newsroom settings'),
@@ -246,25 +253,25 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_universe']['newsroom_single_item_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single item import'),
-    '#default_value' => variable_get('newsroom_single_item_import_segment', NEWSROOM_ITEM_SEGMENT),
+    '#default_value' => variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT),
   );
 
   $form['newsroom_universe']['newsroom_single_topic_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single topic import'),
-    '#default_value' => variable_get('newsroom_single_topic_import_segment', NEWSROOM_TOPIC_SEGMENT),
+    '#default_value' => variable_get('newsroom_single_topic_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT),
   );
 
   $form['newsroom_universe']['newsroom_single_type_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single type import'),
-    '#default_value' => variable_get('newsroom_single_type_import_segment', NEWSROOM_TYPE_SEGMENT),
+    '#default_value' => variable_get('newsroom_single_type_import_segment', NEXTEUROPA_NEWSROOM_TYPE_SEGMENT),
   );
 
   $form['newsroom_universe']['newsroom_single_service_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single service import'),
-    '#default_value' => variable_get('newsroom_single_service_import_segment', NEWSROOM_SERVICE_SEGMENT),
+    '#default_value' => variable_get('newsroom_single_service_import_segment', NEXTEUROPA_NEWSROOM_SERVICE_SEGMENT),
   );
 
   $form['newsroom_universe']['newsroom_single_item_edit_segment'] = array(
@@ -272,7 +279,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('URL chunk to edit an item in the Newsroom'),
     '#default_value' => variable_get('newsroom_single_item_edit_segment', 'item.cfm?item_id='),
   );
-  
+
   $form['newsroom_pages'] = array(
     '#type' => 'fieldset',
     '#title' => t('Newsroom page settings'),
@@ -547,7 +554,7 @@ function nexteuropa_newsroom_type_root_validate($element, &$form_state) {
  * Reset values in the path patterns field for the newsroom items.
  */
 function _nexteuropa_newsroom_reset_paths($form, &$form_state) {
-  $vocabulary = taxonomy_vocabulary_machine_name_load(NEWSROOM_TYPE_VOCABULARY);
+  $vocabulary = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
   $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
 
   foreach ($types as $tid => $type) {
@@ -570,8 +577,21 @@ function _nexteuropa_newsroom_reset_paths($form, &$form_state) {
  * Cleans newsroom cache.
  */
 function _nexteuropa_newsroom_clean_cache() {
-  cache_clear_all('*', NEWSROOM_CACHE_TABLE, TRUE);
-  $commands[] = ajax_command_replace('#newsroom_clean_cache .feedback', '<div class="messages status">Cache cleaned</div>' . cache_clear_all(NULL, NEWSROOM_CACHE_TABLE));
+  cache_clear_all('*', NEXTEUROPA_NEWSROOM_CACHE_TABLE, TRUE);
+  $commands[] = ajax_command_replace('#newsroom_clean_cache .feedback', '<div class="messages status">Cache cleaned</div>');
 
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Switch titles.
+ */
+function _nexteuropa_newsroom_toggle_title() {
+  title_field_replacement_toggle('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'title');
+  title_field_replacement_toggle('taxonomy_term', NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY, 'name');
+  title_field_replacement_toggle('taxonomy_term', NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY, 'name');
+  title_field_replacement_toggle('taxonomy_term', NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY, 'name');
+  cache_clear_all('*', 'cache_field', TRUE);
+  $commands[] = ajax_command_replace('#newsroom_toggle_title .feedback', '<div class="messages status">Titles switched</div>');
   return array('#type' => 'ajax', '#commands' => $commands);
 }

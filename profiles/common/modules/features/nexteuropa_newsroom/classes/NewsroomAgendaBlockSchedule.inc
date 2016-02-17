@@ -9,7 +9,8 @@
  * NewsroomAgendaSchedule class.
  */
 class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
-  const ITEMS_NUMBER = 3;
+  private $operator = 'OR';
+
   /**
    * NewsroomAgendaSchedule constructor.
    *
@@ -26,7 +27,15 @@ class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
     parent::__construct($type, $topics, $current_day);
   }
 
-  private $operator = 'OR';
+  /**
+   * Returns the number of items per block.
+   *
+   * @return int
+   *   Number of items.
+   */
+  public function getItemsNumber() {
+    return NewsroomHelper::getBlockItemsNumber(FALSE);
+  }
 
   /**
    * Getter.
@@ -39,19 +48,18 @@ class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
    * Setter.
    */
   public function setOperator($value) {
-    return $this->operator = $value;
+    $this->operator = $value;
   }
 
   /**
-   * Loads result from the current query.
+   * Preprocessing of the query before the execution.
    *
-   * @return array
-   *   Result.
+   * @param object $query
+   *   Query object.
+   *
+   * @return object
+   *   Query object.
    */
-  protected function loadResult() {
-    return $this->getQuery()->execute()->fetchAll();
-  }
-
   protected function processQuery($query) {
 
     if (count($this->getTopics()) == 0) {
@@ -59,17 +67,15 @@ class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
     }
 
     $topic_ids = $this->getTopicsId();
-
     if ($this->getOperator() == 'OR') {
       $query->condition('topic_data.tid', $topic_ids);
-    } else {
 
-      $sub_query = db_select('field_data_field_newsroom_topics', 'ttopic');
-      $sub_query->addExpression('count(ttopic.field_newsroom_topics_tid)', 'cnt');
-      $sub_query->condition('field_newsroom_topics_tid', $topic_ids);
-      $sub_query->groupBy('ttopic.field_newsroom_topics_tid');
-
-      $query->condition(count($this->getTopics()), $sub_query, '=');
+    }
+    else {
+      $nids = NewsroomHelper::getNodeRelatedToTopic($this->getTopicsId());
+      if ($nids) {
+        $query->condition('nid', $nids, 'IN');
+      }
     }
 
     return $query;

@@ -107,7 +107,8 @@ function nexteuropa_newsroom_field_formatter_settings_summary($field, $instance,
       );
 
       return $options[$display['settings']['display_type']];
-    } else {
+    }
+    else {
       return t('Default');
     }
   }
@@ -119,7 +120,8 @@ function nexteuropa_newsroom_field_formatter_settings_summary($field, $instance,
     unset($image_styles['']);
     if (isset($image_styles[$settings['image_style']])) {
       $summary[] = t('Image style: @style', array('@style' => $image_styles[$settings['image_style']]));
-    } else {
+    }
+    else {
       $summary[] = t('Original image');
     }
     if ($settings['zoomable']) {
@@ -162,9 +164,10 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
           $wrapper = entity_metadata_wrapper('node', $entity);
           $click_through = _nexteuropa_newsroom_item_type_teaser_only_settings($wrapper);
 
-          if ($click_through == NEWSROOM_CLICKTHROUGH_FORCE) {
+          if ($click_through == NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE) {
             $item['url'] = $main_link_url;
-          } elseif ($wrapper->field_newsroom_teaser_only->value()) {
+          }
+          elseif ($wrapper->field_newsroom_teaser_only->value()) {
             switch ($click_through) {
               case 'always':
                 $item['url'] = $main_link_url;
@@ -201,7 +204,8 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
         // Sets alt text.
         if (isset($item['field_file_image_alt_text'][$language->language][0])) {
           $image['alt'] = $item['field_file_image_alt_text'][$language->language][0]['safe_value'];
-        } elseif (array_key_exists('alt', $item)) {
+        }
+        elseif (array_key_exists('alt', $item)) {
           $image['alt'] = $item['alt'];
         }
 
@@ -215,7 +219,8 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
           if ($display['settings']['display_title']) {
             $title = $item['field_file_image_title_text'][$language->language][0]['safe_value'];
           }
-        } elseif (isset($item['title']) && drupal_strlen($item['title']) > 0) {
+        }
+        elseif (isset($item['title']) && drupal_strlen($item['title']) > 0) {
           $image['title'] = $item['title'];
         }
 
@@ -250,7 +255,8 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
         if ($display['settings']['image_style']) {
           $image['style_name'] = $display['settings']['image_style'];
           $image_output = theme('image_style', $image);
-        } else {
+        }
+        else {
           $image_output = theme('image', $image);
         }
 

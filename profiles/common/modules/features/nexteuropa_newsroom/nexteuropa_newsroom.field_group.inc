@@ -119,9 +119,14 @@ function nexteuropa_newsroom_field_group_info() {
       2 => 'field_newsroom_item_other_link',
       3 => 'field_newsroom_project',
       4 => 'field_newsroom_project_acr',
-      5 => 'field_newsroom_project_website',
-      6 => 'field_nr_project_coordinator',
-      7 => 'field_newsroom_ec_content',
+      5 => 'field_newsroom_ec_content',
+      6 => 'field_newsroom_project_website',
+      7 => 'field_nr_project_coordinator',
+      8 => 'field_ted_link',
+      9 => 'field_eur_lex_link',
+      10 => 'field_newsroom_organiser',
+      11 => 'field_newsroom_registration_link',
+      12 => 'field_newsroom_author',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -430,6 +435,71 @@ function nexteuropa_newsroom_field_group_info() {
     ),
   );
   $export['group_recommended_reading|node|newsroom_item|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_event_info|node|newsroom_item|event';
+  $field_group->group_name = 'group_event_info';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'newsroom_item';
+  $field_group->mode = 'event';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Event information',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_newsroom_item_date',
+      1 => 'field_newsroom_organiser',
+      2 => 'field_newsroom_item_venue',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Event information',
+      'instance_settings' => array(
+        'classes' => 'group-event-info field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_event_info|node|newsroom_item|event'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_lead|node|newsroom_item|event';
+  $field_group->group_name = 'group_lead';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'newsroom_item';
+  $field_group->mode = 'event';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Lead',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_teaser',
+      1 => 'field_illustrative_image',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Lead',
+      'instance_settings' => array(
+        'classes' => 'group-lead field-group-div',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_lead|node|newsroom_item|event'] = $field_group;
 
   return $export;
 }

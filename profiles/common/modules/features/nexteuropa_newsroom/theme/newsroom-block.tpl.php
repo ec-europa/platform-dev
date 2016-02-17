@@ -4,6 +4,7 @@
  * Agenda.
  */
 ?>
+<?php if ($content): ?>
 <div class="newsroom_item_container <?php echo implode(' ', $css_classes) ?>" id="newsroom-block-<?php echo $type_url; ?>">
   <a name="newsroom-block-<?php echo $type_url; ?>"></a>
   
@@ -12,6 +13,9 @@
   <?php echo $content; ?>
 
   <div class="newsroom_more">
-    <a href="<?php echo $url; ?>"><span class="more">More</span> <span class="more_type"><em class="placeholder"><?php echo $title; ?></em></span></a>
+    <?php $title = '<span class="more">More</span> <span class="more_type"><em class="placeholder">' . $title . '</em></span>'; ?>
+    <?php echo l($title, $url, array('html' => TRUE)); ?>
+    
   </div>
 </div>
+<?php endif; ?>

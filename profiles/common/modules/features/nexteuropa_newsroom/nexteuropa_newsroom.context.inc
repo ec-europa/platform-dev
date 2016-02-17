@@ -20,7 +20,7 @@ function nexteuropa_newsroom_context_default_contexts() {
     'views' => array(
       'values' => array(
         'newsroom' => 'newsroom',
-        'newsroom_calendar' => 'newsroom_calendar',
+        'newsroom-agenda' => 'newsroom-agenda',
       ),
     ),
   );
@@ -109,13 +109,13 @@ function nexteuropa_newsroom_context_default_contexts() {
     'block' => array(
       'blocks' => array(
         'newsroom-newsroom_newsletter_subscription' => array(
-          'module' => 'newsroom',
+          'module' => 'nexteuropa_newsroom',
           'delta' => 'newsroom_newsletter_subscription',
           'region' => 'sidebar_right',
           'weight' => '-10',
         ),
         'newsroom-newsroom_topic_summary' => array(
-          'module' => 'newsroom',
+          'module' => 'nexteuropa_newsroom',
           'delta' => 'newsroom_topic_summary',
           'region' => 'content',
           'weight' => '1',

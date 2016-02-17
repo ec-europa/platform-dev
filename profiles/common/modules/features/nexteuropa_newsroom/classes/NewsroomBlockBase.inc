@@ -11,15 +11,26 @@
 abstract class NewsroomBlockBase {
 
   protected $highlighted = 0;
-  protected $is_agenda = FALSE;
-  protected $lastest_date = NULL;
-  protected $type = NULL;  
+  protected $isAgenda = FALSE;
+  protected $lastestDate = NULL;
+  protected $type = NULL;
   protected $operator = 'OR';
   protected $topics = array();
 
-  public function __construct($type, $topics) {
+  /**
+   * Contructor of NewsroomBlock class.
+   *
+   * @param object $type
+   *   Newsroom type taxonomy term.
+   * @param array|object $topics
+   *   Newsroom topics taxonomy terms.
+   * @param string $operator
+   *   Operator connecting  topics.
+   */
+  public function __construct($type, $topics, $operator) {
     $this->setType($type);
     $this->setTopics($topics);
+    $this->setOperator($operator);
   }
 
   /**
@@ -29,26 +40,44 @@ abstract class NewsroomBlockBase {
     return $this->highlighted;
   }
 
+  /**
+   * Getter.
+   */
   public function getLatestDate() {
     return $this->lastest_date;
   }
 
+  /**
+   * Setter.
+   */
   public function setLatestDate($value) {
     $this->lastest_date = $value;
   }
 
+  /**
+   * Getter.
+   */
   public function getIsAgenda() {
     return $this->is_agenda;
   }
 
+  /**
+   * Setter.
+   */
   public function setIsAgenda($value) {
     $this->is_agenda = $value;
   }
 
+  /**
+   * Getter.
+   */
   public function getOperator() {
     return $this->operator;
   }
 
+  /**
+   * Setter.
+   */
   public function setOperator($value) {
     $this->operator = $value;
   }
@@ -81,6 +110,9 @@ abstract class NewsroomBlockBase {
     $this->topics = $value;
   }
 
+  /**
+   * Get css classes of a block.
+   */
   public function getCssClasses() {
     $classes = array();
     if ($this->getHighlighted()) {
@@ -94,7 +126,7 @@ abstract class NewsroomBlockBase {
 
     return $classes;
   }
-  
+
   /**
    * Setter.
    */
@@ -115,7 +147,10 @@ abstract class NewsroomBlockBase {
 
     return $url;
   }
-  
+
+  /**
+   * Returns topics ids.
+   */
   protected function getTopicsId() {
     $topic_ids = array();
     foreach ($this->getTopics() as $topic) {
@@ -124,7 +159,14 @@ abstract class NewsroomBlockBase {
     return $topic_ids;
   }
 
-  abstract function getTitle();
+  /**
+   * Returns block title.
+   */
+  abstract public function getTitle();
 
+  /**
+   * Generates block content.
+   */
   abstract public function generateContent();
+
 }
