@@ -78,7 +78,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
         $output[] = l($this->get_view_mode_label($view_mode), '', array('attributes' => $attributes));
       }
     }
-    $output[] = t('URL:') . '<input type="text" onfocus="this.select()" class="token-ckeditor-input" value="[node:' . $entity_id . ':url]" />';
+    $output[] = t('Token:') . '<input type="text" onfocus="this.select()" class="token-ckeditor-input" value="[node:' . $entity_id . ':url]" />';
     return implode($output, ' - ');
   }
 

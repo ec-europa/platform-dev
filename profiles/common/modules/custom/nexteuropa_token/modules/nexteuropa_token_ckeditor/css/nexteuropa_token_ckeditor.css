@@ -40,9 +40,10 @@
 }
 
 .token-ckeditor-tips-container {
+  display: none;
   border: 1px solid #ccc !important;
-  margin-top: 20px !important;
-  padding: 20px !important;
+  margin-top: 10px !important;
+  padding: 5px 15px !important;
 }
 .token-ckeditor-tips-container ol {
   padding: 20px;
@@ -51,4 +52,11 @@
   display: inline;
   font-family: "Courier New", Courier, monospace;
   font-size: 11px;
+}
+.token-ckeditor-tips-toggle {
+  display: block;
+  margin-bottom: 10px !important;
+  padding-right: 10px !important;
+  color: #0074bd !important;
+  text-align: right !important;
 }

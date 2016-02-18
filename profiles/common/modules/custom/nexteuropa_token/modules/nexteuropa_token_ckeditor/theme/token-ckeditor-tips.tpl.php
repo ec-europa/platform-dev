@@ -5,8 +5,10 @@
  */
 ?>
 
+<a href="#" class="token-ckeditor-tips-toggle">
+  <?php print t('<b>Tip</b>: How to use tokens in links'); ?>
+</a>
 <div class="token-ckeditor-tips-container">
-  <?php print t('How to link inline text to arbitrary URLs:'); ?>
   <ol>
     <li>
       <?php print t('Select and copy the desired URL token, e.g. <pre>[node:123:url]</pre>'); ?>
