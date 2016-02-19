@@ -92,7 +92,10 @@ function nexteuropa_map_menu() {
     'title callback' => 'nexteuropa_map_label',
     'title arguments' => array($map_uri_argument_position),
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('nexteuropa_map_delete_form', $map_uri_argument_position),
+    'page arguments' => array(
+      'nexteuropa_map_delete_form',
+      $map_uri_argument_position
+    ),
     'access callback' => 'entity_access',
     'access arguments' => array('edit', 'map', $map_uri_argument_position),
     'file' => 'nexteuropa_map.admin.inc',
@@ -227,173 +230,153 @@ function nexteuropa_map_load_multiple($mids = array(), $conditions = array(), $r
 /**
  * Deletes single map.
  */
-function nexteuropa_map_delete($map) {
+function _nexteuropa_map_delete_map($map) {
   entity_delete('map', entity_id('map', $map));
 }
 
 /**
  * Deletes multiple maps.
  */
-function nexteuropa_map_delete_multiple($map_ids) {
+function nexteuropa_map_delete_map_multiple($map_ids) {
   entity_delete_multiple('map', $map_ids);
 }
 
 /**
- * Provides shared form elements (used in stand-alone and inline entity form).
+ * Implements hook_map_form_elements().
  *
- * @param array $group
- *   The form elements group (fieldset or container).
- * @param array $settings
- *   The map settings that can hold default values.
- *
- * @return
- *   A form element.
+ * Defines custom map form elements. These elements are added to the map and
+ * map layers forms via hook_map_form_info().
  */
-function _nexteuropa_map_form_elements($group, $settings) {
-  $form_element = NULL;
-  switch ($group) {
-    case 'zoom':
-      // Define zoom options.
-      $zoom_options = array(
-        0 => t('0 - Low/Far'),
-        18 => t('18 - High/Close'),
-      );
-      for ($i = 1; $i < 18; $i++) {
-        $zoom_options[$i] = $i;
-      }
-      ksort($zoom_options);
+function nexteuropa_map_map_form_elements() {
 
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Zooming'),
-        '#weight' => 12,
-      );
+  // Defines zoom options.
+  $zoom_options = array(
+    0 => t('0 - Low/Far'),
+    18 => t('18 - High/Close'),
+  );
+  for ($i = 1; $i < 18; $i++) {
+    $zoom_options[$i] = $i;
+  }
+  ksort($zoom_options);
 
-      $form_element['initialZoom'] = array(
+  // Defines form elements.
+  $form_elements = array(
+
+    // Defines form elements to control zooming.
+    'zoom' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Zooming'),
+      '#weight' => 12,
+      'initialZoom' => array(
         '#title' => t('Initial zoom level'),
         '#description' => t('The starting zoom level when this map is rendered.  Restricted by min and max zoom settings.'),
         '#type' => 'select',
         '#options' => $zoom_options,
-        '#default_value' => isset($settings[$group]['initialZoom']) ? $settings[$group]['initialZoom'] : 2,
-      );
-      $form_element['minZoom'] = array(
+      ),
+      'minZoom' => array(
         '#title' => t('Minimum zoom level'),
         '#description' => t('The minimum zoom level allowed. (How far away can you view from?)'),
         '#type' => 'select',
         '#options' => $zoom_options,
-        '#default_value' => isset($settings[$group]['minZoom']) ? $settings[$group]['minZoom'] : 1,
-      );
-      $form_element['maxZoom'] = array(
+      ),
+      'maxZoom' => array(
         '#title' => t('Maximum zoom level'),
         '#description' => t('The maximum zoom level allowed. (How close in can you get?).'),
         '#type' => 'select',
         '#options' => $zoom_options,
-        '#default_value' => isset($settings[$group]['maxZoom']) ? $settings[$group]['maxZoom'] : 14,
-      );
-      break;
+      ),
+    ),
 
-    case 'tiles':
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Map background'),
-        '#weight' => 16,
-      );
-      $form_element['tiles'] = array(
+    // Defines form elements to choose background map images (tiles).
+    'tiles' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Map background'),
+      '#weight' => 16,
+      'tiles' => array(
         '#type' => 'select',
         '#title' => t('Tiles'),
         '#description' => t('Tiles to use a map background'),
-        '#default_value' => isset($settings[$group]['tiles']) ? $settings[$group]['tiles'] : 'osmec',
         '#options' => _nexteuropa_map_tiles(),
-      );
-      break;
+      ),
+    ),
 
-    case 'height':
-      $form_element = array(
-        '#type' => 'container',
-        '#weight' => 6,
-      );
-      $form_element['height'] = array(
+    // Defines form elements to set map height.
+    'height' => array(
+      '#type' => 'container',
+      '#weight' => 6,
+      'height' => array(
         '#title' => t('Map height'),
         '#type' => 'textfield',
         '#field_suffix' => t('px'),
         '#size' => 4,
-        '#default_value' => isset($settings[$group]['height']) ? $settings[$group]['height'] : '430',
         '#required' => FALSE,
         '#element_validate' => array('nexteuropa_map_validate_height'),
-      );
-
-      // Displays a warning under the title field for a low height.
-      $form_element['height']['#suffix'] = "<div id='min-height-label'
-      class='description'></div>";
-      $form_element['height']['#attached']['js'][] = array(
-        'type' => 'file',
-        'data' => drupal_get_path('module', 'nexteuropa_map') . '/js/forms.js',
-      );
-      $form_element['height']['#attached']['js'][] = array(
-        'data' => array(
-          'map_height_form' => array(
-            'min_height' => 300,
-            'label' => t('To ensure the map menu displays correctly, it is
+        '#suffix' => "<div id='min-height-label' class='description'></div>",
+        '#attached' => array(
+          'js' => array(
+            array(
+              'type' => 'file',
+              'data' => drupal_get_path('module', 'nexteuropa_map') . '/js/forms.js',
+            ),
+            array(
+              'data' => array(
+                'map_height_form' => array(
+                  'min_height' => 300,
+                  'label' => t('To ensure the map menu displays correctly, it is
             recommended to choose a height higher than 300px.'),
-            'warning' => t('<strong>Attention. The entered height is lower than
+                  'warning' => t('<strong>Attention. The entered height is lower than
             recommended</strong>.'),
+                ),
+              ),
+              'type' => 'setting',
+            ),
           ),
         ),
-        'type' => 'setting',
-      );
-      break;
+      ),
+    ),
 
-    case 'center':
-
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Map center'),
-        '#description' => t('Center of the map. E.g. latitude 50.84 and 4.36 longitude for Brussels'),
-        '#weight' => 8,
-      );
-      $form_element['lat'] = array(
+    // Defines form elements to control map center.
+    'center' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Map center'),
+      '#description' => t('Center of the map. E.g. latitude 50.84 and 4.36 longitude for Brussels'),
+      '#weight' => 8,
+      'lat' => array(
         '#title' => t('Latitude'),
         '#type' => 'textfield',
         '#size' => 10,
-        '#default_value' => isset($settings[$group]['lat']) ? $settings[$group]['lat'] : 50.84,
         '#required' => FALSE,
-      );
-      $form_element['lon'] = array(
+      ),
+      'lon' => array(
         '#title' => t('Longitude'),
         '#type' => 'textfield',
         '#size' => 10,
-        '#default_value' => isset($settings[$group]['lon']) ? $settings[$group]['lon'] : 4.36,
         '#required' => FALSE,
-      );
-      $form_element['fitbounds'] = array(
+      ),
+      'fitbounds' => array(
         '#type' => 'checkbox',
         '#title' => t('Fit map to visible markers'),
         '#description' => t('This sets the center of the map automatically based on the visible markers. It ignores the map center coordinates set above.'),
-        '#default_value' => isset($settings[$group]['fitbounds']) ? $settings[$group]['fitbounds'] : TRUE,
-      );
-      break;
+      ),
+    ),
 
-    case 'attribution':
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Attribution'),
-        '#weight' => 16,
-      );
-      $form_element['attributionControl'] = array(
+    // Defines form elements to set and control attribution (credits).
+    'attribution' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Attribution'),
+      '#weight' => 16,
+      'attributionControl' => array(
         '#type' => 'checkbox',
         '#title' => t('Show attribution'),
-        '#default_value' => isset($settings[$group]['attributionControl']) ? $settings[$group]['attributionControl'] : TRUE,
-      );
-      $form_element['attribution'] = array(
+      ),
+      'attribution' => array(
         '#type' => 'textfield',
         '#title' => t('Attribution text'),
-        '#default_value' => isset($settings[$group]['attribution']) ? $settings[$group]['attribution'] : t('Map data by Eurostat and the European Commission'),
         '#size' => 80,
-      );
-      break;
-
-  }
-  return $form_element;
+      ),
+    ),
+  );
+  return $form_elements;
 }
 
 /**
@@ -433,12 +416,12 @@ function nexteuropa_map_validate_height(&$form, &$form_state) {
 /**
  * Saves map entity.
  *
- * Collects values for storing as JSON in settings.
+ * Collects map values for storing as JSON in settings.
  *
  * @param object $map
  *   Map object before saving.
  */
-function nexteuropa_map_save($map) {
+function _nexteuropa_map_save_map($map) {
 
   // Fetches field values from form state.
   $settings = array(
@@ -559,4 +542,55 @@ function nexteuropa_map_admin_paths() {
  */
 function nexteuropa_map_feature_set_api() {
   return array('version' => '1.0');
+}
+
+/**
+ * Implements hook_map_form_info().
+ *
+ * Registers the name of the map module and which custom form elements it wants
+ * to add to the map layer forms.
+ */
+function nexteuropa_map_map_form_info() {
+  return array(
+    'map' => array(
+      'elements' => array('height', 'center', 'zoom', 'tiles', 'attribution'),
+    ),
+  );
+}
+
+/**
+ * Provides custom form elements.
+ *
+ * Cycles through all the form elements defined by all modules and fetches the
+ * elements for one particular module. Assigns also the default form element
+ * value by fetching values from the settings.
+ *
+ * @param array $elements
+ *   List of form elements keys that must be fetched from the list of all form elements
+ * @param array $settings
+ *   List of form elements values that were stored when the map layer was saved and that shoudl be used as the default value.
+ * @return array $form
+ *   List of custom for elements that can be added to the map layer form.
+ */
+function _nexteuropa_map_custom_map_form_elements($elements, $settings) {
+  $form = array();
+
+  // Fetches all custom form elements defined by all modules.
+  $form_elements = module_invoke_all('map_form_elements');
+
+  // Fetches desired containers and fieldsets.
+  foreach ($elements as $element) {
+    $form[$element] = $form_elements[$element];
+
+    // Cycles through all the sub elements of containers.
+    foreach (element_children($form_elements[$element]) as $key) {
+
+      // Adds sub elements (fields, select lists etc.) to form.
+      $form[$element][$key] = $form_elements[$element][$key];
+
+      // Fetches default value for sub elements from settings.
+      $form[$element][$key]['#default_value'] = $settings[$element][$key];
+    }
+  }
+  return $form;
 }

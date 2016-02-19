@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for UR layer module.
+ */
+
+/**
+ * Implements hook_instal().
+ */
+function nexteuropa_map_viewsgeojson_install() {
+
+  // Creates the Views GeoJSON map layer.
+  _nexteuropa_map_viewsgeojson_create_layer();
+
+  // Adds fields to Views GeoJSON map layer.
+//  _nexteuropa_map_viewsgeojson_create_viewsgeojson_field();
+
+  // Changes map layers field to add Views GeoJSON layer as target bundle.
+  _nexteuropa_map_viewsgeojson_change_map_layers_field();
+}
+
+/**
+ * Creates the Views GeoJSON map layer bundle.
+ */
+function _nexteuropa_map_viewsgeojson_create_layer() {
+  $bundle = new stdClass();
+  $bundle->type = 'viewsgeojson_layer';
+  $bundle->label = t('Views GeoJSON layer');
+  $bundle->is_new = TRUE;
+  $bundle->description = t("Map layer from GeoJSON views");
+  $controller = new MapLayerTypeController('map_layer_type');
+  $controller->save($bundle);
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds Views GeoJSON layer as target bundles.
+ */
+function _nexteuropa_map_viewsgeojson_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds Views GeoJSON layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['viewsgeojson_layer'] = 'viewsgeojson_layer';
+  field_update_field($field_info);
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_map_viewsgeojson_enable() {
+  $t = get_t();
+  drupal_set_message($t('Views GeoJSON layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_map_viewsgeojson_disable() {
+  $t = get_t();
+  drupal_set_message($t('Views GeoJSON layer has been disabled.'));
+}

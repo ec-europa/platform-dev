@@ -48,7 +48,7 @@ function nexteuropa_map_node_field_formatter_settings_form($field, $instance, $v
     $element['tiles'] = _nexteuropa_map_form_elements('tiles', $settings);
     $element['height'] = _nexteuropa_map_form_elements('height', $settings);
     $element['zoom'] = _nexteuropa_map_form_elements('zoom', $settings);
-    $element['icon'] = _nexteuropa_map_layer_form_elements('icon', $settings);
+    $element['icon'] = _nexteuropa_map_map_form_elements('icon', $settings);
     $element['center'] = _nexteuropa_map_form_elements('center', $settings);
     $element['attribution'] = _nexteuropa_map_form_elements('attribution', $settings);
   }

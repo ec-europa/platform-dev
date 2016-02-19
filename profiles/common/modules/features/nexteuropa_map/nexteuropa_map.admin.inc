@@ -50,31 +50,6 @@ function map_form($form, &$form_state, $map) {
   // @todo. how to prevent this?
   $settings = $settings->settings;
 
-  // @todo decide on availibility of certain fields.
-  // Provides the height field whose values are stored as json in the settings.
-  $form['height'] = _nexteuropa_map_form_elements('height', $settings);
-
-  // Provides the map center field whose values is stored as json in the
-  // settings.
-  $form['center'] = _nexteuropa_map_form_elements('center', $settings);
-
-  // Provides the pop-up fields whose values is stored as json in the settings.
-  $form['popup'] = _nexteuropa_map_form_elements('popup', $settings);
-
-  // Provides the zoom fields whose values is stored as json in the settings.
-  $form['zoom'] = _nexteuropa_map_form_elements('zoom', $settings);
-
-  // Provides the tiles field whose values is stored as json in the settings.
-  $form['tiles'] = _nexteuropa_map_form_elements('tiles', $settings);
-
-  // Provides the attribution fields whose values is stored as json in the
-  // settings.
-  $form['attribution'] = _nexteuropa_map_form_elements('attribution', $settings);
-
-  // Provides the clustering field whose values is stored as json in the
-  // settings.
-  $form['clustering'] = _nexteuropa_map_form_elements('clustering', $settings);
-
   // Provides a checkbox to show /hide settings field.
   $form['show_settings'] = array(
     '#type' => 'checkbox',
@@ -95,7 +70,15 @@ function map_form($form, &$form_state, $map) {
     ),
   );
 
+  // Adds field UI fields.
   field_attach_form('map', $map, $form, $form_state);
+
+  // Adds custom form elements defined by the map module.
+  $map_layers = module_invoke_all('map_form_info');
+  $elements = $map_layers['map']['elements'];
+  $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
+  $form += $custom_form_elements;
+
   $submit = array();
   if (!empty($form['#submit'])) {
     $submit += $form['#submit'];
@@ -127,7 +110,7 @@ function map_form($form, &$form_state, $map) {
 function nexteuropa_map_form_submit($form, &$form_state) {
   $map = $form_state['map'];
   entity_form_submit_build_entity('map', $map, $form, $form_state);
-  nexteuropa_map_save($map);
+  _nexteuropa_map_save_map($map);
   $map_uri = entity_uri('map', $map);
   $form_state['redirect'] = $map_uri['path'];
   drupal_set_message(t('Map %title saved.', array('%title' => entity_label('map', $map))));
@@ -168,7 +151,7 @@ function nexteuropa_map_delete_form($form, &$form_state, $map) {
  */
 function nexteuropa_map_delete_form_submit($form, &$form_state) {
   $map = $form_state['map'];
-  nexteuropa_map_delete($map);
+  _nexteuropa_map_delete_map($map);
   drupal_set_message(t('Map %title deleted.', array('%title' => entity_label('map', $map))));
   $form_state['redirect'] = '<front>';
 }

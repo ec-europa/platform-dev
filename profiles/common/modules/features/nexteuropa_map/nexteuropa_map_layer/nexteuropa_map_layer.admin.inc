@@ -160,6 +160,8 @@ function nexteuropa_map_layer_add($type) {
  */
 function map_layer_form($form, &$form_state, $map_layer) {
 
+  $form['#tree'] = TRUE;
+
   // Sets map_layer entity for the submit form.
   $form_state['map_layer'] = $map_layer;
 
@@ -189,7 +191,7 @@ function map_layer_form($form, &$form_state, $map_layer) {
   // @todo. figure out what are map layer defaults.
 
   // Provides checkboxes to define how the layer is shown in the layer control.
-  $form['control'] = _nexteuropa_map_layer_form_elements('control', $settings);
+  $form['control'] = _nexteuropa_map_map_form_elements('control', $settings);
   $form['show_settings'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show settings'),
@@ -212,7 +214,17 @@ function map_layer_form($form, &$form_state, $map_layer) {
     '#type' => 'value',
     '#value' => $map_layer->uid,
   );
+
+  // Adds custom form elements from field API fields.
   field_attach_form('map_layer', $map_layer, $form, $form_state);
+
+  // Adds custom form elements defined by the active map layer sub module.
+  $type = $map_layer->type;
+  $map_layers = module_invoke_all('map_form_info');
+  $elements = $map_layers[$type]['elements'];
+  $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
+  $form += $custom_form_elements;
+
   $submit = array();
   if (!empty($form['#submit'])) {
     $submit += $form['#submit'];
@@ -226,7 +238,7 @@ function map_layer_form($form, &$form_state, $map_layer) {
     '#submit' => $submit + array('nexteuropa_map_layer_form_submit'),
   );
 
-  // Show Delete button if we edit map layer.
+  // Shows delete button if we edit map layer.
   $map_layer_id = entity_id('map_layer', $map_layer);
   if (!empty($map_layer_id) && nexteuropa_map_layer_access('edit', $map_layer)) {
     $form['actions']['delete'] = array(
@@ -235,6 +247,9 @@ function map_layer_form($form, &$form_state, $map_layer) {
       '#submit' => array('nexteuropa_map_layer_form_submit_delete'),
     );
   }
+
+  // Lets modules alter the form.
+  drupal_alter('layer_form', $form, $settings, $type);
   return $form;
 }
 
@@ -247,23 +262,47 @@ function nexteuropa_map_layer_form_submit($form, &$form_state) {
   // Copies submitted values to entity properties for simple entity forms.
   entity_form_submit_build_entity('map_layer', $map_layer, $form, $form_state);
 
-  // Constructs the layer settings for simple json storage in text field.
+  // Sets the generic layer settings.
   $settings['control'] = $form_state['values']['control'];
   $settings['show_settings'] = $form_state['values']['show_settings'];
 
-  // Allows modules to alter the map_layer settings.
-  drupal_alter('stand_alone_map_layer_settings', $settings, $form_state);
+  // Adds values of custom field the settings.
+  $settings = _nexteuropa_map_layer_save_settings($settings, $form_state);
 
-  // Stores settings in json.
+  // Formats settings in json.
   $map_layer->settings = json_encode($settings);
 
   // Saves the map.
   nexteuropa_map_layer_save($map_layer);
 
-  // Shows the created entity.
+  // Displays the saved map layer.
   $map_layer_uri = entity_uri('map_layer', $map_layer);
   $form_state['redirect'] = $map_layer_uri['path'];
   drupal_set_message(t('Map layer %title saved.', array('%title' => entity_label('map_layer', $map_layer))));
+}
+
+/**
+ * Fetches form values and stores them in a settings array.
+ *
+ * @param array $settings
+ *   List of already present settings.
+ * @param array $form_state
+ *   Form values
+ * @return
+ *   List of settings.
+ */
+function _nexteuropa_map_layer_save_settings($settings, $form_state) {
+  $map_layer = $form_state['map_layer'];
+  $map_layers = module_invoke_all('map_form_info');
+  $elements = $map_layers[$map_layer->type]['elements'];
+  foreach($elements as $element){
+    foreach ($form_state['values'][$element] as $key => $thing) {
+      if($key) {
+        $settings[$element][$key] = $thing;
+      }
+    }
+  }
+  return $settings;
 }
 
 /**

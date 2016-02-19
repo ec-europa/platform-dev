@@ -49,26 +49,26 @@ class MapLayerController extends EntityAPIController {
 
         // Themes description like default field.
         $content['description'] = array(
-          '#weight' => 0,
-          '#field_name' => 'field_fake_description',
-          '#title' => t('Description'),
-          '#items' => array(array('value' => $entity->description)),
-          '#formatter' => 'text_default',
-          0 => array(
-            '#markup' => check_plain($entity->description),
-          ),
-        ) + $field_defaults;
+            '#weight' => 0,
+            '#field_name' => 'field_fake_description',
+            '#title' => t('Description'),
+            '#items' => array(array('value' => $entity->description)),
+            '#formatter' => 'text_default',
+            0 => array(
+              '#markup' => check_plain($entity->description),
+            ),
+          ) + $field_defaults;
 
         // Themes settings like default field.
         $content['settings'] = array(
-          '#title' => t('Settings'),
-          '#field_name' => 'field_fake_settings',
-          '#items' => array(array('value' => $entity->settings)),
-          '#formatter' => 'text_default',
-          0 => array(
-            '#markup' => check_plain($entity->settings),
-          ),
-        ) + $field_defaults;
+            '#title' => t('Settings'),
+            '#field_name' => 'field_fake_settings',
+            '#items' => array(array('value' => $entity->settings)),
+            '#formatter' => 'text_default',
+            0 => array(
+              '#markup' => check_plain($entity->settings),
+            ),
+          ) + $field_defaults;
 
         break;
 
@@ -192,6 +192,8 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
    */
   public function entityForm($entity_form, &$form_state) {
 
+    $entity_form['#tree'] = TRUE;
+
     // Fetches settings from settings field of current entity.
     $map_layer = $entity_form['#entity'];
 
@@ -215,15 +217,22 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     );
 
     // Adds control form element using uniform form elements defined in
-    // _nexteuropa_map_layer_form_elements().
-    $entity_form['control'] = _nexteuropa_map_layer_form_elements('control', $settings);
+    // _nexteuropa_map_map_form_elements().
+    $entity_form['control'] = _nexteuropa_map_map_form_elements('control', $settings);
 
     // Adds custom field API fields.
     field_attach_form('map_layer', $map_layer, $entity_form, $form_state);
 
+    // Adds custom form elements defined by the active map layer sub module.
+    $type = $map_layer->type;
+    $map_layers = module_invoke_all('map_form_info');
+    $elements = $map_layers[$type]['elements'];
+    $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
+    $entity_form += $custom_form_elements;
+
     // Allow modules to alter the map layer inline entity form.
     $type = $map_layer->type;
-    drupal_alter('layer_inline_entity_form', $entity_form, $settings, $type);
+    drupal_alter('layer_form', $entity_form, $settings, $type);
 
     return $entity_form;
   }
@@ -255,3 +264,4 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
   }
 
 }
+

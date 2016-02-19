@@ -1,0 +1,9 @@
+name = Views GeoJSON layer
+description = Provides a map layer bundle to store and display geospatial data found in GeoJSON views.
+core = 7.x
+dependencies[] = nexteuropa_map
+dependencies[] = views_geojson
+multisite_version = 2.1
+package = Maps
+php = 5.2.4
+version = 7.x-1.0
