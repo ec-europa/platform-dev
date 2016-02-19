@@ -389,121 +389,9 @@ function nexteuropa_map_layer_views_api() {
 }
 
 /**
- * Provides shared form elements (used in stand-alone and inline entity form).
- *
- * @param array $group
- *   The form elements group (fieldset or container).
- * @param array $settings
- *   The map settings that can hold default values.
- *
- * @return
- *   A form element.
- */
-function _nexteuropa_map_layer_form_elements($group, $settings) {
-  $form_element = NULL;
-  switch ($group) {
-    case 'popup':
-      $form_element = array(
-        '#title' => t('Pop-up'),
-        '#type' => 'fieldset',
-        '#weight' => 15,
-      );
-      $form_element['show_popup'] = array(
-        '#title' => t('Show a popup when markers are clicked.'),
-        '#type' => 'checkbox',
-        '#default_value' => $settings[$group]['show_popup'],
-      );
-      $form_element['popin'] = array(
-        '#title' => t('Use pop-in (show details in right side bar).'),
-        '#type' => 'checkbox',
-        '#default_value' => $settings[$group]['popin'],
-      );
-      break;
-
-    case 'control':
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Layer control'),
-        '#description' => t('Let the user enable and disable layers in the layer control.'),
-        '#weight' => 11,
-      );
-      $form_element['enabled'] = array(
-        '#title' => t('Enable the layer by default in the map'),
-        '#type' => 'checkbox',
-        '#default_value' => $settings[$group]['enabled'],
-      );
-      $form_element['show_in_control'] = array(
-        '#title' => t('Show the layer in the layer control'),
-        '#type' => 'checkbox',
-        '#default_value' => $settings[$group]['show_in_control'],
-      );
-      break;
-
-    case 'icon':
-      $form_element = array(
-        '#type' => 'container',
-        '#weight' => 13,
-      );
-      $form_element['icon'] = array(
-        '#type' => 'select',
-        '#title' => t('Icon'),
-        '#options' => _nexteuropa_map_layer_icons(),
-        '#default_value' => $settings[$group]['icon'],
-      );
-      break;
-
-    case 'clustering':
-      $form_element = array(
-        '#type' => 'container',
-        '#weight' => 17,
-      );
-      $form_element['cluster_markers'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Cluster markers'),
-        '#default_value' => $settings[$group]['cluster_markers'],
-      );
-      break;
-
-    case 'tiles':
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Map background'),
-        '#weight' => 19,
-      );
-      $form_element['tiles'] = array(
-        '#type' => 'select',
-        '#title' => t('Tiles'),
-        '#default_value' => $settings[$group]['tiles'],
-        '#options' => _nexteuropa_map_tiles(),
-      );
-      break;
-
-    case 'attribution':
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Attribution'),
-        '#weight' => 16,
-      );
-      $form_element['attributionControl'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Show attribution'),
-        '#default_value' => $settings[$group]['attributionControl'],
-      );
-      $form_element['attribution'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Attribution text'),
-        '#default_value' => $settings[$group]['attribution'],
-        '#size' => 80,
-      );
-      break;
-  }
-  return $form_element;
-}
-
-/**
  * Provides list of available icon colors.
  *
- * @return
+ * @return array
  *   List of possible icon colors that can be used in a form select.
  */
 function _nexteuropa_map_layer_icons() {
@@ -527,7 +415,7 @@ function _nexteuropa_map_layer_icons() {
  * @param object $wrapper
  *   Wrapped entity.
  *
- * @return
+ * @return bool
  *   True if the field has a value.
  */
 function _nexteuropa_map_layer_fieldcheck($field, $wrapper) {
@@ -546,10 +434,10 @@ function _nexteuropa_map_layer_fieldcheck($field, $wrapper) {
  * Generates an ID from a string to be used in JavaScript.
  *
  * @param string $string
- *   A string.
+ *   A string that cannot be used as ID :(.
  *
- * @return
- *   A string that can be used as ID.
+ * @return string
+ *   A string that can be used as ID ;).
  */
 function _nexteuropa_map_layer_id($string) {
   return strtolower(preg_replace('/[^a-zA-Z0-9-]+/', '-', $string));
@@ -613,6 +501,9 @@ class MapLayerSettings {
         'border_opacity' => 1,
         'dash_array' => 2,
       ),
+      'tiles' => array(
+        'tiles' => 'osmec',
+      ),
     );
   }
 
@@ -667,4 +558,96 @@ function nexteuropa_map_layer_admin_paths() {
 function nexteuropa_map_layer_view($map_layer) {
   drupal_set_title(entity_label('map_layer', $map_layer));
   return entity_view('map_layer', array(entity_id('map_layer', $map_layer) => $map_layer), 'default');
+}
+
+/**
+ * Implements hook_map_form_elements().
+ *
+ * Defines generic map layer form fields for the different layers. Each layer
+ * type chooses to include (some of) these these elements by defining them in
+ * hook_layer_info(). These elements are used in stand-alone and inline
+ * entity form).
+ */
+function nexteuropa_map_layer_map_form_elements() {
+  $form_elements = array(
+
+    // Defines form elements to control the pop-up behaviour.
+    'popup' => array(
+      '#title' => t('Pop-up'),
+      '#type' => 'fieldset',
+      '#weight' => 15,
+      'show_popup' => array(
+        '#title' => t('Show a popup when markers are clicked.'),
+        '#type' => 'checkbox',
+      ),
+      'popin' => array(
+        '#title' => t('Use pop-in (show details in right side bar).'),
+        '#type' => 'checkbox',
+      ),
+    ),
+
+    // Defines form elements to control layer switching.
+    'control' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Layer control'),
+      '#description' => t('Let the user enable and disable layers in the layer control.'),
+      '#weight' => 11,
+      'enabled' => array(
+        '#title' => t('Enable the layer by default in the map'),
+        '#type' => 'checkbox',
+      ),
+      'show_in_control' => array(
+        '#title' => t('Show the layer in the layer control'),
+        '#type' => 'checkbox',
+      ),
+    ),
+
+    // Defines form element to set color of marker icons.
+    'icon' => array(
+      '#type' => 'container',
+      '#weight' => 13,
+      'icon' => array(
+        '#type' => 'select',
+        '#title' => t('Icon'),
+        '#options' => _nexteuropa_map_layer_icons(),
+      ),
+    ),
+
+    // Defines form elements to enable marker clustering.
+    'clustering' => array(
+      '#type' => 'container',
+      '#weight' => 17,
+      'cluster_markers' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Cluster markers'),
+      ),
+    ),
+
+  );
+  return $form_elements;
+}
+
+/**
+ * Fetches form values and stores them in a settings array.
+ *
+ * @param array $settings
+ *   List of already present settings.
+ * @param array $form_state
+ *   Form with values.
+ *
+ * @return array
+ *   List of settings.
+ */
+function _nexteuropa_map_layer_save_settings($settings, $form_state) {
+  $map_layer = $form_state['map_layer'];
+  $map_layers = module_invoke_all('map_form_info');
+  $elements = $map_layers[$map_layer->type]['form_elements'];
+  foreach ($elements as $element) {
+    foreach ($form_state['values'][$element] as $key => $value) {
+      if ($key) {
+        $settings[$element][$key] = $value;
+      }
+    }
+  }
+  return $settings;
 }

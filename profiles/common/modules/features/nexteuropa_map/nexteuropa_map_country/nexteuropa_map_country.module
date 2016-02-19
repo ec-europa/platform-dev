@@ -45,55 +45,12 @@ function nexteuropa_map_country_layer_content_alter(&$content, $wrapper, $entity
 }
 
 /**
- * Implements hook_layer_inline_entity_form_alter().
- *
- * See MapLayerInlineEntityFormController->EntityForm().
- */
-function nexteuropa_map_country_layer_inline_entity_form_alter(&$entity_form, $settings, $type) {
-  if ($type == 'country_layer') {
-    $entity_form['style'] = _nexteuropa_map_country_form_elements('style', $settings);
-    $entity_form['nuts'] = _nexteuropa_map_country_form_elements('nuts', $settings);
-    $entity_form['attribution'] = _nexteuropa_map_layer_form_elements('attribution', $settings);
-    $url = file_create_url(drupal_get_path('module', 'nexteuropa_map_country') . '/template.txt');
-    $entity_form['map_countries'][LANGUAGE_NONE][0]['value']['#description'] .= ' ' . t('<a href="!url">Example</a>', array('!url' => $url));
-  }
-  return $entity_form;
-}
-
-/**
- * Implements hook_map_layer_settings_alter().
- *
- * See MapLayerInlineEntityFormController->entityFormSubmit() and
- * nexteuropa_map_layer_form_submit().
- */
-function nexteuropa_map_country_map_layer_settings_alter(&$settings, $map_layer, $form_state) {
-  if ($map_layer->type == 'country_layer') {
-    $settings['style'] = $map_layer->style;
-    $settings['nuts'] = $map_layer->nuts;
-    $settings['attribution'] = $map_layer->attribution;
-    $settings['control'] = $map_layer->control;
-  }
-  return $settings;
-}
-
-/**
- * Implements hook_map_content_alter().
- *
- * See MapController->buildContent().
- */
-function nexteuropa_map_country_map_content_alter(&$custom_js) {
-  $country_layer_js = base_path() . drupal_get_path('module', 'nexteuropa_map_country') . "/js/country_layer.js?v=" . rand(0, 33333);
-  $custom_js[] = $country_layer_js;
-  return $custom_js;
-}
-
-/**
  * Creates list of countries from CSV data.
  *
  * @param string $data
  *   String with CSV data.
  *
- * @return
+ * @return array
  *   Associative array with country data.
  */
 function _nexteuropa_map_country_csv_countries($data) {
@@ -118,81 +75,81 @@ function _nexteuropa_map_country_csv_countries($data) {
 }
 
 /**
- * Provides shared form elements (used in stand-alone and inline entity form).
+ * Implements hook_layer_info().
  *
- * @param array $group
- *   The form elements group (fieldset or container).
- * @param array $settings
- *   The map settings that can hold default values.
- *
- * @return
- *   A form element.
+ * Registers the name of the map layer sub module and which custom form
+ * elements it wants to add to the map layer forms.
  */
-function _nexteuropa_map_country_form_elements($group, $settings) {
-  $form_element = NULL;
-  switch ($group) {
-    case 'nuts':
-      $form_element = array(
-        '#type' => 'container',
-        '#weight' => 4,
-      );
-      $form_element['level'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Nuts level'),
-        '#default_value' => $settings[$group]['level'],
-        '#size' => 12,
-      );
-      break;
+function nexteuropa_map_country_layer_info() {
+  return array(
+    'country_layer' => array(
+      'form_elements' => array('style', 'nuts', 'attribution'),
+      'custom_js' => base_path() . drupal_get_path('module', 'nexteuropa_map_country') . "/js/country_layer.js?v=" . rand(0, 33333),
+    ),
+  );
+}
 
-    case 'style':
-      $form_element = array(
-        '#type' => 'fieldset',
-        '#title' => t('Style'),
-        '#weight' => 16,
-      );
-      $form_element['show_label'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Show country label'),
-        '#default_value' => $settings[$group]['show_label'],
-      );
-      $form_element['fill_color'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Fill color'),
-        '#default_value' => $settings[$group]['fill_color'],
-        '#size' => 24,
-      );
-      $form_element['fill_opacity'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Fill opacity'),
-        '#default_value' => $settings[$group]['fill_opacity'],
-        '#size' => 24,
-      );
-      $form_element['border_weight'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Border weight'),
-        '#default_value' => $settings[$group]['border_weight'],
-        '#size' => 24,
-      );
-      $form_element['border_color'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Border color'),
-        '#default_value' => $settings[$group]['border_color'],
-        '#size' => 24,
-      );
-      $form_element['border_opacity'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Border opacity'),
-        '#default_value' => $settings[$group]['border_opacity'],
-        '#size' => 24,
-      );
-      $form_element['dash_array'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Dash array'),
-        '#default_value' => $settings[$group]['dash_array'],
-        '#size' => 24,
-        '#description' => t('Size of the dashes in border.'),
-      );
-      break;
-  }
-  return $form_element;
+/**
+ * Implements hook_map_form_elements().
+ *
+ * Defines custom map layer form fields for the country layer. These elements
+ * are added to the form via hook_layer_info().
+ */
+function nexteuropa_map_country_map_form_elements() {
+  $form_elements = array();
+
+  // Defines the nuts level form elements: which administrative division
+  // (region, province) is shown in the map.
+  $form_elements['nuts'] = array(
+    '#type' => 'container',
+    '#weight' => 15,
+    'level' => array(
+      '#type' => 'textfield',
+      '#title' => t('Nuts level'),
+      '#size' => 12,
+    ),
+  );
+
+  // Defines the style form elements: how are the countries displayed.
+  $form_elements['style'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Style'),
+    '#weight' => 16,
+    'show_label' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Show country label'),
+    ),
+    'fill_color' => array(
+      '#type' => 'textfield',
+      '#title' => t('Fill color'),
+      '#size' => 24,
+    ),
+    'fill_opacity' => array(
+      '#type' => 'textfield',
+      '#title' => t('Fill opacity'),
+      '#size' => 24,
+    ),
+    'border_weight' => array(
+      '#type' => 'textfield',
+      '#title' => t('Border weight'),
+      '#size' => 24,
+    ),
+    'border_color' => array(
+      '#type' => 'textfield',
+      '#title' => t('Border color'),
+      '#size' => 24,
+    ),
+    'border_opacity' => array(
+      '#type' => 'textfield',
+      '#title' => t('Border opacity'),
+      '#size' => 24,
+    ),
+    'dash_array' => array(
+      '#type' => 'textfield',
+      '#title' => t('Dash array'),
+      '#size' => 24,
+      '#description' => t('Size of the dashes in border.'),
+    ),
+  );
+  return $form_elements;
 }

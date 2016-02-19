@@ -32,6 +32,8 @@ class MapLayerController extends EntityAPIController {
   public function buildContent($entity, $view_mode = 'map_layer', $langcode = NULL, $content = array()) {
     $wrapper = entity_metadata_wrapper('map_layer', $entity);
     switch ($view_mode) {
+
+      // Defines content when viewing a map layer in the default view mode.
       case 'default':
         $content['author'] = array('#markup' => t('Created by: !author', array('!author' => $wrapper->uid->name->value(array('sanitize' => TRUE)))));
 
@@ -192,6 +194,8 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
    */
   public function entityForm($entity_form, &$form_state) {
 
+    $entity_form['#tree'] = TRUE;
+
     // Fetches settings from settings field of current entity.
     $map_layer = $entity_form['#entity'];
 
@@ -215,15 +219,22 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     );
 
     // Adds control form element using uniform form elements defined in
-    // _nexteuropa_map_layer_form_elements().
-    $entity_form['control'] = _nexteuropa_map_layer_form_elements('control', $settings);
+    // _nexteuropa_map_map_form_elements().
+    $entity_form['control'] = _nexteuropa_map_map_form_elements('control', $settings);
 
     // Adds custom field API fields.
     field_attach_form('map_layer', $map_layer, $entity_form, $form_state);
 
+    // Adds custom form elements defined by the active map layer sub module.
+    $type = $map_layer->type;
+    $map_layers = module_invoke_all('map_form_info');
+    $elements = $map_layers[$type]['form_elements'];
+    $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
+    $entity_form += $custom_form_elements;
+
     // Allow modules to alter the map layer inline entity form.
     $type = $map_layer->type;
-    drupal_alter('layer_inline_entity_form', $entity_form, $settings, $type);
+    drupal_alter('layer_form', $entity_form, $settings, $type);
 
     return $entity_form;
   }
@@ -234,10 +245,17 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
   public function entityFormSubmit(&$entity_form, &$form_state) {
     parent::entityFormSubmit($entity_form, $form_state);
     $map_layer = $entity_form['#entity'];
+    $settings = array();
 
-    // @todo figure out how to use just one alter hook.
-    // Allow modules to alter the settings before entity form submission.
-    drupal_alter('map_layer_settings', $settings, $map_layer);
+    // Fetches values of form elements of map layer and stores them in a
+    // settings array.
+    $map_layers = module_invoke_all('map_form_info');
+    $elements = $map_layers[$map_layer->type]['form_elements'];
+    foreach ($elements as $element) {
+      foreach ($map_layer->$element as $key => $value) {
+        $settings[$element][$key] = $value;
+      }
+    }
 
     // Stores the layer settings in json (different settings per layer type).
     $map_layer->settings = drupal_json_encode($settings);

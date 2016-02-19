@@ -8,4 +8,3 @@ files[] = nexteuropa_map_node.geofeatures.inc
 multisite_version = 2.1
 package = Maps
 php = 5.2.4
-version = 7.x-1.0

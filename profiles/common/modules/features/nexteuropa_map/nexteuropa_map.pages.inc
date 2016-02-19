@@ -7,7 +7,7 @@
 /**
  * Map view callback.
  */
-function nexteuropa_map_view($map) {
+function _nexteuropa_map_view($map) {
   drupal_set_title(entity_label('map', $map));
   return entity_view('map', array(entity_id('map', $map) => $map), 'full');
 }
@@ -15,10 +15,10 @@ function nexteuropa_map_view($map) {
 /**
  * Provides a page with a webtools map.
  *
- * @return
+ * @return array
  *   Build array for map page.
  */
-function nexteuropa_map_webtools() {
+function _nexteuropa_map_webtools() {
   global $base_url;
   $load_js = variable_get('nexteuropa_map_webtools_environment', NEXTEUROPA_MAP_WEBTOOLS_ENVIRONMENT);
   $element = array(

@@ -64,11 +64,13 @@ class MapController extends EntityAPIController {
     // Creates the render array for the map.
     $map = new MapBuild($settings);
 
-    // Defines custom JavaScripts to be passed to load.js.
+    // Adds custom JavaScripts defined by the map layers.
+    // @todo figure out how to pass only the active map layer's js.
     $custom_js = array();
-
-    // Allows modules to alter the map build.
-    drupal_alter('map_content', $custom_js);
+    $map_layers = module_invoke_all('layer_info');
+    foreach ($map_layers as $map_layer) {
+      $custom_js[] = $map_layer['custom_js'];
+    }
 
     // Adds the map layer JavaScript as first (needs to be listed before any
     // other custom scripts).
