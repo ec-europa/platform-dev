@@ -640,7 +640,7 @@ function nexteuropa_map_layer_map_form_elements() {
  */
 function _nexteuropa_map_layer_save_settings($settings, $form_state) {
   $map_layer = $form_state['map_layer'];
-  $map_layers = module_invoke_all('map_form_info');
+  $map_layers = module_invoke_all('layer_info');
   $elements = $map_layers[$map_layer->type]['form_elements'];
   foreach ($elements as $element) {
     foreach ($form_state['values'][$element] as $key => $value) {

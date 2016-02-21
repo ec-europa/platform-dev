@@ -218,16 +218,16 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
       '#weight' => -50,
     );
 
-    // Adds control form element using uniform form elements defined in
-    // _nexteuropa_map_map_form_elements().
-    $entity_form['control'] = _nexteuropa_map_map_form_elements('control', $settings);
+    // Provides checkboxes to define how the layer is shown in the layer control.
+    $control_form_element = _nexteuropa_map_custom_map_form_elements(array('control'), $settings);
+    $entity_form += $control_form_element;
 
     // Adds custom field API fields.
     field_attach_form('map_layer', $map_layer, $entity_form, $form_state);
 
     // Adds custom form elements defined by the active map layer sub module.
     $type = $map_layer->type;
-    $map_layers = module_invoke_all('map_form_info');
+    $map_layers = module_invoke_all('layer_info');
     $elements = $map_layers[$type]['form_elements'];
     $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
     $entity_form += $custom_form_elements;
@@ -249,13 +249,19 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
 
     // Fetches values of form elements of map layer and stores them in a
     // settings array.
-    $map_layers = module_invoke_all('map_form_info');
+    $map_layers = module_invoke_all('layer_info');
     $elements = $map_layers[$map_layer->type]['form_elements'];
     foreach ($elements as $element) {
       foreach ($map_layer->$element as $key => $value) {
         $settings[$element][$key] = $value;
       }
     }
+
+    // Sets the generic layer settings.
+    $settings['control'] = $map_layer->control;
+
+    // Adds values of custom field the settings.
+    $settings = _nexteuropa_map_layer_save_settings($settings, $form_state);
 
     // Stores the layer settings in json (different settings per layer type).
     $map_layer->settings = drupal_json_encode($settings);

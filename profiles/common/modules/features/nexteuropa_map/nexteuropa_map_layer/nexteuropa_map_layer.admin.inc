@@ -190,7 +190,8 @@ function map_layer_form($form, &$form_state, $map_layer) {
   // @todo. figure out what are map layer defaults.
 
   // Provides checkboxes to define how the layer is shown in the layer control.
-  $form['control'] = _nexteuropa_map_map_form_elements('control', $settings);
+  $control_form_element = _nexteuropa_map_custom_map_form_elements(array('control'), $settings);
+  $form += $control_form_element;
   $form['show_settings'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show settings'),
@@ -219,7 +220,7 @@ function map_layer_form($form, &$form_state, $map_layer) {
 
   // Adds custom form elements defined by the active map layer sub module.
   $type = $map_layer->type;
-  $map_layers = module_invoke_all('map_form_info');
+  $map_layers = module_invoke_all('layer_info');
   $elements = $map_layers[$type]['form_elements'];
   $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
   $form += $custom_form_elements;

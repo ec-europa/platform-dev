@@ -153,3 +153,14 @@ function nexteuropa_map_country_map_form_elements() {
   );
   return $form_elements;
 }
+
+/**
+ * Implements hook_layer_form_alter().
+ */
+function nexteuropa_map_country_layer_form_alter(&$form, $settings, $type) {
+  if ($type == 'country_layer') {
+    $url = file_create_url(drupal_get_path('module', 'nexteuropa_map_country') . '/template.txt');
+    $form['map_countries'][LANGUAGE_NONE][0]['value']['#description'] .= ' ' . t('<a href="!url">Example</a>', array('!url' => $url));
+    return $form;
+  }
+}
