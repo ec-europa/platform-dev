@@ -218,7 +218,8 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
       '#weight' => -50,
     );
 
-    // Provides checkboxes to define how the layer is shown in the layer control.
+    // Provides checkboxes to define how the layer is shown in the layer
+    // control.
     $control_form_element = _nexteuropa_map_custom_map_form_elements(array('control'), $settings);
     $entity_form += $control_form_element;
 
