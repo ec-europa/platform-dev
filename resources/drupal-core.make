@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.41"
+projects[drupal][version] = "7.42"
 
 projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 projects[drupal][patch][] = patches/menu-conflict_with_menu_token-2534.patch
