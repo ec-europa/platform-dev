@@ -101,10 +101,10 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
       t('The listed pages only'),
     );
     $description = t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array(
-        '%blog' => 'blog',
-        '%blog-wildcard' => 'blog/*',
-        '%front' => '<front>',
-        ));
+      '%blog' => 'blog',
+      '%blog-wildcard' => 'blog/*',
+      '%front' => '<front>',
+    ));
 
     if (module_exists('php') && $php_access) {
       $options[] = t('Pages on which this PHP code returns <code>TRUE</code> (experts only)');
@@ -175,10 +175,10 @@ function nexteuropa_piwik_admin_settings_form_validate($form, &$form_state) {
   $result = drupal_http_request($nexteuropa_piwik_site_path);
   if ($result->code != 200 && $form_state['values']['nexteuropa_piwik_url_skiperror'] == FALSE) {
     form_set_error('nexteuropa_piwik_site_path', t('The validation of "@url" failed with error "@error" (HTTP code @code).', array(
-        '@url' => check_url($nexteuropa_piwik_site_path),
-        '@error' => $result->error,
-        '@code' => $result->code,
-        )));
+      '@url' => check_url($nexteuropa_piwik_site_path),
+      '@error' => $result->error,
+      '@code' => $result->code,
+    )));
   }
 }
 
@@ -208,9 +208,9 @@ function nexteuropa_piwik_token_element_validate(&$element, &$form_state) {
   $invalid_tokens = _nexteuropa_piwik_get_forbidden_tokens($tokens);
   if ($invalid_tokens) {
     form_error($element, t('The %element-title is using the following forbidden tokens with personal identifying information: @invalid-tokens.', array(
-        '%element-title' => $element['#title'],
-        '@invalid-tokens' => implode(', ', $invalid_tokens),
-        )));
+      '%element-title' => $element['#title'],
+      '@invalid-tokens' => implode(', ', $invalid_tokens),
+    )));
   }
 
   return $element;
@@ -276,16 +276,16 @@ function _nexteuropa_piwik_contains_forbidden_token($token_string) {
     'user:url]',
     'user:path]',
     'user:picture]',
-    // addressfield_tokens.module
+    // addressfield_tokens.module.
     ':first-name]',
     ':last-name]',
     ':name-line]',
     ':mc-address]',
     ':thoroughfare]',
     ':premise]',
-    // realname.module
+    // realname.module.
     ':name-raw]',
-    // token.module
+    // token.module.
     ':ip-address]',
   );
 
