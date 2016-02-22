@@ -108,6 +108,9 @@ projects[coffee][version] = 2.2
 
 projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
+; https://www.drupal.org/node/2487115
+projects[collapse_text][patch][] = http://cgit.drupalcode.org/collapse_text/patch/?id=85656e4960d22fc145d5c3e3a79b81eaeb4cbde5
+
 
 projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "2.10"
@@ -491,6 +494,8 @@ projects[select_or_other][version] = 2.22
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
+; https://www.drupal.org/node/2673290
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -540,6 +545,8 @@ projects[token_filter][version] = 1.1
 
 projects[translation_overview][subdir] = "contrib"
 projects[translation_overview][version] = "2.0-beta1"
+; https://www.drupal.org/node/2673314
+projects[translation_overview][patch][] = https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch
 
 projects[translation_table][subdir] = "contrib"
 projects[translation_table][version] = "1.0-beta1"
