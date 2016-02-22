@@ -45,17 +45,6 @@ function nexteuropa_map_country_layer_content_alter(&$content, $wrapper, $entity
 }
 
 /**
- * Implements hook_map_content_alter().
- *
- * See MapController->buildContent().
- */
-function nexteuropa_map_country_map_content_alter(&$custom_js) {
-  $country_layer_js = base_path() . drupal_get_path('module', 'nexteuropa_map_country') . "/js/country_layer.js?v=" . rand(0, 33333);
-  $custom_js[] = $country_layer_js;
-  return $custom_js;
-}
-
-/**
  * Creates list of countries from CSV data.
  *
  * @param string $data
@@ -86,15 +75,16 @@ function _nexteuropa_map_country_csv_countries($data) {
 }
 
 /**
- * Implements hook_map_form_info().
+ * Implements hook_layer_info().
  *
  * Registers the name of the map layer sub module and which custom form
  * elements it wants to add to the map layer forms.
  */
-function nexteuropa_map_country_map_form_info() {
+function nexteuropa_map_country_layer_info() {
   return array(
     'country_layer' => array(
-      'elements' => array('style', 'nuts', 'attribution'),
+      'form_elements' => array('style', 'nuts', 'attribution'),
+      'custom_js' => base_path() . drupal_get_path('module', 'nexteuropa_map_country') . "/js/country_layer.js?v=" . rand(0, 33333),
     ),
   );
 }
@@ -103,7 +93,7 @@ function nexteuropa_map_country_map_form_info() {
  * Implements hook_map_form_elements().
  *
  * Defines custom map layer form fields for the country layer. These elements
- * are added to the form via hook_map_form_info().
+ * are added to the form via hook_layer_info().
  */
 function nexteuropa_map_country_map_form_elements() {
   $form_elements = array();

@@ -101,16 +101,17 @@ function nexteuropa_map_csv_features($data) {
 }
 
 /**
- * Implements hook_map_form_info().
+ * Implements hook_layer_info().
  *
  * Registers the name of the map layer sub module and which custom form
  * elements it wants to add to the map layer forms. CSV layer has no custom
  * fields.
  */
-function nexteuropa_map_csv_map_form_info() {
+function nexteuropa_map_csv_layer_info() {
   return array(
     'csv_layer' => array(
-      'elements' => array('popup', 'clustering', 'icon', 'attribution'),
+      'form_elements' => array('popup', 'clustering', 'icon', 'attribution'),
+      'custom_js' => base_path() . drupal_get_path('module', 'nexteuropa_map_csv') . "/js/csv_layer.js?v=" . rand(0, 33333),
     ),
   );
 }

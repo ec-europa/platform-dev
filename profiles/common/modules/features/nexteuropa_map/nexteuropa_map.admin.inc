@@ -73,9 +73,8 @@ function map_form($form, &$form_state, $map) {
   // Adds field UI fields.
   field_attach_form('map', $map, $form, $form_state);
 
-  // Adds custom form elements defined by the map module.
-  $map_layers = module_invoke_all('map_form_info');
-  $elements = $map_layers['map']['elements'];
+  // Adds common map form elements.
+  $elements = array('height', 'center', 'zoom', 'tiles', 'attribution');
   $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
   $form += $custom_form_elements;
 

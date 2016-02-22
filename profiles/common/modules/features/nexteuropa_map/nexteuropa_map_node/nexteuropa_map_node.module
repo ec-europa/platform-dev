@@ -73,148 +73,6 @@ function nexteuropa_map_node_layer_content_alter(&$content, $wrapper, $entity) {
 }
 
 /**
- * Implements hook_map_content_alter().
- *
- * See MapController->buildContent().
- */
-function nexteuropa_map_node_map_content_alter(&$custom_js) {
-  $node_layer_js = base_path() . drupal_get_path('module', 'nexteuropa_map_node') . "/js/node_layer.js?v=" . rand(0, 33333);
-  $custom_js[] = $node_layer_js;
-  return $custom_js;
-}
-
-/**
- * Implements hook_layer_inline_entity_form_alter().
- *
- * See MapLayerInlineEntityFormController->EntityForm().
- */
-function nexteuropa_map_node_layer_inline_entity_form_alter(&$entity_form, $settings, $type) {
-  if ($type == 'node_layer') {
-
-    // Defines the form elements shared by inline entity and stand alone form.
-    $entity_form = _nexteuropa_map_node_shared_form($entity_form, $settings);
-  }
-  return $entity_form;
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Alters the stand alone entity form with node layer specific fields. See also
- * inline entity form. Shares  form elements with the inline entity form.
- */
-function nexteuropa_map_node_form_map_layer_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_state['map_layer']->type == 'node_layer') {
-
-    // Defines the form elements shared by inline entity and stand alone form.
-    $settings = $form_state['settings'];
-    $form = _nexteuropa_map_node_shared_form($form, $settings);
-  }
-}
-
-/**
- * Provides shared form elements.
- *
- * Form elements that are shared by the stand-alone and the inline entity form.
- *
- * @param array $form
- *   The form before adding the shared elements.
- * @param array $settings
- *   The map settings that can hold default values.
- *
- * @return
- *   The form with the shared elements added.
- */
-function _nexteuropa_map_node_shared_form(&$form, $settings) {
-  $form['#tree'] = TRUE;
-
-  // Adds pop up fields.
-  $form['popup'] = _nexteuropa_map_map_form_elements('popup', $settings);
-
-  // Adds clustering fields.
-  $form['clustering'] = _nexteuropa_map_map_form_elements('clustering', $settings);
-
-  // Adds attribution fields.
-  $form['attribution'] = _nexteuropa_map_map_form_elements('attribution', $settings);
-
-  // Adds icon fields.
-  $form['icon'] = _nexteuropa_map_map_form_elements('icon', $settings);
-
-  // Adds a filter fieldset.
-  $form['node_filters'] = array(
-    '#type' => 'fieldset',
-  );
-
-  // Adds map content type filter field.
-  $form['node_filters']['map_content_type'] = array(
-    '#type' => 'select',
-    '#options' => _nexteuropa_map_node_get_content_types(),
-    '#title' => t('Content type'),
-    '#description' => t('Content type that contains the geospatial data'),
-    '#default_value' => isset($settings['node_filters']['map_content_type']) ? $settings['node_filters']['map_content_type'] : 0,
-  );
-
-  // Provides a geofield selection field to choose in which field to find geo
-  // data.
-  $geofield_options = array();
-  foreach (_nexteuropa_map_node_get_content_types() as $key => $content_type) {
-    foreach (_nexteuropa_map_node_get_geofields($key) as $key => $field) {
-      $geofield_options[$key] = $field;
-    }
-  }
-
-  // @todo make dependent on content type.
-  $form['node_filters']['geofield'] = array(
-    '#type' => 'select',
-    '#options' => $geofield_options,
-    '#title' => t('Geofield'),
-    '#description' => t('Field that contains the geospatial data'),
-    '#default_value' => isset($settings['node_filters']['geofield']) ? $settings['node_filters']['geofield'] : 0,
-  );
-
-  // Provides taxonomy term filter fields based on vocabularies.
-  $taxonomy_fields = _nexteuropa_map_node_get_taxonomy_fields();
-  foreach ($taxonomy_fields as $taxonomy_field) {
-    if ($taxonomy_field) {
-      $field = $taxonomy_field['field'];
-      $vocabulary = taxonomy_vocabulary_machine_name_load($taxonomy_field['vocabulary']);
-      $options = _nexteuropa_map_node_get_taxonomy_term_options($taxonomy_field['vocabulary']);
-      $form['node_filters']['terms'][$field] = array(
-        '#type' => 'select',
-        '#options' => $options,
-        '#title' => $vocabulary->name,
-        '#multiple' => TRUE,
-        '#description' => t('Filter results by @vocab', array('@vocab' => $vocabulary->name)),
-        '#default_value' => isset($settings['node_filters']['terms'][$field]) ? $settings['node_filters']['terms'][$field] : 0,
-      );
-    }
-  }
-
-  // Provides node status filter.
-  $form['node_filters']['show_unpublished'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Show unpublished'),
-    '#default_value' => isset($settings['node_filters']['show_unpublished']) ? $settings['node_filters']['show_unpublished'] : 0,
-    '#description' => t('Show unpublished nodes in a map'),
-  );
-
-  // Allows choosing the view mode for displaying the pop-up.
-  // @todo make dependent on content type.
-  $entity_info = entity_get_info('node');
-  foreach ($entity_info['view modes'] as $key => $view_mode) {
-    $view_mode_options[$key] = $view_mode['label'];
-  }
-  $form['view_mode'] = array(
-    '#type' => 'select',
-    '#options' => $view_mode_options,
-    '#title' => t('Pop-up view mode'),
-    '#description' => t('View mode to use for the pop-up'),
-    '#default_value' => isset($settings['view_mode']) ? $settings['view_mode'] : 'teaser',
-  );
-  return $form;
-}
-
-/**
  * Populates a list of terms for use in a form api select.
  *
  * @param string $machine_name
@@ -250,8 +108,14 @@ function _nexteuropa_map_node_get_content_types() {
   // Cycles through all the field of the geofield & geofield_geojson type to
   // create a list of content types that use that field.
   $fields = array();
-  $fields = $fields + field_read_fields(array('type' => 'geofield', 'entity_type' => 'node'));
-  $fields = $fields + field_read_fields(array('type' => 'geofield_geojson', 'entity_type' => 'node'));
+  $fields = $fields + field_read_fields(array(
+      'type' => 'geofield',
+      'entity_type' => 'node'
+    ));
+  $fields = $fields + field_read_fields(array(
+      'type' => 'geofield_geojson',
+      'entity_type' => 'node'
+    ));
   foreach ($fields as $key => $field) {
     $instances = field_read_instances(array('field_name' => $key));
     foreach ($instances as $key => $instance) {
@@ -290,6 +154,7 @@ function _nexteuropa_map_node_get_geofields($bundle) {
 function _nexteuropa_map_node_get_taxonomy_fields() {
 
   $taxnonomy_fields = array();
+
   // Cycles through all the fields of all the content types that contains
   // geofield to find vocabularies.
   $content_types = _nexteuropa_map_node_get_content_types();
@@ -325,10 +190,7 @@ function _nexteuropa_map_node_fetch_nodes($filters) {
     $query = new EntityFieldQuery();
 
     // Filters result by bundle.
-    $query->entityCondition('entity_type', 'node')
-      // @todo clean up.
-      // ->addTag('efq_debug')
-      ->entityCondition('bundle', $filters['map_content_type']);
+    $query->entityCondition('entity_type', 'node')->entityCondition('bundle', $filters['map_content_type']);
 
     // Fetches the geofields in the content type and filters out nodes that
     // have an empty geofield. The column differs per geofield type.
@@ -351,8 +213,8 @@ function _nexteuropa_map_node_fetch_nodes($filters) {
     }
 
     // Applies chosen taxonomy terms filters.
-    if (isset($filters['terms'])) {
-      foreach ($filters['terms'] as $term_field => $tids) {
+    if (isset($filters['term_filters'])) {
+      foreach ($filters['term_filters'] as $term_field => $tids) {
         if (count($tids) > 0) {
           $query->fieldCondition($term_field, 'tid', $tids, 'in');
         }
@@ -490,4 +352,105 @@ function nexteuropa_map_node_stand_alone_map_layer_settings_alter(&$settings, $f
     $settings['view_mode'] = $values['view_mode'];
   }
   return $settings;
+}
+
+/**
+ * Implements hook_layer_info().
+ *
+ * Registers the name of the map layer sub module and which custom form
+ * elements it wants to add to the map layer forms.
+ */
+function nexteuropa_map_node_layer_info() {
+  return array(
+    'node_layer' => array(
+      'form_elements' => array('popup','clustering','attribution','icon','node_filters','term_filters'),
+      'custom_js' => base_path() . drupal_get_path('module', 'nexteuropa_map_node') . "/js/node_layer.js?v=" . rand(0, 33333),
+    ),
+  );
+}
+
+/**
+ * Implements hook_map_form_elements().
+ *
+ * Defines custom map layer form fields for the node layer. These elements
+ * are added to the form via hook_layer_info().
+ */
+function nexteuropa_map_node_map_form_elements() {
+
+  // Provides options for geofield select list.
+  $geofield_options = array();
+  foreach (_nexteuropa_map_node_get_content_types() as $key => $content_type) {
+    foreach (_nexteuropa_map_node_get_geofields($key) as $key => $field) {
+      $geofield_options[$key] = $field;
+    }
+  }
+
+  // Provides options for view mode select list.
+  // @todo make dependent on content type.
+  $entity_info = entity_get_info('node');
+  foreach ($entity_info['view modes'] as $key => $view_mode) {
+    $view_mode_options[$key] = $view_mode['label'];
+  }
+
+  // Adds a filter fieldset.
+  $form_elements = array(
+    'node_filters' => array(
+      '#type' => 'fieldset',
+
+      // Adds map content type filter field.
+      'map_content_type' => array(
+        '#type' => 'select',
+        '#options' => _nexteuropa_map_node_get_content_types(),
+        '#title' => t('Content type'),
+        '#description' => t('Content type that contains the geospatial data'),
+      ),
+
+      // Provides a geofield selection field to choose in which field to find geo
+      // data.
+      // @todo make dependent on content type.
+      'geofield' => array(
+        '#type' => 'select',
+        '#options' => $geofield_options,
+        '#title' => t('Geofield'),
+        '#description' => t('Field that contains the geospatial data'),
+      ),
+
+      // Provides node status filter.
+      'show_unpublished' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Show unpublished'),
+        '#description' => t('Show unpublished nodes in a map'),
+      ),
+
+      // Provides the view mode options list for displaying the pop-up.
+      'view_mode' => array(
+        '#type' => 'select',
+        '#options' => $view_mode_options,
+        '#title' => t('Pop-up view mode'),
+        '#description' => t('View mode to use for the pop-up'),
+      ),
+    ),
+    'term_filters' => array(
+      '#type' => 'fieldset',
+    ),
+  );
+
+  // Provides taxonomy term filter fields based on vocabularies.
+  $taxonomy_fields = _nexteuropa_map_node_get_taxonomy_fields();
+  foreach ($taxonomy_fields as $taxonomy_field) {
+    if ($taxonomy_field) {
+      $field = $taxonomy_field['field'];
+      $vocabulary = taxonomy_vocabulary_machine_name_load($taxonomy_field['vocabulary']);
+      $options = _nexteuropa_map_node_get_taxonomy_term_options($taxonomy_field['vocabulary']);
+      $form_elements['term_filters'][$field] = array(
+        '#type' => 'select',
+        '#options' => $options,
+        '#title' => $vocabulary->name,
+        '#multiple' => TRUE,
+        '#description' => t('Filter results by @vocab', array('@vocab' => $vocabulary->name)),
+      );
+    }
+  }
+
+  return $form_elements;
 }

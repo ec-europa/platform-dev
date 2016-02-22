@@ -221,7 +221,7 @@ function map_layer_form($form, &$form_state, $map_layer) {
   // Adds custom form elements defined by the active map layer sub module.
   $type = $map_layer->type;
   $map_layers = module_invoke_all('map_form_info');
-  $elements = $map_layers[$type]['elements'];
+  $elements = $map_layers[$type]['form_elements'];
   $custom_form_elements = _nexteuropa_map_custom_map_form_elements($elements, $settings);
   $form += $custom_form_elements;
 
@@ -279,30 +279,6 @@ function nexteuropa_map_layer_form_submit($form, &$form_state) {
   $map_layer_uri = entity_uri('map_layer', $map_layer);
   $form_state['redirect'] = $map_layer_uri['path'];
   drupal_set_message(t('Map layer %title saved.', array('%title' => entity_label('map_layer', $map_layer))));
-}
-
-/**
- * Fetches form values and stores them in a settings array.
- *
- * @param array $settings
- *   List of already present settings.
- * @param array $form_state
- *   Form values
- * @return
- *   List of settings.
- */
-function _nexteuropa_map_layer_save_settings($settings, $form_state) {
-  $map_layer = $form_state['map_layer'];
-  $map_layers = module_invoke_all('map_form_info');
-  $elements = $map_layers[$map_layer->type]['elements'];
-  foreach($elements as $element){
-    foreach ($form_state['values'][$element] as $key => $thing) {
-      if($key) {
-        $settings[$element][$key] = $thing;
-      }
-    }
-  }
-  return $settings;
 }
 
 /**

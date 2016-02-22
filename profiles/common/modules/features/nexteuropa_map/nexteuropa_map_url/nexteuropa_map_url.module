@@ -36,26 +36,16 @@ function nexteuropa_map_url_layer_content_alter(&$content, $wrapper, $entity) {
 }
 
 /**
- * Implements hook_map_content_alter().
- *
- * See MapController->buildContent().
- */
-function nexteuropa_map_url_map_content_alter(&$custom_js) {
-  $url_layer_js = base_path() . drupal_get_path('module', 'nexteuropa_map_url') . "/js/url_layer.js?v=" . rand(0, 33333);
-  $custom_js[] = $url_layer_js;
-  return $custom_js;
-}
-
-/**
- * Implements hook_map_form_info().
+ * Implements hook_layer_info().
  *
  * Registers the name of the map layer sub module and which custom form
  * elements it wants to add to the map layer forms.
  */
-function nexteuropa_map_url_map_form_info() {
+function nexteuropa_map_url_layer_info() {
   return array(
     'url_layer' => array(
-      'elements' => array('popup', 'clustering', 'attribution', 'icon'),
+      'form_elements' => array('popup', 'clustering', 'attribution', 'icon'),
+      'custom_js' => base_path() . drupal_get_path('module', 'nexteuropa_map_url') . "/js/url_layer.js?v=" . rand(0, 33333),
     ),
   );
 }

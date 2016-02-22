@@ -245,7 +245,7 @@ function nexteuropa_map_delete_map_multiple($map_ids) {
  * Implements hook_map_form_elements().
  *
  * Defines custom map form elements. These elements are added to the map and
- * map layers forms via hook_map_form_info().
+ * map layers forms via hook_layer_info().
  */
 function nexteuropa_map_map_form_elements() {
 
@@ -545,20 +545,6 @@ function nexteuropa_map_feature_set_api() {
 }
 
 /**
- * Implements hook_map_form_info().
- *
- * Registers the name of the map module and which custom form elements it wants
- * to add to the map layer forms.
- */
-function nexteuropa_map_map_form_info() {
-  return array(
-    'map' => array(
-      'elements' => array('height', 'center', 'zoom', 'tiles', 'attribution'),
-    ),
-  );
-}
-
-/**
  * Provides custom form elements.
  *
  * Cycles through all the form elements defined by all modules and fetches the
@@ -589,7 +575,9 @@ function _nexteuropa_map_custom_map_form_elements($elements, $settings) {
       $form[$element][$key] = $form_elements[$element][$key];
 
       // Fetches default value for sub elements from settings.
-      $form[$element][$key]['#default_value'] = $settings[$element][$key];
+      if(isset($settings[$element][$key])){
+        $form[$element][$key]['#default_value'] = $settings[$element][$key];
+      }
     }
   }
   return $form;
