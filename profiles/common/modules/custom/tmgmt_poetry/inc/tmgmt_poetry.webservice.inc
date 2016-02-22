@@ -191,7 +191,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           if (isset($status['lgCode']) && !empty($status['lgCode'])) {
             $reference = '%' . $reference;
             $language_job = array(strtolower((string) $status['lgCode']));
-            $lanaguage_job = $poetry_translator->mapToLocalLanguage($language_job);
+            $language_job = $poetry_translator->mapToLocalLanguage($language_job);
           }
           else {
             $reference = 'MAIN_%_POETRY_%' . $reference;
