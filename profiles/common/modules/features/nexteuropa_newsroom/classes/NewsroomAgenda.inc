@@ -509,14 +509,20 @@ abstract class NewsroomAgenda {
       foreach ($items as $key => $item) {
         $items[$key]->new = NewsroomHelper::isNewItem($item->created, $item->nid);
         if (empty($item->start_date_obj)) {
-          $items[$key]->start_date_obj = !empty($item->start_date) ? new DateTime($item->start_date) : NULL;
-          $items[$key]->start_date_obj->setTime(0, 0, 0);
+          $dt_object = new DateTime();
+          if (!empty($item->start_date)) {
+            $dt_object->setTimestamp($item->start_date);
+          }
+          $dt_object->setTime(0, 0, 0);
+          $items[$key]->start_date_obj = $dt_object;
         }
         // If the end date is empty, it means it is one day event and we set the
         // end date to start date.
         if (empty($item->end_date_obj)) {
-          $items[$key]->end_date_obj = !empty($item->end_date) ? new DateTime($item->end_date) : new DateTime($item->start_date);
-          $items[$key]->end_date_obj->setTime(0, 0, 0);
+          $dt_object = new DateTime();
+          $dt_object->setTimestamp(!empty($item->end_date) ? $item->end_date : $item->start_date);
+          $dt_object->setTime(0, 0, 0);
+          $items[$key]->end_date_obj = $dt_object;
         }
       }
     }

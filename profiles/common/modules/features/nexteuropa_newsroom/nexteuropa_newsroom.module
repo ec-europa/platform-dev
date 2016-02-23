@@ -42,7 +42,6 @@ global $_newsroom_universe_url;
  * Implements hook_init().
  */
 function nexteuropa_newsroom_init() {
-  cache_clear_all('plugins:feeds:plugins', 'cache');
   global $_newsroom_universe_url;
   $universe_id = variable_get('newsroom_universe_id', FALSE);
   if ($universe_id) {
@@ -50,7 +49,7 @@ function nexteuropa_newsroom_init() {
   }
   // We show message in the admin part and for users who has access
   // to site configuration.
-  if (arg(0) == 'admin' && user_access('administer site configuration')) {
+  if (path_is_admin(current_path()) && user_access('administer site configuration')) {
     if (empty($universe_id)) {
       $newsroom_config_path = filter_xss(url('admin/config/content/newsroom'));
       drupal_set_message(t('The Newsroom feature needs to be configured before use. Please visit the <a href="!link">configuration page</a>!', array('!link' => $newsroom_config_path)), 'warning', FALSE);
@@ -160,7 +159,6 @@ function nexteuropa_newsroom_menu() {
     'description' => 'Displays Newsroom items as Agenda',
     'page callback' => '_nexteuropa_newsroom_agenda',
     'access arguments' => array('access content'),
-    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
     'file' => 'nexteuropa_newsroom.pages.inc',
   );
@@ -168,7 +166,7 @@ function nexteuropa_newsroom_menu() {
     'title' => 'Newsletters',
     'description' => 'Newsletters service list',
     'page callback' => '_nexteuropa_newsroom_newsletters_page',
-    'access callback' => TRUE,
+    'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
     'file' => 'nexteuropa_newsroom.pages.inc',
   );
@@ -742,48 +740,6 @@ function _nexteuropa_newsroom_enable_translations() {
 }
 
 /**
- * Helper function to delete menu, menu links, taxonomies.
- */
-function nexteuropa_newsroom_delete($name, $type = 'menu', $op = 'items') {
-  switch ($type) {
-    case 'menu':
-      if ($op == 'items') {
-        menu_delete_links($name);
-      }
-      else {
-        menu_delete(array('menu_name' => $name));
-      }
-      break;
-
-    case 'vocabulary':
-      $voc = taxonomy_vocabulary_machine_name_load($name);
-      if (!empty($voc)) {
-        if ($op == 'items') {
-          $terms = taxonomy_get_tree($voc->vid);
-          foreach ($terms as $term) {
-            taxonomy_term_delete($term->tid);
-          }
-        }
-        else {
-          taxonomy_vocabulary_delete($voc->vid);
-        }
-      }
-      break;
-
-    case 'node':
-      $node_type = array($name);
-      $query = new EntityFieldQuery();
-      $query->entityCondition('entity_type', 'node')
-        ->propertyCondition('type', $node_type, 'IN');
-      $result = $query->execute();
-      foreach ($result['node'] as $node) {
-        node_delete($node->nid);
-      }
-      break;
-  }
-}
-
-/**
  * Implements hook_url_inbound_alter().
  *
  * Resolves alias if the content is not translated.
@@ -984,20 +940,6 @@ function _nexteuropa_newsroom_create_default_importers($universe_id, $context = 
     drush_print(dt('Importing items, this might take a while...'));
     drush_backend_batch_process();
   }
-}
-
-/**
- * Implements hook_views_handlers().
- */
-function nexteuropa_views_handlers() {
-  return array(
-    'handlers' => array(
-      'nexteuropa_views_handler_field_taxonomy' => array(
-        'parent' => 'views_handler_field_taxonomy',
-        'path' => drupal_get_path('module', 'newsroom') . '/views',
-      ),
-    ),
-  );
 }
 
 /**

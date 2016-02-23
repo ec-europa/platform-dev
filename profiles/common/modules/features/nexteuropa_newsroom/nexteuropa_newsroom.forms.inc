@@ -490,8 +490,6 @@ function nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
  * Defines newsroom agenda filter form.
  */
 function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $type_id, $topic_id, $current_date, $result_topics) {
-  $arguments = $form_state['build_info']['args'];
-
   $temp = new stdClass();
   $temp->type = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
   node_object_prepare($temp);
@@ -530,8 +528,9 @@ function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $typ
     '#type' => 'hidden',
     '#value' => $view,
   );
-  $form['submit'] = array(
-    '#type' => 'submit',
+  $form['button'] = array(
+    '#type' => 'button',
+    '#button_type' => 'button',
     '#ajax' => array(
       'callback' => 'nexteuropa_newsroom_agenda_ajax_form_submit',
     ),
@@ -578,7 +577,6 @@ function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, 
  * Ajax submit handler.
  */
 function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
-
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
 
   $view = isset($form_state['input']['view']) ? $form_state['input']['view'] : NULL;
