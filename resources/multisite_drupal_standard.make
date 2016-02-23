@@ -111,7 +111,6 @@ projects[collapse_text][version] = "2.4"
 ; https://www.drupal.org/node/2487115
 projects[collapse_text][patch][] = http://cgit.drupalcode.org/collapse_text/patch/?id=85656e4960d22fc145d5c3e3a79b81eaeb4cbde5
 
-
 projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "2.10"
 
