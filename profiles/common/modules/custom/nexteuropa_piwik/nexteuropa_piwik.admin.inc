@@ -26,20 +26,11 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   $form['account']['nexteuropa_piwik_smartloader_prurl'] = array(
     '#type' => 'textfield',
     '#title' => t('Smarloader Protocol-Relative URL'),
-    '#default_value' => variable_get('nexteuropa_piwik_smartloader_prurl', ''),
+    '#default_value' => variable_get('nexteuropa_piwik_smartloader_prurl', '//europa.eu/webtools/load.js'),
     '#size' => 80,
     '#maxlength' => 255,
     '#required' => TRUE,
-    '#description' => t("The URL of the webtools smartloader script. e.g. '//example.com/load.js'"),
-  );
-  $form['account']['nexteuropa_piwik_site_path'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Site path'),
-    '#default_value' => variable_get('nexteuropa_piwik_site_path', ''),
-    '#size' => 80,
-    '#maxlength' => 255,
-    '#required' => TRUE,
-    '#description' => t("Current sites path to be tracked in piwik.e.g. 'ec.europa.eu/agriculture'"),
+    '#description' => t("The URL of the default webtools smartloader is '//europa.eu/webtools/load.js'"),
   );
 
   $instance_options = array(
@@ -51,19 +42,9 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     '#type' => 'select',
     '#title' => t('Piwik instance'),
     '#options' => $instance_options,
-    '#default_value' => "testing",
+    '#default_value' => "ec.europa.eu",
     '#required' => TRUE,
     '#description' => t("Define the Piwik instance"),
-  );
-
-  $form['account']['nexteuropa_piwik_site_section'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Site section'),
-    '#default_value' => variable_get('nexteuropa_piwik_site_section', ''),
-    '#size' => 80,
-    '#maxlength' => 255,
-    '#required' => FALSE,
-    '#description' => t("Allows you to refine your statistics by indicating a category or section of your site"),
   );
 
   // Visibility settings.
@@ -83,6 +64,38 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   $visibility = variable_get('nexteuropa_piwik_visibility_pages', 0);
   $pages = variable_get('nexteuropa_piwik_pages', NEXTEUROPA_PIWIK_PAGES);
 
+  // Site paths.
+  $form['tracking']['site_path'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Site paths'),
+  );
+
+  $form['tracking']['site_path']['nexteuropa_piwik_site_path'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Site paths'),
+    '#default_value' => variable_get('nexteuropa_piwik_site_path', ''),
+    '#required' => TRUE,
+    '#description' => t("Specify site paths to be tracked in Piwik. Add paths by using their domain name e.g. <strong>ec.europa.eu/agriculture</strong>. Enter one path per line."),
+    '#rows' => 10,
+  );
+
+  // Site setion.
+  $form['tracking']['site_section'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Site section'),
+  );
+
+  $form['tracking']['site_section']['nexteuropa_piwik_site_section'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Site section'),
+    '#default_value' => variable_get('nexteuropa_piwik_site_section', ''),
+    '#size' => 80,
+    '#maxlength' => 255,
+    '#required' => FALSE,
+    '#description' => t("Allows you to refine your statistics by indicating a category or section of your site"),
+  );
+
+  // Pages visibility settings.
   $form['tracking']['page_vis_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Pages'),
@@ -162,23 +175,12 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
  * Implements hook_FORM_ID_form_validate().
  */
 function nexteuropa_piwik_admin_settings_form_validate($form, &$form_state) {
-
   // Trim some text area values.
   $form_state['values']['nexteuropa_piwik_site_id'] = trim($form_state['values']['nexteuropa_piwik_site_id']);
   $form_state['values']['nexteuropa_piwik_pages'] = trim($form_state['values']['nexteuropa_piwik_pages']);
 
   if (!preg_match('/^\d{1,}$/', $form_state['values']['nexteuropa_piwik_site_id'])) {
     form_set_error('nexteuropa_piwik_site_id', t('A valid Piwik site ID is an integer only.'));
-  }
-
-  $nexteuropa_piwik_site_path = $form_state['values']['nexteuropa_piwik_site_path'];
-  $result = drupal_http_request($nexteuropa_piwik_site_path);
-  if ($result->code != 200 && $form_state['values']['nexteuropa_piwik_url_skiperror'] == FALSE) {
-    form_set_error('nexteuropa_piwik_site_path', t('The validation of "@url" failed with error "@error" (HTTP code @code).', array(
-      '@url' => check_url($nexteuropa_piwik_site_path),
-      '@error' => $result->error,
-      '@code' => $result->code,
-    )));
   }
 }
 
