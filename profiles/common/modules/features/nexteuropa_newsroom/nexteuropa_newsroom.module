@@ -965,7 +965,7 @@ function _nexteuropa_newsroom_create_default_importers($universe_id, $context = 
   foreach ($importers as $importer) {
     $feed_source = feeds_source($importer['importer']);
     $config = $feed_source->getConfig();
-    $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::getUniverseUrl($universe_id) . '/' . $importer['segment'];
+    $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::getUniverseUrl($universe_id) . $importer['segment'];
     $feed_source->setConfig($config);
     $feed_source->save();
     $batch = array(
