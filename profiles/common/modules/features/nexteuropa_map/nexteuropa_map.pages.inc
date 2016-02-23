@@ -15,7 +15,7 @@ function _nexteuropa_map_view($map) {
 /**
  * Provides a page with a webtools map.
  *
- * @return
+ * @return array
  *   Build array for map page.
  */
 function _nexteuropa_map_webtools() {

@@ -94,7 +94,7 @@ function nexteuropa_map_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array(
       'nexteuropa_map_delete_form',
-      $map_uri_argument_position
+      $map_uri_argument_position,
     ),
     'access callback' => 'entity_access',
     'access arguments' => array('edit', 'map', $map_uri_argument_position),
@@ -382,7 +382,7 @@ function nexteuropa_map_map_form_elements() {
 /**
  * Provides available tiles.
  *
- * @return
+ * @return array
  *   A list of tile names that can be used in a form select element.
  */
 function _nexteuropa_map_tiles() {
@@ -552,9 +552,12 @@ function nexteuropa_map_feature_set_api() {
  * value by fetching values from the settings.
  *
  * @param array $elements
- *   List of form elements keys that must be fetched from the list of all form elements
+ *   List of form elements keys that must be fetched from the list of all form
+ *   elements.
  * @param array $settings
- *   List of form elements values that were stored when the map layer was saved and that shoudl be used as the default value.
+ *   List of form elements values that were stored when the map layer was
+ *   saved and that shoudl be used as the default value.
+ *
  * @return array $form
  *   List of custom for elements that can be added to the map layer form.
  */
@@ -575,7 +578,7 @@ function _nexteuropa_map_custom_map_form_elements($elements, $settings) {
       $form[$element][$key] = $form_elements[$element][$key];
 
       // Fetches default value for sub elements from settings.
-      if(isset($settings[$element][$key])){
+      if (isset($settings[$element][$key])) {
         $form[$element][$key]['#default_value'] = $settings[$element][$key];
       }
     }

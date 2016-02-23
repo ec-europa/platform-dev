@@ -50,7 +50,7 @@ function nexteuropa_map_country_layer_content_alter(&$content, $wrapper, $entity
  * @param string $data
  *   String with CSV data.
  *
- * @return
+ * @return array
  *   Associative array with country data.
  */
 function _nexteuropa_map_country_csv_countries($data) {

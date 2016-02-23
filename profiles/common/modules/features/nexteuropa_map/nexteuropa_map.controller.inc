@@ -68,7 +68,7 @@ class MapController extends EntityAPIController {
     // @todo figure out how to pass only the active map layer's js.
     $custom_js = array();
     $map_layers = module_invoke_all('layer_info');
-    foreach($map_layers as $map_layer) {
+    foreach ($map_layers as $map_layer) {
       $custom_js[] = $map_layer['custom_js'];
     }
 

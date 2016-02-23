@@ -32,6 +32,8 @@ class MapLayerController extends EntityAPIController {
   public function buildContent($entity, $view_mode = 'map_layer', $langcode = NULL, $content = array()) {
     $wrapper = entity_metadata_wrapper('map_layer', $entity);
     switch ($view_mode) {
+
+      // Defines content when viewing a map layer in the default view mode.
       case 'default':
         $content['author'] = array('#markup' => t('Created by: !author', array('!author' => $wrapper->uid->name->value(array('sanitize' => TRUE)))));
 
@@ -49,26 +51,26 @@ class MapLayerController extends EntityAPIController {
 
         // Themes description like default field.
         $content['description'] = array(
-            '#weight' => 0,
-            '#field_name' => 'field_fake_description',
-            '#title' => t('Description'),
-            '#items' => array(array('value' => $entity->description)),
-            '#formatter' => 'text_default',
-            0 => array(
-              '#markup' => check_plain($entity->description),
-            ),
-          ) + $field_defaults;
+          '#weight' => 0,
+          '#field_name' => 'field_fake_description',
+          '#title' => t('Description'),
+          '#items' => array(array('value' => $entity->description)),
+          '#formatter' => 'text_default',
+          0 => array(
+            '#markup' => check_plain($entity->description),
+          ),
+        ) + $field_defaults;
 
         // Themes settings like default field.
         $content['settings'] = array(
-            '#title' => t('Settings'),
-            '#field_name' => 'field_fake_settings',
-            '#items' => array(array('value' => $entity->settings)),
-            '#formatter' => 'text_default',
-            0 => array(
-              '#markup' => check_plain($entity->settings),
-            ),
-          ) + $field_defaults;
+          '#title' => t('Settings'),
+          '#field_name' => 'field_fake_settings',
+          '#items' => array(array('value' => $entity->settings)),
+          '#formatter' => 'text_default',
+          0 => array(
+            '#markup' => check_plain($entity->settings),
+          ),
+        ) + $field_defaults;
 
         break;
 
@@ -249,9 +251,9 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
     // settings array.
     $map_layers = module_invoke_all('map_form_info');
     $elements = $map_layers[$map_layer->type]['form_elements'];
-    foreach($elements as $element){
+    foreach ($elements as $element) {
       foreach ($map_layer->$element as $key => $value) {
-          $settings[$element][$key] = $value;
+        $settings[$element][$key] = $value;
       }
     }
 
@@ -271,4 +273,3 @@ class MapLayerInlineEntityFormController extends EntityInlineEntityFormControlle
   }
 
 }
-

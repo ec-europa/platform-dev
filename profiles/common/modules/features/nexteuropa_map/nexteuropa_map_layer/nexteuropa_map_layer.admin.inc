@@ -156,7 +156,6 @@ function nexteuropa_map_layer_add($type) {
  * See also MapLayerInlineEntityFormController->entityForm().
  *
  * @todo find out how to rename to nexteuropa_map_layer_form().
- * @todo figure out how to re-use the map layer inline entity form.
  */
 function map_layer_form($form, &$form_state, $map_layer) {
 

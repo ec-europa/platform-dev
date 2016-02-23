@@ -11,7 +11,6 @@ project path = profiles/common/modules/features/nexteuropa_map
 multisite_version = 2.1
 package = Maps
 php = 5.2.4
-version = 7.x-1.0
 
 ; Feature set entry for the Country layer
 feature_sets[nexteuropa_map_country][title] = 'Country layer'

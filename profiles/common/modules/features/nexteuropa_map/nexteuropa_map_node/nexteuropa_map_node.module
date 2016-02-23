@@ -76,9 +76,9 @@ function nexteuropa_map_node_layer_content_alter(&$content, $wrapper, $entity) {
  * Populates a list of terms for use in a form api select.
  *
  * @param string $machine_name
- *   The machine name of the vocabulary
+ *   The machine name of the vocabulary.
  *
- * @return
+ * @return array
  *   A list of terms that can be used in a form select element.
  */
 function _nexteuropa_map_node_get_taxonomy_term_options($machine_name) {
@@ -96,7 +96,7 @@ function _nexteuropa_map_node_get_taxonomy_term_options($machine_name) {
 /**
  * Provides list of content types that have a geofield.
  *
- * @return
+ * @return array
  *   A list of content types that can be used in a form select element.
  */
 function _nexteuropa_map_node_get_content_types() {
@@ -109,13 +109,13 @@ function _nexteuropa_map_node_get_content_types() {
   // create a list of content types that use that field.
   $fields = array();
   $fields = $fields + field_read_fields(array(
-      'type' => 'geofield',
-      'entity_type' => 'node'
-    ));
+    'type' => 'geofield',
+    'entity_type' => 'node',
+  ));
   $fields = $fields + field_read_fields(array(
-      'type' => 'geofield_geojson',
-      'entity_type' => 'node'
-    ));
+    'type' => 'geofield_geojson',
+    'entity_type' => 'node',
+  ));
   foreach ($fields as $key => $field) {
     $instances = field_read_instances(array('field_name' => $key));
     foreach ($instances as $key => $instance) {
@@ -128,7 +128,7 @@ function _nexteuropa_map_node_get_content_types() {
 /**
  * Finds geofields in a content type.
  *
- * @return
+ * @return array.
  *   A list of geofields that can be used in a form select element.
  */
 function _nexteuropa_map_node_get_geofields($bundle) {
@@ -146,13 +146,12 @@ function _nexteuropa_map_node_get_geofields($bundle) {
 /**
  * Provides list of vocabularies in content types with geofield.
  *
- * @return
- *   A list of taxonomy term fields that are used in content with geofield.
- *
  * @todo add entity reference fields.
+ *
+ * @return array
+ *   A list of taxonomy term fields that are used in content with geofield.
  */
 function _nexteuropa_map_node_get_taxonomy_fields() {
-
   $taxnonomy_fields = array();
 
   // Cycles through all the fields of all the content types that contains
@@ -237,13 +236,13 @@ function _nexteuropa_map_node_fetch_nodes($filters) {
 /**
  * Turns field items into GeoJSON features.
  *
+ * Shameless copy from leaflet_process_geofield().
+ *
  * @param array $items
  *   Field values.
  *
- * @return
+ * @return array
  *   An array containing a GeoJSON formatted map feature.
- *
- * Shameless copy from leaflet_process_geofield().
  */
 function _nexteuropa_map_node_prepare_features($items = array()) {
   $features = array();
@@ -363,7 +362,14 @@ function nexteuropa_map_node_stand_alone_map_layer_settings_alter(&$settings, $f
 function nexteuropa_map_node_layer_info() {
   return array(
     'node_layer' => array(
-      'form_elements' => array('popup','clustering','attribution','icon','node_filters','term_filters'),
+      'form_elements' => array(
+        'popup',
+        'clustering',
+        'attribution',
+        'icon',
+        'node_filters',
+        'term_filters',
+      ),
       'custom_js' => base_path() . drupal_get_path('module', 'nexteuropa_map_node') . "/js/node_layer.js?v=" . rand(0, 33333),
     ),
   );
@@ -405,8 +411,8 @@ function nexteuropa_map_node_map_form_elements() {
         '#description' => t('Content type that contains the geospatial data'),
       ),
 
-      // Provides a geofield selection field to choose in which field to find geo
-      // data.
+      // Provides a geofield selection field to choose in which field to find
+      // geo data.
       // @todo make dependent on content type.
       'geofield' => array(
         '#type' => 'select',
