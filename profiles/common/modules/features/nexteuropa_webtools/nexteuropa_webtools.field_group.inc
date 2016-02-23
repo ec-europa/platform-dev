@@ -21,7 +21,7 @@ function nexteuropa_webtools_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Custom js',
-    'weight' => '16',
+    'weight' => '8',
     'children' => array(
       0 => 'field_custom_js_file',
       1 => 'field_custom_js_link',
@@ -29,13 +29,12 @@ function nexteuropa_webtools_field_group_info() {
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Custom js',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => '',
-        'description' => '',
-      ),
       'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-custom-js-settings field-group-fieldset',
+        'required_fields' => 1,
+      ),
     ),
   );
   $export['group_custom_js_settings|bean|webtools|form'] = $field_group;
