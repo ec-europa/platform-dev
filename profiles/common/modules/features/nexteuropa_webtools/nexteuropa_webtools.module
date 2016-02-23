@@ -88,7 +88,7 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
   // This array will allow us to get and set the json_object value
   // multiple times from and to the form_state.
   $json_object_parents = array('field_json_object', LANGUAGE_NONE, 0, 'value');
-  $json_object = drupal_array_get_nested_value($form_state, $json_object_parents);
+  $json_object = drupal_array_get_nested_value($values, $json_object_parents);
   // Do not try to change an empty json_object.
   if (empty($json_object)) {
     return;
@@ -100,7 +100,7 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     unset($json_object->custom);
     // Set the updated object back in the form_state, allowing us to bail out
     // early. DO NOT FORGET TO ENCODE!
-    drupal_array_set_nested_value($form_state, $json_object_parents, json_encode($json_object));
+    drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object));
   }
 
   $field_custom_js_status = field_get_items('bean', $bean, 'field_custom_js_status');
@@ -133,6 +133,6 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     $json_object->custom = $url;
     // Add the JSON_UNESCAPED_SLASHES option to json_encode because we need the
     // full url in the json_object.
-    drupal_array_set_nested_value($form_state, $json_object_parents, json_encode($json_object, JSON_UNESCAPED_SLASHES));
+    drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object, JSON_UNESCAPED_SLASHES));
   }
 }
