@@ -946,19 +946,19 @@ function _nexteuropa_newsroom_item_type_teaser_only_settings(EntityMetadataWrapp
 function _nexteuropa_newsroom_create_default_importers($universe_id, $context = 'admin') {
   // Run the multilingual imports if required.
   $importers['newsroom_types_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_single_type_import_segment', NEXTEUROPA_NEWSROOM_TYPE_SEGMENT),
+    'segment' => variable_get('newsroom_single_type_import_segment', NEXTEUROPA_NEWSROOM_TYPE_FULL),
     'importer' => NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
   );
   $importers['newsroom_services_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_single_service_import_segment', NEXTEUROPA_NEWSROOM_SERVICE_SEGMENT),
+    'segment' => variable_get('newsroom_single_service_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_FULL),
     'importer' => NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER,
   );
   $importers['newsroom_topics_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_single_topic_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT),
+    'segment' => variable_get('newsroom_single_topic_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_FULL),
     'importer' => NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
   );
   $importers['newsroom_items_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT),
+    'segment' => variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_FULL),
     'importer' => NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
   );
 
