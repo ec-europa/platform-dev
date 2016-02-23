@@ -360,7 +360,7 @@ class NewsroomHelper {
       $term_ids = $cache->data;
     }
     else {
-      $term_ids = NULL;
+      $term_ids = array();
       $query = new EntityFieldQuery();
       $query->entityCondition('entity_type', 'taxonomy_term')
         ->fieldCondition($field_name, 'value', $field_value);

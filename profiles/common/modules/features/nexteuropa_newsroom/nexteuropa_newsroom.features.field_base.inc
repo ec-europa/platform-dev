@@ -610,7 +610,7 @@ function nexteuropa_newsroom_field_default_field_bases() {
       'tz_handling' => 'none',
     ),
     'translatable' => 0,
-    'type' => 'date',
+    'type' => 'datestamp',
   );
 
   // Exported field_base: 'field_newsroom_item_id'.

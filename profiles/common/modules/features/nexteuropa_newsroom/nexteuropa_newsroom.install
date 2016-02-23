@@ -14,8 +14,7 @@ include_once 'nexteuropa_newsroom.install.inc';
  * Implements hook_enable().
  */
 function nexteuropa_newsroom_enable() {
-  drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
-  cache_clear_all('plugins:feeds:plugins', 'cache');
+  drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _nexteuropa_newsroom_get_version())));  
   if (!db_table_exists(NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
     db_create_table(NEXTEUROPA_NEWSROOM_CACHE_TABLE, drupal_get_schema_unprocessed('system', 'cache'));
   }
@@ -165,4 +164,85 @@ function nexteuropa_newsroom_update_7106() {
   return t('The following fields have been deleted from your db:
     field_newsroom_category,
     field_selected_categories');
+}
+
+/**
+ * Change the datetime to timestamp.
+ */
+function nexteuropa_newsroom_update_7107() {
+// $content type : content type that contains fields to replace.
+  // $module_name : module that contains fields.
+  $module_name = 'nexteuropa_newsroom';
+  // Get db fields instances of content type.
+  $fields_instances = field_info_instances('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
+  
+  // Get feature fields config&instance.
+  module_load_include('inc', $module_name, $module_name . '.features.field_base');
+  if (function_exists($module_name . '_field_default_field_bases')) {
+    $fields_features_info = call_user_func($module_name . '_field_default_field_bases');
+  }
+
+  // Migration.
+  foreach ($fields_instances as $field_name => $field_instance) {
+    // Get db field config.
+    $field_info = field_info_field($field_name);
+
+    // Get feature field config.
+    $field_features_info = NULL;
+
+    if (isset($fields_features_info['user-user-' . $field_name])) {
+      $field_features_info = $fields_features_info['user-user-' . $field_name]['field_config'];
+    }
+
+    // Update only our fields defines to 'datestamp' in feature.field.
+    if (in_array($field_info['type'], array('datetime', 'date')) && $fields_features_info[$field_name]['type'] == 'datestamp') {
+      foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
+        $table_name = array_shift(array_keys($info_sql));
+
+        foreach ($info_sql[$table_name] as $id => $column_name) {
+
+          if (field_has_data($field_info)) {
+            // There is data: migrate data and update column to int.
+            watchdog('system', sprintf('Update the  column %s of table %s : migrate datas and update to datestamp.', $column_name, $table_name), NULL, WATCHDOG_WARNING);
+
+            // Create a temporary date field.
+            $param = array('type' => 'int', 'not null' => FALSE, 'default' => 0);
+            db_add_field($table_name, $column_name . '_temp', $param);
+
+            db_update($table_name)
+                    ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
+                    ->execute();
+
+            // Delete old column.
+            db_drop_field($table_name, $column_name);
+            db_change_field($table_name, $column_name . '_temp', $column_name, array('type' => 'int'));
+
+          }
+          else {
+            // If there is no data: just update column to int.
+            watchdog('system', sprintf('Update the  column %s of table %s : update to datestamp.', $column_name, $table_name), NULL, WATCHDOG_WARNING);
+            db_change_field($table_name, $column_name, $column_name, array('type' => 'int'));
+          }
+        }
+      }
+
+      watchdog('system', sprintf('Saving field config of %s', $field_name), NULL, WATCHDOG_INFO);
+      db_update('field_config')->fields(array('type' => 'datestamp'))->condition('id', $field_info['id'])->execute();
+
+      // Error logs.
+    }
+    elseif ($field_info['type'] == 'datestamp') {
+      watchdog('system', sprintf('Field %s has been already converted to UNIX timestamp""', $field_name), NULL, WATCHDOG_WARNING);
+    }
+    elseif ($field_info['type'] == 'datetime') {
+      $filename = $module_name . '.features.features.field_base.inc';
+      if (!$field_features_info) {
+        watchdog('system', sprintf('Field %s not found in %s', $field_name, $filename), NULL, WATCHDOG_WARNING);
+      }
+      elseif ($field_features_info['type'] != 'datestamp') {
+        watchdog('system', sprintf('Field %s is not a datestamp in %s', $field_name, $filename), NULL, WATCHDOG_WARNING);
+      }
+    }
+  }
+  field_cache_clear();
 }
