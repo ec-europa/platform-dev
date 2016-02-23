@@ -99,7 +99,7 @@ function nexteuropa_newsroom_field_group_info() {
       ),
     ),
   );
-  $export['group_newsrom_item_basic_info|node|newsroom_item|form'] = $field_group;
+  $export['group_newsroom_item_basic_info|node|newsroom_item|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
