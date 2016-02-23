@@ -1,0 +1,7 @@
+name = Workbench Moderation Cron
+description = Patch the Cron permission to use the Workbench Moderation.
+package = Workbench
+core = 7.x
+
+dependencies[] = workbench
+dependencies[] = workbench_moderation

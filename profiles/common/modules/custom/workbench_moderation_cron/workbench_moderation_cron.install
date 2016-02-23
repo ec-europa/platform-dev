@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the Create button module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function workbench_moderation_cron_enable() {
+  drupal_set_message(t("Workbench Moderation Cron installed"));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function workbench_moderation_cron_disable() {
+  drupal_set_message(t("Workbench Moderation Cron uninstalled"));
+}

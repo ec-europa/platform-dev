@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Main functions and hook implementations of the Workbench Moderation Cron module.
+ */
+
+/**
+ * Implements hook_cron()
+ */
+function workbench_moderation_cron_cron() {
+  global $user;
+
+  $role = user_role_load_by_name("editor");
+  $user->roles = $user->roles + array($role->rid => $role->name);
+}
+
