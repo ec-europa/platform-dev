@@ -1,0 +1,72 @@
+<?php
+
+/**
+ * @file
+ * Installation file for Piwik - Web analytics module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_piwik_install() {
+  // Remove tracking from all administrative pages.
+  variable_set('nexteuropa_piwik_visibility_roles', 0);
+  variable_set('nexteuropa_piwik_visibility_pages', 0);
+  $pages = array(
+    'admin',
+    'admin/*',
+    'batch',
+    'node/add*',
+    'node/*/*',
+    'user/*/*',
+  );
+  variable_set('nexteuropa_piwik_pages', implode("\n", $pages));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function nexteuropa_piwik_uninstall() {
+  variable_del('nexteuropa_piwik_pages');
+  variable_del('nexteuropa_piwik_roles');
+  variable_del('nexteuropa_piwik_site_id');
+  variable_del('nexteuropa_piwik_smartloader_prurl');
+  variable_del('nexteuropa_piwik_site_path');
+  variable_del('nexteuropa_piwik_site_instance');
+  variable_del('nexteuropa_piwik_site_section');
+  variable_del('nexteuropa_piwik_visibility_pages');
+  variable_del('nexteuropa_piwik_visibility_roles');
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function nexteuropa_piwik_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  switch ($phase) {
+    case 'runtime':
+      // Module cannot validate piwik URL without external HTTP requests.
+      if (variable_get('drupal_http_request_fails', TRUE) && !system_check_http_request()) {
+        $requirements['http requests'] = array(
+          'title' => $t('HTTP request status'),
+          'value' => $t('Fails'),
+          'severity' => REQUIREMENT_ERROR,
+          'description' => $t('Your system or network configuration does not allow Drupal to access web pages, resulting in reduced functionality. This could be due to your webserver configuration or PHP settings, and should be resolved in order to download information about available updates, fetch aggregator feeds, sign in via OpenID, or use other network-dependent services.'),
+        );
+      }
+
+      // Raise warning if Piwik user account has not been set yet.
+      if (!preg_match('/^\d{1,}$/', variable_get('nexteuropa_piwik_site_id', ''))) {
+        $requirements['nexteuropa_piwik'] = array(
+          'title' => $t('Nexteuropa Piwik module'),
+          'description' => $t('NextEuropa Piwik module has not been configured yet. Please configure its settings from the <a href="@url">Piwik settings page</a>.', array('@url' => url('admin/config/system/webtools/piwik'))),
+          'severity' => REQUIREMENT_WARNING,
+          'value' => $t('Not configured'),
+        );
+      }
+      break;
+  }
+  return $requirements;
+}
