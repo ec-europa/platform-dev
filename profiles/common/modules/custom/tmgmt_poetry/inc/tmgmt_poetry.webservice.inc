@@ -215,7 +215,8 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     foreach ($request->attributions as $attributions) {
       $reference = '%' . $reference;
       $language_job = array(strtolower((string) $attributions['lgCode']));
-      $language_job = $poetry_translator->mapToLocalLanguage($language_job);
+      $language_code = $poetry_translator->mapToLocalLanguage($language_job[0]);
+  	  $language_job = array($language_code);
       $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
       $ids = array_shift($ids);
       $job = tmgmt_job_load($ids->tjid);
