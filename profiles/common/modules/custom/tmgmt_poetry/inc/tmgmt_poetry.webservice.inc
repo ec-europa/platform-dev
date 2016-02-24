@@ -190,8 +190,9 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
         if ($status['type'] == 'attribution') {
           if (isset($status['lgCode']) && !empty($status['lgCode'])) {
             $reference = '%' . $reference;
-            $language_job = array(strtolower((string) $status['lgCode']));
-            $language_job = $poetry_translator->mapToLocalLanguage($language_job);
+            $language_code = strtolower((string) $attributions['lgCode']);
+            $language_code = $poetry_translator->mapToLocalLanguage($language_code);
+            $language_job = array($language_code);
           }
           else {
             $reference = 'MAIN_%_POETRY_%' . $reference;
@@ -214,10 +215,10 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Check the attributions to look for translations and delai confirmations.
     foreach ($request->attributions as $attributions) {
       $reference = '%' . $reference;
-      $language_job = array(strtolower((string) $attributions['lgCode']));
-      $language_code = $poetry_translator->mapToLocalLanguage($language_job[0]);
-      $language_job = array($language_code);
-      $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
+      $language_code = strtolower((string) $attributions['lgCode']);
+      $language_code = $poetry_translator->mapToLocalLanguage($language_code);
+
+      $ids = _tmgmt_poetry_obtain_related_translation_jobs(array($language_code), $reference)->fetchAll();
       $ids = array_shift($ids);
       $job = tmgmt_job_load($ids->tjid);
       $job_item = tmgmt_job_item_load($ids->tjiid);
