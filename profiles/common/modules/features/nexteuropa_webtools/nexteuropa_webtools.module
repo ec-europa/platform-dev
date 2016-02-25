@@ -114,8 +114,29 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
   // We prefer the uploaded file above the external link field.
   $field_custom_js_file = field_get_items('bean', $bean, 'field_custom_js_file');
   if (!empty($field_custom_js_file)) {
+    // Drupal Core will not allow users to upload js files.
+    // To bypass this with Core, a variable needs to be set to allow all
+    // insecure uploads. This is not something we want to do.
+    // @see file_save_upload().
+    // So we are going to rename the file back to .js instead of .js.txt.
+    // First of all, we construct the file destination based on the field.
+    $field = field_info_field('field_custom_js_file');
+    $instance = field_info_instance('bean', 'field_custom_js_file', 'webtools');
+    $destination = file_field_widget_uri($field, $instance);
+    // Stole following lines from file_save_upload().
+    // A URI may already have a trailing slash or look like "public://".
+    if (substr($destination, -1) != '/') {
+      $destination .= '/';
+    }
+    // Rename and move the file.
     $js_file = file_load($field_custom_js_file[0]['fid']);
-    $url = file_create_url($js_file->uri);
+    $destination .= str_replace('.txt', '', $js_file->filename);
+    // This will save and return the file when successfull.
+    $js_file = file_move($js_file, $destination);
+    // Get url from the file to insert into the json object.
+    if ($js_file !== FALSE) {
+      $url = file_create_url($js_file->uri);
+    }
   }
 
   // When no file was uploaded, get the value from field_custom_js_external.
