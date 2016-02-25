@@ -1,0 +1,548 @@
+diff -Naur old/includes/common.inc new/includes/common.inc
+--- old/includes/common.inc	2016-02-25 13:29:13.000000000 +0100
++++ new/includes/common.inc	2016-02-25 14:10:36.000000000 +0100
+@@ -688,6 +688,13 @@
+     $options['fragment'] = $destination['fragment'];
+   }
+ 
++  // In some cases modules call drupal_goto(current_path()). We need to ensure
++  // that such a redirect is not to an external URL.
++  if ($path === current_path() && empty($options['external']) && url_is_external($path)) {
++    // Force url() to generate a non-external URL.
++    $options['external'] = FALSE;
++  }
++
+   drupal_alter('drupal_goto', $path, $options, $http_response_code);
+ 
+   // The 'Location' HTTP header must be absolute.
+@@ -2214,20 +2221,8 @@
+     'prefix' => ''
+   );
+ 
+-  // A duplicate of the code from url_is_external() to avoid needing another
+-  // function call, since performance inside url() is critical.
+   if (!isset($options['external'])) {
+-    // Return an external link if $path contains an allowed absolute URL. Avoid
+-    // calling drupal_strip_dangerous_protocols() if there is any slash (/),
+-    // hash (#) or question_mark (?) before the colon (:) occurrence - if any -
+-    // as this would clearly mean it is not a URL. If the path starts with 2
+-    // slashes then it is always considered an external URL without an explicit
+-    // protocol part.
+-    $colonpos = strpos($path, ':');
+-    $options['external'] = (strpos($path, '//') === 0)
+-      || ($colonpos !== FALSE
+-        && !preg_match('![/?#]!', substr($path, 0, $colonpos))
+-        && drupal_strip_dangerous_protocols($path) == $path);
++    $options['external'] = url_is_external($path);
+   }
+ 
+   // Preserve the original path before altering or aliasing.
+@@ -2347,12 +2342,18 @@
+  */
+ function url_is_external($path) {
+   $colonpos = strpos($path, ':');
+-  // Avoid calling drupal_strip_dangerous_protocols() if there is any slash (/),
+-  // hash (#) or question_mark (?) before the colon (:) occurrence - if any - as
+-  // this would clearly mean it is not a URL. If the path starts with 2 slashes
+-  // then it is always considered an external URL without an explicit protocol
+-  // part.
++  // Some browsers treat \ as / so normalize to forward slashes.
++  $path = str_replace('\\', '/', $path);
++  // If the path starts with 2 slashes then it is always considered an external
++  // URL without an explicit protocol part.
+   return (strpos($path, '//') === 0)
++    // Leading control characters may be ignored or mishandled by browsers, so
++    // assume such a path may lead to an external location. The \p{C} character
++    // class matches all UTF-8 control, unassigned, and private characters.
++    || (preg_match('/^\p{C}/u', $path) !== 0)
++    // Avoid calling drupal_strip_dangerous_protocols() if there is any slash
++    // (/), hash (#) or question_mark (?) before the colon (:) occurrence - if
++    // any - as this would clearly mean it is not a URL.
+     || ($colonpos !== FALSE
+       && !preg_match('![/?#]!', substr($path, 0, $colonpos))
+       && drupal_strip_dangerous_protocols($path) == $path);
+diff -Naur old/includes/path.inc new/includes/path.inc
+--- old/includes/path.inc	2016-02-25 13:29:13.000000000 +0100
++++ new/includes/path.inc	2016-02-25 14:10:36.000000000 +0100
+@@ -347,7 +347,8 @@
+  * drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL) makes this function available.
+  *
+  * @return
+- *   The current Drupal URL path.
++ *   The current Drupal URL path. The path is untrusted user input and must be
++ *   treated as such.
+  *
+  * @see request_path()
+  */
+diff -Naur old/includes/xmlrpcs.inc new/includes/xmlrpcs.inc
+--- old/includes/xmlrpcs.inc	2016-02-25 13:29:13.000000000 +0100
++++ new/includes/xmlrpcs.inc	2016-02-25 14:10:36.000000000 +0100
+@@ -264,6 +264,10 @@
+  */
+ function xmlrpc_server_multicall($methodcalls) {
+   // See http://www.xmlrpc.com/discuss/msgReader$1208
++  // To avoid multicall expansion attacks, limit the number of duplicate method
++  // calls allowed with a default of 1. Set to -1 for unlimited.
++  $duplicate_method_limit = variable_get('xmlrpc_multicall_duplicate_method_limit', 1);
++  $method_count = array();
+   $return = array();
+   $xmlrpc_server = xmlrpc_server_get();
+   foreach ($methodcalls as $call) {
+@@ -273,10 +277,14 @@
+       $ok = FALSE;
+     }
+     $method = $call['methodName'];
++    $method_count[$method] = isset($method_count[$method]) ? $method_count[$method] + 1 : 1;
+     $params = $call['params'];
+     if ($method == 'system.multicall') {
+       $result = xmlrpc_error(-32600, t('Recursive calls to system.multicall are forbidden.'));
+     }
++    elseif ($duplicate_method_limit > 0 && $method_count[$method] > $duplicate_method_limit) {
++      $result = xmlrpc_error(-156579, t('Too many duplicate method calls in system.multicall.'));
++    }
+     elseif ($ok) {
+       $result = xmlrpc_server_call($xmlrpc_server, $method, $params);
+     }
+diff -Naur old/modules/file/file.module new/modules/file/file.module
+--- old/modules/file/file.module	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/file/file.module	2016-02-25 14:10:40.000000000 +0100
+@@ -515,14 +515,29 @@
+       // public file) to confirm it exists and that the current user has access
+       // to it.
+       if (isset($input['fid']) && ($file = file_load($input['fid']))) {
+-        if (file_uri_scheme($file->uri) == 'public' || file_download_access($file->uri)) {
+-          $fid = $file->fid;
++        // By default the public:// file scheme provided by Drupal core is the
++        // only one that allows files to be publicly accessible to everyone, so
++        // it is the only one for which the file access checks are bypassed.
++        // Other modules which provide publicly accessible streams of their own
++        // in hook_stream_wrappers() can add the corresponding scheme to the
++        // 'file_public_schema' variable to bypass file access checks for those
++        // as well. This should only be done for schemes that are completely
++        // publicly accessible, with no download restrictions; for security
++        // reasons all other schemes must go through the file_download_access()
++        // check.
++        if (!in_array(file_uri_scheme($file->uri), variable_get('file_public_schema', array('public'))) && !file_download_access($file->uri)) {
++          $force_default = TRUE;
+         }
+-        // If the current user doesn't have access, don't let the file be
+-        // changed.
+-        else {
++        // Temporary files that belong to other users should never be allowed.
++        // Since file ownership can't be determined for anonymous users, they
++        // are not allowed to reuse temporary files at all.
++        elseif ($file->status != FILE_STATUS_PERMANENT && (!$GLOBALS['user']->uid || $file->uid != $GLOBALS['user']->uid)) {
+           $force_default = TRUE;
+         }
++        // If all checks pass, allow the file to be changed.
++        else {
++          $fid = $file->fid;
++        }
+       }
+     }
+   }
+diff -Naur old/modules/file/tests/file.test new/modules/file/tests/file.test
+--- old/modules/file/tests/file.test	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/file/tests/file.test	2016-02-25 14:10:40.000000000 +0100
+@@ -218,6 +218,30 @@
+     $message = isset($message) ? $message : format_string('File %file is permanent.', array('%file' => $file->uri));
+     $this->assertTrue($file->status == FILE_STATUS_PERMANENT, $message);
+   }
++
++  /**
++   * Creates a temporary file, for a specific user.
++   *
++   * @param string $data
++   *   A string containing the contents of the file.
++   * @param int $uid
++   *   The user ID of the file owner.
++   *
++   * @return object
++   *   A file object, or FALSE on error.
++   */
++  function createTemporaryFile($data, $uid = NULL) {
++    $file = file_save_data($data, NULL, NULL);
++
++    if ($file) {
++      $file->uid = isset($uid) ? $uid : $this->admin_user->uid;
++      // Change the file status to be temporary.
++      $file->status = NULL;
++      return file_save($file);
++    }
++
++    return $file;
++  }
+ }
+ 
+ /**
+@@ -518,6 +542,120 @@
+   }
+ 
+   /**
++   * Tests exploiting the temporary file removal of another user using fid.
++   */
++  function testTemporaryFileRemovalExploit() {
++    // Create a victim user.
++    $victim_user = $this->drupalCreateUser();
++
++    // Create an attacker user.
++    $attacker_user = $this->drupalCreateUser(array(
++      'access content',
++      'create page content',
++      'edit any page content',
++    ));
++
++    // Log in as the attacker user.
++    $this->drupalLogin($attacker_user);
++
++    // Perform tests using the newly created users.
++    $this->doTestTemporaryFileRemovalExploit($victim_user->uid, $attacker_user->uid);
++  }
++
++  /**
++   * Tests exploiting the temporary file removal for anonymous users using fid.
++   */
++  public function testTemporaryFileRemovalExploitAnonymous() {
++    // Set up an anonymous victim user.
++    $victim_uid = 0;
++
++    // Set up an anonymous attacker user.
++    $attacker_uid = 0;
++
++    // Set up permissions for anonymous attacker user.
++    user_role_change_permissions(DRUPAL_ANONYMOUS_RID, array(
++      'access content' => TRUE,
++      'create page content' => TRUE,
++      'edit any page content' => TRUE,
++    ));
++
++    // In order to simulate being the anonymous attacker user, we need to log
++    // out here since setUp() has logged in the admin.
++    $this->drupalLogout();
++
++    // Perform tests using the newly set up users.
++    $this->doTestTemporaryFileRemovalExploit($victim_uid, $attacker_uid);
++  }
++
++  /**
++   * Helper for testing exploiting the temporary file removal using fid.
++   *
++   * @param int $victim_uid
++   *   The victim user ID.
++   * @param int $attacker_uid
++   *   The attacker user ID.
++   */
++  protected function doTestTemporaryFileRemovalExploit($victim_uid, $attacker_uid) {
++    // Use 'page' instead of 'article', so that the 'article' image field does
++    // not conflict with this test. If in the future the 'page' type gets its
++    // own default file or image field, this test can be made more robust by
++    // using a custom node type.
++    $type_name = 'page';
++    $field_name = 'test_file_field';
++    $this->createFileField($field_name, $type_name);
++
++    $test_file = $this->getTestFile('text');
++    foreach (array('nojs', 'js') as $type) {
++      // Create a temporary file owned by the anonymous victim user. This will be
++      // as if they had uploaded the file, but not saved the node they were
++      // editing or creating.
++      $victim_tmp_file = $this->createTemporaryFile('some text', $victim_uid);
++      $victim_tmp_file = file_load($victim_tmp_file->fid);
++      $this->assertTrue($victim_tmp_file->status != FILE_STATUS_PERMANENT, 'New file saved to disk is temporary.');
++      $this->assertFalse(empty($victim_tmp_file->fid), 'New file has a fid');
++      $this->assertEqual($victim_uid, $victim_tmp_file->uid, 'New file belongs to the victim user');
++
++      // Have attacker create a new node with a different uploaded file and
++      // ensure it got uploaded successfully.
++      // @todo Can we test AJAX? See https://www.drupal.org/node/2538260
++      $edit = array(
++        'title' => $type . '-title',
++      );
++
++      // Attach a file to a node.
++      $langcode = LANGUAGE_NONE;
++      $edit['files[' . $field_name . '_' . $langcode . '_0]'] = drupal_realpath($test_file->uri);
++      $this->drupalPost("node/add/$type_name", $edit, 'Save');
++      $node = $this->drupalGetNodeByTitle($edit['title']);
++      $node_file = file_load($node->{$field_name}[$langcode][0]['fid']);
++      $this->assertFileExists($node_file, 'New file saved to disk on node creation.');
++      $this->assertEqual($attacker_uid, $node_file->uid, 'New file belongs to the attacker.');
++
++      // Ensure the file can be downloaded.
++      $this->drupalGet(file_create_url($node_file->uri));
++      $this->assertResponse(200, 'Confirmed that the generated URL is correct by downloading the shipped file.');
++
++      // "Click" the remove button (emulating either a nojs or js submission).
++      // In this POST request, the attacker "guesses" the fid of the victim's
++      // temporary file and uses that to remove this file.
++      $this->drupalGet('node/' . $node->nid . '/edit');
++      switch ($type) {
++        case 'nojs':
++          $this->drupalPost(NULL, array("{$field_name}[$langcode][0][fid]" => (string) $victim_tmp_file->fid), 'Remove');
++          break;
++        case 'js':
++          $button = $this->xpath('//input[@type="submit" and @value="Remove"]');
++          $this->drupalPostAJAX(NULL, array("{$field_name}[$langcode][0][fid]" => (string) $victim_tmp_file->fid), array((string) $button[0]['name'] => (string) $button[0]['value']));
++          break;
++      }
++
++      // The victim's temporary file should not be removed by the attacker's
++      // POST request.
++      $this->assertFileExists($victim_tmp_file);
++    }
++  }
++
++  /**
+    * Tests upload and remove buttons for multiple multi-valued File fields.
+    */
+   function testMultiValuedWidget() {
+diff -Naur old/modules/simpletest/tests/common.test new/modules/simpletest/tests/common.test
+--- old/modules/simpletest/tests/common.test	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/simpletest/tests/common.test	2016-02-25 14:10:40.000000000 +0100
+@@ -373,6 +373,65 @@
+ }
+ 
+ /**
++ * Tests url_is_external().
++ */
++class UrlIsExternalUnitTest extends DrupalUnitTestCase {
++
++  public static function getInfo() {
++    return array(
++      'name' => 'External URL checking',
++      'description' => 'Performs tests on url_is_external().',
++      'group' => 'System',
++    );
++  }
++
++  /**
++   * Tests if each URL is external or not.
++   */
++  function testUrlIsExternal() {
++    foreach ($this->examples() as $path => $expected) {
++      $this->assertIdentical(url_is_external($path), $expected, $path);
++    }
++  }
++
++  /**
++   * Provides data for testUrlIsExternal().
++   *
++   * @return array
++   *   An array of test data, keyed by a path, with the expected value where
++   *   TRUE is external, and FALSE is not external.
++   */
++  protected function examples() {
++    return array(
++      // Simple external URLs.
++      'http://example.com' => TRUE,
++      'https://example.com' => TRUE,
++      'http://drupal.org/foo/bar?foo=bar&bar=baz&baz#foo' => TRUE,
++      '//drupal.org' => TRUE,
++      // Some browsers ignore or strip leading control characters.
++      "\x00//www.example.com" => TRUE,
++      "\x08//www.example.com" => TRUE,
++      "\x1F//www.example.com" => TRUE,
++      "\n//www.example.com" => TRUE,
++      // JSON supports decoding directly from UTF-8 code points.
++      json_decode('"\u00AD"') . "//www.example.com" => TRUE,
++      json_decode('"\u200E"') . "//www.example.com" => TRUE,
++      json_decode('"\uE0020"') . "//www.example.com" => TRUE,
++      json_decode('"\uE000"')  . "//www.example.com" => TRUE,
++      // Backslashes should be normalized to forward.
++      '\\\\example.com' => TRUE,
++      // Local URLs.
++      'node' => FALSE,
++      '/system/ajax' => FALSE,
++      '?q=foo:bar' => FALSE,
++      'node/edit:me' => FALSE,
++      '/drupal.org' => FALSE,
++      '<front>' => FALSE,
++    );
++  }
++}
++
++/**
+  * Tests for check_plain(), filter_xss(), format_string(), and check_url().
+  */
+ class CommonXssUnitTest extends DrupalUnitTestCase {
+@@ -1255,6 +1314,15 @@
+     $this->assertText('drupal_goto', 'Drupal goto redirect succeeded.');
+     $this->assertEqual($this->getUrl(), url('common-test/drupal_goto', array('query' => array('foo' => '123'), 'absolute' => TRUE)), 'Drupal goto redirected to expected URL.');
+ 
++    // Test that calling drupal_goto() on the current path is not dangerous.
++    variable_set('common_test_redirect_current_path', TRUE);
++    $this->drupalGet('', array('query' => array('q' => 'http://www.example.com/')));
++    $headers = $this->drupalGetHeaders(TRUE);
++    list(, $status) = explode(' ', $headers[0][':status'], 3);
++    $this->assertEqual($status, 302, 'Expected response code was sent.');
++    $this->assertNotEqual($this->getUrl(), 'http://www.example.com/', 'Drupal goto did not redirect to external URL.');
++    $this->assertTrue(strpos($this->getUrl(), url('<front>', array('absolute' => TRUE))) === 0, 'Drupal redirected to itself.');
++    variable_del('common_test_redirect_current_path');
+     // Test that drupal_goto() respects ?destination=xxx. Use an complicated URL
+     // to test that the path is encoded and decoded properly.
+     $destination = 'common-test/drupal_goto/destination?foo=%2525&bar=123';
+diff -Naur old/modules/simpletest/tests/common_test.module new/modules/simpletest/tests/common_test.module
+--- old/modules/simpletest/tests/common_test.module	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/simpletest/tests/common_test.module	2016-02-25 14:10:40.000000000 +0100
+@@ -93,6 +93,15 @@
+ }
+ 
+ /**
++ * Implements hook_init().
++ */
++function common_test_init() {
++  if (variable_get('common_test_redirect_current_path', FALSE)) {
++    drupal_goto(current_path());
++  }
++}
++
++/**
+  * Print destination query parameter.
+  */
+ function common_test_destination() {
+diff -Naur old/modules/simpletest/tests/xmlrpc.test new/modules/simpletest/tests/xmlrpc.test
+--- old/modules/simpletest/tests/xmlrpc.test	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/simpletest/tests/xmlrpc.test	2016-02-25 14:10:40.000000000 +0100
+@@ -246,4 +246,38 @@
+     $this->assertEqual($removed, 'system.methodSignature', 'Hiding builting system.methodSignature with hook_xmlrpc_alter works');
+   }
+ 
++  /**
++   * Test limits on system.multicall that can prevent brute-force attacks.
++   */
++  function testMulticallLimit() {
++    $url = url(NULL, array('absolute' => TRUE)) . 'xmlrpc.php';
++    $multicall_args = array();
++    $num_method_calls = 10;
++    for ($i = 0; $i < $num_method_calls; $i++) {
++      $struct = array('i' => $i);
++      $multicall_args[] = array('methodName' => 'validator1.echoStructTest', 'params' => array($struct));
++    }
++    // Test limits of 1, 5, 9, 13.
++    for ($limit = 1; $limit < $num_method_calls + 4; $limit += 4) {
++      variable_set('xmlrpc_multicall_duplicate_method_limit', $limit);
++      $results = xmlrpc($url, array('system.multicall' => array($multicall_args)));
++      $this->assertEqual($num_method_calls, count($results));
++      for ($i = 0; $i < min($limit, $num_method_calls); $i++) {
++        $x = array_shift($results);
++        $this->assertTrue(empty($x->is_error), "Result $i is not an error");
++        $this->assertEqual($multicall_args[$i]['params'][0], $x);
++      }
++      for (; $i < $num_method_calls; $i++) {
++        $x = array_shift($results);
++        $this->assertFalse(empty($x->is_error), "Result $i is an error");
++        $this->assertEqual(-156579, $x->code);
++      }
++    }
++    variable_set('xmlrpc_multicall_duplicate_method_limit', -1);
++    $results = xmlrpc($url, array('system.multicall' => array($multicall_args)));
++    $this->assertEqual($num_method_calls, count($results));
++    foreach ($results as $i => $x) {
++      $this->assertTrue(empty($x->is_error), "Result $i is not an error");
++    }
++  }
+ }
+diff -Naur old/modules/system/system.admin.inc new/modules/system/system.admin.inc
+--- old/modules/system/system.admin.inc	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/system/system.admin.inc	2016-02-25 14:10:40.000000000 +0100
+@@ -2202,6 +2202,11 @@
+  * Return the date for a given format string via Ajax.
+  */
+ function system_date_time_lookup() {
++  // This callback is protected with a CSRF token because user input from the
++  // query string is reflected in the output.
++  if (!isset($_GET['token']) || !drupal_valid_token($_GET['token'], 'admin/config/regional/date-time/formats/lookup')) {
++    return MENU_ACCESS_DENIED;
++  }
+   $result = format_date(REQUEST_TIME, 'custom', $_GET['format']);
+   drupal_json_output($result);
+ }
+@@ -2875,13 +2880,14 @@
+  * Allow users to add additional date formats.
+  */
+ function system_configure_date_formats_form($form, &$form_state, $dfid = 0) {
++  $ajax_path = 'admin/config/regional/date-time/formats/lookup';
+   $js_settings = array(
+     'type' => 'setting',
+     'data' => array(
+       'dateTime' => array(
+         'date-format' => array(
+           'text' => t('Displayed as'),
+-          'lookup' => url('admin/config/regional/date-time/formats/lookup'),
++          'lookup' => url($ajax_path, array('query' => array('token' => drupal_get_token($ajax_path)))),
+         ),
+       ),
+     ),
+diff -Naur old/modules/system/system.js new/modules/system/system.js
+--- old/modules/system/system.js	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/system/system.js	2016-02-25 14:10:40.000000000 +0100
+@@ -105,7 +105,7 @@
+           // Attach keyup handler to custom format inputs.
+           $('input' + source, context).once('date-time').keyup(function () {
+             var input = $(this);
+-            var url = fieldSettings.lookup + (/\?q=/.test(fieldSettings.lookup) ? '&format=' : '?format=') + encodeURIComponent(input.val());
++            var url = fieldSettings.lookup + (/\?/.test(fieldSettings.lookup) ? '&format=' : '?format=') + encodeURIComponent(input.val());
+             $.getJSON(url, function (data) {
+               $(suffix).empty().append(' ' + fieldSettings.text + ': <em>' + data + '</em>');
+             });
+diff -Naur old/modules/system/system.test new/modules/system/system.test
+--- old/modules/system/system.test	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/system/system.test	2016-02-25 14:10:40.000000000 +0100
+@@ -1293,7 +1293,23 @@
+     $this->assertEqual($this->getUrl(), url('admin/config/regional/date-time/formats', array('absolute' => TRUE)), 'Correct page redirection.');
+     $this->assertText(t('Custom date format updated.'), 'Custom date format successfully updated.');
+ 
++    // Check that ajax callback is protected by CSRF token.
++    $this->drupalGet('admin/config/regional/date-time/formats/lookup', array('query' => array('format' => 'Y m d')));
++    $this->assertResponse(403, 'Access denied with no token');
++    $this->drupalGet('admin/config/regional/date-time/formats/lookup', array('query' => array('token' => 'invalid', 'format' => 'Y m d')));
++    $this->assertResponse(403, 'Access denied with invalid token');
++    $this->drupalGet('admin/config/regional/date-time/formats');
++    $this->clickLink(t('edit'));
++    $settings = $this->drupalGetSettings();
++    $lookup_url = $settings['dateTime']['date-format']['lookup'];
++    preg_match('/token=([^&]+)/', $lookup_url, $matches);
++    $this->assertFalse(empty($matches[1]), 'Found token value');
++    $this->drupalGet('admin/config/regional/date-time/formats/lookup', array('query' => array('token' => $matches[1], 'format' => 'Y m d')));
++    $this->assertResponse(200, 'Access allowed with valid token');
++    $this->assertText(format_date(time(), 'custom', 'Y m d'));
++
+     // Delete custom date format.
++    $this->drupalGet('admin/config/regional/date-time/formats');
+     $this->clickLink(t('delete'));
+     $this->drupalPost($this->getUrl(), array(), t('Remove'));
+     $this->assertEqual($this->getUrl(), url('admin/config/regional/date-time/formats', array('absolute' => TRUE)), 'Correct page redirection.');
+diff -Naur old/modules/user/user.module new/modules/user/user.module
+--- old/modules/user/user.module	2016-02-25 13:29:22.000000000 +0100
++++ new/modules/user/user.module	2016-02-25 14:10:40.000000000 +0100
+@@ -1290,10 +1290,12 @@
+     elseif (!empty($edit['picture_delete'])) {
+       $edit['picture'] = NULL;
+     }
+-    // Prepare user roles.
+-    if (isset($edit['roles'])) {
+-      $edit['roles'] = array_filter($edit['roles']);
+-    }
++  }
++
++  // Filter out roles with empty values to avoid granting extra roles when
++  // processing custom form submissions.
++  if (isset($edit['roles'])) {
++    $edit['roles'] = array_filter($edit['roles']);
+   }
+ 
+   // Move account cancellation information into $user->data.
+@@ -2213,8 +2215,11 @@
+       }
+     }
+     else {
+-      //Standardise the error message to not disclose policy to bruteforcers
+-      form_set_error('name', t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>. If you made too many attempts your IP address has been blocked and you will not be able to login even with a new password. Please contact your administrator.', array('@password' => url('user/password'))));
++      // Use $form_state['input']['name'] here to guarantee that we send
++      // exactly what the user typed in. $form_state['values']['name'] may have
++      // been modified by validation handlers that ran earlier than this one.
++      $query = isset($form_state['input']['name']) ? array('name' => $form_state['input']['name']) : array();
++      form_set_error('name', t('Sorry, unrecognized username or password. <a href="@password">Have you forgotten your password?</a>. If you made too many attempts your IP address has been blocked and you will not be able to login even with a new password. Please contact your administrator.', array('@password' => url('user/password', array('query' => $query)))));
+ 
+       watchdog('user', 'Login attempt failed for %user.', array('%user' => $form_state['values']['name']));
+     }
