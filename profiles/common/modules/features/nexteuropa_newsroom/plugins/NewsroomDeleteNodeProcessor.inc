@@ -183,7 +183,6 @@ class NewsroomDeleteNodeProcessor extends FeedsProcessor {
    */
   public function process(FeedsSource $source, FeedsParserResult $parser_result) {
     $state = $source->state(FEEDS_PROCESS);
-
     while ($item = $parser_result->shiftItem()) {
       if (!($entity_ids = $this->existingEntityId($source, $parser_result)) ||
           ($this->config['update_existing'] != FEEDS_SKIP_EXISTING)) {
@@ -206,11 +205,11 @@ class NewsroomDeleteNodeProcessor extends FeedsProcessor {
         }
       }
     }
-
     // Set messages if we're done.
     if ($source->progressImporting() != FEEDS_BATCH_COMPLETE) {
       return;
     }
+
     $info = $this->entityInfo();
     $tokens = array(
       '@entity' => drupal_strtolower($info['label']),
@@ -274,8 +273,9 @@ class NewsroomDeleteNodeProcessor extends FeedsProcessor {
    * Return available mapping targets.
    */
   public function getMappingTargets() {
-    $type = node_type_get_type($this->config['content_type']);
+    $type = node_type_get_type($this->config['bundle']);
     $targets = parent::getMappingTargets();
+
     if ($type->has_title) {
       $targets['title'] = array(
         'name' => t('Title'),
@@ -337,8 +337,7 @@ class NewsroomDeleteNodeProcessor extends FeedsProcessor {
 
     // Let other modules expose mapping targets.
     self::loadMappers();
-    feeds_alter('feeds_processor_targets', $targets, 'node', $this->config['content_type']);
-
+    feeds_alter('feeds_processor_targets', $targets, 'node', $this->config['bundle']);
     return $targets;
   }
 

@@ -24,6 +24,8 @@ define('NEXTEUROPA_NEWSROOM_IMPORT_ACCESS', 'import newsroom feeds');
 define('NEXTEUROPA_NEWSROOM_EDIT_ACCESS', 'edit remote newsroom item');
 define('NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE', 'force');
 define('NEXTEUROPA_NEWSROOM_ITEM_FULL', 'fullrss-multilingual.cfm');
+define('NEXTEUROPA_NEWSROOM_UNPUBLISH', 'fullrss-unpublished.cfm');
+define('NEXTEUROPA_NEWSROOM_DELETE', 'fullrss-delete.cfm');
 define('NEXTEUROPA_NEWSROOM_ITEM_SEGMENT', NEXTEUROPA_NEWSROOM_ITEM_FULL . '?item_id=');
 define('NEXTEUROPA_NEWSROOM_TOPIC_FULL', 'rss-service-multilingual.cfm');
 define('NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT', NEXTEUROPA_NEWSROOM_TOPIC_FULL . '?topic_id=');
@@ -917,6 +919,14 @@ function _nexteuropa_newsroom_create_default_importers($universe_id, $context = 
     'segment' => variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_FULL),
     'importer' => NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
   );
+  $importers['newsroom_unpublished_items'] = array(
+    'segment' => NEXTEUROPA_NEWSROOM_UNPUBLISH,
+    'importer' => 'newsroom_unpublished_items',
+  );
+  $importers['newsroom_deleted_items'] = array(
+    'segment' => NEXTEUROPA_NEWSROOM_DELETE,
+    'importer' => 'newsroom_deleted_items',
+  );
 
   foreach ($importers as $importer) {
     $feed_source = feeds_source($importer['importer']);
@@ -974,7 +984,7 @@ function nexteuropa_newsroom_feeds_plugins() {
   // A plugin needs to derive either directly or indirectly from FeedsFetcher,
   // FeedsParser or FeedsProcessor.
   $info['NewsroomDeleteNodeProcessor'] = array(
-    'name' => 'Newsroom Infso Outdated Items',
+    'name' => 'Newsroom Outdated Items',
     'description' => 'Deletes outdated items by tracking a specific RSS feed.',
     'handler' => array(
       'parent' => 'FeedsProcessor',
@@ -2106,6 +2116,48 @@ function nexteuropa_newsroom_feeds_processor_targets_alter(&$targets, $entity_ty
         );
       }
     }
+  }
+
+  if ($entity_type == 'node' && $bundle_name == 'newsroom_item') {
+    if (isset($targets['field_newsroom_item_id'])) {
+      $targets['field_newsroom_item_id']['unique_callbacks'][] = '_nexteuropa_newsroom_use_as_guid';
+      $targets['field_newsroom_item_id']['optional_unique'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Callback for the unique_callbacks specified in hook_feeds_processor_targets().
+ *
+ * @param FeedsSource $source
+ *   The Feed source.
+ * @param string $entity_type
+ *   Entity type for the entity to be processed.
+ * @param string $bundle
+ *   Bundle name for the entity to be processed.
+ * @param string $target
+ *   A string identifying the unique target on the entity.
+ * @param array $values
+ *   The unique values to be checked.
+ *
+ * @return int|null
+ *   The existing entity id, or NULL if no existing entity is found.
+ *
+ * @see hook_feeds_processor_targets()
+ * @see FeedsProcessor::existingEntityId()
+ */
+function _nexteuropa_newsroom_use_as_guid(FeedsSource $source, $entity_type, $bundle, $target, array $values) {
+  list($field_name, $column) = explode(':', $target . ':value');
+  // Example for if the target is a field.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', $entity_type)
+    ->entityCondition('bundle', $bundle)
+    ->fieldCondition($field_name, $column, $values)
+    ->execute();
+
+  if (!empty($result[$entity_type])) {
+    return key($result[$entity_type]);
   }
 }
 
