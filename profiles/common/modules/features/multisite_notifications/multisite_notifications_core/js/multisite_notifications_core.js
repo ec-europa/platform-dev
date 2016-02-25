@@ -23,14 +23,14 @@ jQuery(function($){
     var default_value = Input.val();
 
     $(Input).focus(function() {
-        if ($(this).val() == default_value) {
+      if ($(this).val() == default_value) {
         $(this).val("");
-        }
+      }
     }).blur(function(){
         // Small update.
-        if ($(this).val().length == 0) {
+      if ($(this).val().length == 0) {
         $(this).val(default_value);
-        }
+      }
     });
   });
 

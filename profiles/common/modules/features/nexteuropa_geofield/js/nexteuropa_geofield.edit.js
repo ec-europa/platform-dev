@@ -9,53 +9,53 @@
         attach: attach
     };
 
-    function attach(context, settings) {
-        var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
-        var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
-        var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
+  function attach(context, settings) {
+      var lat = settings.nexteuropa_geojson.settings.fs_default_map_center['lat'];
+      var lng = settings.nexteuropa_geojson.settings.fs_default_map_center['lng'];
+      var map = L.map('geofield_geojson_map', {}).setView([lat, lng], 13);
 
-        $(document).ready(function() {
-            if (context == document) {
-                // If there are vertical tabs the widget should refresh when swapping between them.
-                if ($('.vertical-tabs').length > 0 && $('.vertical-tabs-panes').length > 0) {
-                    var refresh = function() {
-                        $('.vertical-tabs-panes').find('.vertical-tabs-pane').each(function(key, pane){
-                            // Check pane is visible and refresh widget if it is.
-                            if ($(pane).is(':visible')) {
-                                map.invalidateSize();
-                                if (settings.nexteuropa_geojson.map) {
-                                    map.fitBounds(drawnItems.getBounds());
-                                }
-                                else {
-                                    map.setView([lat, lng], 13);
-                                }
-                            }
-                        });
-                    };
-                    // Refresh current vertical tab.
-                    refresh();
-                    // Refresh when changing to a different vertical tab.
-                    $('.vertical-tabs').find('.vertical-tab-button').each(function(key, tab){
-                        $(tab).find('a').bind('click', refresh);
-                    });
-                }
-            }
-        });
+      $(document).ready(function() {
+        if (context == document) {
+            // If there are vertical tabs the widget should refresh when swapping between them.
+          if ($('.vertical-tabs').length > 0 && $('.vertical-tabs-panes').length > 0) {
+              var refresh = function() {
+                  $('.vertical-tabs-panes').find('.vertical-tabs-pane').each(function(key, pane){
+                      // Check pane is visible and refresh widget if it is.
+                    if ($(pane).is(':visible')) {
+                        map.invalidateSize();
+                      if (settings.nexteuropa_geojson.map) {
+                          map.fitBounds(drawnItems.getBounds());
+                      }
+                      else {
+                          map.setView([lat, lng], 13);
+                      }
+                    }
+                  });
+              };
+              // Refresh current vertical tab.
+              refresh();
+              // Refresh when changing to a different vertical tab.
+              $('.vertical-tabs').find('.vertical-tab-button').each(function(key, tab){
+                  $(tab).find('a').bind('click', refresh);
+              });
+          }
+        }
+      });
 
         // Get all the necessary DOM objects.
         // If there is only one defined object on the map, get the fields used to populate the popup.
-        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
-          name_field = settings.nexteuropa_geojson.settings.fs_objects.fs_prepopulate.name_populate;
-          description_field = settings.nexteuropa_geojson.settings.fs_objects.fs_prepopulate.description_populate;
-        }
+      if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
+        name_field = settings.nexteuropa_geojson.settings.fs_objects.fs_prepopulate.name_populate;
+        description_field = settings.nexteuropa_geojson.settings.fs_objects.fs_prepopulate.description_populate;
+      }
 
         // Manage a map objects counter.
         var objects_count = 0;
 
         // Create map.
         L.tileLayer(
-            'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          'http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+              attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }
         ).addTo(map);
 
@@ -66,26 +66,26 @@
             loadedMap = jQuery.parseJSON(settings.nexteuropa_geojson.map);
             drawnItems = L.geoJson(loadedMap).addTo(map);
             // Popups are not pre-populated.
-            if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-                for (key in drawnItems._layers) {
-                    // Create forms elements to manage popups content.
-                    layer_properties = drawnItems._layers[key].feature.properties;
-                    createLabel(key, layer_properties.name, layer_properties.description);
-                    objects_count++;
-                }
-                updateGeoJsonField();
-                updatePopups();
+          if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
+            for (key in drawnItems._layers) {
+                // Create forms elements to manage popups content.
+                layer_properties = drawnItems._layers[key].feature.properties;
+                createLabel(key, layer_properties.name, layer_properties.description);
+                objects_count++;
             }
+              updateGeoJsonField();
+              updatePopups();
+          }
 
             // Focus on map elements.
             map.fitBounds(drawnItems.getBounds());
             // Fix zoom to 16 when there is one object on the map.
-            if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
-                map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
-            }
-            else {
-                map.fitBounds(drawnItems.getBounds());
-            }
+          if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
+              map.fitBounds(drawnItems.getBounds(), {maxZoom:16});
+          }
+          else {
+              map.fitBounds(drawnItems.getBounds());
+          }
         }
 
         if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount == 1) {
@@ -125,16 +125,16 @@
 
         // Create map control.
         var drawControl = new L.Control.Draw(
-            {
-                draw : {
-                    position : 'topleft',
-                    polygon : polygon_setting,
-                    polyline : polyline_setting,
-                    rectangle : rectangle_setting,
-                    marker: marker_setting,
-                    circle : false
+          {
+              draw : {
+                  position : 'topleft',
+                  polygon : polygon_setting,
+                  polyline : polyline_setting,
+                  rectangle : rectangle_setting,
+                  marker: marker_setting,
+                  circle : false
                 },
-                edit: { featureGroup: drawnItems }
+              edit: { featureGroup: drawnItems }
             }
         );
 
@@ -142,47 +142,47 @@
 
         // Manage the event : when a new object is put on the map.
         map.on(
-            'draw:created', function(e) {
-                if (objects_count < settings.nexteuropa_geojson.settings.fs_objects.objects_amount) {
-                    var type = e.layerType,
-                    layer = e.layer;
+          'draw:created', function(e) {
+            if (objects_count < settings.nexteuropa_geojson.settings.fs_objects.objects_amount) {
+                var type = e.layerType,
+                layer = e.layer;
 
-                    var geoJSON = layer.toGeoJSON();
-                    feature = layer.feature;
+                var geoJSON = layer.toGeoJSON();
+                feature = layer.feature;
 
-                    objects_count++;
+                objects_count++;
 
-                    // Add the layer object to the map.
-                    drawnItems.addLayer(layer);
+                // Add the layer object to the map.
+                drawnItems.addLayer(layer);
 
-                    // Only add inputs elements if the popups are not pre-populated.
-                    if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-                        createLabel(layer._leaflet_id, "", "");
-                    }
-                    else {
-                        // Prepopulate the popups with the title and body content.
-                        name = getFieldValue(name_field);
-                        description = getFieldValue(description_field);
-                        createPopup(layer._leaflet_id, name, description);
-                    }
-                    // Update GeoJSON field.
-                    updateGeoJsonField();
-                }
-                else {
-                    alert("The Maximum number of items on the map is limited to " + settings.nexteuropa_geojson.settings.fs_objects.objects_amount);
-                }
+                // Only add inputs elements if the popups are not pre-populated.
+              if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
+                  createLabel(layer._leaflet_id, "", "");
+              }
+              else {
+                  // Prepopulate the popups with the title and body content.
+                  name = getFieldValue(name_field);
+                  description = getFieldValue(description_field);
+                  createPopup(layer._leaflet_id, name, description);
+              }
+                // Update GeoJSON field.
+                updateGeoJsonField();
             }
+            else {
+                alert("The Maximum number of items on the map is limited to " + settings.nexteuropa_geojson.settings.fs_objects.objects_amount);
+            }
+          }
         );
 
         // Manage the event : when an object is removed from the map.
         map.on(
-            'draw:deleted', function (e) {
-                var layers = e.layers._layers;
-                var leaflet_id = Object.keys(layers)[0];
-                $('#label_wrapper_' + leaflet_id).remove();
-                objects_count--;
-                updateGeoJsonField();
-            }
+          'draw:deleted', function (e) {
+              var layers = e.layers._layers;
+              var leaflet_id = Object.keys(layers)[0];
+              $('#label_wrapper_' + leaflet_id).remove();
+              objects_count--;
+              updateGeoJsonField();
+          }
         );
 
         /**
@@ -218,12 +218,12 @@
                     layer.openPopup();
 
                     // Focus the map on the map object.
-                    if (layer._latlngs) {
-                        map.setView(layer._latlngs[0]);
-                    }
-                    else {
-                        map.setView(layer.getLatLng());
-                    }
+                  if (layer._latlngs) {
+                      map.setView(layer._latlngs[0]);
+                  }
+                  else {
+                      map.setView(layer.getLatLng());
+                  }
                 }
             );
 
@@ -256,28 +256,28 @@
             i = 0
             for (key in drawnItems._layers) {
                 // Check if the popups must be populated by input fields.
-                if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-                    name = $('#L' + key).val();
-                    description = $('#T' + key).val();
-                }
-                else {
-                    name = getFieldValue(name_field);
-                    description = getFieldValue(description_field);
-                }
+            if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
+                name = $('#L' + key).val();
+                description = $('#T' + key).val();
+            }
+            else {
+                name = getFieldValue(name_field);
+                description = getFieldValue(description_field);
+            }
                 geojson_map.features[i].properties.name = name;
                 geojson_map.features[i].properties.description = description;
                 // Format Lat and Lng, only 4 decimals.
-                if (geojson_map.features[i].geometry.type == 'Point') {
-                    for (id in geojson_map.features[i].geometry.coordinates) {
-                        geojson_map.features[i].geometry.coordinates[id] = parseFloat(geojson_map.features[i].geometry.coordinates[id].toFixed(4));
-                    }
-                }
-                else {
-                    for (id in geojson_map.features[i].geometry.coordinates[0]) {
-                        geojson_map.features[i].geometry.coordinates[0][id][0] = parseFloat(geojson_map.features[i].geometry.coordinates[0][id][0].toFixed(4));
-                        geojson_map.features[i].geometry.coordinates[0][id][1] = parseFloat(geojson_map.features[i].geometry.coordinates[0][id][1].toFixed(4));
-                    }
-                }
+            if (geojson_map.features[i].geometry.type == 'Point') {
+              for (id in geojson_map.features[i].geometry.coordinates) {
+                  geojson_map.features[i].geometry.coordinates[id] = parseFloat(geojson_map.features[i].geometry.coordinates[id].toFixed(4));
+              }
+            }
+            else {
+              for (id in geojson_map.features[i].geometry.coordinates[0]) {
+                  geojson_map.features[i].geometry.coordinates[0][id][0] = parseFloat(geojson_map.features[i].geometry.coordinates[0][id][0].toFixed(4));
+                  geojson_map.features[i].geometry.coordinates[0][id][1] = parseFloat(geojson_map.features[i].geometry.coordinates[0][id][1].toFixed(4));
+              }
+            }
                 i++;
             }
             $("textarea[name*=geofield_geojson]").text(JSON.stringify(geojson_map));
@@ -289,19 +289,19 @@
         function updatePopups() {
             geojson_map = drawnItems.toGeoJSON();
             i = 0;
-            for (key in drawnItems._layers) {
-                if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-                    name = $('#L' + key).val();
-                    description = $('#T' + key).val();
-                }
-                else {
-                    name = getFieldValue(name_field);
-                    description = getFieldValue(description_field);
-                }
-                if (name != "" || description != "") {
-                    createPopup(key, name, description);
-                }
+          for (key in drawnItems._layers) {
+            if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
+                name = $('#L' + key).val();
+                description = $('#T' + key).val();
             }
+            else {
+                name = getFieldValue(name_field);
+                description = getFieldValue(description_field);
+            }
+            if (name != "" || description != "") {
+                createPopup(key, name, description);
+            }
+          }
         }
 
         /**
@@ -389,5 +389,5 @@
           }
           return value;
         }
-    }
+  }
 })(jQuery);
