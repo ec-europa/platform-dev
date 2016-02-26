@@ -2,8 +2,7 @@
 
 /**
  * @file
- * Install, update and uninstall functions for the nexteuropa_geojson_feeds
- * feature in the platform NextEuropa.
+ * Enable and disable functions for the nexteuropa_geojson_feeds feature.
  */
 
 /**
