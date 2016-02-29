@@ -66,6 +66,54 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
 }
 
 /**
+ * Implements hook_file_insert().
+ *
+ * Allow the upload of js files to the field_custom_js_file.
+ * @see file_save_upload().
+ */
+function nexteuropa_webtools_file_insert($file) {
+  // This only works/tested for the field_custom_js_file field on webtools bean.
+  if (strpos($file->source, 'field_custom_js_file') !== 0) {
+    return;
+  }
+  // Drupal Core will not allow users to upload js files.
+  // To bypass this with Core, a variable needs to be set to allow ALL
+  // insecure uploads. This is not something we want to do.
+  // So we are going to rename the file uploaded to this field back to *.js.
+  // First of all, we construct the file destination based on the field.
+  $field = field_info_field('field_custom_js_file');
+  $instance = field_info_instance('bean', 'field_custom_js_file', 'webtools');
+  $destination = file_field_widget_uri($field, $instance);
+  // Stole following lines from file_save_upload().
+  // A URI may already have a trailing slash or look like "public://".
+  if (substr($destination, -1) != '/') {
+    $destination .= '/';
+  }
+  // Rename and move the file.
+  $original_file_name = $file->filename;
+  $destination .= str_replace('.txt', '', $file->filename);
+  // The mimetype will be updated automatically.
+  // This will save and return the file when successfull.
+  file_move($file, $destination);
+
+  // As Core sets a message warning the user of the renaming and as we undo it,
+  // we want to remove that message. This will prevent confusion and bug logging.
+  // This is removed from $_SESSION directly, so we don't have to get and set
+  // other existing messages.
+  $messages = $_SESSION['messages'];
+  // Copy from the original drupal_set_message() in file_save_upload().
+  $message_to_suppress = t('For security reasons, your upload has been renamed to %filename.', array('%filename' => $original_file_name));
+  $index = array_search($message_to_suppress, $messages['status']);
+  if ($index !== FALSE) {
+    unset($_SESSION['messages']['status'][$index]);
+  }
+  // Prevent from showing an empty status box to the user.
+  if (empty($_SESSION['messages']['status'])) {
+    unset($_SESSION['messages']['status']);
+  }
+}
+
+/**
  * Implements hook_bean_submit().
  *
  * Use the custom_js fields to change the json_object in bean 'webtools'.
@@ -114,25 +162,7 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
   // We prefer the uploaded file above the external link field.
   $field_custom_js_file = field_get_items('bean', $bean, 'field_custom_js_file');
   if (!empty($field_custom_js_file)) {
-    // Drupal Core will not allow users to upload js files.
-    // To bypass this with Core, a variable needs to be set to allow all
-    // insecure uploads. This is not something we want to do.
-    // @see file_save_upload().
-    // So we are going to rename the file back to .js instead of .js.txt.
-    // First of all, we construct the file destination based on the field.
-    $field = field_info_field('field_custom_js_file');
-    $instance = field_info_instance('bean', 'field_custom_js_file', 'webtools');
-    $destination = file_field_widget_uri($field, $instance);
-    // Stole following lines from file_save_upload().
-    // A URI may already have a trailing slash or look like "public://".
-    if (substr($destination, -1) != '/') {
-      $destination .= '/';
-    }
-    // Rename and move the file.
     $js_file = file_load($field_custom_js_file[0]['fid']);
-    $destination .= str_replace('.txt', '', $js_file->filename);
-    // This will save and return the file when successfull.
-    $js_file = file_move($js_file, $destination);
     // Get url from the file to insert into the json object.
     if ($js_file !== FALSE) {
       $url = file_create_url($js_file->uri);
