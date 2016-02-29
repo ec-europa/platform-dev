@@ -151,7 +151,6 @@ function nexteuropa_newsroom_feeds_importer_default() {
     'process_in_background' => 0,
   );
 
-
   $export['newsroom_unpublished_items'] = $feeds_importer;
 
   return $export;
