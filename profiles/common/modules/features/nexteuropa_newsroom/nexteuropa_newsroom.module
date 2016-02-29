@@ -25,7 +25,7 @@ define('NEXTEUROPA_NEWSROOM_EDIT_ACCESS', 'edit remote newsroom item');
 define('NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE', 'force');
 define('NEXTEUROPA_NEWSROOM_ITEM_FULL', 'fullrss-multilingual.cfm');
 define('NEXTEUROPA_NEWSROOM_UNPUBLISH', 'fullrss-unpublished.cfm');
-define('NEXTEUROPA_NEWSROOM_DELETE', 'fullrss-delete.cfm');
+define('NEXTEUROPA_NEWSROOM_DELETE', 'fullrss-deleted.cfm');
 define('NEXTEUROPA_NEWSROOM_ITEM_SEGMENT', NEXTEUROPA_NEWSROOM_ITEM_FULL . '?item_id=');
 define('NEXTEUROPA_NEWSROOM_TOPIC_FULL', 'rss-service-multilingual.cfm');
 define('NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT', NEXTEUROPA_NEWSROOM_TOPIC_FULL . '?topic_id=');
@@ -1964,9 +1964,30 @@ function nexteuropa_newsroom_entity_presave($entity, $type) {
 }
 
 /**
+ * Helper function to delete translations..
+ */
+function _nexteuropa_newsroom_delete_translations($entity, $entity_id) {
+  $languages = language_list();
+  $handler = entity_translation_get_handler('node', $entity);
+  
+  foreach ($languages as $language) {
+    // Delete translation for the current language.
+    $handler->removeTranslation($language->language);
+    field_attach_presave('node', $entity);
+    field_attach_update('node', $entity);
+  }
+
+  cache_clear_all($entity_id, 'cache_entity_node');
+}
+
+/**
  * Implements hook_feeds_after_save().
  */
 function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
+  if ($source->importer()->fetcher->id == 'newsroom_deleted_items') {
+    _nexteuropa_newsroom_delete_translations($entity, $entity_id);
+    entity_delete('node', $entity_id);
+  }
 
   if ($source->importer()->fetcher->id == 'newsroom_items_multilingual') {
     // TODO : find a better way to remove translation.
@@ -1989,15 +2010,7 @@ function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $ite
 
           // If title is empty it means there is no translation.
           if (!empty($xpath_expression) && isset($item[$xpath_expression]) && empty($item[$xpath_expression])) {
-            // Delete translation for the current language.
-            $handler = entity_translation_get_handler('node', $entity);
-            $handler->removeTranslation($language->language);
-            field_attach_presave('node', $entity);
-            field_attach_update('node', $entity);
-
-            // It is necessary to clean the cache
-            // to remove the translation completely.
-            cache_clear_all($entity_id, 'cache_entity_node');
+            _nexteuropa_newsroom_delete_translations($entity, $entity_id);
           }
         }
       }

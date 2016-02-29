@@ -15,8 +15,8 @@ function nexteuropa_newsroom_feeds_importer_default() {
   $feeds_importer->api_version = 1;
   $feeds_importer->id = 'newsroom_deleted_items';
   $feeds_importer->config = array(
-    'name' => 'Newsroom Deleted Items',
-    'description' => 'Deletes outdated items from the newsroom',
+    'name' => 'Newsroom Delete Items',
+    'description' => 'Deletes items',
     'fetcher' => array(
       'plugin_key' => 'FeedsHTTPFetcher',
       'config' => array(
@@ -24,13 +24,15 @@ function nexteuropa_newsroom_feeds_importer_default() {
         'use_pubsubhubbub' => FALSE,
         'designated_hub' => '',
         'request_timeout' => NULL,
+        'auto_scheme' => 'http',
+        'accept_invalid_cert' => FALSE,
       ),
     ),
     'parser' => array(
       'plugin_key' => 'FeedsXPathParserXML',
       'config' => array(
         'sources' => array(
-          'xpathparser:0' => 'guid/text()',
+          'xpathparser:0' => 'infsonewsroom:BasicId/text()',
         ),
         'rawXML' => array(
           'xpathparser:0' => 0,
@@ -39,30 +41,32 @@ function nexteuropa_newsroom_feeds_importer_default() {
         'exp' => array(
           'errors' => 0,
           'debug' => array(
-            'context' => 0,
             'xpathparser:0' => 0,
+            'context' => 0,
           ),
         ),
         'allow_override' => 0,
       ),
     ),
     'processor' => array(
-      'plugin_key' => 'NewsroomDeleteNodeProcessor',
+      'plugin_key' => 'FeedsNodeProcessor',
       'config' => array(
-        'content_type' => '',
         'expire' => '-1',
         'author' => 0,
+        'authorize' => 0,
         'mappings' => array(
           0 => array(
             'source' => 'xpathparser:0',
-            'target' => 'guid',
+            'target' => 'field_newsroom_item_id',
             'unique' => 1,
           ),
         ),
-        'update_existing' => '1',
-        'input_format' => 'plain_text',
+        'update_existing' => '2',
+        'update_non_existent' => 'skip',
+        'input_format' => 'full_html',
         'skip_hash_check' => 0,
         'bundle' => 'newsroom_item',
+        'insert_new' => '0',
       ),
     ),
     'content_type' => '',
@@ -72,6 +76,7 @@ function nexteuropa_newsroom_feeds_importer_default() {
     'import_on_create' => 1,
     'process_in_background' => 0,
   );
+
   $export['newsroom_deleted_items'] = $feeds_importer;
 
   $feeds_importer = new stdClass();
@@ -80,7 +85,7 @@ function nexteuropa_newsroom_feeds_importer_default() {
   $feeds_importer->id = 'newsroom_unpublished_items';
   $feeds_importer->config = array(
     'name' => 'Newsroom Unpublished Items',
-    'description' => 'Deletes unpublished items from the newsroom',
+    'description' => 'Unpublish outdated items',
     'fetcher' => array(
       'plugin_key' => 'FeedsHTTPFetcher',
       'config' => array(
