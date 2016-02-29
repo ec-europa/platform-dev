@@ -39,6 +39,8 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_s
 ; https://www.drupal.org/node/2657666
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
+;https://www.drupal.org/node/2333447#comment-10826660
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
