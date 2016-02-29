@@ -191,6 +191,15 @@ feature_sets[nexteuropa_geofield][font] = 'multisite-icon-location'
 feature_sets[nexteuropa_geofield][enable][] = nexteuropa_geofield
 feature_sets[nexteuropa_geofield][disable][] = nexteuropa_geofield
 
+feature_sets[nexteuropa_geojson_feeds][title] = 'GeoJson Feeds'
+feature_sets[nexteuropa_geojson_feeds][description] = 'Provides GeoJSON data feeds from content.'
+feature_sets[nexteuropa_geojson_feeds][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/J6cRC'
+feature_sets[nexteuropa_geojson_feeds][category] = 'Information to users'
+feature_sets[nexteuropa_geojson_feeds][icon] = ''
+feature_sets[nexteuropa_geojson_feeds][font] = 'multisite-icon-location'
+feature_sets[nexteuropa_geojson_feeds][enable][] = nexteuropa_geojson_feeds
+feature_sets[nexteuropa_geojson_feeds][disable][] = nexteuropa_geojson_feeds
+
 ; Media
 feature_sets[e_library_standard][title] = 'E-Library'
 feature_sets[e_library_standard][description] = 'Allows contributors to publish documents represented as uploaded files in various possible formats (pdf, xls, doc...). Documents will be stored in a space named E-Library. Every visitor can have access to the documents in the E-Library.'
