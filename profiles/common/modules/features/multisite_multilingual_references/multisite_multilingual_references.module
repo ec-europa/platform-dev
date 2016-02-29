@@ -301,6 +301,7 @@ function _multisite_multilingual_references_get_link_replacement($source, $curre
  * Implements hook_entity_view().
  */
 function multisite_multilingual_references_entity_view($entity, $type, $view_mode, $langcode) {
+
   if (isset($entity->content) && is_array($entity->content)) {
     // Get current language.
     $current_lang_code = _multisite_multilingual_references_get_current_lang();
@@ -312,11 +313,10 @@ function multisite_multilingual_references_entity_view($entity, $type, $view_mod
 
         if (isset($content['#items']) && is_array($content['#items'])) {
           foreach ($content['#items'] as $item_k => $item) {
-            if (isset($content[$item_k]) && isset($content[$item_k]['#markup'])) {
-
+            if (isset($content[$item_k]) && isset($content[$item_k]['#markup']) && !empty($content[$item_k]['#markup'])) {
               // Get all href to nodes in the field.
               $dom = new DOMDocument();
-              if ($dom->loadXML('<div>' . $content[$item_k]['#markup'] . '</div>')) {
+              if ($dom->loadHTML(mb_convert_encoding($content[$item_k]['#markup'], 'HTML-ENTITIES', 'UTF-8'))) {
                 foreach ($dom->getElementsByTagName('a') as $link_node) {
                   if ($link_node && $link_node->hasAttributes()) {
 
@@ -335,6 +335,7 @@ function multisite_multilingual_references_entity_view($entity, $type, $view_mod
                     }
 
                     list($link_lang, $link_path) = _multisite_multilingual_references_clean_path($path);
+
                     $source_path = drupal_lookup_path('source', $link_path, $link_lang);
                     if (!$source_path) {
                       $source_path = $link_path;
@@ -370,7 +371,7 @@ function multisite_multilingual_references_entity_view($entity, $type, $view_mod
               }
 
               // Set new field content.
-              $entity->content[$k][$item_k]['#markup'] = $dom->saveXML($dom->documentElement);
+              $entity->content[$k][$item_k]['#markup'] = $dom->saveHTML();
             }
           }
         }
