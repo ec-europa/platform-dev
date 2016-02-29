@@ -365,8 +365,7 @@
   }
 
   /**
-   * Update the GeoJSON field that contents the geoJSON data by checking all
-   * elements in the map object.
+   * Update the GeoJSON field that contents the geoJSON data by checking all elements in the map object.
    */
   function updateGeoJsonField() {
     geojson_map = drawnItems.toGeoJSON();
@@ -401,8 +400,7 @@
   }
 
   /**
-   * Update all the popups on the map by checking all elements in the map
-   * object.
+   * Update all the popups on the map by checking all elements in the map object.
    */
   function updatePopups() {
     geojson_map = drawnItems.toGeoJSON();
