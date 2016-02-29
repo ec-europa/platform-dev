@@ -301,7 +301,6 @@ function _multisite_multilingual_references_get_link_replacement($source, $curre
  * Implements hook_entity_view().
  */
 function multisite_multilingual_references_entity_view($entity, $type, $view_mode, $langcode) {
-
   if (isset($entity->content) && is_array($entity->content)) {
     // Get current language.
     $current_lang_code = _multisite_multilingual_references_get_current_lang();
