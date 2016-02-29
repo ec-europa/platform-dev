@@ -1218,12 +1218,19 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
 
   // Hide format field.
   if (!user_access('administer nodes')) {
-    $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['comment_body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
-
-    $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+    $form['#after_build'][] = 'ec_resp_after_build';
   }
+}
+
+/**
+ * Implements the afterbuild function.
+ */
+function ec_resp_after_build($form) {
+  $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+  $form['comment_body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+  $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+  $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+  return $form;
 }
 
 /**
