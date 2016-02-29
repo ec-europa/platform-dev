@@ -23,6 +23,14 @@ function nexteuropa_remote_entity_info() {
           'label' => t('Full page'),
           'custom settings' => FALSE,
         ],
+        'title' => [
+          'label' => t('Title'),
+          'custom settings' => TRUE,
+        ],
+        'metadata' => [
+          'label' => t('Metadata'),
+          'custom settings' => TRUE,
+        ],
       ],
       'entity keys' => [
         'id' => 'id',
@@ -60,6 +68,7 @@ function nexteuropa_remote_entity_info() {
           'base path' => 'remote-entity/%nexteuropa_remote',
         ],
       ],
+      'translatable' => 1,
     ],
   ];
 

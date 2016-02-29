@@ -20,7 +20,7 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
    * {@inheritdoc}
    */
   public function getSupportedTokenTypes() {
-    return array('node', 'user', 'term');
+    return array('node', 'user', 'term', 'nexteuropa_remote');
   }
 
   /**

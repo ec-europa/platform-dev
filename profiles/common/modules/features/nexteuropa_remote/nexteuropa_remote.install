@@ -5,6 +5,64 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function nexteuropa_remote_install() {
+  // Set variables.
+  $service = multisite_config_service('system');
+  $service->setVariable('remote_browser_endpoint', 'http://www.development.ec.europa.eu/fpfis/multisite/degliwe/ilayer/mock/browser');
+
+  // Add fields to the remote_entity entity.
+  $service = multisite_config_service('field');
+
+  // Field remote_id.
+  $service->createBaseField('field_nexteuropa_remote_id', 'text')
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_id', 'nexteuropa_remote', 'default')
+    ->label('Id')
+    ->widget('text_textfield')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+
+  // Field title.
+  $service->createBaseField('field_nexteuropa_remote_title', 'text')
+    ->translatable(1)
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_title', 'nexteuropa_remote', 'default')
+    ->label('Title')
+    ->widget('text_textfield')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+
+  // Field url.
+  $service->createBaseField('field_nexteuropa_remote_url', 'text')
+    ->translatable(1)
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_url', 'nexteuropa_remote', 'default')
+    ->label('Url')
+    ->widget('text_textfield')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+
+  // Field data (to store the json).
+  $service->createBaseField('field_nexteuropa_remote_data', 'text_long')
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_data', 'nexteuropa_remote', 'default')
+    ->label('Data')
+    ->widget('text_textarea')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+}
+
+/**
  * Implements hook_schema().
  */
 function nexteuropa_remote_schema() {

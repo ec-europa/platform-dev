@@ -65,7 +65,14 @@ class RemoteEntityUIController extends \EntityDefaultUIController {
       'type' => MENU_LOCAL_TASK,
       'context' => MENU_CONTEXT_INLINE,
     ] + $defaults;
-
+    $items['remote-entity/get/%'] = [
+      'page callback' => 'nexteuropa_remote_get_remote_entity',
+      'access arguments' => array('access content'),
+      'page arguments' => [2],
+      'title' => 'Get',
+      'type' => MENU_LOCAL_TASK,
+      'context' => MENU_CONTEXT_INLINE,
+    ] + $defaults;
     return $items;
   }
 
