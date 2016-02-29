@@ -69,7 +69,8 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
  * Implements hook_file_insert().
  *
  * Allow the upload of js files to the field_custom_js_file.
- * @see file_save_upload().
+ *
+ * @see file_save_upload()
  */
 function nexteuropa_webtools_file_insert($file) {
   // This only works/tested for the field_custom_js_file field on webtools bean.
@@ -97,7 +98,8 @@ function nexteuropa_webtools_file_insert($file) {
   file_move($file, $destination);
 
   // As Core sets a message warning the user of the renaming and as we undo it,
-  // we want to remove that message. This will prevent confusion and bug logging.
+  // we want to remove that message.
+  // This will prevent confusion and bug logging.
   // This is removed from $_SESSION directly, so we don't have to get and set
   // other existing messages.
   $messages = $_SESSION['messages'];
