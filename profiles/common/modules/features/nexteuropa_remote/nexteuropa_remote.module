@@ -81,24 +81,24 @@ function nexteuropa_remote_access($op, \Drupal\nexteuropa_remote\Entity\RemoteEn
 
 /**
  * Callback of the uri "remote-entity/get" (Ajax call).
+ *
  * Return a remote entity view or a token.
  */
 function nexteuropa_remote_get_remote_entity() {
   $op = arg(2);
 
   // Check if the remote entity is saved locally.
-  $entityQuery = new EntityFieldQuery();
-  $entities = $entityQuery->entityCondition('entity_type', 'nexteuropa_remote')
+  $entity_query = new EntityFieldQuery();
+  $entities = $entity_query->entityCondition('entity_type', 'nexteuropa_remote')
     ->fieldCondition('field_nexteuropa_remote_url', 'value', $_GET['url'])
     ->execute();
 
-  if (!isset($entities['nexteuropa_remote']))  {
+  if (!isset($entities['nexteuropa_remote'])) {
     // The entity is not saved locally.
-
-    $remote_browser_endpoint = variable_get('remote_browser_endpoint','');
+    $remote_browser_endpoint = variable_get('remote_browser_endpoint', '');
     $response = drupal_http_request($remote_browser_endpoint . "?url=" . $_GET['url']);
 
-    if(isset($response->code) && $response->code == 200) {
+    if (isset($response->code) && $response->code == 200) {
       $data = json_decode($response->data);
       $languages = language_list('enabled');
       $languages_code = array_keys($languages[1]);
@@ -110,12 +110,12 @@ function nexteuropa_remote_get_remote_entity() {
 
       // Populate id field.
       $entity->field_nexteuropa_remote_id = array(LANGUAGE_NONE => array(0 => array('value' => $data->_id)));
-      
+
       // Populate data field.
       $entity->field_nexteuropa_remote_data = array(LANGUAGE_NONE => array(0 => array('value' => $response->data)));
 
       // Populate title field.
-      foreach($languages_code as $lg_code) {
+      foreach ($languages_code as $lg_code) {
         if (isset($data->fields->title->{$lg_code})) {
           $entity->field_nexteuropa_remote_title[$lg_code] = array(0 => array('value' => $data->fields->title->{$lg_code}[0]));
         }
@@ -127,7 +127,7 @@ function nexteuropa_remote_get_remote_entity() {
         'fr' => array(0 => array('value' => 'url_fr')),
       );
 
-      if($op == 'save') {
+      if ($op == 'save') {
         $entity->save();
       }
     }
@@ -141,15 +141,15 @@ function nexteuropa_remote_get_remote_entity() {
   }
 
   // Return the remote entiy view.
-  if($op == 'render') {
+  if ($op == 'render') {
     drupal_add_http_header('Content-Type', 'text/html');
     // Title view mode hard coded, to improve later.
     $render = $entity->view('title');
     echo drupal_render($render);
-  } 
+  }
 
   // Save the remote entity and return the token.
-  if($op == 'save') {
+  if ($op == 'save') {
     if (!isset($entities['nexteuropa_remote'])) {
       $entity->save();
     }
@@ -161,20 +161,20 @@ function nexteuropa_remote_get_remote_entity() {
  * Implements hook_init().
  */
 function nexteuropa_remote_init() {
-  drupal_add_js(array('nexteuropa_remote' => array('remote_browser_endpoint' => variable_get('remote_browser_endpoint',''))), 'setting');
+  drupal_add_js(array('nexteuropa_remote' => array('remote_browser_endpoint' => variable_get('remote_browser_endpoint', ''))), 'setting');
 }
 
 /**
  * Implements hook_entity_view().
  */
 function nexteuropa_remote_entity_view($entity, $type, $view_mode, $langcode) {
-  if($view_mode == 'title') {
-    if($langcode == LANGUAGE_NONE) {
+  if ($view_mode == 'title') {
+    if ($langcode == LANGUAGE_NONE) {
       $langcode = language_default()->language;
     }
     $content_title = $entity->field_nexteuropa_remote_title[$langcode][0]['value'];
     $content_url = $entity->field_nexteuropa_remote_url[$langcode][0]['value'];
-    $html = '<a href="' . $content_url  . '">' . $content_title . '</a>';
+    $html = '<a href="' . $content_url . '">' . $content_title . '</a>';
     $entity->content['field_data'][0]['#markup'] = $html;
   }
 }
@@ -184,7 +184,7 @@ function nexteuropa_remote_entity_view($entity, $type, $view_mode, $langcode) {
  */
 function nexteuropa_remote_preprocess_entity(&$variables) {
   // Trick to hide the title, to improve later.
-  if($variables['view_mode'] == 'title') {
+  if ($variables['view_mode'] == 'title') {
     $variables['page'] = TRUE;
   }
 }

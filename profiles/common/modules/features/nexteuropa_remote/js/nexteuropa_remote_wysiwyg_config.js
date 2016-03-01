@@ -11,10 +11,6 @@
     var dialog = CKEDITOR.dialog.getCurrent();
 
     if (dialogName == 'nexteuropa_token_ckeditor_dialog') {
-
-      console.log("DEBUG ---------------------");
-      console.log(dialogDefinition);
-
       dialogDefinition.addContents({
         id: 'info-remote',
         label: Drupal.t('Remote contents'),
@@ -37,18 +33,19 @@
               $('#url_check_msg').html('Checking url... <img src="' + Drupal.settings.basePath + 'misc/throbber-active.gif"/>');
               $('#nexteuropa-token-remote-content-preview').load(Drupal.settings.basePath + 'remote-entity/get/render?url=' + url, function(response, status, xhr){
                 $('#url_check_msg').html('');
-                if(status == "error") {
+                if (status == "error") {
                   $(this).css({ 'color': 'red', 'font-weight': 'bold' });
                   $(this).html('Content not found');
-                } else {
+                }
+                else {
                   $(this).show();
                   $(this).css({"border" :"1px solid #ddd", "padding": "10px", "margin": "5px"});
                   dialog.getContentElement('info-remote','insert_remote_content_token').getElement().show();
-                  //dialog.getContentElement('info-remote','nexteuropa_token_remote_view_mode').getElement().show();
+                  // dialog.getContentElement('info-remote','nexteuropa_token_remote_view_mode').getElement().show();
                 }
               });
             }
-          },
+        },
           {
             id: 'nexteuropa_token_remote_content_preview',
             type: 'html',
@@ -79,8 +76,8 @@
                 editor.insertHtml(data);
               });
             }
-          }
-        ]                     
+        }
+        ]
       });
 
       // Override the onShow event.
@@ -90,7 +87,7 @@
           var dialog = CKEDITOR.dialog.getCurrent();
           var editor = dialog.getParentEditor();
           dialog.getContentElement('info-remote','insert_remote_content_token').getElement().hide();
-          //dialog.getContentElement('info-remote','nexteuropa_token_remote_view_mode').getElement().hide();
+          // dialog.getContentElement('info-remote','nexteuropa_token_remote_view_mode').getElement().hide();
           $('#nexteuropa-token-remote-content-preview').hide();
           $('#nexteuropa-token-remote-view-mode').hide();
           $('#nexteuropa-token-remote-content-preview').html('');
