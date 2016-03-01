@@ -92,6 +92,7 @@
           $('#nexteuropa-token-remote-view-mode').hide();
           $('#nexteuropa-token-remote-content-preview').html('');
           $('#url_check_msg').html('');
+          $('a.cke_dialog_tab').removeClass('cke_dialog_tab_disabled');
         };
       });
 
