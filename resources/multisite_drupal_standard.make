@@ -279,6 +279,7 @@ projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2325549-jq
 
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
+projects[geofield][patch][] = https://www.drupal.org/files/issues/geofield-feeds_import_not_saving-2534822-17.patch
 
 projects[geophp][download][branch] = 7.x-1.x
 projects[geophp][download][revision] = 2777c5e
