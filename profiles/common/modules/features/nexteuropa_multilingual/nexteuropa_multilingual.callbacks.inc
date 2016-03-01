@@ -29,6 +29,14 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
  * @todo: Add documentation.
  */
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
+  // Don't add the language suffix for a internal file URL.
+  $file_public = variable_get ('file_public_path',conf_path() . '/files');
+  $file_private = variable_get ('file_private_path');
+  if ($file_public && preg_match("#^/?$file_public#" , $path) ||
+      $file_private && preg_match("#^/?$file_private#" , $path)){
+    return;
+  }
+
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
   $language_list = language_list('enabled');
   $languages = $language_list[1];
