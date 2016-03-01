@@ -55,8 +55,8 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
 
     $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
-    // We don't add the language suffix if already exists
-    if(strcmp(substr($path, strlen($delimiter . $language_suffix)*-1), $delimiter . $language_suffix) !== 0) {
+    // We don't add the language suffix if already exists.
+    if (strcmp(substr($path, strlen($delimiter . $language_suffix) * -1), $delimiter . $language_suffix) !== 0) {
       $path .= $delimiter . $language_suffix;
     }
 
