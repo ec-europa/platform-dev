@@ -60,7 +60,6 @@ settings[node_form_sidebar][] = scheduler_settings
 settings[node_form_sidebar][] = print
 settings[node_form_sidebar][] = comment_settings
 
-
 ; Navbar
 ; --------------
 settings[bootstrap_navbar_position] = 'static-top'
