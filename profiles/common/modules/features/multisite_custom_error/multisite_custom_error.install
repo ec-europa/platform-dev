@@ -17,7 +17,7 @@ function multisite_custom_error_enable() {
   foreach (_customerror_enum_errors() as $code => $desc) {
     variable_set('site_' . $code, 'customerror/' . $code);
     variable_set('customerror_' . $code . '_theme', 'ec_resp');
-    drupal_set_message(t('Default error page has been set.');
+    drupal_set_message(t('Default error page has been set.'));
   }
   $link = l(t('Site information'), 'admin/config/system/site-information', array('attributes' => array('target' => '_blank')));
   drupal_set_message(t('Go to !link to review the settings.', array('!link' => $link)));
