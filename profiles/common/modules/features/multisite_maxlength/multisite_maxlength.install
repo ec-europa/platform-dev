@@ -5,14 +5,12 @@
  * Install the feature Multisite Maxlength.
  */
 
-include_once 'multisite_maxlength.install.inc';
-
 /**
  * Implements hook_enable().
  */
 function multisite_maxlength_enable() {
   // Activation message.
-  drupal_set_message(t('Multisite Maxlength %v feature is now active on your site.', array('%v' => _multisite_maxlength_get_version())));
+  drupal_set_message(t('Multisite Maxlength feature is now active on your site.'));
 }
 
 /**
@@ -20,5 +18,5 @@ function multisite_maxlength_enable() {
  */
 function multisite_maxlength_disable() {
   // Deactivation message.
-  drupal_set_message(t('Multisite Maxlength %v feature is now inactive on your site.', array('%v' => _multisite_maxlength_get_version())));
+  drupal_set_message(t('Multisite Maxlength feature is now inactive on your site.'));
 }
