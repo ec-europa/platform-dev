@@ -52,4 +52,17 @@ interface TokenHandlerInterface {
    */
   public function getEntityIdFromToken($original);
 
+  /**
+   * Return entity URL.
+   *
+   * @param string $entity_type
+   *    Entity type.
+   * @param object $entity
+   *    Entity object.
+   *
+   * @return string
+   *    Entity URL.
+   */
+  public function getEntityUrl($entity_type, $entity);
+
 }
