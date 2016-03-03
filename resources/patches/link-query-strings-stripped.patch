@@ -1,0 +1,20 @@
+--- a/link.module
++++ b/link.module
+@@ -496,12 +496,12 @@ function _link_sanitize(&$item, $delta, &$field, $instance, &$entity) {
+   $url_parts = _link_parse_url($url);
+
+   if (!empty($url_parts['url'])) {
+-    $item['url'] = $url_parts['url'];
+-    $item += array(
+-      'query' => isset($url_parts['query']) ? $url_parts['query'] : NULL,
+-      'fragment' => isset($url_parts['fragment']) ? $url_parts['fragment'] : NULL,
+-      'absolute' => !empty($instance['settings']['absolute_url']),
+-      'html' => TRUE,
++    $item['url'] = url($url_parts['url'],
++      array('query' => isset($url_parts['query']) ? $url_parts['query'] : NULL,
++        'fragment' => isset($url_parts['fragment']) ? $url_parts['fragment'] : NULL,
++        'absolute' => !empty($instance['settings']['absolute_url']),
++        'html' => TRUE,
++      )
+     );
+   }
