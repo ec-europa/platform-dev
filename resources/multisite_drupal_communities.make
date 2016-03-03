@@ -17,3 +17,8 @@ projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
 projects[og_linkchecker][subdir] = contrib
 projects[og_linkchecker][patch][] = https://www.drupal.org/files/issues/og_linkchecker-og-2-x-compatibility-2214661-2.patch
+
+# Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
+# https://www.drupal.org/node/1820210
+# https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
+projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
