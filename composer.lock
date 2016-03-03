@@ -656,7 +656,7 @@
             "version": "1.0",
             "source": {
                 "type": "git",
-                "url": "http://git.drupal.org/project/phingdrushtask.git",
+                "url": "https://git.drupal.org/project/phingdrushtask.git",
                 "reference": "7.x-1.0"
             },
             "type": "library",
