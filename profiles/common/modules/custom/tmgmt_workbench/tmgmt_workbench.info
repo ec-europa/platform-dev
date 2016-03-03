@@ -2,8 +2,6 @@ name = Translation Management Workbench
 description = Exposes as TMGMT source content in a specific moderation state.
 package = Translation Management
 core = 7.x
-version = 7.x-1.x-dev
-project = tmgmt_workbench
 configure = admin/config/regional/tmgmt_workbench_settings
 
 dependencies[] = workbench

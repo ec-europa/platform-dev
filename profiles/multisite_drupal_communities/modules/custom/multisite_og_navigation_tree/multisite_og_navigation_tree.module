@@ -125,7 +125,7 @@ function mont_node_load($nid) {
   $node = node_load($nid);
   $vid = _mont_group_taxonomy_enabled($node);
   if ($vid) {
-    RETURN $node;
+    return $node;
   }
   return FALSE;
 }
