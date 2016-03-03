@@ -30,7 +30,7 @@ function multisite_custom_error_enable() {
  */
 function multisite_custom_error_disable() {
   // Deactivation message.
-  drupal_set_message(t('Multisite Custom Error %v feature is now inactive on your site.', array('%v' => _multisite_custom_error_get_version())));
+  drupal_set_message(t('Multisite Custom Error feature is now inactive on your site.'));
 
   module_load_include('module', 'customerror');
   foreach (_customerror_enum_errors() as $code => $desc) {
