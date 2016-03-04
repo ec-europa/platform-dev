@@ -45,7 +45,7 @@
 ?>
 <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="btn-group"<?php print $content_attributes; ?>>
-	  <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><?php print t('Create content'); ?> <span class="caret"></span></a>
-		<?php print $content ?>
-   </div><!-- /btn-group -->
+    <a href="#" data-toggle="dropdown" class="btn btn-success dropdown-toggle"><?php print t('Create content'); ?> <span class="caret"></span></a>
+    <?php print $content ?>
+  </div><!-- /btn-group -->
 </div>

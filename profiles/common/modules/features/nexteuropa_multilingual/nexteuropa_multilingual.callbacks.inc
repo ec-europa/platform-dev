@@ -29,6 +29,14 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
  * @todo: Add documentation.
  */
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
+  // Don't add the language suffix for an internal file URL.
+  $file_public = variable_get('file_public_path', conf_path() . '/files');
+  $file_private = variable_get('file_private_path');
+  if ($file_public && preg_match("#^/?$file_public#", $path) ||
+      $file_private && preg_match("#^/?$file_private#", $path)) {
+    return;
+  }
+
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
   $language_list = language_list('enabled');
   $languages = $language_list[1];
@@ -55,7 +63,12 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
 
     $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
-    $path .= $delimiter . $language_suffix;
+
+    // Check if the language suffix has been already added.
+    $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
+    if (!isset($check_prefix[0]->language)) {
+      $path .= $delimiter . $language_suffix;
+    }
 
     $options['alias'] = TRUE;
 
