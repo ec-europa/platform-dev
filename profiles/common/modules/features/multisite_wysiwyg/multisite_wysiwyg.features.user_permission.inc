@@ -10,15 +10,6 @@
 function multisite_wysiwyg_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: 'access media browser'.
-  $permissions['access media browser'] = array(
-    'name' => 'access media browser',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'media',
-  );
-
   // Exported permission: 'administer media wysiwyg view mode'.
   $permissions['administer media wysiwyg view mode'] = array(
     'name' => 'administer media wysiwyg view mode',

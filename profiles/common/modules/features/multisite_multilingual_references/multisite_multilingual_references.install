@@ -5,14 +5,12 @@
  * Install, update, schema, enable, disable and uninstall functions.
  */
 
-include_once 'multisite_multilingual_references.install.inc';
-
 /**
  * Implements hook_enable().
  */
 function multisite_multilingual_references_enable() {
   // Activation message.
-  drupal_set_message(t('Multisite Multilingual References %v feature is now active on your site.', array('%v' => _multisite_multilingual_references_get_version())));
+  drupal_set_message(t('Multisite Multilingual References feature is now active on your site.'));
 }
 
 /**
@@ -20,5 +18,5 @@ function multisite_multilingual_references_enable() {
  */
 function multisite_multilingual_references_disable() {
   // Activation message.
-  drupal_set_message(t('Multisite Multilingual References %v feature is now disabled on your site.', array('%v' => _multisite_multilingual_references_get_version())));
+  drupal_set_message(t('Multisite Multilingual References feature is now disabled on your site.'));
 }

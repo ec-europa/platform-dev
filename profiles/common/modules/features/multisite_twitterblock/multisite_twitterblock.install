@@ -7,13 +7,11 @@
  * @see /confluence/display/MULTISITE/Custom+features
  */
 
-include_once 'multisite_twitterblock.install.inc';
-
 /**
  * Implements hook_enable().
  */
 function multisite_twitterblock_enable() {
-  drupal_set_message(t('Multisite twitter block %v feature is now active on your site.', array('%v' => _multisite_twitterblock_get_version())));
+  drupal_set_message(t('Multisite twitter block feature is now active on your site.'));
 
   // Twitter to sidebar.
   multisite_drupal_toolbox_add_block_context('site_wide', 'fpfis_twitter', 'multisite_twitterblock', 'fpfis_twitter', 'sidebar_right', '-7');
@@ -23,7 +21,7 @@ function multisite_twitterblock_enable() {
  * Implements hook_disable().
  */
 function multisite_twitterblock_disable() {
-  drupal_set_message(t('Multisite twitter block %v feature is now inactive on your site.', array('%v' => _multisite_twitterblock_get_version())));
+  drupal_set_message(t('Multisite twitter block feature is now inactive on your site.'));
 
   // Remove Twitter from context.
   multisite_drupal_toolbox_remove_block_context('site_wide', 'fpfis_twitter');

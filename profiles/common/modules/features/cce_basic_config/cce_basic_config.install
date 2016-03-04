@@ -25,22 +25,23 @@ function cce_basic_config_requirements($phase) {
     'weight' => -8,
   );
 
-  global $base_url;
-  if ($continuousphp_package = file_get_contents($base_url . '/continuousphp.package')) {
-    $info = json_decode($continuousphp_package, TRUE);
-    $t = get_t();
-    $requirements['git_ref'] = array(
-      'title' => $t('Git ref'),
-      'value' => $info['ref'],
-      'severity' => REQUIREMENT_INFO,
-      'weight' => -7,
-    );
-    $requirements['git_commit'] = array(
-      'title' => $t('Git commit'),
-      'value' => l($info['commit'], 'https://github.com/ec-europa/platform-dev/commit/' . $info['commit']),
-      'severity' => REQUIREMENT_INFO,
-      'weight' => -7,
-    );
+  if (file_exists(DRUPAL_ROOT . '/continuousphp.package')) {
+    if ($continuousphp_package = file_get_contents(DRUPAL_ROOT . '/continuousphp.package')) {
+      $info = json_decode($continuousphp_package, TRUE);
+      $t = get_t();
+      $requirements['git_ref'] = array(
+        'title' => $t('Git ref'),
+        'value' => $info['ref'],
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -7,
+      );
+      $requirements['git_commit'] = array(
+        'title' => $t('Git commit'),
+        'value' => l($info['commit'], 'https://github.com/ec-europa/platform-dev/commit/' . $info['commit']),
+        'severity' => REQUIREMENT_INFO,
+        'weight' => -7,
+      );
+    }
   }
   return $requirements;
 }
@@ -50,6 +51,10 @@ function cce_basic_config_requirements($phase) {
  */
 function cce_basic_config_install() {
   $t = get_t();
+
+  // Create contributor editor roles.
+  multisite_config_service('user')->createRole('contributor', 3);
+  multisite_config_service('user')->createRole('editor', 4);
 
   // Create a vocabulary dedicated to the classification.
   $vocabulary = (object) array(
@@ -738,12 +743,8 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use PHP to import nodes',
   ));
 
-  // Contributor role.
-  $contributor_role = new stdClass();
-  $contributor_role->name = 'contributor';
-  user_role_save($contributor_role);
   // Grant permissions for contributors.
-  user_role_grant_permissions($contributor_role->rid, array(
+  $permissions = array(
     'access workbench',
     'create article content',
     'delete own article content',
@@ -758,14 +759,12 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view moderation messages',
     'view own unpublished content',
     'view revisions',
-  ));
+    'access media browser',
+  );
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
 
-  // Editor role.
-  $editor_role = new stdClass();
-  $editor_role->name = 'editor';
-  user_role_save($editor_role);
   // Grant permissions for editors.
-  user_role_grant_permissions($editor_role->rid, array(
+  $permissions = array(
     'create article content',
     'delete any article content',
     'delete own article content',
@@ -773,18 +772,14 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'edit any article content',
     'edit own article content',
     'export nodes',
-    'moderate content from draft to needs_review',
-    'moderate content from needs_review to draft',
-    'moderate content from needs_review to published',
-    'moderate content from needs_review to validated',
-    'moderate content from published to archived',
-    'moderate content from validated to published',
     'revert revisions',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
     'view own unpublished content',
-  ));
+    'access media browser',
+  );
+  multisite_config_service('user')->grantPermission('editor', $permissions);
 
   // Grant permissions for authenticated users.
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(

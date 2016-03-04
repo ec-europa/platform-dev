@@ -83,6 +83,8 @@ function ec_world_countries_countries() {
       'KZ' => t('Kazakhstan'),
       'KW' => t('Kuwait'),
       'KG' => t('Kyrgyzstan'),
+      'KR' => t('South Korea'),
+      'KP' => t('North Korea'),
       'LA' => t("Lao People's Democratic Republic"),
       'LB' => t('Lebanon'),
       'MY' => t('Malaysia'),

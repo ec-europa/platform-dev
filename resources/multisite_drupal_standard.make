@@ -35,6 +35,10 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
+; https://www.drupal.org/node/2657666
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 
@@ -566,14 +570,19 @@ projects[video][version] = "2.11"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
+; A recent version of the Views module is pinned that contains a fix for
+; https://www.drupal.org/node/339384
+; See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
+; Todo: revert back to the stable version when Views 7.x-3.14 is released.
+projects[views][download][branch] = 7.x-3.x
+projects[views][download][revision] = e5c8b65
+projects[views][download][type] = git
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.13"
+
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
-projects[views][patch][] = http://cgit.drupalcode.org/views/patch/?id=e5c8b65610fbfb93215466c2f234ec7aa825a1ba
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -644,6 +653,8 @@ projects[wysiwyg][version] = "2.2"
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7359
+projects[wysiwyg][patch][] = patches/wysiwyg.features.inc.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -767,11 +778,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7
+; mpdf 5.7.4a
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet

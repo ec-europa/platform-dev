@@ -26,46 +26,49 @@ function _is_ecas_user($user) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function ecas_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'user_profile_form') {
-    $user = user_load($form['#user']->uid);
-    // Load the user related to the profile.
-    if (_is_ecas_user($user)) {
-      // Remove the "Current password".
-      $form['account']['current_pass']['#access'] = FALSE;
+function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  $user = user_load($form['#user']->uid);
+  // Load the user related to the profile.
+  if (_is_ecas_user($user)) {
+    // Remove the "Current password".
+    $form['account']['current_pass']['#access'] = FALSE;
 
-      // Remove the "Password" and "Confirm password"  fields from the
-      // 'user/%/edit' page.
-      $form['account']['pass']['#access'] = FALSE;
-      if (!empty($user->mail)) {
-        $form['account']['mail']['#disabled'] = TRUE;
-      }
-
-      // Disable the firstname and lastname fields.
-      $form['field_firstname']['#disabled'] = TRUE;
-      $form['field_lastname']['#disabled'] = TRUE;
-
-      // Disable the creator field.
-      $form['field_creator']['#disabled'] = TRUE;
-
-      // Disable the name field.
-      $form['account']['name']['#disabled'] = TRUE;
-
-      $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
-      $form['account']['ecas_information_label'] = array(
-        '#markup' => sprintf(
-          t('This account is managed by ECAS. Its password can be changed using %s.'),
-          l(t('the ECAS change password page'), $ecas_ch_pw_url)
-        ),
-        '#weight' => -10,
-      );
+    // Remove the "Password" and "Confirm password"  fields from the
+    // 'user/%/edit' page.
+    $form['account']['pass']['#access'] = FALSE;
+    if (!empty($user->mail)) {
+      $form['account']['mail']['#disabled'] = TRUE;
     }
+
+    // Disable the firstname and lastname fields.
+    $form['field_firstname']['#disabled'] = TRUE;
+    $form['field_lastname']['#disabled'] = TRUE;
+
+    // Disable the creator field.
+    $form['field_creator']['#disabled'] = TRUE;
+
+    // Disable the name field.
+    $form['account']['name']['#disabled'] = TRUE;
+
+    $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
+    $form['account']['ecas_information_label'] = array(
+      '#markup' => sprintf(
+        t('This account is managed by ECAS. Its password can be changed using %s.'),
+        l(t('the ECAS change password page'), $ecas_ch_pw_url)
+      ),
+      '#weight' => -10,
+    );
   }
-  elseif ($form_id == 'user_pass') {
-    $form['#validate'] = array('_ecas_user_pass_validate');
-  }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'] = array('_ecas_user_pass_validate');
 }
 
 /**
@@ -287,16 +290,21 @@ function ecas_sync_profile_core(&$user, array $user_info) {
 
   // You can now access the fields without knowing the language.
   if (!empty($field_firstname) && isset($edit[$field_firstname])) {
-    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['givenname'];
+    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['cas:firstName'];
   }
   if (!empty($field_lastname) && isset($edit[$field_lastname])) {
-    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['sn'];
+    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['cas:lastName'];
   }
   if (!empty($field_ecasmail) && isset($edit[$field_ecasmail])) {
-    $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['mail'];
+    $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
   }
   if (!empty($field_ecascreator) && isset($edit[$field_ecascreator])) {
-    $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['sourceorganisation'] . '/' . $user_info['departmentnumber'];
+    if ($user_info['cas:domain'] == 'external') {
+      $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'];
+    }
+    else {
+      $edit[$field_ecascreator][LANGUAGE_NONE][0]['value'] = $user_info['cas:domain'] . '/' . $user_info['cas:departmentNumber'];
+    }
   }
 
   // Save changes.
@@ -327,8 +335,8 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
   if (variable_get('ecas_update_mail_address', TRUE)) {
     $picture = $user->picture;
     // Fix : save file object replaced by fid by user_save function.
-    user_save($user, array('mail' => $user_info['mail']));
-    $user->mail = $user_info['mail'];
+    user_save($user, array('mail' => $user_info['cas:email']));
+    $user->mail = $user_info['cas:email'];
     $user->picture = $picture;
   }
 
@@ -371,12 +379,21 @@ function ecas_login_check() {
       phpCAS::setServerLoginURL($custom_server_login_url);
     }
 
+    // Preparing validation URL to retrieve attributes as well :
+    $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
+    $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
+    $validate_server_url .= FPFIS_ECAS_URI . '/TicketValidationService?assuranceLevel=' . $assurance_level . '&ticketTypes=SERVICE,PROXY&userDetails=true&groups=*';
+    phpCAS::setServerServiceValidateURL($validate_server_url);
+
     if ($force_login === ECAS_LOGIN) {
       phpCAS::forceAuthentication();
     }
 
     if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
+      $ecas_attributes = phpCAS::getAttributes();
+      $ecas_groups = $ecas_attributes['cas:groups'];
+      $ecas_email = $ecas_attributes['cas:email'];
 
       // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
@@ -409,27 +426,16 @@ function ecas_login_check() {
 
     // Final check to make sure we have a good user.
     if ($account && $account->uid > 0) {
-      // Avoid calling ldap_* functions if they are not available.
-      if (function_exists('getLdapUserInfo')) {
-        // Retrieve information about the user through LDAP.
-        $ldap_info = array(
-          'sn',
-          'givenname',
-          'dg',
-          'sourceorganisation',
-          'departmentnumber',
-        );
-        drupal_alter('ecas_LDAP_info', $ldap_info);
-        $user_info = getLdapUserInfo($account->name, $ldap_info);
+      // Retrieve information about the user from ECAS attributes.
+      $user_info = phpCAS::getAttributes();
 
-        // Update her information.
-        if (!empty($user_info)) {
-          ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
-        }
-        else {
-          $args = array(':username' => $account->name);
-          drupal_set_message(t('Warning: no information could be found for username :username', $args));
-        }
+      // Update her information.
+      if (!empty($user_info)) {
+        ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
+      }
+      else {
+        $args = array(':username' => $account->name);
+        drupal_set_message(t('Warning: no information could be found for username :username', $args));
       }
 
       if ($account->status == 0) {
@@ -654,6 +660,7 @@ function _ecas_init_phpcas_client() {
   $server_port        = FPFIS_ECAS_PORT;
   $server_uri         = FPFIS_ECAS_URI;
   $start_session      = (boolean) FALSE;
+
   // Drupal takes care of its own session.
   $assurance_level    = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
 
@@ -675,10 +682,14 @@ function _ecas_init_phpcas_client() {
     $start_session,
     $assurance_level
   );
+
   phpCAS::setNoCasServerValidation();
+  // SNET proxies are blocking curl ...
+  // Let's make the module identify itself in their logs.
+  phpCAS::setExtraCurlOption(CURLOPT_USERAGENT, 'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
-    phpCas::setExtraCurlOption($key, $value);
+    phpCAS::setExtraCurlOption($key, $value);
   }
 }
 
