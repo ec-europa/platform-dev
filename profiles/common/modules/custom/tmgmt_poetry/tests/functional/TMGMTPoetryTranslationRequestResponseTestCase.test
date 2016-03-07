@@ -84,7 +84,7 @@ class TMGMTPoetryTranslationResponseTestCase extends TMGMT_PoetryWebTestCase {
       }
       catch (Exception $e) {
         $response = 'Error new SoapClient : ' . $e->getMessage();
-        watchdog('tmgmt_poetry_tests', $response);
+        watchdog('Poetry: Test', $response);
       }
       $ids = _tmgmt_poetry_obtain_related_translation_jobs(array($return_language), '%_' . $job->tjid . '_POETRY')->fetchAll();
       $id = array_shift($ids);
@@ -158,7 +158,7 @@ class TMGMTPoetryTranslationResponseTestCase extends TMGMT_PoetryWebTestCase {
       catch (Exception $e) {
         $response = 'Error new SoapClient : ' . $e->getMessage();
       }
-      watchdog('tmgmt_poetry_test', print_r($response, TRUE));
+      watchdog('Poetry: Test', print_r($response, TRUE));
       $ids = _tmgmt_poetry_obtain_related_translation_jobs(array($return_language), '%_' . $job->tjid . '_POETRY')->fetchAll();
       $id = array_shift($ids);
       $received_job_item = entity_load('tmgmt_job_item', array($id->tjiid), array(), TRUE);
@@ -234,7 +234,7 @@ class TMGMTPoetryTranslationResponseTestCase extends TMGMT_PoetryWebTestCase {
     catch (Exception $e) {
       $response = 'Error new SoapClient : ' . $e->getMessage();
     }
-    watchdog('tmgmt_poetry_test', print_r($response, TRUE));
+    watchdog('Poetry: Test', print_r($response, TRUE));
 
     $ids = _tmgmt_poetry_obtain_related_translation_jobs($return_languages, '%_' . $job->tjid . '_POETRY')->fetchAll();
     foreach ($ids as $id) {
@@ -313,7 +313,7 @@ class TMGMTPoetryTranslationResponseTestCase extends TMGMT_PoetryWebTestCase {
     catch (Exception $e) {
       $response = 'Error new SoapClient : ' . $e->getMessage();
     }
-    watchdog('tmgmt_poetry_test', print_r($response, TRUE));
+    watchdog('Poetry: Test', print_r($response, TRUE));
 
     $ids = _tmgmt_poetry_obtain_related_translation_jobs($return_languages, '%_' . $job->tjid . '_POETRY')->fetchAll();
     foreach ($ids as $id) {

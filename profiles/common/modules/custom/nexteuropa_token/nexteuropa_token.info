@@ -2,8 +2,6 @@ name = NextEuropa Token
 description = Exposes general purposes tokens for NextEuropa sites.
 core = 7.x
 package = NextEuropa
-version = 7.x-1.x-dev
-project = nexteuropa_token
 configure = admin/config/system/nexteuropa-tokens
 
 dependencies[] = entity
