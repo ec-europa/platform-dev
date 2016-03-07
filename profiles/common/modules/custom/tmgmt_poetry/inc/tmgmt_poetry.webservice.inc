@@ -98,9 +98,7 @@ function _tmgmt_poetry_authenticate($user, $password) {
  * Function available to call from our webservice.
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
-
-  watchdog("POETRY", "Poetry accessed callback");
-  watchdog('tmgmt_poetry: translation response', $msg, array(), WATCHDOG_DEBUG);
+  watchdog('Poetry: Response', htmlentities($msg), array(), WATCHDOG_DEBUG);
 
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
@@ -110,11 +108,27 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
     $reference = implode("/", (array) $request->demandeId);
-
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
+
+    if ($xml->request['type'] == 'status') {
+      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $main_reference));
+      // Send answer to poetry.
+      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'OK', 0, $request);
+      return $xml->asXML();
+    }
+
     $language_job = array();
     $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $main_reference)->fetchAll();
+
+    // Handling the case where we can't find the corresponding job.
+    if (!$ids) {
+      watchdog("Poetry: Error message", "Callback can't find a job with remote reference !reference.", array('!reference' => $main_reference), WATCHDOG_ERROR);
+      // Send answer to poetry.
+      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'ERROR: Job does not exists', -1, $request);
+      return $xml->asXML();
+    }
+
     $ids = array_shift($ids);
     $message_job = tmgmt_job_load($ids->tjid);
 
@@ -296,7 +310,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     return $xml->asXML();
   }
   else {
-    watchdog("POETRY", "Poetry callback failed authentication.");
+    watchdog("Poetry: Error message", "Poetry callback failed authentication.");
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
     // Send answer to poetry.
