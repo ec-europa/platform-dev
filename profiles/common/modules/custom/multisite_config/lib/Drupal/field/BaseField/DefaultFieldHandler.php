@@ -45,7 +45,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
   /**
    * Set field translatable.
    *
-   * @param integer $translatable
+   * @param int $translatable
    *    Translatable property.
    *
    * @return \Drupal\field\BaseField\DefaultFieldHandler $this
