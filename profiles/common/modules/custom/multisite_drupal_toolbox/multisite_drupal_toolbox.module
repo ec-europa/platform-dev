@@ -5,9 +5,7 @@
  * Multisite Toolbox definition module.
  */
 
-// TODO: fix natif overridden feature multisite_rules_configuration
-// and remove them from black list.
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_rules_configuration');
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
  * Implements hook_menu().
  */
@@ -1538,7 +1536,12 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
       'error_message' => t('Found some error here.'),
     );
     batch_set($batch);
-    batch_process('');
+    // Only trigger the processing of the batch when none is running.
+    $current_batch =& batch_get();
+    // A batch with an id is currently being executed.
+    if (empty($current_batch['id'])) {
+      batch_process();
+    }
   }
 }
 
@@ -1560,13 +1563,14 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
         multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target, $field, $term, $current_node);
       }
     }
-
-    // Clean revision field.
-    db_delete('field_revision_' . $field['field_name'])
-      ->condition('entity_type', $target->entity_type)
-      ->condition('entity_id', $target->entity_id)
-      ->condition($field['field_name'] . '_tid', $term->tid)
-      ->execute();
+    if (db_table_exists('field_revision_' . $field['field_name'])) {
+      // Clean revision field.
+      db_delete('field_revision_' . $field['field_name'])
+          ->condition('entity_type', $target->entity_type)
+          ->condition('entity_id', $target->entity_id)
+          ->condition($field['field_name'] . '_tid', $term->tid)
+          ->execute();
+    }
   }
 }
 
@@ -1574,6 +1578,9 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
  * Remove taxonomy term from entity.
  */
 function multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target, $field, $term, $entity) {
+  if (empty($entity->{$field['field_name']}[$target->language])) {
+    return;
+  }
   foreach ($entity->{$field['field_name']}[$target->language] as $key => $value) {
     if ($value['tid'] == $term->tid) {
       unset($entity->{$field['field_name']}[$target->language][$key]);

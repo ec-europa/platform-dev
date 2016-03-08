@@ -4,6 +4,3 @@ package = "ECAS"
 description = "Provides single sign-on ECAS"
 
 files[] = ecas.test
-
-version = "7.x-1.2"
-project = "ecas"
