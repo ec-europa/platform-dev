@@ -318,6 +318,10 @@ projects[jquery_update][version] = "2.7"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
+; Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
+; https://www.drupal.org/node/1820210
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
+projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
