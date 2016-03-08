@@ -1,5 +1,0 @@
-NL,Nederland,http://example.com,"Bowsprit capstan hail-shot",0,LightSalmon
-BE,België,http://example.com,"Sink me case shot, Ahoy",0,LightGoldenRodYellow
-LU,Luxemburg,http://example.com,"Brethren of the Coast: Nelsons",0,LightCyan
-DE,Deutschland,http://example.com,"Furl fluke or Quarter marooned",1,Lavender
-DK,Danmark,http://example.com,"Buccaneer run a shot across bow",2,LightPink
