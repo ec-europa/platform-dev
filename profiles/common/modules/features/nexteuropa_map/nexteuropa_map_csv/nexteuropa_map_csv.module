@@ -45,17 +45,6 @@ function nexteuropa_map_csv_layer_form_alter(&$form, $settings, $type) {
 }
 
 /**
- * Implements hook_map_content_alter().
- *
- * See MapController->buildContent().
- */
-function nexteuropa_map_csv_map_content_alter(&$custom_js) {
-  $csv_layer_js = base_path() . drupal_get_path('module', 'nexteuropa_map_csv') . "/js/csv_layer.js?v=" . rand(0, 33333);
-  $custom_js[] = $csv_layer_js;
-  return $custom_js;
-}
-
-/**
  * Creates a GeoJSON feature from CSV data.
  *
  * @param string $data
