@@ -345,7 +345,7 @@ function nexteuropa_map_layer_type_access($op, $entity = NULL) {
 /**
  * Load map layer type.
  */
-function nexteuropa_map_layer_type_load($map_layer_type) {
+function map_layer_type_load($map_layer_type) {
   return nexteuropa_map_layer_types($map_layer_type);
 }
 
