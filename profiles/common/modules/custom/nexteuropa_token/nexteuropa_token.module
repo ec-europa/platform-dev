@@ -94,7 +94,16 @@ function nexteuropa_token_get_handler($name) {
  * @see hook_nexteuropa_token_token_handlers_alter()
  */
 function nexteuropa_token_get_token_handlers() {
-  $handlers = module_invoke_all('nexteuropa_token_token_handlers');
-  drupal_alter('nexteuropa_token_token_handlers', $handlers);
+  $handlers = &drupal_static(__FUNCTION__);
+  if (!isset($handlers)) {
+    if ($cache = cache_get('nexteuropa_token:handlers')) {
+      $handlers = $cache->data;
+    }
+    else {
+      $handlers = module_invoke_all('nexteuropa_token_token_handlers');
+      drupal_alter('nexteuropa_token_token_handlers', $handlers);
+      cache_set('nexteuropa_token:handlers', $handlers, 'cache');
+    }
+  }
   return $handlers;
 }
