@@ -1,9 +1,9 @@
 <?php
-
 /**
  * @file
- * Contains code for a bug fix when text contains href's with tokens in TMGMT Poetry.
+ * Contains code for replacing href's with tokens in TGMT POETRY.
  */
+
 /**
  * Search for the href attr containing a token.
  */
