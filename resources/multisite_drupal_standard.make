@@ -318,6 +318,10 @@ projects[jquery_update][version] = "2.7"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
+; Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
+; https://www.drupal.org/node/1820210
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
+projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
@@ -329,7 +333,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.3"
+projects[link][version] = "1.4"
 
 projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
@@ -570,14 +574,19 @@ projects[video][version] = "2.11"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
+; A recent version of the Views module is pinned that contains a fix for
+; https://www.drupal.org/node/339384
+; See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
+; Todo: revert back to the stable version when Views 7.x-3.14 is released.
+projects[views][download][branch] = 7.x-3.x
+projects[views][download][revision] = e5c8b65
+projects[views][download][type] = git
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.13"
+
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
 projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
-projects[views][patch][] = http://cgit.drupalcode.org/views/patch/?id=e5c8b65610fbfb93215466c2f234ec7aa825a1ba
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -828,4 +837,8 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 
 projects[bootstrap][type] = theme
 projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip
+projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+
+projects[europa][type] = theme
+projects[europa][download][type] = get
+projects[europa][download][url] = https://github.com/ec-europa/platform-theme-dev/releases/download/v0.1.2/build-v0.1.2.zip

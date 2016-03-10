@@ -4,8 +4,6 @@
  * Install the feature nexteuropa_europa_search.
  */
 
-include_once 'nexteuropa_europa_search.install.inc';
-
 /**
  * Implements hook_uninstall().
  */
@@ -20,7 +18,7 @@ function nexteuropa_europa_search_uninstall() {
  */
 function nexteuropa_europa_search_enable() {
   // Activation message.
-  drupal_set_message(t('Europa Search %v feature is now active on your site.', array('%v' => _nexteuropa_europa_search_get_version())));
+  drupal_set_message(t('Europa Search feature is now active on your site.'));
 }
 
 /**
@@ -28,5 +26,5 @@ function nexteuropa_europa_search_enable() {
  */
 function nexteuropa_europa_search_disable() {
   // Deactivation message.
-  drupal_set_message(t('Europa Search %v feature is now inactive on your site.', array('%v' => _nexteuropa_europa_search_get_version())));
+  drupal_set_message(t('Europa Search feature is now inactive on your site.'));
 }

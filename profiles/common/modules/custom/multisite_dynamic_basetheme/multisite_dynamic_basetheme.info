@@ -3,6 +3,4 @@ description = Change base theme of a sub theme directly from UI
 package = multisite drupal toolbox
 core = 7.x
 
-version = 7.x-1.1
-project = multisite_dynamic_basetheme
 datestamp = "1401893360"
