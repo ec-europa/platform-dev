@@ -570,7 +570,7 @@ function _nexteuropa_newsroom_import_importer($importer) {
   // Set default URLS for importers.
   $source = feeds_source($importer->id);
   $config = $source->getConfig();
-  $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::restoreFeedImporter($importer->id); 
+  $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::restoreFeedImporter($importer->id);
   $source->setConfig($config);
   $source->save();
 }

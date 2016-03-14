@@ -19,6 +19,7 @@ class NexteuropaNewsroomAgendaReaction extends context_reaction {
    * @return array
    *   Form array.
    */
+  // @codingStandardsIgnoreLine
   public function options_form($context) {
     $values = $this->fetch_from_context($context);
     $form['type_id'] = array(
@@ -35,7 +36,7 @@ class NexteuropaNewsroomAgendaReaction extends context_reaction {
    * We need a definition for this function but is not required.
    */
   public function execute() {
-    
+
   }
 
 }

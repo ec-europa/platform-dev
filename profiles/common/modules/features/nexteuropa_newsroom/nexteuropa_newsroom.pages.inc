@@ -51,7 +51,7 @@ function _nexteuropa_newsroom_newsletters_page() {
     $basic_newsletters = $view->result;
 
     $view->destroy();
-    
+
     $view = views_get_view('newsroom_services');
     $view->set_display($central_display);
     $view->pre_execute();

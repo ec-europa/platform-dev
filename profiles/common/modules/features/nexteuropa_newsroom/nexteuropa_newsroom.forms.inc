@@ -498,7 +498,7 @@ function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $typ
   $field = field_info_field('field_newsroom_topics');
   $topic_options = taxonomy_options_list($field, $field_instance, 'node', $temp);
 
-  foreach($topic_options as $key => $topic) {
+  foreach ($topic_options as $key => $topic) {
     if (!in_array($key, $result_topics)) {
       unset($topic_options[$key]);
     }

@@ -2,7 +2,9 @@ name = Nexteuropa Newsroom
 description = Integration with the Newsroom application
 core = 7.x
 package = NextEuropa
+// @codingStandardsIgnoreLine
 version = 7.x-2.0
+// @codingStandardsIgnoreLine
 project = nexteuropa_newsroom
 dependencies[] = entity_translation
 dependencies[] = geofield
