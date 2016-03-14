@@ -40,46 +40,53 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
 }
 
 /**
- * Submit handler.
+ * Helper function to determine we.
  */
-function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
+function _nexteuropa_newsroom_check_backup($form, &$form_state) {
   $voc = $form['#vocabulary']->machine_name;
   // Get the current variable for the specific vocubulary.
   $backup = variable_get($voc . '_backup', array());
 
-  if (!empty($backup)) {
-    // Divide terms into chunks, grouping five of them.
-    $chunks = array_chunk($backup, 5, TRUE);
-    $num_operations = $sandbox['limit'] = count($chunks);
-    $operations = array();
-
-    for ($i = 0; $i < $num_operations; $i++) {
-      $operations[] = array(
-        'nexteuropa_newsroom_restore_batch',
-        array(
-          $chunks[$i],
-          $voc,
-          t('(Operation @operation)', array('@operation' => $i)),
-        ),
-      );
-    }
-
-    $batch = array(
-      'operations' => $operations,
-      'finished' => 'nexteuropa_newsroom_restore_batch_finished',
-      'title' => t('Restore configuration for terms'),
-      'init_message' => t('The restore of your configuration has been started'),
-      'progress_message' => t('Current: @current | Remaining:
-        @remaining | Total: @total | Percentage: @percentage | Estimate:
-        @estimate | Elapsed: @elapsed'),
-      'error_message' => t('The restore did not work.'),
-    );
-
-    batch_set($batch);
+  if (empty($backup)) {
+    return FALSE;
   }
   else {
-    drupal_set_message(t("We couldn't get the backup for the vocabulary: @voc", array('@voc' => $voc)), 'warning');
+    return TRUE;
   }
+}
+
+/**
+ * Submit handler.
+ */
+function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
+  // Divide terms into chunks, grouping five of them.
+  $chunks = array_chunk($backup, 5, TRUE);
+  $num_operations = $sandbox['limit'] = count($chunks);
+  $operations = array();
+
+  for ($i = 0; $i < $num_operations; $i++) {
+    $operations[] = array(
+      'nexteuropa_newsroom_restore_batch',
+      array(
+        $chunks[$i],
+        $voc,
+        t('(Operation @operation)', array('@operation' => $i)),
+      ),
+    );
+  }
+
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'nexteuropa_newsroom_restore_batch_finished',
+    'title' => t('Restore configuration for terms'),
+    'init_message' => t('The restore of your configuration has been started'),
+    'progress_message' => t('Current: @current | Remaining:
+      @remaining | Total: @total | Percentage: @percentage | Estimate:
+      @estimate | Elapsed: @elapsed'),
+    'error_message' => t('The restore did not work.'),
+  );
+
+  batch_set($batch);
 }
 
 /**
@@ -158,17 +165,22 @@ function nexteuropa_newsroom_form_taxonomy_overview_terms_alter(&$form, &$form_s
     NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY,
   );
 
+  $value = _nexteuropa_newsroom_check_backup($form, $form_state) ? t('[Newsroom] Override existing backup') :  t('[Newsroom] Backup configuration');
+
   if (in_array($form['#vocabulary']->machine_name, $vocs)) {
     $form['actions']['backup_config'] = array(
       '#type' => 'submit',
-      '#value' => t('Backup configuration'),
+      '#value' => $value,
       '#submit' => array('nexteuropa_newsroom_backup_conf_all'),
     );
-    $form['actions']['restore_config'] = array(
-      '#type' => 'submit',
-      '#value' => t('Restore configuration'),
-      '#submit' => array('nexteuropa_newsroom_restore_conf_all'),
-    );
+
+    if ($check = _nexteuropa_newsroom_check_backup($form, $form_state)) {
+      $form['actions']['restore_config'] = array(
+        '#type' => 'submit',
+        '#value' => t('[Newsroom] Restore configuration'),
+        '#submit' => array('nexteuropa_newsroom_restore_conf_all'),
+      );
+    }
   }
 }
 
