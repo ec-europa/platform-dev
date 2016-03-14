@@ -340,9 +340,11 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
   $form['intro'] = array(
     '#markup' => '<div class="title">' . $args['name'] . '</div>',
   );
+
   $form['feedback'] = array(
     '#markup' => '<div class="feedback"></div>',
   );
+
   $form['email'] = array(
     '#prefix' => '<div class="inputMail">',
     '#suffix' => '</div>',
@@ -352,9 +354,11 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
       'class' => array(),
     ),
   );
+
   $form['submit_email_prefix'] = array(
     '#markup' => '<div class="inputSubscribe">',
   );
+
   $form['submit_email'] = array(
     '#type' => 'button',
     '#value' => t('Subscribe'),
@@ -362,16 +366,20 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
       'callback' => 'nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax',
     ),
   );
+
   $form['submit_email_submit'] = array(
     '#markup' => '</div>',
   );
+
   $form['service_id'] = array(
     '#type' => 'hidden',
     '#value' => $args['tid'],
   );
+
   $form['previous'] = array(
     '#markup' => '<div class="linkPreviousIssues"><a href="' . $_newsroom_universe_url . 'newsletter-specific-archive.cfm?serviceId=' . $args['tid'] . '">' . t('Previous issues') . '</a></div>',
   );
+
   return $form;
 }
 
@@ -399,6 +407,7 @@ function nexteuropa_newsroom_send_subscription_request($url, $service_id, $email
   $request = drupal_http_request($url . '?' . $query);
   $json_data = $request->data;
   $data = drupal_json_decode($json_data);
+
   return $data['subscription'];
 }
 
@@ -420,8 +429,10 @@ function nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form,
     drupal_set_message($subscription['feedbackMessage'], $type);
     $commands[] = ajax_command_invoke($selector . ' #edit-email', 'removeClass', array('error'));
   }
+
   $replacement = theme_status_messages(array('display' => NULL));
   $commands[] = ajax_command_replace($selector . ' .feedback', '<div class="feedback">' . $replacement . '</div>');
+  
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
@@ -436,11 +447,13 @@ function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
     '#value' => t('Reset filter'),
     '#weight' => 10,
   );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Reset filter'),
     '#weight' => 10,
   );
+
   if (!empty($arguments[0])) {
     // Selected country.
     $selected_country = !empty($arguments[2]) && !empty($arguments[2][1]) ? $arguments[2][1] : 0;
@@ -466,6 +479,7 @@ function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
         '#options' => $countries,
         '#default_value' => $selected_country,
       );
+
       $form['submit'] = array(
         '#type' => 'submit',
         '#value' => t('Go'),
@@ -570,18 +584,22 @@ function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, 
       'callback' => 'nexteuropa_newsroom_agenda_ajax_form_submit',
     ),
   );
+
   $form['view'] = array(
     '#type' => 'hidden',
     '#value' => $view,
   );
+
   $form['type_id'] = array(
     '#type' => 'hidden',
     '#value' => $type_id,
   );
+
   $form['topic_id'] = array(
     '#type' => 'hidden',
     '#value' => $topic_id,
   );
+
   return $form;
 }
 
@@ -622,11 +640,13 @@ function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
     '#value' => $account ? $account->mail : NULL,
     '#required' => TRUE,
   );
+
   $form['service_id'] = array(
     '#type' => 'hidden',
     '#value' => $service_id,
     '#required' => TRUE,
   );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#ajax' => array(
@@ -634,9 +654,11 @@ function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
     ),
     '#value' => t('Subscribe'),
   );
+
   $form['submit-response'] = array(
     '#markup' => '<div class="submit-response"></div>',
   );
+  
   return $form;
 }
 
