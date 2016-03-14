@@ -12,7 +12,7 @@ dependencies[] = feeds_xpathparser
 dependencies[] = views_tree
 configure = admin/config/content/newsroom
 feature_sets[nexteuropa_newsroom][title] = Nexteuropa newsroom
-feature_sets[nexteuropa_newsroom][description] = Use the nexteuropa newsroom to integrate your website with the corporate news service provided by DG connect, it will provide blocks with contextual news items selected basing on your own configuration of the newsroom. <a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/display/nexteuropa/[FPFIS]+Newsroom+-+Documentation">Read documentation</a>
+feature_sets[nexteuropa_newsroom][description] = Use the nexteuropa newsroom to integrate your website with the corporate news service provided by DG connect, it will provide blocks with contextual news items selected basing on your own configuration of the newsroom. <a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/%5BFPFIS%5D+Nexteuropa+Newsroom+-+Documentation">Read documentation</a>
 feature_sets[nexteuropa_newsroom][icon] = nexteuropa_newsroom.png
 feature_sets[nexteuropa_newsroom][enable][] = nexteuropa_newsroom
 feature_sets[nexteuropa_newsroom][disable][] = nexteuropa_newsroom
