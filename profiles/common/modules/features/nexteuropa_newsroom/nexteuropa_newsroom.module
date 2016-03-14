@@ -24,6 +24,8 @@ define('NEXTEUROPA_NEWSROOM_IMPORT_ACCESS', 'import newsroom feeds');
 define('NEXTEUROPA_NEWSROOM_EDIT_ACCESS', 'edit remote newsroom item');
 define('NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE', 'force');
 define('NEXTEUROPA_NEWSROOM_ITEM_FULL', 'fullrss-multilingual.cfm');
+define('NEXTEUROPA_NEWSROOM_UNPUBLISH', 'fullrss-unpublished.cfm');
+define('NEXTEUROPA_NEWSROOM_DELETE', 'fullrss-deleted.cfm');
 define('NEXTEUROPA_NEWSROOM_ITEM_SEGMENT', NEXTEUROPA_NEWSROOM_ITEM_FULL . '?item_id=');
 define('NEXTEUROPA_NEWSROOM_TOPIC_FULL', 'rss-service-multilingual.cfm');
 define('NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT', NEXTEUROPA_NEWSROOM_TOPIC_FULL . '?topic_id=');
@@ -803,7 +805,7 @@ function _nexteuropa_newsroom_rebuild_importers() {
 
   $form['rebuilt'] = array(
     '#type' => 'markup',
-    '#markup' => t('Importers have been rebuilt'),
+    '#markup' => '<div class="messages status">' . t('Importers have been rebuilt') . '</div>',
   );
 
   return $form['rebuilt'];
@@ -917,6 +919,14 @@ function _nexteuropa_newsroom_create_default_importers($universe_id, $context = 
     'segment' => variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_FULL),
     'importer' => NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
   );
+  $importers['newsroom_unpublished_items'] = array(
+    'segment' => NEXTEUROPA_NEWSROOM_UNPUBLISH,
+    'importer' => 'newsroom_unpublished_items',
+  );
+  $importers['newsroom_deleted_items'] = array(
+    'segment' => NEXTEUROPA_NEWSROOM_DELETE,
+    'importer' => 'newsroom_deleted_items',
+  );
 
   foreach ($importers as $importer) {
     $feed_source = feeds_source($importer['importer']);
@@ -974,7 +984,7 @@ function nexteuropa_newsroom_feeds_plugins() {
   // A plugin needs to derive either directly or indirectly from FeedsFetcher,
   // FeedsParser or FeedsProcessor.
   $info['NewsroomDeleteNodeProcessor'] = array(
-    'name' => 'Newsroom Infso Outdated Items',
+    'name' => 'Newsroom Outdated Items',
     'description' => 'Deletes outdated items by tracking a specific RSS feed.',
     'handler' => array(
       'parent' => 'FeedsProcessor',
@@ -1647,14 +1657,6 @@ function nexteuropa_newsroom_theme($existing, $type, $theme, $path) {
       'template' => 'related-content',
       'path' => $theme_path,
     ),
-    'newsroom_agenda' => array(
-      'file' => 'theme.inc',
-      'path' => $theme_path,
-    ),
-    'newsroom_agenda_date' => array(
-      'file' => 'theme.inc',
-      'path' => $theme_path,
-    ),
     'newsroom_zoomable_image' => array(
       'variables' => array(
         'image_output' => NULL,
@@ -1954,9 +1956,35 @@ function nexteuropa_newsroom_entity_presave($entity, $type) {
 }
 
 /**
+ * Helper function to delete translations..
+ */
+function _nexteuropa_newsroom_delete_translations(Entity $entity, $entity_id, $lang = FALSE) {
+  $languages = !$lang ? language_list() : array($lang);
+  $handler = entity_translation_get_handler('node', $entity);
+
+  foreach ($languages as $language) {
+    // Delete translation for the current language.
+    $handler->removeTranslation($language->language);
+    field_attach_presave('node', $entity);
+    field_attach_update('node', $entity);
+  }
+
+  if (module_exists('entitycache')) {
+    cache_clear_all($entity_id, 'cache_entity_node');
+  }
+}
+
+/**
  * Implements hook_feeds_after_save().
  */
 function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
+//  var_dump($source->importer()->fetcher->id);
+//  exit();
+  if ($source->importer()->fetcher->id == 'newsroom_deleted_items') {
+    _nexteuropa_newsroom_delete_translations($entity, $entity_id);
+    
+    entity_delete('node', $entity_id);
+  }
 
   if ($source->importer()->fetcher->id == 'newsroom_items_multilingual') {
     // TODO : find a better way to remove translation.
@@ -1979,15 +2007,7 @@ function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $ite
 
           // If title is empty it means there is no translation.
           if (!empty($xpath_expression) && isset($item[$xpath_expression]) && empty($item[$xpath_expression])) {
-            // Delete translation for the current language.
-            $handler = entity_translation_get_handler('node', $entity);
-            $handler->removeTranslation($language->language);
-            field_attach_presave('node', $entity);
-            field_attach_update('node', $entity);
-
-            // It is necessary to clean the cache
-            // to remove the translation completely.
-            cache_clear_all($entity_id, 'cache_entity_node');
+            _nexteuropa_newsroom_delete_translations($entity, $entity_id, $language);
           }
         }
       }
@@ -2051,7 +2071,9 @@ function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $ite
           }
         }
         file_save($file);
-        cache_clear_all($fid, 'cache_entity_file');
+        if (module_exists('entitycache')) {
+          cache_clear_all($fid, 'cache_entity_file');
+        }
       }
     }
   }
@@ -2106,6 +2128,48 @@ function nexteuropa_newsroom_feeds_processor_targets_alter(&$targets, $entity_ty
         );
       }
     }
+  }
+
+  if ($entity_type == 'node' && $bundle_name == 'newsroom_item') {
+    if (isset($targets['field_newsroom_item_id'])) {
+      $targets['field_newsroom_item_id']['unique_callbacks'][] = '_nexteuropa_newsroom_use_as_guid';
+      $targets['field_newsroom_item_id']['optional_unique'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Callback for the unique_callbacks specified in hook_feed_processor_targets().
+ *
+ * @param FeedsSource $source
+ *   The Feed source.
+ * @param string $entity_type
+ *   Entity type for the entity to be processed.
+ * @param string $bundle
+ *   Bundle name for the entity to be processed.
+ * @param string $target
+ *   A string identifying the unique target on the entity.
+ * @param array $values
+ *   The unique values to be checked.
+ *
+ * @return int|null
+ *   The existing entity id, or NULL if no existing entity is found.
+ *
+ * @see hook_feeds_processor_targets()
+ * @see FeedsProcessor::existingEntityId()
+ */
+function _nexteuropa_newsroom_use_as_guid(FeedsSource $source, $entity_type, $bundle, $target, array $values) {
+  list($field_name, $column) = explode(':', $target . ':value');
+  // Example for if the target is a field.
+  $query = new EntityFieldQuery();
+  $result = $query
+    ->entityCondition('entity_type', $entity_type)
+    ->entityCondition('bundle', $bundle)
+    ->fieldCondition($field_name, $column, $values)
+    ->execute();
+
+  if (!empty($result[$entity_type])) {
+    return key($result[$entity_type]);
   }
 }
 
