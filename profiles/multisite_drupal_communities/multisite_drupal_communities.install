@@ -19,12 +19,3 @@ function multisite_drupal_communities_install() {
     'moderate content from needs_review to draft',
   ));
 }
-
-
-/**
- * NEXTEUROPA-3298: Disable ckeditor_link features.
- */
-function multisite_drupal_communities_update_7201() {
-  module_disable(array('ckeditor_link'));
-  drupal_uninstall_modules(array('ckeditor_link'));
-}
