@@ -1978,11 +1978,9 @@ function _nexteuropa_newsroom_delete_translations(Entity $entity, $entity_id, $l
  * Implements hook_feeds_after_save().
  */
 function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
-//  var_dump($source->importer()->fetcher->id);
-//  exit();
   if ($source->importer()->fetcher->id == 'newsroom_deleted_items') {
     _nexteuropa_newsroom_delete_translations($entity, $entity_id);
-    
+
     entity_delete('node', $entity_id);
   }
 
