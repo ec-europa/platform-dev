@@ -1966,8 +1966,8 @@ function nexteuropa_newsroom_entity_presave($entity, $type) {
 /**
  * Helper function to delete translations..
  */
-function _nexteuropa_newsroom_delete_translations($entity, $entity_id) {
-  $languages = language_list();
+function _nexteuropa_newsroom_delete_translations(Entity $entity, $entity_id, $lang = FALSE) {
+  $languages = !$lang ? language_list() : array($lang);
   $handler = entity_translation_get_handler('node', $entity);
 
   foreach ($languages as $language) {
@@ -2010,7 +2010,7 @@ function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $ite
 
           // If title is empty it means there is no translation.
           if (!empty($xpath_expression) && isset($item[$xpath_expression]) && empty($item[$xpath_expression])) {
-            _nexteuropa_newsroom_delete_translations($entity, $entity_id);
+            _nexteuropa_newsroom_delete_translations($entity, $entity_id, $language);
           }
         }
       }
