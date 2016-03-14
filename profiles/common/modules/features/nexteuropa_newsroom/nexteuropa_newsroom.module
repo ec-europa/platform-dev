@@ -805,7 +805,7 @@ function _nexteuropa_newsroom_rebuild_importers() {
 
   $form['rebuilt'] = array(
     '#type' => 'markup',
-    '#markup' => t('Importers have been rebuilt'),
+    '#markup' => '<div class="messages status">' . t('Importers have been rebuilt') . '</div>',
   );
 
   return $form['rebuilt'];
