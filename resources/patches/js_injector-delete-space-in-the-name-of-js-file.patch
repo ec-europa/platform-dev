@@ -1,0 +1,24 @@
+From 1616294c8e37dae9f0ec3eb6f4e58f4497a295a6 Mon Sep 17 00:00:00 2001
+From: PADIOU Nicolas <fpdev@dorstenia.cc.cec.eu.int>
+Date: Thu, 10 Mar 2016 11:34:19 +0100
+Subject: [PATCH] patch to delete space in the name of js file
+
+---
+ js_injector.module | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/js_injector.module b/js_injector.module
+index 864fe58..a74623b 100644
+--- a/js_injector.module
++++ b/js_injector.module
+@@ -249,6 +249,6 @@ function _js_injector_rule_path($rule_name) {
+  */
+ function _js_injector_rule_uri($rule_name) {
+   if (!empty($rule_name)) {
+-    return JS_INJECTOR_DIRECTORY_URI . '/js_injector_' . $rule_name . '.js';
++    return JS_INJECTOR_DIRECTORY_URI . '/js_injector_' . str_replace(' ', '_', $rule_name) . '.js';
+   }
+ }
+-- 
+2.3.2
+
