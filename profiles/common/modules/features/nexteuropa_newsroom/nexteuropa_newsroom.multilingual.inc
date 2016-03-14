@@ -18,10 +18,6 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'title_field' => array(
       'query' => 'title',
     ),
-    'guid' => array(
-      'query' => '@nrid',
-      'unique' => 1,
-    ),
     'field_newsroom_item_date:start' => array(
       'query' => 'infsonewsroom:BasicDate/text()',
     ),
@@ -71,6 +67,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     'field_newsroom_item_id' => array(
       'query' => 'infsonewsroom:BasicId',
+      'unique' => 1,
     ),
     'field_newsroom_item_other_link:title' => array(
       'query' => 'infsonewsroom:ContextOtherLinkText',

@@ -15,7 +15,7 @@ dependencies[] = title
 dependencies[] = views_tree
 configure = admin/config/content/newsroom
 feature_sets[nexteuropa_newsroom][title] = Nexteuropa newsroom
-feature_sets[nexteuropa_newsroom][description] = Use the nexteuropa newsroom to integrate your website with the corporate news service provided by DG connect, it will provide blocks with contextual news items selected basing on your own configuration of the newsroom. <a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/display/nexteuropa/[FPFIS]+Newsroom+-+Documentation">Read documentation</a>
+feature_sets[nexteuropa_newsroom][description] = Use the nexteuropa newsroom to integrate your website with the corporate news service provided by DG connect, it will provide blocks with contextual news items selected basing on your own configuration of the newsroom. <a class="description" href="https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/%5BFPFIS%5D+Nexteuropa+Newsroom+-+Documentation">Read documentation</a>
 feature_sets[nexteuropa_newsroom][icon] = nexteuropa_newsroom.png
 feature_sets[nexteuropa_newsroom][enable][] = nexteuropa_newsroom
 feature_sets[nexteuropa_newsroom][disable][] = nexteuropa_newsroom
@@ -33,6 +33,7 @@ features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[feeds_importer][] = newsroom_deleted_items
 features[feeds_importer][] = newsroom_unpublished_items
+features[feeds_tamper][] = newsroom_unpublished_items-blank_source_1-unpublish_node
 features[field_base][] = field_associated_newsroom_select
 features[field_base][] = field_associated_newsroom_topic
 features[field_base][] = field_contact
@@ -253,6 +254,5 @@ features_exclude[field_base][name_field] = name_field
 files[] = tests/nexteuropa_newsroom.test
 files[] = views/nexteuropa_newsroom_handler_argument_term_node_tid_depth.inc
 files[] = views/nexteuropa_newsroom_views_handler_field_taxonomy.inc
-files[] = plugins/NewsroomDeleteNodeProcessor.inc
 files[] = classes/NewsroomHelper.inc
 multisite_version = 2.1

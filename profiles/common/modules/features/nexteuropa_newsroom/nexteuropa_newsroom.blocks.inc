@@ -101,7 +101,7 @@ function _nexteuropa_newsroom_agenda_block() {
   module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaBlockSchedule');
 
   $type = _nexteuropa_nexteuropa_agenda_block_reaction();
-  $agenda_block = new NewsroomBlockAgenda($type, array());
+  $agenda_block = new NewsroomBlockAgenda($type, array(), 'OR');
   return $agenda_block->generateContent();
 }
 
