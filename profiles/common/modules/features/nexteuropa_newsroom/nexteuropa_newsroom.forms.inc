@@ -432,7 +432,7 @@ function nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form,
 
   $replacement = theme_status_messages(array('display' => NULL));
   $commands[] = ajax_command_replace($selector . ' .feedback', '<div class="feedback">' . $replacement . '</div>');
-  
+
   return array('#type' => 'ajax', '#commands' => $commands);
 }
 
@@ -658,7 +658,7 @@ function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
   $form['submit-response'] = array(
     '#markup' => '<div class="submit-response"></div>',
   );
-  
+
   return $form;
 }
 
