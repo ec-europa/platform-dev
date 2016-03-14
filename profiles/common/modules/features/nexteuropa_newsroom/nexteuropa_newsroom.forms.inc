@@ -165,7 +165,7 @@ function nexteuropa_newsroom_form_taxonomy_overview_terms_alter(&$form, &$form_s
     NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY,
   );
 
-  $value = _nexteuropa_newsroom_check_backup($form, $form_state) ? t('[Newsroom] Override existing backup') :  t('[Newsroom] Backup configuration');
+  $value = _nexteuropa_newsroom_check_backup($form, $form_state) ? t('[Newsroom] Override existing backup') : t('[Newsroom] Backup configuration');
 
   if (in_array($form['#vocabulary']->machine_name, $vocs)) {
     $form['actions']['backup_config'] = array(
@@ -510,7 +510,7 @@ function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $typ
   $field = field_info_field('field_newsroom_topics');
   $topic_options = taxonomy_options_list($field, $field_instance, 'node', $temp);
 
-  foreach($topic_options as $key => $topic) {
+  foreach ($topic_options as $key => $topic) {
     if (!in_array($key, $result_topics)) {
       unset($topic_options[$key]);
     }
