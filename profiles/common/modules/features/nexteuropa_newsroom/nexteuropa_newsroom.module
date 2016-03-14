@@ -1657,14 +1657,6 @@ function nexteuropa_newsroom_theme($existing, $type, $theme, $path) {
       'template' => 'related-content',
       'path' => $theme_path,
     ),
-    'newsroom_agenda' => array(
-      'file' => 'theme.inc',
-      'path' => $theme_path,
-    ),
-    'newsroom_agenda_date' => array(
-      'file' => 'theme.inc',
-      'path' => $theme_path,
-    ),
     'newsroom_zoomable_image' => array(
       'variables' => array(
         'image_output' => NULL,
@@ -1977,15 +1969,20 @@ function _nexteuropa_newsroom_delete_translations($entity, $entity_id) {
     field_attach_update('node', $entity);
   }
 
-  cache_clear_all($entity_id, 'cache_entity_node');
+  if (module_exists('entitycache')) {
+    cache_clear_all($entity_id, 'cache_entity_node');
+  }
 }
 
 /**
  * Implements hook_feeds_after_save().
  */
 function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
+//  var_dump($source->importer()->fetcher->id);
+//  exit();
   if ($source->importer()->fetcher->id == 'newsroom_deleted_items') {
     _nexteuropa_newsroom_delete_translations($entity, $entity_id);
+    
     entity_delete('node', $entity_id);
   }
 
@@ -2074,7 +2071,9 @@ function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $ite
           }
         }
         file_save($file);
-        cache_clear_all($fid, 'cache_entity_file');
+        if (module_exists('entitycache')) {
+          cache_clear_all($fid, 'cache_entity_file');
+        }
       }
     }
   }
