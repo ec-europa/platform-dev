@@ -1,9 +1,14 @@
+@api
 Feature: TMGMT Poetry features
   In order request a new translation for portuguese language
   As a Translation manager user
   I want to be able create a translation request in Portuguese (to Portugal) language
 
   Background:
+    Given the module is enabled
+      |modules|
+      |tmgmt_poetry|
+      |tmgmt_poetry_test|
     Given the following languages are available:
       | languages |
       | en        |
@@ -12,6 +17,8 @@ Feature: TMGMT Poetry features
   Scenario: Map the translator setting PT in the
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And I fill in "edit-settings-feedback-contacts-to" with "test@test.com"
+    And I fill in "edit-settings-feedback-contacts-cc" with "test@test.com"
     And I fill in "edit-settings-remote-languages-mappings-pt-pt" with "pt"
     And I press the "Save translator" button
     Then I should see the success message "The configuration options have been saved."
@@ -29,4 +36,4 @@ Feature: TMGMT Poetry features
     And I press the "Submit to translator" button
     Then I should see the following success messages:
       | success messages                                     |
-      | Job has been successfully submitted for translatigion. |
+      | Job has been successfully submitted for translation. |
