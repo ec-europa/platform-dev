@@ -56,19 +56,19 @@ class PoetryHrefProcessorsTest extends \PHPUnit_Framework_TestCase {
     return array(
       array(
         'Vestibulum <a href="[node:123:url]">The link</a> aliquet.',
-        'Vestibulum <a tmgmt_poetry_ignore_href="[node:123:url]">The link</a> aliquet.',
+        'Vestibulum <a tmgmt_poetry_ignore_href="(node:123:url)">The link</a> aliquet.',
       ),
       array(
         'Vestibulum <a href="[node:123:url]" style="display: none;" target="_blank">The link</a> aliquet.',
-        'Vestibulum <a tmgmt_poetry_ignore_href="[node:123:url]" style="display: none;" target="_blank">The link</a> aliquet.',
+        'Vestibulum <a tmgmt_poetry_ignore_href="(node:123:url)" style="display: none;" target="_blank">The link</a> aliquet.',
       ),
       array(
         '<a href="[node:123:url]" style="display: none;" target="_blank">The link</a>',
-        '<a tmgmt_poetry_ignore_href="[node:123:url]" style="display: none;" target="_blank">The link</a>',
+        '<a tmgmt_poetry_ignore_href="(node:123:url)" style="display: none;" target="_blank">The link</a>',
       ),
       array(
         '<a href="[node:123:url]"target="_blank"></a>',
-        '<a tmgmt_poetry_ignore_href="[node:123:url]"target="_blank"></a>',
+        '<a tmgmt_poetry_ignore_href="(node:123:url)"target="_blank"></a>',
       ),
       array(
         'Lorem ipsum [node:123:url] aliquet.',
@@ -76,7 +76,7 @@ class PoetryHrefProcessorsTest extends \PHPUnit_Framework_TestCase {
       ),
       array(
         '<a href="[node:123:url]"target="_blank">',
-        '<a tmgmt_poetry_ignore_href="[node:123:url]"target="_blank">',
+        '<a tmgmt_poetry_ignore_href="(node:123:url)"target="_blank">',
       ),
     );
   }
