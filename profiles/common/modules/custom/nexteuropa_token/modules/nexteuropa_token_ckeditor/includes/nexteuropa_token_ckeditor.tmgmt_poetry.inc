@@ -34,6 +34,7 @@ function nexteuropa_token_ckeditor_tmgmt_field_source_data_alter(&$data, $entity
       if (isset($data[$field_name])) {
         foreach (element_children($data[$field_name]) as $key) {
           $data[$field_name][$key]['value']['#text'] = nexteuropa_token_ckeditor_replace_tokens_with_tmgmt_poetry_ignore_tags($data[$field_name][$key]['value']['#text']);
+          $data[$field_name][$key]['value']['#text'] = nexteuropa_token_ckeditor_replace_href_with_tmgmt_poetry_ignore_href_token($data[$field_name][$key]['value']['#text']);
         }
       }
     }
@@ -50,6 +51,7 @@ function nexteuropa_token_ckeditor_tmgmt_field_pre_populate_entity_alter(&$data,
       if (isset($data[$field_name])) {
         foreach (element_children($data[$field_name]) as $key) {
           $data[$field_name][$key]['value']['#translation']['#text'] = nexteuropa_token_ckeditor_replace_tmgmt_poetry_ignore_tags_with_tokens($data[$field_name][$key]['value']['#translation']['#text']);
+          $data[$field_name][$key]['value']['#translation']['#text'] = nexteuropa_token_ckeditor_replace_tmgmt_poetry_ignore_href_token_with_tokens($data[$field_name][$key]['value']['#translation']['#text']);
         }
       }
     }
