@@ -22,8 +22,10 @@
                     <?php echo drupal_render($item->field_field_newsroom_service_image[0]['rendered']); ?>
                 <?php endif; ?>
                 <?php if ($service_id): ?>
-                    <?php ; ?>
-                    <div class="sample"><?php echo l(t('sample'), 'http://ec.europa.eu/information_society/newsroom/cf/dae/newsletter-specific-archive.cfm?serviceId=' . $service_id, array('external' => TRUE)); ?></div>
+                    <?php $universe_id = variable_get('newsroom_universe_id', FALSE); ?>
+                    <?php if ($universe_id): ?>
+                      <div class="sample"><?php echo l(t('sample'), 'http://ec.europa.eu/information_society/newsroom/cf/' . $universe_id . '/newsletter-specific-archive.cfm?serviceId=' . $service_id, array('external' => TRUE)); ?></div>
+                    <?php endif; ?>
                 <?php endif; ?>
             </div>
         <?php endif; ?>
