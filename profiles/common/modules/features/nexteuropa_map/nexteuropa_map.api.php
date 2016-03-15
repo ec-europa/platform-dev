@@ -27,7 +27,7 @@ function hook_layer_info() {
         'clustering',
         'icon',
         'attribution',
-        'user_picture_icon'
+        'user_picture_icon',
       ),
       'custom_js' => base_path() . drupal_get_path('module', 'user_layer') . "/js/user_layer.js?v=" . rand(0, 33333),
     ),
