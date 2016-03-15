@@ -777,7 +777,7 @@ function nexteuropa_newsroom_url_outbound_alter(&$path, &$options, $original_pat
 }
 
 /**
- * Implements hook_url_strongarm_alter().
+ * Implements hook_strongarm_alter().
  */
 function nexteuropa_newsroom_strongarm_alter(&$variables) {
   // Unset a "dynamic variable" created by cce_basic_config.
