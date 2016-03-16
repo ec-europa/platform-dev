@@ -351,7 +351,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   // Attach a css to the admin settings form.
   $form['#attached']['css'] = array(
-    drupal_get_path('module', 'nexteuropa_newsroom') . '/nexteuropa_newsroom_admin_setting.css',
+    drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
   );
   // Validate function.
   $form['#validate'][] = 'nexteuropa_newsroom_admin_settings_form_validate';

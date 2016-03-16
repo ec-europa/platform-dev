@@ -57,6 +57,8 @@ function nexteuropa_newsroom_init() {
       drupal_set_message(t('The Newsroom feature needs to be configured before use. Please visit the <a href="!link">configuration page</a>!', array('!link' => $newsroom_config_path)), 'warning', FALSE);
     }
   }
+
+  drupal_add_css(drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom.css', array('group' => CSS_THEME));
 }
 
 /**
