@@ -45,15 +45,6 @@ function nexteuropa_piwik_permission() {
       'title' => t('Administer Nexteuropa Piwik'),
       'description' => t('Perform maintenance tasks for Piwik.'),
     ),
-    'opt-in or out of tracking' => array(
-      'title' => t('Opt-in or out of tracking'),
-      'description' => t('Allow users to decide if tracking code will be added to pages or not.'),
-    ),
-    'use PHP for tracking visibility' => array(
-      'title' => t('Use PHP for tracking visibility'),
-      'description' => t('Enter PHP code in the field for tracking visibility settings.'),
-      'restrict access' => TRUE,
-    ),
   );
 }
 
@@ -112,6 +103,19 @@ function nexteuropa_piwik_page_alter(&$page) {
       'instance' => $instance,
     );
 
+    // Search results pages.
+    if (module_exists('search') && variable_get('nexteuropa_piwik_site_search', TRUE) && arg(0) == 'search' && $keys = nexteuropa_piwik_search_get_keys()) {
+      global $pager_total_items;
+      $results_count = 0;
+
+      if (isset($pager_total_items[0])) {
+        $results_count = strval($pager_total_items[0]);
+      }
+
+      $webtools_piwik_settings['search']['keyword'] = $keys;
+      $webtools_piwik_settings['search']['count'] = $results_count;
+    }
+
     // Track file not found (404) pages.
     if ($status == '404 Not Found') {
       $webtools_piwik_settings['is404'] = TRUE;
@@ -120,13 +124,13 @@ function nexteuropa_piwik_page_alter(&$page) {
     if (!empty($site_section)) {
       $webtools_piwik_settings['siteSection'] = $site_section;
     }
+
     $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
 
     // Add tracker code to scope.
     $page['content']['next_europapiwik']['#markup'] = $webtools_piwik_settings;
     $page['content']['next_europapiwik']['#prefix'] = "<script type=\"application/json\">";
     $page['content']['next_europapiwik']['#suffix'] = "</script>";
-
   }
 }
 
@@ -134,7 +138,6 @@ function nexteuropa_piwik_page_alter(&$page) {
  * Return TRUE if widget should be enabled for the current role.
  */
 function _nexteuropa_piwik_visibility_roles($account) {
-
   $visibility = variable_get('nexteuropa_piwik_visibility_roles', 0);
   $enabled = $visibility;
   $roles = variable_get('nexteuropa_piwik_roles', array());
@@ -189,9 +192,6 @@ function _nexteuropa_piwik_visibility_pages() {
         // is displayed only on those pages listed in $pages.
         $page_match = !($visibility xor $page_match);
       }
-      elseif (module_exists('php')) {
-        $page_match = php_eval($setting_pages);
-      }
       else {
         $page_match = FALSE;
       }
@@ -202,4 +202,21 @@ function _nexteuropa_piwik_visibility_pages() {
 
   }
   return $page_match;
+}
+
+/**
+ * Helper function for grabbing search keys. Function is missing in D7.
+ *
+ * Http://api.drupal.org/api/function/search_get_keys/6
+ */
+function nexteuropa_piwik_search_get_keys() {
+  static $return;
+  if (!isset($return)) {
+    // Extract keys as remainder of path
+    // Note: support old GET format of searches for existing links.
+    $path = explode('/', $_GET['q'], 3);
+    $keys = empty($_REQUEST['keys']) ? '' : $_REQUEST['keys'];
+    $return = count($path) == 3 ? $path[2] : $keys;
+  }
+  return $return;
 }

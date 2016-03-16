@@ -95,6 +95,30 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     '#description' => t("Allows you to refine your statistics by indicating a category or section of your site"),
   );
 
+  // Search result pages.
+  $form['tracking']['search'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search'),
+  );
+
+  $site_search_dependencies = '<div class="admin-requirements">';
+  $site_search_dependencies .= t('Requires: !module-list',
+    array(
+      '!module-list' => (module_exists('search') ? t('@module (<span class="admin-enabled">enabled</span>)',
+      array('@module' => 'Search')) : t('@module (<span class="admin-disabled">disabled</span>)',
+      array('@module' => 'Search'))),
+    )
+  );
+  $site_search_dependencies .= '</div>';
+
+  $form['tracking']['search']['nexteuropa_piwik_site_search'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Track internal search'),
+    '#description' => t('If checked, internal search keywords are tracked.') . $site_search_dependencies,
+    '#default_value' => variable_get('nexteuropa_piwik_site_search', TRUE),
+    '#disabled' => (module_exists('search') ? FALSE : TRUE),
+  );
+
   // Pages visibility settings.
   $form['tracking']['page_vis_settings'] = array(
     '#type' => 'fieldset',
@@ -156,7 +180,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
       t('Add to the selected roles only'),
       t('Add to every role except the selected ones'),
     ),
-    '#default_value' => variable_get('nexteuropa_piwik_visibility_roles', 0),
+    '#default_value' => variable_get('nexteuropa_piwik_visibility_roles', 1),
   );
 
   $role_options = array_map('check_plain', user_roles());
