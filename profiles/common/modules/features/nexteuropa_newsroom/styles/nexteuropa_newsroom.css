@@ -104,8 +104,8 @@
 	padding: 0 1em;
 	color: #0065A2;
 	display: inline-block;
-	margin-bottom: 1em;
-	font-weight: bold;
+  margin-bottom: 1em;
+  font-weight: bold;
 }
 
 .node-newsroom-item.node-teaser.node-sticky {
