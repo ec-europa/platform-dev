@@ -84,7 +84,7 @@ function tmgmt_poetry_schema() {
 function tmgmt_poetry_update_7001() {
   $translator = tmgmt_translator_load('poetry');
   $settings = $translator->getSetting('settings');
-  foreach ($settings as $key =>$v) {
+  foreach ($settings as $key => $v) {
     if ($key == 'username' || $key == 'password') {
       unset($settings[$key]);
     }
