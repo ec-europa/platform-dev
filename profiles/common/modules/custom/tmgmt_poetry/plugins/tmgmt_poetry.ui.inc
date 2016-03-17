@@ -6,7 +6,7 @@
  */
 
 /**
- * Google translator ui controller.
+ * DGT connector translator ui controller.
  */
 class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIController {
   /**
