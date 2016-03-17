@@ -11,15 +11,15 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   // Be aware about the selected content types in the fields fieldset.
   $sel_ct = NewsroomHelper::getFieldInstances('select');
   $top_ct = NewsroomHelper::getFieldInstances('topic');
-  $newsroom_universe_id = variable_get('newsroom_universe_id', NULL);
+  $newsroom_universe_id = NewsroomHelper::getUniverseId();
   // Get some information basing on the activation of the universe id.
-  $universe_id = _nexteuropa_newsroom_check_universe_id();
+  $universe_id_info = NewsroomHelper::getUniverseIdInputInfo($newsroom_universe_id);
 
   // This is special, made just to hold the universe_id field.
   $form['universe_id'] = array(
     '#type' => 'container',
     '#title' => t('Newsroom Universe ID'),
-    '#attributes' => array('class' => array($universe_id['class'])),
+    '#attributes' => array('class' => array($universe_id_info['class'])),
   );
 
   // After initital setup disable Universe ID field.
@@ -36,8 +36,8 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Universe ID value'),
     '#required' => TRUE,
-    '#disabled' => $universe_id['disabled'],
-    '#description' => $universe_id['description'],
+    '#disabled' => $universe_id_info['disabled'],
+    '#description' => $universe_id_info['description'],
     '#default_value' => $newsroom_universe_id,
     '#element_validate' => array('nexteuropa_newsroom_universe_id_validate'),
   );
@@ -437,7 +437,7 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
   if ($form_state['values']['newsroom_universe_id'] <> $form['universe_id']['newsroom_universe_id']['#default_value']) {
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
 
-    _nexteuropa_newsroom_create_default_importers($form_state['values']['newsroom_universe_id']);
+    _nexteuropa_newsroom_create_default_importers();
   }
 
   // If the validation returns the confirm request.
@@ -485,7 +485,7 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
  * Run the importers.
  */
 function nexteuropa_newsroom_admin_settings_form_run_importers() {
-  _nexteuropa_newsroom_create_default_importers(variable_get('newsroom_universe_id'));
+  _nexteuropa_newsroom_create_default_importers();
 }
 
 /**

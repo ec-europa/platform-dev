@@ -330,13 +330,12 @@ function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
  * Newsletter subscription form.
  */
 function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
-  global $_newsroom_universe_url;
   $args = $form_state['build_info']['args'][0];
   $form = array();
   $form['#prefix'] = '<div class="CTAnewsletter">';
   $form['#suffix'] = '</div>';
   $form['#token'] = FALSE;
-  $form['#action'] = $_newsroom_universe_url . 'subscription-quick-generic.cfm';
+  $form['#action'] = NewsroomHelper::getNewsroomUrl('subscription-quick-generic.cfm');
   $form['intro'] = array(
     '#markup' => '<div class="title">' . $args['name'] . '</div>',
   );
@@ -377,7 +376,7 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
   );
 
   $form['previous'] = array(
-    '#markup' => '<div class="linkPreviousIssues"><a href="' . $_newsroom_universe_url . 'newsletter-specific-archive.cfm?serviceId=' . $args['tid'] . '">' . t('Previous issues') . '</a></div>',
+    '#markup' => '<div class="linkPreviousIssues"><a href="' . NewsroomHelper::getNewsroomUrl('newsletter-specific-archive.cfm?serviceId=' . $args['tid']) . '">' . t('Previous issues') . '</a></div>',
   );
 
   return $form;
@@ -503,10 +502,10 @@ function nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
   $target_country = $form_state['values']['countries'] == '0' ? '' : $form_state['values']['countries'];
 
   if (!empty($arguments[2]) && !empty($arguments[2][0])) {
-    $path = NewsroomHelper::getNewsroomUrl($arguments[2][0], $target_country);
+    $path = NewsroomHelper::getNewsroomPageUrl($arguments[2][0], $target_country);
   }
   else {
-    $path = NewsroomHelper::getNewsroomUrl('all', $target_country);
+    $path = NewsroomHelper::getNewsroomPageUrl('all', $target_country);
   }
 
   drupal_goto($path);
@@ -607,8 +606,6 @@ function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, 
  * Ajax submit handler.
  */
 function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
-
   $view = isset($form_state['input']['view']) ? $form_state['input']['view'] : NULL;
   $date = isset($form_state['input']['current_date']['date']) ? $form_state['input']['current_date']['date'] : date('Y-m-d');
   $topic_id = isset($form_state['input']['topic_id']) ? $form_state['input']['topic_id'] : NULL;
@@ -630,10 +627,9 @@ function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
  */
 function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
   global $user;
-  global $_newsroom_universe_url;
 
   $account = user_load($user->uid);
-  $form['#action'] = $_newsroom_universe_url . 'subscription-quick-generic.cfm';
+  $form['#action'] = NewsroomHelper::getNewsroomUrl('subscription-quick-generic.cfm');
   $form['email'] = array(
     '#title' => t('E-mail'),
     '#type' => 'hidden',

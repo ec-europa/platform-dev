@@ -4,13 +4,6 @@
  * Code for the NewsroomAgendaFactory class.
  */
 
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgenda');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaItem');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaDay');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaWeek');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaMonth');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaSchedule');
-
 /**
  * NewsroomAgendaFactory class.
  */

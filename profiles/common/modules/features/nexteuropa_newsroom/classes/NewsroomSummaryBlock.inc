@@ -77,7 +77,7 @@ class NewsroomSummaryBlock {
       $url_parts[] = 'all';
     }
 
-    $rss_path = NewsroomHelper::getNewsroomUrl('all', implode('+', $url_parts), 'feed');
+    $rss_path = NewsroomHelper::getNewsroomPageUrl('all', implode('+', $url_parts), 'feed');
     $rss_title = count($names) ? 'RSS feed : ' . implode(', ', $names) : 'RSS feed';
 
     $rss = '<div class="newsroom_rss">';

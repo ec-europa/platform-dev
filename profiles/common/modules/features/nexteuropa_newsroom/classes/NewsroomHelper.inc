@@ -52,7 +52,7 @@ class NewsroomHelper {
    * @return string
    *   Newsroom URL.
    */
-  public static function getNewsroomUrl() {
+  public static function getNewsroomPageUrl() {
     return 'newsroom/' . implode('/', func_get_args());
   }
 
@@ -128,32 +128,18 @@ class NewsroomHelper {
   public static function restoreFeedImporter($importer_id) {
     $url = '';
     if ($importer_id == NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER || $importer_id == NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER) {
-      $url = NewsroomHelper::buildImportUrl(NEXTEUROPA_NEWSROOM_TOPIC_FULL);
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_FULL);
     }
 
     if ($importer_id == NEXTEUROPA_NEWSROOM_TYPE_IMPORTER) {
-      $url = NewsroomHelper::buildImportUrl(NEXTEUROPA_NEWSROOM_TYPE_FULL);
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TYPE_FULL);
     }
 
     if ($importer_id == NEXTEUROPA_NEWSROOM_ITEM_IMPORTER) {
-      $url = NewsroomHelper::buildImportUrl(NEXTEUROPA_NEWSROOM_ITEM_FULL);
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_FULL);
     }
 
     return $url;
-  }
-
-  /**
-   * Builds import url.
-   *
-   * @param string $url_part
-   *   Part of URL.
-   *
-   * @return string
-   *   URL.
-   */
-  public static function buildImportUrl($url_part) {
-    global $_newsroom_universe_url;
-    return $_newsroom_universe_url . $url_part;
   }
 
   /**
@@ -428,8 +414,12 @@ class NewsroomHelper {
    * @return string
    *   Universe URL.
    */
-  public static function getUniverseUrl($universe_id) {
-    return NEXTEUROPA_NEWSROOM_URL . $universe_id . '/';
+  public static function getUniverseUrl() {
+    $data = &drupal_static(__FUNCTION__);
+    if (!isset($data)) {
+      $data = NEXTEUROPA_NEWSROOM_URL . NewsroomHelper::getUniverseId() . '/';
+    }
+    return $data;
   }
 
   /**
@@ -628,6 +618,58 @@ class NewsroomHelper {
       $variable_name = $front_page ? 'newsroom_summary_home_block_num_items' : 'newsroom_summary_block_num_items';
     }
     return variable_get($variable_name, 5);
+  }
+
+  /**
+   * Helper function to check if the universe ID has been already set.
+   *
+   * @param int $newsroom_universe_id
+   *   Newsroom Universe ID.
+   *
+   * @return array
+   *   Newsroom Universe ID info.
+   */
+  public static function getUniverseIdInputInfo($newsroom_universe_id = NULL) {
+   // After initital setup disable Universe ID field.
+   $universe_id = array();
+   if (!empty($newsroom_universe_id)) {
+     $universe_id['disabled'] = TRUE;
+     $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
+     $universe_id['class'] = 'selected';
+     $universe_id['collapsing'] = FALSE;
+   }
+   else {
+     $universe_id['disabled'] = FALSE;
+     $universe_id['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
+     $universe_id['class'] = 'not-selected';
+     $universe_id['collapsing'] = TRUE;
+   }
+   return $universe_id;
+  }
+
+  /**
+   * Get UniverseId
+   * @return type
+   */
+  public static function getUniverseId() {
+    $data = &drupal_static(__FUNCTION__);
+    if (!isset($data)) {
+      $data = variable_get('newsroom_universe_id', FALSE);
+    }
+    return $data;
+  }
+
+  /**
+   * Returns newsroom URL.
+   *
+   * @param string $url_part
+   *   Additional part of URL
+   *
+   * @return string
+   *   URL.
+   */
+  public static function getNewsroomUrl($url_part) {
+    return NewsroomHelper::getUniverseUrl() . $url_part;
   }
 
 }

@@ -43,6 +43,7 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_summary_home_block_num_agenda', 3);
   variable_set('newsroom_summary_home_block_num_items', 3);
   variable_set('newsroom_summary_home_block_num_highlighted_items', 3);
+  variable_set('newsroom_universe_root', 'http://ec.europa.eu/information_society/newsroom/cf/dae/');
   variable_set('newsroom_summary_block_columns', 1);
   variable_set('newsroom_display_agenda', 1);
   variable_set('newsroom_navigation_depth', 1);
@@ -169,8 +170,6 @@ function nexteuropa_newsroom_update_7106() {
  * Change the datetime to timestamp.
  */
 function nexteuropa_newsroom_update_7107() {
-  // $content type : content type that contains fields to replace.
-  // $module_name : module that contains fields.
   $module_name = 'nexteuropa_newsroom';
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);

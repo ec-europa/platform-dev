@@ -140,7 +140,7 @@ class NewsroomBlock extends NewsroomBlockBase {
       'css_classes' => $this->getCssClasses(),
       'title' => $this->getTitle(),
       'type_url' => $this->getTypeUrl(),
-      'url' => NewsroomHelper::getNewsroomUrl($this->getTypeUrl(), $this->getTopicUrl()),
+      'url' => NewsroomHelper::getNewsroomPageUrl($this->getTypeUrl(), $this->getTopicUrl()),
     ));
   }
 

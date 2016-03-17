@@ -25,8 +25,6 @@
  *   Agenda content,
  */
 function _nexteuropa_newsroom_agenda($view = 'schedule', $type = NULL, $topic = NULL, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
-  module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaFactory');
-
   $factory = new NewsroomAgendaFactory();
   return $factory->buildAgenda($view, $type, $topic, $arg1, $arg2, $arg3)->getAgenda();
 }

@@ -91,44 +91,5 @@ function nexteuropa_newsroom_context_default_contexts() {
 
   $export['newsroom_item'] = $context;
 
-  $context = new stdClass();
-  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
-  $context->api_version = 3;
-  $context->name = 'newsroom_site_wide';
-  $context->description = '';
-  $context->tag = 'newsroom';
-  $context->conditions = array(
-    'context' => array(
-      'values' => array(
-        '~homepage' => '~homepage',
-        'site_wide' => 'site_wide',
-      ),
-    ),
-  );
-  $context->reactions = array(
-    'block' => array(
-      'blocks' => array(
-        'newsroom-newsroom_newsletter_subscription' => array(
-          'module' => 'nexteuropa_newsroom',
-          'delta' => 'newsroom_newsletter_subscription',
-          'region' => 'sidebar_right',
-          'weight' => '-10',
-        ),
-        'newsroom-newsroom_topic_summary' => array(
-          'module' => 'nexteuropa_newsroom',
-          'delta' => 'newsroom_topic_summary',
-          'region' => 'content',
-          'weight' => '1',
-        ),
-      ),
-    ),
-  );
-  $context->condition_mode = 0;
-
-  // Translatables
-  // Included for use with string extractors like potx.
-  t('newsroom');
-  $export['newsroom_site_wide'] = $context;
-
   return $export;
 }
