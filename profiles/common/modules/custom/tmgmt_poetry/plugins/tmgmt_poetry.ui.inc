@@ -330,7 +330,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     $messages = array();
     $poetry_settings = variable_get('poetry_service');
     if (!isset($poetry_settings) || empty($poetry_settings)) {
-      $messages[] = t('Main "poetry_service" variable was not set or is empty. See the README.txt file or read the wiki page.');
+      $messages[] = t('Main "poetry_service" variable was not set or is empty. See the README.md file or read the wiki page.');
       $type = 'error';
     }
     if (empty($messages)) {
