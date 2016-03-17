@@ -1,10 +1,10 @@
 /* Menu on the left sidebar in the newsroom page */
 
 .view-newsroom-navigation.block-menu-block ul.list-group li > a {
-	display: block;
-	font-size: 1.1em;
-	border-top: 1px solid #ececec;
-	padding: 1em;
+  display: block;
+  font-size: 1.1em;
+  border-top: 1px solid #ececec;
+  padding: 1em;
 }
 
 .view-newsroom-navigation.block-menu-block ul.list-group li > a:hover {
