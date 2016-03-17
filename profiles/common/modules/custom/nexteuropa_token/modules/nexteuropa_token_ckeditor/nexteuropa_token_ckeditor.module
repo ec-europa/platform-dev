@@ -6,7 +6,6 @@
  */
 
 include_once 'includes/nexteuropa_token_ckeditor.tmgmt_poetry.inc';
-include_once 'includes/nexteuropa_token_ckeditor.tmgmt_poetry_href.inc';
 
 /**
  * Default filter view, exposed by nexteuropa_token_ckeditor module.
