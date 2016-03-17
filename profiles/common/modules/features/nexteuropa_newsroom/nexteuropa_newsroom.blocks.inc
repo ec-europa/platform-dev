@@ -213,7 +213,7 @@ function _nexteuropa_newsroom_get_node_title($nid) {
     if (empty($node_title)) {
       $node_title = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
     }
-    cache_set($cache_key, $node_title, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+    cache_set($cache_key, $node_title, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_node_title', 3600));
   }
   return $node_title;
 }
@@ -239,7 +239,7 @@ function _nexteuropa_newsroom_subject() {
 function _nexteuropa_newsroom_tools() {
   $content = '';
   $newsroom_item = menu_get_object();
-  if ($newsroom_item->type == 'newsroom_item') {
+  if ($newsroom_item->type == NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
     $newsroom_id_field = field_get_items('node', $newsroom_item, 'field_newsroom_item_id');
     $newsroom_id = $newsroom_id_field[0]['value'];
     $links = array();
@@ -299,7 +299,7 @@ function _nexteuropa_newsroom_newsletter_subscription() {
  * Returns the newsroom list filter form.
  */
 function _nexteuropa_newsroom_list_filter() {
-  $topics_vocanulary = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY);
+  $topics_vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
 
   // Load all relevant nids by loading the same view without pager.
   $menu_object = menu_get_item();
@@ -334,7 +334,7 @@ function _nexteuropa_newsroom_list_filter() {
     $query->fields('t', array('name'));
     $query->join('field_data_field_newsroom_category_domain', 'd', 'd.entity_id = ti.tid');
     $query->fields('d', array('field_newsroom_category_domain_value'));
-    $query->condition('t.vid', $topics_vocanulary->vid);
+    $query->condition('t.vid', $topics_vocabulary->vid);
     if (!empty($nids)) {
       $query->condition('ti.nid', $nids);
     }
@@ -353,10 +353,10 @@ function _nexteuropa_newsroom_list_filter() {
     }
 
     // Load full otpion list based on field_newsroom_topics values.
-    $field_instance = field_info_instance('node', 'field_newsroom_topics', 'newsroom_item');
+    $field_instance = field_info_instance('node', 'field_newsroom_topics', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
     $field = field_info_field('field_newsroom_topics');
     $temp = new stdClass();
-    $temp->type = 'newsroom_item';
+    $temp->type = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
     node_object_prepare($temp);
     $options = taxonomy_options_list($field, $field_instance, 'node', $temp);
 

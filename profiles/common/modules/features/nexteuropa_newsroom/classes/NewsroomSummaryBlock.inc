@@ -142,7 +142,7 @@ class NewsroomSummaryBlock {
       $config['topic_operator'] = $topic_operator;
       $config['type'] = NewsroomHelper::getGroupTypeTerms($selected_types);
 
-      cache_set($cache_key, $config, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $config, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_summary_filter', 3600));
     }
 
     $this->setTopics($config['topic']);

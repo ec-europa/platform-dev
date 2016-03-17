@@ -374,7 +374,7 @@ abstract class NewsroomAgenda {
           'next' => $this->getNextDate() ? $this->getNavigationLink($this->getNextTitle(), $this->getNextDate()) : NULL,
         ),
       ));
-      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_agenda', 3600));
     }
 
     return $content;
@@ -402,7 +402,7 @@ abstract class NewsroomAgenda {
         'next_event_items' => $this->getNextItems(),
         'navigation' => array(),
       ));
-      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_agenda_block', 3600));
     }
     return $content;
   }
@@ -666,7 +666,7 @@ abstract class NewsroomAgenda {
       $query->condition('n.status', 1);
       $query->condition('tf.field_newsroom_item_type_tid', NewsroomHelper::getEventsTermsIds());
       $tids = $query->execute()->fetchAllKeyed(0, 0);
-      cache_set($cache_key, $tids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $tids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_result_topics', 3600));
     }
     return $tids;
   }

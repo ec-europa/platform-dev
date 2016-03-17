@@ -180,7 +180,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
     }
     else {
       $data = $this->getQuery()->execute()->fetchAll();
-      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_schedule_result', 3600));
     }
     return $data;
   }

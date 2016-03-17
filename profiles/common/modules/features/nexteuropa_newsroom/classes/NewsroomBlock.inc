@@ -117,7 +117,7 @@ class NewsroomBlock extends NewsroomBlockBase {
       $query->orderBy('n.created', 'DESC');
       $result = $query->execute()->fetchAll();
 
-      cache_set($cache_key, $result, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $result, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_summary_block', 3600));
     }
 
     if ($result) {

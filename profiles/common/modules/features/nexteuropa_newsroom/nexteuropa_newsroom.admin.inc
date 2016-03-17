@@ -122,8 +122,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#default_value' => variable_get('newsroom_proposal_url', NULL),
   );
 
-  $vocabulary = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
-  $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+  $types = NewsroomHelper::getNewsroomTypes();
 
   if (!empty($types)) {
     $form['newsroom_paths'] = array(
@@ -554,8 +553,7 @@ function nexteuropa_newsroom_type_root_validate($element, &$form_state) {
  * Reset values in the path patterns field for the newsroom items.
  */
 function _nexteuropa_newsroom_reset_paths($form, &$form_state) {
-  $vocabulary = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
-  $types = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+  $types = NewsroomHelper::getNewsroomTypes();
 
   foreach ($types as $tid => $type) {
     $type_name = pathauto_cleanstring(drupal_strtolower($type->name));

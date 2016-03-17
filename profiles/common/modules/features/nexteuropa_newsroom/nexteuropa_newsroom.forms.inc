@@ -213,8 +213,8 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
       'field_highlighted_newsroom_topic',
     );
 
-    $type_vid = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY)->vid;
-    $topic_vid = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY)->vid;
+    $type_vid = NewsroomHelper::getNewsroomTypeVocabulary()->vid;
+    $topic_vid = NewsroomHelper::getNewsroomTopicVocabulary()->vid;
 
     $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] = i18n_taxonomy_get_tree($type_vid, $def_lang);
     $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY] = i18n_taxonomy_get_tree($topic_vid, $def_lang);

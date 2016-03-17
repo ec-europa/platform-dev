@@ -45,7 +45,7 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
         'type_url' => 'agenda',
         'url' => NewsroomHelper::getNewsroomAgendaUrl(NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $this->getTypeUrl(), $this->getTopicUrl()),
       ));
-      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_summary_block_agenda', 3600));
     }
     return $content;
   }

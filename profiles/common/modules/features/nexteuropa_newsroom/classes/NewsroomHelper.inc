@@ -160,7 +160,7 @@ class NewsroomHelper {
           ->fieldCondition('field_newsroom_item_id', 'value', $newsroom_id, '=')
           ->execute();
         $newsroom_data = isset($newsroom_item['node']) ? $newsroom_item['node'] : FALSE;
-        cache_set($cache_key, $newsroom_data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+        cache_set($cache_key, $newsroom_data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_newsroom_item_by_id', 3600));
       }
     }
     return $newsroom_data;
@@ -181,7 +181,7 @@ class NewsroomHelper {
         ->condition('ml.link_path', $path)
         ->execute();
       $data = NewsroomHelper::convertPdoToArray($query);
-      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_menu_by_path', 3600));
     }
     return $data;
   }
@@ -209,7 +209,7 @@ class NewsroomHelper {
         ->execute();
       $data = NewsroomHelper::convertPdoToArray($query);
 
-      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_topic_entities', 3600));
     }
     return $data;
   }
@@ -250,7 +250,7 @@ class NewsroomHelper {
 
       $topics = array_merge($primary_topics, $topics);
 
-      cache_set($cache_key, $topics, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      cache_set($cache_key, $topics, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_node_topics', 3600));
     }
     return $topics;
   }
@@ -321,7 +321,7 @@ class NewsroomHelper {
         $path = $menu_item_link['link_path'];
       }
 
-      cache_set($cache_key, $path, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      cache_set($cache_key, $path, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_fetch_active_menu', 3600));
     }
 
     return $path;
@@ -358,7 +358,7 @@ class NewsroomHelper {
         $term_ids = array_keys($result['taxonomy_term']);
       }
 
-      cache_set($cache_key, $term_ids, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      cache_set($cache_key, $term_ids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_tech_field_tid', 3600));
     }
     return $term_ids;
   }
@@ -388,7 +388,7 @@ class NewsroomHelper {
       $terms = $cache->data;
     }
     else {
-      $newsroom_type_vocabulary = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
+      $newsroom_type_vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
       $terms = array();
       if (is_object($newsroom_type_vocabulary) && $newsroom_type_vocabulary !== FALSE) {
         $terms = taxonomy_get_tree($newsroom_type_vocabulary->vid, 0, 1, TRUE);
@@ -399,7 +399,7 @@ class NewsroomHelper {
           }
         }
       }
-      cache_set($cache_key, $terms, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $terms, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_group_types', 3600));
     }
 
     return $terms;
@@ -462,13 +462,16 @@ class NewsroomHelper {
       $taxonomy_terms = $cache->data;
     }
     else {
-      $query = db_select('taxonomy_term_data', 'td');
-      $query->leftJoin('taxonomy_vocabulary', 'tv', 'td.vid = tv.vid');
-      $query->fields('td');
-      $query->fields('tv', array('machine_name'));
-      $query->condition('tv.machine_name', $vocabularies);
-      $taxonomy_terms = NewsroomHelper::convertPdoToArray($query->execute());
-      cache_set($cache_key, $taxonomy_terms, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      $taxonomy_terms = array();
+      foreach($vocabularies as $vocabulary_name) {
+        if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY) {
+          $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTypes());
+        }
+        if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY) {
+          $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTopics());
+        }
+      }
+      cache_set($cache_key, $taxonomy_terms, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_vocabulary_terms', 3600));
     }
     return $taxonomy_terms;
   }
@@ -499,18 +502,17 @@ class NewsroomHelper {
         // from the URL.
         if ($taxonomy_terms) {
           foreach ($taxonomy_terms as $term_item) {
-            // Replace the name with translated value.
-            $fullterm = taxonomy_term_load($term_item['tid']);
-            $term_item['name'] = NewsroomHelper::getTermTranslatedName($fullterm);
-            if (pathauto_cleanstring($term_item['name']) == $request_name) {
-              $taxonomy_term = $fullterm;
+            $term_item->name = NewsroomHelper::getTermTranslatedName($term_item);
+            if (pathauto_cleanstring($term_item->name) == $request_name) {
+              $taxonomy_term = $term_item;
               break;
             }
           }
         }
       }
-      cache_set($cache_key, $taxonomy_term, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $taxonomy_term, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_term_from_request', 3600));
     }
+
     return $taxonomy_term;
   }
 
@@ -596,7 +598,7 @@ class NewsroomHelper {
       $query->having('count(ttopic.entity_id) = :cnt', array(':cnt' => count($topic_ids)));
 
       $data = $query->execute()->fetchAllKeyed(0, 0);
-      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_node_related_to_topic', 3600));
     }
     return $data;
   }
@@ -648,13 +650,73 @@ class NewsroomHelper {
   }
 
   /**
-   * Get UniverseId
-   * @return type
+   * Get UniverseId.
+   *
+   * @return string
+   *   UniverseId
    */
   public static function getUniverseId() {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
       $data = variable_get('newsroom_universe_id', FALSE);
+    }
+    return $data;
+  }
+
+  /**
+   * Get Newsroom Type Vocabulary.
+   *
+   * @return object
+   *  Newsroom Type Vocabulary.
+   */
+  public static function getNewsroomTypeVocabulary() {
+    $data = &drupal_static(__FUNCTION__);
+    if (!isset($data)) {
+      $data = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
+    }
+    return $data;
+  }
+
+  /**
+   * Get Newsroom Topic Vocabulary.
+   *
+   * @return object
+   *  Newsroom Topic Vocabulary.
+   */
+  public static function getNewsroomTopicVocabulary() {
+    $data = &drupal_static(__FUNCTION__);
+    if (!isset($data)) {
+      $data = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY);
+    }
+    return $data;
+  }
+
+  /**
+   * Get Newsroom topics.
+   *
+   * @return array
+   *  Newsroom topics.
+   */
+  public static function getNewsroomTopics() {
+    $data = &drupal_static(__FUNCTION__);
+    if (!isset($data)) {
+      $vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
+      $data = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
+    }
+    return $data;
+  }
+
+  /**
+   * Get Newsroom types.
+   *
+   * @return array
+   *  Newsroom topics.
+   */
+  public static function getNewsroomTypes() {
+    $data = &drupal_static(__FUNCTION__);
+    if (!isset($data)) {
+      $vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
+      $data = entity_load('taxonomy_term', FALSE, array('vid' => $vocabulary->vid));
     }
     return $data;
   }
