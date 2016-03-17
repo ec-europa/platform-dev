@@ -20,9 +20,23 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'comment_anonymous_newsroom_item';
+  $strongarm->value = '0';
+  $export['comment_anonymous_newsroom_item'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'comment_anonymous_newsroom_selection';
   $strongarm->value = '0';
   $export['comment_anonymous_newsroom_selection'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_default_mode_newsroom_item';
+  $strongarm->value = 1;
+  $export['comment_default_mode_newsroom_item'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -34,9 +48,23 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'comment_default_per_page_newsroom_item';
+  $strongarm->value = '50';
+  $export['comment_default_per_page_newsroom_item'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'comment_default_per_page_newsroom_selection';
   $strongarm->value = '50';
   $export['comment_default_per_page_newsroom_selection'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_form_location_newsroom_item';
+  $strongarm->value = 1;
+  $export['comment_form_location_newsroom_item'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -48,6 +76,13 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'comment_newsroom_item';
+  $strongarm->value = '2';
+  $export['comment_newsroom_item'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'comment_newsroom_selection';
   $strongarm->value = '1';
   $export['comment_newsroom_selection'] = $strongarm;
@@ -55,9 +90,23 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'comment_preview_newsroom_item';
+  $strongarm->value = '1';
+  $export['comment_preview_newsroom_item'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_newsroom_selection';
   $strongarm->value = '1';
   $export['comment_preview_newsroom_selection'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'comment_subject_field_newsroom_item';
+  $strongarm->value = 1;
+  $export['comment_subject_field_newsroom_item'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -133,10 +182,13 @@ function nexteuropa_newsroom_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '6',
+          'weight' => '20',
         ),
         'xmlsitemap' => array(
           'weight' => '30',
+        ),
+        'language' => array(
+          'weight' => '5',
         ),
       ),
       'display' => array(
@@ -259,13 +311,6 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_newsroom_item_pattern';
-  $strongarm->value = 'news/[node:source:title]';
-  $export['pathauto_node_newsroom_item_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_newsroom_selection';
   $strongarm->value = '0';
   $export['node_preview_newsroom_selection'] = $strongarm;
@@ -290,6 +335,13 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm->name = 'node_submitted_newsroom_selection';
   $strongarm->value = 0;
   $export['node_submitted_newsroom_selection'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_newsroom_item_pattern';
+  $strongarm->value = 'news/[node:source:title]';
+  $export['pathauto_node_newsroom_item_pattern'] = $strongarm;
 
   return $export;
 }
