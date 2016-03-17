@@ -6,6 +6,25 @@
  */
 
 /**
+ * Implements hook_init().
+ */
+function tmgmt_poetry_test_init() {
+  global $conf;
+  global $base_url;
+
+  // Make sure Poetry service is always configured when test module is enabled.
+  // This allows for BeHat tests to run correctly.
+  if (!variable_get('poetry_service')) {
+    $conf['poetry_service'] = array(
+      'address' => $base_url . '/profiles/multisite_drupal_standard/modules/custom/tmgmt_poetry/tests/tmgmt_poetry_test.wsdl',
+      'method' => 'requestService',
+      'callback_user' => 'Poetry',
+      'callback_password' => 'PoetryPWD',
+    );
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function tmgmt_poetry_test_menu() {

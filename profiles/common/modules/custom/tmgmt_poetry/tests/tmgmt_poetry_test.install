@@ -40,3 +40,11 @@ function tmgmt_poetry_test_install() {
   }');
   $translator->save();
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function tmgmt_poetry_test_uninstall() {
+  $translator = tmgmt_translator_load('tmgmt_poetry_test_translator');
+  entity_delete('tmgmt_translator', $translator->tid);
+}
