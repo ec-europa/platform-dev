@@ -26,7 +26,7 @@ define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_VIEW_MODE_TOKENS', '/((\[\w*\:\d*\:view-
  *
  * @see nexteuropa_token_ckeditor_token_filter_filter_tokens()
  */
-define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_LINK_TOKENS', '/((\[\w*\:\d*\:link]){.*})/U');
+define('NEXTEUROPA_TOKEN_CKEDITOR_REGEX_LINK_TOKENS', '/((\[\w*\:\d*\:link\]){.*})/U');
 
 /**
  * Implements hook_views_api().

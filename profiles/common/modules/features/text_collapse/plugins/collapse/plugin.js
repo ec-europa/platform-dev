@@ -34,7 +34,8 @@ CKEDITOR.plugins.add('collapse',
             type : 'text',
             id : 'title',
             label : 'Block title',
-            onShow : function() { this.setValue('Hidden text'); },
+            onShow : function() { this.setValue('Hidden text');
+            },
             validate : CKEDITOR.dialog.validate.notEmpty("Block title should be provided")
           }]
         }],
@@ -48,26 +49,26 @@ CKEDITOR.plugins.add('collapse',
 
                 var S = editor.getSelection();
 
-                if (S == null) {
-                  editor.insertHtml(inplaceTag);
-                  return;
-                 }
+          if (S == null) {
+            editor.insertHtml(inplaceTag);
+            return;
+          }
 
                 var R = S.getRanges();
                 R = R[0];
 
-                if (R == null) {
-                  editor.insertHtml(inplaceTag);
-                  return;
-                }
+          if (R == null) {
+            editor.insertHtml(inplaceTag);
+            return;
+          }
 
                 var startPos = Math.min(R.startOffset, R.endOffset);
                 var endPos = Math.max(R.startOffset, R.endOffset);
 
-                if (startPos == endPos) {
-                  editor.insertHtml(inplaceTag);
-                  return;
-                }
+          if (startPos == endPos) {
+            editor.insertHtml(inplaceTag);
+            return;
+          }
 
                 var container = new CKEDITOR.dom.element('p');
                 var fragment = R.extractContents();
@@ -77,7 +78,7 @@ CKEDITOR.plugins.add('collapse',
                 container.appendText(closeTag);
 
                 editor.insertElement(container);
-              }
+        }
       };
       // dialog.add.
     });

@@ -1,6 +1,5 @@
 name = Multisite plateform standard
 description = Install with debut features pre-configured and modules required by the multisite plateform.
-version = VERSION
 core = 7.x
 
 dependencies[] = block

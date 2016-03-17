@@ -9,11 +9,13 @@
   var getById = function(array, id, recurse) {
     for (var i = 0, item; (item = array[i]); i++) {
       if (item.id == id) {
-        return item; }
+        return item;
+      }
       if (recurse && item[recurse]) {
         var retval = getById(item[recurse], id, recurse);
         if (retval) {
-          return retval; }
+          return retval;
+        }
       }
     }
     return null;
