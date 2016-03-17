@@ -407,7 +407,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
           $tag['id'] = str_replace('tjiid' . $old_tjiid . '-', 'tjiid' . $job_item->tjiid . '-', $tag['id']);
         }
       }
-      $result = $xml->saveXML();
+      $result = $xml->asXML();
       break;
   }
   return $result;
