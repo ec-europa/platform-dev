@@ -797,7 +797,6 @@ function nexteuropa_newsroom_field_group_info() {
   );
   $field_groups['group_recommended_reading|node|newsroom_item|default'] = $field_group;
 
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Additional information');
