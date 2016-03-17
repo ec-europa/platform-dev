@@ -6,7 +6,7 @@
  */
 
 /**
- * MT@EC translation plugin controller.
+ * DGT Connector translation plugin controller.
  */
 class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPluginController {
   /**
