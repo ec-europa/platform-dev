@@ -374,8 +374,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
           }
         }
       }
-      $dom->loadXML($xml->asXML());
-      $result = $dom->saveHTML();
+      $result = $xml->asXML();
       break;
 
     case 'xliff_xsl_xml_poetry':
