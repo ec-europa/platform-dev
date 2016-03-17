@@ -37,8 +37,6 @@ function nexteuropa_token_ckeditor_replace_href_with_tmgmt_poetry_ignore_href_to
     if (!$matches && !isset($matches[1][0])) {
       continue;
     }
-    // MULTISITE-9495: brackets are encoded, replace them before translation.
-    $matches[1][0] = str_replace(array('[', ']'), array('(', ')'), $matches[1][0]);
     $replace = sprintf(NEXTEUROPA_TOKEN_CKEDITOR_TMGMT_POETRY_HREF_FORMAT, $matches[1][0]);
     $text = str_replace($matches[1][0], $replace, $text);
   }
@@ -59,9 +57,7 @@ function nexteuropa_token_ckeditor_replace_tmgmt_poetry_ignore_href_token_with_t
   if (!$matches || !is_array($matches) || empty($matches)) {
     return $text;
   }
-  foreach (array_keys($matches[0]) as $key) {
-    // MULTISITE-9495: brackets are encoded, replaced them before translation.
-    $matches[1][$key] = str_replace(array('(', ')'), array('[', ']'), $matches[1][$key]);
+  foreach ($matches[0] as $key => $value) {
     $text = str_replace($matches[0][$key], $matches[1][$key], $text);
   }
   return $text;
