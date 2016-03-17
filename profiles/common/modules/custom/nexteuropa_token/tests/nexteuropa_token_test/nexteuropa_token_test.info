@@ -2,8 +2,7 @@ name = NextEuropa Token Test
 description = Test module for NextEuropa Token.
 core = 7.x
 package = NextEuropa
-version = 7.x-1.x-dev
-project = nexteuropa_token_test
+
 dependencies[] = nexteuropa_token
 registry_autoload[] = PSR-4
 hidden = 1
