@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Module file.
+ */
+
+/**
+ * Implements hook_boot().
+ */
+function nexteuropa_laco_boot() {
+
+}
