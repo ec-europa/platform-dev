@@ -48,6 +48,7 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_navigation_depth', 1);
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
+  variable_set('pathauto_node_newsroom_item_pattern', 'news/[node:source:title]');
   _nexteuropa_newsroom_enable_translations();
 }
 

@@ -236,7 +236,6 @@ features[variable][] = node_preview_newsroom_selection
 features[variable][] = node_preview_page
 features[variable][] = node_submitted_newsroom_item
 features[variable][] = node_submitted_newsroom_selection
-features[variable][] = pathauto_node_newsroom_item_pattern
 features[views_view][] = newsletter_subscription
 features[views_view][] = newsroom
 features[views_view][] = newsroom_calendar_navigation
