@@ -7,6 +7,8 @@
 
 namespace Drupal\nexteuropa_laco\Tests;
 
+use Drupal\nexteuropa_laco\LanguageCoverageService;
+
 /**
  * Class LanguageCoverageServiceTest.
  *
@@ -18,7 +20,7 @@ class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
    * Smoke test.
    */
   public function testSmoke() {
-
+    $this->assertEquals(LanguageCoverageService::HTTP_METHOD, 'HEAD');
   }
 
 }
