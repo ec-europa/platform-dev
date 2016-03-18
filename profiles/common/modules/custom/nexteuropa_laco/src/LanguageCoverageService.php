@@ -99,7 +99,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * Set HTTP response status code.
    */
   public function setStatus($status) {
-    drupal_add_http_header('Status', $status);
+    $this->setHeader('Status', $status);
   }
 
   /**

@@ -33,6 +33,7 @@ interface LanguageCoverageServiceInterface {
    * Factory method.
    *
    * @return \Drupal\nexteuropa_laco\LanguageCoverageServiceInterface
+   *    Instantiate new object.
    */
   static public function getInstance();
 
