@@ -101,7 +101,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'weight' => -1,
     ),
   );
-  
+
   // Exported field_instance: 'node-newsroom_item-body'.
   $field_instances['node-newsroom_item-body'] = array(
     'bundle' => 'newsroom_item',
@@ -2832,7 +2832,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 9,
       ),
-      'full' =>$full_nodes['field_newsroom_teaser_only'],
+      'full' => $full_nodes['field_newsroom_teaser_only'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
