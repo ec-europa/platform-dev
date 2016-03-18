@@ -54,7 +54,7 @@ function nexteuropa_newsroom_install() {
   $settings['view_modes']['event']['custom_settings'] = TRUE;
   field_bundle_settings('node', 'newsroom_item', $settings);
   // Set node options for newsroom_item.
-  variable_set('node_preview_newsroom_item', 0);             
+  variable_set('node_preview_newsroom_item', 0);
   variable_set('node_submitted_newsroom_item', 0);
   variable_set('comment_newsroom_item', COMMENT_NODE_CLOSED);
   // Enable some settings regarding multilingualism.
