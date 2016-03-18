@@ -37,16 +37,15 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function deliverResponse() {
-    drupal_add_http_header('Status', '200 OK');
-    drupal_add_http_header('Content-Length', '0');
-    drupal_exit();
+  static public function isServiceRequest() {
+    $header = self::getHeaderKey(self::HTTP_HEADER_SERVICE_NAME);
+    $result = isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == self::HTTP_METHOD);
+    $result = $result && isset($_SERVER[$header]) && ($_SERVER[$header] == self::HTTP_HEADER_SERVICE_VALUE);
+    return $result;
   }
 
   /**
-   * Factory method.
-   *
-   * @return \Drupal\nexteuropa_laco\LanguageCoverageServiceInterface
+   * {@inheritdoc}
    */
   static public function getInstance() {
     return new static();
@@ -55,12 +54,107 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   /**
    * {@inheritdoc}
    */
-  static public function isServiceRequest() {
-    $service_header = 'HTTP_' . strtoupper(self::HTTP_HEADER_SERVICE_NAME);
-    $service_header = str_replace('-', '_', $service_header);
-    $result = isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == self::HTTP_METHOD);
-    $result = $result && isset($_SERVER[$service_header]) && ($_SERVER[$service_header] == self::HTTP_HEADER_SERVICE_VALUE);
-    return $result;
+  public function deliverResponse() {
+    $this->buildResponse();
+    drupal_exit();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildResponse() {
+    $language = $this->getRequestedLanguage();
+    if (!$language) {
+      $this->setStatus('400 Bad request');
+    }
+    elseif (!$this->isValidLanguage($language)) {
+      $this->setStatus('404 Not found');
+    }
+    else {
+      $this->setStatus('200 OK');
+    }
+
+    $this->setHeader('Content-Length', '0');
+  }
+
+  /**
+   * Check whereas the given language is enabled on the current site.
+   *
+   * @param string $language
+   *    Language code.
+   *
+   * @return bool
+   *    TRUE for a valid language, FALSE otherwise.
+   */
+  public function isValidLanguage($language) {
+    return (bool) db_select('languages', 'l')
+      ->fields('l', ['language'])
+      ->condition('l.language', $language)
+      ->condition('l.enabled', 1)
+      ->execute()
+      ->fetchAssoc();
+  }
+
+  /**
+   * Set HTTP response status code.
+   */
+  public function setStatus($status) {
+    drupal_add_http_header('Status', $status);
+  }
+
+  /**
+   * Set HTTP response header.
+   *
+   * @param string $name
+   *    Header name.
+   * @param string $value
+   *    Header value.
+   */
+  public function setHeader($name, $value) {
+    drupal_add_http_header($name, $value);
+  }
+
+  /**
+   * Get requested language.
+   *
+   * @return string|FALSE
+   *    The requested language, FALSE if none found.
+   */
+  public function getRequestedLanguage() {
+    $header = self::getHeaderKey(self::HTTP_HEADER_LANGUAGE_NAME);
+    if (isset($_SERVER[$header]) && !empty($_SERVER[$header])) {
+      return $_SERVER[$header];
+    }
+    return FALSE;
+  }
+
+  /**
+   * Remove language portion from the end of the URL, if any.
+   *
+   * @param string $url
+   *    Requested URL.
+   * @param string $language
+   *    Requested language.
+   *
+   * @return string
+   *    Sanitized URL.
+   */
+  public function sanitizeUrl($url, $language) {
+    return preg_replace("/_$language$/i", '', $url);
+  }
+
+  /**
+   * Convert HTTP header name into $_SERVER array key.
+   *
+   * @param string $header
+   *    Header name as provided by the HTTP request.
+   *
+   * @return string
+   *    Header name as a $_SERVER array key.
+   */
+  static public function getHeaderKey($header) {
+    $header = 'HTTP_' . strtoupper($header);
+    return str_replace('-', '_', $header);
   }
 
 }

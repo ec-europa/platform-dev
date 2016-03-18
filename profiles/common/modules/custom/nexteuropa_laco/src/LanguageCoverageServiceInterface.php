@@ -15,6 +15,13 @@ namespace Drupal\nexteuropa_laco;
 interface LanguageCoverageServiceInterface {
 
   /**
+   * Deliver response based on current path's language coverage.
+   *
+   * This method sets proper HTTP status codes and exits.
+   */
+  public function deliverResponse();
+
+  /**
    * Check if current HTTP request should be handled service.
    *
    * @return bool
@@ -23,10 +30,10 @@ interface LanguageCoverageServiceInterface {
   static public function isServiceRequest();
 
   /**
-   * Deliver response based on current path's language coverage.
+   * Factory method.
    *
-   * This method sets proper HTTP status codes and exits.
+   * @return \Drupal\nexteuropa_laco\LanguageCoverageServiceInterface
    */
-  public function deliverResponse();
+  static public function getInstance();
 
 }

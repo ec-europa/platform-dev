@@ -10,7 +10,6 @@ use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
  * Implements hook_boot().
  */
 function nexteuropa_laco_boot() {
-
   if (Service::isServiceRequest()) {
     Service::getInstance()->deliverResponse();
   }
