@@ -8,8 +8,8 @@
  * Implements hook_field_default_field_instances().
  */
 function nexteuropa_newsroom_field_default_field_instances() {
+  $full_nodes = _nexteuropa_newsroom_full_node_instances();
   $field_instances = array();
-
   // Exported field_instance: 'file-image-field_newsroom_copyrights'.
   $field_instances['file-image-field_newsroom_copyrights'] = array(
     'bundle' => 'image',
@@ -101,7 +101,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'weight' => -1,
     ),
   );
-
+  
   // Exported field_instance: 'node-newsroom_item-body'.
   $field_instances['node-newsroom_item-body'] = array(
     'bundle' => 'newsroom_item',
@@ -129,12 +129,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 7,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['body'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -201,12 +196,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 17,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_eur_lex_link'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -288,12 +278,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 25,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_highlighted_newsroom_topic'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -371,12 +356,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'newsroom_zoomable_image',
         'weight' => 34,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_illustrative_image'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -482,12 +462,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 13,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsletter_only'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -553,12 +528,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_author'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -651,12 +621,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'link_default',
         'weight' => 35,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_documents'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -747,12 +712,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 16,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_ec_content'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -819,12 +779,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'file_download_link',
         'weight' => 26,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_files'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -916,12 +871,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 5,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_contact_mail'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1000,13 +950,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 4,
       ),
-      'full' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 12,
-      ),
+      'full' => $full_nodes['field_newsroom_item_contact_text'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1102,12 +1046,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'date_default',
         'weight' => 2,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_date'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1196,12 +1135,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 32,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_id'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1276,12 +1210,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 31,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_image'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1369,12 +1298,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 30,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_linked_obj'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1447,12 +1371,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 27,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_main_link'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1541,12 +1460,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'link_default',
         'weight' => 28,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_other_link'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1633,12 +1547,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 29,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_pre_title'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1712,12 +1621,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 6,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_quote_box'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1793,12 +1697,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 33,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_rapid_pr'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1869,12 +1768,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 38,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_short_title'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1946,12 +1840,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 39,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_speaker'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2027,12 +1916,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 40,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_type'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2107,12 +1991,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 3,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_item_venue'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2210,12 +2089,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'geofield_wkt',
         'weight' => 3,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 24,
-      ),
+      'full' => $full_nodes['field_newsroom_location'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2278,12 +2152,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 1,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_organiser'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2375,12 +2244,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 20,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_parent_content'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2447,12 +2311,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 14,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_project'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2550,12 +2409,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 15,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_project_acr'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2650,12 +2504,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 22,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_project_website'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2739,12 +2588,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'link_default',
         'weight' => 18,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_registration_link'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2829,12 +2673,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 12,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_short_item'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2901,12 +2740,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 23,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_slide'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -2998,12 +2832,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 9,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' =>$full_nodes['field_newsroom_teaser_only'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3067,12 +2896,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 11,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_newsroom_topics'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3138,12 +2962,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 24,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_nr_project_coordinator'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3234,12 +3053,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 8,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_primary_topic'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3303,12 +3117,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_related_content'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3374,12 +3183,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 34,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_tags'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3445,12 +3249,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 21,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_teaser'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3555,12 +3354,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 19,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['field_ted_link'],
       'mini_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3635,12 +3429,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
+      'full' => $full_nodes['title_field'],
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'title',
