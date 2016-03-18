@@ -320,7 +320,7 @@ function _nexteuropa_newsroom_full_node_instances($bundle = NEXTEUROPA_NEWSROOM_
       $full_node[$field_name] = $instance['display']['full'];
     }
     else {
-      $full_node[$field_name] = array( 
+      $full_node[$field_name] = array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
