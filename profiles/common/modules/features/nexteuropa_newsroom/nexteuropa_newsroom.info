@@ -220,7 +220,6 @@ features[variable][] = comment_subject_field_newsroom_selection
 features[variable][] = date_format_date_only
 features[variable][] = date_format_minimal
 features[variable][] = date_format_short_newsroom
-features[variable][] = field_bundle_settings_node__newsroom_item
 features[variable][] = field_bundle_settings_node__newsroom_selection
 features[variable][] = i18n_sync_node_type_newsroom_selection
 features[variable][] = language_content_type_newsroom_item

@@ -49,6 +49,11 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
   variable_set('pathauto_node_newsroom_item_pattern', 'news/[node:source:title]');
+  // Enabling the event view mode in the newsroom_item ct.
+  $settings = field_bundle_settings('node', 'newsroom_item');
+  $settings['view_modes']['event']['custom_settings'] = TRUE;
+  field_bundle_settings('node', 'newsroom_item', $settings);
+  // Enable some settings regarding multilingualism.
   _nexteuropa_newsroom_enable_translations();
 }
 

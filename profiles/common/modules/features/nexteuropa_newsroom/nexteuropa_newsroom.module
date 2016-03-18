@@ -2310,8 +2310,12 @@ function nexteuropa_newsroom_block_view_alter(&$data, $block) {
  * Implements hook_entity_info_alter().
  */
 function nexteuropa_newsroom_entity_info_alter(&$entity_info) {
-  $entity_info['node']['view modes']['event'] = array(
-    'label' => t('Newsroom event'),
-    'custom settings' => TRUE,
+  $entity_info['node']['view modes'] += array(
+    'event' => array(
+      'label' => t('Newsroom event'),
+      'custom settings' => FALSE,
+    ),
   );
+
+  return $entity_info;
 }
