@@ -316,7 +316,7 @@ function _nexteuropa_newsroom_full_node_instances($bundle = NEXTEUROPA_NEWSROOM_
   $fields = field_info_instances('node', $bundle);
 
   foreach ($fields as $field_name => $instance) {
-    if (!empty($instance['display']['full'])) {
+    if (!empty($instance['display']['full']['label'])) {
       $full_node[$field_name] = $instance['display']['full'];
     }
     else {
@@ -331,6 +331,7 @@ function _nexteuropa_newsroom_full_node_instances($bundle = NEXTEUROPA_NEWSROOM_
 
   return $full_node;
 }
+
 
 /**
  * Helper function to check if the universe ID has been already set.
