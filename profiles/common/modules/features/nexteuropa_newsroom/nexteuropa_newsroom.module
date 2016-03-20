@@ -312,24 +312,21 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
 /**
  * Get the full node view mode settings.
  */
-function _nexteuropa_newsroom_full_node_instances($bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
+function _nexteuropa_newsroom_reset_modes($field_instances, $modes = array('teaser', 'full'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
   $fields = field_info_instances('node', $bundle);
 
-  foreach ($fields as $field_name => $instance) {
-    if (!empty($instance['display']['full']['label'])) {
-      $full_node[$field_name] = $instance['display']['full'];
-    }
-    else {
-      $full_node[$field_name] = array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      );
+  foreach ($field_instances as $field_name => $instance) {
+    if (strpos($field_name, 'node-newsroom_item') !== FALSE) {
+      $fields_name = str_replace('node-newsroom_item-', '', $field_name);
+      foreach($modes as $view_mode) {
+        if (!empty($fields[$fields_name]['display'][$view_mode]['label'])) {
+          $field_instances[$field_name]['display'][$view_mode] = $fields[$fields_name]['display'][$view_mode];
+        }
+      }
     }
   }
 
-  return $full_node;
+  return $field_instances;
 }
 
 
@@ -1986,7 +1983,7 @@ function nexteuropa_newsroom_entity_presave($entity, $type) {
 /**
  * Helper function to delete translations..
  */
-function _nexteuropa_newsroom_delete_translations(Entity $entity, $entity_id, $lang = FALSE) {
+function _nexteuropa_newsroom_delete_translations($entity, $entity_id, $lang = FALSE) {
   $languages = !$lang ? language_list() : array($lang);
   $handler = entity_translation_get_handler('node', $entity);
 
