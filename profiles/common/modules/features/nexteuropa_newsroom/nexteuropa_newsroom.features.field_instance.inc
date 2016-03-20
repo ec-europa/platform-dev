@@ -4886,7 +4886,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     ),
   );
 
-  $field_instances = _nexteuropa_newsroom_reset_modes($field_instances);
+  $field_instances = _nexteuropa_newsroom_get_real_modes($field_instances);
 
   // Translatables
   // Included for use with string extractors like potx.
