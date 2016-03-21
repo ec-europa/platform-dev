@@ -220,19 +220,20 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           ),
         );
 
-        if ($variable_get('nexteuropa_newsroom_', default))
-        $form['actions']['revert_modes'] = array(
-          '#type' => 'submit',
-          '#value' => t('[Newsroom] Restore field instances'),
-          '#submit' => array(''),
-          '#ajax' => array(
-            'callback' => '_nexteuropa_newsroom_revert_modes',
-            'event' => 'click',
-            'wrapper' => 'newsroom_export',
-            'effect' => 'fade',
-            'method' => 'replace',
-          ),
-        );
+        if ($variable_get('nexteuropa_newsroom_', default)) {
+          $form['actions']['revert_modes'] = array(
+            '#type' => 'submit',
+            '#value' => t('[Newsroom] Restore field instances'),
+            '#submit' => array(''),
+            '#ajax' => array(
+              'callback' => '_nexteuropa_newsroom_revert_modes',
+              'event' => 'click',
+              'wrapper' => 'newsroom_export',
+              'effect' => 'fade',
+              'method' => 'replace',
+            ),
+          );
+        }
       }
       break;
 
@@ -287,7 +288,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Submit handler for newsroom field instances.
- * 
+ *
  * @see nexteuropa_newsroom_form_alter()
  */
 function _nexteuropa_newsroom_export_instances() {
