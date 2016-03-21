@@ -224,7 +224,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             'method' => 'replace',
           ),
         );
-        
+
         $form['actions']['restore_modes'] = array(
           '#type' => 'submit',
           '#value' => t('[Newsroom] Restore field instances'),
@@ -368,7 +368,7 @@ function _nexteuropa_newsroom_prepare_import_modes(&$form, &$form_state) {
       'method' => 'replace',
     ),
   );
-  
+
   return $form['import'];
 }
 
