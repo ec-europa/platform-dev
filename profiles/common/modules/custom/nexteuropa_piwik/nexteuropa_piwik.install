@@ -22,12 +22,18 @@ function nexteuropa_piwik_install() {
     'user/*/*',
   );
   variable_set('nexteuropa_piwik_pages', implode("\n", $pages));
+
+  // Create and save PIWIK administrator role.
+  $role = new stdClass();
+  $role->name = 'PIWIK administrator';
+  user_role_save($role);
 }
 
 /**
  * Implements hook_uninstall().
  */
 function nexteuropa_piwik_uninstall() {
+  // Delete PIWIK variables.
   variable_del('nexteuropa_piwik_pages');
   variable_del('nexteuropa_piwik_roles');
   variable_del('nexteuropa_piwik_site_id');
@@ -37,6 +43,8 @@ function nexteuropa_piwik_uninstall() {
   variable_del('nexteuropa_piwik_site_section');
   variable_del('nexteuropa_piwik_visibility_pages');
   variable_del('nexteuropa_piwik_visibility_roles');
+  // Delete PIWIK administrator role.
+  user_role_delete('PIWIK administrator');
 }
 
 /**
@@ -70,4 +78,17 @@ function nexteuropa_piwik_requirements($phase) {
       break;
   }
   return $requirements;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_piwik_enable() {
+  $piwik_admin_role = user_role_load_by_name('PIWIK administrator');
+  // Define permissions for role.
+  $piwik_admin_permissions = array(
+    'administer nexteuropa_piwik' => TRUE,
+  );
+  // Grant the permissions to PIWIK administrator role.
+  user_role_change_permissions($piwik_admin_role->rid, $piwik_admin_permissions);
 }
