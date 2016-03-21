@@ -18,8 +18,6 @@ function tmgmt_poetry_test_install() {
     "settings" : {
       "auto_accept" : 0,
       "settings" : {
-        "username" : "user",
-        "password" : "pass",
         "counter" : "1234",
         "code" : "ABCD"
       },
