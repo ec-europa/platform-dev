@@ -200,11 +200,11 @@ function nexteuropa_newsroom_date_popup_process_alter(&$element, &$form_state, $
 function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'field_ui_display_overview_form':
-    if ($form['#bundle'] == 'newsroom_item') {
+      if ($form['#bundle'] == 'newsroom_item') {
         $form['newsroom_export'] = array(
           '#type' => 'markup',
           '#markup' => '<div id="newsroom_export"></div>',
-          '#weight' => 0, 
+          '#weight' => 0,
         );
 
         $form['actions']['export_modes'] = array(
@@ -213,6 +213,20 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           '#submit' => array(''),
           '#ajax' => array(
             'callback' => '_nexteuropa_newsroom_export_modes',
+            'event' => 'click',
+            'wrapper' => 'newsroom_export',
+            'effect' => 'fade',
+            'method' => 'replace',
+          ),
+        );
+
+        if ($variable_get('nexteuropa_newsroom_', default))
+        $form['actions']['revert_modes'] = array(
+          '#type' => 'submit',
+          '#value' => t('[Newsroom] Restore field instances'),
+          '#submit' => array(''),
+          '#ajax' => array(
+            'callback' => '_nexteuropa_newsroom_revert_modes',
             'event' => 'click',
             'wrapper' => 'newsroom_export',
             'effect' => 'fade',
@@ -274,7 +288,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Submit handler for newsroom field instances.
  * 
- * @see nexteuropa_newsroom_form_alter().
+ * @see nexteuropa_newsroom_form_alter()
  */
 function _nexteuropa_newsroom_export_instances() {
 

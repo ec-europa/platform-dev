@@ -312,11 +312,14 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
 /**
  * Get instance  view mode settings.
  *
- * @param array $field_instances
+ * @param array|undefined $field_instances
+ *  array or undefined
  * @param array $modes
+ *  array
  * @param string $bundle 
- *
- * @return array $field_instances
+ *  array
+ * @return $field_instances
+ *  array
  */
 function _nexteuropa_newsroom_get_real_modes($field_instances, $modes = array('teaser', 'full'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
   // Get the current instances.
