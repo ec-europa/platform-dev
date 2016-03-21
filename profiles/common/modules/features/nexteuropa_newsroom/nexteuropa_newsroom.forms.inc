@@ -198,53 +198,86 @@ function nexteuropa_newsroom_date_popup_process_alter(&$element, &$form_state, $
  * Implements hook_form_alter().
  */
 function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    case 'field_ui_display_overview_form':
+    if ($form['#bundle'] == 'newsroom_item') {
+        $form['newsroom_export'] = array(
+          '#type' => 'markup',
+          '#markup' => '<div id="newsroom_export"></div>',
+          '#weight' => 0, 
+        );
 
-  if ($form_id == 'newsroom_item_node_form') {
-    // Build language aware options list for taxonomy reference fields.
-    $terms = array();
-    global $language;
-    $def_lang = language_default()->language;
-    $curr_lang = $language->language;
-
-    $taxonomy_fields = array(
-      'field_newsroom_item_type',
-      'field_primary_topic',
-      'field_newsroom_topics',
-      'field_highlighted_newsroom_topic',
-    );
-
-    $type_vid = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY)->vid;
-    $topic_vid = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY)->vid;
-
-    $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] = i18n_taxonomy_get_tree($type_vid, $def_lang);
-    $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY] = i18n_taxonomy_get_tree($topic_vid, $def_lang);
-
-    // Fields with wrong translation in node edit form.
-    foreach ($taxonomy_fields as $taxonomy_field) {
-      $tree = $taxonomy_field == 'field_newsroom_item_type' ? $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] : $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY];
-
-      foreach ($tree as $key => $value) {
-        $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
-        $t_term = $i18n_object->localize($curr_lang);
-        $pref = $value->parents[0] != 0 ? '- ' : '';
-        $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
+        $form['actions']['export_modes'] = array(
+          '#type' => 'submit',
+          '#value' => t('[Newsroom] Export field instances'),
+          '#submit' => array(''),
+          '#ajax' => array(
+            'callback' => '_nexteuropa_newsroom_export_modes',
+            'event' => 'click',
+            'wrapper' => 'newsroom_export',
+            'effect' => 'fade',
+            'method' => 'replace',
+          ),
+        );
       }
+      break;
 
-      // The default value is lost in the translations,
-      // so we need to set it this way.
-      if (!empty($form['#node']->$taxonomy_field)) {
-        $values = array();
-        $value_array = $form['#node']->$taxonomy_field;
-        foreach ($value_array['und'] as $value) {
-          $values[] = $value['tid'];
-          $form[$taxonomy_field]['und']['#default_value'] = $values;
+    case 'newsroom_item_node_form':
+      // Build language aware options list for taxonomy reference fields.
+      $terms = array();
+      global $language;
+      $def_lang = language_default()->language;
+      $curr_lang = $language->language;
+
+      $taxonomy_fields = array(
+        'field_newsroom_item_type',
+        'field_primary_topic',
+        'field_newsroom_topics',
+        'field_highlighted_newsroom_topic',
+      );
+
+      $type_vid = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY)->vid;
+      $topic_vid = taxonomy_vocabulary_machine_name_load(NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY)->vid;
+
+      $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] = i18n_taxonomy_get_tree($type_vid, $def_lang);
+      $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY] = i18n_taxonomy_get_tree($topic_vid, $def_lang);
+
+      // Fields with wrong translation in node edit form.
+      foreach ($taxonomy_fields as $taxonomy_field) {
+        $tree = $taxonomy_field == 'field_newsroom_item_type' ? $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] : $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY];
+
+        foreach ($tree as $key => $value) {
+          $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
+          $t_term = $i18n_object->localize($curr_lang);
+          $pref = $value->parents[0] != 0 ? '- ' : '';
+          $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
+        }
+
+        // The default value is lost in the translations,
+        // so we need to set it this way.
+        if (!empty($form['#node']->$taxonomy_field)) {
+          $values = array();
+          $value_array = $form['#node']->$taxonomy_field;
+          foreach ($value_array['und'] as $value) {
+            $values[] = $value['tid'];
+            $form[$taxonomy_field]['und']['#default_value'] = $values;
+          }
         }
       }
-    }
 
-    // The widget will loose this settings, otherwise.
-    $form['field_newsroom_topics']['und']['#multiple'] = TRUE;
+      // The widget will loose this settings, otherwise.
+      $form['field_newsroom_topics']['und']['#multiple'] = TRUE;
+      break;
   }
+}
+
+/**
+ * Submit handler for newsroom field instances.
+ * 
+ * @see nexteuropa_newsroom_form_alter().
+ */
+function _nexteuropa_newsroom_export_instances() {
+
 }
 
 /**
