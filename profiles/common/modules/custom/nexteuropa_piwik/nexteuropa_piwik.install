@@ -10,8 +10,9 @@
  */
 function nexteuropa_piwik_install() {
   // Remove tracking from all administrative pages.
-  variable_set('nexteuropa_piwik_visibility_roles', 0);
+  variable_set('nexteuropa_piwik_visibility_roles', 1);
   variable_set('nexteuropa_piwik_visibility_pages', 0);
+  variable_set('nexteuropa_piwik_site_search', 1);
   $pages = array(
     'admin',
     'admin/*',
