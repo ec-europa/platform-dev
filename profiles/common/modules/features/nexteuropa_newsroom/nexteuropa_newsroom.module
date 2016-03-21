@@ -346,29 +346,6 @@ function _nexteuropa_newsroom_get_real_modes($field_instances, $modes = array('t
 }
 
 /**
- * Get instance  view mode settings.
- *
- * @param array $field_instances
- * @param array $modes
- * @param string $bundle 
- *
- * @return array $field_instances
- */
-function _nexteuropa_newsroom_export_modes() {
-  $modes = array('full', 'teaser');
-  // Get the current instances.
-  $fields = field_info_instances('node', $bundle);
-  foreach ($fields as $field_name => $field_instance) {
-    foreach ($modes as $view_mode) {
-      $export[$field_name][$view_mode] = $fields[$field_name]['display'][$view_mode];
-    }
-  }
-
-  variable_set('nexteuropa_newsroom_view_modes_backup', serialize($export));
-  return drupal_set_message(t('You can copy this code and then import it.', 'status') . $export);
-}
-
-/**
  * Helper function to check if the universe ID has been already set.
  */
 function _nexteuropa_newsroom_check_universe_id() {
