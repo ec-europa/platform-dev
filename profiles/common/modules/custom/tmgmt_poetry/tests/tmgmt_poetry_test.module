@@ -20,6 +20,8 @@ function tmgmt_poetry_test_init() {
       'method' => 'requestService',
       'callback_user' => 'Poetry',
       'callback_password' => 'PoetryPWD',
+      'poetry_user' => 'Poetry',
+      'poetry_password' => 'PoetryPWD',
     );
   }
 }
