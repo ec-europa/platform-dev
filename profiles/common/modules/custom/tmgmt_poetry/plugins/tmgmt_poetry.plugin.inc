@@ -30,47 +30,19 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Implements TMGMTTranslatorPluginControllerInterface::isAvailable().
    */
   public function isAvailable(TMGMTTranslator $translator) {
-    $general_settings_set = FALSE;
-    $organization_set = FALSE;
-    $contacts_set = FALSE;
-    $poetry_settings_set = FALSE;
+    $poetry_settings = array('settings', 'organization', 'contacts');
 
-    // Check if the general settings are set.
-    $settings = $translator->getSetting('settings');
-    if ((isset($settings['counter']) && !empty($settings['counter'])) &&
-      (isset($settings['code']) && !empty($settings['code']))) {
-      $general_settings_set = TRUE;
+    $all_settings = array();
+    foreach ($poetry_settings as $setting) {
+      $all_settings[] = $translator->getSetting($setting);
     }
-
-    // Check if the organization settings are set.
-    $organization = $translator->getSetting('organization');
-    if ((isset($organization['auteur']) && !empty($organization['auteur'])) &&
-      (isset($organization['responsable']) && !empty($organization['responsable'])) &&
-      (isset($organization['demandeur']) && !empty($organization['demandeur']))) {
-      $organization_set = TRUE;
+    foreach($all_settings as $k => $v) {
+      if (empty($v)) {
+        return FALSE;
+      }
+    };
+    return TRUE;
     }
-
-    // Check if the translator settings are set.
-    $contacts = $translator->getSetting('contacts');
-    if ((isset($contacts['auteur']) && !empty($contacts['auteur'])) &&
-      (isset($contacts['secretaire']) && !empty($contacts['secretaire'])) &&
-      (isset($contacts['contact']) && !empty($contacts['contact'])) &&
-      (isset($contacts['responsable']) && !empty($contacts['responsable']))) {
-      $contacts_set = TRUE;
-    }
-
-    // Check if the poetry variables are set.
-    $poetry_service = variable_get('poetry_service');
-    if ((isset($poetry_service['address']) && !empty($poetry_service['address'])) &&
-      (isset($poetry_service['method']) && !empty($poetry_service['method'])) &&
-      (isset($poetry_service['callback_user']) && !empty($poetry_service['callback_user'])) &&
-      (isset($poetry_service['callback_password']) && !empty($poetry_service['callback_password'])) &&
-      (isset($poetry_service['poetry_user']) && !empty($poetry_service['poetry_user'])) &&
-      (isset($poetry_service['poetry_password']) && !empty($poetry_service['poetry_password']))) {
-      $poetry_settings_set = TRUE;
-    }
-    return $organization_set && $contacts_set && $poetry_settings_set && $general_settings_set;
-  }
 
   /**
    * Implements TMGMTTranslatorPluginControllerInterface::canTranslation().
