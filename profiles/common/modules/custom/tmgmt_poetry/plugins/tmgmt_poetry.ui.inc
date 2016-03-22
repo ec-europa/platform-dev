@@ -116,7 +116,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#title' => t('DGT Contacts'),
       '#collapsible' => FALSE,
       '#collapsed' => FALSE,
-      '#description' => t("Contact persons for send a feedback"),
+      '#description' => t("Contact persons to send feedback to"),
     );
     $form['feedback_contacts']['to'] = array(
       '#type' => 'textfield',
