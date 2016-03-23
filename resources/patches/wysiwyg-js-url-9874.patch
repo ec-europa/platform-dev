@@ -3,8 +3,8 @@ IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
---- platform/profiles/multisite_drupal_standard/modules/contrib/wysiwyg/editors/ckeditor.inc	(revision )
-+++ platform/profiles/multisite_drupal_standard/modules/contrib/wysiwyg/editors/ckeditor.inc	(revision )
+--- wysiwyg.module
++++ wysiwyg.module
 @@ -337,6 +337,9 @@
            // Build a file for each of the editors to hold the init scripts.
            // @todo Aggregate all initialization scripts into one file.
