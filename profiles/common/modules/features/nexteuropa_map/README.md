@@ -34,6 +34,36 @@ A couple of layer types (map layer bundles) will be included:
 * As an administrator I can configure a field so that it displays as a map
 * As an administrator I can set the defaults for creating maps
 
+## Installation and configuration
+* Enabled the nexteuropa_map_layer module
+* Go to People > Permissions (admin/people/permissions) and assign permissions for the Nexteuropa map and map layer modules.
+* Go to Structure > Feature sets (admin/structure/feature-set)
+* Enable a layer type module (for example CSV layer)
+
+## Usage
+* Go to Structure > Map (admin/structure/maps) to create and edit maps.
+* Go to Structure > Map layers (admin/structure/maps) to adminsiter map layers (you can create and edit them through the map edit form).
+
+### Create a map
+* Go to Structure > Map (admin/structure/maps).
+* Click _Add map_
+* Enter a name and description for the map
+* Choose the map layer type and click _Add new entity_
+* Enter the map layer details (can be different for eacht map layer type)
+* Change the values for height, centering, zooming and attribution
+* Click _Save map_
+
+## Using map as field formatter
+
+A field formatter is a setting for displaying field content. Nexteuropa map provides a field formatter that allows displaying a latitude & longitude field as a map
+
+* Select "Manage display" for the desired entity (node, user, taxonomy term, etc)
+* In the select list "Format" of the field that contains the geo data (most often a geofield type field), choose "European Commission map"
+* Click the cog wheel on the right to set the configuration options (such as tile, height, icon color, zoom levels et cetera)
+* Click "Update" to update the settings
+* Click "Save" to save the settings.
+* Verify by viewing the entity.
+
 ## Contact persons
 * Role, Name, Dept.
 * Product owner, Some one ,DG Connect
@@ -48,6 +78,8 @@ A couple of layer types (map layer bundles) will be included:
 
 ## More info
 * Nexteuropa map wiki://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg
+* Presentation: https://docs.google.com/presentation/d/1U-7f0NXF9qhZqZb-MUbPR6Q3Z_2a68xy-g198ZO3atE/edit?usp=sharing
+* Demo: https://www.youtube.com/playlist?list=PLITBVpXjSIMRHdgmz8C-BXhTwSjEjH0j5
 * Corporate Map JavaScript library
   * https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Map
   * Demo's:
