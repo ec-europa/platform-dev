@@ -13,5 +13,3 @@ files[] = nuts_regions.migrate.inc
 files[] = tests/nuts_regions.test
 package = Custom
 php = 5.2.4
-version = 7.x-1.2
-project = nuts_region

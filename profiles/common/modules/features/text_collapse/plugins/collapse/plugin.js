@@ -34,8 +34,7 @@ CKEDITOR.plugins.add('collapse',
             type : 'text',
             id : 'title',
             label : 'Block title',
-            onShow : function() {
-              this.setValue('Hidden text');
+            onShow : function() { this.setValue('Hidden text');
             },
             validate : CKEDITOR.dialog.validate.notEmpty("Block title should be provided")
           }]
@@ -78,7 +77,7 @@ CKEDITOR.plugins.add('collapse',
           fragment.appendTo(container);
           container.appendText(closeTag);
 
-          editor.insertElement(container);
+                editor.insertElement(container);
         }
       };
       // dialog.add.

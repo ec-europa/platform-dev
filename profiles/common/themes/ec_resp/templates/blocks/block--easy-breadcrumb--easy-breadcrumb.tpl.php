@@ -42,7 +42,6 @@
  *
  * @ingroup themeable
  */
-
 ?>
 <div id="path" class="hidden-xs">
   <div class="container">

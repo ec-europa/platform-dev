@@ -6,5 +6,3 @@ hidden = TRUE
 
 dependencies[] = tmgmt_poetry
 
-files[] = tmgmt_poetry_test.test
-files[] = functional/TMGMTPoetryTranslationRequestResponseTestCase.test
