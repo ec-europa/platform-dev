@@ -1,8 +1,5 @@
-Index: platform/profiles/multisite_drupal_standard/modules/contrib/wysiwyg/editors/ckeditor.inc
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
+# Fix remote js loading on ckeditor plugin
+# See NEXTEUROPA-9874 
 --- wysiwyg.module
 +++ wysiwyg.module
 @@ -337,6 +337,9 @@
