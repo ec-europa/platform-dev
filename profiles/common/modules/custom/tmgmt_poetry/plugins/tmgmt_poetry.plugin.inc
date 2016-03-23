@@ -31,11 +31,31 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   public function isAvailable(TMGMTTranslator $translator) {
     $poetry_settings = array('settings', 'organization', 'contacts');
+    $poetry_service = array('address', 'method', 'callback_user', 'callback_password', 'poetry_user',
+        'poetry_password');
 
     $all_settings = array();
-    foreach ($poetry_settings as $setting) {
-      $all_settings[] = $translator->getSetting($setting);
+    $poetry_credentials_settings = variable_get('poetry_service');
+
+    // If no credentials set in settings.php don't check further.
+    if(empty($poetry_settings)) {
+      return FALSE;
     }
+
+    // Get setting value for each setting.
+    foreach ($poetry_settings as $setting) {
+      $all_settings[$setting] = $translator->getSetting($setting);
+    }
+    // If one of the arg is not set, don't check further.
+    foreach ($poetry_service as $service_arg) {
+      if (isset($poetry_credentials_settings[$service_arg])) {
+        $all_settings[$service_arg] = $poetry_credentials_settings[$service_arg];
+      }
+      else {
+        return FALSE;
+      }
+    }
+    // If any of these is empty, translator is not properly configured.
     foreach($all_settings as $k => $v) {
       if (empty($v)) {
         return FALSE;
