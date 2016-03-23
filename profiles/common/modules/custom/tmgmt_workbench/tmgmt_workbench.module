@@ -97,7 +97,9 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
     $items = tmgmt_job_item_load_latest('workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid, $entity_language);
     $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
     $states = variable_get('tmgmt_workbench_moderation_states', array());
-
+    if (empty($states)) {
+      drupal_set_message(t('You have to <a href="!settings_page">enable at least one workbench state</a>.', array('!settings_page' => '/admin/config/regional/tmgmt_workbench_settings')), 'error');
+    }
     $state = $node->workbench_moderation['current']->state;
     $translation_is_enabled = in_array($state, $states);
 
