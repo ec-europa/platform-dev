@@ -1,4 +1,4 @@
-@api
+@api @poetry
 Feature: TMGMT Poetry features
   In order request a new translation for the Portuguese language
   As a Translation manager user
