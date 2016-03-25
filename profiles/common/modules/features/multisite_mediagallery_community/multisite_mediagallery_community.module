@@ -43,4 +43,3 @@ function multisite_mediagallery_community_form_gallerymedia_node_form_alter(&$fo
     }
   }
 }
-
