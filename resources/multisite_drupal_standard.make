@@ -654,7 +654,6 @@ projects[wysiwyg][version] = "2.2"
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
-projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
