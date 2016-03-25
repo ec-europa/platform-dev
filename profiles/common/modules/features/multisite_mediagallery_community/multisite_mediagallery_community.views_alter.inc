@@ -48,13 +48,6 @@ function multisite_mediagallery_community_views_default_views_alter(&$views) {
     /* Display: Community Galleries */
     $handler = $view->new_display('page', 'Community Galleries', 'galleries_community');
     $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-    $handler->display->display_options['defaults']['header'] = FALSE;
-    /* Header: Global: Text area */
-    $handler->display->display_options['header']['area']['id'] = 'area';
-    $handler->display->display_options['header']['area']['table'] = 'views';
-    $handler->display->display_options['header']['area']['field'] = 'area';
-    $handler->display->display_options['header']['area']['empty'] = TRUE;
-    $handler->display->display_options['header']['area']['format'] = 'full_html';
     $handler->display->display_options['defaults']['relationships'] = FALSE;
     /* Relationship: OG membership: OG membership from Node */
     $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
