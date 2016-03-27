@@ -424,6 +424,9 @@ projects[og][download][branch] = 7.x-2.x
 projects[og][download][revision] = fba6dda
 projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+; VBO and OG
+; https://www.drupal.org/node/2561507
+projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
