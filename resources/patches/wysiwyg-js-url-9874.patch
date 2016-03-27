@@ -7,7 +7,7 @@
            }
            else {
 -            drupal_add_js(file_create_url($uri), $default_library_options);
-+            drupal_add_js(file_create_url($uri), $default_library_options + array('type' => 'external'));
++            drupal_add_js(file_create_url($uri), array('type' => 'external') + $default_library_options);
            }
          }
        }
