@@ -7,7 +7,6 @@
  * assurance review without breaking the module. They cannot be renamed because
  * Drupal expects specific naming when dealing with entities. As discussed in
  * https://webgate.ec.europa.eu/fpfis/wikis/x/AjjCBw .
- * @todo: needs investigation.
  */
 
 /**
