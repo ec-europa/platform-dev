@@ -44,7 +44,7 @@ function tmgmt_workbench_menu() {
  * Implements hook_tmgmt_source_plugin_info().
  */
 function tmgmt_workbench_tmgmt_source_plugin_info() {
-
+  $info = array();
   // Only expose Workbench Moderation source if at least one content type
   // is moderated and nodes are translatable by Entity Translation.
   $entity_types = variable_get('entity_translation_entity_types', array());
