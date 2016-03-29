@@ -183,15 +183,14 @@ function tmgmt_workbench_translate_form_validate($form, &$form_state) {
  */
 function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
-  $entity_type = $form_state['entity_type'];
-  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
   $langcode = $form_state['input']['languages'];
   $jobs = array();
   // Create the job object.
-  $job = tmgmt_job_create(entity_language($entity_type, $entity), $langcode, $GLOBALS['user']->uid);
+  $job = tmgmt_job_create(entity_language('node', $entity), $langcode,
+    $GLOBALS['user']->uid);
   try {
     // Add the job item.
-    $job->addItem('workbench_moderation', $entity_type, $id);
+    $job->addItem('workbench_moderation', 'node', $entity->nid);
     // Append this job to the array of created jobs so we can redirect the
     // user to a multistep checkout form if necessary.
     $jobs[$job->tjid] = $job;
@@ -200,7 +199,9 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
     watchdog_exception('tmgmt', $e);
     $languages = language_list();
     $target_lang_name = $languages[$langcode]->language;
-    drupal_set_message(t('Unable to add job item for target language %name. Make sure the source content is not empty.', array('%name' => $target_lang_name)), 'error');
+    drupal_set_message(t('Unable to add job item for target language %name. Make sure the source content is not empty.',
+      array('%name' => $target_lang_name)),
+      'error');
   }
   tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
 }
