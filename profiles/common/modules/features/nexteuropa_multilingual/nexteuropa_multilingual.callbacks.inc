@@ -64,7 +64,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
     // Remove duplicate base_path in URL (NEXTEUROPA-9311).
     // Temporary fix until the next version of the link module.
-    if (strpos($path, base_path()) == 0) {
+    if (base_path() != '/' && strpos($path, base_path()) == 0) {
       $path = str_replace(base_path(), '', $path);
     }
 

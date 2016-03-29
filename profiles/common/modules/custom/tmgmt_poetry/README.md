@@ -17,8 +17,10 @@ Installation
     $conf['poetry_service'] = array(
       'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
       'method' => 'requestService',
-      'callback_user' => 'Poetry',
-      'callback_password' => 'PoetryPWD',
+      'callback_user' => 'Callback',
+      'callback_password' => 'CallbackPWD',
+      'poetry_user' => 'Poetry',
+      'poetry_password' => 'PoetryPWD',
     );
 ```
 
@@ -42,6 +44,19 @@ DGT service enable the follow the steps below:
    portion if necessary.
 3. Request a new translation using the "TMGMT Poetry: Test translator" translator.
 
+
+Simulate Poetry callback
+========================
+
+The following steps let you test a response as it was coming from the Poetry service itself, assuming you have the
+`tmgmt_poetry_test` module enabled:
+
+```
+$poetry_service = variable_get('poetry_service');
+$job = tmgmt_job_load(13);
+$msg = _tmgmt_poetry_test_make_xml_msg($job, 'fr', 'HTML');
+FPFISPoetryIntegrationRequest($poetry_service['callback_user'], $poetry_service['callback_password'], $msg);
+```
 
 Testing Poetry responses
 ========================

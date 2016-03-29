@@ -37,7 +37,7 @@ function nexteuropa_token_nexteuropa_token_token_handlers() {
  * Implements hook_token_info_alter().
  */
 function nexteuropa_token_token_info_alter(&$data) {
-  foreach (module_invoke_all('nexteuropa_token_token_handlers') as $name => $class) {
+  foreach (nexteuropa_token_get_token_handlers() as $name => $class) {
     nexteuropa_token_get_handler($name)->hookTokenInfoAlter($data);
   }
 }
@@ -47,7 +47,7 @@ function nexteuropa_token_token_info_alter(&$data) {
  */
 function nexteuropa_token_tokens($type, $tokens, array $data = array(), array $options = array()) {
   $replacements = array();
-  foreach (module_invoke_all('nexteuropa_token_token_handlers') as $name => $class) {
+  foreach (nexteuropa_token_get_token_handlers() as $name => $class) {
     $replacements += nexteuropa_token_get_handler($name)->hookTokens($type, $tokens, $data, $options);
   }
   return $replacements;
@@ -68,7 +68,7 @@ function nexteuropa_token_tokens($type, $tokens, array $data = array(), array $o
  * @see hook_nexteuropa_token_token_handlers()
  */
 function nexteuropa_token_get_handler($name) {
-  $handlers = module_invoke_all('nexteuropa_token_token_handlers');
+  $handlers = nexteuropa_token_get_token_handlers();
   if (!isset($handlers[$name])) {
     throw new \Exception(t('Token handler with name !name not found.', array('!name' => $name)));
   }
@@ -82,4 +82,28 @@ function nexteuropa_token_get_handler($name) {
     }
   }
   return new $handlers[$name]();
+}
+
+/**
+ * Get token handler definitions.
+ *
+ * @return array
+ *    Array of token handler definitions.
+ *
+ * @see hook_nexteuropa_token_token_handlers()
+ * @see hook_nexteuropa_token_token_handlers_alter()
+ */
+function nexteuropa_token_get_token_handlers() {
+  $handlers = &drupal_static(__FUNCTION__);
+  if (!isset($handlers)) {
+    if ($cache = cache_get('nexteuropa_token:handlers')) {
+      $handlers = $cache->data;
+    }
+    else {
+      $handlers = module_invoke_all('nexteuropa_token_token_handlers');
+      drupal_alter('nexteuropa_token_token_handlers', $handlers);
+      cache_set('nexteuropa_token:handlers', $handlers, 'cache');
+    }
+  }
+  return $handlers;
 }
