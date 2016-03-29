@@ -15,24 +15,31 @@ function nexteuropa_newsroom_block_info() {
   $blocks = array();
   $blocks['newsroom_summary_blocks'] = array(
     'info' => t('Newsroom Summary Blocks'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_related_content'] = array(
     'info' => t('Newsroom Related Content'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_admin_tools'] = array(
     'info' => t('Newsroom administration buttons'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_newsletter_subscription'] = array(
     'info' => t('Newsroom Newsletter Subscription'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_list_filter'] = array(
     'info' => t('Newsroom List Filter'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_proposal'] = array(
     'info' => t('News proposal'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_agenda_block'] = array(
     'info' => t('Newsroom agenda block'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
   );
   return $blocks;
 }
@@ -43,7 +50,7 @@ function nexteuropa_newsroom_block_info() {
 function nexteuropa_newsroom_block_view($delta = '') {
   switch ($delta) {
     case 'newsroom_summary_blocks':
-      $block['subject'] = _nexteuropa_newsroom_subject();
+      $block['subject'] = l(t('Newsroom'), NewsroomHelper::getNewsroomPageUrl('all'));
       $block['content'] = _nexteuropa_nexteuropa_get_summary_blocks();
       break;
 
@@ -93,7 +100,10 @@ function _nexteuropa_newsroom_agenda_block() {
 }
 
 /**
- * Implements hook_detect_social_media_reaction().
+ * Detects agenda block reaction.
+ *
+ * @return object
+ *   Taxonomy term.
  */
 function _nexteuropa_nexteuropa_agenda_block_reaction() {
   $type = NULL;
@@ -131,14 +141,20 @@ function _nexteuropa_nexteuropa_related_content() {
   $node = menu_get_object();
   $content = '';
   if ($node) {
-    $children_related_items = _nexteuropa_nexteuropa_get_related_content('field_related_content', $node);
+    $children_related_items = _nexteuropa_nexteuropa_get_related_content('field_newsroom_related_content', $node);
     $parent_related_items = _nexteuropa_nexteuropa_get_related_content('field_newsroom_parent_content', $node);
-    $parent_nid = count($parent_related_items) > 0 ? key($parent_related_items) : NULL;
-    if ($parent_related_items || $children_related_items) {
+    $brother_items = array();
+    $parent_item = NULL;
+    if (count($parent_related_items) > 0) {
+      $parent_item = $parent_related_items[0];
+      $brother_items = _nexteuropa_newsroom_get_related_children('field_newsroom_parent_content', $parent_item->id, $node->nid);
+    }
+
+    if ($parent_item || count($brother_items) > 0 || count($children_related_items) > 0) {
       $content = theme('newsroom_related_content', array(
-        'parent_items' => $parent_related_items,
+        'parent_item' => $parent_item,
         'current_item' => $node,
-        'brother_items' => _nexteuropa_newsroom_get_related_children('field_newsroom_parent_content', $parent_nid),
+        'brother_items' => $brother_items,
         'children_items' => $children_related_items,
       ));
     }
@@ -151,26 +167,34 @@ function _nexteuropa_nexteuropa_related_content() {
  *
  * @param string $field_name
  *   The mapping field.
- * @param string $nid
- *   The node id.
+ * @param int $parent_nid
+ *   The parent node id.
+ * @param int $current_nid
+ *   The curent node id.
  *
  * @return array
  *   Taxonomy ids.
  */
-function _nexteuropa_newsroom_get_related_children($field_name, $nid) {
+function _nexteuropa_newsroom_get_related_children($field_name, $parent_nid, $current_nid) {
   // Let's initiate term_ids to field value, in case we can't map it.
   $items = array();
-  if ($nid) {
+  if ($parent_nid) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
-        ->fieldCondition($field_name, 'target_id', $nid)
+        ->fieldCondition($field_name, 'target_id', $parent_nid)
         ->execute();
     $result = $query->execute();
     if (isset($result['node'])) {
       $ids = array_keys($result['node']);
 
       foreach ($ids as $id) {
-        $items[$id] = _nexteuropa_newsroom_get_node_title($id);
+        // We exclude the current item.
+        if ($id != $current_nid) {
+          $std = new stdClass();
+          $std->id = $id;
+          $std->title = _nexteuropa_newsroom_get_node_title($id);
+          $items[] = $std;
+        }
       }
     }
   }
@@ -193,14 +217,23 @@ function _nexteuropa_nexteuropa_get_related_content($field_name, $node) {
   $field = isset($node->$field_name) ? $node->$field_name : NULL;
   if ($field && isset($field[LANGUAGE_NONE])) {
     foreach ($field[LANGUAGE_NONE] as $item) {
-      $items[$item['target_id']] = isset($item['entity']) ? $item['entity']->title : _nexteuropa_newsroom_get_node_title($item['target_id']);
+      $std = new stdClass();
+      $std->id = $item['target_id'];
+      $std->title = _nexteuropa_newsroom_get_node_title($item['target_id']);
+      $items[] = $std;
     }
   }
   return $items;
 }
 
 /**
- * Helper function to get the node title without loading the whole node object.
+ * Gets the node title without loading the whole node object.
+ *
+ * @param int $nid
+ *   Node nid.
+ *
+ * @return string
+ *   Node title.
  */
 function _nexteuropa_newsroom_get_node_title($nid) {
   $cache_key = 'newsroom:node_title:' . $nid;
@@ -216,16 +249,6 @@ function _nexteuropa_newsroom_get_node_title($nid) {
     cache_set($cache_key, $node_title, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_node_title', 3600));
   }
   return $node_title;
-}
-
-/**
- * Returns the Newsroom title and link depending by taxonomy terms.
- *
- * @return string
- *   Subject.
- */
-function _nexteuropa_newsroom_subject() {
-  return l(t('Newsroom'), NewsroomHelper::getNewsroomPageUrl('all'));
 }
 
 /**
@@ -256,7 +279,7 @@ function _nexteuropa_newsroom_tools() {
     if (user_access(NEXTEUROPA_NEWSROOM_IMPORT_ACCESS)) {
       $links['reimport'] = array(
         'text' => '<span class="glyphicon glyphicon-refresh"></span> Re-import from the Newsroom',
-        'path' => 'news-import/' . $newsroom_id . '/reimport',
+        'path' => 'newsroom-import/item/' . $newsroom_id,
         'options' => array(
           'html' => TRUE,
           'attributes' => array('class' => 'btn btn-danger'),
@@ -381,8 +404,11 @@ function _nexteuropa_newsroom_list_filter() {
 /**
  * Converts an option array from tid based to name based.
  *
+ * @param array $options
+ *   Options list.
+ *
  * @return array
- *   List of options.
+ *   Normalized option list.
  */
 function _nexteuropa_newsroom_options_tid_to_name($options) {
   $options_names = array();
@@ -417,13 +443,13 @@ function _nexteuropa_newsroom_block_news_proposal() {
   $node = menu_get_object();
 
   if ($node) {
-    if (isset($node->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']) && !empty($node->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'])) {
-      $topic_id = $node->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'];
+    if (isset($node->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid']) && !empty($node->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'])) {
+      $topic_id = $node->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'];
     }
     elseif (isset($node->og_group_ref[LANGUAGE_NONE][0]['target_id']) && !empty($node->og_group_ref[LANGUAGE_NONE][0]['target_id'])) {
       $group = node_load($node->og_group_ref[LANGUAGE_NONE][0]['target_id']);
-      if (isset($group->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']) && !empty($group->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'])) {
-        $topic_id = $group->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'];
+      if (isset($group->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid']) && !empty($group->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'])) {
+        $topic_id = $group->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'];
       }
     }
   }
@@ -439,8 +465,8 @@ function _nexteuropa_newsroom_block_news_proposal() {
       if (isset($url_tokens[2]) && is_numeric($url_tokens[2])) {
         $taxonomy_term = taxonomy_term_load($url_tokens[2]);
 
-        if (isset($taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid']) && !empty($taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'])) {
-          $topic_id = $taxonomy_term->field_associated_newsroom_topic[LANGUAGE_NONE][0]['tid'];
+        if (isset($taxonomy_term->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid']) && !empty($taxonomy_term->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'])) {
+          $topic_id = $taxonomy_term->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'];
         }
       }
     }

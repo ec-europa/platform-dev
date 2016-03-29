@@ -181,19 +181,4 @@ class nexteuropa_newsroom_handler_argument_term_node_tid_depth extends views_han
     $this->query->add_where(0, "$this->table_alias.$this->real_field", $subquery, 'IN');
   }
 
-  /**
-   * Return title.
-   *
-   * @return string
-   *   Title string.
-   */
-  public function title() {
-    $term = taxonomy_term_load($this->argument);
-    if (!empty($term)) {
-      return check_plain($term->name);
-    }
-    // TODO review text.
-    return 'test';
-  }
-
 }

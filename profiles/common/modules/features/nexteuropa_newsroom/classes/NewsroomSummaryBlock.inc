@@ -112,11 +112,11 @@ class NewsroomSummaryBlock {
         if ($entity->type == 'newsroom_selection') {
 
           if (!empty($entity->field_newsroom_topic_operator)) {
-            $topic_operator = $entity->field_newsroom_topic_operator['und'][0]['value'];
+            $topic_operator = $entity->field_newsroom_topic_operator[LANGUAGE_NONE][0]['value'];
           }
 
           // Get topics from newsroom selection.
-          $topic_config = field_get_items('node', $entity, 'field_selected_topics');
+          $topic_config = field_get_items('node', $entity, 'field_newsroom_selected_topics');
           $selected_topics = array();
           if ($topic_config) {
             foreach ($topic_config as $term_ref) {
@@ -125,16 +125,16 @@ class NewsroomSummaryBlock {
           }
 
           // Get types from newsroom selection.
-          $type_config = field_get_items('node', $entity, 'field_selected_types');
+          $type_config = field_get_items('node', $entity, 'field_newsroom_selected_types');
           if ($type_config) {
             foreach ($type_config as $term_ref) {
               $selected_types[] = $term_ref['tid'];
             }
           }
         }
-        elseif (isset($entity->field_associated_newsroom_topic) && !empty($entity->field_associated_newsroom_topic)) {
+        elseif (isset($entity->field_newsroom_associated_topic) && !empty($entity->field_newsroom_associated_topic)) {
           // If it has the associated field, try to load topic.
-          $selected_topics = array($entity->field_associated_newsroom_topic['und'][0]['tid']);
+          $selected_topics = array($entity->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid']);
         }
       }
 
@@ -148,7 +148,6 @@ class NewsroomSummaryBlock {
     $this->setTopics($config['topic']);
     $this->setTypes($config['type']);
     $this->setOperator($config['topic_operator']);
-    $this->getOperator($config['topic_operator']);
   }
 
   /**
@@ -180,9 +179,9 @@ class NewsroomSummaryBlock {
     }
 
     // Check if selection config is set.
-    if (isset($entity->field_associated_newsroom_select) && !empty($entity->field_associated_newsroom_select)) {
+    if (isset($entity->field_newsroom_associated_select) && !empty($entity->field_newsroom_associated_select)) {
       // If it has the selection field, try to load config.
-      $entity = node_load($entity->field_associated_newsroom_select['und'][0]['target_id']);
+      $entity = node_load($entity->field_newsroom_associated_select[LANGUAGE_NONE][0]['target_id']);
     }
 
     return $entity;
@@ -195,10 +194,11 @@ class NewsroomSummaryBlock {
    *   The content of the block.
    */
   public function generateContent() {
-
     $this->getFilters();
     $events_terms = NewsroomHelper::getEventsTermsIds();
     $blocks = array();
+    $output = NULL;
+
     foreach ($this->getTypes() as $key => $type) {
       if (in_array($type->tid, $events_terms)) {
         continue;
@@ -210,8 +210,11 @@ class NewsroomSummaryBlock {
     $blocks[] = new NewsroomBlockAgenda(NULL, $this->getTopics(), $this->getOperator());
 
     usort($blocks, array('NewsroomSummaryBlock', 'sortBlocks'));
-    return theme('newsroom_summary', array(
-      'items' => $blocks,
+    foreach ($blocks as $block) {
+      $output .= $block->generateContent();
+    }
+    return theme('newsroom_summary_block', array(
+      'content' => $output,
       'rss' => $this->generateRss(),
     ));
   }

@@ -33,21 +33,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Helper function to serialize PDO object into an array.
-   */
-  public static function convertPdoToArray($query) {
-    $data = array();
-    if ($query) {
-      while ($result = $query->fetchAssoc()) {
-        $data[] = $result;
-      }
-    }
-
-    return $data;
-  }
-
-  /**
-   * Returns newsroom URL.
+   * Generates newsroom page URL.
    *
    * @return string
    *   Newsroom URL.
@@ -57,7 +43,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Returns newsroom agenda URL.
+   * Generates newsroom agenda URL.
    *
    * @return string
    *   Newsroom agenda URL.
@@ -67,7 +53,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Prepare options for the content type select.
+   * Prepares options for the content type select.
    *
    * @param string $type
    *   Type of the options to generate.
@@ -99,10 +85,12 @@ class NewsroomHelper {
   }
 
   /**
-   * Call newsroom items import with the certain URL.
+   * Calls feed importer with the certain URL.
    *
    * @param string $url
-   *   URL to call.
+   *   RSS feed URL to call.
+   * @param string $importer_id
+   *   Importer ID.
    */
   public static function runFeedImporter($url, $importer_id) {
     $source = feeds_source($importer_id);
@@ -117,7 +105,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Restore default URL of importer.
+   * Restores default URL of importer.
    *
    * @param string $importer_id
    *   Importer ID.
@@ -143,7 +131,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get newsroom item by Id.
+   * Gets newsroom item by original newsroom Id.
    */
   public static function getNodeByNewsroomItemId($newsroom_id = 0) {
     $newsroom_data = &drupal_static(__FUNCTION__);
@@ -168,6 +156,12 @@ class NewsroomHelper {
 
   /**
    * Finds a menu item for a given path.
+   *
+   * @param string $path
+   *   Drupal intermal url.
+   *
+   * @return array
+   *   Menu item.
    */
   public static function getMenuByPath($path) {
     $cache_key = 'get_menu_by_path' . md5($path);
@@ -180,14 +174,14 @@ class NewsroomHelper {
         ->fields('ml')
         ->condition('ml.link_path', $path)
         ->execute();
-      $data = NewsroomHelper::convertPdoToArray($query);
+      $data = $query->fetchAll();
       cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_menu_by_path', 3600));
     }
     return $data;
   }
 
   /**
-   * Helper to retrieve a mlid for a given path.
+   * Retrieves nodes associated with topics.
    *
    * @param string $topic_ids
    *   Topic term ids.
@@ -203,11 +197,11 @@ class NewsroomHelper {
       $data = $cache->data;
     }
     else {
-      $query = db_select('field_data_field_associated_newsroom_topic', 'f')
+      $query = db_select('field_data_field_newsroom_associated_topic', 'f')
         ->fields('f')
-        ->condition('f.field_associated_newsroom_topic_tid', $topic_ids)
+        ->condition('f.field_newsroom_associated_topic_tid', $topic_ids)
         ->execute();
-      $data = NewsroomHelper::convertPdoToArray($query);
+      $data = $query->fetchAll();
 
       cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_topic_entities', 3600));
     }
@@ -215,51 +209,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get combined node newsroom topics.
-   *
-   * @param object $node_wrapper
-   *   Node wrapper.
-   *
-   * @return array
-   *   Newsroom topics.
-   */
-  public static function getNodeTopics($node_wrapper) {
-    $nid = $node_wrapper->__isset('nid') ? $node_wrapper->nid->value() : NULL;
-    $cache_key = 'get_node_topics:' . $nid;
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
-      $topics = $cache->data;
-    }
-    else {
-      $primary_topics = $node_wrapper->__isset('field_primary_topic') ? $node_wrapper->field_primary_topic->value() : NULL;
-      if (!empty($primary_topics)) {
-        $primary_topics = !is_array($primary_topics) ? array($primary_topics) : $primary_topics;
-      }
-      else {
-        $primary_topics = array();
-      }
-
-      // Get regular topics.
-      $topics = $node_wrapper->__isset('field_newsroom_topics') ? $node_wrapper->field_newsroom_topics->value() : NULL;
-      if (!empty($topics)) {
-        $topics = !is_array($topics) ? array($topics) : $topics;
-      }
-      else {
-        $topics = array();
-      }
-
-      $topics = array_merge($primary_topics, $topics);
-
-      cache_set($cache_key, $topics, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_get_node_topics', 3600));
-    }
-    return $topics;
-  }
-
-  /**
-   * Active menu for newsroom items.
-   *
-   * Returns wich menu item should be active for a newsroom item
-   * based on the assigned topics.
+   * Returns active menu item for a newsroom item.
    */
   public static function fetchActiveMenu($topic_id) {
     $cache_key = 'fetch_active_menu' . $topic_id;
@@ -269,18 +219,15 @@ class NewsroomHelper {
     }
     else {
       $path = FALSE;
-
       // Check if they are added to menu.
       $menu_items = array();
       // Fetch entities associated to topic using the special field.
       $topic_entities = NewsroomHelper::getNodesAssociatedToTopics($topic_id);
-
       if (count($topic_entities) > 0) {
         foreach ($topic_entities as $entity) {
-          // Could use entity_uri() but we would have to load the full entity...
-          $menu_link_items = NewsroomHelper::getMenuByPath(str_replace('_', '/', $entity['entity_type']) . '/' . $entity['entity_id']);
-
-          if ($menu_link_items !== FALSE) {
+          // Could use entity_uri() but we would have to load the full entity.
+          $menu_link_items = NewsroomHelper::getMenuByPath('taxonomy/term/' . $entity->entity_id);
+          if (!empty($menu_link_items)) {
             foreach ($menu_link_items as $menu_item) {
               $menu_items[] = $menu_item;
             }
@@ -291,36 +238,35 @@ class NewsroomHelper {
       if (count($menu_items) > 0) {
         // Favor terms over nodes and lower entity ID in case we have multiple.
         usort($menu_items, function ($a, $b) {
-          if ($a['router_path'] == 'taxonomy/term/%' && $b['router_path'] == 'node/%') {
+          if ($a->router_path == 'taxonomy/term/%' && $b->router_path == 'node/%') {
             return -1;
           }
-          elseif ($a['router_path'] == 'node/%' && $b['router_path'] == 'taxonomy/term/%') {
+          elseif ($a->router_path == 'node/%' && $b->router_path == 'taxonomy/term/%') {
             return 1;
           }
           else {
-            if ($a['plid'] == $b['plid']) {
-              if ($a['weight'] == $b['weight']) {
-                if ($a['mlid'] == $b['mlid']) {
+            if ($a->plid == $b->plid) {
+              if ($a->weight == $b->weight) {
+                if ($a->mlid == $b->mlid) {
                   return 0;
                 }
                 else {
-                  return $a['mlid'] < $b['mlid'] ? -1 : 1;
+                  return $a->mlid < $b->mlid ? -1 : 1;
                 }
               }
               else {
-                return $a['weight'] < $b['weight'] ? -1 : 1;
+                return $a->weight < $b->weight ? -1 : 1;
               }
             }
             else {
-              return $a['plid'] < $b['plid'] ? -1 : 1;
+              return $a->plid < $b->plid ? -1 : 1;
             }
           }
         });
 
         $menu_item_link = array_shift($menu_items);
-        $path = $menu_item_link['link_path'];
+        $path = $menu_item_link->link_path;
       }
-
       cache_set($cache_key, $path, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_fetch_active_menu', 3600));
     }
 
@@ -328,7 +274,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Try to resolve each taxonomy term with a corresponding ID to map.
+   * Tries to resolve each taxonomy term with a corresponding ID to map.
    *
    * @param string $field_name
    *   The mapping field.
@@ -364,7 +310,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get events Terms ids.
+   * Gets events Terms ids.
    */
   public static function getEventsTermsIds() {
     return NewsroomHelper::getTaxonomyTermFromField('field_newsroom_type',
@@ -390,7 +336,7 @@ class NewsroomHelper {
     else {
       $newsroom_type_vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
       $terms = array();
-      if (is_object($newsroom_type_vocabulary) && $newsroom_type_vocabulary !== FALSE) {
+      if ($newsroom_type_vocabulary) {
         $terms = taxonomy_get_tree($newsroom_type_vocabulary->vid, 0, 1, TRUE);
         foreach ($terms as $key => $term) {
           $test = i18n_get_object('taxonomy_term', $term->tid);
@@ -407,9 +353,6 @@ class NewsroomHelper {
 
   /**
    * Returns universe URL.
-   *
-   * @param string $universe_id
-   *   Unique universe ID.
    *
    * @return string
    *   Universe URL.
@@ -435,15 +378,10 @@ class NewsroomHelper {
     // Get instances per field.
     $instances = array();
     if ($type) {
-      $content_types = node_type_get_types();
       $field_name = 'field_associated_newsroom_' . $type;
-      $instances = array();
-      // We loop through the list of content types to find all the instances.
-      foreach ($content_types as $machine_name => $content_type) {
-        $exist = field_info_instance('node', $field_name, $machine_name);
-        if ($exist !== NULL) {
-          $instances[] = $exist['bundle'];
-        }
+      $mappings = field_info_field_map();
+      if (isset($mappings[$field_name]['bundles']['node'])) {
+        $instances = $mappings[$field_name]['bundles']['node'];
       }
     }
     return $instances;
@@ -463,7 +401,7 @@ class NewsroomHelper {
     }
     else {
       $taxonomy_terms = array();
-      foreach($vocabularies as $vocabulary_name) {
+      foreach ($vocabularies as $vocabulary_name) {
         if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY) {
           $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTypes());
         }
@@ -544,7 +482,7 @@ class NewsroomHelper {
    *   It is a new item or not.
    */
   public static function isNewItem($created, $nid) {
-    return user_is_logged_in() && $created > time() - 14 * 86400 && !node_last_viewed($nid);
+    return user_is_logged_in() && $created > time() - variable_get('newsroom_days_number_for_new_user', 14) * 86400 && !node_last_viewed($nid);
   }
 
   /**
@@ -632,21 +570,21 @@ class NewsroomHelper {
    *   Newsroom Universe ID info.
    */
   public static function getUniverseIdInputInfo($newsroom_universe_id = NULL) {
-   // After initital setup disable Universe ID field.
-   $universe_id = array();
-   if (!empty($newsroom_universe_id)) {
-     $universe_id['disabled'] = TRUE;
-     $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
-     $universe_id['class'] = 'selected';
-     $universe_id['collapsing'] = FALSE;
-   }
-   else {
-     $universe_id['disabled'] = FALSE;
-     $universe_id['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
-     $universe_id['class'] = 'not-selected';
-     $universe_id['collapsing'] = TRUE;
-   }
-   return $universe_id;
+    // After initital setup disable Universe ID field.
+    $universe_id = array();
+    if (!empty($newsroom_universe_id)) {
+      $universe_id['disabled'] = TRUE;
+      $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
+      $universe_id['class'] = 'selected';
+      $universe_id['collapsing'] = FALSE;
+    }
+    else {
+      $universe_id['disabled'] = FALSE;
+      $universe_id['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
+      $universe_id['class'] = 'not-selected';
+      $universe_id['collapsing'] = TRUE;
+    }
+    return $universe_id;
   }
 
   /**
@@ -667,7 +605,7 @@ class NewsroomHelper {
    * Get Newsroom Type Vocabulary.
    *
    * @return object
-   *  Newsroom Type Vocabulary.
+   *   Newsroom Type Vocabulary.
    */
   public static function getNewsroomTypeVocabulary() {
     $data = &drupal_static(__FUNCTION__);
@@ -681,7 +619,7 @@ class NewsroomHelper {
    * Get Newsroom Topic Vocabulary.
    *
    * @return object
-   *  Newsroom Topic Vocabulary.
+   *   Newsroom Topic Vocabulary.
    */
   public static function getNewsroomTopicVocabulary() {
     $data = &drupal_static(__FUNCTION__);
@@ -695,7 +633,7 @@ class NewsroomHelper {
    * Get Newsroom topics.
    *
    * @return array
-   *  Newsroom topics.
+   *   Newsroom topics.
    */
   public static function getNewsroomTopics() {
     $data = &drupal_static(__FUNCTION__);
@@ -710,7 +648,7 @@ class NewsroomHelper {
    * Get Newsroom types.
    *
    * @return array
-   *  Newsroom topics.
+   *   Newsroom topics.
    */
   public static function getNewsroomTypes() {
     $data = &drupal_static(__FUNCTION__);
@@ -725,13 +663,91 @@ class NewsroomHelper {
    * Returns newsroom URL.
    *
    * @param string $url_part
-   *   Additional part of URL
+   *   Additional part of URL.
    *
    * @return string
    *   URL.
    */
   public static function getNewsroomUrl($url_part) {
     return NewsroomHelper::getUniverseUrl() . $url_part;
+  }
+
+  /**
+   * Helper function to get the enabled languages.
+   */
+  public static function getEnabledLanguages() {
+    $lang_keys = &drupal_static(__FUNCTION__);
+    if (!isset($lang_keys)) {
+      $lang = locale_language_list();
+      $lang_keys = array_keys($lang);
+      $eng = array_search('en', $lang_keys);
+      if ($eng) {
+        unset($lang_keys[$eng]);
+        array_unshift($lang_keys, 'en');
+      }
+    }
+    return $lang_keys;
+  }
+
+  /**
+   * Returns the current formated date.
+   *
+   * @param string $format
+   *   Format string.
+   * @param int $timestamp
+   *   Timestamp.
+   *
+   * @return string
+   *   Formated date string.
+   */
+  public static function getFormatedDate($format = 'Y-m-d', $timestamp = NULL) {
+    $timestamp = !empty($timestamp) ? $timestamp : time();
+    return format_date($timestamp, 'custom', $format);
+  }
+
+  /**
+   * Helper function to delete translations.
+   *
+   * @param Entity $entity
+   *   Entity : taxonomy term or node.
+   * @param int $entity_id
+   *   Entity id.
+   * @param string $lang
+   *   Language string.
+   */
+  public static function deleteEntityTranslations(Entity $entity, $entity_id, $lang = FALSE) {
+    $languages = !$lang ? language_list() : array($lang);
+    $handler = entity_translation_get_handler('node', $entity);
+
+    foreach ($languages as $language) {
+      // Delete translation for the current language.
+      $handler->removeTranslation($language->language);
+      field_attach_presave('node', $entity);
+      field_attach_update('node', $entity);
+    }
+
+    if (module_exists('entitycache')) {
+      cache_clear_all($entity_id, 'cache_entity_node');
+    }
+  }
+
+  /**
+   * Validate if a given Newsroom Universe exists.
+   *
+   * @param string $universe_id
+   *   Newsroom Universe ID.
+   *
+   * @return bool
+   *   Newsroom Universe exists or not.
+   */
+  public static function validateUniverse($universe_id = NULL) {
+    if ($universe_id) {
+      // logout.cfm is used because it is always available if a universe exists.
+      $test = drupal_http_request(NEXTEUROPA_NEWSROOM_URL . $universe_id . '/logout.cfm');
+      return $test->code == 200;
+    }
+
+    return FALSE;
   }
 
 }

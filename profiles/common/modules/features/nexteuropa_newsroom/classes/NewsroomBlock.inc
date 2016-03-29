@@ -12,20 +12,6 @@ class NewsroomBlock extends NewsroomBlockBase {
   protected $items = array();
 
   /**
-   * Getter.
-   */
-  public function getItems() {
-    return $this->items;
-  }
-
-  /**
-   * Setter.
-   */
-  public function setItems($value) {
-    $this->items = $value;
-  }
-
-  /**
    * Contructor of NewsroomBlock class.
    *
    * @param object $type
@@ -43,21 +29,35 @@ class NewsroomBlock extends NewsroomBlockBase {
   }
 
   /**
-   * Getter.
+   * Gets block items.
+   */
+  public function getItems() {
+    return $this->items;
+  }
+
+  /**
+   * Sets block items.
+   */
+  public function setItems($value) {
+    $this->items = $value;
+  }
+
+  /**
+   * Gets block title.
    */
   public function getTitle() {
     return NewsroomHelper::getTermTranslatedName($this->getType());
   }
 
   /**
-   * Setter.
+   * Gets type URL.
    */
   public function getTypeUrl() {
     return pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType()));
   }
 
   /**
-   * Setter.
+   * Gets topic URL.
    */
   public function getTopicUrl() {
     $url = 'all';
@@ -71,7 +71,7 @@ class NewsroomBlock extends NewsroomBlockBase {
   }
 
   /**
-   * Setter.
+   * Sets is block highlighted.
    */
   public function setHighlighted() {
     $this->highlighted = isset($this->getType()->field_newsroom_highlighted[LANGUAGE_NONE][0]['value']) ? $this->getType()->field_newsroom_highlighted[LANGUAGE_NONE][0]['value'] : 0;
@@ -126,6 +126,7 @@ class NewsroomBlock extends NewsroomBlockBase {
 
     foreach ($result as $key => $item) {
       $result[$key]->new = NewsroomHelper::isNewItem($item->created, $item->nid);
+      $result[$key]->created = NewsroomHelper::getFormatedDate('d/m/Y', $item->created);
     }
 
     $this->setItems($result);
@@ -135,7 +136,7 @@ class NewsroomBlock extends NewsroomBlockBase {
    * Generates block content.
    */
   public function generateContent() {
-    return theme('newsroom_summary_block', array(
+    return theme('newsroom_summary_block_wrapper', array(
       'content' => $this->getContent(),
       'css_classes' => $this->getCssClasses(),
       'title' => $this->getTitle(),

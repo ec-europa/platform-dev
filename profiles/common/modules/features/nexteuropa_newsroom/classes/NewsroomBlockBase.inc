@@ -34,77 +34,77 @@ abstract class NewsroomBlockBase {
   }
 
   /**
-   * Getter.
+   * Gets is block highlighted.
    */
   public function getHighlighted() {
     return $this->highlighted;
   }
 
   /**
-   * Getter.
+   * Gets the latest agenda date.
    */
   public function getLatestDate() {
-    return $this->lastest_date;
+    return $this->lastestDate;
   }
 
   /**
-   * Setter.
+   * Sets the latest agenda date.
    */
   public function setLatestDate($value) {
-    $this->lastest_date = $value;
+    $this->lastestDate = $value;
   }
 
   /**
-   * Getter.
+   * Gets is block agenda.
    */
   public function getIsAgenda() {
-    return $this->is_agenda;
+    return $this->isAgenda;
   }
 
   /**
-   * Setter.
+   * Sets is bock agenda.
    */
   public function setIsAgenda($value) {
-    $this->is_agenda = $value;
+    $this->isAgenda = $value;
   }
 
   /**
-   * Getter.
+   * Gets query operator.
    */
   public function getOperator() {
     return $this->operator;
   }
 
   /**
-   * Setter.
+   * Sets query operator.
    */
   public function setOperator($value) {
     $this->operator = $value;
   }
 
   /**
-   * Getter.
+   * Gets type.
    */
   public function getType() {
     return $this->type;
   }
 
   /**
-   * Setter.
+   * Sets type.
    */
   public function setType($value) {
     $this->type = $value;
   }
 
   /**
-   * Getter.
+   * Gets topics.
    */
   public function getTopics() {
     return $this->topics;
   }
 
   /**
-   * Setter.
+   * Sets topics.
    */
   public function setTopics($value) {
     $this->topics = $value;
@@ -128,14 +128,14 @@ abstract class NewsroomBlockBase {
   }
 
   /**
-   * Setter.
+   * Gets type URL.
    */
   public function getTypeUrl() {
     return $this->getType() ? pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType())) : 'all';
   }
 
   /**
-   * Setter.
+   * Gets topic URL.
    */
   public function getTopicUrl() {
     $url = 'all';

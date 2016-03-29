@@ -71,16 +71,16 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_service' => 'newsroom_service',
   );
-  /* Filter criterion: Taxonomy term: Service type (field_service_type) */
-  $handler->display->display_options['filters']['field_service_type_value']['id'] = 'field_service_type_value';
-  $handler->display->display_options['filters']['field_service_type_value']['table'] = 'field_data_field_service_type';
-  $handler->display->display_options['filters']['field_service_type_value']['field'] = 'field_service_type_value';
-  $handler->display->display_options['filters']['field_service_type_value']['value'] = 'Newsletter';
-  /* Filter criterion: Taxonomy term: Service active (field_service_active) */
-  $handler->display->display_options['filters']['field_service_active_value']['id'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['table'] = 'field_data_field_service_active';
-  $handler->display->display_options['filters']['field_service_active_value']['field'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['value'] = 'Active';
+  /* Filter criterion: Taxonomy term: Service type (field_newsroom_service_type) */
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['id'] = 'field_newsroom_service_type_value';
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['table'] = 'field_data_field_newsroom_service_type';
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['field'] = 'field_newsroom_service_type_value';
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['value'] = 'Newsletter';
+  /* Filter criterion: Taxonomy term: Service active (field_newsroom_service_active) */
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['id'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['table'] = 'field_data_field_newsroom_service_active';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['field'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['value'] = 'Active';
 
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
@@ -198,14 +198,14 @@ function nexteuropa_newsroom_views_default_views() {
     'display_type' => 'teaser',
   );
   /* Field: Content: Illustrative Image */
-  $handler->display->display_options['fields']['field_illustrative_image']['id'] = 'field_illustrative_image';
-  $handler->display->display_options['fields']['field_illustrative_image']['table'] = 'field_data_field_illustrative_image';
-  $handler->display->display_options['fields']['field_illustrative_image']['field'] = 'field_illustrative_image';
-  $handler->display->display_options['fields']['field_illustrative_image']['label'] = '';
-  $handler->display->display_options['fields']['field_illustrative_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_illustrative_image']['hide_empty'] = TRUE;
-  $handler->display->display_options['fields']['field_illustrative_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_illustrative_image']['settings'] = array(
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['id'] = 'field_newsroom_illustrative_img';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['table'] = 'field_data_field_newsroom_illustrative_img';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['field'] = 'field_newsroom_illustrative_img';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['label'] = '';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['hide_empty'] = TRUE;
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['settings'] = array(
     'image_style' => 'newsroom_style',
     'image_link' => 'content',
   );
@@ -235,7 +235,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_newsroom_item_date']['label'] = '';
   $handler->display->display_options['fields']['field_newsroom_item_date']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_newsroom_item_date']['settings'] = array(
-    'format_type' => 'date_only',
+    'format_type' => 'newsroom_date_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -258,13 +258,13 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['path'] = '[field_newsroom_item_main_link]';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Content: Teaser */
-  $handler->display->display_options['fields']['field_teaser']['id'] = 'field_teaser';
-  $handler->display->display_options['fields']['field_teaser']['table'] = 'field_data_field_teaser';
-  $handler->display->display_options['fields']['field_teaser']['field'] = 'field_teaser';
-  $handler->display->display_options['fields']['field_teaser']['label'] = '';
-  $handler->display->display_options['fields']['field_teaser']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_teaser']['alter']['text'] = '[field_teaser] [nothing]';
-  $handler->display->display_options['fields']['field_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_newsroom_teaser']['id'] = 'field_newsroom_teaser';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['table'] = 'field_data_field_newsroom_teaser';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['field'] = 'field_newsroom_teaser';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_newsroom_teaser']['alter']['text'] = '[field_newsroom_teaser] [nothing]';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -283,7 +283,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['term_node_tid_depth']['summary_options']['base_path'] = 'neswroom/';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['summary_options']['base_path'] = 'newsroom/';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['term_node_tid_depth']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['validate']['type'] = 'taxonomy_term';
@@ -364,7 +364,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['argument'] = 'all';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['term_node_tid_depth']['summary_options']['base_path'] = 'neswroom/';
+  $handler->display->display_options['arguments']['term_node_tid_depth']['summary_options']['base_path'] = 'newsroom/';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['arguments']['term_node_tid_depth']['specify_validation'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['validate']['type'] = 'taxonomy_term';
@@ -1097,7 +1097,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_newsroom_item_date']['element_type'] = '0';
   $handler->display->display_options['fields']['field_newsroom_item_date']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_newsroom_item_date']['settings'] = array(
-    'format_type' => 'date_only',
+    'format_type' => 'newsroom_date_only',
     'fromto' => 'value',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -1121,7 +1121,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['created']['date_format'] = 'custom';
   $handler->display->display_options['fields']['created']['custom_date_format'] = 'U';
-  $handler->display->display_options['fields']['created']['second_date_format'] = 'date_only';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'newsroom_date_only';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -1159,17 +1159,17 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['validate_options']['type'] = 'tids';
   $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['depth'] = '0';
   $handler->display->display_options['arguments']['nexteuropa_newsroom_term_node_tid_depth']['break_phrase'] = TRUE;
-  /* Contextual filter: Content: Highlighted Newsroom Topics (field_highlighted_newsroom_topic) */
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['id'] = 'field_highlighted_newsroom_topic_tid';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['table'] = 'field_data_field_highlighted_newsroom_topic';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['field'] = 'field_highlighted_newsroom_topic_tid';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['summary_options']['items_per_page'] = '25';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['specify_validation'] = TRUE;
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate']['type'] = 'taxonomy_term';
-  $handler->display->display_options['arguments']['field_highlighted_newsroom_topic_tid']['validate_options']['vocabularies'] = array(
+  /* Contextual filter: Content: Highlighted Newsroom Topics (field_newsroom_highlighted_topic) */
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['id'] = 'field_newsroom_highlighted_topic_tid';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['table'] = 'field_data_field_newsroom_highlighted_topic';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['field'] = 'field_newsroom_highlighted_topic_tid';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['summary']['number_of_records'] = '0';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['specify_validation'] = TRUE;
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['validate']['type'] = 'taxonomy_term';
+  $handler->display->display_options['arguments']['field_newsroom_highlighted_topic_tid']['validate_options']['vocabularies'] = array(
     'newsroom_topic' => 'newsroom_topic',
   );
   /* Filter criterion: Content: Published */
@@ -1532,16 +1532,16 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_service' => 'newsroom_service',
   );
-  /* Filter criterion: Taxonomy term: Service type (field_service_type) */
-  $handler->display->display_options['filters']['field_service_type_value']['id'] = 'field_service_type_value';
-  $handler->display->display_options['filters']['field_service_type_value']['table'] = 'field_data_field_service_type';
-  $handler->display->display_options['filters']['field_service_type_value']['field'] = 'field_service_type_value';
-  $handler->display->display_options['filters']['field_service_type_value']['value'] = 'Newsletter';
-  /* Filter criterion: Taxonomy term: Service active (field_service_active) */
-  $handler->display->display_options['filters']['field_service_active_value']['id'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['table'] = 'field_data_field_service_active';
-  $handler->display->display_options['filters']['field_service_active_value']['field'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['value'] = 'Active';
+  /* Filter criterion: Taxonomy term: Service type (field_newsroom_service_type) */
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['id'] = 'field_newsroom_service_type_value';
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['table'] = 'field_data_field_newsroom_service_type';
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['field'] = 'field_newsroom_service_type_value';
+  $handler->display->display_options['filters']['field_newsroom_service_type_value']['value'] = 'Newsletter';
+  /* Filter criterion: Taxonomy term: Service active (field_newsroom_service_active) */
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['id'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['table'] = 'field_data_field_newsroom_service_active';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['field'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['value'] = 'Active';
 
   /* Display: Collections */
   $handler = $view->new_display('entityreference', 'Collections', 'entityreference_3');
@@ -1623,10 +1623,10 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   /* Relationship: Entity Reference: Referencing entity */
-  $handler->display->display_options['relationships']['reverse_field_featured_item_taxonomy_term']['id'] = 'reverse_field_featured_item_taxonomy_term';
-  $handler->display->display_options['relationships']['reverse_field_featured_item_taxonomy_term']['table'] = 'node';
-  $handler->display->display_options['relationships']['reverse_field_featured_item_taxonomy_term']['field'] = 'reverse_field_featured_item_taxonomy_term';
-  $handler->display->display_options['relationships']['reverse_field_featured_item_taxonomy_term']['required'] = TRUE;
+  $handler->display->display_options['relationships']['reverse_field_newsroom_featured_item_taxonomy_term']['id'] = 'reverse_field_newsroom_featured_item_taxonomy_term';
+  $handler->display->display_options['relationships']['reverse_field_newsroom_featured_item_taxonomy_term']['table'] = 'node';
+  $handler->display->display_options['relationships']['reverse_field_newsroom_featured_item_taxonomy_term']['field'] = 'reverse_field_newsroom_featured_item_taxonomy_term';
+  $handler->display->display_options['relationships']['reverse_field_newsroom_featured_item_taxonomy_term']['required'] = TRUE;
   /* Field: Content: Newsroom Item Type */
   $handler->display->display_options['fields']['field_newsroom_item_type']['id'] = 'field_newsroom_item_type';
   $handler->display->display_options['fields']['field_newsroom_item_type']['table'] = 'field_data_field_newsroom_item_type';
@@ -1649,14 +1649,14 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['title']['element_type'] = 'h2';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   /* Field: Content: Illustrative Image */
-  $handler->display->display_options['fields']['field_illustrative_image']['id'] = 'field_illustrative_image';
-  $handler->display->display_options['fields']['field_illustrative_image']['table'] = 'field_data_field_illustrative_image';
-  $handler->display->display_options['fields']['field_illustrative_image']['field'] = 'field_illustrative_image';
-  $handler->display->display_options['fields']['field_illustrative_image']['label'] = '';
-  $handler->display->display_options['fields']['field_illustrative_image']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_illustrative_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_illustrative_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_illustrative_image']['settings'] = array(
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['id'] = 'field_newsroom_illustrative_img';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['table'] = 'field_data_field_newsroom_illustrative_img';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['field'] = 'field_newsroom_illustrative_img';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['label'] = '';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['settings'] = array(
     'image_style' => 'large',
     'image_link' => 'content',
   );
@@ -1667,16 +1667,16 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['created']['label'] = '';
   $handler->display->display_options['fields']['created']['exclude'] = TRUE;
   $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['created']['date_format'] = 'date_only';
-  $handler->display->display_options['fields']['created']['second_date_format'] = 'date_only';
+  $handler->display->display_options['fields']['created']['date_format'] = 'newsroom_date_only';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'newsroom_date_only';
   /* Field: Teaser */
-  $handler->display->display_options['fields']['field_teaser']['id'] = 'field_teaser';
-  $handler->display->display_options['fields']['field_teaser']['table'] = 'field_data_field_teaser';
-  $handler->display->display_options['fields']['field_teaser']['field'] = 'field_teaser';
-  $handler->display->display_options['fields']['field_teaser']['ui_name'] = 'Teaser';
-  $handler->display->display_options['fields']['field_teaser']['label'] = '';
-  $handler->display->display_options['fields']['field_teaser']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_teaser']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_newsroom_teaser']['id'] = 'field_newsroom_teaser';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['table'] = 'field_data_field_newsroom_teaser';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['field'] = 'field_newsroom_teaser';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['ui_name'] = 'Teaser';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['label'] = '';
+  $handler->display->display_options['fields']['field_newsroom_teaser']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_newsroom_teaser']['element_label_colon'] = FALSE;
   /* Field: Global: Custom text */
   $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
@@ -1685,9 +1685,9 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['text'] = '<div class="newsroom-featured-item">
       <div class="newsroom-type">[field_newsroom_item_type]</div>
       <div class="newsroom-title">[title]</div>
-      <div class="newsroom-image">[field_illustrative_image] </div>
+      <div class="newsroom-image">[field_newsroom_illustrative_img] </div>
       <div class="newsroom-date">[created]</div>
-      <div class="newsroom-teaser">[field_teaser]</div>
+      <div class="newsroom-teaser">[field_newsroom_teaser]</div>
       </div>';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
@@ -1699,7 +1699,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_term_data';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
-  $handler->display->display_options['arguments']['tid']['relationship'] = 'reverse_field_featured_item_taxonomy_term';
+  $handler->display->display_options['arguments']['tid']['relationship'] = 'reverse_field_newsroom_featured_item_taxonomy_term';
   $handler->display->display_options['arguments']['tid']['default_action'] = 'not found';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
@@ -1738,13 +1738,13 @@ function nexteuropa_newsroom_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Taxonomy term referencing Content from field_featured_item'),
+    t('Taxonomy term referencing Content from field_newsroom_featured_item'),
     t('<div class="newsroom-featured-item">
       <div class="newsroom-type">[field_newsroom_item_type]</div>
       <div class="newsroom-title">[title]</div>
-      <div class="newsroom-image">[field_illustrative_image] </div>
+      <div class="newsroom-image">[field_newsroom_illustrative_img] </div>
       <div class="newsroom-date">[created]</div>
-      <div class="newsroom-teaser">[field_teaser]</div>
+      <div class="newsroom-teaser">[field_newsroom_teaser]</div>
       </div>'),
     t('All'),
     t('Block'),
@@ -1811,11 +1811,11 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_service' => 'newsroom_service',
   );
-  /* Filter criterion: Taxonomy term: Service active (field_service_active) */
-  $handler->display->display_options['filters']['field_service_active_value']['id'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['table'] = 'field_data_field_service_active';
-  $handler->display->display_options['filters']['field_service_active_value']['field'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['value'] = 'Active';
+  /* Filter criterion: Taxonomy term: Service active (field_newsroom_service_active) */
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['id'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['table'] = 'field_data_field_newsroom_service_active';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['field'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['value'] = 'Active';
   /* Filter criterion: Taxonomy term: Basic mailing (field_newsroom_basic_mailing) */
   $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['id'] = 'field_newsroom_basic_mailing_value';
   $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['table'] = 'field_data_field_newsroom_basic_mailing';
@@ -1841,11 +1841,11 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_service' => 'newsroom_service',
   );
-  /* Filter criterion: Taxonomy term: Service active (field_service_active) */
-  $handler->display->display_options['filters']['field_service_active_value']['id'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['table'] = 'field_data_field_service_active';
-  $handler->display->display_options['filters']['field_service_active_value']['field'] = 'field_service_active_value';
-  $handler->display->display_options['filters']['field_service_active_value']['value'] = 'Active';
+  /* Filter criterion: Taxonomy term: Service active (field_newsroom_service_active) */
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['id'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['table'] = 'field_data_field_newsroom_service_active';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['field'] = 'field_newsroom_service_active_value';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['value'] = 'Active';
   /* Filter criterion: Taxonomy term: Basic mailing (field_newsroom_basic_mailing) */
   $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['id'] = 'field_newsroom_basic_mailing_value';
   $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['table'] = 'field_data_field_newsroom_basic_mailing';

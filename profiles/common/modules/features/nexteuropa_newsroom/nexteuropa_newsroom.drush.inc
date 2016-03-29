@@ -25,7 +25,7 @@ function nexteuropa_newsroom_drush_command() {
  */
 function drush_nexteuropa_newsroom_newsroom_init($universe_id = NULL) {
   if ($universe_id) {
-    if (_nexteuropa_newsroom_validate_universe($universe_id)) {
+    if (NewsroomHelper::validateUniverse($universe_id)) {
       variable_set('newsroom_universe_id', $universe_id);
       drush_print(dt('Newsroom Universe was found at: !universe', array('!universe' => NewsroomHelper::getUniverseUrl())));
       _nexteuropa_newsroom_create_default_importers('drush');
@@ -35,6 +35,6 @@ function drush_nexteuropa_newsroom_newsroom_init($universe_id = NULL) {
     }
   }
   else {
-    return drush_set_error('', 'No Newsroom Universe ID given.');
+    return drush_set_error(dt('No Newsroom Universe ID given.'));
   }
 }

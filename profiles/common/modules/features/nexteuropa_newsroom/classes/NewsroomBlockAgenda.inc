@@ -19,7 +19,7 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
   }
 
   /**
-   * Getter.
+   * Gets block title.
    */
   public function getTitle() {
     return t('Agenda');
@@ -38,7 +38,7 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
     else {
       $factory = new NewsroomAgendaFactory();
       $agenda = $factory->build(NewsroomAgenda::AGENDA_VIEW_SCHEDULE_BLOCK, $this->getType(), $this->getTopics(), new DateTime(), $this->getOperator());
-      $content = theme('newsroom_summary_block', array(
+      $content = theme('newsroom_summary_block_wrapper', array(
         'content' => $agenda->getBlockAgenda(),
         'css_classes' => $this->getCssClasses(),
         'title' => $this->getTitle(),

@@ -161,13 +161,18 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
           $item['url'] = 'node/' . $entity->nid;
 
           // If item is Teaser only.
-          $wrapper = entity_metadata_wrapper('node', $entity);
-          $click_through = _nexteuropa_newsroom_item_type_teaser_only_settings($wrapper);
+          $node_click_through = isset($entity->field_newsroom_teaser_only[LANGUAGE_NONE][0]['value']) ? $entity->field_newsroom_teaser_only[LANGUAGE_NONE][0]['value'] : NULL;
+          $type_id = isset($entity->field_newsroom_item_type[LANGUAGE_NONE][0]['tid']) ? $entity->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'] : NULL;
+          $type_wrapper = entity_metadata_wrapper('taxonomy_term', $type_id);
+          $click_through = NULL;
+          if ($type_wrapper && $type_wrapper->__isset('field_newsroom_direct_link')) {
+            $click_through = $type_wrapper->field_newsroom_direct_link->value();
+          }
 
           if ($click_through == NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE) {
             $item['url'] = $main_link_url;
           }
-          elseif ($wrapper->field_newsroom_teaser_only->value()) {
+          elseif ($node_click_through) {
             switch ($click_through) {
               case 'always':
                 $item['url'] = $main_link_url;

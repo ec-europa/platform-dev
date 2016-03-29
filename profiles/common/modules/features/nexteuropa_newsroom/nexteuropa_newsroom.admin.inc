@@ -145,13 +145,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     );
 
     foreach ($types as $tid => $type) {
-      $type_name = pathauto_cleanstring(drupal_strtolower($type->name));
+      $type_name = pathauto_cleanstring($type->name);
       $parents = taxonomy_get_parents($type->tid);
       $parent = '';
 
       if (!empty($parents)) {
         $parent = reset($parents);
-        $parent = pathauto_cleanstring(drupal_strtolower($parent->name)) . '/';
+        $parent = pathauto_cleanstring($parent->name) . '/';
       }
 
       $form['newsroom_paths'][$type_name . '_rootpath'] = array(
@@ -225,7 +225,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Newsroom universe settings'),
     '#collapsible' => TRUE,
-    '#collapsed' => $universe_id['collapsing'],
+    '#collapsed' => $universe_id_info['collapsing'],
   );
 
   $form['newsroom_universe'] = array(
@@ -362,7 +362,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       '#type' => 'submit',
       '#value' => t('Run the importers'),
       '#access' => TRUE,
-      '#submit' => array('nexteuropa_newsroom_admin_settings_form_run_importers'),
+      '#submit' => array('_nexteuropa_newsroom_create_default_importers'),
       '#weight' => 10,
     );
   }
@@ -448,7 +448,7 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
     // Remove every topic instance if requested.
     if ($check_values['delete']['topic'] == 1) {
-      _nexteuropa_newsroom_remove_fields('topic', 'all');
+      _nexteuropa_newsroom_admin_remove_fields('topic', 'all');
     }
     else {
       if (!empty($check_values['selected']['topic']) && !empty($check_values['check']['topic'][1])) {
@@ -457,13 +457,13 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
       }
       elseif (!empty($check_values['check']['topic'][0])) {
         // Remove instances.
-        _nexteuropa_newsroom_remove_fields('topic', $check_values['check']['topic'][0]);
+        _nexteuropa_newsroom_admin_remove_fields('topic', $check_values['check']['topic'][0]);
       }
     }
 
     // Remove every select instance if requested.
     if ($check_values['delete']['select'] == 1) {
-      _nexteuropa_newsroom_remove_fields('select', 'all');
+      _nexteuropa_newsroom_admin_remove_fields('select', 'all');
     }
     else {
       if (!empty($check_values['selected']['select']) && !empty($check_values['check']['select'][1])) {
@@ -472,19 +472,12 @@ function nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
       }
       elseif (!empty($check_values['check']['select'][0])) {
         // Remove instances.
-        _nexteuropa_newsroom_remove_fields('select', $check_values['check']['select'][0]);
+        _nexteuropa_newsroom_admin_remove_fields('select', $check_values['check']['select'][0]);
       }
     }
 
     cache_clear_all('newsroom:', 'cache', TRUE);
   }
-}
-
-/**
- * Run the importers.
- */
-function nexteuropa_newsroom_admin_settings_form_run_importers() {
-  _nexteuropa_newsroom_create_default_importers();
 }
 
 /**
@@ -514,7 +507,7 @@ function _nexteuropa_newsroom_delete_confirm($form, &$form_state) {
  * Implements hook_validate().
  */
 function nexteuropa_newsroom_universe_id_validate($element, &$form_state) {
-  if (!_nexteuropa_newsroom_validate_universe($form_state['values']['newsroom_universe_id'])) {
+  if (!NewsroomHelper::validateUniverse($form_state['values']['newsroom_universe_id'])) {
     form_error($element, t('You must enter a valid Newsroom Universe ID.'));
   }
 }
@@ -550,24 +543,20 @@ function nexteuropa_newsroom_type_root_validate($element, &$form_state) {
 }
 
 /**
- * Reset values in the path patterns field for the newsroom items.
+ * Callback: Reset values in the path patterns field for the newsroom items.
  */
 function _nexteuropa_newsroom_reset_paths($form, &$form_state) {
   $types = NewsroomHelper::getNewsroomTypes();
-
   foreach ($types as $tid => $type) {
-    $type_name = pathauto_cleanstring(drupal_strtolower($type->name));
+    $type_name = pathauto_cleanstring($type->name);
     $parents = taxonomy_get_parents($type->tid);
     $parent = '';
-
     if (!empty($parents)) {
       $parent = reset($parents);
-      $parent = pathauto_cleanstring(drupal_strtolower($parent->name)) . '/';
+      $parent = pathauto_cleanstring($parent->name) . '/';
     }
-
     $form['newsroom_paths'][$type_name . '_rootpath']['#value'] = $parent . $type_name;
   }
-
   return $form['newsroom_paths'];
 }
 
@@ -582,7 +571,7 @@ function _nexteuropa_newsroom_clean_cache() {
 }
 
 /**
- * Switch titles.
+ * Switch titles for newsroom items, topics, types, services.
  */
 function _nexteuropa_newsroom_toggle_title() {
   title_field_replacement_toggle('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'title');
@@ -592,4 +581,250 @@ function _nexteuropa_newsroom_toggle_title() {
   cache_clear_all('*', 'cache_field', TRUE);
   $commands[] = ajax_command_replace('#newsroom_toggle_title .feedback', '<div class="messages status">Titles switched</div>');
   return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Add fields to selected content types.
+ *
+ * @param string $type
+ *   Select or topic fo the moment.
+ * @param array $sel_ct
+ *   Array of content types machine names.
+ */
+function _nexteuropa_newsroom_admin_add_fields($type = 'topic', $sel_ct = array()) {
+  $field_name = 'field_associated_newsroom_' . $type;
+
+  if (!empty($sel_ct)) {
+    foreach ($sel_ct as $machine_name => $content_type) {
+      $exist = field_info_instance('node', $field_name, $machine_name);
+      // Check for existing instances.
+      if ($exist === NULL) {
+        $instance = array(
+          'field_name' => $field_name,
+          'entity_type' => 'node',
+          'bundle' => $machine_name,
+          'label' => 'Newsroom ' . $type,
+          'description' => '',
+          'required' => 0,
+        );
+        field_create_instance($instance);
+        // Call the field_group helper function, we surely have to update it.
+        _nexteuropa_newsroom_admin_field_group($machine_name, $field_name);
+        // Set a message to inform the user about the field instance creation.
+        drupal_set_message(t('Created instance of @field in the @bundle content type', array('@field' => $field_name, '@bundle' => $machine_name)));
+      }
+    }
+  }
+}
+
+/**
+ * Create a field_group to hold the newsroom fields in a vertical tab.
+ *
+ * @param string $machine_name
+ *   Content type machine name.
+ * @param string $field_name
+ *   Field machine name.
+ */
+function _nexteuropa_newsroom_admin_field_group($machine_name, $field_name) {
+  // Get info about the group, it's likely to be already in the database.
+  $groups = field_group_info_groups('node', $machine_name, 'form', TRUE);
+  $fields = array('topic', 'select');
+  $group_name = 'group_' . $machine_name . '_newsroom';
+  $instances = FALSE;
+  // Check for instances of the newsroom fields inside the given content type.
+  foreach ($fields as $field) {
+    $field_name = 'field_associated_newsroom_' . $field;
+    if (field_info_instance('node', $field_name, $machine_name) != NULL) {
+      $instances[] = field_info_instance('node', $field_name, $machine_name);
+    }
+  }
+  // If the group is already there, remove it.
+  if (isset($groups[$group_name])) {
+    db_delete('field_group')
+      ->condition('bundle', $machine_name, '=')
+      ->condition('group_name', 'group_' . $machine_name . '_newsroom', '=')
+      ->execute();
+  }
+  // Create the group with the right children.
+  if ($instances) {
+    $field_group = (object) array(
+      'identifier' => $group_name . '|node|' . $machine_name . '|form',
+      'group_name' => $group_name,
+      'entity_type' => 'node',
+      'bundle' => $machine_name,
+      'mode' => 'form',
+      'children' => array(),
+      'parent_name' => '',
+      'weight' => 5,
+      'label' => 'Newsroom fields',
+      'format_type' => 'tab',
+      'disabled' => FALSE,
+      'format_settings' => array(
+        'instance_settings' => array(
+          'required_fields' => 0,
+          'classes' => 'group-newsroom field-group-tab',
+          'description' => '',
+        ),
+        'formatter' => 'closed',
+      ),
+    );
+
+    foreach ($instances as $instance) {
+      $field_group->children[] = $instance['field_name'];
+    }
+
+    field_group_group_save($field_group);
+  }
+  // Remove the group since we don't have fields to show.
+  else {
+    drupal_set_message(t('Removed the fieldgroup @name from the @content_type content type', array('@name' => $group_name, '@content_type' => $machine_name)), 'status');
+  }
+}
+
+/**
+ * Remove all the instances of a fields.
+ *
+ * @param string $type
+ *   Select or topic fo the moment.
+ * @param array $sel_ct
+ *   Array of content types machine names.
+ */
+function _nexteuropa_newsroom_admin_remove_fields($type = 'topic', $sel_ct = array()) {
+  // This function runs after checking for existing field values in the databas.
+  $field_name = 'field_associated_newsroom_' . $type;
+  // All is the parameter we get when an user want to delete all the instances.
+  if ($sel_ct == 'all') {
+    $instances = NewsroomHelper::getFieldInstances($type);
+  }
+  // Limit the search to the selected content types.
+  elseif (!empty($sel_ct)) {
+    foreach ($sel_ct as $content_type) {
+      $instances[] = $content_type;
+    }
+  }
+
+  if (!empty($instances)) {
+    // Loop through the instances to delete them.
+    foreach ($instances as $instance) {
+      $instance = field_info_instance('node', $field_name, $instance);
+      field_delete_instance($instance, FALSE);
+      // Call the field_group helper function, we could have to delete it.
+      _nexteuropa_newsroom_admin_field_group($instance['bundle'], $field_name);
+      // Add the message to queue.
+      drupal_set_message(t('Deleted instance of @field in the @bundle content type', array('@field' => $field_name, '@bundle' => $instance['bundle'])));
+    }
+  }
+}
+
+/**
+ * Check if it safe to delete field instances.
+ *
+ * @param string $type
+ *   Select or topic fo the moment.
+ * @param array $checks
+ *   Array of items to check.
+ *
+ * @return array
+ *   Information about the field name and nodes found.
+ */
+function _nexteuropa_newsroom_check_deletion($type, $checks = array()) {
+  $nodes = array();
+  // "All" is the parameter we get to delete all the instances.
+  if ($checks == 'all') {
+    $instances = NewsroomHelper::getFieldInstances($type);
+  }
+  else {
+    if (!empty($checks)) {
+      // Get the instances to check for.
+      foreach ($checks as $field => $check) {
+        $instances[] = $check;
+      }
+    }
+  }
+
+  if (!empty($instances)) {
+    foreach ($instances as $instance) {
+      // Check in the database for values of the selected field.
+      $query = db_select('field_data_field_associated_newsroom_' . $type, 'ch');
+      $query->condition('bundle', $instance, '=');
+      $num_rows = $query->countQuery()->execute()->fetchField();
+      // There are values, we store the number of nodes to show it to the user.
+      if ($num_rows > 0) {
+        $nodes['field_data_field_associated_newsroom_' . $type][] = array(
+          'ct' => $instance,
+          'nodes' => $num_rows,
+        );
+      }
+    }
+  }
+  return $nodes;
+}
+
+/**
+ * Prepare check for instances deletion.
+ *
+ * @param array $previous
+ *   Old values.
+ * @param array $input
+ *   New values.
+ *
+ * @return array
+ *   Variables to pass.
+ */
+function _nexteuropa_newsroom_prepare_check(array $previous, array $input) {
+  // Set some values.
+  $selected['topic'] = array_filter($input['newsroom_content_types_topic']);
+  $selected['select'] = array_filter($input['newsroom_content_types_select']);
+  $check_topic = array();
+  $check_select = array();
+  // Check the two array for differences. we need to catch also a deselection.
+  if ($selected != $previous) {
+    $check_topic[] = array_diff($previous['topic'], $selected['topic']);
+    $check_topic[] = array_diff($selected['topic'], $previous['topic']);
+    $check_select[] = array_diff($previous['select'], $selected['select']);
+    $check_select[] = array_diff($selected['select'], $previous['select']);
+  }
+  // Prepare all the relevant data formatted into an array().
+  $infos = array(
+    'selected' => array(
+      'topic' => $selected['topic'],
+      'select' => $selected['select'],
+    ),
+    'delete' => array(
+      'topic' => $input['newsroom_content_types_delete_topic'],
+      'select' => $input['newsroom_content_types_delete_select'],
+    ),
+    'check' => array(
+      'topic' => $check_topic,
+      'select' => $check_select,
+    ),
+  );
+
+  return $infos;
+}
+
+/**
+ * Rebuild multilingual importers.
+ */
+function _nexteuropa_newsroom_rebuild_importers() {
+  // Remove importers.
+  $importers = array(
+    'items' => NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
+    'services' => NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER,
+    'topics' => NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
+    'types' => NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
+  );
+
+  foreach ($importers as $key => $importer) {
+    feeds_importer($importer)->delete();
+    // Recreate them.
+    call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
+  }
+
+  $form['rebuilt'] = array(
+    '#type' => 'markup',
+    '#markup' => '<div class="messages status">' . t('Importers have been rebuilt') . '</div>',
+  );
+
+  return $form['rebuilt'];
 }

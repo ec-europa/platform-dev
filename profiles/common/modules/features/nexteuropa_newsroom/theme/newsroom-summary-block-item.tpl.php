@@ -15,8 +15,7 @@
             <?php echo l($prefix . $item->title, 'node/' . $item->nid, array('html' => TRUE)); ?>
           </div>
           <span class="newsroom_date">
-            <?php $date = date('d/m/Y', $item->created); ?>
-            <span content="<?php echo $date ?>" datatype="xsd:dateTime" property="dc:date" class="date-display-single"><?php echo $date; ?></span>            
+            <span content="<?php echo $item->created; ?>" datatype="xsd:dateTime" property="dc:date" class="date-display-single"><?php echo $item->created; ?></span>            
           </span>
         </div>
       <?php endforeach; ?>

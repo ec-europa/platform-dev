@@ -30,7 +30,7 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
 
   // Override values basing on the backup ones.
   foreach ($term as $propname => $prop) {
-    $form_state['values'][$propname]['und'][0]['value'] = $prop;
+    $form_state['values'][$propname][LANGUAGE_NONE][0]['value'] = $prop;
   }
 
   // Set a message for the user.
@@ -208,9 +208,9 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
 
     $taxonomy_fields = array(
       'field_newsroom_item_type',
-      'field_primary_topic',
+      'field_newsroom_primary_topic',
       'field_newsroom_topics',
-      'field_highlighted_newsroom_topic',
+      'field_newsroom_highlighted_topic',
     );
 
     $type_vid = NewsroomHelper::getNewsroomTypeVocabulary()->vid;
@@ -227,7 +227,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
         $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
         $t_term = $i18n_object->localize($curr_lang);
         $pref = $value->parents[0] != 0 ? '- ' : '';
-        $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
+        $form[$taxonomy_field][LANGUAGE_NONE]['#options'][$value->tid] = $pref . $t_term->name;
       }
 
       // The default value is lost in the translations,
@@ -235,15 +235,15 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
       if (!empty($form['#node']->$taxonomy_field)) {
         $values = array();
         $value_array = $form['#node']->$taxonomy_field;
-        foreach ($value_array['und'] as $value) {
+        foreach ($value_array[LANGUAGE_NONE] as $value) {
           $values[] = $value['tid'];
-          $form[$taxonomy_field]['und']['#default_value'] = $values;
+          $form[$taxonomy_field][LANGUAGE_NONE]['#default_value'] = $values;
         }
       }
     }
 
     // The widget will loose this settings, otherwise.
-    $form['field_newsroom_topics']['und']['#multiple'] = TRUE;
+    $form['field_newsroom_topics'][LANGUAGE_NONE]['#multiple'] = TRUE;
   }
 }
 
@@ -607,7 +607,17 @@ function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, 
  */
 function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
   $view = isset($form_state['input']['view']) ? $form_state['input']['view'] : NULL;
-  $date = isset($form_state['input']['current_date']['date']) ? $form_state['input']['current_date']['date'] : date('Y-m-d');
+
+  if (isset($form_state['input']['current_date']['date'])) {
+    $date = $form_state['input']['current_date']['date'];
+  }
+  elseif (isset($form_state['input']['current_date'])) {
+    $date = $form_state['input']['current_date'];
+  }
+  else {
+    $date = NewsroomHelper::getFormatedDate();
+  }
+
   $topic_id = isset($form_state['input']['topic_id']) ? $form_state['input']['topic_id'] : NULL;
   $type_id = isset($form_state['input']['type_id']) ? $form_state['input']['type_id'] : NULL;
 
@@ -677,4 +687,165 @@ function nexteuropa_nexteuropa_newsletter_subscription_form_ajax($form, &$form_s
   $commands[] = ajax_command_replace('#' . $form['#id'] . ' input', '');
 
   return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * The batch operation.
+ *
+ * @param array $chunk
+ *   The terms to be updated.
+ * @param string $voc
+ *   Vocabulary's machine name.
+ * @param array $operation_details
+ *   Array of values.
+ */
+function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_details) {
+
+  foreach ($chunk as $id => $fields) {
+    // Try to find the corresponding term basing on its ID.
+    $term = _nexteuropa_newsroom_get_term_from_id($id, $voc);
+    if ($term) {
+      // Let's work with an array.
+      $term = get_object_vars($term);
+
+      // This is special, make them handable!.
+      $special = array(
+        'field_newsroom_featured_item',
+      );
+
+      if (!empty($fields)) {
+        // Override values.
+        foreach ($fields as $field_name => $value) {
+          if (!in_array($propname, $special)) {
+            $term[$field_name][LANGUAGE_NONE][0]['value'] = $value;
+          }
+          else {
+            if (is_numeric($value)) {
+              $term[$field_name][LANGUAGE_NONE][0]['target_id'] = $value;
+            }
+            else {
+              unset($term[$field_name][LANGUAGE_NONE][0]);
+            }
+          }
+        }
+
+        if (isset($context)) {
+          // Build the worked term name list.
+          $context['results'][] .= $conf['name'] . ', ';
+          $context['message'] = t('Restoring "@title" @operations', array('@title' => $term['name'], '@operations' => $operation_details));
+        }
+      }
+      // Save the term with the new values.
+      taxonomy_term_save((object) $term);
+    }
+  }
+}
+
+/**
+ * Backup config form submit handler.
+ */
+function nexteuropa_newsroom_backup_conf_all($form, &$form_state) {
+  $voc = $form['#vocabulary']->machine_name;
+  // We need the whole tree here.
+  $tree = taxonomy_get_tree($form['#vocabulary']->vid);
+
+  foreach ($tree as $base_term) {
+    $tid = $base_term->tid;
+    $term = taxonomy_term_load($tid);
+    $id = _nexteuropa_newsroom_get_ids($voc, (array) $term);
+
+    // Working with arrays.
+    $term = _nexteuropa_newsroom_export_prepare_values($term);
+    $term = reset($term);
+    $values[$id] = $term;
+  }
+
+  // Save the variable.
+  variable_set($voc . '_backup', $values);
+
+  // Set a message to the user.
+  drupal_set_message(t('We saved a backup of your configuration for the vocabulary: "@name". if you need to restore the values in the backup click on the "Restore" button', array('@name' => $voc)), 'status');
+}
+
+/**
+ * Get newsroom id values.
+ */
+function _nexteuropa_newsroom_get_ids($voc, $data) {
+  switch ($voc) {
+    case NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY:
+      $id = $data['field_newsroom_type_id'][LANGUAGE_NONE][0]['value'];
+      break;
+
+    case NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY:
+      $id = $data['field_newsroom_service_id'][LANGUAGE_NONE][0]['value'];
+      break;
+
+    case NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY:
+      $id = $data['field_newsroom_topic_id'][LANGUAGE_NONE][0]['value'];
+      break;
+  }
+  return $id;
+}
+
+/**
+ * Grab the newsroom fields from a term.
+ *
+ * @param object $term
+ *   The term to get the values from.
+ *
+ * @return array
+ *   Formatted values for the newsroom related fields.
+ */
+function _nexteuropa_newsroom_export_prepare_values($term) {
+  $term = get_object_vars($term);
+  $voc = $term['vocabulary_machine_name'];
+  $id = _nexteuropa_newsroom_get_ids($voc, $term);
+  $values = array();
+  $values[$id] = array();
+  $voc = str_replace('_item', '', $voc);
+  foreach ($term as $propname => $prop) {
+    // Should work only with custom fields.
+    if (strpos($propname, 'field') === 0) {
+      if ($propname == 'field_' . $voc . '_id') {
+        continue;
+      }
+
+      if (isset($prop[LANGUAGE_NONE][0]['value'])) {
+        $values[$id][$propname] = $prop[LANGUAGE_NONE][0]['value'];
+      }
+    }
+  }
+
+  return $values;
+}
+
+/**
+ * Find a term basing on its newsroom id.
+ *
+ * @param string $id
+ *   The id coming from the newsroom.
+ * @param string $voc
+ *   Vocabulay's machine name.
+ *
+ * @return object
+ *   The term object.
+ */
+function _nexteuropa_newsroom_get_term_from_id($id, $voc) {
+  $field = str_replace('_item', '', $voc);
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'taxonomy_term')
+    ->entityCondition('bundle', $voc)
+    ->fieldCondition('field_' . $field . '_id', 'value', $id, '=');
+
+  $results = $query->execute();
+
+  if (!empty($results)) {
+    $result = reset($results['taxonomy_term']);
+    $tid = $result->tid;
+    $term = taxonomy_term_load($tid);
+  }
+  else {
+    $term = FALSE;
+  }
+  return $term;
 }

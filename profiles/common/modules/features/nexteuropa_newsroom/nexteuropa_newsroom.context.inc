@@ -20,7 +20,6 @@ function nexteuropa_newsroom_context_default_contexts() {
     'views' => array(
       'values' => array(
         'newsroom' => 'newsroom',
-        'newsroom-agenda' => 'newsroom-agenda',
       ),
     ),
   );

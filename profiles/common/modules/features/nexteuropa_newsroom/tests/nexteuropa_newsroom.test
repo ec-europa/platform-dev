@@ -196,8 +196,6 @@ class NexteuropaNewsroomWebTestCase extends FeedsWebTestCase {
     // Check redirection to item based on original ID.
     $this->drupalGet('news-redirect/16631');
     $this->assertText('SMART 2014/1074 - Language resource coordination');
-    $this->drupalGet('news-dispatcher/item/16631');
-    $this->assertText('SMART 2014/1074 - Language resource coordination');
   }
 
   /**

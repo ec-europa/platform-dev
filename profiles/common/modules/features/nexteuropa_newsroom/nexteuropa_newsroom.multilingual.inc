@@ -24,22 +24,22 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_item_date:end' => array(
       'query' => 'infsonewsroom:BasictoDate/text()',
     ),
-    'field_illustrative_image:uri' => array(
+    'field_newsroom_illustrative_img:uri' => array(
       'query' => 'enclosure[@type="image/jpeg"]/@url',
     ),
-    'field_illustrative_image:title' => array(
+    'field_newsroom_illustrative_img:title' => array(
       'query' => 'infsonewsroom:PicTitle',
       'original_field' => 'field_file_image_title_text',
     ),
-    'field_illustrative_image:alt' => array(
+    'field_newsroom_illustrative_img:alt' => array(
       'query' => 'infsonewsroom:PicAlt',
       'original_field' => 'field_file_image_alt_text',
     ),
-    'field_illustrative_image:copyright' => array(
+    'field_newsroom_illustrative_img:copyright' => array(
       'query' => 'infsonewsroom:PicCopyright',
       'original_field' => 'field_copyright',
     ),
-    'field_illustrative_image:caption' => array(
+    'field_newsroom_illustrative_img:caption' => array(
       'query' => 'infsonewsroom:PicCaption',
       'original_field' => 'field_caption',
     ),
@@ -99,7 +99,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
         'field' => 'field_newsroom_topic_id',
       ),
     ),
-    'field_primary_topic' => array(
+    'field_newsroom_primary_topic' => array(
       'query' => 'category[@infsonewsroom:TopicPrimary="1" and @domain!="Newsletter"]/@infsonewsroom:TopicId',
       'options' => array(
         'term_search' => '1',
@@ -126,7 +126,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_teaser_only' => array(
       'query' => 'infsonewsroom:pubTeaserOnly/text()',
     ),
-    'field_related_content' => array(
+    'field_newsroom_related_content' => array(
       'query' => 'infsonewsroom:slave/@guid',
     ),
     'field_newsroom_parent_content' => array(
@@ -135,7 +135,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_project_acr' => array(
       'query' => 'infsonewsroom:ContextProjectAcronym/text()',
     ),
-    'field_nr_project_coordinator' => array(
+    'field_newsroom_prj_coordinator' => array(
       'query' => 'infsonewsroom:ContextProjectCoordinator/text()',
     ),
     'field_newsroom_project' => array(
@@ -150,7 +150,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_location:wkt' => array(
       'query' => 'infsonewsroom:ContextWellknowntext/text()',
     ),
-    'field_highlighted_newsroom_topic' => array(
+    'field_newsroom_highlighted_topic' => array(
       'query' => 'category[@infsonewsroom:TopicHighlight="1" and @domain!="Newsletter"]/@infsonewsroom:TopicId',
       'options' => array(
         'term_search' => '1',
@@ -174,10 +174,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_author' => array(
       'query' => 'infsonewsroom:ContextAuthor',
     ),
-    'field_eur_lex_link:url' => array(
+    'field_newsroom_eur_lex_link:url' => array(
       'query' => 'infsonewsroom:ContextEurlex',
     ),
-    'field_ted_link:url' => array(
+    'field_newsroom_ted_link:url' => array(
       'query' => 'infsonewsroom:ContextTed',
     ),
     'field_newsroom_registration_link:url' => array(
@@ -210,7 +210,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_item_speaker' => array(
       'query' => 'infsonewsroom:ContextSpeaker',
     ),
-    'field_teaser' => array(
+    'field_newsroom_teaser' => array(
       'query' => 'infsonewsroom:BasicTeaser',
     ),
     '_feed_changed' => array(
@@ -415,10 +415,10 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
     'field_newsroom_topic' => array(
       'query' => 'category[@domain="Subchapter"]/@infsonewsroom:TopicId',
     ),
-    'field_service_active' => array(
+    'field_newsroom_service_active' => array(
       'query' => 'infsonewsroom:BasicSvStatus/text()',
     ),
-    'field_service_type' => array(
+    'field_newsroom_service_type' => array(
       'query' => 'infsonewsroom:BasicSvType',
     ),
     'description' => array(
@@ -461,7 +461,7 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
 function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type = NULL) {
   $def_lang = drupal_strtoupper(language_default()->language);
   // Get enabled languages codes.
-  $lang_keys = _nexteuropa_newsroom_languages();
+  $lang_keys = NewsroomHelper::getEnabledLanguages();
   // Loop through all the fields, build the needed arrays.
   $i = 0;
 
@@ -667,26 +667,13 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
 }
 
 /**
- * Helper function to get the enabled languages.
- */
-function _nexteuropa_newsroom_languages() {
-  $lang = locale_language_list('name');
-  $lang_keys = array_keys($lang);
-  $eng = array_search('en', $lang_keys);
-  if ($eng) {
-    unset($lang_keys[$eng]);
-    array_unshift($lang_keys, 'en');
-  }
-  return $lang_keys;
-}
-
-/**
  * Check if a field is translatable.
  *
  * @param array $premapping
  *   Premappings array.
  */
 function _nexteuropa_newsroom_check_translations(array $premapping) {
+  $fields = field_info_fields();
   // Build an array with langauge settings for the fields.
   foreach ($premapping as $fieldname => $values) {
     // Sanitize fieldname.
@@ -695,6 +682,10 @@ function _nexteuropa_newsroom_check_translations(array $premapping) {
     $field = field_info_field($sanitized_name);
     $language = field_is_translatable('node', $field);
     $premapping[$fieldname]['language'] = $language;
+    if (isset($fields[$sanitized_name])) {
+      $language = field_is_translatable('node', $fields[$sanitized_name]);
+      $premapping[$fieldname]['language'] = $language;
+    }
   }
 
   return $premapping;
