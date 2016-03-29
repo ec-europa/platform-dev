@@ -114,22 +114,27 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       $translation_possible = in_array($state, $states, 'strict');
 
       $languages = tmgmt_available_languages();
-      $entity_language = entity_language($form_state['entity_type'], $form_state['entity']);
-      $items = tmgmt_job_item_load_latest('workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid, $entity_language);
+      $options = &$form['languages']['#options'];
+
+      $existing_jobs = tmgmt_job_item_load_latest('workbench_moderation',
+        $entity_type, $node->nid, $node->translations->original);
       $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
 
-      unset($form['top_actions']);
-      $form['languages']['#multiple'] = FALSE;
-      $form['languages']['#suffix'] = format_string('<div class="description">@description</div>', array('@description' => t('More target languages can be added in the job configuration page before sending it to translation')));
-
-      $options = &$form['languages']['#options'];
+       // Disable checkbox for languages already translated.
       foreach ($languages as $langcode => $language) {
-        if (isset($options[$langcode]) && isset($items[$langcode])) {
-          $item = $items[$langcode];
-
+        if (isset($node->translations->data[$langcode])) {
+          $form['languages'][$langcode] = array(
+            '#type' => 'checkbox',
+            '#disabled' => TRUE,
+          );
+        }
+        if (isset($options[$langcode]) && isset($existing_jobs[$langcode])) {
+          $item = $existing_jobs[$langcode];
           $uri = $item->uri();
           $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
-          $options[$langcode][4] = l($wrapper->state->label(), $uri['path'], array('query' => array('destination' => current_path())));
+          $form['languages']['#options'][$langcode][4] = l($wrapper->state->label(),
+            $uri['path'],
+            array('query' => array('destination' => current_path())));
           // Disable the checkbox for this row since there is already a
           // translation in progress that has not yet been finished. This way we
           // make sure that we don't stack multiple active translations for the
@@ -147,8 +152,10 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             '#type' => 'checkbox',
             '#disabled' => TRUE,
           );
+          $form['languages']['#suffix'] = '<div class="description">' .
+          t('This content cannot be translated.') . '</div>';
 
-          if (!$always_show_direct_translation_links && ($langcode != $entity_language)) {
+          if (!$always_show_direct_translation_links && ($langcode != $node->translations->original)) {
             $options[$langcode][5] = '';
           }
         }
@@ -166,6 +173,14 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       else {
         unset($form['actions']);
       }
+      // Remove add to cart button.
+      unset($form['top_actions']);
+      // Only allow requesting one language. Explain the user can add more later.
+      $form['languages']['#multiple'] = FALSE;
+      $form['languages']['#suffix'] = '<div class="description">' .
+        t('More target languages can be added after you click %i',
+          array('%i' => 'Request Translation')) .
+        '</div>';
     }
   }
 }
