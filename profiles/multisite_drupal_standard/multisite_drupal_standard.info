@@ -31,6 +31,7 @@ dependencies[] = apachesolr_search
 dependencies[] = apachesolr_multisitesearch
 dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
+dependencies[] = fast_404
 dependencies[] = current_search
 dependencies[] = contact
 dependencies[] = context
