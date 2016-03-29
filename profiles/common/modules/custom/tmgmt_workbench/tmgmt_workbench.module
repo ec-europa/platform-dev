@@ -71,7 +71,17 @@ function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(Quer
   // Alter query when on TMGMT Source Overview page.
   // See: TMGMTWorkbenchSourceUIController::overviewForm().
   if (drupal_static('tmgmt_workbench_overview_form')) {
+    // Don't show content that is not moderated.
+    $node_types = node_type_get_types();
+    $moderated = array();
+    foreach($node_types as $type => $machine){
+      if(workbench_moderation_node_type_moderated($machine->type)) {
+        $moderated[] = $type;
+      }
+    }
     $fields = $query->getFields();
+    $query->condition('e.type', $moderated, 'IN');
+    // Don't show content that is not in a translatable state.
     $states = variable_get('tmgmt_workbench_moderation_states', array());
     foreach ($fields as $field => $info) {
       // Get field on primary table, which is aliased as "e".
