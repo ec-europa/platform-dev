@@ -5,6 +5,10 @@
  * Provides functionality for the Map layer module.
  */
 
+// Includes code with function names that do not comply with standards.
+module_load_include('inc', 'nexteuropa_map_layer', 'nexteuropa_map_layer.misc');
+
+// Includes theme functions.
 module_load_include('inc', 'nexteuropa_map_layer', 'nexteuropa_map_layer.theme');
 
 /**
@@ -178,7 +182,7 @@ function nexteuropa_map_layer_menu() {
   $items['admin/structure/map-layer-types/%map_layer_type/delete'] = array(
     'title' => 'Delete',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('nexteuropa_map_map_layer_type_form_delete_confirm', 4),
+    'page arguments' => array('nexteuropa_map_layer_type_form_delete_confirm', 3),
     'access arguments' => array('administer map_layer types'),
     'weight' => 1,
     'type' => MENU_NORMAL_ITEM,
@@ -293,21 +297,6 @@ function nexteuropa_map_layer_access($op, $map_layer, $account = NULL, $entity_t
 }
 
 /**
- * Load a map layer.
- */
-function map_layer_load($mlid, $reset = FALSE) {
-  $map_layers = map_layer_load_multiple(array($mlid), array(), $reset);
-  return reset($map_layers);
-}
-
-/**
- * Load multiple map layers based on certain conditions.
- */
-function map_layer_load_multiple($mlids = array(), $conditions = array(), $reset = FALSE) {
-  return entity_load('map_layer', $mlids, $conditions, $reset);
-}
-
-/**
  * Save map layer.
  *
  * Collects values for storing as JSON in settings.
@@ -340,13 +329,6 @@ function nexteuropa_map_layer_delete_multiple($map_layer_ids) {
  */
 function nexteuropa_map_layer_type_access($op, $entity = NULL) {
   return user_access('administer map_layer types');
-}
-
-/**
- * Load map layer type.
- */
-function map_layer_type_load($map_layer_type) {
-  return nexteuropa_map_layer_types($map_layer_type);
 }
 
 /**

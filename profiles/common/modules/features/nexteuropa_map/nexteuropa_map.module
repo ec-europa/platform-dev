@@ -6,6 +6,9 @@
 
 define('NEXTEUROPA_MAP_WEBTOOLS_ENVIRONMENT', '//europa.eu/webtools/load.js');
 
+// Includes code with function names that do not comply with standards.
+module_load_include('inc', 'nexteuropa_map', 'nexteuropa_map.misc');
+
 /**
  * Implements hook_entity_info().
  */
