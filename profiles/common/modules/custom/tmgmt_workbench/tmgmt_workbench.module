@@ -106,14 +106,16 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
   if ($form_state['entity_type'] == 'node') {
     $node = $form_state['entity'];
     if (workbench_moderation_node_moderated($node)) {
+
+      $states = array_values(_tmgmt_workbench_available_states());
+      $state = $node->workbench_moderation['current']->state;
+      $translation_possible = in_array($state, $states, 'strict');
+
       $languages = language_list();
       $entity_language = entity_language($form_state['entity_type'], $form_state['entity']);
       $items = tmgmt_job_item_load_latest('workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid, $entity_language);
       $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
-      $states = variable_get('tmgmt_workbench_moderation_states', array());
 
-      $state = $node->workbench_moderation['current']->state;
-      $translation_is_enabled = in_array($state, $states);
 
       unset($form['top_actions']);
       $form['languages']['#multiple'] = FALSE;
@@ -139,7 +141,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
         // Disable checkbox selection if current node revision is not
         // in translatable moderation states.
-        if (!$translation_is_enabled) {
+        if (!$translation_possible) {
           $form['languages'][$langcode] = array(
             '#type' => 'checkbox',
             '#disabled' => TRUE,
@@ -151,7 +153,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      if ($translation_is_enabled) {
+      if ($translation_possible) {
         $form['actions']['#type'] = 'actions';
         $form['actions']['request'] = array(
           '#type' => 'submit',
@@ -201,4 +203,18 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
     drupal_set_message(t('Unable to add job item for target language %name. Make sure the source content is not empty.', array('%name' => $target_lang_name)), 'error');
   }
   tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
+}
+
+/**
+ * Helper function that provides some information on configuration and returns states
+ */
+/**
+ * Implements hook_tmgmt_before_update_node_translation_alter().
+ */
+function _tmgmt_workbench_available_states() {
+  $states = variable_get('tmgmt_workbench_moderation_states', array());
+  if(empty($states)){
+    drupal_set_message(t('You have to enable at least one workbench state'));
+  }
+  return $states;
 }
