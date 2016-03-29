@@ -10,13 +10,16 @@
  */
 function tmgmt_workbench_help($path, $arg) {
   if ($path == 'node/%/translate') {
-    $states = variable_get('tmgmt_workbench_moderation_states', array());
-    $states = array_filter($states);
     $node = node_load($arg[1]);
-    $state = $node->workbench_moderation['current']->state;
-    $output = '<p>' . t('Translation of a piece of content is only available if its latest revision is in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states)));
-    $output .= '<br/>' . t("The current piece of content's moderation state is: <strong>!state</strong>", array('!state' => $state)) . '</p>';
-    return $output;
+    if (workbench_moderation_node_moderated($node)) {
+      $states = variable_get('tmgmt_workbench_moderation_states', array());
+      $states = array_filter($states);
+      $node = node_load($arg[1]);
+      $state = $node->workbench_moderation['current']->state;
+      $output = '<p>' . t('Translation of a piece of content is only available if its latest revision is in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states)));
+      $output .= '<br/>' . t("The current piece of content's moderation state is: <strong>!state</strong>", array('!state' => $state)) . '</p>';
+      return $output;
+    }
   }
 }
 
@@ -92,62 +95,64 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
   if ($form_state['entity_type'] == 'node') {
     $node = $form_state['entity'];
-    $languages = language_list();
-    $entity_language = entity_language($form_state['entity_type'], $form_state['entity']);
-    $items = tmgmt_job_item_load_latest('workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid, $entity_language);
-    $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
-    $states = variable_get('tmgmt_workbench_moderation_states', array());
+    if (workbench_moderation_node_moderated($node)) {
+      $languages = language_list();
+      $entity_language = entity_language($form_state['entity_type'], $form_state['entity']);
+      $items = tmgmt_job_item_load_latest('workbench_moderation', $form_state['entity_type'], $form_state['entity']->nid, $entity_language);
+      $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
+      $states = variable_get('tmgmt_workbench_moderation_states', array());
 
-    $state = $node->workbench_moderation['current']->state;
-    $translation_is_enabled = in_array($state, $states);
+      $state = $node->workbench_moderation['current']->state;
+      $translation_is_enabled = in_array($state, $states);
 
-    unset($form['top_actions']);
-    $form['languages']['#multiple'] = FALSE;
-    $form['languages']['#suffix'] = format_string('<div class="description">@description</div>', array('@description' => t('More target languages can be added in the job configuration page before sending it to translation')));
+      unset($form['top_actions']);
+      $form['languages']['#multiple'] = FALSE;
+      $form['languages']['#suffix'] = format_string('<div class="description">@description</div>', array('@description' => t('More target languages can be added in the job configuration page before sending it to translation')));
 
-    $options = &$form['languages']['#options'];
-    foreach ($languages as $langcode => $language) {
-      if (isset($options[$langcode]) && isset($items[$langcode])) {
-        $item = $items[$langcode];
+      $options = &$form['languages']['#options'];
+      foreach ($languages as $langcode => $language) {
+        if (isset($options[$langcode]) && isset($items[$langcode])) {
+          $item = $items[$langcode];
 
-        $uri = $item->uri();
-        $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
-        $options[$langcode][4] = l($wrapper->state->label(), $uri['path'], array('query' => array('destination' => current_path())));
-        // Disable the checkbox for this row since there is already a
-        // translation in progress that has not yet been finished. This way we
-        // make sure that we don't stack multiple active translations for the
-        // same item on top of each other.
-        $form['languages'][$langcode] = array(
-          '#type' => 'checkbox',
-          '#disabled' => TRUE,
-        );
-      }
+          $uri = $item->uri();
+          $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
+          $options[$langcode][4] = l($wrapper->state->label(), $uri['path'], array('query' => array('destination' => current_path())));
+          // Disable the checkbox for this row since there is already a
+          // translation in progress that has not yet been finished. This way we
+          // make sure that we don't stack multiple active translations for the
+          // same item on top of each other.
+          $form['languages'][$langcode] = array(
+            '#type' => 'checkbox',
+            '#disabled' => TRUE,
+          );
+        }
 
-      // Disable checkbox selection if current node revision is not
-      // in translatable moderation states.
-      if (!$translation_is_enabled) {
-        $form['languages'][$langcode] = array(
-          '#type' => 'checkbox',
-          '#disabled' => TRUE,
-        );
+        // Disable checkbox selection if current node revision is not
+        // in translatable moderation states.
+        if (!$translation_is_enabled) {
+          $form['languages'][$langcode] = array(
+            '#type' => 'checkbox',
+            '#disabled' => TRUE,
+          );
 
-        if (!$always_show_direct_translation_links && ($langcode != $entity_language)) {
-          $options[$langcode][5] = '';
+          if (!$always_show_direct_translation_links && ($langcode != $entity_language)) {
+            $options[$langcode][5] = '';
+          }
         }
       }
-    }
 
-    if ($translation_is_enabled) {
-      $form['actions']['#type'] = 'actions';
-      $form['actions']['request'] = array(
-        '#type' => 'submit',
-        '#value' => t('Request translation'),
-        '#submit' => array('tmgmt_workbench_translate_form_submit'),
-        '#validate' => array('tmgmt_workbench_translate_form_validate'),
-      );
-    }
-    else {
-      unset($form['actions']);
+      if ($translation_is_enabled) {
+        $form['actions']['#type'] = 'actions';
+        $form['actions']['request'] = array(
+          '#type' => 'submit',
+          '#value' => t('Request translation'),
+          '#submit' => array('tmgmt_workbench_translate_form_submit'),
+          '#validate' => array('tmgmt_workbench_translate_form_validate'),
+        );
+      }
+      else {
+        unset($form['actions']);
+      }
     }
   }
 }
