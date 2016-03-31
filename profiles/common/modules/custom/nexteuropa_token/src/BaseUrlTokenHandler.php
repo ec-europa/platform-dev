@@ -7,8 +7,12 @@
 
 namespace Drupal\nexteuropa_token;
 
-
-class BaseUrlTokenHandler extends TokenAbstractHandler{
+/**
+ * Class BaseUrlTokenHandler.
+ *
+ * @package Drupal\nexteuropa_token
+ */
+class BaseUrlTokenHandler extends TokenAbstractHandler {
 
   /**
    * Provide replacement values for placeholder tokens.
@@ -33,7 +37,7 @@ class BaseUrlTokenHandler extends TokenAbstractHandler{
     if ($type != 'site' || empty($tokens['base-url'])) {
       return array();
     }
-    // Original value => replacement
+    // Original value => replacement.
     return array($tokens['base-url'] => $base_url);
   }
 
@@ -49,4 +53,5 @@ class BaseUrlTokenHandler extends TokenAbstractHandler{
       'description' => t('Base URL of the website'),
     );
   }
+
 }
