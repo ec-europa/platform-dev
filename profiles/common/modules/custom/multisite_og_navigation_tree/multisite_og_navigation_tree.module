@@ -113,6 +113,29 @@ function multisite_og_navigation_tree_og_fields_info() {
 }
 
 /**
+ * Implements hook_field_storage_details_alter().
+ *
+ * Ensure _mont_taxonomy_field_allowed_values is used for group_taxonomy field.
+ * (i18n rewrite options_list_callback for all type taxonomy_term_reference).
+ */
+function multisite_og_navigation_tree_field_storage_details_alter(&$details, &$field) {
+  if ($field['type'] === 'taxonomy_term_reference' && $field['field_name'] === MULTISITE_OG_NAVIGATION_TREE_OG_TAXONOMY_FIELD) {
+    $field['settings']['options_list_callback'] = '_mont_taxonomy_field_allowed_values';
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function multisite_og_navigation_tree_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'field_storage_details_alter') {
+    $group = $implementations['multisite_og_navigation_tree'];
+    unset($implementations['multisite_og_navigation_tree']);
+    $implementations['multisite_og_navigation_tree'] = $group;
+  }
+}
+
+/**
  * Autoloader for OG Navigation Tree enabled nodes.
  *
  * @param int $nid
