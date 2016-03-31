@@ -61,7 +61,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
   /**
    * Gets entities data of provided type needed to build overview form list.
    *
-   * @param $type
+   * @param string $type
    *   Entity type for which to get list of entities.
    * @param array $property_conditions
    *   Array of key => $value pairs passed into
@@ -90,13 +90,11 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
         continue;
       }
 
-      /**
-       * @var EntityTranslationDefaultHandler $handler
-       */
+      // @var EntityTranslationDefaultHandler $handler.
       $handler = entity_translation_get_handler($type, $entity);
 
-      // Get existing translations and current job items for the entity
-      // to determine translation statuses
+      // Get existing translations and current job items for the entity.
+      // to determine translation statuses.
       $translations = $handler->getTranslations();
       $source_lang = entity_language($type, $entity);
       $current_job_items = tmgmt_job_item_load_latest('workbench_moderation', $type, $entity_id, $source_lang);
@@ -128,7 +126,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
           $translation_status = 'outofdate';
         }
 
-        $return_value[$entity_id]['current_job_items'][$langcode] = isset($current_job_items[$langcode]) ? $current_job_items[$langcode]: NULL;
+        $return_value[$entity_id]['current_job_items'][$langcode] = isset($current_job_items[$langcode]) ? $current_job_items[$langcode] : NULL;
         $return_value[$entity_id]['translation_statuses'][$langcode] = $translation_status;
       }
     }
@@ -148,7 +146,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    *    Moderation state or null.
    */
   private function getModerationState($node, $type = 'current') {
-    if (is_object($node) && property_exists($node, 'workbench_moderation') 
+    if (is_object($node) && property_exists($node, 'workbench_moderation')
       && isset($node->workbench_moderation[$type])) {
       $state = $node->workbench_moderation[$type];
       return $state->state;
@@ -176,60 +174,57 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
   }
   /**
    * Implements TMGMTSourceUIControllerInterface::overviewFormSubmit().
-*/
- public function overviewFormSubmit($form, &$form_state, $type) {
+   */
+  public function overviewFormSubmit($form, &$form_state, $type) {
 
-   // Handle search redirect.
-   $this->overviewSearchFormRedirect($form, $form_state, $type);
+  // Handle search redirect.
+  $this->overviewSearchFormRedirect($form, $form_state, $type);
  
-   $jobs = array();
-   $entities = entity_load($type, $form_state['values']['items']);
-   $source_lang_registry = array();
+  $jobs = array();
+  $entities = entity_load($type, $form_state['values']['items']);
+  $source_lang_registry = array();
 
-   // Loop through entities and create individual jobs for each source language.
-   foreach ($entities as $entity) {
-     /**
-      * @var EntityTranslationDefaultHandler $handler
-      */
-     $source_lang = entity_language($type, $entity);
-     list($entity_id, ,) = entity_extract_ids($type, $entity);
+    // Loop through entities and create individual jobs for each source language.
+    foreach ($entities as $entity) {
 
-     try {
+      // EntityTranslationDefaultHandler $handler
+      $source_lang = entity_language($type, $entity);
+      list($entity_id, ,) = entity_extract_ids($type, $entity);
 
-       // For given source lang no job exists yet.
-       if (!isset($source_lang_registry[$source_lang])) {
-         // Create new job.
-         $job = tmgmt_job_create($source_lang, NULL, $GLOBALS['user']->uid);
-         // Add initial job item.
-         $job->addItem('workbench_moderation', $type, $entity_id);
-         // Add job identifier into registry
-         $source_lang_registry[$source_lang] = $job->tjid;
-         // Add newly created job into jobs queue.
-         $jobs[$job->tjid] = $job;
-       }
-       // We have a job for given source lang, so just add new job item for the
-       // existing job.
-       else {
-         $jobs[$source_lang_registry[$source_lang]]->addItem('workbench_moderation', $type, $entity_id);
-       }
-     }
-     catch (TMGMTException $e) {
+      try {
+
+        // For given source lang no job exists yet.
+        if (!isset($source_lang_registry[$source_lang])) {
+          // Create new job.
+          $job = tmgmt_job_create($source_lang, NULL, $GLOBALS['user']->uid);
+          // Add initial job item.
+          $job->addItem('workbench_moderation', $type, $entity_id);
+          // Add job identifier into registry
+          $source_lang_registry[$source_lang] = $job->tjid;
+          // Add newly created job into jobs queue.
+          $jobs[$job->tjid] = $job;
+        }
+        // We have a job for given source lang, so just add new job item for the
+        // existing job.
+        else {
+          $jobs[$source_lang_registry[$source_lang]]->addItem('workbench_moderation', $type, $entity_id);
+        }
+      }
+      catch (TMGMTException $e) {
        watchdog_exception('tmgmt_workbench', $e);
        $entity_label = entity_label($type, $entity);
        drupal_set_message(t('Unable to add job item for workbench_moderation item %name (using overview table): %error.', array('%name' => $entity_label, '%error' => $e->getMessage())), 'error');
-     }
-   }
+      }
+    }
 
-   // If necessary, do a redirect.
-   $redirects = tmgmt_ui_job_checkout_multiple($jobs);
-   if ($redirects) {
-     tmgmt_ui_redirect_queue_set($redirects, current_path());
-     $form_state['redirect'] = tmgmt_ui_redirect_queue_dequeue();
-
-     drupal_set_message(format_plural(count($redirects), t('One job needs to be checked out.'), t('@count jobs need to be checked out.')));
-   }
-
- }
+    // If necessary, do a redirect.
+    $redirects = tmgmt_ui_job_checkout_multiple($jobs);
+    if ($redirects) {
+      tmgmt_ui_redirect_queue_set($redirects, current_path());
+      $form_state['redirect'] = tmgmt_ui_redirect_queue_dequeue();
+      drupal_set_message(format_plural(count($redirects), t('One job needs to be checked out.'), t('@count jobs need to be checked out.')));
+    }
+  }
   /**
    * Utility method: get translatable states from module's settings.
    *
@@ -239,5 +234,4 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
   public function getTranslatableStates() {
     return variable_get('tmgmt_workbench_moderation_states', array());
   }
-
 }
