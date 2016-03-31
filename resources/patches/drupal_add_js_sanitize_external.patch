@@ -1,7 +1,6 @@
-See https://www.drupal.org/node/2697611
 --- includes/common.inc	2016-03-31 13:04:01.245367036 +0200
-+++ includes/common.inc	2016-03-31 13:03:51.805398634 +0200
-@@ -4206,6 +4206,17 @@
++++ includes/common.inc	2016-03-31 14:13:40.683478723 +0200
+@@ -4206,6 +4206,15 @@
      $jquery_added = FALSE;
    }
  
