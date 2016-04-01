@@ -11,6 +11,7 @@ projects[drupal][patch][] = patches/menu-conflict_with_menu_token-2534.patch
 projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.patch
 projects[drupal][patch][] = patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
 projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
+projects[drupal][patch][] = patches/fix-all-perf-issues.patch
 
 ; Move local configuration directives out of the Git repository.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
