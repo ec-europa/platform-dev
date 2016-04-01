@@ -203,4 +203,42 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     }
   }
 
+  /**
+   * Check that the current job has only items of a specific source plugin.
+   *
+   * @Then I am on a translation job page with :arg1 job items
+   */
+  public function assertJobWithJobItemsPlugin($plugin) {
+
+    // We can't simply use Drupal's menu_get_item() because of caching reasons.
+    $job_id = $this->getTranslationJobItemFromUrl();
+    if (!$job_id) {
+      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
+    }
+
+    $job = tmgmt_job_load($job_id);
+    if (!$job) {
+      throw new \InvalidArgumentException("Translation job with ID {$job_id} not found.");
+    }
+
+    /** @var \TMGMTJobItem $job_item */
+    foreach ($job->getItems() as $job_item) {
+      if (!$job_item->plugin == $plugin) {
+        throw new \InvalidArgumentException("Plugin mismatch: the current job item has plugin set to {$job_item->plugin}.");
+      }
+    }
+  }
+
+  /**
+   * Get translation job ID from current page's URL.
+   *
+   * @return int|FALSE
+   *    Translators job ID, FALSE if none found.
+   */
+  protected function getTranslationJobItemFromUrl() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
+    return isset($matches[1][0]) ? $matches[1][0] : FALSE;
+  }
+
 }
