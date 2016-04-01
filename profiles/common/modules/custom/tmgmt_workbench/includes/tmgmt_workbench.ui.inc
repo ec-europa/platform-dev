@@ -47,6 +47,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
     return parent::overviewForm($form, $form_state, $type);
   }
 
+  // @codingStandardsIgnoreStart
   /**
    * {@inheritdoc}
    */
@@ -57,6 +58,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
     }
     return $items;
   }
+  // @codingStandardsIgnoreEnd
 
   /**
    * Gets entities data of provided type needed to build overview form list.
