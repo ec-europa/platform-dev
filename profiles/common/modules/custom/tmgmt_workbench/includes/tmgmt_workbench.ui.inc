@@ -147,7 +147,8 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    */
   private function getModerationState($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation')
-      && isset($node->workbench_moderation[$type])) {
+      && isset($node->workbench_moderation[$type])
+    ) {
       $state = $node->workbench_moderation[$type];
       return $state->state;
     }
@@ -172,17 +173,17 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
     }
     return NULL;
   }
+
   /**
    * Implements TMGMTSourceUIControllerInterface::overviewFormSubmit().
    */
   public function overviewFormSubmit($form, &$form_state, $type) {
+    // Handle search redirect.
+    $this->overviewSearchFormRedirect($form, $form_state, $type);
 
-  // Handle search redirect.
-  $this->overviewSearchFormRedirect($form, $form_state, $type);
- 
-  $jobs = array();
-  $entities = entity_load($type, $form_state['values']['items']);
-  $source_lang_registry = array();
+    $jobs = array();
+    $entities = entity_load($type, $form_state['values']['items']);
+    $source_lang_registry = array();
 
     // Loop through entities and create individual jobs for each source language.
     foreach ($entities as $entity) {
@@ -211,9 +212,12 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
         }
       }
       catch (TMGMTException $e) {
-       watchdog_exception('tmgmt_workbench', $e);
-       $entity_label = entity_label($type, $entity);
-       drupal_set_message(t('Unable to add job item for workbench_moderation item %name (using overview table): %error.', array('%name' => $entity_label, '%error' => $e->getMessage())), 'error');
+        watchdog_exception('tmgmt_workbench', $e);
+        $entity_label = entity_label($type, $entity);
+        drupal_set_message(t('Unable to add job item for workbench_moderation item %name (using overview table): %error.', array(
+          '%name' => $entity_label,
+          '%error' => $e->getMessage()
+        )), 'error');
       }
     }
 
@@ -225,6 +229,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
       drupal_set_message(format_plural(count($redirects), t('One job needs to be checked out.'), t('@count jobs need to be checked out.')));
     }
   }
+
   /**
    * Utility method: get translatable states from module's settings.
    *
