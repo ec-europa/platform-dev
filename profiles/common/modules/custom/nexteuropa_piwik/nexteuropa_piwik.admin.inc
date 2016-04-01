@@ -105,8 +105,8 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
   $site_search_dependencies .= t('Requires: !module-list',
     array(
       '!module-list' => (module_exists('search') ? t('@module (<span class="admin-enabled">enabled</span>)',
-      array('@module' => 'Search')) : t('@module (<span class="admin-disabled">disabled</span>)',
-      array('@module' => 'Search'))),
+        array('@module' => 'Search')) : t('@module (<span class="admin-disabled">disabled</span>)',
+        array('@module' => 'Search'))),
     )
   );
   $site_search_dependencies .= '</div>';
