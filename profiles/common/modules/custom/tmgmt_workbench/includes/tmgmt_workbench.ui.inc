@@ -185,10 +185,10 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
     $entities = entity_load($type, $form_state['values']['items']);
     $source_lang_registry = array();
 
-    // Loop through entities and create individual jobs for each source language.
+    // Loop through entities to create individual jobs for each source language.
     foreach ($entities as $entity) {
 
-      // EntityTranslationDefaultHandler $handler
+      // EntityTranslationDefaultHandler $handler.
       $source_lang = entity_language($type, $entity);
       list($entity_id, ,) = entity_extract_ids($type, $entity);
 
@@ -200,7 +200,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
           $job = tmgmt_job_create($source_lang, NULL, $GLOBALS['user']->uid);
           // Add initial job item.
           $job->addItem('workbench_moderation', $type, $entity_id);
-          // Add job identifier into registry
+          // Add job identifier into registry.
           $source_lang_registry[$source_lang] = $job->tjid;
           // Add newly created job into jobs queue.
           $jobs[$job->tjid] = $job;
@@ -216,7 +216,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
         $entity_label = entity_label($type, $entity);
         drupal_set_message(t('Unable to add job item for workbench_moderation item %name (using overview table): %error.', array(
           '%name' => $entity_label,
-          '%error' => $e->getMessage()
+          '%error' => $e->getMessage(),
         )), 'error');
       }
     }
@@ -239,4 +239,5 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
   public function getTranslatableStates() {
     return variable_get('tmgmt_workbench_moderation_states', array());
   }
+  
 }
