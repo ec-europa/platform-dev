@@ -844,4 +844,4 @@ projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootst
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
-projects[europa][download][url] = https://github.com/ec-europa/platform-theme-dev/releases/download/v0.1.2/build-v0.1.2.zip
+projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz
