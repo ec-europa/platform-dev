@@ -322,7 +322,19 @@ function multisite_og_navigation_tree_node_update($node) {
  * Implements hook_node_delete().
  */
 function multisite_og_navigation_tree_node_delete($node) {
-  db_delete('multisite_og_navigation_tree_grouptaxonomy')->condition('nid', $node->nid)->execute();
+  if (og_is_group_type('node', $node->type) && $group_taxonomy = _mont_group_taxonomy_load($node->nid)) {
+    // Delete taxonomy terms of deleted group.
+    $child_terms = taxonomy_get_tree($group_taxonomy->vid, $group_taxonomy->tid);
+    if (!empty($child_terms)) {
+      foreach ($child_terms as $child_term) {
+        taxonomy_term_delete($child_term->tid);
+      }
+    }
+    taxonomy_term_delete($group_taxonomy->tid);
+
+    // Delete og_navigation_tree_grouptaxonomy entry.
+    db_delete('multisite_og_navigation_tree_grouptaxonomy')->condition('nid', $node->nid)->execute();
+  }
 }
 
 /**
