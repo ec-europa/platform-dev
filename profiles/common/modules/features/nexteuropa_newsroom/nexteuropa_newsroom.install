@@ -276,7 +276,11 @@ function nexteuropa_newsroom_update_7108() {
   // Update metatag settings.
   $value = db_query("select config from `metatag_config` where instance = 'node:newsroom_item'")->fetchCol();
   if ($value) {
-    db_query("update `metatag_config` set config = :config where instance = 'node:newsroom_item'", array(':config' => str_replace('field_teaser', 'field_newsroom_teaser', $value)));
+    db_query("update `metatag_config` set config = :config where instance = 'node:newsroom_item'",
+      array(
+        ':config' => str_replace('field_teaser', 'field_newsroom_teaser', $value),
+      )
+    );
   }
 }
 
@@ -297,10 +301,6 @@ function _nexteuropa_newsroom_get_version() {
  *   Old field name.
  * @param string $new_name
  *   New field name.
- * @param string $entity_type
- *   Entity type.
- * @param string $bundle
- *   Bundle.
  */
 function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
   $old_field = field_info_field($old_name);
