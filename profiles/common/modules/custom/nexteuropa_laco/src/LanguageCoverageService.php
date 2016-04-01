@@ -35,6 +35,13 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   const HTTP_HEADER_LANGUAGE_NAME = 'EC-LACO-lang';
 
   /**
+   * Response status.
+   *
+   * @var string
+   */
+  private $status = '';
+
+  /**
    * {@inheritdoc}
    */
   static public function isServiceRequest() {
@@ -70,15 +77,43 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
     elseif (!$this->isValidLanguage($language)) {
       $this->setStatus('404 Not found');
     }
-    else {
-      $this->setStatus('200 OK');
+
+    $url = $this->sanitizeUrl($_GET['q']);
+
+    $source = '';
+    $result = db_select('url_alias', 'a')
+      ->fields('a', ['source'])
+      ->condition('a.alias', $url)
+      ->execute()
+      ->fetchAssoc();
+    if (is_array($result) && !empty($result)) {
+      $source = array_shift($result);
     }
 
+    if ($source) {
+      list(, $nid) = explode('/', $source);
+
+      $translations = db_select('entity_translation', 't')
+        ->fields('t', ['language'])
+        ->condition('t.entity_type', 'node')
+        ->condition('t.entity_id', $nid)
+        ->condition('t.status', 1)
+        ->execute()
+        ->fetchAllAssoc('language');
+
+      if ($translations && !array_key_exists($language, $translations)) {
+        $this->setStatus('404 Not found');
+      }
+    }
+
+    if (!$this->getStatus()) {
+      $this->setStatus('200 OK');
+    }
     $this->setHeader('Content-Length', '0');
   }
 
   /**
-   * Check whereas the given language is enabled on the current site.
+   * Check whereas thew given language is enabled on the current site.
    *
    * @param string $language
    *    Language code.
@@ -96,10 +131,36 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   }
 
   /**
+   * Get list of available languages.
+   *
+   * @return array
+   *    List of available languages
+   */
+  public function getAvailableLanguages() {
+    $languages = db_select('languages', 'l')
+      ->fields('l', ['language'])
+      ->condition('l.enabled', 1)
+      ->execute()
+      ->fetchAllAssoc('language');
+    return array_keys($languages);
+  }
+
+  /**
    * Set HTTP response status code.
    */
   public function setStatus($status) {
+    $this->status = $status;
     $this->setHeader('Status', $status);
+  }
+
+  /**
+   * Status property getter.
+   *
+   * @return string
+   *    Return current response status.
+   */
+  public function getStatus() {
+    return $this->status;
   }
 
   /**
@@ -133,14 +194,13 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    *
    * @param string $url
    *    Requested URL.
-   * @param string $language
-   *    Requested language.
    *
    * @return string
    *    Sanitized URL.
    */
-  public function sanitizeUrl($url, $language) {
-    return preg_replace("/_$language$/i", '', $url);
+  public function sanitizeUrl($url) {
+    $languages = implode('|_', $this->getAvailableLanguages());
+    return preg_replace("/(_{$languages})$/i", '', $url);
   }
 
   /**

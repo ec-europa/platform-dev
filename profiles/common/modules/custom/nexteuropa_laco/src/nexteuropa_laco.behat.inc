@@ -8,7 +8,6 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Behat\Gherkin\Node\TableNode;
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
 
 /**
