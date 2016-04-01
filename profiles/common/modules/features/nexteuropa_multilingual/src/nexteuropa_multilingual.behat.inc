@@ -204,9 +204,11 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Check that the current job has only items of a specific source plugin.
+   *
    * @Then I am on a translation job page with :arg1 job items
    */
-  public function iAmOnATranslationJobPageWithJobItems($plugin) {
+  public function assertJobWithJobItemsPlugin($plugin) {
 
     // We can't simply use Drupal's menu_get_item() because of caching reasons.
     $job_id = $this->getTranslationJobItemFromUrl();
