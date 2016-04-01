@@ -250,28 +250,33 @@ function nexteuropa_newsroom_update_7108() {
   $fields = array();
   $fields['field_associated_newsroom_select'] = 'field_newsroom_associated_select';
   $fields['field_associated_newsroom_topic'] = 'field_newsroom_associated_topic';
-  $fields['field_date_label'] = 'field_newsroom_date_label';
-  $fields['field_direct_link_if_teaser_only'] = 'field_newsroom_direct_link';
-  $fields['field_display_date'] = 'field_newsroom_display_date';
   $fields['field_eur_lex_link'] = 'field_newsroom_eur_lex_link';
-  $fields['field_featured_item'] = 'field_newsroom_featured_item';
   $fields['field_highlighted_newsroom_topic'] = 'field_newsroom_highlighted_topic';
   $fields['field_illustrative_image'] = 'field_newsroom_illustrative_img';
   $fields['field_newsletter_only'] = 'field_newsroom_newsletter_only';
   $fields['field_nr_project_coordinator'] = 'field_newsroom_prj_coordinator';
   $fields['field_primary_topic'] = 'field_newsroom_primary_topic';
-  $fields['field_read_more_text'] = 'field_newsroom_read_more_text';
   $fields['field_related_content'] = 'field_newsroom_related_content';
-  $fields['field_responsible_person_label'] = 'field_newsroom_resp_person_label';
-  $fields['field_selected_topics'] = 'field_newsroom_selected_topics';
-  $fields['field_selected_types'] = 'field_newsroom_selected_types';
-  $fields['field_service_active'] = 'field_newsroom_service_active';
-  $fields['field_service_type'] = 'field_newsroom_service_type';
   $fields['field_teaser'] = 'field_newsroom_teaser';
   $fields['field_ted_link'] = 'field_newsroom_ted_link';
-
+  $fields['field_featured_item'] = 'field_newsroom_featured_item';
+  $fields['field_responsible_person_label'] = 'field_newsroom_resp_person_label';
+  $fields['field_read_more_text'] = 'field_newsroom_read_more_text';
+  $fields['field_display_date'] = 'field_newsroom_display_date';
+  $fields['field_direct_link_if_teaser_only'] = 'field_newsroom_direct_link';
+  $fields['field_date_label'] = 'field_newsroom_date_label';
+  $fields['field_service_active'] = 'field_newsroom_service_active';
+  $fields['field_service_type'] = 'field_newsroom_service_type';
+  $fields['field_selected_types'] = 'field_newsroom_selected_types';
+  $fields['field_selected_topics'] = 'field_newsroom_selected_topics';
   foreach ($fields as $old_field => $new_field) {
     _nexteuropa_newsroom_rename_field($old_field, $new_field);
+  }
+
+  // Update metatag settings.
+  $value = db_query("select config from `metatag_config` where instance = 'node:newsroom_item'")->fetchCol();
+  if ($value) {
+    db_query("update `metatag_config` set config = :config where instance = 'node:newsroom_item'", array(':config' => str_replace('field_teaser', 'field_newsroom_teaser', $value)));
   }
 }
 
@@ -297,71 +302,77 @@ function _nexteuropa_newsroom_get_version() {
  * @param string $bundle
  *   Bundle.
  */
-function _nexteuropa_newsroom_rename_field($old_name, $new_name, $entity_type = 'node', $bundle = 'newsroom_item') {
-  // Get old field info.
+function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
   $old_field = field_info_field($old_name);
 
-  // Create new field.
-  $new_field = $old_field;
-  $new_field['field_name'] = $new_name;
+  if ($old_field) {
+    // Create new field.
+    $new_field = $old_field;
+    $new_field['field_name'] = $new_name;
 
-  if (!field_info_field($new_name)) {
-    field_create_field($new_field);
-  }
-  else {
-    field_update_field($new_field);
-  }
-
-  // Get old field instance.
-  $old_instance = field_info_instance($entity_type, $old_name, $bundle);
-  $new_instance = $old_instance;
-  $new_instance['field_name'] = $new_name;
-
-  if (!field_info_instance($entity_type, $new_name, $bundle)) {
-    field_create_instance($new_instance);
-  }
-  else {
-    field_update_instance($new_instance);
-  }
-
-  // Migrate old fields' data to the new ones.
-  $field_data = db_select('field_data_' . $old_name, 'old')
-    ->fields('old')
-    ->condition('entity_type', $entity_type)
-    ->condition('bundle', $bundle)
-    ->execute();
-
-  while ($data = $field_data->fetchAssoc()) {
-    $data_new = array();
-    foreach ($data as $column => $value) {
-      $column = str_replace($old_name, $new_name, $column);
-      $data_new[$column] = $value;
+    $new_field_info = field_info_field($new_name);
+    if (empty($new_field_info)) {
+      field_create_field($new_field);
     }
-    db_insert('field_data_' . $new_name)
-      ->fields($data_new)
-      ->execute();
   }
 
-  // Migrate old fields' revision data to the new ones.
-  $field_revision = db_select('field_revision_' . $old_name, 'old')
-    ->fields('old')
-    ->condition('entity_type', $entity_type)
-    ->condition('bundle', $bundle)
-    ->execute();
+  if (isset($old_field['bundles'])) {
+    foreach ($old_field['bundles'] as $entity_type => $bundles) {
+      foreach ($bundles as $bundle) {
+        $old_instance = field_info_instance($entity_type, $old_name, $bundle);
 
-  while ($revision = $field_revision->fetchAssoc()) {
-    $revision_new = array();
-    foreach ($revision as $column => $value) {
-      $column = str_replace($old_name, $new_name, $column);
-      $revision_new[$column] = $value;
+        if ($old_instance) {
+          $new_instance = $old_instance;
+          $new_instance['field_name'] = $new_name;
+          $new_instance_info = field_info_instance($entity_type, $new_name, $bundle);
+          if (empty($new_instance_info)) {
+            field_create_instance($new_instance);
+          }
+
+          // Migrate old fields' data to the new ones.
+          $field_data = db_select('field_data_' . $old_name, 'old')
+            ->fields('old')
+            ->condition('entity_type', $entity_type)
+            ->condition('bundle', $bundle)
+            ->execute();
+
+          while ($data = $field_data->fetchAssoc()) {
+            $data_new = array();
+            foreach ($data as $column => $value) {
+              $column = str_replace($old_name, $new_name, $column);
+              $data_new[$column] = $value;
+            }
+
+            db_insert('field_data_' . $new_name)
+              ->fields($data_new)
+              ->execute();
+          }
+
+          // Migrate old fields' revision data to the new ones.
+          $field_revision = db_select('field_revision_' . $old_name, 'old')
+            ->fields('old')
+            ->condition('entity_type', $entity_type)
+            ->condition('bundle', $bundle)
+            ->execute();
+
+          while ($revision = $field_revision->fetchAssoc()) {
+            $revision_new = array();
+            foreach ($revision as $column => $value) {
+              $column = str_replace($old_name, $new_name, $column);
+              $revision_new[$column] = $value;
+            }
+
+            db_insert('field_revision_' . $new_name)
+              ->fields($revision_new)
+              ->execute();
+          }
+        }
+      }
     }
-    db_insert('field_revision_' . $new_name)
-      ->fields($revision_new)
-      ->execute();
   }
 
   // Delete old instance.
-  field_delete_instance($old_instance);
+  field_delete_field($old_name);
 
   // Purge fields.
   field_purge_batch(1000);

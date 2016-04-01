@@ -1265,10 +1265,10 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'weight' => 0,
       ),
       'event' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 30,
+        'type' => 'text_default',
+        'weight' => 6,
       ),
       'mini_teaser' => array(
         'label' => 'above',

@@ -421,7 +421,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/digital-agenda/newsroom/!1/!2/previous">Past %1 about %2</a>';
+  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2/previous">Past %1 about %2</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date -  start date (field_newsroom_item_date) */
@@ -490,7 +490,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/digital-agenda/newsroom/!1/!2/">Current %1 about %2</a>';
+  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2/">Current %1 about %2</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date - end date (field_newsroom_item_date:value2) */
@@ -566,7 +566,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/digital-agenda/newsroom/!1/!2/previous">Past %1 about %2</a>';
+  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2/previous">Past %1 about %2</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date -  start date (field_newsroom_item_date) */
@@ -639,7 +639,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['footer']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/digital-agenda/newsroom/!1/!2">Current %1 about %2</a>';
+  $handler->display->display_options['footer']['area_text_custom']['content'] = '<a href="/[newsroom_url_prefix]/newsroom/!1/!2">Current %1 about %2</a>';
   $handler->display->display_options['footer']['area_text_custom']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
   /* Sort criterion: Content: Date - end date (field_newsroom_item_date:value2) */
@@ -1764,7 +1764,7 @@ function nexteuropa_newsroom_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Digital Agenda Newsletters';
+  $handler->display->display_options['title'] = 'Central Newsletters';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -1855,7 +1855,7 @@ function nexteuropa_newsroom_views_default_views() {
   );
   $translatables['newsroom_services'] = array(
     t('Master'),
-    t('Digital Agenda Newsletters'),
+    t('Central Newsletters'),
     t('more'),
     t('Apply'),
     t('Reset'),

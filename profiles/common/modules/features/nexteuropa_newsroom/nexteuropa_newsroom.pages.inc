@@ -44,8 +44,6 @@ function _nexteuropa_newsroom_newsletters_page() {
     $view->set_display($basic_display);
     $view->pre_execute();
     $view->execute();
-
-    $basic_newsletters_title = $view->get_title();
     $basic_newsletters = $view->result;
 
     $view->destroy();
@@ -54,21 +52,19 @@ function _nexteuropa_newsroom_newsletters_page() {
     $view->set_display($central_display);
     $view->pre_execute();
     $view->execute();
-
-    $central_newsletters_title = $view->get_title();
     $central_newsletters = $view->result;
     $content = theme('newsroom_services_page', array(
       'central_items' => theme('newsroom_services_items',
         array(
           'items' => _nexteuropa_newsroom_prepare_newsletters($central_newsletters),
-          'title' => $central_newsletters_title,
+          'title' => variable_get('newsroom_central_newsletter_title', t('Central newsletters')),
           'css_class' => $central_display,
           'universe_id' => $universe_id = NewsroomHelper::getUniverseId(),
         )),
       'basic_items' => theme('newsroom_services_items',
         array(
           'items' => _nexteuropa_newsroom_prepare_newsletters($basic_newsletters),
-          'title' => $basic_newsletters_title,
+          'title' => variable_get('newsroom_other_newsletter_title', t('Other newsletters')),
           'css_class' => $basic_display,
           'universe_id' => $universe_id = NewsroomHelper::getUniverseId(),
         )),
