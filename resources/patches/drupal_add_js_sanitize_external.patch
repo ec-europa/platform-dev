@@ -1,0 +1,18 @@
+--- includes/common.inc	2016-03-31 13:04:01.245367036 +0200
++++ includes/common.inc	2016-03-31 14:13:40.683478723 +0200
+@@ -4206,6 +4206,15 @@
+     $jquery_added = FALSE;
+   }
+ 
++  // If no type is specified and the URL is external, force the type to external
++  if (url_is_external($data)) {
++    if(is_array($options) && !array_key_exists('type',$options)) {
++      $options['type'] = 'external';
++    } elseif (is_null($options)) {
++      $options = 'external';
++    }
++  }
++
+   // Construct the options, taking the defaults into consideration.
+   if (isset($options)) {
+     if (!is_array($options)) {
