@@ -48,5 +48,9 @@ Feature: TMGMT Poetry features
     When I click "In progress" in the "French" row
     Then I should see "You are not authorized to access this page."
     Then I receive the translation of this job item
+    And I click "Cancel"
     Then I should see "Needs review" in the "French" row
-
+    When I click "Needs review"
+    And I fill in "edit-title-field0value-translation" with "Mon contenu initial traduit"
+    And I press "Save as completed"
+    Then I should see "Published" in the "French" row
