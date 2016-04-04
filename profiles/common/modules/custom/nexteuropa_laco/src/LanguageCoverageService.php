@@ -71,18 +71,16 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   /**
    * {@inheritdoc}
    */
-  public function buildResponse() {
+  public function hookBoot() {
+    $path = $this->sanitizePath($_GET['q']);
     $language = $this->getRequestedLanguage();
+
     if (!$language) {
       $this->setStatus('400 Bad request');
     }
     elseif (!$this->isValidLanguage($language)) {
       $this->setStatus('404 Not found');
     }
-
-    // Sanitize path: remove language negotiation string and get source path.
-    $path = $this->removeLanguageNegotiationSuffix($_GET['q']);
-    $path = $this->getSourcePath($path);
 
     // Check for node language coverage.
     if ($this->isNodePath($path)) {
@@ -93,14 +91,41 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
         $this->setStatus('404 Not found');
       }
     }
+
+    if ($this->hasStatus()) {
+      drupal_exit();
+    }
   }
 
   /**
    * {@inheritdoc}
    */
-  public function processRequest() {
-    $this->buildResponse();
-    if ($this->hasStatus()) {
+  public function hookInit() {
+    if (!$this->hasStatus()) {
+      $path = $this->sanitizePath($_GET['q']);
+      $page_callback_result = MENU_NOT_FOUND;
+
+      if ($router_item = menu_get_item($path)) {
+        if ($router_item['access']) {
+          if ($router_item['include_file']) {
+            require_once DRUPAL_ROOT . '/' . $router_item['include_file'];
+          }
+          $page_callback_result = call_user_func_array($router_item['page_callback'], $router_item['page_arguments']);
+        }
+        else {
+          $page_callback_result = MENU_ACCESS_DENIED;
+        }
+      }
+
+      switch ($page_callback_result) {
+        case MENU_NOT_FOUND:
+          $this->setStatus('404 Not found');
+          break;
+
+        case MENU_ACCESS_DENIED:
+          $this->setStatus('403 Forbidden');
+          break;
+      }
       drupal_exit();
     }
   }
@@ -114,7 +139,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return bool
    *    TRUE if given path is a node path, FALSE otherwise.
    */
-  public function isNodePath($path) {
+  protected function isNodePath($path) {
     return (bool) preg_match('/node\/\d*/', $path);
   }
 
@@ -129,7 +154,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return bool
    *    TRUE if given node is available in the given language, FALSE otherwise.
    */
-  public function assertNodeLanguageCoverage($path, $language) {
+  protected function assertNodeLanguageCoverage($path, $language) {
     list(, $nid) = explode('/', $path);
     $translations = db_select('entity_translation', 't')
       ->fields('t', ['language'])
@@ -142,27 +167,6 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   }
 
   /**
-   * Get source path given its alias. Return input path if no alias is found.
-   *
-   * @param $path
-   *    Relative Drupal path.
-   *
-   * @return string
-   *    Source path if any, input path if none.
-   */
-  public function getSourcePath($path) {
-    $result = db_select('url_alias', 'a')
-      ->fields('a', ['source'])
-      ->condition('a.alias', $path)
-      ->execute()
-      ->fetchAssoc();
-    if (is_array($result) && !empty($result)) {
-      return array_shift($result);
-    }
-    return $path;
-  }
-
-  /**
    * Check whereas thew given language is enabled on the current site.
    *
    * @param string $language
@@ -171,7 +175,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return bool
    *    TRUE for a valid language, FALSE otherwise.
    */
-  public function isValidLanguage($language) {
+  protected function isValidLanguage($language) {
     return (bool) db_select('languages', 'l')
       ->fields('l', ['language'])
       ->condition('l.language', $language)
@@ -186,7 +190,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return array
    *    List of available languages
    */
-  public function getAvailableLanguages() {
+  protected function getAvailableLanguages() {
     $languages = db_select('languages', 'l')
       ->fields('l', ['language'])
       ->condition('l.enabled', 1)
@@ -201,7 +205,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @param string $status
    *    Set response status.
    */
-  public function setStatus($status) {
+  protected function setStatus($status) {
     $this->status = $status;
     $this->setHeader('Status', $status);
   }
@@ -212,7 +216,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return string
    *    Return current response status.
    */
-  public function getStatus() {
+  protected function getStatus() {
     return $this->status;
   }
 
@@ -222,7 +226,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return bool
    *    TRUE status has been set, FALSE otherwise.
    */
-  public function hasStatus() {
+  protected function hasStatus() {
     return (bool) $this->status;
   }
 
@@ -234,7 +238,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @param string $value
    *    Header value.
    */
-  public function setHeader($name, $value) {
+  protected function setHeader($name, $value) {
     drupal_add_http_header($name, $value);
   }
 
@@ -244,7 +248,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return string|FALSE
    *    The requested language, FALSE if none found.
    */
-  public function getRequestedLanguage() {
+  protected function getRequestedLanguage() {
     $header = self::getHeaderKey(self::HTTP_HEADER_LANGUAGE_NAME);
     if (isset($_SERVER[$header]) && !empty($_SERVER[$header])) {
       return $_SERVER[$header];
@@ -261,9 +265,45 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return string
    *    Sanitized URL.
    */
-  public function removeLanguageNegotiationSuffix($url) {
+  protected function removeLanguageNegotiationSuffix($url) {
     $languages = implode('|_', $this->getAvailableLanguages());
     return preg_replace("/(_{$languages})$/i", '', $url);
+  }
+
+  /**
+   * Get source path given its alias. Return input path if no alias is found.
+   *
+   * @param string $path
+   *    Relative Drupal path.
+   *
+   * @return string
+   *    Source path if any, input path if none.
+   */
+  protected function getSourcePath($path) {
+    $result = db_select('url_alias', 'a')
+      ->fields('a', ['source'])
+      ->condition('a.alias', $path)
+      ->execute()
+      ->fetchAssoc();
+    if (is_array($result) && !empty($result)) {
+      return array_shift($result);
+    }
+    return $path;
+  }
+
+  /**
+   * Sanitize path.
+   *
+   * @param string $path
+   *    Relative Drupal path.
+   *
+   * @return string
+   *    Sanitized path.
+   */
+  protected function sanitizePath($path) {
+    $path = $this->removeLanguageNegotiationSuffix($path);
+    $path = $this->getSourcePath($path);
+    return $path;
   }
 
   /**
@@ -275,7 +315,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return string
    *    Header name as a $_SERVER array key.
    */
-  static public function getHeaderKey($header) {
+  static protected function getHeaderKey($header) {
     $header = 'HTTP_' . strtoupper($header);
     return str_replace('-', '_', $header);
   }

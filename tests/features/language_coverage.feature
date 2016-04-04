@@ -10,13 +10,24 @@ Feature: Webtools Language Coverage (LACO) service can check the language covera
       | en        |
       | fr        |
     Then I should get the following language coverage responses:
-      | path | language | response |
-      | user | en       | 200      |
-      | user | fr       | 200      |
-      | user | de       | 404      |
-      | user | pl       | 404      |
+      | path          | language | response |
+      | user          | en       | 200      |
+      | user          | fr       | 200      |
+      | user          | de       | 404      |
+      | user          | pl       | 404      |
+      | user/password | en       | 200      |
+      | user/password | fr       | 200      |
+      | user/password | de       | 404      |
+      | user/password | pl       | 404      |
+      | admin         | en       | 403      |
+      | admin         | fr       | 403      |
+      | admin         | de       | 404      |
+      | admin         | pl       | 404      |
+      | admin_en      | en       | 403      |
+      | admin_fr      | fr       | 403      |
+      | admin_de      | de       | 404      |
+      | admin_pl      | pl       | 404      |
 
-  @run
   Scenario: Content language coverage depends on its actual translations.
     Given the following languages are available:
       | languages |
@@ -29,16 +40,16 @@ Feature: Webtools Language Coverage (LACO) service can check the language covera
       | fr       | Titre en Français |
     Then I should get the following language coverage responses:
       | path                               | language | response |
-#      | content/title-english              | en       | 200      |
-#      | content/title-english              | fr       | 200      |
-#      | content/title-english_en           | en       | 200      |
-#      | content/title-english_fr           | fr       | 200      |
-#      | content/title-english?text=abc     | en       | 200      |
-#      | content/title-english_en?text=abc  | en       | 200      |
-#      | content/title-english_fr?text=abc  | fr       | 200      |
-#      | content/title-english              | pl       | 404      |
-#      | content/title-english              | de       | 404      |
-#      | content/title-english?text=abc     | de       | 404      |
-#      | content/title-english_en?text=abc  | de       | 404      |
-#      | content/title-english_fr?text=abc  | de       | 404      |
+      | content/title-english              | en       | 200      |
+      | content/title-english              | fr       | 200      |
+      | content/title-english_en           | en       | 200      |
+      | content/title-english_fr           | fr       | 200      |
+      | content/title-english?text=abc     | en       | 200      |
+      | content/title-english_en?text=abc  | en       | 200      |
+      | content/title-english_fr?text=abc  | fr       | 200      |
+      | content/title-english              | pl       | 404      |
+      | content/title-english              | de       | 404      |
+      | content/title-english?text=abc     | de       | 404      |
+      | content/title-english_en?text=abc  | de       | 404      |
+      | content/title-english_fr?text=abc  | de       | 404      |
       | not-existing-path                  | en       | 404      |
