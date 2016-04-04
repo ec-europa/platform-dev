@@ -201,6 +201,9 @@ projects[extlink][version] = "1.18"
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
+projects[fast_404][subdir] = "contrib"
+projects[fast_404][version] = "1.5"
+
 projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
@@ -428,6 +431,9 @@ projects[og][download][branch] = 7.x-2.x
 projects[og][download][revision] = fba6dda
 projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+; VBO and OG
+; https://www.drupal.org/node/2561507
+projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
@@ -658,8 +664,7 @@ projects[wysiwyg][version] = "2.2"
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7359
-projects[wysiwyg][patch][] = patches/wysiwyg.features.inc.patch
+projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -842,4 +847,4 @@ projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootst
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
-projects[europa][download][url] = https://github.com/ec-europa/platform-theme-dev/releases/download/v0.1.2/build-v0.1.2.zip
+projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz
