@@ -173,7 +173,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $controller = entity_get_controller('tmgmt_translator');
     $machine_name = strtolower(str_replace(' ', '_', $name));
     $translator = tmgmt_translator_load($machine_name);
-    if(!$translator) {
+    if (!$translator) {
       $values = [
         "name" => $machine_name,
         "label" => $name,
