@@ -9,10 +9,12 @@ Feature: Webtools Language Coverage (LACO) service can check the language covera
       | languages |
       | en        |
       | fr        |
-    Then I should get a "200" for "en" language coverage on the "user" path
-    And I should get a "200" for "fr" language coverage on the "user" path
-    And I should get a "404" for "de" language coverage on the "user" path
-    And I should get a "404" for "pl" language coverage on the "user" path
+    Then I should get the following language coverage responses:
+      | path | language | response |
+      | user | en       | 200      |
+      | user | fr       | 200      |
+      | user | de       | 404      |
+      | user | pl       | 404      |
 
   @run
   Scenario: Content language coverage depends on its actual translations.
@@ -25,18 +27,18 @@ Feature: Webtools Language Coverage (LACO) service can check the language covera
       | language | title             |
       | en       | Title in English  |
       | fr       | Titre en Français |
-    Then I should get a "200" for "en" language coverage on the "content/title-english" path
-    And I should get a "200" for "fr" language coverage on the "content/title-english" path
-    And I should get a "200" for "en" language coverage on the "content/title-english_en" path
-    And I should get a "200" for "fr" language coverage on the "content/title-english_fr" path
-    And I should get a "200" for "en" language coverage on the "content/title-english?text=abc" path
-    And I should get a "200" for "en" language coverage on the "content/title-english_en?text=abc" path
-    And I should get a "200" for "fr" language coverage on the "content/title-english_fr?text=abc" path
-    And I should get a "404" for "pl" language coverage on the "content/title-english" path
-    And I should get a "404" for "de" language coverage on the "content/title-english" path
-    And I should get a "404" for "de" language coverage on the "content/title-english?text=abc" path
-    And I should get a "404" for "de" language coverage on the "content/title-english_en?text=abc" path
-    And I should get a "404" for "de" language coverage on the "content/title-english_fr?text=abc" path
-
-# What happen when a page actually does not exists?
-#    And I should get a "404" for "en" language coverage on the "content/title-english-not-existing" path
+    Then I should get the following language coverage responses:
+      | path                               | language | response |
+#      | content/title-english              | en       | 200      |
+#      | content/title-english              | fr       | 200      |
+#      | content/title-english_en           | en       | 200      |
+#      | content/title-english_fr           | fr       | 200      |
+#      | content/title-english?text=abc     | en       | 200      |
+#      | content/title-english_en?text=abc  | en       | 200      |
+#      | content/title-english_fr?text=abc  | fr       | 200      |
+#      | content/title-english              | pl       | 404      |
+#      | content/title-english              | de       | 404      |
+#      | content/title-english?text=abc     | de       | 404      |
+#      | content/title-english_en?text=abc  | de       | 404      |
+#      | content/title-english_fr?text=abc  | de       | 404      |
+      | not-existing-path                  | en       | 404      |

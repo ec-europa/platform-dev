@@ -35,11 +35,28 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   const HTTP_HEADER_LANGUAGE_NAME = 'EC-LACO-lang';
 
   /**
+   * Contains singleton instance.
+   *
+   * @var LanguageCoverageService
+   */
+  private static $instance = NULL;
+
+  /**
    * Response status.
    *
    * @var string
    */
   private $status = '';
+
+  /**
+   * {@inheritdoc}
+   */
+  static public function getInstance() {
+    if (!self::$instance) {
+      self::$instance = new static();
+    }
+    return self::$instance;
+  }
 
   /**
    * {@inheritdoc}
@@ -54,21 +71,6 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   /**
    * {@inheritdoc}
    */
-  static public function getInstance() {
-    return new static();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function deliverResponse() {
-    $this->buildResponse();
-    drupal_exit();
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   public function buildResponse() {
     $language = $this->getRequestedLanguage();
     if (!$language) {
@@ -78,38 +80,86 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
       $this->setStatus('404 Not found');
     }
 
-    $url = $this->sanitizeUrl($_GET['q']);
+    // Sanitize path: remove language negotiation string and get source path.
+    $path = $this->removeLanguageNegotiationSuffix($_GET['q']);
+    $path = $this->getSourcePath($path);
 
-    $source = '';
-    $result = db_select('url_alias', 'a')
-      ->fields('a', ['source'])
-      ->condition('a.alias', $url)
-      ->execute()
-      ->fetchAssoc();
-    if (is_array($result) && !empty($result)) {
-      $source = array_shift($result);
-    }
-
-    if ($source) {
-      list(, $nid) = explode('/', $source);
-
-      $translations = db_select('entity_translation', 't')
-        ->fields('t', ['language'])
-        ->condition('t.entity_type', 'node')
-        ->condition('t.entity_id', $nid)
-        ->condition('t.status', 1)
-        ->execute()
-        ->fetchAllAssoc('language');
-
-      if ($translations && !array_key_exists($language, $translations)) {
+    // Check for node language coverage.
+    if ($this->isNodePath($path)) {
+      if ($this->assertNodeLanguageCoverage($path, $language)) {
+        $this->setStatus('200 OK');
+      }
+      else {
         $this->setStatus('404 Not found');
       }
     }
+  }
 
-    if (!$this->getStatus()) {
-      $this->setStatus('200 OK');
+  /**
+   * {@inheritdoc}
+   */
+  public function processRequest() {
+    $this->buildResponse();
+    if ($this->hasStatus()) {
+      drupal_exit();
     }
-    $this->setHeader('Content-Length', '0');
+  }
+
+  /**
+   * Check if the given path is a node path.
+   *
+   * @param string $path
+   *    Relative Drupal path.
+   *
+   * @return bool
+   *    TRUE if given path is a node path, FALSE otherwise.
+   */
+  public function isNodePath($path) {
+    return (bool) preg_match('/node\/\d*/', $path);
+  }
+
+  /**
+   * Assert node language coverage given its relative path.
+   *
+   * @param string $path
+   *    Relative Drupal path.
+   * @param string $language
+   *    Language code.
+   *
+   * @return bool
+   *    TRUE if given node is available in the given language, FALSE otherwise.
+   */
+  public function assertNodeLanguageCoverage($path, $language) {
+    list(, $nid) = explode('/', $path);
+    $translations = db_select('entity_translation', 't')
+      ->fields('t', ['language'])
+      ->condition('t.entity_type', 'node')
+      ->condition('t.entity_id', $nid)
+      ->condition('t.status', 1)
+      ->execute()
+      ->fetchAllAssoc('language');
+    return $translations && array_key_exists($language, $translations);
+  }
+
+  /**
+   * Get source path given its alias. Return input path if no alias is found.
+   *
+   * @param $path
+   *    Relative Drupal path.
+   *
+   * @return string
+   *    Source path if any, input path if none.
+   */
+  public function getSourcePath($path) {
+    $result = db_select('url_alias', 'a')
+      ->fields('a', ['source'])
+      ->condition('a.alias', $path)
+      ->execute()
+      ->fetchAssoc();
+    if (is_array($result) && !empty($result)) {
+      return array_shift($result);
+    }
+    return $path;
   }
 
   /**
@@ -147,6 +197,9 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
 
   /**
    * Set HTTP response status code.
+   *
+   * @param string $status
+   *    Set response status.
    */
   public function setStatus($status) {
     $this->status = $status;
@@ -161,6 +214,16 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    */
   public function getStatus() {
     return $this->status;
+  }
+
+  /**
+   * Check whereas the status has already been set ot not.
+   *
+   * @return bool
+   *    TRUE status has been set, FALSE otherwise.
+   */
+  public function hasStatus() {
+    return (bool) $this->status;
   }
 
   /**
@@ -190,7 +253,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   }
 
   /**
-   * Remove language portion from the end of the URL, if any.
+   * Remove language negotiation suffix from the end of the URL, if any.
    *
    * @param string $url
    *    Requested URL.
@@ -198,7 +261,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * @return string
    *    Sanitized URL.
    */
-  public function sanitizeUrl($url) {
+  public function removeLanguageNegotiationSuffix($url) {
     $languages = implode('|_', $this->getAvailableLanguages());
     return preg_replace("/(_{$languages})$/i", '', $url);
   }
