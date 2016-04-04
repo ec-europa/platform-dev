@@ -32,13 +32,14 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   public function isAvailable(TMGMTTranslator $translator) {
     $poetry_settings = array('settings', 'organization', 'contacts');
     $poetry_service = array('address', 'method', 'callback_user', 'callback_password', 'poetry_user',
-        'poetry_password');
+      'poetry_password',
+    );
 
     $all_settings = array();
     $poetry_credentials_settings = variable_get('poetry_service');
 
     // If no credentials set in settings.php don't check further.
-    if(empty($poetry_settings)) {
+    if (empty($poetry_settings)) {
       return FALSE;
     }
 
@@ -56,13 +57,13 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       }
     }
     // If any of these is empty, translator is not properly configured.
-    foreach($all_settings as $k => $v) {
+    foreach ($all_settings as $k => $v) {
       if (empty($v)) {
         return FALSE;
       }
     };
     return TRUE;
-    }
+  }
 
   /**
    * Implements TMGMTTranslatorPluginControllerInterface::canTranslation().
