@@ -129,6 +129,9 @@ projects[context_entity_field][version] = "1.1"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5056
 projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
 
+projects[context_og][subdir] = "contrib"
+projects[context_og][version] = "2.1" 
+
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
 ; Allow file upload with css injector
