@@ -23,6 +23,7 @@ Feature: TMGMT Poetry features
     And I press the "Save translator" button
     Then I should see the success message "The configuration options have been saved."
 
+    @javascript
   Scenario: Create a request translation for French and Portuguese
     Given local translator "Translator PT-PT" is available
     Given I am logged in as a user with the "administrator" role
@@ -33,10 +34,6 @@ Feature: TMGMT Poetry features
     And I select the radio button "" with the id "edit-languages-pt-pt"
     And I press the "Request translation" button
     And I select "TMGMT Poetry: Test translator" from "Translator"
-    And I press the "Submit to translator" button
-    Then I should see the following success messages:
-      | success messages                                     |
-      | Job has been successfully submitted for translation. |
     And I wait for AJAX to finish
     Then I should see "Contact usernames"
     And I should see "Organization"
