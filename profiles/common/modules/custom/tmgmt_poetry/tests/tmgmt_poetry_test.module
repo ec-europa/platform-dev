@@ -20,6 +20,8 @@ function tmgmt_poetry_test_init() {
       'method' => 'requestService',
       'callback_user' => 'Poetry',
       'callback_password' => 'PoetryPWD',
+      'poetry_user' => 'Poetry',
+      'poetry_password' => 'PoetryPWD',
     );
   }
 }
@@ -74,7 +76,6 @@ function tmgmt_poetry_test_soap_server() {
 function tmgmt_poetry_test_receive_translation() {
 
   $job = tmgmt_job_load(arg(2));
-  $additional_jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $job->tjid . '_POETRY')->fetchAll();
   $poetry = variable_get("poetry_service");
 
   $url = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE))) . '?wsdl';
@@ -83,22 +84,15 @@ function tmgmt_poetry_test_receive_translation() {
     'trace' => 1,
   ));
 
-  $languages = $job->settings['languages'];
+  $msg = _tmgmt_poetry_test_make_xml_msg($job, $job->target_language, 'HTML');
 
-  $languages[$job->getTranslator()->mapToRemoteLanguage($job->target_language)] = $job->getTranslator()->mapToRemoteLanguage($job->target_language);
-
-  foreach ($languages as $language) {
-    if ($language) {
-      $msg = _tmgmt_poetry_test_make_xml_msg($job, $language, 'HTML');
-      try {
-        $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
-        print "<p>Translation received for job: {$job->tjid} - $language </p>";
-      }
-      catch (Exception $e) {
-        $response = 'Error new SoapClient : ' . $e->getMessage();
-        watchdog('Poetry: Test', $response);
-      }
-    }
+  try {
+    $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
+    print "<p>Translation received for job: {$job->tjid} - $job->target_language </p>";
+  }
+  catch (Exception $e) {
+    $response = 'Error new SoapClient : ' . $e->getMessage();
+    watchdog('Poetry: Test', $response);
   }
 }
 
