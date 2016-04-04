@@ -197,6 +197,9 @@ projects[extlink][version] = "1.18"
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
+projects[fast_404][subdir] = "contrib"
+projects[fast_404][version] = "1.5"
+
 projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
