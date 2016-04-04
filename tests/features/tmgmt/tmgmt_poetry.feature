@@ -13,6 +13,7 @@ Feature: TMGMT Poetry features
       | languages |
       | en        |
       | pt-pt     |
+      | fr     |
 
   Scenario: Map Portuguese translator settings
     Given I am logged in as a user with the 'administrator' role
@@ -46,4 +47,6 @@ Feature: TMGMT Poetry features
     And I should see "In progress" in the "Portuguese, Portugal" row
     When I click "In progress" in the "French" row
     Then I should see "You are not authorized to access this page."
+    Then I receive the translation of this job item
+    Then I should see "Needs review" in the "French" row
 
