@@ -226,7 +226,7 @@ class NewsroomHelper {
       if (count($topic_entities) > 0) {
         foreach ($topic_entities as $entity) {
           // Could use entity_uri() but we would have to load the full entity.
-          $menu_link_items = NewsroomHelper::getMenuByPath('taxonomy/term/' . $entity->entity_id);
+          $menu_link_items = NewsroomHelper::getMenuByPath(str_replace('_', '/', $entity->entity_type) . '/' . $entity->entity_id);
           if (!empty($menu_link_items)) {
             foreach ($menu_link_items as $menu_item) {
               $menu_items[] = $menu_item;
