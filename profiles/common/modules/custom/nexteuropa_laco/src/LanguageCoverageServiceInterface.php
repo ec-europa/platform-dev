@@ -15,11 +15,14 @@ namespace Drupal\nexteuropa_laco;
 interface LanguageCoverageServiceInterface {
 
   /**
-   * Deliver response based on current path's language coverage.
-   *
-   * This method sets proper HTTP status codes and exits.
+   * Process request and deliver response on hook_book(), if any.
    */
-  public function processRequest();
+  public function hookBoot();
+
+  /**
+   * Process request and deliver response on hook_init().
+   */
+  public function hookInit();
 
   /**
    * Check if current HTTP request should be handled service.
