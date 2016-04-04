@@ -1,4 +1,4 @@
-@api
+@api @poetry
 Feature: TMGMT Poetry features
   In order request a new translation for the Portuguese language
   As a Translation manager user
@@ -23,7 +23,7 @@ Feature: TMGMT Poetry features
     And I press the "Save translator" button
     Then I should see the success message "The configuration options have been saved."
 
-  Scenario: Create a request translation for Portuguese
+  Scenario: Create a request translation for French and Portuguese
     Given local translator "Translator PT-PT" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
@@ -37,3 +37,16 @@ Feature: TMGMT Poetry features
     Then I should see the following success messages:
       | success messages                                     |
       | Job has been successfully submitted for translation. |
+    And I wait for AJAX to finish
+    Then I should see "Contact usernames"
+    And I should see "Organization"
+    When I check the box "edit-settings-languages-fr"
+    And I press the "Submit to translator" button
+    Then I should see the following success messages:
+      | success messages                                     |
+      | Job has been successfully submitted for translation. |
+    And I should see "In progress" in the "French" row
+    And I should see "In progress" in the "Portuguese, Portugal" row
+    When I click "In progress" in the "French" row
+    Then I should see "You are not authorized to access this page."
+
