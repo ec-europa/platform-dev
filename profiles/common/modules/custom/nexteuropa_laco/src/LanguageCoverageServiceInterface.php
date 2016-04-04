@@ -19,7 +19,7 @@ interface LanguageCoverageServiceInterface {
    *
    * This method sets proper HTTP status codes and exits.
    */
-  public function deliverResponse();
+  public function processRequest();
 
   /**
    * Check if current HTTP request should be handled service.

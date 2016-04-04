@@ -8,6 +8,7 @@
 namespace Drupal\nexteuropa_laco\Tests;
 
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
+use Prophecy\Prophet;
 
 
 /**
@@ -33,22 +34,6 @@ class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
     // If language is not set then return a 400.
     $response = $this->request('user', NULL);
     $this->assertEquals(400, $response->getStatusCode());
-  }
-
-  /**
-   * Test URL sanitization.
-   *
-   * @param string $url
-   *    URL to be tested.
-   * @param string $language
-   *    Language code.
-   * @param string $expected
-   *    Expected URL.
-   *
-   * @dataProvider sanitizeUrlProvider
-   */
-  public function testSanitizeUrl($url, $language, $expected) {
-    $this->assertEquals($expected, Service::getInstance()->sanitizeUrl($url, $language));
   }
 
   /**
@@ -80,21 +65,6 @@ class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
       'http_errors' => FALSE,
     ]);
     return $client->request(Service::HTTP_METHOD, BASE_URL . '/' . $path);
-  }
-
-  /**
-   * Data provider for URL sanitization.
-   *
-   * @return array
-   *    Test data.
-   */
-  public function sanitizeUrlProvider() {
-    return [
-      ['/path_en', 'en', '/path'],
-      ['/path_en', 'fr', '/path_en'],
-      ['/path_en_fr', 'en', '/path_en_fr'],
-      ['/path', 'en', '/path'],
-    ];
   }
 
 }

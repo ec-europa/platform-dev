@@ -11,6 +11,6 @@ use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
  */
 function nexteuropa_laco_boot() {
   if (Service::isServiceRequest()) {
-    Service::getInstance()->deliverResponse();
+    Service::getInstance()->processRequest();
   }
 }
