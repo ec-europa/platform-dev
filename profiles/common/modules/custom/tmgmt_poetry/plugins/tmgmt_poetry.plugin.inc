@@ -31,7 +31,12 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   public function isAvailable(TMGMTTranslator $translator) {
     $poetry_settings = array('settings', 'organization', 'contacts');
-    $poetry_service = array('address', 'method', 'callback_user', 'callback_password', 'poetry_user',
+    $poetry_service = array(
+      'address',
+      'method',
+      'callback_user',
+      'callback_password',
+      'poetry_user',
       'poetry_password',
     );
 
@@ -189,30 +194,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   }
 
   /**
-   * Overrides getSupportedTargetLanguages().
-   */
-  public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
-    $languages = array();
-    $list_languages = language_list();
-
-    foreach ($list_languages as $key => $value) {
-      $languages[$key] = $key;
-    }
-
-    return $languages;
-  }
-
-  /**
-   * Execute a request against the Poetry API.
-   */
-  protected function doRequest(array $query, TMGMTJob $job) {
-    $xml = $query['xml'];
-
-    $result = $this->sendSoapRequest($xml, $job);
-    return $result;
-  }
-
-  /**
    * Prepares data to be send to Poetry service.
    *
    * @param TMGMTJob $job
@@ -366,43 +347,6 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     return $xml;
   }
 
-
-  /**
-   * Helper method to send a soap request.
-   *
-   * @param SimpleXMLElement $xml
-   *   XML to send.
-   * @param TMGMTJob $job
-   *   Job we are processing.
-   */
-  protected function sendSoapRequest(SimpleXMLElement $xml, TMGMTJob $job) {
-    $msg = $xml->asXML();
-    $translator = $job->getTranslator();
-    $settings = $translator->getSetting('settings');
-    watchdog('Poetry: Send request', $msg, array(), WATCHDOG_DEBUG);
-
-    // Get Poetry configuration.
-    $poetry = variable_get("poetry_service");
-    // Create soap client.
-    try {
-      $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
-    }
-    catch (Exception $e) {
-      $response = 'Error new SoapClient : ' . $e->getMessage();
-    }
-
-    if ($client) {
-      // Send the SOAP request and handle possible errors.
-      try {
-        $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
-      }
-      catch (Exception $e) {
-        $response = 'Error sending soap call : ' . $e->getMessage();
-      }
-      return $response;
-    }
-  }
-
   /**
    * Helper method to generate a request id.
    *
@@ -472,6 +416,66 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
 
     );
     return $id_data;
+  }
+
+  /**
+   * Execute a request against the Poetry API.
+   */
+  protected function doRequest(array $query, TMGMTJob $job) {
+    $xml = $query['xml'];
+
+    $result = $this->sendSoapRequest($xml, $job);
+    return $result;
+  }
+
+  /**
+   * Helper method to send a soap request.
+   *
+   * @param SimpleXMLElement $xml
+   *   XML to send.
+   * @param TMGMTJob $job
+   *   Job we are processing.
+   */
+  protected function sendSoapRequest(SimpleXMLElement $xml, TMGMTJob $job) {
+    $msg = $xml->asXML();
+    $translator = $job->getTranslator();
+    $settings = $translator->getSetting('settings');
+    watchdog('Poetry: Send request', $msg, array(), WATCHDOG_DEBUG);
+
+    // Get Poetry configuration.
+    $poetry = variable_get("poetry_service");
+    // Create soap client.
+    try {
+      $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
+    }
+    catch (Exception $e) {
+      $response = 'Error new SoapClient : ' . $e->getMessage();
+    }
+
+    if ($client) {
+      // Send the SOAP request and handle possible errors.
+      try {
+        $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+      }
+      catch (Exception $e) {
+        $response = 'Error sending soap call : ' . $e->getMessage();
+      }
+      return $response;
+    }
+  }
+
+  /**
+   * Overrides getSupportedTargetLanguages().
+   */
+  public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
+    $languages = array();
+    $list_languages = language_list();
+
+    foreach ($list_languages as $key => $value) {
+      $languages[$key] = $key;
+    }
+
+    return $languages;
   }
 
 }
