@@ -173,6 +173,15 @@ function ecas_menu_check() {
 }
 
 /**
+ * Implements hook_init().
+ *
+ * Force ECAS authentication on specific pages.
+ */
+function ecas_init() {
+  ecas_login_check();
+}
+
+/**
  * Redirects the user to the account request page.
  */
 function account_request() {
@@ -564,11 +573,6 @@ function _ecas_force_login() {
   // Don't even do the test if we're hitting the cas page.
   if ($arg0 == 'ecas' || $arg0 == 'ecaslogout') {
     return ECAS_LOGIN;
-  }
-
-  // Allow users to access the drupal login page.
-  if ($arg0 == 'user' && empty($arg1)) {
-    return ECAS_NO_LOGIN;
   }
 
   // Don't even do the test if cron.php or xmlrpc.php is invoked. Don't
