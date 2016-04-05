@@ -120,10 +120,6 @@ function nexteuropa_multilingual_language_switch_links_alter(array &$links, $typ
   if (($node = menu_get_object('node'))) {
     $handler = entity_translation_get_handler('node', $node);
     $translations = $handler->getTranslations();
-    if (empty($translations->original)) {
-      $handler->initTranslations();
-      $handler->saveTranslations();
-    }
     foreach ($links as $key => $link) {
       if (!isset($translations->data[$key])) {
         unset($links[$key]);

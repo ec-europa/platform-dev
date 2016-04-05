@@ -38,6 +38,8 @@ DGT service enable the follow the steps below:
       'method' => 'requestService',
       'callback_user' => 'Poetry',
       'callback_password' => 'PoetryPWD',
+      'poetry_user' => 'Poetry',
+      'poetry_password' => 'PoetryPWD',
     );
 ```
    Notice that this refers to a Multisite standard profile, change relevant

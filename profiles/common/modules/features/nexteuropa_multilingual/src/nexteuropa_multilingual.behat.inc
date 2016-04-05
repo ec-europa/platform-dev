@@ -243,7 +243,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    */
   public function receiveJobTranslationFromPoetryTest() {
 
-    //$url = $this->getSession()->getCurrentUrl();
+    $url = $this->getSession()->getCurrentUrl();
     // We can't simply use Drupal's menu_get_item() because of caching reasons.
     $job_id = $this->getTranslationJobSubItemFromUrl();
     if (!$job_id) {
@@ -257,7 +257,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       ));
       // Visit newly created node page.
       $this->visitPath($path);
-      // $this->visitPath($url);
+      $this->visitPath($url);
     }
   }
 
