@@ -278,4 +278,44 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     return isset($matches[1][0]) ? $matches[1][0] : FALSE;
   }
 
+  /**
+   * Assert re-importing latest translation job.
+   *
+   * @param string $type
+   *    Content type machine name.
+   * @param string $title
+   *    Content type in default language.
+   *
+   * @Then I re-import the latest translation job for the :type with title :title
+   */
+  public function importLatestTranslationJobForContent($type, $title) {
+    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type]);
+    if ($nodes) {
+      $node = array_shift($nodes);
+      $result = db_select('tmgmt_job_item', 't')
+        ->fields('t', ['tjiid'])
+        ->condition('t.item_type', 'node')
+        ->condition('t.item_id', $node->nid)
+        ->orderBy('t.tjiid', 'DESC')
+        ->range(0, 1)
+        ->execute()
+        ->fetchAssoc();
+      if ($result) {
+        $tjiid = array_shift($result);
+        $job_item = tmgmt_job_item_load($tjiid);
+        if (!$job_item) {
+          throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+        }
+        $controller = $job_item->getSourceController();
+        $controller->saveTranslation($job_item);
+      }
+      else {
+        throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+      }
+    }
+    else {
+      throw new \InvalidArgumentException("Node of type '{$type}' and title '{$title}' not found.");
+    }
+  }
+
 }
