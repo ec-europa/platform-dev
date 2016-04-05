@@ -2,6 +2,9 @@
 
 <project name="NextEuropa" default="help">
 
+    <echo msg="Importing the ContinuousPHP specific Phing tasks." />
+    <import file="vendor/continuousphp/phing-tasks/tasks.xml" />
+
     <!-- Delete the previous build. -->
     <target name="delete-platform">
         <!--
@@ -158,6 +161,98 @@
         </composer>
     </target>
 
+	<!-- Download the theme. -->
+    <target name="download-platform-theme">
+        <!--
+            Only download it when it hasn't yet been downloaded.
+         -->
+        <if>
+            <not>
+                <available file="${theme.package.tarball}" type="file" />
+            </not>
+            <then>
+                <echo msg="Starting to download the platform-theme." />
+                <echo msg="This file will only be downloaded once and will be cached in ${theme.package.tarball}." />
+                <echo msg="You can delete this cached file whenever you want to download a new version of the platform-theme." />
+                <continuousphp-config token="${theme.package.token}" />
+                <continuousphp-package
+                    provider="${theme.package.provider}"
+                    repository="${theme.package.repository}"
+                    reference="${theme.package.reference}"
+                    destination="${theme.package.destination}"
+                    property="${theme.package.property}"
+                />
+                <echo msg="Downloaded platform-theme package reference ${platform.package.property}" />
+            </then>
+            <else>
+                <echo msg="Skipping platform-theme download, it is already downloaded at ${theme.package.tarball}. Delete this file if you want to download the latest version." />
+            </else>
+        </if>
+    </target>
+	
+	<!-- Unpack the theme. -->
+    <target name="unpack-platform-theme" depends="download-platform-theme">
+        <!-- Use the faster native commands on UNIX systems. -->
+        <if>
+            <os family="unix" />
+            <then>
+                <echo msg='unpack in "${theme.package.dir}"' />
+				<exec
+                    command='mkdir "${theme.package.dir}/platform-theme"'
+                    dir="${project.basedir}"
+                    passthru="true"
+                />
+				<exec
+                    command='mkdir "${theme.package.dir}/platform-theme/build"'
+                    dir="${project.basedir}"
+                    passthru="true"
+                />
+                <exec
+                    command='tar xzf "${theme.package.tarball}" -C "${theme.package.dir}/platform-theme/build"'
+                    dir="${project.basedir}"
+                    passthru="true"
+                    checkreturn="true"
+                />
+            </then>
+            <else>
+                <untar file="${theme.package.tarball}" todir="${theme.package.dir}/platform-theme" />
+            </else>
+        </if>
+    </target>
+	
+	<!-- Symlink the theme. -->
+    <target name="theme-symlink">
+        <!-- Symlink platform themes. -->
+        <symlink link="${project.basedir}/profiles/common/themes/platform-theme" target="${project.basedir}/${theme.package.dir}/platform-theme/build" />
+    </target>
+	
+	<!-- Clone the platform-theme. -->
+    <target name="clone-platform-theme">
+	    <echo msg='Clone platform-theme to "${theme.package.dir}/platform-theme"' />
+    	<exec
+            command='git clone "${theme.repo.url}"'
+                    dir="${theme.package.dir}"
+                    passthru="true"
+                />
+    </target>
+	
+	<target
+        name="setup-platform-dev"
+        description="Setup a local development version of the platform and theme.">
+        <if>
+            <equals arg1="${theme.target}" arg2="tarball"/>
+		    <then>
+                <phingcall target="unpack-platform-theme"/>
+            </then>
+            <else>
+                <phingcall target="clone-platform-theme"/>
+				<echo msg='Execute platform-theme build target' />
+				<exec command='./bin/phing -buildfile ../platform-theme/build.xml build-theme-dev' dir="${project.basedir}" passthru="true" />
+		    </else>
+        </if>
+		<phingcall target="theme-symlink"/>
+    </target>
+	
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
