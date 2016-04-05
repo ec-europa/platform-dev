@@ -161,6 +161,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
           ->execute();
       }
       else {
+        //@FIXME Do not overwrite data. This might not be for the same revision.
         db_update('poetry_map')
           ->fields(array(
             'annee' => $demande_id['annee'],
