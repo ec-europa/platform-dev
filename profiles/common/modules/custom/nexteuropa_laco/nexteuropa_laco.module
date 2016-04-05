@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Module file.
+ */
+
+use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
+
+/**
+ * Implements hook_boot().
+ */
+function nexteuropa_laco_boot() {
+  if (Service::isServiceRequest()) {
+    Service::getInstance()->hookBoot();
+  }
+}
+
+/**
+ * Implements hook_init().
+ */
+function nexteuropa_laco_init() {
+  if (Service::isServiceRequest()) {
+    Service::getInstance()->hookInit();
+  }
+}

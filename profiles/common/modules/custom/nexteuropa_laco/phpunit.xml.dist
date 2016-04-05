@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="./tests/bootstrap.php">
+    <testsuites>
+        <testsuite name="Test suite">
+            <directory>./tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <!-- Set error reporting to E_ALL. -->
+        <ini name="error_reporting" value="32767"/>
+        <!-- Do not limit the amount of memory tests take to run. -->
+        <ini name="memory_limit" value="-1"/>
+        <const  name="DRUPAL_ROOT" value="/path/to/drupal/root"/>
+        <const  name="BASE_URL" value="http://localhost"/>
+        <server name="REMOTE_ADDR" value="localhost"/>
+    </php>
+</phpunit>
