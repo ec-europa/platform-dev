@@ -245,25 +245,69 @@ class NewsroomHelper {
             return 1;
           }
           else {
-            if ($a->plid == $b->plid) {
-              if ($a->weight == $b->weight) {
-                if ($a->mlid == $b->mlid) {
-                  return 0;
+            if ($a->p1 == $b->p1) {
+              if ($a->p2 == $b->p2) {
+                if ($a->p3 == $b->p3) {
+                  if ($a->p4 == $b->p4) {
+                    if ($a->p5 == $b->p5) {
+                      if ($a->p6 == $b->p6) {
+                        if ($a->p7 == $b->p7) {
+                          if ($a->p8 == $b->p8) {
+                            if ($a->p9 == $b->p9) {
+                              if ($a->plid == $b->plid) {
+                                if ($a->weight == $b->weight) {
+                                  if ($a->mlid == $b->mlid) {
+                                    return 0;
+                                  }
+                                  else {
+                                    return $a->mlid < $b->mlid ? -1 : 1;
+                                  }
+                                }
+                                else {
+                                  return $a->weight < $b->weight ? -1 : 1;
+                                }
+                              }
+                              else {
+                                return $a->plid < $b->plid ? -1 : 1;
+                              }
+                            }
+                            else {
+                              return $a->p9 < $b->p9 ? -1 : 1;
+                            }
+                          }
+                          else {
+                            return $a->p8 < $b->p8 ? -1 : 1;
+                          }
+                        }
+                        else {
+                          return $a->p7 < $b->p7 ? -1 : 1;
+                        }
+                      }
+                      else {
+                        return $a->p6 < $b->p6 ? -1 : 1;
+                      }
+                    }
+                    else {
+                      return $a->p5 < $b->p5 ? -1 : 1;
+                    }
+                  }
+                  else {
+                    return $a->p4 < $b->p4 ? -1 : 1;
+                  }
                 }
                 else {
-                  return $a->mlid < $b->mlid ? -1 : 1;
+                  return $a->p3 < $b->p3 ? -1 : 1;
                 }
               }
               else {
-                return $a->weight < $b->weight ? -1 : 1;
+                return $a->p2 < $b->p2 ? -1 : 1;
               }
             }
             else {
-              return $a->plid < $b->plid ? -1 : 1;
+              return $a->p1 < $b->p1 ? -1 : 1;
             }
           }
         });
-
         $menu_item_link = array_shift($menu_items);
         $path = $menu_item_link->link_path;
       }
