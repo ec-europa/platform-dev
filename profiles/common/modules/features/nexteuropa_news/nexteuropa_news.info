@@ -2,7 +2,6 @@ name = Nexteuropa News
 description = Provide news content type for Nexteuropa
 core = 7.x
 package = NextEuropa
-version = 7.x-1.0
 dependencies[] = ctools
 dependencies[] = entityreference
 dependencies[] = features
