@@ -94,7 +94,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
 
     // Add others languages.
     foreach ($translations as $language => $node_translation) {
-      $handler  = entity_translation_get_handler('node', $node);
+      $handler = entity_translation_get_handler('node', $node);
 
       $translation['uid'] = $node->uid;
       $translation['created'] = $node->created;
@@ -114,7 +114,10 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     }
 
     // Get node path without any base path by setting 'base_url' and 'absolute'.
-    $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
+    $path = url('node/' . $node->nid, array(
+      'base_url' => '',
+      'absolute' => TRUE
+    ));
     // Visit newly created node page.
     $this->visitPath($path);
   }
@@ -157,7 +160,8 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @Then I should be on the language selector page
    */
   public function assertLanguageSelectorPage() {
-    $this->assertSession()->elementExists('css', '#language-selector-site-language-list-page');
+    $this->assertSession()
+      ->elementExists('css', '#language-selector-site-language-list-page');
   }
 
   /**
@@ -171,20 +175,23 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   public function localTranslatorIsAvailable($name) {
     /** @var \TMGMTTranslatorController $controller */
     $controller = entity_get_controller('tmgmt_translator');
-    $values = [
-      "name" => strtolower(str_replace(' ', '_', $name)),
-      "label" => $name,
-      "description" => "",
-      "weight" => 0,
-      "plugin" => "local",
-      "settings" => [
-        "auto_accept" => FALSE,
-        "allow_all" => TRUE,
-      ],
-    ];
-    $translator = $controller->create($values);
-    $controller->save($translator);
-    $this->translators[] = $translator;
+    $machine_name = strtolower(str_replace(' ', '_', $name));
+    if (!tmgmt_translator_exists($machine_name)) {
+      $values = [
+        "name" => $machine_name,
+        "label" => $name,
+        "description" => "",
+        "weight" => 0,
+        "plugin" => "local",
+        "settings" => [
+          "auto_accept" => FALSE,
+          "allow_all" => TRUE,
+        ],
+      ];
+      $translator = $controller->create($values);
+      $controller->save($translator);
+      $this->translators[] = $translator;
+    }
   }
 
   /**
@@ -234,10 +241,11 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    *
    * @Then I receive the translation of :arg1 job item
    */
-  public function receiveJobTranslationFrom($plugin) {
+  public function receiveJobTranslationFromPoetryTest() {
 
+    //$url = $this->getSession()->getCurrentUrl();
     // We can't simply use Drupal's menu_get_item() because of caching reasons.
-    $job_id = $this->getTranslationJobItemFromUrl();
+    $job_id = $this->getTranslationJobSubItemFromUrl();
     if (!$job_id) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
     }
@@ -249,6 +257,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       ));
       // Visit newly created node page.
       $this->visitPath($path);
+      // $this->visitPath($url);
     }
   }
 
@@ -261,6 +270,18 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   protected function getTranslationJobItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();
     preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
+    return isset($matches[1][0]) ? $matches[1][0] : FALSE;
+  }
+
+  /**
+   * Get translation job item ID from current page's URL.
+   *
+   * @return int|FALSE
+   *    Translators job ID, FALSE if none found.
+   */
+  protected function getTranslationJobSubItemFromUrl() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/admin\/tmgmt\/items\/(\d*)/', $url, $matches);
     return isset($matches[1][0]) ? $matches[1][0] : FALSE;
   }
 
