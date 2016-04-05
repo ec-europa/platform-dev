@@ -109,7 +109,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     $request = $xml->request;
     $reference = implode("/", (array) $request->demandeId);
     // Get main job in order to register the messages.
-    $main_reference = 'MAIN_%_POETRY_%' . $reference;
+    $main_reference = $reference;
 
     if ($xml->request['type'] == 'status') {
       watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $main_reference));
@@ -123,7 +123,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
     // Handling the case where we can't find the corresponding job.
     if (!$ids) {
-      watchdog("Poetry: Error message", "Callback can't find a job with remote reference !reference.", array('!reference' => $main_reference), WATCHDOG_ERROR);
+      watchdog("Poetry: Error message", "No results in tmgmt_job for reference !reference.", array('!reference' => $main_reference), WATCHDOG_ERROR);
       // Send answer to poetry.
       $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'ERROR: Job does not exists', -1, $request);
       return $xml->asXML();
