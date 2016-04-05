@@ -103,28 +103,17 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   public function hookInit() {
     if (!$this->hasStatus()) {
       $path = $this->sanitizePath($_GET['q']);
-      $page_callback_result = MENU_NOT_FOUND;
 
       if ($router_item = menu_get_item($path)) {
         if ($router_item['access']) {
-          if ($router_item['include_file']) {
-            require_once DRUPAL_ROOT . '/' . $router_item['include_file'];
-          }
-          $page_callback_result = call_user_func_array($router_item['page_callback'], $router_item['page_arguments']);
+          $this->setStatus('200 OK');
         }
         else {
-          $page_callback_result = MENU_ACCESS_DENIED;
+          $this->setStatus('403 Forbidden');
         }
       }
-
-      switch ($page_callback_result) {
-        case MENU_NOT_FOUND:
-          $this->setStatus('404 Not found');
-          break;
-
-        case MENU_ACCESS_DENIED:
-          $this->setStatus('403 Forbidden');
-          break;
+      else {
+        $this->setStatus('404 Not found');
       }
       drupal_exit();
     }
