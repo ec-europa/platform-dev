@@ -32,7 +32,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-13
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4863
 projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do-not-test.patch
 
-; Make sure drupal_add_js marks files as external when no type is specified and is_external is true :
+; Make sure drupal_add_js marks files as external when no type is specified and is_external is true:
 ; https://www.drupal.org/node/2697611
-; external : projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external.patch
-projects[drupal][patch][] = patches/drupal_add_js_sanitize_external.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
+; external: projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch
+projects[drupal][patch][] = patches/drupal_add_js_sanitize_external-2697611-4.patch
