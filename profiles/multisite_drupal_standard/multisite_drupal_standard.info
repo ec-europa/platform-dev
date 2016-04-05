@@ -126,3 +126,4 @@ dependencies[] = nexteuropa_editorial
 dependencies[] = nexteuropa_multilingual
 dependencies[] = nexteuropa_pages
 dependencies[] = nexteuropa_europa_search
+dependencies[] = nexteuropa_laco
