@@ -107,7 +107,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
   if ($entity_type == 'node') {
     $node = $form_state['entity'];
-
     if (workbench_moderation_node_moderated($node)) {
 
       $states = array_values(_tmgmt_workbench_available_states());
