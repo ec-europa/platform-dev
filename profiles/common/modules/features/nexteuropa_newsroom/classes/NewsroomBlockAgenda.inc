@@ -20,6 +20,9 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
 
   /**
    * Gets block title.
+   *
+   * @return string
+   *   Block title.
    */
   public function getTitle() {
     return t('Agenda');
@@ -27,6 +30,9 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
 
   /**
    * Generates Agenda block content.
+   *
+   * @return string
+   *   Agenda block content.
    */
   public function generateContent() {
     $path = md5(current_path());

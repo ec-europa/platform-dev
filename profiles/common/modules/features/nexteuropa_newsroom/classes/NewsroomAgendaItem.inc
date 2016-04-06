@@ -15,6 +15,9 @@ class NewsroomAgendaItem {
 
   /**
    * Gets agenda items.
+   *
+   * @return array
+   *   Agenda items.
    */
   public function getItems() {
     return $this->items;
@@ -22,6 +25,9 @@ class NewsroomAgendaItem {
 
   /**
    * Sets agenda items.
+   *
+   * @param array $value
+   *   Agenda items.
    */
   public function setItems($value) {
     $this->items = $value;
@@ -39,6 +45,9 @@ class NewsroomAgendaItem {
 
   /**
    * Gets agenda date.
+   *
+   * @return Datetime
+   *   Agenda date.
    */
   public function getDate() {
     return $this->date;
@@ -46,6 +55,9 @@ class NewsroomAgendaItem {
 
   /**
    * Sets agenda date.
+   *
+   * @param Datetime $value
+   *   Agenda date.
    */
   public function setDate($value) {
     $this->date = $value;

@@ -15,45 +15,63 @@ class NewsroomSummaryBlock {
   protected $operator = 'OR';
 
   /**
-   * Getter.
+   * Gets newsroom topics.
+   *
+   * @return array
+   *   Newsroom topics.
    */
   public function getTopics() {
     return $this->topics;
   }
 
   /**
-   * Setter.
+   * Sets newsroom topics.
+   *
+   * @param array $value
+   *   Newsroom topics.
    */
   public function setTopics($value) {
-    return $this->topics = $value;
+    $this->topics = $value;
   }
 
   /**
-   * Setter.
+   * Sets newsroom types.
+   *
+   * @param array $value
+   *   Newsroom types.
    */
   public function setTypes($value) {
-    return $this->types = $value;
+    $this->types = $value;
   }
 
   /**
-   * Getter.
+   * Gets newsroom types.
+   *
+   * @return array
+   *   Newsroom types
    */
   public function getTypes() {
     return $this->types;
   }
 
   /**
-   * Getter.
+   * Gets query operator.
+   *
+   * @return string
+   *   Query operator: OR or AND.
    */
   public function getOperator() {
     return $this->operator;
   }
 
   /**
-   * Setter.
+   * Sets query operator.
+   *
+   * @param string $value
+   *   Query operator: OR or AND.
    */
   public function setOperator($value) {
-    return $this->operator = $value;
+    $this->operator = $value;
   }
 
   /**
@@ -220,7 +238,7 @@ class NewsroomSummaryBlock {
   }
 
   /**
-   * Sort newsroom boxes.
+   * Callback: sorts newsroom boxes.
    */
   public function sortBlocks($a, $b) {
     $display_highlights_begin = variable_get('newsroom_display_highlights_begin', 0);

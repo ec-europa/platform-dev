@@ -30,6 +30,9 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Gets block items.
+   *
+   * @return array
+   *   Block items.
    */
   public function getItems() {
     return $this->items;
@@ -37,6 +40,9 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Sets block items.
+   *
+   * @param array $value
+   *   Block items.
    */
   public function setItems($value) {
     $this->items = $value;
@@ -44,6 +50,9 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Gets block title.
+   *
+   * @return string
+   *   Title.
    */
   public function getTitle() {
     return NewsroomHelper::getTermTranslatedName($this->getType());
@@ -51,6 +60,9 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Gets type URL.
+   *
+   * @return string
+   *   Type URL.
    */
   public function getTypeUrl() {
     return pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType()));
@@ -58,6 +70,9 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Gets topic URL.
+   *
+   * @return string
+   *   Topic URL.
    */
   public function getTopicUrl() {
     $url = 'all';
@@ -134,6 +149,9 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Generates block content.
+   *
+   * @return string
+   *  Block content.
    */
   public function generateContent() {
     return theme('newsroom_summary_block_wrapper', array(
@@ -147,6 +165,9 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Generates block items content.
+   *
+   * @return string
+   *   Block items content.
    */
   protected function getContent() {
     return theme('newsroom_summary_block_item', array(

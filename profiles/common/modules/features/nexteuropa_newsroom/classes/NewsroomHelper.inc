@@ -132,6 +132,12 @@ class NewsroomHelper {
 
   /**
    * Gets newsroom item by original newsroom Id.
+   *
+   * @param int $newsroom_id
+   *   Newsroom original ID.
+   *
+   * @return nid
+   *   Node id for newsroom item.
    */
   public static function getNodeByNewsroomItemId($newsroom_id = 0) {
     $newsroom_data = &drupal_static(__FUNCTION__);
@@ -210,6 +216,12 @@ class NewsroomHelper {
 
   /**
    * Returns active menu item for a newsroom item.
+   *
+   * @param int $topic_id
+   *   Topic ID.
+   *
+   * @return string
+   *   Menu path.
    */
   public static function fetchActiveMenu($topic_id) {
     $cache_key = 'fetch_active_menu' . $topic_id;
@@ -355,6 +367,9 @@ class NewsroomHelper {
 
   /**
    * Gets events Terms ids.
+   *
+   * @return array
+   *   Newsroom type taxonomy terms array.
    */
   public static function getEventsTermsIds() {
     return NewsroomHelper::getTaxonomyTermFromField('field_newsroom_type',
@@ -369,7 +384,7 @@ class NewsroomHelper {
    * Item types or Collection to group by.
    *
    * @return array
-   *   Terms
+   *   Taxonomy terms
    */
   public static function getGroupTypeTerms($selected = array()) {
     $cache_key = 'newsroom:group_types:' . implode('-', $selected);
@@ -435,7 +450,7 @@ class NewsroomHelper {
    * Term ids of item types to be used in agenda.
    *
    * @return array
-   *   tids
+   *   Taxonomy term ids
    */
   public static function getTermsFromVocabularies($vocabularies = array()) {
     $cache_key = 'newsroom:vocabulary_terms:' . md5(implode('', $vocabularies));
@@ -465,6 +480,9 @@ class NewsroomHelper {
    *   URL request part.
    * @param array $vocabularies
    *   List of vocabularies.
+   *
+   * @return object
+   *   Taxonomy term.
    */
   public static function getTermFromRequest($request_name, $vocabularies) {
     $cache_key = 'newsroom:term_from_request:' . md5($request_name);
@@ -632,7 +650,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get UniverseId.
+   * Gets UniverseId.
    *
    * @return string
    *   UniverseId
@@ -646,7 +664,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get Newsroom Type Vocabulary.
+   * Gets Newsroom Type Vocabulary.
    *
    * @return object
    *   Newsroom Type Vocabulary.
@@ -660,7 +678,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get Newsroom Topic Vocabulary.
+   * Gets Newsroom Topic Vocabulary.
    *
    * @return object
    *   Newsroom Topic Vocabulary.
@@ -674,7 +692,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get Newsroom topics.
+   * Gets Newsroom topics.
    *
    * @return array
    *   Newsroom topics.
@@ -689,7 +707,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get Newsroom types.
+   * Gets Newsroom types.
    *
    * @return array
    *   Newsroom topics.
@@ -717,7 +735,10 @@ class NewsroomHelper {
   }
 
   /**
-   * Helper function to get the enabled languages.
+   * Gets the enabled languages.
+   *
+   * @return array
+   *   Languages array.
    */
   public static function getEnabledLanguages() {
     $lang_keys = &drupal_static(__FUNCTION__);

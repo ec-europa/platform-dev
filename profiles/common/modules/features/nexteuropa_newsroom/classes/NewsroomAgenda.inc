@@ -35,7 +35,10 @@ abstract class NewsroomAgenda {
   protected $isBlock = FALSE;
 
   /**
-   * Getter.
+   * Gets display calendar value.
+   *
+   * @return bool
+   *   Display or not the calendar.
    */
   public function getDisplayCalendar() {
     return $this->displayCalendar;
@@ -52,7 +55,10 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Setter.
+   * Sets display calendar value.
+   *
+   * @param bool $value
+   *  Display or not the calendar.
    */
   public function setDisplayCalendar($value) {
     $this->displayCalendar = $value;
@@ -60,6 +66,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets is block.
+   *
+   * @return bool
+   *   Is it a block or not.
    */
   public function getIsBlock() {
     return $this->isBlock;
@@ -67,6 +76,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets is block.
+   *
+   * @param bool $value
+   *   Is it a block or not.
    */
   public function setIsBlock($value) {
     $this->isBlock = $value;
@@ -74,6 +86,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets view.
+   *
+   * @return string
+   *   Type of view.
    */
   public function getView() {
     return $this->view;
@@ -81,6 +96,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets view.
+   *
+   * @param type $value
+   *   Type of view.
    */
   public function setView($value) {
     $this->view = $value;
@@ -95,6 +113,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets url parts.
+   *
+   * @return array
+   *   URL parts.
    */
   public function getUrlParts() {
     return $this->urlParts;
@@ -102,6 +123,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets topic url.
+   *
+   * @return string
+   *   Topic URL part.
    */
   public function getTopicUrl() {
     return $this->topicUrl;
@@ -109,6 +133,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets topic URL.
+   *
+   * @param type $value
+   *   Topic URL part.
    */
   public function setTopicUrl($value) {
     $this->topicUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
@@ -116,6 +143,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets type URL.
+   *
+   * @return string
+   *   Type URL part.
    */
   public function getTypeUrl() {
     return $this->typeUrl;
@@ -123,6 +153,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets type URL.
+   *
+   * @param string $value
+   *   Type URL part.
    */
   public function setTypeUrl($value) {
     $this->typeUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
@@ -130,6 +163,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets current items.
+   *
+   * @return array
+   *   Current agenda items.
    */
   public function getCurrentItems() {
     return $this->currentItems;
@@ -137,6 +173,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets current items.
+   *
+   * @param array $value
+   *  Current agenda items.
    */
   public function setCurrentItems($value) {
     $this->currentItems = $this->sortItems($value);
@@ -144,6 +183,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets upcoming items.
+   *
+   * @return array
+   *   Upcoming agenda items.
    */
   public function getUpcomingItems() {
     return $this->upcomingItems;
@@ -151,6 +193,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets upcoming items.
+   *
+   * @param array $value
+   *    Upcoming agenda items.
    */
   public function setUpcomingItems($value) {
     $this->upcomingItems = $this->sortItems($value);
@@ -158,6 +203,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets upcoming date.
+   *
+   * @return DateTime
+   *   Upcoming date.
    */
   public function getUpcomingDate() {
     return $this->upcomingDate;
@@ -165,6 +213,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets upcoming date.
+   *
+   * @param Datetime $value
+   *   Upcoming date.
    */
   public function setUpcomingDate($value) {
     $this->upcomingDate = $value;
@@ -172,6 +223,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets previous date.
+   *
+   * @return Datetime
+   *   Previous date.
    */
   public function getPreviousDate() {
     return $this->previousDate;
@@ -179,6 +233,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets previous date.
+   *
+   * @param Datetime $value
+   *   Previous date.
    */
   public function setPreviousDate($value) {
     $this->previousDate = $value;
@@ -186,6 +243,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets current date.
+   *
+   * @return Datetime
+   *   Current date.
    */
   public function getCurrentDate() {
     return $this->currentDate;
@@ -193,6 +253,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets current date.
+   *
+   * @param Datetime $value
+   *   Current date.
    */
   public function setCurrentDate($value) {
     $value->setTime(0, 0, 0);
@@ -201,6 +264,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets query object.
+   *
+   * @return object
+   *   Query object.
    */
   public function getQuery() {
     return $this->query;
@@ -208,6 +274,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets query object.
+   *
+   * @param object $value
+   *   Query object.
    */
   public function setQuery($value) {
     $this->query = $value;
@@ -215,13 +284,16 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets results.
+   *
+   * @return array
+   *   DB data result.
    */
   public function getResult() {
     return $this->result;
   }
 
   /**
-   * Sets results.
+   * Sets DB data results.
    */
   public function setResult() {
     $cache_key = 'result:' . md5($this->getUniqueCachePart());
@@ -240,6 +312,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Sets type id.
+   *
+   * @param int $value
+   *   Type id.
    */
   public function setTypeId($value) {
     $this->typeId = $value;
@@ -247,13 +322,19 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets type id.
+   *
+   * @return int
+   *   Type id.
    */
   public function getTypeId() {
     return $this->typeId;
   }
 
   /**
-   * Sets topucs.
+   * Sets topics.
+   *
+   * @param array $value
+   *   Newsroom topic terms array.
    */
   public function setTopics($value) {
     $this->topics = $value;
@@ -261,6 +342,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets topics.
+   *
+   * @return array
+   *   Newsroom topic terms array.
    */
   public function getTopics() {
     return $this->topics;
@@ -268,6 +352,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Add item count.
+   *
+   * @param int $value
+   *   Number of agenda items.
    */
   public function addItemsCount($value) {
     $this->itemsCount += $value;
@@ -328,7 +415,7 @@ abstract class NewsroomAgenda {
    * Returns previous title.
    *
    * @return string
-   *   Title
+   *   Title.
    */
   public function getPreviousTitle() {
     return t('Previous');
@@ -338,7 +425,7 @@ abstract class NewsroomAgenda {
    * Returns next title.
    *
    * @return string
-   *   Title
+   *   Title.
    */
   public function getNextTitle() {
     return t('Next');
@@ -479,7 +566,13 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * TBC.
+   * Process query before execution.
+   *
+   * @param object $query
+   *   Query object.
+   *
+   * @return object
+   *   Query object.
    */
   protected function processQuery($query) {
     if (count($this->getTopics()) > 0) {
@@ -659,6 +752,12 @@ abstract class NewsroomAgenda {
 
   /**
    * Sort agenda items.
+   *
+   * @param array $items
+   *   Agenda items array.
+   *
+   * @return array
+   *   Agenda items array.
    */
   protected function sortItems($items) {
     foreach ($items as $key => $item) {

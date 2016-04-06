@@ -39,6 +39,9 @@ class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
 
   /**
    * Gets query operator.
+   *
+   * @return string
+   *   Query operator: OR or AND.
    */
   public function getOperator() {
     return $this->operator;
@@ -46,6 +49,9 @@ class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
 
   /**
    * Sets query operator.
+   *
+   * @param string $value
+   *   Query operator: OR or AND.
    */
   public function setOperator($value) {
     $this->operator = $value;

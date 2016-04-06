@@ -35,6 +35,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets is block highlighted.
+   *
+   * @return bool
+   *   Is block highlighted.
    */
   public function getHighlighted() {
     return $this->highlighted;
@@ -42,6 +45,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets the latest agenda date.
+   *
+   * @return Datetime
+   *   Latest date for the current agenda.
    */
   public function getLatestDate() {
     return $this->lastestDate;
@@ -49,6 +55,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Sets the latest agenda date.
+   *
+   * @param Datetime $value
+   *    Latest date for the current agenda.
    */
   public function setLatestDate($value) {
     $this->lastestDate = $value;
@@ -56,6 +65,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets is block agenda.
+   *
+   * @return bool
+   *   Is block agenda.
    */
   public function getIsAgenda() {
     return $this->isAgenda;
@@ -63,6 +75,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Sets is bock agenda.
+   *
+   * @param bool $value
+   *   Is block agenda.
    */
   public function setIsAgenda($value) {
     $this->isAgenda = $value;
@@ -70,6 +85,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets query operator.
+   *
+   * @return string
+   *   Query operator: OR or AND.
    */
   public function getOperator() {
     return $this->operator;
@@ -77,6 +95,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Sets query operator.
+   *
+   * @param string $value
+   *   Query operator: OR or AND.
    */
   public function setOperator($value) {
     $this->operator = $value;
@@ -84,6 +105,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets type.
+   *
+   * @return object
+   *   Type taxonomy term object.
    */
   public function getType() {
     return $this->type;
@@ -91,6 +115,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Sets type.
+   *
+   * @param object $value
+   *   Type taxonomy term object.
    */
   public function setType($value) {
     $this->type = $value;
@@ -98,6 +125,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets topics.
+   *
+   * @return array
+   *   Topic taxonomy terms array.
    */
   public function getTopics() {
     return $this->topics;
@@ -105,6 +135,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Sets topics.
+   *
+   * @param array $value
+   *   Topic taxonomy terms array.
    */
   public function setTopics($value) {
     $this->topics = $value;
@@ -112,6 +145,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Get css classes of a block.
+   *
+   * @return array
+   *   CSS classes array.
    */
   public function getCssClasses() {
     $classes = array();
@@ -129,6 +165,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets type URL.
+   *
+   * @return string
+   *   Type URL part.
    */
   public function getTypeUrl() {
     return $this->getType() ? pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType())) : 'all';
@@ -136,6 +175,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Gets topic URL.
+   *
+   * @return string
+   *  Topic URL part.
    */
   public function getTopicUrl() {
     $url = 'all';
@@ -150,6 +192,9 @@ abstract class NewsroomBlockBase {
 
   /**
    * Returns topics ids.
+   *
+   * @return array
+   *  Topic IDs array.
    */
   protected function getTopicsId() {
     $topic_ids = array();
