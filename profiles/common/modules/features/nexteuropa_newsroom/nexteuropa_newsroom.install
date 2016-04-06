@@ -133,6 +133,10 @@ function nexteuropa_newsroom_update_7104() {
   $result = db_query("REPLACE INTO field_revision_field_newsroom_teaser
   SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_revision_field_shared_teaser shared_teaser
   WHERE shared_teaser.bundle = 'newsroom_item';");
+
+  if ($instance = field_info_instance('node', 'field_shared_teaser', 'newsroom_item')) {
+    field_delete_instance($instance);
+  }
 }
 
 /**

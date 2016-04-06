@@ -515,14 +515,7 @@ function nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
  * Defines newsroom agenda filter form.
  */
 function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $type_id, $topic_id, $current_date, $result_topics) {
-  $temp = new stdClass();
-  $temp->type = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
-  node_object_prepare($temp);
-
-  $field_instance = field_info_instance('node', 'field_newsroom_topics', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
-  $field = field_info_field('field_newsroom_topics');
-  $topic_options = taxonomy_options_list($field, $field_instance, 'node', $temp);
-
+  $topic_options = NewsroomHelper::getTaxonomyTermOptions(NewsroomHelper::getNewsroomTopics());
   foreach ($topic_options as $key => $topic) {
     if (!in_array($key, $result_topics)) {
       unset($topic_options[$key]);
@@ -747,11 +740,9 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
 function nexteuropa_newsroom_backup_conf_all($form, &$form_state) {
   $voc = $form['#vocabulary']->machine_name;
   // We need the whole tree here.
-  $tree = taxonomy_get_tree($form['#vocabulary']->vid);
+  $tree = taxonomy_get_tree($form['#vocabulary']->vid, 0, NULL, TRUE);
 
-  foreach ($tree as $base_term) {
-    $tid = $base_term->tid;
-    $term = taxonomy_term_load($tid);
+  foreach ($tree as $term) {
     $id = _nexteuropa_newsroom_get_ids($voc, (array) $term);
 
     // Working with arrays.

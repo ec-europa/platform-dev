@@ -522,7 +522,7 @@ abstract class NewsroomAgenda {
         'is_block' => $this->getIsBlock(),
         'navigation' => array(),
       ));
-      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_agenda_block', 3600));
+      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_agenda_block', 90));
     }
     return $content;
   }
