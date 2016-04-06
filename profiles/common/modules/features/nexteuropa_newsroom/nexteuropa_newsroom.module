@@ -510,19 +510,6 @@ function nexteuropa_newsroom_feeds_plugins() {
 }
 
 /**
- * Implements hook_views_query_alter().
- */
-function nexteuropa_newsroom_views_query_alter(&$view, &$query) {
-  if ($view->name === 'newsroom_page_content' && (!isset($view->sticky) || !$view->sticky)) {
-    foreach ($query->where[1]['conditions'] as $key => $condition) {
-      if ($condition['field'] == 'node.sticky') {
-        unset($query->where[1]['conditions'][$key]);
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_node_view().
  */
 function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
