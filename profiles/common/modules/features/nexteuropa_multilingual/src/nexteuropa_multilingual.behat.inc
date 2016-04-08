@@ -237,31 +237,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Validate current job using poetry test.
-   *
-   * @Then I receive the translation of :arg1 job item
-   */
-  public function receiveJobTranslationFromPoetryTest() {
-
-    $job_url = $this->getSession()->getCurrentUrl();
-    // We can't simply use Drupal's menu_get_item() because of caching reasons.
-    $job_id = $this->getTranslationJobSubItemFromUrl();
-    if (!$job_id) {
-      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
-    }
-    else {
-      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/receivetranslation/' . $job_id, array(
-        'base_url' => '',
-        'absolute' => TRUE,
-      ));
-      // Visit newly created node page.
-      $this->visitPath($path);
-    }
-    $this->visitPath($job_url);
-  }
-
-  /**
    * Get translation job ID from current page's URL.
    *
    * @return int|FALSE
