@@ -53,10 +53,10 @@ function tmgmt_poetry_tmgmt_job_delete($job) {
 function _tmgmt_poetry_load_job_by_reference($reference) {
   $job = NULL;
   $result = db_select('tmgmt_job', 'job')
-      ->fields('job', array('tjid'))
-      ->condition('reference', $reference, '=')
-      ->execute()
-      ->fetchAssoc();
+    ->fields('job', array('tjid'))
+    ->condition('reference', $reference, '=')
+    ->execute()
+    ->fetchAssoc();
   if (isset($result['tjid']) && !empty($result['tjid'])) {
     $job = tmgmt_job_load($result['tjid']);
   }
@@ -72,13 +72,14 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
   if (isset($form_state['item'])) {
     $job = $form_state['item'];
     if ($job->state == 2) {
-      $translator_feedback_contacts = $job->getTranslator()->getSetting('feedback_contacts');
+      $translator_feedback_contacts = $job->getTranslator()
+        ->getSetting('feedback_contacts');
       $mailto = format_string('mailto:@mail?subject=@subject&cc=@cc',
-       array(
-         '@mail' => $translator_feedback_contacts['to'],
-         '@subject' => 'Issue with ' . $job->tjid,
-         '@cc' => $translator_feedback_contacts['cc'],
-       ));
+        array(
+          '@mail' => $translator_feedback_contacts['to'],
+          '@subject' => 'Issue with ' . $job->tjid,
+          '@cc' => $translator_feedback_contacts['cc'],
+        ));
       $form['actions']['feedback'] = array(
         '#type' => 'link',
         '#title' => 'Feedback to DGT',
@@ -125,6 +126,39 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     if (count($job_items) > 0) {
       $job_item = array_shift($job_items);
     }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_state) {
+  $form['actions']['request']['#validate'][] = 'tmgmt_poetry_translate_form_validate';
+  
+}
+
+/**
+ * Submit callback for the translate tab.
+ */
+function tmgmt_poetry_translate_form_validate($form, &$form_state) {
+  $entity = $form_state['entity'];
+  $existing_jobs = tmgmt_workbench_job_item_unfinished($entity->nid, $entity->language);
+  if (!empty($existing_jobs)) {
+    drupal_set_message(t('An active translation for this item already exists'), 'error');
+    return FALSE;
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter.
+ * Forces this alter to be processed after tmgmt_workbench one
+ * @param $implementations * @param $hook
+ */
+function tmgmt_poetry_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['tmgmt_poetry'])) {
+    $group = $implementations['tmgmt_poetry'];
+    unset($implementations['tmgmt_poetry']);
+    $implementations['tmgmt_poetry'] = $group;
   }
 }
 
@@ -234,11 +268,11 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages = array(), $re
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
   $query->fields('job', array('tjid'))
-      ->fields('job_item', array('tjiid'));
+    ->fields('job_item', array('tjiid'));
   if (count($languages) > 0) {
     $query->condition('job.target_language', $languages, 'IN');
   }
-  $query->condition('job.reference', '%' . $reference, 'LIKE');
+  $query->condition('job.reference', $reference . '%', 'LIKE');
   if ($not_poetry) {
     $query->condition('job.reference', $reference . '_POETRY_%', 'NOT LIKE');
   }
@@ -260,11 +294,50 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages = array(), $re
  */
 function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
   db_insert('poetry_status')
-      ->fields(array(
-        'tjiid' => $tjiid,
-        'target_language' => $target_language,
-        'status' => $status,
-        'delai' => $delai,
-      ))
-      ->execute();
+    ->fields(array(
+      'tjiid' => $tjiid,
+      'target_language' => $target_language,
+      'status' => $status,
+      'delai' => $delai,
+    ))
+    ->execute();
+}
+
+/**
+ * Loads all job entities that have a job item with the identifiers.
+ * This function only checks jobs not yet propagated to the node revision.
+ *
+ * @param $plugin
+ *   The source plugin.
+ * @param $item_type
+ *   The source item type.
+ * @param $item_id
+ *   The source item id.
+ * @param string $source_language
+ *   The source language of the item.
+ *
+ * @return array
+ *   An array of job entities.
+ */
+function _tmgmt_poetry_job_item_unfinished($item_id, $source_language) {
+  $query = db_select('tmgmt_job_item', 'tji');
+  $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
+  $result = $query->condition('tj.source_language', $source_language)
+    ->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<')
+    ->condition('tji.item_type', 'node')
+    ->condition('tji.item_id', $item_id)
+    ->fields('tji', array('tjiid'))
+    ->fields('tj', array('target_language'))
+    ->orderBy('tji.changed', 'DESC')
+    ->groupBy('tj.target_language')
+    ->groupBy('tji.tjiid')
+    ->execute();
+  if ($items = $result->fetchAllKeyed()) {
+    $return = array();
+    foreach (tmgmt_job_item_load_multiple(array_keys($items)) as $key => $item) {
+      $return[$items[$key]] = $item;
+    }
+    return $return;
+  }
+  return FALSE;
 }
