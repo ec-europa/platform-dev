@@ -2,7 +2,6 @@ name = Nexteuropa FAQ
 description = FAQ content for Nexteuropa
 core = 7.x
 package = NextEuropa
-version = 7.x-1.0
 dependencies[] = cce_basic_config
 dependencies[] = ctools
 dependencies[] = entityreference
