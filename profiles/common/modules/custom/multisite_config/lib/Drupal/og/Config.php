@@ -52,7 +52,22 @@ class Config extends ConfigBase {
    */
   public function createOgGroupAudienceField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
-    og_create_field(OG_AUDIENCE_FIELD, $entity, $bundle);
+    $og_field = array();
+    if (module_exists('entityreference_prepopulate')) {
+      $og_field = og_fields_info(OG_AUDIENCE_FIELD);
+      // Enable the prepopulate behavior if the module is enabled.
+      $og_field['instance']['settings']['behaviors']['prepopulate'] = array(
+        'status' => TRUE,
+        'action' => 'none',
+        'fallback' => 'none',
+        'skip_perm' => FALSE,
+        'providers' => array(
+          'url' => TRUE,
+          'og_context' => TRUE,
+        ),
+      );
+    }
+    og_create_field(OG_AUDIENCE_FIELD, $entity, $bundle, $og_field);
   }
 
   /**
