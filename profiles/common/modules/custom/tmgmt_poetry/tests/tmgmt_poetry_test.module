@@ -20,7 +20,7 @@ function tmgmt_poetry_test_menu() {
   $items['tmgmt_poetry_test/receivetranslation/%'] = array(
     'title' => 'Poetry Receive Translation',
     'page callback' => 'tmgmt_poetry_test_receive_translation',
-    'page argument' => array(2),
+    'page arguments' => array(2),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -53,9 +53,9 @@ function tmgmt_poetry_test_soap_server() {
 /**
  * Simulate receive a translation from poetry.
  */
-function tmgmt_poetry_test_receive_translation($job_id) {
+function tmgmt_poetry_test_receive_translation($job_item) {
 
-  $job = tmgmt_job_load($job_id);
+  $job = tmgmt_job_load($job_item);
   $poetry = variable_get("poetry_service");
 
   $url = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE))) . '?wsdl';

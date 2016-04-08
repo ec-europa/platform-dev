@@ -81,13 +81,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
       throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
     }
     else {
-      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/receivetranslation/' . $job_id, array(
-        'base_url' => '',
-        'absolute' => TRUE,
-      ));
-      // Visit newly created node page.
-      $this->visitPath($path);
+      tmgmt_poetry_test_receive_translation($job_id);
     }
     $this->visitPath($job_url);
   }
