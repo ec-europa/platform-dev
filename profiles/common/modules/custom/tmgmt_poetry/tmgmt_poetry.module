@@ -142,7 +142,7 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_st
  */
 function tmgmt_poetry_translate_form_validate($form, &$form_state) {
   $entity = $form_state['entity'];
-  $existing_jobs = tmgmt_workbench_job_item_unfinished($entity->nid, $entity->language);
+  $existing_jobs = _tmgmt_poetry_job_item_unfinished($entity->nid, $entity->language);
   if (!empty($existing_jobs)) {
     drupal_set_message(t('An active translation for this item already exists'), 'error');
     return FALSE;
