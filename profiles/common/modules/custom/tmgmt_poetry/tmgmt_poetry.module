@@ -317,19 +317,16 @@ function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $de
 
 /**
  * Loads all job entities that have a job item with the identifiers.
+ *
  * This function only checks jobs not yet propagated to the node revision.
  *
- * @param string $plugin
- *   The source plugin.
- * @param string  $item_type
- *   The source item type.
  * @param int $item_id
- *   The source item id.
+ *  The source item id.
  * @param string $source_language
- *   The source language of the item.
+ *  The source language of the item.
  *
  * @return array
- *   An array of job entities.
+ *  An array of job entities.
  */
 function _tmgmt_poetry_job_item_unfinished($item_id, $source_language) {
   $query = db_select('tmgmt_job_item', 'tji');
