@@ -201,7 +201,7 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
   $langcode = $form_state['input']['languages'];
   $jobs = array();
-  
+
   // Create the job object.
   $job = tmgmt_job_create(entity_language('node', $entity), $langcode,
     $GLOBALS['user']->uid);
