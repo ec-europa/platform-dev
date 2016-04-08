@@ -201,13 +201,7 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
   $langcode = $form_state['input']['languages'];
   $jobs = array();
-
-  $existing_jobs = tmgmt_workbench_job_item_unfinished($entity->nid, $entity->language);
-
-  if (!empty($existing_jobs)) {
-    drupal_set_message(t('An active translation for this item already exists'), 'error');
-    return FALSE;
-  }
+  
   // Create the job object.
   $job = tmgmt_job_create(entity_language('node', $entity), $langcode,
     $GLOBALS['user']->uid);
@@ -242,43 +236,4 @@ function _tmgmt_workbench_available_states() {
     drupal_set_message(t('You have to enable at least one workbench state'));
   }
   return $states;
-}
-
-/**
- * Loads all job entities that have a job item with the identifiers.
- * This function only checks jobs not yet propagated to the node revision.
- *
- * @param $plugin
- *   The source plugin.
- * @param $item_type
- *   The source item type.
- * @param $item_id
- *   The source item id.
- * @param string $source_language
- *   The source language of the item.
- *
- * @return array
- *   An array of job entities.
- */
-function tmgmt_workbench_job_item_unfinished($item_id, $source_language) {
-  $query = db_select('tmgmt_job_item', 'tji');
-  $query->innerJoin('tmgmt_job', 'tj', 'tj.tjid = tji.tjid');
-  $result = $query->condition('tj.source_language', $source_language)
-    ->condition('tji.state', TMGMT_JOB_ITEM_STATE_ACCEPTED, '<')
-    ->condition('tji.item_type', 'node')
-    ->condition('tji.item_id', $item_id)
-    ->fields('tji', array('tjiid'))
-    ->fields('tj', array('target_language'))
-    ->orderBy('tji.changed', 'DESC')
-    ->groupBy('tj.target_language')
-    ->groupBy('tji.tjiid')
-    ->execute();
-  if ($items = $result->fetchAllKeyed()) {
-    $return = array();
-    foreach (tmgmt_job_item_load_multiple(array_keys($items)) as $key => $item) {
-      $return[$items[$key]] = $item;
-    }
-    return $return;
-  }
-  return FALSE;
 }
