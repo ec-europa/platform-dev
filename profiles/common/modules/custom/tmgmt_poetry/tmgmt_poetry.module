@@ -134,11 +134,11 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
  */
 function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_state) {
   $form['actions']['request']['#validate'][] = 'tmgmt_poetry_translate_form_validate';
-  
+  $form['actions']['request']['#submit'] = array('tmgmt_poetry_translate_form_submit');
 }
 
 /**
- * Submit callback for the translate tab.
+ * Validate callback for the translate tab when using poetry.
  */
 function tmgmt_poetry_translate_form_validate($form, &$form_state) {
   $entity = $form_state['entity'];
@@ -150,9 +150,20 @@ function tmgmt_poetry_translate_form_validate($form, &$form_state) {
 }
 
 /**
+ * Submit callback for the translate tab when using poetry.
+ * @param $form
+ * @param $form_state
+ */
+function tmgmt_poetry_translate_form_submit($form, &$form_state) {
+  $entity = $form_state['entity'];
+  $languages = array_filter($form_state['input']['languages'], function($var){return !is_null($var);});
+  $langcode = array_shift($languages);
+}
+/**
  * Implements hook_module_implements_alter.
- * Forces this alter to be processed after tmgmt_workbench one
- * @param $implementations * @param $hook
+ * Forces this alter to be processed after tmgmt_workbench one.
+ * @param $implementations
+ * @param $hook
  */
 function tmgmt_poetry_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'form_alter' && isset($implementations['tmgmt_poetry'])) {
