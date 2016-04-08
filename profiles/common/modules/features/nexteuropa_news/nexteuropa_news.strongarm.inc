@@ -68,10 +68,10 @@ function nexteuropa_news_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'path' => array(
-          'weight' => '2',
+          'weight' => '3',
         ),
         'language' => array(
-          'weight' => '1',
+          'weight' => '2',
         ),
       ),
       'display' => array(),
