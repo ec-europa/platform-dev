@@ -10,6 +10,29 @@
 function nexteuropa_news_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'body'.
+  $field_bases['body'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'node',
+    ),
+    'field_name' => 'body',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'text_with_summary',
+  );
+
   // Exported field_base: 'field_background_information'.
   $field_bases['field_background_information'] = array(
     'active' => 1,
@@ -125,65 +148,26 @@ function nexteuropa_news_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'group_content_access'.
-  $field_bases['group_content_access'] = array(
+  // Exported field_base: 'title_field'.
+  $field_bases['title_field'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'group_content_access',
+    'field_name' => 'title_field',
     'indexes' => array(
-      'value' => array(
-        0 => 'value',
+      'format' => array(
+        0 => 'format',
       ),
     ),
     'locked' => 0,
-    'module' => 'list',
-    'no_ui' => TRUE,
-    'settings' => array(
-      'allowed_values' => array(
-        0 => 'Use group defaults',
-        1 => 'Public - accessible to all site users',
-        2 => 'Private - accessible only to group members',
-      ),
-      'allowed_values_function' => '',
-      'entity_translation_sync' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'list_integer',
-  );
-
-  // Exported field_base: 'og_group_ref'.
-  $field_bases['og_group_ref'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'og_group_ref',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'entityreference',
+    'module' => 'text',
     'settings' => array(
       'entity_translation_sync' => FALSE,
-      'handler' => 'og',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'og_behavior' => array(
-            'status' => TRUE,
-          ),
-        ),
-        'membership_type' => 'og_membership_type_default',
-        'target_bundles' => array(),
-      ),
-      'handler_submit' => 'Change handler',
-      'target_type' => 'node',
+      'max_length' => 255,
     ),
-    'translatable' => 0,
-    'type' => 'entityreference',
+    'translatable' => 1,
+    'type' => 'text',
   );
 
   return $field_bases;

@@ -378,7 +378,7 @@ function nexteuropa_news_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -431,7 +431,7 @@ function nexteuropa_news_field_default_field_instances() {
         'apply_chosen' => '',
       ),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 5,
     ),
     'widget_type' => 'options_select',
   );
@@ -506,7 +506,7 @@ function nexteuropa_news_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 
