@@ -34,7 +34,7 @@ function nexteuropa_newsroom_block_info() {
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_proposal'] = array(
-    'info' => t('News proposal'),
+    'info' => t('Newsroom items proposal'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
   $blocks['newsroom_agenda_block'] = array(
@@ -95,8 +95,13 @@ function nexteuropa_newsroom_block_view($delta = '') {
  */
 function _nexteuropa_newsroom_agenda_block() {
   $type = _nexteuropa_nexteuropa_agenda_block_reaction();
-  $agenda_block = new NewsroomBlockAgenda($type, array(), 'OR');
-  return $agenda_block->generateContent();
+  if ($type) {
+    $agenda_block = new NewsroomBlockAgenda($type, array(), 'OR');
+    return $agenda_block->generateContent();
+  }
+  else {
+    return NULL;
+  }
 }
 
 /**
@@ -114,7 +119,7 @@ function _nexteuropa_nexteuropa_agenda_block_reaction() {
         if ($reaction_type == 'newsroom_agenda_block') {
           $social_media_settings = $current_reaction;
           if (isset($current_reaction['type_id'])) {
-            $type = taxonomy_term_load($current_reaction['type_id']);
+            $type = NewsroomHelper::getNewsroomType($current_reaction['type_id']);
           }
         }
       }
@@ -435,10 +440,8 @@ function _nexteuropa_newsroom_block_news_proposal() {
     return NULL;
   }
 
-  global $base_url;
-
   $topic_id = NULL;
-
+  $output = NULL;
   // Try to get Topic ID from the entity.
   $node = menu_get_object();
 
@@ -472,9 +475,10 @@ function _nexteuropa_newsroom_block_news_proposal() {
     }
   }
 
-  $output = '<div class="communityTools">';
-  $output .= '<div class="RSSButton"><a href="' . $base_url . '/news-proposal/?topic_id=' . $topic_id . '">' . t('Propose newsroom item') . '</a></div>';
-  $output .= '</div>';
-
+  if (!empty($topic_id)) {
+    $output = '<div class="communityTools">'; ;
+    $output .= '<div class="RSSButton">' . l(t('Propose newsroom item'), '/news-proposal', array('query' => array('topic_id' => $topic_id))) . '</div>';
+    $output .= '</div>';
+  }
   return $output;
 }

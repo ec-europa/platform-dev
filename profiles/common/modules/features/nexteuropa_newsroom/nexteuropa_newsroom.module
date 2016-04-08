@@ -375,8 +375,12 @@ function nexteuropa_newsroom_node_presave($node) {
     // Get all the types.
     if (isset($node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'])) {
       $type_tid = $node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'];
-      $type = pathauto_cleanstring(drupal_strtolower(taxonomy_term_load($type_tid)->name));
-      $conf = variable_get('newsroom_' . $type . '_root', FALSE);
+      $type = NewsroomHelper::getNewsroomType($type_tid);
+      $conf = NULL;
+      if ($type) {
+        $type_name = pathauto_cleanstring($type->name);
+        $conf = variable_get('newsroom_' . $type_name . '_root', FALSE);
+      }
       if ($conf) {
         $node->path['pathauto'] = FALSE;
         $node->path['alias'] = pathauto_alias_uniquify($conf . '/' . pathauto_cleanstring($node->title));
@@ -780,11 +784,11 @@ function _nexteuropa_newsroom_redirect($redirect_type = 'item', $newsroom_entity
  */
 function _newsroom_nexteuropa_get_term_redirect_path($field_name, $newsroom_entity_id) {
   $path = FALSE;
-  $type = NewsroomHelper::getTaxonomyTermFromField($field_name, $newsroom_entity_id);
-  if ($type) {
-    $type_term = taxonomy_term_load($type[0]);
-    if ($type_term) {
-      $path = 'taxonomy/term/' . $type_term->tid;
+  $taxonomy_term_ids = NewsroomHelper::getTaxonomyTermFromField($field_name, $newsroom_entity_id);
+  if ($taxonomy_term_ids) {
+    $taxonomy_term = taxonomy_term_load($taxonomy_term_ids[0]);
+    if ($taxonomy_term) {
+      $path = 'taxonomy/term/' . $taxonomy_term->tid;
     }
   }
   return $path;
@@ -826,9 +830,11 @@ function nexteuropa_newsroom_views_pre_render(&$view) {
       // If there are several ids, it means we have a parent and children items
       // we try to find the parent and use it's title.
       $title_item = '';
+      $types = NewsroomHelper::getNewsroomTypes();
       foreach ($tids as $tid) {
-        if (taxonomy_get_children($tid)) {
-          $term = taxonomy_term_load($tid);
+        $children_items = NewsroomHelper::findChildrenById($types, $tid);
+        if ($children_items) {
+          $term = NewsroomHelper::getNewsroomType($tid);
           if ($term) {
             $title_item = $term->name;
           }
@@ -950,7 +956,7 @@ function nexteuropa_newsroom_views_pre_view(&$view, &$display_id, array &$args) 
         if ($type) {
           // Take children types IDs and use them as argument
           // because we need to make search in children types also.
-          $args[0] = implode('+', NewsroomHelper::getTermChildren($type->tid, $type->vid));
+          $args[0] = implode('+', NewsroomHelper::getTypeChildren($type->tid));
           $display_field = isset($type->field_newsroom_type['und'][0]['value']) ? $type->field_newsroom_type['und'][0]['value'] : NULL;
         }
         else {
@@ -1237,7 +1243,6 @@ function nexteuropa_newsroom_feeds_processor_targets_alter(&$targets, $entity_ty
   foreach (field_info_instances('file', 'image') as $name => $instance) {
     if (in_array($name, array_keys($field_names))) {
       foreach ($fields as $field) {
-
         $targets[$field] = array(
           'name' => t('Image:@name', array('@name' => $field)),
           'callback' => NULL,

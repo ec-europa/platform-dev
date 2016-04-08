@@ -15,16 +15,16 @@ class NewsroomHelper {
    *
    * @param int $term_tid
    *   Term id.
-   * @param int $term_vid
-   *   Vid id.
    *
    * @return array.
    *   tids
    */
-  public static function getTermChildren($term_tid, $term_vid = NULL) {
+  public static function getTypeChildren($term_tid) {
+    $types = NewsroomHelper::getNewsroomTypes();
+    $children_items = NewsroomHelper::findChildrenById($types, $term_tid);
     // We need parent ID also in the output array to use it in query.
     $parent_children_tids = array($term_tid);
-    $children_tids = array_keys(taxonomy_get_children($term_tid, $term_vid));
+    $children_tids = array_keys($children_items);
     if (count($children_tids) > 0) {
       $parent_children_tids = array_merge($parent_children_tids, $children_tids);
     }
@@ -681,8 +681,16 @@ class NewsroomHelper {
   public static function getNewsroomTopics() {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
-      $vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
-      $data = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
+      $cache_key = 'topics';
+      $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      if ($cache) {
+        $data = $cache->data;
+      }
+      else {
+        $vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
+        $data = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
+        cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      }
     }
     return $data;
   }
@@ -696,10 +704,94 @@ class NewsroomHelper {
   public static function getNewsroomTypes() {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
-      $vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
-      $data = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
+      $cache_key = 'types';
+      $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      if ($cache) {
+        $data = $cache->data;
+      }
+      else {
+        $vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
+        $data = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
+        cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+      }
     }
     return $data;
+  }
+
+  /**
+   * Gets Newsroom type by id.
+   *
+   * @param int $tid
+   *   Taxonomy term ID.
+   *
+   * @return object
+   *   Taxonomy term.
+   */
+  public static function getNewsroomType($tid) {
+    $types = NewsroomHelper::getNewsroomTypes();
+    return NewsroomHelper::findTermById($types, $tid);
+  }
+
+  /**
+   * Gets Newsroom type by id.
+   *
+   * @param int $tid
+   *   Taxonomy term ID.
+   *
+   * @return object
+   *   Taxonomy term.
+   */
+  public static function getNewsroomTopic($tid) {
+    $topics = NewsroomHelper::getNewsroomTypes();
+    return NewsroomHelper::findTermById($topics, $tid);
+  }
+
+  /**
+   * Finds term by id.
+   *
+   * @param array $taxonomy_terms
+   *   Taxonomy terms array.
+   *
+   * @param int $tid
+   *   Taxonomy term ID.
+   *
+   * @return object
+   *   Taxonomy term.
+   */
+  public static function findTermById($taxonomy_terms, $tid) {
+    $taxonomy_term = NULL;
+    if ($taxonomy_terms) {
+      foreach ($taxonomy_terms as $item) {
+        if ($item->tid == $tid) {
+          $taxonomy_term = $item;
+        }
+      }
+    }
+    return $taxonomy_term;
+  }
+
+  /**
+   * Finds children by id.
+   *
+   * @param array $taxonomy_terms
+   *   Taxonomy terms array.
+   *
+   * @param int $parent_tid
+   *   Parent taxonomy term ID.
+   *
+   * @return array
+   *   Taxonomy terms.
+   */
+  public static function findChildrenById($taxonomy_terms, $parent_tid) {
+    $children = array();
+    if ($taxonomy_terms) {
+      foreach ($taxonomy_terms as $item) {
+        if (in_array($parent_tid, $item->parents)) {
+          $children[$item->tid] = $item;
+        }
+      }
+    }
+    return $children;
   }
 
   /**

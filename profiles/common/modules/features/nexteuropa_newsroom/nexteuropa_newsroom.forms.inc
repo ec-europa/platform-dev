@@ -614,8 +614,8 @@ function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
   $topic_id = isset($form_state['input']['topic_id']) ? $form_state['input']['topic_id'] : NULL;
   $type_id = isset($form_state['input']['type_id']) ? $form_state['input']['type_id'] : NULL;
 
-  $topic = taxonomy_term_load($topic_id);
-  $type = taxonomy_term_load($type_id);
+  $topic = NewsroomHelper::getNewsroomTopic($topic_id);
+  $type = NewsroomHelper::getNewsroomType($type_id);
   $factory = new NewsroomAgendaFactory();
   $agenda = $factory->build($view, $type, $topic, new DateTime($date));
 

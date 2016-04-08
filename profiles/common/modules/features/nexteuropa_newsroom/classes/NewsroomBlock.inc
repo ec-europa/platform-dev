@@ -127,7 +127,7 @@ class NewsroomBlock extends NewsroomBlockBase {
       }
 
       $type = $this->getType();
-      $query->condition('tt.tid', NewsroomHelper::getTermChildren($type->tid));
+      $query->condition('tt.tid', NewsroomHelper::getTypeChildren($type->tid));
       $query->range(0, NewsroomHelper::getBlockItemsNumber($this->getHighlighted()));
       $query->orderBy('n.created', 'DESC');
       $result = $query->execute()->fetchAll();

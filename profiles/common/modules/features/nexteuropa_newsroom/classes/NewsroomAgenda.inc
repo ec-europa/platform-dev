@@ -559,7 +559,7 @@ abstract class NewsroomAgenda {
     $query->orderBy('d.field_newsroom_item_date_value2');
 
     if ($this->getTypeId()) {
-      $query->condition('tt.tid', NewsroomHelper::getTermChildren($this->getTypeId()));
+      $query->condition('tt.tid', NewsroomHelper::getTypeChildren($this->getTypeId()));
     }
 
     $this->setQuery($this->processQuery($query));
