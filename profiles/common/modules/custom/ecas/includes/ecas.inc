@@ -192,8 +192,6 @@ function account_request() {
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
-  ecas_login_check();
-
   $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
@@ -360,7 +358,7 @@ function ecas_login_check() {
     // The user has an uid, and it is > 0 (which is anonymous user's uid) do
     // nothing because user is already logged into Drupal.
   }
-  elseif ($force_login != ECAS_NO_LOGIN) {
+  elseif ($force_login === ECAS_LOGIN) {
     $ecas_sync_user_info_args = array();
 
     // Start a new Drupal session.
@@ -380,11 +378,9 @@ function ecas_login_check() {
       phpCAS::setServerLoginURL($custom_server_login_url);
     }
 
-    if ($force_login === ECAS_LOGIN) {
-      phpCAS::forceAuthentication();
-    }
+    phpCAS::forceAuthentication();
 
-    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
+    if (phpCAS::isAuthenticated()) {
       $ecas_name = phpCAS::getUser();
 
       // Try to log into Drupal.
@@ -671,15 +667,17 @@ function _ecas_init_phpcas_client() {
     }
   }
 
-  phpCAS::client(
-    $server_version,
-    $server_ecas_server,
-    $server_port,
-    $server_uri,
-    $start_session,
-    $assurance_level
-  );
-  phpCAS::setNoCasServerValidation();
+  if (!phpCAS::isInitialized()) {
+    phpCAS::client(
+      $server_version,
+      $server_ecas_server,
+      $server_port,
+      $server_uri,
+      $start_session,
+      $assurance_level
+    );
+    phpCAS::setNoCasServerValidation();
+  }
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCas::setExtraCurlOption($key, $value);

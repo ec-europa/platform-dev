@@ -8,10 +8,13 @@ Please see the phpCAS website for more information:
 
 https://wiki.jasig.org/display/CASC/phpCAS
 
+[![Build Status](https://travis-ci.org/Jasig/phpCAS.png)](https://travis-ci.org/Jasig/phpCAS)
+
+
 LICENSE
 -------
 
-Copyright 2007-2011, JA-SIG, Inc.
+Copyright 2007-2015, JA-SIG, Inc.
 This project includes software developed by Jasig.
 http://www.jasig.org/
 
