@@ -8,6 +8,13 @@ module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.access_control');
 module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 
 /**
+ * The translation job item is not yet sent to DGT.
+ *
+ * A job item is marked as 'not sent' until it has been submitted.
+ */
+define('TMGMT_JOB_ITEM_STATE_CREATED', 0);
+
+/**
  * Implements hook_entity_info_alter().
  */
 function tmgmt_poetry_entity_info_alter(&$entity_info) {
@@ -135,18 +142,64 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
 }
 
 /**
+ * Implements hook_help().
+ */
+function tmgmt_poetry_help($path, $arg) {
+  $output = '';
+  if ($path == 'node/%/translate') {
+    $node = node_load($arg[1]);
+    $existing_jobs = _tmgmt_poetry_job_item_unfinished($node->nid, $node->language);
+    if(!empty($existing_jobs)) {
+      $output = 'A translation is pending for this content.';
+    }
+  }
+  return $output;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_state) {
-  // Replace the submit which is applicable to radio buttons only.
-  $form['actions']['#type'] = 'actions';
-  $form['actions']['request'] = array(
-    '#type' => 'submit',
-    '#value' => t('Request translation'),
-    '#submit' => array('tmgmt_poetry_translate_form_submit'),
-    '#validate' => array('tmgmt_poetry_translate_form_validate'),
-  );
-  $form['languages']['#multiple'] = TRUE;
+  // check if there is a job already created.
+  $entity = $form_state['entity'];
+  $existing_jobs = _tmgmt_poetry_job_item_unfinished($entity->nid, $entity->language);
+
+  if (empty($existing_jobs)) {
+    // Replace the submit which is applicable to radio buttons only.
+    $form['actions']['#type'] = 'actions';
+    $form['actions']['request'] = array(
+      '#type' => 'submit',
+      '#value' => t('Request translation'),
+      '#submit' => array('tmgmt_poetry_translate_form_submit'),
+      '#validate' => array('tmgmt_poetry_translate_form_validate'),
+    );
+    $form['languages']['#multiple'] = TRUE;
+    $form['#theme'][] = 'tmgmt_poetry_ui_translate_form';
+  }
+  else {
+
+    unset($form['languages']['#header'][1], $form['languages']['#header'][5]);
+    $values = $form['languages'];
+    unset($form['languages']);
+    $variables['caption'] = 'Table of existing translations';
+    foreach ($values['#options'] as $option => $data) {
+      unset ($data[1], $data[5]);
+      $options[$option] = $data;
+    }
+    $variables['attributes'] = array();
+    $variables['colgroups'] = array();
+    $variables['sticky'] = array();
+    $variables['empty'] = 'It seems there is an error.';
+    $variables['header'] = $values['#header'];
+    $variables['rows'] = $options;
+    $form['languages']['#markup'] = theme_table($variables);
+    unset($form['actions']);
+  }
+
+}
+
+function tmgmt_poetry_ui_translate_form($form, &$form_state, $build) {
+  $overview = $build['entity_translation_overview'];
 }
 
 /**
@@ -408,6 +461,7 @@ function _tmgmt_poetry_job_item_unfinished($item_id, $source_language) {
  * Helper function to push translator and settings by default.
  *
  * Force poetry test translator when module is active.
+ * Feed the languages selected in a session variable.
  *
  * @TODO move the variable in db.
  */
