@@ -44,4 +44,50 @@ class TMGMTPoetryJob extends TMGMTJob {
     return parent::isDeletable();
   }
 
+  /**
+   * Adds an item to the translation job.
+   *
+   * @param $plugin
+   *   The plugin name.
+   * @param $item_type
+   *   The source item type.
+   * @param $item_id
+   *   The source item id.
+   *
+   * @return TMGMTJobItem
+   *   The job item that was added to the job or FALSE if it couldn't be saved.
+   * @throws TMGMTException
+   *   On zero item word count.
+   */
+  public function addItem($plugin, $item_type, $item_id) {
+
+    $transaction = db_transaction();
+    $is_new = FALSE;
+
+    if (empty($this->tjid)) {
+      $this->save();
+      $is_new = TRUE;
+    }
+
+    $item = tmgmt_job_item_create($plugin, $item_type, $item_id,
+      array('tjid' => $this->tjid, 'state' => TMGMT_JOB_ITEM_STATE_CREATED));
+    $item->save();
+
+    if ($item->getWordCount() == 0) {
+      $transaction->rollback();
+
+      // In case we got word count 0 for the first job item, NULL tjid so that
+      // if there is another addItem() call the rolled back job object will get
+      // persisted.
+      if ($is_new) {
+        $this->tjid = NULL;
+      }
+
+      throw new TMGMTException('Job item @label (@type) has no translatable content.',
+        array('@label' => $item->label(), '@type' => $item->getSourceType()));
+    }
+
+    return $item;
+  }
+
 }
