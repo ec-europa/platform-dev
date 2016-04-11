@@ -24,6 +24,16 @@ Feature: TMGMT Poetry features
     And I press the "Save translator" button
     Then I should see the success message "The configuration options have been saved."
 
+   Scenario: Try to translate without selecting a language
+    Given local translator "TMGMT Poetry: Test translator" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                        |
+      | en       | This title is in English     |
+    And I click "Translate" in the "primary_tabs" region
+    And I press the "Request translation" button
+    Then I should see the error message "You need to select a target language."
+
     @javascript
   Scenario: Create a request translation for French and Portuguese
     Given local translator "TMGMT Poetry: Test translator" is available
@@ -32,10 +42,12 @@ Feature: TMGMT Poetry features
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-pt-pt"
+    #And I select the radio button "" with the id "edit-languages-pt-pt"
+    And I check the box "edit-languages-pt-pt"
     And I press the "Request translation" button
     And I select "TMGMT Poetry: Test translator" from "Translator"
     And I wait for AJAX to finish
+      Then break
     Then I should see "Contact usernames"
     And I should see "Organization"
     When I check the box "edit-settings-languages-fr"
@@ -61,31 +73,32 @@ Feature: TMGMT Poetry features
     Then I should see "Voici ma traduction française"
     When I click "New draft" in the "primary_tabs" region
     Then I fill in "Title" with "This is the title of the validated node"
+    Then I click "Publishing options"
+    And I select "validated" from "edit-workbench-moderation-state-new"
+    And I press "Save"
+    Then I click "Translate" in the "primary_tabs" region
+      Then I should see "This is the title of the validated node" in the English row
+      And I should not see "Published" in the French row
+    And I select the radio button "" with the id "edit-languages-pt-pt"
+    And I press the "Request translation" button
       Then break
-#    And I select "validated" from "edit-workbench-moderation-state-new"
-#    And I press "Save"
-#      Then break
-#    Then I click "Translate" in the "primary_tabs" region
-#    And I select the radio button "" with the id "edit-languages-pt-pt"
-#    And I press the "Request translation" button
-#      Then break
-#    And I select "TMGMT Poetry: Test translator" from "Translator"
-#    And I press the "Submit to translator" button
-#    Then I should see the following success messages:
-#      | success messages                                     |
-#      | Job has been successfully submitted for translation. |
-#    When I click "In progress" in the "Portuguese, Portugal" row
-#    Then break
-#    Then I receive the translation of this job item
-#    Then I should see "This is the title of the validated node Portuguese, Portugal"
-#    Then I press "Save as completed"
-#Then break
-#    And I click "In progress" in the "French" row
-#    Then I receive the translation of this job item
-#    Then I should see "This is the title of the validated node French"
-#    When I press "Save as completed"
-#Then break
-#    Then I click "View published" in the "primary_tabs" region
-#    And I click "Français"
-#    Then break
-#    Then I should see "Voici ma traduction française"
+    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I press the "Submit to translator" button
+    Then I should see the following success messages:
+      | success messages                                     |
+      | Job has been successfully submitted for translation. |
+    When I click "In progress" in the "Portuguese, Portugal" row
+    Then break
+    Then I receive the translation of this job item
+    Then I should see "This is the title of the validated node Portuguese, Portugal"
+    Then I press "Save as completed"
+Then break
+    And I click "In progress" in the "French" row
+    Then I receive the translation of this job item
+    Then I should see "This is the title of the validated node French"
+    When I press "Save as completed"
+Then break
+    Then I click "View published" in the "primary_tabs" region
+    And I click "Français"
+    Then break
+    Then I should see "Voici ma traduction française"
