@@ -195,8 +195,6 @@ function account_request() {
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
-  ecas_login_check();
-
   $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
@@ -678,19 +676,17 @@ function _ecas_init_phpcas_client() {
     }
   }
 
-  phpCAS::client(
-    $server_version,
-    $server_ecas_server,
-    $server_port,
-    $server_uri,
-    $start_session,
-    $assurance_level
-  );
-
-  phpCAS::setNoCasServerValidation();
-  // SNET proxies are blocking curl ...
-  // Let's make the module identify itself in their logs.
-  phpCAS::setExtraCurlOption(CURLOPT_USERAGENT, 'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
+  if (!phpCAS::isInitialized()) {
+    phpCAS::client(
+      $server_version,
+      $server_ecas_server,
+      $server_port,
+      $server_uri,
+      $start_session,
+      $assurance_level
+    );
+    phpCAS::setNoCasServerValidation();
+  }
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCAS::setExtraCurlOption($key, $value);
