@@ -212,7 +212,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Helper function to create the XML to send to Poetry.
    */
   protected function generateRequestXml($job) {
-
     // Load translator settings.
     $translator = $job->getTranslator();
 
@@ -321,8 +320,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
 
     $languages_to_request = array_merge(
       array($job->target_language => $job->target_language),
-      $job->settings['languages']
-    );
+      $job->languages);
 
     foreach ($languages_to_request as $job_additional_lang_key => $job_additional_lang_value) {
       $attribute_action = NULL;
