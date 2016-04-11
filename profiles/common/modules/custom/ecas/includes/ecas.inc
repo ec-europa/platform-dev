@@ -358,7 +358,7 @@ function ecas_login_check() {
     // The user has an uid, and it is > 0 (which is anonymous user's uid) do
     // nothing because user is already logged into Drupal.
   }
-  elseif ($force_login != ECAS_NO_LOGIN) {
+  elseif ($force_login === ECAS_LOGIN) {
     $ecas_sync_user_info_args = array();
 
     // Start a new Drupal session.
@@ -378,11 +378,9 @@ function ecas_login_check() {
       phpCAS::setServerLoginURL($custom_server_login_url);
     }
 
-    if ($force_login === ECAS_LOGIN) {
-      phpCAS::forceAuthentication();
-    }
+    phpCAS::forceAuthentication();
 
-    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
+    if (phpCAS::isAuthenticated()) {
       $ecas_name = phpCAS::getUser();
 
       // Try to log into Drupal.
