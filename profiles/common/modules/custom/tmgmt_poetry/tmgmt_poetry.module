@@ -138,7 +138,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_state) {
-  //Replace the submit which is applicable to radio buttons only.
+  // Replace the submit which is applicable to radio buttons only.
   $form['actions']['#type'] = 'actions';
   $form['actions']['request'] = array(
     '#type' => 'submit',
@@ -151,7 +151,8 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_st
 
 /**
  * Validate callback for the translate tab when using poetry.
- * Use form_set_error that prevents submission.
+ *
+ * Use form_set_error that prevents submission & thus creation of jobs.
  */
 function tmgmt_poetry_translate_form_validate($form, &$form_state) {
   $entity = $form_state['entity'];
@@ -196,7 +197,7 @@ function tmgmt_poetry_translate_form_submit($form, &$form_state) {
     $job->addItem('workbench_moderation', 'node', $entity->nid);
     $jobs[$job->tjid] = $job;
     $jobs[$job->tjid]->languages = $languages;
-    //Save languages selected for checkout later.
+    // Save languages selected for checkout later.
     $_SESSION['languages_' . $job->tjid] = $languages;
   }
   catch (TMGMTException $e) {
@@ -404,9 +405,10 @@ function _tmgmt_poetry_job_item_unfinished($item_id, $source_language) {
 }
 
 /**
- * helper function to push translator and settings by default.
+ * Helper function to push translator and settings by default.
  *
  * Force poetry test translator when module is active.
+ *
  * @TODO move the variable in db.
  */
 function _tmgmt_poetry_form_tmgmt_job_force_settings($form, $form_state, $translator) {
@@ -418,7 +420,7 @@ function _tmgmt_poetry_form_tmgmt_job_force_settings($form, $form_state, $transl
   $form['translator_wrapper']['#collapsed'] = TRUE;
   $form['translator_wrapper']['translator']['#default_value'] = $translator;
   $form['translator_wrapper']['settings'] = $translator_settings;
-  if (isset($_SESSION['languages_' . $job->tjid]) && !empty ($_SESSION['languages_' . $job->tjid])) {
+  if (isset($_SESSION['languages_' . $job->tjid]) && !empty($_SESSION['languages_' . $job->tjid])) {
     foreach ($_SESSION['languages_' . $job->tjid] as $lg => $val) {
       $form['translator_wrapper']['settings']['languages'][$lg]['#checked'] = TRUE;
     }
