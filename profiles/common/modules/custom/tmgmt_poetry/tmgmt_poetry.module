@@ -96,6 +96,7 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
  */
 function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
   $translator = '';
+  $form['translator_wrapper'] = _tmgmt_poetry_form_tmgmt_job_force_settings($form, $form_state, 'poetry');
   // If translator values has been changed.
   if (isset($form_state['values']['translator'])) {
     $translator_name = $form_state['values']['translator'];
@@ -127,6 +128,10 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
       $job_item = array_shift($job_items);
     }
   }
+  hide($form['job_items_wrapper']);
+  $form['info']['target_language']['#type'] = 'item';
+  $target = $form['info']['target_language']['#default_value'];
+  $form['info']['target_language']['#markup'] = $form['info']['target_language']['#options'][$target];
 }
 
 /**
@@ -146,20 +151,25 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_st
 
 /**
  * Validate callback for the translate tab when using poetry.
+ * Use form_set_error that prevents submission.
  */
 function tmgmt_poetry_translate_form_validate($form, &$form_state) {
   $entity = $form_state['entity'];
   $existing_jobs = _tmgmt_poetry_job_item_unfinished($entity->nid, $entity->language);
+
   if (!empty($existing_jobs)) {
-    drupal_set_message(t('An active translation already exists for this page.'), 'error');
+    form_set_error('languages', t('An active translation already exists for this page.'));
     return FALSE;
   }
-  $languages = array_filter($form_state['input']['languages'], function($var) {
-    return !is_null($var);
-  });
-  if (empty($languages)) {
-    form_set_error('languages', t('You need to select a target language.'));
-    return FALSE;
+  else {
+    $languages = array_filter($form_state['input']['languages'], function ($var) {
+      return !is_null($var);
+    });
+
+    if (empty($languages)) {
+      form_set_error('languages', t('You need to select a target language.'));
+      return FALSE;
+    }
   }
 }
 
@@ -168,24 +178,26 @@ function tmgmt_poetry_translate_form_validate($form, &$form_state) {
  */
 function tmgmt_poetry_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
-  $languages = array_filter($form_state['input']['languages'], function($var) {
+  $languages = array_filter($form_state['input']['languages'], function ($var) {
     return !is_null($var);
   });
 
   $langcode = array_shift($languages);
+
   // @TODO finish this
   $jobs = array();
 
   // Create the job object.
   $job = tmgmt_job_create(entity_language('node', $entity), $langcode,
     $GLOBALS['user']->uid);
+
   try {
-    // Add the job item.
+    // Add the job item as a moderated item.
     $job->addItem('workbench_moderation', 'node', $entity->nid);
-    // Append this job to the array of created jobs so we can redirect the
-    // user to a multistep checkout form if necessary.
     $jobs[$job->tjid] = $job;
-    $jobs['languages'] = $languages;
+    $jobs[$job->tjid]->languages = $languages;
+    //Save languages selected for checkout later.
+    $_SESSION['languages_' . $job->tjid] = $languages;
   }
   catch (TMGMTException $e) {
     watchdog_exception('tmgmt workbench', $e);
@@ -198,7 +210,6 @@ function tmgmt_poetry_translate_form_submit($form, &$form_state) {
       )),
       'error');
   }
-  $_SESSION[] = array();
   tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
 }
 
@@ -390,4 +401,27 @@ function _tmgmt_poetry_job_item_unfinished($item_id, $source_language) {
     return $return;
   }
   return FALSE;
+}
+
+/**
+ * helper function to push translator and settings by default.
+ *
+ * Force poetry test translator when module is active.
+ * @TODO move the variable in db.
+ */
+function _tmgmt_poetry_form_tmgmt_job_force_settings($form, $form_state, $translator) {
+  $job = $form_state['tmgmt_job'];
+  $job->translator = $translator;
+  $translator_settings = tmgmt_ui_checkout_settings_form($form_state, $job);
+  $form['translator_wrapper']['#title'] = t('Modify translation request');
+  $form['translator_wrapper']['#collapsible'] = TRUE;
+  $form['translator_wrapper']['#collapsed'] = TRUE;
+  $form['translator_wrapper']['translator']['#default_value'] = $translator;
+  $form['translator_wrapper']['settings'] = $translator_settings;
+  if (isset($_SESSION['languages_' . $job->tjid]) && !empty ($_SESSION['languages_' . $job->tjid])) {
+    foreach ($_SESSION['languages_' . $job->tjid] as $lg => $val) {
+      $form['translator_wrapper']['settings']['languages'][$lg]['#checked'] = TRUE;
+    }
+  };
+  return $form['translator_wrapper'];
 }

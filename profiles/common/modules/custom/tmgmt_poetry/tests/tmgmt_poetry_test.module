@@ -37,11 +37,17 @@ function tmgmt_poetry_test_menu() {
  * A page callback which simulate poetry webservice.
  */
 function tmgmt_poetry_test_soap_server() {
-  $uri = url('tmgmt_poetry_test/soap_server', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+  $uri = url('tmgmt_poetry_test/soap_server', array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE)
+  ));
   // When in non-wsdl mode the uri option must be specified.
   $options = array('uri' => $uri);
   // Create a new SOAP server.
-  $uri = url(drupal_get_path("module", "tmgmt_poetry_test") . "/tmgmt_poetry_test.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+  $uri = url(drupal_get_path("module", "tmgmt_poetry_test") . "/tmgmt_poetry_test.wsdl", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE)
+  ));
   $server = new SoapServer($uri, $options);
   // Attach the API class to the SOAP Server.
   $server->setClass('TMGMTPoetryTestSoapServer');
@@ -49,6 +55,29 @@ function tmgmt_poetry_test_soap_server() {
   $server->handle();
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Force poetry test translator when module is active.
+ */
+function tmgmt_poetry_test_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
+  $settings = _tmgmt_poetry_form_tmgmt_job_force_settings($form, $form_state, 'tmgmt_poetry_test_translator');
+  $form['translator_wrapper']['translator'] = $settings['translator'];
+  $form['translator_wrapper']['settings'] = $settings['settings'];
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ *
+ * Forces this alter to be processed after tmgmt_workbench one.
+ */
+function tmgmt_poetry_test_module_implements_alter(&$implementations, $hook) {
+  if ($hook == 'form_alter' && isset($implementations['tmgmt_poetry_test'])) {
+    $group = $implementations['tmgmt_poetry_test'];
+    unset($implementations['tmgmt_poetry_test']);
+    $implementations['tmgmt_poetry_test'] = $group;
+  }
+}
 
 /**
  * Simulate receive a translation from poetry.
@@ -58,7 +87,10 @@ function tmgmt_poetry_test_receive_translation($job_item) {
   $job = tmgmt_job_load($job_item);
   $poetry = variable_get("poetry_service");
 
-  $url = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE))) . '?wsdl';
+  $url = url('tmgmt_poetry/service_callback', array(
+      'absolute' => TRUE,
+      'language' => (object) array('language' => FALSE)
+    )) . '?wsdl';
   $client = new SoapClient($url, array(
     'cache_wsdl' => WSDL_CACHE_NONE,
     'trace' => 1,
@@ -126,6 +158,7 @@ function _tmgmt_poetry_test_make_xml_msg(TMGMTJob $job, $language, $format = "")
 
   return $xml;
 }
+
 /**
  * Helper for message creation.
  *
@@ -248,7 +281,10 @@ class TMGMTPoetryTestSoapServer {
  * Generate mock wsdl to simulate poetry.
  */
 function _tmgmt_poetry_testl_wsdl() {
-  $uri = url('tmgmt_poetry_test/soap_server', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+  $uri = url('tmgmt_poetry_test/soap_server', array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE)
+  ));
   $wsdl = '<?xml version="1.0" encoding="UTF-8"?>
 <definitions name="TMGMTPoetryTestSoapServer" targetNamespace="' . $uri . '" xmlns:tns="' . $uri . 'tmgmt_poetry_test/soap_server" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="' . $uri . '/types">
   <types>
@@ -288,5 +324,6 @@ function _tmgmt_poetry_testl_wsdl() {
   </service>
 </definitions>';
   drupal_add_http_header('Content-Type', 'application/xml; utf-8');
-  print $wsdl;exit(0);
+  print $wsdl;
+  exit(0);
 }
