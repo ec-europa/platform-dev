@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "12a82e4bc9294b7d31fd5d43aff4c5c8",
-    "content-hash": "ff0f8937ad816cb814531788f08fc752",
+    "hash": "393777de589d4fd2da4e05ef6d8de4c7",
+    "content-hash": "b6a7aa1f16059988bf69d499dffb34b5",
     "packages": [
         {
             "name": "behat/behat",
@@ -1043,6 +1043,47 @@
             "time": "2015-06-15 20:19:33"
         },
         {
+            "name": "jakoch/phantomjs-installer",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jakoch/phantomjs-installer.git",
+                "reference": "b8ee2aac9b95f9a9ee30a05a4df4a0984a8a8b85"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jakoch/phantomjs-installer/zipball/b8ee2aac9b95f9a9ee30a05a4df4a0984a8a8b85",
+                "reference": "b8ee2aac9b95f9a9ee30a05a4df4a0984a8a8b85",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*"
+            },
+            "type": "custom-installer",
+            "autoload": {
+                "psr-0": {
+                    "PhantomInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens-André Koch",
+                    "email": "jakoch@web.de"
+                }
+            ],
+            "description": "A Composer package which installs the PhantomJS binary (Linux, Windows, Mac) into `/bin` of your project.",
+            "keywords": [
+                "binaries",
+                "headless",
+                "phantomjs"
+            ],
+            "time": "2016-01-25 16:30:30"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -1683,6 +1724,48 @@
                 "shell"
             ],
             "time": "2016-02-27 18:59:18"
+        },
+        {
+            "name": "saintberry/phantomjs-extension",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saintberry/PhantomJs-Extension.git",
+                "reference": "ed9b4e8a1e5b844bf09aad311897682208183e64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saintberry/PhantomJs-Extension/zipball/ed9b4e8a1e5b844bf09aad311897682208183e64",
+                "reference": "ed9b4e8a1e5b844bf09aad311897682208183e64",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/process": ">=2.4"
+            },
+            "require-dev": {
+                "behat/behat": "~3.0",
+                "behat/mink": "~1.5",
+                "behat/mink-extension": "~2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Behat\\PhantomJsExtension": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Berry",
+                    "email": "david.berry@prettygraphic.com.au"
+                }
+            ],
+            "description": "Adds a PhantomJs driver to Behat's Mink extension. This will automatically start and stop PhantomJs in your tests.",
+            "time": "2015-04-25 00:35:53"
         },
         {
             "name": "squizlabs/php_codesniffer",
