@@ -99,9 +99,6 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
 
-projects[ckeditor_link][subdir] = "contrib"
-projects[ckeditor_link][version] = "2.3"
-
 projects[ckeditor_lite][subdir] = contrib
 projects[ckeditor_lite][version] = 1.0-rc3
 
@@ -315,9 +312,6 @@ projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jplayer][subdir] = "contrib"
 projects[jplayer][version] = "2.0-beta1"
-
-projects[jqmulti][subdir] = "contrib"
-projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.7"
