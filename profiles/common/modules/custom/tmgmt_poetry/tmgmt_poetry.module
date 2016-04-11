@@ -133,8 +133,14 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_state) {
-  $form['actions']['request']['#validate'][] = 'tmgmt_poetry_translate_form_validate';
-  $form['actions']['request']['#submit'] = array('tmgmt_poetry_translate_form_submit');
+  //Replace the submit which is applicable to radio buttons only.
+  $form['actions']['#type'] = 'actions';
+  $form['actions']['request'] = array(
+    '#type' => 'submit',
+    '#value' => t('Request translation'),
+    '#submit' => array('tmgmt_poetry_translate_form_submit'),
+    '#validate' => array('tmgmt_poetry_translate_form_validate'),
+  );
   $form['languages']['#multiple'] = TRUE;
 }
 
@@ -145,7 +151,14 @@ function tmgmt_poetry_translate_form_validate($form, &$form_state) {
   $entity = $form_state['entity'];
   $existing_jobs = _tmgmt_poetry_job_item_unfinished($entity->nid, $entity->language);
   if (!empty($existing_jobs)) {
-    drupal_set_message(t('An active translation for this item already exists'), 'error');
+    drupal_set_message(t('An active translation already exists for this page.'), 'error');
+    return FALSE;
+  }
+  $languages = array_filter($form_state['input']['languages'], function($var) {
+    return !is_null($var);
+  });
+  if (empty($languages)) {
+    form_set_error('languages', t('You need to select a target language.'));
     return FALSE;
   }
 }
@@ -158,6 +171,7 @@ function tmgmt_poetry_translate_form_submit($form, &$form_state) {
   $languages = array_filter($form_state['input']['languages'], function($var) {
     return !is_null($var);
   });
+
   $langcode = array_shift($languages);
   // @TODO finish this
   $jobs = array();
@@ -171,6 +185,7 @@ function tmgmt_poetry_translate_form_submit($form, &$form_state) {
     // Append this job to the array of created jobs so we can redirect the
     // user to a multistep checkout form if necessary.
     $jobs[$job->tjid] = $job;
+    $jobs['languages'] = $languages;
   }
   catch (TMGMTException $e) {
     watchdog_exception('tmgmt workbench', $e);
@@ -183,6 +198,7 @@ function tmgmt_poetry_translate_form_submit($form, &$form_state) {
       )),
       'error');
   }
+  $_SESSION[] = array();
   tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
 }
 
