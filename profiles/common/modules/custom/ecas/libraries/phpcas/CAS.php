@@ -388,16 +388,6 @@ class phpCAS
         phpCAS :: traceEnd();
     }
 
-    /**
-    * Answer whether or not the client or proxy has been initialized
-    *
-    * @return bool
-    */
-    public static function isInitialized ()
-    {
-        return (is_object(self::$_PHPCAS_CLIENT));
-    }
-
     /** @} */
     // ########################################################################
     //  DEBUGGING
