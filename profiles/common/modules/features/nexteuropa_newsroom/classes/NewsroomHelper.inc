@@ -845,7 +845,7 @@ class NewsroomHelper {
    * Deletes translations.
    *
    * @param object $entity
-   *   Taxonomy term or node.
+   *   Object : taxonomy term or node.
    * @param int $entity_id
    *   Entity id.
    * @param string $lang
