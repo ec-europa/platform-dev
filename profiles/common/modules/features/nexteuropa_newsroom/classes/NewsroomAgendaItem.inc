@@ -14,14 +14,20 @@ class NewsroomAgendaItem {
   protected $date = NULL;
 
   /**
-   * Getter.
+   * Gets agenda items.
+   *
+   * @return array
+   *   Agenda items.
    */
   public function getItems() {
     return $this->items;
   }
 
   /**
-   * Setter.
+   * Sets agenda items.
+   *
+   * @param array $value
+   *   Agenda items.
    */
   public function setItems($value) {
     $this->items = $value;
@@ -38,14 +44,20 @@ class NewsroomAgendaItem {
   }
 
   /**
-   * Getter.
+   * Gets agenda date.
+   *
+   * @return Datetime
+   *   Agenda date.
    */
   public function getDate() {
     return $this->date;
   }
 
   /**
-   * Setter.
+   * Sets agenda date.
+   *
+   * @param Datetime $value
+   *   Agenda date.
    */
   public function setDate($value) {
     $this->date = $value;

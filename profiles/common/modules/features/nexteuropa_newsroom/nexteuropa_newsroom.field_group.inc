@@ -682,25 +682,25 @@ function nexteuropa_newsroom_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_nt_technical|taxonomy_term|newsroom_item_type|form';
-  $field_group->group_name = 'group_nt_technical';
+  $field_group->identifier = 'group_newsroom_technical|taxonomy_term|newsroom_item_type|form';
+  $field_group->group_name = 'group_newsroom_technical';
   $field_group->entity_type = 'taxonomy_term';
   $field_group->bundle = 'newsroom_item_type';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Technical Fields',
+    'label' => 'Technical Newsroom Fields',
     'weight' => '3',
     'children' => array(
       0 => 'field_newsroom_import_name',
       1 => 'field_newsroom_type',
-      2 => 'field_date_label',
-      3 => 'field_display_date',
+      2 => 'field_newsroom_date_label',
+      3 => 'field_newsroom_display_date',
       4 => 'field_newsroom_type_id',
-      5 => 'field_direct_link_if_teaser_only',
+      5 => 'field_newsroom_direct_link',
       6 => 'field_newsroom_highlighted',
-      7 => 'field_read_more_text',
-      8 => 'field_responsible_person_label',
+      7 => 'field_newsroom_read_more_text',
+      8 => 'field_newsroom_resp_person_label',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -712,7 +712,7 @@ function nexteuropa_newsroom_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_nt_technical|taxonomy_term|newsroom_item_type|form'] = $field_group;
+  $export['group_newsroom_technical|taxonomy_term|newsroom_item_type|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -751,7 +751,7 @@ function nexteuropa_newsroom_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Technical Fields',
+    'label' => 'Technical Newsroom Fields',
     'weight' => '2',
     'children' => array(
       0 => 'field_newsroom_topic_id',
@@ -767,13 +767,13 @@ function nexteuropa_newsroom_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_ntop_technical|taxonomy_term|newsroom_topic|form'] = $field_group;
+  $export['group_newsroom_technical|taxonomy_term|newsroom_topic|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_recommended_reading|node|newsroom_item|default';
-  $field_group->group_name = 'group_recommended_reading';
+  $field_group->identifier = 'group_newsroom_event_info|node|newsroom_item|event';
+  $field_group->group_name = 'group_newsroom_event_info';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'newsroom_item';
   $field_group->mode = 'default';
@@ -789,10 +789,12 @@ function nexteuropa_newsroom_field_group_info() {
     'format_settings' => array(
       'formatter' => 'collapsible',
       'instance_settings' => array(
+        'classes' => 'group-event-info field-group-div',
         'description' => '',
         'classes' => '',
         'id' => '',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_recommended_reading|node|newsroom_item|default'] = $field_group;
@@ -818,5 +820,5 @@ function nexteuropa_newsroom_field_group_info() {
   t('Technical fields');
   t('Topics');
 
-  return $field_groups;
+  return $export;
 }

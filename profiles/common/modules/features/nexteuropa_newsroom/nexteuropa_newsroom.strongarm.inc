@@ -69,23 +69,9 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'i18n_sync_node_type_newsroom_selection';
-  $strongarm->value = 0;
-  $export['i18n_sync_node_type_newsroom_selection'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_date_only';
+  $strongarm->name = 'date_format_newsroom_date_only';
   $strongarm->value = 'd/m/Y';
-  $export['date_format_date_only'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_minimal';
-  $strongarm->value = 'd/m/Y';
-  $export['date_format_minimal'] = $strongarm;
+  $export['date_format_newsroom_date_only'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -116,6 +102,13 @@ function nexteuropa_newsroom_strongarm() {
     ),
   );
   $export['field_bundle_settings_node__newsroom_selection'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'i18n_sync_node_type_newsroom_selection';
+  $strongarm->value = array();
+  $export['i18n_sync_node_type_newsroom_selection'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

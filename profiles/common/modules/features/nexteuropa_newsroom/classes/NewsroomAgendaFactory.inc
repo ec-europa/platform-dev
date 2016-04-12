@@ -4,13 +4,6 @@
  * Code for the NewsroomAgendaFactory class.
  */
 
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgenda');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaItem');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaDay');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaWeek');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaMonth');
-module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomAgendaSchedule');
-
 /**
  * NewsroomAgendaFactory class.
  */
@@ -35,7 +28,7 @@ class NewsroomAgendaFactory {
    * @return object
    *   Agenda item.
    */
-  public function buildAgenda($view = 'scedule', $type_name = 'all', $topic_name = 'all', $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
+  public function buildAgenda($view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $type_name = 'all', $topic_name = 'all', $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
     $agenda = NULL;
     $current_date = new DateTime();
     $type = $this->getType($type_name);
@@ -73,7 +66,6 @@ class NewsroomAgendaFactory {
 
         $current_date->setDate($year, $month, $day);
         $agenda = new NewsroomAgendaSchedule($type, $topic, $current_date);
-        break;
 
     }
 
@@ -116,7 +108,6 @@ class NewsroomAgendaFactory {
 
       default:
         $agenda = new NewsroomAgendaSchedule($type, $topics, $date);
-        break;
 
     }
 
@@ -133,7 +124,7 @@ class NewsroomAgendaFactory {
    *   Day number.
    */
   protected function getDay($value) {
-    return preg_match('/^\d{1,2}$/', $value) ? (int) $value : date('d');
+    return preg_match('/^\d{1,2}$/', $value) ? (int) $value : NewsroomHelper::getFormatedDate('d');
   }
 
   /**
@@ -146,11 +137,11 @@ class NewsroomAgendaFactory {
    *   Week number.
    */
   protected function getWeek($value) {
-    return preg_match('/^\d{1,2}$/', $value) ? (int) $value : date('W');
+    return preg_match('/^\d{1,2}$/', $value) ? (int) $value : NewsroomHelper::getFormatedDate('W');
   }
 
   /**
-   * Validates and return month number.
+   * Validates and returns month number.
    *
    * @param string $value
    *   Month number.
@@ -159,11 +150,11 @@ class NewsroomAgendaFactory {
    *   Month number.
    */
   protected function getMonth($value) {
-    return preg_match('/^\d{1,2}$/', $value) ? (int) $value : date('n');
+    return preg_match('/^\d{1,2}$/', $value) ? (int) $value : NewsroomHelper::getFormatedDate('n');
   }
 
   /**
-   * Validates and return year number.
+   * Validates and returns year number.
    *
    * @param string $value
    *   Year number.
@@ -172,7 +163,7 @@ class NewsroomAgendaFactory {
    *   Year number.
    */
   protected function getYear($value) {
-    return preg_match('/^\d{4}$/', $value) ? (int) $value : date('Y');
+    return preg_match('/^\d{4}$/', $value) ? (int) $value : NewsroomHelper::getFormatedDate('Y');
   }
 
   /**

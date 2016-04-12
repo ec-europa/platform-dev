@@ -25,7 +25,7 @@ class NewsroomAgendaWeek extends NewsroomAgenda {
 
     $next_day = clone $current_day;
     $next_day->modify('+7 day');
-    $this->setNextDate($next_day);
+    $this->setUpcomingDate($next_day);
 
     $previous_day = clone $current_day;
     $previous_day->modify('-7 day');

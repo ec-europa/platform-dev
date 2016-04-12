@@ -38,14 +38,20 @@ class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
   }
 
   /**
-   * Getter.
+   * Gets query operator.
+   *
+   * @return string
+   *   Query operator: OR or AND.
    */
   public function getOperator() {
     return $this->operator;
   }
 
   /**
-   * Setter.
+   * Sets query operator.
+   *
+   * @param string $value
+   *   Query operator: OR or AND.
    */
   public function setOperator($value) {
     $this->operator = $value;

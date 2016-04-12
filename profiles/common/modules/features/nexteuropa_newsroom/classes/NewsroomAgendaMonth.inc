@@ -25,7 +25,7 @@ class NewsroomAgendaMonth extends NewsroomAgenda {
 
     $next_month = clone $current_month;
     $next_month->modify('+1 month');
-    $this->setNextDate($next_month);
+    $this->setUpcomingDate($next_month);
 
     $previous_month = clone $current_month;
     $previous_month->modify('-1 month');

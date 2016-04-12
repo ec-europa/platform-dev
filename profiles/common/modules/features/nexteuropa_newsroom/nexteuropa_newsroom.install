@@ -8,8 +8,6 @@
  * /CITnet/confluence/display/nexteuropa/Custom+features
  */
 
-include_once 'nexteuropa_newsroom.install.inc';
-
 /**
  * Implements hook_enable().
  */
@@ -43,6 +41,7 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_summary_home_block_num_agenda', 3);
   variable_set('newsroom_summary_home_block_num_items', 3);
   variable_set('newsroom_summary_home_block_num_highlighted_items', 3);
+  variable_set('newsroom_universe_root', 'http://ec.europa.eu/information_society/newsroom/cf/dae/');
   variable_set('newsroom_summary_block_columns', 1);
   variable_set('newsroom_display_agenda', 1);
   variable_set('newsroom_navigation_depth', 1);
@@ -137,13 +136,17 @@ function nexteuropa_newsroom_update_7103() {
  * Migrate data from shared teaser to newsroom teaser.
  */
 function nexteuropa_newsroom_update_7104() {
-  $result = db_query("REPLACE INTO field_data_field_teaser
+  $result = db_query("REPLACE INTO field_data_field_newsroom_teaser
   SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_data_field_shared_teaser shared_teaser
   WHERE shared_teaser.bundle = 'newsroom_item';");
 
-  $result = db_query("REPLACE INTO field_revision_field_teaser
+  $result = db_query("REPLACE INTO field_revision_field_newsroom_teaser
   SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_revision_field_shared_teaser shared_teaser
   WHERE shared_teaser.bundle = 'newsroom_item';");
+
+  if ($instance = field_info_instance('node', 'field_shared_teaser', 'newsroom_item')) {
+    field_delete_instance($instance);
+  }
 }
 
 /**
@@ -179,8 +182,6 @@ function nexteuropa_newsroom_update_7106() {
  * Change the datetime to timestamp.
  */
 function nexteuropa_newsroom_update_7107() {
-  // $content type : content type that contains fields to replace.
-  // $module_name : module that contains fields.
   $module_name = 'nexteuropa_newsroom';
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
@@ -254,4 +255,139 @@ function nexteuropa_newsroom_update_7107() {
     }
   }
   field_cache_clear();
+}
+
+/**
+ * Rename the fields to the same standards.
+ */
+function nexteuropa_newsroom_update_7108() {
+  $fields = array();
+  $fields['field_associated_newsroom_select'] = 'field_newsroom_associated_select';
+  $fields['field_associated_newsroom_topic'] = 'field_newsroom_associated_topic';
+  $fields['field_eur_lex_link'] = 'field_newsroom_eur_lex_link';
+  $fields['field_highlighted_newsroom_topic'] = 'field_newsroom_highlighted_topic';
+  $fields['field_illustrative_image'] = 'field_newsroom_illustrative_img';
+  $fields['field_newsletter_only'] = 'field_newsroom_newsletter_only';
+  $fields['field_nr_project_coordinator'] = 'field_newsroom_prj_coordinator';
+  $fields['field_primary_topic'] = 'field_newsroom_primary_topic';
+  $fields['field_related_content'] = 'field_newsroom_related_content';
+  $fields['field_teaser'] = 'field_newsroom_teaser';
+  $fields['field_ted_link'] = 'field_newsroom_ted_link';
+  $fields['field_featured_item'] = 'field_newsroom_featured_item';
+  $fields['field_responsible_person_label'] = 'field_newsroom_resp_person_label';
+  $fields['field_read_more_text'] = 'field_newsroom_read_more_text';
+  $fields['field_display_date'] = 'field_newsroom_display_date';
+  $fields['field_direct_link_if_teaser_only'] = 'field_newsroom_direct_link';
+  $fields['field_date_label'] = 'field_newsroom_date_label';
+  $fields['field_service_active'] = 'field_newsroom_service_active';
+  $fields['field_service_type'] = 'field_newsroom_service_type';
+  $fields['field_selected_types'] = 'field_newsroom_selected_types';
+  $fields['field_selected_topics'] = 'field_newsroom_selected_topics';
+  foreach ($fields as $old_field => $new_field) {
+    _nexteuropa_newsroom_rename_field($old_field, $new_field);
+  }
+
+  // Update metatag settings.
+  $value = db_query("select config from `metatag_config` where instance = 'node:newsroom_item'")->fetchCol();
+  if ($value) {
+    db_query("update `metatag_config` set config = :config where instance = 'node:newsroom_item'",
+      array(
+        ':config' => str_replace('field_teaser', 'field_newsroom_teaser', $value),
+      )
+    );
+  }
+}
+
+/**
+ * Get current module version.
+ */
+function _nexteuropa_newsroom_get_version() {
+  $module = basename(__FILE__, ".install");
+  $path = drupal_get_path('module', $module) . '/' . $module . '.info';
+  $info = drupal_parse_info_file($path);
+  return $info['version'];
+}
+
+/**
+ * Renames and migrates the data to a new field.
+ *
+ * @param string $old_name
+ *   Old field name.
+ * @param string $new_name
+ *   New field name.
+ */
+function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
+  $old_field = field_info_field($old_name);
+
+  if ($old_field) {
+    // Create new field.
+    $new_field = $old_field;
+    $new_field['field_name'] = $new_name;
+
+    $new_field_info = field_info_field($new_name);
+    if (empty($new_field_info)) {
+      field_create_field($new_field);
+    }
+  }
+
+  if (isset($old_field['bundles'])) {
+    foreach ($old_field['bundles'] as $entity_type => $bundles) {
+      foreach ($bundles as $bundle) {
+        $old_instance = field_info_instance($entity_type, $old_name, $bundle);
+
+        if ($old_instance) {
+          $new_instance = $old_instance;
+          $new_instance['field_name'] = $new_name;
+          $new_instance_info = field_info_instance($entity_type, $new_name, $bundle);
+          if (empty($new_instance_info)) {
+            field_create_instance($new_instance);
+          }
+
+          // Migrate old fields' data to the new ones.
+          $field_data = db_select('field_data_' . $old_name, 'old')
+            ->fields('old')
+            ->condition('entity_type', $entity_type)
+            ->condition('bundle', $bundle)
+            ->execute();
+
+          while ($data = $field_data->fetchAssoc()) {
+            $data_new = array();
+            foreach ($data as $column => $value) {
+              $column = str_replace($old_name, $new_name, $column);
+              $data_new[$column] = $value;
+            }
+
+            db_insert('field_data_' . $new_name)
+              ->fields($data_new)
+              ->execute();
+          }
+
+          // Migrate old fields' revision data to the new ones.
+          $field_revision = db_select('field_revision_' . $old_name, 'old')
+            ->fields('old')
+            ->condition('entity_type', $entity_type)
+            ->condition('bundle', $bundle)
+            ->execute();
+
+          while ($revision = $field_revision->fetchAssoc()) {
+            $revision_new = array();
+            foreach ($revision as $column => $value) {
+              $column = str_replace($old_name, $new_name, $column);
+              $revision_new[$column] = $value;
+            }
+
+            db_insert('field_revision_' . $new_name)
+              ->fields($revision_new)
+              ->execute();
+          }
+        }
+      }
+    }
+  }
+
+  // Delete old instance.
+  field_delete_field($old_name);
+
+  // Purge fields.
+  field_purge_batch(1000);
 }

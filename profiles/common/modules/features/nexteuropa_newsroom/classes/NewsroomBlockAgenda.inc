@@ -19,7 +19,10 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
   }
 
   /**
-   * Getter.
+   * Gets block title.
+   *
+   * @return string
+   *   Block title.
    */
   public function getTitle() {
     return t('Agenda');
@@ -27,6 +30,9 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
 
   /**
    * Generates Agenda block content.
+   *
+   * @return string
+   *   Agenda block content.
    */
   public function generateContent() {
     $path = md5(current_path());
@@ -38,14 +44,14 @@ class NewsroomBlockAgenda extends NewsroomBlockBase {
     else {
       $factory = new NewsroomAgendaFactory();
       $agenda = $factory->build(NewsroomAgenda::AGENDA_VIEW_SCHEDULE_BLOCK, $this->getType(), $this->getTopics(), new DateTime(), $this->getOperator());
-      $content = theme('newsroom_summary_block', array(
+      $content = theme('newsroom_summary_block_wrapper', array(
         'content' => $agenda->getBlockAgenda(),
         'css_classes' => $this->getCssClasses(),
         'title' => $this->getTitle(),
         'type_url' => 'agenda',
         'url' => NewsroomHelper::getNewsroomAgendaUrl(NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $this->getTypeUrl(), $this->getTopicUrl()),
       ));
-      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_summary_block_agenda', 3600));
     }
     return $content;
   }

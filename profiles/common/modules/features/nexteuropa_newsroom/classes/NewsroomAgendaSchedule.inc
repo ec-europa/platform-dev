@@ -12,14 +12,20 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   protected $lastAgendaDate = NULL;
 
   /**
-   * Getter.
+   * Gets the latest date in the agenda.
+   *
+   * @return Datetime
+   *   Latest date in the agenda.
    */
   public function getLastAgendaDate() {
     return $this->lastAgendaDate;
   }
 
   /**
-   * Setter.
+   * Sets the latest date in the agenda.
+   *
+   * @param Datetime $value
+   *   Latest date in the agenda.
    */
   public function setLastAgendaDate($value) {
     $this->lastAgendaDate = $value;
@@ -48,9 +54,13 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
     // Build agenda for the current date.
     $next_day->modify('+1 day');
     $this->setCurrentItems($this->buildAgenda($this->getCurrentDate(), $next_day));
-    $this->findNextItems();
-    $this->findPreviousDate();
-    $this->findNextDate();
+    $this->setLastAgendaDate($next_day);
+    $this->findUpcomingItems();
+    // We don't need navigation for the blocks.
+    if (!$this->getIsBlock()) {
+      $this->findPreviousDate();
+      $this->findUpcomingDate();
+    }
   }
 
   /**
@@ -70,12 +80,12 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   /**
    * Finds and set next items from the current items.
    */
-  protected function findNextItems() {
+  protected function findUpcomingItems() {
     $start_date = clone $this->getCurrentDate();
     // We start from the next day after the current.
     $start_date->modify('+1 day');
     $this->setLastAgendaDate($start_date);
-    $next_items = array();
+    $upcoming_items = array();
     // We add one day to include the last day also.
     $last_event_date = $this->getUtmostDate(FALSE);
     if ($last_event_date) {
@@ -85,14 +95,12 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
         $next_day = clone $start_date;
         $next_day->modify('+1 day');
         $current_items = $this->buildAgenda($start_date, $next_day, FALSE);
-        $next_items = array_merge($next_items, $current_items);
-
+        $upcoming_items = array_merge($upcoming_items, $current_items);
         $this->setLastAgendaDate($start_date);
         $start_date->modify('+1 day');
       }
     }
-
-    $this->setNextItems($next_items);
+    $this->setUpcomingItems($upcoming_items);
   }
 
   /**
@@ -104,7 +112,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    * @return bool
    *   Has events.
    */
-  protected function hastItems($items) {
+  protected function hasItems($items) {
     $has_current_items = FALSE;
     if ($items) {
       foreach ($items as $item) {
@@ -118,52 +126,73 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   }
 
   /**
-   * Finds and set next date for the current items.
+   * Finds and set upcoming date for the current items.
    */
-  protected function findNextDate() {
-    $last_agenda_date = $this->getLastAgendaDate();
-
-    $next_items = array();
-    // We add one day to include the last day also.
-    $last_event_date = $this->getUtmostDate(FALSE);
-    if ($last_agenda_date && $last_event_date) {
-      // We start from the next day after the current.
-      $start_date = clone $last_agenda_date;
-
-      $last_event_date->modify('+1 day');
-      while ($start_date <= $last_event_date) {
-        $next_day = clone $start_date;
-        $next_day->modify('+1 day');
-        $next_items = $this->buildAgenda($start_date, $next_day);
-        if ($this->hastItems($next_items)) {
-          $this->setNextDate($start_date);
-          break;
-        }
-
-        $start_date->modify('+1 day');
-      }
+  protected function findUpcomingDate() {
+    $cache_key = 'get_agenda:upcoming_date:' . $this->getUniqueCachePart();
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $upcoming_date = $cache->data;
     }
+    else {
+      $last_agenda_date = $this->getLastAgendaDate();
+      $upcoming_items = array();
+      // We add one day to include the last day also.
+      $last_event_date = $this->getUtmostDate(FALSE);
+
+      $upcoming_date = NULL;
+      if ($last_agenda_date && $last_event_date) {
+        // We start from the next day after the current.
+        $start_date = clone $last_agenda_date;
+        $last_event_date->modify('+1 day');
+        while ($start_date <= $last_event_date) {
+          $next_day = clone $start_date;
+          $next_day->modify('+1 day');
+          $upcoming_items = $this->buildAgenda($start_date, $next_day);
+          if ($this->hasItems($upcoming_items)) {
+            $upcoming_date = $start_date;
+            break;
+          }
+
+          $start_date->modify('+1 day');
+        }
+      }
+      cache_set($cache_key, $upcoming_date, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_upcoming_date', 3600));
+    }
+
+    $this->setUpcomingDate($upcoming_date);
   }
 
   /**
    * Finds and set previous date for the current items.
    */
   protected function findPreviousDate() {
-    $start_date = clone $this->getCurrentDate();
-    $first_event_date = $this->getUtmostDate();
-    if ($first_event_date) {
-      while ($start_date > $first_event_date) {
-        $previous_day = clone $start_date;
-        $previous_day->modify('-1 day');
-        $previous_items = $this->buildAgenda($previous_day, $start_date);
-        if ($this->hastItems($previous_items)) {
-          $this->setPreviousDate($previous_day);
-          break;
-        }
-
-        $start_date->modify('-1 day');
-      }
+    $cache_key = 'get_agenda:previous_date:' . $this->getUniqueCachePart();
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $previous_day = $cache->data;
     }
+    else {
+      $start_date = clone $this->getCurrentDate();
+      $first_event_date = $this->getUtmostDate();
+      $previous_day = NULL;
+      if ($first_event_date) {
+        while ($start_date > $first_event_date) {
+          $previous_date = clone $start_date;
+          $previous_date->modify('-1 day');
+          $previous_items = $this->buildAgenda($previous_date, $start_date);
+          if ($this->hasItems($previous_items)) {
+            $previous_day = $previous_date;
+            break;
+          }
+
+          $start_date->modify('-1 day');
+        }
+      }
+      cache_set($cache_key, $previous_day, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_previous_date', 3600));
+    }
+
+    $this->setPreviousDate($previous_day);
   }
 
   /**
@@ -173,16 +202,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    *   Result.
    */
   protected function loadResult() {
-    $cache_key = 'schedule_result:' . md5($this->getQuery());
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
-      $data = $cache->data;
-    }
-    else {
-      $data = $this->getQuery()->execute()->fetchAll();
-      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
-    }
-    return $data;
+    return $this->getQuery()->execute()->fetchAll();;
   }
 
   /**
@@ -199,7 +219,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
     $result = $this->getResult();
     $last_item = $first ? reset($result) : array_pop($result);
     if ($last_item) {
-      $last_date = !empty($last_item->end_date) ? clone $last_item->end_date_obj : clone $last_item->start_date_obj;
+      $last_date = clone $last_item->start_date_obj;
     }
     return $last_date;
   }

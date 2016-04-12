@@ -10,13 +10,13 @@
 function nexteuropa_newsroom_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_associated_newsroom_select'.
-  $field_bases['field_associated_newsroom_select'] = array(
+  // Exported field_base: 'field_newsroom_associated_select'.
+  $field_bases['field_newsroom_associated_select'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_associated_newsroom_select',
+    'field_name' => 'field_newsroom_associated_select',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -46,13 +46,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_associated_newsroom_topic'.
-  $field_bases['field_associated_newsroom_topic'] = array(
+  // Exported field_base: 'field_newsroom_associated_topic'.
+  $field_bases['field_newsroom_associated_topic'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_associated_newsroom_topic',
+    'field_name' => 'field_newsroom_associated_topic',
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -74,13 +74,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_contact'.
-  $field_bases['field_contact'] = array(
+  // Exported field_base: 'field_newsroom_date_label'.
+  $field_bases['field_newsroom_date_label'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_contact',
+    'field_name' => 'field_newsroom_date_label',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -96,35 +96,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_date_label'.
-  $field_bases['field_date_label'] = array(
+  // Exported field_base: 'field_newsroom_direct_link'.
+  $field_bases['field_newsroom_direct_link'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_date_label',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 1,
-    'module' => 'text',
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'max_length' => 255,
-    ),
-    'translatable' => 0,
-    'type' => 'text',
-  );
-
-  // Exported field_base: 'field_direct_link_if_teaser_only'.
-  $field_bases['field_direct_link_if_teaser_only'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_direct_link_if_teaser_only',
+    'field_name' => 'field_newsroom_direct_link',
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -146,13 +124,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_display_date'.
-  $field_bases['field_display_date'] = array(
+  // Exported field_base: 'field_newsroom_display_date'.
+  $field_bases['field_newsroom_display_date'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_display_date',
+    'field_name' => 'field_newsroom_display_date',
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -172,13 +150,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'list_boolean',
   );
 
-  // Exported field_base: 'field_eur_lex_link'.
-  $field_bases['field_eur_lex_link'] = array(
+  // Exported field_base: 'field_newsroom_eur_lex_link'.
+  $field_bases['field_newsroom_eur_lex_link'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_eur_lex_link',
+    'field_name' => 'field_newsroom_eur_lex_link',
     'indexes' => array(),
     'locked' => 1,
     'module' => 'link',
@@ -202,13 +180,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_featured_item'.
-  $field_bases['field_featured_item'] = array(
+  // Exported field_base: 'field_newsroom_featured_item'.
+  $field_bases['field_newsroom_featured_item'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_featured_item',
+    'field_name' => 'field_newsroom_featured_item',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -240,13 +218,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_highlighted_newsroom_topic'.
-  $field_bases['field_highlighted_newsroom_topic'] = array(
+  // Exported field_base: 'field_newsroom_highlighted_topic'.
+  $field_bases['field_newsroom_highlighted_topic'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_highlighted_newsroom_topic',
+    'field_name' => 'field_newsroom_highlighted_topic',
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -268,13 +246,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_illustrative_image'.
-  $field_bases['field_illustrative_image'] = array(
+  // Exported field_base: 'field_newsroom_illustrative_img'.
+  $field_bases['field_newsroom_illustrative_img'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_illustrative_image',
+    'field_name' => 'field_newsroom_illustrative_img',
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -293,13 +271,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_newsletter_only'.
-  $field_bases['field_newsletter_only'] = array(
+  // Exported field_base: 'field_newsroom_newsletter_only'.
+  $field_bases['field_newsroom_newsletter_only'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_newsletter_only',
+    'field_name' => 'field_newsroom_newsletter_only',
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -1394,13 +1372,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_nr_project_coordinator'.
-  $field_bases['field_nr_project_coordinator'] = array(
+  // Exported field_base: 'field_newsroom_prj_coordinator'.
+  $field_bases['field_newsroom_prj_coordinator'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_nr_project_coordinator',
+    'field_name' => 'field_newsroom_prj_coordinator',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1416,13 +1394,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_primary_topic'.
-  $field_bases['field_primary_topic'] = array(
+  // Exported field_base: 'field_newsroom_primary_topic'.
+  $field_bases['field_newsroom_primary_topic'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_primary_topic',
+    'field_name' => 'field_newsroom_primary_topic',
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -1444,13 +1422,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_read_more_text'.
-  $field_bases['field_read_more_text'] = array(
+  // Exported field_base: 'field_newsroom_read_more_text'.
+  $field_bases['field_newsroom_read_more_text'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_read_more_text',
+    'field_name' => 'field_newsroom_read_more_text',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1466,13 +1444,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_related_content'.
-  $field_bases['field_related_content'] = array(
+  // Exported field_base: 'field_newsroom_related_content'.
+  $field_bases['field_newsroom_related_content'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_related_content',
+    'field_name' => 'field_newsroom_related_content',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -1502,13 +1480,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_responsible_person_label'.
-  $field_bases['field_responsible_person_label'] = array(
+  // Exported field_base: 'field_newsroom_resp_person_label'.
+  $field_bases['field_newsroom_resp_person_label'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_responsible_person_label',
+    'field_name' => 'field_newsroom_resp_person_label',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1524,13 +1502,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_selected_topic_highlights'.
-  $field_bases['field_selected_topic_highlights'] = array(
+  // Exported field_base: 'field_newsroom_selected_topics'.
+  $field_bases['field_newsroom_selected_topics'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_selected_topic_highlights',
+    'field_name' => 'field_newsroom_selected_topics',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -1559,48 +1537,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_selected_topics'.
-  $field_bases['field_selected_topics'] = array(
+  // Exported field_base: 'field_newsroom_selected_types'.
+  $field_bases['field_newsroom_selected_types'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_selected_topics',
-    'indexes' => array(
-      'target_id' => array(
-        0 => 'target_id',
-      ),
-    ),
-    'locked' => 1,
-    'module' => 'entityreference',
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'handler' => 'views',
-      'handler_settings' => array(
-        'behaviors' => array(
-          'views-select-list' => array(
-            'status' => 0,
-          ),
-        ),
-        'view' => array(
-          'args' => array(),
-          'display_name' => 'entityreference_1',
-          'view_name' => 'newsroom_term_selection',
-        ),
-      ),
-      'target_type' => 'taxonomy_term',
-    ),
-    'translatable' => 0,
-    'type' => 'entityreference',
-  );
-
-  // Exported field_base: 'field_selected_types'.
-  $field_bases['field_selected_types'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_selected_types',
+    'field_name' => 'field_newsroom_selected_types',
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -1622,13 +1565,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_service_active'.
-  $field_bases['field_service_active'] = array(
+  // Exported field_base: 'field_newsroom_service_active'.
+  $field_bases['field_newsroom_service_active'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_service_active',
+    'field_name' => 'field_newsroom_service_active',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1644,13 +1587,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_service_type'.
-  $field_bases['field_service_type'] = array(
+  // Exported field_base: 'field_newsroom_service_type'.
+  $field_bases['field_newsroom_service_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_service_type',
+    'field_name' => 'field_newsroom_service_type',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1666,13 +1609,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_teaser'.
-  $field_bases['field_teaser'] = array(
+  // Exported field_base: 'field_newsroom_teaser'.
+  $field_bases['field_newsroom_teaser'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_teaser',
+    'field_name' => 'field_newsroom_teaser',
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -1687,13 +1630,13 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ted_link'.
-  $field_bases['field_ted_link'] = array(
+  // Exported field_base: 'field_newsroom_ted_link'.
+  $field_bases['field_newsroom_ted_link'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_ted_link',
+    'field_name' => 'field_newsroom_ted_link',
     'indexes' => array(),
     'locked' => 1,
     'module' => 'link',

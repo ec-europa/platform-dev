@@ -12,20 +12,6 @@ class NewsroomBlock extends NewsroomBlockBase {
   protected $items = array();
 
   /**
-   * Getter.
-   */
-  public function getItems() {
-    return $this->items;
-  }
-
-  /**
-   * Setter.
-   */
-  public function setItems($value) {
-    $this->items = $value;
-  }
-
-  /**
    * Contructor of NewsroomBlock class.
    *
    * @param object $type
@@ -43,21 +29,50 @@ class NewsroomBlock extends NewsroomBlockBase {
   }
 
   /**
-   * Getter.
+   * Gets block items.
+   *
+   * @return array
+   *   Block items.
+   */
+  public function getItems() {
+    return $this->items;
+  }
+
+  /**
+   * Sets block items.
+   *
+   * @param array $value
+   *   Block items.
+   */
+  public function setItems($value) {
+    $this->items = $value;
+  }
+
+  /**
+   * Gets block title.
+   *
+   * @return string
+   *   Title.
    */
   public function getTitle() {
     return NewsroomHelper::getTermTranslatedName($this->getType());
   }
 
   /**
-   * Setter.
+   * Gets type URL.
+   *
+   * @return string
+   *   Type URL.
    */
   public function getTypeUrl() {
     return pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType()));
   }
 
   /**
-   * Setter.
+   * Gets topic URL.
+   *
+   * @return string
+   *   Topic URL.
    */
   public function getTopicUrl() {
     $url = 'all';
@@ -71,7 +86,7 @@ class NewsroomBlock extends NewsroomBlockBase {
   }
 
   /**
-   * Setter.
+   * Sets is block highlighted.
    */
   public function setHighlighted() {
     $this->highlighted = isset($this->getType()->field_newsroom_highlighted[LANGUAGE_NONE][0]['value']) ? $this->getType()->field_newsroom_highlighted[LANGUAGE_NONE][0]['value'] : 0;
@@ -112,12 +127,12 @@ class NewsroomBlock extends NewsroomBlockBase {
       }
 
       $type = $this->getType();
-      $query->condition('tt.tid', NewsroomHelper::getTermChildren($type->tid));
+      $query->condition('tt.tid', NewsroomHelper::getTypeChildren($type->tid));
       $query->range(0, NewsroomHelper::getBlockItemsNumber($this->getHighlighted()));
       $query->orderBy('n.created', 'DESC');
       $result = $query->execute()->fetchAll();
 
-      cache_set($cache_key, $result, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + 3600);
+      cache_set($cache_key, $result, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_summary_block', 3600));
     }
 
     if ($result) {
@@ -126,6 +141,7 @@ class NewsroomBlock extends NewsroomBlockBase {
 
     foreach ($result as $key => $item) {
       $result[$key]->new = NewsroomHelper::isNewItem($item->created, $item->nid);
+      $result[$key]->created = NewsroomHelper::getFormatedDate('d/m/Y', $item->created);
     }
 
     $this->setItems($result);
@@ -133,19 +149,25 @@ class NewsroomBlock extends NewsroomBlockBase {
 
   /**
    * Generates block content.
+   *
+   * @return string
+   *  Block content.
    */
   public function generateContent() {
-    return theme('newsroom_summary_block', array(
+    return theme('newsroom_summary_block_wrapper', array(
       'content' => $this->getContent(),
       'css_classes' => $this->getCssClasses(),
       'title' => $this->getTitle(),
       'type_url' => $this->getTypeUrl(),
-      'url' => NewsroomHelper::getNewsroomUrl($this->getTypeUrl(), $this->getTopicUrl()),
+      'url' => NewsroomHelper::getNewsroomPageUrl($this->getTypeUrl(), $this->getTopicUrl()),
     ));
   }
 
   /**
    * Generates block items content.
+   *
+   * @return string
+   *   Block items content.
    */
   protected function getContent() {
     return theme('newsroom_summary_block_item', array(
