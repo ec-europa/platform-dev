@@ -775,7 +775,6 @@ class NewsroomHelper {
    *
    * @param array $taxonomy_terms
    *   Taxonomy terms array.
-   *
    * @param int $parent_tid
    *   Parent taxonomy term ID.
    *
