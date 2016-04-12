@@ -85,7 +85,7 @@ function _nexteuropa_newsroom_newsletters_page() {
 }
 
 /**
- * Prepare newsletters for presentation.
+ * Prepares newsletters for presentation.
  *
  * @param array $newsletters
  *   Items from view.

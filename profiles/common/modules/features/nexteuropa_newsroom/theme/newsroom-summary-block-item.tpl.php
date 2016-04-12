@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Agenda.
+ * Summary block item.
  */
 ?>
 <?php if (count($items) > 0) : ?>

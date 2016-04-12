@@ -6,7 +6,15 @@
  */
 
 /**
- * Submit handler.
+ * Submit handler for config restore form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
+ *
+ * @return string
+ *   Form submit result.
  */
 function nexteuropa_newsroom_restore_conf($form, &$form_state) {
   $voc = $form['vocabulary_machine_name']['#value'];
@@ -18,14 +26,14 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
 
   if (empty($backup)) {
     drupal_set_message(t('No backup has been found for the vocabulary: @voc and the term: @name.', array('@voc' => $voc, '@name' => $form['#term']['name'])), 'warning');
-    return;
+    return '';
   }
 
   $term = $backup[$id];
 
   if (empty($term)) {
     drupal_set_message(t('No backup has been found for the term: @name.', array('@name' => $form['#term']['name'])), 'warning');
-    return;
+    return '';
   }
 
   // Override values basing on the backup ones.
@@ -40,7 +48,15 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
 }
 
 /**
- * Helper function to determine we.
+ * Checks backup info.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return bool
+ *   Check result.
  */
 function _nexteuropa_newsroom_check_backup($form, &$form_state) {
   $voc = $form['#vocabulary']->machine_name;
@@ -56,7 +72,12 @@ function _nexteuropa_newsroom_check_backup($form, &$form_state) {
 }
 
 /**
- * Submit handler.
+ * Submit handler for config restore conf all form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
  */
 function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
   // Divide terms into chunks, grouping five of them.
@@ -103,7 +124,15 @@ function nexteuropa_newsroom_form_nexteuropa_newsroom_admin_settings_alter(&$for
 }
 
 /**
- * Submit handler.
+ * Submit handler for config form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
+ *
+ * @return string
+ *   Form submit result.
  */
 function nexteuropa_newsroom_backup_conf($form, &$form_state) {
   $voc = $form['vocabulary_machine_name']['#value'];
@@ -248,7 +277,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Defines newsroom proposal form.
+ * Implements hook_form().
  */
 function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
   global $user;
@@ -327,7 +356,7 @@ function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
 }
 
 /**
- * Newsletter subscription form.
+ * Implements hook_form().
  */
 function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
   $args = $form_state['build_info']['args'][0];
@@ -362,7 +391,7 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
     '#type' => 'button',
     '#value' => t('Subscribe'),
     '#ajax' => array(
-      'callback' => 'nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax',
+      'callback' => '_nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax',
     ),
   );
 
@@ -412,8 +441,16 @@ function nexteuropa_newsroom_send_subscription_request($url, $service_id, $email
 
 /**
  * Newsletter subscription form ajax callback.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Ajax callback array.
  */
-function nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form, &$form_state) {
+function _nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form, &$form_state) {
   $form_id = $form['#form_id'];
   $selector = '#' . str_replace('_', '-', $form_id);
 
@@ -436,7 +473,7 @@ function nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form,
 }
 
 /**
- * Newsroom filter form.
+ * Implements hook_form().
  */
 function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
   $arguments = $form_state['build_info']['args'];
@@ -488,7 +525,7 @@ function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
   }
 
   if (!empty($form)) {
-    $form['#submit'] = array('nexteuropa_newsroom_list_filter_submit');
+    $form['#submit'] = array('_nexteuropa_newsroom_list_filter_submit');
   }
 
   return $form;
@@ -496,8 +533,13 @@ function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
 
 /**
  * Submit handler for filter form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
  */
-function nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
+function _nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
   $arguments = $form_state['build_info']['args'];
   $target_country = $form_state['values']['countries'] == '0' ? '' : $form_state['values']['countries'];
 
@@ -512,7 +554,7 @@ function nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
 }
 
 /**
- * Defines newsroom agenda filter form.
+ * Implements hook_form().
  */
 function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $type_id, $topic_id, $current_date, $result_topics) {
   $topic_options = NewsroomHelper::getTaxonomyTermOptions(NewsroomHelper::getNewsroomTopics());
@@ -550,7 +592,7 @@ function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $typ
     '#type' => 'button',
     '#button_type' => 'button',
     '#ajax' => array(
-      'callback' => 'nexteuropa_newsroom_agenda_ajax_form_submit',
+      'callback' => '_nexteuropa_newsroom_agenda_ajax_form_submit',
     ),
     '#value' => t('Filter'),
   );
@@ -559,7 +601,7 @@ function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $typ
 }
 
 /**
- * Defines newsroom agenda filter form.
+ * Implements hook_form().
  */
 function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, $type_id, $topic_id, $current_date) {
   $form = array();
@@ -573,7 +615,7 @@ function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, 
     '#date_increment' => 1,
     '#date_year_range' => '-2:+2',
     '#ajax' => array(
-      'callback' => 'nexteuropa_newsroom_agenda_ajax_form_submit',
+      'callback' => '_nexteuropa_newsroom_agenda_ajax_form_submit',
     ),
   );
 
@@ -597,8 +639,16 @@ function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, 
 
 /**
  * Ajax submit handler.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Ajax callback array.
  */
-function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
+function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
   $view = isset($form_state['input']['view']) ? $form_state['input']['view'] : NULL;
 
   if (isset($form_state['input']['current_date']['date'])) {
@@ -626,7 +676,7 @@ function nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
 }
 
 /**
- * Defines newsroom proposal form.
+ * Implements hook_form().
  */
 function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
   global $user;
@@ -649,7 +699,7 @@ function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
   $form['submit'] = array(
     '#type' => 'submit',
     '#ajax' => array(
-      'callback' => 'nexteuropa_nexteuropa_newsletter_subscription_form_ajax',
+      'callback' => '_nexteuropa_nexteuropa_newsletter_subscription_form_ajax',
     ),
     '#value' => t('Subscribe'),
   );
@@ -663,8 +713,16 @@ function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
 
 /**
  * Newsletter subscription form ajax callback.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Ajax callback array.
  */
-function nexteuropa_nexteuropa_newsletter_subscription_form_ajax($form, &$form_state) {
+function _nexteuropa_nexteuropa_newsletter_subscription_form_ajax($form, &$form_state) {
   $subscription = nexteuropa_newsroom_send_subscription_request($form['#action'], $form_state['input']['service_id'], $form_state['input']['email']);
 
   if ($subscription['status'] == 'Failed') {
@@ -736,6 +794,11 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
 
 /**
  * Backup config form submit handler.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
  */
 function nexteuropa_newsroom_backup_conf_all($form, &$form_state) {
   $voc = $form['#vocabulary']->machine_name;
@@ -759,7 +822,15 @@ function nexteuropa_newsroom_backup_conf_all($form, &$form_state) {
 }
 
 /**
- * Get newsroom id values.
+ * Gets newsroom id values.
+ *
+ * @param string $voc
+ *   Vocabulary name.
+ * @param array $data
+ *   Taxonomy term.
+ *
+ * @return int
+ *   Newsroom ID.
  */
 function _nexteuropa_newsroom_get_ids($voc, $data) {
   switch ($voc) {
@@ -779,7 +850,7 @@ function _nexteuropa_newsroom_get_ids($voc, $data) {
 }
 
 /**
- * Grab the newsroom fields from a term.
+ * Grabs the newsroom fields from a term.
  *
  * @param object $term
  *   The term to get the values from.
@@ -811,7 +882,7 @@ function _nexteuropa_newsroom_export_prepare_values($term) {
 }
 
 /**
- * Find a term basing on its newsroom id.
+ * Finds a term basing on its newsroom id.
  *
  * @param string $id
  *   The id coming from the newsroom.

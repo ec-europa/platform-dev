@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Formatter hooks.
+ * Nexteuropa Newsroom formatter hooks.
  */
 
 /**

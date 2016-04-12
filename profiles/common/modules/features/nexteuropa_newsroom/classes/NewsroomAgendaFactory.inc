@@ -81,13 +81,13 @@ class NewsroomAgendaFactory {
    *   Newsroom type.
    * @param array $topics
    *   Newsroom topic.
-   * @param DateTime $date
+   * @param object $date
    *   Current date.
    *
    * @return object
    *   Agenda item.
    */
-  public function build($view, $type, $topics, DateTime $date, $operator = 'OR') {
+  public function build($view, $type, $topics, $date, $operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR) {
     $agenda = NULL;
     switch ($view) {
       case NewsroomAgenda::AGENDA_VIEW_MONTH:
@@ -115,7 +115,7 @@ class NewsroomAgendaFactory {
   }
 
   /**
-   * Validates and return day number.
+   * Validates and returns day number.
    *
    * @param string $value
    *   Day number.
@@ -128,7 +128,7 @@ class NewsroomAgendaFactory {
   }
 
   /**
-   * Validates and return week number.
+   * Validates and returns week number.
    *
    * @param string $value
    *   Day number.
@@ -170,7 +170,7 @@ class NewsroomAgendaFactory {
    * Gets taxonomy term topic from url name.
    *
    * @param string $topic
-   *   Taxonomy term url name.
+   *   Topic taxonomy term name.
    *
    * @return object
    *   Taxonomy term object.
@@ -183,7 +183,7 @@ class NewsroomAgendaFactory {
    * Gets taxonomy term type from url name.
    *
    * @param string $type
-   *   Taxonomy term url name.
+   *   Type taxonomy term name.
    *
    * @return object
    *   Taxonomy term object.
@@ -193,7 +193,7 @@ class NewsroomAgendaFactory {
   }
 
   /**
-   * Get taxonomy term from url name.
+   * Gets taxonomy term from url name.
    *
    * @param string $value
    *   Taxonomy term url name.

@@ -11,7 +11,7 @@
 class NewsroomHelper {
 
   /**
-   * Merges a term_tid and its children into one array.
+   * Merges a term_tid and it's children into one array.
    *
    * @param int $term_tid
    *   Term id.
@@ -36,7 +36,7 @@ class NewsroomHelper {
    * Generates newsroom page URL.
    *
    * @return string
-   *   Newsroom URL.
+   *   Newsroom page URL.
    */
   public static function getNewsroomPageUrl() {
     return 'newsroom/' . implode('/', func_get_args());
@@ -116,15 +116,15 @@ class NewsroomHelper {
   public static function restoreFeedImporter($importer_id) {
     $url = '';
     if ($importer_id == NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER || $importer_id == NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_FULL);
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
     }
 
     if ($importer_id == NEXTEUROPA_NEWSROOM_TYPE_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TYPE_FULL);
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TYPE_SCRIPT);
     }
 
     if ($importer_id == NEXTEUROPA_NEWSROOM_ITEM_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_FULL);
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT);
     }
 
     return $url;
@@ -381,7 +381,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Item types or Collection to group by.
+   * Gets item types or Collection to group by.
    *
    * @return array
    *   Taxonomy terms
@@ -415,13 +415,13 @@ class NewsroomHelper {
   public static function getUniverseUrl() {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
-      $data = NEXTEUROPA_NEWSROOM_URL . NewsroomHelper::getUniverseId() . '/';
+      $data = variable_get('newsroom_base_url', NEXTEUROPA_NEWSROOM_BASE_URL) . NewsroomHelper::getUniverseId() . '/';
     }
     return $data;
   }
 
   /**
-   * Get the existing instances of fields.
+   * Gets the existing instances of fields.
    *
    * @param string $type
    *   Select or topic for the moment.
@@ -433,7 +433,7 @@ class NewsroomHelper {
     // Get instances per field.
     $instances = array();
     if ($type) {
-      $field_name = 'field_associated_newsroom_' . $type;
+      $field_name = 'field_newsroom_associated_' . $type;
       $mappings = field_info_field_map();
       if (isset($mappings[$field_name]['bundles']['node'])) {
         $instances = $mappings[$field_name]['bundles']['node'];
@@ -443,7 +443,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Term ids of item types to be used in agenda.
+   * Get taxonomy terms from vocabularies.
    *
    * @return array
    *   Taxonomy term ids
@@ -462,7 +462,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Try to get taxonomy URL part (taxonomy term name).
+   * Tries to get taxonomy URL part (taxonomy term name).
    *
    * @param string $request_name
    *   URL request part.
@@ -536,7 +536,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Get dropdown options for event types.
+   * Gets dropdown options for event types.
    *
    * @return array
    *   Drop down options array.
@@ -604,7 +604,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Helper function to check if the universe ID has been already set.
+   * Returns admin settings for universe ID.
    *
    * @param int $newsroom_universe_id
    *   Newsroom Universe ID.
@@ -631,10 +631,10 @@ class NewsroomHelper {
   }
 
   /**
-   * Gets UniverseId.
+   * Gets Universe Id.
    *
    * @return string
-   *   UniverseId
+   *   Universe Id.
    */
   public static function getUniverseId() {
     $data = &drupal_static(__FUNCTION__);
@@ -645,10 +645,10 @@ class NewsroomHelper {
   }
 
   /**
-   * Gets Newsroom Type Vocabulary.
+   * Gets newsroom type vocabulary.
    *
    * @return object
-   *   Newsroom Type Vocabulary.
+   *   Newsroom type vocabulary.
    */
   public static function getNewsroomTypeVocabulary() {
     $data = &drupal_static(__FUNCTION__);
@@ -659,10 +659,10 @@ class NewsroomHelper {
   }
 
   /**
-   * Gets Newsroom Topic Vocabulary.
+   * Gets newsroom topic vocabulary.
    *
    * @return object
-   *   Newsroom Topic Vocabulary.
+   *   Newsroom topic vocabulary.
    */
   public static function getNewsroomTopicVocabulary() {
     $data = &drupal_static(__FUNCTION__);
@@ -673,7 +673,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Gets Newsroom topics.
+   * Gets newsroom topics.
    *
    * @return array
    *   Newsroom topics.
@@ -699,7 +699,7 @@ class NewsroomHelper {
    * Gets Newsroom types.
    *
    * @return array
-   *   Newsroom topics.
+   *   Newsroom types.
    */
   public static function getNewsroomTypes() {
     $data = &drupal_static(__FUNCTION__);
@@ -719,7 +719,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Gets Newsroom type by id.
+   * Gets newsroom type by id.
    *
    * @param int $tid
    *   Taxonomy term ID.
@@ -733,7 +733,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Gets Newsroom type by id.
+   * Gets newsroom type by id.
    *
    * @param int $tid
    *   Taxonomy term ID.
@@ -742,7 +742,7 @@ class NewsroomHelper {
    *   Taxonomy term.
    */
   public static function getNewsroomTopic($tid) {
-    $topics = NewsroomHelper::getNewsroomTypes();
+    $topics = NewsroomHelper::getNewsroomTopics();
     return NewsroomHelper::findTermById($topics, $tid);
   }
 
@@ -751,7 +751,6 @@ class NewsroomHelper {
    *
    * @param array $taxonomy_terms
    *   Taxonomy terms array.
-   *
    * @param int $tid
    *   Taxonomy term ID.
    *
@@ -775,7 +774,6 @@ class NewsroomHelper {
    *
    * @param array $taxonomy_terms
    *   Taxonomy terms array.
-   *
    * @param int $parent_tid
    *   Parent taxonomy term ID.
    *
@@ -844,16 +842,16 @@ class NewsroomHelper {
   }
 
   /**
-   * Helper function to delete translations.
+   * Deletes translations.
    *
-   * @param Entity $entity
-   *   Entity : taxonomy term or node.
+   * @param object $entity
+   *   Taxonomy term or node.
    * @param int $entity_id
    *   Entity id.
    * @param string $lang
    *   Language string.
    */
-  public static function deleteEntityTranslations(Entity $entity, $entity_id, $lang = FALSE) {
+  public static function deleteEntityTranslations($entity, $entity_id, $lang = FALSE) {
     $languages = !$lang ? language_list() : array($lang);
     $handler = entity_translation_get_handler('node', $entity);
 
@@ -870,7 +868,7 @@ class NewsroomHelper {
   }
 
   /**
-   * Validate if a given Newsroom Universe exists.
+   * Validates if a given newsroom universe exists.
    *
    * @param string $universe_id
    *   Newsroom Universe ID.
@@ -881,7 +879,7 @@ class NewsroomHelper {
   public static function validateUniverse($universe_id = NULL) {
     if ($universe_id) {
       // logout.cfm is used because it is always available if a universe exists.
-      $test = drupal_http_request(NEXTEUROPA_NEWSROOM_URL . $universe_id . '/logout.cfm');
+      $test = drupal_http_request(NEXTEUROPA_NEWSROOM_BASE_URL . $universe_id . '/logout.cfm');
       return $test->code == 200;
     }
 

@@ -45,7 +45,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Get minimal items number per agenda page.
+   * Gets minimal items number per agenda page.
    *
    * @return int
    *   Number of items.
@@ -58,7 +58,7 @@ abstract class NewsroomAgenda {
    * Sets display calendar value.
    *
    * @param bool $value
-   *  Display or not the calendar.
+   *   Display or not the calendar.
    */
   public function setDisplayCalendar($value) {
     $this->displayCalendar = $value;
@@ -97,7 +97,7 @@ abstract class NewsroomAgenda {
   /**
    * Sets view.
    *
-   * @param type $value
+   * @param string $value
    *   Type of view.
    */
   public function setView($value) {
@@ -134,7 +134,7 @@ abstract class NewsroomAgenda {
   /**
    * Sets topic URL.
    *
-   * @param type $value
+   * @param string $value
    *   Topic URL part.
    */
   public function setTopicUrl($value) {
@@ -175,7 +175,7 @@ abstract class NewsroomAgenda {
    * Sets current items.
    *
    * @param array $value
-   *  Current agenda items.
+   *   Current agenda items.
    */
   public function setCurrentItems($value) {
     $this->currentItems = $this->sortItems($value);
@@ -214,7 +214,7 @@ abstract class NewsroomAgenda {
   /**
    * Sets upcoming date.
    *
-   * @param Datetime $value
+   * @param $value
    *   Upcoming date.
    */
   public function setUpcomingDate($value) {
@@ -234,7 +234,7 @@ abstract class NewsroomAgenda {
   /**
    * Gets previous date.
    *
-   * @param Datetime $value
+   * @param $value
    *   Previous date.
    */
   public function setPreviousDate($value) {
@@ -257,7 +257,7 @@ abstract class NewsroomAgenda {
    * @param Datetime $value
    *   Current date.
    */
-  public function setCurrentDate($value) {
+  public function setCurrentDate(Datetime $value) {
     $value->setTime(0, 0, 0);
     $this->currentDate = $value;
   }
@@ -351,7 +351,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Add item count.
+   * Adds item count.
    *
    * @param int $value
    *   Number of agenda items.
@@ -361,7 +361,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Clear URL parts.
+   * Clears URL parts.
    */
   public function clearUrlParts() {
     $this->urlParts = array();
@@ -404,7 +404,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Prepare agenda components: query, result, the dates range.
+   * Prepares agenda components: query, result, the dates range.
    */
   protected function prepareAgenda() {
     $this->setResult();
@@ -432,7 +432,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Returns form id with the current ID.
+   * Returns form rendable array by ID.
    *
    * @param string $form_id
    *   Form ID.
@@ -473,7 +473,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Prepare agenda items for presenation.
+   * Prepares agenda items for presenation.
    *
    * @param array $items
    *   Agenda items.
@@ -501,10 +501,10 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Generate content for Agenda block.
+   * Generates content for Agenda block.
    *
    * @return string
-   *   Content of the block.
+   *   Content of the agenda block.
    */
   public function getBlockAgenda() {
     $cache_key = 'get_agenda:block:' . $this->getUniqueCachePart();
@@ -566,7 +566,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Process query before execution.
+   * Processes query before execution.
    *
    * @param object $query
    *   Query object.
@@ -582,11 +582,11 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Build the agenda array based on the end and start date.
+   * Builds the agenda array based on the end and start date.
    *
-   * @param DateTime $start_input_date
+   * @param object $start_input_date
    *   Start date.
-   * @param DateTime $end_input_date
+   * @param object $end_input_date
    *   End date.
    * @param bool $build_empty_days
    *   Add empty days or not.
@@ -594,7 +594,7 @@ abstract class NewsroomAgenda {
    * @return array
    *   Agenda items events.
    */
-  public function buildAgenda(DateTime $start_input_date, DateTime $end_input_date, $build_empty_days = TRUE) {
+  public function buildAgenda($start_input_date, $end_input_date, $build_empty_days = TRUE) {
     $start_date = clone $start_input_date;
     $end_date = clone $end_input_date;
     $output = array();
@@ -632,7 +632,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Get build items count.
+   * Gets build items count.
    *
    * @param array $output
    *   Array of Agenda items.
@@ -644,7 +644,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Convert string to date object and fill empty dates.
+   * Converts string to date object and fill empty dates.
    *
    * @param array $items
    *   Agenda items.
@@ -682,26 +682,26 @@ abstract class NewsroomAgenda {
    *
    * @param string $title
    *   Link title.
-   * @param DateTime $date
+   * @param object $date
    *   Datetime object.
    *
    * @return string
    *   HTML link.
    */
-  protected function getNavigationLink($title, DateTime $date) {
+  protected function getNavigationLink($title, $date) {
     return $date ? l($title, $this->getNavigationUrl($date)) : NULL;
   }
 
   /**
    * Returns agenda navigation URL.
    *
-   * @param DateTime $date
+   * @param object $date
    *   Datetime object.
    *
    * @return string
    *   URL string.
    */
-  public function getNavigationUrl(DateTime $date) {
+  public function getNavigationUrl($date) {
     $this->clearUrlParts();
     $this->addUrlPart($this->getView());
     $this->addUrlPart($this->getTypeUrl());
@@ -751,13 +751,13 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Sort agenda items.
+   * Sorts agenda items.
    *
    * @param array $items
    *   Agenda items array.
    *
    * @return array
-   *   Agenda items array.
+   *   Sorted agenda items array.
    */
   protected function sortItems($items) {
     foreach ($items as $key => $item) {
@@ -791,10 +791,10 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Get IDs array from topics array.
+   * Gets IDs array from topics array.
    *
    * @return array
-   *   Array of IDs.
+   *   Array of topic IDs.
    */
   protected function getTopicsId() {
     $topic_ids = array();
@@ -807,7 +807,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Get IDs array from topics array.
+   * Gets IDs array from topics array.
    *
    * @return array
    *   Array of IDs.
@@ -827,14 +827,17 @@ abstract class NewsroomAgenda {
       $query->condition('n.status', 1);
       $query->condition('tf.field_newsroom_item_type_tid', NewsroomHelper::getEventsTermsIds());
       $tids = $query->execute()->fetchAllKeyed(0, 0);
-      cache_set($cache_key, $tids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_result_topics', 3600));
+      cache_set($cache_key, $tids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_result_topics', 86400));
     }
     return $tids;
   }
 
   /**
    * Adds date url parts.
+   *
+   * @param object $date
+   *   The current date.
    */
-  abstract protected function setUrlItems(DateTime $date);
+  abstract protected function setUrlItems($date);
 
 }

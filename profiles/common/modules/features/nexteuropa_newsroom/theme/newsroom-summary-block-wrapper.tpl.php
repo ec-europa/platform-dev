@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Agenda.
+ * Summary block wrapper.
  */
 ?>
 <?php if ($content): ?>

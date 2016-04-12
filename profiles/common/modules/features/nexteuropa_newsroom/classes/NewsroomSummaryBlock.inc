@@ -12,7 +12,7 @@ class NewsroomSummaryBlock {
 
   protected $types = array();
   protected $topics = array();
-  protected $operator = 'OR';
+  protected $operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR;
 
   /**
    * Gets newsroom topics.

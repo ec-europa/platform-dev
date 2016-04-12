@@ -115,7 +115,7 @@ class NewsroomBlock extends NewsroomBlockBase {
       $query->condition('n.status', 1);
 
       if (count($topic_ids) > 0) {
-        if ($this->getOperator() == 'OR') {
+        if ($this->getOperator() == NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR) {
           $query->condition('topic_data.tid', $topic_ids);
         }
         else {
@@ -151,7 +151,7 @@ class NewsroomBlock extends NewsroomBlockBase {
    * Generates block content.
    *
    * @return string
-   *  Block content.
+   *   Block content.
    */
   public function generateContent() {
     return theme('newsroom_summary_block_wrapper', array(

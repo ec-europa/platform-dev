@@ -27,7 +27,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    * @param Datetime $value
    *   Latest date in the agenda.
    */
-  public function setLastAgendaDate($value) {
+  public function setLastAgendaDate(Datetime $value) {
     $this->lastAgendaDate = $value;
   }
 
@@ -38,10 +38,10 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    *   Newsroom type.
    * @param array $topics
    *   Newsroom topic.
-   * @param DateTime $current_day
+   * @param object $current_day
    *   Current date.
    */
-  public function __construct($type, $topics, DateTime $current_day) {
+  public function __construct($type, $topics, $current_day) {
     $this->setCurrentDate($current_day);
     parent::__construct($type, $topics);
   }
@@ -66,10 +66,10 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   /**
    * Adds date url parts.
    *
-   * @param DateTime $date
+   * @param object $date
    *   The current date.
    */
-  protected function setUrlItems(DateTime $date) {
+  protected function setUrlItems($date) {
     if ($date) {
       $this->addUrlPart($date->format('j'));
       $this->addUrlPart($date->format('n'));
@@ -78,7 +78,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   }
 
   /**
-   * Finds and set next items from the current items.
+   * Finds and sets upcoming items.
    */
   protected function findUpcomingItems() {
     $start_date = clone $this->getCurrentDate();
@@ -104,7 +104,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   }
 
   /**
-   * Check agenda items for existence of events.
+   * Checks agenda items for existence of events.
    *
    * @param array $items
    *   Agenda items.
@@ -126,7 +126,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   }
 
   /**
-   * Finds and set upcoming date for the current items.
+   * Finds and set upcoming date.
    */
   protected function findUpcomingDate() {
     $cache_key = 'get_agenda:upcoming_date:' . $this->getUniqueCachePart();
@@ -164,7 +164,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   }
 
   /**
-   * Finds and set previous date for the current items.
+   * Finds and sets previous date.
    */
   protected function findPreviousDate() {
     $cache_key = 'get_agenda:previous_date:' . $this->getUniqueCachePart();
@@ -206,7 +206,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   }
 
   /**
-   * Get Utmost date for the current items.
+   * Gets utmost date.
    *
    * @param bool $first
    *   Return the first or last.
