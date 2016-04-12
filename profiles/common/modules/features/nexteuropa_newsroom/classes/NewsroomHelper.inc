@@ -846,8 +846,8 @@ class NewsroomHelper {
   /**
    * Helper function to delete translations.
    *
-   * @param Entity $entity
-   *   Entity : taxonomy term or node.
+   * @param object $entity
+   *   Object : taxonomy term or node.
    * @param int $entity_id
    *   Entity id.
    * @param string $lang
