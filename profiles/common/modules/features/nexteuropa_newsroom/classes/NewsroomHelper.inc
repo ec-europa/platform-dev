@@ -853,7 +853,7 @@ class NewsroomHelper {
    * @param string $lang
    *   Language string.
    */
-  public static function deleteEntityTranslations(Entity $entity, $entity_id, $lang = FALSE) {
+  public static function deleteEntityTranslations($entity, $entity_id, $lang = FALSE) {
     $languages = !$lang ? language_list() : array($lang);
     $handler = entity_translation_get_handler('node', $entity);
 
