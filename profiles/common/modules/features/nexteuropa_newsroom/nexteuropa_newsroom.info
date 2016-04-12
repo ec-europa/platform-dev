@@ -89,6 +89,7 @@ features[field_base][] = field_newsroom_service_active
 features[field_base][] = field_newsroom_service_type
 features[field_base][] = field_newsroom_teaser
 features[field_base][] = field_newsroom_ted_link
+features[field_base][] = field_newsroom_illustrative_img
 features[field_group][] = group_newsroom_event_info|node|newsroom_item|default
 features[field_group][] = group_newsroom_event_info|node|newsroom_item|event
 features[field_group][] = group_newsroom_lead_info|node|newsroom_item|default
