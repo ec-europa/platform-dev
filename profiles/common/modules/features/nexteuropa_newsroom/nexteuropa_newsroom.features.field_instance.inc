@@ -333,7 +333,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'zoomable' => 1,
         ),
         'type' => 'newsroom_zoomable_image',
-        'weight' => 2,
+        'weight' => 7,
       ),
       'embedded' => array(
         'label' => 'above',

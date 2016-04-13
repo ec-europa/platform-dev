@@ -309,8 +309,8 @@ function _nexteuropa_newsroom_export_modes(&$form, &$form_state, $exported = TRU
   }
 
   // The widget will loose this settings, otherwise.
-    $form['field_newsroom_topics'][LANGUAGE_NONE]['#multiple'] = TRUE;
-  }
+  $form['field_newsroom_topics'][LANGUAGE_NONE]['#multiple'] = TRUE;
+
   if (!$exported) {
     return $export;
   }
