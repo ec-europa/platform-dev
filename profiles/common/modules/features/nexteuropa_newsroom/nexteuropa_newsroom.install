@@ -48,7 +48,7 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
   variable_set('pathauto_node_newsroom_item_pattern', 'news/[node:source:title]');
-  // disabling the teaser view mode in the newsroom_item ct.
+  // Disabling the teaser view mode in the newsroom_item ct.
   $settings = field_bundle_settings('node', 'newsroom_item');
   $settings['view_modes']['teaser']['custom_settings'] = FALSE;
   field_bundle_settings('node', 'newsroom_item', $settings);

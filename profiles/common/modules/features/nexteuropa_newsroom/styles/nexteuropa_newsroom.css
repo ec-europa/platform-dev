@@ -159,7 +159,7 @@
 }
 
 .view-display-id-default_newsroom img:hover {
-   border: 1px solid #0065a2;
+  border: 1px solid #0065a2;
 }
 
 .view-display-id-default_newsroom .newsroom-read-more {
@@ -183,7 +183,7 @@
 
 /* STyling the default view mode */
 
- .node-type-newsroom-item .field-name-field-newsroom-teaser {
+.node-type-newsroom-item .field-name-field-newsroom-teaser {
   background: #f9f9f9;
   border-left: 10px solid #ccc;
   margin: 1.5em 10px;

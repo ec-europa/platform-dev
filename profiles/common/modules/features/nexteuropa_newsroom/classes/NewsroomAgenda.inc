@@ -58,7 +58,7 @@ abstract class NewsroomAgenda {
    * Sets display calendar value.
    *
    * @param bool $value
-   *  Display or not the calendar.
+   *   Display or not the calendar.
    */
   public function setDisplayCalendar($value) {
     $this->displayCalendar = $value;
@@ -97,7 +97,7 @@ abstract class NewsroomAgenda {
   /**
    * Sets view.
    *
-   * @param type $value
+   * @param string or int or object... $value
    *   Type of view.
    */
   public function setView($value) {
@@ -134,7 +134,7 @@ abstract class NewsroomAgenda {
   /**
    * Sets topic URL.
    *
-   * @param type $value
+   * @param string or int or object... $value
    *   Topic URL part.
    */
   public function setTopicUrl($value) {
@@ -175,7 +175,7 @@ abstract class NewsroomAgenda {
    * Sets current items.
    *
    * @param array $value
-   *  Current agenda items.
+   *   Current agenda items.
    */
   public function setCurrentItems($value) {
     $this->currentItems = $this->sortItems($value);
