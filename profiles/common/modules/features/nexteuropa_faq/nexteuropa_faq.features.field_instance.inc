@@ -106,7 +106,7 @@ function nexteuropa_faq_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_ne_faq_categories',
     'label' => 'Categories',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'entity_translation_sync' => FALSE,
       'user_register_form' => FALSE,
