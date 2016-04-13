@@ -550,7 +550,7 @@ function _nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
     $path = NewsroomHelper::getNewsroomPageUrl('all', $target_country);
   }
 
-  drupal_goto($path);
+  drupal_goto($path, array(), 301);
 }
 
 /**

@@ -578,7 +578,7 @@ function _nexteuropa_newsroom_taxonomy_term_importer($type, $newsroom_id, $impor
   $url = NewsroomHelper::getNewsroomUrl(variable_get('newsroom_' . $type . '_import_script') . variable_get('newsroom_single_' . $type . '_import_segment') . $newsroom_id);
   NewsroomHelper::runFeedImporter($url, $importer_id);
   drupal_set_message(t('The item has been imported'));
-  drupal_goto('newsroom-redirect/' . $type . '/' . $newsroom_id);
+  drupal_goto('newsroom-redirect/' . $type . '/' . $newsroom_id, array(), 301);
 }
 
 /**
@@ -640,7 +640,7 @@ function _nexteuropa_nexteuropa_newsroom_item_importer($newsroom_id = 0, $delete
     $url = NewsroomHelper::getNewsroomUrl(variable_get('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT) . $newsroom_id);
     NewsroomHelper::runFeedImporter($url, NEXTEUROPA_NEWSROOM_ITEM_IMPORTER);
     drupal_set_message('The item has been imported');
-    drupal_goto('news-redirect/' . $newsroom_id);
+    drupal_goto('news-redirect/' . $newsroom_id, array(), 301);
   }
 }
 
@@ -692,7 +692,7 @@ function _nexteuropa_newsroom_redirect($redirect_type = 'item', $newsroom_entity
   }
 
   if ($path) {
-    drupal_goto($path);
+    drupal_goto($path, array(), 301);
   }
   else {
     drupal_not_found();
