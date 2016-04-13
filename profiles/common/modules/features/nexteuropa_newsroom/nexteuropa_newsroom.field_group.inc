@@ -87,7 +87,7 @@ function nexteuropa_newsroom_field_group_info() {
   $field_group->group_name = 'group_newsroom_event_info';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'newsroom_item';
-  $field_group->mode = 'event';
+  $field_group->mode = 'newsroom_event';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Event information',
@@ -171,7 +171,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'show_label' => 1,
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
@@ -230,7 +230,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'show_label' => 1,
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
@@ -334,7 +334,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'show_label' => 1,
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
@@ -368,7 +368,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'show_label' => 1,
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
@@ -400,7 +400,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'show_label' => 1,
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
@@ -431,7 +431,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'show_label' => 1,
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',
@@ -570,7 +570,7 @@ function nexteuropa_newsroom_field_group_info() {
   $field_group->group_name = 'group_newsroom_lead';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'newsroom_item';
-  $field_group->mode = 'event';
+  $field_group->mode = 'newsroom_event';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Lead',
@@ -598,8 +598,8 @@ function nexteuropa_newsroom_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_newsroom_recommended_reading|node|newsroom_item|default';
-  $field_group->group_name = 'group_newsroom_recommended_reading';
+  $field_group->identifier = 'group_newsroom_recommended|node|newsroom_item|default';
+  $field_group->group_name = 'group_newsroom_recommended';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'newsroom_item';
   $field_group->mode = 'default';
@@ -621,7 +621,7 @@ function nexteuropa_newsroom_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_newsroom_recommended_reading|node|newsroom_item|default'] = $field_group;
+  $field_groups['group_newsroom_recommended|node|newsroom_item|default'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -767,7 +767,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'collapsible',
       'instance_settings' => array(
         'description' => '',
-        'show_label' => 1,
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'fast',

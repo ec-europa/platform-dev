@@ -1626,10 +1626,15 @@ function nexteuropa_newsroom_block_view_alter(&$data, $block) {
  * Implements hook_entity_info_alter().
  */
 function nexteuropa_newsroom_entity_info_alter(&$entity_info) {
-  // Adds custom display mode 'Newsroom event'.
-  $entity_info['node']['view modes']['event'] = array(
-    'label' => t('Newsroom event'),
-    'custom settings' => TRUE,
+  $entity_info['node']['view modes'] += array(
+    'newsroom_event' => array(
+      'label' => t('Newsroom event'),
+      'custom settings' => FALSE,
+    ),
+    'newsroom_teaser' => array(
+      'label' => t('Newsroom teaser'),
+      'custom settings' => FALSE,
+    ),
   );
 
   return $entity_info;

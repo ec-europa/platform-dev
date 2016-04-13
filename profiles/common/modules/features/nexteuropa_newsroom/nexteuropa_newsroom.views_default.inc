@@ -260,6 +260,7 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['nothing']['alter']['text'] = 'Read more';
   $handler->display->display_options['fields']['nothing']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['nothing']['alter']['path'] = '[field_newsroom_item_main_link]';
+  $handler->display->display_options['fields']['nothing']['alter']['link_class'] = 'newsroom-read-more';
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   /* Field: Content: Teaser */
   $handler->display->display_options['fields']['field_newsroom_teaser']['id'] = 'field_newsroom_teaser';
