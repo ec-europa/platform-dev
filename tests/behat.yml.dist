@@ -18,7 +18,7 @@ default:
         #wd_host: http://localhost:8643/wd/hub
         wd_port: 8643
         bin: '${platform.bin}/phantomjs'
-        browser: firefox
+        browser: phantomjs
         capabilities: ~
       base-url: '${behat.base_url}'
       files_path: '${platform.build.dir}'
