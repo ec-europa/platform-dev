@@ -22,6 +22,10 @@
             label: Drupal.t('Url of the remote content')
           },
           {
+            type : 'html',
+            html : '<div>'+Drupal.t('You can use <strong>url_en</strong> for testing purpose.') + '</div>'
+          },
+          {
             type: 'button',
             id: 'get_remote_content_btn',
             label: Drupal.t('Get content'),
