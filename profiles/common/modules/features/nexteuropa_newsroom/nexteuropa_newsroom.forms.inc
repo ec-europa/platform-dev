@@ -213,6 +213,21 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           '#weight' => 99,
         );
 
+        $form['import']['code'] = array(
+          '#type' => 'textarea',
+          '#title' => 'title',
+          '#prefix' => '<div id="newsroom_status">',
+          '#suffix' => '</div>',
+          '#description' => t('Serialized code export'),
+          '#attributes' => array('id' => 'nexteuropa_newsroom_exported_instances'),
+          '#value' => '',
+          '#format' => 'html',
+          '#resizable' => TRUE,
+          '#wysiwyg' => FALSE,
+          '#rows' => 20,
+        );
+
+
         $form['actions']['export_modes'] = array(
           '#type' => 'submit',
           '#value' => t('[Newsroom] Export field instances'),
@@ -229,7 +244,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           '#type' => 'submit',
           '#value' => t('[Newsroom] Restore field instances'),
           '#attributes' => array(
-            'onclick' => 'this.style.display = "none"',
+            'onclick' => 'this.style.display = "none"; getElementById("newsroom_import_submit").style.display = "block"',
           ),
           '#ajax' => array(
             'callback' => '_nexteuropa_newsroom_prepare_import_modes',
@@ -238,6 +253,32 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             'effect' => 'fade',
             'method' => 'replace',
           ),
+        );
+
+        $form['actions']['import_modes'] = array(
+          '#type' => 'button',
+          '#name' => 'newsroom_import',
+          '#prefix' => '<div id="newsroom_import_submit">',
+          '#suffix' => '</div>',
+          '#value' => t('[Newsroom] Import'),
+          '#weight' => 101,
+          '#ajax' => array(
+            'callback' => '_nexteuropa_newsroom_import_modes',
+            'event' => 'click',
+            'wrapper' => 'newsroom_status',
+            'effect' => 'fade',
+            'method' => 'replace',
+          ),
+        );
+     
+        if (isset($form_state['triggering_element']) && $form_state['triggering_element']['#name'] == 'newsroom_import') {
+             dd($form_state);
+          $form_state['values']['code'] = $form['import']['code']['#value'];
+        }
+
+        // Attach a css to the admin settings form.
+        $form['#attached']['css'] = array(
+          drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
         );
       }
       break;
@@ -341,12 +382,6 @@ function _nexteuropa_newsroom_prepare_import_modes(&$form, &$form_state) {
   $modes = array('full', 'teaser');
   $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
 
-  $form['import']['wrapper'] = array(
-    '#type' => 'markup',
-    '#markup' => '<div id="newsroom_imported"></div>',
-    '#weight' => 102,
-  );
-
   $form['import']['code'] = array(
     '#type' => 'textarea',
     '#title' => $title,
@@ -359,26 +394,14 @@ function _nexteuropa_newsroom_prepare_import_modes(&$form, &$form_state) {
     '#rows' => 20,
   );
 
-  $form['import']['import_modes'] = array(
-    '#type' => 'button',
-    '#value' => t('[Newsroom] Import'),
-    '#weight' => 101,
-    '#ajax' => array(
-      'callback' => '_nexteuropa_newsroom_import_modes',
-      'event' => 'click',
-      'wrapper' => 'newsroom_imported',
-      'effect' => 'fade',
-      'method' => 'replace',
-    ),
-  );
-
-  return $form['import'];
+  return $form['import']['code'];
 }
 
 /**
  * Import selected view modes.
  */
 function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
   $export = $form_state['values']['import_modes'];
   $export_array = unserialize($export);
   if (!empty($export_array)) {

@@ -25,3 +25,7 @@
   width: 50%;
   float: left;
 }
+
+#newsroom_import_submit { 
+  display: none;
+}
