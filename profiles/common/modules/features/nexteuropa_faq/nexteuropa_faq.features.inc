@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_news.features.inc
+ * nexteuropa_faq.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function nexteuropa_news_ctools_plugin_api($module = NULL, $api = NULL) {
+function nexteuropa_faq_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "field_group" && $api == "field_group") {
     return array("version" => "1");
   }
@@ -17,14 +17,21 @@ function nexteuropa_news_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function nexteuropa_faq_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_node_info().
  */
-function nexteuropa_news_node_info() {
+function nexteuropa_faq_node_info() {
   $items = array(
-    'nexteuropa_news' => array(
-      'name' => t('News'),
+    'nexteuropa_faq' => array(
+      'name' => t('FAQ'),
       'base' => 'node_content',
-      'description' => t('News content type for NextEuropa'),
+      'description' => t('FAQ content for Nexteuropa'),
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',

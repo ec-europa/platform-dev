@@ -173,6 +173,15 @@ function ecas_menu_check() {
 }
 
 /**
+ * Implements hook_init().
+ *
+ * Force ECAS authentication on specific pages.
+ */
+function ecas_init() {
+  ecas_login_check();
+}
+
+/**
  * Redirects the user to the account request page.
  */
 function account_request() {
@@ -186,8 +195,6 @@ function account_request() {
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
-  ecas_login_check();
-
   $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
@@ -566,11 +573,6 @@ function _ecas_force_login() {
     return ECAS_LOGIN;
   }
 
-  // Allow users to access the drupal login page.
-  if ($arg0 == 'user' && empty($arg1)) {
-    return ECAS_NO_LOGIN;
-  }
-
   // Don't even do the test if cron.php or xmlrpc.php is invoked. Don't
   // require login.
   if (base_path() . 'cron.php' == $_SERVER['PHP_SELF'] || base_path() . 'xmlrpc.php' == $_SERVER['PHP_SELF']) {
@@ -674,19 +676,17 @@ function _ecas_init_phpcas_client() {
     }
   }
 
-  phpCAS::client(
-    $server_version,
-    $server_ecas_server,
-    $server_port,
-    $server_uri,
-    $start_session,
-    $assurance_level
-  );
-
-  phpCAS::setNoCasServerValidation();
-  // SNET proxies are blocking curl ...
-  // Let's make the module identify itself in their logs.
-  phpCAS::setExtraCurlOption(CURLOPT_USERAGENT, 'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
+  if (!phpCAS::isInitialized()) {
+    phpCAS::client(
+      $server_version,
+      $server_ecas_server,
+      $server_port,
+      $server_uri,
+      $start_session,
+      $assurance_level
+    );
+    phpCAS::setNoCasServerValidation();
+  }
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCAS::setExtraCurlOption($key, $value);
