@@ -170,15 +170,6 @@ function ecas_menu_check() {
 }
 
 /**
- * Implements hook_init().
- *
- * Force ECAS authentication on specific pages.
- */
-function ecas_init() {
-  ecas_login_check();
-}
-
-/**
  * Redirects the user to the account request page.
  */
 function account_request() {
@@ -192,6 +183,8 @@ function account_request() {
  * Redirects the user to the ECAS login page.
  */
 function ecas_login_page() {
+  ecas_login_check();
+
   $destination = variable_get('site_frontpage', 'node');
 
   // If it is the user's first CAS login and initial login redirection is
@@ -561,13 +554,15 @@ function ecas_block_info() {
  */
 function _ecas_force_login() {
   list($arg0) = explode('/', $_GET['q']);
-  
-  if ($arg0 == 'user' && empty($arg1))
-    return ECAS_NO_LOGIN;
-  
+
   // Don't even do the test if we're hitting the cas page.
   if ($arg0 == 'ecas' || $arg0 == 'ecaslogout') {
     return ECAS_LOGIN;
+  }
+
+  // Allow users to access the drupal login page.
+  if ($arg0 == 'user' && empty($arg1)) {
+    return ECAS_NO_LOGIN;
   }
 
   // Don't even do the test if cron.php or xmlrpc.php is invoked. Don't
@@ -672,17 +667,15 @@ function _ecas_init_phpcas_client() {
     }
   }
 
-  if (!phpCAS::isInitialized()) {
-    phpCAS::client(
-      $server_version,
-      $server_ecas_server,
-      $server_port,
-      $server_uri,
-      $start_session,
-      $assurance_level
-    );
-    phpCAS::setNoCasServerValidation();
-  }
+  phpCAS::client(
+    $server_version,
+    $server_ecas_server,
+    $server_port,
+    $server_uri,
+    $start_session,
+    $assurance_level
+  );
+  phpCAS::setNoCasServerValidation();
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCas::setExtraCurlOption($key, $value);
