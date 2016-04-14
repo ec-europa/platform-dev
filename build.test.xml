@@ -77,7 +77,7 @@
     </target>
 
     <!-- Run PhantomJS. -->
-    <target name="phantomjs" description="Start the PhantomJS server." >
+    <target name="phantomjs" description="Start the PhantomJS server.." >
         <exec
             command="${phantomjs.bin} --webdriver=8643"
             dir="${platform.bin}"
