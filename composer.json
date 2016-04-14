@@ -13,7 +13,7 @@
     "phing/phing": "~2.10",
     "php": ">=5.4.0",
     "typhonius/behattask": "1.0",
-    "jakoch/phantomjs-installer": "^2.1"
+    "jakoch/phantomjs-installer": "2.1.1"
   },
   "prefer-stable": true,
   "autoload": {

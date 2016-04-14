@@ -10,7 +10,6 @@ default:
       filters:
         tags: "~@communities&&~@wip"
   extensions:
-    Behat\PhantomJsExtension: ~
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
