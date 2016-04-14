@@ -13,9 +13,9 @@ Feature: TMGMT Poetry features
       | languages |
       | en        |
       | pt-pt     |
-      | fr     |
+      | fr        |
 
-    @javascript
+  @javascript
   Scenario: Create a request translation for French and Portuguese
     Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role

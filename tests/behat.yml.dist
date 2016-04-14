@@ -13,13 +13,9 @@ default:
     Behat\PhantomJsExtension: ~
     Behat\MinkExtension:
       goutte: ~
-      javascript_session: 'phantomjs'
-      phantomjs:
-        #wd_host: http://localhost:8643/wd/hub
-        wd_port: 8643
-        bin: '${platform.bin}/phantomjs'
-        browser: phantomjs
-        capabilities: ~
+      javascript_session: 'selenium2'
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
       base-url: '${behat.base_url}'
       files_path: '${platform.build.dir}'
     Drupal\DrupalExtension:
@@ -62,8 +58,9 @@ communities:
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      selenium2: ~
       javascript_session: 'selenium2'
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
       base-url: '${behat.base_url}'
     Drupal\DrupalExtension:
       api_driver: 'drupal'

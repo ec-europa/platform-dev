@@ -76,8 +76,18 @@
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
     </target>
 
+    <!-- Run PhantomJS. -->
+    <target name="phantomjs" description="Start the PhantomJS server." >
+        <exec
+            command="${phantomjs.bin} --webdriver=8643"
+            dir="${platform.bin}"
+            passthru="true"
+            spawn="true"
+        />
+    </target>
+
     <!-- Run Behat tests. -->
-    <target name="behat" description="Run Behat tests.">
+    <target name="behat" description="Run Behat tests." depends="phantomjs">
         <behat
             executable="${behat.bin}"
             config="${behat.yml.path}"
