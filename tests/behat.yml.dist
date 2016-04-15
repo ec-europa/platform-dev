@@ -7,14 +7,17 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\PhantomjsContext
       filters:
         tags: "~@communities&&~@wip"
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      selenium2: ~
       javascript_session: 'selenium2'
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
       base-url: '${behat.base_url}'
+      files_path: '${platform.build.dir}'
     Drupal\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~
@@ -50,13 +53,15 @@ communities:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\PhantomjsContext
       filters:
         tags: "@communities&&~@wip"
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      selenium2: ~
       javascript_session: 'selenium2'
+      selenium2:
+        wd_host: "http://localhost:8643/wd/hub"
       base-url: '${behat.base_url}'
     Drupal\DrupalExtension:
       api_driver: 'drupal'
