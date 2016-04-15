@@ -213,7 +213,7 @@ class NewsroomHelper {
    * @return string
    *   Menu path.
    */
-  public static function fetchActiveMenu($topic_id) {
+  public static function fetchActiveMenuPath($topic_id) {
     $cache_key = 'fetch_active_menu' . $topic_id;
     $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
     if ($cache) {
@@ -377,22 +377,13 @@ class NewsroomHelper {
    *   Taxonomy terms
    */
   public static function getGroupTypeTerms($selected = array()) {
-    $cache_key = 'newsroom:group_types:' . implode('-', $selected);
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
-      $terms = $cache->data;
-    }
-    else {
-      $terms = NewsroomHelper::getNewsroomTypes();
-      foreach ($terms as $key => $term) {
-        $test = i18n_get_object('taxonomy_term', $term->tid);
-        if (!in_array($term->tid, $selected)) {
-          $terms[$key] = $test->get_object();
-        }
+    $terms = NewsroomHelper::getNewsroomTypes();
+    foreach ($terms as $key => $term) {
+      $test = i18n_get_object('taxonomy_term', $term->tid);
+      if (!in_array($term->tid, $selected)) {
+        $terms[$key] = $test->get_object();
       }
-      cache_set($cache_key, $terms, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_group_types', 3600));
     }
-
     return $terms;
   }
 

@@ -381,6 +381,11 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#options' => NewsroomHelper::prepareOptions(6),
     '#default_value' => variable_get('newsroom_summary_home_block_num_agenda', 3),
   );
+  $form['newsroom_blocks']['home_blocks']['newsroom_days_number_for_new_user'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of days from now where we check new newsroom items '),
+    '#default_value' => variable_get('newsroom_days_number_for_new_user', 14),
+  );
 
   // Attach a css to the admin settings form.
   $form['#attached']['css'] = array(

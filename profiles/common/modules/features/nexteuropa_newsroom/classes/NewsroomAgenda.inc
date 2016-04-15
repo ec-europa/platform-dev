@@ -106,6 +106,9 @@ abstract class NewsroomAgenda {
 
   /**
    * Gets items count.
+   *
+   * @return int
+   *   Items count.
    */
   public function getItemsCount() {
     return $this->itemsCount;
@@ -685,7 +688,7 @@ abstract class NewsroomAgenda {
    * @param object $date
    *   Datetime object.
    *
-   * @return string
+   * @return string|null
    *   HTML link.
    */
   protected function getNavigationLink($title, $date) {

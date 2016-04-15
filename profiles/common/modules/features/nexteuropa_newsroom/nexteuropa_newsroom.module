@@ -516,7 +516,7 @@ function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
     $topics = array_unique($topics);
     // Loop through topics (start with primary) to find menu item.
     foreach ($topics as $topic_id) {
-      if ($path = NewsroomHelper::fetchActiveMenu($topic_id)) {
+      if ($path = NewsroomHelper::fetchActiveMenuPath($topic_id)) {
         // Set menu item and stop the search.
         menu_tree_set_path('main-menu', $path);
         break;
