@@ -39,20 +39,6 @@ define('NEXTEUROPA_NEWSROOM_TYPE_SEGMENT', '?item_type_id=');
 define('NEXTEUROPA_NEWSROOM_ITEM_EDIT_SEGMENT', 'item.cfm?item_id=');
 
 /**
- * Implements hook_page_build().
- */
-function nexteuropa_newsroom_page_build(&$page) {
-  // We show message in the admin part and for users who has access
-  // to change newsroom configuration.
-  if (path_is_admin(current_path()) && user_access('administer newsroom settings')) {
-    $universe_id = NewsroomHelper::getUniverseId();
-    if (empty($universe_id)) {
-      $newsroom_config_path = filter_xss(url('admin/config/content/newsroom'));
-      drupal_set_message(t('The Newsroom feature needs to be configured before use. Please visit the <a href="!link">configuration page</a>!', array('!link' => $newsroom_config_path)), 'warning', FALSE);
-    }
-  }
-}
-/**
  * Implements hook_menu().
  */
 function nexteuropa_newsroom_menu() {
