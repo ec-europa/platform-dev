@@ -21,6 +21,27 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   protected $drupal;
 
   /**
+   * List of translators created during test execution.
+   *
+   * @var array
+   */
+  protected $translators = [];
+
+  /**
+   * List of TMGMT translation jobs created during test execution.
+   *
+   * @var \TMGMTJob[]
+   */
+  protected $jobs = [];
+
+  /**
+   * Latest created translation job during test execution.
+   *
+   * @var \TMGMTJob
+   */
+  protected $latestJob;
+
+  /**
    * Constructs a NextEuropaMultilingualSubContext object.
    *
    * @param DrupalDriverManager $drupal
@@ -286,36 +307,243 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param string $title
    *    Content type in default language.
    *
-   * @Then I re-import the latest translation job for the :type with title :title
+   * @Then I re-import the latest translation job for :type with title :title
    */
   public function importLatestTranslationJobForContent($type, $title) {
-    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type]);
-    if ($nodes) {
-      $node = array_shift($nodes);
-      $result = db_select('tmgmt_job_item', 't')
-        ->fields('t', ['tjiid'])
-        ->condition('t.item_type', 'node')
-        ->condition('t.item_id', $node->nid)
-        ->orderBy('t.tjiid', 'DESC')
-        ->range(0, 1)
-        ->execute()
-        ->fetchAssoc();
-      if ($result) {
-        $tjiid = array_shift($result);
-        $job_item = tmgmt_job_item_load($tjiid);
-        if (!$job_item) {
-          throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
-        }
-        $controller = $job_item->getSourceController();
-        $controller->saveTranslation($job_item);
-      }
-      else {
+    $node = $this->getNodeByTitle($type, $title);
+    $result = db_select('tmgmt_job_item', 't')
+      ->fields('t', ['tjiid'])
+      ->condition('t.item_type', 'node')
+      ->condition('t.item_id', $node->nid)
+      ->orderBy('t.tjiid', 'DESC')
+      ->range(0, 1)
+      ->execute()
+      ->fetchAssoc();
+    if ($result) {
+      $tjiid = array_shift($result);
+      $job_item = tmgmt_job_item_load($tjiid);
+      if (!$job_item) {
         throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
       }
+      $controller = $job_item->getSourceController();
+      $controller->saveTranslation($job_item);
     }
     else {
-      throw new \InvalidArgumentException("Node of type '{$type}' and title '{$title}' not found.");
+      throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
     }
+  }
+
+  /**
+   * Create a translation job for an already existing piece of content.
+   *
+   * @param string $type
+   *    The node type.
+   * @param string $title
+   *    The node title.
+   * @param \Behat\Gherkin\Node\TableNode $table
+   *    Properties table, "source language" and "target language" are required.
+   *
+   * @Given I create a translation job for :type with title :title and the following properties:
+   */
+  public function createTranslationJobForContentWithTitleAndProperties($type, $title, TableNode $table) {
+    $node = $this->getNodeByTitle($type, $title);
+    $properties = $table->getRowsHash();
+    if (!isset($properties['source language'])) {
+      throw new \InvalidArgumentException('Property "source language" is required.');
+    }
+    if (!isset($properties['target language'])) {
+      throw new \InvalidArgumentException('Property "target language" is required.');
+    }
+    if (!isset($properties['translator'])) {
+      throw new \InvalidArgumentException('Property "translator" is required.');
+    }
+    $source = $properties['source language'];
+    $target = $properties['target language'];
+    $translator = $this->getTranslatorByName($properties['translator']);
+    unset($properties['source language'], $properties['target language'], $properties['translator']);
+
+    $job = tmgmt_job_create($source, $target, 1);
+    $job->label = $node->title;
+    $job->translator = $translator->name;
+    $job->settings = [];
+    $job->addItem('entity', 'node', $node->nid);
+    if (!$job->save()) {
+      throw new \InvalidArgumentException('Error occurred while saving the translation job.');
+    }
+
+    $data = array_filter(tmgmt_flatten_data($job->getData()), '_tmgmt_filter_data');
+    $tdata = [];
+    foreach ($data as $key => $value) {
+      $parts = tmgmt_ensure_keys_array($key);
+      $field_name = $parts[1];
+      $tdata[$key]['#text'] = isset($properties[$field_name]) ? $properties[$field_name] : "[{$job->target_language}]" . ' ' . $value['#text'];
+    }
+    $job->submitted('Test translation created.');
+    $job->addTranslatedData(tmgmt_unflatten_data($tdata));
+
+    $this->latestJob = $job;
+    $this->jobs[] = $this->latestJob;
+  }
+
+  /**
+   * Remove translation jobs created during scenarios execution.
+   *
+   * @AfterScenario
+   */
+  public function removeTranslationJobs() {
+    if (isset($this->jobs)) {
+      /** @var \TMGMTJobController $controller */
+      $controller = entity_get_controller('tmgmt_job');
+      /** @var \TMGMTJob $translator */
+      foreach ($this->jobs as $job) {
+        $controller->delete([$job->identifier()]);
+      }
+    }
+  }
+
+  /**
+   * Assert current translation job state.
+   *
+   * @param string $expected
+   *    Expected state in human readable format.
+   *
+   * @Then the translation job is in :expected state
+   */
+  public function assertCurrentTranslationJobState($expected) {
+    $job = $this->getLatestTranslationJob();
+    $actual = $job->getState();
+    if ($actual != $this->getTranslationJobState($expected)) {
+      $states = tmgmt_job_states();
+      throw new \InvalidArgumentException("Translation job not in the expected '{$expected}' state. Current state is '{$states[$actual]}'");
+    }
+  }
+
+  /**
+   * Assert current translation job items state.
+   *
+   * @param string $expected
+   *    Expected state in human readable format.
+   *
+   * @Then the translation job items are in :expected state
+   */
+  public function assertCurrentTranslationJobItemsState($expected) {
+    $job = $this->getLatestTranslationJob();
+    foreach ($job->getItems() as $item) {
+      $actual = $item->getState();
+      if ($actual != $this->getTranslationJobItemState($expected)) {
+        $states = tmgmt_job_item_states();
+        throw new \InvalidArgumentException("Translation job item not in the expected '{$expected}' state. Current state is '{$states[$actual]}'");
+      }
+    }
+  }
+
+  /**
+   * Accept translations for current translation job.
+   *
+   * @Then the translation job is accepted
+   */
+  public function acceptCurrentTranslationJob() {
+    $job = $this->getLatestTranslationJob();
+    foreach ($job->getItems() as $item) {
+      $item->acceptTranslation();
+    }
+  }
+
+  /**
+   * Get a node by specifying its default type and title.
+   *
+   * @param string $type
+   *    The node type.
+   * @param string $title
+   *    The node title.
+   *
+   * @return object
+   *    The node object.
+   */
+  protected function getNodeByTitle($type, $title) {
+    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type]);
+    if ($nodes) {
+      return array_shift($nodes);
+    }
+    throw new \InvalidArgumentException("Node of type '{$type}' and title '{$title}' not found.");
+  }
+
+  /**
+   * Get translator by machine name.
+   *
+   * @param string $name
+   *    Human readable labels will be converted into machine name-like syntax.
+   *
+   * @return \TMGMTTranslator
+   *    Translator object.
+   *
+   * @see NextEuropaMultilingualSubContext::localTranslatorIsAvailable()
+   */
+  protected function getTranslatorByName($name) {
+    $name = strtolower(str_replace(' ', '_', $name));
+    $translator = tmgmt_translator_load($name);
+    if ($translator) {
+      return $translator;
+    }
+    throw new \InvalidArgumentException("Translator with machine name '{$name}' not found.");
+  }
+
+  /**
+   * Get latest saved translation job.
+   *
+   * @return \TMGMTJob
+   *    Translation job object.
+   */
+  protected function getLatestTranslationJob() {
+    if ($this->latestJob) {
+      return $this->latestJob;
+    }
+    throw new \InvalidArgumentException("No translation job found, create a translation job during the scenario execution first.");
+  }
+
+  /**
+   * Get translation job state value given its human readable label.
+   *
+   * @param string $state
+   *    State human readable label.
+   *
+   * @return int
+   *    Translation job state value.
+   */
+  protected function getTranslationJobState($state) {
+    $states = [
+      'Unprocessed' => TMGMT_JOB_STATE_UNPROCESSED,
+      'Active' => TMGMT_JOB_STATE_ACTIVE,
+      'Rejected' => TMGMT_JOB_STATE_REJECTED,
+      'Aborted' => TMGMT_JOB_STATE_ABORTED,
+      'Finished' => TMGMT_JOB_STATE_FINISHED,
+    ];
+    if (isset($states[$state])) {
+      return $states[$state];
+    }
+    throw new \InvalidArgumentException("Translation job state labeled '{$state}' does not exists.");
+  }
+
+  /**
+   * Get translation job item state value given its human readable label.
+   *
+   * @param string $state
+   *    State human readable label.
+   *
+   * @return int
+   *    Translation job item state value.
+   */
+  protected function getTranslationJobItemState($state) {
+    $states = [
+      'In progress' => TMGMT_JOB_ITEM_STATE_ACTIVE,
+      'Needs review' => TMGMT_JOB_ITEM_STATE_REVIEW,
+      'Accepted' => TMGMT_JOB_ITEM_STATE_ACCEPTED,
+      'Aborted' => TMGMT_JOB_ITEM_STATE_ABORTED,
+    ];
+    if (isset($states[$state])) {
+      return $states[$state];
+    }
+    throw new \InvalidArgumentException("Translation job item state labeled '{$state}' does not exists.");
   }
 
 }

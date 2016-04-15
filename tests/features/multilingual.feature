@@ -108,6 +108,7 @@ Feature: Multilingual features
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
+#    @run
   Scenario: I can re-import a translation by re-submitting the translation job.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -135,7 +136,28 @@ Feature: Multilingual features
     And I press the "Delete translation" button
     And I press the "Delete" button
     Then I should see "Not translated" in the "German" row
-    And I re-import the latest translation job for the "page" with title "This title is in English"
+    And I re-import the latest translation job for "page" with title "This title is in English"
     And I click "Translate" in the "primary_tabs" region
     Then I should see "Published" in the "German" row
     And I should see "Dieser Titel ist auf Deutsch" in the "German" row
+
+#  @run
+  Scenario: I can create a translation job via a Behat step.
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                    |
+      | en       | This title is in English |
+    Then I should not see the link "Italiano" in the "content" region
+    And I create a translation job for "page" with title "This title is in English" and the following properties:
+      | source language | en                          |
+      | target language | it                          |
+      | translator      | Translator A                |
+      | title_field     | Questo titolo è in Italiano |
+    Then the translation job is in "Active" state
+    And the translation job items are in "Needs review" state
+    And the translation job is accepted
+    And I click "View"
+    Then I should see the link "Italiano" in the "content" region
+    And I click "Italiano" in the "content" region
+    Then I should see "Questo titolo è in Italiano"
