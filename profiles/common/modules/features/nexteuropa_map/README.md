@@ -64,11 +64,15 @@ A field formatter is a setting for displaying field content. Nexteuropa map prov
 * Click "Save" to save the settings.
 * Verify by viewing the entity.
 
+## Credits
+* Maps are provided by the Webtools team
+* Background maps available in the Webtools feature can only be used on European Commission and inter-institutional websites
+* Boundaries of countries and NUTS regions are copyright EuroGeographics and copyright UN-FAO and are for Inter-Institutional use only.
+* Nexteuropa map is made by DG Connect's web team
+
 ## Contact persons
-* Role, Name, Dept.
-* Product owner, Some one ,DG Connect
-* Coordinator, Luca Arnaudo, DG Connect
-* Implementor, Boris Doesborg, DG Connect
+* ARNAUDO Luca (CNECT) <Luca.ARNAUDO@ec.europa.eu>, DG Connect
+* DOESBORG Boris (CNECT-EXT) <Boris.DOESBORG@ext.ec.europa.eu>, DG Connect
 
 ## Contributed modules
 * Geofield http://drupal.org/project/geofield
