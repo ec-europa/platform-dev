@@ -118,14 +118,13 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       return $xml->asXML();
     }
 
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $main_reference)->fetchAll();
+    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
 
     // Handling the case where we can't find the corresponding job.
     if (!$ids) {
-      watchdog("Poetry: Error message", "Callback can't find a job with remote reference !reference (main reference !main_reference).",
+      watchdog("Poetry: Error message", "Callback can't find a job with remote reference !reference .",
         array(
           '!reference' => $reference,
-          '!main_reference' => $main_reference,
         ), WATCHDOG_ERROR);
 
       // Send answer to poetry.

@@ -66,38 +66,6 @@ function _tmgmt_poetry_load_job_by_reference($reference) {
 }
 
 /**
- * Allow to mark a node as outdated even if not translation was received.
- *
- * Implements hook_form_FORM_ID_alter().
- */
-function tmgmt_poetry_form_page_node_form_alter(&$form, &$form_state) {
-
-  if (!isset($form['translation']) && !empty($form['vid']['#value'])) {
-    $form['translation'] = array(
-      '#type' => 'fieldset',
-      '#title' => 'translation',
-      '#group' => 'additional_settings',
-      '#weight' => 10,
-    );
-    $form['translation']['translate_outdated'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('This translation needs to be updated'),
-      '#default_value' => '',
-      '#description' => t('When this option is checked, this translation needs to be updated because the source post has changed. When translation is received from DGT it will be fed to previous version.'),
-      '#disabled' => '',
-    );
-    $form['#submit'][] = '_tmgmt_poetry_mark_outdated';
-  }
-}
-
-/**
- * Custom function allowing to mark a translation outdated when not validated.
- */
-function _tmgmt_poetry_mark_outdated($form, &$form_state) {
-  $form_state['values']['translation']['translate'] = $form_state['values']['translate_outdated'];
-}
-
-/**
  * Add a button to send a feedback to DGT.
  *
  * Implements hook_form_FORM_ID_alter().
@@ -150,7 +118,11 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
       $form['translator_wrapper']['#access'] = FALSE;
     }
 
-    $job_items = $form_state['tmgmt_job']->getItems();
+    $job = $form_state['tmgmt_job'];
+    if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
+      $form['translator_wrapper']['#collapsed'] = TRUE;
+    }
+    $job_items = $job->getItems();
     if (count($job_items) > 0) {
       $job_item = array_shift($job_items);
     }
