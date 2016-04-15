@@ -12,7 +12,8 @@
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2.10",
     "php": ">=5.4.0",
-    "typhonius/behattask": "1.0"
+    "typhonius/behattask": "1.0",
+    "jakoch/phantomjs-installer": "2.1.1"
   },
   "prefer-stable": true,
   "autoload": {
@@ -65,7 +66,13 @@
     }
   ],
   "scripts": {
-    "post-install-cmd": "resources/scripts/composer/post-install.sh"
+    "post-install-cmd": [
+      "resources/scripts/composer/post-install.sh",
+      "PhantomInstaller\\Installer::installPhantomJS"
+    ],
+    "post-update-cmd": [
+        "PhantomInstaller\\Installer::installPhantomJS"
+    ]
   },
   "config": {
     "bin-dir": "bin/",
