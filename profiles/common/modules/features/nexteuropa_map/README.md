@@ -64,7 +64,7 @@ A field formatter is a setting for displaying field content. Nexteuropa map prov
 * Click "Save" to save the settings.
 * Verify by viewing the entity.
 
-## Credits
+## Copyrights
 * Maps are provided by the Webtools team
 * Background maps available in the Webtools feature can only be used on European Commission and inter-institutional websites
 * Boundaries of countries and NUTS regions are copyright EuroGeographics and copyright UN-FAO and are for Inter-Institutional use only.
