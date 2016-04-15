@@ -561,7 +561,10 @@ function ecas_block_info() {
  */
 function _ecas_force_login() {
   list($arg0) = explode('/', $_GET['q']);
-
+  
+  if ($arg0 == 'user' && empty($arg1))
+    return ECAS_NO_LOGIN;
+  
   // Don't even do the test if we're hitting the cas page.
   if ($arg0 == 'ecas' || $arg0 == 'ecaslogout') {
     return ECAS_LOGIN;
