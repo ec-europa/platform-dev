@@ -24,10 +24,10 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   /**
    * Sets the latest date in the agenda.
    *
-   * @param Datetime $value
+   * @param object $value
    *   Latest date in the agenda.
    */
-  public function setLastAgendaDate(Datetime $value) {
+  public function setLastAgendaDate($value) {
     $this->lastAgendaDate = $value;
   }
 
@@ -211,7 +211,7 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    * @param bool $first
    *   Return the first or last.
    *
-   * @return DateTime
+   * @return object
    *   Utmost date.
    */
   protected function getUtmostDate($first = TRUE) {

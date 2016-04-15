@@ -694,6 +694,9 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
  *
  * @param array $premapping
  *   Premappings array.
+ *
+ * @return array
+ *   Prepared premappings array.
  */
 function _nexteuropa_newsroom_check_translations(array $premapping) {
   $fields = field_info_fields();

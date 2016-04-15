@@ -204,7 +204,7 @@ abstract class NewsroomAgenda {
   /**
    * Gets upcoming date.
    *
-   * @return DateTime
+   * @return object
    *   Upcoming date.
    */
   public function getUpcomingDate() {
@@ -214,7 +214,7 @@ abstract class NewsroomAgenda {
   /**
    * Sets upcoming date.
    *
-   * @param $value
+   * @param object $value
    *   Upcoming date.
    */
   public function setUpcomingDate($value) {
@@ -224,7 +224,7 @@ abstract class NewsroomAgenda {
   /**
    * Sets previous date.
    *
-   * @return Datetime
+   * @return object
    *   Previous date.
    */
   public function getPreviousDate() {
@@ -234,7 +234,7 @@ abstract class NewsroomAgenda {
   /**
    * Gets previous date.
    *
-   * @param $value
+   * @param object $value
    *   Previous date.
    */
   public function setPreviousDate($value) {
@@ -254,10 +254,10 @@ abstract class NewsroomAgenda {
   /**
    * Sets current date.
    *
-   * @param Datetime $value
+   * @param object $value
    *   Current date.
    */
-  public function setCurrentDate(Datetime $value) {
+  public function setCurrentDate($value) {
     $value->setTime(0, 0, 0);
     $this->currentDate = $value;
   }

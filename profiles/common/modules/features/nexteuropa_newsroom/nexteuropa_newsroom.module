@@ -558,6 +558,9 @@ function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
 
 /**
  * Controls access to page based on IP (newsroom server) and role.
+ *
+ * @return bool
+ *   Result of check whether the remote client can call import or other ops.
  */
 function _nexteuropa_nexteuropa_newsroom_item_import_access() {
   $allowed_ips = array_map('trim', explode(',', variable_get('newsroom_allowed_ips')));
@@ -801,7 +804,7 @@ function nexteuropa_newsroom_views_pre_render(&$view) {
 }
 
 /**
- * Implements pre_views_pre_view().
+ * Implements hook_views_pre_view().
  */
 function nexteuropa_newsroom_views_pre_view(&$view, &$display_id, array &$args) {
 

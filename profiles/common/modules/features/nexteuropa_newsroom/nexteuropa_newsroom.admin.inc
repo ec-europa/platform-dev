@@ -21,7 +21,18 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $top_ct = NewsroomHelper::getFieldInstances('topic');
   $newsroom_universe_id = NewsroomHelper::getUniverseId();
   // Get some information basing on the activation of the universe id.
-  $universe_id_info = NewsroomHelper::getUniverseIdInputInfo($newsroom_universe_id);
+  if (!empty($newsroom_universe_id)) {
+    $universe_id_info['disabled'] = TRUE;
+    $universe_id_info['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
+    $universe_id_info['class'] = 'selected';
+    $universe_id_info['collapsing'] = FALSE;
+  }
+  else {
+    $universe_id_info['disabled'] = FALSE;
+    $universe_id_info['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
+    $universe_id_info['class'] = 'not-selected';
+    $universe_id_info['collapsing'] = TRUE;
+  }
 
   // This is special, made just to hold the universe_id field.
   $form['universe_id'] = array(
@@ -872,7 +883,7 @@ function _nexteuropa_newsroom_admin_prepare_check(array $previous, array $input)
  * Rebuilds multilingual importers.
  *
  * @return array
- *   Form callback array.
+ *   Rendable array for ajax callback.
  */
 function _nexteuropa_newsroom_admin_rebuild_importers() {
   // Remove importers.

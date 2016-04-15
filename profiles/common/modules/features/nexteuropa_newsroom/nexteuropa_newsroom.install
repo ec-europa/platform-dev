@@ -300,7 +300,10 @@ function nexteuropa_newsroom_update_7108() {
 }
 
 /**
- * Get current module version.
+ * Gets current module version.
+ *
+ * @return string
+ *   Module version.
  */
 function _nexteuropa_newsroom_get_version() {
   $module = basename(__FILE__, ".install");

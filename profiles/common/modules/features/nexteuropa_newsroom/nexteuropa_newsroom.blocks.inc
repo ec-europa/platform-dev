@@ -324,8 +324,8 @@ function _nexteuropa_newsroom_newsletter_subscription() {
 /**
  * Returns the newsroom list filter form.
  *
- * @return array
- *   Newsroom page filter form.
+ * @return array|null
+ *   Newsroom page filter form array or NULL.
  */
 function _nexteuropa_newsroom_list_filter() {
   $topics_vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
@@ -404,7 +404,7 @@ function _nexteuropa_newsroom_list_filter() {
     return drupal_get_form('nexteuropa_newsroom_list_filter_form', $countries, $topics, $arguments);
   }
 
-  return '';
+  return NULL;
 }
 
 /**
@@ -426,11 +426,6 @@ function _nexteuropa_newsroom_options_tid_to_name($options) {
 
 /**
  * Returns block with the link to newsroom proposal form.
- *
- * @global object $user
- *   Global user object.
- * @global string $base_url
- *   Global URL.
  *
  * @return string
  *   Block content.

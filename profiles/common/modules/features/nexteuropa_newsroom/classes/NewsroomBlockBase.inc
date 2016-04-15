@@ -56,10 +56,10 @@ abstract class NewsroomBlockBase {
   /**
    * Sets the latest agenda date.
    *
-   * @param Datetime $value
+   * @param object $value
    *    Latest date for the current agenda.
    */
-  public function setLatestDate(Datetime $value) {
+  public function setLatestDate($value) {
     $this->lastestDate = $value;
   }
 

@@ -277,7 +277,15 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Implements hook_form().
+ * Gets form rendable array for newsroom proposal page.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Rendable form array.
  */
 function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
   global $user;
@@ -356,7 +364,15 @@ function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
 }
 
 /**
- * Implements hook_form().
+ * Gets form rendable array for newsletter subscription block.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Rendable form array.
  */
 function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
   $args = $form_state['build_info']['args'][0];
@@ -473,7 +489,15 @@ function _nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form
 }
 
 /**
- * Implements hook_form().
+ * Gets form rendable array for filter on the newsroom page.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Rendable form array.
  */
 function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
   $arguments = $form_state['build_info']['args'];
@@ -554,7 +578,25 @@ function _nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_form().
+ * Gets form rendable array for filter on the agenda page.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param string $view
+ *   View type: schedule, month, week, day.
+ * @param int $type_id
+ *   Newsroom type ID.
+ * @param int $topic_id
+ *   Newsroom Topic ID.
+ * @param string $current_date
+ *   Current date.
+ * @param array $result_topics
+ *   Topics to filter out the option list.
+ *
+ * @return array
+ *   Rendable form array.
  */
 function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $type_id, $topic_id, $current_date, $result_topics) {
   $topic_options = NewsroomHelper::getTaxonomyTermOptions(NewsroomHelper::getNewsroomTopics());
@@ -601,7 +643,15 @@ function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $typ
 }
 
 /**
- * Implements hook_form().
+ * Gets form rendable array for date fitler block on the newsroom page.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Rendable form array.
  */
 function nexteuropa_newsroom_agenda_datepicker_form($form, &$form_state, $view, $type_id, $topic_id, $current_date) {
   $form = array();
@@ -676,7 +726,17 @@ function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_form().
+ * Gets form rendable array for usbscription button on newsletter page.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param int $service_id
+ *   Newsletter subscription service ID.
+ *
+ * @return array
+ *   Rendable form array.
  */
 function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
   global $user;

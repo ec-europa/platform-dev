@@ -43,16 +43,6 @@ class NewsroomHelper {
   }
 
   /**
-   * Generates newsroom agenda URL.
-   *
-   * @return string
-   *   Newsroom agenda URL.
-   */
-  public static function getNewsroomAgendaUrl() {
-    return 'newsroom-agenda/' . implode('/', func_get_args());
-  }
-
-  /**
    * Prepares options for the content type select.
    *
    * @param string $type
@@ -443,25 +433,6 @@ class NewsroomHelper {
   }
 
   /**
-   * Get taxonomy terms from vocabularies.
-   *
-   * @return array
-   *   Taxonomy term ids
-   */
-  public static function getTermsFromVocabularies($vocabularies = array()) {
-    $taxonomy_terms = array();
-    foreach ($vocabularies as $vocabulary_name) {
-      if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY) {
-        $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTypes());
-      }
-      if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY) {
-        $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTopics());
-      }
-    }
-    return $taxonomy_terms;
-  }
-
-  /**
    * Tries to get taxonomy URL part (taxonomy term name).
    *
    * @param string $request_name
@@ -485,7 +456,15 @@ class NewsroomHelper {
       }
 
       if (!$taxonomy_term && count($vocabularies) > 0) {
-        $taxonomy_terms = NewsroomHelper::getTermsFromVocabularies($vocabularies);
+        $taxonomy_terms = array();
+        foreach ($vocabularies as $vocabulary_name) {
+          if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY) {
+            $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTypes());
+          }
+          if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY) {
+            $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTopics());
+          }
+        }
         // Compare taxonomy terms modified by pathauto with the current value
         // from the URL.
         if ($taxonomy_terms) {
@@ -601,33 +580,6 @@ class NewsroomHelper {
       $variable_name = $front_page ? 'newsroom_summary_home_block_num_items' : 'newsroom_summary_block_num_items';
     }
     return variable_get($variable_name, 5);
-  }
-
-  /**
-   * Returns admin settings for universe ID.
-   *
-   * @param int $newsroom_universe_id
-   *   Newsroom Universe ID.
-   *
-   * @return array
-   *   Newsroom Universe ID info.
-   */
-  public static function getUniverseIdInputInfo($newsroom_universe_id = NULL) {
-    // After initital setup disable Universe ID field.
-    $universe_id = array();
-    if (!empty($newsroom_universe_id)) {
-      $universe_id['disabled'] = TRUE;
-      $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
-      $universe_id['class'] = 'selected';
-      $universe_id['collapsing'] = FALSE;
-    }
-    else {
-      $universe_id['disabled'] = FALSE;
-      $universe_id['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
-      $universe_id['class'] = 'not-selected';
-      $universe_id['collapsing'] = TRUE;
-    }
-    return $universe_id;
   }
 
   /**
