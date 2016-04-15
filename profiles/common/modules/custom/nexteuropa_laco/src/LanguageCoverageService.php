@@ -12,7 +12,7 @@ namespace Drupal\nexteuropa_laco;
  *
  * @package Drupal\nexteuropa_laco
  */
-class LanguageCoverageService implements LanguageCoverageServiceInterface {
+class LanguageCoverageService {
 
   /**
    * HTTP method the service will be reacting to.
