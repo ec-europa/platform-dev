@@ -108,7 +108,6 @@ Feature: Multilingual features
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
-    @run
   Scenario: I can re-import a translation by re-submitting the translation job.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role

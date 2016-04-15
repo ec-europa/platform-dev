@@ -48,7 +48,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   public function setupPoetry(BeforeScenarioScope $scope) {
     global $base_url;
     $this->variables['poetry_service'] = variable_get('poetry_service');
-    variable_set('poetry_service', array( 
+    variable_set('poetry_service', array(
       'address' => $base_url . '/profiles/multisite_drupal_standard/modules/custom/tmgmt_poetry/tests/tmgmt_poetry_test.wsdl',
       'method' => 'requestService',
       'callback_user' => 'Poetry',
