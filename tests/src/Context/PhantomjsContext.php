@@ -23,16 +23,18 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
  */
 class PhantomjsContext implements Context
 {
-    /**
-     * @BeforeSuite
-     */
+     private static $process;
+
+     /**
+      * @BeforeSuite
+      */
      public static function startPhantomjs(BeforeSuiteScope $scope)
      {
           $cmd = sprintf('exec %s --webdriver=%d', PhantomBinary::BIN, 8643);
-          $process = new Process($cmd);
-          $process->start();
+          self::$process = new Process($cmd);
+          self::$process->start();
 
-          // Wait 1sec to let PhantomJS start
+          // Wait 1 sec to let PhantomJS start
           sleep(1);
      }
 }
