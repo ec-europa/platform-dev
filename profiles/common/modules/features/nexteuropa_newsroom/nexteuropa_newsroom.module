@@ -345,6 +345,25 @@ function _nexteuropa_newsroom_get_real_modes($field_instances, $modes = array('t
 }
 
 /**
+ * Get field groups.
+ *
+ * @param array $modes
+ *   Array.
+ * @param string $bundle
+ *   Array.
+ *
+ * @return groups
+ *   Array.
+ */
+function _nexteuropa_newsroom_get_real_groups($modes = array('teaser', 'full'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
+  foreach ($modes as $mode) {
+    $groups[$mode] = field_group_info_groups('node', $bundle, $mode, TRUE);
+  }
+  
+  return $groups;
+}
+
+/**
  * Helper function to check if the universe ID has been already set.
  */
 function _nexteuropa_newsroom_check_universe_id() {
