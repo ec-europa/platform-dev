@@ -38,8 +38,12 @@ function tmgmt_poetry_job_access($op, TMGMTJob $job = NULL, $account = NULL) {
       $job_item = array_shift($items);
     }
     $translator = $job->getTranslator();
-    if ($translator && ($translator->plugin == 'poetry' && (strpos($job->reference, 'SUB_') !== FALSE))
-        && isset($job_item) && $job_item->state <= TMGMT_JOB_ITEM_STATE_ACTIVE) {
+    if (
+      $translator &&
+      ($translator->plugin == 'poetry' && (strpos($job->reference, 'SUB_') !== FALSE || strpos($job->reference, 'MAIN_') !== FALSE)) &&
+      isset($job_item) &&
+      $job_item->state <= TMGMT_JOB_ITEM_STATE_ACTIVE
+    ) {
       return FALSE;
     }
   }

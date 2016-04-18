@@ -4,16 +4,17 @@
  */
 
 (function($) {
-
   // Get a CKEDITOR.dialog.contentDefinition object by its ID.
   var getById = function(array, id, recurse) {
     for (var i = 0, item; (item = array[i]); i++) {
       if (item.id == id) {
-        return item; }
+        return item;
+      }
       if (recurse && item[recurse]) {
         var retval = getById(item[recurse], id, recurse);
         if (retval) {
-          return retval; }
+          return retval;
+        }
       }
     }
     return null;
@@ -52,7 +53,8 @@
         }
       }, 'check_url_msg');
 
-      // Override the onShow event to display custom elements and manage buttons display.
+      // Override the onShow event to display custom elements and manage buttons
+      // display.
       dialogDefinition.onShow = CKEDITOR.tools.override(dialogDefinition.onShow, function(original) {
         return function() {
           original.call(this);
@@ -76,7 +78,8 @@
       });
 
       var elem_linkType = getById(info.elements, 'linkType');
-      // Override the onChange event of the linkType element to manage the buttons display.
+      // Override the onChange event of the linkType element to manage the
+      // buttons display.
       elem_linkType.onChange = CKEDITOR.tools.override(elem_linkType.onChange, function(original) {
         return function() {
           original.call(this);
@@ -91,12 +94,9 @@
             elem_check_url_btn.getElement().hide();
             // elem_ok.getElement().show();.
           }
-
         };
       });
-
     }
-
   });
 
   // Ajax call to check if an URL exists, update/submit the dialog box.
@@ -125,7 +125,5 @@
         $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });
       }
     });
-
   }
-
 })(jQuery);

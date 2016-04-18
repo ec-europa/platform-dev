@@ -7,18 +7,16 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
-include_once 'node_pager.install.inc';
-
 /**
  * Implements hook_enable().
  */
 function node_pager_enable() {
-  drupal_set_message(t('node_pager %v feature is now active on your site.', array('%v' => _node_pager_get_version())));
+  drupal_set_message(t('node_pager feature is now active on your site.'));
 }
 
 /**
  * Implements hook_disable().
  */
 function node_pager_disable() {
-  drupal_set_message(t('node_pager %v feature is now inactive on your site.', array('%v' => _node_pager_get_version())));
+  drupal_set_message(t('node_pager feature is now inactive on your site.'));
 }

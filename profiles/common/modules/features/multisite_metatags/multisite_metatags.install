@@ -5,14 +5,12 @@
  * Install the feature multisite_metatags.
  */
 
-include_once 'multisite_metatags.install.inc';
-
 /**
  * Implements hook_enable().
  */
 function multisite_metatags_enable() {
   // Activation message.
-  drupal_set_message(t('Multisite Metatags %v feature is now active on your site.', array('%v' => _multisite_metatags_get_version())));
+  drupal_set_message(t('Multisite Metatags feature is now active on your site.'));
 }
 
 /**
@@ -24,5 +22,5 @@ function multisite_metatags_disable() {
   variable_del('meta_reference');
 
   // Deactivation message.
-  drupal_set_message(t('Multisite Metagas %v feature is now inactive on your site.', array('%v' => _multisite_metatags_get_version())));
+  drupal_set_message(t('Multisite Metagas feature is now inactive on your site.'));
 }

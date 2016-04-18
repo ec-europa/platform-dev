@@ -67,6 +67,7 @@
                     <token key="drupal.site.dir" value="${drupal.site.dir}" />
                     <token key="behat.base_url" value="${behat.base_url}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
+                    <token key="platform.bin" value="${platform.bin}" />
                 </replacetokens>
             </filterchain>
         </loadfile>

@@ -1218,12 +1218,19 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
 
   // Hide format field.
   if (!user_access('administer nodes')) {
-    $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['comment_body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
-
-    $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+    $form['#after_build'][] = 'ec_resp_after_build';
   }
+}
+
+/**
+ * Implements the afterbuild function.
+ */
+function ec_resp_after_build($form) {
+  $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+  $form['comment_body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+  $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+  $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+  return $form;
 }
 
 /**
@@ -1328,9 +1335,9 @@ function ec_resp_link($variables) {
       $variables['options']['attributes']['class'] = $classes;
     }
   }
+  $path = ($variables['path'] == '<nolink>') ? '#' : check_plain(url($variables['path'], $variables['options']));
   $output = $action_bar_before . $btn_group_before .
-    '<a href="' .
-    check_plain(url($variables['path'], $variables['options'])) . '"' .
+    '<a href="' . $path . '"' .
     drupal_attributes($variables['options']['attributes']) . '>' . $decoration .
     ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) .
     '</a>' . $btn_group_after . $action_bar_after;
@@ -1458,13 +1465,7 @@ function ec_resp_preprocess_admin_menu_icon(&$variables) {
  * Implements template_preprocess_block().
  */
 function ec_resp_preprocess_block(&$variables) {
-
   global $user, $language;
-  if (!empty($user) && 0 != $user->uid) {
-    $full_user = user_load($user->uid);
-    $name = (isset($full_user->field_firstname[LANGUAGE_NONE][0]['value']) && isset($full_user->field_lastname[LANGUAGE_NONE][0]['value']) ? $full_user->field_firstname[LANGUAGE_NONE][0]['value'] . ' ' . $full_user->field_lastname[LANGUAGE_NONE][0]['value'] : $user->name);
-    $variables['user_name'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>';
-  }
 
   $block_no_panel = array(
     'search' => 'form',
@@ -1610,12 +1611,9 @@ function ec_resp_preprocess_block(&$variables) {
 
       case 'system-user-menu':
         if ($user->uid) {
-          $account = user_load($user->uid);
-          $firstname_field = field_get_items('user', $account, 'field_firstname');
-          $lastname_field = field_get_items('user', $account, 'field_lastname');
-          $name = $firstname_field[0]['value'] . ' ' . $lastname_field[0]['value'];
+          $name = theme('username', array('account' => $user, 'nolink' => TRUE));
+          $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name) . '</strong></div>';
 
-          $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name == ' ' ? $name : $user->name) . '</strong></div>';
         }
         $menu = menu_navigation_links("user-menu");
         $items = array();
@@ -1696,6 +1694,15 @@ function ec_resp_preprocess_block(&$variables) {
         break;
 
     }
+  }
+}
+
+/**
+ * Preprocesses variables for theme_username().
+ */
+function ec_resp_preprocess_username(&$vars) {
+  if (isset($vars['link_path']) && isset($vars['nolink']) && $vars['nolink']) {
+    unset($vars['link_path']);
   }
 }
 

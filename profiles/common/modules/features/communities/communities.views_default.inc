@@ -138,13 +138,14 @@ function communities_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = 'header content';
-  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  /* Header: Global: Communities Glossary */
+  $handler->display->display_options['header']['communities_glossary']['id'] = 'communities_glossary';
+  $handler->display->display_options['header']['communities_glossary']['table'] = 'views';
+  $handler->display->display_options['header']['communities_glossary']['field'] = 'communities_glossary';
+  /* Header: Global: Create a new community link */
+  $handler->display->display_options['header']['communities_create_new_community']['id'] = 'communities_create_new_community';
+  $handler->display->display_options['header']['communities_create_new_community']['table'] = 'views';
+  $handler->display->display_options['header']['communities_create_new_community']['field'] = 'communities_create_new_community';
   /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
@@ -405,13 +406,14 @@ function communities_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = 'header';
-  $handler->display->display_options['header']['area']['format'] = 'full_html';
+  /* Header: Global: Communities Glossary */
+  $handler->display->display_options['header']['communities_glossary']['id'] = 'communities_glossary';
+  $handler->display->display_options['header']['communities_glossary']['table'] = 'views';
+  $handler->display->display_options['header']['communities_glossary']['field'] = 'communities_glossary';
+  /* Header: Global: Create a new community link */
+  $handler->display->display_options['header']['communities_create_new_community']['id'] = 'communities_create_new_community';
+  $handler->display->display_options['header']['communities_create_new_community']['table'] = 'views';
+  $handler->display->display_options['header']['communities_create_new_community']['field'] = 'communities_create_new_community';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';

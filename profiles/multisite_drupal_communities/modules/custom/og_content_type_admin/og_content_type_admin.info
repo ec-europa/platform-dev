@@ -2,9 +2,8 @@ name = OG Content Type Admin
 description = Allows restriction of content type use based on group.
 package = Multisite OG Features
 core = 7.x
-version = 7.x-1.0
 php = 5.2.4
-project = og_content_type_admin
+
 dependencies[] = og
 dependencies[] = multisite_og_button
 dependencies[] = og_access

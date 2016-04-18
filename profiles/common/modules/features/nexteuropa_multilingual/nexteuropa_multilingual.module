@@ -120,10 +120,6 @@ function nexteuropa_multilingual_language_switch_links_alter(array &$links, $typ
   if (($node = menu_get_object('node'))) {
     $handler = entity_translation_get_handler('node', $node);
     $translations = $handler->getTranslations();
-    if (empty($translations->original)) {
-      $handler->initTranslations();
-      $handler->saveTranslations();
-    }
     foreach ($links as $key => $link) {
       if (!isset($translations->data[$key])) {
         unset($links[$key]);
@@ -202,64 +198,69 @@ function nexteuropa_multilingual_language_types_info_alter(&$language_types) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function nexteuropa_multilingual_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'locale_languages_configure_form':
-      $language_negotiation = variable_get('language_negotiation_language');
-      // Disable URL method if URL-suffix method is enabled.
-      if (isset($language_negotiation['nexteuropa_multilingual_url_suffix'])) {
-        $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
-        $form['language_content']['enabled']['locale-url']['#disabled'] = TRUE;
-      }
-      break;
+function nexteuropa_multilingual_form_locale_languages_configure_form_alter(&$form, &$form_state, $form_id) {
+  $language_negotiation = variable_get('language_negotiation_language');
+  // Disable URL method if URL-suffix method is enabled.
+  if (isset($language_negotiation['nexteuropa_multilingual_url_suffix'])) {
+    $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
+    $form['language_content']['enabled']['locale-url']['#disabled'] = TRUE;
   }
+}
 
-  if (isset($form_state['build_info']['base_form_id']) && $form_state['build_info']['base_form_id'] == 'node_form') {
-    $language_default = language_default();
-    // Hide all languages except neutral language and default language
-    // in node source form.
-    if (isset($form_state['node'])) {
-      if ($form_state['node']->language == LANGUAGE_NONE || $form_state['node']->language == $language_default->language) {
-        // Check if node source or new node.
-        if (isset($form['language']['#options'])) {
-          foreach ($form['language']['#options'] as $lg => $language) {
-            if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
-              unset($form['language']['#options'][$lg]);
-            }
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function nexteuropa_multilingual_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $language_default = language_default();
+  // Hide all languages except neutral language and default language
+  // in node source form.
+  if (isset($form_state['node'])) {
+    if ($form_state['node']->language == LANGUAGE_NONE || $form_state['node']->language == $language_default->language) {
+      // Check if node source or new node.
+      if (isset($form['language']['#options'])) {
+        foreach ($form['language']['#options'] as $lg => $language) {
+          if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
+            unset($form['language']['#options'][$lg]);
           }
         }
       }
     }
-
-    $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
-     . token_replace(variable_get('warning_message_languages'), array('node' => $form_state['node']))
-     . '</div>';
-
-    $form['warning_message_languages'] = array(
-      '#markup' => $warning_message,
-      '#weight' => 105,
-      '#attached' => array(
-        'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
-      ),
-    );
   }
 
-  if ($form_id == 'workbench_moderation_moderate_form' || $form_id == 'workbench_moderation_node_unpublish_form') {
-    $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
-     . token_replace(variable_get('warning_message_languages'), array('node' => $form_state['build_info']['args'][0]))
-     . '</div>';
+  _nexteuropa_multilingual_warning_message($form, $form_state['node']);
+}
 
-    $form['warning_languages_message'] = array(
-      '#markup' => $warning_message,
-      '#weight' => 105,
-      '#attached' => array(
-        'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
-      ),
-    );
-  }
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_multilingual_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
+  _nexteuropa_multilingual_warning_message($form, $form_state['build_info']['args'][0]);
+}
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_multilingual_form_workbench_moderation_node_unpublish_form_alter(&$form, &$form_state, $form_id) {
+  _nexteuropa_multilingual_warning_message($form, $form_state['build_info']['args'][0]);
+}
+
+/**
+ * Updates form with a warning message.
+ */
+function _nexteuropa_multilingual_warning_message(&$form, $node) {
+  $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
+   . token_replace(variable_get('warning_message_languages'), array('node' => $node))
+   . '</div>';
+
+  $form['warning_languages_message'] = array(
+    '#markup' => $warning_message,
+    '#weight' => 105,
+    '#attached' => array(
+      'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
+    ),
+  );
 }
 
 /**
