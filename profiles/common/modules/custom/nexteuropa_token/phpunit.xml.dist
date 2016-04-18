@@ -6,6 +6,10 @@
         </testsuite>
     </testsuites>
     <php>
+        <!-- Set error reporting to E_ALL. -->
+        <ini name="error_reporting" value="32767"/>
+        <!-- Do not limit the amount of memory tests take to run. -->
+        <ini name="memory_limit" value="-1"/>
         <const name="DRUPAL_ROOT" value="/path/to/drupal/root"/>
         <server name="REMOTE_ADDR" value="localhost"/>
     </php>

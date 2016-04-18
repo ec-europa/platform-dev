@@ -230,6 +230,31 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Validate current job using poetry test.
+   *
+   * @Then I receive the translation of :arg1 job item
+   */
+  public function receiveJobTranslationFromPoetryTest() {
+
+    $url = $this->getSession()->getCurrentUrl();
+    // We can't simply use Drupal's menu_get_item() because of caching reasons.
+    $job_id = $this->getTranslationJobSubItemFromUrl();
+    if (!$job_id) {
+      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
+    }
+    else {
+      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
+      $path = url('tmgmt_poetry_test/receivetranslation/' . $job_id, array(
+        'base_url' => '',
+        'absolute' => TRUE,
+      ));
+      // Visit newly created node page.
+      $this->visitPath($path);
+      $this->visitPath($url);
+    }
+  }
+
+  /**
    * Get translation job ID from current page's URL.
    *
    * @return int|FALSE
@@ -238,6 +263,18 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   protected function getTranslationJobItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();
     preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
+    return isset($matches[1][0]) ? $matches[1][0] : FALSE;
+  }
+
+  /**
+   * Get translation job item ID from current page's URL.
+   *
+   * @return int|FALSE
+   *    Translators job ID, FALSE if none found.
+   */
+  protected function getTranslationJobSubItemFromUrl() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/admin\/tmgmt\/items\/(\d*)/', $url, $matches);
     return isset($matches[1][0]) ? $matches[1][0] : FALSE;
   }
 

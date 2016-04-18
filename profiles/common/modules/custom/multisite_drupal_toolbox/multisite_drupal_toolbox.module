@@ -5,9 +5,7 @@
  * Multisite Toolbox definition module.
  */
 
-// TODO: fix natif overridden feature multisite_rules_configuration
-// and remove them from black list.
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_rules_configuration');
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
  * Implements hook_menu().
  */
@@ -299,151 +297,204 @@ function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $pat
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function multisite_drupal_toolbox_form_alter(&$form, $form_state, $form_id) {
+function multisite_drupal_toolbox_form_system_modules_alter(&$form, &$form_state, $form_id) {
   global $user;
 
   if ($user->uid != 1) {
-    switch ($form_id) {
-      case 'system_modules':
-        unset($form['modules']['Core']['php']);
-        // Prevent users to give the permission to inject PHP.
-        // in input text area.
-        unset($form['modules']['Development']);
-        // Prevent users to give access to the devel modules.
-        break;
-
-      case 'user_admin_permissions':
-        // Prevent users to give certain permissions.
-        unset($form['permission']['administer modules']);
-        unset($form['permission']['administer features']);
-        unset($form['permission']['manage features']);
-        unset($form['permission']['administer software updates']);
-        unset($form['permission']['use PHP to import nodes']);
-
-        if (isset($form['permission']['administer varnish'])) {
-          unset($form['permission']['administer varnish']);
-        }
-
-        // Auto_nodetile module.
-        if (isset($form['permission']['use PHP for title patterns'])) {
-          unset($form['permission']['use PHP for title patterns']);
-        }
-
-        foreach (array_keys(user_roles()) as $rid) {
-          // Hide checkboxes in the permissions admin page.
-          unset($form['checkboxes'][$rid]['#options']['administer modules']);
-          unset($form['checkboxes'][$rid]['#options']['administer features']);
-          unset($form['checkboxes'][$rid]['#options']['manage features']);
-          unset($form['checkboxes'][$rid]['#options']['administer software updates']);
-          unset($form['checkboxes'][$rid]['#options']['use PHP to import nodes']);
-          if (isset($form['checkboxes'][$rid]['#options']['use PHP for title patterns'])) {
-            unset($form['checkboxes'][$rid]['#options']['use PHP for title patterns']);
-          }
-          if (isset($form['checkboxes'][$rid]['#options']['administer varnish'])) {
-            unset($form['checkboxes'][$rid]['#options']['administer varnish']);
-          }
-        }
-
-        break;
-
-      case "user_admin_account":
-        unset($form['accounts']['#options'][1]);
-        // Hide admin user 1.
-        break;
-
-      case "user_admin_role":
-        // Prevent predefined roles updated for non admin.
-        if (isset($form['rid'])) {
-          $rid_administrator = multisite_drupal_toolbox_get_rid('administrator');
-          $rid_contributor = multisite_drupal_toolbox_get_rid('contributor');
-          $rid_editor = multisite_drupal_toolbox_get_rid('editor');
-          if ($form['rid']['#value'] == $rid_administrator || $form['rid']['#value'] == $rid_contributor || $form['rid']['#value'] == $rid_editor) {
-            unset($form['actions']);
-            $form["name"]['#disabled'] = TRUE;
-          }
-        }
-
-        break;
-
-      case "workbench_moderation_admin_states_form":
-        // Prevent administrator from changing existing workflow states.
-        $blocked_states = array(
-          'draft',
-          'validated',
-          'published',
-          'needs_review',
-          'archived',
-        );
-        $states = $form['states'];
-
-        foreach ($states as $state_id => $state) {
-          if (isset($state['delete']) && in_array($state_id, $blocked_states)) {
-            $form['states'][$state_id]['delete']['#disabled'] = TRUE;
-          }
-        }
-
-        break;
-
-      case "workbench_moderation_admin_transitions_form":
-        // Prevent administrator from changing existing workflow transitions.
-        $blocked_transitions = array(
-          'published_archived',
-          'draft_needs_review',
-          'needs_review_published',
-          'needs_review_draft',
-          'needs_review_validated',
-          'validated_published',
-        );
-        $transitions = $form['transitions'];
-        foreach ($transitions as $transition_id => $transition) {
-          if (isset($transition['delete'])) {
-            $transition_name = $transition['transition']['#value']->from_name . '_' . $transition['transition']['#value']->to_name;
-            if (in_array($transition_name, $blocked_transitions)) {
-              $form['transitions'][$transition_id]['delete']['#disabled'] = TRUE;
-            }
-          }
-        }
-
-        break;
-
-      // Server side character limitation form field message.
-      case "contact_site_form":
-      case "contact_personal_form":
-        $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
-        if (isset($maximum_limit) && is_numeric($maximum_limit)) {
-          if ($form['message']) {
-            $form['message']['#title'] = $form['message']['#title'] . ' ' . t('(maximum @max characters)', array('@max' => $maximum_limit));
-            $form['message']['#maxlength'] = $maximum_limit;
-          }
-        }
-        break;
-
-    }
-  }
-
-  switch ($form_id) {
-    case 'menu_edit_item':
-      // Check the "Show as expanded" box. Used to created dropdown menus.
-      if (isset($form['original_item']['#value']['expanded']) && (isset($form['original_item']['#value']['mlid']) && $form['original_item']['#value']['mlid'] != 0)) {
-        $form['expanded']['#default_value'] = $form['original_item']['#value']['expanded'];
-      }
-      else {
-        $form['expanded']['#default_value'] = 1;
-      }
-      break;
-
-    case 'comment_admin_overview':
-      $form['#submit'][] = 'workbench_redirect_submit';
-      break;
-
-    case 'user_pass':
-      $form['name']['#attributes']['autocomplete'] = 'off';
-      break;
+    unset($form['modules']['Core']['php']);
+    // Prevent users to give the permission to inject PHP.
+    // in input text area.
+    unset($form['modules']['Development']);
+    // Prevent users to give access to the devel modules.
   }
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_user_admin_permissions_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if ($user->uid != 1) {
+    // Prevent users to give certain permissions.
+    unset($form['permission']['administer modules']);
+    unset($form['permission']['administer features']);
+    unset($form['permission']['manage features']);
+    unset($form['permission']['administer software updates']);
+    unset($form['permission']['use PHP to import nodes']);
+
+    if (isset($form['permission']['administer varnish'])) {
+      unset($form['permission']['administer varnish']);
+    }
+
+    // Auto_nodetile module.
+    if (isset($form['permission']['use PHP for title patterns'])) {
+      unset($form['permission']['use PHP for title patterns']);
+    }
+
+    foreach (array_keys(user_roles()) as $rid) {
+      // Hide checkboxes in the permissions admin page.
+      unset($form['checkboxes'][$rid]['#options']['administer modules']);
+      unset($form['checkboxes'][$rid]['#options']['administer features']);
+      unset($form['checkboxes'][$rid]['#options']['manage features']);
+      unset($form['checkboxes'][$rid]['#options']['administer software updates']);
+      unset($form['checkboxes'][$rid]['#options']['use PHP to import nodes']);
+      if (isset($form['checkboxes'][$rid]['#options']['use PHP for title patterns'])) {
+        unset($form['checkboxes'][$rid]['#options']['use PHP for title patterns']);
+      }
+      if (isset($form['checkboxes'][$rid]['#options']['administer varnish'])) {
+        unset($form['checkboxes'][$rid]['#options']['administer varnish']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_user_admin_account_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if ($user->uid != 1) {
+    unset($form['accounts']['#options'][1]);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_user_admin_role_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if ($user->uid != 1) {
+    // Prevent predefined roles updated for non admin.
+    if (isset($form['rid'])) {
+      $rid_administrator = multisite_drupal_toolbox_get_rid('administrator');
+      $rid_contributor = multisite_drupal_toolbox_get_rid('contributor');
+      $rid_editor = multisite_drupal_toolbox_get_rid('editor');
+      if ($form['rid']['#value'] == $rid_administrator || $form['rid']['#value'] == $rid_contributor || $form['rid']['#value'] == $rid_editor) {
+        unset($form['actions']);
+        $form["name"]['#disabled'] = TRUE;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_workbench_moderation_admin_states_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if ($user->uid != 1) {
+    // Prevent administrator from changing existing workflow states.
+    $blocked_states = array(
+      'draft',
+      'validated',
+      'published',
+      'needs_review',
+      'archived',
+    );
+    $states = $form['states'];
+
+    foreach ($states as $state_id => $state) {
+      if (isset($state['delete']) && in_array($state_id, $blocked_states)) {
+        $form['states'][$state_id]['delete']['#disabled'] = TRUE;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_workbench_moderation_admin_transitions_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if ($user->uid != 1) {
+    // Prevent administrator from changing existing workflow transitions.
+    $blocked_transitions = array(
+      'published_archived',
+      'draft_needs_review',
+      'needs_review_published',
+      'needs_review_draft',
+      'needs_review_validated',
+      'validated_published',
+    );
+    $transitions = $form['transitions'];
+    foreach ($transitions as $transition_id => $transition) {
+      if (isset($transition['delete'])) {
+        $transition_name = $transition['transition']['#value']->from_name . '_' . $transition['transition']['#value']->to_name;
+        if (in_array($transition_name, $blocked_transitions)) {
+          $form['transitions'][$transition_id]['delete']['#disabled'] = TRUE;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_contact_site_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if ($user->uid != 1) {
+    $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
+    if (isset($maximum_limit) && is_numeric($maximum_limit)) {
+      if ($form['message']) {
+        $form['message']['#title'] = $form['message']['#title'] . ' ' . t('(maximum @max characters)', array('@max' => $maximum_limit));
+        $form['message']['#maxlength'] = $maximum_limit;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_contact_personal_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
+  if ($user->uid != 1) {
+    $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
+    if (isset($maximum_limit) && is_numeric($maximum_limit)) {
+      if ($form['message']) {
+        $form['message']['#title'] = $form['message']['#title'] . ' ' . t('(maximum @max characters)', array('@max' => $maximum_limit));
+        $form['message']['#maxlength'] = $maximum_limit;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
+  // Check the "Show as expanded" box. Used to created dropdown menus.
+  if (isset($form['original_item']['#value']['expanded']) && (isset($form['original_item']['#value']['mlid']) && $form['original_item']['#value']['mlid'] != 0)) {
+    $form['expanded']['#default_value'] = $form['original_item']['#value']['expanded'];
+  }
+  else {
+    $form['expanded']['#default_value'] = 1;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_comment_admin_overview_alter(&$form, &$form_state, $form_id) {
+  $form['#submit'][] = 'workbench_redirect_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function multisite_drupal_toolbox_form_user_pass_alter(&$form, &$form_state, $form_id) {
+  $form['name']['#attributes']['autocomplete'] = 'off';
+}
 
 /**
  * Implements hook_filter_info_alter().

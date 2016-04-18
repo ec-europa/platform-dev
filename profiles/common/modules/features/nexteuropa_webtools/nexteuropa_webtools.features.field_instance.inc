@@ -170,7 +170,7 @@ function nexteuropa_webtools_field_default_field_instances() {
     'bundle' => 'webtools',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => l(t('See Webtools documentation'), 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature', array('external' => TRUE, 'attributes' => array('target' => '_blank'))),
     'display' => array(
       'default' => array(
         'label' => 'hidden',

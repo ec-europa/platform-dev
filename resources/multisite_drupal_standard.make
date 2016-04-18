@@ -35,6 +35,10 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
+; https://www.drupal.org/node/2657666
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 
@@ -124,6 +128,9 @@ projects[context_entity_field][version] = "1.1"
 ; https://www.drupal.org/node/1847038
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5056
 projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
+
+projects[context_og][subdir] = "contrib"
+projects[context_og][version] = "2.1" 
 
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
@@ -839,4 +846,8 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 
 projects[bootstrap][type] = theme
 projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip
+projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+
+projects[europa][type] = theme
+projects[europa][download][type] = get
+projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz

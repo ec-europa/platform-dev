@@ -4,18 +4,16 @@
  */
 
 (function ($) {
-
   Drupal.behaviors.multisite_notifications_core = {
     attach: function(context, settings) {
 
     }
   };
-
 })(jQuery);
-
 
 // Use jQuery 1.4.4
 // MOVE HERE ALL THE CODE THAT NEEDS TO BE EXECUTED AS LAST.
+// YOU GOT TO MOVE IT MOVE IT.
 jQuery(function($){
   // Once the page elements are fully loaded.
   $(document).ready(function() {
@@ -33,5 +31,4 @@ jQuery(function($){
       }
     });
   });
-
 });

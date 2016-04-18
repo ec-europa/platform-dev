@@ -71,42 +71,24 @@
         <phingcall target="make-platform" />
     </target>
 
-    <!--
-        Clean up core profiles which might be present inside the symlinked
-        profiles folder.
-    -->
-    <target name="clean-platform-profiles">
-        <delete dir="${platform.resources.profiles.dir}/minimal" />
-        <delete dir="${platform.resources.profiles.dir}/standard" />
-        <delete dir="${platform.resources.profiles.dir}/testing" />
-    </target>
-
     <!-- Symlink the profile folders for easy development. -->
     <target name="link-platform-profiles">
-        <!-- Make a backup of the core profiles folder. -->
-        <move file="${platform.build.profiles.dir}" todir="${phing.project.tmp.dir}" />
+        <!-- Delete the core profiles folder. -->
+        <delete dir="${platform.build.profiles.dir}" />
         <!-- Symlink our profiles folder. -->
         <symlink link="${platform.build.profiles.dir}" target="${platform.resources.profiles.dir}" />
-        <!-- Restore the core profiles. -->
-        <move file="${phing.project.tmp.dir}/profiles/minimal" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/standard" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/testing" todir="${platform.build.profiles.dir}" />
     </target>
 
     <!-- Copy the profile folders for deploying on production. -->
     <target name="copy-platform-profiles">
-        <!-- Make a backup of the core profiles folder. -->
-        <move file="${platform.build.profiles.dir}" todir="${phing.project.tmp.dir}" />
+        <!-- Delete the core profiles folder so it can be replaced with ours. -->
+        <delete dir="${platform.build.profiles.dir}" includeemptydirs="true" failonerror="true" />
         <!-- Copy our profiles folder. -->
         <copy todir="${platform.build.profiles.dir}">
             <fileset dir="${platform.resources.profiles.dir}">
                 <include name="**"></include>
             </fileset>
         </copy>
-        <!-- Restore the core profiles. -->
-        <move file="${phing.project.tmp.dir}/profiles/minimal" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/standard" todir="${platform.build.profiles.dir}" />
-        <move file="${phing.project.tmp.dir}/profiles/testing" todir="${platform.build.profiles.dir}" />
     </target>
 
     <!-- Symlink various resources for easy development. -->
@@ -159,6 +141,16 @@
         </if>
     </target>
 
+	<!-- Setup file directory -->
+    <target name="setup-files-directory">
+		 <if>
+            <istrue value="${platform.build.settings.dir}/files" />
+            <then>
+                <mkdir dir="${platform.build.settings.dir}/files/private_files" />
+            </then>
+        </if>
+    </target>
+
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
         <composer command="install" composer="${composer.bin}">
@@ -169,17 +161,17 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess, setup-files-directory" />
 
     <target
         name="build-platform-dist"
         description="Build a version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, setup-files-directory" />
 
     <target
         name="build-multisite-dist"
         description="Build a multisite version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, clean-platform-profiles, copy-platform-profiles">
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles">
 
         <!-- First make the standard profile. -->
         <property name="platform.profile.name" value="multisite_drupal_standard" override="yes" />

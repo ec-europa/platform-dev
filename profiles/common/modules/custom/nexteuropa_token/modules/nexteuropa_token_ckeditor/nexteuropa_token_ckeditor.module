@@ -54,6 +54,18 @@ function nexteuropa_token_ckeditor_menu() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function nexteuropa_token_ckeditor_theme($existing, $type, $theme, $path) {
+  return array(
+    'token_ckeditor_tips' => array(
+      'template' => 'token-ckeditor-tips',
+      'path' => $path . '/theme',
+    ),
+  );
+}
+
+/**
  * AJAX page callback.
  *
  * @see: nexteuropa_token_ckeditor_menu()
@@ -64,7 +76,9 @@ function nexteuropa_token_ckeditor_ajax_callback($editor_id = '') {
 
   $filter_view = variable_get('nexteuropa_token_ckeditor_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW);
   list($view_name, $display_id) = explode(':', $filter_view);
-  $content = views_embed_view($view_name, $display_id);
+  $content = '';
+  $content .= theme('token_ckeditor_tips');
+  $content .= views_embed_view($view_name, $display_id);
 
   $commands = array();
   $commands[] = ajax_command_html('#' . $editor_id, $content);
