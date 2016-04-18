@@ -67,6 +67,13 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
                 $render = user_view($account, $view_mode);
               }
               break;
+
+            case 'bean':
+              $bean = bean_load($entity_id);
+              if (user_access('access user profiles')) {
+                $render = bean_view($bean, $view_mode);
+              }
+              break;
           }
 
           // Remove contextual links for inline rendered entities.
