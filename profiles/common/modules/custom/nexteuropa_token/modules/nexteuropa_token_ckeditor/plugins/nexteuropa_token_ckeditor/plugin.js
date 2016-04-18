@@ -57,7 +57,15 @@
               content.trigger(ajax_settings.event);
             }
           },
-          buttons: [CKEDITOR.dialog.okButton]
+          buttons: [{
+            type: 'button',
+            id: 'close',
+            label: 'Close',
+            title: 'Close',
+            onClick: function(evt) {
+              evt.data.dialog.hide();
+            }
+          }]
         };
       });
 
@@ -102,6 +110,8 @@
       editor.on('insertHtml', function(event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
+        // Close dialog
+        CKEDITOR.dialog.getCurrent().hide();
       });
     }
   });
