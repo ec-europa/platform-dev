@@ -1,0 +1,12 @@
+name = NextEuropa Remote
+description = Search and import remote entities.
+core = 7.x
+package = NextEuropa
+version = 7.x-1.x-dev
+project = nexteuropa_token
+configure = admin/config/system/nexteuropa-tokens
+
+dependencies[] = entity
+dependencies[] = nexteuropa_token
+dependencies[] = registry_autoload
+registry_autoload[] = PSR-4

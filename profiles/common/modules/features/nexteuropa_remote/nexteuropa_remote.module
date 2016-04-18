@@ -1,0 +1,200 @@
+<?php
+/**
+ * @file
+ * Module file.
+ */
+
+use Drupal\nexteuropa_remote\Entity\RemoteEntity;
+
+include_once 'includes/nexteuropa_remote.entity.inc';
+
+/**
+ * Implements hook_views_api().
+ */
+function nexteuropa_remote_views_api() {
+  return ["api" => "3.0"];
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_remote_entity_permission() {
+  return [
+    'administer nexteuropa remote entities' => [
+      'title' => t('Administer nexteuropa remote entities'),
+    ],
+    'access nexteuropa remote entities' => [
+      'title' => t('Access nexteuropa remote entities'),
+    ],
+  ];
+}
+
+/**
+ * Load remote entity.
+ *
+ * @param int $id
+ *    Remote entity id.
+ *
+ * @return RemoteEntity|FALSE
+ *    Remote entity object, or FALSE if not found.
+ */
+function nexteuropa_remote_load($id) {
+  return entity_load_single('nexteuropa_remote', $id);
+}
+
+/**
+ * View the remote entity.
+ *
+ * @param RemoteEntity $entity
+ *    Remote entity object.
+ * @param string $view_mode
+ *    View mode machine name.
+ * @param string $language
+ *    Language code.
+ *
+ * @return array
+ *    Renderable array.
+ */
+function nexteuropa_remote_view(RemoteEntity $entity, $view_mode = 'default', $language = NULL) {
+  if (!isset($language)) {
+    $language = $GLOBALS['language_content']->language;
+  }
+  return $entity->view($view_mode, $language);
+}
+
+/**
+ * Remote entity access callback.
+ *
+ * @param string $op
+ *    Current operation.
+ * @param RemoteEntity|NULL $entity
+ *    Remote entity object.
+ * @param object $account
+ *    User account for which to check permissions.
+ *
+ * @return bool
+ *    TRUE if given user can perform current operation, FALSE otherwise.
+ */
+function nexteuropa_remote_access($op, \Drupal\nexteuropa_remote\Entity\RemoteEntity $entity = NULL, $account = NULL) {
+  return ($op == 'view') ? user_access('access nexteuropa remote entities') : user_access('administer nexteuropa remote entities');
+}
+
+/**
+ * Callback of the uri "remote-entity/get" (Ajax call).
+ *
+ * Return a remote entity view or a token.
+ */
+function nexteuropa_remote_get_remote_entity() {
+  $op = arg(2);
+
+  // Check if the remote entity is saved locally.
+  $entity_query = new EntityFieldQuery();
+  $entities = $entity_query->entityCondition('entity_type', 'nexteuropa_remote')
+    ->fieldCondition('field_nexteuropa_remote_url', 'value', $_GET['url'])
+    ->execute();
+
+  if (!isset($entities['nexteuropa_remote'])) {
+    // The entity is not saved locally.
+    $remote_browser_endpoint = variable_get('remote_browser_endpoint', '');
+    $response = drupal_http_request($remote_browser_endpoint . "?url=" . $_GET['url']);
+
+    if (isset($response->code) && $response->code == 200) {
+      $data = json_decode($response->data);
+      $languages = language_list('enabled');
+      $languages_code = array_keys($languages[1]);
+
+      // Create entity from the json received.
+      $entity_property_value_array = array();
+      $entity_property_value_array['label'] = $data->fields->title->en[0];
+      $entity = entity_create('nexteuropa_remote', $entity_property_value_array);
+
+      // Populate id field.
+      $entity->field_nexteuropa_remote_id = array(LANGUAGE_NONE => array(0 => array('value' => $data->_id)));
+
+      // Populate data field.
+      $entity->field_nexteuropa_remote_data = array(LANGUAGE_NONE => array(0 => array('value' => $response->data)));
+
+      // Populate title field.
+      foreach ($languages_code as $lg_code) {
+        if (isset($data->fields->title->{$lg_code})) {
+          $entity->field_nexteuropa_remote_title[$lg_code] = array(0 => array('value' => $data->fields->title->{$lg_code}[0]));
+        }
+      }
+
+      // Populate url field.
+      $entity->field_nexteuropa_remote_url = array(
+        'en' => array(0 => array('value' => $data->origin)),
+        'fr' => array(0 => array('value' => 'url_fr')),
+      );
+
+      if ($op == 'save') {
+        $entity->save();
+      }
+    }
+    else {
+      echo t("Resource not found");
+    }
+  }
+  else {
+    // Load the local version of the remote_entity.
+    $entity = entity_load_single('nexteuropa_remote', array_keys($entities['nexteuropa_remote'])[0]);
+  }
+
+  // Return the remote entiy view.
+  if ($op == 'render') {
+    drupal_add_http_header('Content-Type', 'text/html');
+    // Title view mode hard coded, to improve later.
+    $render = $entity->view('title');
+    echo drupal_render($render);
+  }
+
+  // Save the remote entity and return the token.
+  if ($op == 'save') {
+    if (!isset($entities['nexteuropa_remote'])) {
+      $entity->save();
+    }
+    echo "[nexteuropa_remote:" . $entity->id . ":view-mode:title]{" . $entity->field_nexteuropa_remote_title['en'][0]['value'] . "}";
+  }
+}
+
+/**
+ * Implements hook_init().
+ */
+function nexteuropa_remote_init() {
+  drupal_add_js(array('nexteuropa_remote' => array('remote_browser_endpoint' => variable_get('remote_browser_endpoint', ''))), 'setting');
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function nexteuropa_remote_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($view_mode == 'title') {
+    if ($langcode == LANGUAGE_NONE) {
+      $langcode = language_default()->language;
+    }
+    $content_title = $entity->field_nexteuropa_remote_title[$langcode][0]['value'];
+    $content_url = $entity->field_nexteuropa_remote_url[$langcode][0]['value'];
+    $html = '<a href="' . $content_url . '">' . $content_title . '</a>';
+    $entity->content['field_data'][0]['#markup'] = $html;
+  }
+}
+
+/**
+ * Implements hook_preprocess_entity().
+ */
+function nexteuropa_remote_preprocess_entity(&$variables) {
+  // Trick to hide the title, to improve later.
+  if ($variables['view_mode'] == 'title') {
+    $variables['page'] = TRUE;
+  }
+}
+
+/**
+ * Implements hook__wysiwyg_editor_settings_alter().
+ */
+function nexteuropa_remote_wysiwyg_editor_settings_alter(&$settings, $context) {
+  if ($context['profile']->editor == 'ckeditor') {
+    // Provide additionnal custom settings.
+    $settings['customConfig'] = base_path() . drupal_get_path('module', 'nexteuropa_remote') . '/js/nexteuropa_remote_wysiwyg_config.js';
+  }
+}
