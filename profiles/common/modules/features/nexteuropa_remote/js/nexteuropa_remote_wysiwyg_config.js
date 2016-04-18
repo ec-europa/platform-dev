@@ -23,7 +23,7 @@
           },
           {
             type : 'html',
-            html : '<div>'+Drupal.t('Copy/paste the full URL of the content you want to insert, e.g. http://www.cec.europa.eu') + '</div>'
+            html : '<div>' + Drupal.t('Copy/paste the full URL of the content you want to insert, e.g. http://www.cec.europa.eu') + '</div>'
           },
           {
             type: 'button',
@@ -77,7 +77,7 @@
                 $('#url_check_msg').html('Link added');
                 // Insert token in wysiwyg.
                 editor.insertHtml(data);
-                // Close dialog
+                // Close dialog.
                 evt.data.dialog.hide();
               });
             }

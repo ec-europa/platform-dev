@@ -110,7 +110,7 @@
       editor.on('insertHtml', function(event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
-        // Close dialog
+        // Close dialog.
         CKEDITOR.dialog.getCurrent().hide();
       });
     }
