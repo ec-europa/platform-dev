@@ -4,7 +4,7 @@ Feature: Content translation
   As an administrator
   I want to be able to manage content and translations for fields.
 
-  @api @javascript
+  @api
   Scenario: Content page does not show mixed content language
     Given the following languages are available:
       | languages |
