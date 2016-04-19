@@ -383,3 +383,45 @@ function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $f
     $group->label_language = $language_fallback;
   }
 }
+
+/**
+ * Implements hook_field_language_alter().
+ *
+ * Does, as a last resort, some additional checks. This hook will make sure that
+ * when you are viewing an unpublished translation, you will not see the
+ * fallback for that field.
+ */
+function nexteuropa_multilingual_field_language_alter(&$display_language, $context) {
+  $handler = entity_translation_get_handler($context['entity_type'], $context['entity']);
+  $translations = $handler->getTranslations();
+  if (isset($translations->data) && isset($translations->data[$context['language']]) && !entity_translation_access($context['entity_type'], $translations->data[$context['language']])) {
+    foreach ($display_language as $field => &$language) {
+      if ($language == $context['language']) {
+        $language = isset($translations->data[$context['language']]['source']) ? $translations->data[$context['language']]['source'] : LANGUAGE_NONE;
+      }
+    }
+  }
+  else {
+    // The user has access to the requested language, we only need to filter out
+    // the fallbacks that are not our original.
+    $allowed_languages = array(
+      $context['language'],
+      $translations->original,
+    );
+
+    // Check if we have the 2nd-language parameter,
+    // because then that language is also allowed.
+    $parameters = drupal_get_query_parameters();
+    if (isset($parameters['2nd-language'])) {
+      $allowed_languages[] = $parameters['2nd-language'];
+    }
+
+    // Loop over, if we have a field that is using a teritary language, we set
+    // it to undefined.
+    foreach ($display_language as $field => &$language) {
+      if (!in_array($language, $allowed_languages)) {
+        $language = LANGUAGE_NONE;
+      }
+    }
+  }
+}
