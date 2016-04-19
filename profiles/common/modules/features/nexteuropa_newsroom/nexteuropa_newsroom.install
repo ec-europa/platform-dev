@@ -115,7 +115,14 @@ function nexteuropa_newsroom_update_7102() {
 
   // Update feeds_item table to avoid import of the items again
   // Drop ID of the importer content types.
-  db_update('feeds_item')->fields(array('feed_nid' => 0))->condition('id', array('newsroom_items', 'newsroom_services', 'newsroom_topics', 'newsroom_type'), 'IN')->execute();
+  db_update('feeds_item')
+    ->fields(array('feed_nid' => 0))
+    ->condition('id', array(
+      'newsroom_items',
+      'newsroom_services',
+      'newsroom_topics',
+      'newsroom_type',
+    ), 'IN')->execute();
 }
 
 /**
@@ -283,7 +290,10 @@ function nexteuropa_newsroom_update_7108() {
   }
 
   // Update metatag settings.
-  db_update('metatag_config')->fields(array('config' => str_replace('field_teaser', 'field_newsroom_teaser', $value)))->condition('instance', 'node:newsroom_item')->execute();
+  db_update('metatag_config')
+    ->fields(array('config' => "REPLACE('config', 'field_teaser', 'field_newsroom_teaser')"))
+    ->condition('instance', 'node:newsroom_item')
+    ->execute();
 }
 
 /**
