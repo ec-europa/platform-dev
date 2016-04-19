@@ -1,0 +1,33 @@
+<?php
+
+/**
+ * @file
+ * Module file.
+ */
+
+/**
+ * Implements hook_integration_backend_info().
+ */
+function nexteuropa_integration_integration_backend_info() {
+  return [
+    'rest_backend' => [
+      'label' => t('REST backend'),
+      'description' => t('Backend implementing a RESTful calls in order to store data remotely.'),
+      'class' => 'Drupal\nexteuropa_integration\Backend\RestBackend',
+      'form handler' => 'Drupal\nexteuropa_integration\FormHandlers\Backend\RestBackendFormHandler',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_integration_resource_schema_info().
+ */
+function nexteuropa_integration_integration_resource_schema_info() {
+  return [
+    'generic_resource_schema' => [
+      'label' => t('Generic resource schema'),
+      'description' => t('Generic NextEuropa resource schema.'),
+      'class' => 'Drupal\nexteuropa_integration\ResourceSchema\GenericResourceSchema',
+    ],
+  ];
+}
