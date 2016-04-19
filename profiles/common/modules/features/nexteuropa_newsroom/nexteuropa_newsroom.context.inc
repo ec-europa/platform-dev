@@ -24,8 +24,8 @@ function nexteuropa_newsroom_context_default_contexts() {
     ),
   );
   $context->reactions = array(
-  'block' => array(
-    'blocks' => array(
+    'block' => array(
+      'blocks' => array(
         'views-newsroom_navigation-type' => array(
           'module' => 'views',
           'delta' => 'newsroom_navigation-type',
