@@ -9,7 +9,6 @@ namespace Drupal\nexteuropa_integration\FormHandlers\Backend;
 
 use Drupal\integration_ui\FormHandlers\Backend\AbstractBackendFormHandler;
 use Drupal\integration_ui\FormHelper;
-use Drupal\integration\Backend\Configuration\BackendConfiguration;
 
 /**
  * Class RestBackendFormHandler.

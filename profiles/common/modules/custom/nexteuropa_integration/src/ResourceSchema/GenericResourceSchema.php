@@ -20,7 +20,7 @@ class GenericResourceSchema extends AbstractResourceSchema {
   /**
    * {@inheritdoc}
    */
-  public function __construct(ResourceSchemaConfiguration $configuration) {    
+  public function __construct(ResourceSchemaConfiguration $configuration) {
     $this->setConfiguration($configuration);
   }
 

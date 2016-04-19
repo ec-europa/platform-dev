@@ -2,8 +2,6 @@ name = NextEuropa Integration
 description = NextEuropa Integration Layer plugins and settings.
 core = 7.x
 package = NextEuropa
-version = 7.x-1.0-dev
-project = nexteuropa_integration
 
 dependencies[] = integration
 dependencies[] = integration_ui
