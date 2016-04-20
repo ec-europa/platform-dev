@@ -772,6 +772,8 @@ function _nexteuropa_nexteuropa_newsroom_item_import_access() {
 }
 
 /**
+ * Newsroom importer for single items.
+ *
  * @param string $type
  *   Entity type: topic, type or service.
  * @param int $newsroom_id
@@ -902,8 +904,6 @@ function _nexteuropa_newsroom_item_delete($newsroom_id = 0) {
 }
 
 /**
- * =======
- * >>>>>>> FETCH_HEAD
  * Redirects to the Newsroom Item. With the Original Newsroom ID.
  */
 function _nexteuropa_newsroom_item_redirect($newsroom_id = 0) {
