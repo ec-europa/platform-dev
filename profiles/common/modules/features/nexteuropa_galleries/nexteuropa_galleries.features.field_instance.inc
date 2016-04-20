@@ -330,7 +330,6 @@ function nexteuropa_galleries_field_default_field_instances() {
   t('Group content visibility');
   t('Groups audience');
   t('Media upload');
-  t('Media upload1');
   t('Tags');
   t('Title');
 

@@ -43,75 +43,6 @@ function nexteuropa_galleries_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'There is no content in this gallery, or it has not been validated yet.';
   $handler->display->display_options['empty']['area']['format'] = 'full_html';
-  /* Field: Content: Picture upload */
-  $handler->display->display_options['fields']['field_picture_upload']['id'] = 'field_picture_upload';
-  $handler->display->display_options['fields']['field_picture_upload']['table'] = 'field_data_field_picture_upload';
-  $handler->display->display_options['fields']['field_picture_upload']['field'] = 'field_picture_upload';
-  $handler->display->display_options['fields']['field_picture_upload']['label'] = '';
-  $handler->display->display_options['fields']['field_picture_upload']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_picture_upload']['alter']['text'] = '<div class="galleries-item-wrapper">
-  [field_picture_upload]
-  </div>';
-  $handler->display->display_options['fields']['field_picture_upload']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_picture_upload']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_picture_upload']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_picture_upload']['settings'] = array(
-    'image_style' => 'square_thumbnail',
-    'image_link' => 'content',
-  );
-  $handler->display->display_options['fields']['field_picture_upload']['delta_limit'] = '1';
-  $handler->display->display_options['fields']['field_picture_upload']['delta_offset'] = '0';
-  $handler->display->display_options['fields']['field_picture_upload']['delta_reversed'] = TRUE;
-  /* Field: Content: Title */
-  $handler->display->display_options['fields']['title']['id'] = 'title';
-  $handler->display->display_options['fields']['title']['table'] = 'node';
-  $handler->display->display_options['fields']['title']['field'] = 'title';
-  $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['alter']['max_length'] = '200';
-  $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
-  $handler->display->display_options['fields']['body']['alter']['html'] = TRUE;
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['body']['element_default_classes'] = FALSE;
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  $handler->display->display_options['filter_groups']['groups'] = array(
-    1 => 'AND',
-    2 => 'OR',
-  );
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'node';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'nexteuropa_gallerymedia' => 'nexteuropa_gallerymedia',
-  );
-  $handler->display->display_options['filters']['type']['group'] = 1;
-  /* Filter criterion: Workbench Moderation: Published */
-  $handler->display->display_options['filters']['published']['id'] = 'published';
-  $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
-  $handler->display->display_options['filters']['published']['field'] = 'published';
-  $handler->display->display_options['filters']['published']['value'] = '1';
-  $handler->display->display_options['filters']['published']['group'] = 1;
-
-  /* Display: Media Galleries Page */
-  $handler = $view->new_display('page', 'Media Galleries Page', 'page');
-  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $handler->display->display_options['defaults']['group_by'] = FALSE;
-  $handler->display->display_options['group_by'] = TRUE;
-  $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
@@ -124,14 +55,10 @@ function nexteuropa_galleries_views_default_views() {
   $handler->display->display_options['fields']['field_media_upload']['table'] = 'field_data_field_media_upload';
   $handler->display->display_options['fields']['field_media_upload']['field'] = 'field_media_upload';
   $handler->display->display_options['fields']['field_media_upload']['label'] = '';
-  $handler->display->display_options['fields']['field_media_upload']['alter']['text'] = '<a href="#">[field_media_upload] </a>';
   $handler->display->display_options['fields']['field_media_upload']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_media_upload']['alter']['path'] = 'node/[nid]';
-  $handler->display->display_options['fields']['field_media_upload']['alter']['alt'] = 'View';
-  $handler->display->display_options['fields']['field_media_upload']['alter']['rel'] = 'View';
   $handler->display->display_options['fields']['field_media_upload']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_media_upload']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['field_media_upload']['element_wrapper_class'] = 'galleries-item-wrapper ';
+  $handler->display->display_options['fields']['field_media_upload']['element_wrapper_class'] = 'galleries-item-wrapper';
   $handler->display->display_options['fields']['field_media_upload']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_media_upload']['settings'] = array(
     'file_view_mode' => 'media_gallery_page',
@@ -159,6 +86,33 @@ function nexteuropa_galleries_views_default_views() {
   $handler->display->display_options['fields']['delta']['format_plural'] = TRUE;
   $handler->display->display_options['fields']['delta']['format_plural_singular'] = '1 item';
   $handler->display->display_options['fields']['delta']['format_plural_plural'] = '@count items';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'nexteuropa_gallerymedia' => 'nexteuropa_gallerymedia',
+  );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Workbench Moderation: Published */
+  $handler->display->display_options['filters']['published']['id'] = 'published';
+  $handler->display->display_options['filters']['published']['table'] = 'workbench_moderation_node_history';
+  $handler->display->display_options['filters']['published']['field'] = 'published';
+  $handler->display->display_options['filters']['published']['value'] = '1';
+  $handler->display->display_options['filters']['published']['group'] = 1;
+
+  /* Display: Media Galleries Page */
+  $handler = $view->new_display('page', 'Media Galleries Page', 'page');
+  $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Content: Type */
