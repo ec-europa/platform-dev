@@ -1,6 +1,6 @@
 <?php
 /**
- * @file 
+ * @file
  * nexteuropa_newsroom.features.field_instance.inc
  */
 
