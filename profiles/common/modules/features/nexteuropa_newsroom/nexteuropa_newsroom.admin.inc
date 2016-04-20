@@ -389,7 +389,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   );
   $form['newsroom_blocks']['home_blocks']['newsroom_days_number_for_new_user'] = array(
     '#type' => 'textfield',
-    '#title' => t('Number of days from now where we check new newsroom items '),
+    '#title' => t('Number of days from now where we check new newsroom items'),
     '#default_value' => variable_get('newsroom_days_number_for_new_user', 14),
   );
 
@@ -680,7 +680,6 @@ function _nexteuropa_newsroom_admin_toggle_title() {
  */
 function _nexteuropa_newsroom_admin_add_fields($type = 'topic', $sel_ct = array()) {
   $field_name = 'field_newsroom_associated_' . $type;
-
 
   if (!empty($sel_ct)) {
     foreach ($sel_ct as $machine_name => $content_type) {

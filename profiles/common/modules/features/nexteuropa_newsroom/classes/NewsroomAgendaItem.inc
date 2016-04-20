@@ -56,11 +56,7 @@ class NewsroomAgendaItem {
   /**
    * Sets agenda date.
    *
-<<<<<<< HEAD
    * @param Datetime $value
-=======
-   * @param object $value
->>>>>>> FETCH_HEAD
    *   Agenda date.
    */
   public function setDate($value) {
