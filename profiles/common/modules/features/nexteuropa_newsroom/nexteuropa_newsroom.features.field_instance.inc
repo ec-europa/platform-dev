@@ -7,13 +7,14 @@
 /**
  * Implements hook_field_default_field_instances().
  */
-function nexteuropa_newsroom_field_default_field_instances() {
-  $field_instances = array();
+function nexteuropa_newsroom_field_default_field_instances() 
+{
+    $field_instances = array();
 
-  // Exported field_instance: 'file-image-field_newsroom_copyrights'.
-  $field_instances['file-image-field_newsroom_copyrights'] = array(
+    // Exported field_instance: 'file-image-field_newsroom_copyrights'.
+    $field_instances['file-image-field_newsroom_copyrights'] = array(
     'bundle' => 'image',
-    'default_value' => NULL,
+    'default_value' => null,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -80,9 +81,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
           ),
         ),
       ),
-      'entity_translation_sync' => FALSE,
+      'entity_translation_sync' => false,
       'text_processing' => 0,
-      'user_register_form' => FALSE,
+      'user_register_form' => false,
       'wysiwyg_override' => 0,
     ),
     'widget' => array(
@@ -94,12 +95,12 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'type' => 'text_textfield',
       'weight' => -1,
     ),
-  );
+    );
 
-  // Exported field_instance: 'node-newsroom_item-body'.
-  $field_instances['node-newsroom_item-body'] = array(
+    // Exported field_instance: 'node-newsroom_item-body'.
+    $field_instances['node-newsroom_item-body'] = array(
     'bundle' => 'newsroom_item',
-    'default_value' => NULL,
+    'default_value' => null,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -138,12 +139,12 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'node',
       'field_name' => 'body',
       'label' => 'Body',
-      'required' => FALSE,
+      'required' => false,
       'settings' => array(
-        'display_summary' => TRUE,
-        'entity_translation_sync' => FALSE,
+        'display_summary' => true,
+        'entity_translation_sync' => false,
         'text_processing' => 1,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'text',
@@ -156,10 +157,10 @@ function nexteuropa_newsroom_field_default_field_instances() {
       ),
     );
 
-    // Exported field_instance: 'node-newsroom_item-field_newsroom_eur_lex_link'.
+    // Exported field_instance:'node-newsroom_item-field_newsroom_eur_lex_link'.
     $field_instances['node-newsroom_item-field_newsroom_eur_lex_link'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -212,14 +213,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'url_cutoff' => 80,
         ),
         'enable_tokens' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'rel_remove' => 'default',
         'title' => 'optional',
-        'title_label_use_field_label' => FALSE,
+        'title_label_use_field_label' => false,
         'title_maxlength' => 128,
         'title_value' => '',
         'url' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
         'validate_url' => 0,
       ),
       'widget' => array(
@@ -235,7 +236,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_highlighted_topic'.
     $field_instances['node-newsroom_item-field_newsroom_highlighted_topic'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -275,8 +276,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Highlighted Newsroom Topics',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -349,14 +350,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'settings' => array(
         'alt_field' => 0,
         'default_image' => 0,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'file_directory' => 'newsroom',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
         'max_resolution' => '',
         'min_resolution' => '',
         'title_field' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -392,7 +393,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       ),
     );
 
-    // Exported field_instance: 'node-newsroom_item-field_newsroom_newsletter_only'.
+    // Exported field_instance: 
+    // 'node-newsroom_item-field_newsroom_newsletter_only'.
     $field_instances['node-newsroom_item-field_newsroom_newsletter_only'] = array(
       'bundle' => 'newsroom_item',
       'default_value' => array(
@@ -439,8 +441,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Newsletter only',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -457,7 +459,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_author'.
     $field_instances['node-newsroom_item-field_newsroom_author'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -524,9 +526,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -542,7 +544,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_documents'.
     $field_instances['node-newsroom_item-field_newsroom_documents'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -602,13 +604,13 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'url_cutoff' => 80,
         ),
         'enable_tokens' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'title' => 'optional',
-        'title_label_use_field_label' => FALSE,
+        'title_label_use_field_label' => false,
         'title_maxlength' => 128,
         'title_value' => '',
         'url' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
         'validate_url' => 1,
       ),
       'widget' => array(
@@ -668,8 +670,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'EC content',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -735,11 +737,11 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'required' => 0,
       'settings' => array(
         'description_field' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'file_directory' => '',
         'file_extensions' => 'txt pdf doc docx',
         'max_filesize' => '',
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -771,7 +773,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_item_contact_mail'.
     $field_instances['node-newsroom_item-field_newsroom_item_contact_mail'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -819,9 +821,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Contact',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -891,9 +893,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Contact Text',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 1,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -921,7 +923,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
             'multiple_from' => '',
             'multiple_number' => '',
             'multiple_to' => '',
-            'show_remaining_days' => FALSE,
+            'show_remaining_days' => false,
           ),
           'type' => 'date_default',
           'weight' => 2,
@@ -950,7 +952,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
             'multiple_number' => '',
             'multiple_to' => '',
             'past_events' => 1,
-            'show_remaining_days' => FALSE,
+            'show_remaining_days' => false,
             'view_mode' => 'newsroom_event',
           ),
           'type' => 'date_default',
@@ -984,8 +986,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'default_value2' => 'same',
         'default_value_code' => '',
         'default_value_code2' => '',
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1008,7 +1010,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_item_id'.
     $field_instances['node-newsroom_item-field_newsroom_item_id'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1054,9 +1056,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Newsroom Item ID',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1118,14 +1120,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'settings' => array(
         'alt_field' => 0,
         'default_image' => 0,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
         'max_resolution' => '',
         'min_resolution' => '',
         'title_field' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1157,7 +1159,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_item_linked_obj'.
     $field_instances['node-newsroom_item-field_newsroom_item_linked_obj'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1204,9 +1206,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Linked Object',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 1,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1223,7 +1225,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_item_main_link'.
     $field_instances['node-newsroom_item-field_newsroom_item_main_link'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1282,13 +1284,13 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'url_cutoff' => 80,
         ),
         'enable_tokens' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'title' => 'value',
-        'title_label_use_field_label' => FALSE,
+        'title_label_use_field_label' => false,
         'title_maxlength' => 128,
         'title_value' => 'Read full text',
         'url' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
         'validate_url' => 1,
       ),
       'widget' => array(
@@ -1304,7 +1306,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_item_other_link'.
     $field_instances['node-newsroom_item-field_newsroom_item_other_link'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1364,13 +1366,13 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'url_cutoff' => 80,
         ),
         'enable_tokens' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'title' => 'optional',
-        'title_label_use_field_label' => FALSE,
+        'title_label_use_field_label' => false,
         'title_maxlength' => 128,
         'title_value' => '',
         'url' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
         'validate_url' => 1,
       ),
       'widget' => array(
@@ -1386,7 +1388,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_item_pre_title'.
     $field_instances['node-newsroom_item-field_newsroom_item_pre_title'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1432,9 +1434,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Pre Title',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1451,7 +1453,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_item_quote_box'.
     $field_instances['node-newsroom_item-field_newsroom_item_quote_box'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1499,9 +1501,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Quote box',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 1,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1569,8 +1571,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Rapid Press Release',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1587,7 +1589,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_item_short_title'.
     $field_instances['node-newsroom_item-field_newsroom_item_short_title'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1633,9 +1635,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Short Title',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1651,7 +1653,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance:'node-newsroom_item-field_newsroom_item_speaker'.
     $field_instances['node-newsroom_item-field_newsroom_item_speaker'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1698,9 +1700,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Speaker',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1767,8 +1769,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Newsroom Item Type',
       'required' => 1,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1786,7 +1788,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_item_venue'.
     $field_instances['node-newsroom_item-field_newsroom_item_venue'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1834,9 +1836,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Venue',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -1852,7 +1854,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_location'.
     $field_instances['node-newsroom_item-field_newsroom_location'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -1917,10 +1919,10 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'node',
       'field_name' => 'field_newsroom_location',
       'label' => 'Location',
-      'required' => FALSE,
+      'required' => false,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'geofield',
@@ -1933,7 +1935,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_organiser'.
     $field_instances['node-newsroom_item-field_newsroom_organiser'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2001,9 +2003,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2020,7 +2022,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_parent_content'.
     $field_instances['node-newsroom_item-field_newsroom_parent_content'] = array(
     'bundle' => 'newsroom_item',
-    'default_value' => NULL,
+    'default_value' => null,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -2059,8 +2061,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Parent content',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2078,7 +2080,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_project'.
     $field_instances['node-newsroom_item-field_newsroom_project'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2145,9 +2147,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2165,7 +2167,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_project_acr'.
     $field_instances['node-newsroom_item-field_newsroom_project_acr'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2236,9 +2238,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2257,7 +2259,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_project_website'.
     $field_instances['node-newsroom_item-field_newsroom_project_website'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2310,14 +2312,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'url_cutoff' => 80,
         ),
         'enable_tokens' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'rel_remove' => 'default',
         'title' => 'optional',
-        'title_label_use_field_label' => FALSE,
+        'title_label_use_field_label' => false,
         'title_maxlength' => 128,
         'title_value' => '',
         'url' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
         'validate_url' => 0,
       ),
       'widget' => array(
@@ -2333,7 +2335,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_registration_link'.
     $field_instances['node-newsroom_item-field_newsroom_registration_link'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2387,14 +2389,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'url_cutoff' => 80,
         ),
         'enable_tokens' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'rel_remove' => 'default',
         'title' => 'optional',
-        'title_label_use_field_label' => FALSE,
+        'title_label_use_field_label' => false,
         'title_maxlength' => 128,
         'title_value' => '',
         'url' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
         'validate_url' => 0,
       ),
       'widget' => array(
@@ -2453,8 +2455,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Short item',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2515,14 +2517,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'settings' => array(
         'alt_field' => 0,
         'default_image' => 0,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'file_directory' => '',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
         'max_resolution' => '',
         'min_resolution' => '',
         'title_field' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2598,8 +2600,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Teaser only',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2615,7 +2617,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_topics'.
     $field_instances['node-newsroom_item-field_newsroom_topics'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2655,8 +2657,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Newsroom Topics',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2674,7 +2676,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_prj_coordinator'.
     $field_instances['node-newsroom_item-field_newsroom_prj_coordinator'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2741,9 +2743,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2760,7 +2762,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_primary_topic'.
     $field_instances['node-newsroom_item-field_newsroom_primary_topic'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2800,8 +2802,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Primary Topic',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2818,7 +2820,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_item-field_newsroom_related_content'.
     $field_instances['node-newsroom_item-field_newsroom_related_content'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2858,8 +2860,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Related content',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -2877,7 +2879,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_tags'.
     $field_instances['node-newsroom_item-field_tags'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -2915,10 +2917,10 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'node',
       'field_name' => 'field_tags',
       'label' => 'Tags',
-      'required' => FALSE,
+      'required' => false,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'taxonomy',
@@ -2934,7 +2936,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_teaser'.
     $field_instances['node-newsroom_item-field_newsroom_teaser'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => 'Newsroom Teaser',
       'display' => array(
@@ -3002,9 +3004,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 1,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3020,7 +3022,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-field_newsroom_ted_link'.
     $field_instances['node-newsroom_item-field_newsroom_ted_link'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3073,14 +3075,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'url_cutoff' => 80,
         ),
         'enable_tokens' => 1,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'rel_remove' => 'default',
         'title' => 'optional',
-        'title_label_use_field_label' => FALSE,
+        'title_label_use_field_label' => false,
         'title_maxlength' => 128,
         'title_value' => '',
         'url' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
         'validate_url' => 0,
       ),
       'widget' => array(
@@ -3095,7 +3097,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_item-title_field'.
     $field_instances['node-newsroom_item-title_field'] = array(
       'bundle' => 'newsroom_item',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3115,15 +3117,15 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'node',
       'field_name' => 'title_field',
       'label' => 'Title',
-      'required' => TRUE,
+      'required' => true,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'hide_label' => array(
-          'entity' => FALSE,
-          'page' => FALSE,
+          'entity' => false,
+          'page' => false,
         ),
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'text',
@@ -3138,7 +3140,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'node-newsroom_selection-body'.
     $field_instances['node-newsroom_selection-body'] = array(
       'bundle' => 'newsroom_selection',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3177,12 +3179,12 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'node',
       'field_name' => 'body',
       'label' => 'Body',
-      'required' => FALSE,
+      'required' => false,
       'settings' => array(
-        'display_summary' => TRUE,
-        'entity_translation_sync' => FALSE,
+        'display_summary' => true,
+        'entity_translation_sync' => false,
         'text_processing' => 1,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'text',
@@ -3244,8 +3246,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Selected topic operator',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3262,7 +3264,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_selection-field_newsroom_selected_topics'.
     $field_instances['node-newsroom_selection-field_newsroom_selected_topics'] = array(
       'bundle' => 'newsroom_selection',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3270,7 +3272,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'label' => 'above',
           'module' => 'entityreference',
           'settings' => array(
-            'link' => FALSE,
+            'link' => false,
           ),
           'type' => 'entityreference_label',
           'weight' => 2,
@@ -3308,11 +3310,11 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'settings' => array(
         'behaviors' => array(
           'taxonomy-index' => array(
-            'status' => TRUE,
+            'status' => true,
           ),
         ),
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3331,7 +3333,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'node-newsroom_selection-field_newsroom_selected_types'.
     $field_instances['node-newsroom_selection-field_newsroom_selected_types'] = array(
       'bundle' => 'newsroom_selection',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => 'If no type is selected all types will be used.',
       'display' => array(
@@ -3372,8 +3374,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Selected types',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3443,9 +3445,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3491,8 +3493,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Click-through',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3536,8 +3538,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Display date',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3555,7 +3557,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_item_type-field_newsroom_featured_item'.
     $field_instances['taxonomy_term-newsroom_item_type-field_newsroom_featured_item'] = array(
       'bundle' => 'newsroom_item_type',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3563,7 +3565,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'label' => 'above',
           'module' => 'entityreference',
           'settings' => array(
-            'link' => FALSE,
+            'link' => false,
           ),
           'type' => 'entityreference_label',
           'weight' => 7,
@@ -3580,8 +3582,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Featured item',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3623,10 +3625,10 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'taxonomy_term',
       'field_name' => 'field_newsroom_highlighted',
       'label' => 'Highlight topic',
-      'required' => FALSE,
+      'required' => false,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3643,7 +3645,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_item_type-field_newsroom_import_name'.
     $field_instances['taxonomy_term-newsroom_item_type-field_newsroom_import_name'] = array(
       'bundle' => 'newsroom_item_type',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3666,9 +3668,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Original Import Name',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3712,8 +3714,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Listing behavior',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3730,7 +3732,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_item_type-field_newsroom_type_id'.
     $field_instances['taxonomy_term-newsroom_item_type-field_newsroom_type_id'] = array(
       'bundle' => 'newsroom_item_type',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3752,9 +3754,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Newsroom Type ID',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3824,9 +3826,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3896,9 +3898,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3914,7 +3916,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'taxonomy_term-newsroom_item_type-name_field'.
     $field_instances['taxonomy_term-newsroom_item_type-name_field'] = array(
       'bundle' => 'newsroom_item_type',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -3928,15 +3930,15 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'taxonomy_term',
       'field_name' => 'name_field',
       'label' => 'Name',
-      'required' => TRUE,
+      'required' => true,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'hide_label' => array(
-          'entity' => FALSE,
-          'page' => FALSE,
+          'entity' => false,
+          'page' => false,
         ),
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'text',
@@ -3979,8 +3981,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Basic mailing',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -3997,7 +3999,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_service-field_newsroom_service_id'.
     $field_instances['taxonomy_term-newsroom_service-field_newsroom_service_id'] = array(
       'bundle' => 'newsroom_service',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4046,9 +4048,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -4092,14 +4094,14 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'settings' => array(
         'alt_field' => 0,
         'default_image' => 0,
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'file_directory' => 'newsroom-service',
         'file_extensions' => 'png gif jpg jpeg',
         'max_filesize' => '',
         'max_resolution' => '',
         'min_resolution' => '',
         'title_field' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -4132,7 +4134,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_service-field_newsroom_topic'.
     $field_instances['taxonomy_term-newsroom_service-field_newsroom_topic'] = array(
       'bundle' => 'newsroom_service',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4155,8 +4157,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'label' => 'Newsroom Topic',
       'required' => 0,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
-        'user_register_form' => FALSE,
+        'entity_translation_sync' => false,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 0,
@@ -4176,7 +4178,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_service-field_newsroom_service_active'.
     $field_instances['taxonomy_term-newsroom_service-field_newsroom_service_active'] = array(
       'bundle' => 'newsroom_service',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4225,9 +4227,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -4244,7 +4246,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_service-field_newsroom_service_type'.
     $field_instances['taxonomy_term-newsroom_service-field_newsroom_service_type'] = array(
       'bundle' => 'newsroom_service',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4293,9 +4295,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -4311,7 +4313,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'taxonomy_term-newsroom_service-name_field'.
     $field_instances['taxonomy_term-newsroom_service-name_field'] = array(
       'bundle' => 'newsroom_service',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4325,15 +4327,15 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'taxonomy_term',
       'field_name' => 'name_field',
       'label' => 'Name',
-      'required' => TRUE,
+      'required' => true,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'hide_label' => array(
-          'entity' => FALSE,
-          'page' => FALSE,
+          'entity' => false,
+          'page' => false,
         ),
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'text',
@@ -4349,7 +4351,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_topic-field_newsroom_category_domain'.
     $field_instances['taxonomy_term-newsroom_topic-field_newsroom_category_domain'] = array(
       'bundle' => 'newsroom_topic',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4398,9 +4400,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -4419,7 +4421,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // 'taxonomy_term-newsroom_topic-field_newsroom_topic_id'.
     $field_instances['taxonomy_term-newsroom_topic-field_newsroom_topic_id'] = array(
       'bundle' => 'newsroom_topic',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4468,9 +4470,9 @@ function nexteuropa_newsroom_field_default_field_instances() {
             ),
           ),
         ),
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'active' => 1,
@@ -4488,7 +4490,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     // Exported field_instance: 'taxonomy_term-newsroom_topic-name_field'.
     $field_instances['taxonomy_term-newsroom_topic-name_field'] = array(
       'bundle' => 'newsroom_topic',
-      'default_value' => NULL,
+      'default_value' => null,
       'deleted' => 0,
       'description' => '',
       'display' => array(
@@ -4502,15 +4504,15 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'entity_type' => 'taxonomy_term',
       'field_name' => 'name_field',
       'label' => 'Name',
-      'required' => TRUE,
+      'required' => true,
       'settings' => array(
-        'entity_translation_sync' => FALSE,
+        'entity_translation_sync' => false,
         'hide_label' => array(
-          'entity' => FALSE,
-          'page' => FALSE,
+          'entity' => false,
+          'page' => false,
         ),
         'text_processing' => 0,
-        'user_register_form' => FALSE,
+        'user_register_form' => false,
       ),
       'widget' => array(
         'module' => 'text',
