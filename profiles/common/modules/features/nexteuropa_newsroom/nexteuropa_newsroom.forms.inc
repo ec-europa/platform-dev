@@ -354,7 +354,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
         'field_newsroom_item_type',
         'field_newsroom_primary_topic',
         'field_newsroom_topics',
-          'field_newsroom_highlighted_topic',
+        'field_newsroom_highlighted_topic',
       );
 
       $type_vid = NewsroomHelper::getNewsroomTypeVocabulary()->vid;
@@ -492,21 +492,21 @@ function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
     '#title' => t('Title'),
     '#description' => 'Title of your Newsroom item (mandatory)',
     '#default_value' => '',
-      '#required' => TRUE,
+    '#required' => TRUE,
   );
 
   $form['teaser'] = array(
     '#title' => t('Teaser'),
     '#type' => 'textarea',
     '#description' => t('Teaser of your Newsroom item (a teaser is a brief description of the subject of your item)'),
-      '#size' => 18,
+    '#size' => 18,
   );
 
   $form['body'] = array(
     '#title' => t('Full content'),
     '#type' => 'textarea',
     '#description' => t('Full content of the Newsroom item (mandatory - The full content is the body of your item)'),
-      '#required' => TRUE,
+    '#required' => TRUE,
   );
 
   $form['url'] = array(
@@ -537,28 +537,28 @@ function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
     '#title' => t('Topic ID'),
     '#type' => 'hidden',
     '#value' => isset($_REQUEST['topic_id']) ? filter_xss($_REQUEST['topic_id']) : NULL,
-      '#required' => TRUE,
+    '#required' => TRUE,
   );
 
   $form['email'] = array(
     '#title' => t('E-mail'),
     '#type' => 'hidden',
     '#value' => $account->mail,
-      '#required' => TRUE,
+    '#required' => TRUE,
   );
 
   $form['lastname'] = array(
     '#title' => t('Last name'),
     '#type' => 'hidden',
     '#value' => isset($account->field_lastname[LANGUAGE_NONE][0]['value']) ? $account->field_lastname[LANGUAGE_NONE][0]['value'] : '',
-      '#required' => TRUE,
+    '#required' => TRUE,
   );
 
   $form['firstname'] = array(
     '#title' => t('First name'),
     '#type' => 'hidden',
     '#value' => isset($account->field_firstname[LANGUAGE_NONE][0]['value']) ? $account->field_firstname[LANGUAGE_NONE][0]['value'] : '',
-      '#required' => TRUE,
+    '#required' => TRUE,
   );
 
   $form['submit'] = array(
@@ -601,9 +601,9 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
     '#suffix' => '</div>',
     '#type' => 'textfield',
     '#attributes' => array(
-        'placeholder' => t('Your e-mail'),
-        'class' => array(),
-      ),
+      'placeholder' => t('Your e-mail'),
+      'class' => array(),
+    ),
   );
 
   $form['submit_email_prefix'] = array(
@@ -614,8 +614,8 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
     '#type' => 'button',
     '#value' => t('Subscribe'),
     '#ajax' => array(
-        'callback' => '_nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax',
-      ),
+      'callback' => '_nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax',
+    ),
   );
 
   $form['submit_email_submit'] = array(
@@ -639,7 +639,7 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
  *
  * @param string $url
  *   Service URL.
- * @param int $service_idService
+ * @param int $service_id
  *   ID.
  *   Service ID.
  * @param string $email
@@ -792,24 +792,19 @@ function _nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
 /**
  * Gets form rendable array for filter on the agenda page.
  *
- * @param array $formForm
- *   array.
+ * @param array $form
  *   Form array.
- * @param array $form_stateForm
- *   state array.
+ * @param array $form_state
  *   Form state array.
  * @param string $view
  *   View type: schedule, month, week, day.
- * @param int $type_idNewsroom
- *   type ID.
+ * @param int $type_id
  *   Newsroom type ID.
- * @param int $topic_idNewsroom
- *   Topic ID.
+ * @param int $topic_id
  *   Newsroom Topic ID.
  * @param string $current_date
  *   Current date.
- * @param array $result_topicsTopics
- *   to filter out the option list.
+ * @param array $result_topics
  *   Topics to filter out the option list.
  *
  * @return array
@@ -952,8 +947,7 @@ function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
  *   Form array.
  * @param array $form_state
  *   Form state array.
- * @param int $service_idNewsletter
- *   subscription service ID.
+ * @param int $service_idN
  *   Newsletter subscription service ID.
  *
  * @return array
@@ -1026,13 +1020,11 @@ function _nexteuropa_nexteuropa_newsletter_subscription_form_ajax($form, &$form_
 /**
  * The batch operation.
  *
- * @param array $chunkThe
- *   terms to be updated.
+ * @param array $chunk
  *   The terms to be updated.
  * @param string $voc
  *   Vocabulary's machine name.
- * @param array $operation_detailsArray
- *   of values.
+ * @param array $operation_details
  *   Array of values.
  */
 function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_details) {
@@ -1112,8 +1104,7 @@ function nexteuropa_newsroom_backup_conf_all($form, &$form_state) {
  *
  * @param string $voc
  *   Vocabulary name.
- * @param array $dataTaxonomy
- *   term.
+ * @param array $data
  *   Taxonomy term.
  *
  * @return int
