@@ -171,20 +171,23 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   public function localTranslatorIsAvailable($name) {
     /** @var \TMGMTTranslatorController $controller */
     $controller = entity_get_controller('tmgmt_translator');
-    $values = [
-      "name" => strtolower(str_replace(' ', '_', $name)),
-      "label" => $name,
-      "description" => "",
-      "weight" => 0,
-      "plugin" => "local",
-      "settings" => [
-        "auto_accept" => FALSE,
-        "allow_all" => TRUE,
-      ],
-    ];
-    $translator = $controller->create($values);
-    $controller->save($translator);
-    $this->translators[] = $translator;
+    $machine_name = strtolower(str_replace(' ', '_', $name));
+    if (!tmgmt_translator_exists($machine_name)) {
+      $values = [
+        "name" => $machine_name,
+        "label" => $name,
+        "description" => "",
+        "weight" => 0,
+        "plugin" => "local",
+        "settings" => [
+          "auto_accept" => FALSE,
+          "allow_all" => TRUE,
+        ],
+      ];
+      $translator = $controller->create($values);
+      $controller->save($translator);
+      $this->translators[] = $translator;
+    }
   }
 
   /**
