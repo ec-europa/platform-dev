@@ -141,23 +141,22 @@ Feature: Multilingual features
     Then I should see "Published" in the "German" row
     And I should see "Dieser Titel ist auf Deutsch" in the "German" row
 
-#  @run
   Scenario: I can create a translation job via a Behat step.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                    |
       | en       | This title is in English |
-    Then I should not see the link "Italiano" in the "content" region
+    Then I should not see the link "Français" in the "content" region
     And I create a translation job for "page" with title "This title is in English" and the following properties:
       | source language | en                          |
-      | target language | it                          |
+      | target language | fr                          |
       | translator      | Translator A                |
-      | title_field     | Questo titolo è in Italiano |
+      | title_field     | Ce titre est en Français    |
     Then the translation job is in "Active" state
     And the translation job items are in "Needs review" state
     And the translation job is accepted
     And I click "View"
-    Then I should see the link "Italiano" in the "content" region
-    And I click "Italiano" in the "content" region
-    Then I should see "Questo titolo è in Italiano"
+    Then I should see the link "Français" in the "content" region
+    And I click "Français" in the "content" region
+    Then I should see "Ce titre est en Français"
