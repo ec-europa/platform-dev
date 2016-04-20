@@ -339,7 +339,7 @@ function _nexteuropa_newsroom_get_real_groups($modes = array('teaser', 'full'), 
   foreach ($modes as $mode) {
     $groups[$mode] = field_group_info_groups('node', $bundle, $mode, TRUE);
   }
-  
+
   return $groups;
 }
 
@@ -500,9 +500,9 @@ function _nexteuropa_newsroom_field_group($machine_name, $field_name) {
 
 /**
  * Helper function to enable translations for specific fields.
-=======
+ * =======
  * Enables translations for specific fields.
->>>>>>> FETCH_HEAD
+ * >>>>>>> FETCH_HEAD.
  */
 function _nexteuropa_newsroom_enable_translations() {
   // Enable entity translation support for terms.
@@ -905,8 +905,8 @@ function _nexteuropa_newsroom_item_delete($newsroom_id = 0) {
 }
 
 /**
-=======
->>>>>>> FETCH_HEAD
+ * =======
+ * >>>>>>> FETCH_HEAD
  * Redirects to the Newsroom Item. With the Original Newsroom ID.
  */
 function _nexteuropa_newsroom_item_redirect($newsroom_id = 0) {

@@ -241,7 +241,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           $backup = variable_get('nexteuropa_newsroom_view_modes_backup', FALSE);
           // Get the current export.
           $current = _nexteuropa_newsroom_export_modes();
-          // Prepare the default value for the  import textarea, if we have a backup. 
+          // Prepare the default value for the  import textarea, if we have a backup.
           $default_value = !empty($backup) ? $backup : '';
           // Show different help text basing on the avialbility of a backup.
           $title = empty($backup) ? t('Paste here the code previously exported') : t('The code that you see is coming from your backup, you can use this to restore your configurations or you can paste a previously exported code.');
@@ -421,7 +421,7 @@ function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
 }
 
 /**
- * submit handler, imports selected view modes.
+ * Submit handler, imports selected view modes.
  */
 function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
   $export = unserialize($form_state['values']['import_code']);
