@@ -1,13 +1,7 @@
 <?php
-
 /**
- * @file
+ * @file nexteuropa_newsroom.features.field_instance.inc
  */
-
-, /**
-   * @file
-   * nexteuropa_newsroom.features.field_instance.inc
-   */
 
 /**
  * Implements hook_field_default_field_instances().
@@ -95,8 +89,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
-          'size' => 60,
-        ),
+        'size' => 60,
+      ),
       'type' => 'text_textfield',
       'weight' => -1,
     ),

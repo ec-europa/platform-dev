@@ -947,7 +947,7 @@ function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
  *   Form array.
  * @param array $form_state
  *   Form state array.
- * @param int $service_idN
+ * @param int $service_id
  *   Newsletter subscription service ID.
  *
  * @return array
