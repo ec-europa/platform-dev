@@ -381,7 +381,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           $value_array = $form['#node']->$taxonomy_field;
           foreach ($value_array[LANGUAGE_NONE] as $value) {
             $values[] = $value['tid'];
-            $form[$taxonomy_field][LANGUAGE_NONE]['#default_value'] = $values
+            $form[$taxonomy_field][LANGUAGE_NONE]['#default_value'] = $values;
           }
         }
       }
