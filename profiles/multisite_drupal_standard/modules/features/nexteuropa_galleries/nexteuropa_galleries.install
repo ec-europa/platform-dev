@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ * Install the feature exteuropa Galleries feature.
+ */
+
+include_once 'nexteuropa_galleries.features.inc';
+
+
+ /**
+  * Implements hook_requirements().
+  */
+function nexteuropa_galleries_requirements() {
+  $requirements = [];
+  if (module_exists('multisite_mediagallery_core')) {
+    $t = get_t();
+    $args = array('%module' => 'Multisite Media Gallery');
+    $requirements['nexteuropa_multilingual_module_conflict'] = [
+      'title' => 'NextEuropa Gallery',
+      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }
+  return $requirements;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_galleries_enable() {
+  // SolR configuration add bundle.
+  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_gallerymedia', 'add');
+
+  // Add block in context.
+  multisite_drupal_toolbox_add_block_context('homepage', 'nexteuropa_galleries-block', 'views', 'nexteuropa_galleries-block', 'content_top');
+
+  // Activation message.
+  drupal_set_message(t('Nexteuropa Gallery feature is now active on your site.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_galleries_disable() {
+  // solR configuration add bundle.
+  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_gallerymedia', 'delete');
+  multisite_drupal_toolbox_remove_block_context('homepage', 'galleries-medias_block');
+
+  // Disable block Carousel.
+  module_disable(array('multisite_block_carousel'), FALSE);
+
+  // Disabling message.
+  drupal_set_message(t('Nexteuropa Gallery feature is now inactive on your site.'));
+}
