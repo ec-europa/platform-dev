@@ -499,10 +499,7 @@ function _nexteuropa_newsroom_field_group($machine_name, $field_name) {
 }
 
 /**
- * Helper function to enable translations for specific fields.
- * =======
  * Enables translations for specific fields.
- * >>>>>>> FETCH_HEAD.
  */
 function _nexteuropa_newsroom_enable_translations() {
   // Enable entity translation support for terms.
