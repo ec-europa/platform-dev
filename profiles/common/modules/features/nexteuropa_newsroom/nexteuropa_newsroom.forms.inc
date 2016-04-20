@@ -240,7 +240,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
 
   switch ($form_id) {
     case 'field_ui_display_overview_form':
-        if ($form['#bundle'] == 'newsroom_item') {
+      if ($form['#bundle'] == 'newsroom_item') {
         $form['newsroom_introduction'] = array(
           '#type' => 'markup',
           '#markup' => '<div class="messages status">' . t('This is the newsroom content type, you can freely customize the teaser and full node view modes without affecting the feature which will stay in default state.') . '</div>',
@@ -340,12 +340,12 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
           );
         }
-        }
+      }
       break;
 
     case 'newsroom_item_node_form':
-        // Build language aware options list for taxonomy reference fields.
-        $terms = array();
+      // Build language aware options list for taxonomy reference fields.
+      $terms = array();
       global $language;
       $def_lang = language_default()->language;
       $curr_lang = $language->language;
@@ -396,7 +396,6 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
  * Export selected view modes.
  */
 function _nexteuropa_newsroom_export_modes($modes = array('full', 'teaser'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
-
   // Get the current instances.
   $fields = field_info_instances('node', $bundle);
   $export = array();
@@ -417,7 +416,6 @@ function _nexteuropa_newsroom_export_modes($modes = array('full', 'teaser'), $bu
  * Submit handler, exports selected view modes.
  */
 function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
-
   $export = $form_state['values']['export_code'];
 
   if (!empty($export)) {
@@ -437,7 +435,6 @@ function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
  * Submit handler, imports selected view modes.
  */
 function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
-
   $export = unserialize($form_state['values']['import_code']);
   $modes = array('full', 'teaser');
   $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
