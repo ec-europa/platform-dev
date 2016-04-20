@@ -34,6 +34,9 @@ function nexteuropa_galleries_enable() {
   // Add block in context.
   multisite_drupal_toolbox_add_block_context('homepage', 'nexteuropa_galleries-block', 'views', 'nexteuropa_galleries-block', 'content_top');
 
+  // Enable Gallery view mode.
+  _nexteuropa_galleries_set_file_view_mode(TRUE);
+  
   // Activation message.
   drupal_set_message(t('Nexteuropa Gallery feature is now active on your site.'));
 }
@@ -49,6 +52,26 @@ function nexteuropa_galleries_disable() {
   // Disable block Carousel.
   module_disable(array('multisite_block_carousel'), FALSE);
 
+  // Disable Gallery view mode.
+  _nexteuropa_galleries_set_file_view_mode(FALSE);
+  
   // Disabling message.
   drupal_set_message(t('Nexteuropa Gallery feature is now inactive on your site.'));
+  
+}
+
+/**
+* Enable gallery view modes for 'image' and 'video' bundles.
+*/
+function _nexteuropa_galleries_set_file_view_mode ($mode = TRUE){
+    $variables = array("field_bundle_settings_file__image" , "field_bundle_settings_file__video");
+    $view_modes = array('media_gallery_block','media_gallery_node','media_gallery_colorbox','media_gallery_page');
+    
+    foreach ($variables as $variable){
+      $var_value = variable_get ($variable);
+      foreach ($view_modes as $view_mode){
+        $var_value['view_modes'][$view_mode]['custom_settings'] = $mode;
+      }
+      variable_set ($variable,$var_value);
+    }
 }

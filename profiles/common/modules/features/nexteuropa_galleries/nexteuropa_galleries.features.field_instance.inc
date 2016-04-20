@@ -65,7 +65,7 @@ function nexteuropa_galleries_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'mediafield',
         'settings' => array(
-          'file_view_mode' => 'media_gallery_colobox',
+          'file_view_mode' => 'media_gallery_colorbox',
         ),
         'type' => 'media',
         'weight' => 2,
@@ -83,7 +83,7 @@ function nexteuropa_galleries_field_default_field_instances() {
     'required' => 1,
     'settings' => array(
       'entity_translation_sync' => FALSE,
-      'file_extensions' => 'jpg jpeg gif png txt doc docx xls xlsx pdf ppt pptx pps ppsx odt ods odp mp3 mov mp4 m4a m4v mpeg avi ogg oga ogv weba webp webm',
+      'file_extensions' => 'jpg jpeg gif png mov mp4 m4a m4v mpeg avi',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
@@ -91,9 +91,13 @@ function nexteuropa_galleries_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
+          'avportal' => 0,
+          'dailymotion' => 0,
           'node' => 0,
           'private' => 'private',
           'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
@@ -104,8 +108,9 @@ function nexteuropa_galleries_field_default_field_instances() {
         'browser_plugins' => array(
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
-          'media_internet' => 0,
+          'media_internet' => 'media_internet',
           'upload' => 'upload',
+          'youtube' => 0,
         ),
       ),
       'type' => 'media_generic',

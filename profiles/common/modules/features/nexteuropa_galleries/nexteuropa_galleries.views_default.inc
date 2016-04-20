@@ -58,6 +58,7 @@ function nexteuropa_galleries_views_default_views() {
   $handler->display->display_options['fields']['field_media_upload']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_media_upload']['alter']['path'] = 'node/[nid]';
   $handler->display->display_options['fields']['field_media_upload']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_media_upload']['element_wrapper_type'] = 'div';
   $handler->display->display_options['fields']['field_media_upload']['element_wrapper_class'] = 'galleries-item-wrapper';
   $handler->display->display_options['fields']['field_media_upload']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_media_upload']['settings'] = array(

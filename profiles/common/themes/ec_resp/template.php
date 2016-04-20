@@ -354,7 +354,7 @@ function ec_resp_preprocess_node(&$variables) {
 }
 
 function ec_resp_preprocess_file_entity(&$variables){
-  if ($variables['view_mode'] == "media_gallery_colobox"){
+  if ($variables['view_mode'] == "media_gallery_colorbox"){
     $variables['classes_array'][] = "col-xs-3";
   }
 }
