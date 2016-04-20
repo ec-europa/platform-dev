@@ -24,8 +24,11 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_item_date:end' => array(
       'query' => 'infsonewsroom:BasictoDate/text()',
     ),
+    'field_newsroom_private_img:uri' => array(
+      'query' => 'enclosure[@type="image/jpeg" and @schema="private"]/@url',
+    ),
     'field_newsroom_illustrative_img:uri' => array(
-      'query' => 'enclosure[@type="image/jpeg"]/@url',
+      'query' => 'enclosure[@type="image/jpeg" and @schema="public"]/@url',
     ),
     'field_newsroom_illustrative_img:title' => array(
       'query' => 'infsonewsroom:PicTitle',
@@ -228,7 +231,6 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'target' => 'language',
     'unique' => FALSE,
   );
-
   $feeds_importer = _nexteuropa_newsroom_build_importer(NEXTEUROPA_NEWSROOM_ITEM_IMPORTER, 'Newsroom Items Multilanguage', 'Imports Newsroom Items from the Newsroom service', $importer_values, NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'node');
 
   // Create the tamper for the language.
