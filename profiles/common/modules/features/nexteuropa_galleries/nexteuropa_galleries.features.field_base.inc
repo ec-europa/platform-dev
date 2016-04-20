@@ -31,32 +31,6 @@ function nexteuropa_galleries_field_default_field_bases() {
     'type' => 'media',
   );
 
-  // Exported field_base: 'field_media_upload1'.
-  $field_bases['field_media_upload1'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_media_upload1',
-    'indexes' => array(
-      'fid' => array(
-        0 => 'fid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'file',
-    'settings' => array(
-      'display_default' => 0,
-      'display_field' => 0,
-      'entity_translation_sync' => array(
-        0 => 'fid',
-      ),
-      'uri_scheme' => 'public',
-    ),
-    'translatable' => 0,
-    'type' => 'file',
-  );
-
   // Exported field_base: 'group_content_access'.
   $field_bases['group_content_access'] = array(
     'active' => 1,

@@ -113,55 +113,6 @@ function nexteuropa_galleries_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'node-nexteuropa_gallerymedia-field_media_upload1'.
-  $field_instances['node-nexteuropa_gallerymedia-field_media_upload1'] = array(
-    'bundle' => 'nexteuropa_gallerymedia',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'file',
-        'settings' => array(),
-        'type' => 'file_default',
-        'weight' => 6,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_media_upload1',
-    'label' => 'Media upload1',
-    'required' => FALSE,
-    'settings' => array(
-      'description_field' => 0,
-      'entity_translation_sync' => FALSE,
-      'file_directory' => '',
-      'file_extensions' => 'txt',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'media',
-      'settings' => array(
-        'allowed_schemes' => array(
-          'public' => 'public',
-        ),
-        'allowed_types' => array(
-          'image' => 'image',
-        ),
-        'browser_plugins' => array(),
-      ),
-      'type' => 'media_generic',
-      'weight' => 15,
-    ),
-  );
-
   // Exported field_instance: 'node-nexteuropa_gallerymedia-field_tags'.
   $field_instances['node-nexteuropa_gallerymedia-field_tags'] = array(
     'bundle' => 'nexteuropa_gallerymedia',

@@ -134,7 +134,7 @@ function nexteuropa_galleries_views_default_views() {
   $handler->display->display_options['fields']['field_media_upload']['element_wrapper_class'] = 'galleries-item-wrapper ';
   $handler->display->display_options['fields']['field_media_upload']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_media_upload']['settings'] = array(
-    'file_view_mode' => 'media_gallery_',
+    'file_view_mode' => 'media_gallery_page',
   );
   $handler->display->display_options['fields']['field_media_upload']['group_column'] = 'entity_id';
   $handler->display->display_options['fields']['field_media_upload']['delta_limit'] = '1';
