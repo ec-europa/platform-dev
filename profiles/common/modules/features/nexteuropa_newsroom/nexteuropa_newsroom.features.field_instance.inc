@@ -481,7 +481,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_newsroom_private_img',
-    'label' => 'Illustrative Image',
+    'label' => 'Illustrative private Image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
@@ -500,7 +500,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
-          'public' => 'private',
+          'private' => 'private',
         ),
         'allowed_types' => array(
           'image' => 'image',
