@@ -1,7 +1,7 @@
 name = Nexteuropa Galleries
 core = 7.x
 package = Nexteuropa
-version = 7.x-1.0
+description = Add Gallery content type for display in a galleries page and block
 dependencies[] = cce_basic_config
 dependencies[] = ds
 dependencies[] = ec_embedded_video
