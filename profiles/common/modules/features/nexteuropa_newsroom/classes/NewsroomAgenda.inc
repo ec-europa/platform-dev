@@ -225,7 +225,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Sets previous date.
+   * Gets previous date.
    *
    * @return object
    *   Previous date.
@@ -235,7 +235,7 @@ abstract class NewsroomAgenda {
   }
 
   /**
-   * Gets previous date.
+   * Sets previous date.
    *
    * @param object $value
    *   Previous date.

@@ -624,7 +624,7 @@ function _nexteuropa_newsroom_admin_type_root_validate($element, &$form_state) {
  *   Form state.
  *
  * @return array
- *   Pathes
+ *   Pathes.
  */
 function _nexteuropa_newsroom_admin_reset_paths($form, &$form_state) {
   $types = NewsroomHelper::getNewsroomTypes();

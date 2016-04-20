@@ -1,6 +1,9 @@
 Feature: Nexteuropa Newsroom
   Testing nexteuropa newsroom feature
-
+Background:
+  Given these modules are enabled
+    | modules       |
+    | nexteuropa_newsroom |
 @api
 Scenario: Checks access to newsroom settings
   Given I am logged in as a user with the "administrator" role

@@ -127,6 +127,9 @@ function _nexteuropa_nexteuropa_agenda_block_reaction() {
 
 /**
  * Gets summary of the blocks.
+ *
+ * @return string
+ *   Summary block content.
  */
 function _nexteuropa_nexteuropa_get_summary_blocks() {
   $summary_block = new NewsroomSummaryBlock();

@@ -318,8 +318,114 @@ function nexteuropa_newsroom_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'node-newsroom_item-field_newsroom_newsletter_only'.
+  // Exported field_instance: 'nnode-newsroom_item-field_newsroom_private_img'.
+  $field_instances['node-newsroom_item-field_newsroom_private_img'] = array(
+    'bundle' => 'newsroom_item',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'nexteuropa_newsroom',
+        'settings' => array(
+          'display_caption' => '',
+          'display_copyright' => 1,
+          'display_title' => 1,
+          'image_style' => 'newsroom_style',
+          'zoomable' => 1,
+        ),
+        'type' => 'newsroom_zoomable_image',
+        'weight' => 1,
+      ),
+      'embedded' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'event' => array(
+        'label' => 'hidden',
+        'module' => 'nexteuropa_newsroom',
+        'settings' => array(
+          'display_caption' => '',
+          'display_copyright' => '',
+          'display_title' => '',
+          'image_style' => '',
+          'zoomable' => '',
+        ),
+        'type' => 'newsroom_zoomable_image',
+        'weight' => 34,
+      ),
+      'mini_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'popup' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_newsroom_private_img',
+    'label' => 'Illustrative private Image',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'entity_translation_sync' => FALSE,
+      'file_directory' => 'newsroom',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'private' => 'private',
+        ),
+        'allowed_types' => array(
+          'image' => 'image',
+        ),
+        'browser_plugins' => array(),
+        'filefield_sources' => array(
+          'filefield_sources' => array(),
+          'source_attach' => array(
+            'absolute' => 0,
+            'attach_mode' => 'move',
+            'path' => 'file_attach',
+          ),
+          'source_imce' => array(
+            'imce_mode' => 0,
+          ),
+          'source_reference' => array(
+            'autocomplete' => 0,
+          ),
+        ),
+        'maxlength_js_label' => 'Content limited to @limit characters, remaining: <strong>@remaining</strong>',
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'media_generic',
+      'weight' => 30,
+    ),
+  );
+
+  // Exported field_instance: 'node-newsroom_item-field_newsroom_newsletter_only'.
   $field_instances['node-newsroom_item-field_newsroom_newsletter_only'] = array(
     'bundle' => 'newsroom_item',
     'default_value' => array(

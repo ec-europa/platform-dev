@@ -126,14 +126,21 @@ function nexteuropa_newsroom_update_7102() {
   // Delete types.
   foreach ($types as $type) {
     // Release content type previously featurized.
-    db_query("UPDATE {node_type} SET `custom` = 1, `locked` = 0 WHERE `type` = :type", array(':type' => $type));
+    db_update('field_config')->fields(array('custom' => 1, 'locked' => 0))->condition('type', $type)->execute();
     // Delete content type.
     node_type_delete($type);
   }
 
   // Update feeds_item table to avoid import of the items again
   // Drop ID of the importer content types.
-  db_query("UPDATE {feeds_item} SET feed_nid = 0 WHERE id IN ('newsroom_items', 'newsroom_services', 'newsroom_topics', 'newsroom_type')");
+  db_update('feeds_item')
+    ->fields(array('feed_nid' => 0))
+    ->condition('id', array(
+      'newsroom_items',
+      'newsroom_services',
+      'newsroom_topics',
+      'newsroom_type',
+    ), 'IN')->execute();
 }
 
 /**
@@ -155,13 +162,7 @@ function nexteuropa_newsroom_update_7103() {
  * Migrate data from shared teaser to newsroom teaser.
  */
 function nexteuropa_newsroom_update_7104() {
-  $result = db_query("REPLACE INTO field_data_field_newsroom_teaser
-  SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_data_field_shared_teaser shared_teaser
-  WHERE shared_teaser.bundle = 'newsroom_item';");
-
-  $result = db_query("REPLACE INTO field_revision_field_newsroom_teaser
-  SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_revision_field_shared_teaser shared_teaser
-  WHERE shared_teaser.bundle = 'newsroom_item';");
+  _nexteuropa_newsroom_rename_field('field_shared_teaser', 'field_newsroom_teaser');
 
   if ($instance = field_info_instance('node', 'field_shared_teaser', 'newsroom_item')) {
     field_delete_instance($instance);
@@ -307,14 +308,10 @@ function nexteuropa_newsroom_update_7108() {
   }
 
   // Update metatag settings.
-  $value = db_query("select config from `metatag_config` where instance = 'node:newsroom_item'")->fetchCol();
-  if ($value) {
-    db_query("update `metatag_config` set config = :config where instance = 'node:newsroom_item'",
-      array(
-        ':config' => str_replace('field_teaser', 'field_newsroom_teaser', $value),
-      )
-    );
-  }
+  db_update('metatag_config')
+    ->fields(array('config' => "REPLACE('config', 'field_teaser', 'field_newsroom_teaser')"))
+    ->condition('instance', 'node:newsroom_item')
+    ->execute();
 }
 
 /**
