@@ -58,10 +58,16 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_navigation_depth', 1);
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
-  // Disabling the teaser view mode in the newsroom_item ct.
-  $settings = field_bundle_settings('node', 'newsroom_item');
-  $settings['view_modes']['teaser']['custom_settings'] = FALSE;
-  field_bundle_settings('node', 'newsroom_item', $settings);
+  $bundles = array('newsroom_item', 'newsroom_selection');
+  // Disabling the teaser view mode in the newsroom ct.
+  foreach ($bundles as $bundle) {
+    $settings = field_bundle_settings('node', $bundle);
+    $settings['view_modes']['teaser']['custom_settings'] = FALSE;
+    if ($bundle == 'newsroom_item') {
+      $settings['view_modes']['newsroom_event']['custom_settings'] = TRUE;
+    }
+    field_bundle_settings('node', $bundle, $settings);
+  }
   // Set node options for newsroom_item.
   variable_set('node_preview_newsroom_item', 0);
   variable_set('node_submitted_newsroom_item', 0);

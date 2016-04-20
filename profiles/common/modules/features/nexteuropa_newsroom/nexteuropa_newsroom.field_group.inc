@@ -83,7 +83,7 @@ function nexteuropa_newsroom_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_newsroom_event_info|node|newsroom_item|event';
+  $field_group->identifier = 'group_newsroom_event_info|node|newsroom_item|newsroom_event';
   $field_group->group_name = 'group_newsroom_event_info';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'newsroom_item';
@@ -111,7 +111,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $field_groups['group_newsroom_event_info|node|newsroom_item|event'] = $field_group;
+  $field_groups['group_newsroom_event_info|node|newsroom_item|newsroom_event'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -566,7 +566,7 @@ function nexteuropa_newsroom_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_newsroom_lead|node|newsroom_item|event';
+  $field_group->identifier = 'group_newsroom_lead|node|newsroom_item|newsroom_event';
   $field_group->group_name = 'group_newsroom_lead';
   $field_group->entity_type = 'node';
   $field_group->bundle = 'newsroom_item';
@@ -593,7 +593,7 @@ function nexteuropa_newsroom_field_group_info() {
       'formatter' => 'open',
     ),
   );
-  $field_groups['group_newsroom_lead|node|newsroom_item|event'] = $field_group;
+  $field_groups['group_newsroom_lead|node|newsroom_item|newsroom_event'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -745,38 +745,6 @@ function nexteuropa_newsroom_field_group_info() {
     ),
   );
   $field_groups['group_newsroom_topics|node|newsroom_item|form'] = $field_group;
-
-  $field_group = new stdClass();
-  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
-  $field_group->api_version = 1;
-  $field_group->identifier = 'group_recommended_reading|node|newsroom_item|default';
-  $field_group->group_name = 'group_recommended_reading';
-  $field_group->entity_type = 'node';
-  $field_group->bundle = 'newsroom_item';
-  $field_group->mode = 'default';
-  $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Recommended reading',
-    'weight' => '7',
-    'children' => array(
-      0 => 'field_newsroom_item_other_link',
-      1 => 'field_newsroom_item_rapid_pr',
-    ),
-    'format_type' => 'div',
-    'format_settings' => array(
-      'formatter' => 'collapsible',
-      'instance_settings' => array(
-        'description' => '',
-        'show_label' => 0,
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-        'classes' => '',
-        'id' => '',
-      ),
-    ),
-  );
-  $field_groups['group_recommended_reading|node|newsroom_item|default'] = $field_group;
 
   // Translatables
   // Included for use with string extractors like potx.

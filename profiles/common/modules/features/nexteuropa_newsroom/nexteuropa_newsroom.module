@@ -1612,7 +1612,7 @@ function nexteuropa_newsroom_entity_info_alter(&$entity_info) {
   // Adds custom display mode 'Newsroom event'.
   $entity_info['node']['view modes']['newsroom_event'] = array(
     'label' => t('Newsroom event'),
-    'custom settings' => TRUE,
+    'custom settings' => FALSE,
   );
 
   return $entity_info;
