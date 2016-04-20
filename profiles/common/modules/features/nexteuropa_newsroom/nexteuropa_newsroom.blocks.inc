@@ -2,10 +2,7 @@
 
 /**
  * @file
- * To change this license header, choose License Headers in Project Properties.
- *
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Nexteuropa Newsroom blocks hooks and helpers.
  */
 
 /**
@@ -15,7 +12,7 @@ function nexteuropa_newsroom_block_info() {
   $blocks = array();
   $blocks['newsroom_summary_blocks'] = array(
     'info' => t('Newsroom Summary Blocks'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    'cache' => DRUPAL_CACHE_CUSTOM,
   );
   $blocks['newsroom_related_content'] = array(
     'info' => t('Newsroom Related Content'),
@@ -23,15 +20,15 @@ function nexteuropa_newsroom_block_info() {
   );
   $blocks['newsroom_admin_tools'] = array(
     'info' => t('Newsroom administration buttons'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    'cache' => DRUPAL_CACHE_PER_PAGE,
   );
   $blocks['newsroom_newsletter_subscription'] = array(
     'info' => t('Newsroom Newsletter Subscription'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    'cache' => DRUPAL_CACHE_PER_PAGE,
   );
   $blocks['newsroom_list_filter'] = array(
     'info' => t('Newsroom List Filter'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    'cache' => DRUPAL_CACHE_CUSTOM,
   );
   $blocks['newsroom_proposal'] = array(
     'info' => t('Newsroom items proposal'),
@@ -39,7 +36,7 @@ function nexteuropa_newsroom_block_info() {
   );
   $blocks['newsroom_agenda_block'] = array(
     'info' => t('Newsroom agenda block'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
+    'cache' => DRUPAL_CACHE_PER_PAGE,
   );
   return $blocks;
 }
@@ -96,7 +93,7 @@ function nexteuropa_newsroom_block_view($delta = '') {
 function _nexteuropa_newsroom_agenda_block() {
   $type = _nexteuropa_nexteuropa_agenda_block_reaction();
   if ($type) {
-    $agenda_block = new NewsroomBlockAgenda($type, array(), 'OR');
+    $agenda_block = new NewsroomBlockAgenda($type, array(), NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR);
     return $agenda_block->generateContent();
   }
   else {
@@ -129,7 +126,7 @@ function _nexteuropa_nexteuropa_agenda_block_reaction() {
 }
 
 /**
- * Helper function to get summary of the blocks.
+ * Gets summary of the blocks.
  */
 function _nexteuropa_nexteuropa_get_summary_blocks() {
   $summary_block = new NewsroomSummaryBlock();
@@ -168,7 +165,7 @@ function _nexteuropa_nexteuropa_related_content() {
 }
 
 /**
- * Try to resolve each taxonomy term with a corresponding ID to map.
+ * Tries to resolve each taxonomy term with a corresponding ID to map.
  *
  * @param string $field_name
  *   The mapping field.
@@ -207,7 +204,7 @@ function _nexteuropa_newsroom_get_related_children($field_name, $parent_nid, $cu
 }
 
 /**
- * Get related content from node.
+ * Gets related content from node.
  *
  * @param string $field_name
  *   Field name.
@@ -257,12 +254,10 @@ function _nexteuropa_newsroom_get_node_title($nid) {
 }
 
 /**
- * Returns block content.
- *
- * Buttons to easily manage newsroom items. Edit in newsroom, re-import etc.
+ * Returns buttons to manage newsroom items. Edit in newsroom, re-import etc.
  *
  * @return string
- *   Content
+ *   Content.
  */
 function _nexteuropa_newsroom_tools() {
   $content = '';
@@ -274,7 +269,7 @@ function _nexteuropa_newsroom_tools() {
     if (user_access(NEXTEUROPA_NEWSROOM_EDIT_ACCESS)) {
       $links['edit'] = array(
         'text' => '<span class="glyphicon glyphicon-edit"></span> Edit item in the Newsroom',
-        'path' => NewsroomHelper::getNewsroomUrl(variable_get('newsroom_single_item_edit_segment', 'item.cfm?item_id=') . $newsroom_id),
+        'path' => NewsroomHelper::getNewsroomUrl(variable_get('newsroom_single_item_edit_segment', NEXTEUROPA_NEWSROOM_ITEM_EDIT_SEGMENT) . $newsroom_id),
         'options' => array(
           'html' => TRUE,
           'attributes' => array('class' => 'btn btn-success'),
@@ -305,6 +300,9 @@ function _nexteuropa_newsroom_tools() {
 
 /**
  * Newsletter subscription block.
+ *
+ * @return array
+ *   Form array.
  */
 function _nexteuropa_newsroom_newsletter_subscription() {
   $content = array();
@@ -325,6 +323,9 @@ function _nexteuropa_newsroom_newsletter_subscription() {
 
 /**
  * Returns the newsroom list filter form.
+ *
+ * @return array|null
+ *   Newsroom page filter form array or NULL.
  */
 function _nexteuropa_newsroom_list_filter() {
   $topics_vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
@@ -403,7 +404,7 @@ function _nexteuropa_newsroom_list_filter() {
     return drupal_get_form('nexteuropa_newsroom_list_filter_form', $countries, $topics, $arguments);
   }
 
-  return '';
+  return NULL;
 }
 
 /**
@@ -425,11 +426,6 @@ function _nexteuropa_newsroom_options_tid_to_name($options) {
 
 /**
  * Returns block with the link to newsroom proposal form.
- *
- * @global object $user
- *   Global user object.
- * @global string $base_url
- *   Global URL.
  *
  * @return string
  *   Block content.

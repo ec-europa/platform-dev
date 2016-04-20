@@ -2,11 +2,11 @@
 
 /**
  * @file
- * TBC.
+ * Code for the NewsroomAgendaItem class.
  */
 
 /**
- * Description of NewsroomAgenda.
+ * NewsroomAgendaItem class.
  */
 class NewsroomAgendaItem {
 
@@ -56,7 +56,11 @@ class NewsroomAgendaItem {
   /**
    * Sets agenda date.
    *
+<<<<<<< HEAD
    * @param Datetime $value
+=======
+   * @param object $value
+>>>>>>> FETCH_HEAD
    *   Agenda date.
    */
   public function setDate($value) {

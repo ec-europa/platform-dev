@@ -2,26 +2,26 @@
 
 /**
  * @file
- * Code for the NewsroomAgendaSchedule class.
+ * Code for the NewsroomAgendaBlockSchedule class.
  */
 
 /**
- * NewsroomAgendaSchedule class.
+ * NewsroomAgendaBlockSchedule class.
  */
 class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
-  private $operator = 'OR';
+  private $operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR;
 
   /**
-   * NewsroomAgendaSchedule constructor.
+   * NewsroomAgendaBlockSchedule constructor.
    *
    * @param object $type
-   *   Newsroom type.
+   *   Newsroom type taxonomy term.
    * @param array $topics
-   *   Newsroom topic.
-   * @param DateTime $current_day
+   *   Newsroom topic taxonomy term.
+   * @param object $current_day
    *   Current date.
    */
-  public function __construct($type, $topics, DateTime $current_day, $operator) {
+  public function __construct($type, $topics, $current_day, $operator) {
     $this->setIsBlock(TRUE);
     $this->setOperator($operator);
     parent::__construct($type, $topics, $current_day);
@@ -73,7 +73,7 @@ class NewsroomAgendaBlockSchedule extends NewsroomAgendaSchedule {
     }
 
     $topic_ids = $this->getTopicsId();
-    if ($this->getOperator() == 'OR') {
+    if ($this->getOperator() == NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR) {
       $query->condition('topic_data.tid', $topic_ids);
 
     }

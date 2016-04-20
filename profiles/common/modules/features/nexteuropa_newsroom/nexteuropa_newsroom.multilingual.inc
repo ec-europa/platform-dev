@@ -6,7 +6,7 @@
  */
 
 /**
- * Import the multilingual importer.
+ * Creates items feed importer and runs the import.
  */
 function _nexteuropa_newsroom_create_multilingual_items_importer() {
   $def_lang = drupal_strtoupper(language_default()->language);
@@ -238,7 +238,27 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
 }
 
 /**
- * Build importer class.
+ * Builds importer class.
+ *
+ * @param string $id
+ *   Importer ID.
+ * @param string $title
+ *   Importer title.
+ * @param string $description
+ *   Importer description.
+ * @param array $importer_values
+ *   Importer info.
+ * @param string $bundle
+ *   Importer bundle.
+ * @param string $type
+ *   Entity type.
+ * @param string $rss_context
+ *   Xpath context.
+ * @param int $import_period
+ *   Period in seconds.
+ *
+ * @return \stdClass
+ *   Importer class.
  */
 function _nexteuropa_newsroom_build_importer($id, $title, $description, $importer_values, $bundle, $type = 'node', $rss_context = '//channel/item', $import_period = 3600) {
   $feeds_importer = new stdClass();
@@ -311,7 +331,7 @@ function _nexteuropa_newsroom_build_importer($id, $title, $description, $importe
 }
 
 /**
- * Import the multilingual importer.
+ * Creates topics feed importer and runs the import.
  */
 function _nexteuropa_newsroom_create_multilingual_topics_importer() {
   $def_lang = drupal_strtoupper(language_default()->language);
@@ -356,7 +376,7 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
 }
 
 /**
- * Import the multilingual importer.
+ * Creates types feed importer and runs the import.
  */
 function _nexteuropa_newsroom_create_multilingual_types_importer() {
   $def_lang = drupal_strtoupper(language_default()->language);
@@ -393,7 +413,7 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
 }
 
 /**
- * Import the multilingual importer.
+ * Creates services feed importer and runs the import.
  */
 function _nexteuropa_newsroom_create_multilingual_services_importer() {
   $def_lang = drupal_strtoupper(language_default()->language);
@@ -448,7 +468,7 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
 }
 
 /**
- * Helper function to enable languages.
+ * Enables languages.
  *
  * @param array $premapping
  *   The values to elaborate.
@@ -545,7 +565,7 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
 }
 
 /**
- * Helper function to enable languages.
+ * Enables languages.
  *
  * @param object $importer
  *   The importer to import.
@@ -573,7 +593,7 @@ function _nexteuropa_newsroom_import_importer($importer) {
 }
 
 /**
- * Helper prepares the tamper settings.
+ * Prepares the tamper settings.
  *
  * @param string $settings
  *   Tamper settings.
@@ -631,7 +651,10 @@ function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL
 }
 
 /**
- * Build tampers programmatically.
+ * Builds tampers programmatically.
+ *
+ * @param object $tamper
+ *   Tamper object.
  */
 function _nexteuropa_newsroom_dynamic_tamper($tamper) {
   $def_lang = language_default()->language;
@@ -667,10 +690,13 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
 }
 
 /**
- * Check if a field is translatable.
+ * Checks if a field is translatable.
  *
  * @param array $premapping
  *   Premappings array.
+ *
+ * @return array
+ *   Prepared premappings array.
  */
 function _nexteuropa_newsroom_check_translations(array $premapping) {
   $fields = field_info_fields();

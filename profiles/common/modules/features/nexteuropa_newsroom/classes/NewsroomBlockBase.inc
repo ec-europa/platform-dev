@@ -6,7 +6,7 @@
  */
 
 /**
- * NewsroomBlockBase class base class.
+ * NewsroomBlockBase base class.
  */
 abstract class NewsroomBlockBase {
 
@@ -14,11 +14,11 @@ abstract class NewsroomBlockBase {
   protected $isAgenda = FALSE;
   protected $lastestDate = NULL;
   protected $type = NULL;
-  protected $operator = 'OR';
+  protected $operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR;
   protected $topics = array();
 
   /**
-   * Contructor of NewsroomBlock class.
+   * Contructor of NewsroomBlockBase class.
    *
    * @param object $type
    *   Newsroom type taxonomy term.
@@ -56,7 +56,7 @@ abstract class NewsroomBlockBase {
   /**
    * Sets the latest agenda date.
    *
-   * @param Datetime $value
+   * @param object $value
    *    Latest date for the current agenda.
    */
   public function setLatestDate($value) {
@@ -144,7 +144,7 @@ abstract class NewsroomBlockBase {
   }
 
   /**
-   * Get css classes of a block.
+   * Gets css classes of a block.
    *
    * @return array
    *   CSS classes array.
@@ -177,7 +177,7 @@ abstract class NewsroomBlockBase {
    * Gets topic URL.
    *
    * @return string
-   *  Topic URL part.
+   *   Topic URL part.
    */
   public function getTopicUrl() {
     $url = 'all';
@@ -194,7 +194,7 @@ abstract class NewsroomBlockBase {
    * Returns topics ids.
    *
    * @return array
-   *  Topic IDs array.
+   *   Topic IDs array.
    */
   protected function getTopicsId() {
     $topic_ids = array();

@@ -16,10 +16,10 @@ class NewsroomAgendaMonth extends NewsroomAgenda {
    *   Newsroom type.
    * @param array $topics
    *   Newsroom topics.
-   * @param DateTime $current_month
+   * @param object $current_month
    *   Current month.
    */
-  public function __construct($type, $topics, DateTime $current_month) {
+  public function __construct($type, $topics, $current_month) {
     $this->setView('month');
     $this->setCurrentDate($current_month);
 
@@ -39,10 +39,10 @@ class NewsroomAgendaMonth extends NewsroomAgenda {
   /**
    * Adds date url parts.
    *
-   * @param DateTime $date
+   * @param object $date
    *   The current date.
    */
-  protected function setUrlItems(DateTime $date) {
+  protected function setUrlItems($date) {
     if ($date) {
       $this->addUrlPart($date->format('n'));
       $this->addUrlPart($date->format('Y'));

@@ -36,18 +36,28 @@ function nexteuropa_newsroom_disable() {
  * Implements hook_install().
  */
 function nexteuropa_newsroom_install() {
+  variable_set('newsroom_agenda_after_highlights', 1);
+  variable_set('newsroom_display_highlights_begin', 1);
+  variable_set('newsroom_base_url', NEXTEUROPA_NEWSROOM_BASE_URL);
+  variable_set('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_ITEM_SCRIPT);
+  variable_set('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT);
+  variable_set('newsroom_topic_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
+  variable_set('newsroom_single_topic_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT);
+  variable_set('newsroom_type_import_script', NEXTEUROPA_NEWSROOM_TYPE_SCRIPT);
+  variable_set('newsroom_single_type_import_segment', NEXTEUROPA_NEWSROOM_TYPE_SEGMENT);
+  variable_set('newsroom_service_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
+  variable_set('newsroom_single_service_import_segment', NEXTEUROPA_NEWSROOM_SERVICE_SEGMENT);
+  variable_set('newsroom_single_item_edit_segment', NEXTEUROPA_NEWSROOM_ITEM_EDIT_SEGMENT);
   variable_set('newsroom_summary_block_num_items', 3);
   variable_set('newsroom_summary_block_num_highlighted_items', 3);
   variable_set('newsroom_summary_home_block_num_agenda', 3);
   variable_set('newsroom_summary_home_block_num_items', 3);
   variable_set('newsroom_summary_home_block_num_highlighted_items', 3);
-  variable_set('newsroom_universe_root', 'http://ec.europa.eu/information_society/newsroom/cf/dae/');
   variable_set('newsroom_summary_block_columns', 1);
   variable_set('newsroom_display_agenda', 1);
   variable_set('newsroom_navigation_depth', 1);
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
-  variable_set('pathauto_node_newsroom_item_pattern', 'news/[node:source:title]');
   // Disabling the teaser view mode in the newsroom_item ct.
   $settings = field_bundle_settings('node', 'newsroom_item');
   $settings['view_modes']['teaser']['custom_settings'] = FALSE;
@@ -64,21 +74,24 @@ function nexteuropa_newsroom_install() {
  * Implements hook_uninstall().
  */
 function nexteuropa_newsroom_uninstall() {
-  variable_del('newsroom_block_items_by');
   variable_del('newsroom_summary_block_num_items');
   variable_del('newsroom_summary_block_num_highlighted_items');
   variable_del('newsroom_summary_home_block_num_agenda');
   variable_del('newsroom_summary_home_block_num_items');
   variable_del('newsroom_summary_home_block_num_highlighted_items');
-  variable_del('newsroom_universe_root');
-  variable_del('newsroom_summary_block_columns');
-  variable_del('newsroom_display_agenda');
-  variable_del('newsroom_url_mode');
-  variable_del('newsroom_navigation_depth');
   variable_del('newsroom_agenda_after_highlights');
   variable_del('newsroom_display_highlights_begin');
   variable_del('newsroom_universe_id');
-  variable_del('newsroom_default_importers');
+  variable_del('newsroom_base_url');
+  variable_del('newsroom_item_import_script');
+  variable_del('newsroom_single_item_import_segment');
+  variable_del('newsroom_topic_import_script');
+  variable_del('newsroom_single_topic_import_segment');
+  variable_del('newsroom_type_import_script');
+  variable_del('newsroom_single_type_import_segment');
+  variable_del('newsroom_service_import_script');
+  variable_del('newsroom_single_service_import_segment');
+  variable_del('newsroom_single_item_edit_segment');
 }
 
 /**
@@ -299,7 +312,10 @@ function nexteuropa_newsroom_update_7108() {
 }
 
 /**
- * Get current module version.
+ * Gets current module version.
+ *
+ * @return string
+ *   Module version.
  */
 function _nexteuropa_newsroom_get_version() {
   $module = basename(__FILE__, ".install");
@@ -384,7 +400,6 @@ function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
       }
     }
   }
-
   // Delete old instance.
   field_delete_field($old_name);
 
