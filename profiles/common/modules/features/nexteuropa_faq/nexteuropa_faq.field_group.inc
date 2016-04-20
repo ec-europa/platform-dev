@@ -51,10 +51,11 @@ function nexteuropa_faq_field_group_info() {
     'label' => 'Metadata',
     'weight' => '2',
     'children' => array(
-      0 => 'og_group_ref',
+      0 => 'field_ne_faq_categories',
       1 => 'group_content_access',
-      2 => 'field_ne_faq_categories',
-      3 => 'language',
+      2 => 'og_group_ref',
+      3 => 'field_tags',
+      4 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

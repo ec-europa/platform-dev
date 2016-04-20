@@ -35,6 +35,8 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
  *
  * When main translation job is removed,
  * delete also the sub translation if the translator is poetry.
+ *
+ * @TODO remove this deletion.
  */
 function tmgmt_poetry_tmgmt_job_delete($job) {
   $translator = $job->getTranslator();
@@ -53,10 +55,10 @@ function tmgmt_poetry_tmgmt_job_delete($job) {
 function _tmgmt_poetry_load_job_by_reference($reference) {
   $job = NULL;
   $result = db_select('tmgmt_job', 'job')
-      ->fields('job', array('tjid'))
-      ->condition('reference', $reference, '=')
-      ->execute()
-      ->fetchAssoc();
+    ->fields('job', array('tjid'))
+    ->condition('reference', $reference, '=')
+    ->execute()
+    ->fetchAssoc();
   if (isset($result['tjid']) && !empty($result['tjid'])) {
     $job = tmgmt_job_load($result['tjid']);
   }
@@ -72,13 +74,14 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
   if (isset($form_state['item'])) {
     $job = $form_state['item'];
     if ($job->state == 2) {
-      $translator_feedback_contacts = $job->getTranslator()->getSetting('feedback_contacts');
+      $translator_feedback_contacts = $job->getTranslator()
+        ->getSetting('feedback_contacts');
       $mailto = format_string('mailto:@mail?subject=@subject&cc=@cc',
-       array(
-         '@mail' => $translator_feedback_contacts['to'],
-         '@subject' => 'Issue with ' . $job->tjid,
-         '@cc' => $translator_feedback_contacts['cc'],
-       ));
+        array(
+          '@mail' => $translator_feedback_contacts['to'],
+          '@subject' => 'Issue with ' . $job->tjid,
+          '@cc' => $translator_feedback_contacts['cc'],
+        ));
       $form['actions']['feedback'] = array(
         '#type' => 'link',
         '#title' => 'Feedback to DGT',
@@ -116,11 +119,9 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     }
 
     $job = $form_state['tmgmt_job'];
-
     if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
       $form['translator_wrapper']['#collapsed'] = TRUE;
     }
-
     $job_items = $job->getItems();
     if (count($job_items) > 0) {
       $job_item = array_shift($job_items);
@@ -230,15 +231,15 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
  * @return mixed
  *   mixed.
  */
-function _tmgmt_poetry_obtain_related_translation_jobs($languages = array(), $reference = '', $not_poetry = FALSE) {
+function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
   $query->fields('job', array('tjid'))
-      ->fields('job_item', array('tjiid'));
+    ->fields('job_item', array('tjiid'));
   if (count($languages) > 0) {
     $query->condition('job.target_language', $languages, 'IN');
   }
-  $query->condition('job.reference', $reference . '%', 'LIKE');
+  $query->condition('job.reference', '%' . $reference, 'LIKE');
   if ($not_poetry) {
     $query->condition('job.reference', $reference . '_POETRY_%', 'NOT LIKE');
   }
@@ -260,11 +261,11 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages = array(), $re
  */
 function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
   db_insert('poetry_status')
-      ->fields(array(
-        'tjiid' => $tjiid,
-        'target_language' => $target_language,
-        'status' => $status,
-        'delai' => $delai,
-      ))
-      ->execute();
+    ->fields(array(
+      'tjiid' => $tjiid,
+      'target_language' => $target_language,
+      'status' => $status,
+      'delai' => $delai,
+    ))
+    ->execute();
 }

@@ -382,4 +382,18 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     return new TableNode($table);
   }
 
+  /**
+   * Enables translation for a field (temporary step @todo remove).
+   *
+   * @param string $field
+   *   The name of the field.
+   *
+   * @When I enable translation for field :field
+   */
+  public function enableTranslationForField($field) {
+    $info = field_info_field($field);
+    $info['translatable'] = 1;
+    field_update_field($info);
+  }
+
 }
