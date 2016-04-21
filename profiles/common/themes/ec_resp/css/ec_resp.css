@@ -308,8 +308,8 @@ img {
 .thumbnail a > img,
 .carousel-inner > .item > img,
 .carousel-inner > .item > a > img,
-div.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img > img,
-div.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img a > img {
+div.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img > img,
+div.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img a > img {
   display: block;
   max-width: 100%;
   height: auto;
@@ -9159,7 +9159,8 @@ ul.quicktabs-tabs.quicktabs-style-nostyle a:visited {
   color: #333;
   width: auto !important;
 }
-div.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img {
+/*--- Specific to nexteuropa mediagallery ---*/
+div.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img {
   display: block;
   padding: 4px;
   margin-bottom: 20px;
@@ -9170,20 +9171,28 @@ div.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorb
   -webkit-transition: border 0.2s ease-in-out;
   -o-transition: border 0.2s ease-in-out;
   transition: border 0.2s ease-in-out;
-}
-div.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img > img,
-div.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img a > img {
   margin-left: auto;
   margin-right: auto;
 }
-adiv.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img:hover,
-adiv.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img:focus,
-adiv.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img.active {
+div.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img > img,
+div.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img a > img {
+  margin-left: auto;
+  margin-right: auto;
+}
+adiv.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img:hover,
+adiv.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img:focus,
+adiv.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img.active {
   border-color: #0065a2;
 }
-div.node-nexteuropa-gallerymedia div.field-type-media div.content a.media-colorbox div.content img .caption {
+div.node-nexteuropa-mediagallery div.field-type-media div.content a.media-colorbox div.content img .caption {
   padding: 9px;
   color: #333333;
+}
+div.node-nexteuropa-mediagallery div.field-type-media div.field-item h2.element-invisible {
+  position: fixed !important;
+}
+div.node-nexteuropa-mediagallery div.field-type-media div.field-items {
+  margin-left: -15px;
 }
 /* ----------------- Fat footer ----------------- */
 .block-fat-footer {
