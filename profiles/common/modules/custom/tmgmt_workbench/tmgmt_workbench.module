@@ -10,16 +10,20 @@
  */
 function tmgmt_workbench_help($path, $arg) {
   $output = '';
+  $states = variable_get('tmgmt_workbench_moderation_states', array());
+  $states = array_filter($states);
+
   if ($path == 'node/%/translate') {
     $node = node_load($arg[1]);
     if (workbench_moderation_node_moderated($node)) {
-      $states = variable_get('tmgmt_workbench_moderation_states', array());
-      $states = array_filter($states);
       $node = node_load($arg[1]);
       $state = $node->workbench_moderation['current']->state;
       $output .= '<p>' . t('Translation of a piece of content is only available if its latest revision is in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states)));
       $output .= '<br/>' . t("The current piece of content's moderation state is: <strong>!state</strong>", array('!state' => $state)) . '</p>';
     }
+  }
+  if ($path == 'admin/tmgmt/sources') {
+    $output = $output . '<div>' . t('This table contains only content with latest revision in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states))) . '</div>';
   }
   return $output;
 }
