@@ -142,7 +142,7 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['fields']['tjid']['relationship'] = 'job_item';
   $handler->display->display_options['fields']['tjid']['label'] = '';
   $handler->display->display_options['fields']['tjid']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['tjid']['alter']['text'] = 'View job';
+  $handler->display->display_options['fields']['tjid']['alter']['text'] = 'View';
   $handler->display->display_options['fields']['tjid']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['tjid']['alter']['path'] = 'admin/tmgmt/jobs/[tjid]';
   $handler->display->display_options['fields']['tjid']['element_label_colon'] = FALSE;

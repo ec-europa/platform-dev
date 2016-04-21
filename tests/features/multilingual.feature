@@ -162,7 +162,6 @@ Feature: Multilingual features
     And I click "Français" in the "content" region
     Then I should see "Ce titre est en Français"
 
-    @run
   Scenario: I can access an overview of recent translation jobs.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
