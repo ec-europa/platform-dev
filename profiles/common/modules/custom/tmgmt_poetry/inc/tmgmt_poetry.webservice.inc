@@ -98,7 +98,7 @@ function _tmgmt_poetry_authenticate($user, $password) {
  * Function available to call from our webservice.
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
-  watchdog('Poetry: Response', xss_filter(htmlentities($msg)), array(), WATCHDOG_DEBUG);
+  watchdog('Poetry: Response', filter_xss(htmlentities($msg)), array(), WATCHDOG_DEBUG);
 
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
