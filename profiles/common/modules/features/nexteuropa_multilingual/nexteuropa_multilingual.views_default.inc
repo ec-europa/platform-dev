@@ -173,6 +173,10 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['fields']['state']['table'] = 'tmgmt_job';
   $handler->display->display_options['fields']['state']['field'] = 'state';
   $handler->display->display_options['fields']['state']['ui_name'] = 'State';
+  /* Field: Translation Management Job: Progress */
+  $handler->display->display_options['fields']['progress']['id'] = 'progress';
+  $handler->display->display_options['fields']['progress']['table'] = 'tmgmt_job';
+  $handler->display->display_options['fields']['progress']['field'] = 'progress';
   /* Field: Translation Management Message: Message */
   $handler->display->display_options['fields']['message']['id'] = 'message';
   $handler->display->display_options['fields']['message']['table'] = 'tmgmt_message';
