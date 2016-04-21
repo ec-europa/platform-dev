@@ -197,6 +197,9 @@ projects[extlink][version] = "1.18"
 projects[facetapi][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 
+projects[fast_404][subdir] = "contrib"
+projects[fast_404][version] = "1.5"
+
 projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
@@ -314,6 +317,11 @@ projects[jquery_update][version] = "2.7"
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
+; Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
+; https://www.drupal.org/node/1820210
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
+projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
+projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of-js-file.patch
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
@@ -419,6 +427,9 @@ projects[og][download][branch] = 7.x-2.x
 projects[og][download][revision] = fba6dda
 projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+; VBO and OG
+; https://www.drupal.org/node/2561507
+projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
@@ -649,6 +660,7 @@ projects[wysiwyg][version] = "2.2"
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
+projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -772,11 +784,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7
+; mpdf 5.7.4a
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "http://mpdf1.com/repos/MPDF57.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet

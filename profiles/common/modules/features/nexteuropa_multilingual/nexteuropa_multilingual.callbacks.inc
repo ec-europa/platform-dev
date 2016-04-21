@@ -62,6 +62,12 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   if (!empty($path)) {
     $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
 
+    // Remove duplicate base_path in URL (NEXTEUROPA-9311).
+    // Temporary fix until the next version of the link module.
+    if (base_path() != '/' && strpos($path, base_path()) == 0) {
+      $path = str_replace(base_path(), '', $path);
+    }
+
     $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
 
     // Check if the language suffix has been already added.
