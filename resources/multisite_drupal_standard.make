@@ -395,6 +395,9 @@ projects[media_vimeo][version] = "2.1"
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc5"
 
+projects[media_colorbox][subdir] = "contrib"
+projects[media_colorbox][version] = "1.0-rc4"
+
 projects[menu_attributes][subdir] = "contrib"
 projects[menu_attributes][version] = "1.0-rc3"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
