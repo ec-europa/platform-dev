@@ -68,18 +68,12 @@ function tmgmt_workbench_tmgmt_source_plugin_info() {
  * Implements hook_query_TAG_alter().
  */
 function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(QueryAlterableInterface $query) {
+  $moderated = workbench_moderation_moderate_node_types();
 
   // Alter query when on TMGMT Source Overview page.
   // See: TMGMTWorkbenchSourceUIController::overviewForm().
   if (drupal_static('tmgmt_workbench_overview_form')) {
     // Don't show content that is not moderated.
-    $node_types = node_type_get_types();
-    $moderated = array();
-    foreach ($node_types as $type => $machine) {
-      if (workbench_moderation_node_type_moderated($machine->type)) {
-        $moderated[] = $type;
-      }
-    }
     $fields = $query->getFields();
     $query->condition('e.type', $moderated, 'IN');
     // Don't show content that is not in a translatable state.
@@ -96,6 +90,9 @@ function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(Quer
         break;
       }
     }
+  }
+  else {
+    $query->condition('e.type', $moderated, 'NOT IN');
   }
 }
 
@@ -153,7 +150,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             '#disabled' => TRUE,
           );
           $form['languages']['#suffix'] = '<div class="description">' .
-          t('This content cannot be translated.') . '</div>';
+            t('This content cannot be translated.') . '</div>';
 
           if (!$always_show_direct_translation_links && ($langcode != $node->translations->original)) {
             $options[$langcode][5] = '';
