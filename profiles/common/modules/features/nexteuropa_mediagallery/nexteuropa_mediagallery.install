@@ -29,7 +29,7 @@ function nexteuropa_mediagallery_requirements() {
  */
 function nexteuropa_mediagallery_enable() {
   // SolR configuration add bundle.
-  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_gallerymedia', 'add');
+  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_mediagallery', 'add');
 
   // Add block in context.
   multisite_drupal_toolbox_add_block_context('homepage', 'nexteuropa_mediagallery-block', 'views', 'nexteuropa_mediagallery-block', 'content_top');
@@ -46,7 +46,7 @@ function nexteuropa_mediagallery_enable() {
  */
 function nexteuropa_mediagallery_disable() {
   // solR configuration add bundle.
-  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_gallerymedia', 'delete');
+  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_mediagallery', 'delete');
   multisite_drupal_toolbox_remove_block_context('homepage', 'galleries-medias_block');
 
   // Disable block Carousel.

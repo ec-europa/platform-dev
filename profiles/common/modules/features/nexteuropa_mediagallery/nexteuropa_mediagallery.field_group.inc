@@ -13,10 +13,10 @@ function nexteuropa_mediagallery_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_gallerymedia_content|node|nexteuropa_gallerymedia|form';
+  $field_group->identifier = 'group_gallerymedia_content|node|nexteuropa_mediagallery|form';
   $field_group->group_name = 'group_gallerymedia_content';
   $field_group->entity_type = 'node';
-  $field_group->bundle = 'nexteuropa_gallerymedia';
+  $field_group->bundle = 'nexteuropa_mediagallery';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
@@ -37,15 +37,15 @@ function nexteuropa_mediagallery_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_gallerymedia_content|node|nexteuropa_gallerymedia|form'] = $field_group;
+  $field_groups['group_gallerymedia_content|node|nexteuropa_mediagallery|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_gallerymedia_metadata|node|nexteuropa_gallerymedia|form';
+  $field_group->identifier = 'group_gallerymedia_metadata|node|nexteuropa_mediagallery|form';
   $field_group->group_name = 'group_gallerymedia_metadata';
   $field_group->entity_type = 'node';
-  $field_group->bundle = 'nexteuropa_gallerymedia';
+  $field_group->bundle = 'nexteuropa_mediagallery';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
@@ -67,7 +67,7 @@ function nexteuropa_mediagallery_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_gallerymedia_metadata|node|nexteuropa_gallerymedia|form'] = $field_group;
+  $field_groups['group_gallerymedia_metadata|node|nexteuropa_mediagallery|form'] = $field_group;
 
   // Translatables
   // Included for use with string extractors like potx.

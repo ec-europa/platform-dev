@@ -58,7 +58,7 @@ function nexteuropa_mediagallery_image_default_styles() {
  */
 function nexteuropa_mediagallery_node_info() {
   $items = array(
-    'nexteuropa_gallerymedia' => array(
+    'nexteuropa_mediagallery' => array(
       'name' => t('Media Gallery'),
       'base' => 'node_content',
       'description' => t('A Gallery of Media.'),
