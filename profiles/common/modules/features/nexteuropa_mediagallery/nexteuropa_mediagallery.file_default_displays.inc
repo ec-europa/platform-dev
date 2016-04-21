@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.file_default_displays.inc
+ * nexteuropa_mediagallery.file_default_displays.inc
  */
 
 /**
  * Implements hook_file_default_displays().
  */
-function nexteuropa_galleries_file_default_displays() {
+function nexteuropa_mediagallery_file_default_displays() {
   $export = array();
 
   $file_display = new stdClass();

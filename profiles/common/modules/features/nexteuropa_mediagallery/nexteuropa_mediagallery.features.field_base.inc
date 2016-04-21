@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.features.field_base.inc
+ * nexteuropa_mediagallery.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function nexteuropa_galleries_field_default_field_bases() {
+function nexteuropa_mediagallery_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'field_media_upload'.

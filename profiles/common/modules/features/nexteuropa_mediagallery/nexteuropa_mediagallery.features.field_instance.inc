@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.features.field_instance.inc
+ * nexteuropa_mediagallery.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function nexteuropa_galleries_field_default_field_instances() {
+function nexteuropa_mediagallery_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-nexteuropa_gallerymedia-body'.

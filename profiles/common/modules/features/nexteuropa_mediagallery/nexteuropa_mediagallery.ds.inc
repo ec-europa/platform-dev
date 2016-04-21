@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.ds.inc
+ * nexteuropa_mediagallery.ds.inc
  */
 
 /**
  * Implements hook_ds_view_modes_info().
  */
-function nexteuropa_galleries_ds_view_modes_info() {
+function nexteuropa_mediagallery_ds_view_modes_info() {
   $export = array();
 
   $ds_view_mode = new stdClass();

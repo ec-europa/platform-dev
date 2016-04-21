@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.strongarm.inc
+ * nexteuropa_mediagallery.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function nexteuropa_galleries_strongarm() {
+function nexteuropa_mediagallery_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.features.inc
+ * nexteuropa_mediagallery.features.inc
  */
 
 /**
  * Implements hook_ctools_plugin_api().
  */
-function nexteuropa_galleries_ctools_plugin_api($module = NULL, $api = NULL) {
+function nexteuropa_mediagallery_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "ds" && $api == "ds") {
     return array("version" => "1");
   }
@@ -25,14 +25,14 @@ function nexteuropa_galleries_ctools_plugin_api($module = NULL, $api = NULL) {
 /**
  * Implements hook_views_api().
  */
-function nexteuropa_galleries_views_api($module = NULL, $api = NULL) {
+function nexteuropa_mediagallery_views_api($module = NULL, $api = NULL) {
   return array("api" => "3.0");
 }
 
 /**
  * Implements hook_image_default_styles().
  */
-function nexteuropa_galleries_image_default_styles() {
+function nexteuropa_mediagallery_image_default_styles() {
   $styles = array();
 
   // Exported image style: landscape.
@@ -56,7 +56,7 @@ function nexteuropa_galleries_image_default_styles() {
 /**
  * Implements hook_node_info().
  */
-function nexteuropa_galleries_node_info() {
+function nexteuropa_mediagallery_node_info() {
   $items = array(
     'nexteuropa_gallerymedia' => array(
       'name' => t('Media Gallery'),

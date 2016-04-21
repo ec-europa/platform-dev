@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.field_group.inc
+ * nexteuropa_mediagallery.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function nexteuropa_galleries_field_group_info() {
+function nexteuropa_mediagallery_field_group_info() {
   $field_groups = array();
 
   $field_group = new stdClass();

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * nexteuropa_galleries.views_default.inc
+ * nexteuropa_mediagallery.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function nexteuropa_galleries_views_default_views() {
+function nexteuropa_mediagallery_views_default_views() {
   $export = array();
 
   $view = new view();
