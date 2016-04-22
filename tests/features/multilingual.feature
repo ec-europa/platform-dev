@@ -109,7 +109,7 @@ Feature: Multilingual features
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
-#    @run
+    @run
   Scenario: I can re-import a translation by re-submitting the translation job.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -175,27 +175,32 @@ Feature: Multilingual features
       | it       | Title in Italian 2 | Body in Italian 2 |
       | de       | Title in German 2  | Body in German 2  |
     And I create the following job for "page" with title "Title in English 1"
-      | source language | en                |
-      | target language | fr                |
-      | translator      | Translator A      |
-      | title_field     | Title in French 1 |
-      | reference       | AAA/BBB/CCC/1     |
+      | source language | en                                      |
+      | target language | fr                                      |
+      | translator      | Translator A                            |
+      | title_field     | Title in French 1                       |
+      | reference       | MAIN_4_POETRY_WEB/2016/63904/0/0/TRA    |
     And I create the following job for "page" with title "Title in English 1"
-      | source language | en                 |
-      | target language | it                 |
-      | translator      | Translator A       |
-      | title_field     | Title in Italian 1 |
-      | reference       | AAA/BBB/CCC/1      |
+      | source language | en                                      |
+      | target language | it                                      |
+      | translator      | Translator A                            |
+      | title_field     | Title in Italian 1                      |
+      | reference       | SUB_4_POETRY_WEB/2016/63904/0/0/TRA     |
     And I create the following job for "page" with title "Title in English 2"
-      | source language | en                 |
-      | target language | fr                 |
-      | translator      | Translator A       |
-      | title_field     | Title in French 2  |
-      | reference       | DDD/EEE/FFF/1      |
+      | source language | en                                      |
+      | target language | fr                                      |
+      | translator      | Translator A                            |
+      | title_field     | Title in French 2                       |
+      | reference       | SUB_4_POETRY_WEB/2016/63904/0/0/TRA     |
     And I am on "admin/tmgmt/recent-changes"
     Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 English French" row
+    And I should see "WEB/2016/63904/0/0/TRA " in the "Title in English 1 English French" row
     And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 English Italian" row
-    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 English French" row
+    And I should see "WEB/2016/63904/0/0/TRA " in the "Title in English 1 English Italian" row
+    And I should see "The translation of Title in English 2 to German is finished and can now be reviewed." in the "Title in English 2 English German" row
+    And I should see "WEB/2016/63904/0/0/TRA " in the "Title in English 1 English German" row
+    And I should not see "MAIN_"
+    And I should not see "SUB_"
     Given the translation job with label "Title in English 1" and target language "fr" is accepted
     And I am on "admin/tmgmt/recent-changes"
     Then I should see "The translation for Title in English 1 has been accepted."
