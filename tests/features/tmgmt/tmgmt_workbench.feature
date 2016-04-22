@@ -1,4 +1,4 @@
-@api @tmgmt_workbench
+@api
 Feature: TMGMT Workbench features
   In order to request a new translation for moderated content
   As a Translation manager user
@@ -38,13 +38,10 @@ Feature: TMGMT Workbench features
     Then I click "Translation" in the "admin_menu" region
     And I click "Sources"
     Then I should see the text "Moderated content overview"
-    And I should see "Basic page" in the "This title is in English" row
+    And I should see "published" in the "This title is in English" row
     Then I click "Node"
     Then I should see the text "Node overview (Entity)"
     Then I am viewing an "Editorial team" content with the title "New Editorial section"
     Then I click "Translation" in the "admin_menu" region
     And I click "Sources"
     Then I should not see "New Editorial team"
-    Then I click "Content"
-  #Need a content type that applies to nodes not moderated.
-   # Then I should see "Editorial team" in the "New Editorial section" row
