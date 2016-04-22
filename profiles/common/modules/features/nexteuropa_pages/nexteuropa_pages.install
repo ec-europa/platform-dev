@@ -23,12 +23,14 @@ function nexteuropa_pages_install() {
   // Stage page field instance settings.
   $service = multisite_config_service('field');
 
-  $service->createInstanceField('body', 'node', 'page')
+  $service->createInstanceField('field_ne_body', 'node', 'page')
     ->label('Body')
     ->widget('text_textarea_with_summary')
     ->display('default', 'text_default', 'hidden')
     ->display('teaser', 'text_summary_or_trimmed', 'hidden')
     ->save();
+
+  $service->deleteInstanceField('body', 'node', 'page');
 
   $service->createInstanceField('field_tags', 'node', 'page')
     ->label('Tags')
@@ -50,7 +52,7 @@ function nexteuropa_pages_install() {
     ->setChildren(array(
       'title_field',
       'title',
-      'body',
+      'field_ne_body',
     ))
     ->setType('tab')->setFormatter('closed')->setWeight(0)
     ->setInstanceSetting('classes', 'group-page-content field-group-tab')
@@ -81,7 +83,7 @@ function nexteuropa_pages_update_7201() {
     ->setChildren(array(
       'title_field',
       'title',
-      'body',
+      'field_ne_body',
     ))
     ->setType('tab')->setFormatter('closed')->setWeight(0)
     ->setInstanceSetting('classes', 'group-page-content field-group-tab')
