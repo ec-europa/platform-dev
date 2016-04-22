@@ -67,4 +67,5 @@ class Config extends ConfigBase {
       field_delete_instance($instance);
     }
   }
+
 }
