@@ -8,6 +8,13 @@
 include_once 'nexteuropa_webtools.features.inc';
 
 /**
+ * Default filter view, exposed by nexteuropa_token_ckeditor module.
+ *
+ * @see nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter()
+ */
+define('NEXTEUROPA_WEBTOOLS_DEFAULT_FILTER_VIEW', 'nexteuropa_webtools_filter_view:default');
+
+/**
  * Implements hook_menu().
  */
 function nexteuropa_webtools_menu() {
@@ -219,12 +226,34 @@ function nexteuropa_webtools_views_api() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function nexteuropa_webtools_ckeditor_theme($existing, $type, $theme, $path) {
+  return array(
+    'webtools_ckeditor_tips' => array(
+      'template' => 'webtools-ckeditor-tips',
+      'path' => $path . '/theme',
+    ),
+  );
+}
+
+/**
+ * Implements hook_custom_theme().
+ */
+function nexteuropa_webtools_ckeditor_custom_theme() {
+  if (strpos(current_path(), 'nexteuropa/token-ckeditor') === 0) {
+    return 'seven';
+  }
+}
+
+/**
  * AJAX page callback.
  *
  * @see: nexteuropa_token_ckeditor_menu()
  */
 function nexteuropa_webtools_ajax_callback($editor_id = '') {
-  drupal_add_js(drupal_get_path('module', 'nexteuropa_webtools') . '/js/nexteuropa_block_ckeditor.js');
+  drupal_add_js(drupal_get_path('module', 'nexteuropa_webtools') . '/js/nexteuropa_webtools_ckeditor.js');
+  drupal_add_css(drupal_get_path('module', 'nexteuropa_webtools') . '/css/nexteuropa_webtools_ckeditor.css');
 
   $filter_view = variable_get('nexteuropa_webtools_filter_view', NEXTEUROPA_WEBTOOLS_DEFAULT_FILTER_VIEW);
   list($view_name, $display_id) = explode(':', $filter_view);
@@ -249,3 +278,4 @@ function nexteuropa_webtools_ajax_access_callback() {
   $view = views_get_view($view_name);
   return $view && $view->access($display_id);
 }
+

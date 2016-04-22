@@ -67,7 +67,7 @@ class nexteuropa_webtools_handler_field_selection extends views_handler_field {
     $attributes['token-ckeditor-label'] = $entity_label;
     $output = array();
 
-    $attributes['token-ckeditor-token'] = "[node:$entity_id:view-mode:default]";
+    $attributes['token-ckeditor-token'] = "[bean:$entity_id:view-mode:default]";
     $attributes['token-ckeditor-type'] = 'default';
     $output[] = l(t('Default'), '', array('attributes' => $attributes));
 

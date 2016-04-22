@@ -10,31 +10,28 @@
 function nexteuropa_webtools_views_default_views() {
   $views = array();
 
+  // Export code begin.
   $view = new view();
-  $view->name = 'nexteuropa_webtools_filter_view_4';
+  $view->name = 'nexteuropa_webtools_filter_view';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'bean';
-  $view->human_name = 'NextEuropa Token CKEditor: Filter view for beans.';
+  $view->human_name = 'NextEuropa Token CKEditor: Filter view for webtools.';
   $view->core = 7;
   $view->api_version = '3.0';
-  $view->disabled = FALSE; /* Edit this to false to make a default view enabled initially */
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
-  $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->display->display_options['title'] = 'Bean Block Overview';
-  /* AJAX is used because form submission does not always work .. see http://drupal.org/node/525592 */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = '';
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['access']['perm'] = 'view bean page';
+  $handler->display->display_options['access']['perm'] = 'administer nodes';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
-  $handler->display->display_options['exposed_form']['options']['autosubmit'] = 0;
-  $handler->display->display_options['exposed_form']['options']['autosubmit_hide'] = 1;
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '50';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
     'title' => 'title',
@@ -43,7 +40,7 @@ function nexteuropa_webtools_views_default_views() {
     'type' => 'type',
     'nexteuropa_webtools_widget_selection' => 'nexteuropa_webtools_widget_selection',
   );
-  $handler->display->display_options['style_options']['default'] = 'title';
+  $handler->display->display_options['style_options']['default'] = '-1';
   $handler->display->display_options['style_options']['info'] = array(
     'title' => array(
       'sortable' => 1,
@@ -146,3 +143,4 @@ function nexteuropa_webtools_views_default_views() {
 
   return $views;
 }
+
