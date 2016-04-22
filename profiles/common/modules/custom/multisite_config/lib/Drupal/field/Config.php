@@ -66,6 +66,5 @@ class Config extends ConfigBase {
     if ($instance = field_info_instance($bundle, $field_name, $entity_type)) {
       field_delete_instance($instance);
     }
-  }  
-
+  }
 }
