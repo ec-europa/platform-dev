@@ -102,7 +102,8 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
       $path = ($path == 'index') ? '' : $path;
       // Add extra params after suffix.
       if (count($extra_params) > 0) {
-        $path .= "/" . implode("/", $extra_params);
+        $path .= ($path == '') ? '' : '/';
+        $path .= implode("/", $extra_params);
       }
       return array($language, $path);
     }
