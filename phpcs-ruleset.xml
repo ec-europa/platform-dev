@@ -60,6 +60,7 @@
     <!-- Context reaction not strictly follow Drupal function name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
         <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_newsroom/plugins/nexteuropa_newsroom_agenda_reaction.inc</exclude-pattern>
     </rule>
 
     <!-- Code based on the classes from the Web Service Clients module do not follow Drupal class name conventions. -->
