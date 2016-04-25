@@ -424,7 +424,7 @@ projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
 projects[og][download][branch] = 7.x-2.x
-projects[og][download][revision] = fba6dda
+projects[og][download][revision] = 905ebc0
 projects[og][download][type] = git
 projects[og][subdir] = "contrib"
 ; VBO and OG
