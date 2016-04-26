@@ -7,7 +7,6 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
-        - Drupal\nexteuropa\Context\PhantomjsContext
       filters:
         tags: "~@communities&&~@wip"
   extensions:
@@ -35,6 +34,7 @@ default:
         root: '${platform.build.dir}'
         binary: "${drush.bin}"
       region_map:
+        admin_menu: "#admin-menu-menu"
         content_top: ".region-content-top"
         header_top: ".region-header-top"
         header: "#layout-header"
@@ -53,7 +53,6 @@ communities:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
-        - Drupal\nexteuropa\Context\PhantomjsContext
       filters:
         tags: "@communities&&~@wip"
   extensions:
