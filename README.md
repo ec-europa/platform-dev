@@ -7,6 +7,7 @@
 
 * Composer
 * PHP Phar extension
+* PhantomJS (in order to run JavaScript during Behat tests)
 
 ## Install build system
 
@@ -95,6 +96,15 @@ then you'll need to set up the Behat configuration manually:
 
 ```
 $ ./bin/phing setup-behat
+```
+
+In order to run JavaScript in your Behat tests, you must launch a PhantomJS
+instance before. Use the `--debug` parameter to get more information. Please
+be sure that the webdriver's port you specify corresponds to the one in your
+Behat configuration (`wd_host: "http://localhost:8643/wd/hub"`).
+
+```
+$ phantomjs --debug=true --webdriver=8643
 ```
 
 The easiest way to run the tests is by going into the test folder and executing
