@@ -70,8 +70,7 @@ Feature: TMGMT Poetry features
     And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English Italian" row
     And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 English French" row
     And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
-    And I should not see "MAIN_"
-    And I should not see "SUB_"
+    And I should not see "_POETRY_"
     Given the translation job with label "Title in English 1" and target language "fr" is accepted
     And I am on "admin/tmgmt/recent-changes"
     Then I should see "The translation for Title in English 1 has been accepted."
