@@ -5,6 +5,9 @@ Feature: TMGMT Workbench features
   I want to be have TMGMT and Workbench Moderation integrated correctly
 
   Background:
+    Given the module is enabled
+      |modules           |
+      |tmgmt_workbench      |
     And the following languages are available:
       | languages |
       | en        |
@@ -27,3 +30,18 @@ Feature: TMGMT Workbench features
     And I press the "Request translation" button
     Then I am on a translation job page with "workbench_moderation" job items
 
+  Scenario: NEXTEUROPA-10448: When viewing translation overview page I only see moderated nodes.
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title                        | status |
+      | en       | This title is in English     | 1      |
+    Then I click "Translation" in the "admin_menu" region
+    And I click "Sources"
+    Then I should see the text "Moderated content overview"
+    And I should see "published" in the "This title is in English" row
+    Then I click "Node"
+    Then I should see the text "Node overview (Entity)"
+    Then I am viewing an "Editorial team" content with the title "New Editorial section"
+    Then I click "Translation" in the "admin_menu" region
+    And I click "Sources"
+    Then I should not see "New Editorial team"
