@@ -11,6 +11,7 @@ Feature: Multilingual features
       | en        |
       | fr        |
       | de        |
+      | it        |
 
   Scenario: Content can be translated in available languages
     Given I am viewing a multilingual "page" content:
@@ -108,7 +109,6 @@ Feature: Multilingual features
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
-#    @run
   Scenario: I can re-import a translation by re-submitting the translation job.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -148,14 +148,14 @@ Feature: Multilingual features
       | language | title                    |
       | en       | This title is in English |
     Then I should not see the link "Français" in the "content" region
-    And I create a translation job for "page" with title "This title is in English" and the following properties:
+    And I create the following job for "page" with title "This title is in English"
       | source language | en                          |
       | target language | fr                          |
       | translator      | Translator A                |
       | title_field     | Ce titre est en Français    |
     Then the translation job is in "Active" state
     And the translation job items are in "Needs review" state
-    And the translation job is accepted
+    And the current translation job is accepted
     And I click "View"
     Then I should see the link "Français" in the "content" region
     And I click "Français" in the "content" region
