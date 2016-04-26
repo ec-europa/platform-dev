@@ -7,7 +7,6 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
-        - Drupal\nexteuropa\Context\PhantomjsContext
       filters:
         tags: "~@communities&&~@wip"
   extensions:
@@ -54,7 +53,6 @@ communities:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
-        - Drupal\nexteuropa\Context\PhantomjsContext
       filters:
         tags: "@communities&&~@wip"
   extensions:
