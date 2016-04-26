@@ -8,11 +8,13 @@
  * Security access callbacks setup ().
  */
 function _tmgmt_poetry_access_entity_info_alter(&$info) {
-  if (!empty($info['tmgmt_job'])) {
-    $info['tmgmt_job']['access callback'] = 'tmgmt_poetry_job_access';
-  }
-  if (!empty($info['tmgmt_job_item'])) {
-    $info['tmgmt_job_item']['access callback'] = 'tmgmt_poetry_job_item_access';
+  if ($GLOBALS['user']->uid != 1) {
+    if (!empty($info['tmgmt_job'])) {
+      $info['tmgmt_job']['access callback'] = 'tmgmt_poetry_job_access';
+    }
+    if (!empty($info['tmgmt_job_item'])) {
+      $info['tmgmt_job_item']['access callback'] = 'tmgmt_poetry_job_item_access';
+    }
   }
 }
 
