@@ -124,25 +124,19 @@ function nexteuropa_pages_update_7202() {
 
   // Copy values from body field to field_ne_body field.
   $efq = new EntityFieldQuery();
- 
-  foreach($contents_types as $ct) {
-    $efq->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', 'page')
-      ->fieldCondition('body', 'value', '', '!=');
- 
-    $result = $efq->execute();
- 
-    foreach($result['node'] as $nid => $stub_node) {
-      $node = node_load($nid);
-      $wrapped_node = entity_metadata_wrapper("node", $node);
-      $body = $wrapped_node->body->value();
-      $wrapped_node->field_ne_body->set($body);
-      $wrapped_node->save();
-    }
+  $efq->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'page')
+    ->fieldCondition('body', 'value', '', '!=');
+  $result = $efq->execute();
+
+  foreach ($result['node'] as $nid => $stub_node) {
+    $node = node_load($nid);
+    $wrapped_node = entity_metadata_wrapper("node", $node);
+    $body = $wrapped_node->body->value();
+    $wrapped_node->field_ne_body->set($body);
+    $wrapped_node->save();
   }
-  
+
   // Remove the instance of the body field in page.
   $service->deleteInstanceField('body', 'node', 'page');
 }
-
-
