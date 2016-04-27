@@ -63,7 +63,7 @@ class Config extends ConfigBase {
    *    Bundle machine name.
    */
   public function deleteInstanceField($field_name, $entity_type, $bundle) {
-    if ($instance = field_info_instance($bundle, $field_name, $entity_type)) {
+    if ($instance = field_info_instance($entity_type, $field_name, $bundle)) {
       field_delete_instance($instance);
     }
   }
