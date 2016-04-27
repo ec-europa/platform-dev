@@ -108,7 +108,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
     $reference = implode("/", (array) $request->demandeId);
-    
+
     // Watchdog is only temporary information, save the file to the filesystem.
     $path = 'public://tmgmt_file/dgt_responses/' . $reference . '.xml';
     $dirname = dirname($path);
