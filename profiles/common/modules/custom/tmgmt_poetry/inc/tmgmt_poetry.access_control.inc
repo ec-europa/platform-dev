@@ -35,7 +35,7 @@ function tmgmt_poetry_job_access($op, TMGMTJob $job = NULL, $account = NULL) {
   if ($GLOBALS['user']->uid == 1) {
     return TRUE;
   }
-  else if ($job !== NULL) {
+  elseif ($job !== NULL) {
     $items = $job->getItems();
     if (count($items) > 0) {
       $job_item = array_shift($items);
