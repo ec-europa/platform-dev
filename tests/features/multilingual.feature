@@ -107,3 +107,29 @@ Feature: Multilingual features
     And I should see the heading "This title is in English"
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
+
+        
+  Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "Original version"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I select "Translator A" from "Translator"
+    And I press "Submit to translator"
+    Then I click "In progress" in the "French" row
+    And I press "Save"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I click "New draft" in the "primary_tabs" region
+    And I fill in "Other different Title" for "Title"
+    And I press "Save"
+    And I select "Validated" from "Moderation state"
+    And I press "Apply"
+    And I click "View published" in the "primary_tabs" region
+    Then the url should match "(.)*content/original-version_en"
