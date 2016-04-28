@@ -71,7 +71,7 @@ function nexteuropa_news_strongarm() {
           'weight' => '5',
         ),
         'language' => array(
-          'weight' => '2',
+          'weight' => '12',
         ),
       ),
       'display' => array(),

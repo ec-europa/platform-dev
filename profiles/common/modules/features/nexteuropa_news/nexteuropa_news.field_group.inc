@@ -24,11 +24,9 @@ function nexteuropa_news_field_group_info() {
     'weight' => '0',
     'children' => array(
       0 => 'body',
-      1 => 'field_background_information',
-      2 => 'field_description',
-      3 => 'field_introduction',
-      4 => 'field_long_title',
-      5 => 'title_field',
+      1 => 'title_field',
+      2 => 'field_abstract',
+      3 => 'field_image',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -55,10 +53,13 @@ function nexteuropa_news_field_group_info() {
     'label' => 'Metadata',
     'weight' => '1',
     'children' => array(
-      0 => 'field_sources',
-      1 => 'group_content_access',
-      2 => 'og_group_ref',
-      3 => 'language',
+      0 => 'group_content_access',
+      1 => 'og_group_ref',
+      2 => 'field_related_links',
+      3 => 'field_related_documents',
+      4 => 'field_tags',
+      5 => 'field_event_type',
+      6 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
