@@ -37,7 +37,6 @@ function nexteuropa_webtools_views_default_views() {
     'title' => 'title',
     'label' => 'label',
     'delta' => 'delta',
-    'type' => 'type',
     'nexteuropa_webtools_widget_selection' => 'nexteuropa_webtools_widget_selection',
   );
   $handler->display->display_options['style_options']['default'] = '-1';
@@ -63,11 +62,6 @@ function nexteuropa_webtools_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'type' => array(
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
     'nexteuropa_webtools_widget_selection' => array(
       'align' => '',
       'separator' => '',
@@ -86,10 +80,6 @@ function nexteuropa_webtools_views_default_views() {
   $handler->display->display_options['fields']['delta']['id'] = 'delta';
   $handler->display->display_options['fields']['delta']['table'] = 'bean';
   $handler->display->display_options['fields']['delta']['field'] = 'delta';
-  /* Field: Block: Type */
-  $handler->display->display_options['fields']['type']['id'] = 'type';
-  $handler->display->display_options['fields']['type']['table'] = 'bean';
-  $handler->display->display_options['fields']['type']['field'] = 'type';
   /* Field: CKEditor selection: Content */
   $handler->display->display_options['fields']['nexteuropa_webtools_widget_selection']['id'] = 'nexteuropa_webtools_widget_selection';
   $handler->display->display_options['fields']['nexteuropa_webtools_widget_selection']['table'] = 'bean';
@@ -112,12 +102,8 @@ function nexteuropa_webtools_views_default_views() {
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'bean';
   $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
-  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
-  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
-  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
-  $handler->display->display_options['filters']['type']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['type']['value'] = array('webtools');
+  $handler->display->display_options['filters']['type']['exposed'] = FALSE;
   /* Filter criterion: Block: title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'bean';
