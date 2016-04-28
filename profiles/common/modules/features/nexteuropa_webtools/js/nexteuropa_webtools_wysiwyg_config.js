@@ -62,7 +62,6 @@
                   $('a.cke_dialog_tab').removeClass('cke_dialog_tab_disabled');
               };
           });
-
       }
     });
 
