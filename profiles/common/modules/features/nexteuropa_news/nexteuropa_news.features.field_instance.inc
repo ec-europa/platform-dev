@@ -344,7 +344,7 @@ function nexteuropa_news_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 8,
+      'weight' => 6,
     ),
   );
 
