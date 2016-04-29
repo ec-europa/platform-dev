@@ -11,24 +11,13 @@ Feature: Nexteuropa Newsroom
     Given I am logged in as a user with the "administrator" role
     When I visit "admin/config/content/newsroom"
     Then I should see the text "Universe ID value"
-    And I should see the text "Newsroom proposal URL"
 
-  Scenario: Checks access to newsroom settings
-    Given I am logged in as a user with the "administrator" role
-    When I visit "admin/config/content/newsroom"
-    Then I should see the text "Universe ID value"
-    And I should see the text "Newsroom proposal URL"
-
-  Scenario: Saves Universe ID
+  Scenario: Saves Universe ID and builds importers
     Given I am logged in as a user with the "administrator" role
     When I visit "admin/config/content/newsroom"
     And I fill in "newsroom_universe_id" with "dae"
-    When I press "Save configuration"
+    And I press "Save configuration"
     Then I should see "The configuration options have been saved."
-
-  Scenario: Build newsroom importers
-    Given I am logged in as a user with the "administrator" role
-    When I visit "admin/config/content/newsroom"
     When I press "Rebuild importers"
     Then I should see "Newsroom importers have been successfully recreated."
 

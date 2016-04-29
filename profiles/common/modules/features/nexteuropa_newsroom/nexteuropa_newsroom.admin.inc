@@ -473,10 +473,8 @@ function _nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
   $patterns ? variable_set('newsroom_patterns', 1) : variable_set('newsroom_patterns', 0);
 
   // Create default importers if new Newsroom Universe ID detected.
-  if ($form_state['values']['newsroom_universe_id'] <> $form['universe_id']['newsroom_universe_id']['#default_value']) {
+  if ($form_state['values']['newsroom_universe_id']) {
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
-
-    _nexteuropa_newsroom_create_default_importers();
   }
 
   // If the validation returns the confirm request.
@@ -877,9 +875,6 @@ function _nexteuropa_newsroom_admin_prepare_check(array $previous, array $input)
 
 /**
  * Rebuilds multilingual importers.
- *
- * @return array
- *   Rendable array for ajax callback.
  */
 function _nexteuropa_newsroom_admin_rebuild_importers() {
   // Remove importers.
