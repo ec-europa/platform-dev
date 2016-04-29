@@ -661,6 +661,7 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
   $feeds_tamper = new stdClass();
   $feeds_tamper->disabled = FALSE;
   $feeds_tamper->api_version = 2;
+  $feeds_tamper->export_type = 1;
   $feeds_tamper->weight = 0;
   if ($tamper == NULL) {
     $feeds_tamper->id = 'newsroom_items_multilingual-blank_source_1-default_value';
