@@ -73,22 +73,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#access' => user_access('administer newsroom advanced settings'),
   );
 
-  if ($newsroom_universe_id) {
-    $form['newsroom_others']['rebuild'] = array(
-      '#type' => 'submit',
-      '#value' => t('Rebuild importers on the fly'),
-      '#prefix' => '<div id="newsroom_rebuild">',
-      '#suffix' => '<div class="description">' . t("Rebuild the importers if you enabled or disabled languages or if you are noticing unexpected behaviors like fields not imported.") . '</div></div>',
-      '#ajax' => array(
-        'callback' => '_nexteuropa_newsroom_admin_rebuild_importers',
-        'event' => 'click',
-        'wrapper' => 'newsroom_rebuild',
-        'effect' => 'fade',
-        'method' => 'replace',
-      ),
-    );
-  }
-
   $form['newsroom_others']['clean_cache'] = array(
     '#type' => 'submit',
     '#value' => 'Clean newsroom cache',
@@ -403,6 +387,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       '#access' => TRUE,
       '#submit' => array('_nexteuropa_newsroom_create_default_importers'),
       '#weight' => 10,
+    );
+    $form['actions']['rebuild'] = array(
+      '#type' => 'submit',
+      '#value' => t('Rebuild importers'),
+      '#access' => TRUE,
+      '#submit' => array('_nexteuropa_newsroom_admin_rebuild_importers'),
+      '#weight' => 11,
     );
   }
 
@@ -905,10 +896,5 @@ function _nexteuropa_newsroom_admin_rebuild_importers() {
     call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
   }
 
-  $form['rebuilt'] = array(
-    '#type' => 'markup',
-    '#markup' => '<div class="messages status">' . t('Importers have been rebuilt') . '</div>',
-  );
-
-  return $form['rebuilt'];
+  drupal_set_message(t('Newsroom importers have been successfully recreated.'));
 }
