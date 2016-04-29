@@ -24,6 +24,13 @@ function tmgmt_poetry_views_data_alter(&$data) {
 }
 
 /**
+ * Implements hook_views_data_alter().
+ */
+function tmgmt_poetry_views_data_alter(&$data) {
+  $data['tmgmt_job']['reference']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_reference';
+}
+
+/**
  * Implements hook_tmgmt_translator_plugin_info().
  */
 function tmgmt_poetry_tmgmt_translator_plugin_info() {
