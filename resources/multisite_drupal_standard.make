@@ -211,7 +211,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.7"
+projects[features][version] = "2.9"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
