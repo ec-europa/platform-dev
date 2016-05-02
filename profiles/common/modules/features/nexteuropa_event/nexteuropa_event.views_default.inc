@@ -50,7 +50,7 @@ function nexteuropa_event_views_default_views() {
     'classification' => 0,
     'tags' => 0,
   );
-  /* Field: Content: Mission */
+  /* Field: Content: Body */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
@@ -203,7 +203,7 @@ function nexteuropa_event_views_default_views() {
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['style_plugin'] = 'date_ical';
-  $handler->display->display_options['style_options']['cal_name'] = 'Nexteuropa calendar';
+  $handler->display->display_options['style_options']['cal_name'] = 'Nexteuropa event calendar';
   $handler->display->display_options['row_plugin'] = 'date_ical_fields';
   $handler->display->display_options['row_options']['date_field'] = 'field_dates';
   $handler->display->display_options['row_options']['title_field'] = 'title';
