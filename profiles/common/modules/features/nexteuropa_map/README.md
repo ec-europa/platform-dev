@@ -74,6 +74,12 @@ The feature has been proposed for generic use to the product owners of Next Euro
 ## Copyright
 * Background maps available in the Webtools feature can only be used on European Commission and inter-institutional websites. For more info:  Laurent Jacques CORVELEYN (COMM)
 * Boundaries of countries and NUTS regions are copyright EuroGeographics and copyright UN-FAO and are for Inter-Institutional use only. For more info:  Hannes REUTER (ESTAT)
+* "Maps" is provided by the Webtools team
+* "Nexteuropa map" is provided by DG Connect's web team
+
+## Contact persons
+* DOESBORG Boris (CNECT) <Boris.DOESBORG@ext.ec.europa.eu>, developer, DG Connect
+* ARNAUDO Luca (CNECT) <Luca.ARNAUDO@ec.europa.eu>, team leader, DG Connect
 
 ## Contributed modules
 * Geofield http://drupal.org/project/geofield
