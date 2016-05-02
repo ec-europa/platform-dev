@@ -71,7 +71,7 @@ function tmgmt_poetry_test_receive_translation() {
   }
   catch (Exception $e) {
     $response = 'Error new SoapClient : ' . $e->getMessage();
-    watchdog('Poetry: Test', xss_filter($response));
+    watchdog('Poetry: Test', filter_xss($response));
   }
 }
 

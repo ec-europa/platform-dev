@@ -98,7 +98,7 @@ function _tmgmt_poetry_authenticate($user, $password) {
  * Function available to call from our webservice.
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
-  watchdog('Poetry: Response', xss_filter(htmlentities($msg)), array(), WATCHDOG_DEBUG);
+  watchdog('Poetry: Response', filter_xss(htmlentities($msg)), array(), WATCHDOG_DEBUG);
 
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
@@ -109,6 +109,15 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     $request = $xml->request;
     $reference = implode("/", (array) $request->demandeId);
 
+    // Watchdog is only temporary information, save the file to the filesystem.
+    $path = 'public://tmgmt_file/dgt_responses/' . $reference . '.xml';
+    $dirname = dirname($path);
+    if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
+      file_save_data($msg, $path);
+    }
+
+    // Get main job in order to register the messages.
+    $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $language_job = $request->status['lgCode'];
 
     if ($xml->request['type'] == 'status') {

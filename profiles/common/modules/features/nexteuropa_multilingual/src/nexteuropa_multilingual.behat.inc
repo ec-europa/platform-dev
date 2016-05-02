@@ -52,30 +52,34 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Create a node along with its translations and visit its node page.
+   * Create a node along with its translations.
    *
-   * Currently it supports only the title field since that is enough to cover
-   * basic multilingual behaviors, such as URL aliasing or field translations.
+   * Currently it supports only title and body fields since that is enough to
+   * cover basic multilingual behaviors, such as URL aliasing or field
+   * translation.
    *
    * Below an example of this step usage:
    *
    *    And I am viewing a multilingual "page" content:
-   *      | language | title            |
-   *      | en       | Title in English |
-   *      | fr       | Title in French  |
-   *      | de       | Title in German  |
+   *      | language | title            | body            |
+   *      | en       | Title in English | Body in English |
+   *      | fr       | Title in French  | Body in French  |
+   *      | de       | Title in German  | Body in German  |
    *
    * @param string $type
    *    Content type machine name.
    * @param TableNode $table
    *    List of available languages and title translations.
    *
+   * @return object
+   *    The created node object.
+   *
    * @throws \InvalidArgumentException
    *    Thrown if the specified content type does not support field translation.
    *
-   * @Given I am viewing a multilingual :arg1 content:
+   * @Given I create the following multilingual :arg1 content:
    */
-  public function iAmViewingMultilingualContent($type, TableNode $table) {
+  public function createMultilingualContent($type, TableNode $table) {
     if (!entity_translation_node_supported_type($type)) {
       throw new \InvalidArgumentException("'$type' is not a translatable content type.");
     }
@@ -123,9 +127,12 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $translation['language'] = $language;
 
       $values = array();
-      // Title field.
+      // Assign translated title field.
       $values['title_field'][$language][0]['value'] = $node_translation->title;
-
+      // Assign translated body field, if any.
+      if (isset($node_translation->body) && !empty($node_translation->body)) {
+        $values['body'][$language][0]['value'] = $node_translation->body;
+      }
       $handler->setTranslation($translation, $values);
       // Set translation language.
       $handler->setFormLanguage($language);
@@ -133,6 +140,26 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       // Save node (new translation).
       node_save($node);
     }
+    return $node;
+  }
+
+  /**
+   * Create a node along with its translations and visit its node page.
+   *
+   * @param string $type
+   *    Content type machine name.
+   * @param TableNode $table
+   *    List of available languages and title translations.
+   *
+   * @throws \InvalidArgumentException
+   *    Thrown if the specified content type does not support field translation.
+   *
+   * @see NextEuropaMultilingualSubContext::createMultilingualContent()
+   *
+   * @Given I am viewing a multilingual :arg1 content:
+   */
+  public function iAmViewingMultilingualContent($type, TableNode $table) {
+    $node = $this->createMultilingualContent($type, $table);
 
     // Get node path without any base path by setting 'base_url' and 'absolute'.
     $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
@@ -346,6 +373,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param \Behat\Gherkin\Node\TableNode $table
    *    Properties table, "source language" and "target language" are required.
    *
+   * @Given I create the following job for :type with title :title
    * @Given I create a translation job for :type with title :title and the following properties:
    */
   public function createTranslationJobForContentWithTitleAndProperties($type, $title, TableNode $table) {
@@ -360,14 +388,17 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     if (!isset($properties['translator'])) {
       throw new \InvalidArgumentException('Property "translator" is required.');
     }
+    $reference = isset($properties['reference']) ? $properties['reference'] : NULL;
+
     $source = $properties['source language'];
     $target = $properties['target language'];
     $translator = $this->getTranslatorByName($properties['translator']);
-    unset($properties['source language'], $properties['target language'], $properties['translator']);
+    unset($properties['source language'], $properties['target language'], $properties['translator'], $properties['reference']);
 
     $job = tmgmt_job_create($source, $target, 1);
     $job->label = $node->title;
     $job->translator = $translator->name;
+    $job->reference = $reference;
     $job->settings = [];
     $job->addItem('entity', 'node', $node->nid);
     if (!$job->save()) {
@@ -443,10 +474,36 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   /**
    * Accept translations for current translation job.
    *
+   * @Then the current translation job is accepted
    * @Then the translation job is accepted
    */
   public function acceptCurrentTranslationJob() {
     $job = $this->getLatestTranslationJob();
+    foreach ($job->getItems() as $item) {
+      $item->acceptTranslation();
+    }
+  }
+
+  /**
+   * Accept all job items for a given translation job.
+   *
+   * @param string $label
+   *    Job label.
+   * @param string $language
+   *    Target language code.
+   *
+   * @Given the translation job with label :label and target language :language is accepted
+   */
+  public function acceptTranslationJobByLabelAndTargetLanguage($label, $language) {
+    $jobs = tmgmt_job_load_multiple([], [
+      'label' => $label,
+      'target_language' => $language,
+    ]);
+    if (!$jobs) {
+      throw new \InvalidArgumentException("Translation job with label '{$label}' and target language '{$language}' not found.");
+    }
+    /** @var \TMGMTJob $job */
+    $job = array_shift($jobs);
     foreach ($job->getItems() as $item) {
       $item->acceptTranslation();
     }

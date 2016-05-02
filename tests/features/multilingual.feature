@@ -11,6 +11,7 @@ Feature: Multilingual features
       | en        |
       | fr        |
       | de        |
+      | it        |
 
   Scenario: Content can be translated in available languages
     Given I am viewing a multilingual "page" content:
@@ -108,7 +109,6 @@ Feature: Multilingual features
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
-#    @run
   Scenario: I can re-import a translation by re-submitting the translation job.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -148,15 +148,40 @@ Feature: Multilingual features
       | language | title                    |
       | en       | This title is in English |
     Then I should not see the link "Français" in the "content" region
-    And I create a translation job for "page" with title "This title is in English" and the following properties:
+    And I create the following job for "page" with title "This title is in English"
       | source language | en                          |
       | target language | fr                          |
       | translator      | Translator A                |
       | title_field     | Ce titre est en Français    |
     Then the translation job is in "Active" state
     And the translation job items are in "Needs review" state
-    And the translation job is accepted
+    And the current translation job is accepted
     And I click "View"
     Then I should see the link "Français" in the "content" region
     And I click "Français" in the "content" region
     Then I should see "Ce titre est en Français"
+        
+  Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "Original version"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I select "Translator A" from "Translator"
+    And I press "Submit to translator"
+    Then I click "In progress" in the "French" row
+    And I press "Save"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I click "New draft" in the "primary_tabs" region
+    And I fill in "Other different Title" for "Title"
+    And I press "Save"
+    And I select "Validated" from "Moderation state"
+    And I press "Apply"
+    And I click "View published" in the "primary_tabs" region
+    Then the url should match "(.)*content/original-version_en"

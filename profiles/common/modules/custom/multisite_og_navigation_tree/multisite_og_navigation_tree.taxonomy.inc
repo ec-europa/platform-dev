@@ -43,22 +43,25 @@ function _mont_group_taxonomy_edit_term($node, $term_id = 0) {
 
   $term = taxonomy_term_load($term_id);
   $form = drupal_get_form('taxonomy_form_term', $term, $vocabulary);
-  $parent_options = $form['relations']['parent']['#options'];
-  if ($tid != $term_id) {
-    foreach ($parent_options as $parent_tid => $option) {
-      if (!($parent_tid == $tid || array_key_exists($parent_tid, $children))) {
-        unset($form['relations']['parent']['#options'][$parent_tid]);
+  // In case of a delete form, the relations is undefined.
+  if (isset($form['relations']['parent'])) {
+    $parent_options = $form['relations']['parent']['#options'];
+    if ($tid != $term_id) {
+      foreach ($parent_options as $parent_tid => $option) {
+        if (!($parent_tid == $tid || array_key_exists($parent_tid, $children))) {
+          unset($form['relations']['parent']['#options'][$parent_tid]);
+        }
       }
-    }
 
-    $form['relations']['parent']['#default_value'] = array($tid => $tid);
-    $form['relations']['parent']['#value'] = array($tid => $tid);
-    $form['relations']['parent']['#required'] = TRUE;
-  }
-  else {
-    $form['relations']['parent']['#options'] = array(t('<root>'));
-    $form['relations']['parent']['#default_value'] = array(0);
-    $form['relations']['parent']['#value'] = array(0);
+      $form['relations']['parent']['#default_value'] = array($tid => $tid);
+      $form['relations']['parent']['#value'] = array($tid => $tid);
+      $form['relations']['parent']['#required'] = TRUE;
+    }
+    else {
+      $form['relations']['parent']['#options'] = array(t('<root>'));
+      $form['relations']['parent']['#default_value'] = array(0);
+      $form['relations']['parent']['#value'] = array(0);
+    }
   }
 
   $output = drupal_render($form);

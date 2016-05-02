@@ -40,12 +40,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     $entity = entity_load_single($job_item->item_type, $job_item->item_id);
     $job = tmgmt_job_load($job_item->tjid);
 
-    // Make sure a path alias is created when importing a translation.
-    // @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6826
-    if ($job_item->item_type == 'node') {
-      unset($entity->path);
-    }
-
     tmgmt_field_populate_entity($job_item->item_type, $entity, $job->target_language, $job_item->getData());
 
     // Change the active language of the entity to the target language.

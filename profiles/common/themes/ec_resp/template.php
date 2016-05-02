@@ -706,7 +706,7 @@ function ec_resp_page_alter(&$page) {
       '#tag' => 'meta',
       '#attributes' => array(
         'http-equiv' => 'Content-Language',
-        'content' => $language->language,
+        'content' => $language->prefix,
       ),
     );
     drupal_add_html_head($meta_content_language, 'meta_content_language');
