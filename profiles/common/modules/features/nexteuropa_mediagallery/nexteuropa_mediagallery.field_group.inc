@@ -1,22 +1,22 @@
 <?php
 /**
  * @file
- * nexteuropa_faq.field_group.inc
+ * nexteuropa_mediagallery.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function nexteuropa_faq_field_group_info() {
+function nexteuropa_mediagallery_field_group_info() {
   $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_ne_faq_content|node|nexteuropa_faq|form';
-  $field_group->group_name = 'group_ne_faq_content';
+  $field_group->identifier = 'group_gallerymedia_content|node|nexteuropa_mediagallery|form';
+  $field_group->group_name = 'group_gallerymedia_content';
   $field_group->entity_type = 'node';
-  $field_group->bundle = 'nexteuropa_faq';
+  $field_group->bundle = 'nexteuropa_mediagallery';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
@@ -25,49 +25,49 @@ function nexteuropa_faq_field_group_info() {
     'children' => array(
       0 => 'body',
       1 => 'title_field',
+      2 => 'field_media_upload',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => 'group-ne-faq-content field-group-tab',
+        'classes' => 'group-gallerymedia-content field-group-tab',
         'required_fields' => 1,
       ),
     ),
   );
-  $field_groups['group_ne_faq_content|node|nexteuropa_faq|form'] = $field_group;
+  $field_groups['group_gallerymedia_content|node|nexteuropa_mediagallery|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
-  $field_group->identifier = 'group_ne_faq_metadata|node|nexteuropa_faq|form';
-  $field_group->group_name = 'group_ne_faq_metadata';
+  $field_group->identifier = 'group_gallerymedia_metadata|node|nexteuropa_mediagallery|form';
+  $field_group->group_name = 'group_gallerymedia_metadata';
   $field_group->entity_type = 'node';
-  $field_group->bundle = 'nexteuropa_faq';
+  $field_group->bundle = 'nexteuropa_mediagallery';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
-      0 => 'field_ne_faq_categories',
+      0 => 'og_group_ref',
       1 => 'group_content_access',
-      2 => 'og_group_ref',
-      3 => 'field_tags',
-      4 => 'language',
+      2 => 'field_tags',
+      3 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => 'group-ne-faq-metadata field-group-tab',
+        'classes' => 'group-gallerymedia-metadata field-group-tab',
         'required_fields' => 1,
       ),
     ),
   );
-  $field_groups['group_ne_faq_metadata|node|nexteuropa_faq|form'] = $field_group;
+  $field_groups['group_gallerymedia_metadata|node|nexteuropa_mediagallery|form'] = $field_group;
 
   // Translatables
   // Included for use with string extractors like potx.

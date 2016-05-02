@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * nexteuropa_faq.features.field_instance.inc
+ * nexteuropa_mediagallery.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function nexteuropa_faq_field_default_field_instances() {
+function nexteuropa_mediagallery_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-nexteuropa_faq-body'.
-  $field_instances['node-nexteuropa_faq-body'] = array(
-    'bundle' => 'nexteuropa_faq',
+  // Exported field_instance: 'node-nexteuropa_mediagallery-body'.
+  $field_instances['node-nexteuropa_mediagallery-body'] = array(
+    'bundle' => 'nexteuropa_mediagallery',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -22,7 +22,7 @@ function nexteuropa_faq_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 1,
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -31,70 +31,44 @@ function nexteuropa_faq_field_default_field_instances() {
           'trim_length' => 600,
         ),
         'type' => 'text_summary_or_trimmed',
-        'weight' => 1,
+        'weight' => 0,
       ),
     ),
     'entity_type' => 'node',
     'field_name' => 'body',
-    'label' => 'Answer',
-    'required' => 1,
+    'label' => 'Body',
+    'required' => FALSE,
     'settings' => array(
-      'better_formats' => array(
-        'allowed_formats' => array(
-          'basic_html' => 'basic_html',
-          'filtered_html' => 'filtered_html',
-          'full_html' => 'full_html',
-          'plain_text' => 'plain_text',
-        ),
-        'allowed_formats_toggle' => 0,
-        'default_order_toggle' => 0,
-        'default_order_wrapper' => array(
-          'formats' => array(
-            'basic_html' => array(
-              'weight' => 5,
-            ),
-            'filtered_html' => array(
-              'weight' => -9,
-            ),
-            'full_html' => array(
-              'weight' => -10,
-            ),
-            'plain_text' => array(
-              'weight' => -8,
-            ),
-          ),
-        ),
-      ),
-      'display_summary' => 1,
+      'display_summary' => TRUE,
       'entity_translation_sync' => FALSE,
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
       'module' => 'text',
       'settings' => array(
         'rows' => 20,
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
-  // Exported field_instance: 'node-nexteuropa_faq-field_ne_faq_categories'.
-  $field_instances['node-nexteuropa_faq-field_ne_faq_categories'] = array(
-    'bundle' => 'nexteuropa_faq',
-    'default_value' => NULL,
+  // Exported field_instance: 'node-nexteuropa_mediagallery-field_media_upload'.
+  $field_instances['node-nexteuropa_mediagallery-field_media_upload'] = array(
+    'bundle' => 'nexteuropa_mediagallery',
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
-        'module' => 'i18n_taxonomy',
-        'settings' => array(),
-        'type' => 'i18n_taxonomy_term_reference_link',
-        'weight' => 4,
+        'label' => 'hidden',
+        'module' => 'mediafield',
+        'settings' => array(
+          'file_view_mode' => 'media_gallery_colorbox',
+        ),
+        'type' => 'media',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -104,27 +78,49 @@ function nexteuropa_faq_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_ne_faq_categories',
-    'label' => 'Categories',
-    'required' => 0,
+    'field_name' => 'field_media_upload',
+    'label' => 'Media upload',
+    'required' => 1,
     'settings' => array(
       'entity_translation_sync' => FALSE,
+      'file_extensions' => 'jpg jpeg gif png mov mp4 m4a m4v mpeg avi',
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
+      'module' => 'media',
       'settings' => array(
-        'apply_chosen' => '',
+        'allowed_schemes' => array(
+          'avportal' => 0,
+          'dailymotion' => 0,
+          'node' => 0,
+          'private' => 'private',
+          'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 'video',
+        ),
+        'browser_plugins' => array(
+          'media_default--media_browser_1' => 0,
+          'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
+          'media_internet' => 'media_internet',
+          'upload' => 'upload',
+          'youtube' => 0,
+        ),
       ),
-      'type' => 'options_select',
-      'weight' => 4,
+      'type' => 'media_generic',
+      'weight' => 2,
     ),
   );
 
-  // Exported field_instance: 'node-nexteuropa_faq-field_tags'.
-  $field_instances['node-nexteuropa_faq-field_tags'] = array(
-    'bundle' => 'nexteuropa_faq',
+  // Exported field_instance: 'node-nexteuropa_mediagallery-field_tags'.
+  $field_instances['node-nexteuropa_mediagallery-field_tags'] = array(
+    'bundle' => 'nexteuropa_mediagallery',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -159,13 +155,14 @@ function nexteuropa_faq_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 7,
+      'weight' => 12,
     ),
   );
 
-  // Exported field_instance: 'node-nexteuropa_faq-group_content_access'.
-  $field_instances['node-nexteuropa_faq-group_content_access'] = array(
-    'bundle' => 'nexteuropa_faq',
+  // Exported field_instance:
+  // 'node-nexteuropa_mediagallery-group_content_access'.
+  $field_instances['node-nexteuropa_mediagallery-group_content_access'] = array(
+    'bundle' => 'nexteuropa_mediagallery',
     'default_value' => array(
       0 => array(
         'value' => 0,
@@ -176,10 +173,9 @@ function nexteuropa_faq_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'list',
         'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -212,24 +208,24 @@ function nexteuropa_faq_field_default_field_instances() {
         'apply_chosen' => '',
       ),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 14,
     ),
     'widget_type' => 'options_select',
   );
 
-  // Exported field_instance: 'node-nexteuropa_faq-og_group_ref'.
-  $field_instances['node-nexteuropa_faq-og_group_ref'] = array(
-    'bundle' => 'nexteuropa_faq',
+  // Exported field_instance: 'node-nexteuropa_mediagallery-og_group_ref'.
+  $field_instances['node-nexteuropa_mediagallery-og_group_ref'] = array(
+    'bundle' => 'nexteuropa_mediagallery',
     'default_value' => NULL,
+    'default_value_function' => 'entityreference_prepopulate_field_default_value',
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'og_ui',
         'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 0,
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -241,10 +237,11 @@ function nexteuropa_faq_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'og_group_ref',
     'label' => 'Groups audience',
-    'required' => FALSE,
+    'required' => 0,
     'settings' => array(
       'behaviors' => array(
         'og_widget' => array(
+          'access_override' => 0,
           'admin' => array(
             'widget_type' => 'entityreference_autocomplete',
           ),
@@ -252,6 +249,17 @@ function nexteuropa_faq_field_default_field_instances() {
             'widget_type' => 'options_select',
           ),
           'status' => TRUE,
+        ),
+        'prepopulate' => array(
+          'action' => 'none',
+          'action_on_edit' => 0,
+          'fallback' => 'none',
+          'providers' => array(
+            'og_context' => 0,
+            'url' => 1,
+          ),
+          'skip_perm' => 0,
+          'status' => 1,
         ),
       ),
       'entity_translation_sync' => FALSE,
@@ -270,16 +278,17 @@ function nexteuropa_faq_field_default_field_instances() {
       ),
     ),
     'widget' => array(
+      'active' => 0,
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 5,
+      'weight' => 13,
     ),
   );
 
-  // Exported field_instance: 'node-nexteuropa_faq-title_field'.
-  $field_instances['node-nexteuropa_faq-title_field'] = array(
-    'bundle' => 'nexteuropa_faq',
+  // Exported field_instance: 'node-nexteuropa_mediagallery-title_field'.
+  $field_instances['node-nexteuropa_mediagallery-title_field'] = array(
+    'bundle' => 'nexteuropa_mediagallery',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -288,7 +297,7 @@ function nexteuropa_faq_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -299,45 +308,18 @@ function nexteuropa_faq_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'title_field',
-    'label' => 'Question',
-    'required' => 1,
+    'label' => 'Title',
+    'required' => TRUE,
     'settings' => array(
-      'better_formats' => array(
-        'allowed_formats' => array(
-          'basic_html' => 'basic_html',
-          'filtered_html' => 'filtered_html',
-          'full_html' => 'full_html',
-          'plain_text' => 'plain_text',
-        ),
-        'allowed_formats_toggle' => 0,
-        'default_order_toggle' => 0,
-        'default_order_wrapper' => array(
-          'formats' => array(
-            'basic_html' => array(
-              'weight' => 5,
-            ),
-            'filtered_html' => array(
-              'weight' => -9,
-            ),
-            'full_html' => array(
-              'weight' => -10,
-            ),
-            'plain_text' => array(
-              'weight' => -8,
-            ),
-          ),
-        ),
-      ),
       'entity_translation_sync' => FALSE,
       'hide_label' => array(
-        'entity' => 0,
-        'page' => 0,
+        'entity' => FALSE,
+        'page' => FALSE,
       ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
       'module' => 'text',
       'settings' => array(
         'size' => 60,
@@ -349,12 +331,12 @@ function nexteuropa_faq_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Answer');
-  t('Categories');
+  t('Body');
   t('Group content visibility');
   t('Groups audience');
-  t('Question');
+  t('Media upload');
   t('Tags');
+  t('Title');
 
   return $field_instances;
 }
