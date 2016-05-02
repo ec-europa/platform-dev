@@ -385,6 +385,9 @@ projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-21
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
 projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
 
+projects[media_oembed][subdir] = "contrib"
+projects[media_oembed][version] = "2.6"
+
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
 projects[media_node][patch][] = patches/media_node-incorrect_permission_check-4273.patch
