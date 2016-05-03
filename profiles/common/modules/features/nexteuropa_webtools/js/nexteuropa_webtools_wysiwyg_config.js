@@ -39,7 +39,7 @@
 
                 if (!(editor.id in Drupal.nexteuropa_webtools_block_content)) {
                     // Store editor reference in global Drupal object since it will be accessed from within
-                    // Drupal.behaviors.nexteuropa_block_ckeditor defined in nexteuropa_block_ckeditor.js.
+                    // Drupal.behaviors.nexteuropa_webtools_block_content defined in nexteuropa_webtools_block_content.js.
                     Drupal.nexteuropa_webtools_block_content[editor.id] = editor;
 
                     // Get dialog container ID.
