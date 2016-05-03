@@ -150,6 +150,26 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Get moderation state machine name given its label.
+   *
+   * @param string $label
+   *    Moderation state label.
+   *
+   * @return string
+   *    Moderation state machine name.
+   */
+  protected function getModerationStateMachineName($label) {
+    $states = [];
+    foreach (workbench_moderation_states() as $state) {
+      $states[$state->label] = $state->name;
+    }
+    if (!isset($states[$label])) {
+      throw new \InvalidArgumentException("Property 'moderation state' not valid, must be chosen among: " . implode(', ', array_keys($states)));
+    }
+    return $states[$label];
+  }
+
+  /**
    * Save a translation for an existing node.
    *
    * @param object $node
@@ -436,6 +456,9 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     if (!isset($properties['translator'])) {
       throw new \InvalidArgumentException('Property "translator" is required.');
     }
+    if (!isset($properties['plugin'])) {
+      $properties['plugin'] = 'entity';
+    }
     $reference = isset($properties['reference']) ? $properties['reference'] : NULL;
 
     $source = $properties['source language'];
@@ -448,7 +471,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $job->translator = $translator->name;
     $job->reference = $reference;
     $job->settings = [];
-    $job->addItem('entity', 'node', $node->nid);
+    $job->addItem($properties['plugin'], 'node', $node->nid);
     if (!$job->save()) {
       throw new \InvalidArgumentException('Error occurred while saving the translation job.');
     }
@@ -569,7 +592,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    *    The node object.
    */
   protected function getNodeByTitle($type, $title) {
-    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type]);
+    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
     if ($nodes) {
       return array_shift($nodes);
     }
@@ -597,7 +620,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       ->execute()
       ->fetch();
     if ($result) {
-      return node_load($result->nid, $result->vid);
+      return node_load($result->nid, $result->vid, TRUE);
     }
     throw new \InvalidArgumentException("Node revision of type '{$type}' and title '{$title}' not found.");
   }

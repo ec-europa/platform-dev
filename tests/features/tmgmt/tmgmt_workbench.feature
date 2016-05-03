@@ -44,31 +44,57 @@ Feature: TMGMT Workbench features
     And I click "Sources"
     Then I should not see "New Editorial team"
 
-    @run
-    Scenario: NEXTEUROPA-9861: Accepted translations should be applied on the node revision source.
-      Given local translator "Translator A" is available
-      And I am logged in as a user with the "administrator" role
-      And I am viewing a multilingual "page" content:
-        | language | title                |
-        | en       | Title in English 1.0 |
-      Then I should not see the link "Deutsch" in the "content" region
-      And I create the following translations for "page" content with title "Title in English 1.0":
-        | language | title               |
-        | de       | Title in German 1.0 |
-      And I click "View"
-      Then I should see the link "Deutsch" in the "content" region
-      And I click "Deutsch" in the "content" region
-      Then I should see "Title in German 1.0"
-      And I create the following job for "page" with title "Title in English 1.0"
-        | source language | en                  |
-        | target language | fr                  |
-        | translator      | Translator A        |
-        | title_field     | Title in French 1.0 |
-      Then the translation job is in "Active" state
-      And the translation job items are in "Needs review" state
-      And the current translation job is accepted
-      And I click "View"
-      Then I should see the link "Français" in the "content" region
-      And I click "Français" in the "content" region
-      Then I should see "Title in French 1.0"
+  @run
+  Scenario: NEXTEUROPA-9861: Translations requested from a validated revision should be applied to that revision only.
+    Given local translator "Translator A" is available
+    And I am logged in as a user with the "administrator" role
+    And I am viewing a multilingual "page" content:
+      | language | title                |
+      | en       | Title in English 1.0 |
+      | fr       | Title in French 1.0 |
+    And I click "New draft"
+    And I fill in "Title" with "Title in English 1.1"
+    And I select "Validated" from "Moderation state"
+    And I press the "Save" button
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see "Title in English 1.1" in the "English" row
+    And I create the following job for "page" with title "Title in English 1.0"
+      | source language | en                   |
+      | target language | fr                   |
+      | plugin          | workbench_moderation |
+      | translator      | Translator A         |
+      | title_field     | Title in French 1.1  |
+    And the current translation job is accepted
+    Then I click "View"
+    And I should see the heading "Title in English 1.0"
+    And I click "Français" in the "content" region
+    Then I should see the heading "Title in French 1.0"
+    And I click "English" in the "content" region
+    Then I click "View draft"
+    And I should see the heading "Title in English 1.1"
+    Then I select "Published" from "Moderation state"
+    And I press the "Apply" button
+    And I should see the heading "Title in English 1.1"
+    Then I should see the link "Français" in the "content" region
+    And I click "Français" in the "content" region
+    Then I should see "Title in French 1.1"
 
+  @run
+  Scenario: NEXTEUROPA-9861: Translations requested from a published revision should be applied to that revision only.
+    Given local translator "Translator A" is available
+    And I am logged in as a user with the "administrator" role
+    And I am viewing a multilingual "page" content:
+      | language | title                |
+      | en       | Title in English 2.0 |
+    And I create the following job for "page" with title "Title in English 2.0"
+      | source language | en                   |
+      | target language | fr                   |
+      | plugin          | workbench_moderation |
+      | translator      | Translator A         |
+      | title_field     | Title in French 2.0  |
+    And the current translation job is accepted
+    And I click "View"
+    And I should see the heading "Title in English 2.0"
+    Then I should see the link "Français" in the "content" region
+    And I click "Français" in the "content" region
+    Then I should see "Title in French 2.0"
