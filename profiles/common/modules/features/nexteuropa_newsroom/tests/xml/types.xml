@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:infsonewsroom="http://urltodetermine">
+  <channel>
+    <title>Digital Agenda for Europe - item types</title>
+    <link>http://ec.europa.eu/information_society/newsroom/cf/dae/cf/dae/rss-item-type.cfm</link>
+    <description>Latest info on item types of Digital Agenda for Europe</description>
+    <language>en-gb</language>
+    <copyright>European Commission</copyright>
+    <managingEditor>cnect-editor@ec.europa.eu</managingEditor>
+    <webMaster>cnect-editor@ec.europa.eu</webMaster>
+    <ttl>30</ttl>
+
+    <item>
+      <title>Speech</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=255</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:09:50 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=255</guid>
+      <infsonewsroom:BasicTypeId>255</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>6</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Speech</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Publications</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=254</link>
+      <description>
+        </description>
+      <pubDate>Wed, 12 Mar 2014 17:23:39 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=254</guid>
+      <infsonewsroom:BasicTypeId>254</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Audiovisual</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=375</link>
+      <description>
+        </description>
+      <pubDate>Wed, 05 Sep 2012 16:08:49 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=375</guid>
+      <infsonewsroom:BasicTypeId>375</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Consultation</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=520</link>
+      <description>         </description>
+      <pubDate>Thu, 12 Jul 2012 11:33:19 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=520</guid>
+      <infsonewsroom:BasicTypeId>520</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>3</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Funding opportunity</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Funding Opportunity</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=253</link>
+      <description></description>
+      <pubDate>Mon, 10 Oct 2011 12:24:18 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=253</guid>
+      <infsonewsroom:BasicTypeId>253</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>3</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Funding opportunity</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Event</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=250</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:12:14 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=250</guid>
+      <infsonewsroom:BasicTypeId>250</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>2</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Event</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>News Article</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=251</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 15:31:23 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=251</guid>
+      <infsonewsroom:BasicTypeId>251</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>1</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>News</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Projects news and results</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=379</link>
+      <description>
+
+
+
+        </description>
+      <pubDate>Fri, 14 Feb 2014 16:51:13 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=379</guid>
+      <infsonewsroom:BasicTypeId>379</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>8</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Project information</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Event reports</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=820</link>
+      <description>
+
+        </description>
+      <pubDate>Wed, 12 Mar 2014 17:35:46 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=820</guid>
+      <infsonewsroom:BasicTypeId>820</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Brochure</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=373</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:14:45 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=373</guid>
+      <infsonewsroom:BasicTypeId>373</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Call documents</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=374</link>
+      <description>
+        </description>
+      <pubDate>Wed, 12 Mar 2014 17:37:30 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=374</guid>
+      <infsonewsroom:BasicTypeId>374</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Factsheet</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=376</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:15:06 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=376</guid>
+      <infsonewsroom:BasicTypeId>376</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Policy and legislation</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=371</link>
+      <description>
+        </description>
+      <pubDate>Wed, 24 Jul 2013 09:33:06 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=371</guid>
+      <infsonewsroom:BasicTypeId>371</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Promotional Material</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=377</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:10:35 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=377</guid>
+      <infsonewsroom:BasicTypeId>377</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Reports and studies</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=372</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:10:53 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=372</guid>
+      <infsonewsroom:BasicTypeId>372</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>In the press</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=560</link>
+      <description>
+
+        </description>
+      <pubDate>Fri, 25 Jan 2013 15:59:35 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=560</guid>
+      <infsonewsroom:BasicTypeId>560</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Consultation results</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=624</link>
+      <description>
+        </description>
+      <pubDate>Wed, 12 Jun 2013 13:15:20 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=624</guid>
+      <infsonewsroom:BasicTypeId>624</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Call for Proposals</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=826</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:14:01 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=826</guid>
+      <infsonewsroom:BasicTypeId>826</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>253</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>3</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Funding opportunity</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Call for tenders</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=825</link>
+      <description>
+        </description>
+      <pubDate>Fri, 02 Mar 2012 11:35:42 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=825</guid>
+      <infsonewsroom:BasicTypeId>825</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>253</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>3</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Funding opportunity</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Articles/Interview</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=252</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:12:56 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=252</guid>
+      <infsonewsroom:BasicTypeId>252</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent></infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Not Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Fiche</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=378</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:15:19 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=378</guid>
+      <infsonewsroom:BasicTypeId>378</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>5</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Fiche</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Not Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Project results</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=561</link>
+      <description>
+
+        </description>
+      <pubDate>Fri, 25 Jan 2013 15:59:58 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=561</guid>
+      <infsonewsroom:BasicTypeId>561</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>254</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Not Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Article</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=980</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:13:17 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=980</guid>
+      <infsonewsroom:BasicTypeId>980</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>252</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Not Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+    <item>
+      <title>Interview</title>
+      <link>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=981</link>
+      <description></description>
+      <pubDate>Wed, 07 Sep 2011 16:13:32 GMT</pubDate>
+      <guid>http://ec.europa.eu/information_society/newsroom/cf/dae/dae/item-display-type.cfm?type_id=981</guid>
+      <infsonewsroom:BasicTypeId>981</infsonewsroom:BasicTypeId>
+      <infsonewsroom:BasicTypeParent>252</infsonewsroom:BasicTypeParent>
+      <infsonewsroom:BasicMetaTypeId>4</infsonewsroom:BasicMetaTypeId>
+      <infsonewsroom:BasicMetaTypeName>Library</infsonewsroom:BasicMetaTypeName>
+      <infsonewsroom:BasicTypeStatus>Not Valid</infsonewsroom:BasicTypeStatus>
+    </item>
+
+</channel>
+</rss>
