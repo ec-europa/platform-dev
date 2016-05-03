@@ -256,17 +256,19 @@ function nexteuropa_multilingual_form_workbench_moderation_node_unpublish_form_a
  * Updates form with a warning message.
  */
 function _nexteuropa_multilingual_warning_message(&$form, $node) {
-  $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
-   . token_replace(variable_get('warning_message_languages'), array('node' => $node))
-   . '</div>';
+  if (!empty(variable_get('warning_message_languages', ""))) {
+    $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
+     . token_replace(variable_get('warning_message_languages'), array('node' => $node))
+     . '</div>';
 
-  $form['warning_languages_message'] = array(
-    '#markup' => $warning_message,
-    '#weight' => 105,
-    '#attached' => array(
-      'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
-    ),
-  );
+    $form['warning_languages_message'] = array(
+      '#markup' => $warning_message,
+      '#weight' => 105,
+      '#attached' => array(
+        'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
+      ),
+    );
+  }
 }
 
 /**
