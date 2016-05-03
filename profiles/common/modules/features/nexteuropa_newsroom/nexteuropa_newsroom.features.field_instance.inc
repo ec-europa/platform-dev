@@ -1006,7 +1006,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
       ),
       'event' => array(
         'label' => 'inline',
-        'module' => 'date',
+        'module' => 'cnect_addtocal',
         'settings' => array(
           'description' => array(
             'field' => -1,
@@ -1025,7 +1025,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
           'show_remaining_days' => FALSE,
           'view_mode' => 'event',
         ),
-        'type' => 'date_default',
+        'type' => 'addtocal_view',
         'weight' => 2,
       ),
       'mini_teaser' => array(
@@ -2018,7 +2018,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
       ),
       'event' => array(
         'label' => 'above',
-        'module' => 'geofield',
+        'module' => 'mapeditor',
         'settings' => array(
           'attribution' => array(
             'attribution' => 'Map data by Eurostat and the European Commission',
@@ -2046,7 +2046,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
             'minZoom' => 1,
           ),
         ),
-        'type' => 'geofield_wkt',
+        'type' => 'mapeditor_map',
         'weight' => 3,
       ),
       'mini_teaser' => array(
