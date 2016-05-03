@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
@@ -108,7 +108,6 @@ Feature: Multilingual features
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
-        
   Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the 'administrator' role
