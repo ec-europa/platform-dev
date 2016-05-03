@@ -54,7 +54,7 @@ communities:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
       filters:
-        tags: "@communities&&~@wip"
+        tags: "@communities&&~@wip&&@i18n"
   extensions:
     Behat\MinkExtension:
       goutte: ~
