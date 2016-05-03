@@ -22,7 +22,7 @@ $fpfis_common_include = constant('FPFIS_COMMON_LIBRARIES_PATH') . '/FPFIS_Common
 include_once $fpfis_common_include;
 
 // The FPFIS_Common is supposed to provide the FPFIS_ECAS_PATH constant.
-$phpcas_client_include = constant('FPFIS_ECAS_PATH');
+$phpcas_client_include = variable_get('FPFIS_ECAS_PATH', constant('FPFIS_ECAS_PATH'));
 include_once $phpcas_client_include;
 
 // Finally, include the module code.
