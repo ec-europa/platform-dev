@@ -277,13 +277,16 @@ function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $de
     ->execute();
 }
 
+/**
+ * Implements hook_views_default_views_alter.
+ */
 
 function tmgmt_poetry_views_default_views_alter(&$views) {
 
   if (isset($views['tmgmt_ui_job_overview'])) {
 
     $handler =& $views['tmgmt_ui_job_overview']->display['default']->handler;
-    /* Filter criterion: Translation Management Job: Reference */
+    /* Filter criterion: Translation Management Job: Reference. */
     $handler->display->display_options['filters']['reference']['id'] = 'reference';
     $handler->display->display_options['filters']['reference']['table'] = 'tmgmt_job';
     $handler->display->display_options['filters']['reference']['field'] = 'reference';
@@ -303,9 +306,9 @@ function tmgmt_poetry_views_default_views_alter(&$views) {
       6 => 0,
       7 => 0,
     );
-    /* Place reference filter & bulk op in first position */
+
+    /* Place reference filter & bulk op in first position. */
     $filter_ref = $handler->display->display_options['filters']['reference'];
-    // $bulk_ref = $handler->display->display_options['filters']['views_bulk_operations'];
     unset($handler->display->display_options['filters']['reference']);
     array_unshift($handler->display->display_options['filters'], $filter_ref);
 
@@ -324,6 +327,5 @@ function tmgmt_poetry_views_default_views_alter(&$views) {
     $ref = $handler->display->display_options['fields']['reference'];
     unset($handler->display->display_options['fields']['reference'], $handler->display->display_options['fields']['views_bulk_operations']);
     array_unshift($handler->display->display_options['fields'], $ref);
-
   }
 }
