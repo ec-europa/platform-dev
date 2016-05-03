@@ -425,6 +425,10 @@ projects[node_export][version] = "3.0"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
+; VBO and OG
+; https://www.drupal.org/node/2561507
+projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
+projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
