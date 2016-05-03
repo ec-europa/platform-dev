@@ -276,3 +276,55 @@ function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $de
     ))
     ->execute();
 }
+
+/**
+ * Implements hook_views_default_views_alter().
+ */
+function tmgmt_poetry_views_default_views_alter(&$views) {
+
+  if (isset($views['tmgmt_ui_job_overview'])) {
+
+    $handler =& $views['tmgmt_ui_job_overview']->display['default']->handler;
+    /* Filter criterion: Translation Management Job: Reference. */
+    $handler->display->display_options['filters']['reference']['id'] = 'reference';
+    $handler->display->display_options['filters']['reference']['table'] = 'tmgmt_job';
+    $handler->display->display_options['filters']['reference']['field'] = 'reference';
+    $handler->display->display_options['filters']['reference']['operator'] = 'contains';
+    $handler->display->display_options['filters']['reference']['group'] = 1;
+    $handler->display->display_options['filters']['reference']['exposed'] = TRUE;
+    $handler->display->display_options['filters']['reference']['expose']['operator_id'] = 'reference_op';
+    $handler->display->display_options['filters']['reference']['expose']['label'] = 'Reference';
+    $handler->display->display_options['filters']['reference']['expose']['operator'] = 'reference_op';
+    $handler->display->display_options['filters']['reference']['expose']['identifier'] = 'reference';
+    $handler->display->display_options['filters']['reference']['expose']['remember_roles'] = array(
+      2 => '2',
+      1 => 0,
+      4 => 0,
+      3 => 0,
+      5 => 0,
+      6 => 0,
+      7 => 0,
+    );
+
+    /* Place reference filter & bulk op in first position. */
+    $filter_ref = $handler->display->display_options['filters']['reference'];
+    unset($handler->display->display_options['filters']['reference']);
+    array_unshift($handler->display->display_options['filters'], $filter_ref);
+
+    /* Group filters */
+    $handler->display->display_options['filters']['state']['group'] = 1;
+    $handler->display->display_options['filters']['source_language']['group'] = 1;
+    $handler->display->display_options['filters']['target_language']['group'] = 1;
+    $handler->display->display_options['filters']['translator']['group'] = 1;
+
+    /* Field: Translation Management Job: Reference */
+    $handler->display->display_options['fields']['reference']['id'] = 'reference';
+    $handler->display->display_options['fields']['reference']['table'] = 'tmgmt_job';
+    $handler->display->display_options['fields']['reference']['field'] = 'reference';
+
+    /* Place reference field in first position */
+    $ref = $handler->display->display_options['fields']['reference'];
+    unset($handler->display->display_options['fields']['reference'], $handler->display->display_options['fields']['views_bulk_operations']);
+    array_unshift($handler->display->display_options['fields'], $ref);
+  }
+}
