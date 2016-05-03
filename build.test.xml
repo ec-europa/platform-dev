@@ -57,12 +57,12 @@
                 <include name="*.yml.dist"/>
             </fileset>
             <filterchain>
-                <replacetokens>
-                    <token key="project.code.dir" value="${project.code.dir}" />
-                    <token key="drupal.site.dir" value="${drupal.site.dir}" />
+                <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="platform.build.dir" value="${platform.build.dir}" />
+                    <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
+                    <token key="drush.bin" value="${drush.bin}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
-                    <token key="platform.bin" value="${platform.bin}" />
                 </replacetokens>
             </filterchain>
             <mapper type="glob" from="*.yml.dist" to="*.yml" />
