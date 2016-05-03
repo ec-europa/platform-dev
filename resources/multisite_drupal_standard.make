@@ -226,6 +226,11 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta1"
 
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][version] = "1.x-dev"
+; https://www.drupal.org/node/2078069
+projects[feeds_et][patch][] = https://www.drupal.org/files/feeds_et_link_support-2078069-1.patch
+
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
 
@@ -627,6 +632,9 @@ projects[views_slideshow][version] = "3.1"
 
 projects[views_slideshow_slider][subdir] = "contrib"
 projects[views_slideshow_slider][version] = "3.0"
+
+projects[views_tree][subdir] = "contrib"
+projects[views_tree][version] = "2.0"
 
 projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
