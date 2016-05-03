@@ -423,14 +423,8 @@ projects[mimemail][version] = "1.0-beta4"
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
-projects[og][download][branch] = 7.x-2.x
-projects[og][download][revision] = 905ebc0
-projects[og][download][type] = git
 projects[og][subdir] = "contrib"
-; VBO and OG
-; https://www.drupal.org/node/2561507
-projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
-projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
+projects[og][version] = "2.9"
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
