@@ -157,7 +157,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param string $language
    *    Language for which to create the translation for.
    * @param array $fields
-   *    Translation fields
+   *    Translation fields.
    * @param int|null $vid
    *    Node revision ID to which to apply the translation.
    * @param string $moderation_state

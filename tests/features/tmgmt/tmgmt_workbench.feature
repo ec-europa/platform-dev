@@ -5,13 +5,11 @@ Feature: TMGMT Workbench features
   I want to be have TMGMT and Workbench Moderation integrated correctly
 
   Background:
-    Given the module is enabled
-      |modules           |
-      |tmgmt_workbench      |
-    And the following languages are available:
+    Given the following languages are available:
       | languages |
       | en        |
       | fr        |
+      | de        |
       | it        |
 
   Scenario: NEXTEUROPA-9945: When requesting a translation from the node's "Translate" page I only create "workbench_moderation" job items.
@@ -45,3 +43,32 @@ Feature: TMGMT Workbench features
     Then I click "Translation" in the "admin_menu" region
     And I click "Sources"
     Then I should not see "New Editorial team"
+
+    @run
+    Scenario: NEXTEUROPA-9861: Accepted translations should be applied on the node revision source.
+      Given local translator "Translator A" is available
+      And I am logged in as a user with the "administrator" role
+      And I am viewing a multilingual "page" content:
+        | language | title                |
+        | en       | Title in English 1.0 |
+      Then I should not see the link "Deutsch" in the "content" region
+      And I create the following translations for "page" content with title "Title in English 1.0":
+        | language | title               |
+        | de       | Title in German 1.0 |
+      And I click "View"
+      Then I should see the link "Deutsch" in the "content" region
+      And I click "Deutsch" in the "content" region
+      Then I should see "Title in German 1.0"
+      And I create the following job for "page" with title "Title in English 1.0"
+        | source language | en                  |
+        | target language | fr                  |
+        | translator      | Translator A        |
+        | title_field     | Title in French 1.0 |
+      Then the translation job is in "Active" state
+      And the translation job items are in "Needs review" state
+      And the current translation job is accepted
+      And I click "View"
+      Then I should see the link "Français" in the "content" region
+      And I click "Français" in the "content" region
+      Then I should see "Title in French 1.0"
+
