@@ -77,16 +77,17 @@
 
     <!-- Run Behat tests. -->
     <target name="behat" description="Run Behat tests.">
-        <foreach param="filename" absparam="behat.yml.suite" target="behat-suite">
+        <foreach param="filename" absparam="config" target="behat-suite">
           <fileset dir="${behat.dir}">
             <include name="*.yml"/>
           </fileset>
         </foreach>
     </target>
+
     <target name="behat-suite" description="Run Behat tests suite.">
         <behat
             executable="${behat.bin}"
-            config="${behat.yml.suite}"
+            config="${config}"
             strict="${behat.options.strict}"
             verbose="${behat.options.verbosity}"
         />
