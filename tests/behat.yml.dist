@@ -61,13 +61,9 @@ communities:
       goutte: ~
       selenium2: ~
       javascript_session: 'selenium2'
-<<<<<<< HEAD
-      base-url: '${behat.base_url}'
-=======
       selenium2:
         wd_host: "http://localhost:8643/wd/hub"
       base-url: '{{ behat.base_url}'
->>>>>>> dcfdff8... Merge pull request #517 from ec-europa/feature/behat-tuning
     Drupal\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~
