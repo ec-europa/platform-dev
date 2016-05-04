@@ -33,9 +33,6 @@ function e_library_og_context_default_contexts() {
     ),
   );
   $context->reactions = array(
-    'debug' => array(
-      'debug' => 1,
-    ),
     'menu' => 'links_public',
   );
   $context->condition_mode = 1;

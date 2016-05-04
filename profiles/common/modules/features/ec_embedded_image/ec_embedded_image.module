@@ -7,7 +7,7 @@
 include_once 'ec_embedded_image.features.inc';
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function ec_embedded_image_form_media_flickr_settings_form_alter(&$form, &$form_state) {
   if (empty($form['api']['media_flickr__api_key']['#default_value']) || empty($form['api']['media_flickr__api_secret']['#default_value'])) {

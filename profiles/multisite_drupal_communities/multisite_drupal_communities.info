@@ -119,6 +119,6 @@ dependencies[] = cce_basic_config
 dependencies[] = communities
 dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
-dependencies[] = multisite_rules_configuration
 dependencies[] = multisite_settings_core
 dependencies[] = solr_config
+dependencies[] = multisite_wysiwyg

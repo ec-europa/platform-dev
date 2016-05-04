@@ -12,7 +12,6 @@ default:
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      selenium2: ~
       javascript_session: 'selenium2'
       selenium2:
         wd_host: "http://localhost:8643/wd/hub"
@@ -59,7 +58,6 @@ communities:
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      selenium2: ~
       javascript_session: 'selenium2'
       selenium2:
         wd_host: "http://localhost:8643/wd/hub"

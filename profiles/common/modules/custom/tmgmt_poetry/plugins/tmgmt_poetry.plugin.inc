@@ -441,7 +441,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $msg = $xml->asXML();
     $translator = $job->getTranslator();
     $settings = $translator->getSetting('settings');
-    watchdog('Poetry: Send request', $msg, array(), WATCHDOG_DEBUG);
+    watchdog('Poetry: Send request', htmlentities($msg), array(), WATCHDOG_DEBUG);
 
     // Get Poetry configuration.
     $poetry = variable_get("poetry_service");
