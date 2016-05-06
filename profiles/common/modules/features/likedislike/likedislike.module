@@ -13,12 +13,10 @@ function likedislike_init() {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function likedislike_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id == 'likedislike_form') {
-    drupal_add_js(drupal_get_path('module', 'likedislike') . '/scripts/form_script.js');
-  }
+function likedislike_form_likedislike_form_alter(&$form, &$form_state, $form_id) {
+  drupal_add_js(drupal_get_path('module', 'likedislike') . '/scripts/form_script.js');
 }
 
 /**

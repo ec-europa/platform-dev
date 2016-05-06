@@ -31,6 +31,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
   public function setUp() {
     parent::setUp();
     $this->handler = new HashTokenHandler();
+    module_enable(array('nexteuropa_token_test'));
   }
 
   /**
@@ -128,6 +129,15 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
 
     self::$generatedHashes[] = $hash_two;
     self::$generatedHashes[] = $hash_one;
+  }
+
+  /**
+   * Test hook_nexteuropa_token_token_handlers_alter().
+   */
+  public function testHookTokenHandlersAlter() {
+    $handlers = nexteuropa_token_get_token_handlers();
+    $this->assertArrayHasKey('nexteuropa_token_test', $handlers);
+    $this->assertEquals($handlers['nexteuropa_token_test'], '\Drupal\nexteuropa_token_test\TestTokenHandler');
   }
 
   /**

@@ -2,7 +2,7 @@ name = Ec_resp
 description = Responsive template with Europa banner
 package = Fpfis_cms_theme
 core = "7.x"
-php = "5.2.4"
+php = "5.6.9"
 
 stylesheets[all][] = "css/ec_resp.css"
 stylesheets[print][] = "css/print.css"

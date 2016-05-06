@@ -63,32 +63,35 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
 
   switch ($instance['widget']['type']) {
     case 'geofield_widget_map':
-        $element['geojson_map'] = array(
-          '#type' => 'item',
-          '#title' => t('Map'),
-          '#markup' => '<div id="geofield_geojson_map"></div><div id="geofield_geojson_map_wrapper"></div>',
-        );
+      if (!isset($element['#title'])) {
+        $element['#title'] = t('Map');
+      }
+      $element['geojson_map'] = array(
+        '#type' => 'item',
+        '#title' => $element['#title'],
+        '#markup' => '<div id="geofield_geojson_map"></div><div id="geofield_geojson_map_wrapper"></div>',
+      );
 
-        $element['geojson_map']['#attached']['js'] = array(
-          libraries_get_path('leaflet') . '/leaflet-src.js',
-          libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw-src.js',
-          drupal_get_path('module', 'nexteuropa_geofield') . '/js/nexteuropa_geofield.edit.js',
-        );
-        $element['geojson_map']['#attached']['css'] = array(
-          libraries_get_path('leaflet') . '/leaflet.css',
-          drupal_get_path('module', 'nexteuropa_geofield') . '/css/nexteuropa_geofield.css',
-          libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw.css',
-        );
-        $element['geofield_geojson'] = array(
-          '#type' => 'textarea',
-          '#default_value' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '',
-          '#prefix' => '<div id="geofield_geojson" class="hide">',
-          '#suffix' => '</div>',
-        );
+      $element['geojson_map']['#attached']['js'] = array(
+        libraries_get_path('leaflet') . '/leaflet-src.js',
+        libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw-src.js',
+        drupal_get_path('module', 'nexteuropa_geofield') . '/js/nexteuropa_geofield.edit.js',
+      );
+      $element['geojson_map']['#attached']['css'] = array(
+        libraries_get_path('leaflet') . '/leaflet.css',
+        drupal_get_path('module', 'nexteuropa_geofield') . '/css/nexteuropa_geofield.css',
+        libraries_get_path('Leaflet.draw') . '/dist/leaflet.draw.css',
+      );
+      $element['geofield_geojson'] = array(
+        '#type' => 'textarea',
+        '#default_value' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '',
+        '#prefix' => '<div id="geofield_geojson" class="hide">',
+        '#suffix' => '</div>',
+      );
 
-        drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '')), 'setting');
-        drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
-        drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field['cardinality'])), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('map' => isset($value['geofield_geojson']) ? $value['geofield_geojson'] : '')), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('settings' => $settings)), 'setting');
+      drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field['cardinality'])), 'setting');
       break;
   }
   return $element;

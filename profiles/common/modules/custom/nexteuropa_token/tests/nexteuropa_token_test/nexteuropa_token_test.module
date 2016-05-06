@@ -1,0 +1,15 @@
+<?php
+/**
+ * @file
+ * Contains test module.
+ */
+
+/**
+ * Implements hook_nexteuropa_token_token_handlers_alter().
+ *
+ * @see nexteuropa_token_nexteuropa_token_token_handlers()
+ * @see nexteuropa_token_get_token_handlers()
+ */
+function nexteuropa_token_test_nexteuropa_token_token_handlers_alter(array &$handlers) {
+  $handlers['nexteuropa_token_test'] = '\Drupal\nexteuropa_token_test\TestTokenHandler';
+}

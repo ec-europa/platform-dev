@@ -38,15 +38,12 @@ function multisite_workbench_moderation_view_views_pre_view(&$views) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function multisite_workbench_moderation_view_form_alter(&$form) {
-  if (isset($form['#form_id']) && $form['#form_id'] == 'views_form_workbench_moderation_moderate_all_page') {
-    if (!empty($form['force_transition']) && isset($form['force_transition'])) {
-
-      // Beware is dangerous to unset variables, choose better to hide them.
-      $form['force_transition']['#type'] = 'hidden';
-    }
+function multisite_workbench_moderation_view_form_views_form_workbench_moderation_moderate_all_page_alter(&$form, &$form_state, $form_id) {
+  if (!empty($form['force_transition']) && isset($form['force_transition'])) {
+    // Beware is dangerous to unset variables, choose better to hide them.
+    $form['force_transition']['#type'] = 'hidden';
   }
 }
 

@@ -7,6 +7,7 @@
 
 * Composer
 * PHP Phar extension
+* PhantomJS (in order to run JavaScript during Behat tests)
 
 ## Install build system
 

@@ -8,38 +8,6 @@
 include_once 'f_a_q.features.inc';
 
 /**
- * Implements hook_views_pre_render().
- */
-function f_a_q_views_pre_render(&$view) {
-  if ($view->name == 'faq') {
-
-    // Add a bit of jQuery to make it work.
-    drupal_add_js(drupal_get_path('module', 'f_a_q') . '/faq.js');
-
-    $output = '';
-
-    // Build extra menu item for this view.
-    $attributes = array(
-      'type' => 'expand',
-      'action_bar' => 'first',
-      'btn_group' => 'first',
-      'class' => 'action-expand',
-    );
-    $output .= l(t('Expand all'), '', array('attributes' => $attributes));
-    $attributes = array(
-      'type' => 'collapse',
-      'btn_group' => 'last',
-      'class' => 'action-collapse',
-    );
-    $output .= l(t('Collapse all'), '', array('attributes' => $attributes));
-
-    // Add menu to the exsiting  header.
-    $view->header['area']->options['content'] = $view->header['area']->options['content'] . $output;
-  }
-}
-
-
-/**
  * Implements hook_token_info().
  */
 function f_a_q_token_info() {
