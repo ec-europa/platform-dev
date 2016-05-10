@@ -52,13 +52,13 @@ function nexteuropa_news_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_event_type'.
-  $field_bases['field_event_type'] = array(
+  // Exported field_base: 'field_news_category'.
+  $field_bases['field_news_category'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_event_type',
+    'field_name' => 'field_news_category',
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -69,7 +69,7 @@ function nexteuropa_news_field_default_field_bases() {
     'settings' => array(
       'allowed_values' => array(
         0 => array(
-          'vocabulary' => 'nexteuropa_event_type',
+          'vocabulary' => 'news_categories',
           'parent' => 0,
         ),
       ),
