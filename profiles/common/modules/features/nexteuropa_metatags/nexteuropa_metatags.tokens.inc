@@ -106,7 +106,8 @@ function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array
       foreach ($language_ui_tokens as $name => $original) {
         switch ($name) {
           case 'language':
-            $replacements[$original] = $language->language;
+            // Replace with prefix unless empty.
+            $replacements[$original] = empty($language->prefix) ? $language->language : $language->prefix;
             break;
 
           case 'name':

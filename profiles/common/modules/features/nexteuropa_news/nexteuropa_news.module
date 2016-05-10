@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Nexteuropa News feature.
+ */
+
+include_once 'nexteuropa_news.features.inc';
