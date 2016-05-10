@@ -1,0 +1,222 @@
+<?php
+
+/**
+ * @file
+ * Drupal Module: NextEuropa Piwik.
+ *
+ * Adds the required Webtools widget to all your Drupal pages
+ * to allow tracking by the Piwik statistics package.
+ *
+ * @author: Original Piwik module: Alexander Hass <http://drupal.org/user/85918>
+ */
+
+/**
+ * Define default path exclusion list to remove tracking from admin pages.
+ */
+define('NEXTEUROPA_PIWIK_PAGES', "admin\nadmin/*\nbatch\nnode/add*\nnode/*/*\nuser/*/*");
+
+/**
+ * Implements hook_help().
+ */
+function nexteuropa_piwik_help($path, $arg) {
+  switch ($path) {
+    case 'admin/config/system/nexteuropa_piwik':
+      return t('<a href="@pk_url">Piwik - Web analytics</a> is an open source (GPL license) web analytics software. It gives interesting reports on your website visitors, your popular pages, the search engines keywords they used, the language they speak... and so much more. Piwik aims to be an open source alternative to Google Analytics.', array('@pk_url' => 'http://www.piwik.org/'));
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function nexteuropa_piwik_theme() {
+  return array(
+    'nexteuropa_piwik_admin_custom_var_table' => array(
+      'render element' => 'form',
+    ),
+  );
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_piwik_permission() {
+  return array(
+    'administer nexteuropa_piwik' => array(
+      'title' => t('Administer Nexteuropa Piwik'),
+      'description' => t('Perform maintenance tasks for Piwik.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_piwik_menu() {
+  $items['admin/config/system/webtools/piwik'] = array(
+    'title' => 'Piwik',
+    'description' => 'Configure the settings used to generate your NextEuropa Piwik tracking code.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_piwik_admin_settings_form'),
+    'access arguments' => array('administer nexteuropa_piwik'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'nexteuropa_piwik.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function nexteuropa_piwik_page_alter(&$page) {
+  global $user;
+
+  $id = variable_get('nexteuropa_piwik_site_id', '');
+  $instance = variable_get('nexteuropa_piwik_site_instance', '');
+
+  // Get page status code for visibility filtering.
+  $status = drupal_get_http_header('Status');
+  // 1. Check if the piwik account number has a value.
+  // 2. Track page views based on visibility value.
+  // 3. Check if we should track the currently active user's role.
+  if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages() || $status == '404 Not Found') && _nexteuropa_piwik_visibility_roles($user)) {
+    // Loading variables.
+    $smartloader_prurl = variable_get('nexteuropa_piwik_smartloader_prurl', '');
+    $site_path = variable_get('nexteuropa_piwik_site_path', '');
+    $site_section = variable_get('nexteuropa_piwik_site_section', '');
+
+    // Strip http & https from site_path variable and transforming in to array.
+    $site_path = preg_replace('#^https?://#', '', $site_path);
+    $site_path = explode(PHP_EOL, $site_path);
+
+    // Add smart loader.
+    // Ensure to use a PR URL (compatibility for http/https).
+    $smartloader_prurl = preg_replace("#^https?:#", "", $smartloader_prurl);
+    drupal_add_js($smartloader_prurl, 'external');
+
+    // Create settings array.
+    $webtools_piwik_settings = array(
+      'utility' => 'piwik',
+      'siteID' => $id,
+      'sitePath' => $site_path,
+      'is404' => FALSE,
+      'instance' => $instance,
+    );
+
+    // Search results pages.
+    if (module_exists('search') && variable_get('nexteuropa_piwik_site_search', TRUE) && arg(0) == 'search' && $keys = nexteuropa_piwik_search_get_keys()) {
+      global $pager_total_items;
+      $results_count = 0;
+
+      if (isset($pager_total_items[0])) {
+        $results_count = strval($pager_total_items[0]);
+      }
+
+      $webtools_piwik_settings['search']['keyword'] = $keys;
+      $webtools_piwik_settings['search']['count'] = $results_count;
+    }
+
+    // Track file not found (404) pages.
+    if ($status == '404 Not Found') {
+      $webtools_piwik_settings['is404'] = TRUE;
+    }
+
+    if (!empty($site_section)) {
+      $webtools_piwik_settings['siteSection'] = $site_section;
+    }
+
+    $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
+
+    // Add tracker code to scope.
+    $page['content']['next_europapiwik']['#markup'] = $webtools_piwik_settings;
+    $page['content']['next_europapiwik']['#prefix'] = "<script type=\"application/json\">";
+    $page['content']['next_europapiwik']['#suffix'] = "</script>";
+  }
+}
+
+/**
+ * Return TRUE if widget should be enabled for the current role.
+ */
+function _nexteuropa_piwik_visibility_roles($account) {
+  $visibility = variable_get('nexteuropa_piwik_visibility_roles', 0);
+  $enabled = $visibility;
+  $roles = variable_get('nexteuropa_piwik_roles', array());
+
+  if (array_sum($roles) > 0) {
+    // One or more roles are selected.
+    foreach (array_keys($account->roles) as $rid) {
+      // Is the current user a member of one of these roles?
+      if (isset($roles[$rid]) && $rid == $roles[$rid]) {
+        // Current user is a member of a role
+        // that should be tracked/excluded from tracking.
+        $enabled = !$visibility;
+        break;
+      }
+    }
+  }
+  else {
+    // No role is selected for tracking, therefore all roles should be tracked.
+    $enabled = TRUE;
+  }
+
+  return $enabled;
+}
+
+/**
+ * Return TRUE if widget should be enabled for the current page.
+ */
+function _nexteuropa_piwik_visibility_pages() {
+  static $page_match;
+
+  // Cache visibility setting in hook_init for hook_footer.
+  if (!isset($page_match)) {
+
+    $visibility = variable_get('nexteuropa_piwik_visibility_pages', 0);
+    $setting_pages = variable_get('nexteuropa_piwik_pages', NEXTEUROPA_PIWIK_PAGES);
+
+    // Match path if necessary.
+    if (!empty($setting_pages)) {
+      // Convert path to lowercase. This allows comparison of the same path
+      // with different case. Ex: /Page, /page, /PAGE.
+      $pages = drupal_strtolower($setting_pages);
+      if ($visibility < 2) {
+        // Convert the Drupal path to lowercase.
+        $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+        // Compare the lowercase internal and lowercase path alias (if any).
+        $page_match = drupal_match_path($path, $pages);
+        if ($path != $_GET['q']) {
+          $page_match = $page_match || drupal_match_path($_GET['q'], $pages);
+        }
+        // When $visibility has a value of 0, the tracking code is displayed on
+        // all pages except those listed in $pages. When set to 1, it
+        // is displayed only on those pages listed in $pages.
+        $page_match = !($visibility xor $page_match);
+      }
+      else {
+        $page_match = FALSE;
+      }
+    }
+    else {
+      $page_match = TRUE;
+    }
+
+  }
+  return $page_match;
+}
+
+/**
+ * Helper function for grabbing search keys. Function is missing in D7.
+ *
+ * Http://api.drupal.org/api/function/search_get_keys/6
+ */
+function nexteuropa_piwik_search_get_keys() {
+  static $return;
+  if (!isset($return)) {
+    // Extract keys as remainder of path
+    // Note: support old GET format of searches for existing links.
+    $path = explode('/', $_GET['q'], 3);
+    $keys = empty($_REQUEST['keys']) ? '' : $_REQUEST['keys'];
+    $return = count($path) == 3 ? $path[2] : $keys;
+  }
+  return $return;
+}

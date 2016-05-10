@@ -52,6 +52,10 @@ function cce_basic_config_requirements($phase) {
 function cce_basic_config_install() {
   $t = get_t();
 
+  // Create contributor editor roles.
+  multisite_config_service('user')->createRole('contributor', 3);
+  multisite_config_service('user')->createRole('editor', 4);
+
   // Create a vocabulary dedicated to the classification.
   $vocabulary = (object) array(
     'name' => $t('classification'),
@@ -739,12 +743,8 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use PHP to import nodes',
   ));
 
-  // Contributor role.
-  $contributor_role = new stdClass();
-  $contributor_role->name = 'contributor';
-  user_role_save($contributor_role);
   // Grant permissions for contributors.
-  user_role_grant_permissions($contributor_role->rid, array(
+  $permissions = array(
     'access workbench',
     'create article content',
     'delete own article content',
@@ -760,14 +760,11 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view own unpublished content',
     'view revisions',
     'access media browser',
-  ));
+  );
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
 
-  // Editor role.
-  $editor_role = new stdClass();
-  $editor_role->name = 'editor';
-  user_role_save($editor_role);
   // Grant permissions for editors.
-  user_role_grant_permissions($editor_role->rid, array(
+  $permissions = array(
     'create article content',
     'delete any article content',
     'delete own article content',
@@ -775,19 +772,14 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'edit any article content',
     'edit own article content',
     'export nodes',
-    'moderate content from draft to needs_review',
-    'moderate content from needs_review to draft',
-    'moderate content from needs_review to published',
-    'moderate content from needs_review to validated',
-    'moderate content from published to archived',
-    'moderate content from validated to published',
     'revert revisions',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
     'view own unpublished content',
     'access media browser',
-  ));
+  );
+  multisite_config_service('user')->grantPermission('editor', $permissions);
 
   // Grant permissions for authenticated users.
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
@@ -815,6 +807,68 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'search content',
     'use advanced search',
   ));
+}
+
+/**
+ * Initialize users.
+ */
+function _cce_basic_config_post_install_users() {
+  // Create a default users, with all available roles assigned.
+  include_once DRUPAL_ROOT . '/includes/password.inc';
+  // Dummy domain used for default email addresses.
+  $default_email_domain = 'nomail.nodomain.notld';
+
+  // Add user accounts.
+  $account = new stdClass();
+  $account->is_new = TRUE;
+  $account->status = TRUE;
+  $account->name = 'user_administrator';
+  $account->pass = user_hash_password('pass');
+  $account->mail = 'administrator@' . $default_email_domain;
+  $account->init = $account->mail;
+  $role = user_role_load_by_name('administrator');
+  $account->roles[$role->rid] = $role->name;
+  $account->field_firstname['und'][0]['value'] = 'John';
+  $account->field_lastname['und'][0]['value'] = 'Smith';
+  user_save($account);
+
+  $account1 = new stdClass();
+  $account1->is_new = TRUE;
+  $account1->status = TRUE;
+  $account1->name = 'user_contributor';
+  $account1->pass = user_hash_password('pass');
+  $account1->mail = 'contributor@' . $default_email_domain;
+  $account1->init = $account1->mail;
+  $role1 = user_role_load_by_name('contributor');
+  $account1->roles[$role1->rid] = $role1->name;
+  $account1->field_firstname['und'][0]['value'] = 'John';
+  $account1->field_lastname['und'][0]['value'] = 'Doe';
+  user_save($account1);
+
+  $account2 = new stdClass();
+  $account2->is_new = TRUE;
+  $account2->status = TRUE;
+  $account2->name = 'user_editor';
+  $account2->pass = user_hash_password('pass');
+  $account2->mail = 'editor@' . $default_email_domain;
+  $account2->init = $account2->mail;
+  $role2 = user_role_load_by_name('editor');
+  $account2->roles[$role2->rid] = $role2->name;
+  $account2->field_firstname['und'][0]['value'] = 'John';
+  $account2->field_lastname['und'][0]['value'] = 'Blake';
+  user_save($account2);
+
+  // Assign dummy content to the 'administrator' user.
+  $query = db_select('node', 'n');
+  $query->condition('n.type', 'article', '=')
+    ->fields('n', array('nid', 'title', 'uid'));
+  $results = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
+
+  foreach ($results as $result) {
+    $node = node_load($result['nid']);
+    $node->uid = $account->uid;
+    node_save($node);
+  }
 }
 
 /**
@@ -917,6 +971,7 @@ function cce_basic_config_post_install() {
   _cce_basic_config_post_install_default_content_type();
   _cce_basic_config_post_install_user_config();
   _cce_basic_config_post_install_user_roles_perms();
+  _cce_basic_config_post_install_users();
   _cce_basic_config_post_install_default_images();
   _cce_basic_config_post_install_default_menu_items();
   _cce_basic_config_post_install_default_terms();
@@ -943,59 +998,6 @@ function cce_basic_config_uninstall() {
  * Implements hook_enable().
  */
 function cce_basic_config_enable() {
-  include_once DRUPAL_ROOT . '/includes/password.inc';
-  // Dummy domain used for default email addresses.
-  $default_email_domain = 'nomail.nodomain.notld';
-
-  // Add user accounts.
-  $account = new stdClass();
-  $account->is_new = TRUE;
-  $account->status = TRUE;
-  $account->name = 'user_administrator';
-  $account->pass = user_hash_password('pass');
-  $account->mail = 'administrator@' . $default_email_domain;
-  $account->init = $account->mail;
-  $account->roles[3] = 'administrator';
-  $account->field_firstname['und'][0]['value'] = 'John';
-  $account->field_lastname['und'][0]['value'] = 'Smith';
-  user_save($account);
-
-  $account1 = new stdClass();
-  $account1->is_new = TRUE;
-  $account1->status = TRUE;
-  $account1->name = 'user_contributor';
-  $account1->pass = user_hash_password('pass');
-  $account1->mail = 'contributor@' . $default_email_domain;
-  $account1->init = $account1->mail;
-  $account1->roles[4] = 'contributor';
-  $account1->field_firstname['und'][0]['value'] = 'John';
-  $account1->field_lastname['und'][0]['value'] = 'Doe';
-  user_save($account1);
-
-  $account2 = new stdClass();
-  $account2->is_new = TRUE;
-  $account2->status = TRUE;
-  $account2->name = 'user_editor';
-  $account2->pass = user_hash_password('pass');
-  $account2->mail = 'editor@' . $default_email_domain;
-  $account2->init = $account2->mail;
-  $account2->roles[5] = 'editor';
-  $account2->field_firstname['und'][0]['value'] = 'John';
-  $account2->field_lastname['und'][0]['value'] = 'Blake';
-  user_save($account2);
-
-  // Assign dummy content to the 'administrator' user.
-  $query = db_select('node', 'n');
-  $query->condition('n.type', 'article', '=')
-    ->fields('n', array('nid', 'title', 'uid'));
-  $results = $query->execute()->fetchAll(PDO::FETCH_ASSOC);
-
-  foreach ($results as $result) {
-    $node = node_load($result['nid']);
-    $node->uid = $account->uid;
-    node_save($node);
-  }
-
   variable_set('user_classes', 'btn btn-info btn-xs');
   variable_set('user_myaccount_data_image', 'user');
 

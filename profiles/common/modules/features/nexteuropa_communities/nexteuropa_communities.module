@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Nexteuropa communities feature.
+ */
+
+include_once 'nexteuropa_communities.features.inc';
