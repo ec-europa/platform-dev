@@ -60,4 +60,12 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getEntityUrl($entity_type, $entity) {
+    $uri = entity_uri($entity_type, $entity);
+    return url($uri['path'], array('absolute' => TRUE));
+  }
+
 }

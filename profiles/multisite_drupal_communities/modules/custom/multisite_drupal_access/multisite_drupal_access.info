@@ -1,5 +1,4 @@
 name = multisite drupal access
 description = module to customize the group node access
 package = multisite drupal toolbox
-version = "7.x-1.0"
 core = "7.x"

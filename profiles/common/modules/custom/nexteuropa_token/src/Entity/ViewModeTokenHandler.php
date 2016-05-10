@@ -48,7 +48,6 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
           $entity_id = $this->getEntityIdFromToken($original);
           $view_mode = $this->getViewModeFromToken($original);
 
-          $render = array();
           switch ($type) {
             case 'node':
               $node = node_load($entity_id);

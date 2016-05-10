@@ -4,8 +4,6 @@
  * Code for the Survey core install file.
  */
 
-include_once 'survey_core.install.inc';
-
 /**
  * Implements hook_enable().
  */
@@ -20,7 +18,7 @@ function survey_core_enable() {
     ->execute();
 
   // Activation message.
-  drupal_set_message(t('Survey %v feature is now active on your site.', array('%v' => _survey_core_get_version())));
+  drupal_set_message(t('Survey feature is now active on your site.'));
 }
 
 /**
@@ -31,5 +29,5 @@ function survey_core_disable() {
   multisite_drupal_toolbox_content_type_linkchecker('webform', 'delete');
 
   // Deactivation message.
-  drupal_set_message(t('Survey %v feature is now disabled on your site.', array('%v' => _survey_core_get_version())));
+  drupal_set_message(t('Survey feature is now disabled on your site.'));
 }

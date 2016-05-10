@@ -4,14 +4,12 @@
  * Install, uninstall, update and schema hooks for Taxonomy Browser.
  */
 
-include_once 'taxonomy_browser.install.inc';
-
 /**
  * Implements hook_enable().
  */
 function taxonomy_browser_enable() {
   // Activation message.
-  drupal_set_message(t('Taxonomy browser %v feature is now active on your site.', array('%v' => _taxonomy_browser_get_version())));
+  drupal_set_message(t('Taxonomy browser feature is now active on your site.'));
 
   // Initialize variable if not exists.
   if (!$var = variable_get('taxonomy_browser_vocabulary')) {
@@ -25,7 +23,7 @@ function taxonomy_browser_enable() {
  */
 function taxonomy_browser_disable() {
   // Deactivation message.
-  drupal_set_message(t('Taxonomy browser %v feature is now inactive on your site.', array('%v' => _taxonomy_browser_get_version())));
+  drupal_set_message(t('Taxonomy browser feature is now inactive on your site.'));
 }
 
 /**

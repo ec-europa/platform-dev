@@ -7,18 +7,16 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
-include_once 'links_standard.install.inc';
-
 /**
  * Implements hook_enable().
  */
 function links_standard_enable() {
-  drupal_set_message(t('links_core %v feature is now active on your site.', array('%v' => _links_standard_get_version())));
+  drupal_set_message(t('links_core feature is now active on your site.'));
 }
 
 /**
  * Implements hook_disable().
  */
 function links_standard_disable() {
-  drupal_set_message(t('links_core %v feature is now inactive on your site.', array('%v' => _links_standard_get_version())));
+  drupal_set_message(t('links_core feature is now inactive on your site.'));
 }

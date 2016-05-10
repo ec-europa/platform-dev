@@ -98,9 +98,7 @@ function _tmgmt_poetry_authenticate($user, $password) {
  * Function available to call from our webservice.
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
-
-  watchdog("POETRY", "Poetry accessed callback");
-  watchdog('tmgmt_poetry: translation response', $msg, array(), WATCHDOG_DEBUG);
+  watchdog('Poetry: Response', filter_xss(htmlentities($msg)), array(), WATCHDOG_DEBUG);
 
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
@@ -111,10 +109,38 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     $request = $xml->request;
     $reference = implode("/", (array) $request->demandeId);
 
+    // Watchdog is only temporary information, save the file to the filesystem.
+    $path = 'public://tmgmt_file/dgt_responses/' . $reference . '.xml';
+    $dirname = dirname($path);
+    if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
+      file_save_data($msg, $path);
+    }
+
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
-    $language_job = array();
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $main_reference)->fetchAll();
+    $language_job = $request->status['lgCode'];
+
+    if ($xml->request['type'] == 'status') {
+      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $reference));
+      // Send answer to poetry.
+      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'OK', 0, $request);
+      return $xml->asXML();
+    }
+
+    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
+
+    // Handling the case where we can't find the corresponding job.
+    if (!$ids) {
+      watchdog("Poetry: Error message", "Callback can't find a job with remote reference !reference .",
+        array(
+          '!reference' => $reference,
+        ), WATCHDOG_ERROR);
+
+      // Send answer to poetry.
+      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'ERROR: Job does not exists', -1, $request);
+      return $xml->asXML();
+    }
+
     $ids = array_shift($ids);
     $message_job = tmgmt_job_load($ids->tjid);
 
@@ -296,7 +322,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     return $xml->asXML();
   }
   else {
-    watchdog("POETRY", "Poetry callback failed authentication.");
+    watchdog("Poetry: Error message", "Poetry callback failed authentication.");
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
     // Send answer to poetry.
@@ -360,8 +386,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
           }
         }
       }
-      $dom->loadXML($xml->asXML());
-      $result = $dom->saveHTML();
+      $result = $xml->asXML();
       break;
 
     case 'xliff_xsl_xml_poetry':
@@ -394,7 +419,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
           $tag['id'] = str_replace('tjiid' . $old_tjiid . '-', 'tjiid' . $job_item->tjiid . '-', $tag['id']);
         }
       }
-      $result = $xml->saveXML();
+      $result = $xml->asXML();
       break;
   }
   return $result;

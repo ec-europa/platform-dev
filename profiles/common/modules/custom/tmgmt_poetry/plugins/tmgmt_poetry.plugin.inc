@@ -6,7 +6,7 @@
  */
 
 /**
- * MT@EC translation plugin controller.
+ * DGT Connector translation plugin controller.
  */
 class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPluginController {
   /**
@@ -30,46 +30,44 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Implements TMGMTTranslatorPluginControllerInterface::isAvailable().
    */
   public function isAvailable(TMGMTTranslator $translator) {
-    $general_settings_set = FALSE;
-    $organization_set = FALSE;
-    $contacts_set = FALSE;
-    $poetry_settings_set = FALSE;
+    $poetry_settings = array('settings', 'organization', 'contacts');
+    $poetry_service = array(
+      'address',
+      'method',
+      'callback_user',
+      'callback_password',
+      'poetry_user',
+      'poetry_password',
+    );
 
-    // Check if the general settings are set.
-    $settings = $translator->getSetting('settings');
-    if ((isset($settings['username']) && !empty($settings['username'])) &&
-      (isset($settings['password']) && !empty($settings['password'])) &&
-      (isset($settings['counter']) && !empty($settings['counter'])) &&
-      (isset($settings['code']) && !empty($settings['code']))) {
-      $general_settings_set = TRUE;
+    $all_settings = array();
+    $poetry_credentials_settings = variable_get('poetry_service');
+
+    // If no credentials set in settings.php don't check further.
+    if (empty($poetry_settings)) {
+      return FALSE;
     }
 
-    // Check if the organization settings are set.
-    $organization = $translator->getSetting('organization');
-    if ((isset($organization['auteur']) && !empty($organization['auteur'])) &&
-      (isset($organization['responsable']) && !empty($organization['responsable'])) &&
-      (isset($organization['demandeur']) && !empty($organization['demandeur']))) {
-      $organization_set = TRUE;
+    // Get setting value for each setting.
+    foreach ($poetry_settings as $setting) {
+      $all_settings[$setting] = $translator->getSetting($setting);
     }
-
-    // Check if the translator settings are set.
-    $contacts = $translator->getSetting('contacts');
-    if ((isset($contacts['auteur']) && !empty($contacts['auteur'])) &&
-      (isset($contacts['secretaire']) && !empty($contacts['secretaire'])) &&
-      (isset($contacts['contact']) && !empty($contacts['contact'])) &&
-      (isset($contacts['responsable']) && !empty($contacts['responsable']))) {
-      $contacts_set = TRUE;
+    // If one of the arg is not set, don't check further.
+    foreach ($poetry_service as $service_arg) {
+      if (isset($poetry_credentials_settings[$service_arg])) {
+        $all_settings[$service_arg] = $poetry_credentials_settings[$service_arg];
+      }
+      else {
+        return FALSE;
+      }
     }
-
-    // Check if the poetry variables are set.
-    $poetry_service = variable_get('poetry_service');
-    if ((isset($poetry_service['address']) && !empty($poetry_service['address'])) &&
-      (isset($poetry_service['method']) && !empty($poetry_service['method'])) &&
-      (isset($poetry_service['callback_user']) && !empty($poetry_service['callback_user'])) &&
-      (isset($poetry_service['callback_password']) && !empty($poetry_service['callback_password']))) {
-      $poetry_settings_set = TRUE;
-    }
-    return $organization_set && $contacts_set && $poetry_settings_set && $general_settings_set;
+    // If any of these is empty, translator is not properly configured.
+    foreach ($all_settings as $k => $v) {
+      if (empty($v)) {
+        return FALSE;
+      }
+    };
+    return TRUE;
   }
 
   /**
@@ -163,6 +161,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
           ->execute();
       }
       else {
+        // @FIXME Do not overwrite data. Might not be for the same revision.
         db_update('poetry_map')
           ->fields(array(
             'annee' => $demande_id['annee'],
@@ -193,30 +192,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
           array('%project_id' => $job->reference));
       }
     }
-  }
-
-  /**
-   * Overrides getSupportedTargetLanguages().
-   */
-  public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
-    $languages = array();
-    $list_languages = language_list();
-
-    foreach ($list_languages as $key => $value) {
-      $languages[$key] = $key;
-    }
-
-    return $languages;
-  }
-
-  /**
-   * Execute a request against the Poetry API.
-   */
-  protected function doRequest(array $query, TMGMTJob $job) {
-    $xml = $query['xml'];
-
-    $result = $this->sendSoapRequest($xml, $job);
-    return $result;
   }
 
   /**
@@ -373,43 +348,6 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     return $xml;
   }
 
-
-  /**
-   * Helper method to send a soap request.
-   *
-   * @param SimpleXMLElement $xml
-   *   XML to send.
-   * @param TMGMTJob $job
-   *   Job we are processing.
-   */
-  protected function sendSoapRequest(SimpleXMLElement $xml, TMGMTJob $job) {
-    $msg = $xml->asXML();
-    $translator = $job->getTranslator();
-    $settings = $translator->getSetting('settings');
-    watchdog('tmgmt_poetry: request', $msg, array(), WATCHDOG_DEBUG);
-
-    // Get Poetry configuration.
-    $poetry = variable_get("poetry_service");
-    // Create soap client.
-    try {
-      $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
-    }
-    catch (Exception $e) {
-      $response = 'Error new SoapClient : ' . $e->getMessage();
-    }
-
-    if ($client) {
-      // Send the SOAP request and handle possible errors.
-      try {
-        $response = $client->$poetry['method']($settings['username'], $settings['password'], $msg);
-      }
-      catch (Exception $e) {
-        $response = 'Error sending soap call : ' . $e->getMessage();
-      }
-      return $response;
-    }
-  }
-
   /**
    * Helper method to generate a request id.
    *
@@ -479,6 +417,66 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
 
     );
     return $id_data;
+  }
+
+  /**
+   * Execute a request against the Poetry API.
+   */
+  protected function doRequest(array $query, TMGMTJob $job) {
+    $xml = $query['xml'];
+
+    $result = $this->sendSoapRequest($xml, $job);
+    return $result;
+  }
+
+  /**
+   * Helper method to send a soap request.
+   *
+   * @param SimpleXMLElement $xml
+   *   XML to send.
+   * @param TMGMTJob $job
+   *   Job we are processing.
+   */
+  protected function sendSoapRequest(SimpleXMLElement $xml, TMGMTJob $job) {
+    $msg = $xml->asXML();
+    $translator = $job->getTranslator();
+    $settings = $translator->getSetting('settings');
+    watchdog('Poetry: Send request', htmlentities($msg), array(), WATCHDOG_DEBUG);
+
+    // Get Poetry configuration.
+    $poetry = variable_get("poetry_service");
+    // Create soap client.
+    try {
+      $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
+    }
+    catch (Exception $e) {
+      $response = 'Error new SoapClient : ' . $e->getMessage();
+    }
+
+    if ($client) {
+      // Send the SOAP request and handle possible errors.
+      try {
+        $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+      }
+      catch (Exception $e) {
+        $response = 'Error sending soap call : ' . $e->getMessage();
+      }
+      return $response;
+    }
+  }
+
+  /**
+   * Overrides getSupportedTargetLanguages().
+   */
+  public function getSupportedTargetLanguages(TMGMTTranslator $translator, $source_language) {
+    $languages = array();
+    $list_languages = language_list();
+
+    foreach ($list_languages as $key => $value) {
+      $languages[$key] = $key;
+    }
+
+    return $languages;
   }
 
 }
