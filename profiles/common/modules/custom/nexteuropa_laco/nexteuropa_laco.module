@@ -5,7 +5,7 @@
  */
 
 /**
- * Necessary to ensure compatibility with Registry Rebuild module.
+ * Necessary to ensure compatibility with older versions of Registry Rebuild.
  *
  * @link https://www.drupal.org/project/registry_rebuild
  */
