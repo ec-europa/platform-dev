@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Content level language switcher tests
   In order to read a content in different languages
   As an anonymous user
@@ -14,12 +14,12 @@ Feature: Content level language switcher tests
     And I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/language"
     And I fill in "edit-weight-en" with "-10"
-    And I fill in "edit-weight-fr" with "-9"    
+    And I fill in "edit-weight-fr" with "-9"
     And I fill in "edit-weight-de" with "-8"
     And I fill in "edit-weight-it" with "-7"
     And I press the "Save configuration" button
     Then I should see "Configuration saved."
-    
+
   Scenario: Check the visibility of the content level language switcher
     Given I am viewing a multilingual "page" content:
       | language | title                        |
@@ -34,7 +34,7 @@ Feature: Content level language switcher tests
     Then I should not see an ".block-language-selector-page" element
     When I go to "content/title-english_it"
     Then I should see an ".block-language-selector-page" element
-    
+
   Scenario Outline: Anonymous user can see the available translations of a content
     Given I am viewing a multilingual "page" content:
       | language | title                       |
@@ -47,6 +47,4 @@ Feature: Content level language switcher tests
     Examples:
     | url                                      | active_language | language_order    |
     | content/title-english_de                 | english         | français,italiano |
-    | content/title-english_de?2nd-language=fr | français        | english,italiano  |    
-
-
+    | content/title-english_de?2nd-language=fr | français        | english,italiano  |

@@ -148,6 +148,12 @@ function nexteuropa_mediagallery_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'media_gallery_colorbox' => array(
+        'custom_settings' => FALSE,
+      ),
+      'media_gallery_page' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -161,6 +167,14 @@ function nexteuropa_mediagallery_strongarm() {
       'display' => array(
         'language' => array(
           'default' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'media_gallery_colorbox' => array(
+            'weight' => '0',
+            'visible' => FALSE,
+          ),
+          'media_gallery_page' => array(
             'weight' => '0',
             'visible' => FALSE,
           ),
