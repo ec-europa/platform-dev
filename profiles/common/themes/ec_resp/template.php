@@ -354,6 +354,15 @@ function ec_resp_preprocess_node(&$variables) {
 }
 
 /**
+ * Implements template_preprocess_file_entity().
+ */
+function ec_resp_preprocess_file_entity(&$variables) {
+  if ($variables['view_mode'] == "media_gallery_colorbox") {
+    $variables['classes_array'][] = "col-lg-2 col-md-3 col-xs-6";
+  }
+}
+
+/**
  * Implements template_preprocess_user_profile().
  */
 function ec_resp_preprocess_user_profile(&$variables) {
@@ -697,7 +706,7 @@ function ec_resp_page_alter(&$page) {
       '#tag' => 'meta',
       '#attributes' => array(
         'http-equiv' => 'Content-Language',
-        'content' => $language->language,
+        'content' => $language->prefix,
       ),
     );
     drupal_add_html_head($meta_content_language, 'meta_content_language');

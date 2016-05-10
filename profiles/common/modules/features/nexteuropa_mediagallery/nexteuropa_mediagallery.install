@@ -1,0 +1,82 @@
+<?php
+/**
+ * @file
+ * Install the feature exteuropa Galleries feature.
+ */
+
+include_once 'nexteuropa_mediagallery.features.inc';
+
+
+/**
+ * Implements hook_requirements().
+ */
+function nexteuropa_mediagallery_requirements() {
+  $requirements = [];
+  if (module_exists('multisite_mediagallery_core')) {
+    $t = get_t();
+    $args = array('%module' => 'Multisite Media Gallery');
+    $requirements['nexteuropa_multilingual_module_conflict'] = [
+      'title' => 'NextEuropa Gallery',
+      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }
+  return $requirements;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_mediagallery_enable() {
+  // SolR configuration add bundle.
+  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_mediagallery', 'add');
+
+  // Add block in context.
+  multisite_drupal_toolbox_add_block_context('homepage', 'nexteuropa_mediagallery-block', 'views', 'nexteuropa_mediagallery-block', 'content_top');
+
+  // Enable Gallery view mode.
+  _nexteuropa_mediagallery_set_file_view_mode(TRUE);
+
+  // Activation message.
+  drupal_set_message(t('Nexteuropa Gallery feature is now active on your site.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_mediagallery_disable() {
+  // solR configuration add bundle.
+  multisite_drupal_toolbox_config_solr_bundle('nexteuropa_mediagallery', 'delete');
+  multisite_drupal_toolbox_remove_block_context('homepage', 'galleries-medias_block');
+
+  // Disable block Carousel.
+  module_disable(array('multisite_block_carousel'), FALSE);
+
+  // Disable Gallery view mode.
+  _nexteuropa_mediagallery_set_file_view_mode(FALSE);
+
+  // Disabling message.
+  drupal_set_message(t('Nexteuropa Gallery feature is now inactive on your site.'));
+
+}
+
+/**
+ * Enable gallery view modes for 'image' and 'video' bundles.
+ */
+function _nexteuropa_mediagallery_set_file_view_mode($mode = TRUE) {
+  $variables = array("field_bundle_settings_file__image", "field_bundle_settings_file__video");
+  $view_modes = array(
+    'media_gallery_block',
+    'media_gallery_node',
+    'media_gallery_colorbox',
+    'media_gallery_page',
+  );
+
+  foreach ($variables as $variable) {
+    $var_value = variable_get($variable);
+    foreach ($view_modes as $view_mode) {
+      $var_value['view_modes'][$view_mode]['custom_settings'] = $mode;
+    }
+    variable_set($variable, $var_value);
+  }
+}

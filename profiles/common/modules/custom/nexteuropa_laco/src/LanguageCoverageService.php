@@ -12,7 +12,7 @@ namespace Drupal\nexteuropa_laco;
  *
  * @package Drupal\nexteuropa_laco
  */
-class LanguageCoverageService implements LanguageCoverageServiceInterface {
+class LanguageCoverageService {
 
   /**
    * HTTP method the service will be reacting to.
@@ -33,6 +33,18 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * Custom HTTP Header name for requested language.
    */
   const HTTP_HEADER_LANGUAGE_NAME = 'EC-LACO-lang';
+
+  /**
+   * Custom HTTP Header name for debugging reasons.
+   */
+  const CUSTOM_HEADER_NAME = 'EC-NextEuropa-LACO';
+
+  /**
+   * Collect debug headers fired during execution.
+   *
+   * @var array
+   */
+  private $debugHeaders = [];
 
   /**
    * Contains singleton instance.
@@ -72,10 +84,12 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * {@inheritdoc}
    */
   public function hookBoot() {
+    $this->setDebugHeader('Process boot');
     $path = $this->sanitizePath($_GET['q']);
     $language = $this->getRequestedLanguage();
 
     if (!$language) {
+      $this->setDebugHeader('Request language not found');
       $this->setStatus('400 Bad request');
     }
     elseif (!$this->isValidLanguage($language)) {
@@ -85,6 +99,7 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
     // Check for node language coverage.
     if ($this->isNodePath($path)) {
       if ($this->assertNodeLanguageCoverage($path, $language)) {
+        $this->setDebugHeader('Node language coverage OK');
         $this->setStatus('200 OK');
       }
       else {
@@ -101,21 +116,28 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    * {@inheritdoc}
    */
   public function hookInit() {
+    $this->setDebugHeader('Process init');
     if (!$this->hasStatus()) {
       $path = $this->sanitizePath($_GET['q']);
 
       if ($router_item = menu_get_item($path)) {
         if ($router_item['access']) {
+          $this->setDebugHeader('Menu item access OK');
           $this->setStatus('200 OK');
         }
         else {
+          $this->setDebugHeader('Menu item access forbidden');
           $this->setStatus('403 Forbidden');
         }
       }
       else {
+        $this->setDebugHeader('Menu item not found');
         $this->setStatus('404 Not found');
       }
       drupal_exit();
+    }
+    else {
+      $this->setDebugHeader('Full bootstrap fallback');
     }
   }
 
@@ -152,7 +174,11 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
       ->condition('t.status', 1)
       ->execute()
       ->fetchAllAssoc('language');
-    return $translations && array_key_exists($language, $translations);
+    $found = $translations && array_key_exists($language, $translations);
+    if (!$found) {
+      $this->setDebugHeader("Translation for {$path} in {$language} not found or not published");
+    }
+    return $found;
   }
 
   /**
@@ -165,12 +191,16 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    *    TRUE for a valid language, FALSE otherwise.
    */
   protected function isValidLanguage($language) {
-    return (bool) db_select('languages', 'l')
+    $valid = (bool) db_select('languages', 'l')
       ->fields('l', ['language'])
       ->condition('l.language', $language)
       ->condition('l.enabled', 1)
       ->execute()
       ->fetchAssoc();
+    if (!$valid) {
+      $this->setDebugHeader("Language {$language} not available or not enabled");
+    }
+    return $valid;
   }
 
   /**
@@ -185,6 +215,8 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
       ->condition('l.enabled', 1)
       ->execute()
       ->fetchAllAssoc('language');
+    $count = count($languages);
+    $this->setDebugHeader("Found {$count} available languages");
     return array_keys($languages);
   }
 
@@ -232,6 +264,19 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
   }
 
   /**
+   * Set debug custom HTTP response header.
+   *
+   * @param string $value
+   *    Header value.
+   */
+  protected function setDebugHeader($value) {
+    if (variable_get('nexteuropa_laco_debug', FALSE)) {
+      $this->debugHeaders[] = $value;
+      $this->setHeader(self::CUSTOM_HEADER_NAME, implode(', ', $this->debugHeaders));
+    }
+  }
+
+  /**
    * Get requested language.
    *
    * @return string|FALSE
@@ -255,8 +300,13 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
    *    Sanitized URL.
    */
   protected function removeLanguageNegotiationSuffix($url) {
-    $languages = implode('|_', $this->getAvailableLanguages());
-    return preg_replace("/(_{$languages})$/i", '', $url);
+    include_once DRUPAL_ROOT . '/includes/iso.inc';
+    $languages = implode('|_', array_keys(_locale_get_predefined_list()));
+    $sanitized_url = preg_replace("/(_{$languages})$/i", '', $url);
+    if ($sanitized_url == $url) {
+      $this->setDebugHeader('Language suffix not found');
+    }
+    return $sanitized_url;
   }
 
   /**
@@ -275,8 +325,11 @@ class LanguageCoverageService implements LanguageCoverageServiceInterface {
       ->execute()
       ->fetchAssoc();
     if (is_array($result) && !empty($result)) {
-      return array_shift($result);
+      $alias = array_shift($result);
+      $this->setDebugHeader('Found URL alias ' . $alias);
+      return $alias;
     }
+    $this->setDebugHeader('URL alias not found');
     return $path;
   }
 

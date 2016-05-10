@@ -211,7 +211,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.7"
+projects[features][version] = "2.9"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -395,6 +395,9 @@ projects[media_vimeo][version] = "2.1"
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc5"
 
+projects[media_colorbox][subdir] = "contrib"
+projects[media_colorbox][version] = "1.0-rc4"
+
 projects[menu_attributes][subdir] = "contrib"
 projects[menu_attributes][version] = "1.0-rc3"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
@@ -430,10 +433,8 @@ projects[mimemail][version] = "1.0-beta4"
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
-projects[og][download][branch] = 7.x-2.x
-projects[og][download][revision] = fba6dda
-projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+projects[og][version] = "2.9"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch

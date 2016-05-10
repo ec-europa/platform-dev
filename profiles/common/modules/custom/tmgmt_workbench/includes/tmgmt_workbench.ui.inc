@@ -54,7 +54,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
   public function hook_menu() {
     $items = parent::hook_menu();
     if (isset($items['admin/tmgmt/sources/workbench_moderation_node'])) {
-      $items['admin/tmgmt/sources/workbench_moderation_node']['weight'] = -19;
+      $items['admin/tmgmt/sources/workbench_moderation_node']['weight'] = -25;
     }
     return $items;
   }

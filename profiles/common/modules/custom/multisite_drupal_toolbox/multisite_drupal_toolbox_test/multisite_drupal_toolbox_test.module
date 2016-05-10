@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the multisite_drupal_toolbox_test feature.
- */
-
-include_once 'multisite_drupal_toolbox_test.features.inc';

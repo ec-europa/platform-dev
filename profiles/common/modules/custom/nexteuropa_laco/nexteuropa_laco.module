@@ -4,6 +4,13 @@
  * Module file.
  */
 
+/**
+ * Necessary to ensure compatibility with older versions of Registry Rebuild.
+ *
+ * @link https://www.drupal.org/project/registry_rebuild
+ */
+include_once 'src/LanguageCoverageService.php';
+
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
 
 /**
