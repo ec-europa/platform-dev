@@ -71,10 +71,6 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
     $attributes['token-ckeditor-type'] = 'link';
     $output[] = l(t('Link'), '', array('attributes' => $attributes));
 
-    $attributes['token-ckeditor-token'] = "[node:$entity_id:url]";
-    $attributes['token-ckeditor-type'] = 'url';
-    $output[] = l(t('URL'), '', array('attributes' => $attributes));
-
     foreach ($this->options['view_modes'] as $view_mode => $enabled) {
       if ($enabled) {
         $attributes['token-ckeditor-token'] = "[node:$entity_id:view-mode:$view_mode]";
@@ -82,6 +78,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
         $output[] = l($this->get_view_mode_label($view_mode), '', array('attributes' => $attributes));
       }
     }
+    $output[] = t('Token:') . '<input type="text" onfocus="this.select()" class="token-ckeditor-input" value="[node:' . $entity_id . ':url]" />';
     return implode($output, ' - ');
   }
 

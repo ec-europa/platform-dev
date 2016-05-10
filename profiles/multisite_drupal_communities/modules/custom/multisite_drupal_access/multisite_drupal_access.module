@@ -24,16 +24,25 @@ function multisite_drupal_access_node_access_records($node) {
   }
 
   // Allow users to see their own unpublished contents in OG group.
-  if (empty($node->status) && $groups = og_get_entity_groups('node', $node)) {
-    foreach ($groups['node'] as $gid) {
-      $grants[] = array(
-        'realm' => "multisite_drupal_access_og_view_own_unpublished_" . $node->uid,
-        'gid' => $gid,
-        'grant_view' => 1,
-        'grant_update' => 0,
-        'grant_delete' => 0,
-        'priority' => 10,
-      );
+  // If revision is not published we need to grant access to group.
+  if (isset($node->workbench_moderation['my_revision']) && !$node->workbench_moderation['my_revision']->published) {
+    // Fet the groups defined in the node.
+    $groups = og_get_entity_groups($entity_type = 'node', $node);
+    if (isset($groups['node']) && !empty($groups)) {
+      // For each group set a grant.
+      foreach ($groups['node'] as $gid) {
+        $grants[] = array(
+          'realm' => "multisite_drupal_access_og_view_own_unpublished_" . $node->uid,
+          'gid' => $gid,
+          'grant_view' => 1,
+          'grant_update' => 0,
+          'grant_delete' => 0,
+        // Same priority that workbench_og:
+        // - workflow_og add realm for 'View all unpublished content' perm.
+        // - This module add realm for 'view own unpublished content' perm.
+          'priority' => 2,
+        );
+      }
     }
   }
 

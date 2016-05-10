@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Nexteuropa Event feature.
+ */
+
+include_once 'nexteuropa_event.features.inc';

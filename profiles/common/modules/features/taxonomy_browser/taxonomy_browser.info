@@ -3,7 +3,6 @@ description = Allow to filter views with a taxonomy tree.
 package = multisite drupal toolbox
 core = 7.x
 php = 5.2.4
-version = "7.x-1.0"
 
 dependencies[] = views
 

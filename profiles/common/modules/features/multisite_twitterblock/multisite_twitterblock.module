@@ -207,7 +207,7 @@ function multisite_twitterblock_theme() {
  */
 function theme_fpfis_twitter(array $variables) {
   global $is_https;
-  drupal_add_js(($is_https ? 'https' : 'http') . '://ec.europa.eu/wel/social-media-kit/social-media-kit.js');
+  drupal_add_js(($is_https ? 'https' : 'http') . '://ec.europa.eu/wel/social-media-kit/social-media-kit.js', 'external');
   $type = $variables['type'];
   unset($variables['title']);
   unset($variables['type']);

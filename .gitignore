@@ -7,7 +7,7 @@ nbproject/
 # Ignore local configuration overrides.
 build.properties.local
 phpcs.xml
-tests/behat.yml
+tests/behat*.yml
 
 # Ignore build folders.
 bin/
@@ -34,3 +34,4 @@ profiles/common/libraries/jplayer/
 profiles/common/libraries/jquery.imgareaselect/
 profiles/common/libraries/jquery/
 profiles/common/libraries/modernizr/
+profiles/common/libraries/plupload/

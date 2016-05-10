@@ -7,8 +7,6 @@
  * @see https://webgate.ec.europa.eu/CITnet/confluence/display/MULTISITE/Custom+features
  */
 
-include_once 'ec_profiles.install.inc';
-
 /**
  * Implements hook_enable().
  */
@@ -17,7 +15,7 @@ function ec_profiles_enable() {
   $role = user_role_load_by_name('authenticated user');
 
   user_role_grant_permissions($role->rid, array('access user profiles'));
-  drupal_set_message(t('ec_profiles %v feature is now active on your site.', array('%v' => _ec_profiles_get_version())));
+  drupal_set_message(t('ec_profiles feature is now active on your site.'));
 }
 
 /**
@@ -30,5 +28,5 @@ function ec_profiles_disable() {
 
   user_role_revoke_permissions($role->rid, array('access user profiles'));
 
-  drupal_set_message(t('ec_profiles %v feature is now inactive on your site.', array('%v' => _ec_profiles_get_version())));
+  drupal_set_message(t('ec_profiles feature is now inactive on your site.'));
 }

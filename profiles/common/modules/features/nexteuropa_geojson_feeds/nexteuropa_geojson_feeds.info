@@ -1,0 +1,8 @@
+name = NextEuropa GeoJson Feeds
+description = Provides GeoJSON data feeds from content
+core = 7.x
+package = NextEuropa
+dependencies[] = geofield
+dependencies[] = geophp
+dependencies[] = views_geojson
+features[features_api][] = api:2

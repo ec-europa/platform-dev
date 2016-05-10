@@ -5,8 +5,6 @@
  * Install, update and uninstall functions for multisite_audio module.
  */
 
-include_once 'multisite_audio.install.inc';
-
 /**
  * Implements hook_field_schema().
  */
@@ -50,7 +48,7 @@ function multisite_audio_field_schema($field) {
  */
 function multisite_audio_enable() {
   // Activation message.
-  drupal_set_message(t('Multisite Audio %v feature is now active on your site.', array('%v' => _multisite_audio_get_version())));
+  drupal_set_message(t('Multisite Audio feature is now active on your site.'));
 }
 
 /**
@@ -58,5 +56,5 @@ function multisite_audio_enable() {
  */
 function multisite_audio_disable() {
   // Deactivation message.
-  drupal_set_message(t('Multisite Audio %v feature is now inactive on your site.', array('%v' => _multisite_audio_get_version())));
+  drupal_set_message(t('Multisite Audio feature is now inactive on your site.'));
 }
