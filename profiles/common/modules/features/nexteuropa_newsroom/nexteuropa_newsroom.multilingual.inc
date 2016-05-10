@@ -25,10 +25,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:BasictoDate/text()',
     ),
     'field_newsroom_private_img:uri' => array(
-      'query' => 'enclosure[@type="image/jpeg" and @schema="private"]/@url',
+      'query' => 'enclosure[@type="image/jpeg" and @schema="Private"]/@url',
     ),
     'field_newsroom_illustrative_img:uri' => array(
-      'query' => 'enclosure[@type="image/jpeg" and @schema="public"]/@url',
+      'query' => 'enclosure[@type="image/jpeg" and @schema="Public"]/@url',
     ),
     'field_newsroom_illustrative_img:title' => array(
       'query' => 'infsonewsroom:PicTitle',
