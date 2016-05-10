@@ -480,7 +480,9 @@ function _nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
   // Create default importers if new Newsroom Universe ID detected.
   if ($form_state['values']['newsroom_universe_id']) {
+    $proposal_url = 'http://ec.europa.eu/newsroom/' . $form_state['values']['newsroom_universe_id'] . '/propose-item.cfm';
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
+    $form_state['values']['newsroom_proposal_url'] = $proposal_url;
   }
 
   // If the validation returns the confirm request.
