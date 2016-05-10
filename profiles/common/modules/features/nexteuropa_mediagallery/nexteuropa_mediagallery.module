@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Code for the Nexteuropa Galleries feature.
+ */
+
+include_once 'nexteuropa_mediagallery.features.inc';
+
+/**
+ * Implements hook_preprocess_file_entity().
+ */
+function nexteuropa_mediagallery_preprocess_file_entity(&$var) {
+  // Hide contextual link for 'media_gallery_' view mode
+  // (to allow link to the content in views field).
+  if ($var['view_mode'] == "media_gallery_page" ||
+  $var['view_mode'] == "media_gallery_block" ||
+  $var['view_mode'] == "media_gallery_node" ||
+  $var['view_mode'] == "media_gallery_colorbox") {
+    unset($var['title_suffix']['contextual_links']);
+  }
+}

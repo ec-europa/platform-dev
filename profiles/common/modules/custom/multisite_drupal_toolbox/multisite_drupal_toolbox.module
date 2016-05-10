@@ -5,9 +5,7 @@
  * Multisite Toolbox definition module.
  */
 
-// TODO: fix natif overridden feature multisite_rules_configuration
-// and remove them from black list.
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core,multisite_rules_configuration');
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
  * Implements hook_menu().
  */
@@ -138,64 +136,6 @@ function multisite_drupal_toolbox_boot() {
 function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
-  }
-
-  _multisite_drupal_toolbox_show_features_status();
-}
-
-
-/**
- * Display a message to warn for overridden features.
- */
-function _multisite_drupal_toolbox_show_features_status() {
-  // Don't display the message for ajax pages (coffee, admin menu cache...).
-  $ajax_call = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
-
-  if (user_access('administer site configuration') && path_is_admin(current_path()) && !$ajax_call) {
-    static $control;
-
-    if (isset($control)) {
-      // Display of message already computed, avoid multiples execution.
-      return;
-    }
-    else {
-      // First call, build the $output message.
-      $control = TRUE;
-      $items = array();
-
-      // $default_text get from theme_features_storage_link.
-      $default_text = array(
-        FEATURES_OVERRIDDEN => t('Overridden'),
-        FEATURES_DEFAULT => t('Default'),
-        FEATURES_NEEDS_REVIEW => t('Needs review'),
-        FEATURES_REBUILDING => t('Rebuilding'),
-        FEATURES_REBUILDABLE => t('Rebuilding'),
-        FEATURES_CONFLICT => t('Conflict'),
-        FEATURES_DISABLED => t('Disabled'),
-        FEATURES_CHECKING => t('Checking...'),
-      );
-      module_load_include('inc', 'features', 'features.export');
-
-      $features = features_get_features(NULL, FALSE);
-      $features_blacklisted = explode(',', MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED);
-
-      // Build tab of features in non-default status.
-      foreach ($features as $k => $m) {
-        if (!in_array($m->name, $features_blacklisted)) {
-          $status = features_get_storage($m->name);
-          if ($status !== FEATURES_DEFAULT) {
-            $hname = $m->info['name'];
-            $items[$hname] = $hname . " - " . $default_text[$status];
-          }
-        }
-      }
-      // Build and print $output message.
-      if (!empty($items)) {
-        ksort($items);
-        $output = t("Some of this website's features are overridden: !features_list", array('!features_list' => theme('item_list', array('items' => $items))));
-        drupal_set_message($output, 'warning', FALSE);
-      }
-    }
   }
 }
 
@@ -1538,7 +1478,12 @@ function multisite_drupal_toolbox_taxonomy_term_delete($term_obj) {
       'error_message' => t('Found some error here.'),
     );
     batch_set($batch);
-    batch_process('');
+    // Only trigger the processing of the batch when none is running.
+    $current_batch =& batch_get();
+    // A batch with an id is currently being executed.
+    if (empty($current_batch['id'])) {
+      batch_process();
+    }
   }
 }
 
@@ -1560,13 +1505,14 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
         multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target, $field, $term, $current_node);
       }
     }
-
-    // Clean revision field.
-    db_delete('field_revision_' . $field['field_name'])
-      ->condition('entity_type', $target->entity_type)
-      ->condition('entity_id', $target->entity_id)
-      ->condition($field['field_name'] . '_tid', $term->tid)
-      ->execute();
+    if (db_table_exists('field_revision_' . $field['field_name'])) {
+      // Clean revision field.
+      db_delete('field_revision_' . $field['field_name'])
+          ->condition('entity_type', $target->entity_type)
+          ->condition('entity_id', $target->entity_id)
+          ->condition($field['field_name'] . '_tid', $term->tid)
+          ->execute();
+    }
   }
 }
 
@@ -1574,6 +1520,9 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
  * Remove taxonomy term from entity.
  */
 function multisite_drupal_toolbox_taxonomy_term_delete_clean_node($target, $field, $term, $entity) {
+  if (empty($entity->{$field['field_name']}[$target->language])) {
+    return;
+  }
   foreach ($entity->{$field['field_name']}[$target->language] as $key => $value) {
     if ($value['tid'] == $term->tid) {
       unset($entity->{$field['field_name']}[$target->language][$key]);

@@ -73,22 +73,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#access' => user_access('administer newsroom advanced settings'),
   );
 
-  if ($newsroom_universe_id) {
-    $form['newsroom_others']['rebuild'] = array(
-      '#type' => 'submit',
-      '#value' => t('Rebuild importers on the fly'),
-      '#prefix' => '<div id="newsroom_rebuild">',
-      '#suffix' => '<div class="description">' . t("Rebuild the importers if you enabled or disabled languages or if you are noticing unexpected behaviors like fields not imported.") . '</div></div>',
-      '#ajax' => array(
-        'callback' => '_nexteuropa_newsroom_admin_rebuild_importers',
-        'event' => 'click',
-        'wrapper' => 'newsroom_rebuild',
-        'effect' => 'fade',
-        'method' => 'replace',
-      ),
-    );
-  }
-
   $form['newsroom_others']['clean_cache'] = array(
     '#type' => 'submit',
     '#value' => 'Clean newsroom cache',
@@ -410,6 +394,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       '#submit' => array('_nexteuropa_newsroom_create_default_importers'),
       '#weight' => 10,
     );
+    $form['actions']['rebuild'] = array(
+      '#type' => 'submit',
+      '#value' => t('Rebuild importers'),
+      '#access' => TRUE,
+      '#submit' => array('_nexteuropa_newsroom_admin_rebuild_importers'),
+      '#weight' => 11,
+    );
   }
 
   // Define the fields_form array().
@@ -488,10 +479,8 @@ function _nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
   $patterns ? variable_set('newsroom_patterns', 1) : variable_set('newsroom_patterns', 0);
 
   // Create default importers if new Newsroom Universe ID detected.
-  if ($form_state['values']['newsroom_universe_id'] <> $form['universe_id']['newsroom_universe_id']['#default_value']) {
+  if ($form_state['values']['newsroom_universe_id']) {
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
-
-    _nexteuropa_newsroom_create_default_importers();
   }
 
   // If the validation returns the confirm request.
@@ -892,9 +881,6 @@ function _nexteuropa_newsroom_admin_prepare_check(array $previous, array $input)
 
 /**
  * Rebuilds multilingual importers.
- *
- * @return array
- *   Rendable array for ajax callback.
  */
 function _nexteuropa_newsroom_admin_rebuild_importers() {
   // Remove importers.
@@ -911,10 +897,5 @@ function _nexteuropa_newsroom_admin_rebuild_importers() {
     call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
   }
 
-  $form['rebuilt'] = array(
-    '#type' => 'markup',
-    '#markup' => '<div class="messages status">' . t('Importers have been rebuilt') . '</div>',
-  );
-
-  return $form['rebuilt'];
+  drupal_set_message(t('Newsroom importers have been successfully recreated.'));
 }

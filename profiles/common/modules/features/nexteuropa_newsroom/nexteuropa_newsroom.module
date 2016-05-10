@@ -596,7 +596,8 @@ function nexteuropa_newsroom_node_presave($node) {
       }
       if ($conf) {
         $node->path['pathauto'] = FALSE;
-        $node->path['alias'] = pathauto_alias_uniquify($conf . '/' . pathauto_cleanstring($node->title));
+        $node->path['alias'] = $conf . '/' . pathauto_cleanstring($node->title);
+        pathauto_alias_uniquify($node->path['alias']);
       }
     }
   }

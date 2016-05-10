@@ -377,11 +377,15 @@ class NewsroomHelper {
    *   Taxonomy terms
    */
   public static function getGroupTypeTerms($selected = array()) {
-    $terms = NewsroomHelper::getNewsroomTypes();
-    foreach ($terms as $key => $term) {
-      $test = i18n_get_object('taxonomy_term', $term->tid);
-      if (!in_array($term->tid, $selected)) {
-        $terms[$key] = $test->get_object();
+    $newsroom_type_vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
+    $terms = array();
+    if ($newsroom_type_vocabulary) {
+      $terms = taxonomy_get_tree($newsroom_type_vocabulary->vid, 0, 1, TRUE);
+      foreach ($terms as $key => $term) {
+        $test = i18n_get_object('taxonomy_term', $term->tid);
+        if (!in_array($term->tid, $selected)) {
+          $terms[$key] = $test->get_object();
+        }
       }
     }
     return $terms;

@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Second favorite language tests
   In order to be accessible to European citizens,
   Users should be able to switch content to their favorite language.
@@ -22,7 +22,7 @@ Feature: Second favorite language tests
     And I click "<language>" in the "content_top"
     Then I should be on "<target><target_favorite>"
     And I should see the heading "<title>"
-    
+
     Examples:
     | url                      | favorite         | language | target                   | target_favorite  | title                      |
     | content/title-english_de |                  | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français   |
