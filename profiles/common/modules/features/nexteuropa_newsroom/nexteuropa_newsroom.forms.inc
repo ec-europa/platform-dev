@@ -254,8 +254,8 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           $current = _nexteuropa_newsroom_export_modes();
           // Prepare the default value for the  import textarea, if we have it.
           $default_value = !empty($backup) ? $backup : '';
-          // Show different help text basing on the avialbility of a backup.
-          $title = empty($backup) ? t('Paste here the code previously exported') : t('The code that you see is coming from your backup, you can use this to restore your configurations or you can paste a previously exported code.');
+          // Show different help text basing on the availability of a backup.
+          $title = empty($backup) ? t('Paste here the code previously exported') : t('Paste here the serailized export of your configuration to restore it.');
 
           $form['newsroom_export'] = array(
             '#type' => 'markup',
@@ -274,7 +274,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#type' => 'textfield',
             '#prefix' => '<div class="newsroom-reveal-modes">',
             '#suffix' => '</div>',
-            '#value' => t('[Newsroom] Export/Import settings)'),
+            '#value' => t('[Newsroom] Export/Import settings'),
             '#attributes' => array(
               'onclick' => "event.preventDefault(); document.getElementById('newsroom-import-code').style.display = 'block'; document.getElementById('newsroom-export-code').style.display = 'block'; document.getElementById('newsroom_import_submit').style.display = 'block'; this.parentElement.parentElement.style.display = 'none'; document.getElementById('newsroom-backup-submit').style.display = 'block';",
             ),
@@ -285,7 +285,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#type' => 'textarea',
             '#prefix' => '<div id="newsroom-export-code">',
             '#suffix' => '</div>',
-            '#title' => t('Copy this text and save it, you can use the import button then to restore your configurations'),
+            '#title' => t('Copy this text and save it, you can use the import button then to restore your configurations. You can also choose to save the configuration in the database clicking on the backup button.'),
             '#description' => t('This is the export of your current configurations'),
             '#value' => $current,
             '#format' => 'html',
@@ -297,7 +297,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
 
           $form['export_modes'] = array(
             '#type' => 'submit',
-            '#value' => t('[Newsroom] Backup settings'),
+            '#value' => t('[Newsroom] Backup settings in the database'),
             '#prefix' => '<div id="newsroom-backup-submit">',
             '#suffix' => '</div>',
             '#ajax' => array(
@@ -317,7 +317,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#title' => $title,
             '#description' => t('Serialized code export'),
             '#attributes' => array('id' => 'nexteuropa_newsroom_exported_instances'),
-            '#value' => $default_value,
+            //'#value' => '',
             '#format' => 'html',
             '#resizable' => TRUE,
             '#wysiwyg' => FALSE,
@@ -435,36 +435,42 @@ function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
  * Submit handler, imports selected view modes.
  */
 function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
-  $export = unserialize($form_state['values']['import_code']);
-  $modes = array('full', 'teaser');
-  $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
+  if (!empty($form_state['values']['import_code'])) {
+    $export = unserialize($form_state['values']['import_code']);
+    $modes = array('full', 'teaser');
+    $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
 
-  if (!empty($export['instances'])) {
-    foreach ($export['instances'] as $field_name => $instance) {
-      if ($existing = field_info_instance('node', $field_name, $bundle)) {
-        foreach ($modes as $mode) {
-          $existing['display'][$mode] = $instance[$mode];
-          // Update the instance.
-          field_update_instance($existing);
+    if (!empty($export['instances'])) {
+      foreach ($export['instances'] as $field_name => $instance) {
+        if ($existing = field_info_instance('node', $field_name, $bundle)) {
+          foreach ($modes as $mode) {
+            $existing['display'][$mode] = $instance[$mode];
+            // Update the instance.
+            field_update_instance($existing);
+          }
         }
       }
     }
-  }
 
-  $groups = $export['groups'];
-
-  // Field groups are problematic objects, we save the groups here but a group
-  // that has been deleted using the UI will not come back after this has run.
-  foreach ($modes as $mode) {
-    if (!empty($groups[$mode])) {
-      foreach ($groups[$mode] as $group_name => $group) {
-        $group->disabled = FALSE;
-        field_group_group_save($group);
+    if (!empty($export['groups'])) {
+      $groups = $export['groups'];
+      // Field groups are problematic objects, we save the groups here but a group
+      // that has been deleted using the UI will not come back after this has run.
+      foreach ($modes as $mode) {
+        if (!empty($groups[$mode])) {
+          foreach ($groups[$mode] as $group_name => $group) {
+            $group->disabled = FALSE;
+            field_group_group_save($group);
+          }
+        }
       }
     }
-  }
 
-  return drupal_set_message(t('Your settings have been restored.'), 'status');
+    return drupal_set_message(t('Your settings have been restored.'), 'status');
+  }
+  else {
+    return drupal_set_message(t('There was nothing to restore from, did you paste the exported code..?'), 'warning');
+  }
 }
 
 /**
