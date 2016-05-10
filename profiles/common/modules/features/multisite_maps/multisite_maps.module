@@ -53,7 +53,7 @@ function theme_multisite_map(array $variables) {
     return t('Please install the Fusion Maps package from InfoSoft as per instructions in the readme.');
   }
 
-  drupal_add_js($js_path . 'FusionCharts.js');
+  drupal_add_js($js_path . 'FusionCharts.js', 'external');
 
   // Get the path of drupal instance.
   $path_drupal = base_path();

@@ -28,3 +28,10 @@ function multisite_drupal_communities_update_7201() {
   module_disable(array('ckeditor_link'));
   drupal_uninstall_modules(array('ckeditor_link'));
 }
+
+/**
+ * NEXTEUROPA-9797: Enable nexteuropa_laco module.
+ */
+function multisite_drupal_communities_update_7202() {
+  module_enable(array('nexteuropa_laco'));
+}
