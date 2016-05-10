@@ -1,4 +1,4 @@
-@api @poetry
+@api @poetry @i18n
 Feature: TMGMT Poetry features
   In order request a new translation for the Portuguese language
   As a Translation manager user
@@ -13,27 +13,65 @@ Feature: TMGMT Poetry features
       | languages |
       | en        |
       | pt-pt     |
+      | fr        |
+      | de        |
+      | it        |
 
-  Scenario: Map Portuguese translator settings
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
-    And I fill in "edit-settings-feedback-contacts-to" with "test@test.com"
-    And I fill in "edit-settings-feedback-contacts-cc" with "test@test.com"
-    And I fill in "edit-settings-remote-languages-mappings-pt-pt" with "pt"
-    And I press the "Save translator" button
-    Then I should see the success message "The configuration options have been saved."
-
-  Scenario: Create a request translation for Portuguese
-    Given local translator "Translator PT-PT" is available
+  @javascript
+  Scenario: Create a request translation for French and Portuguese
+    Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-pt-pt"
+   # And I check the box "edit-languages-pt-pt"
     And I press the "Request translation" button
     And I select "TMGMT Poetry: Test translator" from "Translator"
-    And I press the "Submit to translator" button
-    Then I should see the following success messages:
-      | success messages                                     |
-      | Job has been successfully submitted for translation. |
+    And I wait for AJAX to finish
+    Then I should see "Contact usernames"
+    And I should see "Organization"
+
+  Scenario: I can access an overview of recent translation jobs.
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I create the following multilingual "page" content:
+      | language | title              | body              |
+      | en       | Title in English 1 | Body in English 1 |
+      | de       | Title in German 1  | Body in German 1  |
+    And I create the following multilingual "page" content:
+      | language | title              | body              |
+      | en       | Title in English 2 | Body in English 2 |
+      | it       | Title in Italian 2 | Body in Italian 2 |
+      | de       | Title in German 2  | Body in German 2  |
+    And I create the following job for "page" with title "Title in English 1"
+      | source language | en                                      |
+      | target language | fr                                      |
+      | translator      | Translator A                            |
+      | title_field     | Title in French 1                       |
+      | reference       | MAIN_4_POETRY_WEB/2016/63904/0/0/TRA    |
+    And I create the following job for "page" with title "Title in English 1"
+      | source language | en                                      |
+      | target language | it                                      |
+      | translator      | Translator A                            |
+      | title_field     | Title in Italian 1                      |
+      | reference       | SUB_4_POETRY_WEB/2016/63904/0/0/TRA     |
+    And I create the following job for "page" with title "Title in English 2"
+      | source language | en                                      |
+      | target language | fr                                      |
+      | translator      | Translator A                            |
+      | title_field     | Title in French 2                       |
+      | reference       | SUB_4_POETRY_WEB/2016/63904/0/0/TRA     |
+    And I am on "admin/tmgmt/recent-changes"
+    Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
+    And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 English Italian" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English Italian" row
+    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
+    And I should not see "_POETRY_"
+    Given the translation job with label "Title in English 1" and target language "fr" is accepted
+    And I am on "admin/tmgmt/recent-changes"
+    Then I should see "The translation for Title in English 1 has been accepted."
+    And I should see "The translation of Title in English 1 to French is finished and can now be reviewed."

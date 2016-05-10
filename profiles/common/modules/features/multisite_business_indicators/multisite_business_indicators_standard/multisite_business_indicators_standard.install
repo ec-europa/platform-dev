@@ -56,9 +56,9 @@ function multisite_business_indicators_standard_schema() {
         'default' => '',
       ),
       'language' => array(
-        'description' => 'Type language nodo or term.',
+        'description' => "Language code, e.g. 'de' or 'en-US'.",
         'type' => 'varchar',
-        'length' => 2,
+        'length' => 12,
         'not null' => TRUE,
         'default' => '',
       ),
@@ -112,4 +112,17 @@ function multisite_business_indicators_standard_update_7207(&$sandbox) {
 
   // Flush the caches.
   drupal_flush_all_caches();
+}
+
+/**
+ * Increase the length of the language column.
+ */
+function multisite_business_indicators_standard_update_7230() {
+  db_change_field('business_indicators_ext_index', 'language', 'language', array(
+    'description' => "Language code, e.g. 'de' or 'en-US'.",
+    'type' => 'varchar',
+    'length' => 12,
+    'not null' => TRUE,
+    'default' => '',
+  ));
 }

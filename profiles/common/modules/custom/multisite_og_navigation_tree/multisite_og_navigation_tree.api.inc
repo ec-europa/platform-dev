@@ -184,7 +184,7 @@ function _mont_group_taxonomy_insert($node, $vid) {
     ))->execute();
   }
   else {
-    watchdog('multisite_og_navigation_tree', 'Unable to save taxonomy term for @node_title', array('@name' => $node->title));
+    watchdog('multisite_og_navigation_tree', 'Unable to save taxonomy term for @node_title', array('@name' => filter_xss($node->title)));
   }
 }
 
@@ -212,6 +212,6 @@ function _mont_group_taxonomy_update($node, $vid) {
     ))->execute();
   }
   else {
-    watchdog('multisite_og_navigation_tree', 'Unable to save taxonomy term for @node_title', array('@name' => $node->title));
+    watchdog('multisite_og_navigation_tree', 'Unable to save taxonomy term for @node_title', array('@name' => filter_xss($node->title)));
   }
 }

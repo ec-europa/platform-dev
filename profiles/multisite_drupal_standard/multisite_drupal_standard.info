@@ -31,6 +31,7 @@ dependencies[] = apachesolr_search
 dependencies[] = apachesolr_multisitesearch
 dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
+dependencies[] = fast_404
 dependencies[] = current_search
 dependencies[] = contact
 dependencies[] = context
@@ -102,6 +103,7 @@ dependencies[] = transliteration
 dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
+dependencies[] = entityreference_prepopulate
 
 dependencies[] = filefield_sources_plupload
 
@@ -125,3 +127,4 @@ dependencies[] = nexteuropa_editorial
 dependencies[] = nexteuropa_multilingual
 dependencies[] = nexteuropa_pages
 dependencies[] = nexteuropa_europa_search
+dependencies[] = nexteuropa_laco
