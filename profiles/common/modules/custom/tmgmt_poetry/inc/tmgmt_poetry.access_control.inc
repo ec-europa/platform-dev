@@ -86,6 +86,7 @@ function tmgmt_poetry_job_item_access($op, TMGMTJobItem $item = NULL, $account =
 function tmgmt_poetry_views_query_alter(&$view, &$query) {
   // Hide the sub translation jobs from the job overview page.
   if ($view->name == 'tmgmt_ui_job_overview') {
+
     $join = new views_join();
     $join->table = 'tmgmt_job_item';
     $join->field = 'tjid';
@@ -102,5 +103,6 @@ function tmgmt_poetry_views_query_alter(&$view, &$query) {
             ->isNull('reference')
         )
     );
+    $query->add_field('tmgmt_job', 'reference', 'reference');
   }
 }

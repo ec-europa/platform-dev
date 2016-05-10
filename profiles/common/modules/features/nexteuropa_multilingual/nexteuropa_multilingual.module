@@ -234,7 +234,6 @@ function nexteuropa_multilingual_form_node_form_alter(&$form, &$form_state, $for
       }
     }
   }
-
   _nexteuropa_multilingual_warning_message($form, $form_state['node']);
 }
 
@@ -256,17 +255,21 @@ function nexteuropa_multilingual_form_workbench_moderation_node_unpublish_form_a
  * Updates form with a warning message.
  */
 function _nexteuropa_multilingual_warning_message(&$form, $node) {
-  $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
-   . token_replace(variable_get('warning_message_languages'), array('node' => $node))
-   . '</div>';
 
-  $form['warning_languages_message'] = array(
-    '#markup' => $warning_message,
-    '#weight' => 105,
-    '#attached' => array(
-      'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
-    ),
-  );
+  $translatable = variable_get('language_content_type_' . $node->type, 0);
+  if (!empty(variable_get('warning_message_languages', "")) && $translatable !== '0') {
+    $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
+      . token_replace(variable_get('warning_message_languages'), array('node' => $node))
+      . '</div>';
+
+    $form['warning_languages_message'] = array(
+      '#markup' => $warning_message,
+      '#weight' => 105,
+      '#attached' => array(
+        'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
+      ),
+    );
+  }
 }
 
 /**
@@ -285,7 +288,8 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
       $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->raw();
     }
     else {
-      $replacements['[node:source:title]'] = $wrapper->language($original_language)->label();
+      $replacements['[node:source:title]'] = $wrapper->language($original_language)
+        ->label();
     }
   }
 }
@@ -369,7 +373,7 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
 function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $form) {
   $entity = NULL;
   // Map between entity type name and key name on the $form array.
-  $entity_map = array('user' => 'account' , 'taxonomy_term' => 'term');
+  $entity_map = array('user' => 'account', 'taxonomy_term' => 'term');
   $entity_type = $form['#entity_type'];
 
   // Try to retrive entity from $form.

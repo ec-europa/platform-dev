@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
@@ -160,7 +160,7 @@ Feature: Multilingual features
     Then I should see the link "Français" in the "content" region
     And I click "Français" in the "content" region
     Then I should see "Ce titre est en Français"
-        
+
   Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the 'administrator' role
