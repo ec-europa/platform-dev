@@ -23,7 +23,7 @@ function nexteuropa_news_field_group_info() {
     'label' => 'Content',
     'weight' => '0',
     'children' => array(
-      0 => 'body',
+      0 => 'field_ne_body',
       1 => 'field_abstract',
       2 => 'field_image',
       3 => 'title_field',
