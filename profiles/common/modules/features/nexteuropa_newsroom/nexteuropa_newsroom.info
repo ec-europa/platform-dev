@@ -7,13 +7,10 @@ project = nexteuropa_newsroom
 dependencies[] = entity_translation
 dependencies[] = geofield
 dependencies[] = feeds_et
-dependencies[] = feeds
-dependencies[] = feeds_ui
+dependencies[] = feeds (>=2.0-beta2)
 dependencies[] = feeds_tamper
-dependencies[] = feeds_tamper_ui
 dependencies[] = feeds_xpathparser
 dependencies[] = i18n_taxonomy
-dependencies[] = title
 dependencies[] = views_tree
 configure = admin/config/content/newsroom
 features[context][] = newsroom
