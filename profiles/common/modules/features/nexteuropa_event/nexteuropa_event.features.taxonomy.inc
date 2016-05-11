@@ -1,17 +1,17 @@
 <?php
 /**
  * @file
- * nexteuropa_news.features.taxonomy.inc
+ * nexteuropa_event.features.taxonomy.inc
  */
 
 /**
  * Implements hook_taxonomy_default_vocabularies().
  */
-function nexteuropa_news_taxonomy_default_vocabularies() {
+function nexteuropa_event_taxonomy_default_vocabularies() {
   return array(
-    'nexteuropa_news_categories' => (object) array(
-      'name' => 'Nexteuropa News Categories',
-      'machine_name' => 'nexteuropa_news_categories',
+    'nexteuropa_event_type' => (object) array(
+      'name' => 'Nexteuropa Event type',
+      'machine_name' => 'nexteuropa_event_type',
       'description' => '',
       'hierarchy' => 0,
       'module' => 'taxonomy',

@@ -71,7 +71,7 @@ function nexteuropa_news_strongarm() {
           'weight' => '5',
         ),
         'language' => array(
-          'weight' => '20',
+          'weight' => '27',
         ),
       ),
       'display' => array(),
@@ -146,20 +146,6 @@ function nexteuropa_news_strongarm() {
   $strongarm->name = 'pathauto_node_nexteuropa_news_und_pattern';
   $strongarm->value = '';
   $export['pathauto_node_nexteuropa_news_und_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_taxonomy_term_news_categories_pattern';
-  $strongarm->value = '';
-  $export['pathauto_taxonomy_term_news_categories_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_taxonomy_term_nexteuropa_event_type_pattern';
-  $strongarm->value = '';
-  $export['pathauto_taxonomy_term_nexteuropa_event_type_pattern'] = $strongarm;
 
   return $export;
 }

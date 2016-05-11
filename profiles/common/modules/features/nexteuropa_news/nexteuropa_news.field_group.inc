@@ -23,9 +23,9 @@ function nexteuropa_news_field_group_info() {
     'label' => 'Content',
     'weight' => '0',
     'children' => array(
-      0 => 'field_ne_body',
-      1 => 'field_abstract',
-      2 => 'field_image',
+      0 => 'field_abstract',
+      1 => 'field_image',
+      2 => 'field_ne_body',
       3 => 'title_field',
     ),
     'format_type' => 'tab',

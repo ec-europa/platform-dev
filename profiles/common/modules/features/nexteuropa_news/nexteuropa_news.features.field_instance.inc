@@ -152,111 +152,6 @@ function nexteuropa_news_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-nexteuropa_news-field_news_category'.
-  $field_instances['node-nexteuropa_news-field_news_category'] = array(
-    'bundle' => 'nexteuropa_news',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'i18n_taxonomy',
-        'settings' => array(),
-        'type' => 'i18n_taxonomy_term_reference_link',
-        'weight' => 14,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_news_category',
-    'label' => 'Category',
-    'required' => 0,
-    'settings' => array(
-      'entity_translation_sync' => FALSE,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(
-        'apply_chosen' => '',
-      ),
-      'type' => 'options_select',
-      'weight' => 17,
-    ),
-  );
-
-  // Exported field_instance: 'node-nexteuropa_news-field_related_documents'.
-  $field_instances['node-nexteuropa_news-field_related_documents'] = array(
-    'bundle' => 'nexteuropa_news',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'file',
-        'settings' => array(),
-        'type' => 'file_default',
-        'weight' => 11,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_related_documents',
-    'label' => 'Related documents',
-    'required' => 0,
-    'settings' => array(
-      'description_field' => 0,
-      'entity_translation_sync' => FALSE,
-      'file_directory' => '',
-      'file_extensions' => 'txt doc pdf xls',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'file',
-      'settings' => array(
-        'filefield_sources' => array(
-          'filefield_sources' => array(
-            'attach' => 0,
-            'clipboard' => 0,
-            'plupload' => 0,
-            'reference' => 0,
-            'remote' => 0,
-            'upload' => 'upload',
-          ),
-          'source_attach' => array(
-            'absolute' => 0,
-            'attach_mode' => 'move',
-            'path' => 'file_attach',
-          ),
-          'source_imce' => array(
-            'imce_mode' => 0,
-          ),
-          'source_reference' => array(
-            'autocomplete' => 0,
-            'search_all_fields' => 0,
-          ),
-        ),
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'file_generic',
-      'weight' => 19,
-    ),
-  );
-
   // Exported field_instance: 'node-nexteuropa_news-field_ne_body'.
   $field_instances['node-nexteuropa_news-field_ne_body'] = array(
     'bundle' => 'nexteuropa_news',
@@ -326,6 +221,111 @@ function nexteuropa_news_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-nexteuropa_news-field_news_category'.
+  $field_instances['node-nexteuropa_news-field_news_category'] = array(
+    'bundle' => 'nexteuropa_news',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 14,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_news_category',
+    'label' => 'Category',
+    'required' => 0,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'apply_chosen' => '',
+      ),
+      'type' => 'options_select',
+      'weight' => 24,
+    ),
+  );
+
+  // Exported field_instance: 'node-nexteuropa_news-field_related_documents'.
+  $field_instances['node-nexteuropa_news-field_related_documents'] = array(
+    'bundle' => 'nexteuropa_news',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 11,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_related_documents',
+    'label' => 'Related documents',
+    'required' => 0,
+    'settings' => array(
+      'description_field' => 0,
+      'entity_translation_sync' => FALSE,
+      'file_directory' => '',
+      'file_extensions' => 'txt doc pdf xls',
+      'max_filesize' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'file',
+      'settings' => array(
+        'filefield_sources' => array(
+          'filefield_sources' => array(
+            'attach' => 0,
+            'clipboard' => 0,
+            'plupload' => 0,
+            'reference' => 0,
+            'remote' => 0,
+            'upload' => 'upload',
+          ),
+          'source_attach' => array(
+            'absolute' => 0,
+            'attach_mode' => 'move',
+            'path' => 'file_attach',
+          ),
+          'source_imce' => array(
+            'imce_mode' => 0,
+          ),
+          'source_reference' => array(
+            'autocomplete' => 0,
+            'search_all_fields' => 0,
+          ),
+        ),
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'file_generic',
+      'weight' => 26,
+    ),
+  );
+
   // Exported field_instance: 'node-nexteuropa_news-field_related_links'.
   $field_instances['node-nexteuropa_news-field_related_links'] = array(
     'bundle' => 'nexteuropa_news',
@@ -380,7 +380,7 @@ function nexteuropa_news_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 18,
+      'weight' => 25,
     ),
   );
 
@@ -421,7 +421,7 @@ function nexteuropa_news_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 21,
+      'weight' => 28,
     ),
   );
 
@@ -474,7 +474,7 @@ function nexteuropa_news_field_default_field_instances() {
         'apply_chosen' => '',
       ),
       'type' => 'options_select',
-      'weight' => 23,
+      'weight' => 30,
     ),
     'widget_type' => 'options_select',
   );
@@ -549,7 +549,7 @@ function nexteuropa_news_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 22,
+      'weight' => 29,
     ),
   );
 
@@ -601,11 +601,9 @@ function nexteuropa_news_field_default_field_instances() {
   t('Abstract');
   t('Body');
   t('Category');
-  t('Description');
   t('Group content visibility');
   t('Groups audience');
   t('Image');
-  t('Name');
   t('Related documents');
   t('Related links');
   t('Tags');
