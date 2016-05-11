@@ -1,0 +1,12 @@
+diff --git a/workbench_moderation.module b/workbench_moderation.module
+index 6c7d5ed..4792517 100644
+--- a/workbench_moderation.module
++++ b/workbench_moderation.module
+@@ -269,6 +269,7 @@ function workbench_moderation_menu_local_tasks_alter(&$data, $router_item, $root
+       foreach ($data['tabs'][0]['output'] as $key => $value) {
+         if (!empty($value['#link']['path']) && $value['#link']['path'] == 'node/%/revisions') {
+           unset($data['tabs'][0]['output'][$key]);
++          $data['tabs'][0]['count'] -= 1;
+           break;
+         }
+       }
