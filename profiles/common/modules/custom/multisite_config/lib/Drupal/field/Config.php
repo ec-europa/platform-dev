@@ -52,4 +52,20 @@ class Config extends ConfigBase {
     return new DefaultInstanceFieldHandler($field_name, $entity_type, $bundle);
   }
 
+  /**
+   * Delete field instance given label, base field name, entity type and bundle.
+   *
+   * @param string $field_name
+   *    Machine name of an existing base field.
+   * @param string $entity_type
+   *    Entity type machine name.
+   * @param string $bundle
+   *    Bundle machine name.
+   */
+  public function deleteInstanceField($field_name, $entity_type, $bundle) {
+    if ($instance = field_info_instance($entity_type, $field_name, $bundle)) {
+      field_delete_instance($instance);
+    }
+  }
+
 }

@@ -10,51 +10,6 @@
 function nexteuropa_mediagallery_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-nexteuropa_mediagallery-body'.
-  $field_instances['node-nexteuropa_mediagallery-body'] = array(
-    'bundle' => 'nexteuropa_mediagallery',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_summary_or_trimmed',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'body',
-    'label' => 'Body',
-    'required' => FALSE,
-    'settings' => array(
-      'display_summary' => TRUE,
-      'entity_translation_sync' => FALSE,
-      'text_processing' => 1,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'text',
-      'settings' => array(
-        'rows' => 20,
-        'summary_rows' => 5,
-      ),
-      'type' => 'text_textarea_with_summary',
-      'weight' => 3,
-    ),
-  );
-
   // Exported field_instance: 'node-nexteuropa_mediagallery-field_media_upload'.
   $field_instances['node-nexteuropa_mediagallery-field_media_upload'] = array(
     'bundle' => 'nexteuropa_mediagallery',
@@ -62,6 +17,24 @@ function nexteuropa_mediagallery_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'hidden',
+        'module' => 'mediafield',
+        'settings' => array(
+          'file_view_mode' => 'media_gallery_colorbox',
+        ),
+        'type' => 'media',
+        'weight' => 2,
+      ),
+      'media_gallery_colorbox' => array(
+        'label' => 'hidden',
+        'module' => 'mediafield',
+        'settings' => array(
+          'file_view_mode' => 'media_gallery_colorbox',
+        ),
+        'type' => 'media',
+        'weight' => 2,
+      ),
+      'media_gallery_page' => array(
         'label' => 'hidden',
         'module' => 'mediafield',
         'settings' => array(
@@ -106,7 +79,7 @@ function nexteuropa_mediagallery_field_default_field_instances() {
           'video' => 'video',
         ),
         'browser_plugins' => array(
-          'media_default--media_browser_1' => 0,
+          'media_default--media_browser_1' => 'media_default--media_browser_1',
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'media_internet' => 'media_internet',
           'upload' => 'upload',
@@ -118,6 +91,75 @@ function nexteuropa_mediagallery_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-nexteuropa_mediagallery-field_ne_body'.
+  $field_instances['node-nexteuropa_mediagallery-field_ne_body'] = array(
+    'bundle' => 'nexteuropa_mediagallery',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 6,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ne_body',
+    'label' => 'Body',
+    'required' => 0,
+    'settings' => array(
+      'better_formats' => array(
+        'allowed_formats' => array(
+          'basic_html' => 'basic_html',
+          'filtered_html' => 'filtered_html',
+          'full_html' => 'full_html',
+          'plain_text' => 'plain_text',
+        ),
+        'allowed_formats_toggle' => 0,
+        'default_order_toggle' => 0,
+        'default_order_wrapper' => array(
+          'formats' => array(
+            'basic_html' => array(
+              'weight' => 5,
+            ),
+            'filtered_html' => array(
+              'weight' => -9,
+            ),
+            'full_html' => array(
+              'weight' => -10,
+            ),
+            'plain_text' => array(
+              'weight' => -8,
+            ),
+          ),
+        ),
+      ),
+      'display_summary' => 0,
+      'entity_translation_sync' => FALSE,
+      'text_processing' => 1,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 20,
+        'summary_rows' => 5,
+      ),
+      'type' => 'text_textarea_with_summary',
+      'weight' => 3,
+    ),
+  );
+
   // Exported field_instance: 'node-nexteuropa_mediagallery-field_tags'.
   $field_instances['node-nexteuropa_mediagallery-field_tags'] = array(
     'bundle' => 'nexteuropa_mediagallery',
@@ -126,6 +168,20 @@ function nexteuropa_mediagallery_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'above',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 5,
+      ),
+      'media_gallery_colorbox' => array(
+        'label' => 'above',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 5,
+      ),
+      'media_gallery_page' => array(
         'label' => 'above',
         'module' => 'i18n_taxonomy',
         'settings' => array(),
@@ -177,6 +233,18 @@ function nexteuropa_mediagallery_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 4,
       ),
+      'media_gallery_colorbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
+      'media_gallery_page' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -222,6 +290,18 @@ function nexteuropa_mediagallery_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+      'media_gallery_colorbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
+      'media_gallery_page' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -294,6 +374,18 @@ function nexteuropa_mediagallery_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'media_gallery_colorbox' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'media_gallery_page' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
