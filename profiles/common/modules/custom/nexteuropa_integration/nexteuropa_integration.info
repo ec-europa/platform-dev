@@ -5,5 +5,6 @@ package = NextEuropa
 
 dependencies[] = integration
 dependencies[] = integration_ui
+dependencies[] = integration_couchdb
 dependencies[] = registry_autoload
 registry_autoload[] = PSR-4
