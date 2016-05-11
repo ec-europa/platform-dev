@@ -153,6 +153,9 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
+projects[date_ical][subdir] = "contrib"
+projects[date_ical][version] = "3.9"
+
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
@@ -759,6 +762,13 @@ libraries[history][download][url] = "https://github.com/browserstate/history.js/
 libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
+
+; iCalcreator 2.20.2
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip
+libraries[iCalcreator][download][type] = "file"
+libraries[iCalcreator][download][request_type]= "get"
+libraries[iCalcreator][download][file_type] = "zip"
+libraries[iCalcreator][download][destination] = "../common/libraries"
 
 ; imgAreaSelect 0.9.10
 libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
