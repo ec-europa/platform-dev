@@ -283,7 +283,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   /**
    * Validate current job using poetry test.
    *
-   * @Then I receive the translation of :arg1 job item
+   * @Then I receive the translation of current job item
    */
   public function receiveJobTranslationFromPoetryTest() {
 
