@@ -663,6 +663,7 @@ projects[workbench_moderation][version] = "1.4"
 projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
+projects[workbench_moderation][patch][] = patches/workbench_moderation-view_published_tab_draft-2360091-1-D7.patch
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
 
 projects[workbench_og][subdir] = "contrib"
