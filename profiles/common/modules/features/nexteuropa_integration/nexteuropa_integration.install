@@ -19,4 +19,3 @@ function nexteuropa_integration_disable() {
   // Desactivation message.
   drupal_set_message(t('Nexteuropa Integration is now disabled on your site.'));
 }
-
