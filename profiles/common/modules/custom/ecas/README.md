@@ -13,6 +13,6 @@ The feature needs to be enabled by an administrator, it is not available in  fea
 Usage
 -----
 
-More information can be found in the [feature/ecas_env feature readme] (features/ecas_env/readme.md)
+More information can be found in the [readme of feature "ecas_env"] (../../features/ecas_env/readme.md)
     
 
