@@ -334,8 +334,9 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#weight' => 101,
             '#submit' => array('_nexteuropa_newsroom_import_modes'),
             '#states' => array(
-              'visible' => array(   // action to take.
-                ':input[name=newsroom_import_code]' =>  array('filled' => TRUE),
+          // Action to take.
+              'visible' => array(
+                ':input[name=newsroom_import_code]' => array('filled' => TRUE),
               ),
             ),
           );
@@ -455,11 +456,11 @@ function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
   $trigger = $form_state['triggering_element']['#name'];
 
   switch ($trigger) {
-    case 'newsroom_restore': 
+    case 'newsroom_restore':
       $export = unserialize(variable_get('nexteuropa_newsroom_view_modes_backup'));
       break;
 
-    default:  
+    default:
       if (!empty($form_state['values']['import_code'])) {
         $export = unserialize($form_state['values']['import_code']);
       }
