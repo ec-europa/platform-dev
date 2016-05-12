@@ -291,6 +291,9 @@ function ec_resp_preprocess_page(&$variables) {
   if (theme_get_setting('enable_interinstitutional_theme')) {
     $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo_europa.png');
   }
+  elseif (theme_get_setting('default_logo')) {
+    $variables['svg_logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo.svg');
+  }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
   $base_theme = multisite_drupal_toolbox_get_base_theme();
@@ -351,6 +354,15 @@ function ec_resp_preprocess_node(&$variables) {
     );
   }
 
+}
+
+/**
+ * Implements template_preprocess_file_entity().
+ */
+function ec_resp_preprocess_file_entity(&$variables) {
+  if ($variables['view_mode'] == "media_gallery_colorbox") {
+    $variables['classes_array'][] = "col-lg-2 col-md-3 col-xs-6";
+  }
 }
 
 /**
@@ -697,7 +709,7 @@ function ec_resp_page_alter(&$page) {
       '#tag' => 'meta',
       '#attributes' => array(
         'http-equiv' => 'Content-Language',
-        'content' => $language->language,
+        'content' => $language->prefix,
       ),
     );
     drupal_add_html_head($meta_content_language, 'meta_content_language');

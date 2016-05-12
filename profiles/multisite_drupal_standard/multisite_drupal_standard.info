@@ -103,6 +103,7 @@ dependencies[] = transliteration
 dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
+dependencies[] = entityreference_prepopulate
 
 dependencies[] = filefield_sources_plupload
 
@@ -126,3 +127,4 @@ dependencies[] = nexteuropa_editorial
 dependencies[] = nexteuropa_multilingual
 dependencies[] = nexteuropa_pages
 dependencies[] = nexteuropa_europa_search
+dependencies[] = nexteuropa_laco

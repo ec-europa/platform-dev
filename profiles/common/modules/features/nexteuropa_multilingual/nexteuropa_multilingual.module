@@ -1,9 +1,15 @@
 <?php
 /**
  * @file
+ * Code for the NextEuropa Multilingual feature.
+ */
+
+/**
+ * @file
  * Nexteuropa_multilingual module file.
  */
 
+include_once 'nexteuropa_multilingual.features.inc';
 include_once 'nexteuropa_multilingual.tokens.inc';
 
 /**
@@ -228,7 +234,6 @@ function nexteuropa_multilingual_form_node_form_alter(&$form, &$form_state, $for
       }
     }
   }
-
   _nexteuropa_multilingual_warning_message($form, $form_state['node']);
 }
 
@@ -250,17 +255,21 @@ function nexteuropa_multilingual_form_workbench_moderation_node_unpublish_form_a
  * Updates form with a warning message.
  */
 function _nexteuropa_multilingual_warning_message(&$form, $node) {
-  $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
-   . token_replace(variable_get('warning_message_languages'), array('node' => $node))
-   . '</div>';
 
-  $form['warning_languages_message'] = array(
-    '#markup' => $warning_message,
-    '#weight' => 105,
-    '#attached' => array(
-      'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
-    ),
-  );
+  $translatable = variable_get('language_content_type_' . $node->type, 0);
+  if (!empty(variable_get('warning_message_languages', "")) && $translatable !== '0') {
+    $warning_message = '<div class="alert alert-warning" role="alert" id="warning_languages_message">'
+      . token_replace(variable_get('warning_message_languages'), array('node' => $node))
+      . '</div>';
+
+    $form['warning_languages_message'] = array(
+      '#markup' => $warning_message,
+      '#weight' => 105,
+      '#attached' => array(
+        'css' => array(drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.css'),
+      ),
+    );
+  }
 }
 
 /**
@@ -279,7 +288,8 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
       $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->raw();
     }
     else {
-      $replacements['[node:source:title]'] = $wrapper->language($original_language)->label();
+      $replacements['[node:source:title]'] = $wrapper->language($original_language)
+        ->label();
     }
   }
 }
@@ -363,7 +373,7 @@ function nexteuropa_multilingual_preprocess_field(&$variables) {
 function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $form) {
   $entity = NULL;
   // Map between entity type name and key name on the $form array.
-  $entity_map = array('user' => 'account' , 'taxonomy_term' => 'term');
+  $entity_map = array('user' => 'account', 'taxonomy_term' => 'term');
   $entity_type = $form['#entity_type'];
 
   // Try to retrive entity from $form.
@@ -381,5 +391,47 @@ function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $f
   if ($entity) {
     $language_fallback = entity_translation_get_existing_language($entity_type, $entity);
     $group->label_language = $language_fallback;
+  }
+}
+
+/**
+ * Implements hook_field_language_alter().
+ *
+ * Does, as a last resort, some additional checks. This hook will make sure that
+ * when you are viewing an unpublished translation, you will not see the
+ * fallback for that field.
+ */
+function nexteuropa_multilingual_field_language_alter(&$display_language, $context) {
+  $handler = entity_translation_get_handler($context['entity_type'], $context['entity']);
+  $translations = $handler->getTranslations();
+  if (isset($translations->data) && isset($translations->data[$context['language']]) && !entity_translation_access($context['entity_type'], $translations->data[$context['language']])) {
+    foreach ($display_language as $field => &$language) {
+      if ($language == $context['language']) {
+        $language = isset($translations->data[$context['language']]['source']) ? $translations->data[$context['language']]['source'] : LANGUAGE_NONE;
+      }
+    }
+  }
+  else {
+    // The user has access to the requested language, we only need to filter out
+    // the fallbacks that are not our original.
+    $allowed_languages = array(
+      $context['language'],
+      $translations->original,
+    );
+
+    // Check if we have the 2nd-language parameter,
+    // because then that language is also allowed.
+    $parameters = drupal_get_query_parameters();
+    if (isset($parameters['2nd-language'])) {
+      $allowed_languages[] = $parameters['2nd-language'];
+    }
+
+    // Loop over, if we have a field that is using a teritary language, we set
+    // it to undefined.
+    foreach ($display_language as $field => &$language) {
+      if (!in_array($language, $allowed_languages)) {
+        $language = LANGUAGE_NONE;
+      }
+    }
   }
 }

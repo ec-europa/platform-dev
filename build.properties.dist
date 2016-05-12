@@ -46,9 +46,11 @@ platform.make = ${platform.resources.dir}/${platform.profile.name}.make
 # -----
 
 # Paths to executables.
+platform.bin = ${project.basedir}/bin
 phing.bin = ${project.basedir}/bin/phing
 drush.bin = ${project.basedir}/bin/drush
 composer.bin = composer.phar
+phantomjs.bin = ${project.basedir}/bin/phantomjs
 
 # The build location
 phing.project.build.dir = build

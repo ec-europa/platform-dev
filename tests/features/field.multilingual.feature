@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Field Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
@@ -85,7 +85,7 @@ Feature: Field Multilingual features
       | content/title-english_de                  | Title in English  | My Group Color     | Select a Color           | Red        |
       | content/title-english_en?2nd-language=fr  | Title in English  | My Group Color     | Select a Color           | Red        |
       | content/title-english_de?2nd-language=fr  | Titre en Français | Mon Groupe Couleur | Selectionner une Couleur | Rouge      |
-	
+
 	Scenario: Administrator can delete field group labels
 	# Finally, delete the added fields
 	Given I am logged in as a user with the 'administrator' role

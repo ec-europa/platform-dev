@@ -32,7 +32,10 @@ function _tmgmt_poetry_access_entity_info_alter(&$info) {
  *   TRUE if access is allowed, FALSE otherwise.
  */
 function tmgmt_poetry_job_access($op, TMGMTJob $job = NULL, $account = NULL) {
-  if ($job !== NULL) {
+  if ($GLOBALS['user']->uid == 1) {
+    return TRUE;
+  }
+  elseif ($job !== NULL) {
     $items = $job->getItems();
     if (count($items) > 0) {
       $job_item = array_shift($items);
@@ -67,8 +70,13 @@ function tmgmt_poetry_job_access($op, TMGMTJob $job = NULL, $account = NULL) {
  *   TRUE if access is allowed, FALSE otherwise.
  */
 function tmgmt_poetry_job_item_access($op, TMGMTJobItem $item = NULL, $account = NULL) {
-  // There are no item specific permissions yet.
-  return tmgmt_poetry_job_access($op, $item ? $item->getJob() : NULL, $account);
+  if ($GLOBALS['user']->uid == 1) {
+    return TRUE;
+  }
+  else {
+    // There are no item specific permissions yet.
+    return tmgmt_poetry_job_access($op, $item ? $item->getJob() : NULL, $account);
+  }
 }
 
 
@@ -78,6 +86,7 @@ function tmgmt_poetry_job_item_access($op, TMGMTJobItem $item = NULL, $account =
 function tmgmt_poetry_views_query_alter(&$view, &$query) {
   // Hide the sub translation jobs from the job overview page.
   if ($view->name == 'tmgmt_ui_job_overview') {
+
     $join = new views_join();
     $join->table = 'tmgmt_job_item';
     $join->field = 'tjid';
@@ -94,5 +103,6 @@ function tmgmt_poetry_views_query_alter(&$view, &$query) {
             ->isNull('reference')
         )
     );
+    $query->add_field('tmgmt_job', 'reference', 'reference');
   }
 }
