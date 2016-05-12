@@ -7,7 +7,7 @@
 /**
  * Implements hook_enable().
  */
-function nexteuropa_integration_enable() {
+function nexteuropa_integration_department_consumer_enable() {
   // Activation message.
   drupal_set_message(t('Nexteuropa Integration Department Consumer is now active on your site.'));
 }
@@ -15,7 +15,7 @@ function nexteuropa_integration_enable() {
 /**
  * Implements hook_disable().
  */
-function nexteuropa_integration_disable() {
+function nexteuropa_integration_department_consumer_disable() {
   // Desactivation message.
   drupal_set_message(t('Nexteuropa Integration Department Consumer is now disabled on your site.'));
 }
