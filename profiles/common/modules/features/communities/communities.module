@@ -10,75 +10,8 @@ include_once 'communities.features.inc';
  * Implements hook_views_pre_render().
  */
 function communities_views_pre_render(&$view) {
-  global $user;
 
   if ($view->name == 'communities_directory' || $view->name == 'communities_directory_my') {
-    // Add alphabetical index.
-    $alphabet = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-      'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-    );
-    $output = '';
-
-    $i = 0;
-    $len = count($alphabet);
-    foreach ($alphabet as $letter) {
-      if (arg(1) == 'my') {
-        $url = arg(0) . "/my/" . $user->uid . "/" . $letter;
-      }
-      else {
-        $url = arg(0) . "/" . $letter;
-      }
-
-      if ($i == 0) {
-        // First.
-        $options = array(
-          'attributes' => array(
-            'type' => 'small',
-            'action_bar' => 'first',
-            'btn_group' => 'first',
-            'class' => array('hidden-phone'),
-          ),
-        );
-        $output .= l($letter, $url, $options);
-      }
-      elseif ($i == $len - 1) {
-        // Last.
-        $options = array(
-          'attributes' => array(
-            'type' => 'small',
-            'btn_group' => 'last',
-            'class' => array('hidden-phone'),
-          ),
-        );
-        $output .= l($letter, $url, $options);
-      }
-      else {
-        $options = array(
-          'attributes' => array(
-            'type' => 'small',
-            'class' => array('hidden-phone'),
-          ),
-        );
-        $output .= l($letter, $url, $options);
-      }
-      $i++;
-    }
-
-    // Add create community button.
-    if (user_access('create community content')) {
-      $options = array(
-        'attributes' => array(
-          'type' => 'add',
-          'action_bar' => 'last',
-          'btn_group' => 'single',
-        ),
-      );
-      $output .= l(t('Create a new community'), 'node/add/community', $options);
-    }
-
-    // Update view header.
-    $view->header['area']->options['content'] = $output;
-
     // Add picture for private communities.
     foreach ($view->result as $row) {
       if (isset($row->field_group_access[0]['raw']['value']) && $row->field_group_access[0]['raw']['value'] == 1) {
@@ -98,7 +31,6 @@ function communities_views_pre_render(&$view) {
           $row->field_group_group[0]['rendered']['#href'] = "ecas";
         }
       }
-
     }
   }
 
@@ -508,24 +440,24 @@ function communities_node_view($node, $view_mode, $langcode) {
 
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function communities_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'community_node_form':
-      $form[OG_GROUP_FIELD]['#access'] = FALSE;
-      // Hide group field of the group content.
-      break;
-  }
-  if (isset($form_state['build_info']['base_form_id']) && $form_state['build_info']['base_form_id'] == 'node_form') {
-    // If it's a node edit form.
-    $context = og_context();
-    if (!isset($context['gid'])) {
-      // We are not in a og context.
-      if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
-        $form['field_highlighted']['#access'] = FALSE;
-        // Hide highlighted field.
-      }
+function communities_form_community_node_form_alter(&$form, &$form_state, $form_id) {
+  // Hide group field of the group content.
+  $form[OG_GROUP_FIELD]['#access'] = FALSE;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function communities_form_node_form_alter(&$form, &$form_state, $form_id) {
+  // If it's a node edit form.
+  $context = og_context();
+  // We are not in a og context.
+  if (!isset($context['gid'])) {
+    if (isset($form[OG_CONTENT_ACCESS_FIELD])) {
+      // Hide highlighted field.
+      $form['field_highlighted']['#access'] = FALSE;
     }
   }
 }

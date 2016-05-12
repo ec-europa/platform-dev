@@ -40,42 +40,42 @@ CKEDITOR.plugins.add('collapse',
           }]
         }],
         onOk : function() {
-                var dialog = this;
-                var title = dialog.getValueOf('tab1', 'title');
+          var dialog = this;
+          var title = dialog.getValueOf('tab1', 'title');
 
-                var openTag = '[collapsed title=' + title + ']';
-                var closeTag = '[/collapsed]';
-                var inplaceTag = ' ' + openTag + ' text ' + closeTag + ' ';
+          var openTag = '[collapsed title=' + title + ']';
+          var closeTag = '[/collapsed]';
+          var inplaceTag = ' ' + openTag + ' text ' + closeTag + ' ';
 
-                var S = editor.getSelection();
+          var S = editor.getSelection();
 
           if (S == null) {
             editor.insertHtml(inplaceTag);
             return;
           }
 
-                var R = S.getRanges();
-                R = R[0];
+          var R = S.getRanges();
+          R = R[0];
 
           if (R == null) {
             editor.insertHtml(inplaceTag);
             return;
           }
 
-                var startPos = Math.min(R.startOffset, R.endOffset);
-                var endPos = Math.max(R.startOffset, R.endOffset);
+          var startPos = Math.min(R.startOffset, R.endOffset);
+          var endPos = Math.max(R.startOffset, R.endOffset);
 
           if (startPos == endPos) {
             editor.insertHtml(inplaceTag);
             return;
           }
 
-                var container = new CKEDITOR.dom.element('p');
-                var fragment = R.extractContents();
+          var container = new CKEDITOR.dom.element('p');
+          var fragment = R.extractContents();
 
-                container.appendText(openTag);
-                fragment.appendTo(container);
-                container.appendText(closeTag);
+          container.appendText(openTag);
+          fragment.appendTo(container);
+          container.appendText(closeTag);
 
                 editor.insertElement(container);
         }

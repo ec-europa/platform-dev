@@ -8,18 +8,14 @@ include_once 'includes/file.mimetypes.inc';
 module_load_include('inc', 'variable_realm', 'variable_realm.form');
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_BASE_FORM_ID_alter().
  */
-function multisite_metatags_form_alter(&$form, &$form_state, $form_id) {
-  if (arg(0) == 'node' && array_key_exists('field_meta_classification', $form)) {
+function multisite_metatags_form_node_form_alter(&$form, &$form_state, $form_id) {
+  if (array_key_exists('field_meta_classification', $form)) {
     // Get Taxonomy classification vid.
-    $vid_classification = db_select('taxonomy_vocabulary', 't')
-      ->fields('t')
-      ->condition('machine_name', 'classification', '=')
-      ->execute()
-      ->fetchAll();
+    $vocabulary = taxonomy_vocabulary_machine_name_load('classification');
     // Get Taxonomy tree.
-    $classification = taxonomy_get_tree($vid_classification[0]->vid);
+    $classification = taxonomy_get_tree($vocabulary->vid);
 
     // Change the select to show name and description.
     $list[0] = 'none';
@@ -92,7 +88,7 @@ function multisite_metatags_html_head_alter(&$head_elements) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function multisite_metatags_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
   // Create textfields.
