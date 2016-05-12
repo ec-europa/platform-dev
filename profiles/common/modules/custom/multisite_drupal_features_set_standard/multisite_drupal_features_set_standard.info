@@ -43,7 +43,7 @@ feature_sets[multisite_registration_standard][disable][] = registration
 
 feature_sets[nexteuropa_integration][title] = 'Integration'
 feature_sets[nexteuropa_integration][description] = 'Provides common NextEuropa backend settings and schemas used by the Integration module '
-feature_sets[nexteuropa_integration][documentation] = ''
+feature_sets[nexteuropa_integration][documentation] = 'https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Integration+Layer'
 feature_sets[nexteuropa_integration][category] = 'Communication'
 feature_sets[nexteuropa_integration][icon] = ''
 feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
