@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Integration Department Producer feature.
+ */
+
+include_once 'nexteuropa_integration_department_producer.features.inc';
