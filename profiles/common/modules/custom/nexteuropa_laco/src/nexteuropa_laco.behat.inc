@@ -22,6 +22,13 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
   protected $drupal;
 
   /**
+   * Default debug mode value.
+   *
+   * @var bool
+   */
+  protected $debug;
+
+  /**
    * Constructs a NextEuropaLacoSubContext object.
    *
    * @param DrupalDriverManager $drupal
@@ -34,16 +41,18 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
   /**
    * Assert language coverage on a specific path.
    *
-   * @param string $response
+   * @param string $code
    *    Expected response code.
    * @param string $language
    *    Language to be queried.
    * @param string $path
    *    Path to determined the language coverage for.
+   * @param string $message
+   *    Debug response message.
    *
    * @Then I should get a :code for :language language coverage on the :path path
    */
-  public function assertLanguageCoverage($response, $language, $path) {
+  public function assertLanguageCoverage($code, $language, $path, $message = '') {
     global $base_url;
 
     $client = new \GuzzleHttp\Client([
@@ -53,9 +62,13 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
       ],
       'http_errors' => FALSE,
     ]);
-    $actual = $client->request(Service::HTTP_METHOD, $base_url . '/' . $path)->getStatusCode();
-    if ($actual != $response) {
-      throw new \InvalidArgumentException("Language coverage for '$language' on '$path' returned '$actual' instead of '$response'.");
+    $response = $client->request(Service::HTTP_METHOD, $base_url . '/' . $path);
+    if ($response->getStatusCode() != $code) {
+      throw new \InvalidArgumentException("Language coverage for '$language' on '$path' returned '{$response->getStatusCode()}' instead of '$code'.");
+    }
+    $response_message = $response->getHeader('ec-nexteuropa-laco');
+    if ($message && $message != $response_message[0]) {
+      throw new \InvalidArgumentException("Expected message does not match with the actual message: {$response_message[0]}.");
     }
   }
 
@@ -69,8 +82,28 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
    */
   public function iShouldGetTheFollowingLanguageCoverageResponses(TableNode $table) {
     foreach ($table->getIterator() as $row) {
-      $this->assertLanguageCoverage($row['response'], $row['language'], $row['path']);
+      $row['message'] = isset($row['message']) ? $row['message'] : '';
+      $this->assertLanguageCoverage($row['response'], $row['language'], $row['path'], $row['message']);
     }
+  }
+
+  /**
+   * Enable debug mode.
+   *
+   * @beforeScenario
+   */
+  public function setDebugMode() {
+    $this->debug = variable_get('nexteuropa_laco_debug', FALSE);
+    variable_set('nexteuropa_laco_debug', TRUE);
+  }
+
+  /**
+   * Reset debug mode.
+   *
+   * @afterScenario
+   */
+  public function resetDebugMode() {
+    variable_set('nexteuropa_laco_debug', $this->debug);
   }
 
 }

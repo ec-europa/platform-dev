@@ -23,8 +23,8 @@ function nexteuropa_faq_field_group_info() {
     'label' => 'Content',
     'weight' => '0',
     'children' => array(
-      0 => 'body',
-      1 => 'title_field',
+      0 => 'title_field',
+      1 => 'field_ne_body',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -51,10 +51,11 @@ function nexteuropa_faq_field_group_info() {
     'label' => 'Metadata',
     'weight' => '2',
     'children' => array(
-      0 => 'og_group_ref',
-      1 => 'group_content_access',
-      2 => 'field_ne_faq_categories',
-      3 => 'language',
+      0 => 'field_ne_faq_categories',
+      1 => 'field_tags',
+      2 => 'group_content_access',
+      3 => 'og_group_ref',
+      4 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
