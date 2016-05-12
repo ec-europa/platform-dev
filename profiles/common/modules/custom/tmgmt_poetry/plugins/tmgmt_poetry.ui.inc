@@ -6,7 +6,7 @@
  */
 
 /**
- * Google translator ui controller.
+ * DGT connector translator ui controller.
  */
 class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIController {
   /**
@@ -33,18 +33,6 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#collapsible' => FALSE,
       '#collapsed' => FALSE,
       '#description' => t("General settings for the requests"),
-    );
-    $form['settings']['username'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Username'),
-      '#required' => TRUE,
-      '#default_value' => $settings['username'],
-    );
-    $form['settings']['password'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Password'),
-      '#required' => TRUE,
-      '#default_value' => $settings['password'],
     );
     $form['settings']['counter'] = array(
       '#type' => 'textfield',
@@ -246,8 +234,8 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     $form['contacts'] = array(
       '#type' => 'fieldset',
       '#title' => t('Contact usernames'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
       '#description' => t("Contact persons for the translation request sent to Poetry. WARNING: Valid EC usernames must be used"),
     );
     $form['contacts']['auteur'] = array(
@@ -280,8 +268,8 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     $form['organization'] = array(
       '#type' => 'fieldset',
       '#title' => t('Organization'),
-      '#collapsible' => FALSE,
-      '#collapsed' => FALSE,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
       '#description' => t("Requester organization information"),
     );
     $form['organization']['responsable'] = array(
@@ -342,7 +330,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     $messages = array();
     $poetry_settings = variable_get('poetry_service');
     if (!isset($poetry_settings) || empty($poetry_settings)) {
-      $messages[] = t('Main "poetry_service" variable was not set or is empty. See the README.txt file or read the wiki page.');
+      $messages[] = t('Main "poetry_service" variable was not set or is empty. See the README.md file or read the wiki page.');
       $type = 'error';
     }
     if (empty($messages)) {

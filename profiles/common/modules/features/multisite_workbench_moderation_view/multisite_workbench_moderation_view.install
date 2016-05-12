@@ -5,8 +5,6 @@
  * Install the feature Multisite Workbench Moderation View.
  */
 
-include_once 'multisite_workbench_moderation_view.install.inc';
-
 /**
  * Implements hook_enable().
  */
@@ -16,7 +14,7 @@ function multisite_workbench_moderation_view_enable() {
   t('This list displays content in the selected state that you can moderate. Currently there is no such content.');
   t('Workflow state');
   // Activation message.
-  drupal_set_message(t('Multisite Workbench Moderation View %v feature is now active on your site.', array('%v' => _multisite_workbench_moderation_view_get_version())));
+  drupal_set_message(t('Multisite Workbench Moderation View feature is now active on your site.'));
 }
 
 /**
@@ -24,5 +22,5 @@ function multisite_workbench_moderation_view_enable() {
  */
 function multisite_workbench_moderation_view_disable() {
   // Deactivation message.
-  drupal_set_message(t('Multisite Workbench Moderation View %v feature is now inactive on your site.', array('%v' => _multisite_workbench_moderation_view_get_version())));
+  drupal_set_message(t('Multisite Workbench Moderation View feature is now inactive on your site.'));
 }

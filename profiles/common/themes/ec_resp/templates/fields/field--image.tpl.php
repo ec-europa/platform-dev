@@ -53,7 +53,7 @@
       <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>>
       <?php print render($item); ?>
       </div>
-      <?php $image_caption = isset($item['#item']['field_caption'][LANGUAGE_NONE][0]['value']) ? $item['#item']['field_caption'][LANGUAGE_NONE][0]['value'] : ''; ?>
+      <?php $image_caption = isset($item['#item']['field_caption'][LANGUAGE_NONE][0]['safe_value']) ? $item['#item']['field_caption'][LANGUAGE_NONE][0]['safe_value'] : ''; ?>
       <?php if (isset($image_caption)): ?>
       <div class="field-image-caption"><?php print $image_caption; ?></div>
       <?php endif;?>

@@ -46,6 +46,18 @@ function nexteuropa_metatags_metatag_info() {
     'name' => 'classification',
   );
 
+  $info['groups']['mobile'] = array(
+    'label' => t('Mobile & UI Adjustments'),
+  );
+  $info['tags']['viewport'] = array(
+    'label' => t('Viewport'),
+    'description' => t("Please read a guide on responsive web design for details of what values to use."),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'viewport',
+    'group' => 'mobile',
+  );
+
   $info['groups']['ESS_metatags'] = array(
     'label' => t('ESS metatags : metatags for ES indexation'),
   );
