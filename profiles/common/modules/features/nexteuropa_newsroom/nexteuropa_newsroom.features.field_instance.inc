@@ -1206,7 +1206,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'inline',
         'module' => 'i18n_field',
         'settings' => array(),
         'type' => 'i18n_list_default',

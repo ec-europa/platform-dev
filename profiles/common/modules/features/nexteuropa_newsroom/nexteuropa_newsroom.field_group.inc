@@ -71,7 +71,7 @@ function nexteuropa_newsroom_field_group_info() {
         'id' => '',
         'classes' => 'group-newsroom-event-info field-group-div section',
         'description' => '',
-        'show_label' => '0',
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
@@ -104,7 +104,7 @@ function nexteuropa_newsroom_field_group_info() {
       'instance_settings' => array(
         'classes' => 'group-newsroom-event-info field-group-div',
         'description' => '',
-        'show_label' => '0',
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
@@ -169,16 +169,16 @@ function nexteuropa_newsroom_field_group_info() {
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Contact',
       'instance_settings' => array(
+        'classes' => 'group-newsroom-contact field-group-div',
         'description' => '',
         'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
-        'speed' => 'fast',
-        'classes' => 'group-newsroom-item-contact field-group-div',
-        'id' => '',
+        'speed' => 'none',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_newsroom_item_contact|node|newsroom_item|default'] = $field_group;
@@ -228,7 +228,7 @@ function nexteuropa_newsroom_field_group_info() {
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
       'instance_settings' => array(
         'description' => '',
         'show_label' => 0,
@@ -333,7 +333,7 @@ function nexteuropa_newsroom_field_group_info() {
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
       'instance_settings' => array(
         'description' => '',
         'show_label' => 0,
@@ -367,7 +367,7 @@ function nexteuropa_newsroom_field_group_info() {
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
       'instance_settings' => array(
         'description' => '',
         'show_label' => 0,
@@ -399,7 +399,7 @@ function nexteuropa_newsroom_field_group_info() {
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
       'instance_settings' => array(
         'description' => '',
         'show_label' => 0,
@@ -430,7 +430,7 @@ function nexteuropa_newsroom_field_group_info() {
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'formatter' => 'open',
       'instance_settings' => array(
         'description' => '',
         'show_label' => 0,
@@ -555,7 +555,7 @@ function nexteuropa_newsroom_field_group_info() {
       'instance_settings' => array(
         'classes' => 'group-newsroom-lead field-group-div',
         'description' => '',
-        'show_label' => '0',
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
@@ -588,7 +588,7 @@ function nexteuropa_newsroom_field_group_info() {
       'instance_settings' => array(
         'classes' => 'group-newsroom-lead field-group-div',
         'description' => '',
-        'show_label' => '0',
+        'show_label' => 0,
         'label_element' => 'h3',
         'effect' => 'none',
         'speed' => 'none',
@@ -614,14 +614,18 @@ function nexteuropa_newsroom_field_group_info() {
       0 => 'field_newsroom_item_other_link',
       1 => 'field_newsroom_item_rapid_pr',
     ),
-    'format_type' => 'fieldset',
+    'format_type' => 'div',
     'format_settings' => array(
-      'formatter' => 'collapsible',
+      'label' => 'Recommended reading',
       'instance_settings' => array(
+        'classes' => 'group-newsroom-recommended field-group-div',
         'description' => '',
-        'classes' => '',
-        'id' => '',
+        'show_label' => 0,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
       ),
+      'formatter' => 'open',
     ),
   );
   $field_groups['group_newsroom_recommended|node|newsroom_item|default'] = $field_group;
