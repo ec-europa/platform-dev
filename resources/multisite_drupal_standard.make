@@ -370,9 +370,6 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-ove
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
 projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
 
-projects[media_crop][subdir] = "contrib"
-projects[media_crop][version] = "1.4"
-
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
 ; Issue #2560403: Provide Short URL for media dailymotion.
