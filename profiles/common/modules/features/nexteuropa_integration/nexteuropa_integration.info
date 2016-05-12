@@ -1,7 +1,7 @@
 name = NextEuropa Integration
 description = NextEuropa Integration settings
 core = 7.x
-package = NextEuropa
+package = Integration
 dependencies[] = entity
 dependencies[] = integration
 features[features_api][] = api:2

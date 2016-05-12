@@ -1,7 +1,7 @@
 name = NextEuropa Integration Department Producer
 description = NextEuropa Integration department producer settings
 core = 7.x
-package = NextEuropa
+package = Integration
 dependencies[] = entity
 dependencies[] = integration_producer
 features[features_api][] = api:2

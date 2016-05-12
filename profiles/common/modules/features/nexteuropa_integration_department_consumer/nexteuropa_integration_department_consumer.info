@@ -1,7 +1,7 @@
 name = NextEuropa Integration Department Consumer
 description = NextEuropa Integration department consumer settings
 core = 7.x
-package = NextEuropa
+package = Integration
 dependencies[] = entity
 dependencies[] = integration_consumer
 features[features_api][] = api:2
