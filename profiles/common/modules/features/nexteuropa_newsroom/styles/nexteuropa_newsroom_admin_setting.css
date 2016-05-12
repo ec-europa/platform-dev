@@ -29,7 +29,8 @@
 #newsroom_import_submit,
 #newsroom-import-code,
 #newsroom-export-code,
-#newsroom-backup-submit {
+#newsroom-backup-submit,
+#newsroom_import_backup {
   display: none;
 }
 

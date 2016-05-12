@@ -276,7 +276,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#suffix' => '</div>',
             '#value' => t('[Newsroom] Export/Import settings'),
             '#attributes' => array(
-              'onclick' => "event.preventDefault(); document.getElementById('newsroom-import-code').style.display = 'block'; document.getElementById('newsroom-export-code').style.display = 'block'; document.getElementById('newsroom_import_submit').style.display = 'block'; this.parentElement.parentElement.style.display = 'none'; document.getElementById('newsroom-backup-submit').style.display = 'block';",
+              'onclick' => "event.preventDefault(); document.getElementById('newsroom-import-code').style.display = 'block'; document.getElementById('newsroom-export-code').style.display = 'block'; document.getElementById('newsroom_import_submit').style.display = 'block'; document.getElementById('newsroom_import_backup').style.display = 'block'; this.parentElement.parentElement.style.display = 'none'; document.getElementById('newsroom-backup-submit').style.display = 'block';",
             ),
             '#weight' => 97,
           );
@@ -313,11 +313,11 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           $form['import']['import_code'] = array(
             '#prefix' => '<div id="newsroom-import-code">',
             '#suffix' => '</div>',
+            '#name' => 'newsroom_import_code',
             '#type' => 'textarea',
             '#title' => $title,
             '#description' => t('Serialized code export'),
             '#attributes' => array('id' => 'nexteuropa_newsroom_exported_instances'),
-            //'#value' => '',
             '#format' => 'html',
             '#resizable' => TRUE,
             '#wysiwyg' => FALSE,
@@ -333,7 +333,24 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#value' => t('[Newsroom] Import settings'),
             '#weight' => 101,
             '#submit' => array('_nexteuropa_newsroom_import_modes'),
+            '#states' => array(
+              'visible' => array(   // action to take.
+                ':input[name=newsroom_import_code]' =>  array('filled' => TRUE),
+              ),
+            ),
           );
+
+          if ($export = variable_get('nexteuropa_newsroom_view_modes_backup', FALSE)) {
+            $form['import']['restore_modes'] = array(
+              '#type' => 'submit',
+              '#name' => 'newsroom_restore',
+              '#prefix' => '<div id="newsroom_import_backup">',
+              '#suffix' => '</div>',
+              '#value' => t('[Newsroom] Import settings from the existing backup'),
+              '#weight' => 102,
+              '#submit' => array('_nexteuropa_newsroom_import_modes'),
+            );
+          }
 
           // Attach a css to the admin settings form.
           $form['#attached']['css'] = array(
@@ -435,42 +452,52 @@ function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
  * Submit handler, imports selected view modes.
  */
 function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
-  if (!empty($form_state['values']['import_code'])) {
-    $export = unserialize($form_state['values']['import_code']);
-    $modes = array('full', 'teaser');
-    $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
+  $trigger = $form_state['triggering_element']['#name'];
 
-    if (!empty($export['instances'])) {
-      foreach ($export['instances'] as $field_name => $instance) {
-        if ($existing = field_info_instance('node', $field_name, $bundle)) {
-          foreach ($modes as $mode) {
-            $existing['display'][$mode] = $instance[$mode];
-            // Update the instance.
-            field_update_instance($existing);
-          }
+  switch ($trigger) {
+    case 'newsroom_restore': 
+      $export = unserialize(variable_get('nexteuropa_newsroom_view_modes_backup'));
+      break;
+
+    default:  
+      if (!empty($form_state['values']['import_code'])) {
+        $export = unserialize($form_state['values']['import_code']);
+      }
+      else {
+        return drupal_set_message(t('There was nothing to restore from, did you paste the exported code..?'), 'warning');
+      }
+  }
+
+  $modes = array('full', 'teaser');
+  $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
+
+  if (!empty($export['instances'])) {
+    foreach ($export['instances'] as $field_name => $instance) {
+      if ($existing = field_info_instance('node', $field_name, $bundle)) {
+        foreach ($modes as $mode) {
+          $existing['display'][$mode] = $instance[$mode];
+          // Update the instance.
+          field_update_instance($existing);
         }
       }
     }
+  }
 
-    if (!empty($export['groups'])) {
-      $groups = $export['groups'];
-      // Field groups are problematic objects, we save the groups here but a group
-      // that has been deleted using the UI will not come back after this has run.
-      foreach ($modes as $mode) {
-        if (!empty($groups[$mode])) {
-          foreach ($groups[$mode] as $group_name => $group) {
-            $group->disabled = FALSE;
-            field_group_group_save($group);
-          }
+  if (!empty($export['groups'])) {
+    $groups = $export['groups'];
+    // Field groups are problematic objects, we save the groups here but a group
+    // that has been deleted using the UI will not come back after this has run.
+    foreach ($modes as $mode) {
+      if (!empty($groups[$mode])) {
+        foreach ($groups[$mode] as $group_name => $group) {
+          $group->disabled = FALSE;
+          field_group_group_save($group);
         }
       }
     }
+  }
 
-    return drupal_set_message(t('Your settings have been restored.'), 'status');
-  }
-  else {
-    return drupal_set_message(t('There was nothing to restore from, did you paste the exported code..?'), 'warning');
-  }
+  return drupal_set_message(t('Your settings have been restored.'), 'status');
 }
 
 /**
