@@ -177,7 +177,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_item_venue' => array(
       'query' => 'infsonewsroom:ContextVenue',
     ),
-    'field_newsroom_organizer' => array(
+    'field_newsroom_organiser' => array(
       'query' => 'infsonewsroom:ContextOrganiser',
     ),
     'field_newsroom_author' => array(
