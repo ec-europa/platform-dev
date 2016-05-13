@@ -232,7 +232,9 @@ function ecas_admin_settings() {
     );
   }
 
-  $form['param']['ecas_pages_method'] = array(
+  /* Commented out. No longer working and reactivating it breaks ECAS logic.
+   *
+   $form['param']['ecas_pages_method'] = array(
     '#type' => 'radios',
     '#title' => t('Force ECAS authentication on specific pages'),
     '#options' => array(
@@ -252,7 +254,7 @@ function ecas_admin_settings() {
     '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
     '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", $args),
   );
-
+*/
   // FPFIS Common SETTINGS.
   // Checkbox to enable or disable the whole FPFIS integration stuff.
   $form['param']['ecas_use_shared_fpfis'] = array(
