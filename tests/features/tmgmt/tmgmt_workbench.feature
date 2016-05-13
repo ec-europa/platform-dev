@@ -44,14 +44,14 @@ Feature: TMGMT Workbench features
     And I click "Sources"
     Then I should not see "New Editorial team"
 
-  @run
+#  @run
   Scenario: NEXTEUROPA-9861: Translations requested from a validated revision should be applied to that revision only.
     Given local translator "Translator A" is available
     And I am logged in as a user with the "administrator" role
     And I am viewing a multilingual "page" content:
       | language | title                |
       | en       | Title in English 1.0 |
-      | fr       | Title in French 1.0 |
+      | fr       | Title in French 1.0  |
     And I click "New draft"
     And I fill in "Title" with "Title in English 1.1"
     And I select "Validated" from "Moderation state"
@@ -65,27 +65,34 @@ Feature: TMGMT Workbench features
       | translator      | Translator A         |
       | title_field     | Title in French 1.1  |
     And the current translation job is accepted
-    Then I click "View"
+    And I click "Log out"
+    And I visit the "page" content with title "Title in English 1.0"
+    Then the url should match "(.)*content/title-english-10_en"
     And I should see the heading "Title in English 1.0"
     And I click "Français" in the "content" region
     Then I should see the heading "Title in French 1.0"
+    And the url should match "(.)*content/title-english-10_fr"
     And I click "English" in the "content" region
+    Then I am logged in as a user with the "administrator" role
+    And I visit the "page" content with title "Title in English 1.0"
     Then I click "View draft"
     And I should see the heading "Title in English 1.1"
     Then I select "Published" from "Moderation state"
     And I press the "Apply" button
-    And I should see the heading "Title in English 1.1"
-    Then I should see the link "Français" in the "content" region
+    And I visit the "page" content with title "Title in English 1.1"
+    Then I should see the heading "Title in English 1.1"
+    And I should see the link "Français" in the "content" region
     And I click "Français" in the "content" region
     Then I should see "Title in French 1.1"
 
-  @run
+#  @run
   Scenario: NEXTEUROPA-9861: Translations requested from a published revision should be applied to that revision only.
     Given local translator "Translator A" is available
-    And I am logged in as a user with the "administrator" role
     And I am viewing a multilingual "page" content:
       | language | title                |
       | en       | Title in English 2.0 |
+    Then I should not see the link "Français" in the "content" region
+    And the url should match "(.)*content/title-english-20_en"
     And I create the following job for "page" with title "Title in English 2.0"
       | source language | en                   |
       | target language | fr                   |
@@ -93,8 +100,10 @@ Feature: TMGMT Workbench features
       | translator      | Translator A         |
       | title_field     | Title in French 2.0  |
     And the current translation job is accepted
-    And I click "View"
+    And I visit the "page" content with title "Title in English 2.0"
     And I should see the heading "Title in English 2.0"
+    And the url should match "(.)*content/title-english-20_en"
     Then I should see the link "Français" in the "content" region
     And I click "Français" in the "content" region
     Then I should see "Title in French 2.0"
+    And the url should match "(.)*content/title-english-20_fr"
