@@ -52,10 +52,13 @@ Feature: TMGMT Workbench features
       | language | title                |
       | en       | Title in English 1.0 |
       | fr       | Title in French 1.0  |
+    Then the url should match "(.)*content/title-english-10_en"
     And I click "New draft"
     And I fill in "Title" with "Title in English 1.1"
     And I select "Validated" from "Moderation state"
     And I press the "Save" button
+    And I visit the "page" content with title "Title in English 1.0"
+    Then the url should match "(.)*content/title-english-10_en"
     And I click "Translate" in the "primary_tabs" region
     Then I should see "Title in English 1.1" in the "English" row
     And I create the following job for "page" with title "Title in English 1.0"
@@ -107,3 +110,31 @@ Feature: TMGMT Workbench features
     And I click "Français" in the "content" region
     Then I should see "Title in French 2.0"
     And the url should match "(.)*content/title-english-20_fr"
+
+#  @run
+  Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "Original version"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I select "Translator A" from "Translator"
+    And I press "Submit to translator"
+    Then I click "In progress" in the "French" row
+    And I press "Save"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    And I visit the "page" content with title "Original version"
+    Then the url should match "(.)*content/original-version_en"
+    Then I click "New draft" in the "primary_tabs" region
+    And I fill in "Other different Title" for "Title"
+    And I press "Save"
+    And I select "Validated" from "Moderation state"
+    And I press "Apply"
+    And I click "View published" in the "primary_tabs" region
+    Then the url should match "(.)*content/original-version_en"

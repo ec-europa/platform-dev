@@ -207,6 +207,10 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     // Set translation language.
     $handler->setFormLanguage($language);
 
+    // Workbench Moderation disables pathauto after node has been published.
+    // Enforcing it here will ensure a consistent behavior.
+    $node->path['pathauto'] = 0;
+
     // Save node (new translation).
     node_save($node);
   }

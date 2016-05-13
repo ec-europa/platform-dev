@@ -43,7 +43,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     }
     // Get node path without any base path by setting 'base_url' and 'absolute'.
     $node = array_shift($nodes);
-    $path = url('node/' . $node->nid, ['base_url' => '', 'absolute' => TRUE]);
+    $path = 'node/' . $node->nid;
+    cache_clear_all($path, 'cache_path');
+    $path = url($path, ['base_url' => '', 'absolute' => TRUE]);
     // Visit newly created node page.
     $this->visitPath($path);
   }

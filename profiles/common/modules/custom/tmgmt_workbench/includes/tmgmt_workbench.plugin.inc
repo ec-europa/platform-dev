@@ -64,9 +64,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     $handler->saveTranslations();
 
     // Make sure we restore the original node revision.
-    // Also make sure pathauto is regenerated following the original revision.
     $node = node_load($node->nid, $vid);
-    $node->path['pathauto'] = 1;
     node_save($node);
 
     // Accept the translation job.
