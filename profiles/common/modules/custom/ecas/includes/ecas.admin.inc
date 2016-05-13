@@ -240,7 +240,8 @@ function ecas_admin_settings() {
   ECAS_LOGIN_EXLUDE_PAGES => t('All pages except those listed'),
   ECAS_LOGIN_INCLUDE_PAGES => t('Only the listed pages'),
   ),
-  '#default_value' => variable_get('ecas_pages_method', ECAS_LOGIN_INCLUDE_PAGES),
+  '#default_value' => variable_get('ecas_pages_method',
+  ECAS_LOGIN_INCLUDE_PAGES),
   );
   $args = array(
   '%blog' => 'blog',
