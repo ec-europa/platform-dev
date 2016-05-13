@@ -7,6 +7,10 @@ Installation
 ------------
 
 The feature needs to be enabled by an administrator, it is not available in feature set.
+The path to the library version is defined for all instances as $util_dir . '/phpcas/CAS.php'
+
+*However* that path can be overriden by setting a new value to 'FPFIS_ECAS_PATH' in your settings.php
+If no value constant is defined for FPFIS_ECAS_PATH, the library path will fallback to custom modules ecas/libraries subfolder.
 
 Usage
 -----
@@ -19,18 +23,18 @@ An entry is created in the authmap table:
 | aid | uid | authname | module |
 |-----|----:|----------|--------|
 |   1 |   6 | leperde  | ecas   |
-|-----|-----|----------|--------|
 
+<dl>
+<dt>The profile page is pre filled with the following fields in readonly mode.</dt>
+  <dd>First name</dd>
+  <dd>Last name</dd>
+  <dd>E-mail address</dd>
+  <dd>Creator</dd>
+</dl>
 
-The profile page is pre filled with the following fields in readonly mode.
-  >First name
-  >Last name
-  >E-mail address
-  >Creator
+The logout link is replaced with the *ecaslogout* link.
 
-The logout link is replaced with the ecaslogout link.
-
-The feature provides the 'Administer ECAS' permission which is granted to 'administator' role.
+The feature provides the *Administer ECAS* permission which is granted to 'administator' role.
 
 The feature provides 3 configuration screens
 
