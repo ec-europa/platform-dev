@@ -19,7 +19,11 @@
           {
             type: 'text',
             id: 'remote_content_url',
-            label: Drupal.t('Url of the remote content')
+            label: Drupal.t('URL of the remote content')
+          },
+          {
+            type : 'html',
+            html : '<div>' + Drupal.t('Copy/paste the full URL of the content you want to insert, e.g. http://www.cec.europa.eu') + '</div>'
           },
           {
             type: 'button',
@@ -31,17 +35,16 @@
               var url = dialog.getContentElement('info-remote','remote_content_url').getValue();
               var remote_browser_endpoint = Drupal.settings.nexteuropa_remote.remote_browser_endpoint;
               $('#url_check_msg').html('Checking url... <img src="' + Drupal.settings.basePath + 'misc/throbber-active.gif"/>');
-              $('#nexteuropa-token-remote-content-preview').load(Drupal.settings.basePath + 'remote-entity/get/render?url=' + url, function(response, status, xhr){
+              $('#nexteuropa-token-remote-content-preview').load(Drupal.settings.basePath + 'remote-entity/get/render?url=' + url, function(response, status, xhr) {
                 $('#url_check_msg').html('');
+                $(this).show();
                 if (status == "error") {
                   $(this).css({ 'color': 'red', 'font-weight': 'bold' });
                   $(this).html('Content not found');
                 }
                 else {
-                  $(this).show();
                   $(this).css({"border" :"1px solid #ddd", "padding": "10px", "margin": "5px"});
                   dialog.getContentElement('info-remote','insert_remote_content_token').getElement().show();
-                  // dialog.getContentElement('info-remote','nexteuropa_token_remote_view_mode').getElement().show();
                 }
               });
             }
@@ -61,7 +64,7 @@
             id: 'insert_remote_content_token',
             label: Drupal.t('Insert link'),
             title: Drupal.t('Insert link'),
-            onClick: function() {
+            onClick: function(evt) {
               // Save entity locally.
               var dialog = this.getDialog();
               var editor = dialog.getParentEditor();
@@ -74,6 +77,8 @@
                 $('#url_check_msg').html('Link added');
                 // Insert token in wysiwyg.
                 editor.insertHtml(data);
+                // Close dialog.
+                evt.data.dialog.hide();
               });
             }
         }
@@ -87,7 +92,6 @@
           var dialog = CKEDITOR.dialog.getCurrent();
           var editor = dialog.getParentEditor();
           dialog.getContentElement('info-remote','insert_remote_content_token').getElement().hide();
-          // dialog.getContentElement('info-remote','nexteuropa_token_remote_view_mode').getElement().hide();
           $('#nexteuropa-token-remote-content-preview').hide();
           $('#nexteuropa-token-remote-view-mode').hide();
           $('#nexteuropa-token-remote-content-preview').html('');
