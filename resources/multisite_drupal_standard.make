@@ -313,6 +313,14 @@ projects[i18nviews][version] = "3.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
 
+projects[integration][subdir] = "contrib"
+projects[integration][version] = "1.x-dev"
+
+projects[integration_couchdb][subdir] = "contrib"
+projects[integration_couchdb][version] = "1.x-dev"
+projects[integration_couchdb][download][type] = "get"
+projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.tar.gz"
+
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
