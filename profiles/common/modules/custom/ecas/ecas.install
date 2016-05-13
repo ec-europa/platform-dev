@@ -54,3 +54,30 @@ function ecas_uninstall() {
   variable_del('ecas_pages');
   variable_del('ecas_use_shared_fpfis');
 }
+
+/**
+ * Implements hook_requirements().
+ */
+function ecas_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    $t = get_t();
+    $requirements['ecas_library']['title'] = t('CAS Library');
+    $cas_version = constant('PHPCAS_VERSION');
+    $min_version = constant('ECAS_MIN_PHPCAS_VERSION');
+    if (!$cas_version) {
+      $requirements['ecas_library']['value'] = $t('phpcas library not found.');
+      $requirements['ecas_library']['severity'] = REQUIREMENT_ERROR;
+    }
+    elseif (version_compare($cas_version, $min_version) >= 0) {
+      $requirements['ecas_library']['value'] = $cas_version;
+      $requirements['ecas_library']['severity'] = REQUIREMENT_OK;
+    }
+    else {
+      $requirements['ecas_library']['value'] = $t('At least @version', array('@version' => $min_version));
+      $requirements['ecas_library']['severity'] = REQUIREMENT_ERROR;
+      $requirements['ecas_library']['description'] = $t("The phpcas version (%version) is not correct for ECAS module.", array('%version' => $cas_version));
+    }
+  }
+  return $requirements;
+}
