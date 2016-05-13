@@ -1369,14 +1369,14 @@ function nexteuropa_newsroom_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Central Newsletters';
+  $handler->display->display_options['title'] = 'Other newsletters';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'time';
-  $handler->display->display_options['cache']['results_lifespan'] = '86400';
-  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
-  $handler->display->display_options['cache']['output_lifespan'] = '86400';
-  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['results_lifespan'] = 'custom';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '86400';
+  $handler->display->display_options['cache']['output_lifespan'] = 'custom';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '86400';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'none';
@@ -1413,6 +1413,10 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['description']['field'] = 'description';
   $handler->display->display_options['fields']['description']['label'] = '';
   $handler->display->display_options['fields']['description']['element_label_colon'] = FALSE;
+  /* Sort criterion: Taxonomy term: Name (name_field) */
+  $handler->display->display_options['sorts']['name_field_value']['id'] = 'name_field_value';
+  $handler->display->display_options['sorts']['name_field_value']['table'] = 'field_data_name_field';
+  $handler->display->display_options['sorts']['name_field_value']['field'] = 'name_field_value';
   /* Filter criterion: Taxonomy vocabulary: Machine name */
   $handler->display->display_options['filters']['machine_name']['id'] = 'machine_name';
   $handler->display->display_options['filters']['machine_name']['table'] = 'taxonomy_vocabulary';
@@ -1420,27 +1424,30 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_service' => 'newsroom_service',
   );
+  $handler->display->display_options['filters']['machine_name']['group'] = 1;
   /* Filter criterion: Taxonomy term: Service active (field_newsroom_service_active) */
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['id'] = 'field_newsroom_service_active_value';
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['table'] = 'field_data_field_newsroom_service_active';
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['field'] = 'field_newsroom_service_active_value';
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['value'] = 'Active';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['group'] = 1;
   /* Filter criterion: Taxonomy term: Basic mailing (field_newsroom_basic_mailing) */
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['id'] = 'field_newsroom_basic_mailing_value';
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['table'] = 'field_data_field_newsroom_basic_mailing';
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['field'] = 'field_newsroom_basic_mailing_value';
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['value'] = array(
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['id'] = 'field_newsroom_basic_mailing_value_1';
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['table'] = 'field_data_field_newsroom_basic_mailing';
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['field'] = 'field_newsroom_basic_mailing_value';
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['value'] = array(
     1 => '1',
   );
-
-  /* Display: Central newsletters */
-  $handler = $view->new_display('block', 'Central newsletters', 'basic');
-  $handler->display->display_options['block_caching'] = '8';
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['group'] = 1;
 
   /* Display: Basic newsletters */
-  $handler = $view->new_display('block', 'Basic newsletters', 'central');
+  $handler = $view->new_display('block', 'Basic newsletters', 'basic');
+  $handler->display->display_options['block_caching'] = '8';
+
+  /* Display: Central newsletters */
+  $handler = $view->new_display('block', 'Central newsletters', 'central');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Other newsletters';
+  $handler->display->display_options['title'] = 'Central Newsletter';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
   /* Filter criterion: Taxonomy vocabulary: Machine name */
@@ -1450,30 +1457,33 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['filters']['machine_name']['value'] = array(
     'newsroom_service' => 'newsroom_service',
   );
+  $handler->display->display_options['filters']['machine_name']['group'] = 1;
   /* Filter criterion: Taxonomy term: Service active (field_newsroom_service_active) */
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['id'] = 'field_newsroom_service_active_value';
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['table'] = 'field_data_field_newsroom_service_active';
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['field'] = 'field_newsroom_service_active_value';
   $handler->display->display_options['filters']['field_newsroom_service_active_value']['value'] = 'Active';
+  $handler->display->display_options['filters']['field_newsroom_service_active_value']['group'] = 1;
   /* Filter criterion: Taxonomy term: Basic mailing (field_newsroom_basic_mailing) */
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['id'] = 'field_newsroom_basic_mailing_value';
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['table'] = 'field_data_field_newsroom_basic_mailing';
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['field'] = 'field_newsroom_basic_mailing_value';
-  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value']['value'] = array(
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['id'] = 'field_newsroom_basic_mailing_value_1';
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['table'] = 'field_data_field_newsroom_basic_mailing';
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['field'] = 'field_newsroom_basic_mailing_value';
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['value'] = array(
     0 => '0',
   );
+  $handler->display->display_options['filters']['field_newsroom_basic_mailing_value_1']['group'] = 1;
   $translatables['newsroom_services'] = array(
     t('Master'),
-    t('Central Newsletters'),
+    t('Other newsletters'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Central newsletters'),
     t('Basic newsletters'),
-    t('Other newsletters'),
+    t('Central newsletters'),
+    t('Central Newsletter'),
   );
 
   $export['newsroom_services'] = $view;
