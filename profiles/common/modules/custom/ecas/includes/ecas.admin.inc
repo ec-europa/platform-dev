@@ -251,7 +251,10 @@ function ecas_admin_settings() {
   '#type' => 'textarea',
   '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
   '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
-  '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", $args),
+  '#description' => t("Specify pages by using their paths.
+  Enter one path per line. The '*' character is a wildcard.
+  Example paths are %blog for the blog page and %blog-wildcard for
+  every personal blog. %front is the front page.", $args),
   );
    */
   // FPFIS Common SETTINGS.
@@ -260,7 +263,9 @@ function ecas_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('Use the shared &quot;FPFIS Common&quot; library'),
     '#default_value' => variable_get('ecas_use_shared_fpfis', 0),
-    '#description' => t('If this option is checked, the ECAS module will attempt use the shared FPFIS Common library to connect to LDAP and the ECAS server. Otherwise a local implementation will be used.'),
+    '#description' => t('If this option is checked, the ECAS module
+    will attempt use the shared FPFIS Common library to connect to LDAP
+    and the ECAS server. Otherwise a local implementation will be used.'),
   );
 
   return system_settings_form($form);
