@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the NextEuropa Integration Department Consumer feature.
- */
-
-include_once 'nexteuropa_integration_department_consumer.features.inc';
