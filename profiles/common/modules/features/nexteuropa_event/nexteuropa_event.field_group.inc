@@ -23,8 +23,8 @@ function nexteuropa_event_field_group_info() {
     'label' => 'Content',
     'weight' => '0',
     'children' => array(
-      0 => 'title_field',
-      1 => 'field_ne_body',
+      0 => 'field_ne_body',
+      1 => 'title_field',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -81,7 +81,8 @@ function nexteuropa_event_field_group_info() {
       0 => 'field_tags',
       1 => 'group_content_access',
       2 => 'og_group_ref',
-      3 => 'language',
+      3 => 'field_event_type',
+      4 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
