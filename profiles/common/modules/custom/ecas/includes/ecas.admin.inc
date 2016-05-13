@@ -232,9 +232,9 @@ function ecas_admin_settings() {
     );
   }
 
-  /* Commented out. No longer working and reactivating it breaks ECAS logic.
-   *
-   $form['param']['ecas_pages_method'] = array(
+  // Commented out. No longer working and reactivating it breaks ECAS logic.
+
+  /*$form['param']['ecas_pages_method'] = array(
     '#type' => 'radios',
     '#title' => t('Force ECAS authentication on specific pages'),
     '#options' => array(
