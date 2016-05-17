@@ -2142,3 +2142,12 @@ function cce_basic_config_update_7209() {
   );
   db_change_field('date_format_locale', 'format', 'format', $spec);
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Update platforme version.
+ */
+function cce_basic_config_update_7210() {
+  variable_set('multisite_version', '2.2');
+}
