@@ -1460,6 +1460,15 @@ function nexteuropa_newsroom_feeds_processor_targets_alter(&$targets, $entity_ty
 }
 
 /**
+ * Implements hook_field_default_field_instances_alter().
+ */
+function nexteuropa_newsroom_field_default_field_instances_alter(&$fields) { 
+  // Add the teaser and full view mode to the display key, if they exists.
+  $fields = _nexteuropa_newsroom_get_real_modes($fields);
+}
+
+
+/**
  * Callback for the unique_callbacks specified in hook_feed_processor_targets().
  *
  * @param FeedsSource $source
