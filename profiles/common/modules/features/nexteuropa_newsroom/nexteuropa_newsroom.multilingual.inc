@@ -136,10 +136,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:pubTeaserOnly/text()',
     ),
     'field_newsroom_related_content' => array(
-      'query' => 'infsonewsroom:slave/@guid',
+      'query' => 'infsonewsroom:slave/@id',
     ),
     'field_newsroom_parent_content' => array(
-      'query' => 'infsonewsroom:master/@guid',
+      'query' => 'infsonewsroom:master/@id',
     ),
     'field_newsroom_project_acr' => array(
       'query' => 'infsonewsroom:ContextProjectAcronym/text()',
@@ -221,6 +221,9 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     'field_newsroom_teaser' => array(
       'query' => 'infsonewsroom:BasicTeaser',
+    ),
+    'guid' => array(
+      'query' => '$field_newsroom_item_id',
     ),
     '_feed_changed' => array(
       'query' => 'infsonewsroom:pubUpdateDate/text()',
