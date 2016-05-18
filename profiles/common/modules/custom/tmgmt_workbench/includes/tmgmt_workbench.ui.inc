@@ -56,15 +56,6 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
     if (isset($items['admin/tmgmt/sources/workbench_moderation_node'])) {
       $items['admin/tmgmt/sources/workbench_moderation_node']['weight'] = -25;
     }
-
-    $items['admin/tmgmt/jobs/new'] = array(
-        'title' => 'Translation Management settings',
-        'page callback' => 'drupal_get_form',
-        'page arguments' => array('tmgmt_ui_settings_form'),
-        'access arguments' => array('administer tmgmt'),
-        'weight' => 10,
-    );
-
     return $items;
   }
   // @codingStandardsIgnoreEnd
