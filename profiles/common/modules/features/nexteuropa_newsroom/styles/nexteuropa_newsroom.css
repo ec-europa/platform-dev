@@ -203,11 +203,6 @@
 .node-newsroom-item .field-name-body {
   border: none;
 }
- 
-.block-nexteuropa-newsroom h2.newsroom_title {
-  text-transform: uppercase;
-  border-bottom: 3px solid #ececec;
-}
 
 .newsroom_item_container.agenda .date-date {
   background: #f9f9f9;
@@ -237,11 +232,6 @@
   -webkit-transform: rotate(135deg);
   -ms-transform: rotate(135deg);
   transform: rotate(135deg);
-}
-
-.date-block__day-text {
-  font-size: 1em;
-  line-height: 1;
 }
 
 .newsroom_item_container {
@@ -326,16 +316,18 @@
 .newsroom_item_container h3 {
   margin-left: -15px;
   background: #ececec;
-  padding: 0.2em 1.5em 0.1em;
+  padding: 0.2em 1.5em;
   display: inline-block;
-  font-size: 1.4em;
+  font-size: 1.3em;
   position: relative;
   color: #0065A2;
+  font-weight: 600;
 }
 
 .block-nexteuropa-newsroom > .newsroom_rss {
   position: relative;
-  top: 1.25em;
+  top: 4.5em;
+  margin-top: -3em;
   background: #ececec;
   float: right;
   padding: 0.4em 0.5em;
