@@ -200,7 +200,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $form['newsroom_fields']['newsroom_content_types_delete_topic'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Delete all the existing instances in this content type'),
+    '#title' => t('Delete all the topic relation fields in your content types'),
     '#description' => t('If you want to delete all the instance of the topic field together check this.'),
     '#default_value' => 0,
     '#collapsible' => TRUE,
@@ -218,7 +218,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $form['newsroom_fields']['newsroom_content_types_delete_select'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Delete all the existing instances in this content type'),
+    '#title' => t('Delete all the newsroom select fields in your content types'),
     '#description' => t('If you want to delete all the instance of the select field together check this.'),
     '#default_value' => 0,
   );
