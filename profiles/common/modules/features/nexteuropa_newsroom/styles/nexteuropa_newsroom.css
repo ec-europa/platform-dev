@@ -274,6 +274,12 @@
   .newsroom_item_container.agenda .date-events {
      width: 70%;
   }
+
+  .newsroom_item_container .views-row .newsroom_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 
 .block-nexteuropa-newsroom .newsroom_rss {
@@ -299,9 +305,6 @@
   font-weight: 600;
   margin-bottom: 0.3em;
   width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .newsroom_item_container .newsroom_item_metadata {
