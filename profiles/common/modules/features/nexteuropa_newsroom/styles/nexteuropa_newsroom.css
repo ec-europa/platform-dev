@@ -244,6 +244,10 @@
   line-height: 1;
 }
 
+.newsroom_item_container {
+  clear: right;
+}
+
 .newsroom_item_container.agenda .date-date .day {
   font-size: 2em;
   font-weight: bold;
@@ -262,10 +266,6 @@
 
 .block-nexteuropa-newsroom .newsroom_rss {
   text-align: right;
-}
-
-.block-nexteuropa-newsroom .newsroom_rss a {
-  margin-left: 1em;
 }
 
 .newsroom_item_container .views-row {
@@ -312,4 +312,20 @@
   font-size: 1.4em;
   position: relative;
   color: #0065A2;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss {
+  position: relative;
+  top: 1.25em;
+  background: #ececec;
+  float: right;
+  padding: 0.4em 0.5em;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss a.feed-icon {
+  padding: 0 0.5em 0 0;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss::after {
+  clear: both;
 }
