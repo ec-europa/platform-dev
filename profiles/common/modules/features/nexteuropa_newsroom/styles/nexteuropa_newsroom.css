@@ -103,6 +103,10 @@
   margin: 0;
 }
 
+.view-display-id-default_newsroom .views-field {
+  margin: 0.3em 0;
+}
+
 .view-display-id-default_newsroom .node-info-submitted,
 .view-display-id-default_newsroom h2 {
   display: none;
@@ -111,7 +115,6 @@
 .view-display-id-default_newsroom .views-field-field-newsroom-item-venue {
   display: inline-block;
   font-weight: 600;
-  margin-left: 1em;
 }
 
 .view-display-id-default_newsroom .views-field-field-newsroom-item-type a,
@@ -146,6 +149,7 @@
   color: #0065a2;
   display: inline-block;
   margin-bottom: 1em;
+  margin-right: 1em;
   position: relative;
 }
 
@@ -156,6 +160,7 @@
 .view-display-id-default_newsroom img {
   text-align: center;
   margin-left: 1em;
+  margin-bottom: 1em;
   float: right;
   border: 1px solid #ececec;
 }
@@ -170,7 +175,9 @@
 }
 
 .view-display-id-default_newsroom .newsroom-read-more {
-  float: right;
+  text-align: right;
+  display: block;
+  clear: both;
 }
 
 .view-display-id-default_newsroom .newsroom-read-more::after,
