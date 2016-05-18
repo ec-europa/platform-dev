@@ -1023,7 +1023,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
     'settings' => array(
       'absolute_url' => 1,
       'attributes' => array(
-        'class' => '',
+        'class' => 'read_full_text',
         'configurable_title' => 0,
         'rel' => '',
         'target' => '_blank',
