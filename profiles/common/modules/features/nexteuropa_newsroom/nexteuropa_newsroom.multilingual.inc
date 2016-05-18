@@ -190,10 +190,10 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       'query' => 'infsonewsroom:ContextTed',
     ),
     'field_newsroom_registration_link:url' => array(
-      'query' => 'infsonewsroom:ContextRegistrationLinkText',
+      'query' => 'infsonewsroom:ContextRegistrationLink',
     ),
     'field_newsroom_registration_link:title' => array(
-      'query' => 'infsonewsroom:ContextRegistrationLink',
+      'query' => 'infsonewsroom:ContextRegistrationLinkText',
     ),
     'body' => array(
       'query' => 'infsonewsroom:FullContent',
