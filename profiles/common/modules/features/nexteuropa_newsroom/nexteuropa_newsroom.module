@@ -452,6 +452,7 @@ function nexteuropa_newsroom_strongarm_alter(&$variables) {
  */
 function nexteuropa_newsroom_node_presave($node) {
   if ($node->type == NEXTEUROPA_NEWSROOM_CONTENT_TYPE && variable_get('newsroom_patterns', FALSE)) {
+    $def_lang = language_default()->language;
     // Get all the types.
     if (isset($node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'])) {
       $type_tid = $node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'];
@@ -464,7 +465,7 @@ function nexteuropa_newsroom_node_presave($node) {
       if ($conf) {
         $node->path['pathauto'] = FALSE;
         $node->path['alias'] = $conf . '/' . pathauto_cleanstring($node->title);
-        pathauto_alias_uniquify($node->path['alias']);
+        pathauto_alias_uniquify($node->path['alias'], 'node/' . $node->nid, $def_lang);
       }
     }
   }
