@@ -180,8 +180,13 @@
   clear: both;
 }
 
+.node-newsroom-item .field-image-caption {
+  margin-bottom: 0;
+}
+
 .view-display-id-default_newsroom .newsroom-read-more::after,
-.newsroom_more::after {
+.newsroom_more::after,
+.read-full-text::after {
   content: "";
   width: 0;
   height: 0;
@@ -190,6 +195,11 @@
   border-left: 4px solid #0065a2;
   display: inline-block;
   margin-left: 0.5em;
+}
+
+.read-full-text {
+  font-weight: bold;
+  margin-top: 1em;
 }
 
 .view-display-id-default_newsroom .newsroom-read-more:hover::after {
