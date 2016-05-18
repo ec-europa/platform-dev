@@ -80,7 +80,7 @@
 /* Teaser view mode for the newsroom_item */
 
 .view-display-id-default_newsroom .views-row {
-  padding: 0 0 1em 0 !important;
+  padding: 0 !important;
   border: none !important;
   margin: 0;
 }
@@ -96,14 +96,14 @@
   margin-left: 1em;
 }
 
-.view-display-id-default_newsroom .views-field-field-newsroom-item-type  a,
-.node-type-newsroom-item .field-name-field-newsroom-item-type  a,
+.view-display-id-default_newsroom .views-field-field-newsroom-item-type a,
+.node-type-newsroom-item .field-name-field-newsroom-item-type a,
 .node-type-newsroom-item  .field-label,
 .newsroom_item_container .newsroom_type {
   display: inline-block;
   background: #0065a2;
   padding: 0.2em 1em;
-  margin: 0 1.5em 2em -15px;
+  margin: 0 1.5em 1em -15px;
   color: #fff;
   font-weight: bold;
   text-transform: uppercase;
