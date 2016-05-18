@@ -128,7 +128,8 @@ function nexteuropa_piwik_page_alter(&$page) {
     $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
 
     // Add tracker code to scope.
-    drupal_add_js($webtools_piwik_settings, array('type' => 'inline', 'scope' => 'footer', 'weight' => 5));
+    drupal_add_js($webtools_piwik_settings,
+      array('type' => 'inline', 'scope' => 'footer', 'weight' => 5));
 
   }
 }
