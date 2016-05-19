@@ -96,7 +96,7 @@ function nexteuropa_piwik_page_alter(&$page) {
 
     // Create settings array.
     $webtools_piwik_settings = array(
-      'utility' => 'piwik',
+      'utility' => variable_get('nexteuropa_piwik_utility', 'piwik'),
       'siteID' => $id,
       'sitePath' => $site_path,
       'is404' => FALSE,
