@@ -96,7 +96,7 @@ function nexteuropa_piwik_page_alter(&$page) {
 
     // Create settings array.
     $webtools_piwik_settings = array(
-      'utility' => 'piwik',
+      'utility' => variable_get('nexteuropa_piwik_utility', 'piwik'),
       'siteID' => $id,
       'sitePath' => $site_path,
       'is404' => FALSE,
@@ -128,9 +128,9 @@ function nexteuropa_piwik_page_alter(&$page) {
     $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
 
     // Add tracker code to scope.
-    $page['content']['next_europapiwik']['#markup'] = $webtools_piwik_settings;
-    $page['content']['next_europapiwik']['#prefix'] = "<script type=\"application/json\">";
-    $page['content']['next_europapiwik']['#suffix'] = "</script>";
+    drupal_add_js($webtools_piwik_settings,
+      array('type' => 'inline', 'scope' => 'footer', 'weight' => 5));
+
   }
 }
 
