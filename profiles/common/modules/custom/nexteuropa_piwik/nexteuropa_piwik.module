@@ -129,7 +129,7 @@ function nexteuropa_piwik_page_alter(&$page) {
 
     // Add tracker code to scope.
     drupal_add_js($webtools_piwik_settings,
-      array('type' => 'inline', 'scope' => 'footer', 'weight' => 5));
+      array('type' => 'inline', 'scope' => 'header', 'weight' => 5));
 
   }
 }
