@@ -207,7 +207,7 @@ function _nexteuropa_piwik_visibility_pages() {
       $pages = drupal_strtolower($setting_pages);
       if ($visibility < 2) {
         // Convert the Drupal path to lowercase.
-        $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+        $path = drupal_strtolower(drupal_get_path_alias());
         // Compare the lowercase internal and lowercase path alias (if any).
         $page_match = drupal_match_path($path, $pages);
         if ($path != $_GET['q']) {
