@@ -91,7 +91,7 @@ function nexteuropa_piwik_page_alter(&$page) {
     drupal_add_js($smartloader_prurl, array(
       'type' => 'external',
       'scope' => 'header',
-      'weight',
+      'weight' => 5,
     ));
   }
 }
