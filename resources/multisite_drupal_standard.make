@@ -313,6 +313,14 @@ projects[i18nviews][version] = "3.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
 
+projects[integration][subdir] = "contrib"
+projects[integration][version] = "1.x-dev"
+
+projects[integration_couchdb][subdir] = "contrib"
+projects[integration_couchdb][version] = "1.x-dev"
+projects[integration_couchdb][download][type] = "get"
+projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.tar.gz"
+
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
@@ -436,8 +444,10 @@ projects[mimemail][version] = "1.0-beta4"
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
+projects[og][download][branch] = 7.x-2.x
+projects[og][download][revision] = fba6dda
+projects[og][download][type] = git
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.9"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
