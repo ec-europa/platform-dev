@@ -91,7 +91,7 @@ function nexteuropa_piwik_page_alter(&$page) {
     drupal_add_js($smartloader_prurl, array(
       'type' => 'external',
       'scope' => 'header',
-      'weight'
+      'weight',
     ));
   }
 }
@@ -147,7 +147,7 @@ function nexteuropa_piwik_process_html(&$vars) {
   }
 
   $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
-  // Add application/json tag to the header
+  // Add application/json tag to the header.
   $element = array(
     '#type' => 'html_tag',
     '#tag' => 'script',
