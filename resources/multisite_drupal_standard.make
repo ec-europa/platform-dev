@@ -155,6 +155,9 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
+projects[date_ical][subdir] = "contrib"
+projects[date_ical][version] = "3.9"
+
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
@@ -311,6 +314,14 @@ projects[i18nviews][version] = "3.x-dev"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
+
+projects[integration][subdir] = "contrib"
+projects[integration][version] = "1.x-dev"
+
+projects[integration_couchdb][subdir] = "contrib"
+projects[integration_couchdb][version] = "1.x-dev"
+projects[integration_couchdb][download][type] = "get"
+projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.tar.gz"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -552,6 +563,8 @@ projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 ; @see https://www.drupal.org/node/2489134
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
+; @see https://www.drupal.org/node/272245
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -665,6 +678,10 @@ projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-fi
 projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
+; Issue #2360091 View published tab is visible when a published node has a draft.
+; https://www.drupal.org/node/2360091
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
@@ -763,6 +780,13 @@ libraries[history][download][url] = "https://github.com/browserstate/history.js/
 libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
+
+; iCalcreator 2.20.2
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip
+libraries[iCalcreator][download][type] = "file"
+libraries[iCalcreator][download][request_type]= "get"
+libraries[iCalcreator][download][file_type] = "zip"
+libraries[iCalcreator][download][destination] = "../common/libraries"
 
 ; imgAreaSelect 0.9.10
 libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
