@@ -99,3 +99,17 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see an "#edit-languages-fr.form-radio" element
     But I should not see an "#edit-languages-fr.form-checkbox" element
+
+    
+  Scenario: A request for translation that is not submitted won't generate a job item.
+    Given local translator "TMGMT Poetry: Test translator" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                     |
+      | en       | English  Title NoJobItem  |
+    And I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-pt-pt"
+    And I press the "Request translation" button
+    And I go to "content/english-title-nojobitem"
+    And I click "Translate" in the "primary_tabs" region
+    Then I should not see the link "In progress"
