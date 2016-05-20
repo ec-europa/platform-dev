@@ -16,7 +16,10 @@ class TMGMTPoetryJobController extends TMGMTJobController {
    * {@inheritdoc}
    */
   public function save($origin_job, DatabaseTransaction $transaction = NULL) {
+
     $translator = $origin_job->getTranslator();
+    $origin_job_items = $origin_job->JobItemSessionGetSaveAndUnset();
+
     // Set poetry as default translator.
     if ($origin_job->reference === NULL && $translator === FALSE) {
       $translator = tmgmt_translator_load('poetry');
@@ -24,12 +27,10 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
     if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
-      $origin_job_items = $origin_job->getItems();
       $origin_job_item = array_shift($origin_job_items);
       _tmgmt_poetry_insert_item_status($origin_job_item->tjiid, $origin_job->target_language, "Pending", date('d/m/Y', strtotime($origin_job->settings['delai'])));
     }
 
-    $origin_job_items = $origin_job->getItems();
     if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
       $origin_job_item = array_shift($origin_job_items);
       $languages = language_list('language');
@@ -48,7 +49,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
           }
 
           // Check if job is already created
-          // and it that case don't create it again.
+          // and in that case don't create it again.
           if (_tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid)->rowCount() > 0) {
             continue;
           }
@@ -73,7 +74,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     // If a poetry translation has accepted a translation request
-    // we should update the related additionnal sub translation jobs
+    // we should update the related additional sub translation jobs
     // with a reference returned by poetry.
     if ($origin_job->state == TMGMT_JOB_STATE_ACTIVE && (strpos($origin_job->reference, 'MAIN_' . $origin_job->tjid . '_POETRY') !== FALSE)) {
       $jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $origin_job->tjid, TRUE);

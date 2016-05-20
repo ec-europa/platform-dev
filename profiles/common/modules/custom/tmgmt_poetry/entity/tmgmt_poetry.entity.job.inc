@@ -71,8 +71,10 @@ class TMGMTPoetryJob extends TMGMTJob {
 
     $item = tmgmt_job_item_create($plugin, $item_type, $item_id, array('tjid' => $this->tjid));
 
-    // dxv-temp
+    // We will save it only when submitting the translation
+    // We want to keep this Job Item because later we don't have the item_id
     // $item->save();
+    $this->JobItemSessionCreate($item);
 
     if ($this->getItemWordCount($item) == 0) {
       $transaction->rollback();
@@ -91,6 +93,14 @@ class TMGMTPoetryJob extends TMGMTJob {
     return $item;
   }
 
+  /**
+   * Get word count for TMGMTJobItem,
+   * Returns the same result as TMGMTJob::getWordCount but without side impacts
+   *
+   * @param TMGMTJobItem $item
+   *
+   * @return int
+   */
   protected function getItemWordCount($item) {
 
     if (is_object($item)) {
@@ -111,6 +121,66 @@ class TMGMTPoetryJob extends TMGMTJob {
       }
       return $counter;
     }
+  }
+
+  /**
+   * Returns all job items attached to this job.
+   * If no items are returned, look in SESSION for previously saved job items.
+   *
+   * @param array $conditions
+   *   Additional conditions to pass into EFQ.
+   *
+   * @return TMGMTJobItem[]
+   *   An array of translation job items.
+   */
+  public function getItems($conditions = array()) {
+    $items = parent::getItems($conditions);
+
+    if (empty($items)) {
+      $item = $this->JobItemSessionGet();
+      if ($item && $item->tjid == $this->tjid) {
+        return array($item);
+      }
+    }
+
+    return $items;
+  }
+
+  /**
+   * Returns a job item previously saved in SESSION.
+   *
+   * @return bool|TMGMTJobItem
+   */
+  public function JobItemSessionGet() {
+    return isset($_SESSION['tmgmt_ui']['poetry_item'])? unserialize($_SESSION['tmgmt_ui']['poetry_item']) : FALSE;
+  }
+
+  /**
+   * Saves a job item in SESSION
+   *
+   * @param TMGMTJobItem $item
+   */
+  public function JobItemSessionCreate($item) {
+    $_SESSION['tmgmt_ui']['poetry_item'] = serialize($item);
+  }
+
+  /**
+   * Returns all job items attached to this job.
+   * If there are none in the database, search in SESSION and if found then
+   * save it in database, then remove it from SESSION
+   *
+   * @return array|TMGMTJobItem[]
+   */
+  public function JobItemSessionGetSaveAndUnset() {
+
+    if ($items = parent::getItems()) {
+      return $items;
+    } else if ($item = $this->JobItemSessionGet()) {
+      $item->save();
+      unset($_SESSION['tmgmt_ui']['poetry_item']);
+      return array($item);
+    }
+    return array();
   }
 
 }
