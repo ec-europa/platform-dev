@@ -289,6 +289,9 @@ projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/uncaught_t
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7373
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7237
 projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/2325549-jquery19_ajax.patch
+; https://www.drupal.org/node/2148083
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7962
+projects[fullcalendar][patch][] = https://www.drupal.org/files/issues/fullcalendar_december-2148083-1.patch
 
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "2.3"
