@@ -18,7 +18,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
   public function save($origin_job, DatabaseTransaction $transaction = NULL) {
 
     $translator = $origin_job->getTranslator();
-    $origin_job_items = $origin_job->JobItemSessionGetSaveAndUnset();
+    $origin_job_items = $origin_job->jobItemSessionGetSaveAndUnset();
 
     // Set poetry as default translator.
     if ($origin_job->reference === NULL && $translator === FALSE) {

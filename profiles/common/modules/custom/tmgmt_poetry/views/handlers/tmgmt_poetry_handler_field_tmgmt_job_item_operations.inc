@@ -1,11 +1,21 @@
 <?php
 
 /**
- * Change tmgmt_handler_field_tmgmt_job_item_operations Class to not show "delete" operation.
+ * @file
+ * Definition of tmgmt_poetry_handler_field_tmgmt_job_item_operations class.
+ */
+
+/**
+ * A handler to display data from entity objects.
+ *
+ * Change parent class to not show "delete" operation.
  */
 class tmgmt_poetry_handler_field_tmgmt_job_item_operations extends tmgmt_handler_field_tmgmt_job_item_operations {
 
-  function render($values) {
+  /**
+   * Load the entities for all rows that are about to be displayed.
+   */
+  public function render($values) {
 
     $item = $this->get_value($values);
     $element = array();
