@@ -20,7 +20,12 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  * Implements hook_views_data_alter().
  */
 function tmgmt_poetry_views_data_alter(&$data) {
-  $data['tmgmt_job']['reference']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_reference';
+  if (isset($data['tmgmt_job']['reference']['field'])) {
+    $data['tmgmt_job']['reference']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_reference';
+  }
+  if (isset($data['tmgmt_job_item']['operations']['field'])) {
+    $data['tmgmt_job_item']['operations']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_item_operations';
+  }
 }
 
 /**
