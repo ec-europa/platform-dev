@@ -71,7 +71,7 @@ class TMGMTPoetryJob extends TMGMTJob {
 
     $item = tmgmt_job_item_create($plugin, $item_type, $item_id, array('tjid' => $this->tjid));
 
-    // We will save it only when submitting the translation
+    // We will save this job item only when submitting the translation
     // We want to keep this Job Item because later we don't have the item_id
     // $item->save();
     $this->JobItemSessionCreate($item);
@@ -175,12 +175,11 @@ class TMGMTPoetryJob extends TMGMTJob {
 
     if ($items = parent::getItems()) {
       return $items;
-    } else if ($item = $this->JobItemSessionGet()) {
+    } else if (($item = $this->JobItemSessionGet()) && $item->tjid == $this->tjid) {
       $item->save();
       unset($_SESSION['tmgmt_ui']['poetry_item']);
       return array($item);
     }
     return array();
   }
-
 }
