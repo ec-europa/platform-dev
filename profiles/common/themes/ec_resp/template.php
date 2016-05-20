@@ -527,10 +527,10 @@ function ec_resp_preprocess_menu_link(&$variables) {
   if (!$remove_default_classes) {
     $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
   }
-  
-  // Add CSS class property to the <front> item
+
+  // Add CSS class property to the <front> item.
   if ($variables['element']['#href'] == '<front>' && $variables['element']['#original_link']['menu_name'] == 'main-menu' && $variables['element']['#original_link']['has_children'] == 0) {
-     $variables['element']['#attributes']['class'][] = 'resp-main-menu-frontpage';
+    $variables['element']['#attributes']['class'][] = 'resp-main-menu-frontpage';
   }
 }
 
