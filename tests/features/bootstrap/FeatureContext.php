@@ -381,7 +381,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     });
 
     return new TableNode($table);
-}
+  }
 
   /**
    * Prepare for PHP errors log.
@@ -400,6 +400,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    AfterStep hook scope object.
    *
    * @throws \Exception
+   *    Print out descriptive error message by throwing an exception.
    *
    * @AfterStep
    */
