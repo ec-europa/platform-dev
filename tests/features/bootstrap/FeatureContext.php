@@ -6,6 +6,7 @@
  */
 
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
@@ -395,9 +396,14 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Check for PHP errors log.
    *
+   * @param AfterStepScope $scope
+   *    AfterStep hook scope object.
+   *
+   * @throws \Exception
+   *
    * @AfterStep
    */
-  public static function checkPhpErrors($event) {
+  public static function checkPhpErrors(AfterStepScope $scope) {
     // Find any PHP errors at the end of the suite
     // and output them as an exception.
     $log = db_select('watchdog', 'w')
@@ -407,11 +413,12 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       ->fetchAll();
     if (!empty($log)) {
       $errors = count($log);
-      $step_text = $event->getStep()->getText();
-      $feature_title = $event->getFeature()->getTitle();
-      $feature_file = $event->getFeature()->getFile();
+      $step_text = $scope->getStep()->getText();
+      $step_line = $scope->getStep()->getLine();
+      $feature_title = $scope->getFeature()->getTitle();
+      $feature_file = $scope->getFeature()->getFile();
       $message = "$errors PHP errors were logged to the watchdog\n";
-      $message .= "Feature: '$feature_title' on '$feature_file'\n";
+      $message .= "Feature: '$feature_title' on '$feature_file' line $step_line\n";
       $message .= "Step: '$step_text'\n";
       $message .= "Errors:\n";
       $message .= "----------\n";
@@ -424,7 +431,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         $message .= "Date/Time: $date\n\n";
       }
       $message .= "----------\n";
-      throw new Exception($message);
+      throw new \Exception($message);
     }
   }
 
