@@ -87,6 +87,14 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
+  $languages_prefix = array_keys($languages);
+  $pattern = '/' . $delimiter . '(' . implode($languages_prefix, '|') . ')/';
+  // Search the language suffix with the delimiter in the path.
+  if (!preg_match($pattern, $path)) {
+    // No language suffix found.
+    return array(FALSE, $path);
+  }
+
   $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
   // Handle if there are extra parameters after the suffix.
