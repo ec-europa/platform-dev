@@ -7,18 +7,13 @@ nbproject/
 # Ignore local configuration overrides.
 build.properties.local
 phpcs.xml
-tests/behat.yml
+tests/behat*.yml
 
 # Ignore build folders.
 bin/
 build/
 tmp/
 vendor/
-
-# Ignore core profiles in the symlinked profiles folder.
-profiles/minimal
-profiles/standard
-profiles/testing
 
 # Ignore contrib modules, themes and libraries in the symlinked profiles folder.
 profiles/multisite_drupal_*/libraries
@@ -39,3 +34,4 @@ profiles/common/libraries/jplayer/
 profiles/common/libraries/jquery.imgareaselect/
 profiles/common/libraries/jquery/
 profiles/common/libraries/modernizr/
+profiles/common/libraries/plupload/

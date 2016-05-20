@@ -107,7 +107,13 @@ global $base_url;
 
   <div id="layout-header">
     <div class="container">
+      <?php if($svg_logo): ?>
+      <object id="banner-flag" data="<?php print $svg_logo; ?>" type="image/svg+xml">
+        <img alt="European Commission logo" src="<?php print $logo; ?>" />
+      </object>
+      <?php else: ?>
       <img alt="European Commission logo" id="banner-flag" src="<?php print $logo; ?>" />
+      <?php endif; ?>
 
       <span id="banner-image-right" class="hidden-sm hidden-xs">
         <?php print $regions['header_right']; ?>

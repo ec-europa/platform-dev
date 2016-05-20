@@ -37,23 +37,22 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * {@inheritdoc}
    */
   public function saveTranslation(TMGMTJobItem $job_item) {
-    $entity = entity_load_single($job_item->item_type, $job_item->item_id);
     $job = tmgmt_job_load($job_item->tjid);
+    $node = node_load($job_item->item_id);
+    $vid = $node->vid;
 
-    // Make sure a path alias is created when importing a translation.
-    // @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6826
-    if ($job_item->item_type == 'node') {
-      unset($entity->path);
-    }
-
-    tmgmt_field_populate_entity($job_item->item_type, $entity, $job->target_language, $job_item->getData());
+    // Get current node revision.
+    $current_revision = $this->getModerationRevision($node);
+    tmgmt_field_populate_entity($job_item->item_type, $current_revision, $job->target_language, $job_item->getData());
 
     // Change the active language of the entity to the target language.
-    $handler = entity_translation_get_handler($job_item->item_type, $entity);
+    $handler = entity_translation_get_handler($job_item->item_type, $current_revision);
     $handler->setFormLanguage($job_item->getJob()->target_language);
 
-    entity_save($job_item->item_type, $entity);
+    // Save current node revision.
+    node_save($current_revision);
 
+    // Save translation information for current revision.
     $translation = array(
       // @todo Improve hardcoded values.
       'translate' => 0,
@@ -63,6 +62,12 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     );
     $handler->setTranslation($translation);
     $handler->saveTranslations();
+
+    // Make sure we restore the original node revision.
+    $node = node_load($node->nid, $vid);
+    node_save($node);
+
+    // Accept the translation job.
     $job_item->accepted();
   }
 
@@ -74,15 +79,15 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * @param string $type
    *    Moderation type.
    *
-   * @return string|null
-   *    Moderation state or null.
+   * @return string|FALSE
+   *    Moderation state or FALSE.
    */
   private function getModerationState($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {
       $state = $node->workbench_moderation[$type];
       return $state->state;
     }
-    return NULL;
+    return FALSE;
   }
 
   /**
@@ -93,15 +98,15 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * @param string $type
    *    Moderation type.
    *
-   * @return object|null
-   *    Node revision or null.
+   * @return object|FALSE
+   *    Current node object or FALSE.
    */
   private function getModerationRevision($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {
       $vid = $node->workbench_moderation[$type]->vid;
       return node_load($node->nid, $vid);
     }
-    return NULL;
+    return FALSE;
   }
 
 }

@@ -93,11 +93,11 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
       watchdog('clients', 'Error with REST request. Error was code @code with error "@error" and message "@message".', array(
         '@code'     => $response->code,
         '@error'    => $response->error,
-        '@message'  => isset($response->status_message) ? $response->status_message : '(no message)',
+        '@message'  => isset($response->status_message) ? filter_xss($response->status_message) : '(no message)',
       ));
 
       throw new Exception(format_string("Clients connection error, got message '@message'.", array(
-        '@message' => isset($response->status_message) ? $response->status_message : $response->error,
+        '@message' => isset($response->status_message) ? filter_xss($response->status_message) : $response->error,
       )), $response->code);
     }
   }

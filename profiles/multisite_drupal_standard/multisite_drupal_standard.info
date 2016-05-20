@@ -103,6 +103,7 @@ dependencies[] = transliteration
 dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
+dependencies[] = entityreference_prepopulate
 
 dependencies[] = filefield_sources_plupload
 
@@ -114,11 +115,11 @@ dependencies[] = multisite_drupal_features_set_standard
 dependencies[] = cce_basic_config
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_settings_standard
-dependencies[] = multisite_rules_configuration
 dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
 dependencies[] = solr_config
 dependencies[] = ecas_env
+dependencies[] = multisite_wysiwyg
 
 ; NextEuropa features.
 dependencies[] = nexteuropa_core
@@ -126,3 +127,4 @@ dependencies[] = nexteuropa_editorial
 dependencies[] = nexteuropa_multilingual
 dependencies[] = nexteuropa_pages
 dependencies[] = nexteuropa_europa_search
+dependencies[] = nexteuropa_laco

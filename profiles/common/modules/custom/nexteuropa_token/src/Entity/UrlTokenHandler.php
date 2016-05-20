@@ -49,15 +49,13 @@ class UrlTokenHandler extends TokenAbstractHandler {
     if ($this->isValidTokenType($type)) {
       foreach ($tokens as $name => $original) {
         if ($this->isValidToken($original)) {
-          $render = array();
           $entity_id = $this->getEntityIdFromToken($original);
           $entity_type = ($type == 'term') ? 'taxonomy_term' : $type;
 
           $entity_info = entity_get_info($entity_type);
           $entity = $entity_info['load hook']($entity_id);
 
-          $uri = entity_uri($entity_type, $entity);
-          $replacements[$original] = url($uri['path'], array('absolute' => TRUE));
+          $replacements[$original] = $this->getEntityUrl($entity_type, $entity);
         }
       }
     }

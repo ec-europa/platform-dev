@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ca440f52ad9147eebb6aaacf370d682a",
-    "content-hash": "b1606e36bcac1d38b3e8b3611d6c69b1",
+    "hash": "8c133dac812125e8ca7874bc9918cbca",
+    "content-hash": "ff0f8937ad816cb814531788f08fc752",
     "packages": [
         {
             "name": "behat/behat",
-            "version": "dev-master",
+            "version": "v3.1.0rc2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Behat/Behat.git",
-                "reference": "dc6df78862e1c1e1faa"
+                "reference": "87dc71b49f55ad9b8d0e6b2d58005a5d2dbe10e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Behat/Behat/zipball/264dea6cfb667fd63649d61e8c4c0b36f6612164",
-                "reference": "dc6df78862e1c1e1faa",
+                "url": "https://api.github.com/repos/Behat/Behat/zipball/87dc71b49f55ad9b8d0e6b2d58005a5d2dbe10e8",
+                "reference": "87dc71b49f55ad9b8d0e6b2d58005a5d2dbe10e8",
                 "shasum": ""
             },
             "require": {
@@ -85,7 +85,7 @@
                 "symfony",
                 "testing"
             ],
-            "time": "2015-08-22 11:49:54"
+            "time": "2016-02-21 17:32:52"
         },
         {
             "name": "behat/gherkin",
@@ -509,41 +509,39 @@
         },
         {
             "name": "drupal/coder",
-            "version": "dev-NEXTEUROPA-4429",
+            "version": "8.2.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pfrenssen/coder.git",
-                "reference": "f5c2d9db3bb95ee515b745090a20acb1b5dcf2cc"
+                "url": "https://github.com/klausi/coder.git",
+                "reference": "717cb8b6cb64a0e2b701542f26ee59b4d1e4ab57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pfrenssen/coder/zipball/f5c2d9db3bb95ee515b745090a20acb1b5dcf2cc",
-                "reference": "f5c2d9db3bb95ee515b745090a20acb1b5dcf2cc",
+                "url": "https://api.github.com/repos/klausi/coder/zipball/717cb8b6cb64a0e2b701542f26ee59b4d1e4ab57",
+                "reference": "717cb8b6cb64a0e2b701542f26ee59b4d1e4ab57",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.0",
-                "squizlabs/php_codesniffer": "dev-master#139fe39bea7"
+                "php": ">=5.4.0",
+                "squizlabs/php_codesniffer": ">=2.5.1",
+                "symfony/yaml": ">=2.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7 <5.0"
+                "phpunit/phpunit": ">=3.7"
             },
             "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0+"
             ],
             "description": "Coder is a library to review Drupal code.",
-            "homepage": "https://drupal.org/project/coder",
+            "homepage": "https://www.drupal.org/project/coder",
             "keywords": [
                 "code review",
                 "phpcs",
                 "standards"
             ],
-            "support": {
-                "issues": "https://drupal.org/project/issues/coder",
-                "source": "https://drupal.org/project/coder"
-            },
-            "time": "2015-11-11 14:24:37"
+            "time": "2016-02-07 12:15:20"
         },
         {
             "name": "drupal/drupal-driver",
@@ -1688,16 +1686,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "dev-master",
+            "version": "2.5.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pfrenssen/PHP_CodeSniffer.git",
-                "reference": "7cecde705abef667a6bc67429d767046aa1cce11"
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
+                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pfrenssen/PHP_CodeSniffer/zipball/7cecde705abef667a6bc67429d767046aa1cce11",
-                "reference": "7cecde705abef667a6bc67429d767046aa1cce11",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
+                "reference": "6731851d6aaf1d0d6c58feff1065227b7fda3ba8",
                 "shasum": ""
             },
             "require": {
@@ -1745,6 +1743,7 @@
                     "CodeSniffer/Standards/Zend/Sniffs/"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "BSD-3-Clause"
             ],
@@ -1760,12 +1759,7 @@
                 "phpcs",
                 "standards"
             ],
-            "support": {
-                "issues": "https://github.com/squizlabs/PHP_CodeSniffer/issues",
-                "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki",
-                "source": "https://github.com/squizlabs/PHP_CodeSniffer"
-            },
-            "time": "2016-02-15 02:18:19"
+            "time": "2016-01-19 23:39:10"
         },
         {
             "name": "symfony/browser-kit",
@@ -2575,11 +2569,9 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
-        "behat/behat": 20,
-        "drupal/coder": 20,
-        "drush/drush": 10,
+        "behat/behat": 5,
         "pear/versioncontrol_git": 20
     },
     "prefer-stable": true,

@@ -35,6 +35,10 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
+; https://www.drupal.org/node/2657666
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 
@@ -125,6 +129,9 @@ projects[context_entity_field][version] = "1.1"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5056
 projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
 
+projects[context_og][subdir] = "contrib"
+projects[context_og][version] = "2.1" 
+
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
 ; Allow file upload with css injector
@@ -145,6 +152,9 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+
+projects[date_ical][subdir] = "contrib"
+projects[date_ical][version] = "3.9"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -204,7 +214,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.7"
+projects[features][version] = "2.9"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -303,6 +313,14 @@ projects[i18nviews][version] = "3.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
 
+projects[integration][subdir] = "contrib"
+projects[integration][version] = "1.x-dev"
+
+projects[integration_couchdb][subdir] = "contrib"
+projects[integration_couchdb][version] = "1.x-dev"
+projects[integration_couchdb][download][type] = "get"
+projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.tar.gz"
+
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
@@ -387,6 +405,9 @@ projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc5"
+
+projects[media_colorbox][subdir] = "contrib"
+projects[media_colorbox][version] = "1.0-rc4"
 
 projects[menu_attributes][subdir] = "contrib"
 projects[menu_attributes][version] = "1.0-rc3"
@@ -540,6 +561,8 @@ projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 ; @see https://www.drupal.org/node/2489134
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
+; @see https://www.drupal.org/node/272245
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -651,6 +674,10 @@ projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-fi
 projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
+; Issue #2360091 View published tab is visible when a published node has a draft.
+; https://www.drupal.org/node/2360091
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
@@ -750,6 +777,13 @@ libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
+; iCalcreator 2.20.2
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip
+libraries[iCalcreator][download][type] = "file"
+libraries[iCalcreator][download][request_type]= "get"
+libraries[iCalcreator][download][file_type] = "zip"
+libraries[iCalcreator][download][destination] = "../common/libraries"
+
 ; imgAreaSelect 0.9.10
 libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
 libraries[jquery.imgareaselect][download][type]= "file"
@@ -839,4 +873,8 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 
 projects[bootstrap][type] = theme
 projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip
+projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+
+projects[europa][type] = theme
+projects[europa][download][type] = get
+projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz

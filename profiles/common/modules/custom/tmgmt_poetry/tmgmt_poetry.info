@@ -14,3 +14,4 @@ files[] = entity/tmgmt_poetry.entity.job.inc
 files[] = controller/tmgmt_poetry.controller.job.inc
 files[] = plugins/tmgmt_poetry.plugin.inc
 files[] = plugins/tmgmt_poetry.ui.inc
+files[] = views/handlers/tmgmt_poetry_handler_field_tmgmt_job_reference.inc

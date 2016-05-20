@@ -10,16 +10,20 @@
  */
 function tmgmt_workbench_help($path, $arg) {
   $output = '';
+  $states = variable_get('tmgmt_workbench_moderation_states', array());
+  $states = array_filter($states);
+
   if ($path == 'node/%/translate') {
     $node = node_load($arg[1]);
     if (workbench_moderation_node_moderated($node)) {
-      $states = variable_get('tmgmt_workbench_moderation_states', array());
-      $states = array_filter($states);
       $node = node_load($arg[1]);
       $state = $node->workbench_moderation['current']->state;
       $output .= '<p>' . t('Translation of a piece of content is only available if its latest revision is in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states)));
       $output .= '<br/>' . t("The current piece of content's moderation state is: <strong>!state</strong>", array('!state' => $state)) . '</p>';
     }
+  }
+  if ($path == 'admin/tmgmt/sources') {
+    $output = $output . '<div>' . t('This table contains only content with latest revision in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states))) . '</div>';
   }
   return $output;
 }
@@ -68,18 +72,12 @@ function tmgmt_workbench_tmgmt_source_plugin_info() {
  * Implements hook_query_TAG_alter().
  */
 function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(QueryAlterableInterface $query) {
+  $moderated = workbench_moderation_moderate_node_types();
 
   // Alter query when on TMGMT Source Overview page.
   // See: TMGMTWorkbenchSourceUIController::overviewForm().
   if (drupal_static('tmgmt_workbench_overview_form')) {
     // Don't show content that is not moderated.
-    $node_types = node_type_get_types();
-    $moderated = array();
-    foreach ($node_types as $type => $machine) {
-      if (workbench_moderation_node_type_moderated($machine->type)) {
-        $moderated[] = $type;
-      }
-    }
     $fields = $query->getFields();
     $query->condition('e.type', $moderated, 'IN');
     // Don't show content that is not in a translatable state.
@@ -96,6 +94,9 @@ function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(Quer
         break;
       }
     }
+  }
+  else {
+    $query->condition('e.type', $moderated, 'NOT IN');
   }
 }
 
@@ -122,7 +123,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       // Disable checkbox for languages already translated.
       foreach ($languages as $langcode => $language) {
-        if (isset($node->translations->data[$langcode])) {
+        if (isset($node->translations->data[$langcode]) && !empty($existing_jobs)) {
           $form['languages'][$langcode] = array(
             '#type' => 'checkbox',
             '#disabled' => TRUE,
@@ -153,7 +154,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             '#disabled' => TRUE,
           );
           $form['languages']['#suffix'] = '<div class="description">' .
-          t('This content cannot be translated.') . '</div>';
+            t('This content cannot be translated.') . '</div>';
 
           if (!$always_show_direct_translation_links && ($langcode != $node->translations->original)) {
             $options[$langcode][5] = '';

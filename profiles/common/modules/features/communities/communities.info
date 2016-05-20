@@ -95,3 +95,5 @@ features[views_view][] = communities_members
 features[views_view][] = community_content
 features[views_view][] = og_pending_membership
 files[] = test/communities.test
+files[] = views/views_handler_area_communities_glossary.inc
+files[] = views/views_handler_area_communities_create_new_community_link.inc
