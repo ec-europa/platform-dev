@@ -73,6 +73,7 @@
             </fileset>
         </symlink>
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
+        <symlink link="${phing.project.build.dir}/tests" target="../tests" />
     </target>
 
     <!-- Run Behat tests. -->
