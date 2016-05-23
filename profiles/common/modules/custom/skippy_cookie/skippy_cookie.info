@@ -1,0 +1,7 @@
+name = Skippy cookie
+description = Dull module that simply sets and unsets a "stick_to_https" cookie when users log in and out of Drupal using HTTPS
+package = Security
+version = 7.x-0.1
+core = 7.x
+files[] = skippy_cookie.module
+
