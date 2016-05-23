@@ -256,6 +256,10 @@ projects[filefield_sources][version] = "1.10"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
+; Fix Field description persistance
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7572
+; https://www.drupal.org/node/2705523
+projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.7"
