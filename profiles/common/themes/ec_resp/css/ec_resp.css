@@ -7411,7 +7411,7 @@ tr.odd {
 @media (max-width: 767px) {
   #layout-header {
     height: auto;
-    min-height: 82px;
+    min-height: 90px;
   }
   #layout-header #banner-flag {
     width: 90px;
@@ -7420,18 +7420,18 @@ tr.odd {
     top: 10px;
   }
   #layout-header #main-title {
-    font-size: 26px !important;
+    font-size: 22px !important;
     position: relative;
     left: 0;
     top: 0;
-    padding: 28px 0 0 100px;
+    padding: 24px 0 0 100px;
     text-transform: none;
   }
-}
-@media (max-width: 479px) {
-  #layout-header #main-title {
-    margin-top: 4px;
-    font-size: 20px !important;
+  #layout-header #sub-title {
+    color: #074A8B;
+    padding-left: 100px;
+    position: static;
+    font-size: 16px !important;
   }
 }
 /* ------------------ Region header right ------------------ */
