@@ -154,6 +154,46 @@ phpcs.progress = 1
 phpcs.global.config = ${project.basedir}/vendor/squizlabs/php_codesniffer/CodeSniffer.conf
 
 
+# Theme configuration
+# -------------------
+
+# "tarball" or "dev" ; "tarball" download a built theme (given a URL), "dev" clones the repository 
+theme.target = dev
+
+# The branch, tag or commit to use, eg. 'master', 'develop', '2.1.56',
+# '7df0d254b'. It is possible to use MySQL style wildcards here, so you can use
+# '2.%' to get the latest tagged 2.x.x release which was built.
+# For most projects you would want to follow 'master' so that you always have
+# the latest version that is deployed on production. Use 'develop' to check if
+# your project is compatible with the upcoming release.
+theme.package.reference = 0.%
+
+
+# Repository's URL (default to ec-europa/platform-theme). This setting allows us to use a fork of the original platform-theme-dev.
+theme.package.repository = ec-europa/platform-theme
+
+# The provider that hosts the platform-theme repository.
+theme.package.provider = git-hub
+
+# The name of the folder where the platform will be downloaded.
+theme.package.destination = ${phing.project.tmp.dir}
+
+# tarball's name on github
+theme.package.tarball = platform-theme-${theme.package.reference}.tar.gz
+
+# The path to the downloaded package. This is named 'deploy-package.tar.gz'.
+theme.package.tarball = ${phing.project.tmp.dir}/deploy-package.tar.gz
+
+# Git repo's URL
+theme.repo.url = https://github.com/${theme.package.repository}
+
+# The name of the folder where the theme will be downloaded default ".."
+theme.package.dir = ..
+
+# The ContinuousPHP token. Leave this empty for open source projects. Note that
+# the NextEuropa platform-theme is open source.
+theme.package.token =
+
 # Host configuration
 # ------------------
 
