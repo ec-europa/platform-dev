@@ -1,0 +1,8 @@
+name = Selfish Varnish 
+description = "Allow users to invalidate specific Varnish cached entries."
+version = "7.x-1.0"
+core = 7.x
+configure = admin/config/fpfiscms/varnish
+package = Caching
+files[] = selfish_varnish.module
+files[] = selfish_varnish.admin.inc

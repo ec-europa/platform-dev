@@ -1,0 +1,5 @@
+name = Flexible Purge
+description = Flexible Purge
+package = Caching
+files[] = flexible_purge.test
+core = 7.x

@@ -1,0 +1,276 @@
+<?php
+
+/**
+ * @file
+ * Main functions and hook implementations of the Gelf Log module.
+ */
+
+/**
+ * Default group.
+ */
+define('GELF_LOG_DEFAULT_GROUP', 'no_group');
+
+/**
+ * Default packet size.
+ */
+define('GELF_LOG_DEFAULT_MTU', 512);
+
+/**
+ * Implements hook_menu().
+ */
+function gelf_log_menu() {
+  $items = array();
+
+  $items['admin/config/system/gelf_log'] = array(
+    'title' => 'GELF log',
+    'description' => 'Manage GELF log settings, including destination server and port.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('gelf_log_admin'),
+    'access arguments' => array('administer gelf_log settings'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Form constructor for the administration form.
+ *
+ * @ingroup forms
+ */
+function gelf_log_admin() {
+  $form = array();
+
+  $form['gelf_log_host'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Logging server hostname or IP'),
+    '#default_value' => variable_get('gelf_log_host', '127.0.0.1'),
+    '#size' => 10,
+    '#maxlength' => 50,
+    '#description' => t('The logging packets will be sent to this server.'),
+    '#required' => TRUE,
+  );
+
+  $form['gelf_log_port'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Logging server UDP port'),
+    '#default_value' => variable_get('gelf_log_port', 12345),
+    '#size' => 5,
+    '#maxlength' => 5,
+    '#description' => t('The logging packets will be sent on this port.'),
+    '#required' => TRUE,
+  );
+  $form['gelf_log_mtu'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maximum packet size (MTU)'),
+    '#default_value' => variable_get('gelf_log_mtu', GELF_LOG_DEFAULT_MTU),
+    '#size' => 4,
+    '#maxlength' => 4,
+    '#description' => t('Maximum size of a GELF UDP datagram (512 is safe, 1500 is common and 8192 is the max).'),
+    '#required' => TRUE,
+  );
+  $form['gelf_log_group'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Group name, for IDing the website in Kibana'),
+    '#default_value' => variable_get('gelf_log_group', GELF_LOG_DEFAULT_GROUP),
+    '#size' => 10,
+    '#maxlength' => 254,
+    '#description' => t('Group name, for IDing/grouping the website in Kibana (adds an additional _group field in the gelf packet).'),
+    '#required' => TRUE,
+  );
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_watchdog().
+ */
+function gelf_log_watchdog(array $error) {
+  // Get the configuration from Drupal.
+  $host = variable_get('gelf_log_host', '127.0.0.1');
+  $port = variable_get('gelf_log_port', '12345');
+  $mtu = variable_get('gelf_log_mtu', GELF_LOG_DEFAULT_MTU);
+
+  // Format the packet from Drupal error format.
+  $error_packet = gelf_log_format_error($error);
+
+  // Chunk and send the GELF UDP packet.
+  return gelf_log_send_packet($host, $port, $error_packet, $mtu);
+}
+
+/**
+ * Formats the error to send.
+ *
+ * @param array $error
+ *   An associative array containing the following keys:
+ *   - type: The type of message for this entry.
+ *   - user: The user object for the user who was logged in when the event
+ *     happened.
+ *   - uid: The user ID for the user who was logged in when the event happened.
+ *   - request_uri: The request URI for the page the event happened in.
+ *   - referer: The page that referred the user to the page where the event
+ *     occurred.
+ *   - ip: The IP address where the request for the page came from.
+ *   - timestamp: The UNIX timestamp of the date/time the event occurred.
+ *   - severity: The severity of the message; one of the following values as
+ *     defined in @link http://www.faqs.org/rfcs/rfc3164.html RFC 3164: @endlink
+ *     - WATCHDOG_EMERGENCY: Emergency, system is unusable.
+ *     - WATCHDOG_ALERT: Alert, action must be taken immediately.
+ *     - WATCHDOG_CRITICAL: Critical conditions.
+ *     - WATCHDOG_ERROR: Error conditions.
+ *     - WATCHDOG_WARNING: Warning conditions.
+ *     - WATCHDOG_NOTICE: Normal but significant conditions.
+ *     - WATCHDOG_INFO: Informational messages.
+ *     - WATCHDOG_DEBUG: Debug-level messages.
+ *   - link: An optional link provided by the module that called the watchdog()
+ *     function.
+ *   - message: The text of the message to be logged. Variables in the message
+ *     are indicated by using placeholder strings alongside the variables
+ *     argument to declare the value of the placeholders. See t() for
+ *     documentation on how the message and variable parameters interact.
+ *   - variables: An array of variables to be inserted into the message on
+ *     display. Will be NULL or missing if a message is already translated or if
+ *     the message is not possible to translate.
+ *
+ * @see hook_watchdog()
+ */
+function gelf_log_format_error(array $error) {
+  // If Drupal sets a messages and its variables, final message is
+  // message+variables.
+  if (isset($error['message']) && is_array($error['variables'])) {
+    $message = strip_tags(format_string($error['message'], $error['variables']));
+    // Else if Drupal sets a messages and no variable, final message is message.
+  }
+  elseif (isset($error['message'])) {
+    $message = $error['type'] . ' ' . $error['message'];
+  }
+  else {
+    // If no message, all we can do is take type and hope for a clear message.
+    $message = $error['type'];
+  }
+
+  // Put all other fields in the gelf packet but avoid user (private, password
+  // is there).
+  foreach ($error as $error_key => $error_value) {
+    unset($error[$error_key]);
+    if (in_array($error_key, array('user', 'variables', 'message'))) {
+      continue;
+    }
+    $error['_' . $error_key] = $error_value;
+  }
+
+  $error['_application'] = 'drupal_gelf_log';
+  $error['_website'] = variable_get('site_name');
+  $error['_group'] = variable_get('gelf_log_group', GELF_LOG_DEFAULT_GROUP);
+
+  return array_merge(
+    array(
+    // GELF required fields.
+      'version' => '1.1',
+      'host' => gethostname(),
+      'short_message' => $message,
+      'level' => $error['_severity'],
+      'timestamp' => time(),
+    ),
+    $error
+  );
+}
+
+
+/**
+ * Returns a binary random identifier with the given length.
+ *
+ * Note that this is not guaranteed to be unique.
+ *
+ * @param int $max
+ *   The length of the identifier.
+ *
+ * @return string
+ *   A binary random identifier.
+ */
+function gelf_log_get_unique_id($max) {
+  // Generate an $max bytes unique BINARY string.
+  $bytes = '';
+  // While not enough random bytes.
+  while (strlen($bytes) < $max) {
+    // Add one.
+    $bytes .= chr(mt_rand(0, 255));
+  }
+
+  // And return the payload.
+  return $bytes;
+}
+
+/**
+ * Process the packet, chunk it and send it.
+ *
+ * @param string $host
+ *   The hostname.
+ * @param string $port
+ *   The port number.
+ * @param array $error_event
+ *   An associative array with the following keys:
+ *   - 'type': the error type.
+ *   - 'message': the error message.
+ *   - '_gelf_chunks': the number of Gelf chunks.
+ *   - '_gelf_mtu': the maximum transmission unit.
+ * @param string $mtu
+ *    The maximum transmission unit, aka the packet size.
+ *
+ * @return FALSE|NULL
+ *   FALSE if the UDP sending socket could not be created. NULL in all other
+ *   cases.
+ */
+function gelf_log_send_packet($host, $port, array $error_event, $mtu) {
+  // JSONify and compress the packet.
+  $packet = gzcompress(json_encode($error_event));
+
+  // Split it in maximum $mtu bytes chunks, 512 will avoid packet getting drop
+  // on low MTUs.
+  $chunks = str_split($packet, $mtu);
+  $total_chunks = count($chunks);
+
+  // Gelf protocol specifies max 128 chunks.
+  if ($total_chunks > 128) {
+    // We replace the error packet with "too big". We also add debug details on
+    // the packet size.
+    $error_event = gelf_log_format_error(
+      array(
+        'type' => 'gelf_log',
+        'message' => 'Gelf error packet is too big',
+        '_gelf_chunks' => $total_chunks,
+        '_gelf_mtu' => $mtu,
+      )
+    );
+    $packet = json_encode($error_event);
+    $chunks = str_split($packet, $mtu);
+    $total_chunks = count($chunks);
+  }
+
+  $uniqid = gelf_log_get_unique_id(8);
+
+  // Open a UDP sending socket.
+  $socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
+  if ($socket === FALSE) {
+    // If the socket failed to be created, we return FALSE.
+    return FALSE;
+  }
+
+  // And send packets 1 by 1, there's no support for non-chunked packet, who
+  // cares?
+  foreach ($chunks as $index => $chunk) {
+    // Create UDP packet according to GELF specifications.
+    $components = array(
+      "\x1e\x0f",
+      $uniqid,
+      chr($index),
+      chr($total_chunks),
+      $chunk,
+    );
+    $udp_packet = implode('', $components);
+
+    // And send it.
+    socket_sendto($socket, $udp_packet, strlen($udp_packet), 0, $host, $port);
+    // Note, no error to catch here, if it fails we can't do anything anyway.
+  }
+  socket_close($socket);
+}
