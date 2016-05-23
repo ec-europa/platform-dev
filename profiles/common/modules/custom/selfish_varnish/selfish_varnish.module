@@ -2,7 +2,7 @@
 
 /**
  * @file
- * selfish_varnish.module
+ * Selfish_varnish.module
  * Provides an administration form that allow users to invalidate specific
  * Varnish cached entries.
  * This module relies on the "varnish" module, i.e. it connects to Varnish's
