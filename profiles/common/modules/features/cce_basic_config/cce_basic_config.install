@@ -622,15 +622,6 @@ function _cce_basic_config_post_install_default_content_type() {
   $t = get_t();
   $types = array(
     array(
-      'type' => 'page',
-      'name' => $t('Basic page'),
-      'base' => 'node_content',
-      'description' => $t("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
-      'custom' => 1,
-      'modified' => 1,
-      'locked' => 0,
-    ),
-    array(
       'type' => 'article',
       'name' => $t('Article'),
       'base' => 'node_content',
@@ -2136,4 +2127,13 @@ function cce_basic_config_update_7209() {
     'binary' => TRUE,
   );
   db_change_field('date_format_locale', 'format', 'format', $spec);
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Update platforme version.
+ */
+function cce_basic_config_update_7210() {
+  variable_set('multisite_version', '2.2');
 }
