@@ -75,9 +75,8 @@ Feature: TMGMT Poetry features
     And I am on "admin/tmgmt/recent-changes"
     Then I should see "The translation for Title in English 1 has been accepted."
     And I should see "The translation of Title in English 1 to French is finished and can now be reviewed."
-
-
-  @javascript @run
+    
+  @javascript
   Scenario: Allow to request a new translation.
     Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the 'administrator' role
@@ -102,7 +101,6 @@ Feature: TMGMT Poetry features
     Then I should see an "#edit-languages-fr.form-radio" element
     But I should not see an "#edit-languages-fr.form-checkbox" element
 
-  @javascript
   Scenario: A request for translation that is not submitted won't generate a job item.
     Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role
