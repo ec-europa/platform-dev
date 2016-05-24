@@ -1,5 +1,5 @@
 name = Multisite drupal toolbox
-description = Toolbox for the multisite drupal plateform
+description = Toolbox for the multisite drupal platform
 package = multisite drupal toolbox
 core = 7.x
 
