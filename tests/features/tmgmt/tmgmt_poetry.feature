@@ -77,7 +77,7 @@ Feature: TMGMT Poetry features
     And I should see "The translation of Title in English 1 to French is finished and can now be reviewed."
 
 
-  @javascript
+  @javascript @run
   Scenario: Allow to request a new translation.
     Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the 'administrator' role
@@ -96,11 +96,13 @@ Feature: TMGMT Poetry features
     But I should see an "#edit-languages-fr.form-checkbox" element
     Then I click "In progress" in the "French" row
     And I receive the translation of current job item
+    And I press "Save"
+    Then I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see an "#edit-languages-fr.form-radio" element
     But I should not see an "#edit-languages-fr.form-checkbox" element
 
-    
+  @javascript
   Scenario: A request for translation that is not submitted won't generate a job item.
     Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role
@@ -110,6 +112,5 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-pt-pt"
     And I press the "Request translation" button
-    And I go to "content/english-title-nojobitem"
-    And I click "Translate" in the "primary_tabs" region
+    And I move backward one page
     Then I should not see the link "In progress"
