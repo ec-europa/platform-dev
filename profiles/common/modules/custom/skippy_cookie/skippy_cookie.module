@@ -1,8 +1,8 @@
 <?php
 /**
  * @file
- * This module simply sets a dummy, non-secure cookie when the user logs in
- * through HTTPS.
+ * Sets a dummy, non-secure cookie when the user logs in through HTTPS.
+ *
  * It also removes that same cookie when the user logs out, whatever the
  * protocol.
  *
@@ -22,9 +22,9 @@
  * without disabling it.
  */
 
-/// default cookie name
+// Default cookie name.
 define('SKIPPY_COOKIE_DEFAULT_NAME', 'drupal_stick_to_https');
-/// default cookie value
+// Default cookie value.
 define('SKIPPY_COOKIE_DEFAULT_VALUE', 'y');
 
 /**
@@ -35,7 +35,7 @@ function skippy_cookie_user_login(&$edit, $account) {
   $http_cookie_value = variable_get('skippy_cookie_value', constant('SKIPPY_COOKIE_DEFAULT_VALUE'));
   if (drupal_strlen($http_cookie_name) && drupal_strlen($http_cookie_value)) {
     global $base_path, $is_https;
-    // ensure the login was done using HTTPS
+    // Ensure the login was done using HTTPS.
     if ($is_https) {
       setcookie($http_cookie_name, $http_cookie_value /* dummy value */, 0 /* disappear when the browser closes */, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
     }
@@ -52,4 +52,3 @@ function skippy_cookie_user_logout($account) {
     setcookie($http_cookie_name, 'deleted', time() - 86400, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
   }
 }
-
