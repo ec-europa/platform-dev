@@ -98,6 +98,7 @@ function _tmgmt_poetry_authenticate($user, $password) {
  * Function available to call from our webservice.
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
+
   watchdog('Poetry: Response', htmlentities($msg), array(), WATCHDOG_DEBUG);
 
   // Authenticate the request.
@@ -118,13 +119,6 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
-
-    if ($xml->request['type'] == 'status') {
-      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $main_reference));
-      // Send answer to poetry.
-      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'OK', 0, $request);
-      return $xml->asXML();
-    }
 
     $language_job = array();
     $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $main_reference)->fetchAll();
@@ -313,6 +307,9 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       }
     }
 
+    if ($xml->request['type'] == 'status') {
+      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $main_reference));
+    }
     // Send answer to poetry.
     $xml = _tmgmt_poetry_generate_answer_xml($job, 'OK', 0, $request);
     return $xml->asXML();
