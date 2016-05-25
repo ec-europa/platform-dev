@@ -34,11 +34,13 @@ class FlexiblePurgeUnitTestCase extends DrupalWebTestCase {
       $cache_obj->generateRegexp(NULL, FALSE) === '',
       'generateRegexp() returns an empty string when passed a NULL cid.'
     );
-    // Does not make a lot of sense to test right now.
-    // $this->assertTrue(
-    // $cache_obj->generateRegexp('*', TRUE) === '^(\*)',
-    // 'generateRegexp() returns an empty string when passed "*" as wildcard.'
-    // );
+
+    /* Does not make a lot of sense to test right now.
+    $this->assertTrue(
+    $cache_obj->generateRegexp('*', TRUE) === '^(\*)',
+    generateRegexp() returns an empty string when passed "*" as wildcard.'
+    );
+     */
 
     // Tests with a single cid.
     $this->assertTrue(
@@ -93,4 +95,5 @@ class FlexiblePurgeUnitTestCase extends DrupalWebTestCase {
       'group' => 'Performance',
     );
   }
+
 }

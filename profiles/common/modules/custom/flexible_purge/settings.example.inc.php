@@ -8,8 +8,8 @@
 $conf['cache_backends'][] = 'path/to/flexible_purge/flexible_purge.cache.inc';
 
 if (!(isset($prevent_frontend_invalidation) && $prevent_frontend_invalidation)) {
-    // Use Flexible Purge to handle cache_page clear operations.
-    $conf['cache_class_cache_page'] = 'FlexiblePurgeCache';
+  // Use Flexible Purge to handle cache_page clear operations.
+  $conf['cache_class_cache_page'] = 'FlexiblePurgeCache';
 }
 
 // Keep caching pages  into database -- unless your setup  was tweaked enough to
@@ -20,7 +20,7 @@ $conf['fp_keep_caching_for_cache_page'] = 'DrupalDatabaseCache';
 
 // Do not prevent Flexible Purge from doing its work.
 // Default is FALSE.
-$conf['fp_skip_clear_for_cache_page'] = false;
+$conf['fp_skip_clear_for_cache_page'] = FALSE;
 
 // Let Varnish know which application is emitting the PURGE request.
 $conf['fp_tag_for_cache_page'] = 'our_beloved_mission_critical_app';
@@ -28,13 +28,13 @@ $conf['fp_tag_for_cache_page'] = 'our_beloved_mission_critical_app';
 // Get  rid of  protocol, domain  and port  in received  cids before  generating
 // regexps.
 // Default is TRUE.
-$conf['fp_fix_cids_for_cache_page'] = true;
+$conf['fp_fix_cids_for_cache_page'] = TRUE;
 
 // Also get rid of the Drupal base path before generating regexps; this way, the
 // resulting regexps are based on pure Drupal paths and do not embed any part of
 // the Drupal base URL.
 // Default is FALSE.
-$conf['fp_strip_base_path_for_cache_page'] = true;
+$conf['fp_strip_base_path_for_cache_page'] = TRUE;
 
 // Array of  HTTP targets. For  instance, it can  be your Varnish  servers, with
 // PURGE-dedicated TCP ports.
@@ -70,15 +70,16 @@ $conf['fp_http_request_for_cache_page'] = array(
 // Disable the "Force frontend cache invalidation" button added by the module in
 // admin/config/development/performance.
 // Default is FALSE.
-$conf['fp_disable_big_red_button'] = false;
+$conf['fp_disable_big_red_button'] = FALSE;
 
 // Enable debug. This variable is used only in the sample functions below.
 // Default is FALSE.
-$conf['fp_debug'] = true;
+$conf['fp_debug'] = TRUE;
 
-// All functions below are purely optional and can be commented out.
-// The  code provided  below simply  outputs  debug lines  when clearing  caches
-// through Drush.
+/* All functions below are purely optional and can be commented out.
+The code provided  below simply  outputs  debug lines  when clearing  caches
+through Drush.
+ */
 
 /**
  * Configuration function executed when retrieving minimum cache lifetime.
@@ -87,17 +88,17 @@ $conf['fp_debug'] = true;
  * $min_cache_lifetime) for the clear operation involving $cid and $wildcard.
  * Must return the final minimum cache lifetime.
  */
-function fp_refine_min_cache_lifetime_for_cache_page($cid, $wildcard, $min_cache_lifetime) 
-{
-    if (function_exists('drush_main') && variable_get('fp_debug', false)) {
-        drush_print('==================================================');
-        drush_print('  Treating clear operation for:');
-        drush_print('    $cid: ' . var_export($cid, true));
-        drush_print('    $wildcard: ' . var_export($wildcard, true));
-        drush_print('  Minimum cache lifetime: ' . $min_cache_lifetime);
-    }
-    // Do not refine the configured minimum cache lifetime.
-    return $min_cache_lifetime;
+function fp_refine_min_cache_lifetime_for_cache_page($cid, $wildcard, $min_cache_lifetime) {
+  if (function_exists('drush_main') && variable_get('fp_debug', FALSE)) {
+    drush_print('==================================================');
+    drush_print('  Treating clear operation for:');
+    drush_print('    $cid: ' . var_export($cid, TRUE));
+    drush_print('    $wildcard: ' . var_export($wildcard, TRUE));
+    drush_print('  Minimum cache lifetime: ' . $min_cache_lifetime);
+  }
+
+  // Do not refine the configured minimum cache lifetime.
+  return $min_cache_lifetime;
 }
 
 /**
@@ -109,13 +110,13 @@ function fp_refine_min_cache_lifetime_for_cache_page($cid, $wildcard, $min_cache
  * complete the template with dynamically computed values.
  * Must return the final request template.
  */
-function fp_alter_request_for_cache_page($cid, $wildcard, $target, $request) 
-{
-    if (function_exists('drush_main') && variable_get('fp_debug', false)) {
-        drush_print('  Initial request for ' . $target . ': ' . var_export($request, true));
-    }
-    // Do not actually alter the request.
-    return $request;
+function fp_alter_request_for_cache_page($cid, $wildcard, $target, $request) {
+  if (function_exists('drush_main') && variable_get('fp_debug', FALSE)) {
+    drush_print('  Initial request for ' . $target . ': ' . var_export($request, TRUE));
+  }
+
+  // Do not actually alter the request.
+  return $request;
 }
 
 /**
@@ -131,16 +132,16 @@ function fp_alter_request_for_cache_page($cid, $wildcard, $target, $request)
  * Must return FALSE  to abort the request or anything  else to effectively send
  * it.
  */
-function fp_alter_curl_for_cache_page($cid, $wildcard, $target, $request, &$curl_res) 
-{
-    if (function_exists('drush_main') && variable_get('fp_debug', false)) {
-        drush_print('Setting CURLOPT_VERBOSE.');
-        @curl_setopt($curl_res, CURLOPT_VERBOSE, true);
-        @curl_setopt($curl_res, CURLOPT_STDERR, fopen('php://stdout', 'w'));
-        drush_print('Outgoing and incoming HTTP headers:');
-    }
-    // Send that request.
-    return true;
+function fp_alter_curl_for_cache_page($cid, $wildcard, $target, $request, &$curl_res) {
+  if (function_exists('drush_main') && variable_get('fp_debug', FALSE)) {
+    drush_print('Setting CURLOPT_VERBOSE.');
+    @curl_setopt($curl_res, CURLOPT_VERBOSE, TRUE);
+    @curl_setopt($curl_res, CURLOPT_STDERR, fopen('php://stdout', 'w'));
+    drush_print('Outgoing and incoming HTTP headers:');
+  }
+
+  // Send that request.
+  return TRUE;
 }
 
 /**
@@ -152,11 +153,11 @@ function fp_alter_curl_for_cache_page($cid, $wildcard, $target, $request, &$curl
  * Must return FALSE to prevent execution  of the default error handling code or
  * anything else to let Flexible Purge handle cURL errors.
  */
-function fp_curl_exec_for_cache_page($cid, $wildcard, $target, $request, &$curl_res, $exec) 
-{
-    if (function_exists('drush_main') && variable_get('fp_debug', false)) {
-        drush_print('Response body: ' . var_export($exec, true));
-    }
-    // Proceed with default error handling.
-    return true;
+function fp_curl_exec_for_cache_page($cid, $wildcard, $target, $request, &$curl_res, $exec) {
+  if (function_exists('drush_main') && variable_get('fp_debug', FALSE)) {
+    drush_print('Response body: ' . var_export($exec, TRUE));
+  }
+
+  // Proceed with default error handling.
+  return TRUE;
 }
