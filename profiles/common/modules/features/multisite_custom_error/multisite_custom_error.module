@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  *
  * Restrict the access to the PHP filter option in the config form.
  */

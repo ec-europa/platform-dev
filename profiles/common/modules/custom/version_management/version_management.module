@@ -118,7 +118,8 @@ function version_management_handler_submit($form, &$form_state) {
  */
 function version_management_node_presave($node) {
   $types = variable_get('version_management_node_types');
-  if (isset($types[$node->type])) {
+  // Only act on existing nodes that are version managed.
+  if (isset($types[$node->type]) && empty($node->is_new)) {
     $minor_version_nids = variable_get('minor_version_nids', array());
     if (isset($node->minor_version)) {
       if ($node->minor_version == 0) {

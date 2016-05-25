@@ -35,6 +35,10 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 ; https://www.drupal.org/node/2446419
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6765
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
+; Issue #2657666 : Notice: Undefined property: stdClass::$status_message
+; https://www.drupal.org/node/2657666
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7651
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 
@@ -106,6 +110,8 @@ projects[coffee][version] = 2.2
 
 projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
+; https://www.drupal.org/node/2487115
+projects[collapse_text][patch][] = http://cgit.drupalcode.org/collapse_text/patch/?id=85656e4960d22fc145d5c3e3a79b81eaeb4cbde5
 
 projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "2.10"
@@ -124,6 +130,9 @@ projects[context_entity_field][version] = "1.1"
 ; https://www.drupal.org/node/1847038
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5056
 projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entity-references.patch
+
+projects[context_og][subdir] = "contrib"
+projects[context_og][version] = "2.1" 
 
 projects[css_injector][subdir] = "contrib"
 projects[css_injector][version] = "1.10"
@@ -145,6 +154,9 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+
+projects[date_ical][subdir] = "contrib"
+projects[date_ical][version] = "3.9"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -307,6 +319,14 @@ projects[i18nviews][version] = "3.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
 
+projects[integration][subdir] = "contrib"
+projects[integration][version] = "1.x-dev"
+
+projects[integration_couchdb][subdir] = "contrib"
+projects[integration_couchdb][version] = "1.x-dev"
+projects[integration_couchdb][download][type] = "get"
+projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.tar.gz"
+
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
@@ -391,6 +411,9 @@ projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc5"
+
+projects[media_colorbox][subdir] = "contrib"
+projects[media_colorbox][version] = "1.0-rc4"
 
 projects[menu_attributes][subdir] = "contrib"
 projects[menu_attributes][version] = "1.0-rc3"
@@ -512,6 +535,8 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 ; https://www.drupal.org/node/2607422
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6813
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
+; https://www.drupal.org/node/2673290
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
@@ -544,6 +569,8 @@ projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
 ; @see https://www.drupal.org/node/2489134
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
+; @see https://www.drupal.org/node/272245
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -554,6 +581,8 @@ projects[token_filter][version] = 1.1
 
 projects[translation_overview][subdir] = "contrib"
 projects[translation_overview][version] = "2.0-beta1"
+; https://www.drupal.org/node/2673314
+projects[translation_overview][patch][] = https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch
 
 projects[translation_table][subdir] = "contrib"
 projects[translation_table][version] = "1.0-beta1"
@@ -758,6 +787,13 @@ libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
+; iCalcreator 2.20.2
+libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip
+libraries[iCalcreator][download][type] = "file"
+libraries[iCalcreator][download][request_type]= "get"
+libraries[iCalcreator][download][file_type] = "zip"
+libraries[iCalcreator][download][destination] = "../common/libraries"
+
 ; imgAreaSelect 0.9.10
 libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
 libraries[jquery.imgareaselect][download][type]= "file"
@@ -847,4 +883,8 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 
 projects[bootstrap][type] = theme
 projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip
+projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+
+projects[europa][type] = theme
+projects[europa][download][type] = get
+projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz
