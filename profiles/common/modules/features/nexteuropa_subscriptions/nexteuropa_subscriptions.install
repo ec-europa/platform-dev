@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * @file
+ * Install the Notifications feature.
+ */
+
+include_once 'includes/nexteuropa_subscriptions.settings.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_subscriptions_enable() {
+  drupal_set_message(t('Notifications feature is now active on your site.'), 'status');
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_subscriptions_disable() {
+  $modules = array(
+    'subscriptions_mail',
+    'subscriptions_ui',
+    'subscriptions_taxonomy',
+    'subscriptions_content',
+    'subscriptions',
+  );
+  module_disable($modules, FALSE);
+  drupal_uninstall_modules(array('subscriptions'), TRUE);
+  user_role_delete('subscriber');
+  drupal_set_message(t('Notifications feature is now disabled on your site.'), 'status');
+}
+
+
+
+
