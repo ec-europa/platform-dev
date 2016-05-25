@@ -2,22 +2,12 @@
 # See NEXTEUROPA-9874 
 --- wysiwyg.module
 +++ wysiwyg.module
-@@ -337,6 +337,9 @@
-           // Build a file for each of the editors to hold the init scripts.
-           // @todo Aggregate all initialization scripts into one file.
-           $uri = 'public://js/wysiwyg/wysiwyg_' . $name . '_' . drupal_hash_base64($init) . '.js';
-+          $wrapper = file_stream_wrapper_get_instance_by_uri($uri);
-+          $files_path = $wrapper->getDirectoryPath() . "/" . file_uri_target($uri);
-+
-           $init_exists = file_exists($uri);
-           if (!$init_exists) {
-             $js_path = dirname($uri);
 @@ -348,7 +351,7 @@
              drupal_add_js($init, array('type' => 'inline') + $default_library_options);
            }
            else {
 -            drupal_add_js(file_create_url($uri), $default_library_options);
-+            drupal_add_js($files_path, $default_library_options);
++            drupal_add_js(file_create_url($uri), array('type' => 'external') + $default_library_options);
            }
          }
        }

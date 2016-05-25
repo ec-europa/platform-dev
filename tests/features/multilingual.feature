@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
@@ -11,6 +11,7 @@ Feature: Multilingual features
       | en        |
       | fr        |
       | de        |
+      | it        |
 
   Scenario: Content can be translated in available languages
     Given I am viewing a multilingual "page" content:
@@ -107,3 +108,55 @@ Feature: Multilingual features
     And I should see the heading "This title is in English"
     And I visit "content/title-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
+
+  Scenario: I can re-import a translation by re-submitting the translation job.
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                        |
+      | en       | This title is in English     |
+    And I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-de"
+    And I press the "Request translation" button
+    And I select "Translator A" from "Translator"
+    And I press the "Submit to translator" button
+    Then I should see the following success messages:
+      | success messages                        |
+      | The translation job has been submitted. |
+    And I click "In progress" in the "German" row
+    And I fill in "Translation" with "Dieser Titel ist auf Deutsch"
+    And I press the "Save" button
+    And I click "Needs review" in the "German" row
+    And I press the "Save as completed" button
+    Then I click "View published" in the "primary_tabs" region
+    And I click "Deutsch"
+    Then I should see the heading "Dieser Titel ist auf Deutsch"
+    And I click "Translate" in the "primary_tabs" region
+    And I click "edit" in the "German" row
+    And I press the "Delete translation" button
+    And I press the "Delete" button
+    Then I should see "Not translated" in the "German" row
+    And I re-import the latest translation job for "page" with title "This title is in English"
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see "Published" in the "German" row
+    And I should see "Dieser Titel ist auf Deutsch" in the "German" row
+
+  Scenario: I can create a translation job via a Behat step.
+    Given local translator "Translator A" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                    |
+      | en       | This title is in English |
+    Then I should not see the link "Français" in the "content" region
+    And I create the following job for "page" with title "This title is in English"
+      | source language | en                          |
+      | target language | fr                          |
+      | translator      | Translator A                |
+      | title_field     | Ce titre est en Français    |
+    Then the translation job is in "Active" state
+    And the translation job items are in "Needs review" state
+    And the current translation job is accepted
+    And I click "View"
+    Then I should see the link "Français" in the "content" region
+    And I click "Français" in the "content" region
+    Then I should see "Ce titre est en Français"

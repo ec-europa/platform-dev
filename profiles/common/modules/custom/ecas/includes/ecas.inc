@@ -682,11 +682,7 @@ function _ecas_init_phpcas_client() {
     $start_session,
     $assurance_level
   );
-
   phpCAS::setNoCasServerValidation();
-  // SNET proxies are blocking curl ...
-  // Let's make the module identify itself in their logs.
-  phpCAS::setExtraCurlOption(CURLOPT_USERAGENT, 'DrupalECAS/2.x (https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/platform-dev)');
 
   foreach (variable_get('ecas_curl_options', array()) as $key => $value) {
     phpCAS::setExtraCurlOption($key, $value);

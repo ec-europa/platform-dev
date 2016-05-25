@@ -137,64 +137,6 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
-
-  _multisite_drupal_toolbox_show_features_status();
-}
-
-
-/**
- * Display a message to warn for overridden features.
- */
-function _multisite_drupal_toolbox_show_features_status() {
-  // Don't display the message for ajax pages (coffee, admin menu cache...).
-  $ajax_call = (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
-
-  if (user_access('administer site configuration') && path_is_admin(current_path()) && !$ajax_call) {
-    static $control;
-
-    if (isset($control)) {
-      // Display of message already computed, avoid multiples execution.
-      return;
-    }
-    else {
-      // First call, build the $output message.
-      $control = TRUE;
-      $items = array();
-
-      // $default_text get from theme_features_storage_link.
-      $default_text = array(
-        FEATURES_OVERRIDDEN => t('Overridden'),
-        FEATURES_DEFAULT => t('Default'),
-        FEATURES_NEEDS_REVIEW => t('Needs review'),
-        FEATURES_REBUILDING => t('Rebuilding'),
-        FEATURES_REBUILDABLE => t('Rebuilding'),
-        FEATURES_CONFLICT => t('Conflict'),
-        FEATURES_DISABLED => t('Disabled'),
-        FEATURES_CHECKING => t('Checking...'),
-      );
-      module_load_include('inc', 'features', 'features.export');
-
-      $features = features_get_features(NULL, FALSE);
-      $features_blacklisted = explode(',', MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED);
-
-      // Build tab of features in non-default status.
-      foreach ($features as $k => $m) {
-        if (!in_array($m->name, $features_blacklisted)) {
-          $status = features_get_storage($m->name);
-          if ($status !== FEATURES_DEFAULT) {
-            $hname = $m->info['name'];
-            $items[$hname] = $hname . " - " . $default_text[$status];
-          }
-        }
-      }
-      // Build and print $output message.
-      if (!empty($items)) {
-        ksort($items);
-        $output = t("Some of this website's features are overridden: !features_list", array('!features_list' => theme('item_list', array('items' => $items))));
-        drupal_set_message($output, 'warning', FALSE);
-      }
-    }
-  }
 }
 
 /**
@@ -544,6 +486,29 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
     $content = multisite_drupal_toolbox_filter_xss($content, $filter_options);
   }
   return $content;
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
+  // Use our own function to display status messages.
+  $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
+}
+
+/**
+ * Custom function to override the drupal status message.
+ */
+function multisite_drupal_toolbox_messages($variables) {
+  global $user;
+  $message = "";
+  $rid = multisite_drupal_toolbox_get_rid('administrator');
+  if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
+    $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
+  }
+  $output = theme_status_messages($variables);
+  $output = $message . $output;
+  return $output;
 }
 
 /**

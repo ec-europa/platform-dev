@@ -26,6 +26,9 @@ function nexteuropa_metatags_metatag_export_default() {
       'keywords' => array(
         'value' => 'European Comission, European Union, EU',
       ),
+      'viewport' => array(
+        'value' => 'width=device-width, initial-scale=1.0',
+      ),
       'robots' => array(
         'value' => array(
           'index' => 'index',

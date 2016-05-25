@@ -65,7 +65,9 @@
     }
   ],
   "scripts": {
-    "post-install-cmd": "resources/scripts/composer/post-install.sh"
+    "post-install-cmd": [
+      "resources/scripts/composer/post-install.sh"
+    ]
   },
   "config": {
     "bin-dir": "bin/",

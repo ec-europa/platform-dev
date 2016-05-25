@@ -291,6 +291,9 @@ function ec_resp_preprocess_page(&$variables) {
   if (theme_get_setting('enable_interinstitutional_theme')) {
     $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo_europa.png');
   }
+  elseif (theme_get_setting('default_logo')) {
+    $variables['svg_logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo.svg');
+  }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
   $base_theme = multisite_drupal_toolbox_get_base_theme();
@@ -351,6 +354,15 @@ function ec_resp_preprocess_node(&$variables) {
     );
   }
 
+}
+
+/**
+ * Implements template_preprocess_file_entity().
+ */
+function ec_resp_preprocess_file_entity(&$variables) {
+  if ($variables['view_mode'] == "media_gallery_colorbox") {
+    $variables['classes_array'][] = "col-lg-2 col-md-3 col-xs-6";
+  }
 }
 
 /**
@@ -697,7 +709,7 @@ function ec_resp_page_alter(&$page) {
       '#tag' => 'meta',
       '#attributes' => array(
         'http-equiv' => 'Content-Language',
-        'content' => $language->language,
+        'content' => $language->prefix,
       ),
     );
     drupal_add_html_head($meta_content_language, 'meta_content_language');
@@ -1465,13 +1477,7 @@ function ec_resp_preprocess_admin_menu_icon(&$variables) {
  * Implements template_preprocess_block().
  */
 function ec_resp_preprocess_block(&$variables) {
-
   global $user, $language;
-  if (!empty($user) && 0 != $user->uid) {
-    $full_user = user_load($user->uid);
-    $name = (isset($full_user->field_firstname[LANGUAGE_NONE][0]['value']) && isset($full_user->field_lastname[LANGUAGE_NONE][0]['value']) ? $full_user->field_firstname[LANGUAGE_NONE][0]['value'] . ' ' . $full_user->field_lastname[LANGUAGE_NONE][0]['value'] : $user->name);
-    $variables['user_name'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . $name . '</strong></div>';
-  }
 
   $block_no_panel = array(
     'search' => 'form',
@@ -1617,12 +1623,9 @@ function ec_resp_preprocess_block(&$variables) {
 
       case 'system-user-menu':
         if ($user->uid) {
-          $account = user_load($user->uid);
-          $firstname_field = field_get_items('user', $account, 'field_firstname');
-          $lastname_field = field_get_items('user', $account, 'field_lastname');
-          $name = $firstname_field[0]['value'] . ' ' . $lastname_field[0]['value'];
+          $name = theme('username', array('account' => $user, 'nolink' => TRUE));
+          $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name) . '</strong></div>';
 
-          $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name == ' ' ? $name : $user->name) . '</strong></div>';
         }
         $menu = menu_navigation_links("user-menu");
         $items = array();
@@ -1703,6 +1706,15 @@ function ec_resp_preprocess_block(&$variables) {
         break;
 
     }
+  }
+}
+
+/**
+ * Preprocesses variables for theme_username().
+ */
+function ec_resp_preprocess_username(&$vars) {
+  if (isset($vars['link_path']) && isset($vars['nolink']) && $vars['nolink']) {
+    unset($vars['link_path']);
   }
 }
 

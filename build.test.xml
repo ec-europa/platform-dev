@@ -52,34 +52,42 @@
 
     <!-- Set up Behat. -->
     <target name="setup-behat">
-        <if>
-            <available file="${behat.yml.path}" type="file" property="behat.yml.available" />
-            <then>
-                <echo message="Deleting existing behat.yml configuration file" />
-                <delete file="${behat.yml.path}" failonerror="false" />
-            </then>
-        </if>
-        <echo message="Creating behat.yml configuration file" />
-        <loadfile property="behat.yml.content" file="${behat.yml.template}">
+        <copy todir="${behat.dir}">
+            <fileset dir="${behat.dir}" casesensitive="yes">
+                <include name="*.yml.dist"/>
+            </fileset>
             <filterchain>
-                <replacetokens>
-                    <token key="project.code.dir" value="${project.code.dir}" />
-                    <token key="drupal.site.dir" value="${drupal.site.dir}" />
+                <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="platform.build.dir" value="${platform.build.dir}" />
+                    <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
+                    <token key="drush.bin" value="${drush.bin}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
                 </replacetokens>
             </filterchain>
-        </loadfile>
-        <echo message="${behat.yml.content}" file="${behat.yml.path}" />
-        <symlink link="${phing.project.build.dir}/behat.yml" target="../tests/behat.yml" />
+            <mapper type="glob" from="*.yml.dist" to="*.yml" />
+        </copy>
+        <symlink link="${phing.project.build.dir}" overwrite="true">
+            <fileset dir="${behat.dir}" casesensitive="yes">
+                <include name="*.yml"/>
+            </fileset>
+        </symlink>
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
     </target>
 
     <!-- Run Behat tests. -->
     <target name="behat" description="Run Behat tests.">
+        <foreach param="filename" absparam="config" target="behat-suite">
+          <fileset dir="${behat.dir}">
+            <include name="*.yml"/>
+          </fileset>
+        </foreach>
+    </target>
+
+    <target name="behat-suite" description="Run Behat tests suite.">
         <behat
             executable="${behat.bin}"
-            config="${behat.yml.path}"
+            config="${config}"
             strict="${behat.options.strict}"
             verbose="${behat.options.verbosity}"
         />
