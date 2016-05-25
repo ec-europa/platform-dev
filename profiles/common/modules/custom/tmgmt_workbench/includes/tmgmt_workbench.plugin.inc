@@ -14,9 +14,14 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * {@inheritdoc}
    */
   public function getLabel(TMGMTJobItem $job_item) {
+    // Deleting a node does not delete its translation jobs.
+    // Here we make sure the job has always a label.
     $node = node_load($job_item->item_id);
-    $current_revision = $this->getModerationRevision($node);
-    return $current_revision->title;
+    if ($node) {
+      $current_revision = $this->getModerationRevision($node);
+      return $current_revision->title;
+    }
+    return t("Node !nid (deleted)", array('!nid' => $job_item->item_id));
   }
 
   /**
