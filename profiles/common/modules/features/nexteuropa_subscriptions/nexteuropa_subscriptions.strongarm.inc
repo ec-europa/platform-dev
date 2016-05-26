@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_subscriptions.strongarm.inc
@@ -113,12 +112,12 @@ function nexteuropa_subscriptions_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_send_intervals';
   $strongarm->value = array(
-    1 => 'As soon as possible',
-    900 => 'Every 15 minutes',
-    3600 => 'Hourly',
-    10800 => 'Every three hours',
-    86400 => 'Daily',
-    604800 => 'Weekly',
+',  1 => 'As soon as possible
+',  900 => 'Every 15 minutes
+',  3600 => 'Hourly
+',  10800 => 'Every three hours
+',  86400 => 'Daily
+',  604800 => 'Weekly
   );
   $export['subscriptions_send_intervals'] = $strongarm;
 
