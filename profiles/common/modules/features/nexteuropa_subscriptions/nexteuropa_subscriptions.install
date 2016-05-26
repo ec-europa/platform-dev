@@ -30,7 +30,3 @@ function nexteuropa_subscriptions_disable() {
   user_role_delete('subscriber');
   drupal_set_message(t('Notifications feature is now disabled on your site.'), 'status');
 }
-
-
-
-

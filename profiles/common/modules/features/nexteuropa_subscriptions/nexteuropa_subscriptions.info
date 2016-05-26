@@ -52,4 +52,3 @@ features[variable][] = subscriptions_watchgood
 features[variable][] = subscriptions_watchstats
 features[variable][] = unsubscribe_message_en
 features[variable][] = unsubscribe_subject_en
-files[] = tests/nexteuropa_subscriptions.test
