@@ -288,12 +288,6 @@ function nexteuropa_newsroom_update_7108() {
   foreach ($fields as $old_field => $new_field) {
     _nexteuropa_newsroom_rename_field($old_field, $new_field);
   }
-
-  // Update metatag settings.
-  db_update('metatag_config')
-    ->fields(array('config' => "REPLACE('config', 'field_teaser', 'field_newsroom_teaser')"))
-    ->condition('instance', 'node:newsroom_item')
-    ->execute();
 }
 
 /**
