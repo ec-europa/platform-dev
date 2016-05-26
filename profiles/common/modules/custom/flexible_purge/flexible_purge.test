@@ -13,6 +13,7 @@ class FlexiblePurgeUnitTestCase extends DrupalWebTestCase {
    */
   public function setUp() {
     parent::setUp();
+    module_load_include('inc', 'flexible_purge', 'flexible_purge.cache');
     variable_set('fp_fix_cids_for_cache_page', TRUE);
     variable_set('fp_strip_base_path_for_cache_page', TRUE);
   }
