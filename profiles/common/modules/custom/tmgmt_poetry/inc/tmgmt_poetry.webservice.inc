@@ -119,7 +119,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $language_job = $request->status['lgCode'];
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $main_reference)->fetchAll();
+    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
 
     // Handling the case where we can't find the corresponding job.
     if (!$ids) {
