@@ -102,7 +102,7 @@ Feature: TMGMT Poetry features
     But I should not see an "#edit-languages-fr.form-checkbox" element
 
   Scenario: A request for translation that is not submitted won't generate a job item.
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given workbench_moderation translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                     |
