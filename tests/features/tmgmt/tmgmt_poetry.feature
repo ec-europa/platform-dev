@@ -19,16 +19,16 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Create a request translation for French and Portuguese
-    Given workbench_moderation translator "TMGMT Poetry: Test translator" is available
+    Given poetry translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-pt-pt"
+    And I select the radio button "" with the id "edit-languages-pt -pt"
    # And I check the box "edit-languages-pt-pt"
     And I press the "Request translation" button
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "poetry" from "Translator"
     And I wait for AJAX to finish
     Then I should see "Contact usernames"
     And I should see "Organization"
@@ -78,7 +78,7 @@ Feature: TMGMT Poetry features
     
   @javascript
   Scenario: Allow to request a new translation.
-    Given workbench_moderation translator "TMGMT Poetry: Test translator" is available
+    Given poetry translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"
@@ -88,12 +88,13 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "Poetry" from "Translator"
     And I wait for AJAX to finish
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
     Then I click "In progress" in the "French" row
+    Then print last response
     And I receive the translation of current job item
     And I press "Save"
     Then I click "Needs review" in the "French" row
@@ -102,7 +103,7 @@ Feature: TMGMT Poetry features
     But I should not see an "#edit-languages-fr.form-checkbox" element
 
   Scenario: A request for translation that is not submitted won't generate a job item.
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given poetry translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                     |
