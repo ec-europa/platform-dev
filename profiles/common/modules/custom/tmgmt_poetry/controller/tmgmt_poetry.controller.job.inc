@@ -21,7 +21,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     $origin_job_items = $origin_job->jobItemSessionGetSaveAndUnset();
 
     // Set poetry as default translator.
-    if ($origin_job->reference === NULL && $translator === FALSE) {
+    if ($origin_job->reference === NULL && $translator === FALSE && tmgmt_translator_exists('poetry')) {
       $translator = tmgmt_translator_load('poetry');
       $origin_job->translator = $translator->plugin;
     }
@@ -81,9 +81,9 @@ class TMGMTPoetryJobController extends TMGMTJobController {
       foreach ($jobs as $ids) {
         $job = tmgmt_job_load($ids->tjid);
         $job->reference = str_replace(
-            'MAIN_' . $origin_job->tjid . '_POETRY_',
-            'SUB_' . $origin_job->tjid . '_POETRY_',
-            $origin_job->reference
+          'MAIN_' . $origin_job->tjid . '_POETRY_',
+          'SUB_' . $origin_job->tjid . '_POETRY_',
+          $origin_job->reference
         );
         $job->state = TMGMT_JOB_STATE_ACTIVE;
         $job->save();
