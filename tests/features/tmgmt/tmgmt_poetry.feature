@@ -19,7 +19,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Create a request translation for French and Portuguese
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given workbench_moderation translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                        |
@@ -78,7 +78,7 @@ Feature: TMGMT Poetry features
     
   @javascript
   Scenario: Allow to request a new translation.
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given workbench_moderation translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"

@@ -59,6 +59,120 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Add a translation to an existing node.
+   *
+   * @param string $type
+   *    Content type machine name.
+   * @param string $title
+   *    Source node title.
+   * @param TableNode $table
+   *    List of available languages and field translations.
+   *
+   * @Then I create the following translations for :type content with title :arg2:
+   */
+  public function createTranslationForContentWithTitle($type, $title, TableNode $table) {
+    $node = $this->getNodeByTitle($type, $title);
+    foreach ($table->getHash() as $row) {
+      if (!isset($row['language']) || empty($row['language'])) {
+        throw new \InvalidArgumentException("You must specify a translation language.");
+      }
+      $this->saveNodeTranslation($node, $row['language'], $row);
+    }
+  }
+
+  /**
+   * Get a node by specifying its type and title.
+   *
+   * @param string $type
+   *    The node type.
+   * @param string $title
+   *    The node title.
+   *
+   * @return object
+   *    The node object.
+   */
+  protected function getNodeByTitle($type, $title) {
+    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
+    if ($nodes) {
+      return array_shift($nodes);
+    }
+    throw new \InvalidArgumentException("Node of type '{$type}' and title '{$title}' not found.");
+  }
+
+  /**
+   * Save a translation for an existing node.
+   *
+   * @param object $node
+   *    Node object.
+   * @param string $language
+   *    Language for which to create the translation for.
+   * @param array $fields
+   *    Translation fields.
+   * @param int|null $vid
+   *    Node revision ID to which to apply the translation.
+   * @param string $moderation_state
+   *    Moderation state.
+   */
+  public function saveNodeTranslation($node, $language, array $fields, $vid = NULL, $moderation_state = self::MODERATION_PUBLISHED) {
+    $handler = entity_translation_get_handler('node', $node);
+
+    $translation = [
+      'translate' => 0,
+      'status' => TRUE,
+      'source' => $node->language,
+      'uid' => $node->uid,
+      'created' => $node->created,
+      'changed' => $node->changed,
+      'language' => $language,
+    ];
+
+    $values = [];
+    // Assign translated title field.
+    $values['title_field'][$language][0]['value'] = $fields['title'];
+    // Assign translated body field, if any.
+    if (isset($fields['body']) && !empty($fields['body'])) {
+      $values['body'][$language][0]['value'] = $fields['body'];
+    }
+    $handler->setTranslation($translation, $values);
+    // Set translation language.
+    $handler->setFormLanguage($language);
+
+    // Workbench Moderation disables pathauto after node has been published.
+    // Enforcing it here will ensure a consistent behavior.
+    $node->path['pathauto'] = 0;
+
+    // Save node (new translation).
+    node_save($node);
+  }
+
+  /**
+   * Create a node along with its translations and visit its node page.
+   *
+   * @param string $type
+   *    Content type machine name.
+   * @param TableNode $table
+   *    List of available languages and title translations.
+   *
+   * @throws \InvalidArgumentException
+   *    Thrown if the specified content type does not support field translation.
+   *
+   * @see NextEuropaMultilingualSubContext::createMultilingualContent()
+   *
+   * @Given I am viewing a multilingual :arg1 content:
+   */
+  public function iAmViewingMultilingualContent($type, TableNode $table) {
+    $node = $this->createMultilingualContent($type, $table);
+
+    // Get node path without any base path by setting 'base_url' and 'absolute'.
+    $path = url('node/' . $node->nid, array(
+      'base_url' => '',
+      'absolute' => TRUE
+    ));
+    // Visit newly created node page.
+    $this->visitPath($path);
+  }
+
+  /**
    * Create a node along with its translations.
    *
    * Currently it supports only title and body fields since that is enough to
@@ -128,118 +242,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Add a translation to an existing node.
-   *
-   * @param string $type
-   *    Content type machine name.
-   * @param string $title
-   *    Source node title.
-   * @param TableNode $table
-   *    List of available languages and field translations.
-   *
-   * @Then I create the following translations for :type content with title :arg2:
-   */
-  public function createTranslationForContentWithTitle($type, $title, TableNode $table) {
-    $node = $this->getNodeByTitle($type, $title);
-    foreach ($table->getHash() as $row) {
-      if (!isset($row['language']) || empty($row['language'])) {
-        throw new \InvalidArgumentException("You must specify a translation language.");
-      }
-      $this->saveNodeTranslation($node, $row['language'], $row);
-    }
-  }
-
-  /**
-   * Get moderation state machine name given its label.
-   *
-   * @param string $label
-   *    Moderation state label.
-   *
-   * @return string
-   *    Moderation state machine name.
-   */
-  protected function getModerationStateMachineName($label) {
-    $states = [];
-    foreach (workbench_moderation_states() as $state) {
-      $states[$state->label] = $state->name;
-    }
-    if (!isset($states[$label])) {
-      throw new \InvalidArgumentException("Property 'moderation state' not valid, must be chosen among: " . implode(', ', array_keys($states)));
-    }
-    return $states[$label];
-  }
-
-  /**
-   * Save a translation for an existing node.
-   *
-   * @param object $node
-   *    Node object.
-   * @param string $language
-   *    Language for which to create the translation for.
-   * @param array $fields
-   *    Translation fields.
-   * @param int|null $vid
-   *    Node revision ID to which to apply the translation.
-   * @param string $moderation_state
-   *    Moderation state.
-   */
-  public function saveNodeTranslation($node, $language, array $fields, $vid = NULL, $moderation_state = self::MODERATION_PUBLISHED) {
-    $handler  = entity_translation_get_handler('node', $node);
-
-    $translation = [
-      'translate' => 0,
-      'status' => TRUE,
-      'source' => $node->language,
-      'uid' => $node->uid,
-      'created' => $node->created,
-      'changed' => $node->changed,
-      'language' => $language,
-    ];
-
-    $values = [];
-    // Assign translated title field.
-    $values['title_field'][$language][0]['value'] = $fields['title'];
-    // Assign translated body field, if any.
-    if (isset($fields['body']) && !empty($fields['body'])) {
-      $values['body'][$language][0]['value'] = $fields['body'];
-    }
-    $handler->setTranslation($translation, $values);
-    // Set translation language.
-    $handler->setFormLanguage($language);
-
-    // Workbench Moderation disables pathauto after node has been published.
-    // Enforcing it here will ensure a consistent behavior.
-    $node->path['pathauto'] = 0;
-
-    // Save node (new translation).
-    node_save($node);
-  }
-
-  /**
-   * Create a node along with its translations and visit its node page.
-   *
-   * @param string $type
-   *    Content type machine name.
-   * @param TableNode $table
-   *    List of available languages and title translations.
-   *
-   * @throws \InvalidArgumentException
-   *    Thrown if the specified content type does not support field translation.
-   *
-   * @see NextEuropaMultilingualSubContext::createMultilingualContent()
-   *
-   * @Given I am viewing a multilingual :arg1 content:
-   */
-  public function iAmViewingMultilingualContent($type, TableNode $table) {
-    $node = $this->createMultilingualContent($type, $table);
-
-    // Get node path without any base path by setting 'base_url' and 'absolute'.
-    $path = url('node/' . $node->nid, array('base_url' => '', 'absolute' => TRUE));
-    // Visit newly created node page.
-    $this->visitPath($path);
-  }
-
-  /**
    * Returns whether or not Pathauto is enabled for the given entity.
    *
    * @param string $entity_type
@@ -277,7 +279,8 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @Then I should be on the language selector page
    */
   public function assertLanguageSelectorPage() {
-    $this->assertSession()->elementExists('css', '#language-selector-site-language-list-page');
+    $this->assertSession()
+      ->elementExists('css', '#language-selector-site-language-list-page');
   }
 
   /**
@@ -286,9 +289,9 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param string $name
    *    Local translator human readable name.
    *
-   * @Given local translator :name is available
+   * @Given :plugin translator :name is available
    */
-  public function localTranslatorIsAvailable($name) {
+  public function isTranslatorAvailable($name, $plugin) {
     /** @var \TMGMTTranslatorController $controller */
     $controller = entity_get_controller('tmgmt_translator');
     $machine_name = strtolower(str_replace(' ', '_', $name));
@@ -298,7 +301,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
         "label" => $name,
         "description" => "",
         "weight" => 0,
-        "plugin" => "local",
+        "plugin" => $plugin,
         "settings" => [
           "auto_accept" => FALSE,
           "allow_all" => TRUE,
@@ -353,6 +356,18 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Get translation job ID from current page's URL.
+   *
+   * @return int|FALSE
+   *    Translators job ID, FALSE if none found.
+   */
+  protected function getTranslationJobItemFromUrl() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
+    return isset($matches[1][0]) ? $matches[1][0] : FALSE;
+  }
+
+  /**
    * Validate current job using poetry test.
    *
    * @Then I receive the translation of current job item
@@ -375,18 +390,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $this->visitPath($path);
       $this->visitPath($url);
     }
-  }
-
-  /**
-   * Get translation job ID from current page's URL.
-   *
-   * @return int|FALSE
-   *    Translators job ID, FALSE if none found.
-   */
-  protected function getTranslationJobItemFromUrl() {
-    $url = $this->getSession()->getCurrentUrl();
-    preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
-    return isset($matches[1][0]) ? $matches[1][0] : FALSE;
   }
 
   /**
@@ -495,6 +498,26 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Get translator by machine name.
+   *
+   * @param string $name
+   *    Human readable labels will be converted into machine name-like syntax.
+   *
+   * @return \TMGMTTranslator
+   *    Translator object.
+   *
+   * @see NextEuropaMultilingualSubContext::localTranslatorIsAvailable()
+   */
+  protected function getTranslatorByName($name) {
+    $name = strtolower(str_replace(' ', '_', $name));
+    $translator = tmgmt_translator_load($name);
+    if ($translator) {
+      return $translator;
+    }
+    throw new \InvalidArgumentException("Translator with machine name '{$name}' not found.");
+  }
+
+  /**
    * Remove translation jobs created during scenarios execution.
    *
    * @AfterScenario
@@ -528,6 +551,42 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Get latest saved translation job.
+   *
+   * @return \TMGMTJob
+   *    Translation job object.
+   */
+  protected function getLatestTranslationJob() {
+    if ($this->latestJob) {
+      return $this->latestJob;
+    }
+    throw new \InvalidArgumentException("No translation job found, create a translation job during the scenario execution first.");
+  }
+
+  /**
+   * Get translation job state value given its human readable label.
+   *
+   * @param string $state
+   *    State human readable label.
+   *
+   * @return int
+   *    Translation job state value.
+   */
+  protected function getTranslationJobState($state) {
+    $states = [
+      'Unprocessed' => TMGMT_JOB_STATE_UNPROCESSED,
+      'Active' => TMGMT_JOB_STATE_ACTIVE,
+      'Rejected' => TMGMT_JOB_STATE_REJECTED,
+      'Aborted' => TMGMT_JOB_STATE_ABORTED,
+      'Finished' => TMGMT_JOB_STATE_FINISHED,
+    ];
+    if (isset($states[$state])) {
+      return $states[$state];
+    }
+    throw new \InvalidArgumentException("Translation job state labeled '{$state}' does not exists.");
+  }
+
+  /**
    * Assert current translation job items state.
    *
    * @param string $expected
@@ -544,6 +603,28 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
         throw new \InvalidArgumentException("Translation job item not in the expected '{$expected}' state. Current state is '{$states[$actual]}'");
       }
     }
+  }
+
+  /**
+   * Get translation job item state value given its human readable label.
+   *
+   * @param string $state
+   *    State human readable label.
+   *
+   * @return int
+   *    Translation job item state value.
+   */
+  protected function getTranslationJobItemState($state) {
+    $states = [
+      'In progress' => TMGMT_JOB_ITEM_STATE_ACTIVE,
+      'Needs review' => TMGMT_JOB_ITEM_STATE_REVIEW,
+      'Accepted' => TMGMT_JOB_ITEM_STATE_ACCEPTED,
+      'Aborted' => TMGMT_JOB_ITEM_STATE_ABORTED,
+    ];
+    if (isset($states[$state])) {
+      return $states[$state];
+    }
+    throw new \InvalidArgumentException("Translation job item state labeled '{$state}' does not exists.");
   }
 
   /**
@@ -585,22 +666,23 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Get a node by specifying its type and title.
+   * Get moderation state machine name given its label.
    *
-   * @param string $type
-   *    The node type.
-   * @param string $title
-   *    The node title.
+   * @param string $label
+   *    Moderation state label.
    *
-   * @return object
-   *    The node object.
+   * @return string
+   *    Moderation state machine name.
    */
-  protected function getNodeByTitle($type, $title) {
-    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
-    if ($nodes) {
-      return array_shift($nodes);
+  protected function getModerationStateMachineName($label) {
+    $states = [];
+    foreach (workbench_moderation_states() as $state) {
+      $states[$state->label] = $state->name;
     }
-    throw new \InvalidArgumentException("Node of type '{$type}' and title '{$title}' not found.");
+    if (!isset($states[$label])) {
+      throw new \InvalidArgumentException("Property 'moderation state' not valid, must be chosen among: " . implode(', ', array_keys($states)));
+    }
+    return $states[$label];
   }
 
   /**
@@ -627,84 +709,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       return node_load($result->nid, $result->vid, TRUE);
     }
     throw new \InvalidArgumentException("Node revision of type '{$type}' and title '{$title}' not found.");
-  }
-
-  /**
-   * Get translator by machine name.
-   *
-   * @param string $name
-   *    Human readable labels will be converted into machine name-like syntax.
-   *
-   * @return \TMGMTTranslator
-   *    Translator object.
-   *
-   * @see NextEuropaMultilingualSubContext::localTranslatorIsAvailable()
-   */
-  protected function getTranslatorByName($name) {
-    $name = strtolower(str_replace(' ', '_', $name));
-    $translator = tmgmt_translator_load($name);
-    if ($translator) {
-      return $translator;
-    }
-    throw new \InvalidArgumentException("Translator with machine name '{$name}' not found.");
-  }
-
-  /**
-   * Get latest saved translation job.
-   *
-   * @return \TMGMTJob
-   *    Translation job object.
-   */
-  protected function getLatestTranslationJob() {
-    if ($this->latestJob) {
-      return $this->latestJob;
-    }
-    throw new \InvalidArgumentException("No translation job found, create a translation job during the scenario execution first.");
-  }
-
-  /**
-   * Get translation job state value given its human readable label.
-   *
-   * @param string $state
-   *    State human readable label.
-   *
-   * @return int
-   *    Translation job state value.
-   */
-  protected function getTranslationJobState($state) {
-    $states = [
-      'Unprocessed' => TMGMT_JOB_STATE_UNPROCESSED,
-      'Active' => TMGMT_JOB_STATE_ACTIVE,
-      'Rejected' => TMGMT_JOB_STATE_REJECTED,
-      'Aborted' => TMGMT_JOB_STATE_ABORTED,
-      'Finished' => TMGMT_JOB_STATE_FINISHED,
-    ];
-    if (isset($states[$state])) {
-      return $states[$state];
-    }
-    throw new \InvalidArgumentException("Translation job state labeled '{$state}' does not exists.");
-  }
-
-  /**
-   * Get translation job item state value given its human readable label.
-   *
-   * @param string $state
-   *    State human readable label.
-   *
-   * @return int
-   *    Translation job item state value.
-   */
-  protected function getTranslationJobItemState($state) {
-    $states = [
-      'In progress' => TMGMT_JOB_ITEM_STATE_ACTIVE,
-      'Needs review' => TMGMT_JOB_ITEM_STATE_REVIEW,
-      'Accepted' => TMGMT_JOB_ITEM_STATE_ACCEPTED,
-      'Aborted' => TMGMT_JOB_ITEM_STATE_ABORTED,
-    ];
-    if (isset($states[$state])) {
-      return $states[$state];
-    }
-    throw new \InvalidArgumentException("Translation job item state labeled '{$state}' does not exists.");
   }
 
 }
