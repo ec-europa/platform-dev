@@ -27,3 +27,12 @@ Feature: Second favorite language tests
     | content/title-english_bg |                  | This title is in English |
     | content/title-english_bg | ?2nd-language=it | Questo titolo èn inglese |
     | content/title-english_bg | ?2nd-language=de | This title is in English |
+
+  Scenario: Check that a user can view a page even if the language prefix was changed
+    Given "prefix" for language "pt-pt" is set to "pt"
+    And I am viewing a multilingual "page" content:
+      | language | title                         |
+      | en       | This title is in English      |
+      | pt-pt    | Este titulo esta em Portugues |
+    And I click "Português" in the "content" region
+    Then I should not see the text "Page not found"
