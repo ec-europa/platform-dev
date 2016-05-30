@@ -212,7 +212,7 @@ class FlexiblePurgeCache implements DrupalCacheInterface {
    *   paths.
    * @param bool $wildcard
    *   Whether $cid is to be interpreted as a wildcard expression.
-   * @param bool $store_timestamp
+   * @param mixed $store_timestamp
    *   Whether to store the date of the latest effective clear
    *   operation. This date can later be used to comply with the minimum cache
    *   lifetime.
@@ -266,7 +266,6 @@ class FlexiblePurgeCache implements DrupalCacheInterface {
       // Send the HTTP request.
       $handle_errors = TRUE;
       $exec = @curl_exec($curl_res);
-
       // Allow configuration to handle errors or simply act after the response
       // was received (e.g., debug the response).
       $error_function = 'fp_curl_exec_for_' . $this->bin;

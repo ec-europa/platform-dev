@@ -71,12 +71,12 @@ function _selfish_varnish_check_purge_function($set_message = TRUE) {
  *   The base path this Drupal site is available on.
  */
 function _selfish_varnish_base_path() {
-  $trimmed_based_path = rtrim($GLOBALS['base_path'], '/');
+  global $base_url;
 
   // Enable other modules to fix our way to detect the base path.
-  drupal_alter('selfish_varnish_base_path', $trimmed_based_path);
+  drupal_alter('selfish_varnish_base_path', $base_url);
 
-  return $trimmed_based_path;
+  return $base_url;
 }
 
 /**

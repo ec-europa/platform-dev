@@ -10,6 +10,9 @@
  *   warn users in case the usual invalidation mechanism is disabled.
  */
 
+// Rules module integration.
+module_load_include('inc', 'flexible_purge', 'rules/flexible_purge_rules_actions');
+
 /**
  * Implements hook_form_alter().
  */
