@@ -12,7 +12,6 @@ Feature: Second favorite language tests
       | pt-pt     |
       | bg        |
 
-  @javascript @run
   Scenario Outline: Check the role of the second favorite language on the language fallback
     Given I am viewing a multilingual "page" content:
       | language | title                    |
@@ -29,7 +28,6 @@ Feature: Second favorite language tests
     | content/title-english_bg | ?2nd-language=pt-pt | Este titulo e Portugues  |
     | content/title-english_bg | ?2nd-language=de    | This title is in English |
 
-  @javascript @run
   Scenario: Check that a user can view a page even if the language prefix was changed
     Given "prefix" for language "pt-pt" is set to "pt"
     And I am viewing a multilingual "page" content:
