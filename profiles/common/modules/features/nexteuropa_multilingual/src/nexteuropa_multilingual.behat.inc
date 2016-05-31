@@ -663,7 +663,8 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       'target_language' => $language,
     ]);
     if (!$jobs) {
-      throw new \InvalidArgumentException("Translation job with label '{$label}' and target language '{$language}' not found.");
+      throw new \InvalidArgumentException("Translation job with label '{$label}'
+       and target language '{$language}' not found.");
     }
     /** @var \TMGMTJob $job */
     $job = array_shift($jobs);
@@ -777,4 +778,5 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     }
     throw new \InvalidArgumentException("Node revision of type '{$type}' and title '{$title}' not found.");
   }
+  
 }
