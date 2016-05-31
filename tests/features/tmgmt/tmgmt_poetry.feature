@@ -25,7 +25,7 @@ Feature: TMGMT Poetry features
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-pt-pt"
+    And I select the radio button "" with the id "edit-languages-pt -pt"
    # And I check the box "edit-languages-pt-pt"
     And I press the "Request translation" button
     And I select "TMGMT Poetry Test translator" from "Translator"
@@ -94,6 +94,7 @@ Feature: TMGMT Poetry features
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
     Then I click "In progress" in the "French" row
+    Then print last response
     And I receive the translation of current job item
     And I press "Save"
     Then I click "Needs review" in the "French" row
