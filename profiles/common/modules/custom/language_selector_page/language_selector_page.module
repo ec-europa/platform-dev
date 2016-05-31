@@ -177,8 +177,8 @@ function language_selector_page_preprocess_link(&$variables) {
  */
 function language_selector_page_url_outbound_alter(&$path, &$options, $original_path) {
 
-  // We only want to change:
-  // links preprocessed, not external, not autocomplete and if it wasn't previously defined.
+  // We only want to change, links preprocessed, not external,
+  // not autocomplete and if it wasn't previously defined.
   if (
     isset($options['2nd-language-apply']) &&
     !$options['external'] &&
