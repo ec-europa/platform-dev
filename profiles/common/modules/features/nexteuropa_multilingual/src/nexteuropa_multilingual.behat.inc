@@ -49,6 +49,13 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   protected $latestJob;
 
   /**
+   * Settings that may be changed during test execution.
+   *
+   * @var array
+   */
+  protected $settings = [];
+
+  /**
    * Constructs a NextEuropaMultilingualSubContext object.
    *
    * @param DrupalDriverManager $drupal
@@ -666,7 +673,39 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+<<<<<<< HEAD
    * Get moderation state machine name given its label.
+=======
+   * Change settings for a language.
+   *
+   * @Given :field for language :langcode is set to :value
+   */
+  public function setLanguageSetting($field, $value, $langcode) {
+
+    if ($field == 'language') {
+      throw new \InvalidArgumentException("Field '{$field}' can not be changed.");
+    }
+
+    $query = "SELECT * FROM {languages} WHERE language = :lang";
+    $language = db_query($query, array(':lang' => $langcode))->fetchObject();
+
+    if (empty($language)) {
+      throw new \InvalidArgumentException("Language '{$langcode}' does not exists.");
+    }
+
+    $this->settings['language'] = array(
+      'field' => $field,
+      'value' => $language->$field,
+      'langcode' => $langcode,
+    );
+
+    $this->updateLanguage($field, $value, $langcode);
+
+  }
+
+  /**
+   * Get a node by specifying its type and title.
+>>>>>>> master
    *
    * @param string $label
    *    Moderation state label.
@@ -711,4 +750,112 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     throw new \InvalidArgumentException("Node revision of type '{$type}' and title '{$title}' not found.");
   }
 
+  /**
+   * Get translator by machine name.
+   *
+   * @param string $name
+   *    Human readable labels will be converted into machine name-like syntax.
+   *
+   * @return \TMGMTTranslator
+   *    Translator object.
+   *
+   * @see NextEuropaMultilingualSubContext::localTranslatorIsAvailable()
+   */
+  protected function getTranslatorByName($name) {
+    $name = strtolower(str_replace(' ', '_', $name));
+    $translator = tmgmt_translator_load($name);
+    if ($translator) {
+      return $translator;
+    }
+    throw new \InvalidArgumentException("Translator with machine name '{$name}' not found.");
+  }
+
+  /**
+   * Get latest saved translation job.
+   *
+   * @return \TMGMTJob
+   *    Translation job object.
+   */
+  protected function getLatestTranslationJob() {
+    if ($this->latestJob) {
+      return $this->latestJob;
+    }
+    throw new \InvalidArgumentException("No translation job found, create a translation job during the scenario execution first.");
+  }
+
+  /**
+   * Get translation job state value given its human readable label.
+   *
+   * @param string $state
+   *    State human readable label.
+   *
+   * @return int
+   *    Translation job state value.
+   */
+  protected function getTranslationJobState($state) {
+    $states = [
+      'Unprocessed' => TMGMT_JOB_STATE_UNPROCESSED,
+      'Active' => TMGMT_JOB_STATE_ACTIVE,
+      'Rejected' => TMGMT_JOB_STATE_REJECTED,
+      'Aborted' => TMGMT_JOB_STATE_ABORTED,
+      'Finished' => TMGMT_JOB_STATE_FINISHED,
+    ];
+    if (isset($states[$state])) {
+      return $states[$state];
+    }
+    throw new \InvalidArgumentException("Translation job state labeled '{$state}' does not exists.");
+  }
+
+  /**
+   * Get translation job item state value given its human readable label.
+   *
+   * @param string $state
+   *    State human readable label.
+   *
+   * @return int
+   *    Translation job item state value.
+   */
+  protected function getTranslationJobItemState($state) {
+    $states = [
+      'In progress' => TMGMT_JOB_ITEM_STATE_ACTIVE,
+      'Needs review' => TMGMT_JOB_ITEM_STATE_REVIEW,
+      'Accepted' => TMGMT_JOB_ITEM_STATE_ACCEPTED,
+      'Aborted' => TMGMT_JOB_ITEM_STATE_ABORTED,
+    ];
+    if (isset($states[$state])) {
+      return $states[$state];
+    }
+    throw new \InvalidArgumentException("Translation job item state labeled '{$state}' does not exists.");
+  }
+
+  /**
+   * Update language in database.
+   *
+   * @param string $field
+   *    The field to change.
+   * @param string $value
+   *    The new value.
+   * @param string $langcode
+   *    The code of the language to bee changed.
+   */
+  protected function updateLanguage($field, $value, $langcode) {
+    db_update('languages')
+      ->fields(array($field => $value))
+      ->condition('language', $langcode)
+      ->execute();
+  }
+
+  /**
+   * Revert to previous settings after scenario execution.
+   *
+   * @AfterScenario
+   */
+  public function revertSettings() {
+    if (!empty($this->settings)) {
+      if (isset($this->settings['language'])) {
+        $lang = $this->settings['language'];
+        $this->updateLanguage($lang['field'], $lang['value'], $lang['langcode']);
+      }
+    }
+  }
 }
