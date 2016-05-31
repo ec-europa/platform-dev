@@ -25,7 +25,7 @@ Feature: TMGMT Poetry features
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-pt -pt"
+    And I select the radio button "" with the id "edit-languages-pt-pt"
    # And I check the box "edit-languages-pt-pt"
     And I press the "Request translation" button
     And I select "TMGMT Poetry Test translator" from "Translator"
