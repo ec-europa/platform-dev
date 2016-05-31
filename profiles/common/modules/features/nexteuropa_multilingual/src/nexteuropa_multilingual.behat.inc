@@ -383,13 +383,18 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
 
     $url = $this->getSession()->getCurrentUrl();
     // We can't simply use Drupal's menu_get_item() because of caching reasons.
-    $job_id = $this->getTranslationJobSubItemFromUrl();
-    if (!$job_id) {
+    $tjiid = $this->getTranslationJobSubItemFromUrl();
+    if (!$tjiid) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
     }
     else {
+      $tjid = $this->getParentJobId($tjiid);
+      if (!$tjid) {
+        throw new \InvalidArgumentException("No translation job found for Job Item '$tjiid''.");
+      }
+
       // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/receivetranslation/' . $job_id, array(
+      $path = url('tmgmt_poetry_test/receivetranslation/' . $tjid, array(
         'base_url' => '',
         'absolute' => TRUE,
       ));
@@ -397,6 +402,23 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $this->visitPath($path);
       $this->visitPath($url);
     }
+  }
+
+  /**
+   * Get the id of the parent job.
+   *
+   * @param int $tjiid
+   *    Job Item id.
+   *
+   * @return int|FALSE
+   *    Parent Job id or FALSE if none was found.
+   */
+  public function getParentJobId($tjiid) {
+    return db_select('tmgmt_job_item', 't')
+      ->fields('t', ['tjid'])
+      ->condition('t.tjiid', $tjiid)
+      ->execute()
+      ->fetchField();
   }
 
   /**
@@ -435,13 +457,13 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $tjiid = array_shift($result);
       $job_item = tmgmt_job_item_load($tjiid);
       if (!$job_item) {
-        throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+        throw new \InvalidArgumentException("No translation job found for node of type '{$type}' and title '{$title}'.");
       }
       $controller = $job_item->getSourceController();
       $controller->saveTranslation($job_item);
     }
     else {
-      throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+      throw new \InvalidArgumentException("No translation job found for node of type '{$type}' and title '{$title}'.");
     }
   }
 
