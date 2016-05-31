@@ -94,7 +94,6 @@ Feature: TMGMT Poetry features
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
     Then I click "In progress" in the "French" row
-    Then print last response
     And I receive the translation of current job item
     And I press "Save"
     Then I click "Needs review" in the "French" row
