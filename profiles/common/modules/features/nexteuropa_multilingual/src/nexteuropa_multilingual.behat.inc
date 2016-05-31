@@ -674,8 +674,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Get moderation state machine name given its label.
-   * Change settings for a language.
+   * Get moderation state machine name by labeland languages settings.
    *
    * @Given :field for language :langcode is set to :value
    */
@@ -778,5 +777,5 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     }
     throw new \InvalidArgumentException("Node revision of type '{$type}' and title '{$title}' not found.");
   }
-  
+
 }
