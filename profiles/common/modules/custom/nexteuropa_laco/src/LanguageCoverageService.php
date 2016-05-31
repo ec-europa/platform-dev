@@ -93,7 +93,7 @@ class LanguageCoverageService {
     }
 
     if ($this->hasStatus()) {
-      drupal_exit();
+      exit;
     }
   }
 
@@ -115,7 +115,7 @@ class LanguageCoverageService {
       else {
         $this->setStatus('404 Not found');
       }
-      drupal_exit();
+      exit;
     }
   }
 
