@@ -163,9 +163,6 @@ function language_selector_page_preprocess_block(&$variables) {
  * Signal link that the "2nd-language" logic should be applied to the link,
  * See also hook_url_outbound_alter(), which is called before preprocessment
  * and then we don't want this logic to apply.
- *
- * @param array $variables
- *    Variables information.
  */
 function language_selector_page_preprocess_link(&$variables) {
   $variables['options']['2nd-language-apply'] = TRUE;
@@ -187,7 +184,7 @@ function language_selector_page_url_outbound_alter(&$path, &$options, $original_
     // Get our url parameters.
     $parameters = drupal_get_query_parameters();
 
-    // Check if we have a 2nd-language parameter
+    // Check if we have a 2nd-language parameter.
     if (isset($parameters['2nd-language'])) {
       $options['query']['2nd-language'] = $parameters['2nd-language'];
     }
