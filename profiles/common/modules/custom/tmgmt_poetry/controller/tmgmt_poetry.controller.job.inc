@@ -20,13 +20,13 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     $translator = $origin_job->getTranslator();
     $origin_job_items = $origin_job->jobItemSessionGetSaveAndUnset();
 
-    if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
+    if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $translator->plugin == 'workbench_moderation') {
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
       $origin_job_item = array_shift($origin_job_items);
       _tmgmt_poetry_insert_item_status($origin_job_item->tjiid, $origin_job->target_language, "Pending", date('d/m/Y', strtotime($origin_job->settings['delai'])));
     }
 
-    if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
+    if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $translator->plugin == 'workbench_moderation') {
       $origin_job_item = array_shift($origin_job_items);
       $languages = language_list('language');
       $requested_languages = $origin_job->settings['languages'];

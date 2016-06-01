@@ -51,7 +51,7 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
  */
 function tmgmt_poetry_tmgmt_job_delete($job) {
   $translator = $job->getTranslator();
-  if (!empty($translator) && $translator->plugin == 'poetry' && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
+  if (!empty($translator) && $translator->plugin == 'workbench_moderation' && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
     $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
     foreach ($related_jobs as $related_job) {
       entity_get_controller('tmgmt_job')->delete(array($related_job->tjid));
@@ -119,7 +119,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     $translator = $form_state['tmgmt_job']->getTranslator();
   }
   $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
-  if ($translator->plugin == 'poetry' || $form_state['tmgmt_job']->getTranslator()->plugin == 'poetry') {
+  if ($translator->plugin == 'workbench_moderation' || $form_state['tmgmt_job']->getTranslator()->plugin == 'workbench_moderation') {
     $form['#submit'][] = '_tmgmt_poetry_form_tmgmt_job_submit';
 
     if (strpos($form_state['tmgmt_job']->reference, 'SUB_') !== FALSE) {
@@ -151,7 +151,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
 function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   $origin_job = $form_state['tmgmt_job'];
   $translator = $origin_job->getTranslator();
-  if ($translator->plugin != 'poetry') {
+  if ($translator->plugin != 'workbench_moderation') {
     $requested_languages = array();
     // The translator has benn changed,
     // proceed to clear the settings of origin job and the main reference.
