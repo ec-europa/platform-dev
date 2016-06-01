@@ -14,7 +14,10 @@
  */
 function language_selector_page_init() {
   $path = drupal_get_path('module', 'language_selector_page');
-  drupal_add_js($path . '/js/language_selector_page.js', array('scope' => 'header', 'weight' => 0));
+  drupal_add_js($path . '/js/language_selector_page.js', array(
+    'scope' => 'header',
+    'weight' => 0
+  ));
 }
 
 /**
