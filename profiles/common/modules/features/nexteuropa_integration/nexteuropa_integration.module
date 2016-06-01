@@ -5,3 +5,24 @@
  */
 
 include_once 'nexteuropa_integration.features.inc';
+
+/**
+ * Implements hook_integration_producer_document_build_alter().
+ */
+function nexteuropa_integration_integration_producer_document_build_alter($producer, &$document) {
+  //NEXTEUROPA-11012: add node canonical URLs and use resource schema type instead of bundle name.
+  $wrapper = $producer->getEntityWrapper();
+  $languages = $wrapper->getAvailableLanguages();
+  $canonical_urls = array();
+  switch ($producer->getEntityType()) {
+    case 'node':
+      $node = $wrapper->value();
+      foreach ($languages as $language) {
+        $url = url(drupal_lookup_path('alias', 'node/' . $node->nid, $language), array('absolute' => true));
+        $canonical_urls[$language] = $url;
+      }
+      break;
+  }
+  $document->setMetadata('canonical_url', $canonical_urls);
+  $document->setMetadata('type', $producer->getConfiguration()->getResourceSchema());
+}
