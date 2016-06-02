@@ -4,7 +4,6 @@ Feature: Multilingual features
   As a citizen of the European Union
   I want to be able to read content in my native language
 
-
   Background:
     Given the following languages are available:
       | languages |
@@ -132,3 +131,19 @@ Feature: Multilingual features
     And I press "Apply"
     And I click "View published" in the "primary_tabs" region
     Then the url should match "(.)*content/original-version_en"
+
+  @cleanEnvironment
+  Scenario: Body should show in the correct language when translated
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                        | body                        |
+      | en       | This title is in English     | This is an english body     |
+    And I click "Translate" in the "primary_tabs" region
+    And I click "add" in the "German" row
+    Then I fill in "edit-title-field-de-0-value" with "German title"
+    And I fill in "Body" with "This is my german body"
+    Then I press "Save"
+    And I select "Published" from "Moderation state"
+    And I press "Apply"
+    And I click "English" in the "content" region
+    Then I should not see the text "This is my german body"
