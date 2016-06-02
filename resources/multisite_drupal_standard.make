@@ -69,8 +69,7 @@ projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.2"
 
 projects[better_formats][subdir] = "contrib"
-projects[better_formats][version] = "1.0-beta1"
-projects[better_formats][patch][] = https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch
+projects[better_formats][version] = "1.0-beta2"
 
 projects[bootstrap_gallery][subdir] = "contrib"
 projects[bootstrap_gallery][version] = "3.1"
@@ -82,7 +81,7 @@ projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.3"
 
 projects[chosen][subdir] = "contrib"
-projects[chosen][version] = 2.0-beta4
+projects[chosen][version] = 2.0-beta5
 
 projects[chr][subdir] = "contrib"
 projects[chr][version] = "1.7"
@@ -162,7 +161,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.11"
+projects[ds][version] = "2.14"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -175,7 +174,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.7"
 
 projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][download][revision] = 221e302
@@ -184,10 +183,10 @@ projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
 
 projects[entitycache][subdir] = "contrib"
-projects[entitycache][version] = 1.2
+projects[entitycache][version] = "1.5"
 
 projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][revision] = b5009cd1406f72a4fbc1103642ddc69a28d26c5a
 projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
 ; Issue #2401811: Rendered entity is not language aware
@@ -216,7 +215,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.9"
+projects[features][version] = "2.10"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -229,7 +228,7 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta1"
+projects[feeds][version] = "2.0-beta2"
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
@@ -247,11 +246,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta2"
-; Fix error when switching from Public to Private destination
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8239
-; https://www.drupal.org/node/2537982
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/2537982-fix-changing-file-scheme.patch
+projects[file_entity][version] = "2.0-beta3"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -349,10 +344,10 @@ projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
 
 projects[language_cookie][subdir] = "contrib"
-projects[language_cookie][version] = "1.9"
+projects[language_cookie][version] = "2.0"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "2.2"
+projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
@@ -446,7 +441,7 @@ projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
 
 projects[node_export][subdir] = "contrib"
-projects[node_export][version] = "3.0"
+projects[node_export][version] = "3.1"
 
 projects[og][download][branch] = 7.x-2.x
 projects[og][download][revision] = fba6dda
@@ -467,9 +462,7 @@ projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha5"
-; https://www.drupal.org/node/2489918 - MULTISITE-8185
-projects[password_policy][patch][] = https://www.drupal.org/files/issues/password_policy-7.x-2.x-fix_element_alter_error-2489918-4.patch
+projects[password_policy][version] = "2.0-alpha6"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
@@ -484,7 +477,7 @@ projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.7"
+projects[piwik][version] = "2.8"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.7"
@@ -549,17 +542,15 @@ projects[subscriptions][subdir] = "contrib"
 projects[subscriptions][version] = "1.1"
 
 projects[tagclouds][subdir] = "contrib"
-projects[tagclouds][version] = "1.10"
+projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
-projects[title][download][branch] = 7.x-1.x
-projects[title][download][revision] = 1f89073
-projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+projects[title][version] = "1.0-alpha8"
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
@@ -613,13 +604,12 @@ projects[video][patch][] = patches/video-security-883.patch
 ; See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
 ; Todo: revert back to the stable version when Views 7.x-3.14 is released.
 projects[views][download][branch] = 7.x-3.x
-projects[views][download][revision] = e5c8b65
+projects[views][download][revision] = bebb2ffcc66a7bbede9d4c53d0417cd806e9c53f
 projects[views][download][type] = git
 projects[views][subdir] = "contrib"
 
 projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
 projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
-projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
 
 projects[views_ajax_history][subdir] = "contrib"
@@ -701,7 +691,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.2"
+projects[xmlsitemap][version] = "2.3"
 
 
 ; =========
