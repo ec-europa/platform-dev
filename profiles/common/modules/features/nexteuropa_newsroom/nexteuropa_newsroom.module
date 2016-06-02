@@ -11,6 +11,7 @@ module_load_include('inc', 'nexteuropa_newsroom', 'nexteuropa_newsroom.forms');
 module_load_include('inc', 'nexteuropa_newsroom', 'nexteuropa_newsroom.multilingual');
 module_load_include('inc', 'nexteuropa_newsroom', 'nexteuropa_newsroom.features');
 module_load_include('inc', 'nexteuropa_newsroom', 'nexteuropa_newsroom.blocks');
+module_load_include('inc', 'nexteuropa_newsroom', 'classes/NewsroomPage');
 
 define('NEXTEUROPA_NEWSROOM_CONTENT_TYPE', 'newsroom_item');
 define('NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY', 'newsroom_item_type');
@@ -99,6 +100,14 @@ function nexteuropa_newsroom_menu() {
     'page arguments' => array(1, 2),
     'access callback' => '_nexteuropa_nexteuropa_newsroom_item_import_access',
     'type' => MENU_CALLBACK,
+  );
+  $items['newsroom'] = array(
+    'title' => 'Newsroom',
+    'description' => 'Newsroom page',
+    'page callback' => '_nexteuropa_newsroom_newsroom_page',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'nexteuropa_newsroom.pages.inc',
   );
 
   return $items;
@@ -1003,6 +1012,20 @@ function nexteuropa_newsroom_theme($existing, $type, $theme, $path) {
         'year' => NULL,
       ),
       'template' => 'newsroom-agenda-date',
+      'path' => $theme_path,
+    ),
+    'newsroom_page' => array(
+      'variables' => array(
+        'items' => NULL,
+      ),
+      'template' => 'newsroom-page',
+      'path' => $theme_path,
+    ),
+    'newsroom_page_item' => array(
+      'variables' => array(
+        'items' => NULL,
+      ),
+      'template' => 'newsroom-page-item',
       'path' => $theme_path,
     ),
   );

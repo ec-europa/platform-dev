@@ -716,8 +716,8 @@ function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
 
   $topic = NewsroomHelper::getNewsroomTopic($topic_id);
   $type = NewsroomHelper::getNewsroomType($type_id);
-  $factory = new NewsroomAgendaFactory();
-  $agenda = $factory->build($view, $type, $topic, new DateTime($date));
+  $factory = new NewsroomBuilder();
+  $agenda = $factory->buildAgenda($view, $type, $topic, new DateTime($date));
 
   ctools_include('ajax');
   $commands[] = ctools_ajax_command_redirect($agenda->getNavigationUrl($agenda->getCurrentDate()));

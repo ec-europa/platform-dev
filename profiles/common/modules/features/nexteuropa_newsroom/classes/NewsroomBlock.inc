@@ -113,6 +113,7 @@ class NewsroomBlock extends NewsroomBlockBase {
       $query->leftJoin('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
       $query->leftJoin('taxonomy_term_data', 'topic_data', 'topic_data.tid = topic_field.field_newsroom_topics_tid');
       $query->condition('n.status', 1);
+      $query->condition('n.type', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
 
       if (count($topic_ids) > 0) {
         if ($this->getOperator() == NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR) {

@@ -25,8 +25,28 @@
  *   Agenda content,
  */
 function _nexteuropa_newsroom_agenda($view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $type = NULL, $topic = NULL, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
-  $factory = new NewsroomAgendaFactory();
-  return $factory->buildAgenda($view, $type, $topic, $arg1, $arg2, $arg3)->getAgenda();
+  $factory = new NewsroomBuilder();
+  return $factory->buildPageAgenda($view, $type, $topic, $arg1, $arg2, $arg3)->getAgenda();
+}
+
+/**
+ * Newsroom page menu callback.
+ *
+ * @param string $type_url
+ *   Type url part.
+ * @param string $topic_url
+ *   Topic url part.
+ * @param string $start_date
+ *   Start date.
+ * @param string $end_date
+ *   End date.
+ */
+function _nexteuropa_newsroom_newsroom_page($type_url = NULL, $topic_url = NULL, $start_date = NULL, $end_date = NULL) {
+  $factory = new NewsroomBuilder();
+  $newsroom_page = $factory->buildNewsroomPage($type_url, $topic_url, $start_date, $end_date);
+  $build['#markup'] = $newsroom_page->getContent();
+//  $build['pager']['#theme'] = 'pager';
+  return $build;
 }
 
 /**

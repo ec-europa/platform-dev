@@ -347,7 +347,7 @@ function nexteuropa_newsroom_views_default_views() {
 
   /* Display: default_newsroom */
   $handler = $view->new_display('page', 'default_newsroom', 'default_newsroom');
-  $handler->display->display_options['path'] = 'newsroom';
+  $handler->display->display_options['path'] = 'newsroom-page';
 
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed');

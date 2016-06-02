@@ -988,7 +988,7 @@ function nexteuropa_newsroom_field_default_field_instances() {
         'label' => 'inline',
         'module' => 'date',
         'settings' => array(
-          'format_type' => 'short',
+          'format_type' => 'newsroom_date_only',
           'fromto' => 'both',
           'multiple_from' => '',
           'multiple_number' => '',
