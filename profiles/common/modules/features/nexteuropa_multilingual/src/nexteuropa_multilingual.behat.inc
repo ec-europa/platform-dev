@@ -385,6 +385,30 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Refuse current job using poetry test.
+   *
+   *  @Then I get a refused translation of current job item
+   */
+  public function receiveJobRejectionFromPoetryTest() {
+
+    $url = $this->getSession()->getCurrentUrl();
+    // We can't simply use Drupal's menu_get_item() because of caching reasons.
+    $job_id = $this->getTranslationJobSubItemFromUrl();
+    if (!$job_id) {
+      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
+    }
+    else {
+      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
+      $path = url('tmgmt_poetry_test/tmgmt_poetry_test_refuse_translation/' . $job_id, array(
+        'base_url' => '',
+        'absolute' => TRUE,
+      ));
+      // Visit newly created node page.
+      $this->visitPath($path);
+      $this->visitPath($url);
+    }
+  }
+  /**
    * Get translation job ID from current page's URL.
    *
    * @return int|FALSE

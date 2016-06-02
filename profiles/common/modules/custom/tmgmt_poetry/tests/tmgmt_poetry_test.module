@@ -56,7 +56,7 @@ function tmgmt_poetry_test_soap_server() {
 }
 
 /**
- * Implements hook_action_info().
+ * Simulate rejection of a job.
  */
 function tmgmt_poetry_test_refuse_translation() {
   $job = tmgmt_job_load(arg(2));
@@ -67,7 +67,9 @@ function tmgmt_poetry_test_refuse_translation() {
     'cache_wsdl' => WSDL_CACHE_NONE,
     'trace' => 1,
   ));
-  $msg = file_get_contents(drupal_get_path('module', 'tmgmt_poetry') . '/tests/test.xml');
+  //$msg = file_get_contents(drupal_get_path('module', 'tmgmt_poetry_test') . '/test.xml');
+
+  $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, $job->target_language);
   try {
     $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
     print "<p>Translation refused for job: {$job->tjid} </p>";
