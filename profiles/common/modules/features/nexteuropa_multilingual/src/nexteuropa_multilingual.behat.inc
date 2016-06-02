@@ -387,7 +387,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   /**
    * Refuse current job using poetry test.
    *
-   *  @Then I get a refused translation of current job item
+   * @Then I get a refused translation of current job item
    */
   public function receiveJobRejectionFromPoetryTest() {
 
