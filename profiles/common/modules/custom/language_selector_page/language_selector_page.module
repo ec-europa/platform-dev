@@ -14,7 +14,10 @@
  */
 function language_selector_page_init() {
   $path = drupal_get_path('module', 'language_selector_page');
-  drupal_add_js($path . '/js/language_selector_page.js', array('scope' => 'header', 'weight' => 0));
+  drupal_add_js($path . '/js/language_selector_page.js', array(
+    'scope' => 'header',
+    'weight' => 0,
+  ));
 }
 
 /**
@@ -158,6 +161,17 @@ function language_selector_page_preprocess_block(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Signal link that the "2nd-language" logic should be applied to the link,
+ * See also hook_url_outbound_alter(), which is called before preprocessment
+ * and then we don't want this logic to apply.
+ */
+function language_selector_page_preprocess_link(&$variables) {
+  $variables['options']['2nd-language-apply'] = TRUE;
+}
+
+/**
  * Implements hook_url_outbound_alter().
  *
  * We alter the outbound url here, as this allows further modification and does
@@ -166,23 +180,21 @@ function language_selector_page_preprocess_block(&$variables) {
  */
 function language_selector_page_url_outbound_alter(&$path, &$options, $original_path) {
 
-  // First we get our url parameters.
-  $parameters = drupal_get_query_parameters();
+  // We only want to change, links preprocessed, not external,
+  // not autocomplete and if it wasn't previously defined.
+  if (
+    isset($options['2nd-language-apply']) &&
+    !$options['external'] &&
+    strpos($path, 'autocomplete') === FALSE &&
+    empty($options['query']['2nd-language'])
+  ) {
 
-  // First we check if we have a 2nd-language paramter, and the url we are
-  // processing is not external.
-  if (isset($parameters['2nd-language']) && !$options['external']) {
+    // Get our url parameters.
+    $parameters = drupal_get_query_parameters();
 
-    // Now lets check if we are not setting it already, because then we would
-    // override.
-    if (!isset($options['query']['2nd-language'])) {
-      // Lets not alter the autocomplete paths here.
-      if (strpos($path, 'autocomplete')) {
-        return;
-      }
-      else {
-        $options['query']['2nd-language'] = $parameters['2nd-language'];
-      }
+    // Check if we have a 2nd-language parameter.
+    if (isset($parameters['2nd-language'])) {
+      $options['query']['2nd-language'] = $parameters['2nd-language'];
     }
   }
 }
