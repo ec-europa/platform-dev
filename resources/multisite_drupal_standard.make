@@ -230,6 +230,9 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta1"
+; https://www.drupal.org/node/2531706
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-10728
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-cache-table-exists-2531706-1.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
