@@ -116,7 +116,7 @@ behat.formatter.name = pretty
 
 # Enable strict mode in Behat tests. Will only pass if all tests are explicitly
 # passing.
-behat.options.strict = false
+behat.options.strict = true
 
 # Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
 # shows exception backtraces, 3 shows debugging information.
