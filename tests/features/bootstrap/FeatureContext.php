@@ -315,6 +315,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+<<<<<<< HEAD
    * Transforms human readable field labels for Articles into machine names.
    *
    * @param TableNode $article_table
