@@ -4,7 +4,6 @@ Feature: Multilingual features
   As a citizen of the European Union
   I want to be able to read content in my native language
 
-
   Background:
     Given the following languages are available:
       | languages |
