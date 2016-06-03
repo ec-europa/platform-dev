@@ -119,6 +119,8 @@ Feature: TMGMT Poetry features
     But I should see an "#edit-languages-fr.form-checkbox" element
     Then I click "In progress" in the "French" row
     And I get a refused translation of current job item
-    And I press "Save as completed"
+    And I click "Cancel"
     Then I should see an "#edit-languages-fr.form-radio" element
-    But I should not see an "#edit-languages-fr.form-checkbox" element
+    And I should see "none" in the "French" row
+    Then I go to "admin/tmgmt"
+    And I should see "Aborted" in the "Original version" row

@@ -69,7 +69,7 @@ function tmgmt_poetry_test_refuse_translation() {
   ));
   //$msg = file_get_contents(drupal_get_path('module', 'tmgmt_poetry_test') . '/test.xml');
 
-  $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, $job->target_language);
+  $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, array($job->target_language));
   try {
     $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
     print "<p>Translation refused for job: {$job->tjid} </p>";

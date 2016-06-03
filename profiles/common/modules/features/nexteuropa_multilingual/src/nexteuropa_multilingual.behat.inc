@@ -399,7 +399,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     }
     else {
       // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/tmgmt_poetry_test_refuse_translation/' . $job_id, array(
+      $path = url('tmgmt_poetry_test/refusetranslation/' . $job_id, array(
         'base_url' => '',
         'absolute' => TRUE,
       ));
