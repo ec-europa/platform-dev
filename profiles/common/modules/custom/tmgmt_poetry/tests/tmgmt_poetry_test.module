@@ -67,7 +67,6 @@ function tmgmt_poetry_test_refuse_translation() {
     'cache_wsdl' => WSDL_CACHE_NONE,
     'trace' => 1,
   ));
-  //$msg = file_get_contents(drupal_get_path('module', 'tmgmt_poetry_test') . '/test.xml');
 
   $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, array($job->target_language));
   try {
