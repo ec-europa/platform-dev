@@ -403,9 +403,4 @@ function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
       }
     }
   }
-  // Delete old instance.
-  field_delete_field($old_name);
-
-  // Purge fields.
-  field_purge_batch(1000);
 }
