@@ -1,3 +1,4 @@
+@api
 Feature: User menu
   In order to easily access the important functionality
   As an administrative user
@@ -6,8 +7,8 @@ Feature: User menu
   @api
   Scenario Outline: Test user menu as administrator
     Given I am logged in as a user with the "administrator" role and I have the following fields:
-    | first name      | Myrrine |
-    | last name       | Augusta |
+    | field_firstname | Myrrine |
+    | field_lastname  | Augusta |
     When I am on the homepage
     And I click "<link>"
     Then I should see the heading "<heading>"
@@ -23,8 +24,8 @@ Feature: User menu
   @api
   Scenario Outline: Test user menu as editorial team member
     Given I am logged in as a user with the "editorial team member" role and I have the following fields:
-    | first name      | Yami   |
-    | last name       | Vígdís |
+    | field_firstname | Yami   |
+    | field_lastname  | Vígdís |
     When I am on the homepage
     And I click "<link>"
     Then I should see the heading "<heading>"
@@ -38,8 +39,8 @@ Feature: User menu
   @api
   Scenario Outline: Test user menu as editor
     Given I am logged in as a user with the "editor" role and I have the following fields:
-    | first name      | Cornelia   |
-    | last name       | Polyhymnia |
+    | field_firstname | Cornelia   |
+    | field_lastname  | Polyhymnia |
     When I am on the homepage
     And I click "<link>"
     Then I should see the heading "<heading>"

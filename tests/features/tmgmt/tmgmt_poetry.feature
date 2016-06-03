@@ -120,7 +120,6 @@ Feature: TMGMT Poetry features
     Then I click "In progress" in the "French" row
     And I get a refused translation of current job item
     And I click "Cancel"
-    Then I should see an "#edit-languages-fr.form-radio" element
-    And I should see "none" in the "French" row
+    Then I should see "None" in the "French" row
     Then I go to "admin/tmgmt"
     And I should see "Aborted" in the "Original version" row
