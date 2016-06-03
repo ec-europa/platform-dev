@@ -20,7 +20,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Create a request translation for French and Portuguese
     Given local translator "TMGMT Poetry: Test translator" is available
-    Given I am logged in as a user with the "editor" role
+    Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                        |
       | en       | This title is in English     |
@@ -35,7 +35,7 @@ Feature: TMGMT Poetry features
 
   Scenario: I can access an overview of recent translation jobs.
     Given local translator "Translator A" is available
-    Given I am logged in as a user with the "editor" role
+    Given I am logged in as a user with the "administrator" role
     Given I create the following multilingual "page" content:
       | language | title              | body              |
       | en       | Title in English 1 | Body in English 1 |
@@ -80,7 +80,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Allow to request a new translation.
     Given local translator "TMGMT Poetry: Test translator" is available
-    Given I am logged in as a user with the 'editor' role
+    Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"
     And I press "Save"
@@ -103,7 +103,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Test rejection of a translation.
     Given local translator "TMGMT Poetry: Test translator" is available
-    Given I am logged in as a user with the 'editor' role
+    Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"
     And I press "Save"
