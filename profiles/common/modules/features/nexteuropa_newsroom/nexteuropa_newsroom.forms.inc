@@ -276,7 +276,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#suffix' => '</div>',
             '#value' => t('[Newsroom] Export/Import settings'),
             '#attributes' => array(
-              'onclick' => "event.preventDefault(); document.getElementById('newsroom-import-code').style.display = 'block'; document.getElementById('newsroom-export-code').style.display = 'block'; document.getElementById('newsroom_import_submit').style.display = 'block'; document.getElementById('newsroom_import_backup').style.display = 'block'; this.parentElement.parentElement.style.display = 'none'; document.getElementById('newsroom-backup-submit').style.display = 'block';",
+              'onclick' => "event.preventDefault(); jQuery('#newsroom-import-code').css('display', 'block'); jQuery('#newsroom-export-code').css('display', 'block'); jQuery('#newsroom_import_submit').css('display', 'block'); jQuery('#newsroom_import_backup').css('display', 'block'); jQuery($this).parent().parent().css('display', 'none'); jQuery('#newsroom-backup-submit').css('display', 'block');",
             ),
             '#weight' => 97,
           );
