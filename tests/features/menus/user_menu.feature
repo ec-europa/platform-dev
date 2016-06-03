@@ -7,8 +7,10 @@ Feature: User menu
   @api
   Scenario Outline: Test user menu as administrator
     Given I am logged in as a user with the "administrator" role and I have the following fields:
-    | field_firstname | Myrrine |
-    | field_lastname  | Augusta |
+    | first name      | Myrrine |
+    | last name       | Augusta |
+
+
     When I am on the homepage
     And I click "<link>"
     Then I should see the heading "<heading>"
@@ -24,8 +26,9 @@ Feature: User menu
   @api
   Scenario Outline: Test user menu as editorial team member
     Given I am logged in as a user with the "editorial team member" role and I have the following fields:
-    | field_firstname | Yami   |
-    | field_lastname  | Vígdís |
+    | first name      | Yami   |
+    | last name       | Vígdís |
+
     When I am on the homepage
     And I click "<link>"
     Then I should see the heading "<heading>"
@@ -39,8 +42,9 @@ Feature: User menu
   @api
   Scenario Outline: Test user menu as editor
     Given I am logged in as a user with the "editor" role and I have the following fields:
-    | field_firstname | Cornelia   |
-    | field_lastname  | Polyhymnia |
+    | first name      | Cornelia   |
+    | last name       | Polyhymnia |
+
     When I am on the homepage
     And I click "<link>"
     Then I should see the heading "<heading>"
