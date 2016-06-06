@@ -1922,18 +1922,21 @@ function ec_resp_nexteuropa_multilingual_language_list(array $variables) {
 
   $content = '<div class="row">';
 
-  $half = ceil(count($variables['languages'])/2);
-  $firstHalf = array_slice($variables['languages'], 0, $half);
-  $secondHalf = array_slice($variables['languages'], $half);
+  $half = ceil(count($variables['languages']) / 2);
+  $first_half = array_slice($variables['languages'], 0, $half);
+  $second_half = array_slice($variables['languages'], $half);
 
-  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($firstHalf, $variables['path'], $options);
-  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($secondHalf, $variables['path'], $options);
+  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($first_half, $variables['path'], $options);
+  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($second_half, $variables['path'], $options);
 
   $content .= '</div>';
 
   return $content;
 }
 
+/**
+ * Helper function to display splash page language list column.
+ */
 function _ec_resp_nexteuropa_multilingual_language_list_column($languages, $path, $options) {
   $content = '<div class="col-sm-6">';
   foreach ($languages as $language) {
