@@ -61,24 +61,7 @@ class LinkTokenHandler extends TokenAbstractHandler {
             $replacements[$original] = l($label, $uri['path'], array('absolute' => TRUE));
           }
           else {
-            // Watchdog. If it is a node we can tell exactly where they have to
-            // fix it.
-            if ($data['node']) {
-              watchdog(
-                'Nexteuropa Tokens',
-                'The entity %entity has an invalid token: %token.',
-                [
-                  '%entity' => $data['node']->title . ' (' . $data['node']->nid . ')',
-                  '%token' => $original,
-                ],
-                WATCHDOG_ERROR,
-                l(t('Edit the node'), '/node/edit/' . $data['node']->nid)
-              );
-            }
-            else {
-              // Watchdog in case it's not a node.
-              watchdog('Nexteuropa Tokens', 'Invalid token %token found.', ['%token' => $original], WATCHDOG_ERROR);
-            }
+            $this->watchdogTokenNotFound($data, $original);
             // Return an empty replacement to not show a broken link.
             $replacements[$original] = '';
           }
