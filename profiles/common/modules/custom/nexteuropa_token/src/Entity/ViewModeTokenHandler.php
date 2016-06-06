@@ -50,7 +50,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
 
           switch ($type) {
             case 'node':
-              if($node = node_load($entity_id)) {
+              if ($node = node_load($entity_id)) {
                 if ($this->canViewNode($node)) {
                   $render = node_view($node, $view_mode);
                 }
@@ -61,7 +61,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
               break;
 
             case 'term':
-              if($term = taxonomy_term_load($entity_id)) {
+              if ($term = taxonomy_term_load($entity_id)) {
                 $render = taxonomy_term_view($term, $view_mode);
               }
               else {
@@ -70,7 +70,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
               break;
 
             case 'user':
-              if($account = user_load($entity_id)) {
+              if ($account = user_load($entity_id)) {
                 if (user_access('access user profiles')) {
                   $render = user_view($account, $view_mode);
                 }

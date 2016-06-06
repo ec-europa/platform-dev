@@ -69,13 +69,12 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
   }
 
   /**
-   * Create a Watchdog Log, if it's a node we can tell exactly where they have to fix it.
+   * Create a Watchdog Log, if it's a node we can tell where they have to fix.
    *
    * @param array $data
-   *    Token string, in its original format, eg. [node:1:view-mode:full].
+   *    Node Data.
    * @param string $original
-   *    Item to be extracted when parsing the token.
-   *
+   *    Token Original string.
    */
   protected function watchdogTokenNotFound($data, $original) {
     if ($data['node']) {
