@@ -77,7 +77,7 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
    *    Token Original string.
    */
   protected function watchdogTokenNotFound($data, $original) {
-    if ($data['node']) {
+    if (isset($data['node'])) {
       watchdog(
         'Nexteuropa Tokens',
         'The entity %entity has an invalid token: %token.',
