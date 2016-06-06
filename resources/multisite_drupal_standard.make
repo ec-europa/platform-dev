@@ -110,6 +110,8 @@ projects[coffee][version] = 2.2
 
 projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
+; https://www.drupal.org/node/2487115
+projects[collapse_text][patch][] = http://cgit.drupalcode.org/collapse_text/patch/?id=85656e4960d22fc145d5c3e3a79b81eaeb4cbde5
 
 projects[colorbox][subdir] = "contrib"
 projects[colorbox][version] = "2.10"
@@ -256,6 +258,10 @@ projects[filefield_sources][version] = "1.10"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
+; Fix Field description persistance
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7572
+; https://www.drupal.org/node/2705523
+projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.7"
@@ -318,8 +324,6 @@ projects[integration][version] = "1.x-dev"
 
 projects[integration_couchdb][subdir] = "contrib"
 projects[integration_couchdb][version] = "1.x-dev"
-projects[integration_couchdb][download][type] = "get"
-projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.tar.gz"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -529,6 +533,8 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 ; https://www.drupal.org/node/2607422
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6813
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
+; https://www.drupal.org/node/2673290
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
@@ -573,6 +579,8 @@ projects[token_filter][version] = 1.1
 
 projects[translation_overview][subdir] = "contrib"
 projects[translation_overview][version] = "2.0-beta1"
+; https://www.drupal.org/node/2673314
+projects[translation_overview][patch][] = https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch
 
 projects[translation_table][subdir] = "contrib"
 projects[translation_table][version] = "1.0-beta1"
