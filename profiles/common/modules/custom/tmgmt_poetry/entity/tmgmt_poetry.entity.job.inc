@@ -21,7 +21,7 @@ class TMGMTPoetryJob extends TMGMTJob {
   public function isAbortable() {
     $translator = $this->getTranslator();
     if ($translator) {
-      if ($translator->plugin == 'workbench_moderation' && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
+      if ($translator->plugin == 'poetry' && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
         return FALSE;
       }
     }
@@ -37,7 +37,7 @@ class TMGMTPoetryJob extends TMGMTJob {
   public function isDeletable() {
     $translator = $this->getTranslator();
     if ($translator) {
-      if ($translator->plugin == 'workbench_moderation' && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
+      if ($translator->plugin == 'poetry' && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
         return FALSE;
       }
     }

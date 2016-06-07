@@ -95,7 +95,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         foreach ($results as $tjid) {
           if ($job = tmgmt_job_load($tjid->tjid)) {
             $translator = $job->getTranslator();
-            if ($translator && $translator->plugin == 'workbench_moderation' && $job->getState() == 1) {
+            if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
               return FALSE;
             }
           }
