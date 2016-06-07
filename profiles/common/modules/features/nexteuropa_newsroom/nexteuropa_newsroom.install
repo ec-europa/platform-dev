@@ -353,14 +353,6 @@ function _nexteuropa_newsroom_get_version() {
  *   New field name.
  */
 function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
-  $table = 'field_data_field_associated_newsroom_topic';
-
-  if (variable_get('site_name') == 'Digital Single Market' && db_table_exists($table)) {
-    $delete_duplicates = db_delete($table)
-    ->condition('entity_id', array('1446', '77429', '77261', '77430', '78042'), 'IN')
-    ->execute();
-  }
-
   $old_field = field_info_field($old_name);
 
   if ($old_field) {
