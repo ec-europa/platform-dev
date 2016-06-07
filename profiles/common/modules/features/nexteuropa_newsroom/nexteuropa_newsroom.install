@@ -14,7 +14,7 @@ include_once 'nexteuropa_newsroom.forms.inc';
  * Implements hook_enable().
  */
 function nexteuropa_newsroom_enable() {
-  drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
+  drupal_set_message(t('Newsroom feature is now active on your site.'));
   if (!db_table_exists(NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
     db_create_table(NEXTEUROPA_NEWSROOM_CACHE_TABLE, drupal_get_schema_unprocessed('system', 'cache'));
   }
@@ -91,14 +91,8 @@ function nexteuropa_newsroom_install() {
  * Implements hook_uninstall().
  */
 function nexteuropa_newsroom_uninstall() {
-  variable_del('newsroom_summary_block_num_items');
-  variable_del('newsroom_summary_block_num_highlighted_items');
-  variable_del('newsroom_summary_home_block_num_agenda');
-  variable_del('newsroom_summary_home_block_num_items');
-  variable_del('newsroom_summary_home_block_num_highlighted_items');
   variable_del('newsroom_agenda_after_highlights');
   variable_del('newsroom_display_highlights_begin');
-  variable_del('newsroom_universe_id');
   variable_del('newsroom_base_url');
   variable_del('newsroom_item_import_script');
   variable_del('newsroom_single_item_import_segment');
@@ -109,6 +103,15 @@ function nexteuropa_newsroom_uninstall() {
   variable_del('newsroom_service_import_script');
   variable_del('newsroom_single_service_import_segment');
   variable_del('newsroom_single_item_edit_segment');
+  variable_del('newsroom_summary_block_num_items');
+  variable_del('newsroom_summary_block_num_highlighted_items');
+  variable_del('newsroom_summary_home_block_num_agenda');
+  variable_del('newsroom_summary_home_block_num_items');
+  variable_del('newsroom_summary_home_block_num_highlighted_items');
+  variable_del('node_preview_newsroom_item');
+  variable_del('node_submitted_newsroom_item');
+  variable_del('comment_newsroom_item');
+  variable_del('newsroom_universe_id');
 }
 
 /**
@@ -341,19 +344,6 @@ function nexteuropa_newsroom_update_7109() {
       field_group_group_export_delete($group, FALSE);
     }
   }
-}
-
-/**
- * Gets current module version.
- *
- * @return string
- *   Module version.
- */
-function _nexteuropa_newsroom_get_version() {
-  $module = basename(__FILE__, ".install");
-  $path = drupal_get_path('module', $module) . '/' . $module . '.info';
-  $info = drupal_parse_info_file($path);
-  return $info['version'];
 }
 
 /**
