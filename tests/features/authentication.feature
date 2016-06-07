@@ -12,6 +12,7 @@ Scenario: Anonymous user can see the user login page
   And I should see the text "Password"
   But I should not see the text "Log out"
   And I should not see the text "My account"
+  And I should test a undefined error
 
 Scenario Outline: Anonymous user cannot access site administration
   Given I am not logged in
@@ -47,7 +48,7 @@ Scenario Outline: Editors cannot access pages intended for administrators
   | admin/dashboard             |
   | admin/structure             |
   | admin/structure/feature-set |
-  | node/add/editorial-team_en |
+  | node/add/editorial-team_en  |
 
 @api
 Scenario Outline: Administrators can access certain administration pages
