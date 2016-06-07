@@ -4,6 +4,7 @@ core = 7.x
 package = NextEuropa
 version = 7.x-2.1
 project = nexteuropa_newsroom
+dependencies[] = backup_view_modes
 dependencies[] = entity_translation
 dependencies[] = geofield
 dependencies[] = feeds_et

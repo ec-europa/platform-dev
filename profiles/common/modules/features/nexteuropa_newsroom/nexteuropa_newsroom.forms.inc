@@ -276,7 +276,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#suffix' => '</div>',
             '#value' => t('[Newsroom] Export/Import settings'),
             '#attributes' => array(
-              'onclick' => "event.preventDefault(); jQuery('#newsroom-import-code').css('display', 'block'); jQuery('#newsroom-export-code').css('display', 'block'); jQuery('#newsroom_import_submit').css('display', 'block'); jQuery('#newsroom_import_backup').css('display', 'block'); jQuery($this).parent().parent().css('display', 'none'); jQuery('#newsroom-backup-submit').css('display', 'block');",
+              'onclick' => "event.preventDefault(); jQuery('#newsroom-import-code').css('display', 'block'); jQuery('#newsroom-export-code').css('display', 'block'); jQuery('#newsroom_import_submit').css('display', 'block'); jQuery('#newsroom_import_backup').css('display', 'block'); jQuery(this).parent().parent().css('display', 'none'); jQuery('#newsroom-backup-submit').css('display', 'block');",
             ),
             '#weight' => 97,
           );
@@ -332,9 +332,8 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#suffix' => '</div>',
             '#value' => t('[Newsroom] Import settings'),
             '#weight' => 101,
-            '#submit' => array('_nexteuropa_newsroom_import_modes'),
+            '#submit' => array('_nexteuropa_newsroom_restore_modes'),
             '#states' => array(
-          // Action to take.
               'visible' => array(
                 ':input[name=newsroom_import_code]' => array('filled' => TRUE),
               ),
@@ -349,7 +348,7 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
               '#suffix' => '</div>',
               '#value' => t('[Newsroom] Import settings from the existing backup'),
               '#weight' => 102,
-              '#submit' => array('_nexteuropa_newsroom_import_modes'),
+              '#submit' => array('_nexteuropa_newsroom_restore_modes'),
             );
           }
 
@@ -450,9 +449,9 @@ function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
 }
 
 /**
- * Submit handler, imports selected view modes.
+ * Submit handler, get the settings to be restored.
  */
-function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
+function _nexteuropa_newsroom_restore_modes(&$form, &$form_state) {
   $trigger = $form_state['triggering_element']['#name'];
 
   switch ($trigger) {
@@ -461,6 +460,7 @@ function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
       break;
 
     default:
+    dsm($form_state);
       if (!empty($form_state['values']['import_code'])) {
         $export = unserialize($form_state['values']['import_code']);
       }
@@ -469,6 +469,14 @@ function _nexteuropa_newsroom_import_modes(&$form, &$form_state) {
       }
   }
 
+  _nexteuropa_newsroom_import_modes($export);
+
+}
+
+/**
+ * Restore settings.
+ */
+function _nexteuropa_newsroom_import_modes($export) {
   $modes = array('full', 'teaser');
   $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
 
