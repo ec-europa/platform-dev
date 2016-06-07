@@ -26,7 +26,7 @@ function nexteuropa_newsroom_enable() {
  * Implements hook_disable().
  */
 function nexteuropa_newsroom_disable() {
-  drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
+  drupal_set_message(t('Newsroom feature is now inactive on your site.'));
   if (db_table_exists(NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
     db_drop_table(NEXTEUROPA_NEWSROOM_CACHE_TABLE);
   }
