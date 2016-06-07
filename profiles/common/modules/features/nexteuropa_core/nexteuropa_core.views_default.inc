@@ -119,7 +119,7 @@ function nexteuropa_core_views_default_views() {
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'No content available.';
-  $handler->display->display_options['empty']['area']['format'] = 'core_rich_text';
+  $handler->display->display_options['empty']['area']['format'] = 'plain_text';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
