@@ -313,12 +313,11 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
           $form['import']['import_code'] = array(
             '#prefix' => '<div id="newsroom-import-code">',
             '#suffix' => '</div>',
-            '#name' => 'newsroom_import_code',
             '#type' => 'textarea',
             '#title' => $title,
             '#description' => t('Serialized code export'),
             '#attributes' => array('id' => 'nexteuropa_newsroom_exported_instances'),
-            '#format' => 'html',
+            '#format' => 'plain_text',
             '#resizable' => TRUE,
             '#wysiwyg' => FALSE,
             '#rows' => 20,
@@ -333,9 +332,10 @@ function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
             '#value' => t('[Newsroom] Import settings'),
             '#weight' => 101,
             '#submit' => array('_nexteuropa_newsroom_restore_modes'),
+            '#validate' => array('_nexteuropa_newsroom_validate_modes'),
             '#states' => array(
               'visible' => array(
-                ':input[name=newsroom_import_code]' => array('filled' => TRUE),
+                ':input[id="nexteuropa_newsroom_exported_instances"]' => array('filled' => TRUE),
               ),
             ),
           );
@@ -447,6 +447,21 @@ function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
 
   return $form['newsroom_export'];
 }
+/**
+ * Validation handler.
+ */
+function _nexteuropa_newsroom_validate_modes(&$form, &$form_state) {
+  if (!empty($form_state['values']['import_code'])) {
+    $export = unserialize($form_state['values']['import_code']);
+
+    if (empty($export['instances'])) {
+      form_set_error('import_code', t("The code you pasted doesn't seem to contain a valid export of your settings."));
+    }
+  }
+  else {
+      form_set_error('import_code', t('There was nothing to restore from, did you paste the exported code..?'));
+  }
+}
 
 /**
  * Submit handler, get the settings to be restored.
@@ -460,13 +475,7 @@ function _nexteuropa_newsroom_restore_modes(&$form, &$form_state) {
       break;
 
     default:
-    dsm($form_state);
-      if (!empty($form_state['values']['import_code'])) {
-        $export = unserialize($form_state['values']['import_code']);
-      }
-      else {
-        return drupal_set_message(t('There was nothing to restore from, did you paste the exported code..?'), 'warning');
-      }
+      $export = unserialize($form_state['values']['import_code']);
   }
 
   _nexteuropa_newsroom_import_modes($export);
