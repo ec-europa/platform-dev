@@ -263,7 +263,6 @@ features_exclude[field_group][group_newsroom_item_main|node|newsroom_item|full] 
 features_exclude[field_group][group_newsroom_item_slide|node|newsroom_item|full] = group_newsroom_item_slide|node|newsroom_item|full
 features_exclude[field_group][group_newsroom_recommended|node|newsroom_item|full] = group_newsroom_recommended|node|newsroom_item|full
 features_exclude[field_group][group_newsroom_event_info|node|newsroom_item|full] = group_newsroom_event_info|node|newsroom_item|full
-features_exclude[field_group][group_newsroom_lead|node|newsroom_item|teaser] = group_newsroom_lead|node|newsroom_item|teaser
 features_exclude[field_group][group_newsroom_item_contact|node|newsroom_item|teaser] = group_newsroom_item_contact|node|newsroom_item|teaser
 features_exclude[field_group][group_newsroom_item_files|node|newsroom_item|teaser] = group_newsroom_item_files|node|newsroom_item|teaser
 features_exclude[field_group][group_newsroom_item_main|node|newsroom_item|teaser] = group_newsroom_item_main|node|newsroom_item|teaser
@@ -271,7 +270,6 @@ features_exclude[field_group][group_newsroom_item_slide|node|newsroom_item|tease
 features_exclude[field_group][group_newsroom_recommended|node|newsroom_item|teaser] = group_newsroom_recommended|node|newsroom_item|teaser
 features_exclude[field_group][group_newsroom_item_links|node|newsroom_item|teaser] = group_newsroom_item_links|node|newsroom_item|teaser
 features_exclude[field_group][group_newsroom_event_info|node|newsroom_item|teaser] = group_newsroom_event_info|node|newsroom_item|teaser
-features_exclude[field_group][group_newsroom_lead|node|newsroom_item|full] = group_newsroom_lead|node|newsroom_item|full
 features_exclude[field_group][group_newsroom_lead|node|newsroom_item|teaser] = group_newsroom_lead|node|newsroom_item|teaser
 files[] = tests/nexteuropa_newsroom.test
 files[] = views/nexteuropa_newsroom_handler_argument_term_node_tid_depth.inc

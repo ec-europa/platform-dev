@@ -459,7 +459,7 @@ function _nexteuropa_newsroom_validate_modes(&$form, &$form_state) {
     }
   }
   else {
-      form_set_error('import_code', t('There was nothing to restore from, did you paste the exported code..?'));
+    form_set_error('import_code', t('There was nothing to restore from, did you paste the exported code..?'));
   }
 }
 
