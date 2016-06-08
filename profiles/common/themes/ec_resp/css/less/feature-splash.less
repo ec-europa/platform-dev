@@ -15,7 +15,6 @@ body.page-splash, body.page-language-selector-site-language {
     font-weight: 600;
     padding: 0.75em 1em;
     min-height: 2.75em;
-    font-size: 0.889em;
     text-decoration: none;
   }
 
@@ -39,8 +38,20 @@ body.page-splash, body.page-language-selector-site-language {
     background: #ffd617;
   }
 
+  .site-level-language-selector {
+    position: relative;
+  }
+
   .site-level-language-selector > img {
     margin: 20px;
+  }
+
+  .site-level-language-selector > a {
+    text-decoration: underline;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
   }
 
   #logo {
@@ -51,10 +62,10 @@ body.page-splash, body.page-language-selector-site-language {
 }
 
 #splash-block, #language-selector-site-language-list-page {
-  margin: 50px 20px 20px;
-}
+  padding-top: 3em;
 
-#splash-block .panel {
-    background: transparent;
-    border: none;
+  .panel {
+      background: transparent;
+      border: none;
+  }
 }
