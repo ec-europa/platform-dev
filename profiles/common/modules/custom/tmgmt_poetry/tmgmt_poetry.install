@@ -88,7 +88,6 @@ function tmgmt_poetry_uninstall() {
   }
 }
 
-
 /**
  * Remove username and passwords from db in case it was already set.
  */

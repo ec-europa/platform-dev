@@ -37,7 +37,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     return tmgmt_field_get_source_data('node', $current_revision, $job_item->getJob()->source_language, TRUE);
   }
 
-
   /**
    * {@inheritdoc}
    */

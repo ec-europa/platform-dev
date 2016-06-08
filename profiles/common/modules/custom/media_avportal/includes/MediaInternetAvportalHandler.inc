@@ -10,6 +10,7 @@
  * @see hook_media_internet_providers().
  */
 class MediaInternetAvportalHandler extends MediaInternetBaseHandler {
+
   /**
    * Check if a Avportal video id is valid.
    */

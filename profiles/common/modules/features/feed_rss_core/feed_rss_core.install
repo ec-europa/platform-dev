@@ -38,7 +38,6 @@ function feed_rss_core_enable() {
   drupal_cron_run();
 }
 
-
 /**
  * Implements hook_disable().
  *

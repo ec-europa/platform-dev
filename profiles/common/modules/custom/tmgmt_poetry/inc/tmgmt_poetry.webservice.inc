@@ -20,7 +20,6 @@ function tmgmt_poetry_menu() {
   return $items;
 }
 
-
 /**
  * Function to define our webservice and register the available methods.
  */
@@ -482,6 +481,7 @@ function _tmgmt_poetry_wsdl() {
  * Local Exception class.
  */
 class TMGMTPoetryException extends Exception {
+
   /**
    * Override of the parent __construct method.
    */

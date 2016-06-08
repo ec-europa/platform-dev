@@ -8,6 +8,7 @@
  * Views area handler to display glossary for the list of communities.
  */
 class views_handler_area_communities_glossary extends views_handler_area {
+
   /**
    * Return the glossary.
    */

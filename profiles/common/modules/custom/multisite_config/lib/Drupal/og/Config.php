@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\og\\Config.
- */
-
 namespace Drupal\og;
 
 use Drupal\multisite_config\ConfigBase;

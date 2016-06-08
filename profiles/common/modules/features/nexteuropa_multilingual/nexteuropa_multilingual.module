@@ -160,7 +160,6 @@ function nexteuropa_multilingual_language_negotiation_info() {
   return $providers;
 }
 
-
 /**
  * Implements hook_menu().
  */
@@ -329,7 +328,6 @@ function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) 
   // All content translations will have a unique alias.
   $context['language'] = LANGUAGE_NONE;
 }
-
 
 /**
  * Implements hook_preprocess_field().

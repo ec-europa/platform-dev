@@ -1,14 +1,9 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_laco\Tests\LanguageCoverageServiceTest.
- */
-
 namespace Drupal\nexteuropa_laco\Tests;
 
+use GuzzleHttp\Client;
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
-
 
 /**
  * Class LanguageCoverageServiceTest.

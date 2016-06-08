@@ -44,7 +44,6 @@ function multisite_activity_core_tokens($type, $tokens, array $data = array(), a
   return $replacements;
 }
 
-
 /**
  * Trim the body field for a node/ comment.
  *

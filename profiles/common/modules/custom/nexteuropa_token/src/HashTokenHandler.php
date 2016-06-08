@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\HashTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token;
 
 /**

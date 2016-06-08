@@ -199,7 +199,6 @@ function _decimal_check($element, &$form_state) {
   }
 }
 
-
 /**
  * Implements hook_form_ID_alter().
  */

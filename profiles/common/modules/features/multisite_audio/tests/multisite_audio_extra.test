@@ -9,6 +9,7 @@
  * Defines a base class for testing the Audio feature.
  */
 class MultisiteAudioFeatureTest extends DrupalWebTestCase {
+
   /**
    * Info for the simpleTest UI.
    */

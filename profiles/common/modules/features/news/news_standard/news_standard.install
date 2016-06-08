@@ -14,7 +14,6 @@ function news_standard_enable() {
   multisite_drupal_toolbox_add_block_context('homepage', 'news-top_news', 'views', 'news-top_news', 'content_top');
 }
 
-
 /**
  * Implements hook_disable().
  *

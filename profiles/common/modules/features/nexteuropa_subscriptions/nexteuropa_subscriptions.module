@@ -7,7 +7,6 @@
 
 include_once 'nexteuropa_subscriptions.features.inc';
 
-
 /**
  * Implements hook_subscriptions_queue_alter().
  */

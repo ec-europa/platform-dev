@@ -356,7 +356,6 @@ function multisite_audio_field_displayed($item, $field) {
   return TRUE;
 }
 
-
 /**
  * Implements hook_field_widget_info().
  */

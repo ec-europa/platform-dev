@@ -111,7 +111,6 @@ class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
     return user_save($user);
   }
 
-
   /**
    * Created a new job.
    */
@@ -128,7 +127,6 @@ class MultisiteTranslationsWebTestCase extends DrupalWebTestCase {
     $this->assertTrue($job->tjid > 0);
     return $job;
   }
-
 
   /**
    * Sets the proper environment.
