@@ -730,59 +730,6 @@ function _nexteuropa_nexteuropa_newsroom_item_importer($newsroom_id = 0, $delete
 }
 
 /**
- * Calls general method to import taxonomy term with params for newsroom type.
- *
- * @param int $type_id
- *   Original type id.
- */
-function _nexteuropa_newsroom_type_importer($type_id) {
-  $url = NewsroomHelper::getNewsroomUrl(variable_get('newsroom_single_type_import_segment', NEXTEUROPA_NEWSROOM_TYPE_SEGMENT) . $type_id);
-  _nexteuropa_newsroom_taxonomy_term_importer('newsroom-redirect/type/' . $type_id, $url, NEXTEUROPA_NEWSROOM_TYPE_IMPORTER);
-}
-
-/**
- * Shortcut to delete a Newsroom Service.
- *
- * @param int $service_id
- *   Service taxonomy term id.
- */
-function _nexteuropa_newsroom_service_import($service_id = 0) {
-  _nexteuropa_newsroom_service_importer($service_id);
-}
-
-/**
- * Calls general method to import taxonomy term with params for news service.
- *
- * @param int $service_id
- *   Original service id.
- */
-function _nexteuropa_newsroom_service_importer($service_id) {
-  $url = NewsroomHelper::getNewsroomUrl(variable_get('newsroom_single_service_import_segment', NEXTEUROPA_NEWSROOM_SERVICE_SEGMENT) . $service_id);
-  _nexteuropa_newsroom_taxonomy_term_importer('newsroom-redirect/service/' . $service_id, $url, NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER);
-}
-
-/**
- * Calls general method to import taxonomy term with params for newsroom topic.
- *
- * @param int $topic_id
- *   Original topic id.
- */
-function _nexteuropa_newsroom_topic_importer($topic_id) {
-  $url = NewsroomHelper::getNewsroomUrl(variable_get('newsroom_single_topic_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT) . $topic_id);
-  _nexteuropa_newsroom_taxonomy_term_importer('newsroom-redirect/topic/' . $topic_id, $url, NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER);
-}
-
-/**
- * Shortcut to delete a Newsroom Item.
- *
- * @param int $newsroom_id
- *   Original newsroom ID.
- */
-function _nexteuropa_newsroom_item_delete($newsroom_id = 0) {
-  _nexteuropa_nexteuropa_newsroom_item_importer($newsroom_id, TRUE);
-}
-
-/**
  * Redirects to the Newsroom Item. With the Original Newsroom ID.
  */
 function _nexteuropa_newsroom_item_redirect($newsroom_id = 0) {
