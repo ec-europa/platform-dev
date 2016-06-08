@@ -67,12 +67,13 @@ function nexteuropa_piwik_menu() {
 
 /**
  * Implements hook_page_alter().
+ *
+ * This adds the webtools js to the head.
  */
 function nexteuropa_piwik_page_alter(&$page) {
   global $user;
 
   $id = variable_get('nexteuropa_piwik_site_id', '');
-  $instance = variable_get('nexteuropa_piwik_site_instance', '');
 
   // Get page status code for visibility filtering.
   $status = drupal_get_http_header('Status');
@@ -82,56 +83,81 @@ function nexteuropa_piwik_page_alter(&$page) {
   if (preg_match('/^\d{1,}$/', $id) && (_nexteuropa_piwik_visibility_pages() || $status == '404 Not Found') && _nexteuropa_piwik_visibility_roles($user)) {
     // Loading variables.
     $smartloader_prurl = variable_get('nexteuropa_piwik_smartloader_prurl', '');
-    $site_path = variable_get('nexteuropa_piwik_site_path', '');
-    $site_section = variable_get('nexteuropa_piwik_site_section', '');
-
-    // Strip http & https from site_path variable and transforming in to array.
-    $site_path = preg_replace('#^https?://#', '', $site_path);
-    $site_path = explode(PHP_EOL, $site_path);
 
     // Add smart loader.
     // Ensure to use a PR URL (compatibility for http/https).
     $smartloader_prurl = preg_replace("#^https?:#", "", $smartloader_prurl);
-    drupal_add_js($smartloader_prurl, 'external');
 
-    // Create settings array.
-    $webtools_piwik_settings = array(
-      'utility' => 'piwik',
-      'siteID' => $id,
-      'sitePath' => $site_path,
-      'is404' => FALSE,
-      'instance' => $instance,
-    );
-
-    // Search results pages.
-    if (module_exists('search') && variable_get('nexteuropa_piwik_site_search', TRUE) && arg(0) == 'search' && $keys = nexteuropa_piwik_search_get_keys()) {
-      global $pager_total_items;
-      $results_count = 0;
-
-      if (isset($pager_total_items[0])) {
-        $results_count = strval($pager_total_items[0]);
-      }
-
-      $webtools_piwik_settings['search']['keyword'] = $keys;
-      $webtools_piwik_settings['search']['count'] = $results_count;
-    }
-
-    // Track file not found (404) pages.
-    if ($status == '404 Not Found') {
-      $webtools_piwik_settings['is404'] = TRUE;
-    }
-
-    if (!empty($site_section)) {
-      $webtools_piwik_settings['siteSection'] = $site_section;
-    }
-
-    $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
-
-    // Add tracker code to scope.
-    $page['content']['next_europapiwik']['#markup'] = $webtools_piwik_settings;
-    $page['content']['next_europapiwik']['#prefix'] = "<script type=\"application/json\">";
-    $page['content']['next_europapiwik']['#suffix'] = "</script>";
+    drupal_add_js($smartloader_prurl, array(
+      'type' => 'external',
+      'scope' => 'header',
+      'weight' => 5,
+    ));
   }
+}
+
+/**
+ * Implements hook_process_html().
+ *
+ * Add the custom instance variables. That has to be done in the footer region.
+ * drupal_add_js won't work as we need application/json.
+ */
+function nexteuropa_piwik_process_html(&$vars) {
+  $id = variable_get('nexteuropa_piwik_site_id', '');
+  $instance = variable_get('nexteuropa_piwik_site_instance', '');
+
+  $site_path = variable_get('nexteuropa_piwik_site_path', '');
+  $site_section = variable_get('nexteuropa_piwik_site_section', '');
+
+  // Get page status code for visibility filtering.
+  $status = drupal_get_http_header('Status');
+
+  // Strip http & https from site_path variable and transforming in to array.
+  $site_path = preg_replace('#^https?://#', '', $site_path);
+  $site_path = explode(PHP_EOL, $site_path);
+  // Create settings array.
+  $webtools_piwik_settings = array(
+    'utility' => variable_get('nexteuropa_piwik_utility', 'piwik'),
+    'siteID' => $id,
+    'sitePath' => $site_path,
+    'is404' => FALSE,
+    'instance' => $instance,
+  );
+
+  // Search results pages.
+  if (module_exists('search') && variable_get('nexteuropa_piwik_site_search', TRUE) && arg(0) == 'search' && $keys = nexteuropa_piwik_search_get_keys()) {
+    global $pager_total_items;
+    $results_count = 0;
+
+    if (isset($pager_total_items[0])) {
+      $results_count = strval($pager_total_items[0]);
+    }
+
+    $webtools_piwik_settings['search']['keyword'] = $keys;
+    $webtools_piwik_settings['search']['count'] = $results_count;
+  }
+
+  // Track file not found (404) pages.
+  if ($status == '404 Not Found') {
+    $webtools_piwik_settings['is404'] = TRUE;
+  }
+
+  if (!empty($site_section)) {
+    $webtools_piwik_settings['siteSection'] = $site_section;
+  }
+
+  $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
+  // Add application/json tag to the header.
+  $element = array(
+    '#type' => 'html_tag',
+    '#tag' => 'script',
+    '#attributes' => array(
+      'type' => 'application/json',
+    ),
+    '#weight' => '99999',
+    '#value' => $webtools_piwik_settings,
+  );
+  $vars['page_bottom'] .= drupal_render($element);
 }
 
 /**
@@ -181,7 +207,7 @@ function _nexteuropa_piwik_visibility_pages() {
       $pages = drupal_strtolower($setting_pages);
       if ($visibility < 2) {
         // Convert the Drupal path to lowercase.
-        $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+        $path = drupal_strtolower(drupal_get_path_alias());
         // Compare the lowercase internal and lowercase path alias (if any).
         $page_match = drupal_match_path($path, $pages);
         if ($path != $_GET['q']) {

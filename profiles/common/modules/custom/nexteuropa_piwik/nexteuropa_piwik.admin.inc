@@ -42,9 +42,21 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     '#type' => 'select',
     '#title' => t('Piwik instance'),
     '#options' => $instance_options,
-    '#default_value' => "ec.europa.eu",
+    '#default_value' => variable_get('nexteuropa_piwik_site_instance', 'ec.europa.eu'),
     '#required' => TRUE,
     '#description' => t("Define the Piwik instance"),
+  );
+  $utility_options = array(
+    "piwik" => t("Piwik"),
+    "piwiktest" => t("Piwiktest"),
+  );
+  $form['account']['nexteuropa_piwik_utility'] = array(
+    '#type' => 'select',
+    '#title' => t('Piwik utility'),
+    '#options' => $utility_options,
+    '#default_value' => variable_get('nexteuropa_piwik_utility', 'piwik'),
+    '#required' => TRUE,
+    '#description' => t("Use Piwik as default value for production sites, and only change to Piwiktest in case there of testing mode for new webtools smart loader versions"),
   );
 
   // Visibility settings.

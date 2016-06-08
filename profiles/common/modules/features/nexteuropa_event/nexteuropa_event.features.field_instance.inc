@@ -66,6 +66,46 @@ function nexteuropa_event_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-nexteuropa_event-field_event_type'.
+  $field_instances['node-nexteuropa_event-field_event_type'] = array(
+    'bundle' => 'nexteuropa_event',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 7,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_event_type',
+    'label' => 'Type',
+    'required' => 0,
+    'settings' => array(
+      'entity_translation_sync' => FALSE,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'apply_chosen' => '',
+      ),
+      'type' => 'options_select',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'node-nexteuropa_event-field_ne_body'.
   $field_instances['node-nexteuropa_event-field_ne_body'] = array(
     'bundle' => 'nexteuropa_event',
@@ -172,7 +212,7 @@ function nexteuropa_event_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 7,
+      'weight' => 12,
     ),
   );
 
@@ -225,7 +265,7 @@ function nexteuropa_event_field_default_field_instances() {
         'apply_chosen' => '',
       ),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 11,
     ),
     'widget_type' => 'options_select',
   );
@@ -300,7 +340,7 @@ function nexteuropa_event_field_default_field_instances() {
       'module' => 'og',
       'settings' => array(),
       'type' => 'og_complex',
-      'weight' => 5,
+      'weight' => 10,
     ),
   );
 
@@ -355,6 +395,7 @@ function nexteuropa_event_field_default_field_instances() {
   t('Groups audience');
   t('Tags');
   t('Title');
+  t('Type');
 
   return $field_instances;
 }
