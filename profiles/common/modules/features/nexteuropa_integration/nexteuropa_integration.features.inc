@@ -55,8 +55,7 @@ function nexteuropa_integration_default_integration_resource_schema() {
           "main_task" : "Main task",
           "description" : "Description",
           "introduction" : "Introduction",
-          "abbreviation" : "Abbreviation",
-          "canonical_url" : "Canonical URL"
+          "abbreviation" : "Abbreviation"
         }
       }
     },
