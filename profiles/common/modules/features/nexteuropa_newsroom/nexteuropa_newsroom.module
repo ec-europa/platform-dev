@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Code for the nexteuropa newsroom feature.
+ * Code for the nexteuropa newsroom feature - 2.1.
  */
 
 module_load_include('inc', 'pathauto', 'pathauto');
@@ -39,9 +39,9 @@ define('NEXTEUROPA_NEWSROOM_TYPE_SEGMENT', '?item_type_id=');
 define('NEXTEUROPA_NEWSROOM_ITEM_EDIT_SEGMENT', 'item.cfm?item_id=');
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
-function nexteuropa_newsroom_init() {
+function nexteuropa_newsroom_page_build(&$page) {
   if (variable_get('newsroom_use_css') && !strpos($_GET['q'], 'node/add') && empty(preg_match('#node/[0-9]+/edit#', $_GET['q'], $match))) {
     drupal_add_css(drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom.css');
   }
@@ -354,28 +354,6 @@ function _nexteuropa_newsroom_get_real_groups($modes = array('teaser', 'full'), 
 }
 
 /**
- * Helper function to check if the universe ID has been already set.
- */
-function _nexteuropa_newsroom_check_universe_id() {
-  // After initital setup disable Universe ID field.
-  $universe_id = array();
-  $nri = variable_get('newsroom_universe_id', NULL);
-  if (!empty($nri)) {
-    $universe_id['disabled'] = TRUE;
-    $universe_id['description'] = t('To change the Newsroom Universe ID contact the site administrator.');
-    $universe_id['class'] = 'selected';
-    $universe_id['collapsing'] = FALSE;
-  }
-  else {
-    $universe_id['disabled'] = FALSE;
-    $universe_id['description'] = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
-    $universe_id['class'] = 'not-selected';
-    $universe_id['collapsing'] = TRUE;
-  }
-  return $universe_id;
-}
-
-/**
  * Enables translations for specific fields.
  */
 function _nexteuropa_newsroom_enable_translations() {
@@ -439,20 +417,10 @@ function nexteuropa_newsroom_url_outbound_alter(&$path, &$options, $original_pat
 }
 
 /**
- * Implements hook_strongarm_alter().
- */
-function nexteuropa_newsroom_strongarm_alter(&$variables) {
-  // Unset a "dynamic variable" created by cce_basic_config.
-  unset($variables['image_captcha_fonts']);
-  unset($variables['print_pdf_pdf_tool']);
-}
-
-/**
  * Implements hook_node_presave().
  */
 function nexteuropa_newsroom_node_presave($node) {
   if ($node->type == NEXTEUROPA_NEWSROOM_CONTENT_TYPE && variable_get('newsroom_patterns', FALSE)) {
-    $def_lang = language_default()->language;
     // Get all the types.
     if (isset($node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'])) {
       $type_tid = $node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'];
@@ -465,7 +433,7 @@ function nexteuropa_newsroom_node_presave($node) {
       if ($conf) {
         $node->path['pathauto'] = FALSE;
         $node->path['alias'] = $conf . '/' . pathauto_cleanstring($node->title);
-        pathauto_alias_uniquify($node->path['alias'], 'node/' . $node->nid, $def_lang);
+        pathauto_alias_uniquify($node->path['alias'], 'node/' . $node->nid);
       }
     }
   }
