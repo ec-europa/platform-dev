@@ -127,7 +127,7 @@ class NewsroomSummaryBlock {
 
       $entity = $this->getEntityFromRequest();
       if ($entity) {
-        if ($entity->type == 'newsroom_selection') {
+        if (isset($entity->type) && $entity->type == 'newsroom_selection') {
 
           if (!empty($entity->field_newsroom_topic_operator)) {
             $topic_operator = $entity->field_newsroom_topic_operator[LANGUAGE_NONE][0]['value'];

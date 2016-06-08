@@ -491,7 +491,7 @@ function _nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
     else {
       if (!empty($check_values['selected']['topic']) && !empty($check_values['check']['topic'][1])) {
         // Add new instances.
-        _nexteuropa_newsroom_add_fields('topic', $check_values['check']['topic'][1]);
+        _nexteuropa_newsroom_admin_add_fields('topic', $check_values['check']['topic'][1]);
       }
       elseif (!empty($check_values['check']['topic'][0])) {
         // Remove instances.
@@ -506,7 +506,7 @@ function _nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
     else {
       if (!empty($check_values['selected']['select']) && !empty($check_values['check']['select'][1])) {
         // Add new instances.
-        _nexteuropa_newsroom_add_fields('select', $check_values['check']['select'][1]);
+        _nexteuropa_newsroom_admin_add_fields('select', $check_values['check']['select'][1]);
       }
       elseif (!empty($check_values['check']['select'][0])) {
         // Remove instances.
