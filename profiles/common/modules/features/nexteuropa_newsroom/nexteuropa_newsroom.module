@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Code for the nexteuropa newsroom feature.
+ * Code for the nexteuropa newsroom feature - 2.1.
  */
 
 module_load_include('inc', 'pathauto', 'pathauto');
@@ -37,6 +37,15 @@ define('NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT', '?topic_id=');
 define('NEXTEUROPA_NEWSROOM_SERVICE_SEGMENT', '?service_id=');
 define('NEXTEUROPA_NEWSROOM_TYPE_SEGMENT', '?item_type_id=');
 define('NEXTEUROPA_NEWSROOM_ITEM_EDIT_SEGMENT', 'item.cfm?item_id=');
+
+/**
+ * Implements hook_page_build().
+ */
+function nexteuropa_newsroom_page_build(&$page) {
+  if (variable_get('newsroom_use_css') && !strpos($_GET['q'], 'node/add') && empty(preg_match('#node/[0-9]+/edit#', $_GET['q'], $match))) {
+    drupal_add_css(drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom.css');
+  }
+}
 
 /**
  * Implements hook_menu().
@@ -290,6 +299,61 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
 }
 
 /**
+ * Get instance  view mode settings.
+ *
+ * @param array|undefined $field_instances
+ *   Array or undefined.
+ * @param array $modes
+ *   Array.
+ * @param string $bundle
+ *   Array.
+ *
+ * @return field_instances
+ *   Array.
+ */
+function _nexteuropa_newsroom_get_real_modes($field_instances, $modes = array('teaser', 'full'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
+  // Get the current instances.
+  $fields = field_info_instances('node', $bundle);
+
+  foreach ($field_instances as $field_name => $instance) {
+    // We work only on the content type, for now.
+    if (strpos($field_name, 'node-newsroom_item') !== FALSE) {
+      // Field names are different in the two arrays.
+      $fields_name = str_replace('node-newsroom_item-', '', $field_name);
+      // Teaser and full node by default.
+      foreach ($modes as $view_mode) {
+        // During install we have to check for reliable data.
+        if (!empty($fields[$fields_name]['display'][$view_mode]['label'])) {
+          // Override the field_instances in features with the current settings.
+          $field_instances[$field_name]['display'][$view_mode] = $fields[$fields_name]['display'][$view_mode];
+        }
+      }
+    }
+  }
+
+  return $field_instances;
+}
+
+/**
+ * Get field groups.
+ *
+ * @param array $modes
+ *   Array.
+ * @param string $bundle
+ *   Array.
+ *
+ * @return groups
+ *   Array.
+ */
+function _nexteuropa_newsroom_get_real_groups($modes = array('teaser', 'full'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
+  foreach ($modes as $mode) {
+    $groups[$mode] = field_group_info_groups('node', $bundle, $mode, TRUE);
+  }
+
+  return $groups;
+}
+
+/**
  * Enables translations for specific fields.
  */
 function _nexteuropa_newsroom_enable_translations() {
@@ -369,7 +433,7 @@ function nexteuropa_newsroom_node_presave($node) {
       if ($conf) {
         $node->path['pathauto'] = FALSE;
         $node->path['alias'] = $conf . '/' . pathauto_cleanstring($node->title);
-        pathauto_alias_uniquify($node->path['alias']);
+        pathauto_alias_uniquify($node->path['alias'], 'node/' . $node->nid);
       }
     }
   }
@@ -555,7 +619,7 @@ function _nexteuropa_nexteuropa_newsroom_item_import_access() {
 }
 
 /**
- * Imports a single taxonomy term item based on real newsroom ID.
+ * Newsroom importer for single items.
  *
  * @param string $type
  *   Entity type: topic, type or service.
@@ -605,7 +669,6 @@ function _nexteuropa_newsroom_taxonomy_term_delete($field_name, $original_newsro
  *   Delete or import item.
  */
 function _nexteuropa_nexteuropa_newsroom_item_importer($newsroom_id = 0, $delete = FALSE) {
-
   if ($newsroom_id == 0) {
     drupal_not_found();
     drupal_exit();
@@ -1180,6 +1243,14 @@ function nexteuropa_newsroom_feeds_processor_targets_alter(&$targets, $entity_ty
 }
 
 /**
+ * Implements hook_field_default_field_instances_alter().
+ */
+function nexteuropa_newsroom_field_default_field_instances_alter(&$fields) {
+  // Add the teaser and full view mode to the display key, if they exists.
+  $fields = _nexteuropa_newsroom_get_real_modes($fields);
+}
+
+/**
  * Callback for the unique_callbacks specified in hook_feed_processor_targets().
  *
  * @param FeedsSource $source
@@ -1341,8 +1412,10 @@ function nexteuropa_newsroom_block_view_alter(&$data, $block) {
  */
 function nexteuropa_newsroom_entity_info_alter(&$entity_info) {
   // Adds custom display mode 'Newsroom event'.
-  $entity_info['node']['view modes']['event'] = array(
+  $entity_info['node']['view modes']['newsroom_event'] = array(
     'label' => t('Newsroom event'),
-    'custom settings' => TRUE,
+    'custom settings' => FALSE,
   );
+
+  return $entity_info;
 }

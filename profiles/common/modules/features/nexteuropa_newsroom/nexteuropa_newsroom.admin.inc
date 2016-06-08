@@ -95,6 +95,12 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     ),
   );
 
+  $form['newsroom_others']['newsroom_use_css'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use the stylesheets provided by this feature'),
+    '#default_value' => variable_get('newsroom_use_css', 1),
+  );
+
   $form['newsroom_others']['newsroom_order_by_last_update'] = array(
     '#type' => 'checkbox',
     '#title' => t('Sort newsroom boxes chronologically in the summary blocks'),
@@ -177,7 +183,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_fields'] = array(
     '#type' => 'fieldset',
     '#title' => t('Newsroom fields settings'),
-    '#description' => t('Here you can easily manage the addition or the removal of the newsroom fields from your content types. Refer to the documentation for having detailed information about the usage of the newsroom fields.  They are meant to give you the chance to associate topics to you contents so that matching news coming from the newsroom can be shown or mentioned contextually.'),
+    '#description' => t('Here you can easily manage the addition or the removal of the newsroom fields from your content types. Refer to the <a href="@documentation">documentation</a> for having detailed information about the usage of the newsroom fields.  They are meant to give you the chance to associate topics to you contents so that matching news coming from the newsroom can be shown or mentioned contextually.', array('@documentation' => 'https://webgate.ec.europa.eu/fpfis/wikis/pages/viewpage.action?spaceKey=MULTISITE&title=%5BFPFIS%5D+Nexteuropa+Newsroom+-+Documentation')),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#access' => user_access('administer newsroom advanced settings'),
@@ -185,7 +191,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $form['newsroom_fields']['newsroom_content_types_topic'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Newsroom content types topic'),
+    '#title' => t('Direct topic relation field in your content types'),
     '#description' => t('Choose the content types in which you want to activate a relationship with a newsroom topic.'),
     '#options' => NewsroomHelper::prepareOptions('ct'),
     '#multiple' => TRUE,
@@ -194,7 +200,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $form['newsroom_fields']['newsroom_content_types_delete_topic'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Delete all the existing instances in this content type'),
+    '#title' => t('Delete all the topic relation fields in your content types'),
     '#description' => t('If you want to delete all the instance of the topic field together check this.'),
     '#default_value' => 0,
     '#collapsible' => TRUE,
@@ -203,7 +209,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $form['newsroom_fields']['newsroom_content_types_select'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Newsroom content types select'),
+    '#title' => t('Advanced and configurable reference with newsroom items'),
     '#description' => t('Choose the content types in which you want to activate a complex relationship with the newsroom items.'),
     '#options' => NewsroomHelper::prepareOptions('ct'),
     '#multiple' => TRUE,
@@ -212,7 +218,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $form['newsroom_fields']['newsroom_content_types_delete_select'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Delete all the existing instances in this content type'),
+    '#title' => t('Delete all the newsroom select fields in your content types'),
     '#description' => t('If you want to delete all the instance of the select field together check this.'),
     '#default_value' => 0,
   );
@@ -373,7 +379,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   // Attach a css to the admin settings form.
   $form['#attached']['css'] = array(
-    drupal_get_path('module', 'nexteuropa_newsroom') . '/nexteuropa_newsroom_admin_setting.css',
+    drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
   );
   // Validate function.
   $form['#validate'][] = '_nexteuropa_newsroom_admin_settings_form_validate';
@@ -474,7 +480,9 @@ function _nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
   // Create default importers if new Newsroom Universe ID detected.
   if ($form_state['values']['newsroom_universe_id']) {
+    $proposal_url = 'http://ec.europa.eu/newsroom/' . $form_state['values']['newsroom_universe_id'] . '/propose-item.cfm';
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
+    $form_state['values']['newsroom_proposal_url'] = $proposal_url;
   }
 
   // If the validation returns the confirm request.
