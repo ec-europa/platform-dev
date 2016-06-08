@@ -60,6 +60,15 @@ $msg = _tmgmt_poetry_test_make_xml_msg($job, 'fr', 'HTML');
 FPFISPoetryIntegrationRequest($poetry_service['callback_user'], $poetry_service['callback_password'], $msg);
 ```
 
+The following callback lets you simulate you received a response from poetry for job item N
+http://your.local.base.url/tmgmt_poetry_test/receivetranslation/N
+The response will contain a copy of the original content
+
+The following callback lets you import a a Rejection message from poetry for job item N
+http://your.local.base.url/tmgmt_poetry_test/refusetranslation/N
+The XML message should be saved in folder tmgmt_poetry/tests/test.xml
+The job item N must match the job with the reference set in the XML.
+
 Testing Poetry responses
 ========================
 

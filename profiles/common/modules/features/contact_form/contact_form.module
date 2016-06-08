@@ -5,15 +5,13 @@
  */
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function contact_form_form_alter(&$form, &$form_state, $form_id) {
-  if ('contact_site_form' == $form_id) {
-    $form['referer'] = array(
-      '#type' => 'hidden',
-      '#default_value' => $_SERVER['HTTP_REFERER'],
-    );
-  }
+function contact_form_form_contact_site_form_alter(&$form, &$form_state, $form_id) {
+  $form['referer'] = array(
+    '#type' => 'hidden',
+    '#default_value' => $_SERVER['HTTP_REFERER'],
+  );
 }
 
 /**

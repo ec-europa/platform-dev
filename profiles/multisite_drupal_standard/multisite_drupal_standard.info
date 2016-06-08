@@ -1,5 +1,5 @@
-name = Multisite plateform standard
-description = Install with debut features pre-configured and modules required by the multisite plateform.
+name = Multisite platform standard
+description = Install with start features pre-configured and modules required by the multisite platform.
 core = 7.x
 
 dependencies[] = block
@@ -103,6 +103,7 @@ dependencies[] = transliteration
 dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
+dependencies[] = entityreference_prepopulate
 
 dependencies[] = filefield_sources_plupload
 
@@ -114,11 +115,11 @@ dependencies[] = multisite_drupal_features_set_standard
 dependencies[] = cce_basic_config
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_settings_standard
-dependencies[] = multisite_rules_configuration
 dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
 dependencies[] = solr_config
 dependencies[] = ecas_env
+dependencies[] = multisite_wysiwyg
 
 ; NextEuropa features.
 dependencies[] = nexteuropa_core

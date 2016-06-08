@@ -291,6 +291,9 @@ function ec_resp_preprocess_page(&$variables) {
   if (theme_get_setting('enable_interinstitutional_theme')) {
     $variables['logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo_europa.png');
   }
+  elseif (theme_get_setting('default_logo')) {
+    $variables['svg_logo'] = file_create_url(drupal_get_path('theme', 'ec_resp') . '/logo.svg');
+  }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
   $base_theme = multisite_drupal_toolbox_get_base_theme();
@@ -351,6 +354,15 @@ function ec_resp_preprocess_node(&$variables) {
     );
   }
 
+}
+
+/**
+ * Implements template_preprocess_file_entity().
+ */
+function ec_resp_preprocess_file_entity(&$variables) {
+  if ($variables['view_mode'] == "media_gallery_colorbox") {
+    $variables['classes_array'][] = "col-lg-2 col-md-3 col-xs-6";
+  }
 }
 
 /**
@@ -1218,12 +1230,19 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
 
   // Hide format field.
   if (!user_access('administer nodes')) {
-    $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['comment_body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
-
-    $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
-    $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+    $form['#after_build'][] = 'ec_resp_after_build';
   }
+}
+
+/**
+ * Implements the afterbuild function.
+ */
+function ec_resp_after_build($form) {
+  $form['comment_body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+  $form['comment_body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+  $form['body'][LANGUAGE_NONE][0]['format']['#prefix'] = "<div class='hide'>";
+  $form['body'][LANGUAGE_NONE][0]['format']['#suffix'] = "</div>";
+  return $form;
 }
 
 /**
@@ -1328,9 +1347,9 @@ function ec_resp_link($variables) {
       $variables['options']['attributes']['class'] = $classes;
     }
   }
+  $path = ($variables['path'] == '<nolink>') ? '#' : check_plain(url($variables['path'], $variables['options']));
   $output = $action_bar_before . $btn_group_before .
-    '<a href="' .
-    check_plain(url($variables['path'], $variables['options'])) . '"' .
+    '<a href="' . $path . '"' .
     drupal_attributes($variables['options']['attributes']) . '>' . $decoration .
     ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) .
     '</a>' . $btn_group_after . $action_bar_after;

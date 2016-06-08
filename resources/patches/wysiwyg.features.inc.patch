@@ -1,0 +1,12 @@
+--- wysiwyg.features.inc	2015-10-05 14:44:39.936578013 +0200
++++ wysiwyg.features.inc	2015-10-05 14:46:12.358766895 +0200
+@@ -78,6 +78,9 @@
+ function wysiwyg_features_rebuild($module) {
+   if ($defaults = features_get_default('wysiwyg', $module)) {
+     foreach ($defaults as $profile) {
++      if (is_object($profile)) {
++        $profile = (array) $profile;
++      }
+       db_merge('wysiwyg')
+         ->key(array('format' => $profile['format']))
+         ->fields(array(
