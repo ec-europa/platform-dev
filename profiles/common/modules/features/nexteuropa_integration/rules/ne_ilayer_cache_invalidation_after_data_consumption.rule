@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Contains NE Integration rule: invalidate Varnish cache after migration.
+ */
+
+$rule = '
+  { "rules_ne_ilayer_cache_invalidation_after_data_consumption" : {
+      "LABEL" : "NE Integration: Cache Invalidation after data consumption",
+      "PLUGIN" : "reaction rule",
+      "WEIGHT" : "10",
+      "ACTIVE" : false,
+      "OWNER" : "rules",
+      "TAGS" : [ "NE Integration" ],
+      "REQUIRES" : [ "flexible_purge", "integration" ],
+      "ON" : { "integration_consumer_post_import" : [] },
+      "DO" : [ { "flexible_purge_invalidate_website_cache" : [] } ]
+    }
+  }
+';
