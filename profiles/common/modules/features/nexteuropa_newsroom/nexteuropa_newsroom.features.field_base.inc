@@ -1367,6 +1367,7 @@ function nexteuropa_newsroom_field_default_field_bases() {
         'default' => 'Default',
         'events' => 'Event',
         'consultation_funding' => 'Consultation and Opportunity',
+        'call' => 'Calls',
       ),
       'allowed_values_function' => '',
       'entity_translation_sync' => FALSE,

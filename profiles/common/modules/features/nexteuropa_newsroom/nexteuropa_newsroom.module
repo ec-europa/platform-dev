@@ -548,7 +548,7 @@ function nexteuropa_newsroom_views_data_alter(&$data) {
  */
 function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
   if ($node->type == NEXTEUROPA_NEWSROOM_CONTENT_TYPE &&
-    in_array($view_mode, array('full', 'event', 'events'))) {
+    in_array($view_mode, array('full', 'newsroom_event'))) {
 
     $type_id = isset($node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid']) ? $node->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'] : NULL;
     $type_wrapper = entity_metadata_wrapper('taxonomy_term', $type_id);
@@ -949,6 +949,7 @@ function nexteuropa_newsroom_views_pre_view(&$view, &$display_id, array &$args) 
             $display = $is_previous ? 'previous_events' : 'events';
             break;
 
+          case 'call':
           case 'consultation_funding':
             $display = $is_previous ? 'previous_consultation_funding' : 'consultation_funding';
             break;

@@ -367,6 +367,7 @@ class NewsroomHelper {
         'consultation_funding',
         'events',
         'agenda',
+        'call',
       ), NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
   }
 
