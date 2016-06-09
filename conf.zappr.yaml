@@ -1,0 +1,21 @@
+approvals:
+  # PR needs at least 2 approvals
+  minimum: 2
+  # approval = comment that matches this regex
+  pattern: "^(:\\+1:|👍)$"
+  veto:
+    # veto/blocking a PR = comment that matches this regex
+    pattern: "^(:\\-1:|👎)$"
+  # note that `from` is by default empty,
+  # accepting any matching comment as approval
+  from:
+    # commenter must be either one of:
+    orgs:
+      # a public ec-platform org member
+      # (any org in here counts)
+      - ec-europa
+    # OR a collaborator of the repo
+    collaborators: true
+    # OR one of these guys
+    users:
+      - degliwe
