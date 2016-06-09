@@ -6,8 +6,8 @@
  */
 
 $rule = '
-  { "rules_ne_flexible_purge_invalidate_varnish_cache_after_deleting" : {
-      "LABEL" : "NE Flexible Purge: Invalidate Varnish cache after deleting content",
+  { "rules_fp_invalidate_cache_after_deleting" : {
+      "LABEL" : "NE Flexible Purge: Invalidate cache after deleting content",
       "PLUGIN" : "reaction rule",
       "WEIGHT" : "10",
       "ACTIVE" : false,
