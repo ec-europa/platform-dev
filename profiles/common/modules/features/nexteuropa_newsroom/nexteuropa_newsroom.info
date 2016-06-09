@@ -286,4 +286,4 @@ files[] = classes/NewsroomBlock.inc
 files[] = classes/NewsroomBlockAgenda.inc
 files[] = classes/NewsroomBlockBase.inc
 files[] = classes/NewsroomSummaryBlock.inc
-multisite_version = 2.1
+multisite_version = 2.2
