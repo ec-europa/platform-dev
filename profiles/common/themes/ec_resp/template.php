@@ -1936,6 +1936,12 @@ function ec_resp_nexteuropa_multilingual_language_list(array $variables) {
 
 /**
  * Helper function to display splash page language list column.
+ *
+ * @param array $languages An associative array of languages to link to.
+ * @param string $path The internal path being linked to.
+ * @param array $options An associative array of additional options.
+ *
+ * @return string Formatted HTML column displaying the list of provided languages.
  */
 function _ec_resp_nexteuropa_multilingual_language_list_column($languages, $path, $options) {
   $content = '<div class="col-sm-6">';
