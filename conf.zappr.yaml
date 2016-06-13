@@ -10,12 +10,12 @@ approvals:
   # accepting any matching comment as approval
   from:
     # commenter must be either one of:
-    orgs:
+    #orgs:
       # a public ec-platform org member
       # (any org in here counts)
-      - ec-europa
+      #- ec-europa
     # OR a collaborator of the repo
     collaborators: true
     # OR one of these guys
-    users:
-      - degliwe
+    #users:
+    #- degliwe
