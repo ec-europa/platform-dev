@@ -90,9 +90,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
 
   // Forcing to use the prefix at the end of the path with the delimiter '_'.
   // example:
-  // /foo/bar_en  (supported)
-  // /_en/foo/bar (not supported)
-  // /en/foo/bar  (not supported)
+  // /foo/bar_en  (supported),
+  // /_en/foo/bar (not supported),
+  // /en/foo/bar  (not supported).
   $languages_prefix = array();
   // Use the suffix language.
   foreach ($languages as $language) {
