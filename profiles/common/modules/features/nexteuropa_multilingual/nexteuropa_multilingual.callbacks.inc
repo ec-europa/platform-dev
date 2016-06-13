@@ -88,12 +88,27 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
+  // Forcing to use the prefix at the end of the path with the delimiter '_'.
+  // example:
+  // /foo/bar_en  (supported)
+  // /_en/foo/bar (not supported)
+  // /en/foo/bar  (not supported)
+  $languages_prefix = array();
+  // Use the suffix language.
+  foreach ($languages as $language) {
+    $languages_prefix[] = _nexteuropa_multilingual_get_language_suffix($language);
+  }
+  $pattern = '/' . $delimiter . '(' . implode($languages_prefix, '|') . ')$/';
+  // Search the language suffix with the delimiter in the path.
+  if (!preg_match($pattern, $path)) {
+    // No language suffix found.
+    return array(FALSE, $path);
+  }
+
   $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
 
   // Handle if there are extra parameters after the suffix.
-  // Also works for the drupal way,
-  // if suffix comes at the beginning of the path without delimiter.
   $extra_params = explode("/", $suffix);
   $suffix = array_shift($extra_params);
 
