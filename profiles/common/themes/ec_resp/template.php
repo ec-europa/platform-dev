@@ -1912,3 +1912,51 @@ function ec_resp_preprocess_comment(&$variables) {
 function ec_resp_preprocess_comment_wrapper(&$variables) {
   $variables['title_text'] = $variables['content']['#node']->type != 'forum' ? t('Comments') : t('Replies');
 }
+
+/**
+ * Implements theme_nexteuropa_multilingual_language_list().
+ */
+function ec_resp_nexteuropa_multilingual_language_list(array $variables) {
+  // Provide defaults.
+  $options = !empty($variables['options']) ? $variables['options'] : [];
+
+  $content = '<div class="row">';
+
+  $half = ceil(count($variables['languages']) / 2);
+  $first_half = array_slice($variables['languages'], 0, $half);
+  $second_half = array_slice($variables['languages'], $half);
+
+  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($first_half, $variables['path'], $options);
+  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($second_half, $variables['path'], $options);
+
+  $content .= '</div>';
+
+  return $content;
+}
+
+/**
+ * Helper function to display splash page language list column.
+ *
+ * @param array $languages
+ *   An associative array of languages to link to.
+ * @param string $path
+ *   The internal path being linked to.
+ * @param array $options
+ *   An associative array of additional options.
+ *
+ * @return string
+ *   Formatted HTML column displaying the list of provided languages.
+ */
+function _ec_resp_nexteuropa_multilingual_language_list_column($languages, $path, $options) {
+  $content = '<div class="col-sm-6">';
+  foreach ($languages as $language) {
+    $options['attributes']['lang'] = $language->language;
+    $options['attributes']['hreflang'] = $language->language;
+    $options['attributes']['class'] = 'btn splash-page__btn-language';
+    $options['language'] = $language;
+    $content .= l($language->native, $path, $options);
+  }
+  $content .= '</div>';
+
+  return $content;
+}
