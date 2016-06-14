@@ -1,0 +1,71 @@
+.selected {
+  background: #f9f9f9;
+  border: 2px solid green;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.not-selected {
+  border: 2px solid  #8c2e0b;
+  padding: 10px;
+  color: #8c2e0b;
+}
+
+.not-selected input[type="text"] {
+  border: 1px solid #8c2e0b;
+}
+
+.fieldset-description {
+  padding: 10px 0;
+}
+
+#edit-newsroom-paths .form-type-textfield,
+#edit-newsroom-paths--1 .form-type-textfield,
+#edit-newsroom-paths--2 .form-type-textfield {
+  width: 50%;
+  float: left;
+}
+
+#newsroom_import_submit,
+#newsroom-import-code,
+#newsroom-export-code,
+#newsroom-backup-submit,
+#newsroom_import_backup {
+  display: none;
+}
+
+#edit-reveal-modes {
+  border: none;
+  width: 250px;
+  background: none;
+  text-align: center;
+  color: #5a5a5a;
+  cursor: pointer;
+}
+
+.newsroom-reveal-modes {
+  -moz-border-bottom-colors: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  background: rgba(0, 0, 0, 0) url("../images/buttons.png") repeat-x scroll 0 0;
+  border-color: #e4e4e4 #d2d2d2 #b4b4b4;
+  border-image: none;
+  border-radius: 20px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  font-family: "Lucida Grande",Verdana,sans-serif;
+  font-size: 1.077em;
+  font-weight: normal;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  padding: 4px 17px;
+  text-align: center;
+  display: inline-block;
+}
+
+.newsroom-reveal-modes .form-item {
+  margin: 0;
+  padding: 0;
+}

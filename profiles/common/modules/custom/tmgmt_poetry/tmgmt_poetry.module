@@ -13,7 +13,6 @@ module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 function tmgmt_poetry_entity_info_alter(&$entity_info) {
   $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
   $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
-  _tmgmt_poetry_access_entity_info_alter($entity_info);
 }
 
 /**

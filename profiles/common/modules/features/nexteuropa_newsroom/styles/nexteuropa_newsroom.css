@@ -1,0 +1,381 @@
+/* Menu on the left sidebar in the newsroom page */
+
+.view-newsroom-navigation.block-menu-block ul.list-group li > a {
+  display: block;
+  font-size: 1.1em;
+  border-top: 1px solid #ececec;
+  padding: 1em;
+}
+
+.view-newsroom-navigation.block-menu-block ul li a.active {
+  background: #0065a2;
+  color: #fff;
+  font-weight: bold;
+}
+
+.view-newsroom-navigation.block-menu-block ul li a.active::after {
+  width: 0;
+  height: 0;
+  content: "";
+  border-top: 27px solid transparent;
+  border-bottom: 27px solid transparent;
+  border-left: 27px solid #0065a2;
+  position: absolute;
+  left: 100%;
+  top: 0;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group li:hover {
+  background: #ececec;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group li:hover::before {
+  width: 0;
+  height: 0;
+  content: "";
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid #0065a2;
+  position: absolute;
+  right: 10%;
+  top: 40%;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group ul li a {
+  font-size: 1em;
+  padding: 0.7em 0 0.7em 2em;
+  margin: 0;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group ul {
+  margin: 0;
+  position: absolute;
+  left: 0;
+  top: 3.5em;
+  width: 100%;
+  background: #fff;
+  visibility: hidden;
+  z-index: 1;
+  -webkit-box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.5);
+  -moz-box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.5);
+  border-radius: 0px 0px 6px 6px;
+  -moz-border-radius: 0px 0px 3px 3px;
+  -webkit-border-radius: 0px 0px 3px 3px;
+  border: 0px solid #000000;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group ul::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #0065a2;
+  display: block;
+  visibility: visible;
+  position: absolute;
+  right: 10%;
+  top: -1.8em;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group:hover ul::before {
+  border: none;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group li {
+  position: relative;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group li:hover ul {
+  visibility: visible;
+}
+
+.view-newsroom-navigation.block-menu-block ul.list-group ul li:first-child a {
+  border-top: 1px solid #ececec;
+}
+
+/* Teaser view mode for the newsroom_item */
+
+.view-display-id-default_newsroom .views-row {
+  padding: 0 !important;
+  border: none !important;
+  margin: 0;
+}
+
+.view-display-id-default_newsroom .views-field {
+  margin: 0.3em 0;
+}
+
+.view-display-id-default_newsroom .node-info-submitted,
+.view-display-id-default_newsroom h2 {
+  display: none;
+}
+
+.view-display-id-default_newsroom .views-field-field-newsroom-item-venue {
+  display: inline-block;
+  font-weight: 600;
+}
+
+.view-display-id-default_newsroom .views-field-field-newsroom-item-type a,
+.node-type-newsroom-item .field-name-field-newsroom-item-type a,
+.node-type-newsroom-item  .field-label,
+.newsroom_item_container .newsroom_type {
+  display: inline-block;
+  background: #0065a2;
+  padding: 0.2em 1em;
+  margin: 0 1.5em 1em -15px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  position: relative;
+}
+
+.node-type-newsroom-item .field-name-body {
+  border-bottom: none !important;
+}
+
+.views-field-field-newsroom-item-short-title {
+  margin-bottom: 1em !important;
+  line-height: 130%;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.view-display-id-default_newsroom .views-field-field-newsroom-item-date {
+  background: #ccc;
+  padding: 0 1em;
+  color: #0065a2;
+  display: inline-block;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  position: relative;
+}
+
+.view-display-id-default_newsroom.node-sticky {
+  padding-bottom: 0.5em;
+}
+
+.view-display-id-default_newsroom img {
+  text-align: center;
+  margin-left: 1em;
+  margin-bottom: 1em;
+  float: right;
+  border: 1px solid #ececec;
+}
+
+.view-display-id-default_newsroom img:hover {
+  border: 1px solid #0065a2;
+}
+
+.view-display-id-default_newsroom .newsroom-read-more,
+.newsroom_date {
+  font-style: italic;
+}
+
+.view-display-id-default_newsroom .newsroom-read-more {
+  text-align: right;
+  display: block;
+  clear: both;
+}
+
+.node-newsroom-item .field-image-caption {
+  margin-bottom: 0;
+}
+
+.view-display-id-default_newsroom .newsroom-read-more::after,
+.newsroom_more::after,
+.read-full-text::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid #0065a2;
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.read-full-text {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+.view-display-id-default_newsroom .newsroom-read-more:hover::after {
+  border-color: transparent transparent transparent #003556;
+}
+
+/* STyling the default view mode */
+
+.node-type-newsroom-item .field-name-field-newsroom-teaser {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+  font-family: monospace;
+}
+
+.node-type-newsroom-item .field-name-field-newsroom-teaser:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+.node-type-newsroom-item .field-name-field-newsroom-teaser p {
+  display: inline;
+}
+
+.node-type-newsroom-item .field-name-field-newsroom-illustrative-img {
+  float: right;
+  padding: 1em 0 1em 1em;
+}
+
+.node-newsroom-item .field-group-div {
+  padding-bottom: 1em;
+}
+
+.node-newsroom-item .field-name-body {
+  border: none;
+}
+
+.newsroom_item_container.agenda .date-date {
+  background: #f9f9f9;
+  border-bottom: 0.222em solid #fed437;
+  width: 5%;
+  margin-right: 0.75em;
+  min-width: 5.556em;
+  padding: 0.4em 0.7em;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.newsroom_item_container.agenda .date-date::after,
+.newsroom_item_container h3::after {
+  content: " ";
+  position: absolute;
+  top: -0.667em;
+  right: -0.200em;
+  width: 0;
+  height: 0;
+  border-top: 1em solid transparent;
+  border-bottom: 1em solid transparent;
+  border-right: 1em solid #fff;
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.newsroom_item_container {
+  clear: right;
+}
+
+.newsroom_item_container.agenda .date-date .day {
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.newsroom_item_container.agenda .date-date .month {
+  font-size: 1em;
+  line-height: 1;
+}
+
+.newsroom_item_container.agenda .date-events {
+  display: inline-block;
+  width: 89%;
+}
+
+@media screen and (min-width: 640px) and (max-width: 1000px) {
+  .newsroom_item_container.agenda .date-events {
+    width: 79%;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  .newsroom_item_container.agenda .date-events {
+    width: 70%;
+  }
+
+  .newsroom_item_container .views-row .newsroom_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.block-nexteuropa-newsroom .newsroom_rss {
+  text-align: right;
+}
+
+.newsroom_item_container .views-row {
+  margin-bottom: 1em;
+  border-bottom: 2px solid #ececec;
+}
+
+.date-row {
+  margin: 1em 0;
+}
+
+.newsroom_item_container .newsroom_type {
+  margin: 0 0 0.5em;
+  font-size: 0.8em;
+}
+
+.newsroom_item_container .views-row .newsroom_title {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 0.3em;
+  width: 100%;
+}
+
+.newsroom_item_container .newsroom_item_metadata {
+  font-style: italic;
+  margin-bottom: 0.5em;
+}
+
+.newsroom_more {
+  text-align: right;
+  background: #ececec;
+  padding: 0.3em 1em;
+  float: right;
+}
+
+.newsroom_more .placeholder {
+  font-style: normal;
+}
+
+.newsroom_item_container h3 {
+  margin-left: -15px;
+  background: #ececec;
+  padding: 0.2em 1.5em;
+  display: inline-block;
+  font-size: 1.3em;
+  position: relative;
+  color: #0065a2;
+  font-weight: 600;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss {
+  position: relative;
+  top: 4.5em;
+  margin-top: -3em;
+  background: #ececec;
+  float: right;
+  padding: 0.4em 0.5em;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss a.feed-icon {
+  padding: 0 0.5em 0 0;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss::after {
+  clear: both;
+}
