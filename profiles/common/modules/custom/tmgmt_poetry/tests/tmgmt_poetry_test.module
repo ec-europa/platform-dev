@@ -73,8 +73,7 @@ function tmgmt_poetry_test_refuse_translation() {
     print "<p>Translation refused for job: {$job->tjid} </p>";
   }
   catch (Exception $e) {
-    $response = 'Error new SoapClient : ' . $e->getMessage();
-    watchdog('Poetry: Test Refused ', $response);
+    watchdog_exception('Poetry: Test Refused', $e);
   }
 
 }
@@ -100,8 +99,7 @@ function tmgmt_poetry_test_receive_translation() {
     print "<p>Translation received for job: {$job->tjid} - $job->target_language </p>";
   }
   catch (Exception $e) {
-    $response = 'Error new SoapClient : ' . $e->getMessage();
-    watchdog('Poetry: Test', filter_xss($response));
+    watchdog_exception('Poetry: Test', $e);
   }
 }
 
