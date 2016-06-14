@@ -73,7 +73,7 @@ function tmgmt_poetry_test_refuse_translation() {
     print "<p>Translation refused for job: {$job->tjid} </p>";
   }
   catch (Exception $e) {
-    watchdog_exception('Poetry: Test Refused', $e);
+    watchdog_exception('tmgmt_poetry_test', $e);
   }
 
 }
@@ -99,7 +99,7 @@ function tmgmt_poetry_test_receive_translation() {
     print "<p>Translation received for job: {$job->tjid} - $job->target_language </p>";
   }
   catch (Exception $e) {
-    watchdog_exception('Poetry: Test', $e);
+    watchdog_exception('tmgmt_poetry_test', $e);
   }
 }
 
