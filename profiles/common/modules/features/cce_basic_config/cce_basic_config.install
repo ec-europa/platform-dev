@@ -2140,6 +2140,7 @@ function cce_basic_config_update_7210() {
 
 /**
  * Implements hook_update_N().
+ *
  * NEXTEUROPA-11465.
  * Update platforme version.
  */
