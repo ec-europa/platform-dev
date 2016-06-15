@@ -2137,3 +2137,16 @@ function cce_basic_config_update_7209() {
 function cce_basic_config_update_7210() {
   variable_set('multisite_version', '2.2');
 }
+
+/**
+ * Implements hook_update_N().
+ * NEXTEUROPA-11465.
+ * Update platforme version.
+ */
+function cce_basic_config_update_7211() {
+  // Enable new profile dependencies.
+  $modules = array(
+    'entityreference_prepopulate',
+  );
+  module_enable($modules);
+}
