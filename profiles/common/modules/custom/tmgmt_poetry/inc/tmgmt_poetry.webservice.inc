@@ -303,6 +303,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             }
             catch (Exception $e) {
               $message_job->addMessage('@language File import failed with the following message: @message', array('@language' => $language, '@message' => $e->getMessage()), 'error');
+              watchdog_exception('tmgmt_poetry', $e);
             }
           }
         }
