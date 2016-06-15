@@ -107,11 +107,11 @@ global $base_url;
 
   <div id="layout-header">
     <div class="container">
-      <?php if(isset($svg_logo)): ?>
+      <?php if (!empty($svg_logo)): ?>
       <object id="banner-flag" data="<?php print $svg_logo; ?>" type="image/svg+xml">
         <img alt="European Commission logo" src="<?php print $logo; ?>" />
       </object>
-      <?php else: ?>
+      <?php elseif (!empty($logo)): ?>
       <img alt="European Commission logo" id="banner-flag" src="<?php print $logo; ?>" />
       <?php endif; ?>
 
