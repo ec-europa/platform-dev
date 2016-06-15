@@ -36,6 +36,25 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     'field_newsroom_illustrative_img:uri' => array(
       'query' => 'enclosure[@type="image/jpeg" and @schema="Public"]/@url',
     ),
+    'field_newsroom_private_img:title' => array(
+      'query' => 'infsonewsroom:PicTitle',
+      'original_field' => 'field_file_image_title_text',
+    ),
+    'field_newsroom_private_img:alt' => array(
+      'query' => 'infsonewsroom:PicAlt',
+      'original_field' => 'field_file_image_alt_text',
+    ),
+    'field_newsroom_private_img:copyright' => array(
+      'query' => 'infsonewsroom:PicCopyright',
+      'original_field' => 'field_newsroom_copyrights',
+    ),
+    'field_newsroom_private_img:caption' => array(
+      'query' => 'infsonewsroom:PicCaption',
+      'original_field' => 'field_caption',
+    ),
+    'field_newsroom_illustrative_img:uri' => array(
+      'query' => 'enclosure[@type="image/jpeg" and @schema="Public"]/@url',
+    ),
     'field_newsroom_illustrative_img:title' => array(
       'query' => 'infsonewsroom:PicTitle',
       'original_field' => 'field_file_image_title_text',
