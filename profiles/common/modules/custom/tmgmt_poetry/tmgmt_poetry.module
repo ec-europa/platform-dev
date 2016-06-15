@@ -336,4 +336,14 @@ function tmgmt_poetry_views_default_views_alter(&$views) {
     unset($handler->display->display_options['fields']['reference'], $handler->display->display_options['fields']['views_bulk_operations']);
     array_unshift($handler->display->display_options['fields'], $ref);
   }
+
+  /**
+   * Implements hook_views_pre_execute().
+   */
+  function tmgmt_poetry_views_pre_execute(&$view) {
+    if ($view->name == 'multilingual_recent_translation_job_overview') {
+      $controller = new TMGMTPoetryJobController('tmgmt_job');
+      $controller->removeUnusedJobs();
+    }
+  }
 }

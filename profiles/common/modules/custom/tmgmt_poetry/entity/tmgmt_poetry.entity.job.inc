@@ -184,13 +184,11 @@ class TMGMTPoetryJob extends TMGMTJob {
 
     if ($items = parent::getItems()) {
       return $items;
-
     }
     elseif (($item = $this->jobItemSessionGet()) && $item->tjid == $this->tjid) {
       $item->save();
       unset($_SESSION['tmgmt_ui']['poetry_item']);
       return array($item);
-
     }
 
     return array();
