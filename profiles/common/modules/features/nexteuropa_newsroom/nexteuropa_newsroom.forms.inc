@@ -510,7 +510,9 @@ function _nexteuropa_newsroom_import_modes($export) {
         foreach ($groups[$mode] as $group_name => $group) {
           $group->disabled = FALSE;
           $group->export_type = 0;
-          field_group_group_save($group);
+          if (!field_group_exists($group->group_name, $group->entity_type, $group->bundle, $group->mode)) {
+            field_group_group_save($group);
+          }
         }
       }
     }
