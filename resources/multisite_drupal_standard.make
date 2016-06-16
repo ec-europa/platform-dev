@@ -616,7 +616,7 @@ projects[video][patch][] = patches/video-security-883.patch
 ; See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
 ; Todo: revert back to the stable version when Views 7.x-3.14 is released.
 projects[views][download][branch] = 7.x-3.x
-projects[views][download][revision] = e5c8b65
+projects[views][download][revision] = 485b697082cf2ec42cc596eed952daa6f61e8012 
 projects[views][download][type] = git
 projects[views][subdir] = "contrib"
 
