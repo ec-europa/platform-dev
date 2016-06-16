@@ -451,6 +451,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     }
     catch (Exception $e) {
       $response = 'Error new SoapClient : ' . $e->getMessage();
+      watchdog_exception('tmgmt_poetry', $e);
     }
 
     if ($client) {
@@ -460,6 +461,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       }
       catch (Exception $e) {
         $response = 'Error sending soap call : ' . $e->getMessage();
+        watchdog_exception('tmgmt_poetry', $e);
       }
       return $response;
     }
