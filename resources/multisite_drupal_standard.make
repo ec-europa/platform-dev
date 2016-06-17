@@ -37,6 +37,8 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/apachesolr-multiple
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
+; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
+projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
