@@ -13,8 +13,6 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
     return $language_url;
   }
 
-  module_load_include('inc', 'includes', 'path');
-
   // $_GET['q'] might not be available at this time, because
   // path initialization runs after the language bootstrap phase.
   $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
