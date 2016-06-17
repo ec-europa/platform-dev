@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains NextEuropa Integration default Rules configuration.
@@ -9,6 +10,7 @@
  */
 function nexteuropa_integration_default_rules_configuration() {
   $config = [];
+  // Invalidate Varnish cache after migration.
   $data = '
     { "rules_ne_ilayer_cache_invalidation_after_data_consumption" : {
         "LABEL" : "NE Integration: Cache Invalidation after data consumption",
