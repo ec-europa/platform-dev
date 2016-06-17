@@ -49,6 +49,13 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   protected $latestJob;
 
   /**
+   * Settings that may be changed during test execution.
+   *
+   * @var array
+   */
+  protected $settings = [];
+
+  /**
    * Constructs a NextEuropaMultilingualSubContext object.
    *
    * @param DrupalDriverManager $drupal
@@ -585,6 +592,34 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Change settings for a language.
+   *
+   * @Given :field for language :langcode is set to :value
+   */
+  public function setLanguageSetting($field, $value, $langcode) {
+
+    if ($field == 'language') {
+      throw new \InvalidArgumentException("Field '{$field}' can not be changed.");
+    }
+
+    $query = "SELECT * FROM {languages} WHERE language = :lang";
+    $language = db_query($query, array(':lang' => $langcode))->fetchObject();
+
+    if (empty($language)) {
+      throw new \InvalidArgumentException("Language '{$langcode}' does not exists.");
+    }
+
+    $this->settings['language'] = array(
+      'field' => $field,
+      'value' => $language->$field,
+      'langcode' => $langcode,
+    );
+
+    $this->updateLanguage($field, $value, $langcode);
+
+  }
+
+  /**
    * Get a node by specifying its type and title.
    *
    * @param string $type
@@ -705,6 +740,37 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       return $states[$state];
     }
     throw new \InvalidArgumentException("Translation job item state labeled '{$state}' does not exists.");
+  }
+
+  /**
+   * Update language in database.
+   *
+   * @param string $field
+   *    The field to change.
+   * @param string $value
+   *    The new value.
+   * @param string $langcode
+   *    The code of the language to bee changed.
+   */
+  protected function updateLanguage($field, $value, $langcode) {
+    db_update('languages')
+      ->fields(array($field => $value))
+      ->condition('language', $langcode)
+      ->execute();
+  }
+
+  /**
+   * Revert to previous settings after scenario execution.
+   *
+   * @AfterScenario
+   */
+  public function revertSettings() {
+    if (!empty($this->settings)) {
+      if (isset($this->settings['language'])) {
+        $lang = $this->settings['language'];
+        $this->updateLanguage($lang['field'], $lang['value'], $lang['langcode']);
+      }
+    }
   }
 
 }

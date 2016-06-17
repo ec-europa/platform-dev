@@ -41,6 +41,8 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_s
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
+; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
+projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -324,8 +326,6 @@ projects[integration][version] = "1.x-dev"
 
 projects[integration_couchdb][subdir] = "contrib"
 projects[integration_couchdb][version] = "1.x-dev"
-projects[integration_couchdb][download][type] = "get"
-projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.tar.gz"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -338,6 +338,9 @@ projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.7"
+; Issue #2621436: Allow permissions to granted roles.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7825
+projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
