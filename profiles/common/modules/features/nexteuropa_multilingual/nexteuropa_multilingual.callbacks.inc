@@ -13,11 +13,14 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
     return $language_url;
   }
 
+  module_load_include('inc', 'includes', 'path');
+
   // $_GET['q'] might not be available at this time, because
   // path initialization runs after the language bootstrap phase.
-  list($language, $_GET['q']) = nexteuropa_multilingual_language_negotiation_split_suffix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
-  if ($language !== FALSE) {
-    $language_url = $language->language;
+  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
+  if ($check_prefix[0] !== FALSE) {
+    $language_url = $check_prefix[0]->language;
+    $_GET['q'] = $check_prefix[1];
   }
   return $language_url;
 }
@@ -72,8 +75,17 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
     // Check if the language suffix has been already added.
     $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
-    if (!isset($check_prefix[0]->language)) {
-      $path .= $delimiter . $language_suffix;
+    if ($check_prefix[0] === FALSE) {
+      if (drupal_get_normal_path($path) !== $path) {
+        $path .= $delimiter . $language_suffix;
+      }
+    }
+    else {
+      if (($check_prefix[0]->language !== $language_suffix) || ($check_prefix[1] !== $path)) {
+        if (drupal_get_normal_path($path) !== $path) {
+          $path .= $delimiter . $language_suffix;
+        }
+      }
     }
 
     $options['alias'] = TRUE;
@@ -108,8 +120,15 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
   foreach ($languages as $language) {
     $language_suffix = _nexteuropa_multilingual_get_language_suffix($language);
     if ($language_suffix && $language_suffix == $suffix) {
+      $path_check = implode($delimiter, $args);
+
+      // Handle if the path exist.
+      if (drupal_get_normal_path($path_check) === $path_check) {
+        return array(FALSE, $path);
+      }
+
       // Rebuild $path with the language removed.
-      $path = implode($delimiter, $args);
+      $path = $path_check;
       // Handle the path homepage.
       $path = ($path == 'index') ? '' : $path;
       // Add extra params after suffix.
