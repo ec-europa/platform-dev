@@ -96,6 +96,10 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  * Extract the suffix from the path.
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
+  // Include libraries to use the function 'drupal_get_normal_path'.
+  include_once "includes/common.inc";
+  include_once "includes/path.inc";
+
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
   $languages_prefix = array_keys($languages);
   // Use the suffix language.
