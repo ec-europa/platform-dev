@@ -19,7 +19,7 @@ function nexteuropa_integration_default_rules_configuration() {
         "ACTIVE" : false,
         "OWNER" : "rules",
         "TAGS" : [ "NE Integration" ],
-        "REQUIRES" : [ "flexible_purge", "integration_consumer", "nexteuropa_varnish" ],
+        "REQUIRES" : [ "flexible_purge", "integration", "nexteuropa_varnish" ],
         "ON" : { "integration_consumer_post_import" : [] },
         "DO" : [ { "nexteuropa_varnish_invalidate_website_cache" : [] } ]
       }
