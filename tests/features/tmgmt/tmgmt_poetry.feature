@@ -113,7 +113,7 @@ Feature: TMGMT Poetry features
     And I move backward one page
     Then I should not see the link "In progress"
 
-  @javascript @run
+  @javascript
   Scenario: Test not sending one job and moving to another job.
     Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the 'administrator' role
