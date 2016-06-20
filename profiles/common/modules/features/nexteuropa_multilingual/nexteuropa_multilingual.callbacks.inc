@@ -9,6 +9,8 @@
  */
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
   $language_url = FALSE;
+  $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
+
   if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
     return $language_url;
   }
@@ -19,6 +21,12 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
   if ($check_prefix[0] !== FALSE) {
     $language_url = $check_prefix[0]->language;
     $_GET['q'] = $check_prefix[1];
+  }
+  else {
+    if(_nexteuropa_multilingual_get_source_path($check_prefix[1]) != $check_prefix[1]) {
+      watchdog('nexteuropa_multilingual', 'Path without suffix : ' . $_GET['q'], NULL, WATCHDOG_WARNING);
+      $_GET['q'] .= $delimiter;
+    }
   }
   return $language_url;
 }
@@ -83,7 +91,6 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     }
 
     $options['alias'] = TRUE;
-
   }
 }
 
@@ -93,6 +100,10 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
+
+  if(_nexteuropa_multilingual_get_source_path($path) != $path) {
+    return array(FALSE, $path);
+  }
 
   // Forcing to use the prefix at the end of the path with the delimiter '_'.
   // example:
@@ -174,4 +185,25 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
     }
   }
   return NULL;
+}
+
+/**
+ * Get source path given its alias. Return input path if no alias is found.
+ *
+ * @param string $path
+ *    Relative Drupal path.
+ *
+ * @return string
+ *    Source path if any, input path if none.
+ */
+function _nexteuropa_multilingual_get_source_path($path) {
+  $result = db_select('url_alias', 'a')
+    ->fields('a', ['source'])
+    ->condition('a.alias', $path)
+    ->execute()
+    ->fetchAssoc();
+  if (is_array($result) && !empty($result)) {
+    return array_shift($result);
+  }
+  return $path;
 }
