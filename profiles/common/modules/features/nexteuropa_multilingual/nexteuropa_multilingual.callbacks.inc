@@ -92,10 +92,6 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  * Extract the suffix from the path.
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
-  // Include libraries to use the function 'drupal_get_normal_path'.
-  // include_once "includes/common.inc";
-  // include_once "includes/path.inc";
-
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   // Forcing to use the prefix at the end of the path with the delimiter '_'.
@@ -127,11 +123,6 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
     $language_suffix = _nexteuropa_multilingual_get_language_suffix($language);
     if ($language_suffix && $language_suffix == $suffix) {
       $path_check = implode($delimiter, $args);
-
-      // Handle if the path exist.
-      // if (drupal_get_normal_path($path_check) === $path_check) {
-      //   return array(FALSE, $path);
-      // }
 
       // Rebuild $path with the language removed.
       $path = $path_check;
