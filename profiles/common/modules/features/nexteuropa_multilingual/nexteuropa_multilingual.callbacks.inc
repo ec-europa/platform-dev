@@ -74,15 +74,11 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     // Check if the language suffix has been already added.
     $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
     if ($check_prefix[0] === FALSE) {
-      if (drupal_get_normal_path($path) !== $path) {
-        $path .= $delimiter . $language_suffix;
-      }
+      $path .= $delimiter . $language_suffix;
     }
     else {
       if (($check_prefix[0]->language !== $language_suffix) || ($check_prefix[1] !== $path)) {
-        if (drupal_get_normal_path($path) !== $path) {
-          $path .= $delimiter . $language_suffix;
-        }
+        $path .= $delimiter . $language_suffix;
       }
     }
 
@@ -97,8 +93,8 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
   // Include libraries to use the function 'drupal_get_normal_path'.
-  include_once "includes/common.inc";
-  include_once "includes/path.inc";
+  // include_once "includes/common.inc";
+  // include_once "includes/path.inc";
 
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
@@ -133,9 +129,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
       $path_check = implode($delimiter, $args);
 
       // Handle if the path exist.
-      if (drupal_get_normal_path($path_check) === $path_check) {
-        return array(FALSE, $path);
-      }
+      // if (drupal_get_normal_path($path_check) === $path_check) {
+      //   return array(FALSE, $path);
+      // }
 
       // Rebuild $path with the language removed.
       $path = $path_check;
