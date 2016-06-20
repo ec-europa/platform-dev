@@ -23,8 +23,8 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
     $_GET['q'] = $check_prefix[1];
   }
   else {
-    if(_nexteuropa_multilingual_get_source_path($check_prefix[1]) != $check_prefix[1]) {
-      watchdog('nexteuropa_multilingual', 'Path without suffix : ' . $_GET['q'], NULL, WATCHDOG_WARNING);
+    if (_nexteuropa_multilingual_get_source_path($check_prefix[1]) != $check_prefix[1]) {
+      watchdog('nexteuropa_multilingual', 'Path without suffix: "%path".', array('%path' => $_GET['q']), WATCHDOG_WARNING);
       $_GET['q'] .= $delimiter;
     }
   }
@@ -101,7 +101,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
-  if(_nexteuropa_multilingual_get_source_path($path) != $path) {
+  if (_nexteuropa_multilingual_get_source_path($path) != $path) {
     return array(FALSE, $path);
   }
 
