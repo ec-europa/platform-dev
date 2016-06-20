@@ -133,10 +133,8 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
   foreach ($languages as $language) {
     $language_suffix = _nexteuropa_multilingual_get_language_suffix($language);
     if ($language_suffix && $language_suffix == $suffix) {
-      $path_check = implode($delimiter, $args);
-
       // Rebuild $path with the language removed.
-      $path = $path_check;
+      $path = implode($delimiter, $args);
       // Handle the path homepage.
       $path = ($path == 'index') ? '' : $path;
       // Add extra params after suffix.
