@@ -113,9 +113,9 @@ Feature: TMGMT Poetry features
     And I move backward one page
     Then I should not see the link "In progress"
 
-  @javascript
+  @javascript @run
   Scenario: Test not sending one job and moving to another job.
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"
@@ -133,7 +133,7 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
