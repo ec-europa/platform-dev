@@ -59,7 +59,11 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
       $key = $this->decodeIdSafeBase64((string) $atom['id']);
 
       $doc = new DOMDocument();
+      // set error level. NEXTEUROPA-11340
+      $internalErrors = libxml_use_internal_errors(true);
       $doc->loadXML($atom->asXML());
+      // Restore error level
+      libxml_use_internal_errors($internalErrors);
       $node = $doc->getElementsByTagName('div')->item(0);
 
       // Get all node childs even text node elements.
@@ -139,7 +143,11 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
       $dom->loadHTMLFile($imported_file);
     }
     else {
+      // set error level. NEXTEUROPA-11340
+      $internalErrors = libxml_use_internal_errors(true);
       $dom->loadHTML($imported_file);
+      // Restore error level
+      libxml_use_internal_errors($internalErrors);
     }
 
     return simplexml_import_dom($dom);
