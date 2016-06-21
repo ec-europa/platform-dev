@@ -60,8 +60,6 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
 
       $doc = new DOMDocument();
       $doc->loadXML($atom->asXML());
-      // Restore error level.
-      libxml_use_internal_errors($internal_errors);
       $node = $doc->getElementsByTagName('div')->item(0);
 
       // Get all node childs even text node elements.
