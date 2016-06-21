@@ -1,3 +1,4 @@
+@api
 Feature: Content editing
   In order to manage the content on the website
   As an editor
