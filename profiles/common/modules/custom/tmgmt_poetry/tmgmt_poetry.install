@@ -103,3 +103,10 @@ function tmgmt_poetry_update_7001() {
   $translator->settings['settings'] = $settings;
   $translator->save();
 }
+
+/**
+ * Enable nexteuropa_token_ckeditor.
+ */
+function tmgmt_poetry_update_7002() {
+  module_enable(array('nexteuropa_token_ckeditor'));
+}

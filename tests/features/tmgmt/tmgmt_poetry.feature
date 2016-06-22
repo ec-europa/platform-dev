@@ -99,3 +99,27 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see an "#edit-languages-fr.form-radio" element
     But I should not see an "#edit-languages-fr.form-checkbox" element
+
+  @javascript
+  Scenario: Test rejection of a translation.
+    Given local translator "TMGMT Poetry: Test translator" is available
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "Original version"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I wait for AJAX to finish
+    And I press "Submit to translator"
+    Then I should not see an "#edit-languages-fr.form-radio" element
+    But I should see an "#edit-languages-fr.form-checkbox" element
+    Then I click "In progress" in the "French" row
+    And I get a refused translation of current job item
+    And I click "Cancel"
+    Then I should see "None" in the "French" row
+    Then I go to "admin/tmgmt"
+    And I should see "Aborted" in the "Original version" row
