@@ -9,12 +9,12 @@
     attach: function(context, settings) {
       // There are no attributes added to the anchors produced by ckeditor. So I can't think of a nicer way to do this.
       $("a").each(function(index){
-        if($(this).attr("href") === undefined || $(this).attr("href") == '') {
-          if($(this).attr("id") == $(this).attr("name")) {
+        if ($(this).attr("href") === undefined || $(this).attr("href") == '') {
+          if ($(this).attr("id") == $(this).attr("name")) {
             var header_height = ($('.navbar-collapse').height());
             $(this).css('position', 'relative');
             $(this).css('display', 'block');
-            $(this).css('top', -1 *header_height);
+            $(this).css('top', -1 * header_height);
           }
         }
       });
