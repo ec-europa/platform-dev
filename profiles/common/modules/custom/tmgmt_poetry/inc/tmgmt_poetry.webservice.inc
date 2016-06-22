@@ -335,9 +335,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
     case 'html_poetry':
     case 'xml_dgt':
       $dom = new DOMDocument();
-      // Remove duplicate XMLNS att. NEXTEUROPA-11340.
-      $content = str_replace('<html xmlns="http://www.w3.org/1999/xhtml">', '<html>', $content);
-      if (!$dom->loadHTML($content)) {
+      if (!$dom->loadXML($content)) {
         return FALSE;
       }
       $xml = simplexml_import_dom($dom);
