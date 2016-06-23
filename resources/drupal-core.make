@@ -12,8 +12,6 @@ projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.
 ; https://www.drupal.org/node/565808
 projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 
-projects[drupal][patch][] = patches/menu-conflict_with_menu_token-2534.patch
-
 ; node_access filters out accessible nodes when node is left joined.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2689
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11805
