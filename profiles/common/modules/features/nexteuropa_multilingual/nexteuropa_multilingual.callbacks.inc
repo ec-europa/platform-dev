@@ -25,7 +25,7 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
   }
   else {
     if (_nexteuropa_multilingual_get_source_path($check_prefix[1]) != $check_prefix[1]) {
-      watchdog('nexteuropa_multilingual', 'Path without suffix: "%path".', array('%path' => htmlentities($current_path)), WATCHDOG_WARNING);
+      watchdog('nexteuropa_multilingual', 'Path without suffix: "@path".', array('@path' => $current_path), WATCHDOG_WARNING);
       $_GET['q'] .= $delimiter;
     }
   }
