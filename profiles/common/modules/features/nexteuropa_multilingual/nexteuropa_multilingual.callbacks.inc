@@ -9,6 +9,8 @@
  */
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
   $language_url = FALSE;
+  $current_path = request_path();
+
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
@@ -17,14 +19,14 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
 
   // $_GET['q'] might not be available at this time, because
   // path initialization runs after the language bootstrap phase.
-  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
+  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($current_path) ? $current_path : NULL, $languages);
   if ($check_prefix[0] !== FALSE) {
     $language_url = $check_prefix[0]->language;
     $_GET['q'] = $check_prefix[1];
   }
   else {
     if (_nexteuropa_multilingual_get_source_path($check_prefix[1]) != $check_prefix[1]) {
-      watchdog('nexteuropa_multilingual', 'Path without suffix: "%path".', array('%path' => $_GET['q']), WATCHDOG_WARNING);
+      watchdog('nexteuropa_multilingual', 'Path without suffix: "%path".', array('%path' => htmlentities($current_path)), WATCHDOG_WARNING);
       $_GET['q'] .= $delimiter;
     }
   }
