@@ -6,7 +6,12 @@ projects[drupal][version] = "7.44"
 projects[drupal][download][type] = get
 projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.44.tar.gz
 
+; AJAX callbacks not properly working with the language url suffix.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11656
+; https://www.drupal.org/node/565808
 projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
+
 projects[drupal][patch][] = patches/menu-conflict_with_menu_token-2534.patch
 
 ; node_access filters out accessible nodes when node is left joined.
