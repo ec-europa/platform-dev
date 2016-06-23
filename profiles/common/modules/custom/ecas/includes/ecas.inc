@@ -290,10 +290,10 @@ function ecas_sync_profile_core(&$user, array $user_info) {
 
   // You can now access the fields without knowing the language.
   if (!empty($field_firstname) && isset($edit[$field_firstname])) {
-    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = utf8_encode($user_info['cas:firstName']);
+    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['cas:firstName'];
   }
   if (!empty($field_lastname) && isset($edit[$field_lastname])) {
-    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = utf8_encode($user_info['cas:lastName']);
+    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['cas:lastName'];
   }
   if (!empty($field_ecasmail) && isset($edit[$field_ecasmail])) {
     $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
