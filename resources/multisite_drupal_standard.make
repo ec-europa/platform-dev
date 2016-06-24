@@ -41,6 +41,8 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr_s
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch
 ;https://www.drupal.org/node/2333447#comment-10826660
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
+; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
+projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -266,6 +268,9 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.7"
 
+projects[flexible_purge][subdir] = "contrib"
+projects[flexible_purge][version] = "1.x-dev"
+
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
 
@@ -324,8 +329,6 @@ projects[integration][version] = "1.x-dev"
 
 projects[integration_couchdb][subdir] = "contrib"
 projects[integration_couchdb][version] = "1.x-dev"
-projects[integration_couchdb][download][type] = "get"
-projects[integration_couchdb][download][url] = "https://github.com/jfhovinne/integration_couchdb/archive/1.0-alpha.1.tar.gz"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -338,6 +341,9 @@ projects[jqmulti][version] = "1.0"
 
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.7"
+; Issue #2621436: Allow permissions to granted roles.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7825
+projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
 
 projects[js_injector][subdir] = "contrib"
 projects[js_injector][version] = "2.1"
@@ -610,18 +616,17 @@ projects[video][version] = "2.11"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
-; A recent version of the Views module is pinned that contains a fix for
-; https://www.drupal.org/node/339384
-; See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
-; Todo: revert back to the stable version when Views 7.x-3.14 is released.
-projects[views][download][branch] = 7.x-3.x
-projects[views][download][revision] = e5c8b65
-projects[views][download][type] = git
 projects[views][subdir] = "contrib"
+projects[views][version] = 3.14
 
-projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
-projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
-projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
+; Error when configuring exposed group filter: "The value is required if title for this item is defined."
+; https://www.drupal.org/node/1818176
+projects[views][patch][] = https://www.drupal.org/files/views-1818176-11.patch
+; Fatal error: Unsupported operand types in [path to drupal]/sites/all/modules/views/includes/handlers.inc on line 1032
+; https://www.drupal.org/node/1752062
+projects[views][patch][] = https://www.drupal.org/files/includes_handlers.inc_.git_.patch
+; Default argument not skipped in breadcrumbs
+; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
 
 projects[views_ajax_history][subdir] = "contrib"

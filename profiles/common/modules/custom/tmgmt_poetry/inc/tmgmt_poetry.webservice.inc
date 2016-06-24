@@ -303,6 +303,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             }
             catch (Exception $e) {
               $message_job->addMessage('@language File import failed with the following message: @message', array('@language' => $language, '@message' => $e->getMessage()), 'error');
+              watchdog_exception('tmgmt_poetry', $e);
             }
           }
         }
@@ -334,7 +335,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
     case 'html_poetry':
     case 'xml_dgt':
       $dom = new DOMDocument();
-      if (!$dom->loadHTML($content)) {
+      if (!$dom->loadXML($content)) {
         return FALSE;
       }
       $xml = simplexml_import_dom($dom);
