@@ -1,3 +1,4 @@
+@api
 Feature: Page Layout
   In order to respect standard templates
   As a citizen of the European Union
