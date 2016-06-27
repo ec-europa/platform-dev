@@ -1141,67 +1141,86 @@ function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $ite
       }
     }
 
-    if (isset($entity->field_newsroom_illustrative_img[LANGUAGE_NONE][0]['fid']) && !empty($entity->field_newsroom_illustrative_img[LANGUAGE_NONE][0]['fid'])) {
+    _nexteuropa_newsroom_set_image_meta_info('field_newsroom_illustrative_img', $entity, $source, $item, $languages, $def_lang);
+    _nexteuropa_newsroom_set_image_meta_info('field_newsroom_private_img', $entity, $source, $item, $languages, $def_lang);
+  }
+}
 
-      $fields = array(
-        'field_file_image_title_text' => 'title',
-        'field_newsroom_copyrights' => 'copyright',
-        'field_caption' => 'caption',
-        'field_file_image_alt_text' => 'alt',
-      );
-      $fid = $entity->field_newsroom_illustrative_img[LANGUAGE_NONE][0]['fid'];
+/**
+ * Save image meta info.
+ *
+ * @param string $image_field
+ *   Image field name.
+ * @param object $entity
+ *   Entity object.
+ * @param object $source
+ *   Feed source object.
+ * @param array $item
+ *   Feed result array.
+ * @param array $languages
+ *   Array of the available languages.
+ * @param string $def_lang
+ *   Default language code.
+ */
+function _nexteuropa_newsroom_set_image_meta_info($image_field, $entity, $source, $item, $languages, $def_lang) {
+  $fid = isset($entity->{$image_field}[LANGUAGE_NONE][0]['fid']) ? $entity->{$image_field}[LANGUAGE_NONE][0]['fid'] : NULL;
+  if ($fid) {
+    $fields = array(
+      'field_file_image_title_text' => 'title',
+      'field_newsroom_copyrights' => 'copyright',
+      'field_caption' => 'caption',
+      'field_file_image_alt_text' => 'alt',
+    );
 
-      $file = file_load($fid);
-      if ($file) {
-        $config = $source->importer()->processor->getConfig();
-        if (isset($config['mappings'])) {
-          // Save default language at first.
-          foreach ($config['mappings'] as $mapping) {
-            foreach ($fields as $field => $field_name) {
-              if ($mapping['target'] == 'field_newsroom_illustrative_img:' . $field_name . ':et:' . $def_lang && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
-                $file->$field = array($def_lang => array(0 => array('value' => $item[$mapping['source']])));
-              }
+    $file = file_load($fid);
+    if ($file) {
+      $config = $source->importer()->processor->getConfig();
+      if (isset($config['mappings'])) {
+        // Save default language at first.
+        foreach ($config['mappings'] as $mapping) {
+          foreach ($fields as $field => $field_name) {
+            if ($mapping['target'] == $image_field . ':' . $field_name . ':et:' . $def_lang && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
+              $file->$field = array($def_lang => array(0 => array('value' => $item[$mapping['source']])));
             }
           }
-          file_save($file);
+        }
 
-          $handler = entity_translation_get_handler('file', $file);
+        $handler = entity_translation_get_handler('file', $file);
 
-          // Handle the rest of available translations.
-          foreach ($config['mappings'] as $mapping) {
-            foreach ($fields as $field => $field_name) {
-              foreach ($languages as $language) {
+        // Handle the rest of available translations.
+        foreach ($config['mappings'] as $mapping) {
+          foreach ($fields as $field => $field_name) {
+            foreach ($languages as $language) {
 
-                if ($language->language == $def_lang) {
-                  continue;
-                }
+              if ($language->language == $def_lang) {
+                continue;
+              }
 
-                if ($mapping['target'] == 'field_newsroom_illustrative_img:' . $field_name . ':et:' . $language->language && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
-                  $translation = array(
-                    'translate' => 0,
-                    'status' => 1,
-                    'language' => $language->language,
-                    'source' => $def_lang,
-                  );
-                  $values = array(
-                    "$field" => array(
-                      "$language->language" => array(
-                        '0' => array(
-                          'value' => $item[$mapping['source']],
-                        ),
+              if ($mapping['target'] == $image_field . ':' . $field_name . ':et:' . $language->language && !empty($mapping['source']) && isset($item[$mapping['source']]) && !empty($item[$mapping['source']])) {
+                $translation = array(
+                  'translate' => 0,
+                  'status' => 1,
+                  'language' => $language->language,
+                  'source' => $def_lang,
+                );
+                $values = array(
+                  "$field" => array(
+                    "$language->language" => array(
+                      '0' => array(
+                        'value' => $item[$mapping['source']],
                       ),
                     ),
-                  );
-                  $handler->setTranslation($translation, $values);
-                }
+                  ),
+                );
+                $handler->setTranslation($translation, $values);
               }
             }
           }
         }
-        file_save($file);
-        if (module_exists('entitycache')) {
-          cache_clear_all($fid, 'cache_entity_file');
-        }
+      }
+      file_save($file);
+      if (module_exists('entitycache')) {
+        cache_clear_all($fid, 'cache_entity_file');
       }
     }
   }

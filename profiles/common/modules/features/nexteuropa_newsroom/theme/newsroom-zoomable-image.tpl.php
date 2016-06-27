@@ -4,7 +4,7 @@
  * Zoomable image HTML markup.
  */
 ?>
-<figure>
+<figure class="newsroom-image">
   <?php if($zoomable): ?>
     <div class="picContainer zoomable">
       <?php echo l($image_output . "<span class='zoomIcon'></span>", $path_to_original, array('html' => TRUE, 'attributes' => array('class' => 'fancybox'))); ?>

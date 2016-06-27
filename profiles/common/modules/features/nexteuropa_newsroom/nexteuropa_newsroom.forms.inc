@@ -236,189 +236,195 @@ function nexteuropa_newsroom_date_popup_process_alter(&$element, &$form_state, $
 /**
  * Implements hook_form_alter().
  */
-function nexteuropa_newsroom_form_alter(&$form, &$form_state, $form_id) {
+function nexteuropa_newsroom_form_field_ui_display_overview_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['#bundle'] == 'newsroom_item') {
+    $form['newsroom_introduction'] = array(
+      '#type' => 'markup',
+      '#markup' => '<div class="messages status">' . t('This is the newsroom content type, you can freely customize the teaser and full node view modes without affecting the feature which will stay in default state.') . '</div>',
+      '#weight' => -100,
+    );
 
-  switch ($form_id) {
-    case 'field_ui_display_overview_form':
-      if ($form['#bundle'] == 'newsroom_item') {
-        $form['newsroom_introduction'] = array(
-          '#type' => 'markup',
-          '#markup' => '<div class="messages status">' . t('This is the newsroom content type, you can freely customize the teaser and full node view modes without affecting the feature which will stay in default state.') . '</div>',
-          '#weight' => -100,
-        );
+    if ($form['#view_mode'] == 'full' ||  $form['#view_mode'] == 'teaser') {
+      // Existing backup is stored into this variable.
+      $backup = variable_get('nexteuropa_newsroom_view_modes_backup', FALSE);
+      // Get the current export.
+      $current = _nexteuropa_newsroom_export_modes();
+      // Prepare the default value for the  import textarea, if we have it.
+      $default_value = !empty($backup) ? $backup : '';
+      // Show different help text basing on the availability of a backup.
+      $title = empty($backup) ? t('Paste here the code previously exported') : t('Paste here the serailized export of your configuration to restore it.');
 
-        if ($form['#view_mode'] == 'full' ||  $form['#view_mode'] == 'teaser') {
-          // Existing backup is stored into this variable.
-          $backup = variable_get('nexteuropa_newsroom_view_modes_backup', FALSE);
-          // Get the current export.
-          $current = _nexteuropa_newsroom_export_modes();
-          // Prepare the default value for the  import textarea, if we have it.
-          $default_value = !empty($backup) ? $backup : '';
-          // Show different help text basing on the availability of a backup.
-          $title = empty($backup) ? t('Paste here the code previously exported') : t('Paste here the serailized export of your configuration to restore it.');
-
-          $form['newsroom_export'] = array(
-            '#type' => 'markup',
-            '#markup' => '<div class="newsroom_export"><div id="newsroom_export_content"></div></div>',
-            '#weight' => 95,
-          );
-
-          $form['newsroom_status'] = array(
-            '#type' => 'markup',
-            '#markup' => '<div id="newsroom_status"></div>',
-            '#weight' => 96,
-          );
-
-          // This is just a toggler, basically.
-          $form['actions']['reveal_modes'] = array(
-            '#type' => 'textfield',
-            '#prefix' => '<div class="newsroom-reveal-modes">',
-            '#suffix' => '</div>',
-            '#value' => t('[Newsroom] Export/Import settings'),
-            '#attributes' => array(
-              'onclick' => "event.preventDefault(); jQuery('#newsroom-import-code').css('display', 'block'); jQuery('#newsroom-export-code').css('display', 'block'); jQuery('#newsroom_import_submit').css('display', 'block'); jQuery('#newsroom_import_backup').css('display', 'block'); jQuery(this).parent().parent().css('display', 'none'); jQuery('#newsroom-backup-submit').css('display', 'block');",
-            ),
-            '#weight' => 97,
-          );
-
-          $form['export']['export_code'] = array(
-            '#type' => 'textarea',
-            '#prefix' => '<div id="newsroom-export-code">',
-            '#suffix' => '</div>',
-            '#title' => t('Copy this text and save it, you can use the import button then to restore your configurations. You can also choose to save the configuration in the database clicking on the backup button.'),
-            '#description' => t('This is the export of your current configurations'),
-            '#value' => $current,
-            '#format' => 'html',
-            '#resizable' => TRUE,
-            '#wysiwyg' => FALSE,
-            '#rows' => 20,
-            '#weight' => 98,
-          );
-
-          $form['export_modes'] = array(
-            '#type' => 'submit',
-            '#value' => t('[Newsroom] Backup settings in the database'),
-            '#prefix' => '<div id="newsroom-backup-submit">',
-            '#suffix' => '</div>',
-            '#ajax' => array(
-              'callback' => '_nexteuropa_newsroom_export_modes_submit',
-              'event' => 'click',
-              'wrapper' => 'newsroom_status',
-              'effect' => 'fade',
-              'method' => 'replace',
-              '#weight' => 99,
-            ),
-          );
-
-          $form['import']['import_code'] = array(
-            '#prefix' => '<div id="newsroom-import-code">',
-            '#suffix' => '</div>',
-            '#type' => 'textarea',
-            '#title' => $title,
-            '#description' => t('Serialized code export'),
-            '#attributes' => array('id' => 'nexteuropa_newsroom_exported_instances'),
-            '#format' => 'plain_text',
-            '#resizable' => TRUE,
-            '#wysiwyg' => FALSE,
-            '#rows' => 20,
-            '#weight' => 100,
-          );
-
-          $form['import']['import_modes'] = array(
-            '#type' => 'submit',
-            '#name' => 'newsroom_import',
-            '#prefix' => '<div id="newsroom_import_submit">',
-            '#suffix' => '</div>',
-            '#value' => t('[Newsroom] Import settings'),
-            '#weight' => 101,
-            '#submit' => array('_nexteuropa_newsroom_restore_modes'),
-            '#validate' => array('_nexteuropa_newsroom_validate_modes'),
-            '#states' => array(
-              'visible' => array(
-                ':input[id="nexteuropa_newsroom_exported_instances"]' => array('filled' => TRUE),
-              ),
-            ),
-          );
-
-          if ($export = variable_get('nexteuropa_newsroom_view_modes_backup', FALSE)) {
-            $form['import']['restore_modes'] = array(
-              '#type' => 'submit',
-              '#name' => 'newsroom_restore',
-              '#prefix' => '<div id="newsroom_import_backup">',
-              '#suffix' => '</div>',
-              '#value' => t('[Newsroom] Import settings from the existing backup'),
-              '#weight' => 102,
-              '#submit' => array('_nexteuropa_newsroom_restore_modes'),
-            );
-          }
-
-          // Attach a css to the admin settings form.
-          $form['#attached']['css'] = array(
-            drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
-          );
-        }
-      }
-      break;
-
-    case 'newsroom_item_node_form':
-      // Build language aware options list for taxonomy reference fields.
-      $terms = array();
-      global $language;
-      $def_lang = language_default()->language;
-      $curr_lang = $language->language;
-
-      $taxonomy_fields = array(
-        'field_newsroom_item_type',
-        'field_newsroom_primary_topic',
-        'field_newsroom_topics',
-        'field_newsroom_highlighted_topic',
+      $form['newsroom_export'] = array(
+        '#type' => 'markup',
+        '#markup' => '<div class="newsroom_export"><div id="newsroom_export_content"></div></div>',
+        '#weight' => 95,
       );
 
-      $type_vid = NewsroomHelper::getNewsroomTypeVocabulary()->vid;
-      $topic_vid = NewsroomHelper::getNewsroomTopicVocabulary()->vid;
+      $form['newsroom_status'] = array(
+        '#type' => 'markup',
+        '#markup' => '<div id="newsroom_status"></div>',
+        '#weight' => 96,
+      );
 
-      $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] = i18n_taxonomy_get_tree($type_vid, $def_lang);
-      $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY] = i18n_taxonomy_get_tree($topic_vid, $def_lang);
+      // This is just a toggler, basically.
+      $form['actions']['reveal_modes'] = array(
+        '#type' => 'textfield',
+        '#prefix' => '<div class="newsroom-reveal-modes">',
+        '#suffix' => '</div>',
+        '#value' => t('[Newsroom] Export/Import settings'),
+        '#attributes' => array(
+          'onclick' => "event.preventDefault(); jQuery('#newsroom-import-code').css('display', 'block'); jQuery('#newsroom-export-code').css('display', 'block'); jQuery('#newsroom_import_submit').css('display', 'block'); jQuery('#newsroom_import_backup').css('display', 'block'); jQuery(this).parent().parent().css('display', 'none'); jQuery('#newsroom-backup-submit').css('display', 'block');",
+        ),
+        '#weight' => 97,
+      );
 
-      // Fields with wrong translation in node edit form.
-      foreach ($taxonomy_fields as $taxonomy_field) {
-        $tree = $taxonomy_field == 'field_newsroom_item_type' ? $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] : $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY];
+      $form['export']['export_code'] = array(
+        '#type' => 'textarea',
+        '#prefix' => '<div id="newsroom-export-code">',
+        '#suffix' => '</div>',
+        '#title' => t('Copy this text and save it, you can use the import button then to restore your configurations. You can also choose to save the configuration in the database clicking on the backup button.'),
+        '#description' => t('This is the export of your current configurations'),
+        '#value' => $current,
+        '#format' => 'html',
+        '#resizable' => TRUE,
+        '#wysiwyg' => FALSE,
+        '#rows' => 20,
+        '#weight' => 98,
+      );
 
-        foreach ($tree as $key => $value) {
-          $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
-          $t_term = $i18n_object->localize($curr_lang);
-          $pref = $value->parents[0] != 0 ? '- ' : '';
-          $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
-        }
+      $form['export_modes'] = array(
+        '#type' => 'submit',
+        '#value' => t('[Newsroom] Backup settings in the database'),
+        '#prefix' => '<div id="newsroom-backup-submit">',
+        '#suffix' => '</div>',
+        '#ajax' => array(
+          'callback' => '_nexteuropa_newsroom_export_modes_submit',
+          'event' => 'click',
+          'wrapper' => 'newsroom_status',
+          'effect' => 'fade',
+          'method' => 'replace',
+          '#weight' => 99,
+        ),
+      );
 
-        // The default value is lost in the translations,
-        // so we need to set it this way.
-        if (!empty($form['#node']->$taxonomy_field)) {
-          $values = array();
-          $value_array = $form['#node']->$taxonomy_field;
-          foreach ($value_array[LANGUAGE_NONE] as $value) {
-            $values[] = $value['tid'];
-            $form[$taxonomy_field][LANGUAGE_NONE]['#default_value'] = $values;
-          }
-        }
+      $form['import']['import_code'] = array(
+        '#prefix' => '<div id="newsroom-import-code">',
+        '#suffix' => '</div>',
+        '#type' => 'textarea',
+        '#title' => $title,
+        '#description' => t('Serialized code export'),
+        '#attributes' => array('id' => 'nexteuropa_newsroom_exported_instances'),
+        '#format' => 'plain_text',
+        '#resizable' => TRUE,
+        '#wysiwyg' => FALSE,
+        '#rows' => 20,
+        '#weight' => 100,
+      );
+
+      $form['import']['import_modes'] = array(
+        '#type' => 'submit',
+        '#name' => 'newsroom_import',
+        '#prefix' => '<div id="newsroom_import_submit">',
+        '#suffix' => '</div>',
+        '#value' => t('[Newsroom] Import settings'),
+        '#weight' => 101,
+        '#submit' => array('_nexteuropa_newsroom_restore_modes'),
+        '#validate' => array('_nexteuropa_newsroom_validate_modes'),
+        '#states' => array(
+          'visible' => array(
+            ':input[id="nexteuropa_newsroom_exported_instances"]' => array('filled' => TRUE),
+          ),
+        ),
+      );
+
+      if ($export = variable_get('nexteuropa_newsroom_view_modes_backup', FALSE)) {
+        $form['import']['restore_modes'] = array(
+          '#type' => 'submit',
+          '#name' => 'newsroom_restore',
+          '#prefix' => '<div id="newsroom_import_backup">',
+          '#suffix' => '</div>',
+          '#value' => t('[Newsroom] Import settings from the existing backup'),
+          '#weight' => 102,
+          '#submit' => array('_nexteuropa_newsroom_restore_modes'),
+        );
       }
 
-      // The widget will loose this settings, otherwise.
-      $form['field_newsroom_topics'][LANGUAGE_NONE]['#multiple'] = TRUE;
-      break;
+      // Attach a css to the admin settings form.
+      $form['#attached']['css'] = array(
+        drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
+      );
+    }
   }
 }
 
 /**
- * Export selected view modes.
+ * Implements hook_form_alter().
  */
-function _nexteuropa_newsroom_export_modes($modes = array('full', 'teaser'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
+function nexteuropa_newsroom_form_newsroom_item_node_form_alter(&$form, &$form_state, $form_id) {
+  // Build language aware options list for taxonomy reference fields.
+  $terms = array();
+  global $language;
+  $def_lang = language_default()->language;
+  $curr_lang = $language->language;
+
+  $taxonomy_fields = array(
+    'field_newsroom_item_type',
+    'field_newsroom_primary_topic',
+    'field_newsroom_topics',
+    'field_newsroom_highlighted_topic',
+  );
+
+  $type_vid = NewsroomHelper::getNewsroomTypeVocabulary()->vid;
+  $topic_vid = NewsroomHelper::getNewsroomTopicVocabulary()->vid;
+
+  $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] = i18n_taxonomy_get_tree($type_vid, $def_lang);
+  $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY] = i18n_taxonomy_get_tree($topic_vid, $def_lang);
+
+  // Fields with wrong translation in node edit form.
+  foreach ($taxonomy_fields as $taxonomy_field) {
+    $tree = $taxonomy_field == 'field_newsroom_item_type' ? $terms[NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY] : $terms[NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY];
+
+    foreach ($tree as $key => $value) {
+      $i18n_object = i18n_get_object('taxonomy_term', $value->tid);
+      $t_term = $i18n_object->localize($curr_lang);
+      $pref = $value->parents[0] != 0 ? '- ' : '';
+      $form[$taxonomy_field]['und']['#options'][$value->tid] = $pref . $t_term->name;
+    }
+
+    // The default value is lost in the translations,
+    // so we need to set it this way.
+    if (!empty($form['#node']->$taxonomy_field)) {
+      $values = array();
+      $value_array = $form['#node']->$taxonomy_field;
+      foreach ($value_array[LANGUAGE_NONE] as $value) {
+        $values[] = $value['tid'];
+        $form[$taxonomy_field][LANGUAGE_NONE]['#default_value'] = $values;
+      }
+    }
+  }
+
+  // The widget will loose this settings, otherwise.
+  $form['field_newsroom_topics'][LANGUAGE_NONE]['#multiple'] = TRUE;
+}
+
+/**
+ * Exports selected view modes.
+ *
+ * @param array $view_modes
+ *   View modes array.
+ * @param string $bundle
+ *   Bundle name.
+ *
+ * @return string
+ *   Serialized exported settings.
+ */
+function _nexteuropa_newsroom_export_modes($view_modes = array('full', 'teaser'), $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE) {
   // Get the current instances.
   $fields = field_info_instances('node', $bundle);
   $export = array();
 
   foreach ($fields as $field_name => $field_instance) {
-    foreach ($modes as $view_mode) {
+    foreach ($view_modes as $view_mode) {
       $export['instances'][$field_name][$view_mode] = $fields[$field_name]['display'][$view_mode];
     }
   }
@@ -431,6 +437,14 @@ function _nexteuropa_newsroom_export_modes($modes = array('full', 'teaser'), $bu
 
 /**
  * Submit handler, exports selected view modes.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
+ *
+ * @return string
+ *   Serialized iexported settings for view mode.
  */
 function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
   $export = $form_state['values']['export_code'];
@@ -447,8 +461,14 @@ function _nexteuropa_newsroom_export_modes_submit(&$form, &$form_state) {
 
   return $form['newsroom_export'];
 }
+
 /**
- * Validation handler.
+ * Validation handler for view mode importer.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
  */
 function _nexteuropa_newsroom_validate_modes(&$form, &$form_state) {
   if (!empty($form_state['values']['import_code'])) {
@@ -465,6 +485,11 @@ function _nexteuropa_newsroom_validate_modes(&$form, &$form_state) {
 
 /**
  * Submit handler, get the settings to be restored.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
  */
 function _nexteuropa_newsroom_restore_modes(&$form, &$form_state) {
   $trigger = $form_state['triggering_element']['#name'];
@@ -483,34 +508,78 @@ function _nexteuropa_newsroom_restore_modes(&$form, &$form_state) {
 }
 
 /**
- * Restore settings.
+ * Restores settings.
+ *
+ * @param array $export
+ *   Exported view mode settings.
+ *
+ * @return string
+ *   Message string.
  */
 function _nexteuropa_newsroom_import_modes($export) {
-  $modes = array('full', 'teaser');
-  $bundle = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
-
-  if (!empty($export['instances'])) {
-    foreach ($export['instances'] as $field_name => $instance) {
-      if ($existing = field_info_instance('node', $field_name, $bundle)) {
-        foreach ($modes as $mode) {
-          $existing['display'][$mode] = $instance[$mode];
-          // Update the instance.
-          field_update_instance($existing);
-        }
-      }
-    }
-  }
+  $view_modes = array('full', 'teaser');
 
   if (!empty($export['groups'])) {
     $groups = $export['groups'];
-    // Field groups are problematic objects, we save the groups here but a group
-    // that has been deleted using the UI will not come back after this has run.
-    foreach ($modes as $mode) {
-      if (!empty($groups[$mode])) {
-        foreach ($groups[$mode] as $group_name => $group) {
+    foreach ($view_modes as $view_mode) {
+      if (!empty($groups[$view_mode])) {
+        // Clean up the groups before the import.
+        $view_mode_groups = field_group_info_groups('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE, $view_mode, TRUE);
+        // We need to check the disabled groups, which can be deleted through
+        // UI.
+        $view_mode_disabled_groups = field_group_read_groups(
+          array(
+            'entity_type' => 'node',
+            'bundle' => NEXTEUROPA_NEWSROOM_CONTENT_TYPE,
+            'mode' => $view_mode,
+          ), FALSE);
+        if ($view_mode_disabled_groups) {
+          $view_mode_groups = array_merge($view_mode_groups, $view_mode_disabled_groups['node'][NEXTEUROPA_NEWSROOM_CONTENT_TYPE][$view_mode]);
+        }
+
+        foreach ($view_mode_groups as $group) {
+          field_group_group_export_delete($group);
+        }
+        // Clean cache to see the actual groups later.
+        cache_clear_all('field_groups', 'cache_field');
+
+        foreach ($groups[$view_mode] as $group_name => $group) {
+          if (field_group_exists($group->group_name, $group->entity_type, $group->bundle, $group->mode)) {
+            $old_group = field_group_load_field_group($group->group_name, $group->entity_type, $group->bundle, $group->mode);
+            if ($old_group) {
+              $group->id = $old_group->id;
+            }
+          }
+          else {
+            // We set export_type to 0, if we need to create a new field group.
+            $group->export_type = 0;
+          }
           $group->disabled = FALSE;
-          $group->export_type = 0;
+
           field_group_group_save($group);
+          // The group was deleted through UI, it will be marked as disabled in
+          // ctools. We need to enable it.
+          if ((isset($group->disabled) && ($group->disabled == TRUE)) ? TRUE : FALSE) {
+            ctools_export_crud_enable('field_group', $group->identifier);
+          }
+        }
+      }
+    }
+
+    // We clean the cache for the groups to make them visible.
+    cache_clear_all('field_groups', 'cache_field');
+  }
+
+  if (!empty($export['instances'])) {
+    $fields_instances = field_info_instances('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
+    foreach ($export['instances'] as $field_name => $export_instance) {
+      if (isset($fields_instances[$field_name])) {
+        foreach ($view_modes as $view_mode) {
+          if (isset($export_instance[$view_mode])) {
+            $fields_instances[$field_name]['display'][$view_mode] = $export_instance[$view_mode];
+            // Update the instance.
+            field_update_instance($fields_instances[$field_name]);
+          }
         }
       }
     }

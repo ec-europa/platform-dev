@@ -197,11 +197,15 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_newsroom_private_img']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_newsroom_private_img']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_newsroom_private_img']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_newsroom_private_img']['type'] = 'newsroom_zoomable_image';
   $handler->display->display_options['fields']['field_newsroom_private_img']['settings'] = array(
     'image_style' => 'newsroom_style',
-    'image_link' => 'content',
+    'zoomable' => 0,
+    'display_title' => 0,
+    'display_copyright' => 1,
+    'display_caption' => 0,
   );
-  /* Field: Content: Illustrative Image */
+  /* Field: Content: Image */
   $handler->display->display_options['fields']['field_newsroom_illustrative_img']['id'] = 'field_newsroom_illustrative_img';
   $handler->display->display_options['fields']['field_newsroom_illustrative_img']['table'] = 'field_data_field_newsroom_illustrative_img';
   $handler->display->display_options['fields']['field_newsroom_illustrative_img']['field'] = 'field_newsroom_illustrative_img';
@@ -210,9 +214,13 @@ function nexteuropa_newsroom_views_default_views() {
   $handler->display->display_options['fields']['field_newsroom_illustrative_img']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_newsroom_illustrative_img']['hide_empty'] = TRUE;
   $handler->display->display_options['fields']['field_newsroom_illustrative_img']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_newsroom_illustrative_img']['type'] = 'newsroom_zoomable_image';
   $handler->display->display_options['fields']['field_newsroom_illustrative_img']['settings'] = array(
     'image_style' => 'newsroom_style',
-    'image_link' => 'content',
+    'zoomable' => 0,
+    'display_title' => 0,
+    'display_copyright' => 1,
+    'display_caption' => 0,
   );
   /* Field: Conditional image */
   $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
@@ -699,7 +707,7 @@ function nexteuropa_newsroom_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = '[nothing]';
+  $handler->display->display_options['title'] = 'Newsroom';
   $handler->display->display_options['css_class'] = 'nav-panel block-menu-block';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
@@ -866,7 +874,7 @@ function nexteuropa_newsroom_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = '[nothing]';
+  $handler->display->display_options['title'] = 'Newsroom';
   $handler->display->display_options['css_class'] = 'nav-panel block-menu-block';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';

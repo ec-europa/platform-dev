@@ -176,7 +176,14 @@ class NewsroomAgendaFactory {
    *   Taxonomy term object.
    */
   protected function getTopic($topic) {
-    return $this->getTaxonomyTerm($topic, 'newsroom_topic');
+    $taxonomy_term = $this->getTaxonomyTerm($topic, 'newsroom_topic');
+    // Set active menu, if we have topic.
+    if ($taxonomy_term) {
+      if ($path = NewsroomHelper::fetchActiveMenuPath($taxonomy_term->tid)) {
+        menu_tree_set_path('main-menu', $path);
+      }
+    }
+    return $taxonomy_term;
   }
 
   /**
