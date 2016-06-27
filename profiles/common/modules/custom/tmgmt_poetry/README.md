@@ -29,9 +29,10 @@ Manual test of Poetry translator
 ================================
 
 Fist of all, check the installed language on the sites as follow
- | language name         | machine name | instead of |
- | --------------------- | ------------ | ---------- |
- | Portuguese (Portugal) | pt-pt        | pt         |
+
+language name | machine name | instead of
+--------------------- | ------------ | ----------
+Portuguese (Portugal) | pt-pt | pt         
  
 
 To manually test the Poetry translator plugin without accessing the actual
