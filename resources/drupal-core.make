@@ -19,7 +19,6 @@ projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.patch
 
 projects[drupal][patch][] = patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
-projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
 projects[drupal][patch][] = patches/core-locale-prevent-remote-loading.patch
 
 ; Move local configuration directives out of the Git repository.
