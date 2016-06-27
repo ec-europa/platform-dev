@@ -13,7 +13,6 @@ Scenario: Anonymous user can see the user login page
   And I should see the text "Password"
   But I should not see the text "Log out"
   And I should not see the text "My account"
-  And I should test a undefined error
 
 Scenario Outline: Anonymous user cannot access site administration
   Given I am not logged in
