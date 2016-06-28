@@ -68,7 +68,7 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
-  $form['#validate'] = array('_ecas_user_pass_validate');
+  array_unshift($form['#validate'], '_ecas_user_pass_validate');
 }
 
 /**
@@ -96,7 +96,6 @@ function _ecas_user_pass_validate($form, &$form_state) {
       return;
     }
   }
-  user_pass_validate($form, $form_state);
 }
 
 /**

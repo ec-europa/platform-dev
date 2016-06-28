@@ -24,7 +24,6 @@ projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.
 ; https://www.drupal.org/node/889772
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal7-backport-889772-207.patch
 
-projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
 projects[drupal][patch][] = patches/core-locale-prevent-remote-loading.patch
 
 ; Move local configuration directives out of the Git repository.
