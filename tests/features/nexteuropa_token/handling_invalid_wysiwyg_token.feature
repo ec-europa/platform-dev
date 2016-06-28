@@ -13,6 +13,7 @@ Feature: Testing wrong token association for Next Europa token module
     And I fill in "Title" with "The right way is the right way"
     And I click the "Insert internal links" button in the "edit-field-ne-body-und-0-value" WYSIWYG editor
     Then I should see the "cke_editor_edit-field-ne-body-und-0-value_dialog" modal dialog from the "edit-field-ne-body-und-0-value" WYSIWYG editor with "Insert internal links" title
+    And I wait for AJAX to finish
     When I click the "Full content" link in the "cke_editor_edit-field-ne-body-und-0-value_dialog" modal dialog from the "edit-field-ne-body-und-0-value" WYSIWYG editor
     Then I should see "<p>[node:1:view-mode:full]{Global editorial team as Full content}</p>" in the "edit-field-ne-body-und-0-value" WYSIWYG editor
     When I click "Disable rich-text"
