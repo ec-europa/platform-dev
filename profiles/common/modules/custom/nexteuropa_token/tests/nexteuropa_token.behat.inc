@@ -139,6 +139,7 @@ class NextEuropaTokenSubContext extends RawDrupalContext implements DrupalSubCon
     // Click the action link.
     $link = $modal_element->find("xpath", "//a[contains(text(),'$action')]");
     $link->click();
+    $driver->wait(1000, TRUE);
 
     // Closing modal dialog @todo: could be moved to separate step.
     $close_modal_link = $modal_element->find("xpath", "//span[@class='cke_dialog_ui_button']");
