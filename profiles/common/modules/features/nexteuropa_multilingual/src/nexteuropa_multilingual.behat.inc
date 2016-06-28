@@ -535,7 +535,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @return \TMGMTTranslator
    *    Translator object.
    *
-   * @see NextEuropaMultilingualSubContext::localTranslatorIsAvailable()
+   * @see NextEuropaMultilingualSubContext::isTranslatorAvailable()
    */
   protected function getTranslatorByName($name) {
     $name = strtolower(str_replace(' ', '_', $name));
