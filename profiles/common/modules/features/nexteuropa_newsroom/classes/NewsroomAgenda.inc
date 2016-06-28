@@ -383,7 +383,7 @@ abstract class NewsroomAgenda {
   /**
    * NewsroomAgenda constructor.
    *
-   * @param string $type
+   * @param object $type
    *   Newsroom type.
    * @param array $topics
    *   Newsroom topics.
@@ -557,10 +557,12 @@ abstract class NewsroomAgenda {
     $query->leftJoin('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
     $query->leftJoin('taxonomy_term_data', 'topic_data', 'topic_data.tid = topic_field.field_newsroom_topics_tid');
     $query->condition('n.status', 1);
+    $query->condition('n.type', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
     $events_term_ids = NewsroomHelper::getEventsTermsIds();
     if ($events_term_ids) {
       $query->condition('tf.field_newsroom_item_type_tid', $events_term_ids);
     }
+
     $query->orderBy('d.field_newsroom_item_date_value');
     $query->orderBy('d.field_newsroom_item_date_value2');
 

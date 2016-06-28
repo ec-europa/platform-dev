@@ -181,6 +181,7 @@ class NewsroomAgendaFactory {
     if ($taxonomy_term) {
       if ($path = NewsroomHelper::fetchActiveMenuPath($taxonomy_term->tid)) {
         menu_tree_set_path('main-menu', $path);
+        menu_set_active_item($path);
       }
     }
     return $taxonomy_term;
