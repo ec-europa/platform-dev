@@ -48,7 +48,7 @@ Scenario Outline: Editors cannot access pages intended for administrators
   | admin/dashboard             |
   | admin/structure             |
   | admin/structure/feature-set |
-  | node/add/editorial-team_en |
+  | node/add/editorial-team_en  |
 
 @api
 Scenario Outline: Administrators can access certain administration pages
