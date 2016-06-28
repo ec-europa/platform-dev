@@ -272,10 +272,11 @@ function ecas_save_page() {
  *   The user object to update.
  * @param array $user_info
  *   An associative array with the following keys:
- *   - mail: mail address.
- *   - givenname: first name.
- *   - sn: last name.
- *   - sourceorganisation: organisation.
+ *   - cas:email: mail address.
+ *   - cas:firstName: first name.
+ *   - cas:lastName: last name.
+ *   - cas:domain: the domain, e.g. eu.europa.ec or external.
+ *   - cas:departmentNumber: the department, e.g. DIGIT.A.3.
  *
  * @see ecas_sync_user_info()
  */
