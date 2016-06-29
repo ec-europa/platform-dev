@@ -175,8 +175,6 @@ function _nexteuropa_newsroom_import_item($type, $newsroom_id) {
     default:
       drupal_not_found();
   }
-
-  return NULL;
 }
 
 /**
@@ -395,7 +393,8 @@ function nexteuropa_newsroom_url_inbound_alter(&$path, $original_path, $path_lan
     // Resolve alias if the content is not translated to current language. Get
     // alias of existing translation.
     foreach (array_keys(language_list()) as $language) {
-      if ($source = drupal_lookup_path('source', $path, $language) && strpos($source, 'node/') === 0) {
+      $source = drupal_lookup_path('source', $path, $language);
+      if ($source && strpos($source, 'node/') === 0) {
         // Check if we are at the document page.
         $path = $source;
         break;
@@ -681,7 +680,6 @@ function _nexteuropa_nexteuropa_newsroom_item_importer($newsroom_id = 0, $delete
       node_delete_multiple($nids_to_delete);
       $message = t('Newsroom Item nid: %1 deleted', array('%1' => implode(', ', $nids_to_delete)));
       drupal_set_message($message);
-      return '';
     }
     else {
       drupal_not_found();

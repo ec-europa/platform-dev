@@ -40,7 +40,10 @@ function _nexteuropa_newsroom_newsletters_page() {
   $build = array();
   $basic_display = 'basic';
   $central_display = 'central';
+
   if ($view) {
+    $subscriptions = _nexteuropa_newsroom_get_user_subscriptions();
+
     $view->set_display($basic_display);
     $view->pre_execute();
     $view->execute();
@@ -56,14 +59,14 @@ function _nexteuropa_newsroom_newsletters_page() {
     $content = theme('newsroom_services_page', array(
       'central_items' => theme('newsroom_services_items',
         array(
-          'items' => _nexteuropa_newsroom_prepare_newsletters($central_newsletters),
+          'items' => _nexteuropa_newsroom_prepare_newsletters($central_newsletters, $subscriptions),
           'title' => variable_get('newsroom_central_newsletter_title', t('Central newsletters')),
           'css_class' => $central_display,
           'universe_id' => $universe_id = NewsroomHelper::getUniverseId(),
         )),
       'basic_items' => theme('newsroom_services_items',
         array(
-          'items' => _nexteuropa_newsroom_prepare_newsletters($basic_newsletters),
+          'items' => _nexteuropa_newsroom_prepare_newsletters($basic_newsletters, $subscriptions),
           'title' => variable_get('newsroom_other_newsletter_title', t('Other newsletters')),
           'css_class' => $basic_display,
           'universe_id' => $universe_id = NewsroomHelper::getUniverseId(),
@@ -89,11 +92,13 @@ function _nexteuropa_newsroom_newsletters_page() {
  *
  * @param array $newsletters
  *   Items from view.
+ * @param array $subscriptions
+ *   Current user subscriptions.
  *
  * @return array
  *   Newsletter items prepared for output.
  */
-function _nexteuropa_newsroom_prepare_newsletters($newsletters) {
+function _nexteuropa_newsroom_prepare_newsletters($newsletters = array(), $subscriptions = array()) {
   $output = array();
   foreach ($newsletters as $newsletter) {
     $item = new stdClass();
@@ -103,10 +108,47 @@ function _nexteuropa_newsroom_prepare_newsletters($newsletters) {
     $item->image = isset($newsletter->field_field_newsroom_service_image[0]) ? drupal_render($newsletter->field_field_newsroom_service_image[0]['rendered']) : NULL;
     $item->form = NULL;
     if (!empty($item->service_id)) {
-      $form = drupal_get_form('nexteuropa_newsroom_newsletter_form', $item->service_id);
+      $subscription_url = NULL;
+      foreach ($subscriptions as $user_subscription) {
+        if ($user_subscription['NEWSLETTERID'] == $item->service_id) {
+          $subscription_url = $user_subscription['UNSUBSCRIPTIONLINK'];
+          break;
+        }
+      }
+      if ($subscription_url) {
+        $form = drupal_get_form('nexteuropa_newsroom_unsubscription_newsletter_form', $subscription_url);
+      }
+      else {
+        $form = drupal_get_form('nexteuropa_newsroom_subscription_newsletter_form', $item->service_id);
+      }
+
       $item->form = drupal_render($form);
     }
     $output[] = $item;
   }
   return $output;
+}
+
+/**
+ * Returns user subscriptions from the newsroom side.
+ *
+ * @return array
+ *   User subscriptions response.
+ */
+function _nexteuropa_newsroom_get_user_subscriptions() {
+  $subscriptions = array();
+  if (user_is_logged_in()) {
+    global $user;
+    $input = array(
+      'user_email' => $user->mail,
+      'universe_acronym' => NewsroomHelper::getUniverseId(),
+      'app' => variable_get('newsroom_app'),
+      'key' => NewsroomHelper::getEmailHash($user->mail),
+      'response_type' => 'json',
+    );
+    $request = drupal_http_request(variable_get('newsroom_subscription_url') . '?' . http_build_query($input));
+    $subscriptions = drupal_json_decode($request->data);
+  }
+
+  return $subscriptions;
 }

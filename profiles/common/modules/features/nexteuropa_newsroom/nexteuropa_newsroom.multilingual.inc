@@ -517,6 +517,8 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
   $lang_keys = NewsroomHelper::getEnabledLanguages();
   // Loop through all the fields, build the needed arrays.
   $i = 0;
+  $queries = array();
+  $mapping = array();
 
   foreach ($premapping as $field => $values) {
     if (isset($values['tamper'])) {
@@ -584,6 +586,8 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
     }
   }
 
+  $debug = array();
+  $raw_xml = array();
   // Build also the debug and raw_xml arrays.
   foreach ($queries as $xpath => $query) {
     $debug[$xpath] = $raw_xml[$xpath] = 0;
@@ -686,8 +690,8 @@ function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL
 /**
  * Builds tampers programmatically.
  *
- * @param object $tamper
- *   Tamper object.
+ * @param array $tamper
+ *   Tamper array.
  */
 function _nexteuropa_newsroom_dynamic_tamper($tamper) {
   $def_lang = language_default()->language;

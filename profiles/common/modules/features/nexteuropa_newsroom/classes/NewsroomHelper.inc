@@ -517,6 +517,9 @@ class NewsroomHelper {
   /**
    * Gets number of items per block for the current page.
    *
+   * @param bool $is_highligted
+   *   Is block highligted.
+   *
    * @return int
    *   Number of items.
    */
@@ -806,6 +809,19 @@ class NewsroomHelper {
       }
     }
     return $options;
+  }
+
+  /**
+   * Get email hash for subscriptions.
+   *
+   * @param string $email
+   *   E-mail.
+   *
+   * @return string
+   *   Hash.
+   */
+  public static function getEmailHash($email) {
+    return md5($email . variable_get('newsroom_app_key'));
   }
 
 }

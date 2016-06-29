@@ -41,16 +41,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#attributes' => array('class' => array($universe_id_info['class'])),
   );
 
-  // After initital setup disable Universe ID field.
-  if ($newsroom_universe_id !== NULL) {
-    $universe_id_disabled = TRUE;
-    $universe_id_description = t('To change the Newsroom Universe ID contact the site administrator.');
-  }
-  else {
-    $universe_id_disabled = FALSE;
-    $universe_id_description = t('After setting the Newsroom Universe ID for the first time content will be imported from the Newsroom service. This might take a few minutes.');
-  }
-
   $form['universe_id']['newsroom_universe_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Universe ID value'),
@@ -122,7 +112,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_others']['newsroom_proposal_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Newsroom proposal URL'),
-    '#default_value' => variable_get('newsroom_proposal_url', NULL),
+    '#default_value' => variable_get('newsroom_proposal_url'),
   );
 
   $types = NewsroomHelper::getNewsroomTypes();
@@ -245,6 +235,24 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#description' => t('The prefix which comes after https://ec.europa.eu/ and before the drupal path.'),
   );
 
+  $form['newsroom_universe']['newsroom_app'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Newsroom app'),
+    '#default_value' => variable_get('newsroom_app'),
+  );
+
+  $form['newsroom_universe']['newsroom_app_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Newsroom key'),
+    '#default_value' => variable_get('newsroom_app_key'),
+  );
+
+  $form['newsroom_universe']['newsroom_subscription_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Newsroom subscription url'),
+    '#default_value' => variable_get('newsroom_subscription_url'),
+  );
+
   $form['newsroom_universe']['newsroom_base_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Newsroom universe base URL.'),
@@ -319,7 +327,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   $form['newsroom_pages']['newsroom_newsletter_privacy'] = array(
     '#type' => 'textarea',
     '#title' => t('Privacy statement'),
-    '#default_value' => variable_get('newsroom_newsletter_privacy', NULL),
+    '#default_value' => variable_get('newsroom_newsletter_privacy'),
   );
 
   // Settings about the newsroom blocks.
