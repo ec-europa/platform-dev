@@ -249,13 +249,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
 
   $form['newsroom_universe']['newsroom_subscription_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('Newsroom subscription url'),
+    '#title' => t('Newsroom subscription URL'),
     '#default_value' => variable_get('newsroom_subscription_url'),
   );
 
   $form['newsroom_universe']['newsroom_base_url'] = array(
     '#type' => 'textfield',
-    '#title' => t('Newsroom universe base URL.'),
+    '#title' => t('Newsroom universe base URL'),
     '#default_value' => variable_get('newsroom_base_url', NEXTEUROPA_NEWSROOM_BASE_URL),
     '#description' => t('The base url of newsroom feeds.'),
   );

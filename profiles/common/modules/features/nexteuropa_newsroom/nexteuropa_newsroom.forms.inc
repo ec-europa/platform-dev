@@ -772,8 +772,7 @@ function _nexteuropa_newsroom_send_unsubscription_request($url, $email) {
     'app' => variable_get('newsroom_app'),
   );
   $request = drupal_http_request($url . '&' . http_build_query($input));
-  $json_data = $request->data;
-  return drupal_json_decode($json_data);
+  return isset($request->data) ? drupal_json_decode($request->data) : NULL;
 }
 
 /**
@@ -797,7 +796,9 @@ function _nexteuropa_newsroom_send_subscription_request($url, $service_id, $emai
     'response_type' => 'json',
   );
   $request = drupal_http_request($url . '?' . http_build_query($input));
-  $data = drupal_json_decode($request->data);
+  if (isset($request->data)) {
+    $data = drupal_json_decode($request->data);
+  }
 
   return isset($data['subscription']) ? $data['subscription'] : NULL;
 }
@@ -1173,15 +1174,21 @@ function nexteuropa_newsroom_unsubscription_newsletter_form($form, $form_state, 
  */
 function _nexteuropa_nexteuropa_newsletter_subscription_form_ajax($form, &$form_state) {
   $subscription = _nexteuropa_newsroom_send_subscription_request($form['#action'], $form_state['input']['service_id'], $form_state['input']['email']);
-
+  $message = $subscription['feedbackMessage'];
   if ($subscription['status'] == 'Failed') {
     $type = 'error';
   }
   else {
-    $type = ($subscription['isNewUser'] === 'False' && $subscription['isNewSubscription'] === 'False') ? 'warning' : 'status';
+    if ($subscription['isNewUser'] === 'False' && $subscription['isNewSubscription'] === 'False') {
+      $type = 'warning';
+    }
+    else {
+      $message = t('You successfully subscribed to this newsletter');
+      $type = 'status';
+    }
   }
 
-  drupal_set_message($subscription['feedbackMessage'], $type);
+  drupal_set_message($message, $type);
   $replacement = theme_status_messages(array('display' => NULL));
   $commands[] = ajax_command_replace('#' . $form['#id'] . ' .submit-response', '<div class="submit-response">' . $replacement . '</div>');
   $commands[] = ajax_command_replace('#' . $form['#id'] . ' input', '');
@@ -1204,7 +1211,7 @@ function _nexteuropa_nexteuropa_newsletter_unsubscription_form_ajax($form, &$for
   $subscription = _nexteuropa_newsroom_send_unsubscription_request($form['#action'], $form_state['input']['email']);
 
   if ($subscription && $subscription['SUCCESS'] == 1) {
-    $text = $subscription['TEXT'];
+    $text = t('You successfully unsubscribed from this newsletter');
     $type = 'status';
   }
   else {

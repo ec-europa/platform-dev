@@ -43,6 +43,11 @@ function _nexteuropa_newsroom_newsletters_page() {
 
   if ($view) {
     $subscriptions = _nexteuropa_newsroom_get_user_subscriptions();
+    global $user;
+
+    if (user_access(NEXTEUROPA_NEWSROOM_ADVANCED_SETTINGS_ACCESS, $user) && (empty(variable_get('newsroom_subscription_url')) || empty(variable_get('newsroom_app')) || empty(variable_get('newsroom_app_key')))) {
+      drupal_set_message(t('Please setup newsroom settings: app, key and subscription URL. !url', array('!url' => l(t('Newsroom settings'), 'admin/config/content/newsroom'))), 'warning');
+    }
 
     $view->set_display($basic_display);
     $view->pre_execute();
@@ -146,8 +151,13 @@ function _nexteuropa_newsroom_get_user_subscriptions() {
       'key' => NewsroomHelper::getEmailHash($user->mail),
       'response_type' => 'json',
     );
-    $request = drupal_http_request(variable_get('newsroom_subscription_url') . '?' . http_build_query($input));
-    $subscriptions = drupal_json_decode($request->data);
+    $url = variable_get('newsroom_subscription_url');
+    if ($url) {
+      $request = drupal_http_request($url . '?' . http_build_query($input));
+      if (isset($request->data)) {
+        $subscriptions = drupal_json_decode($request->data);
+      }
+    }
   }
 
   return $subscriptions;
