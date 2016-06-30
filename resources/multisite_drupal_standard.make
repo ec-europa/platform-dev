@@ -605,6 +605,9 @@ projects[user_dashboard][version] = "1.4"
 projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
+projects[username_enumeration_prevention][subdir] = "contrib"
+projects[username_enumeration_prevention][version] = "1.2"
+
 projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.0-beta1"
 

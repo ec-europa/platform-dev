@@ -96,6 +96,7 @@ dependencies[] = tmgmt
 dependencies[] = token
 dependencies[] = translation
 dependencies[] = transliteration
+dependencies[] = username_enumeration_prevention
 dependencies[] = uuid
 dependencies[] = variable
 dependencies[] = video
