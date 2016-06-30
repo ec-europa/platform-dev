@@ -851,7 +851,3 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 projects[bootstrap][type] = theme
 projects[bootstrap][download][type] = get
 projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.0.zip
-; bootstrap_process_html_tag() is too aggressive.
-: https://www.drupal.org/node/2201779
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11973
-projects[bootstrap][patch][] = patches/bootstrap_process_html_tag-2201779.patch
