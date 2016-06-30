@@ -181,16 +181,16 @@ function nexteuropa_newsroom_form_taxonomy_form_term_alter(&$form, &$form_state)
     case NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY:
     case NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY:
     case NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY:
-        $form['actions']['restore_config'] = array(
-          '#type' => 'submit',
-          '#value' => t('Restore conf & Save'),
-          '#submit' => array('nexteuropa_newsroom_restore_conf'),
-        );
-        $form['actions']['backup_config'] = array(
-          '#type' => 'submit',
-          '#value' => t('Backup conf & Save'),
-          '#submit' => array('nexteuropa_newsroom_backup_conf'),
-        );
+      $form['actions']['restore_config'] = array(
+        '#type' => 'submit',
+        '#value' => t('Restore conf & Save'),
+        '#submit' => array('nexteuropa_newsroom_restore_conf'),
+      );
+      $form['actions']['backup_config'] = array(
+        '#type' => 'submit',
+        '#value' => t('Backup conf & Save'),
+        '#submit' => array('nexteuropa_newsroom_backup_conf'),
+      );
       break;
   }
 }
@@ -275,9 +275,6 @@ function nexteuropa_newsroom_form_field_ui_display_overview_form_alter(&$form, &
         '#prefix' => '<div class="newsroom-reveal-modes">',
         '#suffix' => '</div>',
         '#value' => t('[Newsroom] Export/Import settings'),
-        '#attributes' => array(
-          'onclick' => "event.preventDefault(); jQuery('#newsroom-import-code').css('display', 'block'); jQuery('#newsroom-export-code').css('display', 'block'); jQuery('#newsroom_import_submit').css('display', 'block'); jQuery('#newsroom_import_backup').css('display', 'block'); jQuery(this).parent().parent().css('display', 'none'); jQuery('#newsroom-backup-submit').css('display', 'block');",
-        ),
         '#weight' => 97,
       );
 
@@ -356,6 +353,9 @@ function nexteuropa_newsroom_form_field_ui_display_overview_form_alter(&$form, &
       $form['#attached']['css'] = array(
         drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
       );
+      $form['#attached']['js'] = array(
+        drupal_get_path('module', 'nexteuropa_newsroom') . '/js/node_view_mode_form.js',
+      );
     }
   }
 }
@@ -428,7 +428,7 @@ function _nexteuropa_newsroom_export_modes($view_modes = array('full', 'teaser')
 
   foreach ($fields as $field_name => $field_instance) {
     foreach ($view_modes as $view_mode) {
-      $export['instances'][$field_name][$view_mode] = $fields[$field_name]['display'][$view_mode];
+      $export['instances'][$field_name][$view_mode] = isset($fields[$field_name]['display'][$view_mode]) ? $fields[$field_name]['display'][$view_mode] : NULL;
     }
   }
 
@@ -607,7 +607,7 @@ function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
   global $user;
 
   $account = user_load($user->uid);
-  $form['#action'] = $newsroom_url = variable_get('newsroom_proposal_url', NULL);
+  $form['#action'] = $newsroom_url = NewsroomHelper::getUniverseUrl() . variable_get('newsroom_proposal_script');
   $form['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
@@ -771,7 +771,7 @@ function _nexteuropa_newsroom_send_unsubscription_request($url, $email) {
     'key' => NewsroomHelper::getEmailHash($email),
     'app' => variable_get('newsroom_app'),
   );
-  $request = drupal_http_request($url . '&' . http_build_query($input));
+  $request = drupal_http_request($url . '&' . drupal_http_build_query($input));
   return isset($request->data) ? drupal_json_decode($request->data) : NULL;
 }
 
@@ -795,7 +795,7 @@ function _nexteuropa_newsroom_send_subscription_request($url, $service_id, $emai
     'email' => $email,
     'response_type' => 'json',
   );
-  $request = drupal_http_request($url . '?' . http_build_query($input));
+  $request = drupal_http_request($url . '?' . drupal_http_build_query($input));
   if (isset($request->data)) {
     $data = drupal_json_decode($request->data);
   }
@@ -1327,15 +1327,15 @@ function _nexteuropa_newsroom_get_ids($voc, $data) {
 
   switch ($voc) {
     case NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY:
-        $id = $data['field_newsroom_type_id'][LANGUAGE_NONE][0]['value'];
+      $id = $data['field_newsroom_type_id'][LANGUAGE_NONE][0]['value'];
       break;
 
     case NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY:
-        $id = $data['field_newsroom_service_id'][LANGUAGE_NONE][0]['value'];
+      $id = $data['field_newsroom_service_id'][LANGUAGE_NONE][0]['value'];
       break;
 
     case NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY:
-        $id = $data['field_newsroom_topic_id'][LANGUAGE_NONE][0]['value'];
+      $id = $data['field_newsroom_topic_id'][LANGUAGE_NONE][0]['value'];
       break;
   }
   return $id;

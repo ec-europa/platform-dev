@@ -153,7 +153,7 @@ function _nexteuropa_newsroom_get_user_subscriptions() {
     );
     $url = variable_get('newsroom_subscription_url');
     if ($url) {
-      $request = drupal_http_request($url . '?' . http_build_query($input));
+      $request = drupal_http_request($url . '?' . drupal_http_build_query($input));
       if (isset($request->data)) {
         $subscriptions = drupal_json_decode($request->data);
       }

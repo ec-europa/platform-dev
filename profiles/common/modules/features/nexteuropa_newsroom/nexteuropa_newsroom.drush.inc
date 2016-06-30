@@ -28,7 +28,7 @@ function drush_nexteuropa_newsroom_newsroom_init($universe_id = NULL) {
     if (NewsroomHelper::validateUniverse($universe_id)) {
       variable_set('newsroom_universe_id', $universe_id);
       drush_print(dt('Newsroom Universe was found at: !universe', array('!universe' => NewsroomHelper::getUniverseUrl())));
-      _nexteuropa_newsroom_create_default_importers('drush');
+      _nexteuropa_newsroom_admin_rebuild_importers();
     }
     else {
       return drush_set_error(dt('No Newsroom Universe was found!'));

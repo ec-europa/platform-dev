@@ -63,26 +63,15 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#access' => user_access('administer newsroom advanced settings'),
   );
 
-  $form['newsroom_others']['clean_cache'] = array(
-    '#type' => 'submit',
-    '#value' => 'Clean newsroom cache',
-    '#description' => t('Clean all newsroom cache entries'),
-    '#prefix' => '<div id="newsroom_clean_cache">',
-    '#suffix' => '<div class="feedback"></div></div>',
-    '#ajax' => array(
-      'callback' => '_nexteuropa_newsroom_admin_clean_cache',
-    ),
+  $form['newsroom_others']['importers_link'] = array(
+    '#type' => 'item',
+    '#markup' => l(t('Feed importers'), 'import'),
   );
 
-  $form['newsroom_others']['toggle_title'] = array(
-    '#type' => 'submit',
-    '#value' => 'Switch title fields',
-    '#description' => t('Switch title and name fields'),
-    '#prefix' => '<div id="newsroom_toggle_title">',
-    '#suffix' => '<div class="feedback"></div></div>',
-    '#ajax' => array(
-      'callback' => '_nexteuropa_newsroom_admin_toggle_title',
-    ),
+  $form['newsroom_others']['newsroom_use_css'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use the stylesheets provided by this feature'),
+    '#default_value' => variable_get('newsroom_use_css', 1),
   );
 
   $form['newsroom_others']['newsroom_use_css'] = array(
@@ -107,12 +96,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Display Agenda after the highlights'),
     '#default_value' => variable_get('newsroom_agenda_after_highlights', 1),
-  );
-
-  $form['newsroom_others']['newsroom_proposal_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Newsroom proposal URL'),
-    '#default_value' => variable_get('newsroom_proposal_url'),
   );
 
   $types = NewsroomHelper::getNewsroomTypes();
@@ -228,6 +211,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#collapsed' => TRUE,
   );
 
+  $form['newsroom_universe']['newsroom_subweb_topic_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subweb topic ID'),
+    '#default_value' => variable_get('newsroom_subweb_topic_id'),
+    '#description' => t('Subweb topic ID used to filter out newsroom items by this topic ID.'),
+  );
+
   $form['newsroom_universe']['newsroom_url_prefix'] = array(
     '#type' => 'textfield',
     '#title' => t('URL prefix'),
@@ -318,6 +308,12 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#default_value' => variable_get('newsroom_single_item_edit_segment', NEXTEUROPA_NEWSROOM_ITEM_EDIT_SEGMENT),
   );
 
+  $form['newsroom_universe']['newsroom_proposal_script'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Newsroom proposal script'),
+    '#default_value' => variable_get('newsroom_proposal_script', NEXTEUROPA_NEWSROOM_PROPOSAL_SCRIPT),
+  );
+
   $form['newsroom_pages'] = array(
     '#type' => 'fieldset',
     '#title' => t('Newsroom page settings'),
@@ -397,17 +393,24 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
   if ($newsroom_universe_id) {
     $form['actions']['run'] = array(
       '#type' => 'submit',
-      '#value' => t('Run the importers'),
-      '#access' => TRUE,
-      '#submit' => array('_nexteuropa_newsroom_create_default_importers'),
+      '#value' => t('Run importers'),
+      '#submit' => array('_nexteuropa_newsroom_import_importers'),
+      '#access' => user_access('administer newsroom advanced settings'),
       '#weight' => 10,
     );
     $form['actions']['rebuild'] = array(
       '#type' => 'submit',
       '#value' => t('Rebuild importers'),
-      '#access' => TRUE,
       '#submit' => array('_nexteuropa_newsroom_admin_rebuild_importers'),
+      '#access' => user_access('administer newsroom advanced settings'),
       '#weight' => 11,
+    );
+    $form['actions']['clean_cache'] = array(
+      '#type' => 'submit',
+      '#value' => 'Clean cache',
+      '#submit' => array('_nexteuropa_newsroom_admin_clean_cache'),
+      '#access' => user_access('administer newsroom advanced settings'),
+      '#weight' => 12,
     );
   }
 
@@ -488,9 +491,7 @@ function _nexteuropa_newsroom_admin_settings_form_submit($form, &$form_state) {
 
   // Create default importers if new Newsroom Universe ID detected.
   if ($form_state['values']['newsroom_universe_id']) {
-    $proposal_url = 'http://ec.europa.eu/newsroom/' . $form_state['values']['newsroom_universe_id'] . '/propose-item.cfm';
     variable_set('newsroom_universe_id', $form_state['values']['newsroom_universe_id']);
-    $form_state['values']['newsroom_proposal_url'] = $proposal_url;
   }
 
   // If the validation returns the confirm request.
@@ -642,31 +643,10 @@ function _nexteuropa_newsroom_admin_reset_paths($form, &$form_state) {
 
 /**
  * Cleans newsroom cache - Ajax callback.
- *
- * @return array
- *   Ajax callback array.
  */
 function _nexteuropa_newsroom_admin_clean_cache() {
   cache_clear_all('*', NEXTEUROPA_NEWSROOM_CACHE_TABLE, TRUE);
-  $commands[] = ajax_command_replace('#newsroom_clean_cache .feedback', '<div class="messages status">Cache cleaned</div>');
-
-  return array('#type' => 'ajax', '#commands' => $commands);
-}
-
-/**
- * Switches titles for newsroom items, topics, types, services - Ajax callback.
- *
- * @return array
- *   Ajax callback array.
- */
-function _nexteuropa_newsroom_admin_toggle_title() {
-  title_field_replacement_toggle('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'title');
-  title_field_replacement_toggle('taxonomy_term', NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY, 'name');
-  title_field_replacement_toggle('taxonomy_term', NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY, 'name');
-  title_field_replacement_toggle('taxonomy_term', NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY, 'name');
-  cache_clear_all('*', 'cache_field', TRUE);
-  $commands[] = ajax_command_replace('#newsroom_toggle_title .feedback', '<div class="messages status">Titles switched</div>');
-  return array('#type' => 'ajax', '#commands' => $commands);
+  drupal_set_message(t('Cache has been cleaned.'));
 }
 
 /**
