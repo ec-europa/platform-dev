@@ -463,10 +463,10 @@ function nexteuropa_newsroom_date_formats() {
 function _nexteuropa_newsroom_import_importers() {
   // Run the multilingual imports if required.
   $importers = array(
+    NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
+    NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
     NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
     NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER,
-    NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
-    NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
   );
 
   foreach ($importers as $importer) {
