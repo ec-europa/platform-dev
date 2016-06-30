@@ -145,6 +145,11 @@ projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
+; Deprecate PHP 4 style constructors for PHP 7 compatibility
+; https://www.drupal.org/node/2528736
+; The patch corresponds to commit 96e56f523ce3d9609e677fcc6263cfc3e798b0ab in
+; the ctools repository.
+projects[ctools][patch][] = patches/ctools-php7-2528736.patch
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
