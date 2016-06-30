@@ -1,0 +1,38 @@
+diff --git a/og.module b/og.module
+index db1d502..9f8c339 100644
+--- a/og.module
++++ b/og.module
+@@ -1932,7 +1932,9 @@ function og_check_field_cardinality($entity_type, $entity, $field_name) {
+   if ($field['cardinality'] == FIELD_CARDINALITY_UNLIMITED) {
+     return TRUE;
+   }
+-
++  if (!is_object($entity)) {
++    $entity = entity_load_single($entity_type, $entity);
++  }
+   $wrapper = entity_metadata_wrapper($entity_type, $entity);
+   return count($wrapper->{$field_name . '__og_membership'}->value(array('identifier' => TRUE))) < $field['cardinality'];
+ }
+@@ -1986,8 +1988,7 @@ function og_group($group_type, $gid, $values = array(), $save_created = TRUE) {
+   $wrapper = entity_metadata_wrapper($entity_type, $entity);
+   // If entity was an ID, get the object.
+   $entity = $wrapper->value();
+-  $bundle = $wrapper->getBundle();
+-  $id = $wrapper->getIdentifier();
++  list($id, $revision_id, $bundle) = entity_extract_ids($entity_type, $entity);
+ 
+   if (is_object($gid)) {
+     $group = $gid;
+diff --git a/plugins/entityreference/behavior/OgBehaviorHandler.class.php b/plugins/entityreference/behavior/OgBehaviorHandler.class.php
+index 7191a68..78a8776 100644
+--- a/plugins/entityreference/behavior/OgBehaviorHandler.class.php
++++ b/plugins/entityreference/behavior/OgBehaviorHandler.class.php
+@@ -25,7 +25,7 @@ class OgBehaviorHandler extends EntityReference_BehaviorHandler_Abstract {
+         // If the entity belongs to a bundle that was deleted, return early.
+         continue;
+       }
+-      $id = $wrapper->getIdentifier();
++      list($id, $revision_id, $bundle) = entity_extract_ids($entity_type, $entity);
+       $items[$id] = array();
+       $gids = og_get_entity_groups($entity_type, $entity, array(), $field_name);
+ 
