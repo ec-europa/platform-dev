@@ -86,7 +86,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
       $path .= $delimiter . $language_suffix;
     }
     else {
-      if (($check_prefix[0]->language !== $language_suffix) || ($check_prefix[1] !== $path)) {
+      if ($check_prefix[0]->language !== $language_suffix) {
         $path .= $delimiter . $language_suffix;
       }
     }
