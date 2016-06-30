@@ -41,9 +41,9 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
   // Don't add the language suffix for an internal file URL.
   $file_public = variable_get('file_public_path', conf_path() . '/files');
-  $file_private = variable_get('file_private_path');
+  $file_private = 'system/files';
   if ($file_public && preg_match("#^/?$file_public#", $path) ||
-      $file_private && preg_match("#^/?$file_private#", $path)) {
+    $file_private && preg_match("#^/?$file_private#", $path)) {
     return;
   }
 
