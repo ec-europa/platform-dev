@@ -374,6 +374,7 @@ projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
+projects[linkchecker][patch][] = patches/linkchecker-php7-compatibility.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
