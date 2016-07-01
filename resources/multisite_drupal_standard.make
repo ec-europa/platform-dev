@@ -189,13 +189,15 @@ projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
 projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][revision] = b5009cd1406f72a4
 projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
 ; Issue #2401811: Rendered entity is not language aware
 ; https://www.drupal.org/node/1674792
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
+; Allow handlers to modify $items before calling entity_view()
+; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
@@ -464,6 +466,10 @@ projects[og][subdir] = "contrib"
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
+
+; NEXTEUROPA-11789 Issue in Bean reference to OG
+; https://www.drupal.org/node/1880226
+projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
