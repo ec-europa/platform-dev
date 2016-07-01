@@ -50,3 +50,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 ; external: projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch
 projects[drupal][patch][] = patches/drupal_add_js_sanitize_external-2697611-4.patch
+
+; Compatibility with PHP 7
+; Patch from drupal.org slightly adjusted to exclude the change in rdf_test.info
+; https://www.drupal.org/node/2656548
+projects[drupal][patch][] = patches/drupal-2656548-26-php7.patch
