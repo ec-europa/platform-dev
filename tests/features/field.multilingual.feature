@@ -69,6 +69,8 @@ Feature: Field Multilingual features
 
 	@api
 	Scenario Outline: Check translation of field and field group labels
+	# fix missing translation (deleted because languages are deleted at the end of scenario)
+	Given I run drush "sqlq" '"REPLACE INTO locales_target SELECT lid , 0x4d6f6e2047726f75706520436f756c657572, \\"fr\\",  0, 0, 0 FROM locales_source WHERE source = \\"My Group Color\\""'
 	Given I am an anonymous user
 	When I go to "<url>"
 	Then I should see "<title>" in the "#page-title" element
