@@ -122,13 +122,14 @@ class NewsroomHelper {
     }
 
     if ($importer_id == NEXTEUROPA_NEWSROOM_ITEM_IMPORTER) {
-      $subweb_topic_id = variable_get('newsroom_subweb_topic_id');
-      $subweb_url_part = '';
-      if ($subweb_topic_id) {
-        $subweb_url_part = '?tpa_id=' . $subweb_topic_id;
+      $subsite = variable_get('newsroom_subsite', FALSE);
+      $subsite_url_part = '';
+
+      if ($subsite) {
+        $subsite_url_part = '?subsite=' . $subsite;
       }
 
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . $subweb_url_part;
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . $subsite_url_part;
     }
 
     return $url;
@@ -801,6 +802,30 @@ class NewsroomHelper {
       // logout.cfm is used because it is always available if a universe exists.
       $test = drupal_http_request(NEXTEUROPA_NEWSROOM_BASE_URL . $universe_id . '/logout.cfm');
       return $test->code == 200;
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Validates if a given subsite exists.
+   *
+   * @param string $subsite
+   *   Newsroom Universe subsite.
+   *
+   * @return bool
+   *   Newsroom Universe subsite exists or not.
+   */
+  public static function validateSubsite($universe_id = NULL, $subsite = NULL) {
+    // The subsite is not mandatory.
+    if (empty($subsite)) {
+      return TRUE;
+    }
+    else {
+      if ($universe_id) {
+        $test = drupal_http_request(NEXTEUROPA_NEWSROOM_BASE_URL . $universe_id . '/subsite=' . $subsite);
+        return $test->code == 200;
+      }
     }
 
     return FALSE;

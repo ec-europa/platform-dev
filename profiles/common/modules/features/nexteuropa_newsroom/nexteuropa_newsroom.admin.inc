@@ -68,6 +68,14 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#markup' => l(t('Feed importers'), 'import'),
   );
 
+  $form['newsroom_others']['newsroom_subsite'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name of the subsite, if any.'),
+    '#description' => t('The value you enter here will be used to filter the items belonging to this website.'),
+    '#default_value' => variable_get('newsroom_subsite'),
+    '#element_validate' => array('_nexteuropa_newsroom_admin_subsite_validate'),
+  );
+
   $form['newsroom_others']['newsroom_use_css'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use the stylesheets provided by this feature'),
@@ -209,13 +217,6 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Newsroom universe settings'),
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-  );
-
-  $form['newsroom_universe']['newsroom_subweb_topic_id'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Subweb topic ID'),
-    '#default_value' => variable_get('newsroom_subweb_topic_id'),
-    '#description' => t('Subweb topic ID used to filter out newsroom items by this topic ID.'),
   );
 
   $form['newsroom_universe']['newsroom_url_prefix'] = array(
@@ -577,6 +578,23 @@ function _nexteuropa_newsroom_admin_delete_confirm($form, &$form_state) {
 function _nexteuropa_newsroom_admin_universe_id_validate($element, &$form_state) {
   if (!NewsroomHelper::validateUniverse($form_state['values']['newsroom_universe_id'])) {
     form_error($element, t('You must enter a valid Newsroom Universe ID.'));
+  }
+}
+
+/**
+ * Checks subsite for valid value.
+ *
+ * @param array $element
+ *   Form element.
+ * @param array $form_state
+ *   Form state.
+ */
+function _nexteuropa_newsroom_admin_subsite_validate($element, &$form_state) {
+  $subsite = $form_state['values']['newsroom_subsite'];
+  $universe_id = $form_state['values']['newsroom_universe_id'];
+  
+  if (!NewsroomHelper::validateSubsite($universe_id, $subsite)) {
+    form_error($element, t("This subsite doesn't seem to exist, please check the value you entered."));
   }
 }
 

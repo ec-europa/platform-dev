@@ -285,6 +285,7 @@ function _nexteuropa_newsroom_tools() {
         'path' => 'newsroom-import/item/' . $newsroom_id,
         'options' => array(
           'html' => TRUE,
+          'language' => LANGUAGE_NONE,
           'attributes' => array('class' => 'btn btn-danger'),
         ),
       );
