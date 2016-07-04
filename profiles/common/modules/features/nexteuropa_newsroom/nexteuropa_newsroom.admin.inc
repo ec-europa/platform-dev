@@ -68,6 +68,13 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#markup' => l(t('Feed importers'), 'import'),
   );
 
+  $form['newsroom_others']['newsroom_subsite'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name of the subsite, if any.'),
+    '#description' => t('The value you enter here will be used to filter the items belonging to this website.'),
+    '#default_value' => variable_get('newsroom_subsite', FALSE),
+  );
+
   $form['newsroom_others']['newsroom_use_css'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use the stylesheets provided by this feature'),
