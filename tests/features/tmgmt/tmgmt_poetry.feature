@@ -1,4 +1,4 @@
-@api @poetry @i18n @run
+@api @poetry @i18n
 Feature: TMGMT Poetry features
   In order request a new translation for the Portuguese language
   As a Translation manager user
@@ -146,7 +146,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Request main job before other translations.
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "Page for main and subjobs"
@@ -156,7 +156,7 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
@@ -174,7 +174,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test rejection of a translation.
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"
@@ -184,7 +184,7 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
