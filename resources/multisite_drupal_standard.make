@@ -319,6 +319,10 @@ projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
 projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
+; Issue #2366585. Saving a vocabulary resets all terms to LANGUAGE_NONE.
+; https://www.drupal.org/node/2366585
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12161
+projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n_taxonomy-update-vocabulary-guard-2366585-10.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.x-dev"
