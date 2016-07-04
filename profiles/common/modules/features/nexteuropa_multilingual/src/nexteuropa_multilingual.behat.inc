@@ -135,6 +135,75 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
+   * Create a node along with its translations.
+   *
+   * Currently it supports only title and body fields since that is enough to
+   * cover basic multilingual behaviors, such as URL aliasing or field
+   * translation.
+   *
+   * Below an example of this step usage:
+   *
+   *    And I am viewing a multilingual "page" content:
+   *      | language | title            | body            |
+   *      | en       | Title in English | Body in English |
+   *      | fr       | Title in French  | Body in French  |
+   *      | de       | Title in German  | Body in German  |
+   *
+   * @param string $type
+   *    Content type machine name.
+   * @param TableNode $table
+   *    List of available languages and field translations.
+   *
+   * @return object
+   *    The created node object.
+   *
+   * @throws \InvalidArgumentException
+   *    Thrown if the specified content type does not support field translation.
+   *
+   * @Given I create the following multilingual :arg1 content:
+   */
+  public function createMultilingualContent($type, TableNode $table) {
+    if (!entity_translation_node_supported_type($type)) {
+      throw new \InvalidArgumentException("'$type' is not a translatable content type.");
+    }
+
+    $translations = [];
+    foreach ($table->getHash() as $row) {
+      $node = (object) $row;
+      $node->type = $type;
+      $node->status = TRUE;
+      // If the node is managed by Workbench Moderation, mark it as published.
+      if (workbench_moderation_node_moderated($node)) {
+        $node->workbench_moderation_state_new = self::MODERATION_PUBLISHED;
+      }
+      $translations[$node->language] = $node;
+    }
+
+    // Consider the first defined language as the default one.
+    $node = array_shift($translations);
+    $node = $this->nodeCreate($node);
+
+    // Apply Pathauto settings.
+    $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
+
+    // Preserve original language setting.
+    $node->field_language = $node->language;
+
+    // Set language.
+    $node->language = $node->translations->original;
+
+    // Save node (first language).
+    node_save($node);
+
+    // Add others languages.
+    foreach ($translations as $language => $node_translation) {
+      $fields = (array) $node_translation;
+      $this->saveNodeTranslation($node, $language, $fields);
+    }
+    return $node;
+  }
+
+  /**
    * Add a translation to an existing node.
    *
    * @param string $type
@@ -389,6 +458,35 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     }
   }
 
+  /**
+   * Refuse current job using poetry test.
+   *
+   * @Then I get a refused translation of current job item
+   */
+  public function receiveJobRejectionFromPoetryTest() {
+
+    $url = $this->getSession()->getCurrentUrl();
+    // We can't simply use Drupal's menu_get_item() because of caching reasons.
+    $tjiid = $this->getTranslationJobSubItemFromUrl();
+    if (!$tjiid) {
+      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
+    }
+    else {
+      $tjid = $this->getParentJobId($tjiid);
+      if (!$tjid) {
+        throw new \InvalidArgumentException("No translation job found for Job Item '$tjiid''.");
+      }
+
+      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
+      $path = url('tmgmt_poetry_test/refusetranslation/' . $tjid, array(
+        'base_url' => '',
+        'absolute' => TRUE,
+      ));
+      // Visit newly created node page.
+      $this->visitPath($path);
+      $this->visitPath($url);
+    }
+  }
   /**
    * Get translation job ID from current page's URL.
    *

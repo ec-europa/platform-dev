@@ -189,13 +189,15 @@ projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
 projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][revision] = b5009cd1406f72a4
 projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
 ; Issue #2401811: Rendered entity is not language aware
 ; https://www.drupal.org/node/1674792
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
+; Allow handlers to modify $items before calling entity_view()
+; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
@@ -267,6 +269,9 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.7"
+
+projects[flexible_purge][subdir] = "contrib"
+projects[flexible_purge][version] = "1.x-dev"
 
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
@@ -462,6 +467,10 @@ projects[og][subdir] = "contrib"
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
 
+; NEXTEUROPA-11789 Issue in Bean reference to OG
+; https://www.drupal.org/node/1880226
+projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
+
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
@@ -602,6 +611,9 @@ projects[user_dashboard][version] = "1.4"
 projects[user_field_privacy][subdir] = "contrib"
 projects[user_field_privacy][version] = "1.2"
 
+projects[username_enumeration_prevention][subdir] = "contrib"
+projects[username_enumeration_prevention][version] = "1.2"
+
 projects[uuid][subdir] = "contrib"
 projects[uuid][version] = "1.0-beta1"
 
@@ -613,18 +625,17 @@ projects[video][version] = "2.11"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
-; A recent version of the Views module is pinned that contains a fix for
-; https://www.drupal.org/node/339384
-; See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-7788
-; Todo: revert back to the stable version when Views 7.x-3.14 is released.
-projects[views][download][branch] = 7.x-3.x
-projects[views][download][revision] = e5c8b65
-projects[views][download][type] = git
 projects[views][subdir] = "contrib"
+projects[views][version] = 3.14
 
-projects[views][patch][] = patches/views-exposed_groupfilter_views-1818176-11.patch
-projects[views][patch][] = patches/views-includes_handlers-1752062-6.patch
-projects[views][patch][] = patches/views-localization-bug-1685144-9.patch
+; Error when configuring exposed group filter: "The value is required if title for this item is defined."
+; https://www.drupal.org/node/1818176
+projects[views][patch][] = https://www.drupal.org/files/views-1818176-11.patch
+; Fatal error: Unsupported operand types in [path to drupal]/sites/all/modules/views/includes/handlers.inc on line 1032
+; https://www.drupal.org/node/1752062
+projects[views][patch][] = https://www.drupal.org/files/includes_handlers.inc_.git_.patch
+; Default argument not skipped in breadcrumbs
+; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
 
 projects[views_ajax_history][subdir] = "contrib"
@@ -691,6 +702,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/su
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
+; Node revision history optimization on large websites.
+; https://www.drupal.org/node/1408838
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
+
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"

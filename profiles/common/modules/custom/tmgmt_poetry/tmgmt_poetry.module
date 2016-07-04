@@ -255,7 +255,7 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = 
   if (count($languages) > 0) {
     $query->condition('job.target_language', $languages, 'IN');
   }
-  $query->condition('job.reference', '%' . $reference, 'LIKE');
+  $query->condition('job.reference', '%' . $reference . '%', 'LIKE');
   if ($not_poetry) {
     $query->condition('job.reference', $reference . '_POETRY_%', 'NOT LIKE');
   }

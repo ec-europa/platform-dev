@@ -68,7 +68,7 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ecas_form_user_pass_alter(&$form, &$form_state, $form_id) {
-  $form['#validate'] = array('_ecas_user_pass_validate');
+  array_unshift($form['#validate'], '_ecas_user_pass_validate');
 }
 
 /**
@@ -96,7 +96,6 @@ function _ecas_user_pass_validate($form, &$form_state) {
       return;
     }
   }
-  user_pass_validate($form, $form_state);
 }
 
 /**
@@ -272,10 +271,11 @@ function ecas_save_page() {
  *   The user object to update.
  * @param array $user_info
  *   An associative array with the following keys:
- *   - mail: mail address.
- *   - givenname: first name.
- *   - sn: last name.
- *   - sourceorganisation: organisation.
+ *   - cas:email: mail address.
+ *   - cas:firstName: first name.
+ *   - cas:lastName: last name.
+ *   - cas:domain: the domain, e.g. eu.europa.ec or external.
+ *   - cas:departmentNumber: the department, e.g. DIGIT.A.3.
  *
  * @see ecas_sync_user_info()
  */
@@ -290,10 +290,10 @@ function ecas_sync_profile_core(&$user, array $user_info) {
 
   // You can now access the fields without knowing the language.
   if (!empty($field_firstname) && isset($edit[$field_firstname])) {
-    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = utf8_encode($user_info['cas:firstName']);
+    $edit[$field_firstname][LANGUAGE_NONE][0]['value'] = $user_info['cas:firstName'];
   }
   if (!empty($field_lastname) && isset($edit[$field_lastname])) {
-    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = utf8_encode($user_info['cas:lastName']);
+    $edit[$field_lastname][LANGUAGE_NONE][0]['value'] = $user_info['cas:lastName'];
   }
   if (!empty($field_ecasmail) && isset($edit[$field_ecasmail])) {
     $edit[$field_ecasmail][LANGUAGE_NONE][0]['value'] = $user_info['cas:email'];
