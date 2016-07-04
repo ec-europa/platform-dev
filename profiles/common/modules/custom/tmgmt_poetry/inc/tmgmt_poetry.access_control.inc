@@ -43,7 +43,7 @@ function tmgmt_poetry_views_query_alter(&$view, &$query) {
     if (isset($query->where[0]['conditions'][0])) {
       $query->add_where(isset($query->options['group']),
         db_or()
-          ->condition('reference', '^(MAIN|SUB)_' . $query->where[0]['conditions'][0]['value'][':tmgmt_job_item_tjid'], 'REGEXP')
+          ->condition('reference', '^(MAIN|SUB)_' . $query->where[0]['conditions'][0]['value'][':tmgmt_job_item_tjid'] . "_", 'REGEXP')
       );
     }
     $query->add_field('', 'reference', 'reference');
