@@ -149,6 +149,7 @@ projects[ctools][version] = "1.9"
 ; https://www.drupal.org/node/2528736
 ; The patch corresponds to commit 96e56f523ce3d9609e677fcc6263cfc3e798b0ab in
 ; the ctools repository.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
 projects[ctools][patch][] = patches/ctools-php7-2528736.patch
 
 projects[customerror][subdir] = "contrib"
@@ -378,6 +379,7 @@ projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integr
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 ; Linkchecker PHP 7.0 compatibility.
 ; https://www.drupal.org/node/2660694
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
