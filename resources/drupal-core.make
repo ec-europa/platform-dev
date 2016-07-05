@@ -53,5 +53,7 @@ projects[drupal][patch][] = patches/drupal_add_js_sanitize_external-2697611-4.pa
 
 ; Compatibility with PHP 7
 ; Patch from drupal.org slightly adjusted to exclude the change in rdf_test.info
+; because this doesn't apply cleanly on a stable release.
 ; https://www.drupal.org/node/2656548
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
 projects[drupal][patch][] = patches/drupal-2656548-26-php7.patch
