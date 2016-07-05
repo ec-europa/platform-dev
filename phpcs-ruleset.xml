@@ -10,8 +10,8 @@
     <exclude-pattern>*\.png</exclude-pattern>
 
     <!-- Minified files don't have to comply with coding standards. -->
-    <exclude-pattern>*.min.css</exclude-pattern>
-    <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>*\.min\.css</exclude-pattern>
+    <exclude-pattern>*\.min\.js</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/js/ReadSpeaker/</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/eu_resp.css</exclude-pattern>
