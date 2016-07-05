@@ -142,6 +142,10 @@ projects[css_injector][version] = "1.10"
 ; https://www.drupal.org/node/2506775
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
 projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
+; Unnecessary DB query and cache_set when rules are empty
+; https://www.drupal.org/node/2759319
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12128
+projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
@@ -702,6 +706,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/su
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
+; Node revision history optimization on large websites.
+; https://www.drupal.org/node/1408838
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
+
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
