@@ -19,6 +19,7 @@ function tmgmt_poetry_test_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Poetry mock - Translation requests';
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
@@ -49,7 +50,7 @@ function tmgmt_poetry_test_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '1';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 0;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 0;
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 1;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
     'action::views_bulk_operations_delete_item' => array(
@@ -74,6 +75,13 @@ function tmgmt_poetry_test_views_default_views() {
   $handler->display->display_options['fields']['filename']['label'] = 'REFERENCE';
   $handler->display->display_options['fields']['filename']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['filename']['alter']['ellipsis'] = FALSE;
+  /* Field: File: Upload date */
+  $handler->display->display_options['fields']['timestamp']['id'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['table'] = 'file_managed';
+  $handler->display->display_options['fields']['timestamp']['field'] = 'timestamp';
+  $handler->display->display_options['fields']['timestamp']['label'] = 'Date';
+  $handler->display->display_options['fields']['timestamp']['date_format'] = 'short';
+  $handler->display->display_options['fields']['timestamp']['second_date_format'] = 'long';
   /* Sort criterion: File: Upload date */
   $handler->display->display_options['sorts']['timestamp']['id'] = 'timestamp';
   $handler->display->display_options['sorts']['timestamp']['table'] = 'file_managed';
@@ -83,8 +91,8 @@ function tmgmt_poetry_test_views_default_views() {
   $handler->display->display_options['filters']['filename']['id'] = 'filename';
   $handler->display->display_options['filters']['filename']['table'] = 'file_managed';
   $handler->display->display_options['filters']['filename']['field'] = 'filename';
-  $handler->display->display_options['filters']['filename']['operator'] = 'starts';
-  $handler->display->display_options['filters']['filename']['value'] = 'WEB_';
+  $handler->display->display_options['filters']['filename']['operator'] = 'ends';
+  $handler->display->display_options['filters']['filename']['value'] = '_TRA.xml';
 
   /* Display: P | File list */
   $handler = $view->new_display('page', 'P | File list', 'page_1');

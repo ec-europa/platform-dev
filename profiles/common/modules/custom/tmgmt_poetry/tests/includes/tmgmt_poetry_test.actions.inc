@@ -20,29 +20,39 @@ function tmgmt_poetry_test_action_info() {
   );
 }
 
+/**
+ * Form with additional step for translate job action.
+ */
 function tmgmt_poetry_test_translate_job_form($settings, &$form_state) {
   $form = array();
   if (isset($form_state['selection'][0])) {
     $file_id = $form_state['selection'][0];
+    $file_object = file_load($file_id);
+    $message = file_get_contents($file_object->uri);
+    $languages = PoetryMock::getLanguagesFromRequest($message);
+    $form_state['poetry_mock']['request_message'] = $message;
+    $form_state['poetry_mock']['languages'] = $languages;
   }
+  $all_option = array('ALL' => 'ALL (processing one by one)');
 
-  $form['options'] = array(
+  $form['language'] = array(
     '#type' => 'select',
     '#title' => t('Select language:'),
-    '#options' => array(
-      'Iron Man' => t('abc'),
-      'Bat Man' => t('efg'),
-    ),
+    '#options' => $all_option + $languages,
     '#default_value' => !empty($options['options']) ? $options['options'] : '',
   );
 
   return $form;
 }
 
+/**
+ * Form submit function for additional step of translate job action.
+ */
 function tmgmt_poetry_test_translate_job_submit($form, $form_state) {
-  $return = array();
-  //$return['hero'] = $form_state['values']['hero'];
-  return $return; //Note, return value here must be an array.
+  return array(
+    'language' => $form_state['values']['language'],
+    'poetry_mock' => $form_state['poetry_mock'],
+  );
 }
 
 /**

@@ -102,6 +102,9 @@ class PoetryMock {
    *   Message returned by webservice.
    */
   public function requestService($user, $password, $message) {
+    // asXML method always adds '\n' after header which for some systems
+    // is causing issues. Function beneath is striping of added header.
+    $message = explode("\n", $message, 2)[1];
     $response_xml = simplexml_load_string($message);
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
@@ -194,6 +197,16 @@ class PoetryMock {
     return $requests;
   }
 
+  public static function getLanguagesFromRequest($message) {
+    $request_data = self::getDataFromRequest($message);
+    $languages = array();
+    foreach ($request_data['attributions'] as $attribution) {
+      $languages[$attribution['language']] = $attribution['language'];
+    }
+
+    return $languages;
+  }
+
   /**
    * Helper function which prepares data from translation request.
    *
@@ -203,7 +216,7 @@ class PoetryMock {
    * @return array
    *    Array with data from translation request.
    */
-  private static function getDataFromRequest($message) {
+  public static function getDataFromRequest($message) {
     $xml = simplexml_load_string($message);
     foreach ($xml->request->attributions as $attribution) {
       $attributions[] = array(

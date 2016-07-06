@@ -14,6 +14,13 @@ module_load_include('inc', 'tmgmt_poetry_test', 'includes/tmgmt_poetry_test.them
 module_load_include('inc', 'tmgmt_poetry_test', 'includes/tmgmt_poetry_test.actions');
 
 /**
+ * Implements hook_views_api().
+ */
+function tmgmt_poetry_test_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_menu().
  */
 function tmgmt_poetry_test_menu() {
