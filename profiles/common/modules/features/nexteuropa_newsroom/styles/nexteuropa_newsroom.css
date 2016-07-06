@@ -135,6 +135,10 @@
   position: relative;
 }
 
+.view-newsroom {
+  margin-top: -30px;
+}
+
 .view-newsroom .views-field-field-newsroom-item-type a,
 .view-newsroom .view-footer a  {
   color: #fff;
