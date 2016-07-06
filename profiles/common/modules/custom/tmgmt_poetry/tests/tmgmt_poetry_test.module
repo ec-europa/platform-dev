@@ -17,7 +17,6 @@ module_load_include('inc', 'tmgmt_poetry_test', 'includes/tmgmt_poetry_test.acti
  * Implements hook_menu().
  */
 function tmgmt_poetry_test_menu() {
-
   $items['tmgmt_poetry_test/soap_server'] = array(
     'title' => 'Poetry Soap Server',
     'page callback' => 'tmgmt_poetry_test_soap_server',
@@ -37,29 +36,7 @@ function tmgmt_poetry_test_menu() {
     'access callback' => TRUE,
   );
 
-  $items['admin/poetry_mock/dashboard'] = array(
-    'title' => 'POETRY Web Service Mock - Dashboard',
-    'description' => 'Dashboard for the POETRY Web Service Mock',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('tmgmt_poetry_test_dashboard_form'),
-    'access arguments' => array('access to poetry mock dashboard'),
-    'type' => MENU_CALLBACK,
-    'file' => 'includes/tmgmt_poetry_test_dashboard_form.inc',
-    'weight' => 5,
-  );
-
   return $items;
-}
-
-/**
- * Implements hook_permission().
- */
-function tmgmt_poetry_test_permission() {
-  return array(
-    'access to poetry mock dashboard' => array(
-      'title' => t('Access to the dashboard of Poetry Web Service Mock'),
-    )
-  );
 }
 
 /**
