@@ -77,7 +77,7 @@ class TMGMTPoetryJob extends TMGMTJob {
     // $item->save();
     $this->jobItemSessionCreate($item);
 
-    if ($this->getWordCount() == 0) {
+    if ($this->getItemWordCount($item) == 0) {
       $transaction->rollback();
 
       // In case we got word count 0 for the first job item, NULL tjid so that
@@ -209,6 +209,39 @@ class TMGMTPoetryJob extends TMGMTJob {
    */
   public function getWordCount() {
     return tmgmt_poetry_job_statistics($this, 'word_count');
+  }
+
+  /**
+   * Get word count for TMGMTJobItem.
+   *
+   * Returns the same result as TMGMTJob::getWordCount but without side impacts.
+   *
+   * @param TMGMTJobItem|array $item
+   *   The job item or its data.
+   *
+   * @return int
+   *   Number of words
+   */
+  protected function getItemWordCount($item) {
+
+    if (is_object($item)) {
+      $item = $item->getSourceData();
+    }
+
+    if (!empty($item['#text'])) {
+      if (_tmgmt_filter_data($item)) {
+
+        // Count words of the data item.
+        return tmgmt_word_count($item['#text']);
+      }
+    }
+    elseif (is_array($item)) {
+      $counter = 0;
+      foreach (element_children($item) as $key) {
+        $counter += $this->getItemWordCount($item[$key]);
+      }
+      return $counter;
+    }
   }
 
 }
