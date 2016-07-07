@@ -471,7 +471,7 @@ function cce_basic_config_user_default_permissions() {
     ),
     'module' => 'workbench_moderation',
   );
-  
+
   // Exported permission: 'use workbench_moderation needs review tab'.
   $permissions['use workbench_moderation needs review tab'] = array(
     'name' => 'use workbench_moderation needs review tab',
