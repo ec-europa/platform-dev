@@ -171,32 +171,77 @@ class PoetryMock {
    * Helper function which prepares translate response data.
    *
    * @param string $message
-   *    Translation request data.
+   *    Translation request XML data.
+   * @param string $lg_code
+   *    Language code. If ALL then all languages will be processed one by one.
    *
-   * @return array
+   * @return array Array with translation response data.
    *    Array with translation response data.
    */
-  public static function prepareTranslationResponseData($message) {
+  public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
     $requests = array();
 
-    if (isset($data['attributions']) && isset($data['content'])) {
+    if (isset($data['attributions']) && isset($data['content']) && $lg_code == 'ALL') {
       foreach ($data['attributions'] as $attribution) {
-        $requests[] = array(
-          'language' => $attribution['language'],
-          'format' => $attribution['format'],
-          'content' => self::translateRequestContent(
-            $data['content'],
-            $attribution['language']
-          ),
-          'demande_id' => $data['demande_id'],
+        $requests[$attribution['language']] = self::getTranslationResponseData(
+          $attribution,
+          $data['content'],
+          $data['demande_id']
         );
       }
+
+      return $requests;
+    }
+
+    if ($lg_code != 'ALL') {
+      $attribution = $data['attributions'][$lg_code];
+      $requests[$lg_code] = self::getTranslationResponseData(
+        $attribution,
+        $data['content'],
+        $data['demande_id']
+      );
+
+      return $requests;
     }
 
     return $requests;
   }
 
+  /**
+   * Helper function for setting up translation response data array.
+   *
+   * @param array $attribution
+   *    Part of request which is related to given translation language request.
+   * @param string $content
+   *    Encoded content that was send for the translation.
+   * @param array $demande_id
+   *    Array with IDs regarding translation request.
+   *
+   * @return array
+   *    Array with translation response data.
+   */
+  private static function getTranslationResponseData($attribution, $content, $demande_id) {
+    return array(
+      'language' => $attribution['language'],
+      'format' => $attribution['format'],
+      'content' => self::translateRequestContent(
+        $content,
+        $attribution['language']
+      ),
+      'demande_id' => $demande_id,
+    );
+  }
+
+  /**
+   * Helper method to fetch languages from translation request.
+   *
+   * @param string $message
+   *    Translation request XML data.
+   *
+   * @return array
+   *    Array with languages.
+   */
   public static function getLanguagesFromRequest($message) {
     $request_data = self::getDataFromRequest($message);
     $languages = array();
@@ -219,7 +264,7 @@ class PoetryMock {
   public static function getDataFromRequest($message) {
     $xml = simplexml_load_string($message);
     foreach ($xml->request->attributions as $attribution) {
-      $attributions[] = array(
+      $attributions[(string) $attribution->attributes()->{'lgCode'}] = array(
         'language' => (string) $attribution->attributes()->{'lgCode'},
         'format' => (string) $attribution->attributes()->{'format'},
       );

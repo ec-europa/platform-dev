@@ -65,10 +65,14 @@ function tmgmt_poetry_test_translate_job_submit($form, $form_state) {
  *    the rows of the view used for VBO.
  */
 function tmgmt_poetry_test_translate_job(&$files, $context) {
-  $message = file_get_contents($files->uri);
   $poetry_mock = new PoetryMock();
-  if ($message) {
-    $responses = $poetry_mock::prepareTranslationResponseData($message);
+  if (isset($context['poetry_mock']['request_message'])) {
+    // Get data submitted to additional form.
+    $message = $context['poetry_mock']['request_message'];
+    $lg_code = $context['language'];
+
+    // Prepare responses array.
+    $responses = $poetry_mock::prepareTranslationResponseData($message, $lg_code);
     foreach ($responses as $response) {
       $message = theme('poetry_receive_translation', $response);
       $poetry_mock->sendRequestToDrupal($message);
