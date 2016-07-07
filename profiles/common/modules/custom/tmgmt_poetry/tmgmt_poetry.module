@@ -26,7 +26,7 @@ function tmgmt_poetry_views_data_alter(&$data) {
     $data['tmgmt_job_item']['operations']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_item_operations';
   }
   if (isset($data['tmgmt_job']['progress']['field'])) {
-    $data['tmgmt_job']['progress']['field']['handler'] = 'tmgmt_poetry_handler_field_progress';  
+    $data['tmgmt_job']['progress']['field']['handler'] = 'tmgmt_poetry_handler_field_progress';
   }
 }
 
