@@ -7,6 +7,7 @@
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
@@ -386,10 +387,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Prepare for PHP errors log.
    *
-   * @BeforeStep
+   * @BeforeScenario
    */
-  public static function preparePhpErrors($event) {
-    // Clear out the watchdog table at the beginning of each test suite.
+  public static function preparePhpErrors(BeforeScenarioScope $scope) {
+    // Clear out the watchdog table at the beginning of each test scenario.
     db_truncate('watchdog')->execute();
   }
 
