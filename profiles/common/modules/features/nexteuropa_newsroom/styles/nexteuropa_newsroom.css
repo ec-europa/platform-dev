@@ -123,7 +123,7 @@
 .node-type-newsroom-item .field-name-field-newsroom-item-type a,
 .node-type-newsroom-item  .field-label,
 .newsroom_item_container .newsroom_type,
-.view-newsroom .views-field-field-newsroom-item-type {
+.view-newsroom .views-field-field-newsroom-item-type a {
   display: inline-block;
   background: #0065a2;
   padding: 0.2em 1em;
@@ -136,7 +136,7 @@
 }
 
 .view-newsroom {
-  margin-top: -30px;
+  margin-top: -20px;
 }
 
 .view-newsroom .views-field-field-newsroom-item-type a,
