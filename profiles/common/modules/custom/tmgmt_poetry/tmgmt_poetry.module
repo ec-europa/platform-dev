@@ -19,8 +19,15 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  * Implements hook_views_data_alter().
  */
 function tmgmt_poetry_views_data_alter(&$data) {
-  $data['tmgmt_job']['reference']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_reference';
-  $data['tmgmt_job']['progress']['field']['handler'] = 'tmgmt_poetry_handler_field_progress';
+  if (isset($data['tmgmt_job']['reference']['field'])) {
+    $data['tmgmt_job']['reference']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_reference';
+  }
+  if (isset($data['tmgmt_job_item']['operations']['field'])) {
+    $data['tmgmt_job_item']['operations']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_item_operations';
+  }
+  if (isset($data['tmgmt_job']['progress']['field'])) {
+    $data['tmgmt_job']['progress']['field']['handler'] = 'tmgmt_poetry_handler_field_progress';
+  }
 }
 
 /**
@@ -134,6 +141,11 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
       $job_item = array_shift($job_items);
     }
   }
+
+  // User should not cancel neither save the job,
+  // it should only send translation request or delete the job.
+  unset($form['actions']['submit']);
+  unset($form['actions']['cancel']);
 }
 
 /**
