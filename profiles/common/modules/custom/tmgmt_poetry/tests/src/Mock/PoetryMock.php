@@ -121,7 +121,7 @@ class PoetryMock {
     $this->saveTranslationRequest($message);
 
     return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
-    drupal_exit();
+    exit(0);
   }
 
   /**
@@ -182,7 +182,9 @@ class PoetryMock {
   public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
     $requests = array();
-
+    if (!isset($data['demande_id']['numero'])) {
+      $data['demande_id']['numero'] = rand(10000, 99999);
+    }
     if (isset($data['attributions']) && isset($data['content']) && $lg_code == 'ALL') {
       foreach ($data['attributions'] as $attribution) {
         $requests[$attribution['language']] = self::getTranslationResponseData(
@@ -221,6 +223,9 @@ class PoetryMock {
   public static function prepareRefuseJobResponseData($message) {
     $data = self::getDataFromRequest($message);
     $languages = self::getLanguagesFromRequest($message);
+    if (!isset($data['demande_id']['numero'])) {
+      $data['demande_id']['numero'] = rand(10000, 99999);
+    }
     return array(
       'languages' => $languages,
       'demande_id' => $data['demande_id'],
