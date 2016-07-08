@@ -445,7 +445,7 @@ projects[node_export][version] = "3.0"
 ;projects[og][download][type] = git
 ;projects[og][subdir] = "contrib"
 
-rojects[og][subdir] = "contrib"
+projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
