@@ -121,6 +121,7 @@ class PoetryMock {
     $this->saveTranslationRequest($message);
 
     return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
+    drupal_exit();
   }
 
   /**
