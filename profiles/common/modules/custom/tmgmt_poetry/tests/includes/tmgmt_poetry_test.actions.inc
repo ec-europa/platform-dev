@@ -17,7 +17,37 @@ function tmgmt_poetry_test_action_info() {
       'configurable' => FALSE,
       'vbo_configurable' => TRUE,
     ),
+    'tmgmt_poetry_test_refuse_job' => array(
+      'type' => 'file',
+      'label' => t('TMGMT Poetry Test | VBO | Refuse job'),
+      'configurable' => FALSE,
+    ),
   );
+}
+
+/**
+ * Translate Job based on given request from the file.
+ *
+ * @param object $files
+ *    Request translation file.
+ * @param array $context
+ *    Contains all useful information about the action, including
+ *    the rows of the view used for VBO.
+ */
+function tmgmt_poetry_test_translate_job(&$files, $context) {
+  $poetry_mock = new PoetryMock();
+  if (isset($context['poetry_mock']['request_message'])) {
+    // Get data submitted to additional form.
+    $message = $context['poetry_mock']['request_message'];
+    $lg_code = $context['language'];
+
+    // Prepare responses array.
+    $responses = $poetry_mock::prepareTranslationResponseData($message, $lg_code);
+    foreach ($responses as $response) {
+      $message = theme('poetry_receive_translation', $response);
+      $poetry_mock->sendRequestToDrupal($message);
+    }
+  }
 }
 
 /**
@@ -56,26 +86,19 @@ function tmgmt_poetry_test_translate_job_submit($form, $form_state) {
 }
 
 /**
- * Translate Job based on given request from the file.
+ * Refuse translation job based on given request from the file.
  *
- * @param object $files
+ * @param object $file
  *    Request translation file.
  * @param array $context
  *    Contains all useful information about the action, including
  *    the rows of the view used for VBO.
  */
-function tmgmt_poetry_test_translate_job(&$files, $context) {
+function tmgmt_poetry_test_refuse_job(&$file, $context) {
   $poetry_mock = new PoetryMock();
-  if (isset($context['poetry_mock']['request_message'])) {
-    // Get data submitted to additional form.
-    $message = $context['poetry_mock']['request_message'];
-    $lg_code = $context['language'];
-
-    // Prepare responses array.
-    $responses = $poetry_mock::prepareTranslationResponseData($message, $lg_code);
-    foreach ($responses as $response) {
-      $message = theme('poetry_receive_translation', $response);
-      $poetry_mock->sendRequestToDrupal($message);
-    }
-  }
+  $message = file_get_contents($file->uri);
+  // Prepare responses array.
+  $response = $poetry_mock::prepareRefuseJobResponseData($message);
+  $message = theme('poetry_refuse_translation', $response);
+  $poetry_mock->sendRequestToDrupal($message);
 }

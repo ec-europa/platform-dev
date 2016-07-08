@@ -209,6 +209,26 @@ class PoetryMock {
   }
 
   /**
+   * Helper function which prepares refuse job response data.
+   *
+   * @param string $message
+   *    Translation request XML data.
+   *
+   * @return array Array with translation response data.
+   *    Array with translation response data.
+   */
+  public static function prepareRefuseJobResponseData($message) {
+    $data = self::getDataFromRequest($message);
+    $languages = self::getLanguagesFromRequest($message);
+    return array(
+      'languages' => $languages,
+      'demande_id' => $data['demande_id'],
+      'status' => 'REF',
+      'format' => 'HTML',
+    );
+  }
+
+  /**
    * Helper function for setting up translation response data array.
    *
    * @param array $attribution

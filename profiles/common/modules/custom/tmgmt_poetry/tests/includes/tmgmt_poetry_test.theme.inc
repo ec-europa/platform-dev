@@ -26,11 +26,21 @@ function tmgmt_poetry_test_theme($existing, $type, $theme, $path) {
       'template' => 'poetry-receive-translation',
       'path' => TMGMT_POETRY_TEST_TEMPLATES_PATH,
     ),
-    'poetry_mock_wsdl' => array(
+    'poetry_refuse_translation' => array(
+      'variables' => array(
+        'demande_id' => NULL,
+        'languages' => NULL,
+        'format' => NULL,
+        'status' => NULL,
+      ),
+      'template' => 'poetry-refuse-translation',
+      'path' => TMGMT_POETRY_TEST_TEMPLATES_PATH,
+    ),
+    'poetry_wsdl' => array(
       'variables' => array(
         'uri' => NULL,
       ),
-      'template' => 'poetry-mock-wsdl',
+      'template' => 'poetry-wsdl',
       'path' => TMGMT_POETRY_TEST_TEMPLATES_PATH,
     ),
   );

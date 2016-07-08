@@ -7,7 +7,6 @@
  * - $uri: uri of WSDL.
  */
 ?>
-
 <definitions name="TMGMTPoetryTestSoapServer" targetNamespace="<?php print $uri; ?>" xmlns:tns="<?php print $uri; ?>/tmgmt_poetry_test/soap_server" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="<?php print $uri; ?>/types">
   <types>
     <xsd:schema targetNamespace="<?php print $uri; ?>/types" xmlns="<?php print $uri; ?>/types"/>

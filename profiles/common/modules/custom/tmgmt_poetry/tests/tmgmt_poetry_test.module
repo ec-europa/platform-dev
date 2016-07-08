@@ -31,13 +31,6 @@ function tmgmt_poetry_test_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['tmgmt_poetry_test/refusetranslation/%'] = array(
-    'title' => 'Refuse translation',
-    'page callback' => 'tmgmt_poetry_test_refuse_translation',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-
   $items[drupal_get_path("module", "tmgmt_poetry_test") . "/tmgmt_poetry_test.wsdl"] = array(
     'page callback' => '_tmgmt_poetry_testl_wsdl',
     'access callback' => TRUE,
@@ -55,96 +48,11 @@ function tmgmt_poetry_test_soap_server() {
 }
 
 /**
- * Simulate rejection of a job.
- */
-function tmgmt_poetry_test_refuse_translation() {
-  $job = tmgmt_job_load(arg(2));
-  $poetry = variable_get("poetry_service");
-
-  $url = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE))) . '?wsdl';
-  $client = new SoapClient($url, array(
-    'cache_wsdl' => WSDL_CACHE_NONE,
-    'trace' => 1,
-  ));
-
-  $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, array($job->target_language));
-  try {
-    $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
-    print "<p>Translation refused for job: {$job->tjid} </p>";
-  }
-  catch (Exception $e) {
-    watchdog_exception('tmgmt_poetry_test', $e);
-  }
-
-}
-
-/**
- * Helper for message creation.
- *
- * @param TMGMTJob $job
- *   The job item.
- * @param array $languages
- *   Array of languages.
- *
- * @return string
- *   Message returned by poetry to drupal once the translation is refused.
- */
-function _tmgmt_poetry_test_make_xml_msg_refused(TMGMTJob $job, array $languages, $status = 'REF') {
-  $reference = str_replace('MAIN_' . $job->tjid . '_POETRY_', '', $job->reference);
-  $demande_id_data = explode('/', $reference);
-  $code_demandeur = $demande_id_data[0];
-  $annee = $demande_id_data[1];
-  $numero = $demande_id_data[2];
-  $version = $demande_id_data[3];
-  $partie = $demande_id_data[4];
-  $produit = $demande_id_data[5];
-
-  $xml = '<?xml version="1.0" encoding="UTF-8"?>
-<POETRY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">
-  <request communication="synchrone" id="3513838" type="translation">
-    <demandeId>
-      <codeDemandeur>' . $code_demandeur . '</codeDemandeur>
-      <annee>' . $annee . '</annee>
-      <numero>' . $numero . '</numero>
-      <version>' . $version . '</version>
-      <partie>' . $partie . '</partie>
-      <produit>' . $produit . '</produit>
-    </demandeId>
-    <status code="0" type="request">
-			<statusDate>02/07/2015</statusDate>
-			<statusTime>10:52:02</statusTime>
-			<statusMessage>OK</statusMessage>
-		</status>
-		<status code="' . $status . '" type="demande">
-			<statusDate>02/07/2015</statusDate>
-			<statusTime>10:51:49</statusTime>
-			<statusMessage>OK</statusMessage>
-		</status>';
-  foreach ($languages as $language) {
-    $xml .= '<status code="' . $status . '" lgCode="' . $language . '" type="attribution">
-        <statusDate>' . date('d/m/Y') . '</statusDate>
-        <statusTime>' . date('H:i:s') . '</statusTime>
-      </status>';
-  }
-  foreach ($languages as $language) {
-    $xml .= '<attributions format="XML" lgCode="' . $language . '">
-        <attributionsDelai>' . date('d/m/Y H:i:s') . '</attributionsDelai>
-        <attributionsDelaiAccepted/>
-      </attributions>';
-  }
-  $xml .= '
-    </request>
-  </POETRY>';
-
-  return $xml;
-}
-
-/**
  * Generate mock wsdl to simulate poetry.
  */
 function _tmgmt_poetry_testl_wsdl() {
   $uri = url('tmgmt_poetry_test/soap_server', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
-  $wsdl = theme('poetry_mock_wsdl', array('uri' => $uri));
+  $wsdl = theme('poetry_wsdl', array('uri' => $uri));
   drupal_add_http_header('Content-Type', 'application/xml; utf-8');
   print $wsdl;
   exit(0);

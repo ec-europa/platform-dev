@@ -60,6 +60,13 @@ function tmgmt_poetry_test_views_default_views() {
       'override_label' => 0,
       'label' => '',
     ),
+    'action::tmgmt_poetry_test_refuse_job' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 1,
+      'override_label' => 1,
+      'label' => 'Refuse job',
+    ),
     'action::tmgmt_poetry_test_translate_job' => array(
       'selected' => 1,
       'postpone_processing' => 0,
@@ -98,6 +105,7 @@ function tmgmt_poetry_test_views_default_views() {
   $handler = $view->new_display('page', 'P | File list', 'page_1');
   $handler->display->display_options['display_description'] = 'Request translation file list page view.';
   $handler->display->display_options['path'] = 'tmgmt-poetry-test/jobs';
+
 
   $views[$view->name] = $view;
 

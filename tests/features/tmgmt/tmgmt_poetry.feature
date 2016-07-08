@@ -102,10 +102,11 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Request main job before other translations.
-    Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
+    And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Page for main and subjobs"
+    And I fill in "Body" with "Here is the content of the page for main and subjobs."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -120,20 +121,24 @@ Feature: TMGMT Poetry features
     But I should see an "#edit-languages-fr.form-checkbox" element
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
-    Then I click "In progress" in the "Italian" row
-    And I receive the translation of current job item
-    And I press "Save as completed"
-    Then I click "In progress" in the "French" row
-    And I receive the translation of current job item
+    And I store node ID of translation request page
+    And I go to "tmgmt-poetry-test/jobs_en"
+    And I click first row in the view table
+    And I press "Translate"
+    And I select "IT" from "edit-language"
+    And I press "Next"
+    And I go to stored node Id translation request page
+    Then I click "Needs review" in the "Italian" row
     And I press "Save as completed"
     Then I should see "None" in the "Italian" row
 
   @javascript
   Scenario: Test rejection of a translation.
-    Given local translator "TMGMT Poetry: Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
+    And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Original version"
+    And I fill in "Body" with "Here is the content of the page for original version."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -142,12 +147,16 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I select "TMGMT Poetry: Test translator" from "Translator"
     And I wait for AJAX to finish
+    And I store job ID of translation request page
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
-    Then I click "In progress" in the "French" row
-    And I get a refused translation of current job item
-    And I click "Cancel"
+    And I should see "In progress" in the "French" row
+    And I store node ID of translation request page
+    And I go to "tmgmt-poetry-test/jobs_en"
+    And I click first row in the view table
+    And I press "Refuse job"
+    And I go to stored node Id translation request page
     Then I should see "None" in the "French" row
-    Then I go to "admin/tmgmt"
+    And I go to stored job Id translation request page
     And I should see "Aborted" in the "Original version" row

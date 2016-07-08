@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Template file for the POETRY receive translation.
+ * Template file for the POETRY receive translation message.
  *
  * Available custom variables:
  * - $demande_id: An array with requester data.
