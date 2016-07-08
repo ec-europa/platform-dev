@@ -440,11 +440,6 @@ projects[mimemail][version] = "1.0-beta4"
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
-;projects[og][download][branch] = 7.x-2.x
-;projects[og][download][revision] = fba6dda
-;projects[og][download][type] = git
-;projects[og][subdir] = "contrib"
-
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
 ; VBO and OG
