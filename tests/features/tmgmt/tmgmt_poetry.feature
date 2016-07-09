@@ -102,6 +102,7 @@ Feature: TMGMT Poetry features
     And I press "Translate"
     And I select "IT" from "edit-language"
     And I press "Next"
+    And I wait for AJAX to finish
     And I go to stored node Id translation request page
     Then I click "Needs review" in the "Italian" row
     And I press "Save as completed"
@@ -110,6 +111,7 @@ Feature: TMGMT Poetry features
     And I press "Translate"
     And I select "FR" from "edit-language"
     And I press "Next"
+    And I wait for AJAX to finish
     And I go to stored node Id translation request page
     Then I click "Needs review" in the "French" row
     And I press "Save as completed"
@@ -139,6 +141,7 @@ Feature: TMGMT Poetry features
     And I go to "tmgmt-poetry-test/jobs_en"
     And I click first row in the view table
     And I press "Refuse job"
+    And I wait for AJAX to finish
     And I go to stored node Id translation request page
     Then I should see "None" in the "French" row
     And I go to stored job Id translation request page

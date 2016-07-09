@@ -37,6 +37,25 @@ function tmgmt_poetry_test_install() {
     "rdf_mapping" : []
   }');
   $translator->save();
+
+  $address = url(
+    drupal_get_path("module", "tmgmt_poetry_test") . "/tmgmt_poetry_test.wsdl",
+    array(
+      'absolute' => TRUE,
+      'language' => (object) array('language' => FALSE),
+    )
+  );
+
+  $poetry_service = array(
+    'address' => $address,
+    'method' => 'requestService',
+    'callback_user' => 'Callback',
+    'callback_password' => 'CallbackPWD',
+    'poetry_user' => 'Poetry',
+    'poetry_password' => 'PoetryPWD',
+  );
+
+  variable_set('poetry_service', $poetry_service);
 }
 
 /**
@@ -47,4 +66,6 @@ function tmgmt_poetry_test_uninstall() {
   if (isset($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);
   }
+
+  variable_del('poetry_service');
 }
