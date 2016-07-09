@@ -105,6 +105,7 @@ class PoetryMock {
     // asXML method always adds '\n' after header which for some systems
     // is causing issues. Function beneath is striping of added header.
     $message = explode("\n", $message, 2)[1];
+    $this->saveTranslationRequest($message);
     $response_xml = simplexml_load_string($message);
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
@@ -117,8 +118,6 @@ class PoetryMock {
         'demande_id' => $demande_id,
       )
     );
-
-    $this->saveTranslationRequest($message);
 
     return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
     exit(0);
