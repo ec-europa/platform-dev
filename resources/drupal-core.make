@@ -27,7 +27,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal7-backport
 ; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12269
 ; https://www.drupal.org/node/2762865
-projects[drupal][patch][] = https://www.drupal.org/files/issues/locale-prevent-remote-file-get-contents-2762865-2.patch
+; https://www.drupal.org/node/2385069
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupal7-do-not-test.patch
 
 ; Move local configuration directives out of the Git repository.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
