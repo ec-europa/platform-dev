@@ -19,7 +19,6 @@ Feature: TMGMT Poetry features
       | it        |
   @javascript
   Scenario: Create a request translation for French and Portuguese
-    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                        |
