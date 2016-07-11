@@ -74,18 +74,4 @@ function tmgmt_poetry_mock_enable() {
 
   variable_set('poetry_service', $poetry_service);
 
-  /*
-  $views_dir = drupal_get_path('module', 'tmgmt_poetry_mock') . '/views';
-  $views_files = scandir($views_dir);
-  foreach ($views_files as $filename) {
-    if (substr($filename, -4) == '.inc') {
-      include_once $views_dir . '/' . $filename;
-      if (isset($view) && is_object($view)) {
-        views_save_view($view);
-      }
-    }
-  }
-  menu_rebuild();
- */
-
 }

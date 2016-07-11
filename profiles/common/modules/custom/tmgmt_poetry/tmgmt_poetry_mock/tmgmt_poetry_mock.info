@@ -7,4 +7,3 @@ hidden = TRUE
 dependencies[] = tmgmt_poetry
 dependencies[] = registry_autoload
 registry_autoload[] = PSR-4
-
