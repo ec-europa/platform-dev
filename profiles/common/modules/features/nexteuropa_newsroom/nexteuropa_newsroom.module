@@ -19,8 +19,10 @@ define('NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY', 'newsroom_topic');
 define('NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY', 'newsroom_service');
 define('NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR', 'OR');
 define('NEXTEUROPA_NEWSROOM_PROPOSAL_ACCESS', 'send newsroom item proposal');
+define('NEXTEUROPA_NEWSROOM_PROPOSAL_SCRIPT', 'propose-item.cfm');
 define('NEXTEUROPA_NEWSROOM_IMPORT_ACCESS', 'import newsroom feeds');
 define('NEXTEUROPA_NEWSROOM_EDIT_ACCESS', 'edit remote newsroom item');
+define('NEXTEUROPA_NEWSROOM_ADVANCED_SETTINGS_ACCESS', 'administer newsroom advanced settings');
 define('NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE', 'force');
 define('NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER', 'newsroom_topics_multilingual');
 define('NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER', 'newsroom_services_multilingual');
@@ -184,8 +186,6 @@ function _nexteuropa_newsroom_import_item($type, $newsroom_id) {
     default:
       drupal_not_found();
   }
-
-  return NULL;
 }
 
 /**
@@ -212,7 +212,7 @@ function nexteuropa_newsroom_permission() {
     'administer newsroom settings' => array(
       'title' => t('Administer Newsroom settings'),
     ),
-    'administer newsroom advanced settings' => array(
+    NEXTEUROPA_NEWSROOM_ADVANCED_SETTINGS_ACCESS => array(
       'title' => t('Administer all the newsroom settings'),
     ),
     NEXTEUROPA_NEWSROOM_IMPORT_ACCESS => array(
@@ -294,13 +294,8 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
         title_field_replacement_toggle('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'title');
       }
 
-      $importer_id = array(
-        'items' => 'newsroom_items',
-      );
       // Create the dynamic node importer and disable the static ones.
-      foreach ($importer_id as $key => $importer) {
-        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
-      }
+      _nexteuropa_newsroom_create_multilingual_items_importer();
 
       cache_clear_all('plugins:feeds:plugins', 'cache');
       break;
@@ -404,7 +399,8 @@ function nexteuropa_newsroom_url_inbound_alter(&$path, $original_path, $path_lan
     // Resolve alias if the content is not translated to current language. Get
     // alias of existing translation.
     foreach (array_keys(language_list()) as $language) {
-      if ($source = drupal_lookup_path('source', $path, $language) && strpos($source, 'node/') === 0) {
+      $source = drupal_lookup_path('source', $path, $language);
+      if ($source && strpos($source, 'node/') === 0) {
         // Check if we are at the document page.
         $path = $source;
         break;
@@ -472,59 +468,18 @@ function nexteuropa_newsroom_date_formats() {
 
 /**
  * Creates default set of importers.
- *
- * @param string $context
- *   Execution context: admin or drush.
  */
-function _nexteuropa_newsroom_create_default_importers($context = 'admin') {
+function _nexteuropa_newsroom_import_importers() {
   // Run the multilingual imports if required.
-  $importers = array();
-  $importers['newsroom_types_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_type_import_script', NEXTEUROPA_NEWSROOM_TYPE_SCRIPT),
-    'importer' => NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
-  );
-  $importers['newsroom_services_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_service_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT),
-    'importer' => NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER,
-  );
-  $importers['newsroom_topics_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_topic_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT),
-    'importer' => NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
-  );
-  $importers['newsroom_items_multilingual_importer'] = array(
-    'segment' => variable_get('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_ITEM_SCRIPT),
-    'importer' => NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
-  );
-  $importers['newsroom_unpublished_items'] = array(
-    'segment' => NEXTEUROPA_NEWSROOM_UNPUBLISH,
-    'importer' => 'newsroom_unpublished_items',
-  );
-  $importers['newsroom_deleted_items'] = array(
-    'segment' => NEXTEUROPA_NEWSROOM_DELETE,
-    'importer' => 'newsroom_deleted_items',
+  $importers = array(
+    NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
+    NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
+    NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
+    NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER,
   );
 
   foreach ($importers as $importer) {
-    $feed_source = feeds_source($importer['importer']);
-    $config = $feed_source->getConfig();
-    $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::getNewsroomUrl($importer['segment']);
-    $feed_source->setConfig($config);
-    $feed_source->save();
-    $batch = array(
-      'title' => t('Importing !title', array('!title' => $importer['importer'])),
-      'operations' => array(
-        array('feeds_batch', array('import', $importer['importer'], 0)),
-      ),
-      'progress_message' => t('Current: @current | Remaining:
-      @remaining | Total: @total | Percentage: @percentage | Estimate:
-      @estimate | Elapsed: @elapsed'),
-    );
-    $batch['progressive'] = FALSE;
-    batch_set($batch);
-  }
-  if ($context == 'drush') {
-    drush_print(dt('Importing items, this might take a while...'));
-    drush_backend_batch_process();
+    NewsroomHelper::runFeedImporter($importer);
   }
 }
 
@@ -638,8 +593,8 @@ function _nexteuropa_nexteuropa_newsroom_item_import_access() {
  *   Importer ID.
  */
 function _nexteuropa_newsroom_taxonomy_term_importer($type, $newsroom_id, $importer_id) {
-  $url = NewsroomHelper::getNewsroomUrl(variable_get('newsroom_' . $type . '_import_script') . variable_get('newsroom_single_' . $type . '_import_segment') . $newsroom_id);
-  NewsroomHelper::runFeedImporter($url, $importer_id);
+  $url = NewsroomHelper::getImporterUrl($importer_id) . variable_get('newsroom_single_' . $type . '_import_segment') . $newsroom_id;
+  NewsroomHelper::runFeedImporter($importer_id, $url);
   drupal_set_message(t('The item has been imported'));
   drupal_goto('newsroom-redirect/' . $type . '/' . $newsroom_id, array(), 301);
 }
@@ -690,7 +645,6 @@ function _nexteuropa_nexteuropa_newsroom_item_importer($newsroom_id = 0, $delete
       node_delete_multiple($nids_to_delete);
       $message = t('Newsroom Item nid: %1 deleted', array('%1' => implode(', ', $nids_to_delete)));
       drupal_set_message($message);
-      return '';
     }
     else {
       drupal_not_found();
@@ -699,8 +653,8 @@ function _nexteuropa_nexteuropa_newsroom_item_importer($newsroom_id = 0, $delete
   }
   else {
     // Prepare URLs for importers and get feed importer ID.
-    $url = NewsroomHelper::getNewsroomUrl(variable_get('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT) . $newsroom_id);
-    NewsroomHelper::runFeedImporter($url, NEXTEUROPA_NEWSROOM_ITEM_IMPORTER);
+    $url = NewsroomHelper::getImporterUrl(NEXTEUROPA_NEWSROOM_ITEM_IMPORTER) . variable_get('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT) . $newsroom_id;
+    NewsroomHelper::runFeedImporter(NEXTEUROPA_NEWSROOM_ITEM_IMPORTER, $url);
     drupal_set_message('The item has been imported');
     drupal_goto('news-redirect/' . $newsroom_id, array(), 301);
   }

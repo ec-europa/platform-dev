@@ -267,7 +267,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
   // Create the tamper for the language.
   _nexteuropa_newsroom_dynamic_tamper(NULL);
   // Import the importer.
-  _nexteuropa_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_save_importer($feeds_importer);
 }
 
 /**
@@ -405,7 +405,7 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
   $feeds_importer = _nexteuropa_newsroom_build_importer(NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER, 'Newsroom Topics Multilingual', 'Imports Topics from the Newsroom service', $importer_values, NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY, 'taxonomy_term', $rss_context, -1);
 
   // Import the importer.
-  _nexteuropa_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_save_importer($feeds_importer);
 }
 
 /**
@@ -442,7 +442,7 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
   $feeds_importer = _nexteuropa_newsroom_build_importer(NEXTEUROPA_NEWSROOM_TYPE_IMPORTER, 'Newsroom Type Multilingual', 'Imports Item Types from the Newsroom service.', $importer_values, NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY, 'taxonomy_term', '//channel/item', -1);
 
   // Import the importer.
-  _nexteuropa_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_save_importer($feeds_importer);
 }
 
 /**
@@ -497,7 +497,7 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
   $feeds_importer = _nexteuropa_newsroom_build_importer(NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER, 'Newsroom Services Multilingual', 'Imports Services from the Newsroom service.', $importer_values, NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY, 'taxonomy_term', '//channel/item', -1);
 
   // Import the importer.
-  _nexteuropa_newsroom_import_importer($feeds_importer);
+  _nexteuropa_newsroom_save_importer($feeds_importer);
 }
 
 /**
@@ -517,6 +517,8 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
   $lang_keys = NewsroomHelper::getEnabledLanguages();
   // Loop through all the fields, build the needed arrays.
   $i = 0;
+  $queries = array();
+  $mapping = array();
 
   foreach ($premapping as $field => $values) {
     if (isset($values['tamper'])) {
@@ -584,6 +586,8 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
     }
   }
 
+  $debug = array();
+  $raw_xml = array();
   // Build also the debug and raw_xml arrays.
   foreach ($queries as $xpath => $query) {
     $debug[$xpath] = $raw_xml[$xpath] = 0;
@@ -603,7 +607,8 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
  * @param object $importer
  *   The importer to import.
  */
-function _nexteuropa_newsroom_import_importer($importer) {
+function _nexteuropa_newsroom_save_importer($importer) {
+
   // Those Api calls are copied from the submit function of the
   // import form provided by the feeds_ui module. The alpha8 version
   // of Feeds (the one used in the platform) had a bugged implementation,
@@ -620,7 +625,7 @@ function _nexteuropa_newsroom_import_importer($importer) {
   // Set default URLS for importers.
   $source = feeds_source($importer->id);
   $config = $source->getConfig();
-  $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::restoreFeedImporter($importer->id);
+  $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::getImporterUrl($importer->id);
   $source->setConfig($config);
   $source->save();
 }
@@ -686,8 +691,8 @@ function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL
 /**
  * Builds tampers programmatically.
  *
- * @param object $tamper
- *   Tamper object.
+ * @param array $tamper
+ *   Tamper array.
  */
 function _nexteuropa_newsroom_dynamic_tamper($tamper) {
   $def_lang = language_default()->language;

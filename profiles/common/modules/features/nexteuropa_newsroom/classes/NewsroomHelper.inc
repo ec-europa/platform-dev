@@ -77,25 +77,32 @@ class NewsroomHelper {
   /**
    * Calls feed importer with the certain URL.
    *
-   * @param string $url
-   *   RSS feed URL to call.
    * @param string $importer_id
    *   Importer ID.
+   * @param string $url
+   *   RSS feed URL to call.
    */
-  public static function runFeedImporter($url, $importer_id) {
+  public static function runFeedImporter($importer_id, $url = NULL) {
     $source = feeds_source($importer_id);
     $config = $source->getConfig();
-    $config['FeedsHTTPFetcher']['source'] = $url;
-    $source->setConfig($config);
-    $source->import();
-    // Restore the default URL in order to run importers manually or via cron.
-    $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::restoreFeedImporter($importer_id);
-    $source->setConfig($config);
-    $source->save();
+
+    if (!empty($url)) {
+      $config['FeedsHTTPFetcher']['source'] = $url;
+      $source->setConfig($config);
+    }
+
+    $source->startImport();
+
+    if (!empty($url)) {
+      // Restore the default URL in order to run importers manually or via cron.
+      $config['FeedsHTTPFetcher']['source'] = NewsroomHelper::getImporterUrl($importer_id);
+      $source->setConfig($config);
+      $source->save();
+    }
   }
 
   /**
-   * Restores default URL of importer.
+   * Gets default URL of importer.
    *
    * @param string $importer_id
    *   Importer ID.
@@ -103,8 +110,9 @@ class NewsroomHelper {
    * @return string
    *   URL.
    */
-  public static function restoreFeedImporter($importer_id) {
+  public static function getImporterUrl($importer_id) {
     $url = '';
+
     if ($importer_id == NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER || $importer_id == NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER) {
       $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
     }
@@ -114,7 +122,13 @@ class NewsroomHelper {
     }
 
     if ($importer_id == NEXTEUROPA_NEWSROOM_ITEM_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT);
+      $subweb_topic_id = variable_get('newsroom_subweb_topic_id');
+      $subweb_url_part = '';
+      if ($subweb_topic_id) {
+        $subweb_url_part = '?tpa_id=' . $subweb_topic_id;
+      }
+
+      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . $subweb_url_part;
     }
 
     return $url;
@@ -542,6 +556,9 @@ class NewsroomHelper {
   /**
    * Gets number of items per block for the current page.
    *
+   * @param bool $is_highligted
+   *   Is block highligted.
+   *
    * @return int
    *   Number of items.
    */
@@ -856,6 +873,19 @@ class NewsroomHelper {
       cache_set($cache_key, $tids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_page_result_topics', 86400));
     }
     return $tids;
+  }
+
+  /**
+   * Get email hash for subscriptions.
+   *
+   * @param string $email
+   *   E-mail.
+   *
+   * @return string
+   *   Hash.
+   */
+  public static function getEmailHash($email) {
+    return md5($email . variable_get('newsroom_app_key'));
   }
 
 }

@@ -26,7 +26,10 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
   $backup = variable_get($name, array());
 
   if (empty($backup)) {
-    drupal_set_message(t('No backup has been found for the vocabulary: @voc and the term: @name.', array('@voc' => $voc, '@name' => $form['#term']['name'])), 'warning');
+    drupal_set_message(t('No backup has been found for the vocabulary: @voc and the term: @name.', array(
+      '@voc' => $voc,
+      '@name' => $form['#term']['name'],
+    )), 'warning');
     return '';
   }
 
@@ -178,16 +181,16 @@ function nexteuropa_newsroom_form_taxonomy_form_term_alter(&$form, &$form_state)
     case NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY:
     case NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY:
     case NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY:
-        $form['actions']['restore_config'] = array(
-          '#type' => 'submit',
-          '#value' => t('Restore conf & Save'),
-          '#submit' => array('nexteuropa_newsroom_restore_conf'),
-        );
-        $form['actions']['backup_config'] = array(
-          '#type' => 'submit',
-          '#value' => t('Backup conf & Save'),
-          '#submit' => array('nexteuropa_newsroom_backup_conf'),
-        );
+      $form['actions']['restore_config'] = array(
+        '#type' => 'submit',
+        '#value' => t('Restore conf & Save'),
+        '#submit' => array('nexteuropa_newsroom_restore_conf'),
+      );
+      $form['actions']['backup_config'] = array(
+        '#type' => 'submit',
+        '#value' => t('Backup conf & Save'),
+        '#submit' => array('nexteuropa_newsroom_backup_conf'),
+      );
       break;
   }
 }
@@ -272,9 +275,6 @@ function nexteuropa_newsroom_form_field_ui_display_overview_form_alter(&$form, &
         '#prefix' => '<div class="newsroom-reveal-modes">',
         '#suffix' => '</div>',
         '#value' => t('[Newsroom] Export/Import settings'),
-        '#attributes' => array(
-          'onclick' => "event.preventDefault(); jQuery('#newsroom-import-code').css('display', 'block'); jQuery('#newsroom-export-code').css('display', 'block'); jQuery('#newsroom_import_submit').css('display', 'block'); jQuery('#newsroom_import_backup').css('display', 'block'); jQuery(this).parent().parent().css('display', 'none'); jQuery('#newsroom-backup-submit').css('display', 'block');",
-        ),
         '#weight' => 97,
       );
 
@@ -353,6 +353,9 @@ function nexteuropa_newsroom_form_field_ui_display_overview_form_alter(&$form, &
       $form['#attached']['css'] = array(
         drupal_get_path('module', 'nexteuropa_newsroom') . '/styles/nexteuropa_newsroom_admin_setting.css',
       );
+      $form['#attached']['js'] = array(
+        drupal_get_path('module', 'nexteuropa_newsroom') . '/js/node_view_mode_form.js',
+      );
     }
   }
 }
@@ -425,7 +428,7 @@ function _nexteuropa_newsroom_export_modes($view_modes = array('full', 'teaser')
 
   foreach ($fields as $field_name => $field_instance) {
     foreach ($view_modes as $view_mode) {
-      $export['instances'][$field_name][$view_mode] = $fields[$field_name]['display'][$view_mode];
+      $export['instances'][$field_name][$view_mode] = isset($fields[$field_name]['display'][$view_mode]) ? $fields[$field_name]['display'][$view_mode] : NULL;
     }
   }
 
@@ -604,7 +607,7 @@ function nexteuropa_newsroom_newsroom_proposal_form($form, $form_state) {
   global $user;
 
   $account = user_load($user->uid);
-  $form['#action'] = $newsroom_url = variable_get('newsroom_proposal_url', NULL);
+  $form['#action'] = $newsroom_url = NewsroomHelper::getUniverseUrl() . variable_get('newsroom_proposal_script');
   $form['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
@@ -753,6 +756,26 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
 }
 
 /**
+ * Sends request to unsubscribe user.
+ *
+ * @param string $url
+ *   Service URL.
+ * @param string $email
+ *   User email.
+ *
+ * @return string
+ *   Object decoded from JSON.
+ */
+function _nexteuropa_newsroom_send_unsubscription_request($url, $email) {
+  $input = array(
+    'key' => NewsroomHelper::getEmailHash($email),
+    'app' => variable_get('newsroom_app'),
+  );
+  $request = drupal_http_request($url . '&' . drupal_http_build_query($input));
+  return isset($request->data) ? drupal_json_decode($request->data) : NULL;
+}
+
+/**
  * Sends request to the newsroom subscription script.
  *
  * @param string $url
@@ -766,20 +789,18 @@ function nexteuropa_newsroom_newsletter_subscription_form($form, &$form_state) {
  * @return string
  *   Object decoded from JSON.
  */
-function nexteuropa_newsroom_send_subscription_request($url, $service_id, $email) {
-
+function _nexteuropa_newsroom_send_subscription_request($url, $service_id, $email) {
   $input = array(
     'service_id' => $service_id,
     'email' => $email,
     'response_type' => 'json',
   );
-  $query = http_build_query($input);
+  $request = drupal_http_request($url . '?' . drupal_http_build_query($input));
+  if (isset($request->data)) {
+    $data = drupal_json_decode($request->data);
+  }
 
-  $request = drupal_http_request($url . '?' . $query);
-  $json_data = $request->data;
-  $data = drupal_json_decode($json_data);
-
-  return $data['subscription'];
+  return isset($data['subscription']) ? $data['subscription'] : NULL;
 }
 
 /**
@@ -798,7 +819,7 @@ function _nexteuropa_nexteuropa_newsroom_newsletter_subscription_form_ajax($form
   $form_id = $form['#form_id'];
   $selector = '#' . str_replace('_', '-', $form_id);
 
-  $subscription = nexteuropa_newsroom_send_subscription_request($form['#action'], $form_state['input']['service_id'], $form_state['input']['email']);
+  $subscription = _nexteuropa_newsroom_send_subscription_request($form['#action'], $form_state['input']['service_id'], $form_state['input']['email']);
 
   if ($subscription['status'] == 'Failed') {
     form_set_error('email', $subscription['feedbackMessage']);
@@ -1045,7 +1066,7 @@ function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
 }
 
 /**
- * Gets form rendable array for usbscription button on newsletter page.
+ * Gets form rendable array for subscription button on newsletter page.
  *
  * @param array $form
  *   Form array.
@@ -1057,16 +1078,14 @@ function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
  * @return array
  *   Rendable form array.
  */
-function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
-
+function nexteuropa_newsroom_subscription_newsletter_form($form, $form_state, $service_id) {
   global $user;
 
-  $account = user_load($user->uid);
   $form['#action'] = NewsroomHelper::getNewsroomUrl('subscription-quick-generic.cfm');
   $form['email'] = array(
     '#title' => t('E-mail'),
     '#type' => 'hidden',
-    '#value' => $account ? $account->mail : NULL,
+    '#value' => user_is_logged_in() ? $user->mail : NULL,
     '#required' => TRUE,
   );
 
@@ -1092,6 +1111,43 @@ function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
 }
 
 /**
+ * Gets form rendable array for unsubscription button on newsletter page.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param string $url
+ *   Unsubscription URL.
+ *
+ * @return array
+ *   Rendable form array.
+ */
+function nexteuropa_newsroom_unsubscription_newsletter_form($form, $form_state, $url) {
+  global $user;
+  $form['#action'] = $url;
+  $form['email'] = array(
+    '#title' => t('E-mail'),
+    '#type' => 'hidden',
+    '#value' => user_is_logged_in() ? $user->mail : NULL,
+    '#required' => TRUE,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#ajax' => array(
+      'callback' => '_nexteuropa_nexteuropa_newsletter_unsubscription_form_ajax',
+    ),
+    '#value' => t('Unsubscribe'),
+  );
+
+  $form['submit-response'] = array(
+    '#markup' => '<div class="submit-response"></div>',
+  );
+
+  return $form;
+}
+
+/**
  * Newsletter subscription form ajax callback.
  *
  * @param array $form
@@ -1103,17 +1159,53 @@ function nexteuropa_newsroom_newsletter_form($form, $form_state, $service_id) {
  *   Ajax callback array.
  */
 function _nexteuropa_nexteuropa_newsletter_subscription_form_ajax($form, &$form_state) {
-
-  $subscription = nexteuropa_newsroom_send_subscription_request($form['#action'], $form_state['input']['service_id'], $form_state['input']['email']);
-
+  $subscription = _nexteuropa_newsroom_send_subscription_request($form['#action'], $form_state['input']['service_id'], $form_state['input']['email']);
+  $message = $subscription['feedbackMessage'];
   if ($subscription['status'] == 'Failed') {
     $type = 'error';
   }
   else {
-    $type = ($subscription['isNewUser'] === 'False' && $subscription['isNewSubscription'] === 'False') ? 'warning' : 'status';
+    if ($subscription['isNewUser'] === 'False' && $subscription['isNewSubscription'] === 'False') {
+      $type = 'warning';
+    }
+    else {
+      $message = t('You successfully subscribed to this newsletter');
+      $type = 'status';
+    }
   }
 
-  drupal_set_message($subscription['feedbackMessage'], $type);
+  drupal_set_message($message, $type);
+  $replacement = theme_status_messages(array('display' => NULL));
+  $commands[] = ajax_command_replace('#' . $form['#id'] . ' .submit-response', '<div class="submit-response">' . $replacement . '</div>');
+  $commands[] = ajax_command_replace('#' . $form['#id'] . ' input', '');
+
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Newsletter unsubscription form ajax callback.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Ajax callback array.
+ */
+function _nexteuropa_nexteuropa_newsletter_unsubscription_form_ajax($form, &$form_state) {
+  $subscription = _nexteuropa_newsroom_send_unsubscription_request($form['#action'], $form_state['input']['email']);
+
+  if ($subscription && $subscription['SUCCESS'] == 1) {
+    $text = t('You successfully unsubscribed from this newsletter');
+    $type = 'status';
+  }
+  else {
+    $text = t('An error has happened during unsubscription process');
+    $type = 'error';
+  }
+
+  drupal_set_message($text, $type);
   $replacement = theme_status_messages(array('display' => NULL));
   $commands[] = ajax_command_replace('#' . $form['#id'] . ' .submit-response', '<div class="submit-response">' . $replacement . '</div>');
   $commands[] = ajax_command_replace('#' . $form['#id'] . ' input', '');
@@ -1164,7 +1256,10 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
         if (isset($context)) {
           // Build the worked term name list.
           $context['results'][] .= $conf['name'] . ', ';
-          $context['message'] = t('Restoring "@title" @operations', array('@title' => $term['name'], '@operations' => $operation_details));
+          $context['message'] = t('Restoring "@title" @operations', array(
+            '@title' => $term['name'],
+            '@operations' => $operation_details,
+          ));
         }
       }
       // Save the term with the new values.
@@ -1218,15 +1313,15 @@ function _nexteuropa_newsroom_get_ids($voc, $data) {
 
   switch ($voc) {
     case NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY:
-        $id = $data['field_newsroom_type_id'][LANGUAGE_NONE][0]['value'];
+      $id = $data['field_newsroom_type_id'][LANGUAGE_NONE][0]['value'];
       break;
 
     case NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY:
-        $id = $data['field_newsroom_service_id'][LANGUAGE_NONE][0]['value'];
+      $id = $data['field_newsroom_service_id'][LANGUAGE_NONE][0]['value'];
       break;
 
     case NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY:
-        $id = $data['field_newsroom_topic_id'][LANGUAGE_NONE][0]['value'];
+      $id = $data['field_newsroom_topic_id'][LANGUAGE_NONE][0]['value'];
       break;
   }
   return $id;
