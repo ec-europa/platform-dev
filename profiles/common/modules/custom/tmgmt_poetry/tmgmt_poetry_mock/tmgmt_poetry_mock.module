@@ -1,0 +1,69 @@
+<?php
+/**
+ * @file
+ * Module to simulate a poetry response.
+ */
+
+use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
+
+// Setting up templates directory path.
+define('TMGMT_POETRY_MOCK_TEMPLATES_PATH', drupal_get_path('module', 'tmgmt_poetry_mock') . '/response_templates');
+define('TMGMT_POETRY_MOCK_REQUESTS_PATH', 'public://tmgmt_file/poetry_mock_requests/');
+// Forms logic and overwriting functions.
+module_load_include('inc', 'tmgmt_poetry_mock', 'includes/tmgmt_poetry_mock.theme');
+module_load_include('inc', 'tmgmt_poetry_mock', 'includes/tmgmt_poetry_mock.actions');
+
+/**
+ * Implements hook_views_api().
+ */
+function tmgmt_poetry_mock_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_poetry_mock_menu() {
+  $items['tmgmt_poetry_mock/soap_server'] = array(
+    'title' => 'Poetry Soap Server',
+    'page callback' => 'tmgmt_poetry_mock_soap_server',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items[drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl"] = array(
+    'page callback' => '_tmgmt_poetry_mock_wsdl',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * A page callback which simulate poetry webservice.
+ */
+function tmgmt_poetry_mock_soap_server() {
+  $uri = url(
+    'tmgmt_poetry_mock/soap_server',
+    array(
+      'absolute' => TRUE,
+      'language' => (object) array('language' => FALSE),
+    )
+  );
+  $options = array('uri' => $uri);
+  $server = new \SoapServer(PoetryMock::getPoetryWsdl(), $options);
+  $server->setClass('Drupal\tmgmt_poetry_mock\Mock\PoetryMock');
+  $server->handle();
+}
+
+
+/**
+ * Generate mock wsdl to simulate poetry.
+ */
+function _tmgmt_poetry_mock_wsdl() {
+  $uri = url('tmgmt_poetry_mock/soap_server', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+  $wsdl = theme('poetry_wsdl', array('uri' => $uri));
+  drupal_add_http_header('Content-Type', 'application/xml; utf-8');
+  print $wsdl;
+  exit(0);
+}
