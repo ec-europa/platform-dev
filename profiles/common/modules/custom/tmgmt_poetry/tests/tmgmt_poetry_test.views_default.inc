@@ -23,6 +23,7 @@ function tmgmt_poetry_test_views_default_views() {
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'administer site configuration';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
@@ -105,7 +106,6 @@ function tmgmt_poetry_test_views_default_views() {
   $handler = $view->new_display('page', 'P | File list', 'page_1');
   $handler->display->display_options['display_description'] = 'Request translation file list page view.';
   $handler->display->display_options['path'] = 'tmgmt-poetry-test/jobs';
-
 
   $views[$view->name] = $view;
 

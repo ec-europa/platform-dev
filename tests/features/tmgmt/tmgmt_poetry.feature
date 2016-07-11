@@ -9,6 +9,7 @@ Feature: TMGMT Poetry features
       |modules           |
       |tmgmt_poetry      |
       |tmgmt_poetry_test |
+      |registry_autoload |
     And the following languages are available:
       | languages |
       | en        |
