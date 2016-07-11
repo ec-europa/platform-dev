@@ -800,7 +800,7 @@ class NewsroomHelper {
   public static function validateUniverse($universe_id = NULL) {
     if ($universe_id) {
       // logout.cfm is used because it is always available if a universe exists.
-      $test = drupal_http_request(NEXTEUROPA_NEWSROOM_BASE_URL . $universe_id . '/logout.cfm');
+      $test = drupal_http_request(NewsroomHelper::getUniverseUrl() . '/logout.cfm');
       return $test->code == 200;
     }
 
@@ -823,7 +823,7 @@ class NewsroomHelper {
     }
     else {
       if ($universe_id) {
-        $test = drupal_http_request(NEXTEUROPA_NEWSROOM_BASE_URL . $universe_id . '/?subsite=' . $subsite);
+        $test = drupal_http_request(NewsroomHelper::getUniverseUrl() . '?subsite=' . $subsite);
         return $test->code == 200;
       }
     }
