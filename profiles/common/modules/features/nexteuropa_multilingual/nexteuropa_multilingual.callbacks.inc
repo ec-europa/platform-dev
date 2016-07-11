@@ -23,12 +23,6 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
     $language_url = $check_prefix[0]->language;
     $_GET['q'] = $check_prefix[1];
   }
-  else {
-    if (_nexteuropa_multilingual_get_source_path($check_prefix[1]) != $check_prefix[1]) {
-      watchdog('nexteuropa_multilingual', 'Path without suffix: "@path".', array('@path' => $current_path), WATCHDOG_WARNING);
-      $_GET['q'] .= $delimiter;
-    }
-  }
   return $language_url;
 }
 
@@ -41,9 +35,9 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
   // Don't add the language suffix for an internal file URL.
   $file_public = variable_get('file_public_path', conf_path() . '/files');
-  $file_private = variable_get('file_private_path');
+  $file_private = 'system/files';
   if ($file_public && preg_match("#^/?$file_public#", $path) ||
-      $file_private && preg_match("#^/?$file_private#", $path)) {
+    $file_private && preg_match("#^/?$file_private#", $path)) {
     return;
   }
 
@@ -86,7 +80,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
       $path .= $delimiter . $language_suffix;
     }
     else {
-      if (($check_prefix[0]->language !== $language_suffix) || ($check_prefix[1] !== $path)) {
+      if ($check_prefix[0]->language !== $language_suffix) {
         $path .= $delimiter . $language_suffix;
       }
     }

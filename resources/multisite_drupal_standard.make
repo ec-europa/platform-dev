@@ -142,6 +142,10 @@ projects[css_injector][version] = "1.10"
 ; https://www.drupal.org/node/2506775
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
 projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
+; Unnecessary DB query and cache_set when rules are empty
+; https://www.drupal.org/node/2759319
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12128
+projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
@@ -189,13 +193,15 @@ projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
 projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = ab62b9a
+projects[entityreference][download][revision] = b5009cd1406f72a4
 projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
 ; Issue #2401811: Rendered entity is not language aware
 ; https://www.drupal.org/node/1674792
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
+; Allow handlers to modify $items before calling entity_view()
+; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
@@ -355,6 +361,11 @@ projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
+; Allow to override the http client code, to support proxying secure
+; http connections with the chr module.
+; https://www.drupal.org/node/750000
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11765
+projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-allow-alternate-http-client-750000-15.patch
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
@@ -416,7 +427,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "2.0-rc5"
+projects[media_youtube][version] = "3.0"
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
@@ -464,6 +475,10 @@ projects[og][subdir] = "contrib"
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
 projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patch
+
+; NEXTEUROPA-11789 Issue in Bean reference to OG
+; https://www.drupal.org/node/1880226
+projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
@@ -696,6 +711,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/su
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
+; Node revision history optimization on large websites.
+; https://www.drupal.org/node/1408838
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
+
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
@@ -711,7 +731,7 @@ projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.2"
+projects[xmlsitemap][version] = "2.3"
 
 
 ; =========

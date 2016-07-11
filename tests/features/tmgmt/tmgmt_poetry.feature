@@ -20,7 +20,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Create a request translation for French and Portuguese
-    Given local translator "TMGMT Poetry: Test translator" is available
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
       | language | title                        |
@@ -28,7 +28,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-pt-pt"
     And I press the "Request translation" button
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     Then I should see "Contact usernames"
     And I should see "Organization"
@@ -78,6 +78,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Request main job before other translations + request a new translation.
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -89,7 +90,7 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
@@ -118,8 +119,52 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "None" in the "Italian" row
 
+  Scenario: A request for translation that is not submitted won't generate a job item.
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
+    Given I am logged in as a user with the "administrator" role
+    Given I am viewing a multilingual "page" content:
+      | language | title                     |
+      | en       | English  Title NoJobItem  |
+    And I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-pt-pt"
+    And I press the "Request translation" button
+    And I move backward one page
+    Then I should not see the link "In progress"
+
+  @javascript
+  Scenario: Test not sending one job and moving to another job.
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "Original version"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    Then I go to "node/add/page"
+    And I fill in "Title" with "A second original version"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I select "TMGMT Poetry Test translator" from "Translator"
+    And I wait for AJAX to finish
+    And I press "Submit to translator"
+    Then I should not see an "#edit-languages-fr.form-radio" element
+    But I should see an "#edit-languages-fr.form-checkbox" element
+    Then I click "In progress" in the "French" row
+    And I receive the translation of current job item
+    And I press "Save as completed"
+    Then I should see an "#edit-languages-fr.form-radio" element
+    But I should not see an "#edit-languages-fr.form-checkbox" element
+
   @javascript
   Scenario: Test rejection of a translation.
+    Given workbench_moderation translator "TMGMT Poetry Test translator" is available
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -131,7 +176,7 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry: Test translator" from "Translator"
+    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I store job ID of translation request page
     And I press "Submit to translator"
