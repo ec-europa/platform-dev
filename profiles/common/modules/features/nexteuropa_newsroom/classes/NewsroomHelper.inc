@@ -468,22 +468,47 @@ class NewsroomHelper {
   /**
    * Gets dropdown options for event types.
    *
+   * @param bool $events_only
+   *   Display only event types.
+   *
    * @return array
    *   Drop down options array.
    */
-  public static function getNewsroomTypeEventsOptions() {
+  public static function getNewsroomTypeOptions($events_only = FALSE) {
     $type_options = NewsroomHelper::getTaxonomyTermOptions(NewsroomHelper::getNewsroomTypes());
-    $events_types = NewsroomHelper::getEventsTermsIds();
+    if ($events_only) {
+      $events_types = NewsroomHelper::getEventsTermsIds();
 
-    // Filter out non events type.
-    foreach ($type_options as $key => $type_item) {
-      if (!in_array($key, $events_types)) {
-        unset($type_options[$key]);
+      // Filter out non events type.
+      foreach ($type_options as $key => $type_item) {
+        if (!in_array($key, $events_types)) {
+          unset($type_options[$key]);
+        }
       }
     }
 
     $empty = array(t('- None -'));
     return $empty + $type_options;
+  }
+
+  /**
+   * Gets dropdown options for newsroom topics.
+   *
+   * @param array $used_topics
+   *   Used topics.
+   *
+   * @return array
+   *   Drop down options array.
+   */
+  public static function getNewsroomTopicOptions($used_topics = array()) {
+    $topic_options = NewsroomHelper::getTaxonomyTermOptions(NewsroomHelper::getNewsroomTopics());
+    foreach ($topic_options as $key => $topic) {
+      if (!in_array($key, $used_topics)) {
+        unset($topic_options[$key]);
+      }
+    }
+    $empty = array(t('- None -'));
+    return $empty + $topic_options;
   }
 
   /**
@@ -806,6 +831,31 @@ class NewsroomHelper {
       }
     }
     return $options;
+  }
+
+  /**
+   * Gets IDs array from topics array.
+   *
+   * @return array
+   *   Array of IDs.
+   */
+  public static function getPageUsedTopicsIds() {
+    $cache_key = 'result_topics';
+    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
+    if ($cache) {
+      $tids = $cache->data;
+    }
+    else {
+      $query = db_select('node', 'n');
+      $query->distinct();
+      $query->fields('topic_field', array('tid' => 'field_newsroom_topics_tid'));
+      $query->join('field_data_field_newsroom_item_type', 'tf', 'tf.entity_id = n.nid');
+      $query->join('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
+      $query->condition('n.status', 1);
+      $tids = $query->execute()->fetchAllKeyed(0, 0);
+      cache_set($cache_key, $tids, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_page_result_topics', 86400));
+    }
+    return $tids;
   }
 
 }

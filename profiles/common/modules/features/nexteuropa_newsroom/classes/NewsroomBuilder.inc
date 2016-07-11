@@ -189,7 +189,9 @@ class NewsroomBuilder {
    *   Date string.
    */
   protected function getDate($value) {
-    return preg_match('/^\d{2}-d{2}-d{4}$/', $value) ? (int) $value : NULL;
+    var_dump($value);
+    var_dump(preg_match('/^\d{2}-d{2}-d{4}$/', $value));
+    return preg_match('/^\d{2}-d{2}-d{4}$/', $value) ? $value : NULL;
   }
 
   /**
@@ -220,13 +222,22 @@ class NewsroomBuilder {
     return $value == 'all' ? NULL : NewsroomHelper::getTermFromRequest($value, array($vocabulary));
   }
   
-  public function buildNewsroomPage($type_url, $topic_url, $start_date = NULL, $end_date = NULL) {
+  public function buildPageNewsroomPage($type_url, $topic_url, $start_date = NULL, $end_date = NULL) {
     $type = $this->getType($type_url);
     $topic = $this->getType($topic_url);
     $start_date = $this->getDate($start_date);
     $end_date = $this->getDate($end_date);
-    $page = new NewsroomPage($type, $topic, $start_date, $end_date);
-    return $page;
+    return new NewsroomPage($type, $topic, $start_date, $end_date);
+  }
+  
+  public function buildNewsroomPage($type = NULL, $topic = NULL, $start_date = NULL, $end_date = NULL) {
+    var_dump($start_date);
+    var_dump($end_date);
+    $start_date = $this->getDate($start_date);
+    $end_date = $this->getDate($end_date);
+    var_dump($start_date);
+    var_dump($end_date);
+    return new NewsroomPage($type, $topic, $start_date, $end_date);
   }
 
 }

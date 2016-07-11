@@ -126,6 +126,46 @@ class NewsroomPage {
   }
 
   /**
+   * Sets start date.
+   *
+   * @param string $value
+   *   Start date.
+   */
+  public function setStartDate($value) {
+    $this->start_date = $value;
+  }
+
+  /**
+   * Gets start date.
+   *
+   * @return string
+   *   Start date.
+   */
+  public function getStartDate() {
+    return $this->start_date;
+  }
+
+  /**
+   * Sets end date.
+   *
+   * @param string $value
+   *   End date.
+   */
+  public function setEndDate($value) {
+    $this->end_date = $value;
+  }
+
+  /**
+   * Gets end date.
+   *
+   * @return string
+   *   End date.
+   */
+  public function getEndDate() {
+    return $this->end_date;
+  }
+
+  /**
    * Sets topic id.
    *
    * @param int $value
@@ -165,12 +205,16 @@ class NewsroomPage {
   /**
    * NewsroomAgenda constructor.
    *
-   * @param string $type
+   * @param object $type
    *   Newsroom type.
-   * @param array $topic
-   *   Newsroom topics.
+   * @param object $topic
+   *   Newsroom topic.
+   * @param string $start_date
+   *   Start date.
+   * @param string $end_date
+   *   End date.
    */
-  public function __construct($type, $topic) {
+  public function __construct($type = NULL, $topic = NULL, $start_date = NULL, $end_date = NULL) {
     if ($type) {
       $this->setTypeId($type->tid);
       $this->setTypeUrl($type->name);
@@ -183,19 +227,17 @@ class NewsroomPage {
 
     $this->addUrlPart($this->getTypeUrl());
     $this->addUrlPart($this->getTopicUrl());
-  }
+    $this->setStartDate($start_date);
+    $this->setEndDate($end_date);
 
-  /**
-   * Returns form rendable array by ID.
-   *
-   * @param string $form_id
-   *   Form ID.
-   *
-   * @return array
-   *   Form array.
-   */
-  protected function getForm($form_id) {
-    return drupal_get_form($form_id, $this->getTypeId(), $this->getTopicId());
+    if ($start_date) {
+      $this->addUrlPart($start_date);
+    }
+    
+    if ($end_date) {
+      $this->addUrlPart($end_date);
+    }
+
   }
 
   /**
@@ -205,11 +247,9 @@ class NewsroomPage {
    *   HTML.
    */
   public function getContent() {
-//    $filter_form = $this->getForm('nexteuropa_newsroom_agenda_filter_form');
-//    $date_form = $this->getForm('nexteuropa_newsroom_agenda_datepicker_form');
+    $filter_form = drupal_get_form('nexteuropa_newsroom_newsroom_page_filter_form', $this->getTypeId(), $this->getTopicId(), $this->getStartDate(), $this->getEndDate());
     $content = theme('newsroom_page', array(
-//      'filter_form' => drupal_render($filter_form),
-//      'date_form' => drupal_render($date_form),
+      'filter_form' => drupal_render($filter_form),
       'items' => $this->prepareItemsOutput($this->getData()),
     ));    
     return $content;
@@ -301,11 +341,11 @@ class NewsroomPage {
     $query->condition('n.type', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
     $query->orderBy('d.field_newsroom_item_date_value', 'DESC');
     $query->orderBy('d.field_newsroom_item_date_value2', 'DESC');
-    $query->extend('PagerDefault')->limit(15);
 
     if (NewsroomHelper::getEventsTermsIds()) {
       
     }
+
     if ($this->getTypeId()) {
       $query->condition('type_data.tid', $this->getTypeId());
     }
@@ -314,27 +354,21 @@ class NewsroomPage {
       $query->condition('topic_data.tid', $this->getTopicId());
     }
 
-//    print str_replace('{', '', str_replace('}', '', strtr((string) $query, $query->arguments())));
-    return $query->execute()->fetchAll();
+    return $query->extend('PagerDefault')->limit($this->getItemsNumber())->execute()->fetchAll();
   }
 
   /**
    * Returns navigation link based on URL.
    *
-   * @param string $title
-   *   Link title.
-   * @param object $date
-   *   Datetime object.
-   *
    * @return string|null
    *   HTML link.
    */
-  protected function getNavigationLink($title) {
+  public function getNavigationUrl() {
     $this->clearUrlParts();
     $this->addUrlPart($this->getTypeUrl());
     $this->addUrlPart($this->getTopicUrl());
-    $url = 'newsroom/' . implode('/', $this->getUrlParts());
-    return l($title, $url);
+
+    return url('newsroom-page/' . implode('/', $this->getUrlParts()));
   }
 
 }

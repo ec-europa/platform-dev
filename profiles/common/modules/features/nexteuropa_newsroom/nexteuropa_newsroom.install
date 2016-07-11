@@ -234,8 +234,8 @@ function nexteuropa_newsroom_update_7107() {
     // Get feature field config.
     $field_features_info = NULL;
 
-    if (isset($fields_features_info['user-user-' . $field_name])) {
-      $field_features_info = $fields_features_info['user-user-' . $field_name]['field_config'];
+    if (isset($fields_features_info['node-' . NEXTEUROPA_NEWSROOM_CONTENT_TYPE . '-' . $field_name])) {
+      $field_features_info = $fields_features_info['node-' . NEXTEUROPA_NEWSROOM_CONTENT_TYPE . '-' . $field_name]['field_config'];
     }
 
     // Update only our fields defines to 'datestamp' in feature.field.

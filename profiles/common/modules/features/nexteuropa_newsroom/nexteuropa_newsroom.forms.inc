@@ -831,11 +831,6 @@ function nexteuropa_newsroom_list_filter_form($form, &$form_state) {
 
   $arguments = $form_state['build_info']['args'];
   $form = array();
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Reset filter'),
-    '#weight' => 10,
-  );
 
   $form['submit'] = array(
     '#type' => 'submit',
@@ -929,22 +924,13 @@ function _nexteuropa_newsroom_list_filter_submit(&$form, &$form_state) {
  *   Rendable form array.
  */
 function nexteuropa_newsroom_agenda_filter_form($form, &$form_state, $view, $type_id, $topic_id, $current_date, $result_topics) {
-
-  $topic_options = NewsroomHelper::getTaxonomyTermOptions(NewsroomHelper::getNewsroomTopics());
-  foreach ($topic_options as $key => $topic) {
-    if (!in_array($key, $result_topics)) {
-      unset($topic_options[$key]);
-    }
-  }
-
-  $empty = array(t('- None -'));
-  $topic_options = $empty + $topic_options;
+  $topic_options = NewsroomHelper::getNewsroomTopicOptions($result_topics);
 
   $form = array();
   $form['type_id'] = array(
     '#type' => 'select',
     '#title' => t('Type'),
-    '#options' => NewsroomHelper::getNewsroomTypeEventsOptions(),
+    '#options' => NewsroomHelper::getNewsroomTypeOptions(TRUE),
     '#default_value' => $type_id,
   );
   $form['topic_id'] = array(
@@ -1049,8 +1035,8 @@ function _nexteuropa_newsroom_agenda_ajax_form_submit(&$form, &$form_state) {
 
   $topic = NewsroomHelper::getNewsroomTopic($topic_id);
   $type = NewsroomHelper::getNewsroomType($type_id);
-  $factory = new NewsroomBuilder();
-  $agenda = $factory->buildAgenda($view, $type, $topic, new DateTime($date));
+  $builder = new NewsroomBuilder();
+  $agenda = $builder->buildAgenda($view, $type, $topic, new DateTime($date));
 
   ctools_include('ajax');
   $commands[] = ctools_ajax_command_redirect($agenda->getNavigationUrl($agenda->getCurrentDate()));
@@ -1309,4 +1295,100 @@ function _nexteuropa_newsroom_get_term_from_id($id, $voc) {
     $term = FALSE;
   }
   return $term;
+}
+
+/**
+ * Gets form rendable array for filter on the newsroom page.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param int $type_id
+ *   Newsroom type ID.
+ * @param int $topic_id
+ *   Newsroom Topic ID.
+ * @param string $start_date
+ *   Start date.
+ * @param string $end_date
+ *   End date.
+ *
+ * @return array
+ *   Rendable form array.
+ */
+function nexteuropa_newsroom_newsroom_page_filter_form($form, &$form_state, $type_id, $topic_id, $start_date, $end_date) {
+  $topic_options = NewsroomHelper::getNewsroomTopicOptions(NewsroomHelper::getPageUsedTopicsIds());
+
+  $form = array();
+  $form['type_id'] = array(
+    '#type' => 'select',
+    '#title' => t('Type'),
+    '#options' => NewsroomHelper::getNewsroomTypeOptions(),
+    '#default_value' => $type_id,
+  );
+  $form['topic_id'] = array(
+    '#type' => 'select',
+    '#title' => t('Topic'),
+    '#options' => $topic_options,
+    '#default_value' => $topic_id,
+  );
+  $form['start_date'] = array(
+    '#type' => 'date_popup',
+    '#title' => t('Start date'),
+    '#default_value' => $start_date,
+    '#date_type' => DATE_DATETIME,
+    '#date_timezone' => date_default_timezone(),
+    '#date_format' => 'd-m-Y',
+    '#date_increment' => 1,
+    '#date_year_range' => '-2:+2',
+  );
+  $form['end_date'] = array(
+    '#type' => 'date_popup',
+    '#title' => t('End date'),
+    '#default_value' => $end_date,
+    '#date_type' => DATE_DATETIME,
+    '#date_timezone' => date_default_timezone(),
+    '#date_format' => 'd-m-Y',
+    '#date_increment' => 1,
+    '#date_year_range' => '-2:+2',
+  );
+  $form['button'] = array(
+    '#type' => 'button',
+    '#button_type' => 'button',
+    '#ajax' => array(
+      'callback' => '_nexteuropa_newsroom_newsroom_page_ajax_form_submit',
+    ),
+    '#value' => t('Filter'),
+  );
+
+  return $form;
+}
+
+/**
+ * Ajax submit handler.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ *
+ * @return array
+ *   Ajax callback array.
+ */
+function _nexteuropa_newsroom_newsroom_page_ajax_form_submit(&$form, &$form_state) {
+  $topic_id = isset($form_state['input']['topic_id']) ? $form_state['input']['topic_id'] : NULL;
+  $type_id = isset($form_state['input']['type_id']) ? $form_state['input']['type_id'] : NULL;
+  $start_date = isset($form_state['input']['start_date']['date']) ? $form_state['input']['start_date']['date'] : NULL;
+  $end_date = isset($form_state['input']['end_date']['date']) ? $form_state['input']['end_date']['date'] : NULL;
+  $topic = NewsroomHelper::getNewsroomTopic($topic_id);
+  $type = NewsroomHelper::getNewsroomType($type_id);
+  $builder = new NewsroomBuilder();
+  $newsroom_page = $builder->buildNewsroomPage($type, $topic, $start_date, $end_date);
+
+var_dump($newsroom_page);
+exit();
+  ctools_include('ajax');
+  $commands[] = ctools_ajax_command_redirect($newsroom_page->getNavigationUrl());
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
