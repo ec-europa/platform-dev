@@ -24,7 +24,7 @@ projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.
 ; https://www.drupal.org/node/889772
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal7-backport-889772-207.patch
 
-; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file
+; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12269
 ; https://www.drupal.org/node/2762865
 ; https://www.drupal.org/node/2385069
