@@ -117,7 +117,7 @@ function nexteuropa_newsroom_uninstall() {
   variable_del('newsroom_app');
   variable_del('newsroom_app_key');
   variable_del('newsroom_subscription_url');
-  variable_del('newsroom_subweb_topic_id');
+  variable_del('newsroom_subsite');
 }
 
 /**

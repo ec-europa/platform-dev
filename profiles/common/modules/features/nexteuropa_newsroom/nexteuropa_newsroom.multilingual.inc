@@ -627,18 +627,14 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
  *   The importer to import.
  */
 function _nexteuropa_newsroom_save_importer($importer) {
-
-  // Those Api calls are copied from the submit function of the
-  // import form provided by the feeds_ui module. The alpha8 version
-  // of Feeds (the one used in the platform) had a bugged implementation,
-  // fixed using the dev version code for the submit.
-  // Create a copy of the importer to preserve config.
   $save = feeds_importer($importer->id);
   $save->setConfig($importer->config);
+  
   foreach (array('fetcher', 'parser', 'processor') as $type) {
     $save->setPlugin($importer->config[$type]['plugin_key']);
     $save->$type->setConfig($importer->config[$type]['config']);
   }
+
   $save->save();
 
   // Set default URLS for importers.
