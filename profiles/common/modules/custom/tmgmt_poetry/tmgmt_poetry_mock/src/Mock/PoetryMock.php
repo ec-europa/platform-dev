@@ -363,21 +363,21 @@ class PoetryMock {
     $query->condition('job.state', TMGMT_JOB_STATE_ACTIVE, '=');
     // List of available fields form tmgmt_job_item column.
     $query->fields('item', [
-        'tjiid',
-        'item_type',
-        'item_id',
-        'state'
-      ]
+      'tjiid',
+      'item_type',
+      'item_id',
+      'state',
+    ]
     );
     // List of available fields form tmgmt_job column.
     $query->fields('job', [
-        'tjid',
-        'reference',
-        'source_language',
-        'target_language',
-        'state',
-        'changed'
-      ]
+      'tjid',
+      'reference',
+      'source_language',
+      'target_language',
+      'state',
+      'changed',
+    ]
     );
 
     $result = $query->execute()->fetchAllAssoc('tjid');

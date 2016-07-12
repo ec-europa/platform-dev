@@ -50,4 +50,3 @@ function tmgmt_poetry_mock_uninstall() {
 
   variable_del('poetry_service');
 }
-

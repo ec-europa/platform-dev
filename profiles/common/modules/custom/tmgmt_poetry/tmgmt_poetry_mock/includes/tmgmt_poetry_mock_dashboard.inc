@@ -16,6 +16,9 @@ function tmgmt_poetry_mock_dashboard() {
   return "Bam";
 }
 
+/**
+ * Creating data set for the theme function.
+ */
 function _poetry_mock_prepare_request_files() {
   $request_files = PoetryMock::getAllRequestTranslationFiles();
 

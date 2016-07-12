@@ -4,8 +4,6 @@
  * Module to simulate a poetry response.
  */
 
-use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
-
 // Setting up templates directory path.
 define('TMGMT_POETRY_MOCK_TEMPLATES_PATH', drupal_get_path('module', 'tmgmt_poetry_mock') . '/response_templates');
 define('TMGMT_POETRY_MOCK_REQUESTS_PATH', 'public://tmgmt_file/poetry_mock_requests/');

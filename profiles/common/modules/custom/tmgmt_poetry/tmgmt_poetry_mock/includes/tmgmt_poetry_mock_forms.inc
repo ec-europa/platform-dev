@@ -55,5 +55,3 @@ function _tmgmt_poetry_mock_set_poetry_service_var($form, &$form_state) {
 
   variable_set('poetry_service', $poetry_service);
 }
-
-
