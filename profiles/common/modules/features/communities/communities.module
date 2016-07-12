@@ -119,11 +119,11 @@ function communities_views_pre_render(&$view) {
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
   global $language;
+  $arguments = explode("/", request_path());
 
   // Set og context on comunities views.
-  if (arg(0) == 'community') {
-    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)), 'en');
-
+  if ($arguments[0] == 'community') {
+    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $arguments[1]), 'en');
     $param = explode("/", $alias);
     $group = node_load($param[1]);
     if (og_is_group('node', $group->nid)) {
@@ -131,9 +131,10 @@ function communities_init() {
     }
   }
 
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
+  if ($arguments[0] == 'node' && is_numeric($arguments[1])) {
     // If inside a node page, get the group from the path and store in session.
     $group_name = _communities_get_group_name_from_path(request_path());
+
     if ($group_name) {
       $group_nid = @group_name_load($group_name);
       if ($group_nid) {
@@ -148,7 +149,6 @@ function communities_init() {
       }
     }
   }
-
 }
 
 /**
@@ -156,12 +156,19 @@ function communities_init() {
  */
 function _communities_get_group_name_from_path($path) {
   $group_name = FALSE;
-  // Asuming a path pattern of
+  // Assuming a path pattern of
+  // "node/[node:id]".
+  $node_patt = '/(node\/)([0-9]+)(\/view)\z/';
+  // Assuming a path pattern of
   // "community/[node:og_group_ref]/articles/[node:title]".
   $patt = '/^community\/([^\/]+)(\/.*)?$/';
+  if(preg_match($node_patt, $path, $matches)) {
+    $path = drupal_lookup_path('alias', $path);
+  }
   if (preg_match($patt, $path, $matches)) {
     $group_name = $matches[1];
   }
+
   return $group_name;
 }
 
@@ -422,9 +429,9 @@ function group_name_load($arg) {
 function communities_menu() {
   $items['community/%group_name/view'] = array(
     'title' => 'Home page',
-    'page arguments' => array(1),
+    'page arguments' => array('community/' . arg(1)),
     'access callback' => TRUE,
-    'page callback' => '_redirection',
+    'page callback' => 'drupal_goto',
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'menu-communities-menu',
     'weight' => -10,
@@ -444,16 +451,7 @@ function communities_menu() {
 }
 
 /**
- * Redirection to a community page with the gid $arg.
- */
-function _redirection($arg) {
-
-  drupal_goto('community/' . group_name_to_arg($arg));
-
-}
-
-/**
- * Dynalically change menu item title.
+ * Dynamically change menu item title.
  */
 function _communities_title_item($arg) {
   $n = db_select('og', 'og')
