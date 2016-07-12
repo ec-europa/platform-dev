@@ -24,7 +24,11 @@ projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.
 ; https://www.drupal.org/node/889772
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal7-backport-889772-207.patch
 
-projects[drupal][patch][] = patches/core-locale-prevent-remote-loading.patch
+; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12269
+; https://www.drupal.org/node/2762865
+; https://www.drupal.org/node/2385069
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupal7-do-not-test.patch
 
 ; Move local configuration directives out of the Git repository.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
@@ -48,5 +52,4 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do
 ; Make sure drupal_add_js marks files as external when no type is specified and is_external is true:
 ; https://www.drupal.org/node/2697611
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-; external: projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch
-projects[drupal][patch][] = patches/drupal_add_js_sanitize_external-2697611-4.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch
