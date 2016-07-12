@@ -384,7 +384,7 @@ function _communities_get_url_in_group($path, $original_path) {
 function group_name_to_arg($arg = NULL) {
   module_load_include('inc', 'pathauto', 'pathauto');
   $context = og_context();
-  if (empty($context) && isset($arg)) {
+  if(empty($context) && is_numeric($arg)) {
     $group = node_load($arg);
     if (og_is_group('node', $group->nid)) {
       $context = og_context('node', $group);
@@ -463,13 +463,10 @@ function communities_menu() {
 /**
  * Redirects to the right place depending the last argument.
  */
-function _communities_menu_redirect($arg1) {
+function _communities_menu_redirect($arg1){
   // Sometimes the parameter contains a language suffix, remove it.
   $suffix_clean = preg_replace('/\\_[^.\\s]{2}$/', '', $arg1);
-
-  // If ('view' == $suffix_clean) {.
   drupal_goto('community/' . group_name_to_arg($suffix_clean));
-  // }.
 }
 
 /**
