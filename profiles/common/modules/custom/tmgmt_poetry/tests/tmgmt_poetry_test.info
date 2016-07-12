@@ -5,6 +5,4 @@ core = 7.x
 hidden = TRUE
 
 dependencies[] = tmgmt_poetry
-dependencies[] = registry_autoload
-registry_autoload[] = PSR-4
 
