@@ -46,9 +46,11 @@ platform.make = ${platform.resources.dir}/${platform.profile.name}.make
 # -----
 
 # Paths to executables.
+platform.bin = ${project.basedir}/bin
 phing.bin = ${project.basedir}/bin/phing
 drush.bin = ${project.basedir}/bin/drush
 composer.bin = composer.phar
+phantomjs.bin = ${project.basedir}/bin/phantomjs
 
 # The build location
 phing.project.build.dir = build
@@ -110,11 +112,11 @@ behat.base_url = http://localhost
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
-behat.formatter.name = progress
+behat.formatter.name = pretty
 
 # Enable strict mode in Behat tests. Will only pass if all tests are explicitly
 # passing.
-behat.options.strict = false
+behat.options.strict = true
 
 # Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
 # shows exception backtraces, 3 shows debugging information.

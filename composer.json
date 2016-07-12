@@ -1,10 +1,8 @@
 {
   "require": {
-    "behat/behat": "dev-master#dc6df78862e1c1e1faa",
-    "drupal/coder": "dev-NEXTEUROPA-4429",
-    "drupal/drupal-extension": "~3.1.0",
+    "drupal/coder": "8.2.5",
     "drupal/phing-drush-task": "1.0",
-    "drush/drush": "8.0.*@beta",
+    "drush/drush": ">=8.0.1",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
@@ -14,26 +12,13 @@
     "php": ">=5.4.0",
     "typhonius/behattask": "1.0"
   },
-  "_comment": "Remove the 'minimum-stability' and 'prefer-stable' directives once new releases of Coder and PHP CodeSniffer are available.",
-  "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Drupal\\nexteuropa\\": "tests/src",
       "NextEuropa\\": "src"
     }
   },
   "repositories": [
-    {
-      "_comment": "Temporary fork of drupal/coder with a fix for NEXTEUROPA-4429",
-      "type": "vcs",
-      "url": "git@github.com:pfrenssen/coder.git"
-    },
-    {
-      "_comment": "Temporary fork of squizlabs/php_codesniffer including fix for NEXTEUROPA-4429.",
-      "type": "vcs",
-      "url": "git@github.com:pfrenssen/PHP_CodeSniffer.git"
-    },
     {
       "type": "package",
       "package": {
@@ -77,7 +62,9 @@
     }
   ],
   "scripts": {
-    "post-install-cmd": "resources/scripts/composer/post-install.sh"
+    "post-install-cmd": [
+      "resources/scripts/composer/post-install.sh"
+    ]
   },
   "config": {
     "bin-dir": "bin/",

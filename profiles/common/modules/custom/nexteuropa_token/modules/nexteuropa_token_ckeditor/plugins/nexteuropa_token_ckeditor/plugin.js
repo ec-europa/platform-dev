@@ -10,14 +10,14 @@
 
       CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function() {
         return {
-          title: Drupal.t('Insert token'),
+          title: Drupal.t('Insert internal links'),
           minWidth: 750,
           minHeight: 300,
           contents: [
             {
               id: 'info',
-              label: Drupal.t('Insert a token'),
-              title: Drupal.t('Insert a token'),
+              label: Drupal.t('Insert internal links'),
+              title: Drupal.t('Insert internal links'),
               elements: [
                 {
                   id: 'nexteuropa_token_ckeditor',
@@ -66,7 +66,7 @@
 
       // Add a button to the CKeditor that executes a CKeditor command.
       editor.ui.addButton('NextEuropaToken', {
-        label: Drupal.t('Insert a token'),
+        label: Drupal.t('Insert internal links'),
         command: 'NextEuropaTokenInsert',
         icon: this.path + 'plugin.png'
       });

@@ -42,7 +42,7 @@ function taxonomy_browser_menu() {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function taxonomy_browser_form_form_taxonomy_browser_settings_alter(&$form, &$form_state, $form_id) {
   $form['#submit'][] = '_taxonomy_browser_form_submit';

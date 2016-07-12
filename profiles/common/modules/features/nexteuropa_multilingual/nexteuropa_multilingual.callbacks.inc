@@ -23,12 +23,6 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
     $language_url = $check_prefix[0]->language;
     $_GET['q'] = $check_prefix[1];
   }
-  else {
-    if (_nexteuropa_multilingual_get_source_path($check_prefix[1]) != $check_prefix[1]) {
-      watchdog('nexteuropa_multilingual', 'Path without suffix: "@path".', array('@path' => $current_path), WATCHDOG_WARNING);
-      $_GET['q'] .= $delimiter;
-    }
-  }
   return $language_url;
 }
 

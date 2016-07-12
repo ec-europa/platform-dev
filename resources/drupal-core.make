@@ -6,13 +6,29 @@ projects[drupal][version] = "7.44"
 projects[drupal][download][type] = get
 projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.44.tar.gz
 
+; AJAX callbacks not properly working with the language url suffix.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11656
+; https://www.drupal.org/node/565808
 projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
-projects[drupal][patch][] = patches/menu-conflict_with_menu_token-2534.patch
+
+; node_access filters out accessible nodes when node is left joined.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2689
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11805
+; https://www.drupal.org/node/1349080
 projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.patch
-projects[drupal][patch][] = patches/standard-change_article_description-791.patch
-projects[drupal][patch][] = patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
-projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
-projects[drupal][patch][] = patches/core-locale-prevent-remote-loading.patch
+
+; Following a password reset link while logged in leaves users unable to change their password.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4679
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11861
+; https://www.drupal.org/node/889772
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal7-backport-889772-207.patch
+
+; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12269
+; https://www.drupal.org/node/2762865
+; https://www.drupal.org/node/2385069
+projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupal7-do-not-test.patch
 
 ; Move local configuration directives out of the Git repository.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
@@ -36,5 +52,4 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do
 ; Make sure drupal_add_js marks files as external when no type is specified and is_external is true:
 ; https://www.drupal.org/node/2697611
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-; external: projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch
-projects[drupal][patch][] = patches/drupal_add_js_sanitize_external-2697611-4.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch

@@ -137,7 +137,7 @@ function multisite_forum_community_menu_community_access_callback() {
 }
 
 /**
- * Hook_form_alter.
+ * Implements hook_form_alter().
  */
 function multisite_forum_community_form_alter(&$form, $form_state, $form_id) {
 

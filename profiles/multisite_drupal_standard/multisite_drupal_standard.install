@@ -69,3 +69,10 @@ function multisite_drupal_standard_update_7200() {
 function multisite_drupal_standard_update_7201() {
   module_enable(array('nexteuropa_laco'));
 }
+
+/**
+ * NEXTEUROPA-11872: Enable username_enumeration_prevention module.
+ */
+function multisite_drupal_standard_update_7202() {
+  module_enable(array('username_enumeration_prevention'));
+}

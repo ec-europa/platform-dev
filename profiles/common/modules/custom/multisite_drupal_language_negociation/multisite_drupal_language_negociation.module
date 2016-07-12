@@ -77,22 +77,21 @@ function multisite_drupal_language_negociation_language_types_info_alter(&$langu
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
-function multisite_drupal_language_negociation_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'locale_languages_configure_form':
-      $language_negociation = variable_get('language_negotiation_language');
+function multisite_drupal_language_negociation_form_locale_languages_configure_form_alter(&$form, &$form_state, $form_id) {
+  $language_negociation = variable_get('language_negotiation_language');
+  // Disable URL method if URL-suffix method is enabled.
+  if (isset($language_negociation['locale-url-suffix'])) {
+    $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
+  }
+}
 
-      // Disable URL method if URL-suffix method is enabled.
-      if (isset($language_negociation['locale-url-suffix'])) {
-        $form['language']['enabled']['locale-url']['#disabled'] = TRUE;
-      }
-      break;
-  }
-  if (substr($form_id, -9) == 'node_form') {
-    $form['#after_build'][] = '_multisite_drupal_language_negociation_node_form_alter';
-  }
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function multisite_drupal_language_negociation_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['#after_build'][] = '_multisite_drupal_language_negociation_node_form_alter';
 }
 
 /**
