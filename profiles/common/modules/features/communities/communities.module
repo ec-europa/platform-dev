@@ -162,7 +162,7 @@ function _communities_get_group_name_from_path($path) {
   // Assuming a path pattern of
   // "community/[node:og_group_ref]/articles/[node:title]".
   $patt = '/^community\/([^\/]+)(\/.*)?$/';
-  if(preg_match($node_patt, $path, $matches)) {
+  if (preg_match($node_patt, $path, $matches)) {
     $path = drupal_lookup_path('alias', $path);
   }
   if (preg_match($patt, $path, $matches)) {
