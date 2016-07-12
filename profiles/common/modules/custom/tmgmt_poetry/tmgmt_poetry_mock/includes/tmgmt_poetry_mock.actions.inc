@@ -1,104 +1,39 @@
 <?php
 /**
  * @file
- * Custom VBO actions.
+ * Custom POETRY Mock actions.
  */
 
 use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
 
 /**
- * Implements hook_action_info().
- */
-function tmgmt_poetry_mock_action_info() {
-  return [
-    'tmgmt_poetry_mock_translate_job' => [
-      'type' => 'file',
-      'label' => t('TMGMT Poetry mock | VBO | Translate job'),
-      'configurable' => FALSE,
-      'vbo_configurable' => TRUE,
-    ],
-    'tmgmt_poetry_mock_refuse_job' => [
-      'type' => 'file',
-      'label' => t('TMGMT Poetry mock | VBO | Refuse job'),
-      'configurable' => FALSE,
-    ],
-  ];
-}
-
-/**
- * Translate Job based on given request from the file.
+ * Translate Job based on given request from the file and redirect.
  *
- * @param object $files
+ * @param string $lg_code
  *    Request translation file.
- * @param array $context
- *    Contains all useful information about the action, including
- *    the rows of the view used for VBO.
+ * @param int $file_id
+ *    Request translation dump file ID.
+ * @param string $entity_type
+ *    An entity type.
+ * @param int $entity_id
+ *    An entity ID.
  */
-function tmgmt_poetry_mock_translate_job(&$files, $context) {
+function tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_type, $entity_id) {
   $poetry_mock = new PoetryMock();
-  if (isset($context['poetry_mock']['request_message'])) {
-    // Get data submitted to additional form.
-    $message = $context['poetry_mock']['request_message'];
-    $lg_code = $context['language'];
-
-    // Prepare responses array.
-    $responses = $poetry_mock::prepareTranslationResponseData($message, $lg_code);
-    foreach ($responses as $response) {
-      $message = theme('poetry_receive_translation', $response);
-      $poetry_mock->sendRequestToDrupal($message);
-    }
-  }
-}
-
-/**
- * Form with additional step for translate job action.
- */
-function tmgmt_poetry_mock_translate_job_form($settings, &$form_state) {
-  $form = [];
-  if (isset($form_state['selection'][0])) {
-    $file_id = $form_state['selection'][0];
-    $file_object = file_load($file_id);
-    $message = file_get_contents($file_object->uri);
-    $languages = PoetryMock::getLanguagesFromRequest($message);
-    $form_state['poetry_mock']['request_message'] = $message;
-    $form_state['poetry_mock']['languages'] = $languages;
-  }
-  $all_option = ['ALL' => 'ALL (processing one by one)'];
-
-  $form['language'] = [
-    '#type' => 'select',
-    '#title' => t('Select language:'),
-    '#options' => $all_option + $languages,
-    '#default_value' => !empty($options['options']) ? $options['options'] : '',
-  ];
-
-  return $form;
-}
-
-/**
- * Form submit function for additional step of translate job action.
- */
-function tmgmt_poetry_mock_translate_job_submit($form, $form_state) {
-  return [
-    'language' => $form_state['values']['language'],
-    'poetry_mock' => $form_state['poetry_mock'],
-  ];
+  $poetry_mock->translateJob($lg_code, $file_id, $entity_type, $entity_id);
 }
 
 /**
  * Refuse translation job based on given request from the file.
  *
- * @param object $file
- *    Request translation file.
- * @param array $context
- *    Contains all useful information about the action, including
- *    the rows of the view used for VBO.
+ * @param int $file_id
+ *    Request translation file dump ID.
+ * @param string $entity_type
+ *    An entity type.
+ * @param int $entity_id
+ *    An entity ID.
  */
-function tmgmt_poetry_mock_refuse_job(&$file, $context) {
+function tmgmt_poetry_mock_refuse_job($file_id, $entity_type, $entity_id) {
   $poetry_mock = new PoetryMock();
-  $message = file_get_contents($file->uri);
-  // Prepare responses array.
-  $response = $poetry_mock::prepareRefuseJobResponseData($message);
-  $message = theme('poetry_refuse_translation', $response);
-  $poetry_mock->sendRequestToDrupal($message);
+  $poetry_mock->refuseJob($file_id, $entity_type, $entity_id);
 }

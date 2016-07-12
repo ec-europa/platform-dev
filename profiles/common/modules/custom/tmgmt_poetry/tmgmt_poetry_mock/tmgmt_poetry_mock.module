@@ -9,7 +9,6 @@ define('TMGMT_POETRY_MOCK_TEMPLATES_PATH', drupal_get_path('module', 'tmgmt_poet
 define('TMGMT_POETRY_MOCK_REQUESTS_PATH', 'public://tmgmt_file/poetry_mock_requests/');
 // Forms logic and overwriting functions.
 module_load_include('inc', 'tmgmt_poetry_mock', 'includes/tmgmt_poetry_mock.theme');
-module_load_include('inc', 'tmgmt_poetry_mock', 'includes/tmgmt_poetry_mock.actions');
 
 /**
  * Implements hook_views_api().
@@ -27,6 +26,24 @@ function tmgmt_poetry_mock_menu() {
     'page callback' => 'tmgmt_poetry_mock_soap_server',
     'access arguments' => ['access content'],
     'type' => MENU_CALLBACK,
+  ];
+
+  $items['tmgmt_poetry_mock/translate/%/%/%/%'] = [
+    'title' => 'Poetry Mock: Translate job',
+    'page callback' => 'tmgmt_poetry_mock_translate_job',
+    'page arguments' => [2, 3, 4, 5],
+    'access arguments' => ['access content'],
+    'type' => MENU_CALLBACK,
+    'file' => 'includes/tmgmt_poetry_mock.actions.inc',
+  ];
+
+  $items['tmgmt_poetry_mock/refuse/%/%/%'] = [
+    'title' => 'Poetry Mock: Refuse job',
+    'page callback' => 'tmgmt_poetry_mock_refuse_job',
+    'page arguments' => [2, 3, 4],
+    'access arguments' => ['access content'],
+    'type' => MENU_CALLBACK,
+    'file' => 'includes/tmgmt_poetry_mock.actions.inc',
   ];
 
   $items[drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl"] = [

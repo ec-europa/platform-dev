@@ -13,8 +13,6 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
   public $settings;
-  public $drupalWsdl;
-  public $poetryWsdl;
   private $client;
 
   /**
@@ -22,7 +20,6 @@ class PoetryMock {
    */
   public function __construct() {
     $this->setPoetrySettings();
-
   }
 
   /**
@@ -30,32 +27,6 @@ class PoetryMock {
    */
   public function setPoetrySettings() {
     $this->settings = variable_get('poetry_service');
-  }
-
-  /**
-   * Setting Drupal WSDL endpoint URL.
-   */
-  public function setDrupalWsdl() {
-    $this->drupalWsdl = url(
-      drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl",
-      [
-        'absolute' => TRUE,
-        'language' => (object) ['language' => FALSE],
-      ]
-    );
-  }
-
-  /**
-   * Setting Poetry WSDL endpoint URL.
-   */
-  public function setPoetryWsdl() {
-    $this->poetryWsdl = url(
-      drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl",
-      [
-        'absolute' => TRUE,
-        'language' => (object) ['language' => FALSE],
-      ]
-    );
   }
 
   /**
@@ -128,7 +99,7 @@ class PoetryMock {
    *    Response from service.
    */
   public function sendRequestToDrupal($message) {
-    $this->instantiateClient($this->drupalWsdl);
+    $this->instantiateClient($this->settings['drupal_wsdl']);
     try {
       $response = $this->client->{self::SOAP_METHOD}(
         $this->settings['callback_user'],
@@ -382,6 +353,57 @@ class PoetryMock {
 
     $result = $query->execute()->fetchAllAssoc('tjid');
     return $result;
+  }
+
+  /**
+   * Helper method for translating job based on given parameters.
+   *
+   * @param string $lg_code
+   *    Language code.
+   * @param int $file_id
+   *    Translation request file dump ID.
+   * @param string $entity_type
+   *    An entity type.
+   * @param int $entity_id
+   *    An entity id.
+   */
+  public function translateJob($lg_code, $file_id, $entity_type, $entity_id) {
+    if ($lg_code and $file_id) {
+      $file_object = file_load($file_id);
+      $message = file_get_contents($file_object->uri);
+      // Prepare responses array.
+      $responses = self::prepareTranslationResponseData($message, strtoupper($lg_code));
+      foreach ($responses as $response) {
+        $message = theme('poetry_receive_translation', $response);
+        $this->sendRequestToDrupal($message);
+      }
+      // Redirect to translate tab for given entity ID.
+      drupal_goto($entity_type . '/' . $entity_id . '/translate');
+    }
+  }
+
+  /**
+   * Helper method for refusing job translation based on given data.
+   *
+   * @param int $file_id
+   *    Translation request file dump ID.
+   * @param string $entity_type
+   *    An entity type.
+   * @param int $entity_id
+   *    An entity id.
+   */
+  public function refuseJob($file_id, $entity_type, $entity_id) {
+    if ($file_id) {
+      $file_object = file_load($file_id);
+      $message = file_get_contents($file_object->uri);
+      // Prepare responses array.
+      $response = self::prepareRefuseJobResponseData($message);
+      $message = theme('poetry_refuse_translation', $response);
+      $this->sendRequestToDrupal($message);
+
+      // Redirect to translate tab for given entity ID.
+      drupal_goto($entity_type . '/' . $entity_id . '/translate');
+    }
   }
 
 }
