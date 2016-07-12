@@ -7,8 +7,6 @@ Feature: TMGMT Poetry features
   Background:
     Given the module is enabled
       |modules                |
-      |views                  |
-      |views_bulk_operations  |
       |tmgmt_poetry_mock      |
     And the following languages are available:
       | languages |
@@ -17,6 +15,7 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
+
   @javascript
   Scenario: Create a request translation for French and Portuguese
     Given I am logged in as a user with the "administrator" role
@@ -27,7 +26,7 @@ Feature: TMGMT Poetry features
     And I select the radio button "" with the id "edit-languages-pt-pt"
     And I press the "Request translation" button
     And I select "TMGMT Poetry Test translator" from "Translator"
-    And I wait for AJAX to finish
+    And I wait
     Then I should see "Contact usernames"
     And I should see "Organization"
 
@@ -77,10 +76,13 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Request main job before other translations + request a new translation.
     Given I am logged in as a user with the 'administrator' role
+    And I go to "admin/poetry_mock/setup"
+    And I press "Set variable"
+    Then I should see "Variable is configured properly."
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
-    And I fill in "Title" with "Page for main and subjobs"
-    And I fill in "Body" with "Here is the content of the page for main and subjobs."
+    And I fill in "Title" with "Page for main and sub jobs"
+    And I fill in "Body" with "Here is the content of the page for main and sub jobs."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -88,7 +90,7 @@ Feature: TMGMT Poetry features
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
     And I select "TMGMT Poetry Test translator" from "Translator"
-    And I wait for AJAX to finish
+    And I wait
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
@@ -96,23 +98,13 @@ Feature: TMGMT Poetry features
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     And I store node ID of translation request page
-    And I go to "tmgmt_poetry_mock"
-    And I click first row in the view table
-    And I press "Translate"
-    And I select "IT" from "edit-language"
-    And I press "Next"
-    And I wait for AJAX to finish
-    And I go to stored node Id translation request page
-    Then I click "Needs review" in the "Italian" row
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->it" row
+    And I click "Needs review" in the "Italian" row
     And I press "Save as completed"
-    And I go to "tmgmt_poetry_mock"
-    And I click first row in the view table
-    And I press "Translate"
-    And I select "FR" from "edit-language"
-    And I press "Next"
-    And I wait for AJAX to finish
-    And I go to stored node Id translation request page
-    Then I click "Needs review" in the "French" row
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->fr" row
+    And I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see "None" in the "Italian" row
 
@@ -130,6 +122,9 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Test not sending one job and moving to another job.
     Given I am logged in as a user with the 'administrator' role
+    And I go to "admin/poetry_mock/setup"
+    And I press "Set variable"
+    Then I should see "Variable is configured properly."
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"
     And I press "Save"
@@ -147,19 +142,13 @@ Feature: TMGMT Poetry features
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
     And I select "TMGMT Poetry Test translator" from "Translator"
-    And I wait for AJAX to finish
+    And I wait
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
-    And I store node ID of translation request page
-    And I go to "tmgmt_poetry_mock"
-    And I click first row in the view table
-    And I press "Translate"
-    And I select "FR" from "edit-language"
-    And I press "Next"
-    And I wait for AJAX to finish
-    And I go to stored node Id translation request page
-    Then I click "Needs review" in the "French" row
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->fr" row
+    And I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see an "#edit-languages-fr.form-radio" element
     But I should not see an "#edit-languages-fr.form-checkbox" element
@@ -167,6 +156,9 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Test rejection of a translation.
     Given I am logged in as a user with the 'administrator' role
+    And I go to "admin/poetry_mock/setup"
+    And I press "Set variable"
+    Then I should see "Variable is configured properly."
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Original version"
@@ -178,18 +170,14 @@ Feature: TMGMT Poetry features
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
     And I select "TMGMT Poetry Test translator" from "Translator"
-    And I wait for AJAX to finish
+    And I wait
     And I store job ID of translation request page
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
     And I should see "In progress" in the "French" row
-    And I store node ID of translation request page
-    And I go to "tmgmt_poetry_mock"
-    And I click first row in the view table
-    And I press "Refuse job"
-    And I wait for AJAX to finish
-    And I go to stored node Id translation request page
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Reject translation" in the "en->fr" row
     Then I should see "None" in the "French" row
     And I go to stored job Id translation request page
     And I should see "Aborted" in the "Original version" row

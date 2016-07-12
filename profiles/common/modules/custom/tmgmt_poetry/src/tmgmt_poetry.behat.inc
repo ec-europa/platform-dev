@@ -152,4 +152,13 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     $this->visitPath($path);
   }
 
+  /**
+   * Waiting for 1 second.
+   *
+   * @Then /^I wait$/
+   */
+  public function iWaitFor() {
+    $this->getSession()->wait(1000);
+  }
+
 }
