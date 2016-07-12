@@ -17,24 +17,54 @@ module_load_include('inc', 'tmgmt_poetry_mock', 'includes/tmgmt_poetry_mock.acti
  * Implements hook_views_api().
  */
 function tmgmt_poetry_mock_views_api($module = NULL, $api = NULL) {
-  return array("api" => "3.0");
+  return ["api" => "3.0"];
 }
 
 /**
  * Implements hook_menu().
  */
 function tmgmt_poetry_mock_menu() {
-  $items['tmgmt_poetry_mock/soap_server'] = array(
+  $items['tmgmt_poetry_mock/soap_server'] = [
     'title' => 'Poetry Soap Server',
     'page callback' => 'tmgmt_poetry_mock_soap_server',
-    'access arguments' => array('access content'),
+    'access arguments' => ['access content'],
     'type' => MENU_CALLBACK,
-  );
+  ];
 
-  $items[drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl"] = array(
+  $items[drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl"] = [
     'page callback' => '_tmgmt_poetry_mock_wsdl',
     'access callback' => TRUE,
-  );
+  ];
+
+  $items['admin/poetry_mock'] = [
+    'title' => 'POETRY Mock',
+    'description' => 'Available options',
+    'position' => 'left',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => ['administer site configuration'],
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  ];
+
+  $items['admin/poetry_mock/setup'] = [
+    'title' => 'POETRY Mock: Setup',
+    'description' => 'Setup page for POETRY Mock',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['tmgmt_poetry_mock_setup_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'includes/tmgmt_poetry_mock_forms.inc',
+    'weight' => 1,
+  ];
+
+  $items['admin/poetry_mock/dashboard'] = [
+    'title' => 'POETRY Mock: Dashboard',
+    'description' => 'Dashboard page for POETRY Mock',
+    'page callback' => 'tmgmt_poetry_mock_dashboard',
+    'access arguments' => ['administer site configuration'],
+    'file' => 'includes/tmgmt_poetry_mock_dashboard.inc',
+    'weight' => 2,
+  ];
 
   return $items;
 }
@@ -43,27 +73,102 @@ function tmgmt_poetry_mock_menu() {
  * A page callback which simulate poetry webservice.
  */
 function tmgmt_poetry_mock_soap_server() {
-  $uri = url(
-    'tmgmt_poetry_mock/soap_server',
-    array(
-      'absolute' => TRUE,
-      'language' => (object) array('language' => FALSE),
-    )
-  );
-  $options = array('uri' => $uri);
-  $server = new \SoapServer(PoetryMock::getPoetryWsdl(), $options);
-  $server->setClass('Drupal\tmgmt_poetry_mock\Mock\PoetryMock');
-  $server->handle();
+  if (_check_poetry_service_variable()) {
+    $poetry_service = variable_get('poetry_service');
+    $poetry_wsdl = $poetry_service['address'];
+    $options = ['uri' => $poetry_service['poetry_endpoint']];
+    $server = new \SoapServer($poetry_wsdl, $options);
+    $server->setClass('Drupal\tmgmt_poetry_mock\Mock\PoetryMock');
+    $server->handle();
+  }
+  else {
+    return FALSE;
+  }
 }
-
 
 /**
  * Generate mock wsdl to simulate poetry.
  */
 function _tmgmt_poetry_mock_wsdl() {
-  $uri = url('tmgmt_poetry_mock/soap_server', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
-  $wsdl = theme('poetry_wsdl', array('uri' => $uri));
+  $uri = url('tmgmt_poetry_mock/soap_server', ['absolute' => TRUE, 'language' => (object) ['language' => FALSE]]);
+  $wsdl = theme('poetry_wsdl', ['uri' => $uri]);
   drupal_add_http_header('Content-Type', 'application/xml; utf-8');
   print $wsdl;
   exit(0);
+}
+
+/**
+ * Helper function for checking if poetry_service variable is set up correctly.
+ *
+ * @return bool
+ *    TRUE if it's correct / FALSE if not
+ */
+function _check_poetry_service_variable() {
+  $poetry_service = variable_get('poetry_service', FALSE);
+  if ($poetry_service) {
+    // Fetching all of needed endpoints.
+    $poetry_wsdl = _get_poetry_service_mock_wsdl();
+    $drupal_wsdl = _get_drupal_soap_server_mock_wsdl();
+    $poetry_endpoint = _get_poetry_mock_endpoint();
+
+    // Checking if they are set up correctly according to current environment.
+    if (isset($poetry_service['address']) && $poetry_service['address'] == $poetry_wsdl) {
+      if (isset($poetry_service['drupal_wsdl']) && $poetry_service['drupal_wsdl'] == $drupal_wsdl) {
+        if (isset($poetry_service['poetry_endpoint']) && $poetry_service['poetry_endpoint'] == $poetry_endpoint) {
+
+          return TRUE;
+        }
+      }
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Helper function for fetching POETRY Service Mock WSDL absolute url.
+ *
+ * @return string
+ *    Absolute URL for POETRY Service Mock WSDL endpoint.
+ */
+function _get_poetry_service_mock_wsdl() {
+  return url(
+    drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl",
+    [
+      'absolute' => TRUE,
+      'language' => (object) ['language' => FALSE],
+    ]
+  );
+}
+
+/**
+ * Helper function for fetching Drupal SOAP Server Mock WSDL absolute url.
+ *
+ * @return string
+ *    Absolute URL for Drupal SOAP Server Mock WSDL endpoint.
+ */
+function _get_drupal_soap_server_mock_wsdl() {
+  return url(
+    drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl",
+    [
+      'absolute' => TRUE,
+      'language' => (object) ['language' => FALSE],
+    ]
+  );
+}
+
+/**
+ * Helper function for fetching Drupal SOAP Server Mock WSDL absolute url.
+ *
+ * @return string
+ *    Absolute URL for Drupal SOAP Server Mock WSDL endpoint.
+ */
+function _get_poetry_mock_endpoint() {
+  return url(
+    'tmgmt_poetry_mock/soap_server',
+    [
+      'absolute' => TRUE,
+      'language' => (object) ['language' => FALSE],
+    ]
+  );
 }

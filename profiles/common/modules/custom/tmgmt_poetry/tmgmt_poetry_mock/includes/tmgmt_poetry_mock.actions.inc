@@ -10,19 +10,19 @@ use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
  * Implements hook_action_info().
  */
 function tmgmt_poetry_mock_action_info() {
-  return array(
-    'tmgmt_poetry_mock_translate_job' => array(
+  return [
+    'tmgmt_poetry_mock_translate_job' => [
       'type' => 'file',
       'label' => t('TMGMT Poetry mock | VBO | Translate job'),
       'configurable' => FALSE,
       'vbo_configurable' => TRUE,
-    ),
-    'tmgmt_poetry_mock_refuse_job' => array(
+    ],
+    'tmgmt_poetry_mock_refuse_job' => [
       'type' => 'file',
       'label' => t('TMGMT Poetry mock | VBO | Refuse job'),
       'configurable' => FALSE,
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -54,7 +54,7 @@ function tmgmt_poetry_mock_translate_job(&$files, $context) {
  * Form with additional step for translate job action.
  */
 function tmgmt_poetry_mock_translate_job_form($settings, &$form_state) {
-  $form = array();
+  $form = [];
   if (isset($form_state['selection'][0])) {
     $file_id = $form_state['selection'][0];
     $file_object = file_load($file_id);
@@ -63,14 +63,14 @@ function tmgmt_poetry_mock_translate_job_form($settings, &$form_state) {
     $form_state['poetry_mock']['request_message'] = $message;
     $form_state['poetry_mock']['languages'] = $languages;
   }
-  $all_option = array('ALL' => 'ALL (processing one by one)');
+  $all_option = ['ALL' => 'ALL (processing one by one)'];
 
-  $form['language'] = array(
+  $form['language'] = [
     '#type' => 'select',
     '#title' => t('Select language:'),
     '#options' => $all_option + $languages,
     '#default_value' => !empty($options['options']) ? $options['options'] : '',
-  );
+  ];
 
   return $form;
 }
@@ -79,10 +79,10 @@ function tmgmt_poetry_mock_translate_job_form($settings, &$form_state) {
  * Form submit function for additional step of translate job action.
  */
 function tmgmt_poetry_mock_translate_job_submit($form, $form_state) {
-  return array(
+  return [
     'language' => $form_state['values']['language'],
     'poetry_mock' => $form_state['poetry_mock'],
-  );
+  ];
 }
 
 /**

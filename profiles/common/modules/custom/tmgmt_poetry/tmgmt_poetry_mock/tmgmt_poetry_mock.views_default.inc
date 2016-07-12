@@ -29,19 +29,19 @@ function tmgmt_poetry_mock_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'table';
-  $handler->display->display_options['style_options']['columns'] = array(
+  $handler->display->display_options['style_options']['columns'] = [
     'filename' => 'filename',
-  );
+  ];
   $handler->display->display_options['style_options']['default'] = '-1';
-  $handler->display->display_options['style_options']['info'] = array(
-    'filename' => array(
+  $handler->display->display_options['style_options']['info'] = [
+    'filename' => [
       'sortable' => 0,
       'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
-    ),
-  );
+    ],
+  ];
   /* No results behavior: Global: Messages */
   $handler->display->display_options['empty']['messages']['id'] = 'messages';
   $handler->display->display_options['empty']['messages']['table'] = 'views';
@@ -58,29 +58,29 @@ function tmgmt_poetry_mock_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 1;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
-    'action::views_bulk_operations_delete_item' => array(
+  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = [
+    'action::views_bulk_operations_delete_item' => [
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
       'override_label' => 0,
       'label' => '',
-    ),
-    'action::tmgmt_poetry_mock_refuse_job' => array(
+    ],
+    'action::tmgmt_poetry_mock_refuse_job' => [
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 1,
       'override_label' => 1,
       'label' => 'Refuse job',
-    ),
-    'action::tmgmt_poetry_mock_translate_job' => array(
+    ],
+    'action::tmgmt_poetry_mock_translate_job' => [
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 1,
       'override_label' => 1,
       'label' => 'Translate',
-    ),
-  );
+    ],
+  ];
   /* Field: File: Name */
   $handler->display->display_options['fields']['filename']['id'] = 'filename';
   $handler->display->display_options['fields']['filename']['table'] = 'file_managed';

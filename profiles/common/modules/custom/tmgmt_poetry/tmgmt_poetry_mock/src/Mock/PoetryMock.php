@@ -12,49 +12,50 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
  */
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
+  public $settings;
+  public $drupalWsdl;
+  public $poetryWsdl;
   private $client;
 
   /**
    * PoetryMock constructor.
    */
   public function __construct() {
+    $this->setPoetrySettings();
 
   }
 
   /**
-   * Get Drupal WSDL endpoint URL.
+   * Method for setting up Poetry specific settings.
    */
-  public static function getDrupalWsdl() {
-    return url(
+  public function setPoetrySettings() {
+    $this->settings = variable_get('poetry_service');
+  }
+
+  /**
+   * Setting Drupal WSDL endpoint URL.
+   */
+  public function setDrupalWsdl() {
+    $this->drupalWsdl = url(
       drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl",
-      array(
+      [
         'absolute' => TRUE,
-        'language' => (object) array('language' => FALSE),
-      )
+        'language' => (object) ['language' => FALSE],
+      ]
     );
   }
 
   /**
-   * Get Poetry WSDL endpoint URL.
+   * Setting Poetry WSDL endpoint URL.
    */
-  public static function getPoetryWsdl() {
-    return url(
+  public function setPoetryWsdl() {
+    $this->poetryWsdl = url(
       drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl",
-      array(
+      [
         'absolute' => TRUE,
-        'language' => (object) array('language' => FALSE),
-      )
+        'language' => (object) ['language' => FALSE],
+      ]
     );
-  }
-
-  /**
-   * Method for returning Poetry settings.
-   *
-   * @return array
-   *    Poetry settings array.
-   */
-  public static function getSettings() {
-    return variable_get('poetry_service');
   }
 
   /**
@@ -66,10 +67,10 @@ class PoetryMock {
   private function instantiateClient($wsdl_endpoint) {
     $this->client = new \SoapClient(
       $wsdl_endpoint,
-      array(
+      [
         'cache_wsdl' => WSDL_CACHE_NONE,
         'trace' => 1,
-      )
+      ]
     );
   }
 
@@ -87,20 +88,19 @@ class PoetryMock {
    *   Message returned by webservice.
    */
   public static function requestService($user, $password, $message) {
+    // Fetching and transforming data from the request.
     $response_xml = simplexml_load_string($message);
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
-    if (!isset($demande_id['numero'])) {
-      $demande_id['numero'] = rand(10000, 99999);
-    }
     $reference = implode("_", (array) $demande_id);
-    self::saveTranslationRequest($message, $reference);
-    $xml = theme('poetry_confirmation_of_receiving_translation_request',
-      array(
-        'demande_id' => $demande_id,
-      )
-    );
 
+    // Saving translation request as a file with give reference ID.
+    self::saveTranslationRequest($message, $reference);
+
+    // Generating response XML based on template.
+    $xml = theme('poetry_confirmation_of_receiving_translation_request', ['demande_id' => $demande_id]);
+
+    // Sending response.
     return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
   }
 
@@ -128,12 +128,11 @@ class PoetryMock {
    *    Response from service.
    */
   public function sendRequestToDrupal($message) {
-    $settings = self::getSettings();
-    $this->instantiateClient(self::getDrupalWsdl());
+    $this->instantiateClient($this->drupalWsdl);
     try {
       $response = $this->client->{self::SOAP_METHOD}(
-        $settings['callback_user'],
-        $settings['callback_password'],
+        $this->settings['callback_user'],
+        $this->settings['callback_password'],
         $message
       );
     }
@@ -157,7 +156,7 @@ class PoetryMock {
    */
   public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
-    $requests = array();
+    $requests = [];
     if (!isset($data['demande_id']['numero'])) {
       $data['demande_id']['numero'] = rand(10000, 99999);
     }
@@ -202,12 +201,12 @@ class PoetryMock {
     if (!isset($data['demande_id']['numero'])) {
       $data['demande_id']['numero'] = rand(10000, 99999);
     }
-    return array(
+    return [
       'languages' => $languages,
       'demande_id' => $data['demande_id'],
       'status' => 'REF',
       'format' => 'HTML',
-    );
+    ];
   }
 
   /**
@@ -224,7 +223,7 @@ class PoetryMock {
    *    Array with translation response data.
    */
   private static function getTranslationResponseData($attribution, $content, $demande_id) {
-    return array(
+    return [
       'language' => $attribution['language'],
       'format' => $attribution['format'],
       'content' => self::translateRequestContent(
@@ -232,7 +231,7 @@ class PoetryMock {
         $attribution['language']
       ),
       'demande_id' => $demande_id,
-    );
+    ];
   }
 
   /**
@@ -246,7 +245,7 @@ class PoetryMock {
    */
   public static function getLanguagesFromRequest($message) {
     $request_data = self::getDataFromRequest($message);
-    $languages = array();
+    $languages = [];
     foreach ($request_data['attributions'] as $attribution) {
       $languages[$attribution['language']] = $attribution['language'];
     }
@@ -266,17 +265,17 @@ class PoetryMock {
   public static function getDataFromRequest($message) {
     $xml = simplexml_load_string($message);
     foreach ($xml->request->attributions as $attribution) {
-      $attributions[(string) $attribution->attributes()->{'lgCode'}] = array(
+      $attributions[(string) $attribution->attributes()->{'lgCode'}] = [
         'language' => (string) $attribution->attributes()->{'lgCode'},
         'format' => (string) $attribution->attributes()->{'format'},
-      );
+      ];
     }
 
-    return array(
+    return [
       'demande_id' => (array) $xml->request->demandeId,
       'content' => (string) $xml->request->documentSource->documentSourceFile,
       'attributions' => $attributions,
-    );
+    ];
   }
 
   /**
@@ -303,6 +302,86 @@ class PoetryMock {
     $translated_content = explode("\n", $xml_content->asXML(), 2)[1];
 
     return base64_encode($translated_content);
+  }
+
+  /**
+   * Helper method for fetching an entity details based on demande_id.
+   *
+   * @param array $demande_id
+   *    An array with identifiers for POETRY translation request.
+   *
+   * @return mixed
+   *    An array with result.
+   */
+  public static function getEntityDetailsByDemandeId($demande_id) {
+    return db_select('poetry_map', 'pm')
+      ->fields('pm', ['entity_type', 'entity_id'])
+      ->condition('annee', $demande_id['annee'], '=')
+      ->condition('numero', $demande_id['numero'], '=')
+      ->condition('version', $demande_id['version'], '=')
+      ->condition('partie', $demande_id['partie'], '=')
+      ->execute()
+      ->fetchAssoc();
+  }
+
+  /**
+   * Helper method for fetching all translation request files.
+   *
+   * @return array
+   *    An array with objects or an empty one if there is no results.
+   */
+  public static function getAllRequestTranslationFiles() {
+    $result = db_select('file_managed', 'fm')
+      ->fields('fm', ['fid'])
+      ->condition('filemime', 'application/xml', '=')
+      ->condition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
+      ->orderBy('timestamp', 'DESC')
+      ->execute()
+      ->fetchAllAssoc('fid');
+
+    if ($result) {
+      return file_load_multiple(array_keys($result));
+    }
+
+    return [];
+  }
+
+  /**
+   * Helper method for fetching active translation jobs based on give entity id.
+   *
+   * @param int $entity_id
+   *    Entity id.
+   *
+   * @return mixed
+   *    An array of results with active translation jobs for given entity id.
+   */
+  public static function getActiveTranslationJobsByEntityId($entity_id) {
+    $query = db_select('tmgmt_job_item', 'item');
+    $query->join('tmgmt_job', 'job', 'item.tjid = job.tjid');
+    $query->groupBy('job.tjid');
+    $query->condition('item.item_id', $entity_id, '=');
+    $query->condition('job.state', TMGMT_JOB_STATE_ACTIVE, '=');
+    // List of available fields form tmgmt_job_item column.
+    $query->fields('item', [
+        'tjiid',
+        'item_type',
+        'item_id',
+        'state'
+      ]
+    );
+    // List of available fields form tmgmt_job column.
+    $query->fields('job', [
+        'tjid',
+        'reference',
+        'source_language',
+        'target_language',
+        'state',
+        'changed'
+      ]
+    );
+
+    $result = $query->execute()->fetchAllAssoc('tjid');
+    return $result;
   }
 
 }
