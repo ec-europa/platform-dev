@@ -4,7 +4,7 @@ core = 7.x
 projects[drupal][type] = "core"
 projects[drupal][version] = "7.50"
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
+projects[drupal][download][url] = https://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
