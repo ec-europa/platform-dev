@@ -2,9 +2,9 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.44"
+projects[drupal][version] = "7.50"
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.44.tar.gz
+projects[drupal][download][url] = https://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
 
 projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 projects[drupal][patch][] = patches/menu-conflict_with_menu_token-2534.patch
