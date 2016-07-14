@@ -2,9 +2,9 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.44"
+projects[drupal][version] = "7.50"
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.44.tar.gz
+projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -17,12 +17,6 @@ projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11805
 ; https://www.drupal.org/node/1349080
 projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.patch
-
-; Following a password reset link while logged in leaves users unable to change their password.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4679
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11861
-; https://www.drupal.org/node/889772
-projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal7-backport-889772-207.patch
 
 ; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12269
