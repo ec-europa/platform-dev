@@ -494,7 +494,6 @@ function cce_basic_config_install() {
     $lite_plugin_settings
   );
 
-
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
   // module is installed, which is different depending on the installation
