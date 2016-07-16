@@ -1,0 +1,97 @@
+<?php
+/**
+ * @file
+ * multisite_wysiwyg.settings.inc
+ */
+
+/**
+ * Multisite WYSIWYG settings form.
+ */
+function multisite_wysiwyg_settings_form($form, &$form_state) {
+  $form['wysiwyg'] = [
+    '#title' => t('Options'),
+    '#type' => 'fieldset',
+  ];
+
+  $form['wysiwyg']['change_tracking'] = [
+    '#title' => t('[Enable/Disable] change tracking for selected WYSIWYG profile'),
+    '#type' => 'fieldset',
+  ];
+
+  $form['wysiwyg']['change_tracking']['action'] = [
+    '#title' => "Select operation",
+    '#type' => 'select',
+    '#options' => [
+      'enable' => t('Enable change tracking'),
+      'disable' => t('Disable change tracking'),
+    ],
+    '#default_value' => [],
+  ];
+
+  $form['wysiwyg']['change_tracking']['profile'] = [
+    '#title' => "Select profile",
+    '#type' => 'select',
+    '#options' => _multisite_wysiwyg_get_profiles(),
+    '#default_value' => [],
+  ];
+
+  $form['wysiwyg']['change_tracking']['submit'] = [
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+    '#submit' => ['_multisite_wysiwyg_set_change_tracking'],
+  ];
+
+  return $form;
+}
+
+/**
+ * Custom form submit function. Enabling and disabling change tracking.
+ */
+function _multisite_wysiwyg_set_change_tracking($form, &$form_state) {
+  $lite_plugin_settings = array(
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
+  );
+  $action = $form_state['values']['action'];
+  $profile = $form_state['values']['profile'];
+
+  switch ($action) {
+    case 'enable':
+      multisite_config_service('wysiwyg')->addButtonsToProfile(
+        $profile,
+        'lite',
+        $lite_plugin_settings
+      );
+      break;
+
+    case 'disable':
+      multisite_config_service('wysiwyg')->removeButtonsFromProfile(
+        $profile,
+        'lite',
+        $lite_plugin_settings
+      );
+      break;
+  }
+}
+
+/**
+ * Helper function for fetching WYSIWYG profiles.
+ *
+ * @return array
+ *    An array with WYSIWYG profiles.
+ */
+function _multisite_wysiwyg_get_profiles() {
+  $formats = filter_formats();
+  $profiles = wysiwyg_profile_load_all();
+  foreach ($profiles as $key => $profile) {
+    $wysiwyg_profiles[$key] = $formats[$key]->name;
+  }
+
+  unset($wysiwyg_profiles['full_html_track']);
+
+  return $wysiwyg_profiles;
+}

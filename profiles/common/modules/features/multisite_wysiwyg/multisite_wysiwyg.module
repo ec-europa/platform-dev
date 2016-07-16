@@ -16,7 +16,35 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Set custom skin.
     $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
 
-    // Provide additionnal custom settings.
+    // Provide additional custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
   }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function multisite_wysiwyg_menu() {
+  $items['admin/config/content/multisite_wysiwyg'] = [
+    'title' => 'Multisite WYSIWYG',
+    'description' => 'Multisite WYSIWYG: Available options',
+    'position' => 'left',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => ['administer site configuration'],
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  ];
+
+  $items['admin/config/content/multisite_wysiwyg/setup'] = [
+    'title' => 'Settings',
+    'description' => 'Setup page for Multisite WYSIWYG',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['multisite_wysiwyg_settings_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'includes/multisite_wysiwyg.settings.inc',
+    'weight' => 1,
+  ];
+
+  return $items;
 }
