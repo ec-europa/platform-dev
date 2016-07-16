@@ -41,9 +41,9 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
   }
 
   // Enable CKEditor Lite change tracking on edit content pages.
-  $create_page = _multisite_wysiwyg_check_page_arg('edit');
+  $edit_page = _multisite_wysiwyg_check_page_arg('edit');
   if ($ms_wysiwyg && isset($ms_wysiwyg['en_change_track_on_edit'])) {
-    if ($ms_wysiwyg['en_change_track_on_edit'] && $create_page) {
+    if ($ms_wysiwyg['en_change_track_on_edit'] && $edit_page) {
       $settings['lite']['isTracking'] = TRUE;
     }
   }
