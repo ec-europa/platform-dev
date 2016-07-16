@@ -8,6 +8,9 @@
  * Multisite WYSIWYG settings form.
  */
 function multisite_wysiwyg_settings_form($form, &$form_state) {
+  $profiles = _multisite_wysiwyg_get_profiles();
+  $info_table = _multisite_wysiwyg_render_info_table($profiles['info']);
+
   $form['wysiwyg'] = [
     '#title' => t('Options'),
     '#type' => 'fieldset',
@@ -16,6 +19,13 @@ function multisite_wysiwyg_settings_form($form, &$form_state) {
   $form['wysiwyg']['change_tracking'] = [
     '#title' => t('[Enable/Disable] change tracking for selected WYSIWYG profile'),
     '#type' => 'fieldset',
+  ];
+
+  $form['wysiwyg']['info'] = [
+    '#title' => t('WYSIWYG change tracking status'),
+    '#type' => 'item',
+    '#markup' => $info_table,
+    '#weight' => -10,
   ];
 
   $form['wysiwyg']['change_tracking']['action'] = [
@@ -31,7 +41,7 @@ function multisite_wysiwyg_settings_form($form, &$form_state) {
   $form['wysiwyg']['change_tracking']['profile'] = [
     '#title' => "Select profile",
     '#type' => 'select',
-    '#options' => _multisite_wysiwyg_get_profiles(),
+    '#options' => $profiles['options'],
     '#default_value' => [],
   ];
 
@@ -85,13 +95,68 @@ function _multisite_wysiwyg_set_change_tracking($form, &$form_state) {
  *    An array with WYSIWYG profiles.
  */
 function _multisite_wysiwyg_get_profiles() {
+  $wysiwyg_profiles = [];
   $formats = filter_formats();
   $profiles = wysiwyg_profile_load_all();
-  foreach ($profiles as $key => $profile) {
-    $wysiwyg_profiles[$key] = $formats[$key]->name;
+
+  // Removing profile which by default needs to have change tracking enabled.
+  if (isset($profiles['full_html_track'])) {
+    unset($profiles['full_html_track']);
   }
 
-  unset($wysiwyg_profiles['full_html_track']);
+  // Generating array with options array and change tracking status.
+  foreach ($profiles as $key => $profile) {
+    $wysiwyg_profiles['options'][$key] = $formats[$key]->name;
+    $wysiwyg_profiles['info'][$key]['name'] = $formats[$key]->name;
+    if (isset($profile->settings['buttons']['lite'])) {
+      $tracking_status = count($profile->settings['buttons']['lite']);
+      if ($tracking_status) {
+        $wysiwyg_profiles['info'][$key]['status'] = TRUE;
+      }
+      else {
+        $wysiwyg_profiles['info'][$key]['status'] = FALSE;
+      }
+    }
+  }
 
   return $wysiwyg_profiles;
+}
+
+/**
+ * Helper function renders array with information about profiles.
+ *
+ * @param array $info
+ *    An array with WYSIWYG profile information.
+ *
+ * @return string
+ *    Markup with rendered table.
+ */
+function _multisite_wysiwyg_render_info_table($info) {
+  // Setting up table header.
+  $header = [
+    ['data' => t('Profile')],
+    ['data' => t('Change tracking')],
+  ];
+  // Setting up table rows.
+  foreach ($info as $data_row) {
+    $row = [
+      $data_row['name'],
+      $data_row['status'] ? t('Enabled') : t('Disabled'),
+    ];
+    $rows[] = $row;
+  }
+  // Rendering table.
+  $rendered_table = theme('table',
+    [
+      'header' => $header,
+      'rows' => $rows,
+      'attributes' => ['class' => ['table', 'table-striped']],
+      'caption' => '',
+      'colgroups' => [],
+      'sticky' => FALSE,
+      'empty' => FALSE,
+    ]
+  );
+
+  return $rendered_table;
 }
