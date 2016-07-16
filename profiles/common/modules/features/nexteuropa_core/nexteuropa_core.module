@@ -42,4 +42,3 @@ function nexteuropa_core_form_taxonomy_overview_terms_submit($form, &$form_state
     }
   }
 }
-
