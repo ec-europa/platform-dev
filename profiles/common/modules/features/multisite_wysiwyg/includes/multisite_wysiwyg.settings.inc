@@ -8,27 +8,29 @@
  * Multisite WYSIWYG settings form.
  */
 function multisite_wysiwyg_settings_form($form, &$form_state) {
+  $settings = variable_get('multisite_wysiwyg', array());
   $profiles = _multisite_wysiwyg_get_profiles();
   $info_table = _multisite_wysiwyg_render_info_table($profiles['info']);
 
-  $form['wysiwyg'] = [
-    '#title' => t('Options'),
+  $form['multisite_wysiwyg'] = [
+    '#title' => t('Change tracking options'),
     '#type' => 'fieldset',
+    '#tree' => TRUE,
   ];
 
-  $form['wysiwyg']['change_tracking'] = [
-    '#title' => t('[Enable/Disable] change tracking for selected WYSIWYG profile'),
-    '#type' => 'fieldset',
-  ];
-
-  $form['wysiwyg']['info'] = [
-    '#title' => t('WYSIWYG change tracking status'),
+  $form['multisite_wysiwyg']['info'] = [
+    '#title' => t('WYSIWYG profiles: change tracking status'),
     '#type' => 'item',
     '#markup' => $info_table,
     '#weight' => -10,
   ];
 
-  $form['wysiwyg']['change_tracking']['action'] = [
+  $form['multisite_wysiwyg']['change_tracking'] = [
+    '#title' => t('[Enable/Disable] change tracking for selected WYSIWYG profile'),
+    '#type' => 'fieldset',
+  ];
+
+  $form['multisite_wysiwyg']['change_tracking']['action'] = [
     '#title' => "Select operation",
     '#type' => 'select',
     '#options' => [
@@ -38,20 +40,34 @@ function multisite_wysiwyg_settings_form($form, &$form_state) {
     '#default_value' => [],
   ];
 
-  $form['wysiwyg']['change_tracking']['profile'] = [
+  $form['multisite_wysiwyg']['change_tracking']['profile'] = [
     '#title' => "Select profile",
     '#type' => 'select',
     '#options' => $profiles['options'],
     '#default_value' => [],
   ];
 
-  $form['wysiwyg']['change_tracking']['submit'] = [
+  $form['multisite_wysiwyg']['change_tracking']['submit'] = [
     '#type' => 'submit',
     '#value' => t('Submit'),
     '#submit' => ['_multisite_wysiwyg_set_change_tracking'],
   ];
 
-  return $form;
+  $form['multisite_wysiwyg']['dis_change_track_on_create'] = [
+    '#title' => t('Disable on create content pages.'),
+    '#type' => 'checkbox',
+    '#description' => 'Disable change tracking on create content pages.',
+    '#default_value' => isset($settings['dis_change_track_on_create']) ? $settings['dis_change_track_on_create'] : '',
+  ];
+
+  $form['multisite_wysiwyg']['en_change_track_on_edit'] = [
+    '#title' => t('Enable tracking on edit content pages.'),
+    '#type' => 'checkbox',
+    '#description' => 'Enable change tracking on edit content pages.',
+    '#default_value' => isset($settings['en_change_track_on_edit']) ? $settings['en_change_track_on_edit'] : '',
+  ];
+
+  return system_settings_form($form);
 }
 
 /**
@@ -66,9 +82,8 @@ function _multisite_wysiwyg_set_change_tracking($form, &$form_state) {
     'lite_ToggleShow',
     'lite_ToggleTracking',
   );
-  $action = $form_state['values']['action'];
-  $profile = $form_state['values']['profile'];
-
+  $action = $form_state['values']['multisite_wysiwyg']['change_tracking']['action'];
+  $profile = $form_state['values']['multisite_wysiwyg']['change_tracking']['profile'];
   switch ($action) {
     case 'enable':
       multisite_config_service('wysiwyg')->addButtonsToProfile(
@@ -99,11 +114,6 @@ function _multisite_wysiwyg_get_profiles() {
   $formats = filter_formats();
   $profiles = wysiwyg_profile_load_all();
 
-  // Removing profile which by default needs to have change tracking enabled.
-  if (isset($profiles['full_html_track'])) {
-    unset($profiles['full_html_track']);
-  }
-
   // Generating array with options array and change tracking status.
   foreach ($profiles as $key => $profile) {
     $wysiwyg_profiles['options'][$key] = $formats[$key]->name;
@@ -117,6 +127,11 @@ function _multisite_wysiwyg_get_profiles() {
         $wysiwyg_profiles['info'][$key]['status'] = FALSE;
       }
     }
+  }
+
+  // Removing profile which by default needs to have change tracking enabled.
+  if (isset($wysiwyg_profiles['options']['full_html_track'])) {
+    unset($wysiwyg_profiles['options']['full_html_track']);
   }
 
   return $wysiwyg_profiles;
@@ -135,13 +150,16 @@ function _multisite_wysiwyg_render_info_table($info) {
   // Setting up table header.
   $header = [
     ['data' => t('Profile')],
-    ['data' => t('Change tracking')],
+    ['data' => t('Status')],
+    ['data' => t('Notes')],
+
   ];
   // Setting up table rows.
-  foreach ($info as $data_row) {
+  foreach ($info as $key => $data_row) {
     $row = [
       $data_row['name'],
       $data_row['status'] ? t('Enabled') : t('Disabled'),
+      ($key == 'full_html_track' ? t('Enabled by default. Can not be disabled.') : ''),
     ];
     $rows[] = $row;
   }

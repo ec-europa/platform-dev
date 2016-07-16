@@ -9,6 +9,7 @@
  */
 function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
   global $base_url;
+  $ms_wysiwyg = variable_get('multisite_wysiwyg', FALSE);
 
   if ($context['profile']->editor == 'ckeditor') {
     $skins_path = drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/skins';
@@ -19,6 +20,34 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Provide additional custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
   }
+
+  // Turn CKEditor Lite tracking off by default.
+  if (module_exists('ckeditor_lite') && $context['profile']->editor == 'ckeditor') {
+    $settings['lite']['isTracking'] = FALSE;
+  }
+
+  // Disable CKEditor Lite change tracking on create content pages.
+  $create_page = _multisite_wysiwyg_check_page_arg('add');
+  if ($ms_wysiwyg && isset($ms_wysiwyg['dis_change_track_on_create'])) {
+    if ($ms_wysiwyg['dis_change_track_on_create'] && $create_page) {
+      $extra_plugins = explode(',', $settings['extraPlugins']);
+      foreach ($extra_plugins as $key => $plugin) {
+        if ($plugin == 'lite') {
+          unset($extra_plugins[$key]);
+        }
+      }
+      $settings['extraPlugins'] = implode(',', $extra_plugins);
+    }
+  }
+
+  // Enable CKEditor Lite change tracking on edit content pages.
+  $create_page = _multisite_wysiwyg_check_page_arg('edit');
+  if ($ms_wysiwyg && isset($ms_wysiwyg['en_change_track_on_edit'])) {
+    if ($ms_wysiwyg['en_change_track_on_edit'] && $create_page) {
+      $settings['lite']['isTracking'] = TRUE;
+    }
+  }
+
 }
 
 /**
@@ -47,4 +76,19 @@ function multisite_wysiwyg_menu() {
   ];
 
   return $items;
+}
+
+/**
+ * Helper function for checking if an element is in internal menu path.
+ *
+ * @param string $element
+ *    Element string.
+ *
+ * @return bool
+ *    TRUE / FALSE.
+ */
+function _multisite_wysiwyg_check_page_arg($element) {
+  $arg = arg();
+
+  return in_array($element, $arg);
 }
