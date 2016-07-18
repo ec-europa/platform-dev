@@ -34,11 +34,6 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupa
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
 projects[drupal][patch][] = patches/default-settings-php-include-local-settings-3154.patch
 
-; Allow management of visibility for pseudo-fields.
-; https://www.drupal.org/node/1256368
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
-projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-91.patch
-
 ; Allow DRUPAL_MAXIMUM_TEMP_FILE_AGE to be overridden.
 ; https://www.drupal.org/node/1399846
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641

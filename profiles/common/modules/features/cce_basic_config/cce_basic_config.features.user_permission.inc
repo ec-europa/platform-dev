@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * cce_basic_config.features.user_permission.inc
@@ -91,6 +90,7 @@ function cce_basic_config_user_default_permissions() {
     'name' => 'access user contact forms',
     'roles' => array(
       'administrator' => 'administrator',
+      'anonymous user' => 'anonymous user',
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'contact',
@@ -256,17 +256,6 @@ function cce_basic_config_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'node_export',
-  );
-
-  // Exported permission: 'import media'.
-  $permissions['import media'] = array(
-    'name' => 'import media',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'contributor' => 'contributor',
-      'editor' => 'editor',
-    ),
-    'module' => 'media',
   );
 
   // Exported permission: 'moderate content from draft to needs_review'.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * cce_basic_config.features.inc
@@ -44,17 +43,9 @@ function cce_basic_config_image_default_styles() {
 
   // Exported image style: media_thumbnail_small.
   $styles['media_thumbnail_small'] = array(
-    'name' => 'media_thumbnail_small',
     'label' => 'Media thumbnail small (50x50)',
     'effects' => array(
       1 => array(
-        'label' => 'Scale and crop',
-        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 50,
@@ -68,16 +59,8 @@ function cce_basic_config_image_default_styles() {
   // Exported image style: preview.
   $styles['preview'] = array(
     'label' => 'preview',
-    'name' => 'preview',
     'effects' => array(
       1 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
-        'effect callback' => 'image_scale_effect',
-        'dimensions callback' => 'image_scale_dimensions',
-        'form callback' => 'image_scale_form',
-        'summary theme' => 'image_scale_summary',
-        'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
           'width' => 800,
@@ -91,17 +74,9 @@ function cce_basic_config_image_default_styles() {
 
   // Exported image style: square_thumbnail.
   $styles['square_thumbnail'] = array(
-    'name' => 'square_thumbnail',
     'label' => 'Square thumbnail',
     'effects' => array(
       1 => array(
-        'label' => 'Scale and crop',
-        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 180,

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * cce_basic_config.features.field_instance.inc
@@ -66,6 +65,12 @@ function cce_basic_config_field_default_field_instances() {
         'weight' => 1,
       ),
       'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'wysiwyg' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -174,6 +179,12 @@ function cce_basic_config_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'wysiwyg' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'file',
     'field_name' => 'field_tags',
@@ -250,6 +261,12 @@ function cce_basic_config_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'wysiwyg' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
     ),
     'entity_type' => 'file',
     'field_name' => 'field_video_description',
@@ -282,7 +299,7 @@ function cce_basic_config_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -323,17 +340,9 @@ function cce_basic_config_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-          'show_repeat_rule' => 'show',
-        ),
+        'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -379,17 +388,9 @@ function cce_basic_config_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'inline',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-          'show_repeat_rule' => 'show',
-        ),
+        'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -441,7 +442,7 @@ function cce_basic_config_field_default_field_instances() {
           'image_style' => 'large',
         ),
         'type' => 'image',
-        'weight' => -1,
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -522,7 +523,7 @@ function cce_basic_config_field_default_field_instances() {
         'module' => 'i18n_taxonomy',
         'settings' => array(),
         'type' => 'i18n_taxonomy_term_reference_link',
-        'weight' => 10,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
