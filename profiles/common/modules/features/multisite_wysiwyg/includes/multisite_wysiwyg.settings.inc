@@ -126,11 +126,8 @@ function _multisite_wysiwyg_get_profiles() {
   foreach ($profiles as $key => $profile) {
     $wysiwyg_profiles['options'][$key] = $formats[$key]->name;
     $wysiwyg_profiles['info'][$key]['name'] = $formats[$key]->name;
-    if (isset($profile->settings['buttons']['lite'])) {
-      $tracking_status = count($profile->settings['buttons']['lite']);
-      if ($tracking_status) {
-        $wysiwyg_profiles['info'][$key]['status'] = TRUE;
-      }
+    if (isset($profile->settings['buttons']['lite']) && count($profile->settings['buttons']['lite'])) {
+      $wysiwyg_profiles['info'][$key]['status'] = TRUE;
     }
     else {
       $wysiwyg_profiles['info'][$key]['status'] = FALSE;
