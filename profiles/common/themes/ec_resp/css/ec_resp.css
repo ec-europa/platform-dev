@@ -6741,6 +6741,12 @@ button.close {
     display: none !important;
   }
 }
+/* -------------- Custom utilities   -------------- */
+@media (max-width: 479px) {
+  .hidden-xxs {
+    display: none !important;
+  }
+}
 /*!
  * Ec resp
  */
@@ -7995,7 +8001,7 @@ fieldset[disabled] .node-form .multipage-controls-list input.form-submit.active 
 #home-button,
 #menu-button {
   padding: 12px 10px 11px;
-  color: #ffffff;
+  color: #fff;
 }
 #home-button:focus,
 #menu-button:focus {
@@ -8191,7 +8197,7 @@ ul.menu li.expanded {
 .navbar-collapse {
   max-height: none;
 }
-@media (max-width: 480px) {
+@media (max-width: 479px) {
   #home-button {
     display: block;
   }
@@ -9405,6 +9411,7 @@ div.aligncenter {
   padding: 0 4px 5px;
   margin: 0;
 }
+/* END WP Captions */
 /* ---------------- Links  ----------------- */
 @media (min-width: 768px) and (max-width: 979px) {
   .view-links td.views-field-field-link {
