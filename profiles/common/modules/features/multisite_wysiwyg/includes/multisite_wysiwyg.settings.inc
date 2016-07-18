@@ -131,9 +131,9 @@ function _multisite_wysiwyg_get_profiles() {
       if ($tracking_status) {
         $wysiwyg_profiles['info'][$key]['status'] = TRUE;
       }
-      else {
-        $wysiwyg_profiles['info'][$key]['status'] = FALSE;
-      }
+    }
+    else {
+      $wysiwyg_profiles['info'][$key]['status'] = FALSE;
     }
   }
 
