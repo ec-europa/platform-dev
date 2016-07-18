@@ -25,6 +25,14 @@ function multisite_wysiwyg_settings_form($form, &$form_state) {
     '#weight' => -10,
   ];
 
+  if (!isset($profiles['info']['full_html_track'])) {
+    $form['multisite_wysiwyg']['create_full_html_track'] = [
+      '#type' => 'submit',
+      '#value' => t('Create Full HTML + Change tracking profile'),
+      '#submit' => ['_multisite_wysiwyg_create_full_html_track_profile'],
+    ];
+  }
+
   $form['multisite_wysiwyg']['change_tracking'] = [
     '#title' => t('[Enable/Disable] change tracking for selected WYSIWYG profile'),
     '#type' => 'fieldset',
@@ -177,4 +185,55 @@ function _multisite_wysiwyg_render_info_table($info) {
   );
 
   return $rendered_table;
+}
+
+/**
+ * Helper funtion to create Full HTML + Change tracking WYSIWYG profile.
+ */
+function _multisite_wysiwyg_create_full_html_track_profile() {
+  // Preparing filer format required further to build WYSIWYG profile.
+  $fl_html_filters = multisite_config_service('filter')->getFormatFilters('full_html');
+
+  // Transforming array of objects in to array by small trick.
+  $fl_html_filters = json_decode(json_encode($fl_html_filters), TRUE);
+  $full_html_track_format = (object) array(
+    'format' => 'full_html_track',
+    'name' => 'Full HTML + Change tracking',
+    'cache' => '0',
+    'status' => '1',
+    'weight' => '-10',
+    'filters' => $fl_html_filters,
+  );
+  // Filter module function for saving and updating text formats.
+  filter_format_save($full_html_track_format);
+
+  // Create WYSIWYG profile for Full HTML text format with change tracking.
+  // Creation based on Full HTML profile to keep a consistent functionality.
+  $wys_fl_html = multisite_config_service('wysiwyg')->getProfile('full_html');
+  $wys_fl_html_settings = (array) $wys_fl_html->settings;
+  multisite_config_service('wysiwyg')->createProfile(
+    'full_html_track',
+    'ckeditor',
+    $wys_fl_html_settings
+  );
+
+  // Adding LITE plugin change tracking functionality to new profile.
+  // Enable ckeditor_lite WYSIWYG plugin.
+  $lite_plugin_settings = array(
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
+  );
+  multisite_config_service('wysiwyg')->addButtonsToProfile(
+    'full_html_track',
+    'lite',
+    $lite_plugin_settings
+  );
+
+  // Cloning roles to 'Full HTML + Change tracking' text format.
+  $fl_html_roles = multisite_config_service('filter')->getFormatRoles('full_html');
+  multisite_config_service('filter')->setFormatRoles('full_html_track', $fl_html_roles);
 }
