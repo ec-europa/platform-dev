@@ -794,7 +794,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access print',
     'access site-wide contact form',
     'access user contact forms',
-    'access user profiles',
     'post comments',
     'search content',
     'use advanced search',
