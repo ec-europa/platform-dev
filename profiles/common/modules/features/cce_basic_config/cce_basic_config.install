@@ -608,6 +608,7 @@ function _cce_basic_config_post_install_apachesolr() {
   $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
   $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
 
+  variable_set('apachesolr_delay_removals', 1);
 }
 
 /**
@@ -793,7 +794,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access print',
     'access site-wide contact form',
     'access user contact forms',
-    'access user profiles',
     'post comments',
     'search content',
     'use advanced search',
@@ -2136,4 +2136,11 @@ function cce_basic_config_update_7209() {
  */
 function cce_basic_config_update_7210() {
   variable_set('multisite_version', '2.2');
+}
+
+/**
+ * NEXTEUROPA-11582: Delay removal of entities from Apache Solr to cron.
+ */
+function cce_basic_config_update_7211() {
+  variable_set('apachesolr_delay_removals', 1);
 }
