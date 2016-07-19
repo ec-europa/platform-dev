@@ -99,6 +99,7 @@ function _multisite_wysiwyg_set_change_tracking($form, &$form_state) {
         'lite',
         $lite_plugin_settings
       );
+      drupal_set_message(t('Change tracking enabled on !profile WYSIWYG profile.', ['!profile' => $profile]));
       break;
 
     case 'disable':
@@ -107,6 +108,7 @@ function _multisite_wysiwyg_set_change_tracking($form, &$form_state) {
         'lite',
         $lite_plugin_settings
       );
+      drupal_set_message(t('Change tracking disabled on !profile WYSIWYG profile.', ['!profile' => $profile]));
       break;
   }
 }
@@ -160,6 +162,7 @@ function _multisite_wysiwyg_render_info_table($info) {
   // Setting up table header.
   $header = [
     ['data' => t('Profile')],
+    ['data' => t('Machine name')],
     ['data' => t('Status')],
     ['data' => t('Notes')],
 
@@ -168,6 +171,7 @@ function _multisite_wysiwyg_render_info_table($info) {
   foreach ($info as $key => $data_row) {
     $row = [
       $data_row['name'],
+      $key,
       $data_row['status'] ? t('Enabled') : t('Disabled'),
       ($key == 'full_html_track' ? t('Enabled by default. Can not be disabled.') : ''),
     ];
