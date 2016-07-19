@@ -40,9 +40,9 @@ function sitemap_strongarm() {
 
   $strongarm = new stdClass();
   $strongarm->disabled = TRUE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 'none';
+  $strongarm->api_version = 1;
   $strongarm->name = 'xmlsitemap_multilingual_x_default';
-  $strongarm->value = 'default';
+  $strongarm->value = 'none';
   $export['xmlsitemap_multilingual_x_default'] = $strongarm;
 
   $strongarm = new stdClass();
