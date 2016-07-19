@@ -120,7 +120,12 @@ function _multisite_wysiwyg_set_change_tracking($form, &$form_state) {
 function _multisite_wysiwyg_get_profiles() {
   $wysiwyg_profiles = [];
   $formats = filter_formats();
+
+  // Only list profiles that have a WYSIWYG editor associated with.
   $profiles = wysiwyg_profile_load_all();
+  $profiles = array_filter($profiles, function ($profile) {
+    return !empty($profile->editor);
+  });
 
   // Generating array with options array and change tracking status.
   foreach ($profiles as $key => $profile) {
