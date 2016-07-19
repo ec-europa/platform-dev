@@ -41,6 +41,12 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     return;
   }
 
+  // Don't add the language suffix for sitemap.*** .
+  // @todo We should use $options['absolute'] (if true) or a variable with exceptions
+  if (strpos($path, 'sitemap.') === 0) {
+    return;
+  }
+
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
   $language_list = language_list('enabled');
   $languages = $language_list[1];
@@ -56,7 +62,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     }
   }
   // We allow only enabled languages here.
-  elseif (!isset($languages[$options['language']->language])) {
+  elseif (empty($options['language']->language) || !isset($languages[$options['language']->language])) {
     unset($options['language']);
     return;
   }

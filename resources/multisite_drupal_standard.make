@@ -736,6 +736,10 @@ projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.3"
+; Using rel="alternate" rather than multiple sitemaps by language context
+; https://www.drupal.org/node/1670086
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
+projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
 
 
 ; =========
