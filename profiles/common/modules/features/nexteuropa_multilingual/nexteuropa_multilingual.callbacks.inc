@@ -80,7 +80,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
       $path .= $delimiter . $language_suffix;
     }
     else {
-      if ($check_prefix[0]->language !== $language_suffix) {
+      if ($check_prefix[0]->prefix !== $language_suffix) {
         $path .= $delimiter . $language_suffix;
       }
     }
@@ -137,6 +137,10 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
         $path .= ($path == '') ? '' : '/';
         $path .= implode("/", $extra_params);
       }
+      // English does not have a prefix by default, so we add it for the future
+      // comparisons that rely on prefix.
+      $language->prefix = empty($language->prefix) ? $language->language : $language->prefix;
+
       return array($language, $path);
     }
   }
