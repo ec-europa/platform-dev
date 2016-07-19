@@ -335,7 +335,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
     case 'html_poetry':
     case 'xml_dgt':
       $dom = new DOMDocument();
-      if (!$dom->loadXML($content)) {
+      if (!$dom->loadHTML($content)) {
         return FALSE;
       }
       $xml = simplexml_import_dom($dom);
