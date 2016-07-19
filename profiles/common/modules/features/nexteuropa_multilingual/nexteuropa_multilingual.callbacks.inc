@@ -173,8 +173,8 @@ function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path)
  * This suffix is used on the last part of the URL.
  */
 function _nexteuropa_multilingual_get_language_suffix($language) {
-  if (is_object($language) && isset($language->language)) {
-    if (isset($language->prefix) && !empty($language->prefix)) {
+  if (is_object($language)) {
+    if (!empty($language->prefix)) {
       return $language->prefix;
     }
     elseif (!empty($language->language)) {
