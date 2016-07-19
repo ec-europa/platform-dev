@@ -12,7 +12,7 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 /**
  * Behat step definitions for the NextEuropa Editorial module.
  */
-class NextEuropaTokenSubContext extends RawDrupalContext implements DrupalSubContextInterface {
+class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
   /**
    * The Drupal driver manager.
@@ -172,6 +172,34 @@ class NextEuropaTokenSubContext extends RawDrupalContext implements DrupalSubCon
     $content = $this->getSession()->evaluateScript("return $instance.getContent()");
     if (strpos($text, $content) === FALSE) {
       throw new \Exception(sprintf('The text "%s" was not found in the "%s" WYSWIYG editor on the page %s', $text, $instance_id, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
+  /**
+   * Checks if given button is not available in WYSIWYG editor toolbar.
+   *
+   * @Then /^I should not see the "([^"]*)" button in the "([^"]*)" WYSIWYG editor$/
+   */
+  public function iShouldNotSeeButtonInToolbar($action, $instance_id) {
+    $instance_id = $this->getWysiwygInstance($instance_id);
+    $toolbar_element = $this->getWysiwygToolbar($instance_id);
+    $button = $toolbar_element->find("xpath", "//a[starts-with(@title, '$action')]");
+    if (!is_null($button)) {
+      throw new \Exception(sprintf('Button "%s" was found on the page %s', $action, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
+  /**
+   * Checks if given button is available in WYSIWYG editor toolbar.
+   *
+   * @Then /^I should see the "([^"]*)" button in the "([^"]*)" WYSIWYG editor$/
+   */
+  public function iShouldSeeButtonInToolbar($action, $instance_id) {
+    $instance_id = $this->getWysiwygInstance($instance_id);
+    $toolbar_element = $this->getWysiwygToolbar($instance_id);
+    $button = $toolbar_element->find("xpath", "//a[starts-with(@title, '$action')]");
+    if (is_null($button)) {
+      throw new \Exception(sprintf('Button "%s" was not found on the page %s', $action, $this->getSession()->getCurrentUrl()));
     }
   }
 

@@ -9,6 +9,7 @@
  */
 function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
   global $base_url;
+  $ms_wysiwyg = variable_get('multisite_wysiwyg', FALSE);
 
   if ($context['profile']->editor == 'ckeditor') {
     $skins_path = drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/skins';
@@ -16,7 +17,78 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Set custom skin.
     $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
 
-    // Provide additionnal custom settings.
+    // Provide additional custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
   }
+
+  // Turn CKEditor Lite tracking off by default.
+  if (module_exists('ckeditor_lite') && $context['profile']->editor == 'ckeditor') {
+    $settings['lite']['isTracking'] = FALSE;
+  }
+
+  // Disable CKEditor Lite change tracking on create content pages.
+  $create_page = _multisite_wysiwyg_check_page_arg('add');
+  if ($ms_wysiwyg && isset($ms_wysiwyg['dis_change_track_on_create'])) {
+    if ($ms_wysiwyg['dis_change_track_on_create'] && $create_page) {
+      $extra_plugins = explode(',', $settings['extraPlugins']);
+      foreach ($extra_plugins as $key => $plugin) {
+        if ($plugin == 'lite') {
+          unset($extra_plugins[$key]);
+        }
+      }
+      $settings['extraPlugins'] = implode(',', $extra_plugins);
+    }
+  }
+
+  // Enable CKEditor Lite change tracking on edit content pages.
+  $edit_page = _multisite_wysiwyg_check_page_arg('edit');
+  if ($ms_wysiwyg && isset($ms_wysiwyg['en_change_track_on_edit'])) {
+    if ($ms_wysiwyg['en_change_track_on_edit'] && $edit_page) {
+      $settings['lite']['isTracking'] = TRUE;
+    }
+  }
+
+}
+
+/**
+ * Implements hook_menu().
+ */
+function multisite_wysiwyg_menu() {
+  $items['admin/config/content/multisite_wysiwyg'] = [
+    'title' => 'Multisite WYSIWYG',
+    'description' => 'Multisite WYSIWYG: Available options',
+    'position' => 'left',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => ['administer site configuration'],
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  ];
+
+  $items['admin/config/content/multisite_wysiwyg/setup'] = [
+    'title' => 'Settings',
+    'description' => 'Setup page for Multisite WYSIWYG',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['multisite_wysiwyg_settings_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'includes/multisite_wysiwyg.settings.inc',
+    'weight' => 1,
+  ];
+
+  return $items;
+}
+
+/**
+ * Helper function for checking if an element is in internal menu path.
+ *
+ * @param string $element
+ *    Element string.
+ *
+ * @return bool
+ *    TRUE / FALSE.
+ */
+function _multisite_wysiwyg_check_page_arg($element) {
+  $arg = arg();
+
+  return in_array($element, $arg);
 }
