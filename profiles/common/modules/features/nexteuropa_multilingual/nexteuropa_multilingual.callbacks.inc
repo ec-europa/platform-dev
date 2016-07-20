@@ -76,14 +76,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
     // Check if the language suffix has been already added.
     $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
-    if ($check_prefix[0] === FALSE) {
-      $path .= $delimiter . $language_suffix;
-    }
-    else {
-      if ($check_prefix[0]->prefix !== $language_suffix) {
-        $path .= $delimiter . $language_suffix;
-      }
-    }
+    $path = $check_prefix[1] . $delimiter . $language_suffix;
 
     $options['alias'] = TRUE;
   }
