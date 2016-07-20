@@ -18,7 +18,7 @@ function nexteuropa_communities_menu_default_menu_links() {
     'router_path' => 'menutoken/%',
     'link_title' => 'Homepage',
     'options' => array(
-      'menu_token_link_path' => 'node/[node:nid]',
+      'menu_token_link_path' => 'node/[site:og-context--node:nid]',
       'menu_token_data' => array(
         'node' => array(
           'type' => 'node',
@@ -31,6 +31,7 @@ function nexteuropa_communities_menu_default_menu_links() {
       ),
       'alter' => TRUE,
       'menu_token_link_uuid' => 'menutoken/578e01d6cc02a',
+      'identifier' => 'menu-community-menu_homepage:menutoken/578e01d6cc02a',
       'attributes' => array(
         'data-display-title' => 1,
         'data-hide-children' => 0,
@@ -45,7 +46,6 @@ function nexteuropa_communities_menu_default_menu_links() {
         'data-remove-class' => 0,
         'style' => '',
       ),
-      'identifier' => 'menu-community-menu_homepage:menutoken/578e01d6cc02a',
     ),
     'module' => 'menu',
     'hidden' => 0,
