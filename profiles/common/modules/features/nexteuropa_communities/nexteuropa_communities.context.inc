@@ -61,5 +61,31 @@ function nexteuropa_communities_context_default_contexts() {
   t('communities');
   $export['communities'] = $context;
 
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'comunities_homepage';
+  $context->description = 'Context triggered on community homepage';
+  $context->tag = 'communities';
+  $context->conditions = array(
+    'context_og_condition_group_type' => array(
+      'values' => array(
+        '_any_' => '_any_',
+        'community' => 'community',
+      ),
+      'options' => array(
+        'node_form' => 0,
+      ),
+    ),
+  );
+  $context->reactions = array();
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Context triggered on community homepage');
+  t('communities');
+  $export['comunities_homepage'] = $context;
+
   return $export;
 }

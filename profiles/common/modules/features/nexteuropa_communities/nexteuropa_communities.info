@@ -17,6 +17,7 @@ dependencies[] = strongarm
 dependencies[] = text
 dependencies[] = views
 features[context][] = communities
+features[context][] = comunities_homepage
 features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
