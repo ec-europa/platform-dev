@@ -1,7 +1,24 @@
 <?php
+
 /**
  * @file
  * Code for the Nexteuropa communities feature.
  */
 
 include_once 'nexteuropa_communities.features.inc';
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function nexteuropa_communities_block_view_alter(&$data, $block) {
+  if ($block->delta == 'menu-community-menu') {
+    $context = og_context();
+    if (isset($context['gid'])) {
+      $node = node_load($context['gid']);
+      $data['subject'] = $node->title;
+    }
+    else {
+      $data['content'] = array();
+    }
+  }
+}
