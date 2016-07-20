@@ -37,6 +37,8 @@ projects[drupal][patch][] = patches/default-settings-php-include-local-settings-
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
+; Also requires a patch for i18n issue https://www.drupal.org/node/1350638,
+; you can find it in multisite_drupal_standard.make.
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-91.patch
 
 ; Allow DRUPAL_MAXIMUM_TEMP_FILE_AGE to be overridden.
