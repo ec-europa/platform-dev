@@ -44,4 +44,5 @@ features[variable][] = node_options_community
 features[variable][] = node_preview_community
 features[variable][] = node_submitted_community
 features[views_view][] = communities
+features[views_view][] = community_members
 project path = profiles/common/modules/features
