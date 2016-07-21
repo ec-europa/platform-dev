@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_communities.strongarm.inc
@@ -125,6 +126,32 @@ function nexteuropa_communities_strongarm() {
   $strongarm->name = 'node_submitted_community';
   $strongarm->value = 1;
   $export['node_submitted_community'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_context_negotiation_group_context';
+  $strongarm->value = array(
+    'nexteuropa_communities' => array(),
+    'url' => array(),
+    'node' => array(),
+  );
+  $export['og_context_negotiation_group_context'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_context_providers_weight_group_context';
+  $strongarm->value = array(
+    'url' => '-5',
+    'node' => '-4',
+    'user-view' => '0',
+    'user-edit' => '0',
+    'og_extras' => '0',
+    'comment' => '0',
+    'nexteuropa_communities' => '-10',
+  );
+  $export['og_context_providers_weight_group_context'] = $strongarm;
 
   return $export;
 }

@@ -22,3 +22,112 @@ function nexteuropa_communities_block_view_alter(&$data, $block) {
     }
   }
 }
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_communities_menu() {
+  $items['admin/config/group/context/negotiation'] = array(
+    'title' => 'NextEuropa negotiation',
+    'description' => 'Configure the NextEuropa context negotiation',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_communities_configure_form'),
+    'access arguments' => array('administer group'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function nexteuropa_communities_configure_form() {
+  $form['nexteuropa_communities_url_keyword'] = [
+    '#type' => 'textfield',
+    '#title' => 'The url keyword for community detection',
+    '#default_value' => variable_get('nexteuropa_communities_url_keyword', 'community'),
+  ];
+
+  return system_settings_form($form);
+}
+
+/**
+ * Add a new context negotiation to manage the NextEuropa communities.
+ *
+ * Implements hook_og_context_negotiation_info().
+ */
+function nexteuropa_communities_og_context_negotiation_info() {
+  $providers = [];
+
+  $providers['nexteuropa_communities'] = [
+    'name' => t('NextEuropa URL'),
+    'description' => t("Select group context for any url that start with the configured word, defaults at 'community'"),
+    'callback' => 'nexteuropa_communities_context_handler',
+  ];
+
+  return $providers;
+}
+
+/**
+ * Context handler, get the context from the URL.
+ */
+function nexteuropa_communities_context_handler() {
+  global $language;
+
+  $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+
+  // Use the NextEuropa language split for the url to remove language suffix.
+  $path = nexteuropa_multilingual_language_negotiation_split_suffix(request_path(), [$language]);
+  $path_args = explode('/', $path[1]);
+
+  // Look for the community keyword in the path.
+  if ($path_args[0] === $keyword) {
+    $community_path = drupal_lookup_path('source', $path_args[0] . '/' . $path_args[1], $language->language);
+    $community_path = explode('/', $community_path);
+
+    // Check that the node acts as a group.
+    $node = node_load($community_path[1]);
+    if (og_is_group('node', $node)) {
+      return [
+        'gid' => $node->nid,
+        'group_type' => 'node',
+      ];
+    }
+  }
+  return [];
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function nexteuropa_communities_token_info() {
+  $info = [];
+
+  $info['tokens']['site']['nexteuropa_communities_keyword'] = [
+    'name' => t('NextEuropa Communities keyword'),
+    'description' => t('A token showing the url keyword triggering the community context detection.'),
+  ];
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function nexteuropa_communities_tokens($type, $tokens, $data, $options) {
+  $replacements = [];
+
+  switch ($type) {
+    case 'site':
+      foreach ($tokens as $name => $token) {
+        switch ($name) {
+          case 'nexteuropa_communities_keyword':
+            $replacements[$token] = variable_get('nexteuropa_communities_url_keyword', 'community');;
+            break;
+        }
+      }
+      break;
+  }
+
+  return $replacements;
+}
