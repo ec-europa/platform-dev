@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_communities.context.inc
@@ -37,6 +38,12 @@ function nexteuropa_communities_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
+        'menu-menu-community-menu' => array(
+          'module' => 'menu',
+          'delta' => 'menu-community-menu',
+          'region' => 'sidebar_left',
+          'weight' => '-10',
+        ),
         'multisite_og_button-og-contextual-links' => array(
           'module' => 'multisite_og_button',
           'delta' => 'og-contextual-links',
