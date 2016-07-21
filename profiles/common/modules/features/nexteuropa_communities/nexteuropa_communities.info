@@ -43,5 +43,7 @@ features[variable][] = menu_parent_community
 features[variable][] = node_options_community
 features[variable][] = node_preview_community
 features[variable][] = node_submitted_community
+features[variable][] = og_context_negotiation_group_context
+features[variable][] = og_context_providers_weight_group_context
 features[views_view][] = communities
 project path = profiles/common/modules/features
