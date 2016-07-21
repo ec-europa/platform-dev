@@ -131,3 +131,48 @@ function nexteuropa_communities_tokens($type, $tokens, $data, $options) {
 
   return $replacements;
 }
+
+/**
+ * Load a community from an URL wildcard.
+ *
+ * @param string $arg
+ *   The name or nid of the community to load.
+ *
+ * @return stdClass | string
+ *   Return the instance of a community, or
+ */
+function community_load($arg) {
+  global $language;
+
+  // If a numerical parameter was given, try do load the group directly.
+  if (is_numeric($arg)) {
+    $group = node_load((int) $arg);
+  }
+  else {
+    // Get real path to get node id.
+    $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+    $path = drupal_lookup_path('source', $keyword . '/' . $arg, $language->language);
+
+    if ($path === FALSE) {
+      return NULL;
+    }
+
+    // Get the nid and load the group.
+    $path = explode("/", $path);
+
+    // Stop the search if the url is not of type 'node/nid'.
+    if ($path[0] !== 'node' || !is_numeric($path[1])) {
+      return NULL;
+    }
+
+    $group = node_load($path[1]);
+  }
+
+  // Check if the loaded content is an OG Group.
+  if ($group !== FALSE && og_is_group('node', $group)) {
+    return $group;
+  }
+
+  // If no group was found, pass the argument as is.
+  return NULL;
+}
