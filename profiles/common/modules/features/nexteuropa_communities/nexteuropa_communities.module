@@ -45,7 +45,7 @@ function nexteuropa_communities_configure_form() {
   $form['nexteuropa_communities_url_keyword'] = [
     '#type' => 'textfield',
     '#title' => 'The url keyword for community detection',
-    '#default_value' => variable_get('nexteuropa_communities_url_keyword'),
+    '#default_value' => variable_get('nexteuropa_communities_url_keyword', 'community'),
   ];
 
   return system_settings_form($form);
