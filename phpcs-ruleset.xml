@@ -82,9 +82,7 @@
     </rule>
 
     <!-- Chosen WSDL callback function FPFISPoetryIntegrationRequest do not follow camel case format. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/src/Services/PoetryCallback.php</exclude-pattern>
-    </rule>
+    <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/src/Services/PoetryCallback.php</exclude-pattern>
 
     <!-- Tmgmt poetry tests not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
