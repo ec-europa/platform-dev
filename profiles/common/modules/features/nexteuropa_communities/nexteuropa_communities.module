@@ -83,15 +83,18 @@ function nexteuropa_communities_context_handler() {
   // Look for the community keyword in the path.
   if ($path_args[0] === $keyword) {
     $community_path = drupal_lookup_path('source', $path_args[0] . '/' . $path_args[1], $language->language);
-    $community_path = explode('/', $community_path);
+    // If no path was found, then it's not a community in particular.
+    if ($community_path !== FALSE) {
+      $community_path = explode('/', $community_path);
 
-    // Check that the node acts as a group.
-    $node = node_load($community_path[1]);
-    if (og_is_group('node', $node)) {
-      return [
-        'gid' => $node->nid,
-        'group_type' => 'node',
-      ];
+      // Check that the node acts as a group.
+      $node = node_load($community_path[1]);
+      if (og_is_group('node', $node)) {
+        return [
+          'gid' => $node->nid,
+          'group_type' => 'node',
+        ];
+      }
     }
   }
   return [];
