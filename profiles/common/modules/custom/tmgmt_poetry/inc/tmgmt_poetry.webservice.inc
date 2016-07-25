@@ -382,7 +382,14 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
           }
         }
       }
-      $result = $xml->asXML();
+
+      // Workaround for saveXML() generating two xmlns attributes.
+      // See https://bugs.php.net/bug.php?id=47666.
+      if ($dom->documentElement->hasAttributeNS(NULL, 'xmlns')) {
+        $dom->documentElement->removeAttributeNS(NULL, 'xmlns');
+      }
+
+      $result = $xml->saveXML();
       break;
 
     case 'xliff_xsl_xml_poetry':
