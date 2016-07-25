@@ -20,6 +20,9 @@ class PoetryCallback {
   const POETRY_MAIN_JOB_PREFIX = 'MAIN_%_POETRY_%';
   const POETRY_REQUEST_WD_TYPE = 'PoetryCallback: Request';
   const POETRY_ERROR_MESSAGE_WD_TYPE = 'PoetryCallback: Error message';
+  const POETRY_REQUEST_TYPE_STATUS = 'status';
+  const POETRY_REQUEST_TYPE_TRANSLATION = 'translation';
+  const POETRY_REQUEST_TYPE_UNKNOWN = 'unknown';
 
   // Poetry system settings.
   private $settings;
@@ -58,6 +61,8 @@ class PoetryCallback {
   /**
    * FPFIS Poetry Integration WSDL option callback.
    *
+   * Main callback method which is called from PoetryListener.
+   *
    * @param string $user
    *    Username from SOAP request.
    * @param string $password
@@ -69,6 +74,7 @@ class PoetryCallback {
    *    XML response for callback function.
    */
   public function FPFISPoetryIntegrationRequest($user, $password, $message) {
+    // Setting up request properties to reuse them in the class methods.
     $this->setRequestArguments($user, $password, $message);
     // Log Poetry callback request to watchdog.
     $this->logToWatchdog(
@@ -76,6 +82,7 @@ class PoetryCallback {
       filter_xss(htmlentities($message)),
       WATCHDOG_DEBUG
     );
+
     // Checking credentials and processing request.
     if ($this->checkRequestCredentials($user, $password)) {
       // Setting up helper properties.
@@ -90,35 +97,64 @@ class PoetryCallback {
   }
 
   /**
-   * Main function which returns XML response.
+   * Main function which process request and returns XML response.
    *
    * @return string
    *    XML response for Poetry callback function.
    */
   private function processRequest() {
-    // Checking if job for given identifiers exist in database.
-    $main_job = $this->getMainJob();
-    if (!$main_job) {
-      $this->logRequestToWatchdog(
-        self::POETRY_ERROR_MESSAGE_WD_TYPE,
-        t("Callback can't find a job with remote reference !reference .",
-          ['!reference' => $this->xmlReference]
-        ),
-        WATCHDOG_ERROR
-      );
+    // Checking request type.
+    $request_type = $this->getRequestType();
 
-      return $this->generatePoetryCallbackAnsweer($this->xmlRefArray, -1, t('ERROR: Job does not exists'));
+    // Processing request according to given type.
+    switch ($request_type) {
+      case self::POETRY_REQUEST_TYPE_STATUS:
+        return $this->processStatusRequest();
+
+      case self::POETRY_REQUEST_TYPE_TRANSLATION:
+        return $this->processTranslationRequest();
+
+      default:
+        break;
+    }
+  }
+
+  /**
+   * Provides Poetry notice request type.
+   *
+   * @return string
+   *    Returns request type.
+   */
+  private function getRequestType() {
+
+    if ((string) $this->xmlReqObj['type'] === self::POETRY_REQUEST_TYPE_STATUS) {
+
+      return self::POETRY_REQUEST_TYPE_STATUS;
     }
 
-    // Process requests with status.
-    if (isset($this->xmlReqObj->staus)) {
-      $this->processRequestWithStatus();
+    if ((string) $this->xmlReqObj['type'] === self::POETRY_REQUEST_TYPE_TRANSLATION) {
+
+      return self::POETRY_REQUEST_TYPE_TRANSLATION;
     }
 
-    // Process requests with attributions.
-    if (isset($this->xmlReqObj->attribution)) {
-      $this->processRequestWithAttributions();
-    }
+    return self::POETRY_REQUEST_TYPE_UNKNOWN;
+  }
+
+  /**
+   * Method for processing Poetry notification about statuses.
+   *
+   * Look in to Poetry documentation - unit 3.1 page 16 & unit 4.1 page 36.
+   */
+  private function processStatusRequest() {
+
+  }
+
+  /**
+   * Method for processing Poetry notification of sanding back the translation.
+   *
+   * Look in to Poetry documentation - unit 4.2 page 38.
+   */
+  private function processTranslationRequest() {
 
   }
 
