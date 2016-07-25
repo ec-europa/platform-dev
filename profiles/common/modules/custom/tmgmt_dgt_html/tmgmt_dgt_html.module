@@ -52,8 +52,8 @@ function template_preprocess_tmgmt_dgt_html_template(&$variables) {
       }
 
       if ($escape_for_html) {
-        $variables['items'][$tjid][$data_id]['#text'] =
-          check_plain($variables['items'][$tjid][$data_id]['#text']);
+        $variables['items'][$tjid][$data_id]['#text']
+          = check_plain($variables['items'][$tjid][$data_id]['#text']);
       }
     }
   }
@@ -78,7 +78,7 @@ function _tmgmt_dgt_html_filter_formats_containing_html() {
  * later we can take the format into account when formatting the data as HTML.
  */
 function tmgmt_dgt_html_tmgmt_field_source_data_alter(&$data, $entity_type, $entity, $langcode) {
-  list( , , $bundle_name) = entity_extract_ids($entity_type, $entity);
+  list(, , $bundle_name) = entity_extract_ids($entity_type, $entity);
   $field_instances = _tmgmt_dgt_html_translateable_textareas(
     $entity_type,
     $bundle_name
