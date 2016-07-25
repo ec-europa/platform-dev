@@ -4,8 +4,10 @@
  * tmgmt_poetry_mock_forms.inc
  */
 
+use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
+
 /**
- * Forms for Poetry Service Mock.
+ * Setup form for Poetry Service Mock.
  */
 function tmgmt_poetry_mock_setup_form($form, &$form_state) {
   $form['mock_setup'] = [
@@ -33,6 +35,39 @@ function tmgmt_poetry_mock_setup_form($form, &$form_state) {
   };
 
   return $form;
+}
+
+/**
+ * Form for sending XML requests.
+ */
+function tmgmt_poetry_mock_send_request($form, &$form_state) {
+  $form['send_request'] = [
+    '#type' => 'submit',
+    '#value' => t('Send request'),
+    '#submit' => ['_tmgmt_poetry_mock_send_request_content'],
+    '#weight' => 1,
+  ];
+
+  $form['request_content'] = [
+    '#title' => t('Request content'),
+    '#type' => 'textarea',
+    '#description' => t('You can paste dumps from Kibana to this field.'),
+    '#default_value' => '',
+    '#rows' => 20,
+    '#weight' => 2,
+  ];
+
+  return $form;
+}
+
+/**
+ * Custom submit function which sends XML request based on pasted content.
+ */
+function _tmgmt_poetry_mock_send_request_content($form, &$form_state) {
+  $request_content = $form_state['values']['request_content'];
+  $request_content = html_entity_decode($request_content);
+  $poetry_mock = new PoetryMock();
+  $poetry_mock->sendRequestToDrupal($request_content);
 }
 
 /**

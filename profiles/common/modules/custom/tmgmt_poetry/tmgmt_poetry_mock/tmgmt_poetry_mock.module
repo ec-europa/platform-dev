@@ -81,6 +81,16 @@ function tmgmt_poetry_mock_menu() {
     'weight' => 2,
   ];
 
+  $items['admin/poetry_mock/send-request'] = [
+    'title' => 'POETRY Mock: Send request',
+    'description' => 'Allows to send XML request to Drupal endpoint',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['tmgmt_poetry_mock_send_request'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'includes/tmgmt_poetry_mock_forms.inc',
+    'weight' => 2,
+  ];
+
   return $items;
 }
 
