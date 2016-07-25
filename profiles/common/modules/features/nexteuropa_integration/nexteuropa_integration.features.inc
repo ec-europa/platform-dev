@@ -26,13 +26,13 @@ function nexteuropa_integration_default_integration_backend() {
         "resource_schema" : {
           "departments" : {
             "endpoint" : "\\/docs\\/types\\/departments",
-            "all_docs_endpoint" : "\\/docs\\/types\\/departments\\/producers\\/prd",
-            "changes_endpoint" : "\\/changes\\/types\\/departments\\/producers\\/prd"
+            "all_docs_endpoint" : "\\/docs\\/types\\/departments\\/producers\\/infosite",
+            "changes_endpoint" : "\\/changes\\/types\\/departments\\/producers\\/infosite"
           },
           "news" : {
             "endpoint" : "\\/docs\\/types\\/news",
-            "all_docs_endpoint" : "\\/docs\\/types\\/news\\/producers\\/prd",
-            "changes_endpoint" : "\\/changes\\/types\\/news\\/producers\\/prd"
+            "all_docs_endpoint" : "\\/docs\\/types\\/news",
+            "changes_endpoint" : "\\/changes\\/types\\/news"
           }
         }
       },
