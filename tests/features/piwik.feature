@@ -13,4 +13,7 @@ Scenario: Administrator user can check Piwik Script with the theme Bootstrap
   And I run drush "vset theme_default bootstrap"
   Then I am on the homepage
   And the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"instance\":\"\"}"
+  When I run drush "vset theme_default ec_resp"
+  Then I am on the homepage
+  And the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"instance\":\"\"}"
 
