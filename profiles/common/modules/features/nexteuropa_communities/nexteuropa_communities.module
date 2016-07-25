@@ -34,12 +34,18 @@ function nexteuropa_communities_menu() {
     'page arguments' => array('nexteuropa_communities_configure_form'),
     'access arguments' => array('administer group'),
   );
-
+  $items['admin/config/group/nexteuropa_private_area'] = array(
+    'title' => 'NextEuropa private area',
+    'description' => 'Configure the NextEuropa private area',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_communities_private_area_form'),
+    'access arguments' => array('administer group'),
+  );
   return $items;
 }
 
 /**
- * Implements hook_action_info().
+ * Provide a form for the nexteuropa og context negociation.
  */
 function nexteuropa_communities_configure_form() {
   $form['nexteuropa_communities_url_keyword'] = [
@@ -47,9 +53,22 @@ function nexteuropa_communities_configure_form() {
     '#title' => 'The url keyword for community detection',
     '#default_value' => variable_get('nexteuropa_communities_url_keyword', 'community'),
   ];
-
   return system_settings_form($form);
 }
+
+/**
+ * Provide a form for the private area setting.
+ */
+function nexteuropa_communities_private_area_form() {
+  $form['nexteuropa_communities_private_area'] = [
+    '#type' => 'checkbox',
+    '#title' => 'Enable the private area management for the community part.',
+    '#default_value' => variable_get('nexteuropa_communities_private_area', FALSE),
+  ];
+  return system_settings_form($form);
+}
+
+
 
 /**
  * Add a new context negotiation to manage the NextEuropa communities.
@@ -133,4 +152,27 @@ function nexteuropa_communities_tokens($type, $tokens, $data, $options) {
   }
 
   return $replacements;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_communities_permission() {
+  return array(
+    'access private area' => array(
+      'title' => t('Access private area'),
+      'description' => t('Allow to access to the private area.'),
+    ) 
+  );
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function nexteuropa_communities_node_access($node, $op, $account) {
+  if(variable_get('nexteuropa_communities_private_area', FALSE)) {
+    // The private area option is enabled.
+
+  }
+  return NODE_ACCESS_IGNORE; 
 }
