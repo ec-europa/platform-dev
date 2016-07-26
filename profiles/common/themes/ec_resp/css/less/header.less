@@ -31,7 +31,7 @@
   width:100%;
   background-repeat:repeat-x;
   background-position:0 0;
-  background-image:url("../images/title/title.gif");  
+  background-image:url("../images/title/title.gif");
   position:relative;
   z-index:10;
   min-height:145px;
@@ -56,7 +56,7 @@
     left: 245px;
     top: 100px;
     text-decoration: none;
-  }  
+  }
   /* ------------------ banner picture ------------------ */
   #banner-flag {
     position:absolute;
@@ -80,7 +80,7 @@
 @media (max-width: @screen-xs-max) {
   #layout-header {
     height: auto;
-    min-height: 82px;
+    min-height: 90px;
     #banner-flag {
       width: 90px;
       height: 62px;
@@ -88,21 +88,18 @@
       top: 10px;
     }
     #main-title {
-      font-size: 26px !important;
+      font-size: 22px !important;
       position: relative;
       left: 0;
       top: 0;
-      padding: 28px 0 0 100px;
+      padding: 24px 0 0 100px;
       text-transform: none;
     }
-  }
-}
-
-@media (max-width: (@screen-xs - 1)) {
-  #layout-header {
-    #main-title {
-      margin-top: 4px;
-      font-size: 20px !important;
+    #sub-title {
+      color: #074A8B;
+      padding-left: 100px;
+      position: static;
+      font-size: 16px !important;
     }
   }
 }
@@ -124,7 +121,7 @@
   .easy-breadcrumb {
     display: inline-block;
   }
-  a, 
+  a,
   a:visited {
     color: #fff;
     text-decoration: none;
@@ -245,13 +242,11 @@
   z-index: 1024;
   right:15px;
   border-style:none;
-  box-shadow:none;  
+  box-shadow:none;
   .panel-body {
     padding:0;
     .lang-select-site__link {
-      display: block;
-      margin-top: -30px;
-      padding: 0;
+      font-size: 90%;
     }
     .lang-select-site__code {
       .label;
@@ -273,7 +268,7 @@
 }
 
 @media (max-width: @screen-xs-max) {
-  .language-selector-close, 
+  .language-selector-close,
   .language-selector-open {
     padding: 3px;
     font-size: 14px;
@@ -282,7 +277,4 @@
     line-height: 18px;
     width: 138px;
   }
-}  
-
-
-
+}

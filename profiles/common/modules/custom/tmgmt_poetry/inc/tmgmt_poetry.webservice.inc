@@ -119,14 +119,6 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $language_job = $request->status['lgCode'];
-
-    if ($xml->request['type'] == 'status') {
-      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $reference));
-      // Send answer to poetry.
-      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'OK', 0, $request);
-      return $xml->asXML();
-    }
-
     $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
 
     // Handling the case where we can't find the corresponding job.
@@ -311,12 +303,16 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             }
             catch (Exception $e) {
               $message_job->addMessage('@language File import failed with the following message: @message', array('@language' => $language, '@message' => $e->getMessage()), 'error');
+              watchdog_exception('tmgmt_poetry', $e);
             }
           }
         }
       }
     }
 
+    if ($xml->request['type'] == 'status') {
+      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $main_reference));
+    }
     // Send answer to poetry.
     $xml = _tmgmt_poetry_generate_answer_xml($job, 'OK', 0, $request);
     return $xml->asXML();

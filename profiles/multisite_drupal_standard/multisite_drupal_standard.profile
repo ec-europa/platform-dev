@@ -4,6 +4,10 @@
  * Profile file of multisite drupal standards profile.
  */
 
+if (file_exists(DRUPAL_ROOT . '/vendor/autoload.php')) {
+  include_once DRUPAL_ROOT . '/vendor/autoload.php';
+}
+
 /**
  * Implements hook_form_FORM_ID_alter().
  *

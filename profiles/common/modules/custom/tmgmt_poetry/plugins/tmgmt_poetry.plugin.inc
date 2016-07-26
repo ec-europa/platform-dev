@@ -84,22 +84,25 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     }
     // Check that the item does not have pending requests.
     $item = array_shift($items);
-    $results = db_select('tmgmt_job_item', 'tji')
-      ->fields('tji', array('tjid'))
-      ->condition('item_type', $item->item_type, '=')
-      ->condition('item_id', $item->item_id, '=')
-      ->execute()
-      ->fetchAllAssoc('tjid');
-    if ($results) {
-      foreach ($results as $tjid) {
-        if ($job = tmgmt_job_load($tjid->tjid)) {
-          $translator = $job->getTranslator();
-          if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
-            return FALSE;
+    if (!empty($item)) {
+      $results = db_select('tmgmt_job_item', 'tji')
+          ->fields('tji', array('tjid'))
+          ->condition('item_type', $item->item_type, '=')
+          ->condition('item_id', $item->item_id, '=')
+          ->execute()
+          ->fetchAllAssoc('tjid');
+      if ($results) {
+        foreach ($results as $tjid) {
+          if ($job = tmgmt_job_load($tjid->tjid)) {
+            $translator = $job->getTranslator();
+            if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
+              return FALSE;
+            }
           }
         }
       }
     }
+
     // All languages are supported at the moment.
     return TRUE;
   }
@@ -451,6 +454,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     }
     catch (Exception $e) {
       $response = 'Error new SoapClient : ' . $e->getMessage();
+      watchdog_exception('tmgmt_poetry', $e);
     }
 
     if ($client) {
@@ -460,6 +464,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       }
       catch (Exception $e) {
         $response = 'Error sending soap call : ' . $e->getMessage();
+        watchdog_exception('tmgmt_poetry', $e);
       }
       return $response;
     }

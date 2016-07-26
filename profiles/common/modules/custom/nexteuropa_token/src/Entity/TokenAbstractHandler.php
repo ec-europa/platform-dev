@@ -68,4 +68,31 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
     return url($uri['path'], array('absolute' => TRUE));
   }
 
+  /**
+   * Create a Watchdog Log, if it's a node we can tell where they have to fix.
+   *
+   * @param array $data
+   *    Node Data.
+   * @param string $original
+   *    Token Original string.
+   */
+  protected function watchdogTokenNotFound($data, $original) {
+    if (isset($data['node'])) {
+      watchdog(
+        'Nexteuropa Tokens',
+        'The entity %entity has an invalid token: %token.',
+        [
+          '%entity' => $data['node']->title . ' (' . $data['node']->nid . ')',
+          '%token' => $original,
+        ],
+        WATCHDOG_ERROR,
+        l(t('Edit the node'), '/node/edit/' . $data['node']->nid)
+      );
+    }
+    else {
+      // Watchdog in case it's not a node.
+      watchdog('Nexteuropa Tokens', 'Invalid token %token found.', ['%token' => $original], WATCHDOG_ERROR);
+    }
+  }
+
 }

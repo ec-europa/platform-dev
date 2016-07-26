@@ -127,7 +127,7 @@ function multisite_drupal_language_negociation_field_group_pre_render(& $element
   if (isset($element['language']['#options'])) {
     $language_default = language_default();
     // Check if node source or new node.
-    if ($form['#node']->language == LANGUAGE_NONE || $form['#node']->language == $language_default->language) {
+    if (isset($form['#node']) && ($form['#node']->language == LANGUAGE_NONE || $form['#node']->language == $language_default->language)) {
       foreach ($element['language']['#options'] as $lg => $language) {
         if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
           unset($element['language']['#options'][$lg]);

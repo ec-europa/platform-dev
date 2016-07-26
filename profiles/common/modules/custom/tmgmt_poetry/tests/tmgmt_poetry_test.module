@@ -24,6 +24,13 @@ function tmgmt_poetry_test_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['tmgmt_poetry_test/refusetranslation/%'] = array(
+    'title' => 'Refuse translation',
+    'page callback' => 'tmgmt_poetry_test_refuse_translation',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   $items[drupal_get_path("module", "tmgmt_poetry_test") . "/tmgmt_poetry_test.wsdl"] = array(
     'page callback' => '_tmgmt_poetry_testl_wsdl',
     'access callback' => TRUE,
@@ -48,6 +55,29 @@ function tmgmt_poetry_test_soap_server() {
   $server->handle();
 }
 
+/**
+ * Simulate rejection of a job.
+ */
+function tmgmt_poetry_test_refuse_translation() {
+  $job = tmgmt_job_load(arg(2));
+  $poetry = variable_get("poetry_service");
+
+  $url = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE))) . '?wsdl';
+  $client = new SoapClient($url, array(
+    'cache_wsdl' => WSDL_CACHE_NONE,
+    'trace' => 1,
+  ));
+
+  $msg = _tmgmt_poetry_test_make_xml_msg_refused($job, array($job->target_language));
+  try {
+    $client->FPFISPoetryIntegrationRequest($poetry['callback_user'], $poetry['callback_password'], $msg);
+    print "<p>Translation refused for job: {$job->tjid} </p>";
+  }
+  catch (Exception $e) {
+    watchdog_exception('tmgmt_poetry_test', $e);
+  }
+
+}
 
 /**
  * Simulate receive a translation from poetry.
@@ -70,8 +100,7 @@ function tmgmt_poetry_test_receive_translation() {
     print "<p>Translation received for job: {$job->tjid} - $job->target_language </p>";
   }
   catch (Exception $e) {
-    $response = 'Error new SoapClient : ' . $e->getMessage();
-    watchdog('Poetry: Test', filter_xss($response));
+    watchdog_exception('tmgmt_poetry_test', $e);
   }
 }
 

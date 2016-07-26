@@ -19,6 +19,9 @@
             <!-- Prevent e-mails from being sent during the installation. -->
             <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
         </drush>
+
+		<!-- Rebuild node access after site installation -->
+        <phingcall target="rebuild-node-access" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -73,6 +76,8 @@
             </fileset>
         </symlink>
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
+        <symlink link="${phing.project.build.dir}/tests" target="../tests" />
+        <symlink link="bin/behat" target="../${phing.project.build.dir}/vendor/bin/behat" overwrite="true"/>
     </target>
 
     <!-- Run Behat tests. -->
@@ -93,4 +98,15 @@
         />
     </target>
 
+    <!-- Rebuild node access. -->
+    <target name="rebuild-node-access">
+        <drush
+            command="php-eval"
+            assume="yes"
+            root="${platform.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <param>"node_access_rebuild()"</param>
+        </drush>
+    </target>
 </project>

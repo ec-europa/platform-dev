@@ -3236,8 +3236,7 @@ class CAS_Client
         $result = array();
 
         if($node->nodeType == XML_TEXT_NODE) {
-            $result = html_entity_decode(htmlentities($node->nodeValue, ENT_COMPAT, 'UTF-8'),
-                ENT_COMPAT,'ISO-8859-15');
+            $result = $node->nodeValue;
         }
         else {
             if($node->hasChildNodes()){

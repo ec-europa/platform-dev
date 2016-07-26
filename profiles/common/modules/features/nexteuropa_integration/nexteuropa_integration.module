@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Integration feature.
+ */
+
+use Drupal\integration_producer\AbstractProducer;
+use Drupal\integration\Document\DocumentInterface;
+
+include_once 'nexteuropa_integration.features.inc';
+
+/**
+ * Implements hook_integration_producer_document_build_alter().
+ */
+function nexteuropa_integration_integration_producer_document_build_alter(AbstractProducer $producer, DocumentInterface &$document) {
+  // NEXTEUROPA-11012: add node canonical URLs and use resource schema type
+  // instead of bundle name.
+  $canonical_urls = [];
+  switch ($producer->getEntityType()) {
+    case 'node':
+      $wrapper = $producer->getEntityWrapper();
+      $languages = $wrapper->getAvailableLanguages();
+      $node = $wrapper->value();
+      foreach ($languages as $language) {
+        $url = url(drupal_lookup_path('alias', 'node/' . $node->nid, $language), ['absolute' => TRUE]);
+        $canonical_urls[$language] = $url;
+      }
+      break;
+  }
+  $document->setMetadata('canonical_url', $canonical_urls);
+  $document->setMetadata('type', $producer->getConfiguration()->getResourceSchema());
+}
