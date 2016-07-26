@@ -34,13 +34,13 @@ class TmgmtPoetryIntegration {
   public function __construct(\SimpleXMLElement $xml_req_obj, $xml_reference) {
     $this->xmlReqObj = $xml_req_obj;
     $this->xmlReference = $xml_reference;
-    $this->setProperites();
+    $this->setProperties();
   }
 
   /**
    * Sets basic properties.
    */
-  private function setProperites() {
+  private function setProperties() {
     $this->languages = language_list();
     $this->translator = tmgmt_translator_load(self::POETRY_TRANSLATOR);
   }
@@ -60,6 +60,53 @@ class TmgmtPoetryIntegration {
       ->condition('job.reference', '%' . $reference . '%', 'LIKE')
       ->execute()
       ->fetchAssoc();
+  }
+
+  /**
+   * Provides all of jobs objects.
+   *
+   * @param string $reference
+   *    Reference string from request.
+   *
+   * @return mixed bool | \TMGMTPoetryJob object
+   *    Returns an array with jobs objects.
+   */
+  public static function getJobsByReference($reference) {
+    $jobs_id = db_select('tmgmt_job', 'job')
+      ->fields('job', ['tjid'])
+      ->condition('job.reference', '%' . $reference . '%', 'LIKE')
+      ->orderBy('tjid', 'ASC')
+      ->execute()
+      ->fetchAllAssoc('tjid');
+    if ($jobs_id) {
+      $jobs_id = array_keys($jobs_id);
+      $jobs = tmgmt_job_load_multiple($jobs_id);
+      return $jobs;
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Adds notification details about status request to the job.
+   *
+   * @param \TMGMTPoetryJob $job
+   *    Job object.
+   * @param string $type
+   *    Status type.
+   * @param string $status
+   *    Status description.
+   * @param string $message
+   *    Status message.
+   */
+  public static function addStatusMassageToJob(\TMGMTPoetryJob $job, $type, $status, $message) {
+    $job->addMessage("DGT update received. Status type: '@type' with following status: '@status' and message: '@message'",
+      [
+        '@type' => $type,
+        '@status' => $status,
+        '@message' => $message,
+      ]
+    );
   }
 
 }
