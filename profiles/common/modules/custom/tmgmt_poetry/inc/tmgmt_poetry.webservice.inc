@@ -29,7 +29,7 @@ function _tmgmt_poetry_service_callback() {
   $context = stream_context_create();
   $uri = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
     'absolute' => TRUE,
-    'language' => (object) array('language' => FALSE)
+    'language' => (object) array('language' => FALSE),
   ));
 
   $server = new SoapServer($uri, array(
@@ -188,7 +188,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
           $message_job->addMessage("DGT update received. Request status: @status. Message: @message", array(
             '@status' => $status_message,
-            '@message' => $message
+            '@message' => $message,
           ));
           if ($cancelled) {
             $reference = '%' . $reference;
@@ -229,7 +229,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           $language = $languages[$job->target_language]->name;
           $message_job->addMessage("DGT update received. Affected language: @language. Request status: @status.", array(
             '@language' => $language,
-            '@status' => $status_message
+            '@status' => $status_message,
           ));
           db_update('poetry_status')
             ->fields(array('status' => $status_message))
@@ -254,7 +254,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), strtolower((string) $attributions['format'])) === FALSE))) {
         $message_job->addMessage('Received format "@format" is not compatible, translation job format "@job_format" should be used instead', array(
           '@format' => (string) $attributions['format'],
-          '@job_format' => $job->getSetting('export_format')
+          '@job_format' => $job->getSetting('export_format'),
         ));
         $xml = _tmgmt_poetry_generate_answer_xml($message_job, 'ERROR: Received format is not compatible', -1, $request);
         return $xml->asXML();
@@ -316,7 +316,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             catch (Exception $e) {
               $message_job->addMessage('@language File import failed with the following message: @message', array(
                 '@language' => $language,
-                '@message' => $e->getMessage()
+                '@message' => $e->getMessage(),
               ), 'error');
               watchdog_exception('tmgmt_poetry', $e);
             }
@@ -407,7 +407,6 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
         }
       }
 
-
       $result = $xml->saveXML();
       break;
 
@@ -453,7 +452,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
 function _tmgmt_poetry_wsdl() {
   $uri = url('tmgmt_poetry/service_callback', array(
     'absolute' => TRUE,
-    'language' => (object) array('language' => FALSE)
+    'language' => (object) array('language' => FALSE),
   ));
   $wsdl = '<?xml version="1.0"?>
 <definitions name="FPFISPoetryIntegration"
