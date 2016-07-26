@@ -338,6 +338,13 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
       if (!$dom->loadHTML($content)) {
         return FALSE;
       }
+
+      // Workaround for saveXML() generating two xmlns attributes.
+      // See https://bugs.php.net/bug.php?id=47666.
+      if ($dom->documentElement->hasAttributeNS(NULL, 'xmlns')) {
+        $dom->documentElement->removeAttributeNS(NULL, 'xmlns');
+      }
+      
       $xml = simplexml_import_dom($dom);
 
       if (count($xml->head->meta) > 0) {
@@ -383,11 +390,7 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
         }
       }
 
-      // Workaround for saveXML() generating two xmlns attributes.
-      // See https://bugs.php.net/bug.php?id=47666.
-      if ($dom->documentElement->hasAttributeNS(NULL, 'xmlns')) {
-        $dom->documentElement->removeAttributeNS(NULL, 'xmlns');
-      }
+
 
       $result = $xml->saveXML();
       break;
