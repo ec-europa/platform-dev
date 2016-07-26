@@ -2,15 +2,14 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.44"
+projects[drupal][version] = "7.50"
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.44.tar.gz
+projects[drupal][download][url] = https://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
 
 projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 projects[drupal][patch][] = patches/menu-conflict_with_menu_token-2534.patch
 projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.patch
 projects[drupal][patch][] = patches/standard-change_article_description-791.patch
-projects[drupal][patch][] = patches/user-drupal.d7.user-password-reset-logged-in-889772.patch
 projects[drupal][patch][] = patches/user-request_password_behaviour-2205.patch
 projects[drupal][patch][] = patches/core-locale-prevent-remote-loading.patch
 
