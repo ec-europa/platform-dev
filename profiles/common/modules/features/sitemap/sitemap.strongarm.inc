@@ -27,6 +27,27 @@ function sitemap_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'xmlsitemap_multilingual';
+  $strongarm->value = 1;
+  $export['xmlsitemap_multilingual'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = TRUE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'xmlsitemap_multilingual_only_nodes';
+  $strongarm->value = 1;
+  $export['xmlsitemap_multilingual_only_nodes'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = TRUE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'xmlsitemap_multilingual_x_default';
+  $strongarm->value = 'none';
+  $export['xmlsitemap_multilingual_x_default'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'xmlsitemap_path';
   $strongarm->value = 'xmlsitemap';
   $export['xmlsitemap_path'] = $strongarm;
