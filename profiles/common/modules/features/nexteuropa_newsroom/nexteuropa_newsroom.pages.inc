@@ -51,6 +51,23 @@ function _nexteuropa_newsroom_newsroom_page($type_url = NULL, $topic_url = NULL,
 }
 
 /**
+ * Newsroom page menu callback.
+ *
+ * @param string $type_url
+ *   Type url part.
+ * @param string $topic_url
+ *   Topic url part.
+ */
+function _nexteuropa_newsroom_newsroom_rss($type_url = NULL, $topic_url = NULL) {
+  $builder = new NewsroomBuilder();
+  $newsroom_page = $builder->buildPageNewsroomPage($type_url, $topic_url);
+  drupal_add_http_header('Content-Type', 'application/rss+xml; charset=utf-8');
+  echo $newsroom_page->getRssContent();
+  module_invoke_all('exit');
+  exit();
+}
+
+/**
  * Returns render array for the access newsletters page.
  *
  * @return array

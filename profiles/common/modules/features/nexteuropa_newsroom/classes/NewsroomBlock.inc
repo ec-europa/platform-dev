@@ -55,7 +55,7 @@ class NewsroomBlock extends NewsroomBlockBase {
    *   Title.
    */
   public function getTitle() {
-    return NewsroomHelper::getTermTranslatedName($this->getType());
+    return $this->getType()->name;
   }
 
   /**
@@ -65,7 +65,7 @@ class NewsroomBlock extends NewsroomBlockBase {
    *   Type URL.
    */
   public function getTypeUrl() {
-    return pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType()));
+    return pathauto_cleanstring($this->getType()->name);
   }
 
   /**
@@ -75,11 +75,11 @@ class NewsroomBlock extends NewsroomBlockBase {
    *   Topic URL.
    */
   public function getTopicUrl() {
-    $url = 'all';
+    $url = NEXTEUROPA_NEWSROOM_ALL;
     $topics = $this->getTopics();
     if (count($topics) == 1) {
       $topic = reset($topics);
-      $url = pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($topic));
+      $url = pathauto_cleanstring($topic->name);
     }
 
     return $url;
@@ -89,7 +89,7 @@ class NewsroomBlock extends NewsroomBlockBase {
    * Sets is block highlighted.
    */
   public function setHighlighted() {
-    $this->highlighted = isset($this->getType()->field_newsroom_highlighted[LANGUAGE_NONE][0]['value']) ? $this->getType()->field_newsroom_highlighted[LANGUAGE_NONE][0]['value'] : 0;
+    $this->highlighted = NewsroomHelper::getFieldValue($this->getType(), 'field_newsroom_highlighted');
   }
 
   /**
@@ -98,8 +98,8 @@ class NewsroomBlock extends NewsroomBlockBase {
   public function getData() {
     $topic_ids = $this->getTopicsId();
     $cache_key = 'newsroom:summary_block:' . md5($this->getType()->tid . implode('', $topic_ids));
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $result = $cache->data;
     }
     else {
@@ -160,7 +160,7 @@ class NewsroomBlock extends NewsroomBlockBase {
       'css_classes' => $this->getCssClasses(),
       'title' => $this->getTitle(),
       'type_url' => $this->getTypeUrl(),
-      'url' => NewsroomHelper::getNewsroomPageUrl($this->getTypeUrl(), $this->getTopicUrl()),
+      'url' => NewsroomHelper::getNewsroomPageUrl(array($this->getTypeUrl(), $this->getTopicUrl())),
     ));
   }
 

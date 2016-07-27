@@ -17,9 +17,9 @@ function nexteuropa_newsroom_context_default_contexts() {
   $context->description = '';
   $context->tag = 'newsroom';
   $context->conditions = array(
-    'views' => array(
+    'path' => array(
       'values' => array(
-        'newsroom' => 'newsroom',
+        'newsroom*' => 'newsroom*',
       ),
     ),
   );

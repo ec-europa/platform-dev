@@ -27,7 +27,7 @@
     <?php endif; ?>
 
     <div class="date-form">
-    <?php echo $date_form; ?>
+      <?php echo $date_form; ?>
     </div>
 
     <?php if (!empty($navigation['next'])): ?>

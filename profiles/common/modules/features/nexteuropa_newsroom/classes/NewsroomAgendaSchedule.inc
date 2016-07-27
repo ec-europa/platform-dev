@@ -12,6 +12,21 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
   protected $lastAgendaDate = NULL;
 
   /**
+   * NewsroomAgendaSchedule constructor.
+   *
+   * @param object $type
+   *   Newsroom type.
+   * @param array $topics
+   *   Newsroom topic.
+   * @param object $current_day
+   *   Current date.
+   */
+  public function __construct($type, $topics, $current_day) {
+    $this->setCurrentDate($current_day);
+    parent::__construct($type, $topics);
+  }
+
+  /**
    * Gets the latest date in the agenda.
    *
    * @return Datetime
@@ -29,21 +44,6 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    */
   public function setLastAgendaDate($value) {
     $this->lastAgendaDate = $value;
-  }
-
-  /**
-   * NewsroomAgendaSchedule constructor.
-   *
-   * @param object $type
-   *   Newsroom type.
-   * @param array $topics
-   *   Newsroom topic.
-   * @param object $current_day
-   *   Current date.
-   */
-  public function __construct($type, $topics, $current_day) {
-    $this->setCurrentDate($current_day);
-    parent::__construct($type, $topics);
   }
 
   /**
@@ -130,8 +130,8 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    */
   protected function findUpcomingDate() {
     $cache_key = 'get_agenda:upcoming_date:' . $this->getUniqueCachePart();
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $upcoming_date = $cache->data;
     }
     else {
@@ -168,8 +168,8 @@ class NewsroomAgendaSchedule extends NewsroomAgenda {
    */
   protected function findPreviousDate() {
     $cache_key = 'get_agenda:previous_date:' . $this->getUniqueCachePart();
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $previous_day = $cache->data;
     }
     else {

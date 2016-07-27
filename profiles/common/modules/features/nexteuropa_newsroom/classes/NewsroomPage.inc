@@ -10,13 +10,31 @@
 class NewsroomPage {
 
   const DATE_FORMAT = 'd/m/Y';
+  const MYSQL_DATE_FORMAT = 'd-m-Y';
 
-  protected $topicUrl = 'all';
-  protected $typeUrl = 'all';
-  protected $typeId = NULL;
-  protected $topicId = NULL;
-  protected $result = array();
-  protected $urlParts = array();
+  protected $type = NULL;
+  protected $topic = NULL;
+  protected $startDate = NULL;
+  protected $endDate = NULL;
+
+  /**
+   * NewsroomAgenda constructor.
+   *
+   * @param object $type
+   *   Newsroom type.
+   * @param object $topic
+   *   Newsroom topic.
+   * @param Datetime|null $start_date
+   *   Start date.
+   * @param Datetime|null $end_date
+   *   End date.
+   */
+  public function __construct($type = NULL, $topic = NULL, $start_date = NULL, $end_date = NULL) {
+    $this->setTopic($topic);
+    $this->setType($type);
+    $this->setStartDate($start_date);
+    $this->setEndDate($end_date);
+  }
 
   /**
    * Gets minimal items number per agenda page.
@@ -29,215 +47,172 @@ class NewsroomPage {
   }
 
   /**
-   * Gets url parts.
-   *
-   * @return array
-   *   URL parts.
-   */
-  public function getUrlParts() {
-    return $this->urlParts;
-  }
-
-  /**
-   * Gets topic url.
-   *
-   * @return string
-   *   Topic URL part.
-   */
-  public function getTopicUrl() {
-    return $this->topicUrl;
-  }
-
-  /**
-   * Sets topic URL.
+   * Gets term URL.
    *
    * @param string $value
-   *   Topic URL part.
-   */
-  public function setTopicUrl($value) {
-    $this->topicUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
-  }
-
-  /**
-   * Gets type URL.
+   *   URL part.
    *
    * @return string
-   *   Type URL part.
+   *   Term url part.
    */
-  public function getTypeUrl() {
-    return $this->typeUrl;
+  public function getTermUrl($value) {
+    return !empty($value) ? pathauto_cleanstring($value) : NEXTEUROPA_NEWSROOM_ALL;
   }
 
   /**
-   * Sets type URL.
+   * Sets type.
    *
-   * @param string $value
-   *   Type URL part.
+   * @param object|null $value
+   *   Type object.
    */
-  public function setTypeUrl($value) {
-    $this->typeUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
+  public function setType($value) {
+    $this->type = $value;
   }
 
   /**
-   * Gets results.
+   * Gets type.
    *
-   * @return array
-   *   DB data result.
+   * @return object|null
+   *   Type object.
    */
-  public function getResult() {
-    return $this->result;
-  }
-
-  /**
-   * Gets data from DB.
-   */
-  public function getData() {
-//    $cache_key = 'page_result:' . md5($this->getUniqueCachePart());
-//    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-//    if ($cache) {
-//      $data = $cache->data;
-//    }
-//    else {
-      $data = $this->fetchData();
-//      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_page_result', 300));
-//    }
-
-    return $data;
-  }
-
-  /**
-   * Sets type id.
-   *
-   * @param int $value
-   *   Type id.
-   */
-  public function setTypeId($value) {
-    $this->typeId = $value;
-  }
-
-  /**
-   * Gets type id.
-   *
-   * @return int
-   *   Type id.
-   */
-  public function getTypeId() {
-    return $this->typeId;
+  public function getType() {
+    return $this->type;
   }
 
   /**
    * Sets start date.
    *
-   * @param string $value
+   * @param DateTime|null $value
    *   Start date.
    */
   public function setStartDate($value) {
-    $this->start_date = $value;
+    $this->startDate = $value;
   }
 
   /**
    * Gets start date.
    *
-   * @return string
+   * @return DateTime|null
    *   Start date.
    */
   public function getStartDate() {
-    return $this->start_date;
+    return $this->startDate;
   }
 
   /**
    * Sets end date.
    *
-   * @param string $value
+   * @param DateTime|null $value
    *   End date.
    */
   public function setEndDate($value) {
-    $this->end_date = $value;
+    $this->endDate = $value;
   }
 
   /**
    * Gets end date.
    *
-   * @return string
+   * @return DateTime|null
    *   End date.
    */
   public function getEndDate() {
-    return $this->end_date;
+    return $this->endDate;
   }
 
   /**
-   * Sets topic id.
+   * Sets topic.
    *
-   * @param int $value
-   *   Topic id.
+   * @param object|null $value
+   *   Topic object.
    */
-  public function setTopicId($value) {
-    $this->topicId = $value;
+  public function setTopic($value) {
+    $this->topic = $value;
   }
 
   /**
-   * Gets topic id.
+   * Gets topic.
    *
-   * @return int
-   *   Topic id.
+   * @return object|null
+   *   Topic object.
    */
-  public function getTopicId() {
-    return $this->topicId;
+  public function getTopic() {
+    return $this->topic;
   }
 
   /**
-   * Clears URL parts.
-   */
-  public function clearUrlParts() {
-    $this->urlParts = array();
-  }
-
-  /**
-   * Adds URL part.
+   * Gets image by file ID.
    *
-   * @param string $value
-   *   URL part.
-   */
-  public function addUrlPart($value) {
-    $this->urlParts[] = $value;
-  }
-
-  /**
-   * NewsroomAgenda constructor.
+   * @param int $fid
+   *   File ID.
+   * @param string $style_name
+   *   Style name.
    *
-   * @param object $type
-   *   Newsroom type.
-   * @param object $topic
-   *   Newsroom topic.
-   * @param string $start_date
-   *   Start date.
-   * @param string $end_date
-   *   End date.
+   * @return null|string
+   *   Image HTML presentation.
    */
-  public function __construct($type = NULL, $topic = NULL, $start_date = NULL, $end_date = NULL) {
-    if ($type) {
-      $this->setTypeId($type->tid);
-      $this->setTypeUrl($type->name);
+  protected function getNodeImage($fid, $style_name = 'newsroom_style') {
+    $image = NULL;
+    if ($fid) {
+      if ($file = file_load($fid)) {
+        $image = theme('image_style', array(
+          'path' => $file->uri,
+          'alt' => $file->title,
+          'style_name' => $style_name,
+        ));
+      }
     }
 
-    if ($topic) {
-      $this->setTopicId($topic->tid);
-      $this->setTopicUrl($topic->name);
+    return $image;
+  }
+
+  /**
+   * Creates formated date string.
+   *
+   * @param string $timestamp
+   *   Timestamp.
+   *
+   * @return string
+   *   Formated string.
+   */
+  protected function getFormatedDateFromTimestamp($timestamp) {
+    return $timestamp ? NewsroomHelper::getFormatedDate(NewsroomPage::DATE_FORMAT, $timestamp) : NULL;
+  }
+
+  /**
+   * Gets data from DB.
+   */
+  protected function getData() {
+    $cache_key = 'page_result:' . md5($this->getUniqueCachePart());
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
+      $data = $cache->data;
+    }
+    else {
+      $items = $this->fetchData();
+      $data = array();
+      if ($items) {
+        foreach ($items as $item) {
+          $node = node_load($item->nid);
+          $type = NewsroomHelper::getNewsroomType($item->type_tid);
+          $short_title = NewsroomHelper::getFieldTranslatedValue($node, 'field_newsroom_item_short_title');
+          $data[] = array(
+            'start_date' => $this->getFormatedDateFromTimestamp($item->start_date),
+            'end_date' => $this->getFormatedDateFromTimestamp($item->end_date),
+            'title' => $short_title ? $short_title : $node->title,
+            'teaser' => NewsroomHelper::getFieldTranslatedValue($node, 'field_newsroom_teaser'),
+            'type_url' => NewsroomHelper::getNewsroomPageUrl(array($type ? pathauto_cleanstring($type->name) : NEXTEUROPA_NEWSROOM_ALL, NEXTEUROPA_NEWSROOM_ALL)),
+            'type_title' => $type ? $type->name : NULL,
+            'node_url' => url(NewsroomHelper::getNodeMainUrl($node), array('absolute' => TRUE)),
+            'node_redirect_url' => url('news-redirect/' . NewsroomHelper::getFieldValue($node, 'field_newsroom_item_id'), array('absolute' => TRUE)),
+            'image' => $this->getNodeImage($item->fid),
+            'venue' => NewsroomHelper::getFieldTranslatedValue($node, 'field_newsroom_item_venue'),
+          );
+        }
+      }
+
+      cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_page_result', 300));
     }
 
-    $this->addUrlPart($this->getTypeUrl());
-    $this->addUrlPart($this->getTopicUrl());
-    $this->setStartDate($start_date);
-    $this->setEndDate($end_date);
-
-    if ($start_date) {
-      $this->addUrlPart($start_date);
-    }
-    
-    if ($end_date) {
-      $this->addUrlPart($end_date);
-    }
-
+    return $data;
   }
 
   /**
@@ -247,54 +222,74 @@ class NewsroomPage {
    *   HTML.
    */
   public function getContent() {
-    $filter_form = drupal_get_form('nexteuropa_newsroom_newsroom_page_filter_form', $this->getTypeId(), $this->getTopicId(), $this->getStartDate(), $this->getEndDate());
+    drupal_set_title($this->generateTitle());
+    $filter_form = drupal_get_form('nexteuropa_newsroom_newsroom_page_filter_form', $this->getType(), $this->getTopic(), $this->getStartDate(), $this->getEndDate());
     $content = theme('newsroom_page', array(
       'filter_form' => drupal_render($filter_form),
-      'items' => $this->prepareItemsOutput($this->getData()),
-    ));    
+      'featured_item' => $this->getTypeFeaturedItem(),
+      'items' => $this->generateItems('newsroom_page_item'),
+    ));
     return $content;
+  }
+
+  /**
+   * Returns the newsroom page html.
+   *
+   * @return string
+   *   HTML.
+   */
+  public function getRssContent() {
+    $namespaces = array();
+    if (function_exists('rdf_get_namespaces')) {
+      // Merge RDF namespaces in the XML namespaces in case they are used
+      // further in the RSS content.
+      $xml_rdf_namespaces = array();
+      foreach (rdf_get_namespaces() as $prefix => $uri) {
+        $xml_rdf_namespaces['xmlns:' . $prefix] = $uri;
+      }
+      $namespaces += $xml_rdf_namespaces;
+    }
+
+    $content = theme('newsroom_page_rss', array(
+      'title' => $this->generateTitle(),
+      'link' => url($this->getNavigationUrl(TRUE), array('absolute' => TRUE)),
+      'namespaces' => drupal_attributes($namespaces),
+      'description' => NULL,
+      'items' => $this->generateItems('newsroom_page_rss_item'),
+    ));
+    return $content;
+  }
+
+  /**
+   * Generates title based on incoming parameters.
+   *
+   * @return null|string
+   *   Page title.
+   */
+  protected function generateTitle() {
+    $page_title = t('Newsroom');
+    if ($this->getType()) {
+      $page_title = $this->getType()->name;
+    }
+    if ($this->getTopic()) {
+      $page_title .= ' ' . t('about !topic_title', array('!topic_title' => $this->getTopic()->name));
+    }
+    return $page_title;
   }
 
   /**
    * Prepares page items for presenation.
    *
-   * @param array $items
-   *   Agenda items.
+   * @param string $template_name
+   *   Template name.
    *
    * @return string
    *   Output string.
    */
-  protected function prepareItemsOutput($items) {
-    $output = '';
-    foreach ($items as $item) {
-      $image = NULL;
-      if ($item->fid) {
-        $file = file_load($item->fid);
-        if ($file) {
-          $image = theme('image_style', array('path' => $file->uri, 'alt' => t($file->title), 'style_name' => 'newsroom_style'));
-        }
-      }
-      $start_date_obj = NULL;
-      $end_date_obj = NULL;
-      if (!empty($item->start_date)) {
-        $start_date_obj = new DateTime();
-        $start_date_obj->setTimestamp($item->start_date);
-      }
-      if (!empty($item->end_date)) {
-        $end_date_obj = new DateTime();
-        $end_date_obj->setTimestamp($item->end_date);
-      }
-      $output .= theme('newsroom_page_item', array(
-        'start_date' => $start_date_obj ? $start_date_obj->format(NewsroomPage::DATE_FORMAT) : NULL,
-        'end_date' => $end_date_obj ? $end_date_obj->format(NewsroomPage::DATE_FORMAT) : NULL,
-        'title' => empty($item->short_title) ? $item->title : $item->short_title,
-        'teaser' => $item->teaser,
-        'type_url' => NewsroomHelper::getNewsroomPageUrl(pathauto_cleanstring($item->type_title), 'all'),
-        'type_title' => $item->type_title,
-        'node_url' => empty($item->main_link) ? 'node/' . $item->nid : $item->main_link,
-        'image' => $image,
-        'venue' => $item->venue,
-      ));
+  protected function generateItems($template_name) {
+    $output = NULL;
+    foreach ($this->getData() as $item) {
+      $output .= theme($template_name, $item);
     }
     return $output;
   }
@@ -306,7 +301,13 @@ class NewsroomPage {
    *   Cache key unique value.
    */
   protected function getUniqueCachePart() {
-    return $this->getTypeId() . $this->getTopicId();
+    $type_id = $this->getType() ? $this->getType()->tid : NULL;
+    $topic_id = $this->getTopic() ? $this->getTopic()->tid : NULL;
+    $start_date = $this->getStartDate() ? $this->getStartDate()->getTimestamp() : NULL;
+    $end_date = $this->getEndDate() ? $this->getEndDate()->getTimestamp() : NULL;
+    $page = isset($_GET['page']) ? $_GET['page'] : NULL;
+
+    return $type_id . $topic_id . $start_date . $end_date . $page;
   }
 
   /**
@@ -315,43 +316,36 @@ class NewsroomPage {
   public function fetchData() {
     $query = db_select('node', 'n');
     $query->distinct();
-    $query->fields('n', array('nid', 'title', 'created'));
-    $query->addField('type_data', 'name', 'type_title');
+    $query->fields('n', array('nid', 'created'));
+    $query->addField('type_field', 'field_newsroom_item_type_tid', 'type_tid');
     $query->addField('d', 'field_newsroom_item_date_value', 'start_date');
     $query->addField('d', 'field_newsroom_item_date_value2', 'end_date');
-    $query->addField('teaser', 'field_newsroom_teaser_value', 'teaser');
     $query->addField('image', 'field_newsroom_illustrative_img_fid', 'fid');
-    $query->addField('venue_data', 'field_newsroom_item_venue_value', 'venue');
-    $query->addField('main_link_data', 'field_newsroom_item_main_link_url', 'main_link');
-    $query->addField('short_title_data', 'field_short_title_value', 'short_title');
-    
-    $query->leftJoin('field_data_field_newsroom_teaser', 'teaser', 'teaser.entity_id = n.nid');
+
+    $query->leftJoin('field_data_field_newsroom_item_type', 'type_field', 'type_field.entity_id = n.nid');
+    $query->leftJoin('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
     $query->leftJoin('field_data_field_newsroom_illustrative_img', 'image', 'image.entity_id = n.nid');
     $query->leftJoin('field_data_field_newsroom_item_date', 'd', 'd.entity_id = n.nid');
-    $query->leftJoin('field_data_field_newsroom_item_type', 'type_field', 'type_field.entity_id = n.nid');
-    $query->leftJoin('field_data_field_newsroom_item_venue', 'venue_data', 'venue_data.entity_id = n.nid');
-    $query->leftJoin('field_data_field_newsroom_item_main_link', 'main_link_data', 'main_link_data.entity_id = n.nid');
-    $query->leftJoin('field_data_field_short_title', 'short_title_data', 'short_title_data.entity_id = n.nid');
-    
-    $query->leftJoin('taxonomy_term_data', 'type_data', 'type_data.tid = type_field.field_newsroom_item_type_tid');
-    $query->leftJoin('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
-    $query->leftJoin('taxonomy_term_data', 'topic_data', 'topic_data.tid = topic_field.field_newsroom_topics_tid');
-    
+
     $query->condition('n.status', 1);
     $query->condition('n.type', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
     $query->orderBy('d.field_newsroom_item_date_value', 'DESC');
     $query->orderBy('d.field_newsroom_item_date_value2', 'DESC');
 
-    if (NewsroomHelper::getEventsTermsIds()) {
-      
+    if ($this->getType()) {
+      $query->condition('type_field.field_newsroom_item_type_tid', $this->getType()->tid);
     }
 
-    if ($this->getTypeId()) {
-      $query->condition('type_data.tid', $this->getTypeId());
+    if ($this->getTopic()) {
+      $query->condition('topic_field.field_newsroom_topics_tid', $this->getTopic()->tid);
     }
 
-    if ($this->getTopicId()) {
-      $query->condition('topic_data.tid', $this->getTopicId());
+    if ($this->getStartDate()) {
+      $query->condition('n.created', $this->getStartDate()->getTimestamp(), '>=');
+    }
+
+    if ($this->getEndDate()) {
+      $query->condition('n.created', $this->getEndDate()->getTimestamp(), '<=');
     }
 
     return $query->extend('PagerDefault')->limit($this->getItemsNumber())->execute()->fetchAll();
@@ -360,15 +354,69 @@ class NewsroomPage {
   /**
    * Returns navigation link based on URL.
    *
+   * @param bool $is_rss
+   *   Is url for RSS feed or not.
+   *
    * @return string|null
    *   HTML link.
    */
-  public function getNavigationUrl() {
-    $this->clearUrlParts();
-    $this->addUrlPart($this->getTypeUrl());
-    $this->addUrlPart($this->getTopicUrl());
+  public function getNavigationUrl($is_rss = FALSE) {
+    $url_parts = array();
+    $url_parts[] = $this->getTermUrl($this->getType() ? $this->getType()->name : NULL);
+    $url_parts[] = $this->getTermUrl($this->getTopic() ? $this->getTopic()->name : NULL);
+    if ($this->getStartDate()) {
+      $url_parts[] = $this->getStartDate()->format(NewsroomPage::MYSQL_DATE_FORMAT);
+    }
+    if ($this->getEndDate()) {
+      $url_parts[] = $this->getEndDate()->format(NewsroomPage::MYSQL_DATE_FORMAT);
+    }
 
-    return url('newsroom-page/' . implode('/', $this->getUrlParts()));
+    return $is_rss ? NewsroomHelper::getNewsroomRssUrl($url_parts) : NewsroomHelper::getNewsroomPageUrl($url_parts);
+  }
+
+  /**
+   * Gets type featured item.
+   *
+   * @return null|string
+   *   Featured item content.
+   */
+  protected function getTypeFeaturedItem() {
+    $content = NULL;
+    if ($featured_item_id = NewsroomHelper::getFieldValue($this->getType(), 'field_featured_item', 'target_id')) {
+      $cache_key = 'type_featured_item:' . $this->getType()->tid;
+
+      if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
+        $content = $cache->data;
+      }
+      else {
+
+        if ($featured_node = node_load($featured_item_id)) {
+
+          $type = NewsroomHelper::getNewsroomType(NewsroomHelper::getFieldValue($featured_node, 'field_newsroom_item_type', 'tid'));
+
+          $style_name = 'large';
+          $image = $this->getNodeImage(NewsroomHelper::getFieldValue($featured_node, 'field_newsroom_illustrative_img', 'fid'), $style_name);
+          if (empty($image)) {
+            $image = $this->getNodeImage(NewsroomHelper::getFieldValue($featured_node, 'field_newsroom_private_img', 'fid'), $style_name);
+          }
+
+          $topic_url = $this->getTermUrl($this->getTopic() ? $this->getTopic()->name : NULL);
+
+          $content = theme('newsroom_page_featured_item', array(
+            'type' => $type ? l($type->name, NewsroomHelper::getNewsroomPageUrl(array($this->getTermUrl($type->name), $topic_url))) : NULL,
+            'title' => l($featured_node->title, 'node/' . $featured_node->nid),
+            'image' => $image,
+            'created' => NewsroomHelper::getFormatedDate(NewsroomPage::DATE_FORMAT, $featured_node->created),
+            'teaser' => NewsroomHelper::getFieldTranslatedValue($featured_node, 'field_newsroom_teaser'),
+          ));
+        }
+
+        cache_set($cache_key, $content, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_type_featured_item', 300));
+
+      }
+    }
+
+    return $content;
   }
 
 }

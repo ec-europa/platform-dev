@@ -10,7 +10,6 @@
  */
 function _nexteuropa_newsroom_create_multilingual_items_importer() {
   $def_lang = drupal_strtoupper(language_default()->language);
-  $subsite = variable_get('newsroom_subsite', FALSE);
 
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
@@ -203,23 +202,6 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     'field_newsroom_author' => array(
       'query' => 'infsonewsroom:ContextAuthor',
-    ),
-    'field_newsroom_subsite' => array(
-      'query' => 'infsonewsroom:Subsite',
-      'tamper' => array(
-        'plugin_id' => 'keyword_filter',
-        'settings' => array(
-          'words' => '1',
-          'word_boundaries' => 0,
-          'exact' => 1,
-          'case_sensitive' => 0,
-          'invert' => 0,
-          'word_list' => array(
-            0 => '/^' . $subsite . '$/ui',
-          ),
-          'regex' => TRUE,
-        ),
-      ),
     ),
     'field_newsroom_eur_lex_link:url' => array(
       'query' => 'infsonewsroom:ContextEurlex',
@@ -629,7 +611,7 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
 function _nexteuropa_newsroom_save_importer($importer) {
   $save = feeds_importer($importer->id);
   $save->setConfig($importer->config);
-  
+
   foreach (array('fetcher', 'parser', 'processor') as $type) {
     $save->setPlugin($importer->config[$type]['plugin_key']);
     $save->$type->setConfig($importer->config[$type]['config']);

@@ -28,7 +28,7 @@ class NewsroomBuilder {
    * @return object
    *   Agenda item.
    */
-  public function buildPageAgenda($view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $type_name = 'all', $topic_name = 'all', $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
+  public function buildPageAgenda($view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $type_name = NEXTEUROPA_NEWSROOM_ALL, $topic_name = NEXTEUROPA_NEWSROOM_ALL, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
     $agenda = NULL;
     $current_date = new DateTime();
     $type = $this->getType($type_name);
@@ -169,14 +169,14 @@ class NewsroomBuilder {
   /**
    * Gets taxonomy term topic from url name.
    *
-   * @param string $topic
+   * @param string $topic_url
    *   Topic taxonomy term name.
    *
    * @return object
    *   Taxonomy term object.
    */
-  protected function getTopic($topic) {
-    return $this->getTaxonomyTerm($topic, 'newsroom_topic');
+  protected function getTopic($topic_url) {
+    return $this->getTaxonomyTerm($topic_url, NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY);
   }
 
   /**
@@ -189,28 +189,31 @@ class NewsroomBuilder {
    *   Date string.
    */
   protected function getDate($value) {
-    var_dump($value);
-    var_dump(preg_match('/^\d{2}-d{2}-d{4}$/', $value));
-    return preg_match('/^\d{2}-d{2}-d{4}$/', $value) ? $value : NULL;
+    $date = NULL;
+    if (preg_match('/^\d{2}-\d{2}-\d{4}$/', $value)) {
+      $date = new DateTime();
+      $date->setTimestamp(strtotime($value));
+    }
+    return $date;
   }
 
   /**
    * Gets taxonomy term type from url name.
    *
-   * @param string $type
+   * @param string $type_url
    *   Type taxonomy term name.
    *
    * @return object
    *   Taxonomy term object.
    */
-  protected function getType($type) {
-    return $this->getTaxonomyTerm($type, 'newsroom_item_type');
+  protected function getType($type_url) {
+    return $this->getTaxonomyTerm($type_url, NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
   }
 
   /**
    * Gets taxonomy term from url name.
    *
-   * @param string $value
+   * @param string $taxonomy_term_url
    *   Taxonomy term url name.
    * @param string $vocabulary
    *   Vocabulary name.
@@ -218,25 +221,51 @@ class NewsroomBuilder {
    * @return object
    *   Taxonomy term object.
    */
-  protected function getTaxonomyTerm($value, $vocabulary) {
-    return $value == 'all' ? NULL : NewsroomHelper::getTermFromRequest($value, array($vocabulary));
+  protected function getTaxonomyTerm($taxonomy_term_url, $vocabulary) {
+    return $taxonomy_term_url == NEXTEUROPA_NEWSROOM_ALL ? NULL : NewsroomHelper::getTermFromRequest($taxonomy_term_url, array($vocabulary));
   }
-  
+
+  /**
+   * Builds newsroom page object.
+   *
+   * @param string $type_url
+   *   Type URL part.
+   * @param string $topic_url
+   *   Topic URL part.
+   * @param string|null $start_date
+   *   Start date.
+   * @param string|null $end_date
+   *   End date.
+   *
+   * @return NewsroomPage
+   *   NewsroomPage object.
+   */
   public function buildPageNewsroomPage($type_url, $topic_url, $start_date = NULL, $end_date = NULL) {
     $type = $this->getType($type_url);
-    $topic = $this->getType($topic_url);
+    $topic = $this->getTopic($topic_url);
     $start_date = $this->getDate($start_date);
     $end_date = $this->getDate($end_date);
     return new NewsroomPage($type, $topic, $start_date, $end_date);
   }
-  
+
+  /**
+   * Builds newsroom page object.
+   *
+   * @param object|null $type
+   *   Newsroom type taxonomy term.
+   * @param object|null $topic
+   *   Newsroom topic taxonomy term.
+   * @param string|null $start_date
+   *   Start date.
+   * @param string|null $end_date
+   *   End date.
+   *
+   * @return NewsroomPage
+   *   NewsroomPage object.
+   */
   public function buildNewsroomPage($type = NULL, $topic = NULL, $start_date = NULL, $end_date = NULL) {
-    var_dump($start_date);
-    var_dump($end_date);
     $start_date = $this->getDate($start_date);
     $end_date = $this->getDate($end_date);
-    var_dump($start_date);
-    var_dump($end_date);
     return new NewsroomPage($type, $topic, $start_date, $end_date);
   }
 

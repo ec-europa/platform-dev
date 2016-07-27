@@ -155,7 +155,7 @@ abstract class NewsroomBlockBase {
       $classes[] = 'featured';
       $classes[] = 'highlighted';
     }
-    if ($this->getIsAgenda()) {
+    elseif ($this->getIsAgenda()) {
       $classes[] = 'agenda';
       $classes[] = 'highlighted';
     }
@@ -170,7 +170,7 @@ abstract class NewsroomBlockBase {
    *   Type URL part.
    */
   public function getTypeUrl() {
-    return $this->getType() ? pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($this->getType())) : 'all';
+    return $this->getType() ? pathauto_cleanstring($this->getType()->name) : NEXTEUROPA_NEWSROOM_ALL;
   }
 
   /**
@@ -180,11 +180,11 @@ abstract class NewsroomBlockBase {
    *   Topic URL part.
    */
   public function getTopicUrl() {
-    $url = 'all';
+    $url = NEXTEUROPA_NEWSROOM_ALL;
     $topics = $this->getTopics();
     if (count($topics) == 1) {
       $topic = reset($topics);
-      $url = pathauto_cleanstring(NewsroomHelper::getTermTranslatedName($topic));
+      $url = pathauto_cleanstring($topic->name);
     }
 
     return $url;

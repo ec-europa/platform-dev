@@ -347,6 +347,20 @@ function nexteuropa_newsroom_update_7109() {
 }
 
 /**
+ * Clean up after replacing newsroom page.
+ */
+function nexteuropa_newsroom_update_7110() {
+  variable_del('newsroom_url_prefix');
+  ctools_include('export');
+  $view = ctools_export_crud_load('views_view', 'newsroom_type_featured_item');
+  $view->delete();
+  $view = ctools_export_crud_load('views_view', 'newsroom');
+  $view->delete();
+  $view = ctools_export_crud_load('views_view', 'newsroom_term_selection');
+  $view->delete();
+}
+
+/**
  * Renames and migrates the data to a new field.
  *
  * @param string $old_name
@@ -361,7 +375,6 @@ function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
     // Create new field.
     $new_field = $old_field;
     $new_field['field_name'] = $new_name;
-
     $new_field_info = field_info_field($new_name);
     if (empty($new_field_info)) {
       field_create_field($new_field);
