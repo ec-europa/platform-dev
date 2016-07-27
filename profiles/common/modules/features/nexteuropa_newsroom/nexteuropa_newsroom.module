@@ -13,6 +13,7 @@ module_load_include('inc', 'nexteuropa_newsroom', 'nexteuropa_newsroom.features'
 module_load_include('inc', 'nexteuropa_newsroom', 'nexteuropa_newsroom.blocks');
 
 define('NEXTEUROPA_NEWSROOM_CONTENT_TYPE', 'newsroom_item');
+define('NEXTEUROPA_NEWSROOM_NEWSLETTER_CONTENT_TYPE', 'newsroom_newsletter_issue');
 define('NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY', 'newsroom_item_type');
 define('NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY', 'newsroom_topic');
 define('NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY', 'newsroom_service');
@@ -27,6 +28,7 @@ define('NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER', 'newsroom_topics_multilingual');
 define('NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER', 'newsroom_services_multilingual');
 define('NEXTEUROPA_NEWSROOM_TYPE_IMPORTER', 'newsroom_types_multilingual');
 define('NEXTEUROPA_NEWSROOM_ITEM_IMPORTER', 'newsroom_items_multilingual');
+define('NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER', 'newsroom_newsletter_multilingual');
 define('NEXTEUROPA_NEWSROOM_CACHE_TABLE', 'cache_newsroom');
 define('NEXTEUROPA_NEWSROOM_BASE_URL', 'http://ec.europa.eu/information_society/newsroom/cf/');
 define('NEXTEUROPA_NEWSROOM_ITEM_SCRIPT', 'fullrss-multilingual.cfm');
@@ -285,8 +287,15 @@ function nexteuropa_newsroom_post_features_enable_feature($component) {
         title_field_replacement_toggle('node', NEXTEUROPA_NEWSROOM_CONTENT_TYPE, 'title');
       }
 
-      // Create the dynamic node importer and disable the static ones.
-      _nexteuropa_newsroom_create_multilingual_items_importer();
+      $importer_id = array(
+        'items' => NEXTEUROPA_NEWSROOM_ITEM_IMPORTER,
+        'newsletter' => NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER,
+      );
+
+      foreach ($importer_id as $key => $importer) {
+        // Create the dynamic node importer and disable the static ones.
+        call_user_func('_nexteuropa_newsroom_create_multilingual_' . $key . '_importer');
+      }
 
       cache_clear_all('plugins:feeds:plugins', 'cache');
       break;

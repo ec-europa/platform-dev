@@ -8,6 +8,47 @@
 /**
  * Creates items feed importer and runs the import.
  */
+function _nexteuropa_newsroom_create_multilingual_newsletter_importer() {
+  $def_lang = drupal_strtoupper(language_default()->language);
+
+  $premapping = array(
+    'title' => array(
+      'query' => 'title[@lang="' . $def_lang . '"]/text()',
+      'unique' => 1,
+    ),
+    'title_field' => array(
+      'query' => 'title',
+    ),
+    'field_newsroom_nl_issue_date:start' => array(
+      'query' => 'infsonewsroom:BasicDate/text()',
+      'tamper' => array(
+        'plugin_id' => 'strtotime',
+      ),
+    ),
+    'field_newsroom_service_id' => array(
+      'query' => 'infsonewsroom:BasicSvId/text()',
+    ),
+    'field_newsroom_newsletter_items:etid' => array(
+      'query' => 'infsonewsroom:BasicItems/text()',
+    ),
+  );
+
+  $premapping = _nexteuropa_newsroom_check_translations($premapping);
+
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER);
+
+  $feeds_importer = _nexteuropa_newsroom_build_importer(NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER, 'Newsroom Newsletter issues', 'Imports newsletter issues', $importer_values, NEXTEUROPA_NEWSROOM_NEWSLETTER_CONTENT_TYPE, 'node');
+
+  // Create the tamper for the language.
+  _nexteuropa_newsroom_dynamic_tamper(NULL);
+  // Import the importer.
+  _nexteuropa_newsroom_save_importer($feeds_importer);
+}
+
+
+/**
+ * Creates items feed importer and runs the import.
+ */
 function _nexteuropa_newsroom_create_multilingual_items_importer() {
   $def_lang = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.

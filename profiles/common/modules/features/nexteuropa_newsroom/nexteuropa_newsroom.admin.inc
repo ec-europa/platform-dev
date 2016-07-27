@@ -905,6 +905,7 @@ function _nexteuropa_newsroom_admin_rebuild_importers() {
     'services' => NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER,
     'topics' => NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
     'types' => NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
+    'newsletter' => NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER,
   );
 
   foreach ($importers as $key => $importer) {
