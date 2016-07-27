@@ -68,8 +68,6 @@ function nexteuropa_communities_private_area_form() {
   return system_settings_form($form);
 }
 
-
-
 /**
  * Add a new context negotiation to manage the NextEuropa communities.
  *
@@ -162,7 +160,7 @@ function nexteuropa_communities_permission() {
     'access private area' => array(
       'title' => t('Access private area'),
       'description' => t('Allow to access to the private area.'),
-    ) 
+    ),
   );
 }
 
@@ -170,43 +168,45 @@ function nexteuropa_communities_permission() {
  * Implements hook_node_access().
  */
 function nexteuropa_communities_node_access($node, $op, $account) {
-  if(variable_get('nexteuropa_communities_private_area', FALSE)) {
-    // The private area option is enabled.
-    // DENY access only on public contents when the user has not the "access private access" permission.
+  if ($op != 'view') {
+    return;
+  }
 
+  if (variable_get('nexteuropa_communities_private_area', FALSE)) {
+    // The private area option is enabled.
+    // DENY access only on public contents,
+    // when the user has not the "access private area" permission.
     $wrapper = entity_metadata_wrapper('node', $node);
 
     // The node is a group.
-    if (!empty($wrapper->{OG_ACCESS_FIELD}) && $wrapper->{OG_ACCESS_FIELD}->value() == 0 && og_is_group('node', $node) && !user_acces("access private area", $account)) {
+    if (!empty($wrapper->{OG_ACCESS_FIELD}) && $wrapper->{OG_ACCESS_FIELD}->value() == 0 && og_is_group('node', $node) && !user_access("access private area", $account)) {
       return NODE_ACCESS_DENY;
     }
 
     // The node is a group content.
-    if (!empty($wrapper->{OG_CONTENT_ACCESS_FIELD}) && $wrapper->{OG_CONTENT_ACCESS_FIELD}->value() == 0 && !user_acces("access private area", $account)) {
+    if (!empty($wrapper->{OG_CONTENT_ACCESS_FIELD}) && !user_access("access private area", $account)) {
       $content_access = !empty($wrapper->{OG_CONTENT_ACCESS_FIELD}) ? $wrapper->{OG_CONTENT_ACCESS_FIELD}->value() : OG_CONTENT_ACCESS_DEFAULT;
       switch ($content_access) {
 
         case OG_CONTENT_ACCESS_PUBLIC:
-          return NODE_ACCESS_DENY;  
-          break;
+          return NODE_ACCESS_DENY;
 
         case OG_CONTENT_ACCESS_DEFAULT:
           if (!$entity_groups = og_get_entity_groups('node', $node)) {
             break;
           }
-          $is_public = FALSE;
           foreach ($entity_groups as $group_type => $values) {
             entity_load($group_type, $values);
             foreach ($values as $gid) {
               $group_wrapper = entity_metadata_wrapper($group_type, $gid);
               if (!empty($group_wrapper->{OG_ACCESS_FIELD}) && $group_wrapper->{OG_ACCESS_FIELD}->value() == 0) {
-                return NODE_ACCESS_DENY;                
-              } 
-            } 
+                return NODE_ACCESS_DENY;
+              }
+            }
           }
           break;
       }
     }
   }
-  return NODE_ACCESS_IGNORE; 
+  return NODE_ACCESS_IGNORE;
 }
