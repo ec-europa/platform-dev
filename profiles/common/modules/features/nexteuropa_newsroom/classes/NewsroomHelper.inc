@@ -627,14 +627,19 @@ class NewsroomHelper {
   public static function getNewsroomTopics() {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
-      $cache_key = 'topics';
+      global $language;
+      $cache_key = 'topics_' . $language->language;
       $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
       if ($cache) {
         $data = $cache->data;
       }
       else {
         $vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
-        $data = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
+        $data = i18n_taxonomy_get_tree($vocabulary->vid, language_default()->language, 0, NULL, TRUE);
+        foreach ($data as $key => $taxonomy_term) {
+          $i18n_object = i18n_get_object('taxonomy_term', $taxonomy_term->tid);
+          $data[$key] = $i18n_object->localize($language->language);
+        }
         cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
       }
     }
@@ -650,14 +655,19 @@ class NewsroomHelper {
   public static function getNewsroomTypes() {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
-      $cache_key = 'types';
+      global $language;
+      $cache_key = 'types_' . $language->language;
       $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
       if ($cache) {
         $data = $cache->data;
       }
       else {
         $vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
-        $data = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
+        $data = i18n_taxonomy_get_tree($vocabulary->vid, language_default()->language, 0, NULL, TRUE);
+        foreach ($data as $key => $taxonomy_term) {
+          $i18n_object = i18n_get_object('taxonomy_term', $taxonomy_term->tid);
+          $data[$key] = $i18n_object->localize($language->language);
+        }
         cache_set($cache_key, $data, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
       }
     }
@@ -825,7 +835,7 @@ class NewsroomHelper {
   public static function validateUniverse($universe_id = NULL) {
     if ($universe_id) {
       // logout.cfm is used because it is always available if a universe exists.
-      $test = drupal_http_request(NEXTEUROPA_NEWSROOM_BASE_URL . $universe_id . '/logout.cfm');
+      $test = drupal_http_request(NewsroomHelper::getUniverseUrl() . '/logout.cfm');
       return $test->code == 200;
     }
 
@@ -848,7 +858,7 @@ class NewsroomHelper {
     }
     else {
       if ($universe_id) {
-        $test = drupal_http_request(NEXTEUROPA_NEWSROOM_BASE_URL . $universe_id . '/subsite=' . $subsite);
+        $test = drupal_http_request(NewsroomHelper::getUniverseUrl() . '?subsite=' . $subsite);
         return $test->code == 200;
       }
     }

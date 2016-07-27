@@ -160,6 +160,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
       ),
     );
   }
+
   // Settings about the newsroom fields.
   $form['newsroom_fields'] = array(
     '#type' => 'fieldset',
@@ -263,6 +264,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Item import script name'),
     '#default_value' => variable_get('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_ITEM_SCRIPT),
   );
+
   $form['newsroom_universe']['newsroom_single_item_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single item import'),
@@ -274,6 +276,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Topic import script name'),
     '#default_value' => variable_get('newsroom_topic_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT),
   );
+
   $form['newsroom_universe']['newsroom_single_topic_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single topic import'),
@@ -285,6 +288,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Type import script name'),
     '#default_value' => variable_get('newsroom_type_import_script', NEXTEUROPA_NEWSROOM_TYPE_SCRIPT),
   );
+
   $form['newsroom_universe']['newsroom_single_type_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single type import'),
@@ -297,6 +301,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#title' => t('Service import script name'),
     '#default_value' => variable_get('newsroom_service_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT),
   );
+
   $form['newsroom_universe']['newsroom_single_service_import_segment'] = array(
     '#type' => 'textfield',
     '#title' => t('URL chunk for single service import'),
@@ -321,6 +326,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
+
   $form['newsroom_pages']['newsroom_newsletter_privacy'] = array(
     '#type' => 'textarea',
     '#title' => t('Privacy statement'),
@@ -355,6 +361,7 @@ function nexteuropa_newsroom_admin_settings($form, &$form_state) {
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
+
   // Settings about newsroom blocks in the home page.
   $form['newsroom_blocks']['home_blocks']['newsroom_summary_home_block_num_items'] = array(
     '#type' => 'select',
@@ -758,6 +765,7 @@ function _nexteuropa_newsroom_admin_field_group($machine_name, $field_name) {
     }
 
     field_group_group_save($field_group);
+    ctools_export_crud_enable('field_group', $field_group->identifier);
   }
   // Remove the group since we don't have fields to show.
   else {
