@@ -188,6 +188,7 @@ features[field_instance][] = taxonomy_term-newsroom_topic-field_newsroom_categor
 features[field_instance][] = taxonomy_term-newsroom_topic-field_newsroom_topic_id
 features[field_instance][] = taxonomy_term-newsroom_topic-name_field
 features[field_instance][] = node-newsroom_newsletter_issue-title_field
+features[field_instance][] = node-newsroom_newsletter_issue-field_newsroom_item_main_link
 features[node][] = newsroom_item
 features[node][] = newsroom_selection
 features[node][] = newsroom_newsletter_issue

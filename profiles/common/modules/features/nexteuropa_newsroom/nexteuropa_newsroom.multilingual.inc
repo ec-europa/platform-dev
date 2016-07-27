@@ -28,6 +28,9 @@ function _nexteuropa_newsroom_create_multilingual_newsletter_importer() {
     'field_newsroom_service_id' => array(
       'query' => 'infsonewsroom:BasicSvId/text()',
     ),
+    'field_newsroom_item_main_link' => array(
+      'query' => 'infsonewsroom:/text()',
+    ),
     'field_newsroom_newsletter_items:etid' => array(
       'query' => 'infsonewsroom:BasicItems/text()',
     ),
