@@ -351,7 +351,7 @@ function _nexteuropa_newsroom_block_news_proposal() {
   }
 
   if (!empty($topic_id)) {
-    $output = '<div class="communityTools">';;
+    $output = '<div class="communityTools">';
     $output .= '<div class="RSSButton">' . l(t('Propose newsroom item'), '/news-proposal', array('query' => array('topic_id' => $topic_id))) . '</div>';
     $output .= '</div>';
   }

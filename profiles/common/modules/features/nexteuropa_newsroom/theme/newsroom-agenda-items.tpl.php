@@ -13,7 +13,7 @@
           <span class="newsroom_type"><?php echo $item->name; ?>: </span>
           <div class="newsroom_title">
             <?php $prefix = $item->new ? '<span class="itemFlag flagHot newItem">New</span> ' : NULL; ?>
-            <?php echo l($prefix . $item->title, 'node/' . $item->nid, array('html' => TRUE)); ?>
+            <?php echo l($prefix . $item->title, $item->url, array('html' => TRUE, 'absolute' => TRUE)); ?>
           </div>
           <div class="newsroom_item_metadata">
             <?php echo t('From @start_date', array('@start_date' => $item->prepared_start_date)); ?>

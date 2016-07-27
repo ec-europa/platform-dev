@@ -215,14 +215,14 @@ class NewsroomBuilder {
    *
    * @param string $taxonomy_term_url
    *   Taxonomy term url name.
-   * @param string $vocabulary
+   * @param string $vocabulary_name
    *   Vocabulary name.
    *
    * @return object
    *   Taxonomy term object.
    */
-  protected function getTaxonomyTerm($taxonomy_term_url, $vocabulary) {
-    return $taxonomy_term_url == NEXTEUROPA_NEWSROOM_ALL ? NULL : NewsroomHelper::getTermFromRequest($taxonomy_term_url, array($vocabulary));
+  protected function getTaxonomyTerm($taxonomy_term_url, $vocabulary_name) {
+    return $taxonomy_term_url == NEXTEUROPA_NEWSROOM_ALL ? NULL : NewsroomHelper::getTermFromRequest($taxonomy_term_url, $vocabulary_name);
   }
 
   /**

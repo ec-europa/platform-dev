@@ -18,11 +18,11 @@ class NewsroomPage {
   protected $endDate = NULL;
 
   /**
-   * NewsroomAgenda constructor.
+   * NewsroomPage constructor.
    *
-   * @param object $type
+   * @param object|null $type
    *   Newsroom type.
-   * @param object $topic
+   * @param object|null $topic
    *   Newsroom topic.
    * @param Datetime|null $start_date
    *   Start date.

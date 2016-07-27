@@ -392,14 +392,14 @@ class NewsroomHelper {
    *
    * @param string $request_name
    *   URL request part.
-   * @param array $vocabularies
-   *   List of vocabularies.
+   * @param string $vocabulary_name
+   *   Vocabulary name.
    *
    * @return object
    *   Taxonomy term.
    */
-  public static function getTermFromRequest($request_name, $vocabularies) {
-    $cache_key = 'newsroom:term_from_request:' . md5($request_name);
+  public static function getTermFromRequest($request_name, $vocabulary_name) {
+    $cache_key = 'newsroom:term_from_request:' . md5($request_name . $vocabulary_name);
 
     if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $taxonomy_term = $cache->data;
@@ -410,15 +410,14 @@ class NewsroomHelper {
         $taxonomy_term = taxonomy_term_load($request_name);
       }
 
-      if (!$taxonomy_term && count($vocabularies) > 0) {
+      if (!$taxonomy_term) {
         $taxonomy_terms = array();
-        foreach ($vocabularies as $vocabulary_name) {
-          if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY) {
-            $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTypes());
-          }
-          if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY) {
-            $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTopics());
-          }
+
+        if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY) {
+          $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTypes());
+        }
+        else if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY) {
+          $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTopics());
         }
         // Compare taxonomy terms modified by pathauto with the current value
         // from the URL.
@@ -598,7 +597,7 @@ class NewsroomHelper {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
       $vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
-      $data = NewsroomHelper::getNewsroomTaxonomyTerms('topics', $vocabulary->vid);
+      $data = NewsroomHelper::getNewsroomTaxonomyTerms($vocabulary->vid);
     }
     return $data;
   }
@@ -613,7 +612,7 @@ class NewsroomHelper {
     $data = &drupal_static(__FUNCTION__);
     if (!isset($data)) {
       $vocabulary = NewsroomHelper::getNewsroomTypeVocabulary();
-      $data = NewsroomHelper::getNewsroomTaxonomyTerms('types', $vocabulary->vid);
+      $data = NewsroomHelper::getNewsroomTaxonomyTerms($vocabulary->vid);
     }
     return $data;
   }
@@ -621,17 +620,15 @@ class NewsroomHelper {
   /**
    * Gets translated taxonomy items from vocabulary.
    *
-   * @param string $prefix_key
-   *   Cache key prefix.
    * @param int $vocabulary_id
    *   Vocabulary ID.
    *
    * @return array
    *   Array of taxonomy terms.
    */
-  protected static function getNewsroomTaxonomyTerms($prefix_key, $vocabulary_id) {
+  protected static function getNewsroomTaxonomyTerms($vocabulary_id) {
     global $language;
-    $cache_key = $prefix_key . '_' . $language->language;
+    $cache_key = 'terms_' . $vocabulary_id . $language->language;
     if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $data = $cache->data;
     }
