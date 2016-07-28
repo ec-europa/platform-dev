@@ -42,6 +42,10 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
 
   // Override values basing on the backup ones.
   foreach ($term as $propname => $prop) {
+    if ($propname == 'field_newsroom_topic') {
+      $form_state['values'][$propname][LANGUAGE_NONE][0]['tid'] = $prop;
+    }
+    
     $form_state['values'][$propname][LANGUAGE_NONE][0]['value'] = $prop;
   }
 
@@ -85,7 +89,9 @@ function _nexteuropa_newsroom_check_backup($form, &$form_state) {
  *   Form state.
  */
 function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
-
+  $voc = $form['vocabulary_machine_name']['#value'];
+  // Get the current backup.
+  $backup = variable_get($voc . '_backup', array());
   // Divide terms into chunks, grouping five of them.
   $chunks = array_chunk($backup, 5, TRUE);
   $num_operations = $sandbox['limit'] = count($chunks);
@@ -1351,8 +1357,8 @@ function _nexteuropa_newsroom_get_ids($voc, $data) {
  *   Formatted values for the newsroom related fields.
  */
 function _nexteuropa_newsroom_export_prepare_values($term) {
-
   $term = get_object_vars($term);
+  dd($term);
   $voc = $term['vocabulary_machine_name'];
   $id = _nexteuropa_newsroom_get_ids($voc, $term);
   $values = array();
@@ -1367,6 +1373,9 @@ function _nexteuropa_newsroom_export_prepare_values($term) {
 
       if (isset($prop[LANGUAGE_NONE][0]['value'])) {
         $values[$id][$propname] = $prop[LANGUAGE_NONE][0]['value'];
+      } 
+      else if (isset($prop[LANGUAGE_NONE][0]['tid'])) {
+        $values[$id][$propname] = $prop[LANGUAGE_NONE][0]['tid'];
       }
     }
   }
