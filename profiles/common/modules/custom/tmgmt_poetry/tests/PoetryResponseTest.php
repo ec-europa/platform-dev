@@ -2,26 +2,27 @@
 
 /**
  * @file
- * Contains Drupal\tmgmt_poetry\Tests\PoetryServerTest.
+ * Contains Drupal\tmgmt_poetry\Tests\PoetryResponseTest.
  */
 
 namespace Drupal\tmgmt_poetry\Tests;
 
-use Drupal\tmgmt_poetry\Services\PoetryServer;
+use Drupal\tmgmt_poetry\Services\PoetryResponse;
 
 /**
- * Class PoetryServerTest.
+ * Class PoetryResponseTest.
  *
  * @package Drupal\tmgmt_poetry\Tests
  */
-class PoetryServerTest extends AbstractTest {
+class PoetryResponseTest extends AbstractTest {
 
   /**
-   * Smoke test.
+   * Test factory method.
    */
-  public function testSmokeTest() {
-    $server = PoetryServer::getInstance();
-    $this->assertTrue(TRUE);
+  public function testFactory() {
+    $server = PoetryResponse::getInstance();
+    $reflection = new \ReflectionClass($server);
+    $this->assertEquals('Drupal\tmgmt_poetry\Services\PoetryResponse', $reflection->getName());
   }
 
 }
