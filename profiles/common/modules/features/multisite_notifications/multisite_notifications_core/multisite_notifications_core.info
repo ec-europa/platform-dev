@@ -4,6 +4,7 @@ core = 7.x
 package = Multisite Core Features
 dependencies[] = cce_basic_config
 dependencies[] = mail_edit
+dependencies[] = nexteuropa_token
 dependencies[] = subscriptions
 dependencies[] = subscriptions_content
 dependencies[] = subscriptions_mail
