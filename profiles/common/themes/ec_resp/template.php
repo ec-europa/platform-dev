@@ -489,10 +489,10 @@ function ec_resp_preprocess_html(&$variables) {
     }
 
     if (theme_get_setting('enable_interinstitutional_theme')) {
-      $variables['head_title'] = format_string('EUROPA - !title', array('!title' => $title));
+      $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
     }
     else {
-      $variables['head_title'] = format_string('!title - European Commission', array('!title' => $title));
+      $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
     }
   }
 
@@ -695,7 +695,7 @@ function ec_resp_page_alter(&$page) {
     }
   }
   $keywords .= filter_xss(variable_get('site_name')) . ', ';
-  $keywords .= 'European Commission, European Union, EU';
+  $keywords .= t('European Commission, European Union, EU');
 
   $type = 'website';
   if (!empty($node)) {
@@ -1095,7 +1095,7 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
 
   if (theme_get_setting('enable_interinstitutional_theme') && $element['#title'] == 'European Commission') {
     global $language;
-    $element['#title'] = 'Europa';
+    $element['#title'] = t('Europa');
     $element['#href'] = 'http://europa.eu/index_' . $language->language . '.htm';
   }
 

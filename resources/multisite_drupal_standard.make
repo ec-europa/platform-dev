@@ -43,6 +43,10 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-u
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 ; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
 projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
+; Delay removing entities from the index.
+; https://www.drupal.org/node/2764637
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-delay-entity-removal-2764637-1.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -321,7 +325,12 @@ projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
-projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
+; Language field display should default to hidden.
+; https://www.drupal.org/node/1350638
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
+; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
+; you can find it in drupal-core.make.
+projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
@@ -732,6 +741,11 @@ projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.3"
+; Using rel="alternate" rather than multiple sitemaps by language context
+; https://www.drupal.org/node/1670086
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
+projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
 
 
 ; =========
