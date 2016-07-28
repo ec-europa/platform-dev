@@ -176,7 +176,14 @@ class NewsroomBuilder {
    *   Taxonomy term object.
    */
   protected function getTopic($topic_url) {
-    return $this->getTaxonomyTerm($topic_url, NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY);
+    $topic = $this->getTaxonomyTerm($topic_url, NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY);
+    if ($topic) {
+      // Try to find active menu.
+      if ($path = NewsroomHelper::fetchActiveMenuPath($topic->tid)) {
+        menu_tree_set_path('main-menu', $path);
+      }
+    }
+    return $topic;
   }
 
   /**
