@@ -16,20 +16,20 @@ use Drupal\tmgmt_poetry\Services\TmgmtPoetryIntegration;
  */
 class PoetryCallback {
   // Constants.
-  const POETRY_REQUESTS_PATH = 'public://tmgmt_file/dgt_responses/';
-  const POETRY_MAIN_JOB_PREFIX = 'MAIN_';
+  const REQUESTS_PATH = 'public://tmgmt_file/dgt_responses/';
+  const MAIN_JOB_PREFIX = 'MAIN_';
   // Watchdog entry types.
-  const POETRY_REQUEST_WD_TYPE = 'PoetryCallback: Request';
-  const POETRY_ERROR_MESSAGE_WD_TYPE = 'PoetryCallback: Error message';
+  const REQUEST_WD_TYPE = 'PoetryCallback: Request';
+  const ERROR_MESSAGE_WD_TYPE = 'PoetryCallback: Error message';
   // Request types.
-  const POETRY_REQUEST_TYPE_STATUS = 'status';
-  const POETRY_REQUEST_TYPE_TRANSLATION = 'translation';
-  const POETRY_REQUEST_TYPE_UNKNOWN = 'unknown';
+  const REQUEST_TYPE_STATUS = 'status';
+  const REQUEST_TYPE_TRANSLATION = 'translation';
+  const REQUEST_TYPE_UNKNOWN = 'unknown';
   // Status types.
-  const POETRY_REQUEST_STATUS_TYPE = 'request';
-  const POETRY_DEMANDE_STATUS_TYPE = 'demande';
-  const POETRY_ATTRIBUTION_STATUS_TYPE = 'attribution';
-  const POETRY_CORRECTION_STATUS_TYPE = 'correction';
+  const REQUEST_STATUS_TYPE = 'request';
+  const DEMANDE_STATUS_TYPE = 'demande';
+  const ATTRIBUTION_STATUS_TYPE = 'attribution';
+  const CORRECTION_STATUS_TYPE = 'correction';
 
 
   // Poetry system settings.
@@ -48,18 +48,17 @@ class PoetryCallback {
   // Jobs.
   private $jobs;
 
+  // Poetry translator.
+  private $translator;
+
+  // Drupal languages.
+  private $languages;
+
   /**
    * PoetryCallback constructor.
    */
-  public function __construct() {
-    $this->setPoetrySettings();
-  }
-
-  /**
-   * Sets Poetry settings.
-   */
-  public function setPoetrySettings() {
-    $this->settings = variable_get("poetry_service");
+  public function __construct($settings) {
+    $this->settings = $settings;
   }
 
   /**
@@ -85,11 +84,13 @@ class PoetryCallback {
    *    XML response for callback function.
    */
   public function FPFISPoetryIntegrationRequest($user, $password, $message) {
+    // $response = PoetryResponse::getInstance();
+    // return $response->build($settings);
     // Setting up request properties to reuse them in the class methods.
     $this->setRequestArguments($user, $password, $message);
     // Log Poetry callback request to watchdog.
     $this->logToWatchdog(
-      self::POETRY_REQUEST_WD_TYPE,
+      self::REQUEST_WD_TYPE,
       filter_xss(htmlentities($message)),
       WATCHDOG_DEBUG
     );
@@ -124,10 +125,10 @@ class PoetryCallback {
 
     // Processing request according to given type.
     switch ($request_type) {
-      case self::POETRY_REQUEST_TYPE_STATUS:
+      case self::REQUEST_TYPE_STATUS:
         return $this->processStatusRequest();
 
-      case self::POETRY_REQUEST_TYPE_TRANSLATION:
+      case self::REQUEST_TYPE_TRANSLATION:
         return $this->processTranslationRequest();
 
       default:
@@ -142,14 +143,14 @@ class PoetryCallback {
    *    Returns request type.
    */
   private function getRequestType() {
-    if ((string) $this->xmlReqObj['type'] === self::POETRY_REQUEST_TYPE_STATUS) {
-      return self::POETRY_REQUEST_TYPE_STATUS;
+    if ((string) $this->xmlReqObj['type'] === self::REQUEST_TYPE_STATUS) {
+      return self::REQUEST_TYPE_STATUS;
     }
-    if ((string) $this->xmlReqObj['type'] === self::POETRY_REQUEST_TYPE_TRANSLATION) {
-      return self::POETRY_REQUEST_TYPE_TRANSLATION;
+    if ((string) $this->xmlReqObj['type'] === self::REQUEST_TYPE_TRANSLATION) {
+      return self::REQUEST_TYPE_TRANSLATION;
     }
 
-    return self::POETRY_REQUEST_TYPE_UNKNOWN;
+    return self::REQUEST_TYPE_UNKNOWN;
   }
 
   /**
@@ -168,7 +169,7 @@ class PoetryCallback {
       $attributions = $this->prepareAttributions();
     }
 
-    $this->processStatusRequestData($statuses, $attributions);
+    $this->processStatusesData($statuses);
   }
 
   /**
@@ -176,27 +177,55 @@ class PoetryCallback {
    *
    * @param array $statuses
    *    An array with statuses.
-   * @param array $attributions
-   *    An array with attributions.
    */
-  private function processStatusRequestData($statuses, $attributions) {
+  private function processStatusesData($statuses) {
+    $this->processDemandeStatus($statuses);
+
+  }
+
+  /**
+   * Processing demande status. Main goal of that method is to add message.
+   *
+   * Message will have an information about demande status details.
+   *
+   * @param array $statuses
+   *    An array with statuses.
+   */
+  private function processDemandeStatus($statuses) {
     // 'Demande' status should be only one per request.
     $demande_type = reset($statuses['demande']);
     $type = $demande_type['@attributes']['type'];
+    $code = $demande_type['@attributes']['code'];
+    // Get status code description.
     if (isset($demande_type['@attributes']['code'])) {
-      $status = $this->getStatusCodeDescription($demande_type['@attributes']['code']);
+      $status = $this->getStatusCodeDescription($code);
     }
     else {
       $status = t('No status');
     }
     $message = $demande_type['statusMessage'] ? $demande_type['statusMessage'] : t('No message');
+    // Performing  tasks on jobs related to the given request reference.
+    // Fetching job items and puting them in to the array.
     foreach ($this->jobs as $job) {
       // Checks if this is a main job.
-      if (0 === strpos($job->reference, self::POETRY_MAIN_JOB_PREFIX)) {
-
+      if (0 === strpos($job->reference, self::MAIN_JOB_PREFIX)) {
+        // @todo: left to add additional message in to main job.
       }
-
       TmgmtPoetryIntegration::addStatusMassageToJob($job, $type, $status, $message);
+
+      if (isset($statuses[''])) {
+
+        // Refuse ans cancel job translation case.
+        if ($code === 'REF' || $code === 'CNL') {
+          // @todo: make sure that pt-pt case can be addressed properly.
+          $lg_codes = array_keys($statuses['attribution']);
+          $job_lg = strtoupper($job->target_language);
+          if (in_array($job_lg, $lg_codes)) {
+            $job->aborted("Request aborted by DGT.", array());
+          }
+
+        }
+      }
     }
 
   }
@@ -215,7 +244,7 @@ class PoetryCallback {
       $status_type = (string) $status['type'];
       // All 'attribution' type statuses are having 'lgCode' property.
       // Inserting 'lgCode' as a key to simplify processing.
-      if ($status_type == self::POETRY_ATTRIBUTION_STATUS_TYPE) {
+      if ($status_type == self::ATTRIBUTION_STATUS_TYPE) {
         $status_lg = (string) $status['lgCode'];
         $statuses[$status_type][$status_lg] = (array) $status;
       }
@@ -306,6 +335,8 @@ class PoetryCallback {
     $this->xmlReqObj = $xml_object->request;
     $this->xmlRefArray = (array) $this->xmlReqObj->demandeId;
     $this->xmlReference = implode("/", (array) $this->xmlRefArray);
+    $this->translator = tmgmt_translator_load('poetry');
+    $this->languages = language_list();
   }
 
   /**
@@ -337,7 +368,7 @@ class PoetryCallback {
    * Dumps current SOAP request to the file.
    */
   public function dumpRequestToFile() {
-    $path = self::POETRY_REQUESTS_PATH . $this->xmlReference . '.xml';
+    $path = self::REQUESTS_PATH . $this->xmlReference . '.xml';
     $dirname = dirname($path);
 
     if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
