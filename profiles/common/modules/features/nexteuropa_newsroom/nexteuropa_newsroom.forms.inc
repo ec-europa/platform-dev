@@ -17,7 +17,7 @@
  *   Form submit result.
  */
 function nexteuropa_newsroom_restore_conf($form, &$form_state) {
-
+  $def_lang = language_default()->language;
   $voc = $form['vocabulary_machine_name']['#value'];
   // Get the id coming from the newsroom.
   $id = _nexteuropa_newsroom_get_ids($voc, $form['#term']);
@@ -42,13 +42,20 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
 
   // Override values basing on the backup ones.
   foreach ($term as $propname => $prop) {
-    if ($propname == 'field_newsroom_topic') {
-      for ($i = 0; $i < count($prop); $i++) {
-        $form_state['values'][$propname][LANGUAGE_NONE][$i]['tid'] = $prop[$i];
-      }
-    }
+    for ($i = 0; $i < count($prop); $i++) {
+      switch ($propname) {
+        case 'field_newsroom_topic': 
+          $form_state['values'][$propname][LANGUAGE_NONE][$i]['tid'] = $prop[$i];
+          break;
 
-    $form_state['values'][$propname][LANGUAGE_NONE][0]['value'] = $prop;
+        case 'field_newsroom_category_domain':
+          $form_state['values'][$propname][$def_lang][$i]['value'] = $prop[$i];
+          break;
+        
+        default:
+          $form_state['values'][$propname][LANGUAGE_NONE][$i]['value'] = $prop[$i];
+      }
+    }    
   }
 
   // Set a message for the user.
@@ -189,11 +196,14 @@ function nexteuropa_newsroom_form_taxonomy_form_term_alter(&$form, &$form_state)
     case NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY:
     case NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY:
     case NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY:
-      $form['actions']['restore_config'] = array(
-        '#type' => 'submit',
-        '#value' => t('Restore conf & Save'),
-        '#submit' => array('nexteuropa_newsroom_restore_conf'),
-      );
+      if (variable_get($voc_name . '_backup', FALSE)) {
+        $form['actions']['restore_config'] = array(
+          '#type' => 'submit',
+          '#value' => t('Restore conf & Save'),
+          '#submit' => array('nexteuropa_newsroom_restore_conf'),
+        );
+      }
+
       $form['actions']['backup_config'] = array(
         '#type' => 'submit',
         '#value' => t('Backup conf & Save'),
@@ -1359,28 +1369,32 @@ function _nexteuropa_newsroom_get_ids($voc, $data) {
  *   Formatted values for the newsroom related fields.
  */
 function _nexteuropa_newsroom_export_prepare_values($term) {
-  $term = get_object_vars($term);
-  $voc = $term['vocabulary_machine_name'];
-  $id = _nexteuropa_newsroom_get_ids($voc, $term);
+  $term_array = get_object_vars($term);
+  $voc = $term->vocabulary_machine_name;
+  $id = _nexteuropa_newsroom_get_ids($voc, $term_array);
   $values = array();
   $values[$id] = array();
   $voc = str_replace('_item', '', $voc);
 
-  foreach ($term as $propname => $prop) {
+  foreach ($term_array as $propname => $prop) {
     // Should work only with custom fields.
     if (strpos($propname, 'field') === 0) {
       if ($propname == 'field_' . $voc . '_id') {
         continue;
       }
 
-      if (isset($prop[LANGUAGE_NONE][0]['value'])) {
-        $values[$id][$propname] = $prop[LANGUAGE_NONE][0]['value'];
-      } 
-      else if (isset($prop[LANGUAGE_NONE][0]['tid'])) {
-        foreach ($prop[LANGUAGE_NONE] as $value) {          
-          $values[$id][$propname][] = $value;
+      $check_value = field_get_items('taxonomy_term', $term, $propname);
+
+      if (!empty($check_value)) {
+        foreach ($check_value as $value) {
+          if (!empty($value['value'])) {
+            $values[$id][$propname][] = $value['value'];
+          }
+          elseif (!empty($value['tid'])) {
+            $values[$id][$propname][] = $value['tid'];
+          }
         }
-      }
+      } 
     }
   }
 
