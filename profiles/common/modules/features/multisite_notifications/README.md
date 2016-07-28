@@ -12,19 +12,27 @@ Install using Features set page.
 What are notifications ?
 ========================
 A notification is a way to get informed about updates of the site's content.
-Notifications can be received per update or in digest mode. The feature is
-based on [![Subscription](https://www.drupal.org/project/subscription)](subscriptions contributed module).
+Notifications can be received per update or in digest mode.
+The feature is based on
+[Subscriptions contributed module](https://www.drupal.org/project/subscriptions)
+[Subscriptions documentation](https://www.drupal.org/node/344030)
 
 What kind of notifications are handled ?
 ========================================
-Only authenticated users can manage the way their notifications are handled.
+Authenticated users and anonymous users can subscribe to notifications, but only
+authenticated users can manage the way their notifications are handled.
 
+-Authenticated users :
 They can subscribe to a specific content (a given article, a given page etc..)
 if they wish to be informed about changes on that content.
 They can also subscribe to all content of a certain type, all content linked to
 a given taxonomy, all new content or comments.
 It is possible to subscribe to the content of a given author.
-It is possible to enable subscription for anonymous users.
+
+-Anonymous users :
+For anonymous subscriptions to be possible, you need to add the block
+'Anonymous subscription Block' in a region.
+By adding their email and clicking 'Subscribe' they get notified on all content.
 
 How to subscribe/unsubscribe ?
 ==============================
@@ -54,7 +62,7 @@ Users can decide to automatically subscribe to new or updated content/comments,
 be notified of their own updates and receive notifications in a 'digest mode'.
 Users can choose the frequency of notifications reception.
 Intervals are set up by administrators on
-/admin/config/system/subscriptions/intervals_en
+`/admin/config/system/subscriptions/intervals_en`
 
 "Pages/Thread" to view a list of all specific subscriptions and their interval
 of notifications.
@@ -139,3 +147,12 @@ made to the content.
     provided in your email footers.
     Note: so far, Anonymous subscription block is available only on standard
     profile.
+
+How to test the feature locally
+===============================
+In order to test the notifications feature on your VPS on EC network, you must
+set as sender this email address
+`automated-notifications@nomail.ec.europa.eu`
+This is done in the 'Mail Settings' section on
+`/admin/config/system/subscriptions_en`
+You need to run cron to trigger the mail sending.
