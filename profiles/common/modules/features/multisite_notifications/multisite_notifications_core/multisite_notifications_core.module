@@ -26,7 +26,7 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
       $event = NULL;
     }
   }
-  else if (isset($event['node']->status)) {
+  elseif (isset($event['node']->status)) {
     // No workbench moderation workflow.
     if ($event['node']->status != 1) {
       $event = NULL;
