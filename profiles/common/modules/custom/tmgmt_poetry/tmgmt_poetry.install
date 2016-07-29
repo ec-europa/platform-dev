@@ -19,7 +19,8 @@ function tmgmt_poetry_schema() {
       ),
       'entity_id' => array(
         'description' => 'Entity id',
-        'type' => 'int',
+        'type' => 'varchar',
+        'length' => 128,
         'not null' => TRUE,
       ),
       'annee' => array(
@@ -109,4 +110,21 @@ function tmgmt_poetry_update_7001() {
  */
 function tmgmt_poetry_update_7002() {
   module_enable(array('nexteuropa_token_ckeditor'));
+}
+
+/**
+ * Change Entity ID field type to 'varchar'.
+ */
+function tmgmt_poetry_update_7003() {
+  db_drop_primary_key('poetry_map');
+  $spec = array(
+    'description' => 'Entity id',
+    'type' => 'varchar',
+    'length' => 128,
+    'not null' => TRUE,
+  );
+  $keys = array(
+    'primary key' => array('entity_type', 'entity_id'),
+  );
+  db_change_field('poetry_map', 'entity_id', 'entity_id', $spec, $keys);
 }
