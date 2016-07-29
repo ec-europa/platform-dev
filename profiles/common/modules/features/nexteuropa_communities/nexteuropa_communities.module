@@ -34,12 +34,18 @@ function nexteuropa_communities_menu() {
     'page arguments' => array('nexteuropa_communities_configure_form'),
     'access arguments' => array('administer group'),
   );
-
+  $items['admin/config/group/nexteuropa_private_area'] = array(
+    'title' => 'NextEuropa private area',
+    'description' => 'Configure the NextEuropa private area',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_communities_private_area_form'),
+    'access arguments' => array('administer group'),
+  );
   return $items;
 }
 
 /**
- * Implements hook_action_info().
+ * Provide a form for the nexteuropa og context negociation.
  */
 function nexteuropa_communities_configure_form() {
   $form['nexteuropa_communities_url_keyword'] = [
@@ -47,7 +53,18 @@ function nexteuropa_communities_configure_form() {
     '#title' => 'The url keyword for community detection',
     '#default_value' => variable_get('nexteuropa_communities_url_keyword', 'community'),
   ];
+  return system_settings_form($form);
+}
 
+/**
+ * Provide a form for the private area setting.
+ */
+function nexteuropa_communities_private_area_form() {
+  $form['nexteuropa_communities_private_area'] = [
+    '#type' => 'checkbox',
+    '#title' => 'Enable the private area management for the community part.',
+    '#default_value' => variable_get('nexteuropa_communities_private_area', FALSE),
+  ];
   return system_settings_form($form);
 }
 
@@ -133,6 +150,65 @@ function nexteuropa_communities_tokens($type, $tokens, $data, $options) {
   }
 
   return $replacements;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_communities_permission() {
+  return array(
+    'access private area' => array(
+      'title' => t('Access private area'),
+      'description' => t('Allow to access to the private area.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function nexteuropa_communities_node_access($node, $op, $account) {
+  if ($op != 'view') {
+    return;
+  }
+
+  if (variable_get('nexteuropa_communities_private_area', FALSE)) {
+    // The private area option is enabled.
+    // DENY access only on public contents,
+    // when the user has not the "access private area" permission.
+    $wrapper = entity_metadata_wrapper('node', $node);
+
+    // The node is a group.
+    if (!empty($wrapper->{OG_ACCESS_FIELD}) && $wrapper->{OG_ACCESS_FIELD}->value() == 0 && og_is_group('node', $node) && !user_access("access private area", $account)) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // The node is a group content.
+    if (!empty($wrapper->{OG_CONTENT_ACCESS_FIELD}) && !user_access("access private area", $account)) {
+      $content_access = !empty($wrapper->{OG_CONTENT_ACCESS_FIELD}) ? $wrapper->{OG_CONTENT_ACCESS_FIELD}->value() : OG_CONTENT_ACCESS_DEFAULT;
+      switch ($content_access) {
+
+        case OG_CONTENT_ACCESS_PUBLIC:
+          return NODE_ACCESS_DENY;
+
+        case OG_CONTENT_ACCESS_DEFAULT:
+          if (!$entity_groups = og_get_entity_groups('node', $node)) {
+            break;
+          }
+          foreach ($entity_groups as $group_type => $values) {
+            entity_load($group_type, $values);
+            foreach ($values as $gid) {
+              $group_wrapper = entity_metadata_wrapper($group_type, $gid);
+              if (!empty($group_wrapper->{OG_ACCESS_FIELD}) && $group_wrapper->{OG_ACCESS_FIELD}->value() == 0) {
+                return NODE_ACCESS_DENY;
+              }
+            }
+          }
+          break;
+      }
+    }
+  }
+  return NODE_ACCESS_IGNORE;
 }
 
 /**
