@@ -98,7 +98,7 @@ function _nexteuropa_newsroom_check_backup($form, &$form_state) {
  *   Form state.
  */
 function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
-  $voc = $form['vocabulary_machine_name']['#value'];
+  $voc = $form['#vocabulary']->machine_name;
   // Get the current backup.
   $backup = variable_get($voc . '_backup', array());
   // Divide terms into chunks, grouping five of them.
@@ -112,7 +112,7 @@ function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
       array(
         $chunks[$i],
         $voc,
-        t('(Operation @operation)', array('@operation' => $i)),
+        array('(Operation: ' => $i),
       ),
     );
   }
@@ -1256,35 +1256,39 @@ function _nexteuropa_nexteuropa_newsletter_unsubscription_form_ajax($form, &$for
  *   Array of values.
  */
 function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_details) {
+  $def_lang = language_default()->language;
+
+  // Get the id coming from the newsroom.
+  $id = _nexteuropa_newsroom_get_ids($voc, $form['#term']);
+  // The name of the variable contains the id.
+  $name = $voc . '_backup';
+  $backup = variable_get($name, array());
 
   foreach ($chunk as $id => $fields) {
     // Try to find the corresponding term basing on its ID.
     $term = _nexteuropa_newsroom_get_term_from_id($id, $voc);
+
     if ($term) {
+      $term_wrapper = entity_metadata_wrapper('taxonomy_term', $term);
       // Let's work with an array.
       $term = get_object_vars($term);
 
-      // This is special, make them handable!.
-      $special = array(
-        'field_newsroom_featured_item',
-      );
 
       if (!empty($fields)) {
         // Override values.
-        foreach ($fields as $field_name => $value) {
-          if (!in_array($propname, $special)) {
-            $term[$field_name][LANGUAGE_NONE][0]['value'] = $value;
-          }
-          else {
-            if (is_numeric($value)) {
-              $term[$field_name][LANGUAGE_NONE][0]['target_id'] = $value;
-            }
-            else {
-              unset($term[$field_name][LANGUAGE_NONE][0]);
-            }
-          }
+        foreach ($fields as $field_name => $values) {
+          switch ($field_name) {
+            case 'field_newsroom_topic':
+              for ($i = 0; $i < count($fields); $i++) {
+                $term_wrapper->{$field_name}[] = $values[$i];
+              }
+              break;
+      
+            default:
+              $term_wrapper->{$field_name}->set($values[0]);
+          }  
         }
-
+        
         if (isset($context)) {
           // Build the worked term name list.
           $context['results'][] .= $conf['name'] . ', ';
@@ -1293,9 +1297,9 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
             '@operations' => $operation_details,
           ));
         }
+
+        $term_wrapper->save();
       }
-      // Save the term with the new values.
-      taxonomy_term_save((object) $term);
     }
   }
 }
