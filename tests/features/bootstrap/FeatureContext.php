@@ -190,6 +190,12 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @param TableNode $featureset_table
    *   The table listing feature set titles.
    *
+   * @return bool
+   *    TRUE / FALSE
+   *
+   * @throws \Exception
+   *    Exception.
+   *
    * @Given the/these featureSet/FeatureSets is/are enabled
    */
   public function enableFeatureSet(TableNode $featureset_table) {
@@ -459,6 +465,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
+   *    Behat\Mink\Exception\ExpectationException.
    *
    * @Then the class :arg1 exists in my codebase
    */
@@ -471,20 +478,27 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Attempts to find and check a checkbox in a table row containing given text.
    *
-   * @param string $rowText
+   * @param string $row_text
    *    Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
+   *    Behat\Mink\Exception\ExpectationException.
    *
    * @Given I check the box on the :rowText row
    */
-  public function checkCheckboxOnTableRow($rowText) {
+  public function checkCheckboxOnTableRow($row_text) {
     $page = $this->getSession()->getPage();
-    if ($checkbox = $this->getTableRow($page, $rowText)->find('css', 'input[type=checkbox]')) {
+    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
       $checkbox->check();
       return;
     }
-    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $rowText, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
+    throw new ExpectationException(sprintf(
+      'Found a row containing "%s", but no "%s" link on the page %s',
+      $row_text,
+      $checkbox,
+      $this->getSession()->getCurrentUrl()),
+      $this->getSession()
+    );
   }
 
   /**
@@ -496,8 +510,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Table row text.
    *
    * @return NodeElement
+   *    Node element.
    *
    * @throws \Exception
+   *    Exception.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
