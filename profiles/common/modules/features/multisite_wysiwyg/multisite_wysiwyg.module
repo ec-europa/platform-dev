@@ -9,6 +9,8 @@
  */
 function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
   global $base_url;
+  $ms_wysiwyg = variable_get('multisite_wysiwyg', []);
+  $state = multisite_wysiwyg_set_current_entity_object_state();
 
   if ($context['profile']->editor == 'ckeditor') {
     $skins_path = drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/skins';
@@ -16,7 +18,119 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Set custom skin.
     $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
 
-    // Provide additionnal custom settings.
+    // Provide additional custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
   }
+
+  // Turn CKEditor Lite tracking off by default.
+  if (module_exists('ckeditor_lite') && $context['profile']->editor == 'ckeditor') {
+    $settings['lite']['isTracking'] = FALSE;
+  }
+
+  // Disable CKEditor Lite change tracking on create content pages.
+  if ($ms_wysiwyg && isset($ms_wysiwyg['dis_change_track_on_create'])) {
+    if ($ms_wysiwyg['dis_change_track_on_create'] && ($state == 'create')) {
+      $extra_plugins = explode(',', $settings['extraPlugins']);
+      foreach ($extra_plugins as $key => $plugin) {
+        if ($plugin == 'lite') {
+          unset($extra_plugins[$key]);
+        }
+      }
+      $settings['extraPlugins'] = implode(',', $extra_plugins);
+    }
+  }
+
+  // Enable CKEditor Lite change tracking on edit entity pages.
+  if ($ms_wysiwyg && isset($ms_wysiwyg['en_change_track_on_edit'])) {
+    if ($ms_wysiwyg['en_change_track_on_edit'] && ($state == 'edit')) {
+      $settings['lite']['isTracking'] = TRUE;
+    }
+  }
+
+}
+
+/**
+ * Implements hook_menu().
+ */
+function multisite_wysiwyg_menu() {
+  $items['admin/config/content/multisite_wysiwyg'] = [
+    'title' => 'Multisite WYSIWYG',
+    'description' => 'Multisite WYSIWYG: Available options',
+    'position' => 'left',
+    'weight' => -100,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => ['administer site configuration'],
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  ];
+
+  $items['admin/config/content/multisite_wysiwyg/setup'] = [
+    'title' => 'Settings',
+    'description' => 'Setup page for Multisite WYSIWYG',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['multisite_wysiwyg_settings_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'includes/multisite_wysiwyg.settings.inc',
+    'weight' => 1,
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function multisite_wysiwyg_element_info_alter(&$types) {
+  $types['text_format']['#pre_render'][] = 'multisite_wysiwyg_pre_render_text_format';
+}
+
+/**
+ * Pre-render callback that persists "create" or "edit" context on AJAX calls.
+ *
+ * @param mixed $element
+ *    Element array.
+ *
+ * @return mixed
+ *    Element array.
+ *
+ * @see multisite_wysiwyg_element_info_alter()
+ */
+function multisite_wysiwyg_pre_render_text_format($element) {
+  // Not all entity types are handled uniformly here (i.e. Taxonomy Term).
+  // Ignore current object state if no state can be determined.
+  if (isset($element['#entity_type']) && isset($element['#entity'])) {
+    $entity_info = entity_get_info($element['#entity_type']);
+    $entity_id_key = $entity_info['entity keys']['id'];
+    $is_new = !isset($element['#entity']->{$entity_id_key}) || empty($element['#entity']->{$entity_id_key});
+    $state = $is_new ? 'create' : 'edit';
+    multisite_wysiwyg_set_current_entity_object_state($state);
+  }
+  else {
+    multisite_wysiwyg_set_current_entity_object_state('ignore');
+  }
+  return $element;
+}
+
+/**
+ * Helper: store current entity object state.
+ *
+ * Object can be in one of the following 3 states:
+ *  - create: entity is being created.
+ *  - edit: entity is being edited.
+ *  - ignore: not possible to determine any state (i.e. Taxonomy Terms).
+ *
+ * @param string $state
+ *    One of the states above.
+ *
+ * @return string
+ *    Current entity object state.
+ *
+ * @see multisite_wysiwyg_wysiwyg_editor_settings_alter()
+ */
+function multisite_wysiwyg_set_current_entity_object_state($state = NULL) {
+  $storage = &drupal_static(__FUNCTION__);
+  if ($state !== NULL) {
+    $storage = $state;
+  }
+  return $storage;
 }
