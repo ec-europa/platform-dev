@@ -27,7 +27,7 @@ class PoetryResponse implements PoetryResponseInterface {
   /**
    * {@inheritdoc}
    */
-  public function build($settings) {
+  public function build() {
     // TODO: Implement build() method.
   }
 
