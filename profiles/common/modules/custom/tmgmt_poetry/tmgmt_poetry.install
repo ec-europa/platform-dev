@@ -17,10 +17,15 @@ function tmgmt_poetry_schema() {
         'length' => 128,
         'not null' => TRUE,
       ),
+      // Originally this column was erroneously set to be an integer in the
+      // assumption that TMGMT module would only provide entity IDs.
+      // In reality object IDs can be strings describing any kind of object.
+      // @see tmgmt_poetry_update_7003()
+      // @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12492
       'entity_id' => array(
-        'description' => 'Entity id',
+        'description' => 'Identification string of the object being translated.',
         'type' => 'varchar',
-        'length' => 128,
+        'length' => 256,
         'not null' => TRUE,
       ),
       'annee' => array(
