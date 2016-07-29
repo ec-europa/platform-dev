@@ -32,9 +32,13 @@ function tmgmt_poetry_menu() {
  * Function to define our webservice and register the available methods.
  */
 function _tmgmt_poetry_service_callback() {
-  $server = PoetryServer::getInstance();
-  $server->process();
+  // Two belows lines are an entry to new implementation.
+  // @todo: after development phase make sure that only one implementation will
+  // be here.
+  // $server = PoetryServer::getInstance();
+  // $server->process();
 
+  // Beneath you will find the old way.
   // Generate our own SOAP server.
   $context = stream_context_create();
   $uri = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(

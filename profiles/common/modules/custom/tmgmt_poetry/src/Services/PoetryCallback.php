@@ -173,25 +173,14 @@ class PoetryCallback {
   }
 
   /**
-   * Processing prepared data from status request.
-   *
-   * @param array $statuses
-   *    An array with statuses.
-   */
-  private function processStatusesData($statuses) {
-    $this->processDemandeStatus($statuses);
-
-  }
-
-  /**
-   * Processing demande status. Main goal of that method is to add message.
+   * Processing status. Main goal of that method is to add message.
    *
    * Message will have an information about demande status details.
    *
    * @param array $statuses
    *    An array with statuses.
    */
-  private function processDemandeStatus($statuses) {
+  private function processStatusesData($statuses) {
     // 'Demande' status should be only one per request.
     $demande_type = reset($statuses['demande']);
     $type = $demande_type['@attributes']['type'];
@@ -205,7 +194,7 @@ class PoetryCallback {
     }
     $message = $demande_type['statusMessage'] ? $demande_type['statusMessage'] : t('No message');
     // Performing  tasks on jobs related to the given request reference.
-    // Fetching job items and puting them in to the array.
+    // Fetching job items and putting them in to the array.
     foreach ($this->jobs as $job) {
       // Checks if this is a main job.
       if (0 === strpos($job->reference, self::MAIN_JOB_PREFIX)) {
@@ -213,21 +202,16 @@ class PoetryCallback {
       }
       TmgmtPoetryIntegration::addStatusMassageToJob($job, $type, $status, $message);
 
-      if (isset($statuses[''])) {
-
-        // Refuse ans cancel job translation case.
-        if ($code === 'REF' || $code === 'CNL') {
-          // @todo: make sure that pt-pt case can be addressed properly.
-          $lg_codes = array_keys($statuses['attribution']);
-          $job_lg = strtoupper($job->target_language);
-          if (in_array($job_lg, $lg_codes)) {
-            $job->aborted("Request aborted by DGT.", array());
-          }
-
+      // Refuse ans cancel job translation case.
+      if ($code === 'REF' || $code === 'CNL') {
+        // @todo: make sure that pt-pt case can be addressed properly.
+        $lg_codes = array_keys($statuses['attribution']);
+        $job_lg = strtoupper($job->target_language);
+        if (in_array($job_lg, $lg_codes)) {
+          $job->aborted("Request aborted by DGT.", array());
         }
       }
     }
-
   }
 
   /**
