@@ -48,6 +48,10 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
           $form_state['values'][$propname][LANGUAGE_NONE][$i]['tid'] = $prop[$i];
           break;
 
+        case 'field_newsroom_featured_item': 
+          $form_state['values'][$propname][LANGUAGE_NONE][$i]['target_id'] = $prop[$i];
+          break;
+
         case 'field_newsroom_category_domain':
           $form_state['values'][$propname][$def_lang][$i]['value'] = $prop[$i];
           break;
@@ -159,7 +163,8 @@ function nexteuropa_newsroom_form_nexteuropa_newsroom_admin_settings_alter(&$for
  *   Form submit result.
  */
 function nexteuropa_newsroom_backup_conf($form, &$form_state) {
-
+  // Save the term.
+  taxonomy_form_term_submit($form, $form_state);
   $voc = $form['vocabulary_machine_name']['#value'];
   // Get the current backup.
   $current_values = variable_get($voc . '_backup', array());
@@ -181,8 +186,6 @@ function nexteuropa_newsroom_backup_conf($form, &$form_state) {
 
   // Set a message to the user.
   drupal_set_message(t('We saved a backup of your configuration for the term "@name". if you need to restore the values in the backup click on the "Restore & Save" button', array('@name' => $form['#term']['name'])), 'status');
-  // Submit the form so the term get saved.
-  return taxonomy_form_term_submit($form, $form_state);
 }
 
 /**
@@ -1386,7 +1389,7 @@ function _nexteuropa_newsroom_export_prepare_values($term) {
       if ($propname == 'field_' . $voc . '_id') {
         continue;
       }
-
+      
       $check_value = field_get_items('taxonomy_term', $term, $propname);
 
       if (!empty($check_value)) {
@@ -1396,6 +1399,9 @@ function _nexteuropa_newsroom_export_prepare_values($term) {
           }
           elseif (!empty($value['tid'])) {
             $values[$id][$propname][] = $value['tid'];
+          }
+          elseif (!empty($value['target_id'])) {
+            $values[$id][$propname][] = $value['target_id'];
           }
         }
       } 
