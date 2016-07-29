@@ -27,9 +27,9 @@ function nexteuropa_communities_block_view_alter(&$data, $block) {
  * Implements hook_menu().
  */
 function nexteuropa_communities_menu() {
-  $items['admin/config/group/context/negotiation'] = array(
-    'title' => 'NextEuropa negotiation',
-    'description' => 'Configure the NextEuropa context negotiation',
+  $items['admin/config/nexteuropa_communities'] = array(
+    'title' => 'NextEuropa communities',
+    'description' => 'Configure the NextEuropa communities module',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('nexteuropa_communities_configure_form'),
     'access arguments' => array('administer group'),
@@ -39,13 +39,26 @@ function nexteuropa_communities_menu() {
 }
 
 /**
- * Implements hook_action_info().
+ * Manage the configuration form for NextEuropa Communities.
  */
 function nexteuropa_communities_configure_form() {
   $form['nexteuropa_communities_url_keyword'] = [
     '#type' => 'textfield',
-    '#title' => 'The url keyword for community detection',
+    '#title' => 'Url Keyword',
+    '#description' => 'The url keyword used for community detection',
     '#default_value' => variable_get('nexteuropa_communities_url_keyword', 'community'),
+  ];
+
+  $options = og_get_all_group_bundle();
+
+  $form['nexteuropa_communities_content_types'] = [
+    '#title' => 'Community group  content types',
+    '#description' => 'Select the content types that are used as a community group',
+    '#type' => 'select',
+    '#multiple' => TRUE,
+    '#required' => TRUE,
+    '#options' => $options,
+    '#default_value' => variable_get('nexteuropa_communities_content_types', array('community')),
   ];
 
   return system_settings_form($form);
@@ -178,4 +191,160 @@ function community_load($arg) {
 
   // If no group was found, pass the argument as is.
   return NULL;
+}
+
+/**
+ * Create the default community content alias pattern.
+ *
+ * Implements hook_pathauto().
+ */
+function nexteuropa_communities_pathauto() {
+  $settings = [
+    'module' => 'nexteuropa_communities',
+    'groupheader' => t('Communities contents paths'),
+    'patterndescr' => t('Default path pattern'),
+    'patterndefault' => pathauto_pattern_load_by_entity('node', 'article', LANGUAGE_NONE),
+    'token_type' => 'node',
+    'batch_update_callback' => 'nexteuropa_communities_pathauto_bulkupdate',
+  ];
+  return (object) $settings;
+}
+
+/**
+ * Implements hook_pathauto_bulkupdate().
+ */
+function nexteuropa_communities_pathauto_bulkupdate() {
+  // Find all node ids for contents (i.e. not communities).
+  $query = db_select('node', 'n');
+  $query
+    ->condition('n.type', 'community', '<>')
+    ->condition('n.status', '1', '=')
+    ->fields('n', array('nid'));
+
+  $results = $query->execute()->fetchCol();
+  $count = 0;
+  foreach ($results as $nid) {
+    $node = node_load($nid);
+    if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+      _nexteuropa_communities_create_alias($node, 'bulkupdate');
+      $count++;
+    }
+  }
+  drupal_set_message($count . ' community contents nodes were updated.');
+}
+
+/**
+ * Helper function to create node aliases.
+ */
+function _nexteuropa_communities_create_alias($node, $op) {
+  $node_source = 'update' != $op ? 'node/' . $node->nid : $node->path['source'];
+  $node_language = 'update' != $op ? $node->language : $node->path['language'];
+
+  // For each linked group, leave only that group alone
+  // linked in the node and obtain the node alias.
+  module_load_include('inc', 'pathauto');
+  $og_group_ref = $node->og_group_ref[LANGUAGE_NONE];
+
+  $group_types = variable_get('nexteuropa_communities_content_types', ['community']);
+
+  foreach ($og_group_ref as $v) {
+    $group = node_load($v['target_id']);
+
+    if (!in_array($group->type, $group_types)) {
+      continue;
+    }
+
+    // Get the path for the current community.
+    $node->og_group_ref[LANGUAGE_NONE] = [$v];
+    $new_path = pathauto_create_alias('nexteuropa_communities', 'return', $node_source, ['node' => $node], $node->type, $node->language);
+
+    if ($new_path) {
+      if (is_string($new_path)) {
+        $new_paths[] = $new_path;
+      }
+      elseif (is_array($new_path) && isset($new_path['alias'])) {
+        $new_paths[] = $new_path['alias'];
+      }
+    }
+  }
+  $node->og_group_ref[LANGUAGE_NONE] = $og_group_ref;
+
+  // We cannot respect update action (see pathauto_update_action)
+  // due to multiples alias per node, so all aliases are deleted and resaved
+  // (avoid outdated alias in case of it changed).
+  path_delete(['source' => $node_source]);
+  if (isset($new_paths)) {
+    // Save the aliases obtained.
+    $node->path['pathauto'] = FALSE;
+    $path = [
+      'pathauto' => FALSE,
+      'source' => $node_source,
+      'language' => $node_language,
+    ];
+    foreach ($new_paths as $p) {
+      $path['pid'] = '';
+      $path['alias'] = $p;
+      path_save($path);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function nexteuropa_communities_node_insert($node) {
+  if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+    _nexteuropa_communities_create_alias($node, 'insert');
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function nexteuropa_communities_node_update($node) {
+  if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+    _nexteuropa_communities_create_alias($node, 'update');
+  }
+}
+
+/**
+ * Choose the correct URL alias for a community node, depending on the context.
+ *
+ * Implements hook_url_outbound_alter().
+ */
+function nexteuropa_communities_url_outbound_alter(&$path, &$options, $original_path) {
+  $context = og_context();
+  if ($context && strpos($original_path, 'node/') !== FALSE) {
+    global $language;
+    $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+    // Load pathauto in order to use the cleanstring method.
+    module_load_include('inc', 'pathauto', 'pathauto');
+
+    // Manage the group.
+    $group = node_load($context['gid']);
+    $group_name = pathauto_cleanstring($group->title);
+
+    // Get the node aliases.
+    $select = db_select('url_alias');
+    $select->condition('source', $original_path);
+    $select->condition('language', $language->language);
+    $select->fields('url_alias', ['alias']);
+    $paths = $select->execute()->fetchAll();
+
+    // Loop through the found paths in order to find the correct alias.
+    foreach ($paths as $p) {
+      // Check that the URL begins with the desired community pattern.
+      $search = strpos($p->alias, $keyword . '/' . $group_name);
+      if ($search !== FALSE && $search === 0) {
+        $new_path = $p->alias;
+        break;
+      }
+    }
+  }
+
+  // Set the new path if existing.
+  if (isset($new_path)) {
+    $path = $new_path;
+    $options['alias'] = $path;
+  }
 }
