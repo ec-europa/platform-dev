@@ -15,6 +15,30 @@ function nexteuropa_core_init() {
 }
 
 /**
+ * Implements hook_module_implements_alter().
+ */
+function nexteuropa_core_module_implements_alter(&$implementations, $hook) {
+
+  // Need to proceed so because of specifities of alter hooks.
+  // see hook_module_implements_alter() documentation.
+  if ($hook == 'form_alter') {
+
+    $module_isset = (isset($implementations['nexteuropa_core']) &&  isset($implementations['pathauto']));
+    if ($module_isset) {
+      // Switch the orders of the implementations to ensure the module hook
+      // Implementation is done after the 'pathauto' ones.
+      $nexteuropa_core_value = $implementations['nexteuropa_core'];
+      $pathauto_value = $implementations['pathauto'];
+
+      unset($implementations['nexteuropa_core'], $implementations['pathauto']);
+
+      $implementations['pathauto'] = $pathauto_value;
+      $implementations['nexteuropa_core'] = $nexteuropa_core_value;
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function nexteuropa_core_form_taxonomy_overview_terms_alter(&$form, $form_state) {
@@ -41,4 +65,105 @@ function nexteuropa_core_form_taxonomy_overview_terms_submit($form, &$form_state
       pathauto_create_alias('taxonomy_term', 'update', $uri['path'], array('term' => $term), $term->vocabulary_machine_name);
     }
   }
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function nexteuropa_core_form_node_form_alter(&$form, $form_state, $form_id) {
+  _nexteuropa_core_forced_pathauto_alter($form, $form_state);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function nexteuropa_core_form_pathauto_settings_form_alter(&$form, $form_state, $form_id) {
+  // Adds a setting option in the Pathauto settings form used in node edit form.
+  $form['nexteuropa_core_forced_pathauto'] = array(
+    '#title' => t('Force automation of node alias'),
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('nexteuropa_core_forced_pathauto'),
+    '#description' => t('By checking it, you prevent users to change a content alias manually in the node edit form. 
+      Nevertheless, it still is possible to perform this action in a dedicated form.'),
+  );
+}
+
+/**
+ * Implements the mechanism that hides the pathauto related form fields.
+ *
+ * It replaces it by a information message for users.
+ *
+ * @see nexteuropa_multilingual_form_node_form_alter()
+ */
+function _nexteuropa_core_forced_pathauto_alter(&$form, $form_state) {
+  if (isset($form['path'])) {
+    $is_simple_mgmt = variable_get('nexteuropa_core_forced_pathauto', TRUE);
+    if ($is_simple_mgmt) {
+      $permission = 'administer url aliases';
+      $node = $form['#node'];
+
+      $form['path']['alias']['#access'] = FALSE;
+      $form['path']['pathauto']['#access'] = FALSE;
+      // Force pathauto.
+      $form['path']['pathauto']['#default_value'] = 1;
+
+      // Override pathauto & path.module's vertical tabs summary.
+      // inspired from pathauto approach.
+      $path = drupal_get_path('module', 'nexteuropa_core') . '/nexteuropa_core.js';
+      $form['path']['#attached']['js'] = array(
+        'vertical-tabs' => $path,
+      );
+
+      // Get message to display instead of path/pathauto fields.
+      $messages = array();
+      if (isset($node->path['source'])) {
+        $node_language = entity_language('node', $node);
+        $node_alias = drupal_get_path_alias($node->path['source'], $node_language);
+        $messages[] = t('The current path is "%path".', array('%path' => url($node_alias)));
+
+        $messages[] = t('The url path will be updated automatically.');
+      }
+      else {
+        $messages[] = t('The url path will be generated automatically.');
+      }
+      // Only roles with right permission can edit an alias
+      // through the alias admin interface. Then, the message must take it into
+      // account.
+      if (user_access($permission)) {
+        $messages[] = t('Nevertheless, you can change it manually through the alias management interface.');
+      }
+      else {
+        $authorized_roles = user_roles(TRUE, $permission);
+        $str_authorized_roles = implode(',', $authorized_roles);
+        $message_one_role = 'Nevertheless, it can be changed manually by users having this role:';
+        $message_n_roles = 'Nevertheless, it can be changed manually by users having one of these roles:';
+        $text_message = format_plural(count($authorized_roles), $message_one_role, $message_n_roles);
+        $messages[] = $text_message . ' ' . $str_authorized_roles;
+
+      }
+
+      $variables = array(
+        'messages' => $messages,
+      );
+      $form['path']['simple_mgmt_message'] = array(
+        '#markup' => theme('nexteuropa_core_forced_pathauto_message', $variables),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function nexteuropa_core_theme($existing, $type, $theme, $path) {
+  $templates_path = drupal_get_path('module', 'nexteuropa_core') . '/templates';
+  return array(
+    'nexteuropa_core_forced_pathauto_message' => array(
+      'variables' => array(
+        'messages' => NULL,
+      ),
+      'template' => 'nexteuropa-core-forced-pathauto-message',
+      'path' => $path . '/theme',
+    ),
+  );
 }
