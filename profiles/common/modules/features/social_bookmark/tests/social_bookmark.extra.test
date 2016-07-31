@@ -137,7 +137,6 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
     $this->assertRaw('<!--{"stats":true,"lang":"en","style":"icon", "size":32, "text":"Custom label", "counter_display":false, "counter_position":"right"}//-->', 'The Share Bookmark widget is displayed.');
   }
 
-
   /**
    * Check the access to the social bar configuration page.
    */

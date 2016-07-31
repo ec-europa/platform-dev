@@ -8,6 +8,7 @@
  * Views area handler to show (expand all/collapse all) menu for the FAQ list.
  */
 class views_handler_area_f_a_q_collapsible_menu extends views_handler_area {
+
   /**
    * Return the collapsile menu.
    */

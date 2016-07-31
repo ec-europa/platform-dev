@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest.
- */
-
 namespace Drupal\nexteuropa_token\Tests;
 
 /**

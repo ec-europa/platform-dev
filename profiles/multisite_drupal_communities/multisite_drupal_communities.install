@@ -20,7 +20,6 @@ function multisite_drupal_communities_install() {
   ));
 }
 
-
 /**
  * NEXTEUROPA-3298: Disable ckeditor_link features.
  */

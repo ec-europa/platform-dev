@@ -1,13 +1,6 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field\InstanceField\DefaultFieldHandler.
- */
-
 namespace Drupal\field_group;
-
-use Drupal\field_group\Config;
 
 /**
  * Class DefaultFieldHandler.

@@ -88,7 +88,6 @@ class MultisiteMediaGalleryStandardFeatureTest extends DrupalWebTestCase {
     $this->assertResponse(200, 'Allowed Access -> Expected OK');
   }
 
-
   /**
    * Create a test node and check it.
    */

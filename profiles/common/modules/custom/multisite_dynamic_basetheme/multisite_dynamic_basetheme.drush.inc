@@ -35,7 +35,6 @@ function multisite_dynamic_basetheme_drush_command() {
   return $items;
 }
 
-
 /**
  * Implements drush_hook_COMMAND().
  */

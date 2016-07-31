@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_core\Config.
- */
-
 namespace Drupal\nexteuropa_core;
 
 use Drupal\multisite_config\ConfigBase;

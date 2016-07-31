@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\block\\Config.
- */
-
 namespace Drupal\block;
 
 use Drupal\multisite_config\ConfigBase;

@@ -15,7 +15,6 @@ function tmgmt_dgt_html_tmgmt_file_format_plugin_info() {
   return $info;
 }
 
-
 /**
  * Implements hook_theme().
  */
