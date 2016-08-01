@@ -2,7 +2,6 @@ name = Nexteuropa Newsroom
 description = Integration with the Newsroom application
 core = 7.x
 package = NextEuropa
-project = nexteuropa_newsroom
 dependencies[] = entity_translation
 dependencies[] = geofield
 dependencies[] = feeds_et

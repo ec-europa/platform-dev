@@ -108,7 +108,7 @@ function nexteuropa_newsroom_restore_conf_all($form, &$form_state) {
     'title' => t('Restore configuration for terms'),
     'init_message' => t('The restore of your configuration has been started'),
     'progress_message' => t(
-        'Current: @current | Remaining:
+      'Current: @current | Remaining:
       @remaining | Total: @total | Percentage: @percentage | Estimate:
       @estimate | Elapsed: @elapsed'
     ),
@@ -1288,8 +1288,8 @@ function _nexteuropa_newsroom_get_term_from_id($id, $voc) {
   $field = str_replace('_item', '', $voc);
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'taxonomy_term')
-        ->entityCondition('bundle', $voc)
-        ->fieldCondition('field_' . $field . '_id', 'value', $id, '=');
+    ->entityCondition('bundle', $voc)
+    ->fieldCondition('field_' . $field . '_id', 'value', $id, '=');
 
   $results = $query->execute();
 

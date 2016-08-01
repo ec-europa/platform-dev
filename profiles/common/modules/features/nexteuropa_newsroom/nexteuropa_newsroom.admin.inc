@@ -547,12 +547,12 @@ function _nexteuropa_newsroom_admin_delete_confirm($form, &$form_state) {
   foreach ($values as $field => $nodes) {
     for ($i = 0; $i < count($values[$field]); $i++) {
       $desc .= t('@num nodes containing values for the field @field in the content type @ct',
-        array(
-          '@num' => $values[$field][$i]['nodes'],
-          '@field' => $field,
-          '@ct' => $values[$field][$i]['ct'],
-        )
-      ) . '<br/>';
+          array(
+            '@num' => $values[$field][$i]['nodes'],
+            '@field' => $field,
+            '@ct' => $values[$field][$i]['ct'],
+          )
+        ) . '<br/>';
     }
   }
   $desc .= '</i>' . t('If you continue these information could be lost.') . '</p>';
@@ -615,11 +615,11 @@ function _nexteuropa_newsroom_admin_type_root_validate($element, &$form_state) {
   if ($form_state['values'][$element['#name']] != $pattern) {
     drupal_set_message(
       t('The value for the %el has been modified. BEFORE: %or ::: AFTER: %mod',
-      array(
-        '%el' => $element['#name'],
-        '%or' => $form_state['values'][$element['#name']],
-        '%mod' => $pattern,
-      )),
+        array(
+          '%el' => $element['#name'],
+          '%or' => $form_state['values'][$element['#name']],
+          '%mod' => $pattern,
+        )),
       'warning'
     );
     $form_state['values'][$element['#name']] = $pattern;
