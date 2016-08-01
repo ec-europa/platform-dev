@@ -10,12 +10,13 @@
  */
 function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &$form_state, $form_id) {
   // @TODO make it more generic than only for nodes
-  $form['wrapper']['mail'] = array(
+  $form['mail'] = array(
     '#title' => t('Email'),
     '#type' => 'textfield',
     '#access' => user_access('subscribe to content') && user_is_anonymous(),
     '#required' => user_access('subscribe to content') && user_is_anonymous(),
   );
+
   if (user_is_anonymous()) {
     $form['#validate'][] = '_subscriptions_anonymous_validate';
     $form['#submit'][] = '_subscriptions_anonymous_submit';
@@ -34,16 +35,36 @@ function _subscriptions_anonymous_validate($form, &$form_state) {
 }
 
 /**
- * Validation handler for subscriptions form.
+ * Node subscriptions node subform submit handler.
+ *
+ * @param array $form
+ * @param array $form_state
+ *
+ * @ingroup form
  */
-function _subscriptions_anonymous_submit($form, &$form_state) {
+function _subscriptions_anonymous_submit(array $form, array &$form_state) {
   // Get the lower uid found and decrement it.
-  $query = db_select('subscriptions_queue', 'sq');
-  $query->addExpression('MIN(uid)', 'min_uid');
-  $min_uid = $query->execute()
-    ->fetchAssoc();
-  $form_state['uid'] = 32;
+  $query = db_select('subscriptions');
+  $query->addExpression('MIN(recipient_uid)');
+  $min_uid = $query->execute()->fetchField();
 
+  $recipient_uid = intval($min_uid) - 1;
+  $default_send_intervals = $form_state['values']['send_intervals'];
+
+  foreach ($form_state['values']['subscriptions'] as $index => $value) {
+    $params = $form_state['values']['params'][$index];
+    $args = array($params['module'], $params['field'], $params['value'], $params['author_uid'], $recipient_uid);
+    if ($value) {
+      $args[] = $default_send_intervals[$index];
+      $args[] = !empty($form_state['values']['updates'][$index]);
+      $args[] = !empty($form_state['values']['comments'][$index]);
+      call_user_func_array('subscriptions_write_subscription', $args);
+    }
+    else {
+      subscriptions_delete($args['4'], $args['0'], $args['1'], $args['2'], $args['3']);
+    }
+  }
+  $form_state['redirect'] = str_replace('/subscribe', '', current_path());
 }
 
 /**
