@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * @file
+ * Anonymous subscriptions module (load-on-demand admin functions).
+ */
+
+/**
+ * Site Settings form at admin/config/system/subscriptions.
+ *
+ * Other submodules contribute additional parts to this form.
+ *
+ * @param array $form
+ * @param array $form_state
+ *
+ * @return array
+ */
+function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &$form_state, $form_id) {
+  //@TODO make it more generic than only for nodes
+  if ($form['#form_id'] == 'subscriptions_ui_node_form') {
+    $form['wrapper']['mail'] = array(
+      '#title' => t('Email'),
+      '#type' => 'textfield',
+      '#access' => user_access('subscribe to content') && user_is_anonymous(),
+      '#required' => user_access('subscribe to content') && user_is_anonymous(),
+    );
+    //  if (user_is_anonymous()) {
+    //  $form['#submit'][] = '_subscriptions_anonymous_submit';
+    // }
+  }
+}
+
+function subscriptions_anonymous_init() {
+  $subscriptions = subscriptions_get(array('module'=>'node', 'mail'=>'toto@test.com'));
+  dpm($subscriptions);
+}
+/**
+ * + * Validation handler for subscriptions form.
+ * + */
+function subscriptions_add_form_validate($form, &$form_state) {
+  if (!empty($form_state['values']['mail'])) {
+    if (!valid_email_address($form_state['values']['mail'])) {
+      form_set_error('mail', t('Email address is invalid.'));
+    }
+  }
+}
+
+/**
+ * + * Validation handler for subscriptions form.
+ * + */
+function _subscriptions_anonymous_submit($form, &$form_state) {
+  //get the lower uid found and decrement it.
+  $query = db_select('subscriptions_queue', 'sq');
+  $query->addExpression('MIN(uid)', 'min_uid');
+  $min_uid = $query->execute()
+    ->fetchAssoc();
+  $form_state['uid'] = 32 ;
+
+}
+
+/**
+ * Implements hook_subscriptions_queue_alter().
+
+function subscriptions_anonymous_subscriptions_queue_alter(&$event) {
+
+// No notification for nodes from workbench_moderation_store
+// (=updating_live_revision).
+if (isset($event['node']->workbench_moderation['updating_live_revision']) && $event['node']->workbench_moderation['updating_live_revision']) {
+$event = NULL;
+}
+
+// Only send notification if the state of the content is published.
+if (isset($event['node']->workbench_moderation_state_new)) {
+// Content has a worbench moderation workflow.
+if ($event['node']->workbench_moderation_state_new != workbench_moderation_state_published()) {
+$event = NULL;
+}
+}
+else {
+// No workbench moderation workflow.
+if ($event['node']->status != 1) {
+$event = NULL;
+}
+}
+} */

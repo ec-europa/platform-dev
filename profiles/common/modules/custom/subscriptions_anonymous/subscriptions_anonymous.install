@@ -1,0 +1,12 @@
+<?php
+
+function subscriptions_anonymous_schema() {
+  $schema['subscriptions']['mail'] = array(
+     'type' => 'varchar',
+     'length' => 254,
+     'not null' => FALSE,
+     'default' => '',
+     'description' => "E-mail address for anonymous users.",
+  );
+}
+
