@@ -11,13 +11,6 @@ define('TMGMT_POETRY_MOCK_REQUESTS_PATH', 'public://tmgmt_file/poetry_mock_reque
 module_load_include('inc', 'tmgmt_poetry_mock', 'includes/tmgmt_poetry_mock.theme');
 
 /**
- * Implements hook_views_api().
- */
-function tmgmt_poetry_mock_views_api($module = NULL, $api = NULL) {
-  return ["api" => "3.0"];
-}
-
-/**
  * Implements hook_menu().
  */
 function tmgmt_poetry_mock_menu() {
