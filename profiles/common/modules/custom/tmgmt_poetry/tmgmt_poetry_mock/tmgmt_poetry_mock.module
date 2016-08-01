@@ -19,7 +19,7 @@ function tmgmt_poetry_mock_menu() {
 
   $items['tmgmt_poetry_mock/translate/%/%/%/%'] = [
     'title' => 'Poetry Mock: Translate job',
-    'page callback' => 'tmgmt_poetry_mock_translate_job',
+    'page callback' => '_tmgmt_poetry_mock_translate_job',
     'page arguments' => [2, 3, 4, 5],
     'access arguments' => ['access content'],
     'type' => MENU_CALLBACK,
@@ -28,7 +28,7 @@ function tmgmt_poetry_mock_menu() {
 
   $items['tmgmt_poetry_mock/refuse/%/%/%'] = [
     'title' => 'Poetry Mock: Refuse job',
-    'page callback' => 'tmgmt_poetry_mock_refuse_job',
+    'page callback' => '_tmgmt_poetry_mock_refuse_job',
     'page arguments' => [2, 3, 4],
     'access arguments' => ['access content'],
     'type' => MENU_CALLBACK,
