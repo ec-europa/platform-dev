@@ -92,7 +92,7 @@ function _tmgmt_poetry_mock_soap_server() {
     $poetry_wsdl = $poetry_service['address'];
     $options = ['uri' => $poetry_service['poetry_endpoint']];
     $server = new \SoapServer($poetry_wsdl, $options);
-    $server->setClass('Drupal\tmgmt_poetry_mock\Mock\PoetryMock');
+    $server->setClass(\Drupal\tmgmt_poetry_mock\Mock\PoetryMock::class);
     $server->handle();
   }
   else {
