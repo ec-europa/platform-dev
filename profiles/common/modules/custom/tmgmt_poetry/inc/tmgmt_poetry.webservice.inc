@@ -9,8 +9,8 @@ define('TMGMT_POETRY_XML_TEMPLATES_PATH', drupal_get_path('module', 'tmgmt_poetr
 // Theme functions.
 module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.theme');
 
-use Drupal\tmgmt_poetry\Services\PoetryServer;
-
+// @Todo: The Function _tmgmt_poetry_service_callback use $server.
+// use Drupal\tmgmt_poetry\Services\PoetryServer;
 /**
  * Implements hook_menu().
  */
@@ -27,7 +27,6 @@ function tmgmt_poetry_menu() {
   return $items;
 }
 
-
 /**
  * Function to define our webservice and register the available methods.
  */
@@ -37,7 +36,7 @@ function _tmgmt_poetry_service_callback() {
   // be here.
   // $server = PoetryServer::getInstance();
   // $server->process();
-
+  //
   // Beneath you will find the old way.
   // Generate our own SOAP server.
   $context = stream_context_create();
