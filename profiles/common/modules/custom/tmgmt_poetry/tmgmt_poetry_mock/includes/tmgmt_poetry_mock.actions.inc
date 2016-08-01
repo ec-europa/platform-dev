@@ -18,7 +18,7 @@ use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
  * @param int $entity_id
  *    An entity ID.
  */
-function tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_type, $entity_id) {
+function _tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_type, $entity_id) {
   $poetry_mock = new PoetryMock();
   $poetry_mock->translateJob($lg_code, $file_id, $entity_type, $entity_id);
 }
@@ -33,7 +33,7 @@ function tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_type, $enti
  * @param int $entity_id
  *    An entity ID.
  */
-function tmgmt_poetry_mock_refuse_job($file_id, $entity_type, $entity_id) {
+function _tmgmt_poetry_mock_refuse_job($file_id, $entity_type, $entity_id) {
   $poetry_mock = new PoetryMock();
   $poetry_mock->refuseJob($file_id, $entity_type, $entity_id);
 }
