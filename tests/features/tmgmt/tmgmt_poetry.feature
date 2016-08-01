@@ -172,3 +172,18 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
     And I go to stored job Id translation request page
     And I should see "Aborted" in the "Original version" row
+
+  @javascript
+  Scenario: Test creation of translation jobs for vocabularies using TMGMT.
+    Given I am logged in as a user with the "administrator" role
+    And I go to "admin/tmgmt/sources/i18n_string_taxonomy_vocabulary"
+    And I should see "classification (taxonomy:vocabulary:1)"
+    And I check the box on the "classification (taxonomy:vocabulary:1)" row
+    And I press "Request translation"
+    Then I should see the success message "One job needs to be checked out."
+    And I select "Italian" from "Target language"
+    And I wait for AJAX to finish
+    And I select "TMGMT Poetry Test translator" from "Translator"
+    And I wait for AJAX to finish
+    And I press "Submit to translator"
+    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
