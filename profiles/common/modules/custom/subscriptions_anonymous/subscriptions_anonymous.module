@@ -47,18 +47,19 @@ function _subscriptions_anonymous_submit(array $form, array &$form_state) {
   $query = db_select('subscriptions');
   $query->addExpression('MIN(recipient_uid)');
   $min_uid = $query->execute()->fetchField();
-
   $recipient_uid = intval($min_uid) - 1;
   $default_send_intervals = $form_state['values']['send_intervals'];
 
   foreach ($form_state['values']['subscriptions'] as $index => $value) {
+
     $params = $form_state['values']['params'][$index];
     $args = array($params['module'], $params['field'], $params['value'], $params['author_uid'], $recipient_uid);
     if ($value) {
       $args[] = $default_send_intervals[$index];
       $args[] = !empty($form_state['values']['updates'][$index]);
       $args[] = !empty($form_state['values']['comments'][$index]);
-      call_user_func_array('subscriptions_write_subscription', $args);
+      $args[] = $form_state['values']['mail'];
+      call_user_func_array('subscriptions_anonymous_write_subscription', $args);
     }
     else {
       subscriptions_delete($args['4'], $args['0'], $args['1'], $args['2'], $args['3']);
@@ -67,6 +68,23 @@ function _subscriptions_anonymous_submit(array $form, array &$form_state) {
   $form_state['redirect'] = str_replace('/subscribe', '', current_path());
 }
 
+function subscriptions_anonymous_write_subscription($module, $field, $value, $author_uid, $recipient_uid, $send_interval = 1, $send_updates = 0, $send_comments = 0, $mail = NULL) {
+  db_merge('subscriptions')
+    ->key(array(
+      'module'        => $module,
+      'field'         => $field,
+      'value'         => $value,
+      'recipient_uid' => $recipient_uid,
+      'author_uid'    => $author_uid,
+      'mail'          => $mail,
+    ))
+    ->fields(array(
+      'send_interval' => $send_interval,
+      'send_updates'  => ($send_updates ? 1 : 0),
+      'send_comments' => ($send_comments ? 1 : 0),
+    ))
+    ->execute();
+}
 /**
  * Implements hook_node_view().
  */
