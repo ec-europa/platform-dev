@@ -1,16 +1,24 @@
 <?php
 
+/**
+ * @file
+ * Subscriptions for anonymous users installation.
+ */
+
+/**
+ * Implements hook_install().
+ */
 function subscriptions_anonymous_install() {
   $field = array(
-     'type' => 'varchar',
-     'length' => 254,
-     'not null' => FALSE,
-     'default' => '',
-     'description' => "E-mail address for anonymous users.",
+    'type' => 'varchar',
+    'length' => 254,
+    'not null' => FALSE,
+    'default' => '',
+    'description' => "E-mail address for anonymous users.",
   );
   $index = array(
     'indexes' => array(
-      'updated' => array('mail')
+      'updated' => array('mail'),
     ),
   );
   db_add_field('subscriptions', 'mail', $field, $index);
@@ -18,6 +26,9 @@ function subscriptions_anonymous_install() {
 
 }
 
+/**
+ * Implements hook_schema_alter().
+ */
 function subscriptions_anonymous_schema_alter(&$schema) {
   $schema['subscriptions']['fields']['mail'] = array(
     'type' => 'varchar',
@@ -33,6 +44,9 @@ function subscriptions_anonymous_schema_alter(&$schema) {
   );
 }
 
+/**
+ * Implements hook_uninstall().
+ */
 function subscriptions_anonymous_uninstall() {
   db_drop_field('subscriptions', 'mail');
   db_drop_field('subscriptions_queue', 'mail');
