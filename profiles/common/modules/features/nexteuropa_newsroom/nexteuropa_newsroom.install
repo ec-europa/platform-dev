@@ -360,6 +360,11 @@ function nexteuropa_newsroom_update_7109() {
  * Remove body from newsroom_newsletter_issue bundle.
  */
 function nexteuropa_newsroom_update_7110() {
+  variable_set('newsroom_newsletter_import_script', NEXTEUROPA_NEWSROOM_NEWSLETTER_SCRIPT);
+  variable_set('node_preview_newsroom_newsletter_item', 0);
+  variable_set('node_submitted_newsroom_newsletter_item', 0);
+  variable_set('comment_newsroom_newsletter_item', COMMENT_NODE_CLOSED);
+
   // Body field is locked and an instance is always created, we want to remove it.
   if ($instance = field_info_instance('node', 'body', 'newsroom_newsletter_issue')) {
     field_delete_instance($instance, TRUE);
