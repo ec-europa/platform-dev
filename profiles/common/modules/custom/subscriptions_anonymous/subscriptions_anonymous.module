@@ -32,7 +32,6 @@ function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &
 
 function subscriptions_anonymous_init() {
   $subscriptions = subscriptions_get(array('module'=>'node', 'mail'=>'toto@test.com'));
-  dpm($subscriptions);
 }
 /**
  * + * Validation handler for subscriptions form.
