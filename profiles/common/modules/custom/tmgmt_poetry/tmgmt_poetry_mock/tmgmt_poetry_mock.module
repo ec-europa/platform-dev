@@ -140,10 +140,10 @@ function _check_poetry_service_variable() {
 }
 
 /**
- * Helper function for fetching POETRY Service Mock WSDL absolute url.
+ * Get the absolute URL of the mocked Poetry WSDL.
  *
  * @return string
- *    Absolute URL for POETRY Service Mock WSDL endpoint.
+ *    Absolute URL of the mocked Poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
   return url(
@@ -156,10 +156,10 @@ function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
 }
 
 /**
- * Helper function for fetching Drupal SOAP Server Mock WSDL absolute url.
+ * Get the URL of the tmgmt_poetry WSDL.
  *
  * @return string
- *    Absolute URL for Drupal SOAP Server Mock WSDL endpoint.
+ *    Absolute URL of the tmgmt_poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
   return url(
@@ -172,10 +172,10 @@ function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
 }
 
 /**
- * Helper function for fetching Drupal SOAP Server Mock WSDL absolute url.
+ * Get the absolute URL of the mocked Poetry SOAP endpoint.
  *
  * @return string
- *    Absolute URL for Drupal SOAP Server Mock WSDL endpoint.
+ *    Absolute URL of the mocked Poetry SOAP endpoint.
  */
 function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
   return url(
