@@ -109,10 +109,10 @@ global $base_url;
     <div class="container">
       <?php if (!empty($svg_logo)): ?>
       <object id="banner-flag" data="<?php print $svg_logo; ?>" type="image/svg+xml">
-        <img alt="European Commission logo" src="<?php print $logo; ?>" />
+        <img alt="<?php print t('European Commission logo'); ?>" src="<?php print $logo; ?>" />
       </object>
       <?php elseif (!empty($logo)): ?>
-      <img alt="European Commission logo" id="banner-flag" src="<?php print $logo; ?>" />
+      <img alt="<?php print t('European Commission logo'); ?>" id="banner-flag" src="<?php print $logo; ?>" />
       <?php endif; ?>
 
       <span id="banner-image-right" class="hidden-sm hidden-xs">

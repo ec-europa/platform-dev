@@ -451,4 +451,20 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     field_update_field($info);
   }
 
+  /**
+   * Assert the given class exists.
+   *
+   * @param string $class_name
+   *    Fully namespaced class name.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *
+   * @Then the class :arg1 exists in my codebase
+   */
+  public function assertClassExists($class_name) {
+    if (!class_exists($class_name)) {
+      throw new ExpectationException("Class '{$class_name}' not found.", $this->getSession());
+    }
+  }
+
 }
