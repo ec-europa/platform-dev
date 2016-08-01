@@ -12,7 +12,7 @@ define('TMGMT_POETRY_MOCK_REQUESTS_PATH', 'public://tmgmt_file/poetry_mock_reque
 function tmgmt_poetry_mock_menu() {
   $items['tmgmt_poetry_mock/soap_server'] = [
     'title' => 'Poetry Soap Server',
-    'page callback' => 'tmgmt_poetry_mock_soap_server',
+    'page callback' => '_tmgmt_poetry_mock_soap_server',
     'access arguments' => ['access content'],
     'type' => MENU_CALLBACK,
   ];
@@ -86,7 +86,7 @@ function tmgmt_poetry_mock_menu() {
 /**
  * A page callback which simulate poetry webservice.
  */
-function tmgmt_poetry_mock_soap_server() {
+function _tmgmt_poetry_mock_soap_server() {
   if (_check_poetry_service_variable()) {
     $poetry_service = variable_get('poetry_service');
     $poetry_wsdl = $poetry_service['address'];
