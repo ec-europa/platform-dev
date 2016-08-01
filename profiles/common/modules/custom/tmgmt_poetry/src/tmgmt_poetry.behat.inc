@@ -44,11 +44,10 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   * Setup test Poetry service before running a scenario tagged with @poetry.
-   *
-   * @BeforeScenario @poetry
+   * @Given tmgmt_poetry is configured to use tmgmt_poetry_mock
    */
-  public function setupPoetry(BeforeScenarioScope $scope) {
+  public function tmgmtPoetryIsConfiguredToUseTmgmtPoetryMock()
+  {
     $this->variables['poetry_service'] = variable_get('poetry_service');
 
     $poetry_service = [
@@ -66,12 +65,19 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   * Restore initial Poetry service setup in a scenario tagged with @poetry.
+   * Restore initial variables.
    *
-   * @AfterScenario @poetry
+   * @AfterScenario
    */
-  public function restorePoetry(AfterScenarioScope $scope) {
-    variable_set('poetry_service', $this->variables['poetry_service']);
+  public function restoreVariables(AfterScenarioScope $scope) {
+    foreach ($this->variables as $variable => $initial_value) {
+      if (null === $initial_value) {
+        variable_del($variable);
+      }
+      else {
+        variable_set($variable, $initial_value);
+      }
+    }
   }
 
   /**
