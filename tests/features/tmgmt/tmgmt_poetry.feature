@@ -76,9 +76,6 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Request main job before other translations + request a new translation.
     Given I am logged in as a user with the 'administrator' role
-    And I go to "admin/poetry_mock/setup"
-    And I press "Set variable"
-    Then I should see "Variable is configured properly."
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Page for main and sub jobs"
@@ -122,9 +119,6 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Test not sending one job and moving to another job.
     Given I am logged in as a user with the 'administrator' role
-    And I go to "admin/poetry_mock/setup"
-    And I press "Set variable"
-    Then I should see "Variable is configured properly."
     And I go to "node/add/page"
     And I fill in "Title" with "Original version"
     And I press "Save"
@@ -156,9 +150,6 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Test rejection of a translation.
     Given I am logged in as a user with the 'administrator' role
-    And I go to "admin/poetry_mock/setup"
-    And I press "Set variable"
-    Then I should see "Variable is configured properly."
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Original version"
