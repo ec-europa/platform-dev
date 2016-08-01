@@ -14,6 +14,8 @@ function subscriptions_anonymous_install() {
     ),
   );
   db_add_field('subscriptions', 'mail', $field, $index);
+  db_add_field('subscriptions_queue', 'mail', $field, $index);
+
 }
 
 function subscriptions_anonymous_schema_alter(&$schema) {
@@ -23,8 +25,15 @@ function subscriptions_anonymous_schema_alter(&$schema) {
     'default' => 0,
     'description' => 'E-mail address for anonymous users.',
   );
+  $schema['subscriptions_queue']['fields']['mail'] = array(
+    'type' => 'varchar',
+    'not null' => FALSE,
+    'default' => 0,
+    'description' => 'E-mail address for anonymous users.',
+  );
 }
 
 function subscriptions_anonymous_uninstall() {
   db_drop_field('subscriptions', 'mail');
+  db_drop_field('subscriptions_queue', 'mail');
 }
