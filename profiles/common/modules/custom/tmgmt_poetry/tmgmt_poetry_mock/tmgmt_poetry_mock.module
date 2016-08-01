@@ -108,7 +108,7 @@ function _tmgmt_poetry_mock_wsdl() {
   $wsdl = theme('poetry_wsdl', ['uri' => $uri]);
   drupal_add_http_header('Content-Type', 'application/xml; utf-8');
   print $wsdl;
-  exit(0);
+  drupal_exit();
 }
 
 /**
