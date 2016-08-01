@@ -10,16 +10,16 @@
  */
 function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &$form_state, $form_id) {
   // @TODO make it more generic than only for nodes
-    $form['wrapper']['mail'] = array(
-      '#title' => t('Email'),
-      '#type' => 'textfield',
-      '#access' => user_access('subscribe to content') && user_is_anonymous(),
-      '#required' => user_access('subscribe to content') && user_is_anonymous(),
-    );
-    if (user_is_anonymous()) {
-      $form['#validate'][] = '_subscriptions_anonymous_validate';
-      $form['#submit'][] = '_subscriptions_anonymous_submit';
-    }
+  $form['wrapper']['mail'] = array(
+    '#title' => t('Email'),
+    '#type' => 'textfield',
+    '#access' => user_access('subscribe to content') && user_is_anonymous(),
+    '#required' => user_access('subscribe to content') && user_is_anonymous(),
+  );
+  if (user_is_anonymous()) {
+    $form['#validate'][] = '_subscriptions_anonymous_validate';
+    $form['#submit'][] = '_subscriptions_anonymous_submit';
+  }
 }
 
 /**
