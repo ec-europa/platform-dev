@@ -4,11 +4,7 @@
  * Module to simulate a poetry response.
  */
 
-// Setting up templates directory path.
-define('TMGMT_POETRY_MOCK_TEMPLATES_PATH', drupal_get_path('module', 'tmgmt_poetry_mock') . '/response_templates');
 define('TMGMT_POETRY_MOCK_REQUESTS_PATH', 'public://tmgmt_file/poetry_mock_requests/');
-// Forms logic and overwriting functions.
-module_load_include('inc', 'tmgmt_poetry_mock', 'includes/tmgmt_poetry_mock.theme');
 
 /**
  * Implements hook_menu().
@@ -189,4 +185,49 @@ function _get_poetry_mock_endpoint() {
       'language' => (object) ['language' => FALSE],
     ]
   );
+}
+
+
+/**
+ * Implements hook_theme().
+ */
+function tmgmt_poetry_mock_theme($existing, $type, $theme, $path) {
+  $response_template_path = drupal_get_path('module', 'tmgmt_poetry_mock') . '/response_templates';
+
+  return [
+    'poetry_confirmation_of_receiving_translation_request' => [
+      'variables' => [
+        'demande_id' => NULL,
+      ],
+      'template' => 'poetry-confirmation-of-receiving-the-translation-request',
+      'path' => $response_template_path,
+    ],
+    'poetry_receive_translation' => [
+      'variables' => [
+        'demande_id' => NULL,
+        'content' => NULL,
+        'language' => NULL,
+        'format' => NULL,
+      ],
+      'template' => 'poetry-receive-translation',
+      'path' => $response_template_path,
+    ],
+    'poetry_refuse_translation' => [
+      'variables' => [
+        'demande_id' => NULL,
+        'languages' => NULL,
+        'format' => NULL,
+        'status' => NULL,
+      ],
+      'template' => 'poetry-refuse-translation',
+      'path' => $response_template_path,
+    ],
+    'poetry_wsdl' => [
+      'variables' => [
+        'uri' => NULL,
+      ],
+      'template' => 'poetry-wsdl',
+      'path' => $response_template_path,
+    ],
+  ];
 }
