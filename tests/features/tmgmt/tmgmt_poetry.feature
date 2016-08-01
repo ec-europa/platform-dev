@@ -26,7 +26,6 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-pt-pt"
     And I press the "Request translation" button
-    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait
     Then I should see "Contact usernames"
     And I should see "Organization"
@@ -87,7 +86,6 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
@@ -136,7 +134,6 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
@@ -161,7 +158,6 @@ Feature: TMGMT Poetry features
     Then I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
-    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait
     And I store job ID of translation request page
     And I press "Submit to translator"
@@ -183,8 +179,6 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     Then I should see the success message "One job needs to be checked out."
     And I select "Italian" from "Target language"
-    And I wait for AJAX to finish
-    And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"

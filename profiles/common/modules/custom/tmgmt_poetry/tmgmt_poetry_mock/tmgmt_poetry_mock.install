@@ -13,7 +13,7 @@ function tmgmt_poetry_mock_install() {
     "name" : "tmgmt_poetry_test_translator",
     "label" : "TMGMT Poetry Test translator",
     "description" : "",
-    "weight" : "0",
+    "weight" : "-999",
     "plugin" : "poetry",
     "settings" : {
       "auto_accept" : 0,
@@ -47,6 +47,4 @@ function tmgmt_poetry_mock_uninstall() {
   if (isset($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);
   }
-
-  variable_del('poetry_service');
 }
