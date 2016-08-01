@@ -84,8 +84,16 @@ class PoetryMock {
   public static function saveTranslationRequest($message, $reference) {
     $path = TMGMT_POETRY_MOCK_REQUESTS_PATH . $reference . '.xml';
     $dirname = dirname($path);
-    if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
+    if (file_prepare_directory($dirname)) {
       file_save_data($message, $path);
+    }
+    else {
+      watchdog(
+        'poetry_mock',
+        'Unable to prepare requests directory',
+        array(),
+        WATCHDOG_ERROR
+      );
     }
   }
 
