@@ -46,3 +46,53 @@ function _subscriptions_anonymous_submit($form, &$form_state) {
   $form_state['uid'] = 32;
 
 }
+
+/**
+ * Implements hook_node_view().
+ *
+ * Inject the node subform or a 'Subscribe' link into node pages
+ * (depending on the Display Settings).
+ *
+ * @param object $node
+ * @param string $view_mode
+ * @param string $langcode
+ *
+ * @return
+ *
+ * @ingroup hooks
+ * @ingroup form
+ */
+function subscriptions_anonymous_node_view($node, $view_mode, $langcode) {
+  global $user;
+
+  if ($node->nid && $view_mode == 'full' && user_access('subscribe to content')) {
+    $arg2 = subscriptions_arg(2);
+    if (!variable_get('subscriptions_form_in_block', 0) &&
+      (!variable_get('subscriptions_form_link_only', 0) && (empty($arg2) || $arg2 == 'view') ||
+        variable_get('subscriptions_form_link_only', 0) && $arg2 == 'subscribe' )) {
+      if ($form = drupal_get_form('subscriptions_ui_node_form', $node, $arg2 == 'subscribe')) {
+        $node->content['subscriptions_ui'] = array(
+          'subscriptions_ui_form' => $form,
+          '#weight' => 100,
+        );
+        return;
+      }
+    }
+
+    subscriptions_suspended($user->uid, TRUE);
+    if (variable_get('subscriptions_form_link_only', 0) && $arg2 != 'subscribe' && (!variable_get('subscriptions_avoid_empty_subscribe_links', 0) || module_invoke_all('subscriptions', 'node_options', $user, $node))) {
+      /** @var $blocked_types array */
+      $blocked_types = variable_get('subscriptions_blocked_content_types', array());
+      if (in_array($node->type, $blocked_types) && !user_access('subscribe to all content types')) {
+        return;
+      }
+      $node->content['links']['node']['#links']['subscriptions-subscribe'] = array(
+        'href' => current_path() . '/subscribe',
+        'title' => t('Subscribe') . (in_array($node->type, $blocked_types) ? SUBSCRIPTIONS_UNAVAILABLE : ''),
+        'html' => TRUE,
+        'fragment' => 'subscribe',
+        'attributes' => array('title' => t('Receive notifications about changes and/or comments to this page (and possibly similar pages).')),
+      );
+    }
+  }
+}
