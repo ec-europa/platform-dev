@@ -113,15 +113,18 @@ class NewsroomHelper {
   public static function getImporterUrl($importer_id) {
     $url = '';
 
-    if ($importer_id == NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER || $importer_id == NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
-    }
+    switch ($importer_id) {
 
-    if ($importer_id == NEXTEUROPA_NEWSROOM_TYPE_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TYPE_SCRIPT);
-    }
+      case NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER : 
+      case NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER : 
+        $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
+        break;
 
-    if ($importer_id == NEXTEUROPA_NEWSROOM_ITEM_IMPORTER) {
+      case NEXTEUROPA_NEWSROOM_TYPE_IMPORTER :
+        $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TYPE_SCRIPT);
+        break;
+    
+      case NEXTEUROPA_NEWSROOM_ITEM_IMPORTER :
       $subsite = variable_get('newsroom_subsite', FALSE);
       $subsite_url_part = '';
 
@@ -130,6 +133,11 @@ class NewsroomHelper {
       }
 
       $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . $subsite_url_part;
+      break;
+
+      case NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER :
+        $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_NEWSLETTER_SCRIPT);
+        break;
     }
 
     return $url;

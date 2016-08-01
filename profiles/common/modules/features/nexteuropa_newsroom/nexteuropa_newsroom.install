@@ -42,6 +42,7 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_display_highlights_begin', 1);
   variable_set('newsroom_base_url', NEXTEUROPA_NEWSROOM_BASE_URL);
   variable_set('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_ITEM_SCRIPT);
+  variable_set('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_NEWSLETTER_SCRIPT);
   variable_set('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT);
   variable_set('newsroom_topic_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
   variable_set('newsroom_single_topic_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT);
