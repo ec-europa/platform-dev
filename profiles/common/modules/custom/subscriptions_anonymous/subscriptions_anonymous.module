@@ -48,7 +48,14 @@ function _subscriptions_anonymous_submit(array $form, array &$form_state) {
   foreach ($form_state['values']['subscriptions'] as $index => $value) {
 
     $params = $form_state['values']['params'][$index];
-    $args = array($params['module'], $params['field'], $params['value'], $params['author_uid'], $recipient_uid);
+    $args = array(
+      $params['module'],
+      $params['field'],
+      $params['value'],
+      $params['author_uid'],
+      $recipient_uid,
+    );
+
     if ($value) {
       $args[] = $default_send_intervals[$index];
       $args[] = !empty($form_state['values']['updates'][$index]);
@@ -63,23 +70,27 @@ function _subscriptions_anonymous_submit(array $form, array &$form_state) {
   $form_state['redirect'] = str_replace('/subscribe', '', current_path());
 }
 
+/**
+ * Implement anonymous subscriptions.
+ */
 function subscriptions_anonymous_write_subscription($module, $field, $value, $author_uid, $recipient_uid, $send_interval = 1, $send_updates = 0, $send_comments = 0, $mail = NULL) {
   db_merge('subscriptions')
     ->key(array(
-      'module'        => $module,
-      'field'         => $field,
-      'value'         => $value,
+      'module' => $module,
+      'field' => $field,
+      'value' => $value,
       'recipient_uid' => $recipient_uid,
-      'author_uid'    => $author_uid,
-      'mail'          => $mail,
+      'author_uid' => $author_uid,
+      'mail' => $mail,
     ))
     ->fields(array(
       'send_interval' => $send_interval,
-      'send_updates'  => ($send_updates ? 1 : 0),
+      'send_updates' => ($send_updates ? 1 : 0),
       'send_comments' => ($send_comments ? 1 : 0),
     ))
     ->execute();
 }
+
 /**
  * Implements hook_node_view().
  */
