@@ -71,6 +71,15 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
+   * Remove pending translations in a scenario tagged with @poetry.
+   *
+   * @AfterScenario @poetry
+   */
+  public function removePendingTranslations() {
+    \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::removeAllRequestTranslationFiles();
+  }
+
+  /**
    * Click the first row of a view based on XPATH.
    *
    * @Then /^I click first row in the view table$/

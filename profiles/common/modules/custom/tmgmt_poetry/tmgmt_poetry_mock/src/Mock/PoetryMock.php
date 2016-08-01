@@ -321,6 +321,16 @@ class PoetryMock {
   }
 
   /**
+   * Helper method for removing all translation request files.
+   */
+  public static function removeAllRequestTranslationFiles() {
+    db_delete('file_managed')
+      ->condition('filemime', 'application/xml', '=')
+      ->condition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
+      ->execute();
+  }
+
+  /**
    * Helper method for fetching active translation jobs based on give entity id.
    *
    * @param int $entity_id
