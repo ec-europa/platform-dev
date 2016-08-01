@@ -964,21 +964,23 @@ class NewsroomHelper {
     $click_through = NewsroomHelper::getFieldValue($type, 'field_newsroom_direct_link');
     $main_link_url = NewsroomHelper::getFieldTranslatedValue($node, 'field_newsroom_item_main_link', 'url');
 
-    if ($click_through == NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE) {
-      $url = $main_link_url;
-    }
-    elseif (NewsroomHelper::getFieldValue($node, 'field_newsroom_teaser_only')) {
-      // If item is Teaser only.
-      switch ($click_through) {
-        case 'always':
-          $url = $main_link_url;
-          break;
-
-        case 'from_teaser':
-          if ($display_name == 'teaser') {
+    if (!empty($main_link_url)) {
+      if ($click_through == NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE) {
+        $url = $main_link_url;
+      }
+      elseif (NewsroomHelper::getFieldValue($node, 'field_newsroom_teaser_only')) {
+        // If item is Teaser only.
+        switch ($click_through) {
+          case 'always':
             $url = $main_link_url;
-          }
-          break;
+            break;
+
+          case 'from_teaser':
+            if ($display_name == 'teaser') {
+              $url = $main_link_url;
+            }
+            break;
+        }
       }
     }
 

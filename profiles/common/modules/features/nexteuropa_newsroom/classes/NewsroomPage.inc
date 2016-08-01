@@ -195,6 +195,7 @@ class NewsroomPage {
           $type = NewsroomHelper::getNewsroomType($item->type_tid);
           $short_title = NewsroomHelper::getFieldTranslatedValue($node, 'field_newsroom_item_short_title');
           $data[] = array(
+            'nid' => $item->nid,
             'start_date' => $this->getFormatedDateFromTimestamp($item->start_date),
             'end_date' => $this->getFormatedDateFromTimestamp($item->end_date),
             'title' => $short_title ? $short_title : $node->title,
