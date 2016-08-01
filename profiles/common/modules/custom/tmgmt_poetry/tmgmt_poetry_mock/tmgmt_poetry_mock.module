@@ -35,7 +35,7 @@ function tmgmt_poetry_mock_menu() {
     'file' => 'includes/tmgmt_poetry_mock.actions.inc',
   ];
 
-  $items[drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl"] = [
+  $items['tmgmt_poetry_mock/tmgmt_poetry_mock.wsdl'] = [
     'page callback' => '_tmgmt_poetry_mock_wsdl',
     'access callback' => TRUE,
   ];
@@ -147,7 +147,7 @@ function _check_poetry_service_variable() {
  */
 function _get_poetry_service_mock_wsdl() {
   return url(
-    drupal_get_path("module", "tmgmt_poetry_mock") . "/tmgmt_poetry_mock.wsdl",
+    'tmgmt_poetry_mock/tmgmt_poetry_mock.wsdl',
     [
       'absolute' => TRUE,
       'language' => (object) ['language' => FALSE],
