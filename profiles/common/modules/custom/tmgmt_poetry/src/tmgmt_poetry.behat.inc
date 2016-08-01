@@ -50,16 +50,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   {
     $this->variables['poetry_service'] = variable_get('poetry_service');
 
-    $poetry_service = [
-      'address' => _get_poetry_service_mock_wsdl(),
-      'method' => 'requestService',
-      'callback_user' => 'Callback',
-      'callback_password' => 'CallbackPWD',
-      'poetry_user' => 'Poetry',
-      'poetry_password' => 'PoetryPWD',
-      'drupal_wsdl' => _get_drupal_soap_server_mock_wsdl(),
-      'poetry_endpoint' => _get_poetry_mock_endpoint(),
-    ];
+    $poetry_service = tmgmt_poetry_mock_service_configuration();
 
     variable_set('poetry_service', $poetry_service);
   }

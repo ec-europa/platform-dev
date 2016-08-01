@@ -231,3 +231,23 @@ function tmgmt_poetry_mock_theme($existing, $type, $theme, $path) {
     ],
   ];
 }
+
+/**
+ * Get the proper configuration to connect tmgmt_poetry with tmgmt_poetry_mock.
+ *
+ * @return array
+ */
+function tmgmt_poetry_mock_service_configuration() {
+  $poetry_service = array(
+    'address' => _get_poetry_service_mock_wsdl(),
+    'method' => 'requestService',
+    'callback_user' => 'Callback',
+    'callback_password' => 'CallbackPWD',
+    'poetry_user' => 'Poetry',
+    'poetry_password' => 'PoetryPWD',
+    'drupal_wsdl' => _get_drupal_soap_server_mock_wsdl(),
+    'poetry_endpoint' => _get_poetry_mock_endpoint(),
+  );
+
+  return $poetry_service;
+}
