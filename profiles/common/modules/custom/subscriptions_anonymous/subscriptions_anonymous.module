@@ -36,11 +36,6 @@ function _subscriptions_anonymous_validate($form, &$form_state) {
 
 /**
  * Node subscriptions node subform submit handler.
- *
- * @param array $form
- * @param array $form_state
- *
- * @ingroup form
  */
 function _subscriptions_anonymous_submit(array $form, array &$form_state) {
   // Get the lower uid found and decrement it.
