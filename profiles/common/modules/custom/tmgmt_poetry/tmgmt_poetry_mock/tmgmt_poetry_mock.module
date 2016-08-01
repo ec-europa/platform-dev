@@ -236,6 +236,7 @@ function tmgmt_poetry_mock_theme($existing, $type, $theme, $path) {
  * Get the proper configuration to connect tmgmt_poetry with tmgmt_poetry_mock.
  *
  * @return array
+ *   A proper value for the poetry_service variable.
  */
 function tmgmt_poetry_mock_service_configuration() {
   $poetry_service = array(
