@@ -144,9 +144,9 @@
 	<!-- Setup file directory -->
     <target name="setup-files-directory">
 		 <if>
-            <istrue value="${platform.build.settings.dir}/files" />
+            <istrue value="${platform.build.files.dir}" />
             <then>
-                <mkdir dir="${platform.build.settings.dir}/files/private_files" />
+                <mkdir dir="${platform.build.files.dir}/private_files" />
             </then>
         </if>
     </target>

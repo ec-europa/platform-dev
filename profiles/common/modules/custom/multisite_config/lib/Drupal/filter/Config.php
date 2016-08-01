@@ -166,4 +166,43 @@ class Config extends ConfigBase {
     return filter_format_save($format);
   }
 
+  /**
+   * Retrieves a list of roles for a given text format.
+   *
+   * @param string $format_name
+   *    Text format machine name.
+   *
+   * @return array
+   *    An array of role names, keyed by role ID.
+   */
+  public function getFormatRoles($format_name) {
+    $format = $this->getFormat($format_name);
+    return filter_get_roles_by_format($format);
+  }
+
+  /**
+   * Set roles for the specified text format.
+   *
+   * @param string $format_name
+   *    Text format machine name.
+   * @param array $roles
+   *    Roles array keyed by the role ID.
+   *
+   * @return bool
+   *    TRUE / FALSE when filter name is invalid.
+   */
+  public function setFormatRoles($format_name, $roles) {
+    $format = $this->getFormat($format_name);
+    // Save user permissions.
+    if ($permission = filter_permission_name($format)) {
+      foreach ($roles as $rid => $enabled) {
+        user_role_change_permissions($rid, array($permission => $enabled));
+      }
+
+      return TRUE;
+    }
+
+    return FALSE;
+  }
+
 }
