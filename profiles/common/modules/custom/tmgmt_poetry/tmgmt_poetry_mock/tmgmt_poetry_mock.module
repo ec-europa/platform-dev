@@ -121,7 +121,7 @@ function _check_poetry_service_variable() {
   $poetry_service = variable_get('poetry_service', FALSE);
   if ($poetry_service) {
     // Fetching all of needed endpoints.
-    $poetry_wsdl = _get_poetry_service_mock_wsdl();
+    $poetry_wsdl = _tmgmt_poetry_mock_get_poetry_service_wsdl();
     $drupal_wsdl = _get_drupal_soap_server_mock_wsdl();
     $poetry_endpoint = _get_poetry_mock_endpoint();
 
@@ -145,7 +145,7 @@ function _check_poetry_service_variable() {
  * @return string
  *    Absolute URL for POETRY Service Mock WSDL endpoint.
  */
-function _get_poetry_service_mock_wsdl() {
+function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
   return url(
     'tmgmt_poetry_mock/tmgmt_poetry_mock.wsdl',
     [
@@ -240,7 +240,7 @@ function tmgmt_poetry_mock_theme($existing, $type, $theme, $path) {
  */
 function tmgmt_poetry_mock_service_configuration() {
   $poetry_service = array(
-    'address' => _get_poetry_service_mock_wsdl(),
+    'address' => _tmgmt_poetry_mock_get_poetry_service_wsdl(),
     'method' => 'requestService',
     'callback_user' => 'Callback',
     'callback_password' => 'CallbackPWD',
