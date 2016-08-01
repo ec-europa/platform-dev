@@ -20,19 +20,25 @@ function _nexteuropa_newsroom_create_multilingual_newsletter_importer() {
       'query' => 'title',
     ),
     'field_newsroom_nl_issue_date:start' => array(
-      'query' => 'infsonewsroom:BasicDate/text()',
+      'query' => 'pubDate/text()',
       'tamper' => array(
         'plugin_id' => 'strtotime',
       ),
     ),
-    'field_newsroom_service_id' => array(
+    'field_newsroom_newsletter_id' => array(
       'query' => 'infsonewsroom:BasicSvId/text()',
     ),
     'field_newsroom_item_main_link' => array(
-      'query' => 'infsonewsroom:/text()',
+      'query' => 'link',
     ),
     'field_newsroom_newsletter_items:etid' => array(
-      'query' => 'infsonewsroom:BasicItems/text()',
+      'query' => 'infsonewsroom:BasicSvItemId/text()',
+      'tamper' => array(
+        'plugin_id' => 'efq_finder',
+        'entity_type' => 'node',
+        'bundle' => 'newsroom_item',
+        'field' => 'field_newsroom_item_id',
+      ),
     ),
   );
 
@@ -125,8 +131,9 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
         'autocreate' => 0,
       ),
       'tamper' => array(
+        'entity_type' => 'taxonomy_term',
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY,
+        'bundle' => NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY,
         'field' => 'field_newsroom_type_id',
       ),
     ),
@@ -167,7 +174,8 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
+        'entity_type' => 'taxonomy_term',
+        'bundle' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -179,7 +187,8 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
+        'entity_type' => 'taxonomy_term',
+        'bundle' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -230,7 +239,8 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
+        'entity_type' => 'taxonomy_term',
+        'bundle' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -696,8 +706,8 @@ function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL
   if ($settings['plugin_id'] == 'efq_finder') {
     $tamper += array(
       'settings' => array(
-        'entity_type' => 'taxonomy_term',
-        'bundle' => $settings['vocabulary'],
+        'entity_type' => $settings['entity_type'],
+        'bundle' => $settings['bundle'],
         'column' => 'value',
         'property' => FALSE,
         'update' => 'Update',

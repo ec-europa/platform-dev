@@ -3204,8 +3204,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
   );
 
   // Exported field_instance:
-  // 'node-newsroom_newsletter_issue-field_newsroom_service_id'.
-  $field_instances['node-newsroom_newsletter_issue-field_newsroom_service_id'] = array(
+  // 'node-newsroom_newsletter_issue-field_newsroom_newsletter_id'.
+  $field_instances['node-newsroom_newsletter_issue-field_newsroom_newsletter_id'] = array(
     'bundle' => 'newsroom_newsletter_issue',
     'default_value' => NULL,
     'deleted' => 0,
@@ -3213,10 +3213,12 @@ function nexteuropa_newsroom_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 4,
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -3226,48 +3228,24 @@ function nexteuropa_newsroom_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_newsroom_service_id',
-    'label' => 'Newsroom Service ID',
+    'field_name' => 'field_newsroom_newsletter_id',
+    'label' => 'newsroom_newsletter_id',
     'required' => 0,
     'settings' => array(
-      'better_formats' => array(
-        'allowed_formats' => array(
-          'basic_html' => 'basic_html',
-          'filtered_html' => 'filtered_html',
-          'full_html' => 'full_html',
-          'plain_text' => 'plain_text',
-        ),
-        'allowed_formats_toggle' => 0,
-        'default_order_toggle' => 0,
-        'default_order_wrapper' => array(
-          'formats' => array(
-            'basic_html' => array(
-              'weight' => 5,
-            ),
-            'filtered_html' => array(
-              'weight' => -9,
-            ),
-            'full_html' => array(
-              'weight' => -10,
-            ),
-            'plain_text' => array(
-              'weight' => -8,
-            ),
-          ),
+      'behaviors' => array(
+        'taxonomy-index' => array(
+          'status' => TRUE,
         ),
       ),
       'entity_translation_sync' => FALSE,
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 3,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 31,
     ),
   );
 
