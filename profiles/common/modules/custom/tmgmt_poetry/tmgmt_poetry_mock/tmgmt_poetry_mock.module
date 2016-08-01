@@ -123,7 +123,7 @@ function _check_poetry_service_variable() {
     // Fetching all of needed endpoints.
     $poetry_wsdl = _tmgmt_poetry_mock_get_poetry_service_wsdl();
     $drupal_wsdl = _tmgmt_poetry_mock_get_drupal_service_wsdl();
-    $poetry_endpoint = _get_poetry_mock_endpoint();
+    $poetry_endpoint = _tmgmt_poetry_mock_get_poetry_service_endpoint();
 
     // Checking if they are set up correctly according to current environment.
     if (isset($poetry_service['address']) && $poetry_service['address'] == $poetry_wsdl) {
@@ -177,7 +177,7 @@ function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
  * @return string
  *    Absolute URL for Drupal SOAP Server Mock WSDL endpoint.
  */
-function _get_poetry_mock_endpoint() {
+function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
   return url(
     'tmgmt_poetry_mock/soap_server',
     [
@@ -247,7 +247,7 @@ function tmgmt_poetry_mock_service_configuration() {
     'poetry_user' => 'Poetry',
     'poetry_password' => 'PoetryPWD',
     'drupal_wsdl' => _tmgmt_poetry_mock_get_drupal_service_wsdl(),
-    'poetry_endpoint' => _get_poetry_mock_endpoint(),
+    'poetry_endpoint' => _tmgmt_poetry_mock_get_poetry_service_endpoint(),
   );
 
   return $poetry_service;
