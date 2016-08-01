@@ -6,14 +6,7 @@
  */
 
 /**
- * Site Settings form at admin/config/system/subscriptions.
- *
- * Other submodules contribute additional parts to this form.
- *
- * @param array $form
- * @param array $form_state
- *
- * @return array
+ * Implement hook_FORM_ID_alter().
  */
 function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &$form_state, $form_id) {
   // @TODO make it more generic than only for nodes
@@ -24,22 +17,16 @@ function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &
       '#access' => user_access('subscribe to content') && user_is_anonymous(),
       '#required' => user_access('subscribe to content') && user_is_anonymous(),
     );
-    // If (user_is_anonymous()) {
-    //  $form['#submit'][] = '_subscriptions_anonymous_submit';
-    // }.
+    if (user_is_anonymous()) {
+      $form['#submit'][] = '_subscriptions_anonymous_submit';
+    }
   }
 }
 
 /**
- *
+ * Validation handler for subscriptions form.
  */
-function subscriptions_anonymous_init() {
-  $subscriptions = subscriptions_get(array('module' => 'node', 'mail' => 'toto@test.com'));
-}
-/**
- * + * Validation handler for subscriptions form.
- * + .*/
-function subscriptions_add_form_validate($form, &$form_state) {
+function _subscriptions_anonymous_validate($form, &$form_state) {
   if (!empty($form_state['values']['mail'])) {
     if (!valid_email_address($form_state['values']['mail'])) {
       form_set_error('mail', t('Email address is invalid.'));
@@ -48,8 +35,8 @@ function subscriptions_add_form_validate($form, &$form_state) {
 }
 
 /**
- * + * Validation handler for subscriptions form.
- * + .*/
+ * Validation handler for subscriptions form.
+ */
 function _subscriptions_anonymous_submit($form, &$form_state) {
   // Get the lower uid found and decrement it.
   $query = db_select('subscriptions_queue', 'sq');
