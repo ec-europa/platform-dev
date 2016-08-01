@@ -6,7 +6,7 @@
  */
 
 /**
- * Implement hook_FORM_ID_alter().
+ * Implements hook_FORM_ID_alter().
  */
 function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &$form_state, $form_id) {
   // @TODO make it more generic than only for nodes
@@ -46,26 +46,3 @@ function _subscriptions_anonymous_submit($form, &$form_state) {
   $form_state['uid'] = 32;
 
 }
-
-/**
- * Implements hook_subscriptions_queue_alter().
- * Function subscriptions_anonymous_subscriptions_queue_alter(&$event) {
- *  * // No notification for nodes from workbench_moderation_store
- * // (=updating_live_revision).
- * if (isset($event['node']->workbench_moderation['updating_live_revision']) && $event['node']->workbench_moderation['updating_live_revision']) {
- * $event = NULL;
- * }
- *  * // Only send notification if the state of the content is published.
- * if (isset($event['node']->workbench_moderation_state_new)) {
- * // Content has a worbench moderation workflow.
- * if ($event['node']->workbench_moderation_state_new != workbench_moderation_state_published()) {
- * $event = NULL;
- * }
- * }
- * else {
- * // No workbench moderation workflow.
- * if ($event['node']->status != 1) {
- * $event = NULL;
- * }
- * }
-} .*/
