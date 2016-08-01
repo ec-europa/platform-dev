@@ -156,22 +156,6 @@ function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
 }
 
 /**
- * Get the URL of the tmgmt_poetry WSDL.
- *
- * @return string
- *    Absolute URL of the tmgmt_poetry WSDL.
- */
-function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
-  return url(
-    drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl",
-    [
-      'absolute' => TRUE,
-      'language' => (object) ['language' => FALSE],
-    ]
-  );
-}
-
-/**
  * Get the absolute URL of the mocked Poetry SOAP endpoint.
  *
  * @return string
@@ -187,6 +171,21 @@ function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
   );
 }
 
+/**
+ * Get the URL of the tmgmt_poetry WSDL.
+ *
+ * @return string
+ *    Absolute URL of the tmgmt_poetry WSDL.
+ */
+function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
+  return url(
+    drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl",
+    [
+      'absolute' => TRUE,
+      'language' => (object) ['language' => FALSE],
+    ]
+  );
+}
 
 /**
  * Implements hook_theme().
