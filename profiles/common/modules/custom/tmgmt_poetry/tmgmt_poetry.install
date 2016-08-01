@@ -25,7 +25,7 @@ function tmgmt_poetry_schema() {
       'entity_id' => array(
         'description' => 'Identification string of the object being translated.',
         'type' => 'varchar',
-        'length' => 256,
+        'length' => 128,
         'not null' => TRUE,
       ),
       'annee' => array(
