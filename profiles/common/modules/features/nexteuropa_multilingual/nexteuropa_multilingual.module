@@ -265,7 +265,7 @@ function nexteuropa_multilingual_form_workbench_moderation_node_unpublish_form_a
 }
 
 /**
- * Updates URL alias tab of node edit form.
+ * Updates fields of URL alias tab in the node edit form.
  */
 function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
   if (isset($form['path'])) {
@@ -273,7 +273,7 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
     list($nid, , $bundle) = entity_extract_ids('node', $node);
     $set_translation_mechanism = variable_get('language_content_type_' . $bundle, 0);
     // First we need which translation mechanism is used because
-    // the logic to implement is different.
+    // the logic to implement is only for entity translation.
     if ($set_translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
       // "1." is not needed if it is content creation.
       if ($nid) {
@@ -334,40 +334,28 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
  *   - pathauto: The flag indicating if pathauto is activated for the node.
  */
 function _nexteuropa_multilingual_get_und_node_alias_info($node, $bundle) {
-
-  $set_translation_mechanism = variable_get('language_content_type_' . $bundle, 0);
-  // First we need which translation mechanism is used because
-  // the logic to implement is different.
-  switch ($set_translation_mechanism) {
-    case ENTITY_TRANSLATION_ENABLED:
-      $pattern = pathauto_pattern_load_by_entity('node', $bundle, LANGUAGE_NONE);
-      if (empty($pattern)) {
-        break;
-      }
-      // Get the corresponding LANGUAGE_NONE alias.
-      $node_uri = $node->path['source'];
-      $language_none_path = path_load(array('source' => $node_uri, 'language' => LANGUAGE_NONE));
-      $language_none_alias = $language_none_path['alias'];
-
-      // Check if pathauto is activtedin LANGUAGE_NONE case.
-      // Logic is taken from Pathauto itself.
-      // @see pathauto_entity_presave() & pathauto_field_attach_form().
-      module_load_include('inc', 'pathauto');
-      $pathauto_alias = pathauto_create_alias('node', 'return', $node_uri, array('node' => $node), $bundle, LANGUAGE_NONE);
-      $pathauto = ($language_none_alias != $node_uri && $language_none_alias == $pathauto_alias);
-
-      return array(
-        'pid' => $language_none_path['pid'],
-        'alias' => $language_none_alias,
-        'pathauto' => $pathauto,
-      );
-
-    case TRANSLATION_ENABLED:
-      // @todo manage the case where "translation module" is used.
-      break;
+  // This function only support entity translation for now.
+  $pattern = pathauto_pattern_load_by_entity('node', $bundle, LANGUAGE_NONE);
+  if (empty($pattern)) {
+    return FALSE;
   }
+  // Get the corresponding LANGUAGE_NONE alias.
+  $node_uri = $node->path['source'];
+  $language_none_path = path_load(array('source' => $node_uri, 'language' => LANGUAGE_NONE));
+  $language_none_alias = $language_none_path['alias'];
 
-  return FALSE;
+  // Check if pathauto is activtedin LANGUAGE_NONE case.
+  // Logic is taken from Pathauto itself.
+  // @see pathauto_entity_presave() & pathauto_field_attach_form().
+  module_load_include('inc', 'pathauto');
+  $pathauto_alias = pathauto_create_alias('node', 'return', $node_uri, array('node' => $node), $bundle, LANGUAGE_NONE);
+  $pathauto = ($language_none_alias != $node_uri && $language_none_alias == $pathauto_alias);
+
+  return array(
+    'pid' => $language_none_path['pid'],
+    'alias' => $language_none_alias,
+    'pathauto' => $pathauto,
+  );
 }
 
 /**
@@ -474,6 +462,7 @@ function nexteuropa_multilingual_path_update($path) {
   drupal_write_record('url_alias', $path, array('pid'));
 
   // Delete other alias set for this source too.
+  // The reason is we only have one alias per content.
   // Only if the update action is "Create a new alias. Delete the old alias.".
   module_load_include('inc', 'pathauto');
   $is_old_alias_to_delete = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
@@ -491,7 +480,6 @@ function nexteuropa_multilingual_path_delete($path) {
   // Force to delete all aliases related to this path.
   // Need to do so because of Path module implementation.
   db_delete('url_alias')->condition('source', $path['source'])->execute();
-
 }
 
 /**
