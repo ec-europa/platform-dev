@@ -1,0 +1,130 @@
+<?php
+
+/**
+ * @file
+ * Anonymous subscriptions module (load-on-demand admin functions).
+ */
+
+/**
+ * Implements hook_FORM_ID_alter().
+ */
+function subscriptions_anonymous_form_subscriptions_ui_node_form_alter(&$form, &$form_state, $form_id) {
+  // @TODO make it more generic than only for nodes
+  $form['mail'] = array(
+    '#title' => t('Email'),
+    '#type' => 'textfield',
+    '#access' => user_access('subscribe to content') && user_is_anonymous(),
+    '#required' => user_access('subscribe to content') && user_is_anonymous(),
+  );
+
+  if (user_is_anonymous()) {
+    $form['#validate'][] = '_subscriptions_anonymous_validate';
+    $form['#submit'][] = '_subscriptions_anonymous_submit';
+  }
+}
+
+/**
+ * Validation handler for subscriptions form.
+ */
+function _subscriptions_anonymous_validate($form, &$form_state) {
+  if (!empty($form_state['values']['mail'])) {
+    if (!valid_email_address($form_state['values']['mail'])) {
+      form_set_error('mail', t('Email address is invalid.'));
+    }
+  }
+}
+
+/**
+ * Node subscriptions node subform submit handler.
+ */
+function _subscriptions_anonymous_submit(array $form, array &$form_state) {
+  // Get the lower uid found and decrement it.
+  $query = db_select('subscriptions');
+  $query->addExpression('MIN(recipient_uid)');
+  $min_uid = $query->execute()->fetchField();
+  $recipient_uid = intval($min_uid) - 1;
+  $default_send_intervals = $form_state['values']['send_intervals'];
+
+  foreach ($form_state['values']['subscriptions'] as $index => $value) {
+
+    $params = $form_state['values']['params'][$index];
+    $args = array(
+      $params['module'],
+      $params['field'],
+      $params['value'],
+      $params['author_uid'],
+      $recipient_uid,
+    );
+
+    if ($value) {
+      $args[] = $default_send_intervals[$index];
+      $args[] = !empty($form_state['values']['updates'][$index]);
+      $args[] = !empty($form_state['values']['comments'][$index]);
+      $args[] = $form_state['values']['mail'];
+      call_user_func_array('subscriptions_anonymous_write_subscription', $args);
+    }
+    else {
+      subscriptions_delete($args['4'], $args['0'], $args['1'], $args['2'], $args['3']);
+    }
+  }
+  $form_state['redirect'] = str_replace('/subscribe', '', current_path());
+}
+
+/**
+ * Implement anonymous subscriptions.
+ */
+function subscriptions_anonymous_write_subscription($module, $field, $value, $author_uid, $recipient_uid, $send_interval = 1, $send_updates = 0, $send_comments = 0, $mail = NULL) {
+  db_merge('subscriptions')
+    ->key(array(
+      'module' => $module,
+      'field' => $field,
+      'value' => $value,
+      'recipient_uid' => $recipient_uid,
+      'author_uid' => $author_uid,
+      'mail' => $mail,
+    ))
+    ->fields(array(
+      'send_interval' => $send_interval,
+      'send_updates' => ($send_updates ? 1 : 0),
+      'send_comments' => ($send_comments ? 1 : 0),
+    ))
+    ->execute();
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function subscriptions_anonymous_node_view($node, $view_mode, $langcode) {
+  global $user;
+
+  if ($node->nid && $view_mode == 'full' && user_access('subscribe to content')) {
+    $arg2 = subscriptions_arg(2);
+    if (!variable_get('subscriptions_form_in_block', 0) &&
+      (!variable_get('subscriptions_form_link_only', 0) && (empty($arg2) || $arg2 == 'view') ||
+        variable_get('subscriptions_form_link_only', 0) && $arg2 == 'subscribe')
+    ) {
+      if ($form = drupal_get_form('subscriptions_ui_node_form', $node, $arg2 == 'subscribe')) {
+        $node->content['subscriptions_ui'] = array(
+          'subscriptions_ui_form' => $form,
+          '#weight' => 100,
+        );
+        return;
+      }
+    }
+
+    subscriptions_suspended($user->uid, TRUE);
+    if (variable_get('subscriptions_form_link_only', 0) && $arg2 != 'subscribe' && (!variable_get('subscriptions_avoid_empty_subscribe_links', 0) || module_invoke_all('subscriptions', 'node_options', $user, $node))) {
+      $blocked_types = variable_get('subscriptions_blocked_content_types', array());
+      if (in_array($node->type, $blocked_types) && !user_access('subscribe to all content types')) {
+        return;
+      }
+      $node->content['links']['node']['#links']['subscriptions-subscribe'] = array(
+        'href' => current_path() . '/subscribe',
+        'title' => t('Subscribe') . (in_array($node->type, $blocked_types) ? SUBSCRIPTIONS_UNAVAILABLE : ''),
+        'html' => TRUE,
+        'fragment' => 'subscribe',
+        'attributes' => array('title' => t('Receive notifications about changes and/or comments to this page (and possibly similar pages).')),
+      );
+    }
+  }
+}

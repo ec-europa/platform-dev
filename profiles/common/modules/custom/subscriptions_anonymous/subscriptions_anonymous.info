@@ -1,0 +1,7 @@
+name = Anonymous Subscriptions
+description = Allows anonymous users to subscribe to nodes.
+package = "Subscriptions"
+
+dependencies[] = subscriptions
+
+core = 7.x

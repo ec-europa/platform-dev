@@ -21,12 +21,12 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
 
   // Only send notification if the state of the content is published.
   if (isset($event['node']->workbench_moderation_state_new)) {
-    // Content has a worbench moderation workflow.
+    // Content has a workbench moderation workflow.
     if ($event['node']->workbench_moderation_state_new != workbench_moderation_state_published()) {
       $event = NULL;
     }
   }
-  else {
+  elseif (isset($event['node']->status)) {
     // No workbench moderation workflow.
     if ($event['node']->status != 1) {
       $event = NULL;
