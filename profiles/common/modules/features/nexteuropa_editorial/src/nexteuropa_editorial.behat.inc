@@ -8,6 +8,7 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Drupal\DrupalExtension\Context\MessageContext;
 
 /**
  * Behat step definitions for the NextEuropa Editorial module.
@@ -146,4 +147,47 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
     return FALSE;
   }
 
+  /**
+   * @When I wait for :text to appear in messages
+   * @Then I should see :text appear in messages
+   * @param $text
+   * @throws \Exception
+   */
+  public function iWaitForTextToAppear($text)
+  {
+    $this->spin(function($context) {
+    return ($context->getSession()->getPage()->findById('console')->isVisible());
+  });
+  }
+
+  /**
+   * Based on Behat's own example
+   * @see http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html
+   * @param $lambda
+   * @param $wait
+   * @return bool
+   * @throws \Exception
+   */
+  public function spin ($lambda, $wait = 60)
+  {
+    for ($i = 0; $i < $wait; $i++)
+    {
+      try {
+        if ($lambda($this)) {
+          return true;
+        }
+      } catch (Exception $e) {
+        // do nothing
+      }
+
+      sleep(1);
+    }
+
+    $backtrace = debug_backtrace();
+
+    throw new Exception(
+      "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
+      $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+    );
+  }
 }
