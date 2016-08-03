@@ -168,7 +168,6 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "None" in the "Italian" row
 
-
   @javascript
   Scenario: Test rejection of a translation.
     Given I am logged in as a user with the 'administrator' role
@@ -191,6 +190,42 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
     And I go to stored job Id translation request page
     And I should see "Aborted" in the "Original version" row
+
+  @javascript
+  Scenario: Test re-request translation.
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "The content of the page for original version"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I select "TMGMT Poetry Test translator" from "Translator"
+    And I wait for AJAX to finish
+    And I check the box "settings[languages][it]"
+    And I press "Submit to translator"
+    Then I should see "In progress" in the "French" row
+    And I should see "In progress" in the "Italian" row
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->fr" row
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "None" in the "French" row
+    Then I select the radio button "" with the id "edit-languages-fr"
+    And I press "Re-Request translation"
+    And I select "TMGMT Poetry Test translator" from "Translator"
+    And I wait for AJAX to finish
+    And I check the box "settings[languages][it]"
+    And I press "Submit to translator"
+    Then I should see "In progress" in the "French" row
+    And I should see "In progress" in the "Italian" row
+    Then I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->fr" row
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "None" in the "French" row
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies using TMGMT.
