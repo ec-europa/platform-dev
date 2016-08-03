@@ -276,7 +276,7 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
     // the logic to implement is only for entity translation.
     if ($set_translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
       // 1. If pathauto deactivated, defining the right default value.
-      // reproduction of the default behavior but with the LANGUAGE_NONE alias
+      // reproduction of the default behavior but with the LANGUAGE_NONE alias.
       if ($nid) {
         $und_alias_info = _nexteuropa_multilingual_get_und_entity_alias_info($node, 'node');
         if (!$und_alias_info['pathauto']) {
