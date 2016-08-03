@@ -89,9 +89,7 @@ Feature: TMGMT Poetry features
     And I wait
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
-    Then I should not see an "#edit-languages-fr.form-radio" element
-    But I should see an "#edit-languages-fr.form-checkbox" element
-    And I should see "In progress" in the "French" row
+    Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     And I store node ID of translation request page
     Then I go to "admin/poetry_mock/dashboard"
@@ -136,14 +134,12 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I press "Submit to translator"
-    Then I should not see an "#edit-languages-fr.form-radio" element
-    But I should see an "#edit-languages-fr.form-checkbox" element
+    Then I should see "In progress" in the "French" row
     Then I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
-    Then I should see an "#edit-languages-fr.form-radio" element
-    But I should not see an "#edit-languages-fr.form-checkbox" element
+    Then I should see "None" in the "French" row
 
   @javascript
   Scenario: Request main job before other translations.
@@ -160,9 +156,7 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
-    Then I should not see an "#edit-languages-fr.form-radio" element
-    But I should see an "#edit-languages-fr.form-checkbox" element
-    And I should see "In progress" in the "French" row
+    Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     Then I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->it" row
@@ -173,6 +167,7 @@ Feature: TMGMT Poetry features
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see "None" in the "Italian" row
+
 
   @javascript
   Scenario: Test rejection of a translation.
@@ -190,9 +185,7 @@ Feature: TMGMT Poetry features
     And I wait
     And I store job ID of translation request page
     And I press "Submit to translator"
-    Then I should not see an "#edit-languages-fr.form-radio" element
-    But I should see an "#edit-languages-fr.form-checkbox" element
-    And I should see "In progress" in the "French" row
+    Then I should see "In progress" in the "French" row
     Then I go to "admin/poetry_mock/dashboard"
     And I click "Reject translation" in the "en->fr" row
     Then I should see "None" in the "French" row
