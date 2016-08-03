@@ -121,14 +121,15 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         $entity_type, $node->nid, $node->translations->original);
       $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
 
+      $language_requested = FALSE;
+
       // Disable checkbox for languages already translated.
       foreach ($languages as $langcode => $language) {
+
         if (isset($node->translations->data[$langcode]) && !empty($existing_jobs)) {
-          $form['languages'][$langcode] = array(
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          );
+          $language_requested = TRUE;
         }
+
         if (isset($options[$langcode]) && isset($existing_jobs[$langcode])) {
           $item = $existing_jobs[$langcode];
           $uri = $item->uri();
@@ -140,10 +141,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           // translation in progress that has not yet been finished. This way we
           // make sure that we don't stack multiple active translations for the
           // same item on top of each other.
-          $form['languages'][$langcode] = array(
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          );
+          $language_requested = TRUE;
         }
 
         // Disable checkbox selection if current node revision is not
@@ -164,24 +162,35 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       if ($translation_possible) {
         $form['actions']['#type'] = 'actions';
-        $form['actions']['request'] = array(
-          '#type' => 'submit',
-          '#value' => t('Request translation'),
-          '#submit' => array('tmgmt_workbench_translate_form_submit'),
-          '#validate' => array('tmgmt_workbench_translate_form_validate'),
-        );
+        if (!$language_requested) {
+          $form['actions']['request'] = array(
+            '#type' => 'submit',
+            '#value' => t('Request translation'),
+            '#submit' => array('tmgmt_workbench_translate_form_submit'),
+            '#validate' => array('tmgmt_workbench_translate_form_validate'),
+          );
+        }
+        else {
+          $form['actions']['request'] = array(
+            '#type' => 'submit',
+            '#value' => t('Re-Request translation'),
+            '#submit' => array('tmgmt_workbench_update_translate_form_submit'),
+            '#validate' => array('tmgmt_workbench_translate_form_validate'),
+          );
+        }
+
+        // Allow requesting only one language. Explain user can add more later.
+        $form['languages']['#multiple'] = FALSE;
+        $form['languages']['#suffix'] = '<div class="description">' .
+          t('More target languages can be added after you click %i',
+            array('%i' => 'Request Translation')) .
+          '</div>';
       }
       else {
         unset($form['actions']);
       }
       // Remove add to cart button.
       unset($form['top_actions']);
-      // Allow requesting only one language. Explain user can add more later.
-      $form['languages']['#multiple'] = FALSE;
-      $form['languages']['#suffix'] = '<div class="description">' .
-        t('More target languages can be added after you click %i',
-          array('%i' => 'Request Translation')) .
-        '</div>';
     }
   }
 }
@@ -224,6 +233,24 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
       'error');
   }
   tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
+}
+
+/**
+ * Submit callback for updating the entity translation overview form.
+ */
+function tmgmt_workbench_update_translate_form_submit($form, &$form_state) {
+  $entity = $form_state['entity'];
+  // Cancel all activate jobs associated to this entity.
+  $jobs_canceled = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity->nid);
+  foreach ($jobs_canceled as $job_item) {
+    $job_canceled = tmgmt_job_load($job_item->tjid);
+    if (!empty($jobs_canceled)) {
+      $job_canceled->aborted();
+    }
+  }
+
+  // Create a new request.
+  tmgmt_workbench_translate_form_submit($form, $form_state);
 }
 
 /**
