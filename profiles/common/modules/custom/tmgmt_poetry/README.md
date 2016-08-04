@@ -29,7 +29,7 @@ Table of content:
 # A. Installation
 
 ## Webmaster / Site builder :
-  ### Requesting access to poetry:
+### Requesting access to poetry:
     - :pray: Before you can start using poetry, you should make a formal request to the Comm
 Europa Management team.
   [TO BE COMPLETED - WAITING PO FEEDBACK]
@@ -37,7 +37,7 @@ Europa Management team.
   DG COMM will inform DGT and send credentials to FPFIS maintenance team who
   will activate the DGT connector on your site.
 
-  - Enabling the feature on your platform instance:
+### Enabling the feature on your platform instance:
     - :hand: Poetry is not a feature you can enable using feature sets.
     - Once green light has been received from DG COMM, the feature needs to be
 activated by your FPFIS maintenance team.  Create a support ticket in [Jira's
@@ -48,7 +48,7 @@ details and deadlines for your request:
     - Once maintenance team confirms the feature is ready to be used on
     playground and/or production you can configure your connector.
 
-  - Configure the DGT connector:
+### Configure the DGT connector:
 Once the module is enabled and the settings properly set, the webmaster can
 proceed with the module's configuration.
 
