@@ -129,8 +129,15 @@ Once the variables are set in settings.php, [you can configure DGT connector]
   - You should see 'Main "poetry_service" variable is properly set.' if you have
   correctly followed the steps above. Otherwise get back and check what you
   forgot !
-  - Counter:
-  - Requester code:
+  - Counter: you do not need to fill this. The counter is auto generated.
+  - Requester code: must always be WEB
+  - Organization responsable, Author & requester: check the example provided.
+  - Contact usernames: should be the 'username' (you connect to the network,
+  ecas or the proxy with) of the persons in charge of the request.
+  This is important as only these persons can view translation details in the
+  web app.
+  DGT contacts : persons who will be notified when a translation is received or
+  a translation status is sent.
 
 ## DGT Web app : Checking the translation was received
 
