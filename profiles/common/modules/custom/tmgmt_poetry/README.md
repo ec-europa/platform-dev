@@ -18,12 +18,10 @@ Table of content:
   - Testing locally
   - Testing on playground
 
-- [Interesting information to go further] (#test)
-
-
-- Logs
-
-- Extra technical information
+- [Interesting information to go further] (#interesting-information-regarding-the-dgt-connector)
+  - [The DGT web app] (##dgt-web-app--checking-the-translation-was-received)
+  - [Logs](#logs)
+  - [DGT reference number]()
 
 # Installation
 
@@ -162,11 +160,15 @@ of the translations via this application.
 - Backup of files received from DGT
 
 Files, including wrapper, received from DGT webservice are saved by reference in
+
 ```public://tmgmt_files/dgt_responses/WEB/...```
+
 Files messages are saved in
+
 ```public://tmgmt_files/JobID[#id]_source_target.html_poetry```
 
 - Log of activities from Drupal and from DGT in watchdog.
+
 Transations sent and received from the webervices are saved into the watchdog.
 
 :warning: We gradually move the dblog to [kibana]
