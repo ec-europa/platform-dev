@@ -7,11 +7,11 @@ that make use of the European Commission DGT connector services
 Table of content:
 =================
 - [Installation](#a-installation)
-  - Webmaster / Site builder
+  - [Webmaster / Site builder](#webmaster--site-builder-)
     - Requesting access
     - Enabling the feature
     - Configuration of the connector
-  - Maintenance staff (FPFIS staff)
+  - [Maintenance staff (FPFIS staff)](#maintenance-staff-fpfis-staff)
     - Enabling the feature
 
 - [Testing](#testing)
@@ -30,25 +30,32 @@ Table of content:
 
 ## Webmaster / Site builder :
   - Requesting access to poetry:
+
 :pray: Before you can start using poetry, you should make a formal request to the Comm
 Europa Management team.
+
 [TO BE COMPLETED - WAITING PO FEEDBACK]
+
 Please send a mail to / fill the document located at http://
 DG COMM will inform DGT and send credentials to FPFIS maintenance team who will
 activate the DGT connector on your site.
 
-  - Enabling the feature on your platform instance
+  - Enabling the feature on your platform instance:
+
 :hand: Poetry is not a feature you can enable using feature sets.
+
 Once green light has been received from DG COMM, the feature needs to be
 activated by your FPFIS maintenance team.  Create a support ticket in [Jira's
 MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/) explaining the
 details and deadlines for your request.
+
 Once maintenance team confirms the feature is ready to be used on playground
 and/or production you can configure your connector.
 
-  - Configure the DGT connector
+  - Configure the DGT connector:
 Once the module is enabled and the settings properly set, the webmaster can
 proceed with the module's configuration.
+
 Edit the translator labeled "DGT Connector (auto created)".
 
 In order to do this, navigate to:
@@ -57,12 +64,13 @@ In order to do this, navigate to:
 or go to :
 ``` admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en ```
 
- - Translator settings
-   - [x] Auto accept finished translations
-     - Check this if you don't want to review a translation before publishing it.
- - Translator plugin
+ - Translator settings : [x] Auto accept finished translations
+   - Check this if you don't want to review a translation before publishing it.
+
+ - Translator plugin:
    - This cannot be modified and is just for information.
- - DGT Connector plugin settings
+
+ - DGT Connector plugin settings:
    - You should see 'Main "poetry_service" variable is properly set.' if you have
   correctly followed the steps above. Otherwise get back and check what you
   forgot !
@@ -79,6 +87,7 @@ or go to :
 
 ## Maintenance staff (FPFIS staff)
   - Enable the feature
+
 :construction: Only maintenance team can enable the DGT translator.
 * Make sure the poetry access has be requested and credentials have been
 received. (See point 1 above).
@@ -87,38 +96,26 @@ received. (See point 1 above).
 * Update the settings.php of the project. It must be filled with appropriate
 values depending on the environement you are using it in.
 
-For more details on variables setting see below section 3 *Implementation on
-production*.
+  - Install on playground environment
 
-# Testing
+    In order to test against acceptance webservice, settings.php should contain
+    (exactly as is):
 
-## 1. Testing locally using the mock
+    ```php
+        $conf['poetry_service'] = array(
+          'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
+          'method' => 'requestService',
+          'callback_user' => 'Callback',
+          'callback_password' => 'CallbackPWD',
+          'poetry_user' => 'Poetry',
+          'poetry_password' => 'PoetryPWD',
+        );
+    ```
 
-You can test the feature locally, throught the UI or in an automated way, by
-using the tmgmt_poetry_mock module.
-See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
-You do not need to set variables in settings.php
 
-## 2. Testing on playground environment
+  - Install on on production
 
-In order to test against acceptance webservice, settings.php should contain
-(exactly as is):
-
-```php
-    $conf['poetry_service'] = array(
-      'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
-      'method' => 'requestService',
-      'callback_user' => 'Callback',
-      'callback_password' => 'CallbackPWD',
-      'poetry_user' => 'Poetry',
-      'poetry_password' => 'PoetryPWD',
-    );
-```
-
-# Use on production
-## 1. Set up the variables
-In order to send translations to production webservice, settings.php should
-contain (replace variables between [] with custom values):
+Settings.php should contain (replace variables between [] with custom values):
 
 ```php
     $conf['poetry_service'] = array(
@@ -140,6 +137,18 @@ projectname is the project's code.
 
 >[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
 DGCOMM (see 'Installations step 1')
+
+# Testing
+
+## 1. Testing locally using the mock
+
+You can test the feature locally, throught the UI or in an automated way, by
+using the tmgmt_poetry_mock module.
+See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
+You do not need to set variables in settings.php
+
+
+
 
 ## 2. DGT Web app : Checking the translation was received
 
