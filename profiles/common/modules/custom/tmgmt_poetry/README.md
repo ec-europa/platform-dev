@@ -1,17 +1,43 @@
-Summary
-=======
+# Summary
+=========
 
 The TMGMT Poetry module allows the creation of translation managers
 that make use of the European Commission Poetry translation services
 (served by DGT).
 
 
-Installation
-============
+# Installation
+==============
 
-- Install as usual, see http://drupal.org/node/70151 for further information.
-- The settings.php of your project must contain the following variables filled
-  with appropriate values:
+## 1. Requesting access to poetry:
+Before you can start using poetry, you should make a formal request to DGCOMM.
+Please send a mail to / fill the document located at http://
+DG COMM will inform DGT and send credentials to FPFIS maintenance team who will
+activate poetry on your site.
+
+## 2. Enabling on your platform instance
+Poetry is not a feature you can enable using feature sets. It needs to be
+activated by your FPFIS maintenance team.
+
+## 3. Enabling as a FPFIS maintenance staff.
+* Make sure the poetry access has be requested and credentials have been
+received. (See point 1 above).
+* The module is included in the platform-dev sources. Run the drush command
+```drush en tmgmt_poetry```
+* Update the settings.php of the project. It must be filled with appropriate
+values depending on the environement you are using it in.
+For more details on variables setting see below section 3 'Implementation on
+production'.
+
+## 1. Testing locally
+=====================
+You can test the feature locally, throught the UI or in an automated way, by
+using the tmgmt_poetry_mock module.
+See [the mock readme] (/tmgmt_poetry_mock/README.md) for more information.
+
+## 2. Testing on playground environment
+=======================================
+In order to test against acceptance webservice, settings.php should contain:
 
 ```php
     $conf['poetry_service'] = array(
@@ -24,28 +50,36 @@ Installation
     );
 ```
 
-Manual test of Poetry translator
-================================
+## 3. Implementation on production
+==================================
+In order to send translations to production webservice, settings.php should
+contain:
 
-To manually test the Poetry translator plugin without accessing the actual
-DGT service enable the follow the steps below:
-
-1. Enable the ```tmgmt_poetry_test``` module.
-2. Set the address property to the newly available test endpoint:
 ```php
     $conf['poetry_service'] = array(
-      'address' => 'http://your.local.base.url/profiles/multisite_drupal_standard/modules/custom/tmgmt_poetry/tests/tmgmt_poetry_test.wsdl',
+      'address' => ''http://intragate.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
       'method' => 'requestService',
-      'callback_user' => 'Poetry',
-      'callback_password' => 'PoetryPWD',
-      'poetry_user' => 'Poetry',
-      'poetry_password' => 'PoetryPWD',
+      'callback_user' => [CALLBACK_USERNAME],
+      'callback_password' => [CALLBACK_PASSWORD],
+      'poetry_user' => [POETRY_USERNAME],
+      'poetry_password' => [POETRY_PASSWORD],
     );
 ```
-   Notice that this refers to a Multisite standard profile, change relevant
-   portion if necessary.
-3. Request a new translation using the "TMGMT Poetry: Test translator" translator.
 
+> The values of
+>[CALLBACK_USERNAME]
+>[CALLBACK_PASSWORD]
+>[POETRY_USERNAME]
+>[POETRY_PASSWORD]
+> should have been received from DGCOMM (see step 1.)
+
+
+Poetry European Commission application
+======================================
+
+Once a translation has been requested to DGT, it is possible for EC staff to
+view translation status using the web app located at:
+http://www.cc.cec/translation/webpoetry/
 
 Simulate Poetry callback
 ========================
@@ -104,3 +138,4 @@ $options = [
 
 $response = drupal_http_request('http://your.local.base.url/tmgmt_poetry/service_callback', $options);
 ```
+
