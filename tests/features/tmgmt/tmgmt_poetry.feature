@@ -213,11 +213,11 @@ Feature: TMGMT Poetry features
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
   @javascript
-  Scenario: Request translation of a basic page into French.
+  Scenario Outline: Request translation of a basic page into French.
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "My page"
-    And I fill in the rich text editor "Body" with "Text on my page."
+    And I fill in the rich text editor "Body" with <html>
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -230,3 +230,9 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has version 0
     And the translation request document is valid XHTML 1.0
+
+    Examples:
+      | html                                                                                 |
+      | 'Some simple text.'                                                                  |
+      | '<p>A paragraph</p>'                                                                 |
+      | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>' |
