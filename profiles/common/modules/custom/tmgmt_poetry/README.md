@@ -7,16 +7,18 @@ that make use of the European Commission DGT connector services
 Table of content:
 =================
 - [Installation](#a-installation)
-  - Requesting access
-  - Enabling the feature as a webmaster
-  - Enabling the feature as a FPFIS staff
-  - Configuration of the connector
+  - Webmaster / Site builder
+    - Requesting access
+    - Enabling the feature
+    - Configuration of the connector
+  - Maintenance staff (FPFIS staff)
+    - Enabling the feature
 
 - [Testing](#testing)
   - Testing locally
   - Testing on playground
 
-- [Use on production]#use-on-production
+- [Use on production](#use-on-production)
   - Configuration
   - DGT Web app
 
@@ -26,34 +28,25 @@ Table of content:
 
 # A. Installation
 
-## 1. Requesting access to poetry:
+## Webmaster / Site builder :
+  - Requesting access to poetry:
 :pray: Before you can start using poetry, you should make a formal request to the Comm
 Europa Management team.
-
+[TO BE COMPLETED - WAITING PO FEEDBACK]
 Please send a mail to / fill the document located at http://
 DG COMM will inform DGT and send credentials to FPFIS maintenance team who will
 activate the DGT connector on your site.
 
-## 2. Enabling the feature on your platform instance
+  - Enabling the feature on your platform instance
 :hand: Poetry is not a feature you can enable using feature sets.
 Once green light has been received from DG COMM, the feature needs to be
 activated by your FPFIS maintenance team.  Create a support ticket in [Jira's
 MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/) explaining the
 details and deadlines for your request.
+Once maintenance team confirms the feature is ready to be used on playground
+and/or production you can configure your connector.
 
-## 3. Enabling the feature as a FPFIS maintenance staff
-:construction_worker: Only maintenance team can enable the DGT translator.
-* Make sure the poetry access has be requested and credentials have been
-received. (See point 1 above).
-* The module is included in the platform-dev sources. Run the drush command
-```drush en tmgmt_poetry```
-* Update the settings.php of the project. It must be filled with appropriate
-values depending on the environement you are using it in.
-
-For more details on variables setting see below section 3 *Implementation on
-production*.
-
-## 4. Configure the DGT connector
+  - Configure the DGT connector
 Once the module is enabled and the settings properly set, the webmaster can
 proceed with the module's configuration.
 Edit the translator labeled "DGT Connector (auto created)".
@@ -82,6 +75,20 @@ or go to :
   web app.
    - DGT contacts : persons who will be notified when a translation is received or
   a translation status is sent.
+
+
+## Maintenance staff (FPFIS staff)
+  - Enable the feature
+:construction: Only maintenance team can enable the DGT translator.
+* Make sure the poetry access has be requested and credentials have been
+received. (See point 1 above).
+* The module is included in the platform-dev sources. Run the drush command
+```drush en tmgmt_poetry```
+* Update the settings.php of the project. It must be filled with appropriate
+values depending on the environement you are using it in.
+
+For more details on variables setting see below section 3 *Implementation on
+production*.
 
 # Testing
 
