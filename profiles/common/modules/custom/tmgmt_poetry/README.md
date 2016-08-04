@@ -18,15 +18,14 @@ Table of content:
   - Testing locally
   - Testing on playground
 
-- [Use on production](#use-on-production)
-  - Configuration
-  - DGT Web app
+- [Interesting information to go further] (#test)
+
 
 - Logs
 
 - Extra technical information
 
-# A. Installation
+# Installation
 
 ## Webmaster / Site builder :
 ### Requesting access to poetry:
@@ -146,11 +145,11 @@ DGCOMM (see 'Installations step 1')
 
  See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
 
-- On playground
-To test on playground, please follow the [requesting instance procedure]
+- On playground : please follow first the [requesting instance procedure]
 (#requesting-access-to-poetry)
 
-## 2. DGT Web app : Checking the translation was received
+# Interesting information regarding the DGT connector
+## DGT Web app : Checking the translation was received
 
 Once a translation has been requested to DGT, it is possible for EC staff to
 view translation status and references using the [DGT web app]
@@ -158,15 +157,16 @@ view translation status and references using the [DGT web app]
 The requesters of a translation will also be able to read the actual content
 of the translations via this application.
 
-# Logs
-## 1. Backup of files received from DGT
+## Logs
+
+- Backup of files received from DGT
 
 Files, including wrapper, received from DGT webservice are saved by reference in
 ```public://tmgmt_files/dgt_responses/WEB/...```
 Files messages are saved in
 ```public://tmgmt_files/JobID[#id]_source_target.html_poetry```
 
-## 2. Log of activities from Drupal and from DGT in watchdog.
+- Log of activities from Drupal and from DGT in watchdog.
 Transations sent and received from the webervices are saved into the watchdog.
 
 :warning: We gradually move the dblog to [kibana]
@@ -176,18 +176,20 @@ If dblog is disabled from your instance, request access to Kibana by creating a
 request in [Jira's MULTISITE project]
 (https://webgate.ec.europa.eu/CITnet/jira/)
 
-Technical details you may want to know
-======================================
+- DGT reference number
+
+DGT references has a format of type *WEB/2016/72000/0/1* and is a suite of
+several variables:
+
+  - The *requester code*  (WEB)
+
 Every Website instance using DGT connector will have as a requester code *WEB*.
-DGT references are a suite of several variables:
 
-The *requester code*  (WEB)
+  - The *year* a new counter was received (ex: 2016)
 
-The *year* a new counter was received (ex: 2016)
+  - The *counter* used when request was sent (ex: 72000)
 
-The *counter* used when request was sent (ex: 72000)
+  - The *partie* (in our case this is a unique page id) (ex: 1)
 
-The *partie* (in our case this is a unique page id) (ex: 1)
-
-The *version* (version is incremented each time a 'partie' version is sent)
+  - The *version* (version is incremented each time a 'partie' version is sent)
 (ex:0)
