@@ -6,17 +6,17 @@ that make use of the European Commission DGT connector services
 
 Table of content:
 =================
-- Installation
+- [Installation](#a-installation)
   - Requesting access
   - Enabling the feature as a webmaster
   - Enabling the feature as a FPFIS staff
   - Configuration of the connector
 
-- Testing
+- [Testing](#testing)
   - Testing locally
   - Testing on playground
 
-- Use on production
+- [Use on production]#use-on-production
   - Configuration
   - DGT Web app
 
@@ -74,7 +74,7 @@ or go to :
   correctly followed the steps above. Otherwise get back and check what you
   forgot !
    - Counter: you do not need to fill this. The counter is auto generated.
-   - Requester code: must always be WEB
+   - Requester code: must always be 'WEB'
    - Organization responsable, Author & requester: check the example provided.
    - Contact usernames: should be the 'username' (you connect to the network,
   ecas or the proxy with) of the persons in charge of the request.
@@ -146,29 +146,32 @@ of the translations via this application.
 ## 1. Backup of files received from DGT
 
 Files, including wrapper, received from DGT webservice are saved by reference in
-public://tmgmt_files/dgt_responses/WEB/...
+```public://tmgmt_files/dgt_responses/WEB/...```
 Files messages are saved in
-public://tmgmt_files/JobID[#id]_source_target.html_poetry
+```public://tmgmt_files/JobID[#id]_source_target.html_poetry```
 
 ## 2. Log of activities from Drupal and from DGT in watchdog.
 Transations sent and received from the webervices are saved into the watchdog.
-Attention: We gradually move the dblog to [kibana]
-(https://webgate.ec.europa.eu/fpfis/logging/). If dblog is disabled from your
-instance, request access to Kibana by creating a request in
-[Jira's MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/)
+
+:warning: We gradually move the dblog to [kibana]
+(https://webgate.ec.europa.eu/fpfis/logging/).
+
+If dblog is disabled from your instance, request access to Kibana by creating a
+request in [Jira's MULTISITE project]
+(https://webgate.ec.europa.eu/CITnet/jira/)
 
 Technical details you may want to know
 ======================================
-Every Website instance using DGT connector will have as a requester code 'WEB'.
+Every Website instance using DGT connector will have as a requester code *WEB*.
 DGT references are a suite of several variables:
 
-The 'requester code'  (WEB)
+The *requester code*  (WEB)
 
-The 'year' a new counter was received (ex: 2016)
+The *year* a new counter was received (ex: 2016)
 
-The 'counter' used when request was sent (ex: 72000)
+The *counter* used when request was sent (ex: 72000)
 
-The 'partie' (in our case this is a unique page id) (ex: 1)
+The *partie* (in our case this is a unique page id) (ex: 1)
 
-The 'version' (version is incremented each time a 'partie' version is sent)
+The *version* (version is incremented each time a 'partie' version is sent)
 (ex:0)
