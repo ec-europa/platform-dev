@@ -157,16 +157,16 @@ of the translations via this application.
 
 ## Logs
 
-- Backup of files received from DGT
-
+- Files backup
+The module handles the backing up of files received from DGT.
 Files, including wrapper, received from DGT webservice are saved by reference
 in :
 
-```public://tmgmt_files/dgt_responses/WEB/...```
+>public://tmgmt_files/dgt_responses/WEB/...
 
 Files messages are saved in:
 
-```public://tmgmt_files/JobID[#id]_source_target.html_poetry```
+>public://tmgmt_files/JobID[#id]_source_target.html_poetry
 
 - Log of activities from Drupal and from DGT in watchdog.
 
