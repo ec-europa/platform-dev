@@ -22,6 +22,8 @@ Table of content:
 
 - Logs
 
+- Extra technical information
+
 # A. Installation
 
 ## 1. Requesting access to poetry:
@@ -65,26 +67,25 @@ or go to :
  - Translator settings
    - [x] Auto accept finished translations
      - Check this if you don't want to review a translation before publishing it.
- ### Translator plugin
+ - Translator plugin
    - This cannot be modified and is just for information.
-
  - DGT Connector plugin settings
-  -- You should see 'Main "poetry_service" variable is properly set.' if you have
+   - You should see 'Main "poetry_service" variable is properly set.' if you have
   correctly followed the steps above. Otherwise get back and check what you
   forgot !
-  -- Counter: you do not need to fill this. The counter is auto generated.
-  -- Requester code: must always be WEB
-  -- Organization responsable, Author & requester: check the example provided.
-  -- Contact usernames: should be the 'username' (you connect to the network,
+   - Counter: you do not need to fill this. The counter is auto generated.
+   - Requester code: must always be WEB
+   - Organization responsable, Author & requester: check the example provided.
+   - Contact usernames: should be the 'username' (you connect to the network,
   ecas or the proxy with) of the persons in charge of the request.
   This is important as only these persons can view translation details in the
   web app.
-  DGT contacts : persons who will be notified when a translation is received or
+   - DGT contacts : persons who will be notified when a translation is received or
   a translation status is sent.
 
 # Testing
 
-## 1. Testing locally
+## 1. Testing locally using the mock
 
 You can test the feature locally, throught the UI or in an automated way, by
 using the tmgmt_poetry_mock module.
@@ -108,9 +109,9 @@ In order to test against acceptance webservice, settings.php should contain
 ```
 
 # Use on production
-
+## 1. Set up the variables
 In order to send translations to production webservice, settings.php should
-contain (replace variables between [] with custom value):
+contain (replace variables between [] with custom values):
 
 ```php
     $conf['poetry_service'] = array(
@@ -133,7 +134,7 @@ projectname is the project's code.
 >[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
 DGCOMM (see 'Installations step 1')
 
-## DGT Web app : Checking the translation was received
+## 2. DGT Web app : Checking the translation was received
 
 Once a translation has been requested to DGT, it is possible for EC staff to
 view translation status and references using the [DGT web app]
@@ -141,13 +142,20 @@ view translation status and references using the [DGT web app]
 The requesters of a translation will also be able to read the actual content
 of the translations via this application.
 
-Logs
-====
+# Logs
+## 1. Backup of files received from DGT
 
 Files, including wrapper, received from DGT webservice are saved by reference in
 public://tmgmt_files/dgt_responses/WEB/...
 Files messages are saved in
 public://tmgmt_files/JobID[#id]_source_target.html_poetry
+
+## 2. Log of activities from Drupal and from DGT in watchdog.
+Transations sent and received from the webervices are saved into the watchdog.
+Attention: We gradually move the dblog to [kibana]
+(https://webgate.ec.europa.eu/fpfis/logging/). If dblog is disabled from your
+instance, request access to Kibana by creating a request in
+[Jira's MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/)
 
 Technical details you may want to know
 ======================================
