@@ -419,4 +419,57 @@ class PoetryMock {
     }
   }
 
+  /**
+   * @param string $jobReference
+   * @return array
+   */
+  private static function getDemandeIdFromJobReference($jobReference) {
+    $parts = array(
+      '(?<codeDemandeur>[a-z0-9]+)',
+      '(?<annee>[0-9]+)',
+      '(?<numero>[0-9]+)',
+      '(?<version>[0-9]+)',
+      '(?<partie>[0-9]+)',
+      '(?<produit>[a-z0-9]+)',
+    );
+    $pattern = '@' . implode('/', $parts) . '$@i';
+    preg_match(
+      $pattern,
+      $jobReference,
+      $matches
+    );
+
+    return array(
+      'codeDemandeur' => $matches['codeDemandeur'],
+      'annee' => $matches['annee'],
+      'numero' => $matches['numero'],
+      'version' => $matches['version'],
+      'partie' => $matches['partie'],
+      'produit' => $matches['produit'],
+    );
+  }
+
+  /**
+   * @param string $jobReference
+   */
+  public static function getTranslationRequestByJobReference($jobReference)
+  {
+    $demande_id = self::getDemandeIdFromJobReference($jobReference);
+
+    $file_path = TMGMT_POETRY_MOCK_REQUESTS_PATH . implode('_', $demande_id) . '.xml';
+
+    $result = db_select('file_managed', 'fm')
+      ->fields('fm', ['fid'])
+      ->condition('filemime', 'application/xml', '=')
+      ->condition('uri', $file_path)
+      ->execute()
+      ->fetchAllAssoc('fid');
+
+    if ($result) {
+      return array(
+        'demande_id' => $demande_id,
+        'file' => file_load(key($result)),
+      );
+    }
+  }
 }
