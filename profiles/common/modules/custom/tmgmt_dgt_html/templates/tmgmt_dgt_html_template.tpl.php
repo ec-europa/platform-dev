@@ -14,13 +14,17 @@
   </head>
   <body>
     <?php foreach ($items as $item_key => $item): ?>
-      <div class="asset" id="<?php echo filter_xss($item_key); ?>">
+      <div class="asset" id="item-<?php echo filter_xss($item_key); ?>">
         <?php foreach ($item as $field_key => $field): ?>
           <?php
             $key = substr($field_key, 1);
             $key = base64_decode(str_pad(strtr($key, '-_', '+/'), strlen($key) % 4, '=', STR_PAD_RIGHT));
           ?>
-        <div class="atom" id="<?php echo filter_xss($field_key); ?>" data-label="<?php echo filter_xss($field['#label']); ?>" data-context="[<?php echo filter_xss($key); ?>]"><?php echo $field['#text']; ?></div>
+        <!--
+          label="<?php echo filter_xss($field['#label']); ?>"
+          context="[<?php echo filter_xss($key); ?>]"
+        -->
+        <div class="atom" id="<?php echo filter_xss($field_key); ?>"><?php echo $field['#text']; ?></div>
         <?php endforeach; ?>
       </div>
     <?php endforeach; ?>
