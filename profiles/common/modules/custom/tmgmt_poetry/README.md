@@ -30,8 +30,8 @@ Table of content:
 
 ## Webmaster / Site builder :
 ### Requesting access to poetry:
-:pray: Before you can start using poetry, you should make a formal request to the Comm
-Europa Management team.
+:pray: Before you can start using poetry on playground or production, you should
+make a formal request to the Comm Europa Management team.
 
  [TO BE COMPLETED - WAITING PO FEEDBACK]
   Please send a mail to / fill the document located at http://
@@ -76,11 +76,11 @@ or go to :
    - Requester code: must always be *WEB*
    - Organization responsable, Author & requester: check the example provided.
    - Contact usernames: should be the *username* (you connect to the network,
-  ecas or the proxy with) of the persons in charge of the request.
+  ecas or the proxy with your username) of the persons in charge of the request.
   This is important as only these persons can view translation details in the
   web app.
-   - DGT contacts : persons who will be notified when a translation is received or
-  a translation status is sent.
+   - DGT contacts : persons who will be notified when a translation is received
+   or a translation status is sent. Here you need to introduce email addresses.
 
 
 ## Maintenance staff (FPFIS staff)
@@ -111,8 +111,10 @@ In order to test against acceptance webservice, settings.php should contain
 
 
   - Install on on production
+
 Make sure the poetry access has be requested and credentials have been
 received. (See point 1 above).
+
 Settings.php should contain (replace variables between [] with custom values):
 
 ```php
@@ -138,12 +140,15 @@ DGCOMM (see 'Installations step 1')
 
 # Testing
 :black_joker: There are 2 ways to test the poetry service.
- -Locally, without the need to access the webservice  by using the
+
+- Locally, without the need to access the webservice  by using the
  tmgmt_poetry_mock module.
 
  See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
 
- -On playground
+- On playground
+To test on playground, please follow the [requesting instance procedure]
+(#requesting-access-to-poetry)
 
 ## 2. DGT Web app : Checking the translation was received
 
