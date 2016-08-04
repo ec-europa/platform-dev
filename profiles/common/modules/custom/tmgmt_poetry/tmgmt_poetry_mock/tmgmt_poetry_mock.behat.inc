@@ -239,11 +239,25 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
 
     // Info on output from the validator: https://github.com/validator/validator/wiki/Output:-JSON.
     $validation = json_decode($response->data);
+    $errors = [];
 
+    foreach ($validation->messages as $message) {
+      // We ignore the error regarding the <meta http-equiv="Content-Type" ... />
+      // header, which is actually needed for SDL Studio to recognize the character
+      // set properly.
+      if ($message->message === 'Bad value “Content-Type” for attribute “http-equiv” on XHTML element “meta”.') {
+        continue;
+      }
 
-    if (!empty($validation->messages)) {
+      $errors[] = $message;
+    }
+
+    if (!empty($errors)) {
       throw new Exception(
-        'The translation document did not pass the W3C XHTML validation.'
+        sprintf(
+          'The translation document did not pass the W3C XHTML validation (error count: %d).',
+          count($errors)
+        )
       );
     }
   }
