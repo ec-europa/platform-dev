@@ -54,15 +54,33 @@ production*.
 ## 4. Configure the DGT connector
 Once the module is enabled and the settings properly set, the webmaster can
 proceed with the module's configuration.
+Edit the translator labeled "DGT Connector (auto created)".
 
 In order to do this, navigate to:
 ``` Configuration->Regional and Language->Translation management Translator ```
 
 or go to :
-``` admin/config/regional/tmgmt_translator ```
+``` admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en ```
 
-Edit the translator labeled "DGT Connector (auto created)".
+ - Translator settings
+   - [x] Auto accept finished translations
+     - Check this if you don't want to review a translation before publishing it.
+ ### Translator plugin
+   - This cannot be modified and is just for information.
 
+ - DGT Connector plugin settings
+  -- You should see 'Main "poetry_service" variable is properly set.' if you have
+  correctly followed the steps above. Otherwise get back and check what you
+  forgot !
+  -- Counter: you do not need to fill this. The counter is auto generated.
+  -- Requester code: must always be WEB
+  -- Organization responsable, Author & requester: check the example provided.
+  -- Contact usernames: should be the 'username' (you connect to the network,
+  ecas or the proxy with) of the persons in charge of the request.
+  This is important as only these persons can view translation details in the
+  web app.
+  DGT contacts : persons who will be notified when a translation is received or
+  a translation status is sent.
 
 # Testing
 
@@ -114,30 +132,6 @@ projectname is the project's code.
 
 >[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
 DGCOMM (see 'Installations step 1')
-
-## Configuration
-
-Once the variables are set in settings.php, [you can configure DGT connector]
-(admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en).
- ### Translator settings
- - [x] Auto accept finished translations
-   - Check this if you don't want to review a translation before publishing it.
- ### Translator plugin
- - This cannot be modified and is just for information.
-
- #### DGT Connector plugin settings
-  - You should see 'Main "poetry_service" variable is properly set.' if you have
-  correctly followed the steps above. Otherwise get back and check what you
-  forgot !
-  - Counter: you do not need to fill this. The counter is auto generated.
-  - Requester code: must always be WEB
-  - Organization responsable, Author & requester: check the example provided.
-  - Contact usernames: should be the 'username' (you connect to the network,
-  ecas or the proxy with) of the persons in charge of the request.
-  This is important as only these persons can view translation details in the
-  web app.
-  DGT contacts : persons who will be notified when a translation is received or
-  a translation status is sent.
 
 ## DGT Web app : Checking the translation was received
 
