@@ -148,16 +148,17 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   }
 
   /**
+   * Allows to wait and see if a confirmation appears (after cron ran for ex.).
+   *
    * @When I wait for :text to appear in messages
    * @Then I should see :text appear in messages
    * @param $text
    * @throws \Exception
    */
-  public function iWaitForTextToAppear($text)
-  {
+  public function iWaitForTextToAppear($text) {
     $this->spin(function($context) {
-    return ($context->getSession()->getPage()->findById('console')->isVisible());
-  });
+      return ($context->getSession()->getPage()->findById('console')->isVisible());
+    });
   }
 
   /**
@@ -168,15 +169,14 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
    * @return bool
    * @throws \Exception
    */
-  public function spin ($lambda, $wait = 60)
-  {
-    for ($i = 0; $i < $wait; $i++)
-    {
+  public function spin ($lambda, $wait = 60) {
+    for ($i = 0; $i < $wait; $i++) {
       try {
         if ($lambda($this)) {
           return true;
         }
-      } catch (Exception $e) {
+      }
+      catch (Exception $e) {
         // do nothing
       }
 
