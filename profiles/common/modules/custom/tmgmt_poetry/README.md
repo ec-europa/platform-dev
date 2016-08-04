@@ -1,34 +1,41 @@
 # Summary
 
 The TMGMT Poetry module allows the creation of translation managers
-that make use of the European Commission Poetry translation services
-(served by DGT).
+that make use of the European Commission DGT connector services
+(translations served by DGT).
 
 Table of content:
 =================
-* Installation
+* A. Installation
+ ** Requesting access
+ ** Enabling the feature as a webmaster
+ ** Enabling the feature as a FPFIS staff
+ ** Configuration of the connector
 
-* Testing
+* B. Testing
 
-* DGT Web app
+* C. DGT Web app
 
-# Installation
+* D. Logs
+
+# A. Installation
 
 ## 1. Requesting access to poetry:
-Before you can start using poetry, you should make a formal request to the Comm
+:pray: Before you can start using poetry, you should make a formal request to the Comm
 Europa Management team.
 
 Please send a mail to / fill the document located at http://
 DG COMM will inform DGT and send credentials to FPFIS maintenance team who will
-activate poetry on your site.
+activate the DGT connector on your site.
 
-## 2. Enabling on your platform instance
+## 2. Enabling the feature on your platform instance
 :hand: Poetry is not a feature you can enable using feature sets.
 Once green light has been received from DG COMM, the feature needs to be
-activated by your FPFIS maintenance team.  Create a support ticket in Jira's
-MULTISITE project explaining the details and deadlines for your request.
+activated by your FPFIS maintenance team.  Create a support ticket in [Jira's
+MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/)explaining the
+details and deadlines for your request.
 
-## 3. Enabling as a FPFIS maintenance staff
+## 3. Enabling the feature as a FPFIS maintenance staff
 :construction_worker: Only maintenance team can enable the DGT translator.
 * Make sure the poetry access has be requested and credentials have been
 received. (See point 1 above).
@@ -36,21 +43,21 @@ received. (See point 1 above).
 ```drush en tmgmt_poetry```
 * Update the settings.php of the project. It must be filled with appropriate
 values depending on the environement you are using it in.
+
 For more details on variables setting see below section 3 *Implementation on
 production*.
 
 ## 4. Configure the DGT connector
-Once the module is enabled and the settings properly set, you can proceed with
-the module's configuration.
+Once the module is enabled and the settings properly set, the webmaster can
+proceed with the module's configuration.
 
-In order to do this, navigate to
-```Configuration->Regional and Language->Translation management Translator```
+In order to do this, navigate to:
+``` Configuration->Regional and Language->Translation management Translator ```
 
-or go to
-```admin/config/regional/tmgmt_translator```
+or go to :
+``` admin/config/regional/tmgmt_translator ```
 
-and edit the translator labeled "DGT Connector (auto created)".
-
+Edit the translator labeled "DGT Connector (auto created)".
 
 
 # Testing
@@ -78,7 +85,8 @@ In order to test against acceptance webservice, settings.php should contain:
 ```
 
 # Use on production
-=====================
+--------------------
+## Configuration
 In order to send translations to production webservice, settings.php should
 contain:
 
@@ -93,24 +101,22 @@ contain:
     );
 ```
 
-> The values of
-> [CALLBACK_USERNAME] should match NE-projectname where projectname is the
-> project's code
+> The values of [CALLBACK_USERNAME] should match NE-projectname where
+projectname is the project's code.
+
 > [CALLBACK_PASSWORD] is the same as the callback_username.
 > These fields are limited to 15 characters.
 
 
->[POETRY_USERNAME]
->[POETRY_PASSWORD]
-> should have been received from DGCOMM (see 'Installations step 1')
+>[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
+DGCOMM (see 'Installations step 1')
 
 
-Check  my translation request was indeed received
-=================================================
+## DGT Web app : Checking the translation was received
 
 Once a translation has been requested to DGT, it is possible for EC staff to
-view translation status and references using the web app located at:
-http://www.cc.cec/translation/webpoetry/
+view translation status and references using the [DGT web app]
+(http://www.cc.cec/translation/webpoetry/)
 The requesters of a translation will also be able to read the actual content
 of the translations via this application.
 
