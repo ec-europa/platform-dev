@@ -10,12 +10,11 @@ include_once 'multisite_notifications_core.features.inc';
 
 /**
  * Implements hook_subscriptions_queue_alter().
- * Only works when node is changed in edit mode.
  */
 function multisite_notifications_core_subscriptions_queue_alter(&$event) {
-
+  // nb this only works in edit mode.
   if (isset($event['node']->workbench_moderation['updating_live_revision'])
-    && $event['node']->workbench_moderation_state_current !='published') {
+    && $event['node']->workbench_moderation_state_current != 'published') {
     $event = NULL;
   }
 
