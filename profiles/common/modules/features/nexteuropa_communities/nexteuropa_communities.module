@@ -255,3 +255,21 @@ function community_load($arg) {
   // If no group was found, pass the argument as is.
   return NULL;
 }
+
+/**
+ * Returns the sanitized community title.
+ *
+ * @return string
+ *    The community title or 'none'
+ */
+function community_to_arg($arg = NULL) {
+  module_load_include('inc', 'pathauto', 'pathauto');
+  $context = og_context();
+  if (isset($context['gid'])) {
+    $node = node_load($context['gid']);
+    return pathauto_cleanstring($node->title);
+  }
+  else {
+    return 'none';
+  }
+}
