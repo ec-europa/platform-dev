@@ -157,7 +157,8 @@ of the translations via this application.
 
 ## Logs
 
-- Files backup
+### Files backup
+
 The module handles the backing up of files received from DGT.
 Files, including wrapper, received from DGT webservice are saved by reference
 in :
@@ -168,7 +169,7 @@ Files messages are saved in:
 
 >public://tmgmt_files/JobID[#id]_source_target.html_poetry
 
-- Log of activities from Drupal and from DGT in watchdog.
+### Log of activities from Drupal and from DGT in watchdog.
 
 Transations sent and received from the webervices are saved into the watchdog.
 
@@ -179,7 +180,7 @@ If dblog is disabled from your instance, request access to Kibana by creating a
 request in [Jira's MULTISITE project]
 (https://webgate.ec.europa.eu/CITnet/jira/)
 
-- DGT reference number
+# DGT reference number
 
 DGT references has a format of type *WEB/2016/72000/0/1* and is a suite of
 several variables:
