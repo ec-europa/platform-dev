@@ -60,10 +60,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @Then /^I store node ID of translation request page$/
    */
   public function iStoreNodeIdOfTranslationRequestPage() {
-    $url = $this->getSession()->getCurrentUrl();
-    preg_match_all('/node\/(\d*)/', $url, $matches);
-    $node_id = isset($matches[1][0]) ? $matches[1][0] : FALSE;
-
+    $node_id = $this->getCurrentNodeId();
     if (!$node_id) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
     }
@@ -122,10 +119,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @Then /^I store job Reference of translation request page$/
    */
   public function iStoreJobReferenceOfTranslationRequestPage() {
-    $url = $this->getSession()->getCurrentUrl();
-    preg_match_all('/node\/(\d*)/', $url, $matches);
-    $node_id = isset($matches[1][0]) ? $matches[1][0] : FALSE;
-
+    $node_id = $this->getCurrentNodeId();
     if (!$node_id) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
     }
@@ -152,9 +146,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
       throw new \InvalidArgumentException("Job Reference mismatch: the current test have not Job Reference stored.");
     }
 
-    $url = $this->getSession()->getCurrentUrl();
-    preg_match_all('/node\/(\d*)/', $url, $matches);
-    $node_id = isset($matches[1][0]) ? $matches[1][0] : FALSE;
+    $node_id = $this->getCurrentNodeId();
 
     if (!$node_id) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
@@ -200,6 +192,16 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    */
   public function iWaitFor() {
     $this->getSession()->wait(1000);
+  }
+
+
+  /**
+   * Get the Current Node Id in the URL.
+   */
+  private function getCurrentNodeId() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/node\/(\d*)/', $url, $matches);
+    return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
   }
 
 }
