@@ -86,17 +86,16 @@ or go to :
 
 
 ## Maintenance staff (FPFIS staff)
+:construction: Only maintenance team can enable the DGT translator.
   - Enable the feature
 
-:construction: Only maintenance team can enable the DGT translator.
-* Make sure the poetry access has be requested and credentials have been
-received. (See point 1 above).
-* The module is included in the platform-dev sources. Run the drush command
+The module is included in the platform-dev sources. Run the drush command
 ```drush en tmgmt_poetry```
-* Update the settings.php of the project. It must be filled with appropriate
+
+Update the settings.php of the project. It must be filled with appropriate
 values depending on the environement you are using it in.
 
-  - Install on playground environment
+    - Install on playground environment
 
     In order to test against acceptance webservice, settings.php should contain
     (exactly as is):
@@ -115,6 +114,8 @@ values depending on the environement you are using it in.
 
   - Install on on production
 
+    - Make sure the poetry access has be requested and credentials have been
+received. (See point 1 above).
 Settings.php should contain (replace variables between [] with custom values):
 
 ```php
