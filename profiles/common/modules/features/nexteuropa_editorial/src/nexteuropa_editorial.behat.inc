@@ -8,7 +8,6 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Drupal\DrupalExtension\Context\MessageContext;
 
 /**
  * Behat step definitions for the NextEuropa Editorial module.
@@ -151,8 +150,12 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
    * Allows to wait and see if a confirmation appears (after cron ran for ex.).
    *
    * @When I wait for :text to appear in messages
+   *
    * @Then I should see :text appear in messages
-   * @param $text
+   *
+   * @param string $text
+   *   The message we expect to see appearing.
+   *
    * @throws \Exception
    */
   public function iWaitForTextToAppear($text) {
@@ -164,8 +167,10 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   /**
    * Based on Behat's own example
    * @see http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html
+   *
    * @param $lambda
    * @param $wait
+   *
    * @return bool
    * @throws \Exception
    */
