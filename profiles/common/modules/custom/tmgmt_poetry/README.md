@@ -8,9 +8,9 @@ Table of content:
 =================
 - [Installation](#a-installation)
   - [Webmaster / Site builder](#webmaster--site-builder-)
-    - Requesting access
-    - Enabling the feature
-    - Configuration of the connector
+    - [Requesting access](#requesting-access-to-poetry)
+    - [Enabling the feature](#enabling-the-feature-on-your-platform-instance)
+    - [Configuration of the connector](#configure-the-dgt-connector)
   - [Maintenance staff (FPFIS staff)](#maintenance-staff-fpfis-staff)
     - Enabling the feature
 
@@ -83,29 +83,29 @@ or go to :
 
 ## Maintenance staff (FPFIS staff)
 :construction: Only maintenance team can enable the DGT translator.
-  - Enable the feature
+### Enable the feature
 
 The module is included in the platform-dev sources. Run the drush command
 ```drush en tmgmt_poetry```
 
-Update the settings.php of the project. It must be filled with appropriate
+Update the settings.php of the project.
+It must be filled with appropriate
 values depending on the environement you are using it in.
+- Install on playground environment
 
-    - Install on playground environment
-
-    In order to test against acceptance webservice, settings.php should contain
+In order to test against acceptance webservice, settings.php should contain
     (exactly as is):
 
-    ```php
-        $conf['poetry_service'] = array(
-          'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
-          'method' => 'requestService',
-          'callback_user' => 'Callback',
-          'callback_password' => 'CallbackPWD',
-          'poetry_user' => 'Poetry',
-          'poetry_password' => 'PoetryPWD',
-        );
-    ```
+```php
+   $conf['poetry_service'] = array(
+     'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
+     'method' => 'requestService',
+     'callback_user' => 'Callback',
+     'callback_password' => 'CallbackPWD',
+     'poetry_user' => 'Poetry',
+     'poetry_password' => 'PoetryPWD',
+   );
+```
 
 
   - Install on on production
