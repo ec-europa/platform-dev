@@ -229,7 +229,7 @@ Feature: TMGMT Poetry features
     And I remember the translation job reference mentioned in the confirmation message
     Then the poetry translation service received the translation request
     And the translation request has version 0
-    And the translation request document is valid XHTML 1.0
+    And the translation request document is valid XHTML
 
     Examples:
       | html                                                                                 |

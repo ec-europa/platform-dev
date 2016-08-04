@@ -420,10 +420,15 @@ class PoetryMock {
   }
 
   /**
-   * @param string $jobReference
+   * Get the poetry demande_id from a tmgmt_poetry job reference.
+   *
+   * @param string $job_reference
+   *   The tmgmt_poetry job reference.
+   *
    * @return array
+   *   The poetry demande_id data.
    */
-  private static function getDemandeIdFromJobReference($jobReference) {
+  private static function getDemandeIdFromJobReference($job_reference) {
     $parts = array(
       '(?<codeDemandeur>[a-z0-9]+)',
       '(?<annee>[0-9]+)',
@@ -435,7 +440,7 @@ class PoetryMock {
     $pattern = '@' . implode('/', $parts) . '$@i';
     preg_match(
       $pattern,
-      $jobReference,
+      $job_reference,
       $matches
     );
 
@@ -450,11 +455,13 @@ class PoetryMock {
   }
 
   /**
-   * @param string $jobReference
+   * Gets the translation request data by their tmgmt_poetry job reference.
+   *
+   * @param string $job_reference
+   *   A tmgmt_poetry job reference.
    */
-  public static function getTranslationRequestByJobReference($jobReference)
-  {
-    $demande_id = self::getDemandeIdFromJobReference($jobReference);
+  public static function getTranslationRequestByJobReference($job_reference) {
+    $demande_id = self::getDemandeIdFromJobReference($job_reference);
 
     $file_path = TMGMT_POETRY_MOCK_REQUESTS_PATH . implode('_', $demande_id) . '.xml';
 
@@ -472,4 +479,5 @@ class PoetryMock {
       );
     }
   }
+
 }

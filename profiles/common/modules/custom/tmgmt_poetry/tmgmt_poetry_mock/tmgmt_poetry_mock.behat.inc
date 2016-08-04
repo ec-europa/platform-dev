@@ -29,11 +29,15 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   protected $variables = array();
 
   /**
+   * The last memorized tmgmt_poetry translation job reference.
+   *
    * @var string|null
    */
-  protected $translationJobReference = null;
+  protected $translationJobReference = NULL;
 
   /**
+   * The translation request data.
+   *
    * @var array
    */
   protected $translationRequest;
@@ -83,19 +87,24 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * @AfterScenario @poetry
    */
   public function removePendingTranslations() {
-    \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::removeAllRequestTranslationFiles();
+    \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::removeAllRequestTranslationFiles(
+    );
   }
 
   /**
+   * Memorizes the translation job reference found in the confirmation message.
+   *
    * @Then I remember the translation job reference mentioned in the confirmation message
    */
-  public function iRememberTheTranslationJobReferenceMentionedInTheConfirmationMessage()
-  {
-    $translationJobReference = NULL;
-    // Job has been successfully submitted for translation. Project ID is: MAIN_94_POETRY_ABCD/2016/1234/0/26/TRA
+  public function iRememberTheTranslationJobReferenceMentionedInTheConfirmationMessage() {
+    $translation_job_reference = NULL;
+
     $selector = $this->getDrupalSelector('success_message_selector');
-    $selectorObjects = $this->getSession()->getPage()->findAll("css", $selector);
-    if (empty($selectorObjects)) {
+    $success_messages = $this->getSession()->getPage()->findAll(
+      "css",
+      $selector
+    );
+    if (empty($success_messages)) {
       throw new \Exception(
         sprintf(
           'No translation job confirmation message found at %s.',
@@ -104,20 +113,20 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       );
     }
 
-    foreach ($selectorObjects as $selectorObject) {
-      $text = trim($selectorObject->getText());
+    foreach ($success_messages as $success_message) {
+      $text = trim($success_message->getText());
       if (1 === preg_match(
           '/Project ID is: (?<reference>.*)$/',
           $text,
           $matches
         )
       ) {
-        $translationJobReference = $matches['reference'];
+        $translation_job_reference = $matches['reference'];
         break;
       }
     }
 
-    if (!$translationJobReference) {
+    if (!$translation_job_reference) {
       throw new \Exception(
         sprintf(
           'No translation job confirmation message found at %s.',
@@ -126,13 +135,20 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       );
     }
 
-    $this->translationJobReference = $translationJobReference;
+    $this->translationJobReference = $translation_job_reference;
   }
 
   /**
+   * Retrieves a specific named selector.
+   *
    * @param string $name
+   *   Name of the selector.
+   *
    * @return string
+   *   The selector.
+   *
    * @throws Exception
+   *   When the selector is not configured.
    */
   private function getDrupalSelector($name) {
     $text = $this->getDrupalParameter('selectors');
@@ -143,14 +159,16 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
+   * Verifies that poetry received the last translation request.
+   *
    * @Then the poetry translation service received the translation request
    */
   public function aPoetryTranslatorCanConfirmThatTheyReceivedTheTranslationRequest() {
-    $translationRequest = PoetryMock::getTranslationRequestByJobReference(
+    $translation_request = PoetryMock::getTranslationRequestByJobReference(
       $this->translationJobReference
     );
 
-    if (!$translationRequest) {
+    if (!$translation_request) {
       throw new \Exception(
         sprintf(
           'the poetry translation service did not receive a translation request with reference %s',
@@ -159,10 +177,12 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       );
     }
 
-    $this->translationRequest = $translationRequest;
+    $this->translationRequest = $translation_request;
   }
 
   /**
+   * Verifies the version of the last translation request.
+   *
    * @Then the translation request has version :arg1
    */
   public function theTranslationRequestHasVersion($arg1) {
@@ -184,14 +204,15 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
+   * Fills in a specific value in a rich text editor (CKEditor).
+   *
    * @Given I fill in the rich text editor :arg1 with :arg2
    */
-  public function iFillInTheRichTextEditorWith($arg1, $arg2)
-  {
+  public function iFillInTheRichTextEditorWith($arg1, $arg2) {
     /** @var \Behat\Mink\Element\NodeElement $field */
     $field = $this->getSession()->getPage()->findField($arg1);
 
-    if (null === $field) {
+    if (NULL === $field) {
       throw new Exception(sprintf('Unable to find field "%s"', $arg1));
     }
 
@@ -211,9 +232,11 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * @Then the translation request document is valid XHTML :arg1
+   * Verifies that the last translation request document is valid XHTML.
+   *
+   * @Then the translation request document is valid XHTML
    */
-  public function theTranslationRequestDocumentIsValidXhtml($arg1) {
+  public function theTranslationRequestDocumentIsValidXhtml() {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
@@ -230,14 +253,17 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       'https://validator.w3.org/check',
       [
         'method' => 'POST',
-        'data'   => http_build_query([
-          'fragment' => $document,
-          'output' => 'json',
-        ]),
+        'data' => http_build_query(
+          [
+            'fragment' => $document,
+            'output' => 'json',
+          ]
+        ),
       ]
     );
 
-    // Info on output from the validator: https://github.com/validator/validator/wiki/Output:-JSON.
+    // Info on output from the validator:
+    // https://github.com/validator/validator/wiki/Output:-JSON.
     $validation = json_decode($response->data);
     $errors = $validation->messages;
 
@@ -252,4 +278,5 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       );
     }
   }
+
 }
