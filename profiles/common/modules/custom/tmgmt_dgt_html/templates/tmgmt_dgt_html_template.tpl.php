@@ -6,7 +6,7 @@
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="JobID" content="<?php echo filter_xss($tjid); ?>" />
     <meta name="languageSource" content="<?php echo filter_xss($source_language); ?>" />
     <meta name="languageTarget" content="<?php echo filter_xss($target_language); ?>" />
@@ -20,7 +20,7 @@
             $key = substr($field_key, 1);
             $key = base64_decode(str_pad(strtr($key, '-_', '+/'), strlen($key) % 4, '=', STR_PAD_RIGHT));
           ?>
-        <div class="atom" id="<?php echo filter_xss($field_key); ?>" label="<?php echo filter_xss($field['#label']); ?>" context="[<?php echo filter_xss($key); ?>]"><?php echo $field['#text']; ?></div>
+        <div class="atom" id="<?php echo filter_xss($field_key); ?>" data-label="<?php echo filter_xss($field['#label']); ?>" data-context="[<?php echo filter_xss($key); ?>]"><?php echo $field['#text']; ?></div>
         <?php endforeach; ?>
       </div>
     <?php endforeach; ?>
