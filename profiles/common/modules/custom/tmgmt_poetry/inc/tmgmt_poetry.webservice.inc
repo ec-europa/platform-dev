@@ -4,6 +4,13 @@
  * Webservice definition and behaviour.
  */
 
+// Setting up templates directory path.
+define('TMGMT_POETRY_XML_TEMPLATES_PATH', drupal_get_path('module', 'tmgmt_poetry_mock') . '/xml_templates');
+// Theme functions.
+module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.theme');
+
+// @Todo: The Function _tmgmt_poetry_service_callback use $server.
+// use Drupal\tmgmt_poetry\Services\PoetryServer;
 /**
  * Implements hook_menu().
  */
@@ -20,11 +27,17 @@ function tmgmt_poetry_menu() {
   return $items;
 }
 
-
 /**
  * Function to define our webservice and register the available methods.
  */
 function _tmgmt_poetry_service_callback() {
+  // Two belows lines are an entry to new implementation.
+  // @todo: after development phase make sure that only one implementation will
+  // be here.
+  // $server = PoetryServer::getInstance();
+  // $server->process();
+  //
+  // Beneath you will find the old way.
   // Generate our own SOAP server.
   $context = stream_context_create();
   $uri = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
