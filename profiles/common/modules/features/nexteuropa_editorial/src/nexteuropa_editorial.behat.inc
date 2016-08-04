@@ -155,8 +155,6 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
    *
    * @param string $text
    *   The message we expect to see appearing.
-   *
-   * @throws \Exception
    */
   public function iWaitForTextToAppear($text) {
     $this->spin(function($context) {
@@ -165,26 +163,32 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   }
 
   /**
-   * Based on Behat's own example
-   * @see http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html
+   * Based on Behat's own example.
+   *
+   * see http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html .
    *
    * @param $lambda
+   *  The function argument.
+   *
    * @param $wait
+   *   The sleeping time, defaults to 60.
    *
    * @return bool
+   *   Returns true when check was successful.
+   *
    * @throws \Exception
+   *   Thrown when the function being called throws error.
    */
-  public function spin ($lambda, $wait = 60) {
+  public function spin($lambda, $wait = 60) {
     for ($i = 0; $i < $wait; $i++) {
       try {
         if ($lambda($this)) {
-          return true;
+          return TRUE;
         }
       }
       catch (Exception $e) {
-        // do nothing
+        // Do nothing.
       }
-
       sleep(1);
     }
 
@@ -195,4 +199,5 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
       $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
     );
   }
+
 }
