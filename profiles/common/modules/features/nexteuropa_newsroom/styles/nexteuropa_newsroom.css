@@ -140,7 +140,7 @@
 }
 
 .view-newsroom .views-field-field-newsroom-item-type a,
-.view-newsroom .view-footer a  {
+.view-newsroom .view-footer a {
   color: #fff;
 }
 
@@ -216,7 +216,7 @@
 }
 
 .view-newsroom .view-footer a::after {
-    border-left: 4px solid #fff;
+  border-left: 4px solid #fff;
 }
 
 .read-full-text {
@@ -403,7 +403,7 @@
 }
 
 .view-newsroom .view-footer {
-  background: #0065A2;
+  background: #0065a2;
   margin: 20px -15px -15px;
   padding: 5px 15px;
   font-weight: bold;

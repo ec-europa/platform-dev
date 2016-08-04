@@ -599,7 +599,7 @@ function _nexteuropa_newsroom_admin_universe_id_validate($element, &$form_state)
 function _nexteuropa_newsroom_admin_subsite_validate($element, &$form_state) {
   $subsite = $form_state['values']['newsroom_subsite'];
   $universe_id = $form_state['values']['newsroom_universe_id'];
-  
+
   if (!NewsroomHelper::validateSubsite($universe_id, $subsite)) {
     form_error($element, t("This subsite doesn't seem to exist, please check the value you entered."));
   }
@@ -905,6 +905,7 @@ function _nexteuropa_newsroom_admin_rebuild_importers() {
     'services' => NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER,
     'topics' => NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER,
     'types' => NEXTEUROPA_NEWSROOM_TYPE_IMPORTER,
+    'newsletter' => NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER,
   );
 
   foreach ($importers as $key => $importer) {

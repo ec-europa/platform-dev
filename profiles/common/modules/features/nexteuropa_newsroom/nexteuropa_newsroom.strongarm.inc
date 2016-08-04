@@ -140,5 +140,12 @@ function nexteuropa_newsroom_strongarm() {
   $strongarm->value = 0;
   $export['node_submitted_newsroom_selection'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_node_newsroom_newsletter_issue_pattern';
+  $strongarm->value = 'newsroom/newsletter/[node:field-newsroom-service-id]/[node:source:title]';
+  $export['pathauto_node_newsroom_newsletter_issue_pattern'] = $strongarm;
+
   return $export;
 }
