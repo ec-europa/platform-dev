@@ -6,17 +6,21 @@ that make use of the European Commission DGT connector services
 
 Table of content:
 =================
-* A. Installation
- ** Requesting access
- ** Enabling the feature as a webmaster
- ** Enabling the feature as a FPFIS staff
- ** Configuration of the connector
+- Installation
+  - Requesting access
+  - Enabling the feature as a webmaster
+  - Enabling the feature as a FPFIS staff
+  - Configuration of the connector
 
-* B. Testing
+- Testing
+  - Testing locally
+  - Testing on playground
 
-* C. DGT Web app
+- Use on production
+  - Configuration
+  - DGT Web app
 
-* D. Logs
+- Logs
 
 # A. Installation
 
@@ -32,7 +36,7 @@ activate the DGT connector on your site.
 :hand: Poetry is not a feature you can enable using feature sets.
 Once green light has been received from DG COMM, the feature needs to be
 activated by your FPFIS maintenance team.  Create a support ticket in [Jira's
-MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/)explaining the
+MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/) explaining the
 details and deadlines for your request.
 
 ## 3. Enabling the feature as a FPFIS maintenance staff
@@ -61,17 +65,18 @@ Edit the translator labeled "DGT Connector (auto created)".
 
 
 # Testing
----------
 
 ## 1. Testing locally
----------------------
+
 You can test the feature locally, throught the UI or in an automated way, by
 using the tmgmt_poetry_mock module.
-See [the mock readme] (/tmgmt_poetry_mock/README.md) for more information.
+See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
+You do not need to set variables in settings.php
 
 ## 2. Testing on playground environment
----------------------------------------
-In order to test against acceptance webservice, settings.php should contain:
+
+In order to test against acceptance webservice, settings.php should contain
+(exactly as is):
 
 ```php
     $conf['poetry_service'] = array(
@@ -85,10 +90,9 @@ In order to test against acceptance webservice, settings.php should contain:
 ```
 
 # Use on production
---------------------
-## Configuration
+
 In order to send translations to production webservice, settings.php should
-contain:
+contain (replace variables between [] with custom value):
 
 ```php
     $conf['poetry_service'] = array(
@@ -111,6 +115,22 @@ projectname is the project's code.
 >[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
 DGCOMM (see 'Installations step 1')
 
+## Configuration
+
+Once the variables are set in settings.php, [you can configure DGT connector]
+(admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en).
+ ### Translator settings
+ - [x] Auto accept finished translations
+   - Check this if you don't want to review a translation before publishing it.
+ ### Translator plugin
+ - This cannot be modified and is just for information.
+
+ #### DGT Connector plugin settings
+  - You should see 'Main "poetry_service" variable is properly set.' if you have
+  correctly followed the steps above. Otherwise get back and check what you
+  forgot !
+  - Counter:
+  - Requester code:
 
 ## DGT Web app : Checking the translation was received
 
@@ -128,3 +148,18 @@ public://tmgmt_files/dgt_responses/WEB/...
 Files messages are saved in
 public://tmgmt_files/JobID[#id]_source_target.html_poetry
 
+Technical details you may want to know
+======================================
+Every Website instance using DGT connector will have as a requester code 'WEB'.
+DGT references are a suite of several variables:
+
+The 'requester code'  (WEB)
+
+The 'year' a new counter was received (ex: 2016)
+
+The 'counter' used when request was sent (ex: 72000)
+
+The 'partie' (in our case this is a unique page id) (ex: 1)
+
+The 'version' (version is incremented each time a 'partie' version is sent)
+(ex:0)
