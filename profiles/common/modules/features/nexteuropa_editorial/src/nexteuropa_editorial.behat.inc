@@ -149,12 +149,10 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   /**
    * Allows to wait and see if a confirmation appears (after cron ran for ex.).
    *
-   * @When I wait for :text to appear in messages
-   *
-   * @Then I should see :text appear in messages
-   *
    * @param string $text
    *   The message we expect to see appearing.
+   *
+   * @When I wait for :text to appear in messages.
    */
   public function iWaitForTextToAppear($text) {
     $this->spin(function($context) {
@@ -165,12 +163,11 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   /**
    * Based on Behat's own example.
    *
-   * see http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html .
+   * See http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html .
    *
-   * @param $lambda
-   *  The function argument.
-   *
-   * @param $wait
+   * @param string $lambda
+   *   The function argument.
+   * @param int $wait
    *   The sleeping time, defaults to 60.
    *
    * @return bool
