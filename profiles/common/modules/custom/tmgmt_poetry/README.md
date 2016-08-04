@@ -1,5 +1,3 @@
-# Summary
-
 The TMGMT Poetry module allows the creation of translation managers
 that make use of the European Commission DGT connector services
 (translations served by DGT).
@@ -18,10 +16,13 @@ Table of content:
   - Testing locally
   - Testing on playground
 
-- [Interesting information to go further] (#interesting-information-regarding-the-dgt-connector)
-  - [The DGT web app] (##dgt-web-app--checking-the-translation-was-received)
+- [Interesting information to go further]
+(#interesting-information-regarding-the-dgt-connector)
+  - [The DGT web app] (#dgt-web-app--checking-the-translation-was-received)
   - [Logs](#logs)
-  - [DGT reference number]()
+    - [Files backup] (#files-backup)
+    - [Watchdog logs] (#log-of-activities-from-drupal-and-from-dgt-in-watchdog)
+  - [DGT reference number](#dgt-reference-number)
 
 # Installation
 
@@ -79,6 +80,7 @@ or go to :
    - DGT contacts : persons who will be notified when a translation is received
    or a translation status is sent. Here you need to introduce email addresses.
 
+[Go to top](#table-of-content)
 
 ## Maintenance staff (FPFIS staff)
 :construction: Only maintenance team can enable the DGT translator.
@@ -135,6 +137,8 @@ projectname is the project's code.
 >[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
 DGCOMM (see 'Installations step 1')
 
+[Go to top](#table-of-content)
+
 # Testing
 :black_joker: There are 2 ways to test the poetry service.
 
@@ -154,6 +158,8 @@ view translation status and references using the [DGT web app]
 (http://www.cc.cec/translation/webpoetry/)
 The requesters of a translation will also be able to read the actual content
 of the translations via this application.
+
+[Go to top](#table-of-content)
 
 ## Logs
 
@@ -193,7 +199,9 @@ Every Website instance using DGT connector will have as a requester code *WEB*.
 
   - The *counter* used when request was sent (ex: 72000)
 
-  - The *partie* (in our case this is a unique page id) (ex: 1)
-
   - The *version* (version is incremented each time a 'partie' version is sent)
 (ex:0)
+
+  - The *partie* (in our case this is a unique page id) (ex: 1)
+
+[Go to top](#table-of-content)
