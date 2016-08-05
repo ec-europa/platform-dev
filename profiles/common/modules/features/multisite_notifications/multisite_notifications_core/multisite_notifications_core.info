@@ -12,7 +12,6 @@ dependencies[] = subscriptions_ui
 dependencies[] = translation
 stylesheets[all][] = css/multisite_notifications_core.css
 scripts[] = js/multisite_notifications_core.js
-files[] = tests/multisite_notifications_core.test
 features[content_menu_links][] = management:admin/config/system/mail-edit
 features[content_menu_links][] = management:admin/config/system/subscriptions
 features[content_menu_links][] = management:admin/config/system/subscriptions/subscription-block
