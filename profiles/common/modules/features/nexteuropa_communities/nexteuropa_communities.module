@@ -272,7 +272,6 @@ function community_load($arg) {
 }
 
 /**
-<<<<<<< HEAD
  * Create the default community content alias pattern.
  *
  * Implements hook_pathauto().
