@@ -14,7 +14,8 @@ include_once 'multisite_notifications_core.features.inc';
 function multisite_notifications_core_subscriptions_queue_alter(&$event) {
   // NB this only works in edit mode.
   if (isset($event['node']->workbench_moderation['updating_live_revision'])
-    && $event['node']->workbench_moderation_state_current != 'published') {
+    && $event['node']->workbench_moderation_state_current != 'published'
+  ) {
     $event = NULL;
   }
 
@@ -32,8 +33,6 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
     }
   }
 }
-
-
 /**
  * Implements hook_menu().
  */
@@ -75,10 +74,17 @@ function multisite_notifications_core_menu() {
 }
 
 /**
+ * Implements hook_form_alter().
+ */
+function multisite_notifications_core_form_workbench_moderation_moderate_form_alter(&$form, &$form_state) {
+  $form['#submit'][] = '_multisite_notifications_core_wf_submit';
+
+}
+
+/**
  * Implements hook_form_validate().
  */
 function multisite_notifications_core_form_validate($form, &$form_state) {
-
   $email_to_check = $form_state['values']['mail'];
   $is_valid_email = valid_email_address($email_to_check);
 
@@ -104,6 +110,18 @@ function multisite_notifications_core_form_validate($form, &$form_state) {
 
     default:
       break;
+  }
+}
+
+/**
+ * Custom submit function.
+ *
+ * Checks if the status moved to published, then we notify subscribers.
+ */
+function _multisite_notifications_core_wf_submit($form, &$form_state) {
+  if ($form_state['values']['state'] == 'published') {
+    $node = node_load($form_state['values']['node']->nid);
+    subscriptions_content_node_update($node);
   }
 }
 
@@ -134,6 +152,7 @@ function multisite_notifications_core_mail($key, &$message, $params) {
 
   }
 }
+
 /**
  * Helper function to delete the account.
  *
@@ -148,14 +167,14 @@ function _multisite_notifications_core_delete_anonymous_account($mail, $waiting_
   // Block user until user confirms.
   if ($waiting_confirmation) {
     $blocked = db_update('users')
-            ->fields(array('status' => 0))
-            ->condition('mail', $mail, '=')
-            ->execute();
+      ->fields(array('status' => 0))
+      ->condition('mail', $mail, '=')
+      ->execute();
   }
   else {
     $user_deleted = db_delete('users')
-            ->condition('uid', $uid, '=')
-            ->execute();
+      ->condition('uid', $uid, '=')
+      ->execute();
     if ($user_deleted > 0) {
       drupal_set_message(t('You have confirmed your unsubscription.'), 'status');
     }
