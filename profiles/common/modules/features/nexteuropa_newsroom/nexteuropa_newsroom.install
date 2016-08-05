@@ -42,6 +42,7 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_display_highlights_begin', 1);
   variable_set('newsroom_base_url', NEXTEUROPA_NEWSROOM_BASE_URL);
   variable_set('newsroom_item_import_script', NEXTEUROPA_NEWSROOM_ITEM_SCRIPT);
+  variable_set('newsroom_newsletter_import_script', NEXTEUROPA_NEWSROOM_NEWSLETTER_SCRIPT);
   variable_set('newsroom_single_item_import_segment', NEXTEUROPA_NEWSROOM_ITEM_SEGMENT);
   variable_set('newsroom_topic_import_script', NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
   variable_set('newsroom_single_topic_import_segment', NEXTEUROPA_NEWSROOM_TOPIC_SEGMENT);
@@ -84,6 +85,16 @@ function nexteuropa_newsroom_install() {
   variable_set('node_preview_newsroom_item', 0);
   variable_set('node_submitted_newsroom_item', 0);
   variable_set('comment_newsroom_item', COMMENT_NODE_CLOSED);
+  variable_set('node_preview_newsroom_newsletter_item', 0);
+  variable_set('node_submitted_newsroom_newsletter_item', 0);
+  variable_set('comment_newsroom_newsletter_item', COMMENT_NODE_CLOSED);
+
+  // Body field is locked and an instance is always created, we want
+  // to remove it.
+  if ($instance = field_info_instance('node', 'body', 'newsroom_newsletter_issue')) {
+    field_delete_instance($instance, TRUE);
+  }
+
   // Enable some settings regarding multilingualism.
   _nexteuropa_newsroom_enable_translations();
 }
@@ -343,6 +354,22 @@ function nexteuropa_newsroom_update_7109() {
       ctools_include('export');
       field_group_group_export_delete($group, FALSE);
     }
+  }
+}
+
+/**
+ * Remove body from newsroom_newsletter_issue bundle.
+ */
+function nexteuropa_newsroom_update_7110() {
+  variable_set('newsroom_newsletter_import_script', NEXTEUROPA_NEWSROOM_NEWSLETTER_SCRIPT);
+  variable_set('node_preview_newsroom_newsletter_item', 0);
+  variable_set('node_submitted_newsroom_newsletter_item', 0);
+  variable_set('comment_newsroom_newsletter_item', COMMENT_NODE_CLOSED);
+
+  // Body field is locked and an instance is always created,
+  // we want to remove it.
+  if ($instance = field_info_instance('node', 'body', 'newsroom_newsletter_issue')) {
+    field_delete_instance($instance, TRUE);
   }
 }
 

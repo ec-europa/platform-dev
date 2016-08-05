@@ -8,12 +8,78 @@
 /**
  * Creates items feed importer and runs the import.
  */
+function _nexteuropa_newsroom_create_multilingual_newsletter_importer() {
+  $default_language = drupal_strtoupper(language_default()->language);
+
+  $premapping = array(
+    'title' => array(
+      'query' => 'title[@lang="' . $default_language . '"]/text()',
+    ),
+    'title_field' => array(
+      'query' => 'title',
+    ),
+    'field_newsroom_nl_issue_date:start' => array(
+      'query' => 'pubDate/text()',
+      'tamper' => array(
+        'plugin_id' => 'strtotime',
+      ),
+    ),
+    'field_newsroom_newsletter_id' => array(
+      'query' => 'infsonewsroom:BasicIssueId/text()',
+      'unique' => 1,
+    ),
+    'field_newsroom_item_main_link:url' => array(
+      'query' => 'link',
+    ),
+    'field_newsroom_newsletter_items:etid' => array(
+      'query' => 'infsonewsroom:BasicSvItemId/text()',
+      'tamper' => array(
+        'plugin_id' => 'efq_finder',
+        'entity_type' => 'node',
+        'bundle' => 'newsroom_item',
+        'field' => 'field_newsroom_item_id',
+      ),
+    ),
+    'field_newsroom_service' => array(
+      'query' => 'infsonewsroom:BasicSvId/text()',
+      'options' => array(
+        'term_search' => '1',
+        'autocreate' => 0,
+      ),
+      'tamper' => array(
+        'entity_type' => 'taxonomy_term',
+        'plugin_id' => 'efq_finder',
+        'bundle' => NEXTEUROPA_NEWSROOM_SERVICE_VOCABULARY,
+        'field' => 'field_newsroom_service_id',
+      ),
+    ),
+    'guid' => array(
+      'query' => '$field_newsroom_newsletter_id',
+    ),
+  );
+
+  $premapping = _nexteuropa_newsroom_check_translations($premapping);
+
+  $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER);
+
+  $feeds_importer = _nexteuropa_newsroom_build_importer(NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER, 'Newsroom Newsletter issues', 'Imports newsletter issues', $importer_values, NEXTEUROPA_NEWSROOM_NEWSLETTER_CONTENT_TYPE, 'node');
+
+  // Create the tamper for the language.
+  _nexteuropa_newsroom_dynamic_tamper(NULL);
+  // Import the importer.
+  _nexteuropa_newsroom_save_importer($feeds_importer);
+}
+
+
+/**
+ * Creates items feed importer and runs the import.
+ */
 function _nexteuropa_newsroom_create_multilingual_items_importer() {
-  $def_lang = drupal_strtoupper(language_default()->language);
+  $default_language = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'title' => array(
-      'query' => 'title[@lang="' . $def_lang . '"]/text()',
+      'query' => 'title[@lang="' . $default_language . '"]/text()',
     ),
     'title_field' => array(
       'query' => 'title',
@@ -81,8 +147,9 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
         'autocreate' => 0,
       ),
       'tamper' => array(
+        'entity_type' => 'taxonomy_term',
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY,
+        'bundle' => NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY,
         'field' => 'field_newsroom_type_id',
       ),
     ),
@@ -123,7 +190,8 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
+        'entity_type' => 'taxonomy_term',
+        'bundle' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -135,7 +203,8 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
+        'entity_type' => 'taxonomy_term',
+        'bundle' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -186,7 +255,8 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
       ),
       'tamper' => array(
         'plugin_id' => 'efq_finder',
-        'vocabulary' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
+        'entity_type' => 'taxonomy_term',
+        'bundle' => NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY,
         'field' => 'field_newsroom_topic_id',
       ),
     ),
@@ -367,7 +437,7 @@ function _nexteuropa_newsroom_build_importer($id, $title, $description, $importe
  * Creates topics feed importer and runs the import.
  */
 function _nexteuropa_newsroom_create_multilingual_topics_importer() {
-  $def_lang = drupal_strtoupper(language_default()->language);
+  $default_language = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'Temporary target 1' => array(
@@ -401,7 +471,7 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
 
   $premapping = _nexteuropa_newsroom_check_translations($premapping);
   $importer_values = _nexteuropa_newsroom_prepare_dynamic_mapping($premapping, NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER);
-  $rss_context = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $def_lang . '"]';
+  $rss_context = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $default_language . '"]';
   $feeds_importer = _nexteuropa_newsroom_build_importer(NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER, 'Newsroom Topics Multilingual', 'Imports Topics from the Newsroom service', $importer_values, NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY, 'taxonomy_term', $rss_context, -1);
 
   // Import the importer.
@@ -412,7 +482,7 @@ function _nexteuropa_newsroom_create_multilingual_topics_importer() {
  * Creates types feed importer and runs the import.
  */
 function _nexteuropa_newsroom_create_multilingual_types_importer() {
-  $def_lang = drupal_strtoupper(language_default()->language);
+  $default_language = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'guid' => array(
@@ -423,7 +493,7 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
       'query' => 'infsonewsroom:BasicTypeId/text()',
     ),
     'name' => array(
-      'query' => 'title[@lang="' . $def_lang . '"]/text()',
+      'query' => 'title[@lang="' . $default_language . '"]/text()',
     ),
     'name_field' => array(
       'query' => 'title',
@@ -449,7 +519,7 @@ function _nexteuropa_newsroom_create_multilingual_types_importer() {
  * Creates services feed importer and runs the import.
  */
 function _nexteuropa_newsroom_create_multilingual_services_importer() {
-  $def_lang = drupal_strtoupper(language_default()->language);
+  $default_language = drupal_strtoupper(language_default()->language);
   // Define the needed infos to build the importer dinamically.
   $premapping = array(
     'guid' => array(
@@ -460,7 +530,7 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
       'query' => 'infsonewsroom:BasicSvId/text()',
     ),
     'name' => array(
-      'query' => 'title[@lang="' . $def_lang . '"]/text()',
+      'query' => 'title[@lang="' . $default_language . '"]/text()',
     ),
     'name_field' => array(
       'query' => 'title',
@@ -512,7 +582,7 @@ function _nexteuropa_newsroom_create_multilingual_services_importer() {
  *   Array containing the needed info for the importer.
  */
 function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type = NULL) {
-  $def_lang = drupal_strtoupper(language_default()->language);
+  $default_language = drupal_strtoupper(language_default()->language);
   // Get enabled languages codes.
   $lang_keys = NewsroomHelper::getEnabledLanguages();
   // Loop through all the fields, build the needed arrays.
@@ -535,10 +605,10 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
         // Xpath queries.
         $queries['xpathparser:' . $i] = $values['query'] . '[@lang="' . $upper_key . '"]/text()';
 
-        if (strpos($type, 'topic') && $upper_key != $def_lang) {
+        if (strpos($type, 'topic') && $upper_key != $default_language) {
           $queries['xpathparser:' . $i] = '//channel/item[infsonewsroom:BasicSvType="Newsroom service"]/category[@domain!="Newsletter" and @lang="' . $upper_key . '" and @infsonewsroom:TopicId="$Temporary target 1"]/' . $values['query'];
         }
-        elseif (strpos($type, 'topic') && $upper_key == $def_lang) {
+        elseif (strpos($type, 'topic') && $upper_key == $default_language) {
           $queries['xpathparser:' . $i] = $values['query'];
         }
         elseif (strpos($type, 'newsroom_types')) {
@@ -610,7 +680,7 @@ function _nexteuropa_newsroom_prepare_dynamic_mapping(array $premapping, $type =
 function _nexteuropa_newsroom_save_importer($importer) {
   $save = feeds_importer($importer->id);
   $save->setConfig($importer->config);
-  
+
   foreach (array('fetcher', 'parser', 'processor') as $type) {
     $save->setPlugin($importer->config[$type]['plugin_key']);
     $save->$type->setConfig($importer->config[$type]['config']);
@@ -652,8 +722,8 @@ function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL
   if ($settings['plugin_id'] == 'efq_finder') {
     $tamper += array(
       'settings' => array(
-        'entity_type' => 'taxonomy_term',
-        'bundle' => $settings['vocabulary'],
+        'entity_type' => $settings['entity_type'],
+        'bundle' => $settings['bundle'],
         'column' => 'value',
         'property' => FALSE,
         'update' => 'Update',
@@ -691,7 +761,7 @@ function _nexteuropa_newsroom_prepare_dynamic_tamper($settings, $i, $type = NULL
  *   Tamper array.
  */
 function _nexteuropa_newsroom_dynamic_tamper($tamper) {
-  $def_lang = language_default()->language;
+  $default_language = language_default()->language;
   $feeds_tamper = new stdClass();
   $feeds_tamper->disabled = FALSE;
   $feeds_tamper->api_version = 2;
@@ -703,7 +773,7 @@ function _nexteuropa_newsroom_dynamic_tamper($tamper) {
     $feeds_tamper->source = 'Blank source 1';
     $feeds_tamper->plugin_id = 'default_value';
     $feeds_tamper->settings = array(
-      'default_value' => $def_lang,
+      'default_value' => $default_language,
     );
     $feeds_tamper->description = 'Set default language';
   }
