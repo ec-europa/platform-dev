@@ -287,13 +287,11 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
       $custom_alias_description = $form['path']['alias']['#description'];
       $message = t('This URL alias will be used for ALL translations of this content.');
       $message_attributes = array(
-        'class' => array('messages', 'warning'),
-        'role'  => array('alert'),
-        'id'    => array('warning_alias_message'),
+        'id'    => array('nexteuropa-multilingual-warning-alias-message'),
       );
       $variables = array(
         'message' => $message,
-        'message_attributes' => $message_attributes,
+        'message_attributes' => array('id' => 'nexteuropa-multilingual-alias-message'),
       );
       $custom_alias_description .= theme('nexteuropa_multilingual_message', $variables);
       $form['path']['alias']['#description'] = $custom_alias_description;
@@ -352,18 +350,13 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_typ
  * Updates form with a warning message.
  */
 function _nexteuropa_multilingual_warning_message(&$form, $node) {
-
   $translatable = variable_get('language_content_type_' . $node->type, 0);
-  if (!empty(variable_get('warning_message_languages', "")) && $translatable !== '0') {
-    $message = token_replace(variable_get('warning_message_languages'), array('node' => $node));
-    $message_attributes = array(
-      'class' => array('alert', 'alert-warning'),
-      'role'  => array('alert'),
-      'id'    => array('warning_languages_message'),
-    );
+  $warning_message_languages = variable_get('nexteuropa_multilingual_warning_message_languages');
+  if (!empty($warning_message_languages) && $translatable !== '0') {
+    $message = token_replace($warning_message_languages, array('node' => $node));
     $variables = array(
       'message' => $message,
-      'message_attributes' => $message_attributes,
+      'message_attributes' => array('id' => 'nexteuropa-multilingual-warning-message-languages'),
     );
     $warning_message = theme('nexteuropa_multilingual_message', $variables);
 
@@ -480,8 +473,8 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         }
         module_load_include('inc', 'pathauto');
         $is_old_alias_to_delete = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
-        // Special case: If the 'und' value exist, the current treated path
-        // become theLANGUAGE_NONE value.
+        // Special case: If the 'und' value exists, the current treated path
+        // becomes the LANGUAGE_NONE value.
         if (!$language_none_exist) {
           $path['language'] = LANGUAGE_NONE;
           drupal_write_record('url_alias', $path, array('pid'));
@@ -524,6 +517,22 @@ function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) 
   // Force all aliases to be saved as language neutral.
   // All content translations will have a unique alias.
   $context['language'] = LANGUAGE_NONE;
+}
+
+/**
+ * Process variables for nexteuropa-multilingual-message.tpl.php.
+ *
+ * @param array $variables
+ *   An associative array containing template variables:
+ *     - message: the message text.
+ *     - message_attributes: The HTML attributes of the message text.
+ */
+function template_preprocess_nexteuropa_multilingual_message(&$variables) {
+  $message_attributes = array(
+    'class' => array('alert', 'alert-warning'),
+    'role'  => array('alert'),
+  );
+  $variables['message_attributes'] = $message_attributes;
 }
 
 /**
