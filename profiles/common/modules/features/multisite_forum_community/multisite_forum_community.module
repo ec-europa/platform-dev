@@ -338,8 +338,8 @@ function multisite_forum_community_query_term_access_alter(QueryAlterableInterfa
   $is_forum_query = $is_forum_query || (arg(0) == 'forum' && !arg(1));
 
   if ($is_forum_query) {
-    $context = drupal_static('og_context', FALSE);
-    if ($context && $context['group_type'] == "node") {
+    $context = og_context();
+    if (isset($context['group_type']) && $context['group_type'] == "node") {
       $query->join('og_membership', 'og_membership', 't.tid = %alias.etid');
       $query->condition('og_membership.gid', $context['gid']);
       $query->condition('og_membership.entity_type', 'taxonomy_term');
