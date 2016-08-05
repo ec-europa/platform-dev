@@ -459,7 +459,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    \Behat\Mink\Exception\ExpectationException.
+   *    Throw exception if class specified has not been found.
    *
    * @Then the class :arg1 exists in my codebase
    */
@@ -476,9 +476,9 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    \Behat\Mink\Exception\ExpectationException.
+   *    Throw exception if class table row was not found.
    *
-   * @Given I check the box on the :rowText row
+   * @Given I check the box on the :row_text row
    */
   public function checkCheckboxOnTableRow($row_text) {
     $page = $this->getSession()->getPage();
@@ -497,11 +497,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @param string $search
    *    Table row text.
    *
-   * @return NodeElement
-   *    NodeElement.
-   *
    * @throws \Exception
-   *    \Exception.
+   *    Throw exception if class table row was not found.
+   *
+   * @return NodeElement
+   *    Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
