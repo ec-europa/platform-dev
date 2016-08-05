@@ -459,6 +459,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
+   *    Print out descriptive error message by throwing an exception.
    *
    * @Then the class :arg1 exists in my codebase
    */
@@ -469,11 +470,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Make a user with the OG role in the group (create it if it doesn't exist)
+   * Make a user with the OG role in the group (create it if it doesn't exist).
    *
    * @Given I am a/an :roles user, member of entity :entity_name of type :entity_type as :group_role
    */
-  public function iAmAMemberOfEntityHavingRole($roles, $group_role, $entity_name, $entity_type) {
+  public function iAmMemberOfEntityHavingRole($roles, $group_role, $entity_name, $entity_type) {
     $admin = user_load(1);
     // Create the user.
     $account = (object) array(
@@ -524,6 +525,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *   (optional) The group's entity type.
    *
    * @throws \Exception
+   *    Print out descriptive error message by throwing an exception.
    */
   protected function addMembertoGroup($account, $group_role, $group, $group_type = 'node') {
     list($gid,,) = entity_extract_ids($group_type, $group);
@@ -565,24 +567,25 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     return $node;
 
   }
-  
+
   /**
    * Attempts to find and check a checkbox in a table row containing given text.
    *
-   * @param string $rowText
+   * @param string $row_text
    *    Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
+   *    Print out descriptive error message by throwing an exception.
    *
    * @Given I check the box on the :rowText row
    */
-  public function checkCheckboxOnTableRow($rowText) {
+  public function checkCheckboxOnTableRow($row_text) {
     $page = $this->getSession()->getPage();
-    if ($checkbox = $this->getTableRow($page, $rowText)->find('css', 'input[type=checkbox]')) {
+    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
       $checkbox->check();
       return;
     }
-    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $rowText, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
   }
 
   /**
@@ -594,8 +597,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Table row text.
    *
    * @return NodeElement
+   *    Return the node element.
    *
    * @throws \Exception
+   *    Print out descriptive error message by throwing an exception.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
