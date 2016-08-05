@@ -35,6 +35,8 @@ make a formal request to the Comm Europa Management team.
   Please send a mail to / fill the document located at http://
   DG COMM will inform DGT and send credentials to FPFIS maintenance team who
   will activate the DGT connector on your site.
+  DGCOMM will provide login details to Maintenance team and will give you the
+   details of a contact person at DGT.
 
 ### Enabling the feature on your platform instance:
 :hand: Poetry is not a feature you can enable using feature sets.
@@ -58,27 +60,29 @@ In order to do this, navigate to:
 ``` Configuration->Regional and Language->Translation management Translator ```
 
 or go to :
-``` admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en ```
+``` admin/config/regional/tmgmt_translator/tmgmt_translator/manage/poetry_en ```
 
  - Translator settings : [x] Auto accept finished translations
    - Check this if you don't want to review a translation before publishing it.
 
  - Translator plugin:
-   - This cannot be modified and is just for information.
+   - This is show for information, please do not change it.
 
  - DGT Connector plugin settings:
    - You should see 'Main "poetry_service" variable is properly set.' if you have
   correctly followed the steps above. Otherwise get back and check what you
   forgot !
    - Counter: you do not need to fill this. The counter is auto generated.
-   - Requester code: must always be *WEB*
+   - Requester code: must always be *WEB* [See DGT reference explanation]
+   (#dgt-reference-number).
    - Organization responsable, Author & requester: check the example provided.
    - Contact usernames: should be the *username* (you connect to the network,
   ecas or the proxy with your username) of the persons in charge of the request.
   This is important as only these persons can view translation details in the
   web app.
-   - DGT contacts : persons who will be notified when a translation is received
-   or a translation status is sent. Here you need to introduce email addresses.
+   - DGT contacts : The email address of your contact person at DGT. They will
+   receive feedback on translations you want to comment. That information
+   should have been provided to you by DGCOMM.
 
 [Go to top](#table-of-content)
 
@@ -111,8 +115,8 @@ In order to test against acceptance webservice, settings.php should contain
 
   - Install on on production
 
-Make sure the poetry access has be requested and credentials have been
-received. (See point 1 above).
+Make sure the [poetry access has be requested by the webmaster]
+(#requesting-access-to-poetry) and you have received the credentials.
 
 Settings.php should contain (replace variables between [] with custom values):
 
@@ -129,6 +133,7 @@ Settings.php should contain (replace variables between [] with custom values):
 
 > The values of [CALLBACK_USERNAME] should match NE-projectname where
 projectname is the project's code.
+*Example: NE-ERASMUSPLUS*
 
 > [CALLBACK_PASSWORD] is the same as the callback_username.
 > These fields are limited to 15 characters.
@@ -147,14 +152,18 @@ DGCOMM (see 'Installations step 1')
 
  See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
 
-- On playground : please follow first the [requesting instance procedure]
-(#requesting-access-to-poetry)
+- On playground :
+
+ 1) Follow the [requesting instance procedure](#requesting-access-to-poetry)
+ 2) Wait confirmation that the [playground was configured by the maintenance
+ team](#enabling-the-feature-on-your-platform-instance)
 
 # Interesting information regarding the DGT connector
 ## DGT Web app : Checking the translation was received
 
-Once a translation has been requested to DGT, it is possible for EC staff to
-view translation status and references using the [DGT web app]
+Once a translation has been requested to DGT, the status will be updated in the
+Drupal site. In additions it is also possible for EC staff to view translation
+status and references using the [DGT web app]
 (http://www.cc.cec/translation/webpoetry/)
 The requesters of a translation will also be able to read the actual content
 of the translations via this application.
