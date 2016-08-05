@@ -111,7 +111,7 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
-  $translator = '';
+  $translator = FALSE;
   // If translator values has been changed.
   if (isset($form_state['values']['translator'])) {
     $translator_name = $form_state['values']['translator'];
@@ -122,7 +122,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     $translator = $form_state['tmgmt_job']->getTranslator();
   }
   $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
-  if ($translator->plugin == 'poetry' || $form_state['tmgmt_job']->getTranslator()->plugin == 'poetry') {
+  if ($translator && ($translator->plugin == 'poetry' || $form_state['tmgmt_job']->getTranslator()->plugin == 'poetry')) {
     $form['#submit'][] = '_tmgmt_poetry_form_tmgmt_job_submit';
 
     if (strpos($form_state['tmgmt_job']->reference, 'SUB_') !== FALSE) {

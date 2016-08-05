@@ -313,3 +313,15 @@ function cce_basic_config_form_node_form_after_build($form_element) {
 
   return $form_element;
 }
+
+/**
+ * Implements hook_tmgmt_dgt_html_filter_formats_containing_html().
+ */
+function cce_basic_config_tmgmt_dgt_html_filter_formats_containing_html() {
+  return array(
+    'basic_html',
+    'filtered_html',
+    'full_html',
+    'full_html_track',
+  );
+}
