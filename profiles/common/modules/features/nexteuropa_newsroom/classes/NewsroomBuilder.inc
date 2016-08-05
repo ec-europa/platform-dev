@@ -29,6 +29,7 @@ class NewsroomBuilder {
    *   Agenda item.
    */
   public function buildPageAgenda($view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $type_name = NEXTEUROPA_NEWSROOM_ALL, $topic_name = NEXTEUROPA_NEWSROOM_ALL, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
+
     $agenda = NULL;
     $current_date = new DateTime();
     $type = $this->getType($type_name);
@@ -196,12 +197,7 @@ class NewsroomBuilder {
    *   Date string.
    */
   protected function getDate($value) {
-    $date = NULL;
-    if (preg_match('/^\d{2}-\d{2}-\d{4}$/', $value)) {
-      $date = new DateTime();
-      $date->setTimestamp(strtotime($value));
-    }
-    return $date;
+    return NewsroomHelper::checkDateFormat($value);
   }
 
   /**

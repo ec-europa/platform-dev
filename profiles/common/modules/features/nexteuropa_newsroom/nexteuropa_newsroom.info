@@ -213,7 +213,6 @@ features[variable][] = node_preview_newsroom_selection
 features[variable][] = node_submitted_newsroom_selection
 features[views_view][] = newsletter_subscription
 features[views_view][] = newsroom_calendar_navigation
-features[views_view][] = newsroom_navigation
 features[views_view][] = newsroom_services
 features_exclude[dependencies][field_group] = field_group
 features_exclude[dependencies][cce_basic_config] = cce_basic_config

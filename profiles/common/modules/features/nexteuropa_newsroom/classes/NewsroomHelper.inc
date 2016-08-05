@@ -342,13 +342,21 @@ class NewsroomHelper {
    *   Newsroom type taxonomy terms array.
    */
   public static function getEventsTermsIds() {
-    return NewsroomHelper::getTaxonomyTermFromField('field_newsroom_type',
-      array(
-        'consultation_funding',
-        'events',
-        'agenda',
-        'call',
-      ), NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
+    $event_type_ids = array();
+    $types = NewsroomHelper::getNewsroomTypes();
+    $behavior_types = array(
+      'consultation_funding',
+      'events',
+      'agenda',
+      'call',
+    );
+    foreach ($types as $type) {
+      if (in_array(NewsroomHelper::getFieldValue($type, 'field_newsroom_type'), $behavior_types)) {
+        $event_type_ids[] = $type->tid;
+      }
+    }
+
+    return $event_type_ids;
   }
 
   /**
@@ -416,7 +424,7 @@ class NewsroomHelper {
         if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY) {
           $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTypes());
         }
-        else if ($vocabulary_name == NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY) {
+        elseif ($vocabulary_name == NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY) {
           $taxonomy_terms = array_merge($taxonomy_terms, NewsroomHelper::getNewsroomTopics());
         }
         // Compare taxonomy terms modified by pathauto with the current value
@@ -464,7 +472,6 @@ class NewsroomHelper {
     $type_options = NewsroomHelper::getTaxonomyTermOptions(NewsroomHelper::getNewsroomTypes());
     if ($events_only) {
       $events_types = NewsroomHelper::getEventsTermsIds();
-
       // Filter out non events type.
       foreach ($type_options as $key => $type_item) {
         if (!in_array($key, $events_types)) {
@@ -1012,6 +1019,26 @@ class NewsroomHelper {
       $value = $field['#items'][0][$property_name];
     }
     return $value;
+  }
+
+  /**
+   * Checks date format and if it is ok returns DateTime object.
+   *
+   * @param string $value
+   *   Date string.
+   * @param string $regex
+   *   Regular expression.
+   *
+   * @return \DateTime|null
+   *   Datetime or NULL.
+   */
+  public static function checkDateFormat($value, $regex = '/^\d{2}-\d{2}-\d{4}$/') {
+    $date = NULL;
+    if (preg_match($regex, $value)) {
+      $date = new DateTime();
+      $date->setTimestamp(strtotime($value));
+    }
+    return $date;
   }
 
 }

@@ -216,9 +216,9 @@ class NewsroomSummaryBlock {
     }
 
     // Check if selection config is set.
-    if (NewsroomHelper::getFieldValue($entity, 'field_newsroom_associated_select', 'target_id')) {
+    if ($newsroom_selection_id = NewsroomHelper::getFieldValue($entity, 'field_newsroom_associated_select', 'target_id')) {
       // If it has the selection field, try to load config.
-      $entity = node_load(NewsroomHelper::getFieldValue($entity, 'field_newsroom_associated_select', 'target_id'));
+      $entity = node_load($newsroom_selection_id);
     }
 
     return $entity;

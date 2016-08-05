@@ -114,8 +114,6 @@ function nexteuropa_newsroom_menu() {
     'type' => MENU_CALLBACK,
   );
   $items['newsroom'] = array(
-    'title' => 'Newsroom',
-    'description' => 'Newsroom page',
     'page callback' => '_nexteuropa_newsroom_newsroom_page',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,

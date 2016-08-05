@@ -57,7 +57,6 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_summary_home_block_num_highlighted_items', 3);
   variable_set('newsroom_summary_block_columns', 1);
   variable_set('newsroom_display_agenda', 1);
-  variable_set('newsroom_navigation_depth', 1);
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
   variable_set('newsroom_proposal_script', NEXTEUROPA_NEWSROOM_PROPOSAL_ACCESS);
@@ -353,11 +352,17 @@ function nexteuropa_newsroom_update_7110() {
   variable_del('newsroom_url_prefix');
   ctools_include('export');
   $view = ctools_export_crud_load('views_view', 'newsroom_type_featured_item');
-  $view->delete();
+  if ($view) {
+    $view->delete();
+  }
   $view = ctools_export_crud_load('views_view', 'newsroom');
-  $view->delete();
+  if ($view) {
+    $view->delete();
+  }
   $view = ctools_export_crud_load('views_view', 'newsroom_term_selection');
-  $view->delete();
+  if ($view) {
+    $view->delete();
+  }
 }
 
 /**

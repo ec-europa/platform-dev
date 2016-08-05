@@ -5,9 +5,11 @@
  */
 ?>
 <div class="views-row clearfix">
-  <div class="views-field views-field-field-newsroom-item-type">
-    <?php echo l($type_title, $type_url); ?>
-  </div>
+  <?php if (!empty($type_title)): ?>
+    <div class="views-field views-field-field-newsroom-item-type">
+      <?php echo !empty($type_url) ? l($type_title, $type_url) : $type_title; ?>
+    </div>
+  <?php endif; ?>
   <div class="views-field-field-newsroom-item-short-title">
     <?php echo l($title, $node_url, array('external' => TRUE)); ?>
   </div>

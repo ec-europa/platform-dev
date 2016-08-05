@@ -23,13 +23,7 @@ function nexteuropa_newsroom_field_formatter_info() {
     'newsroom_zoomable_image' => array(
       'label' => t('Newsroom image'),
       'field types' => array('image'),
-      'settings' => array(
-        'image_style' => '',
-        'display_title' => '',
-        'display_copyright' => '',
-        'display_caption' => '',
-        'zoomable' => '',
-      ),
+      'settings' => _nexteuropa_newsroom_zoomable_formatter_settings(),
     ),
   );
 }
@@ -169,7 +163,6 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
 
     case 'newsroom_zoomable_image':
       global $language;
-
       foreach ($items as $delta => $item) {
         $image = array(
           'path' => $item['uri'],
@@ -248,4 +241,31 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
   }
 
   return $elements;
+}
+
+/**
+ * Returns zoomable formatter settings array.
+ *
+ * @param string $image_style
+ *   Image style.
+ * @param int $display_title
+ *   Display title or not.
+ * @param int $display_copyright
+ *   Display copyright or not.
+ * @param int $display_caption
+ *   Display caption or not.
+ * @param int $zoomable
+ *   Is image zoomable or not.
+ *
+ * @return array
+ *   Settings array.
+ */
+function _nexteuropa_newsroom_zoomable_formatter_settings($image_style = 'newsroom_style', $display_title = 1, $display_copyright = 1, $display_caption = 1, $zoomable = 1) {
+  return array(
+    'image_style' => $image_style,
+    'display_title' => $display_title,
+    'display_copyright' => $display_copyright,
+    'display_caption' => $display_caption,
+    'zoomable' => $zoomable,
+  );
 }

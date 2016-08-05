@@ -140,26 +140,27 @@ class NewsroomPage {
   }
 
   /**
-   * Gets image by file ID.
+   * Gets image formatted output.
    *
-   * @param int $fid
-   *   File ID.
-   * @param string $style_name
-   *   Style name.
+   * @param object $node
+   *   Node.
+   * @param string $field_name
+   *   Field name.
    *
    * @return null|string
    *   Image HTML presentation.
    */
-  protected function getNodeImage($fid, $style_name = 'newsroom_style') {
+  protected function getNodeImage($node, $field_name, $style_name = 'newsroom_style') {
     $image = NULL;
-    if ($fid) {
-      if ($file = file_load($fid)) {
-        $image = theme('image_style', array(
-          'path' => $file->uri,
-          'alt' => $file->title,
-          'style_name' => $style_name,
-        ));
-      }
+    $display = array(
+      'type' => 'newsroom_zoomable_image',
+      'settings' => _nexteuropa_newsroom_zoomable_formatter_settings($style_name),
+    );
+
+    $field_image = field_view_field('node', $node, $field_name, $display);
+    if ($field_image) {
+      $field_image['#label_display'] = 'hidden';
+      $image = drupal_render($field_image);
     }
 
     return $image;
@@ -194,6 +195,12 @@ class NewsroomPage {
           $node = node_load($item->nid);
           $type = NewsroomHelper::getNewsroomType($item->type_tid);
           $short_title = NewsroomHelper::getFieldTranslatedValue($node, 'field_newsroom_item_short_title');
+
+          $image = $this->getNodeImage($node, 'field_newsroom_illustrative_img');
+          if (empty($image)) {
+            $image = $this->getNodeImage($node, 'field_newsroom_private_img');
+          }
+
           $data[] = array(
             'nid' => $item->nid,
             'start_date' => $this->getFormatedDateFromTimestamp($item->start_date),
@@ -204,7 +211,7 @@ class NewsroomPage {
             'type_title' => $type ? $type->name : NULL,
             'node_url' => url(NewsroomHelper::getNodeMainUrl($node), array('absolute' => TRUE)),
             'node_redirect_url' => url('news-redirect/' . NewsroomHelper::getFieldValue($node, 'field_newsroom_item_id'), array('absolute' => TRUE)),
-            'image' => $this->getNodeImage($item->fid),
+            'image' => $image,
             'venue' => NewsroomHelper::getFieldTranslatedValue($node, 'field_newsroom_item_venue'),
           );
         }
@@ -321,11 +328,9 @@ class NewsroomPage {
     $query->addField('type_field', 'field_newsroom_item_type_tid', 'type_tid');
     $query->addField('d', 'field_newsroom_item_date_value', 'start_date');
     $query->addField('d', 'field_newsroom_item_date_value2', 'end_date');
-    $query->addField('image', 'field_newsroom_illustrative_img_fid', 'fid');
 
     $query->leftJoin('field_data_field_newsroom_item_type', 'type_field', 'type_field.entity_id = n.nid');
     $query->leftJoin('field_data_field_newsroom_topics', 'topic_field', 'topic_field.entity_id = n.nid');
-    $query->leftJoin('field_data_field_newsroom_illustrative_img', 'image', 'image.entity_id = n.nid');
     $query->leftJoin('field_data_field_newsroom_item_date', 'd', 'd.entity_id = n.nid');
 
     $query->condition('n.status', 1);
@@ -395,10 +400,10 @@ class NewsroomPage {
 
           $type = NewsroomHelper::getNewsroomType(NewsroomHelper::getFieldValue($featured_node, 'field_newsroom_item_type', 'tid'));
 
-          $style_name = 'large';
-          $image = $this->getNodeImage(NewsroomHelper::getFieldValue($featured_node, 'field_newsroom_illustrative_img', 'fid'), $style_name);
+          $image_style = 'large';
+          $image = $this->getNodeImage($featured_node, 'field_newsroom_illustrative_img', $image_style);
           if (empty($image)) {
-            $image = $this->getNodeImage(NewsroomHelper::getFieldValue($featured_node, 'field_newsroom_private_img', 'fid'), $style_name);
+            $image = $this->getNodeImage($featured_node, 'field_newsroom_private_img', $image_style);
           }
 
           $topic_url = $this->getTermUrl($this->getTopic() ? $this->getTopic()->name : NULL);

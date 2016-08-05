@@ -229,9 +229,12 @@ function nexteuropa_newsroom_form_taxonomy_overview_terms_alter(&$form, &$form_s
  * Implements hook_date_popup_process_alter().
  */
 function nexteuropa_newsroom_date_popup_process_alter(&$element, &$form_state, $context) {
-  if ($form_state['build_info']['form_id'] == 'nexteuropa_newsroom_agenda_datepicker_form' || $form_state['build_info']['form_id'] == 'nexteuropa_newsroom_newsroom_page_filter_form') {
+  if ($form_state['build_info']['form_id'] == 'nexteuropa_newsroom_agenda_datepicker_form') {
     unset($element['date']['#title']);
     unset($element['date']['#description']);
+  }
+  if ($form_state['build_info']['form_id'] == 'nexteuropa_newsroom_newsroom_page_filter_form') {
+    unset($element['date']['#title']);
   }
 }
 
@@ -1348,6 +1351,7 @@ function nexteuropa_newsroom_newsroom_page_filter_form($form, &$form_state, $typ
     '#date_format' => 'd-m-Y',
     '#date_increment' => 1,
     '#date_year_range' => '-2:+2',
+    '#element_validate' => NULL,
   );
   $form['end_date'] = array(
     '#type' => 'date_popup',
@@ -1358,13 +1362,13 @@ function nexteuropa_newsroom_newsroom_page_filter_form($form, &$form_state, $typ
     '#date_format' => 'd-m-Y',
     '#date_increment' => 1,
     '#date_year_range' => '-2:+2',
+    '#element_validate' => NULL,
   );
   $form['button'] = array(
-    '#type' => 'button',
+    '#type' => 'submit',
+    '#submit' => array('nexteuropa_newsroom_newsroom_page_filter_form_submit'),
+    '#validate' => array('_nexteuropa_newsroom_validate_date'),
     '#button_type' => 'button',
-    '#ajax' => array(
-      'callback' => '_nexteuropa_newsroom_newsroom_page_ajax_form_submit',
-    ),
     '#value' => t('Filter'),
   );
 
@@ -1372,17 +1376,14 @@ function nexteuropa_newsroom_newsroom_page_filter_form($form, &$form_state, $typ
 }
 
 /**
- * Ajax submit handler.
+ * Submit handler.
  *
  * @param array $form
  *   Form array.
  * @param array $form_state
  *   Form state array.
- *
- * @return array
- *   Ajax callback array.
  */
-function _nexteuropa_newsroom_newsroom_page_ajax_form_submit(&$form, &$form_state) {
+function nexteuropa_newsroom_newsroom_page_filter_form_submit(&$form, &$form_state) {
   $topic_id = isset($form_state['input']['topic_id']) ? $form_state['input']['topic_id'] : NULL;
   $type_id = isset($form_state['input']['type_id']) ? $form_state['input']['type_id'] : NULL;
   $start_date = isset($form_state['input']['start_date']['date']) ? $form_state['input']['start_date']['date'] : NULL;
@@ -1391,8 +1392,37 @@ function _nexteuropa_newsroom_newsroom_page_ajax_form_submit(&$form, &$form_stat
   $type = NewsroomHelper::getNewsroomType($type_id);
   $builder = new NewsroomBuilder();
   $newsroom_page = $builder->buildNewsroomPage($type, $topic, $start_date, $end_date);
-  ctools_include('ajax');
-  $commands[] = ctools_ajax_command_redirect($newsroom_page->getNavigationUrl());
+  // Redirect user to prepared URL.
+  drupal_goto($newsroom_page->getNavigationUrl(), array(), 301);
+}
 
-  return array('#type' => 'ajax', '#commands' => $commands);
+/**
+ * Validation handler for date fields.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state.
+ */
+function _nexteuropa_newsroom_validate_date(&$form, &$form_state) {
+
+  $start_date = NULL;
+  $end_date = NULL;
+  $regex = '/^\d{4}-\d{2}-\d{2}$/';
+
+  if (!empty($form_state['values']['start_date']) && is_string($form_state['values']['start_date'])) {
+    if (!$start_date = NewsroomHelper::checkDateFormat($form_state['values']['start_date'], $regex)) {
+      form_set_error('start_date', t('The wrond date format.'));
+    }
+  }
+
+  if (!empty($form_state['values']['end_date']) && is_string($form_state['values']['end_date'])) {
+    if (!$end_date = NewsroomHelper::checkDateFormat($form_state['values']['end_date'], $regex)) {
+      form_set_error('end_date', t('The wrond date format.'));
+    }
+  }
+
+  if ($start_date && $end_date &&  $start_date > $end_date) {
+    form_set_error('end_date', t('The wrong date range.'));
+  }
 }

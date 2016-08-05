@@ -216,6 +216,7 @@ function _nexteuropa_nexteuropa_get_related_content($field_name, $node) {
   $items = array();
   $node_ids = NewsroomHelper::getFieldValue($node, $field_name, 'target_id');
   if ($node_ids) {
+    $node_ids = is_array($node_ids) ? $node_ids : array($node_ids);
     foreach ($node_ids as $nid) {
       $std = new stdClass();
       $std->id = $nid;
@@ -254,8 +255,8 @@ function _nexteuropa_newsroom_tools() {
         'text' => '<span class="glyphicon glyphicon-refresh"></span> Re-import from the Newsroom',
         'path' => 'newsroom-import/item/' . $newsroom_id,
         'options' => array(
+          'external' => TRUE,
           'html' => TRUE,
-          'language' => LANGUAGE_NONE,
           'attributes' => array('class' => 'btn btn-danger'),
         ),
       );
@@ -323,6 +324,7 @@ function _nexteuropa_newsroom_block_news_proposal() {
     else {
       // Try get topic from Organic group, if it exists.
       if ($group_id = NewsroomHelper::getFieldValue($node, 'og_group_ref', 'target_id')) {
+        $group_id = is_array($group_id) ? $group_id[0] : $group_id;
         $group = node_load($group_id);
 
         if ($group_associated_topic_id = NewsroomHelper::getFieldValue($group, 'field_newsroom_associated_topic', 'tid')) {
