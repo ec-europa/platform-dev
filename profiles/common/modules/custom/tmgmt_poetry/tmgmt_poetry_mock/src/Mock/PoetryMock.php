@@ -268,11 +268,10 @@ class PoetryMock {
     $xml_content = simplexml_load_string($decoded_content);
     // Add language prefix to the title and body first paragraph.
     $title = (string) $xml_content->body->div->div[0];
-    $body = (string) $xml_content->body->div->div[1];
     // Overwriting title with language prefix.
     $xml_content->body->div->div[0] = "[$language] " . $title;
-    // Overwriting body with language prefix.
-    $xml_content->body->div->div[1] = '<p>' . "[$language] " . $body . '</p>';
+    // Adding language prefix into the body.
+    $xml_content->body->div->div[1]->p[] = "[$language]";
     $translated_content = explode("\n", $xml_content->asXML(), 2)[1];
 
     return base64_encode($translated_content);
