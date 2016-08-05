@@ -23,7 +23,6 @@ Feature: Testing wrong token association for Next Europa token module
     And I wait for AJAX to finish
     When I click the "Full content" link in the "cke_editor_edit-field-ne-body-und-0-value_dialog" modal dialog from the "edit-field-ne-body-und-0-value" WYSIWYG editor
     Then I press "Save"
-    Then I wait for Ajax to finish
     Then I should see "This is a page i want to reference"
     And I should see "Here is the content of the referenced page."
     When I click "Edit draft"
