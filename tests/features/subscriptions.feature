@@ -49,7 +49,7 @@ Feature: Subscription
     And I should see "Taxonomy settings"
     And I should see "Display settings"
     And I should see "Mail settings"
-    Then I fill in "Blocked nodes" with "1"
+    Then I fill in "Blocked nodes" with "2"
     And I press "Save configuration"
     Then I should see "The configuration options have been saved."
     Then I am logged in as a user with the "authenticated" role
