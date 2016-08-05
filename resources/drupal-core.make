@@ -2,9 +2,9 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.44"
+projects[drupal][version] = "7.50"
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.44.tar.gz
+projects[drupal][download][url] = https://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -17,12 +17,6 @@ projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11805
 ; https://www.drupal.org/node/1349080
 projects[drupal][patch][] = patches/node-node_access_views_relationship-1349080.patch
-
-; Following a password reset link while logged in leaves users unable to change their password.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4679
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11861
-; https://www.drupal.org/node/889772
-projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal7-backport-889772-207.patch
 
 ; Make sure that _locale_parse_js_file() never runs a file_get_contents() on a remote file.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12269
@@ -37,6 +31,8 @@ projects[drupal][patch][] = patches/default-settings-php-include-local-settings-
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
+; Also requires a patch for i18n issue https://www.drupal.org/node/1350638,
+; you can find it in multisite_drupal_standard.make.
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-91.patch
 
 ; Allow DRUPAL_MAXIMUM_TEMP_FILE_AGE to be overridden.
@@ -53,3 +49,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do
 ; https://www.drupal.org/node/2697611
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch
+
+; Fix empty label on validation error message for multiple required textfield.
+; https://www.drupal.org/node/980144#comment-9957753
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12553
+projects[drupal][patch][] = https://www.drupal.org/files/issues/d7-issues_with_required-980144-76.patch

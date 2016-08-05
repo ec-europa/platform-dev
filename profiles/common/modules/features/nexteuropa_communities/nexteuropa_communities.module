@@ -272,6 +272,7 @@ function community_load($arg) {
 }
 
 /**
+<<<<<<< HEAD
  * Create the default community content alias pattern.
  *
  * Implements hook_pathauto().
@@ -424,5 +425,23 @@ function nexteuropa_communities_url_outbound_alter(&$path, &$options, $original_
   if (isset($new_path)) {
     $path = $new_path;
     $options['alias'] = $path;
+  }
+}
+
+/**
+ * Returns the sanitized community title.
+ *
+ * @return string
+ *    The community title or 'none'
+ */
+function community_to_arg($arg = NULL) {
+  module_load_include('inc', 'pathauto', 'pathauto');
+  $context = og_context();
+  if (isset($context['gid'])) {
+    $node = node_load($context['gid']);
+    return pathauto_cleanstring($node->title);
+  }
+  else {
+    return 'none';
   }
 }
