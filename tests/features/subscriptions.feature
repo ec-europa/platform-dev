@@ -41,7 +41,7 @@ Feature: Subscription
     Then I am on "admin/config/system/cron_en"
     And I press "Run cron"
     And I go to "admin/reports/dblog"
-    Then I should see text matching "Subscriptions sent 1 single and 0 digest..."
+    Then I should see text matching "Subscriptions sent"
 @javascript
   Scenario: Check administration pages are available
     When I go to "admin/config/system/subscriptions_en"
@@ -53,7 +53,6 @@ Feature: Subscription
     And I press "Save configuration"
     Then I should see "The configuration options have been saved."
     Then I am logged in as a user with the "authenticated" role
-    Then I go to "node/1"
-    Then I break
-  And I should not see "subscribe"
+    And I go to "node/2"
+    Then I should not see "subscribe"
 
