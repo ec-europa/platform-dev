@@ -1040,6 +1040,11 @@ function nexteuropa_newsroom_entity_presave($entity, $type) {
  * Implements hook_feeds_after_save().
  */
 function nexteuropa_newsroom_feeds_after_save(FeedsSource $source, $entity, $item, $entity_id) {
+  if ($source->importer()->fetcher->id == 'newsroom_unpublished_items') {
+    $node = node_load($entity_id);
+    $node->status = 0;
+    node_save($node);
+  }
   if ($source->importer()->fetcher->id == 'newsroom_deleted_items') {
     NewsroomHelper::deleteEntityTranslations($entity, $entity_id);
     entity_delete('node', $entity_id);
