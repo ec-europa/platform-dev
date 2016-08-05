@@ -9,7 +9,7 @@ Feature: Subscription
     And the module is enabled
       |modules                      |
       |multisite_notifications_core |
-@javascript
+  @javascript
   Scenario: Create a page and have someone register to it
     And I go to "admin/config/system/site-information_en"
     Then I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
@@ -42,3 +42,18 @@ Feature: Subscription
     And I press "Run cron"
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent 1 single and 0 digest..."
+@javascript
+  Scenario: Check administration pages are available
+    When I go to "admin/config/system/subscriptions_en"
+    Then I should see "Content settings"
+    And I should see "Taxonomy settings"
+    And I should see "Display settings"
+    And I should see "Mail settings"
+    Then I fill in "Blocked nodes" with "1"
+    And I press "Save configuration"
+    Then I should see "The configuration options have been saved."
+    Then I am logged in as a user with the "authenticated" role
+    Then I go to "node/1"
+    Then I break
+  And I should not see "subscribe"
+
