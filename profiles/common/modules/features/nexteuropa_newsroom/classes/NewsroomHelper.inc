@@ -129,21 +129,31 @@ class NewsroomHelper {
   public static function getImporterUrl($importer_id) {
     $url = '';
 
-    if ($importer_id == NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER || $importer_id == NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
-    }
-    elseif ($importer_id == NEXTEUROPA_NEWSROOM_TYPE_IMPORTER) {
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TYPE_SCRIPT);
-    }
-    elseif ($importer_id == NEXTEUROPA_NEWSROOM_ITEM_IMPORTER) {
-      $subsite = variable_get('newsroom_subsite', FALSE);
-      $subsite_url_part = '';
+    switch ($importer_id) {
 
-      if ($subsite) {
-        $subsite_url_part = '?subsite=' . $subsite;
-      }
+      case NEXTEUROPA_NEWSROOM_TOPIC_IMPORTER:
+      case NEXTEUROPA_NEWSROOM_SERVICE_IMPORTER:
+        $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TOPIC_SCRIPT);
+        break;
 
-      $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . $subsite_url_part;
+      case NEXTEUROPA_NEWSROOM_TYPE_IMPORTER:
+        $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_TYPE_SCRIPT);
+        break;
+
+      case NEXTEUROPA_NEWSROOM_ITEM_IMPORTER:
+        $subsite = variable_get('newsroom_subsite', FALSE);
+        $subsite_url_part = '';
+
+        if ($subsite) {
+          $subsite_url_part = '?subsite=' . $subsite;
+        }
+
+        $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_ITEM_SCRIPT) . $subsite_url_part;
+        break;
+
+      case NEXTEUROPA_NEWSROOM_NEWSLETTER_IMPORTER:
+        $url = NewsroomHelper::getNewsroomUrl(NEXTEUROPA_NEWSROOM_NEWSLETTER_SCRIPT);
+        break;
     }
 
     return $url;
@@ -152,13 +162,15 @@ class NewsroomHelper {
   /**
    * Gets newsroom item by original newsroom Id.
    *
+   * @param string $field_name
+   *   Field name.
    * @param int $newsroom_id
    *   Newsroom original ID.
    *
    * @return object
    *   Newsroom item.
    */
-  public static function getNodeByNewsroomItemId($newsroom_id = 0) {
+  public static function getNodeByFieldValue($field_name, $newsroom_id = 0) {
     $newsroom_data = &drupal_static(__FUNCTION__);
     $cache_key = 'newsroom_item_by_id:' . $newsroom_id;
     if (!isset($newsroom_data)) {
@@ -169,7 +181,7 @@ class NewsroomHelper {
         $query = new EntityFieldQuery();
         $newsroom_item = $query
           ->entityCondition('entity_type', 'node')
-          ->fieldCondition('field_newsroom_item_id', 'value', $newsroom_id, '=')
+          ->fieldCondition($field_name, 'value', $newsroom_id, '=')
           ->execute();
         $newsroom_data = isset($newsroom_item['node']) ? array_shift($newsroom_item['node']) : FALSE;
         cache_set($cache_key, $newsroom_data, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
