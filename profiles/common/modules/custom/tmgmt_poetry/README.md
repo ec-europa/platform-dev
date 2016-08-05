@@ -16,6 +16,9 @@ Table of content:
   - Testing locally
   - Testing on playground
 
+- [Usage](#usage)
+  - How to request a translation
+
 - [Interesting information to go further]
 (#interesting-information-regarding-the-dgt-connector)
   - [The DGT web app] (#dgt-web-app--checking-the-translation-was-received)
@@ -157,6 +160,29 @@ DGCOMM (see 'Installations step 1')
  1) Follow the [requesting instance procedure](#requesting-access-to-poetry)
  2) Wait confirmation that the [playground was configured by the maintenance
  team](#enabling-the-feature-on-your-platform-instance)
+
+# Usage
+## How to request a translation  [TO BE UPDATED AFTER 7719]
+- When you are browsing a node that is translatable, an additional tab
+'Translate' appears.
+- Click that tab and select one language you wish to request a translation for.
+- Submit the 'Request translation' button
+- Select the 'DGT connector (auto created)' plugin from the select list.
+- Select all the languages you want to be translated.
+- Default values:
+
+The values that show in 'Contact Usernames' and in 'Organization' are the
+default values you entered when [you configured your translator]
+(#configure-the-dgt-connector). Those values can be overriden on a page per
+page basis. To do this, just click 'Contact Usernames' or 'Organization' and
+changes the values.
+
+- You can select an 'Expected delivery time' : Click the field and select a
+date from the calendar that will pop up. This is an indicative date, DGT might
+want to change that date.
+
+- The field remark is not mandatory, you can add there any comment you want to
+share with DGT.
 
 # Interesting information regarding the DGT connector
 ## DGT Web app : Checking the translation was received
