@@ -50,11 +50,10 @@ function communities_views_pre_render(&$view) {
  */
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
-  global $language;
   $arguments = explode("/", request_path());
 
-  // Set og context on comunities views.
-  if ($arguments[0] == 'community') {
+  // Set og context on communities views.
+  if ($arguments[0] == 'community' && isset($arguments[1])) {
 
     // Sometimes the parameter contains a language suffix, remove it.
     $suffix_clean = preg_replace('/\\_[^.\\s]{2}$/', '', $arguments[1]);
@@ -68,7 +67,7 @@ function communities_init() {
     }
   }
 
-  if ($arguments[0] == 'node' && is_numeric($arguments[1])) {
+  if ($arguments[0] == 'node' && isset($arguments[1]) && is_numeric($arguments[1])) {
     // If inside a node page, get the group from the path and store in session.
     $group_name = _communities_get_group_name_from_path(request_path());
     if ($group_name) {
