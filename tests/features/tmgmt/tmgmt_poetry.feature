@@ -236,3 +236,4 @@ Feature: TMGMT Poetry features
       | 'Some simple text.'                                                                  |
       | '<p>A paragraph</p>'                                                                 |
       | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>' |
+      | '<p>This paragraph contains <br> a not properly closed line break.</p>'              |
