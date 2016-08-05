@@ -216,8 +216,8 @@ Feature: TMGMT Poetry features
   Scenario Outline: Request translation of a basic page into French.
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
-    And I fill in "Title" with "My page"
-    And I fill in the rich text editor "Body" with <html>
+    And I fill in "Title" with "<title>"
+    And I fill in the rich text editor "Body" with <body>
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -232,8 +232,10 @@ Feature: TMGMT Poetry features
     And the translation request document is valid XHTML
 
     Examples:
-      | html                                                                                 |
-      | 'Some simple text.'                                                                  |
-      | '<p>A paragraph</p>'                                                                 |
-      | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>' |
-      | '<p>This paragraph contains <br> a not properly closed line break.</p>'              |
+      | title                | body                                                                                 |
+      | Simple text          | 'Some simple text.'                                                                  |
+      | Paragraph            | '<p>A paragraph</p>'                                                                 |
+      | Abbreviation         | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>' |
+      | Unclosed break       | '<p>This paragraph contains <br> a not properly closed line break.</p>'              |
+      | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                          |
+      | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                    |
