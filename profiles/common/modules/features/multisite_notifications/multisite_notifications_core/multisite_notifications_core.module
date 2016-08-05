@@ -14,7 +14,7 @@ include_once 'multisite_notifications_core.features.inc';
 function multisite_notifications_core_subscriptions_queue_alter(&$event) {
   // NB this only works in edit mode.
   if (isset($event['node']->workbench_moderation['updating_live_revision'])
-    && $event['node']->workbench_moderation_state_current != 'published'
+    && $event['node']->workbench_moderation['updating_live_revision']
   ) {
     $event = NULL;
   }
