@@ -281,7 +281,7 @@ function nexteuropa_communities_pathauto() {
     'module' => 'nexteuropa_communities',
     'groupheader' => t('Communities contents paths'),
     'patterndescr' => t('Default path pattern'),
-    'patterndefault' => pathauto_pattern_load_by_entity('node', 'article', LANGUAGE_NONE),
+    'patterndefault' => '[site:nexteuropa_communities_keyword]/[node:og-group-ref]/[node:content-type]/[node:title]',
     'token_type' => 'node',
     'batch_update_callback' => 'nexteuropa_communities_pathauto_bulkupdate',
   ];
