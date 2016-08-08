@@ -469,4 +469,3 @@ function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
     }
   }
 }
-
