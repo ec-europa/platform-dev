@@ -100,5 +100,5 @@ function multisite_notifications_core_update_7101() {
  * Refactor mail template with correct unsubscribe url.
  */
 function multisite_notifications_core_update_7102() {
-  db_query("update mail_edit set body = replace(body, '[site:url]/unsubscribe/[current-user:uid]', '[subs:unsubscribe-url]') ");
+  db_query("update {mail_edit} set body = replace(body, '[site:url]/unsubscribe/[current-user:uid]', '[subs:unsubscribe-url]') ");
 }

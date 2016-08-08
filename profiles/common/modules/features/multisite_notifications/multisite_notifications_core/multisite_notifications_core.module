@@ -82,38 +82,6 @@ function multisite_notifications_core_form_workbench_moderation_moderate_form_al
 }
 
 /**
- * Implements hook_form_validate().
- */
-function multisite_notifications_core_form_validate($form, &$form_state) {
-  $email_to_check = $form_state['values']['mail'];
-  $is_valid_email = valid_email_address($email_to_check);
-
-  if (!$is_valid_email) {
-    form_set_error('mail', t('The e-mail address you supplied is not valid.'));
-  }
-  // Check if the email already exists in dB.
-  $is_email_saved = (bool) db_query_range('SELECT 1 FROM {users} WHERE mail = :mail', 0, 1, array(':mail' => $email_to_check))->fetchField();
-  switch ($form_state['values']['op']) {
-    case t('Subscribe'):
-      if ($is_email_saved >= 1) {
-        form_set_error('mail', t('You are already a subscriber!'));
-      }
-
-      break;
-
-    case t('Unsubscribe'):
-      if ($is_email_saved < 1) {
-        form_set_error('mail', t('You are not yet a subscriber.'));
-      }
-
-      break;
-
-    default:
-      break;
-  }
-}
-
-/**
  * Custom submit function.
  *
  * Checks if the status moved to published, then we notify subscribers.
