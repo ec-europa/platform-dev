@@ -66,4 +66,5 @@ class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextI
   public function iInsertNodeIdInBlockedNodes() {
     $this->getSession()->getPage()->fillField("Blocked Nodes", $this->nid);
   }
+
 }
