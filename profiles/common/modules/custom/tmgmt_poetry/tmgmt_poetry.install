@@ -158,6 +158,9 @@ function tmgmt_poetry_update_7003() {
 function tmgmt_poetry_update_7004() {
   if (module_exists('tmgmt_poetry_test')) {
     module_disable(array('tmgmt_poetry_test'));
-    drupal_uninstall_modules(array('tmgmt_poetry_test'));
+    $translator = tmgmt_translator_load('tmgmt_poetry_test_translator');
+    if (isset($translator)) {
+      entity_delete('tmgmt_translator', $translator->tid);
+    }
   }
 }
