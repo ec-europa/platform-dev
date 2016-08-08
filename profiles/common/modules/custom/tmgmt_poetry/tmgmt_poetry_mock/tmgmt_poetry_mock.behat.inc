@@ -4,10 +4,12 @@
  * Contains TMGMTPoetryMockSubContexts.
  */
 
+use Behat\Behat\Context\Environment\InitializedContextEnvironment;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
 
 /**
@@ -29,13 +31,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   protected $variables = array();
 
   /**
-   * The last memorized tmgmt_poetry translation job reference.
-   *
-   * @var string|null
-   */
-  protected $translationJobReference = NULL;
-
-  /**
    * The translation request data.
    *
    * @var array
@@ -50,6 +45,25 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    */
   public function __construct(DrupalDriverManager $drupal) {
     $this->drupal = $drupal;
+  }
+
+  /**
+   * The poetry context.
+   *
+   * @var TmgmtPoetrySubContext
+   */
+  private $poetryContext;
+
+  /**
+   * Grabs other contexts we rely on from the environment.
+   *
+   * @BeforeScenario
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    /** @var InitializedContextEnvironment $environment */
+    $environment = $scope->getEnvironment();
+
+    $this->poetryContext = $environment->getContext(TmgmtPoetrySubContext::class);
   }
 
   /**
@@ -92,87 +106,20 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Memorizes the translation job reference found in the confirmation message.
-   *
-   * @Then I remember the translation job reference mentioned in the confirmation message
-   */
-  public function iRememberTheTranslationJobReferenceMentionedInTheConfirmationMessage() {
-    $translation_job_reference = NULL;
-
-    $selector = $this->getDrupalSelector('success_message_selector');
-    $success_messages = $this->getSession()->getPage()->findAll(
-      "css",
-      $selector
-    );
-    if (empty($success_messages)) {
-      throw new \Exception(
-        sprintf(
-          'No translation job confirmation message found at %s.',
-          $this->getSession()->getCurrentUrl()
-        )
-      );
-    }
-
-    foreach ($success_messages as $success_message) {
-      $text = trim($success_message->getText());
-      if (1 === preg_match(
-          '/Project ID is: (?<reference>.*)$/',
-          $text,
-          $matches
-        )
-      ) {
-        $translation_job_reference = $matches['reference'];
-        break;
-      }
-    }
-
-    if (!$translation_job_reference) {
-      throw new \Exception(
-        sprintf(
-          'No translation job confirmation message found at %s.',
-          $this->getSession()->getCurrentUrl()
-        )
-      );
-    }
-
-    $this->translationJobReference = $translation_job_reference;
-  }
-
-  /**
-   * Retrieves a specific named selector.
-   *
-   * @param string $name
-   *   Name of the selector.
-   *
-   * @return string
-   *   The selector.
-   *
-   * @throws Exception
-   *   When the selector is not configured.
-   */
-  private function getDrupalSelector($name) {
-    $text = $this->getDrupalParameter('selectors');
-    if (!isset($text[$name])) {
-      throw new \Exception(sprintf('No such selector configured: %s', $name));
-    }
-    return $text[$name];
-  }
-
-  /**
    * Verifies that poetry received the last translation request.
    *
    * @Then the poetry translation service received the translation request
    */
   public function aPoetryTranslatorCanConfirmThatTheyReceivedTheTranslationRequest() {
     $translation_request = PoetryMock::getTranslationRequestByJobReference(
-      $this->translationJobReference
+      $this->poetryContext->jobReference
     );
 
     if (!$translation_request) {
       throw new \Exception(
         sprintf(
           'the poetry translation service did not receive a translation request with reference %s',
-          $this->translationJobReference
+          $this->poetryContext->jobReference
         )
       );
     }

@@ -226,7 +226,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I press "Submit to translator"
-    And I remember the translation job reference mentioned in the confirmation message
+    And I store job Reference of translation request page
     Then the poetry translation service received the translation request
     And the translation request has version 0
     And the translation request document is valid XHTML
