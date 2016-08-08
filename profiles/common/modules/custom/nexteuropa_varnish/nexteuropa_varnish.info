@@ -1,0 +1,8 @@
+name = NextEuropa Varnish
+description = Custom Varnish rules and actions.
+core = 7.x
+package = NextEuropa
+
+dependencies[] = rules
+dependencies[] = flexible_purge
+dependencies[] = workbench_moderation

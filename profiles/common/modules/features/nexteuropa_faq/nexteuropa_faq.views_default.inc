@@ -70,11 +70,11 @@ function nexteuropa_faq_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['exclude'] = TRUE;
   $handler->display->display_options['fields']['edit_node']['element_label_colon'] = FALSE;
   /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ne_body']['id'] = 'field_ne_body';
+  $handler->display->display_options['fields']['field_ne_body']['table'] = 'field_data_field_ne_body';
+  $handler->display->display_options['fields']['field_ne_body']['field'] = 'field_ne_body';
+  $handler->display->display_options['fields']['field_ne_body']['label'] = '';
+  $handler->display->display_options['fields']['field_ne_body']['element_label_colon'] = FALSE;
   /* Field: Content: All taxonomy terms */
   $handler->display->display_options['fields']['term_node_tid']['id'] = 'term_node_tid';
   $handler->display->display_options['fields']['term_node_tid']['table'] = 'node';

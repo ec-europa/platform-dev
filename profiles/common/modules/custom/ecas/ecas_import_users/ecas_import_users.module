@@ -456,7 +456,17 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
       $form['fs'][$count] = array(
         '#type' => 'checkbox',
         '#title' => check_plain($row['cn']) . '<div>' . check_plain($mail) . '</div><div><b>username : </b>' . check_plain($uid) . '</div><div><b>DG</b> : ' . check_plain($row['dg']) . '</div><div><b>domain</b> : ' . check_plain($row['domain']) . '</div><div><b>country : </b>' . check_plain($country) . '</div>',
-        '#return_value' => check_plain($uid) . '|' . check_plain($row['cn']) . '|' . check_plain($mail) . '|' . check_plain($firstname) . '|' . check_plain($lastname),
+        '#return_value' => implode(
+          '|',
+          array(
+            check_plain($uid),
+            check_plain($mail),
+            check_plain($firstname),
+            check_plain($lastname),
+            check_plain($row['domain']),
+            check_plain($row['departmentnumber']),
+          )
+        ),
         '#prefix' => '<div class="ldap_entry">',
         '#suffix' => '</div>',
       );
@@ -488,7 +498,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
   $imported_users = array();
   foreach ($users as $key => $value) {
     if ($value != '0') {
-      list($uid, $cn, $mail, $firstname, $lastname) = explode('|', $value);
+      list($uid, $mail, $firstname, $lastname, $domain, $departmentnumber) = explode('|', $value);
       $account = user_load_by_name($uid);
       // If the user account doesn't exit.
       if (!$account) {
@@ -503,11 +513,13 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
           ecas_sync_user_info(
               $account,
               array(
-                'mail' => $mail,
-                'givenname' => $firstname,
-                'sn' => $lastname,
+                'cas:email' => $mail,
+                'cas:firstName' => $firstname,
+                'cas:lastName' => $lastname,
+                'cas:domain' => $domain,
+                'cas:departmentNumber' => $departmentnumber,
               ),
-            // This allows other modules to detect a user creation.
+              // This allows other modules to detect a user creation.
               array('ecas_import_users_user_creation' => TRUE)
           );
           drupal_set_message(t('User !user_uid imported', array('!user_uid' => check_plain($uid))));

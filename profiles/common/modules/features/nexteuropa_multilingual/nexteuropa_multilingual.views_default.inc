@@ -135,11 +135,10 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['relationships']['tmgmt_message']['table'] = 'tmgmt_job_item';
   $handler->display->display_options['relationships']['tmgmt_message']['field'] = 'tmgmt_message';
   $handler->display->display_options['relationships']['tmgmt_message']['relationship'] = 'job_item';
-  /* Field: Translation Management Job Item: Tjid */
+  /* Field: Translation Management Job: Translation management job ID */
   $handler->display->display_options['fields']['tjid']['id'] = 'tjid';
-  $handler->display->display_options['fields']['tjid']['table'] = 'tmgmt_job_item';
+  $handler->display->display_options['fields']['tjid']['table'] = 'tmgmt_job';
   $handler->display->display_options['fields']['tjid']['field'] = 'tjid';
-  $handler->display->display_options['fields']['tjid']['relationship'] = 'job_item';
   $handler->display->display_options['fields']['tjid']['label'] = '';
   $handler->display->display_options['fields']['tjid']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['tjid']['alter']['text'] = 'View';
