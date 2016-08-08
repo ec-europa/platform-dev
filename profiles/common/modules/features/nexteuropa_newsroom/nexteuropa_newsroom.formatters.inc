@@ -23,13 +23,7 @@ function nexteuropa_newsroom_field_formatter_info() {
     'newsroom_zoomable_image' => array(
       'label' => t('Newsroom image'),
       'field types' => array('image'),
-      'settings' => array(
-        'image_style' => '',
-        'display_title' => '',
-        'display_copyright' => '',
-        'display_caption' => '',
-        'zoomable' => '',
-      ),
+      'settings' => _nexteuropa_newsroom_zoomable_formatter_settings(),
     ),
   );
 }
@@ -154,37 +148,7 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
     case 'newsroom_main_link':
       foreach ($items as $delta => $item) {
         if (!empty($item['url'])) {
-
-          $main_link_url = $item['url'];
-
-          // Link to newsroom item by default.
-          $item['url'] = 'node/' . $entity->nid;
-
-          // If item is Teaser only.
-          $node_click_through = isset($entity->field_newsroom_teaser_only[LANGUAGE_NONE][0]['value']) ? $entity->field_newsroom_teaser_only[LANGUAGE_NONE][0]['value'] : NULL;
-          $type_id = isset($entity->field_newsroom_item_type[LANGUAGE_NONE][0]['tid']) ? $entity->field_newsroom_item_type[LANGUAGE_NONE][0]['tid'] : NULL;
-          $type_wrapper = entity_metadata_wrapper('taxonomy_term', $type_id);
-          $click_through = NULL;
-          if ($type_wrapper && $type_wrapper->__isset('field_newsroom_direct_link')) {
-            $click_through = $type_wrapper->field_newsroom_direct_link->value();
-          }
-
-          if ($click_through == NEXTEUROPA_NEWSROOM_CLICKTHROUGH_FORCE) {
-            $item['url'] = $main_link_url;
-          }
-          elseif ($node_click_through) {
-            switch ($click_through) {
-              case 'always':
-                $item['url'] = $main_link_url;
-                break;
-
-              case 'from_teaser':
-                if ($display['settings']['display_type'] == 'teaser') {
-                  $item['url'] = $main_link_url;
-                }
-                break;
-            }
-          }
+          $item['url'] = NewsroomHelper::getNodeMainUrl($entity, $display['settings']['display_type']);
         }
 
         $elements[$delta] = array(
@@ -199,7 +163,6 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
 
     case 'newsroom_zoomable_image':
       global $language;
-
       foreach ($items as $delta => $item) {
         $image = array(
           'path' => $item['uri'],
@@ -210,7 +173,7 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
         if (isset($item['field_file_image_alt_text'][$language->language][0])) {
           $image['alt'] = $item['field_file_image_alt_text'][$language->language][0]['safe_value'];
         }
-        elseif (array_key_exists('alt', $item)) {
+        elseif (is_array($item) && array_key_exists('alt', $item)) {
           $image['alt'] = $item['alt'];
         }
 
@@ -278,4 +241,31 @@ function nexteuropa_newsroom_field_formatter_view($entity_type, $entity, $field,
   }
 
   return $elements;
+}
+
+/**
+ * Returns zoomable formatter settings array.
+ *
+ * @param string $image_style
+ *   Image style.
+ * @param int $display_title
+ *   Display title or not.
+ * @param int $display_copyright
+ *   Display copyright or not.
+ * @param int $display_caption
+ *   Display caption or not.
+ * @param int $zoomable
+ *   Is image zoomable or not.
+ *
+ * @return array
+ *   Settings array.
+ */
+function _nexteuropa_newsroom_zoomable_formatter_settings($image_style = 'newsroom_style', $display_title = 1, $display_copyright = 1, $display_caption = 1, $zoomable = 1) {
+  return array(
+    'image_style' => $image_style,
+    'display_title' => $display_title,
+    'display_copyright' => $display_copyright,
+    'display_caption' => $display_caption,
+    'zoomable' => $zoomable,
+  );
 }

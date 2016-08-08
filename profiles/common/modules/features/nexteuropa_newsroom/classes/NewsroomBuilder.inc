@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * Code for the NewsroomAgendaFactory class.
+ * Code for the NewsroomBuilder class.
  */
 
 /**
- * NewsroomAgendaFactory class.
+ * NewsroomBuilder class.
  */
-class NewsroomAgendaFactory {
+class NewsroomBuilder {
 
   /**
    * Builds agenda base on url params.
@@ -28,7 +28,8 @@ class NewsroomAgendaFactory {
    * @return object
    *   Agenda item.
    */
-  public function buildAgenda($view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $type_name = 'all', $topic_name = 'all', $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
+  public function buildPageAgenda($view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE, $type_name = NEXTEUROPA_NEWSROOM_ALL, $topic_name = NEXTEUROPA_NEWSROOM_ALL, $arg1 = NULL, $arg2 = NULL, $arg3 = NULL) {
+
     $agenda = NULL;
     $current_date = new DateTime();
     $type = $this->getType($type_name);
@@ -87,7 +88,7 @@ class NewsroomAgendaFactory {
    * @return object
    *   Agenda item.
    */
-  public function build($view, $type, $topics, $date, $operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR) {
+  public function buildAgenda($view, $type, $topics, $date, $operator = NEXTEUROPA_NEWSROOM_TOPIC_OPERATOR_OR) {
     $agenda = NULL;
     switch ($view) {
       case NewsroomAgenda::AGENDA_VIEW_MONTH:
@@ -169,50 +170,106 @@ class NewsroomAgendaFactory {
   /**
    * Gets taxonomy term topic from url name.
    *
-   * @param string $topic
+   * @param string $topic_url
    *   Topic taxonomy term name.
    *
    * @return object
    *   Taxonomy term object.
    */
-  protected function getTopic($topic) {
-    $taxonomy_term = $this->getTaxonomyTerm($topic, 'newsroom_topic');
-    // Set active menu, if we have topic.
-    if ($taxonomy_term) {
-      if ($path = NewsroomHelper::fetchActiveMenuPath($taxonomy_term->tid)) {
+  protected function getTopic($topic_url) {
+    $topic = $this->getTaxonomyTerm($topic_url, NEXTEUROPA_NEWSROOM_TOPIC_VOCABULARY);
+    if ($topic) {
+      // Try to find active menu.
+      if ($path = NewsroomHelper::fetchActiveMenuPath($topic->tid)) {
         menu_tree_set_path('main-menu', $path);
-        menu_set_active_item($path);
       }
     }
-    return $taxonomy_term;
+    return $topic;
+  }
+
+  /**
+   * Validates date.
+   *
+   * @param string $value
+   *   Date string.
+   *
+   * @return string|null
+   *   Date string.
+   */
+  protected function getDate($value) {
+    return NewsroomHelper::checkDateFormat($value);
   }
 
   /**
    * Gets taxonomy term type from url name.
    *
-   * @param string $type
+   * @param string $type_url
    *   Type taxonomy term name.
    *
    * @return object
    *   Taxonomy term object.
    */
-  protected function getType($type) {
-    return $this->getTaxonomyTerm($type, 'newsroom_item_type');
+  protected function getType($type_url) {
+    return $this->getTaxonomyTerm($type_url, NEXTEUROPA_NEWSROOM_TYPE_VOCABULARY);
   }
 
   /**
    * Gets taxonomy term from url name.
    *
-   * @param string $value
+   * @param string $taxonomy_term_url
    *   Taxonomy term url name.
-   * @param string $vocabulary
+   * @param string $vocabulary_name
    *   Vocabulary name.
    *
    * @return object
    *   Taxonomy term object.
    */
-  protected function getTaxonomyTerm($value, $vocabulary) {
-    return $value == 'all' ? NULL : NewsroomHelper::getTermFromRequest($value, array($vocabulary));
+  protected function getTaxonomyTerm($taxonomy_term_url, $vocabulary_name) {
+    return $taxonomy_term_url == NEXTEUROPA_NEWSROOM_ALL ? NULL : NewsroomHelper::getTermFromRequest($taxonomy_term_url, $vocabulary_name);
+  }
+
+  /**
+   * Builds newsroom page object.
+   *
+   * @param string $type_url
+   *   Type URL part.
+   * @param string $topic_url
+   *   Topic URL part.
+   * @param string|null $start_date
+   *   Start date.
+   * @param string|null $end_date
+   *   End date.
+   *
+   * @return NewsroomPage
+   *   NewsroomPage object.
+   */
+  public function buildPageNewsroomPage($type_url, $topic_url, $start_date = NULL, $end_date = NULL) {
+    $type = $this->getType($type_url);
+    $topic = $this->getTopic($topic_url);
+    $start_date = $this->getDate($start_date);
+    $end_date = $this->getDate($end_date);
+    return new NewsroomPage($type, $topic, $start_date, $end_date);
+  }
+
+  /**
+   * Builds newsroom page object.
+   *
+   * @param object|null $type
+   *   Newsroom type taxonomy term.
+   * @param object|null $topic
+   *   Newsroom topic taxonomy term.
+   * @param string|null $start_date
+   *   Start date.
+   * @param string|null $end_date
+   *   End date.
+   *
+   * @return NewsroomPage
+   *   NewsroomPage object.
+   */
+  public function buildNewsroomPage($type = NULL, $topic = NULL, $start_date = NULL, $end_date = NULL) {
+    $start_date = $this->getDate($start_date);
+    $end_date = $this->getDate($end_date);
+    return new NewsroomPage($type, $topic, $start_date, $end_date);
   }
 
 }

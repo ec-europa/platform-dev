@@ -4,13 +4,13 @@
  * Agenda page.
  */
 ?>
+<div class="<?php echo !$is_block ? 'newsroomAgenda-container' : NULL; ?>">
 <?php if (!empty($filter_form)): ?>
 <div class="newsroomAgenda-filterForm">
   <h3><?php echo t('filter by');?></h3>
   <?php echo $filter_form; ?>
 </div>
 <?php endif; ?>
-<div class="<?php echo !$is_block ? 'newsroomAgenda-container' : NULL; ?>">
   <div class="currentDate">
     <?php echo $items; ?>
   </div>
@@ -27,7 +27,7 @@
     <?php endif; ?>
 
     <div class="date-form">
-    <?php echo $date_form; ?>
+      <?php echo $date_form; ?>
     </div>
 
     <?php if (!empty($navigation['next'])): ?>

@@ -1697,7 +1697,7 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_newsroom_selected_topics',
+    'field_name' => 'field_selected_topics',
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -1707,17 +1707,18 @@ function nexteuropa_newsroom_field_default_field_bases() {
     'module' => 'entityreference',
     'settings' => array(
       'entity_translation_sync' => FALSE,
-      'handler' => 'views',
+      'handler' => 'base',
       'handler_settings' => array(
         'behaviors' => array(
           'views-select-list' => array(
             'status' => 0,
           ),
         ),
-        'view' => array(
-          'args' => array(),
-          'display_name' => 'entityreference_1',
-          'view_name' => 'newsroom_term_selection',
+        'sort' => array(
+          'type' => 'none',
+        ),
+        'target_bundles' => array(
+          'newsroom_topic' => 'newsroom_topic',
         ),
       ),
       'target_type' => 'taxonomy_term',

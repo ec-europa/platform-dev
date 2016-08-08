@@ -58,7 +58,6 @@ function nexteuropa_newsroom_install() {
   variable_set('newsroom_summary_home_block_num_highlighted_items', 3);
   variable_set('newsroom_summary_block_columns', 1);
   variable_set('newsroom_display_agenda', 1);
-  variable_set('newsroom_navigation_depth', 1);
   variable_set('newsroom_agenda_after_highlights', 1);
   variable_set('newsroom_display_highlights_begin', 1);
   variable_set('newsroom_proposal_script', NEXTEUROPA_NEWSROOM_PROPOSAL_ACCESS);
@@ -251,8 +250,8 @@ function nexteuropa_newsroom_update_7107() {
     // Get feature field config.
     $field_features_info = NULL;
 
-    if (isset($fields_features_info['user-user-' . $field_name])) {
-      $field_features_info = $fields_features_info['user-user-' . $field_name]['field_config'];
+    if (isset($fields_features_info['node-' . NEXTEUROPA_NEWSROOM_CONTENT_TYPE . '-' . $field_name])) {
+      $field_features_info = $fields_features_info['node-' . NEXTEUROPA_NEWSROOM_CONTENT_TYPE . '-' . $field_name]['field_config'];
     }
 
     // Update only our fields defines to 'datestamp' in feature.field.
@@ -271,8 +270,8 @@ function nexteuropa_newsroom_update_7107() {
             db_add_field($table_name, $column_name . '_temp', $param);
 
             db_update($table_name)
-                    ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
-                    ->execute();
+              ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
+              ->execute();
 
             // Delete old column.
             db_drop_field($table_name, $column_name);
@@ -374,6 +373,27 @@ function nexteuropa_newsroom_update_7110() {
 }
 
 /**
+ * Clean up after replacing newsroom page.
+ */
+function nexteuropa_newsroom_update_7111() {
+  variable_del('newsroom_url_prefix');
+  ctools_include('export');
+  $views = array(
+    'newsroom_type_featured_item',
+    'newsroom',
+    'newsroom_term_selection',
+    'newsroom_navigation',
+  );
+  foreach ($views as $view_name) {
+    $view = ctools_export_crud_load('views_view', $view_name);
+    if ($view) {
+      $view->delete();
+    }
+  }
+}
+
+
+/**
  * Renames and migrates the data to a new field.
  *
  * @param string $old_name
@@ -388,7 +408,6 @@ function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
     // Create new field.
     $new_field = $old_field;
     $new_field['field_name'] = $new_name;
-
     $new_field_info = field_info_field($new_name);
     if (empty($new_field_info)) {
       field_create_field($new_field);
@@ -450,3 +469,4 @@ function _nexteuropa_newsroom_rename_field($old_name, $new_name) {
     }
   }
 }
+

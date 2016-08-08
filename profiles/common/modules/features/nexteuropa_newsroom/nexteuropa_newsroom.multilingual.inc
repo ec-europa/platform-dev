@@ -131,7 +131,7 @@ function _nexteuropa_newsroom_create_multilingual_items_importer() {
     ),
     'field_newsroom_illustrative_img:copyright' => array(
       'query' => 'infsonewsroom:PicCopyright',
-      'original_field' => 'field_newsroom_copyrights',
+      'original_field' => 'field_copyright',
     ),
     'field_newsroom_illustrative_img:caption' => array(
       'query' => 'infsonewsroom:PicCaption',

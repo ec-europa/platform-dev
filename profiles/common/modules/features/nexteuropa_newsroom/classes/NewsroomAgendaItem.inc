@@ -40,6 +40,9 @@ class NewsroomAgendaItem {
    *   DB result value.
    */
   public function addItem($value) {
+    $node = node_load($value->nid);
+    $value->title = $node->title;
+    $value->url = NewsroomHelper::getNodeMainUrl($node);
     $this->items[] = $value;
   }
 

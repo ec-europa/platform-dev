@@ -26,7 +26,7 @@ function nexteuropa_newsroom_block_info() {
     'info' => t('Newsroom Newsletter Subscription'),
     'cache' => DRUPAL_CACHE_PER_PAGE,
   );
-  $blocks['newsroom_list_filter'] = array(
+  $blocks['.'] = array(
     'info' => t('Newsroom List Filter'),
     'cache' => DRUPAL_CACHE_CUSTOM,
   );
@@ -47,7 +47,7 @@ function nexteuropa_newsroom_block_info() {
 function nexteuropa_newsroom_block_view($delta = '') {
   switch ($delta) {
     case 'newsroom_summary_blocks':
-      $block['subject'] = l(t('Newsroom'), NewsroomHelper::getNewsroomPageUrl('all'));
+      $block['subject'] = l(t('Newsroom'), NewsroomHelper::getNewsroomPageUrl(array(NEXTEUROPA_NEWSROOM_ALL)));
       $block['content'] = _nexteuropa_nexteuropa_get_summary_blocks();
       break;
 
@@ -64,11 +64,6 @@ function nexteuropa_newsroom_block_view($delta = '') {
     case 'newsroom_newsletter_subscription':
       $block['subject'] = NULL;
       $block['content'] = _nexteuropa_newsroom_newsletter_subscription();
-      break;
-
-    case 'newsroom_list_filter':
-      $block['subject'] = NULL;
-      $block['content'] = _nexteuropa_newsroom_list_filter();
       break;
 
     case 'newsroom_proposal':
@@ -186,8 +181,8 @@ function _nexteuropa_newsroom_get_related_children($field_name, $parent_nid, $cu
   if ($parent_nid) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'node')
-        ->fieldCondition($field_name, 'target_id', $parent_nid)
-        ->execute();
+      ->fieldCondition($field_name, 'target_id', $parent_nid)
+      ->execute();
     $result = $query->execute();
     if (isset($result['node'])) {
       $ids = array_keys($result['node']);
@@ -197,7 +192,7 @@ function _nexteuropa_newsroom_get_related_children($field_name, $parent_nid, $cu
         if ($id != $current_nid) {
           $std = new stdClass();
           $std->id = $id;
-          $std->title = _nexteuropa_newsroom_get_node_title($id);
+          $std->title = NewsroomHelper::getNodeTitle($id);
           $items[] = $std;
         }
       }
@@ -219,41 +214,17 @@ function _nexteuropa_newsroom_get_related_children($field_name, $parent_nid, $cu
  */
 function _nexteuropa_nexteuropa_get_related_content($field_name, $node) {
   $items = array();
-  $field = isset($node->$field_name) ? $node->$field_name : NULL;
-  if ($field && isset($field[LANGUAGE_NONE])) {
-    foreach ($field[LANGUAGE_NONE] as $item) {
+  $node_ids = NewsroomHelper::getFieldValue($node, $field_name, 'target_id');
+  if ($node_ids) {
+    $node_ids = is_array($node_ids) ? $node_ids : array($node_ids);
+    foreach ($node_ids as $nid) {
       $std = new stdClass();
-      $std->id = $item['target_id'];
-      $std->title = _nexteuropa_newsroom_get_node_title($item['target_id']);
+      $std->id = $nid;
+      $std->title = NewsroomHelper::getNodeTitle($nid);
       $items[] = $std;
     }
   }
   return $items;
-}
-
-/**
- * Gets the node title without loading the whole node object.
- *
- * @param int $nid
- *   Node nid.
- *
- * @return string
- *   Node title.
- */
-function _nexteuropa_newsroom_get_node_title($nid) {
-  $cache_key = 'newsroom:node_title:' . $nid;
-  $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-  if ($cache) {
-    $node_title = $cache->data;
-  }
-  else {
-    $node_title = db_query('SELECT title_field_value FROM {field_data_title_field} WHERE entity_id = :nid', array(':nid' => $nid))->fetchField();
-    if (empty($node_title)) {
-      $node_title = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $nid))->fetchField();
-    }
-    cache_set($cache_key, $node_title, NEXTEUROPA_NEWSROOM_CACHE_TABLE, time() + variable_get('newsroom_ct_node_title', 3600));
-  }
-  return $node_title;
 }
 
 /**
@@ -284,8 +255,8 @@ function _nexteuropa_newsroom_tools() {
         'text' => '<span class="glyphicon glyphicon-refresh"></span> Re-import from the Newsroom',
         'path' => 'newsroom-import/item/' . $newsroom_id,
         'options' => array(
+          'external' => TRUE,
           'html' => TRUE,
-          'language' => LANGUAGE_NONE,
           'attributes' => array('class' => 'btn btn-danger'),
         ),
       );
@@ -318,114 +289,14 @@ function _nexteuropa_newsroom_newsletter_subscription() {
     $view->execute();
     if (!empty($view->result)) {
       $service = array_shift($view->result);
-      $content = drupal_get_form('nexteuropa_newsroom_newsletter_subscription_form', array('tid' => $service->field_field_newsroom_service_id[0]['raw']['safe_value'], 'name' => $service->taxonomy_term_data_name));
+      $content = drupal_get_form('nexteuropa_newsroom_newsletter_subscription_form', array(
+        'tid' => $service->field_field_newsroom_service_id[0]['raw']['safe_value'],
+        'name' => $service->taxonomy_term_data_name,
+      ));
     }
   }
 
   return $content;
-}
-
-/**
- * Returns the newsroom list filter form.
- *
- * @return array|null
- *   Newsroom page filter form array or NULL.
- */
-function _nexteuropa_newsroom_list_filter() {
-  $topics_vocabulary = NewsroomHelper::getNewsroomTopicVocabulary();
-
-  // Load all relevant nids by loading the same view without pager.
-  $menu_object = menu_get_item();
-  if ($menu_object['page_callback'] == 'views_page' && !empty($menu_object['page_arguments']) && $menu_object['page_arguments'][0] == 'newsroom') {
-    $nids = array();
-    $arguments = $menu_object['theme_arguments'];
-    $fields = array(
-      'nid' => array(
-        'id' => 'nid',
-        'table' => 'node',
-        'field' => 'nid',
-        'label' => '',
-        'exlude' => TRUE,
-        'element_label_colon' => FALSE,
-      ),
-    );
-    $view = views_get_view('newsroom');
-    $view->set_display($menu_object['page_arguments'][1]);
-    $view->set_arguments($arguments);
-    $view->display[$view->current_display]->handler->set_option('fields', $fields);
-    $view->display[$view->current_display]->handler->set_option('pager', array('type' => 'none', 'options' => array()));
-    $view->pre_execute();
-    $view->execute();
-
-    foreach ($view->result as $node) {
-      $nids[] = $node->nid;
-    }
-
-    $query = db_select('taxonomy_index', 'ti');
-    $query->fields('ti', array('tid'));
-    $query->join('taxonomy_term_data', 't', 't.tid = ti.tid');
-    $query->fields('t', array('name'));
-    $query->join('field_data_field_newsroom_category_domain', 'd', 'd.entity_id = ti.tid');
-    $query->fields('d', array('field_newsroom_category_domain_value'));
-    $query->condition('t.vid', $topics_vocabulary->vid);
-    if (!empty($nids)) {
-      $query->condition('ti.nid', $nids);
-    }
-    $query->condition('d.entity_type', 'taxonomy_term');
-    $result = $query->execute();
-
-    $countries = array();
-    $topics = array();
-    while ($record = $result->fetchAssoc()) {
-      if ($record['field_newsroom_category_domain_value'] == 'Country') {
-        $countries[$record['tid']] = $record['name'];
-      }
-      else {
-        $topics[$record['tid']] = $record['name'];
-      }
-    }
-
-    // Load full otpion list based on field_newsroom_topics values.
-    $field_instance = field_info_instance('node', 'field_newsroom_topics', NEXTEUROPA_NEWSROOM_CONTENT_TYPE);
-    $field = field_info_field('field_newsroom_topics');
-    $temp = new stdClass();
-    $temp->type = NEXTEUROPA_NEWSROOM_CONTENT_TYPE;
-    node_object_prepare($temp);
-    $options = taxonomy_options_list($field, $field_instance, 'node', $temp);
-
-    // Reduce options to existing values only.
-    $countries = array_intersect_key($options, $countries);
-    $topics = array_intersect_key($options, $topics);
-    // Change values from tid keys term name based.
-    $countries = _nexteuropa_newsroom_options_tid_to_name($countries);
-    $topics = _nexteuropa_newsroom_options_tid_to_name($topics);
-
-    // Add - None - option.
-    $none = array('0' => t('- None -'));
-    $countries = $none + $countries;
-    $topics = $none + $topics;
-
-    return drupal_get_form('nexteuropa_newsroom_list_filter_form', $countries, $topics, $arguments);
-  }
-
-  return NULL;
-}
-
-/**
- * Converts an option array from tid based to name based.
- *
- * @param array $options
- *   Options list.
- *
- * @return array
- *   Normalized option list.
- */
-function _nexteuropa_newsroom_options_tid_to_name($options) {
-  $options_names = array();
-  foreach ($options as $option) {
-    $options_names[drupal_strtolower(str_replace(' ', '-', trim($option, ' -')))] = $option;
-  }
-  return $options_names;
 }
 
 /**
@@ -446,13 +317,19 @@ function _nexteuropa_newsroom_block_news_proposal() {
   $node = menu_get_object();
 
   if ($node) {
-    if (isset($node->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid']) && !empty($node->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'])) {
-      $topic_id = $node->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'];
+    // First try to get topic from the current node.
+    if ($associated_topic_id = NewsroomHelper::getFieldValue($node, 'field_newsroom_associated_topic', 'tid')) {
+      $topic_id = $associated_topic_id;
     }
-    elseif (isset($node->og_group_ref[LANGUAGE_NONE][0]['target_id']) && !empty($node->og_group_ref[LANGUAGE_NONE][0]['target_id'])) {
-      $group = node_load($node->og_group_ref[LANGUAGE_NONE][0]['target_id']);
-      if (isset($group->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid']) && !empty($group->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'])) {
-        $topic_id = $group->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'];
+    else {
+      // Try get topic from Organic group, if it exists.
+      if ($group_id = NewsroomHelper::getFieldValue($node, 'og_group_ref', 'target_id')) {
+        $group_id = is_array($group_id) ? $group_id[0] : $group_id;
+        $group = node_load($group_id);
+
+        if ($group_associated_topic_id = NewsroomHelper::getFieldValue($group, 'field_newsroom_associated_topic', 'tid')) {
+          $topic_id = $group_associated_topic_id;
+        }
       }
     }
   }
@@ -467,16 +344,16 @@ function _nexteuropa_newsroom_block_news_proposal() {
       $url_tokens = explode('/', $current_page_path);
       if (isset($url_tokens[2]) && is_numeric($url_tokens[2])) {
         $taxonomy_term = taxonomy_term_load($url_tokens[2]);
-
-        if (isset($taxonomy_term->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid']) && !empty($taxonomy_term->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'])) {
-          $topic_id = $taxonomy_term->field_newsroom_associated_topic[LANGUAGE_NONE][0]['tid'];
+        // First try to get topic from the current taxonomy term.
+        if ($associated_topic_id = NewsroomHelper::getFieldValue($taxonomy_term, 'field_newsroom_associated_topic', 'tid')) {
+          $topic_id = $associated_topic_id;
         }
       }
     }
   }
 
   if (!empty($topic_id)) {
-    $output = '<div class="communityTools">'; ;
+    $output = '<div class="communityTools">';
     $output .= '<div class="RSSButton">' . l(t('Propose newsroom item'), '/news-proposal', array('query' => array('topic_id' => $topic_id))) . '</div>';
     $output .= '</div>';
   }

@@ -18,9 +18,9 @@ abstract class NewsroomAgenda {
   const DATE_FORMAT = 'Y-m-d';
 
   protected $view = NewsroomAgenda::AGENDA_VIEW_SCHEDULE;
-  protected $topicUrl = 'all';
+  protected $topicUrl = NEXTEUROPA_NEWSROOM_ALL;
   protected $topics = array();
-  protected $typeUrl = 'all';
+  protected $typeUrl = NEXTEUROPA_NEWSROOM_ALL;
   protected $typeId = NULL;
   protected $currentDate = NULL;
   protected $upcomingDate = NULL;
@@ -33,6 +33,28 @@ abstract class NewsroomAgenda {
   protected $urlParts = array();
   protected $displayCalendar = TRUE;
   protected $isBlock = FALSE;
+
+  /**
+   * NewsroomAgenda constructor.
+   *
+   * @param object $type
+   *   Newsroom type.
+   * @param array $topics
+   *   Newsroom topics.
+   */
+  public function __construct($type, $topics = array()) {
+    if ($type) {
+      $this->setTypeId($type->tid);
+      $this->setTypeUrl($type->name);
+    }
+
+    if (is_object($topics)) {
+      $this->setTopicUrl($topics->name);
+      $topics = array($topics);
+    }
+
+    $this->setTopics($topics);
+  }
 
   /**
    * Gets display calendar value.
@@ -141,7 +163,7 @@ abstract class NewsroomAgenda {
    *   Topic URL part.
    */
   public function setTopicUrl($value) {
-    $this->topicUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
+    $this->topicUrl = !empty($value) ? pathauto_cleanstring($value) : NEXTEUROPA_NEWSROOM_ALL;
   }
 
   /**
@@ -161,7 +183,7 @@ abstract class NewsroomAgenda {
    *   Type URL part.
    */
   public function setTypeUrl($value) {
-    $this->typeUrl = !empty($value) ? pathauto_cleanstring($value) : 'all';
+    $this->typeUrl = !empty($value) ? pathauto_cleanstring($value) : NEXTEUROPA_NEWSROOM_ALL;
   }
 
   /**
@@ -300,8 +322,7 @@ abstract class NewsroomAgenda {
    */
   public function setResult() {
     $cache_key = 'result:' . md5($this->getUniqueCachePart());
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $data = $cache->data;
     }
     else {
@@ -378,32 +399,6 @@ abstract class NewsroomAgenda {
    */
   public function addUrlPart($value) {
     $this->urlParts[] = $value;
-  }
-
-  /**
-   * NewsroomAgenda constructor.
-   *
-   * @param object $type
-   *   Newsroom type.
-   * @param array $topics
-   *   Newsroom topics.
-   */
-  public function __construct($type, $topics = array()) {
-    if ($type) {
-      $this->setTypeId($type->tid);
-      $this->setTypeUrl($type->name);
-    }
-
-    if (is_object($topics)) {
-      $this->setTopicUrl($topics->name);
-      $topics = array($topics);
-    }
-
-    $this->setTopics($topics);
-
-    $this->addUrlPart($this->getView());
-    $this->addUrlPart($this->getTypeUrl());
-    $this->addUrlPart($this->getTopicUrl());
   }
 
   /**
@@ -511,8 +506,7 @@ abstract class NewsroomAgenda {
    */
   public function getBlockAgenda() {
     $cache_key = 'get_agenda:block:' . $this->getUniqueCachePart();
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $content = $cache->data;
     }
     else {
@@ -608,8 +602,8 @@ abstract class NewsroomAgenda {
     $output = array();
 
     $cache_key = 'get_agenda:build:' . $this->getUniqueCachePart() . $start_input_date->getTimestamp() . $end_input_date->getTimestamp();
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $output = $cache->data;
     }
     else {
@@ -723,8 +717,7 @@ abstract class NewsroomAgenda {
    */
   protected function setupAgenda() {
     $cache_key = 'get_agenda:current_items:' . $this->getUniqueCachePart();
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $current_items = $cache->data;
     }
     else {
@@ -822,8 +815,7 @@ abstract class NewsroomAgenda {
    */
   protected function getResultTopicsId() {
     $cache_key = 'result_topics';
-    $cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE);
-    if ($cache) {
+    if ($cache = cache_get($cache_key, NEXTEUROPA_NEWSROOM_CACHE_TABLE)) {
       $tids = $cache->data;
     }
     else {
