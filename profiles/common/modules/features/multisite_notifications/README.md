@@ -19,7 +19,7 @@ The feature is based on
 
 What kind of notifications are handled ?
 ========================================
-Authenticated users can subscribe to notifications,and manage the way their
+Authenticated users can subscribe to notifications, and manage the way their
 notifications are handled.
 
 -Authenticated users :
