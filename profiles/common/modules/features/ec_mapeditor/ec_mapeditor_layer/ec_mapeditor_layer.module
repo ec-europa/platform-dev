@@ -1,0 +1,635 @@
+<?php
+
+/**
+ * @file
+ * Provides functionality for the Map layer module.
+ */
+
+// Includes code with function names that do not comply with standards.
+module_load_include('inc', 'ec_mapeditor_layer', 'ec_mapeditor_layer.misc');
+
+// Includes theme functions.
+module_load_include('inc', 'ec_mapeditor_layer', 'ec_mapeditor_layer.theme');
+
+/**
+ * Implements hook_entity_info().
+ */
+function ec_mapeditor_layer_entity_info() {
+  $return = array(
+    'map_layer' => array(
+      'label' => t('Map layer'),
+      'entity class' => 'MapLayer',
+      'controller class' => 'MapLayerController',
+      'base table' => 'map_layer',
+      'fieldable' => TRUE,
+      'entity keys' => array(
+        'id' => 'mlid',
+        'bundle' => 'type',
+      ),
+      'bundle keys' => array(
+        'bundle' => 'type',
+      ),
+      'bundles' => array(),
+      'load hook' => 'map_layer_load',
+      'view modes' => array(
+        'map_layer' => array(
+          'label' => t('Map layer'),
+          'custom settings' => TRUE,
+        ),
+      ),
+      'label callback' => 'entity_class_label',
+      'uri callback' => 'entity_class_uri',
+      'module' => 'ec_mapeditor_layer',
+      'access callback' => 'ec_mapeditor_layer_access',
+      'inline entity form' => array(
+        'controller' => 'MapLayerInlineEntityFormController',
+      ),
+    ),
+  );
+  $return['map_layer_type'] = array(
+    'label' => t('Map layer type'),
+    'entity class' => 'MapLayerType',
+    'controller class' => 'MapLayerTypeController',
+    'base table' => 'map_layer_type',
+    'fieldable' => FALSE,
+    'bundle of' => 'map_layer',
+    'exportable' => TRUE,
+    'entity keys' => array(
+      'id' => 'id',
+      'name' => 'type',
+      'label' => 'label',
+    ),
+    'module' => 'ec_mapeditor_layer',
+    // Enables the entity API's admin UI.
+    'admin ui' => array(
+      'path' => 'admin/structure/map-layer-types',
+      'file' => 'ec_mapeditor_layer.admin.inc',
+      'controller class' => 'MapLayerTypeUIController',
+    ),
+    'access callback' => 'ec_mapeditor_layer_type_access',
+  );
+
+  return $return;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ec_mapeditor_layer_entity_info_alter(&$entity_info) {
+  foreach (ec_mapeditor_layer_types() as $type => $info) {
+    $entity_info['map_layer']['bundles'][$type] = array(
+      'label' => $info->label,
+      'admin' => array(
+        'path' => 'admin/structure/map-layer-types/manage/%map_layer_type',
+        'real path' => 'admin/structure/map-layer-types/manage/' . $type,
+        'bundle argument' => 4,
+      ),
+    );
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ec_mapeditor_layer_menu() {
+  $items = array();
+
+  // Sets menu item to add map layer.
+  $items['admin/structure/map-layer/add'] = array(
+    'title' => 'Add map layer',
+    'page callback' => 'ec_mapeditor_layer_admin_add_page',
+    'access arguments' => array('administer map_layer entities'),
+    'file' => 'ec_mapeditor_layer.admin.inc',
+    'type' => MENU_LOCAL_ACTION,
+    'tab_parent' => 'admin/structure/map-layer',
+    'tab_root' => 'admin/structure/map-layer',
+  );
+
+  // Sets base menu item for map layer.
+  $map_layer_uri = 'map-layer/%map_layer';
+  $map_layer_uri_argument_position = 1;
+  $items[$map_layer_uri] = array(
+    'title callback' => 'entity_label',
+    'title arguments' => array('map_layer', $map_layer_uri_argument_position),
+    'page callback' => 'ec_mapeditor_layer_view',
+    'page arguments' => array($map_layer_uri_argument_position),
+    'access callback' => 'entity_access',
+    'access arguments' => array(
+      'view',
+      'map_layer',
+      $map_layer_uri_argument_position,
+    ),
+  );
+
+  // Sets menu item to view map layer.
+  $items[$map_layer_uri . '/view'] = array(
+    'title' => 'View',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  // Sets menu item to delete map layer.
+  $items[$map_layer_uri . '/delete'] = array(
+    'title' => 'Delete map layer',
+    'title callback' => 'map_layer_label',
+    'title arguments' => array($map_layer_uri_argument_position),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array(
+      'map_layer_delete_form',
+      $map_layer_uri_argument_position,
+    ),
+    'access callback' => 'entity_access',
+    'access arguments' => array(
+      'edit',
+      'map_layer',
+      $map_layer_uri_argument_position,
+    ),
+    'file' => 'ec_mapeditor_layer.admin.inc',
+  );
+
+  // Sets menu item to edit map layer.
+  $items[$map_layer_uri . '/edit'] = array(
+    'title' => 'Edit',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array(
+      'map_layer_form',
+      $map_layer_uri_argument_position,
+    ),
+    'access callback' => 'entity_access',
+    'access arguments' => array(
+      'edit',
+      'map_layer',
+      $map_layer_uri_argument_position,
+    ),
+    'file' => 'ec_mapeditor_layer.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+  );
+
+  // Sets menu item to add map layer *type*.
+  foreach (ec_mapeditor_layer_types() as $type => $info) {
+    $items['admin/structure/map-layer/add/' . $type] = array(
+      'title' => 'Add map layer',
+      'page callback' => 'ec_mapeditor_layer_add',
+      'page arguments' => array(4),
+      'access callback' => 'entity_access',
+      'access arguments' => array('create', 'map_layer', $type),
+      'file' => 'ec_mapeditor_layer.admin.inc',
+    );
+  }
+
+  // Sets menu item to delete map layer type.
+  $items['admin/structure/map-layer-types/%map_layer_type/delete'] = array(
+    'title' => 'Delete',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ec_mapeditor_layer_type_form_delete_confirm', 3),
+    'access arguments' => array('administer map_layer types'),
+    'weight' => 1,
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ec_mapeditor_layer.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ec_mapeditor_layer_permission() {
+  $permissions = array(
+    'administer map_layer types' => array(
+      'title' => t('Administer map layer types'),
+      'description' => t('Allows users to configure map layer types and their fields.'),
+      'restrict access' => TRUE,
+    ),
+    'create map_layer entities' => array(
+      'title' => t('Create map layers'),
+      'description' => t('Allows users to create map layers.'),
+      'restrict access' => TRUE,
+    ),
+    'view map_layer entities' => array(
+      'title' => t('View map layers'),
+      'description' => t('Allows users to view map layers.'),
+      'restrict access' => TRUE,
+    ),
+    'edit any map_layer entities' => array(
+      'title' => t('Edit any map layers'),
+      'description' => t('Allows users to edit any map layers.'),
+      'restrict access' => TRUE,
+    ),
+    'edit own map_layer entities' => array(
+      'title' => t('Edit own map layers'),
+      'description' => t('Allows users to edit own map layers.'),
+      'restrict access' => TRUE,
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function ec_mapeditor_layer_entity_property_info_alter(&$info) {
+  $properties = &$info['map_layer']['properties'];
+  $properties['created'] = array(
+    'label' => t("Date created"),
+    'type' => 'date',
+    'description' => t("The date the map layer was posted."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'setter permission' => 'administer nodes',
+    'schema field' => 'created',
+  );
+  $properties['changed'] = array(
+    'label' => t("Date changed"),
+    'type' => 'date',
+    'schema field' => 'changed',
+    'description' => t("The date the node was most recently updated."),
+  );
+  $properties['uid'] = array(
+    'label' => t("Author"),
+    'type' => 'user',
+    'description' => t("The author of the map layer."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'setter permission' => 'administer map_layer entities',
+    'required' => TRUE,
+    'schema field' => 'uid',
+  );
+  $properties['settings'] = array(
+    'label' => t("Settings"),
+    'type' => 'text',
+    'description' => t("The settings of the map layer."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'setter permission' => 'administer map_layer entities',
+    'required' => TRUE,
+    'schema field' => 'settings',
+  );
+}
+
+/*******************************************************************************
+ ********************************* Map layer API's *****************************
+ ******************************************************************************/
+
+/**
+ * Access callback for map layer.
+ */
+function ec_mapeditor_layer_access($op, $map_layer, $account = NULL, $entity_type = NULL) {
+  global $user;
+
+  if (!isset($account)) {
+    $account = $user;
+  }
+  switch ($op) {
+    case 'create':
+      return user_access('administer map_layer entities', $account)
+      || user_access('create map_layer entities', $account);
+
+    case 'view':
+      return user_access('administer map_layer entities', $account)
+      || user_access('view map_layer entities', $account);
+
+    case 'edit':
+    case 'update':
+    case 'delete':
+      return user_access('administer map_layer entities')
+      || user_access('edit any map_layer entities')
+      || (user_access('edit own map_layer entities') && ($map_layer->uid == $account->uid));
+  }
+}
+
+/**
+ * Save map layer.
+ *
+ * Collects values for storing as JSON in settings.
+ */
+function ec_mapeditor_layer_save($map_layer) {
+  $map_layer->changed = REQUEST_TIME;
+  entity_save('map_layer', $map_layer);
+}
+
+/**
+ * Delete single map layer.
+ */
+function ec_mapeditor_layer_delete($map_layer) {
+  entity_delete('map_layer', entity_id('map_layer', $map_layer));
+}
+
+/**
+ * Delete multiple map layers.
+ */
+function ec_mapeditor_layer_delete_multiple($map_layer_ids) {
+  entity_delete_multiple('map_layer', $map_layer_ids);
+}
+
+/*******************************************************************************
+ ****************************** Map layer type API's ***************************
+ ******************************************************************************/
+
+/**
+ * Access callback for map layer type.
+ */
+function ec_mapeditor_layer_type_access($op, $entity = NULL) {
+  return user_access('administer map_layer types');
+}
+
+/**
+ * List of map layer types.
+ */
+function ec_mapeditor_layer_types($type_name = NULL) {
+  $types = entity_load_multiple_by_name('map_layer_type', isset($type_name) ? array($type_name) : FALSE);
+  return isset($type_name) ? reset($types) : $types;
+}
+
+/**
+ * Save map layer type entity.
+ */
+function ec_mapeditor_layer_type_save($map_layer_type) {
+  entity_save('map_layer_type', $map_layer_type);
+}
+
+/**
+ * Delete single case type.
+ */
+function ec_mapeditor_layer_type_delete($map_layer_type) {
+  entity_delete('map_layer_type', entity_id('map_layer_type', $map_layer_type));
+}
+
+/**
+ * Delete multiple case types.
+ */
+function ec_mapeditor_layer_type_delete_multiple($map_layer_type_ids) {
+  entity_delete_multiple('map_layer_type', $map_layer_type_ids);
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function ec_mapeditor_layer_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'ec_mapeditor_layer'),
+  );
+}
+
+/**
+ * Provides list of available icon colors.
+ *
+ * @return array
+ *   List of possible icon colors that can be used in a form select.
+ */
+function _ec_mapeditor_layer_icons() {
+  return array(
+    'black' => 'Black',
+    'blue' => 'Blue',
+    'green' => 'Green',
+    'orange' => 'Orange',
+    'pink' => 'Pink',
+    'red' => 'Red',
+    'turquoise' => 'Turquoise',
+    'yellow' => 'Yellow',
+  );
+}
+
+/**
+ * Checks if wrapped entity fields have a value.
+ *
+ * @param string $field
+ *   Name of the field.
+ * @param object $wrapper
+ *   Wrapped entity.
+ *
+ * @return bool
+ *   True if the field has a value.
+ */
+function _ec_mapeditor_layer_fieldcheck($field, $wrapper) {
+  if ($wrapper->__isset($field)) {
+    $fieldvalue = $wrapper->$field->value();
+    if (!empty($fieldvalue)) {
+      return TRUE;
+    }
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Generates an ID from a string to be used in JavaScript.
+ *
+ * @param string $string
+ *   A string that cannot be used as ID :(.
+ *
+ * @return string
+ *   A string that can be used as ID ;).
+ */
+function _ec_mapeditor_layer_id($string) {
+  return strtolower(preg_replace('/[^a-zA-Z0-9-]+/', '-', $string));
+}
+
+/**
+ * Implements hook_inline_entity_form_table_fields_alter().
+ */
+function ec_mapeditor_layer_inline_entity_form_table_fields_alter(&$fields, $context) {
+  if ($context['parent_entity_type'] == 'map' && $context['entity_type'] == 'map_layer') {
+    $fields['title'] = array(
+      'type' => 'property',
+      'label' => t('Label'),
+      'weight' => 1,
+    );
+  }
+}
+
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ */
+function ec_mapeditor_layer_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  if ($entity_form['#entity_type'] == 'map_layer') {
+    $entity_form['actions']['ief_edit_save']['#value'] = t('Update map layer');
+  }
+}
+
+/**
+ * Class providing JavaScript settings for a map layer.
+ */
+class MapLayerSettings {
+  /**
+   * Defines list of default settings.
+   */
+  public function __construct() {
+    $this->settings = array(
+      'clustering' => array(
+        'cluster_markers' => TRUE,
+      ),
+      'icon' => array(
+        'icon' => 'blue',
+      ),
+      'popup' => array(
+        'show_popup' => TRUE,
+        'popin' => TRUE,
+      ),
+      'control' => array(
+        'enabled' => TRUE,
+        'show_in_control' => TRUE,
+      ),
+      'show_settings' => FALSE,
+      'attribution' => array(
+        'attributionControl' => FALSE,
+        'attribution' => NULL,
+      ),
+      'style' => array(
+        'fill_color' => '#C8E9F2',
+        'fill_opacity' => 0.9,
+        'border_weight' => 1,
+        'border_color' => "#0065B1",
+        'border_opacity' => 1,
+        'dash_array' => 2,
+      ),
+      'tiles' => array(
+        'tiles' => 'osmec',
+      ),
+    );
+  }
+
+  /**
+   * Changes the default settings.
+   */
+  public function customize($settings) {
+    foreach ($settings as $key => $setting) {
+      $this->settings[$key] = $setting;
+    }
+  }
+
+  /**
+   * Removes a setting.
+   */
+  public function remove($settings) {
+    foreach ($settings as $key => $setting) {
+      unset($this->settings[$key]);
+    }
+  }
+
+}
+
+/**
+ * Implements hook_entity_view().
+ *
+ * Removes title from map layer when view as map layer (via entity reference
+ * embedded in map.
+ */
+function ec_mapeditor_layer_entity_view($entity, $type, $view_mode, $langcode) {
+  if ($type == 'map_layer' && $view_mode = 'map_layer') {
+    $entity->title = NULL;
+  }
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function ec_mapeditor_layer_admin_paths() {
+  if (variable_get('node_admin_theme')) {
+    $paths = array(
+      'map-layer/*/edit' => TRUE,
+      'map-layer/*/delete' => TRUE,
+    );
+    return $paths;
+  }
+}
+
+/**
+ * Map layer view callback.
+ */
+function ec_mapeditor_layer_view($map_layer) {
+  drupal_set_title(entity_label('map_layer', $map_layer));
+  return entity_view('map_layer', array(entity_id('map_layer', $map_layer) => $map_layer), 'default');
+}
+
+/**
+ * Implements hook_map_form_elements().
+ *
+ * Defines generic map layer form fields for the different layers. Each layer
+ * type chooses to include (some of) these these elements by defining them in
+ * hook_layer_info(). These elements are used in stand-alone and inline
+ * entity form).
+ */
+function ec_mapeditor_layer_map_form_elements() {
+  $form_elements = array(
+
+    // Defines form elements to control the pop-up behaviour.
+    'popup' => array(
+      '#title' => t('Pop-up'),
+      '#type' => 'fieldset',
+      '#weight' => 15,
+      'show_popup' => array(
+        '#title' => t('Show a popup when markers are clicked.'),
+        '#type' => 'checkbox',
+      ),
+      'popin' => array(
+        '#title' => t('Use pop-in (show details in right side bar).'),
+        '#type' => 'checkbox',
+      ),
+    ),
+
+    // Defines form elements to control layer switching.
+    'control' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Layer control'),
+      '#description' => t('Let the user enable and disable layers in the layer control.'),
+      '#weight' => 11,
+      'enabled' => array(
+        '#title' => t('Enable the layer by default in the map'),
+        '#type' => 'checkbox',
+      ),
+      'show_in_control' => array(
+        '#title' => t('Show the layer in the layer control'),
+        '#type' => 'checkbox',
+      ),
+    ),
+
+    // Defines form element to set color of marker icons.
+    'icon' => array(
+      '#type' => 'container',
+      '#weight' => 13,
+      'icon' => array(
+        '#type' => 'select',
+        '#title' => t('Icon'),
+        '#options' => _ec_mapeditor_layer_icons(),
+      ),
+    ),
+
+    // Defines form elements to enable marker clustering.
+    'clustering' => array(
+      '#type' => 'container',
+      '#weight' => 17,
+      'cluster_markers' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Cluster markers'),
+      ),
+    ),
+
+  );
+  return $form_elements;
+}
+
+/**
+ * Fetches form values and stores them in a settings array.
+ *
+ * @param array $settings
+ *   List of already present settings.
+ * @param array $form_state
+ *   Form with values.
+ *
+ * @return array
+ *   List of settings.
+ */
+function _ec_mapeditor_layer_save_settings($settings, $form_state) {
+  $map_layer = $form_state['map_layer'];
+  $map_layers = module_invoke_all('layer_info');
+  $elements = $map_layers[$map_layer->type]['form_elements'];
+  foreach ($elements as $element) {
+    foreach ($form_state['values'][$element] as $key => $value) {
+      if ($key) {
+        $settings[$element][$key] = $value;
+      }
+    }
+  }
+  return $settings;
+}

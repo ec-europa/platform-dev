@@ -1,0 +1,159 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for csv_layer.module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ec_mapeditor_csv_install() {
+
+  // Creates the CSV map layer.
+  _ec_mapeditor_csv_create_layer();
+
+  // Adds fields to CSV map layer.
+  _ec_mapeditor_csv_create_field();
+
+  // Changes map layers field to add csv layer as target bundle.
+  _ec_mapeditor_csv_change_map_layers_field();
+}
+
+/**
+ * Creates the CSV map layer bundle.
+ */
+function _ec_mapeditor_csv_create_layer() {
+  $bundle = new stdClass();
+  $bundle->type = 'csv_layer';
+  $bundle->label = t('CSV layer');
+  $bundle->is_new = TRUE;
+  $bundle->description = t("Map layer from CSV data");
+  $controller = new MapLayerTypeController('map_layer_type');
+  $controller->save($bundle);
+}
+
+/**
+ * Defines and creates topic field.
+ */
+function _ec_mapeditor_csv_create_field() {
+  if (field_info_field('map_csv')) {
+    watchdog('csv_layer', 'Field Map CSV not created because it exists already', array(), WATCHDOG_NOTICE, NULL);
+  }
+  else {
+    $array_fields = array(
+
+      // Defines the topics term field.
+      'map_csv' => array(
+        'active' => 1,
+        'cardinality' => 1,
+        'deleted' => 0,
+        'entity_types' => array(),
+        'indexes' => array(
+          'format' => array(
+            0 => 'format',
+          ),
+        ),
+        'locked' => 1,
+        'module' => 'text',
+        'settings' => array(),
+        'translatable' => 0,
+        'field_name' => 'map_csv',
+        'translatable' => 0,
+        'type' => 'text_long',
+      ),
+    );
+
+    // Creates the defined field(s).
+    foreach ($array_fields as $field) {
+      field_create_field($field);
+    }
+  }
+
+  // Defines the Map CSV field for the content type den.
+  $t = get_t();
+  $array_instances = array(
+    'map_csv' => array(
+      'field_name' => 'map_csv',
+      'label' => $t('CSV data'),
+      'settings' => array(
+        'text_processing' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'rows' => 12,
+        ),
+        'type' => 'text_textarea',
+        'weight' => 3,
+      ),
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'text_default',
+          'weight' => 11,
+        ),
+        'map_layer' => array(
+          'label' => 'above',
+          'module' => 'text',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 11,
+        ),
+      ),
+      'entity_type' => 'map_layer',
+      'bundle' => 'csv_layer',
+      'default_value' => NULL,
+      'deleted' => 0,
+      // @todo add templates.
+      'description' => 'Enter comma separated values (CSV) in this format: latitude, longitude, name, description, link.',
+
+    ),
+  );
+
+  // Creates the field instance on the entity.
+  foreach ($array_instances as $instance) {
+    field_create_instance($instance);
+  }
+}
+
+/**
+ * Changes map layer field.
+ */
+function ec_mapeditor_csv_update_7001() {
+
+  // Changes map layer field.
+  _ec_mapeditor_csv_change_map_layers_field();
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds csv layer as target bundles.
+ */
+function _ec_mapeditor_csv_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds csv layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['csv_layer'] = 'csv_layer';
+  field_update_field($field_info);
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ec_mapeditor_csv_enable() {
+  $t = get_t();
+  drupal_set_message($t('CSV layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ec_mapeditor_csv_disable() {
+  $t = get_t();
+  drupal_set_message($t('CSV layer has been disabled.'));
+}

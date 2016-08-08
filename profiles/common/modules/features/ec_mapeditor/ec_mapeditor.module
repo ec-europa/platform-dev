@@ -1,0 +1,590 @@
+<?php
+/**
+ * @file
+ * Provides functionality for the map entity.
+ */
+
+define('EC_MAPEDITOR_WEBTOOLS_ENVIRONMENT', '//europa.eu/webtools/load.js');
+
+// Includes code with function names that do not comply with standards.
+module_load_include('inc', 'ec_mapeditor', 'ec_mapeditor.misc');
+
+/**
+ * Implements hook_entity_info().
+ */
+function ec_mapeditor_entity_info() {
+  $return = array(
+    'map' => array(
+      'label' => t('Map'),
+      'entity class' => 'Map',
+      'controller class' => 'MapController',
+      'base table' => 'map',
+      'fieldable' => TRUE,
+      'entity keys' => array(
+        'id' => 'mid',
+      ),
+      'admin ui' => array(
+        'path' => 'admin/structure/maps',
+        'controller class' => 'MapUIController',
+        'menu wildcard' => '%map',
+        'file' => 'ec_mapeditor.admin.inc',
+      ),
+      'bundles' => array(
+        'map' => array(
+          'label' => t('Map'),
+          'admin' => array(
+            'path' => 'admin/structure/maps',
+            'access arguments' => array('administer maps'),
+          ),
+        ),
+      ),
+      'load hook' => 'ec_mapeditor_load',
+      'view modes' => array(
+        'full' => array(
+          'label' => t('Default'),
+          'custom settings' => FALSE,
+        ),
+      ),
+      'label callback' => 'entity_class_label',
+      'uri callback' => 'entity_class_uri',
+      'module' => 'ec_mapeditor',
+      'access callback' => 'ec_mapeditor_access',
+    ),
+  );
+  return $return;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ec_mapeditor_menu() {
+  $items = array();
+
+  $items['map/add'] = array(
+    'title' => 'Add map',
+    'page callback' => 'ec_mapeditor_add_map',
+    'access callback' => 'entity_access',
+    'access arguments' => array('create', 'map', 'map'),
+    'file' => 'ec_mapeditor.admin.inc',
+    'type' => MENU_LOCAL_ACTION,
+    'tab_parent' => 'map',
+    'tab_root' => 'map',
+  );
+
+  $map_uri = 'map/%ec_mapeditor';
+  $map_uri_argument_position = 1;
+
+  $items[$map_uri] = array(
+    'title callback' => 'entity_label',
+    'title arguments' => array('map', $map_uri_argument_position),
+    'page callback' => '_ec_mapeditor_view',
+    'page arguments' => array($map_uri_argument_position),
+    'access callback' => 'entity_access',
+    'access arguments' => array('view', 'map', $map_uri_argument_position),
+    'file' => 'ec_mapeditor.pages.inc',
+  );
+
+  $items[$map_uri . '/view'] = array(
+    'title' => 'View',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  $items[$map_uri . '/delete'] = array(
+    'title' => 'Delete map',
+    'title callback' => 'ec_mapeditor_label',
+    'title arguments' => array($map_uri_argument_position),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array(
+      'ec_mapeditor_delete_form',
+      $map_uri_argument_position,
+    ),
+    'access callback' => 'entity_access',
+    'access arguments' => array('edit', 'map', $map_uri_argument_position),
+    'file' => 'ec_mapeditor.admin.inc',
+  );
+
+  $items[$map_uri . '/edit'] = array(
+    'title' => 'Edit',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('map_form', $map_uri_argument_position),
+    'access callback' => 'entity_access',
+    'access arguments' => array('edit', 'map', $map_uri_argument_position),
+    'file' => 'ec_mapeditor.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+    'context' => MENU_CONTEXT_PAGE | MENU_CONTEXT_INLINE,
+  );
+
+  $items['ec_mapeditor/webtools'] = array(
+    'title' => 'Webtools example',
+    'page callback' => '_ec_mapeditor_webtools',
+    'access arguments' => array('access content'),
+    'type' => MENU_SUGGESTED_ITEM,
+    'file' => 'ec_mapeditor.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ec_mapeditor_permission() {
+  $permissions = array(
+    'create ec_mapeditor entities' => array(
+      'title' => t('Create maps'),
+      'description' => t('Allows users to create maps.'),
+      'restrict access' => TRUE,
+    ),
+    'view ec_mapeditor entities' => array(
+      'title' => t('View maps'),
+      'description' => t('Allows users to view maps.'),
+      'restrict access' => TRUE,
+    ),
+    'edit any ec_mapeditor entities' => array(
+      'title' => t('Edit any maps'),
+      'description' => t('Allows users to edit any maps.'),
+      'restrict access' => TRUE,
+    ),
+    'edit own ec_mapeditor entities' => array(
+      'title' => t('Edit own maps'),
+      'description' => t('Allows users to edit own maps.'),
+      'restrict access' => TRUE,
+    ),
+  );
+
+  return $permissions;
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function ec_mapeditor_entity_property_info_alter(&$info) {
+  $properties = &$info['map']['properties'];
+  $properties['created'] = array(
+    'label' => t("Date created"),
+    'type' => 'date',
+    'description' => t("The date the map was posted."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'setter permission' => 'administer nodes',
+    'schema field' => 'created',
+  );
+  $properties['changed'] = array(
+    'label' => t("Date changed"),
+    'type' => 'date',
+    'schema field' => 'changed',
+    'description' => t("The date the map was most recently updated."),
+  );
+  $properties['uid'] = array(
+    'label' => t("Author"),
+    'type' => 'user',
+    'description' => t("The author of the map."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'setter permission' => 'administer ec_mapeditor entities',
+    'required' => TRUE,
+    'schema field' => 'uid',
+  );
+}
+
+/*******************************************************************************
+ ********************************* Map API's **********************************
+ ******************************************************************************/
+
+/**
+ * Access callback for map.
+ */
+function ec_mapeditor_access($op, $map, $account = NULL, $entity_type = NULL) {
+  global $user;
+
+  if (!isset($account)) {
+    $account = $user;
+  }
+  switch ($op) {
+    case 'create':
+      return user_access('administer ec_mapeditor entities', $account)
+      || user_access('create ec_mapeditor entities', $account);
+
+    case 'view':
+      return user_access('administer ec_mapeditor entities', $account)
+      || user_access('view ec_mapeditor entities', $account);
+
+    case 'edit':
+      return user_access('administer ec_mapeditor entities')
+      || user_access('edit any ec_mapeditor entities')
+      || (user_access('edit own ec_mapeditor entities') && ($map->uid == $account->uid));
+  }
+}
+
+/**
+ * Loads a map.
+ */
+function ec_mapeditor_load($mid, $reset = FALSE) {
+  $maps = ec_mapeditor_load_multiple(array($mid), array(), $reset);
+  return reset($maps);
+}
+
+/**
+ * Loads multiple maps based on certain conditions.
+ */
+function ec_mapeditor_load_multiple($mids = array(), $conditions = array(), $reset = FALSE) {
+  return entity_load('map', $mids, $conditions, $reset);
+}
+
+/**
+ * Deletes single map.
+ */
+function _ec_mapeditor_delete_map($map) {
+  entity_delete('map', entity_id('map', $map));
+}
+
+/**
+ * Deletes multiple maps.
+ */
+function ec_mapeditor_delete_map_multiple($map_ids) {
+  entity_delete_multiple('map', $map_ids);
+}
+
+/**
+ * Implements hook_map_form_elements().
+ *
+ * Defines custom map form elements. These elements are added to the map and
+ * map layers forms via hook_layer_info().
+ */
+function ec_mapeditor_map_form_elements() {
+
+  // Defines zoom options.
+  $zoom_options = array(
+    0 => t('0 - Low/Far'),
+    18 => t('18 - High/Close'),
+  );
+  for ($i = 1; $i < 18; $i++) {
+    $zoom_options[$i] = $i;
+  }
+  ksort($zoom_options);
+
+  // Defines form elements.
+  $form_elements = array(
+
+    // Defines form elements to control zooming.
+    'zoom' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Zooming'),
+      '#weight' => 12,
+      'initialZoom' => array(
+        '#title' => t('Initial zoom level'),
+        '#description' => t('The starting zoom level when this map is rendered.  Restricted by min and max zoom settings.'),
+        '#type' => 'select',
+        '#options' => $zoom_options,
+      ),
+      'minZoom' => array(
+        '#title' => t('Minimum zoom level'),
+        '#description' => t('The minimum zoom level allowed. (How far away can you view from?)'),
+        '#type' => 'select',
+        '#options' => $zoom_options,
+      ),
+      'maxZoom' => array(
+        '#title' => t('Maximum zoom level'),
+        '#description' => t('The maximum zoom level allowed. (How close in can you get?).'),
+        '#type' => 'select',
+        '#options' => $zoom_options,
+      ),
+    ),
+
+    // Defines form elements to choose background map images (tiles).
+    'tiles' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Map background'),
+      '#weight' => 16,
+      'tiles' => array(
+        '#type' => 'select',
+        '#title' => t('Tiles'),
+        '#description' => t('Tiles to use a map background'),
+        '#options' => _ec_mapeditor_tiles(),
+      ),
+    ),
+
+    // Defines form elements to set map height.
+    'height' => array(
+      '#type' => 'container',
+      '#weight' => 6,
+      'height' => array(
+        '#title' => t('Map height'),
+        '#type' => 'textfield',
+        '#field_suffix' => t('px'),
+        '#size' => 4,
+        '#required' => FALSE,
+        '#element_validate' => array('ec_mapeditor_validate_height'),
+        '#suffix' => "<div id='min-height-label' class='description'></div>",
+        '#attached' => array(
+          'js' => array(
+            array(
+              'type' => 'file',
+              'data' => drupal_get_path('module', 'ec_mapeditor') . '/js/forms.js',
+            ),
+            array(
+              'data' => array(
+                'map_height_form' => array(
+                  'min_height' => 300,
+                  'label' => t('To ensure the map menu displays correctly, it is
+            recommended to choose a height higher than 300px.'),
+                  'warning' => t('<strong>Attention. The entered height is lower than
+            recommended</strong>.'),
+                ),
+              ),
+              'type' => 'setting',
+            ),
+          ),
+        ),
+      ),
+    ),
+
+    // Defines form elements to control map center.
+    'center' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Map center'),
+      '#description' => t('Center of the map. E.g. latitude 50.84 and 4.36 longitude for Brussels'),
+      '#weight' => 8,
+      'lat' => array(
+        '#title' => t('Latitude'),
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#required' => FALSE,
+      ),
+      'lon' => array(
+        '#title' => t('Longitude'),
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#required' => FALSE,
+      ),
+      'fitbounds' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Fit map to visible markers'),
+        '#description' => t('This sets the center of the map automatically based on the visible markers. It ignores the map center coordinates set above.'),
+      ),
+    ),
+
+    // Defines form elements to set and control attribution (credits).
+    'attribution' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Attribution'),
+      '#weight' => 16,
+      'attributionControl' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Show attribution'),
+      ),
+      'attribution' => array(
+        '#type' => 'textfield',
+        '#title' => t('Attribution text'),
+        '#size' => 80,
+      ),
+    ),
+  );
+  return $form_elements;
+}
+
+/**
+ * Provides available tiles.
+ *
+ * @return array
+ *   A list of tile names that can be used in a form select element.
+ */
+function _ec_mapeditor_tiles() {
+  return array(
+    'osmec' => 'Open Street Map customised for European Commission',
+    'graybg' => 'Gray background with country outlines',
+    'coast' => 'Gray background with continent outlines',
+    'gray' => 'Gray shaded relief of earth',
+    'hypso' => 'Climate shaded relief of earth',
+    'natural' => 'Landcover shaded relief of earth',
+    'bmarble' => 'Satellite  images of earth',
+    'copernicus003' => 'Copernicus Core003 mosaic',
+    'countrynames_europe' => 'Country names Europe',
+    'citynames_europe' => 'City names Europe',
+    'roadswater_europe' => 'Roads and waterways Europe',
+    'countryboundaries_world' => 'Country boundaries world',
+  );
+}
+
+/**
+ * Validates the height form element.
+ */
+function ec_mapeditor_validate_height(&$form, &$form_state) {
+  if (isset($form_state['values']['height'])) {
+    if (!is_numeric($form_state['values']['height']) || $form_state['values']['height'] < 0) {
+      form_error($form['height'], t('Map height needs to be a positive number'));
+    }
+  }
+}
+
+/**
+ * Saves map entity.
+ *
+ * Collects map values for storing as JSON in settings.
+ *
+ * @param object $map
+ *   Map object before saving.
+ */
+function _ec_mapeditor_save_map($map) {
+
+  // Fetches field values from form state.
+  $settings = array(
+    'tiles' => array(
+      'tiles' => $map->tiles,
+    ),
+    'height' => array(
+      'height' => $map->height,
+    ),
+    'center' => array(
+      'lat' => $map->lat,
+      'lon' => $map->lon,
+      'fitbounds' => $map->fitbounds,
+    ),
+    'zoom' => array(
+      'initialZoom' => $map->initialZoom,
+      'minZoom' => $map->minZoom,
+      'maxZoom' => $map->maxZoom,
+    ),
+    'attribution' => array(
+      'attributionControl' => $map->attributionControl,
+      'attribution' => $map->attribution,
+    ),
+    'show_settings' => $map->show_settings,
+  );
+  $map->settings = json_encode($settings);
+  $map->changed = REQUEST_TIME;
+  entity_save('map', $map);
+}
+
+/**
+ * Class providing JavaScript settings for a map.
+ */
+class MapSettings {
+
+  /**
+   * Provides the settings array and default values.
+   */
+  public function __construct() {
+    $this->settings = array(
+      'center' => array(
+        'lat' => 55.106,
+        'lon' => 28.154,
+        'fitbounds' => TRUE,
+        'fitbounds_padding' => variable_get('ec_mapeditor_fitbounds_padding', 30),
+      ),
+      'tiles' => array(
+        'tiles' => 'osmec',
+      ),
+      'dragging' => TRUE,
+      'touchZoom' => TRUE,
+      'scrollWheelZoom' => TRUE,
+      'attribution' => array(
+        'attributionControl' => TRUE,
+        'attribution' => t('Map data by Eurostat and the European Commission'),
+      ),
+      'zoom' => array(
+        'initialZoom' => 4,
+        'minZoom' => 2,
+        'maxZoom' => 10,
+      ),
+      'height' => array(
+        'height' => 430,
+      ),
+      'icon' => array(
+        'icon' => 'blue',
+      ),
+      'show_settings' => FALSE,
+    );
+  }
+
+  /**
+   * Changes the default settings.
+   */
+  public function customize($settings) {
+    foreach ($settings as $key => $setting) {
+      $this->settings[$key] = $setting;
+    }
+  }
+
+  /**
+   * Removes a setting.
+   */
+  public function remove($settings) {
+    foreach ($settings as $key => $setting) {
+      unset($this->settings[$key]);
+    }
+  }
+
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function ec_mapeditor_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'ec_mapeditor'),
+  );
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function ec_mapeditor_admin_paths() {
+  if (variable_get('node_admin_theme')) {
+    $paths = array(
+      'map/*/edit' => TRUE,
+      'map/add' => TRUE,
+      'map/*/delete' => TRUE,
+    );
+    return $paths;
+  }
+}
+
+/**
+ * Implements hook_feature_set_api().
+ */
+function ec_mapeditor_feature_set_api() {
+  return array('version' => '1.0');
+}
+
+/**
+ * Provides custom form elements.
+ *
+ * Cycles through all the form elements defined by all modules and fetches the
+ * elements for one particular module. Assigns also the default form element
+ * value by fetching values from the settings.
+ *
+ * @param array $elements
+ *   List of form elements keys that must be fetched from the list of all form
+ *   elements.
+ * @param array $settings
+ *   List of form elements values that were stored when the map layer was
+ *   saved and that shoudl be used as the default value.
+ *
+ * @return array $form
+ *   List of custom for elements that can be added to the map layer form.
+ */
+function _ec_mapeditor_custom_map_form_elements($elements, $settings) {
+  $form = array();
+
+  // Fetches all custom form elements defined by all modules.
+  $form_elements = module_invoke_all('map_form_elements');
+
+  // Fetches desired containers and fieldsets.
+  foreach ($elements as $element) {
+    $form[$element] = $form_elements[$element];
+
+    // Cycles through all the sub elements of containers.
+    foreach (element_children($form_elements[$element]) as $key) {
+
+      // Adds sub elements (fields, select lists etc.) to form.
+      $form[$element][$key] = $form_elements[$element][$key];
+
+      // Fetches default value for sub elements from settings.
+      if (isset($settings[$element][$key])) {
+        $form[$element][$key]['#default_value'] = $settings[$element][$key];
+      }
+    }
+  }
+  return $form;
+}

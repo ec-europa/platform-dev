@@ -1,0 +1,462 @@
+<?php
+/**
+ * @file
+ * Provides field definition for a Node layer field for maps.
+ */
+
+module_load_include('inc', 'ec_mapeditor_node', 'ec_mapeditor_node.formatter');
+
+/**
+ * Implements hook_layer_content_alter().
+ *
+ * See MapLayerController->buildContent();
+ */
+function ec_mapeditor_node_layer_content_alter(&$content, $wrapper, $entity) {
+
+  // Fetches map data from node layer.
+  if ($entity->type == 'node_layer') {
+    $settings = drupal_json_decode($wrapper->settings->value());
+
+    // Fetches nodes using chosen filters.
+    $filters = $settings['node_filters'];
+    $nodes = _ec_mapeditor_node_fetch_nodes($filters);
+    if ($nodes) {
+      $items = array();
+      foreach ($nodes as $node) {
+        $title = $node->title;
+
+        // Prepares the node to render the pop-up using the chosen view mode.
+        $view_mode = isset($settings['view_mode']) ? $settings['view_mode'] : 'teaser';
+        $node_view = node_view($node, $view_mode);
+
+        // Gets all the field values.
+        $field_items = field_get_items('node', $node, $filters['geofield']);
+        $items[] = array(
+          'field_items' => $field_items,
+          'title' => $title,
+          'popup' => drupal_render($node_view),
+        );
+      }
+
+      $features = array();
+
+      // Prepares the geo features based on the geofield type that they are
+      // stored in.
+      $type = field_info_field($filters['geofield'])['type'];
+      if ($type == 'geofield') {
+        $features = _ec_mapeditor_node_prepare_features($items);
+      }
+      elseif ($type == 'geofield_geojson') {
+        foreach ($items as $key => $item) {
+          $geojson_features = drupal_json_decode($item['field_items'][0]['geofield_geojson']);
+          foreach ($geojson_features['features'] as $geojson_feature) {
+            $features[] = $geojson_feature;
+          }
+        }
+      }
+
+      $layers[] = array(
+        'layer_settings' => $settings,
+        'label' => $wrapper->title->value(),
+        'features' => $features,
+        'id' => _ec_mapeditor_layer_id($wrapper->title->value()),
+      );
+      $content['#attached']['js'][] = array(
+        'data' => array(
+          'node_layers' => $layers,
+        ),
+        'type' => 'setting',
+      );
+    }
+    return $content;
+  }
+}
+
+/**
+ * Populates a list of terms for use in a form api select.
+ *
+ * @param string $machine_name
+ *   The machine name of the vocabulary.
+ *
+ * @return array
+ *   A list of terms that can be used in a form select element.
+ */
+function _ec_mapeditor_node_get_taxonomy_term_options($machine_name) {
+  $options = array();
+  $vid = taxonomy_vocabulary_machine_name_load($machine_name)->vid;
+  $options_source = taxonomy_get_tree($vid);
+  foreach ($options_source as $item) {
+    $key = $item->tid;
+    $value = $item->name;
+    $options[$key] = $value;
+  }
+  return $options;
+}
+
+/**
+ * Provides list of content types that have a geofield.
+ *
+ * @return array
+ *   A list of content types that can be used in a form select element.
+ */
+function _ec_mapeditor_node_get_content_types() {
+  $geofielded_content_types = array();
+
+  // Fetches all the site's content types.
+  $content_types = node_type_get_names();
+
+  // Cycles through all the field of the geofield & geofield_geojson type to
+  // create a list of content types that use that field.
+  $fields = array();
+  $fields = $fields + field_read_fields(array(
+    'type' => 'geofield',
+    'entity_type' => 'node',
+  ));
+  $fields = $fields + field_read_fields(array(
+    'type' => 'geofield_geojson',
+    'entity_type' => 'node',
+  ));
+  foreach ($fields as $key => $field) {
+    $instances = field_read_instances(array('field_name' => $key));
+    foreach ($instances as $key => $instance) {
+      $geofielded_content_types[$instance['bundle']] = $content_types[$instance['bundle']];
+    }
+  }
+  return $geofielded_content_types;
+}
+
+/**
+ * Finds geofields in a content type.
+ *
+ * @return array.
+ *   A list of geofields that can be used in a form select element.
+ */
+function _ec_mapeditor_node_get_geofields($bundle) {
+  $geofields = array();
+  $fields = field_read_instances(array('bundle' => $bundle));
+  foreach ($fields as $field) {
+    $field_info = field_info_field($field['field_name']);
+    if (in_array($field_info['type'], array('geofield', 'geofield_geojson'))) {
+      $geofields[$field['field_name']] = $field['label'];
+    }
+  }
+  return $geofields;
+}
+
+/**
+ * Provides list of vocabularies in content types with geofield.
+ *
+ * @todo add entity reference fields.
+ *
+ * @return array
+ *   A list of taxonomy term fields that are used in content with geofield.
+ */
+function _ec_mapeditor_node_get_taxonomy_fields() {
+  $taxnonomy_fields = array();
+
+  // Cycles through all the fields of all the content types that contains
+  // geofield to find vocabularies.
+  $content_types = _ec_mapeditor_node_get_content_types();
+  foreach ($content_types as $key => $content_type) {
+    $fields = field_read_instances(array('bundle' => $key));
+    foreach ($fields as $field) {
+      $field_info = field_info_field($field['field_name']);
+      if ($field_info['type'] == 'taxonomy_term_reference') {
+        foreach ($field_info['settings']['allowed_values'] as $allowed_value) {
+          $taxnonomy_fields[] = array(
+            'vocabulary' => $allowed_value['vocabulary'],
+            'field' => $field_info['field_name'],
+          );
+        }
+      }
+    }
+  }
+  return $taxnonomy_fields;
+}
+
+/**
+ * Fetches nodes.
+ *
+ * @param array $filters
+ *   List of query conditions.
+ *
+ * @return array List of NIDs of nodes that match the filters.
+ *   List of IDs of nodes that match the filters.
+ */
+function _ec_mapeditor_node_fetch_nodes($filters) {
+  if ($filters['map_content_type']) {
+    $nodes = array();
+    $query = new EntityFieldQuery();
+
+    // Filters result by bundle.
+    $query->entityCondition('entity_type', 'node')->entityCondition('bundle', $filters['map_content_type']);
+
+    // Fetches the geofields in the content type and filters out nodes that
+    // have an empty geofield. The column differs per geofield type.
+    if ($filters['geofield']) {
+      $type = field_info_field($filters['geofield'])['type'];
+      if ($type == 'geofield') {
+        $query->fieldCondition($filters['geofield'], 'lat', 'NULL', '!=');
+      }
+      elseif ($type == 'geofield_geojson') {
+        $query->fieldCondition($filters['geofield'], 'geofield_geojson', 'NULL', '!=');
+      }
+    }
+
+    // Allows including unpublished nodes in the result.
+    if ($filters['show_unpublished'] == TRUE) {
+      $query->propertyCondition('status', array(0, 1), 'in');
+    }
+    else {
+      $query->propertyCondition('status', 1);
+    }
+
+    // Applies chosen taxonomy terms filters.
+    if (isset($filters['term_filters'])) {
+      foreach ($filters['term_filters'] as $term_field => $tids) {
+        if (count($tids) > 0) {
+          $query->fieldCondition($term_field, 'tid', $tids, 'in');
+        }
+      }
+    }
+
+    // Runs the query and loads the nodes.
+    $result = $query->execute();
+    if (isset($result['node'])) {
+      $nids = array_keys($result['node']);
+      $nodes = entity_load('node', $nids);
+    }
+    return $nodes;
+  }
+  else {
+    drupal_set_message('Not enough information to build map.', 'error');
+  }
+}
+
+/**
+ * Turns field items into GeoJSON features.
+ *
+ * Shameless copy from leaflet_process_geofield().
+ *
+ * @param array $items
+ *   Field values.
+ *
+ * @return array
+ *   An array containing a GeoJSON formatted map feature.
+ */
+function _ec_mapeditor_node_prepare_features($items = array()) {
+  $features = array();
+  geophp_load();
+  foreach ($items as $item) {
+    foreach ($item['field_items'] as $delta => $field_item) {
+
+      // Translate linestring to polyline:
+      if ($field_item['geo_type'] == 'multilinestring') {
+        $field_item['geo_type'] = 'multipolyline';
+      }
+      // Geofield 7.x-2.x compatibility.
+      if (!isset($field_item['wkt']) && isset($field_item['geom'])) {
+        $field_item['wkt'] = $field_item['geom'];
+      }
+      $geom = geoPHP::load($field_item['wkt'], 'wkt');
+      $type = get_class($geom);
+      switch ($field_item['geo_type']) {
+        // Formats single features.
+        case 'point':
+        case 'polygon':
+        case 'linestring':
+          $geofeature = new EcMapeditorGeoFeature($type, $geom);
+          if (isset($item['title']) && isset($item['popup'])) {
+            $geofeature->setProperties($item['title'], $item['popup']);
+          }
+          $geofeature->setGeometry($type, $geom);
+          $features[] = $geofeature->data;
+          break;
+
+        // Formates multiple features of the same type.
+        case 'multipolyline':
+        case 'multipolygon':
+        case 'multipoint':
+          $components = $geom->getComponents();
+          foreach ($components as $component) {
+            $class = get_class($component);
+            $geofeature = new EcMapeditorGeoFeature();
+            if (isset($item['title']) && isset($item['popup'])) {
+              $geofeature->setProperties($item['title'], $item['popup']);
+            }
+            $geofeature->setGeometry($class, $component);
+            $features[] = $geofeature->data;
+          }
+          break;
+
+        // Formates multiple features of mixed types.
+        // @todo merge with other multiple?
+        case 'geometrycollection':
+          $components = $geom->getComponents();
+          foreach ($components as $component) {
+            $class = get_class($component);
+            $geofeature = new EcMapeditorGeoFeature($class, $component);
+            if (isset($item['title']) && isset($item['popup'])) {
+              $geofeature->setProperties($item['title'], $item['popup']);
+            }
+            $geofeature->setGeometry($class, $component);
+            $features[] = $geofeature->data;
+          }
+          break;
+
+      }
+    }
+  }
+  return array(
+    "type" => "FeatureCollection",
+    "features" => $features,
+  );
+}
+
+/**
+ * Implements hook_map_layer_settings_alter().
+ *
+ * See MapLayerInlineEntityFormController->entityFormSubmit() and
+ * ec_mapeditor_layer_form_submit().
+ */
+function ec_mapeditor_node_map_layer_settings_alter(&$settings, $map_layer) {
+  if ($map_layer->type == 'node_layer') {
+    $settings['attribution'] = $map_layer->attribution;
+    $settings['popup'] = $map_layer->popup;
+    $settings['icon'] = $map_layer->icon;
+    $settings['control'] = $map_layer->control;
+    $settings['clustering'] = $map_layer->clustering;
+    $settings['node_filters'] = $map_layer->node_filters;
+    $settings['view_mode'] = $map_layer->view_mode;
+  }
+  return $settings;
+}
+
+/**
+ * Implements hook_stand_alone_map_layer_settings_alter().
+ *
+ * See ec_mapeditor_layer_form_submit().
+ *
+ * @todo merge with ec_mapeditor_node_map_layer_settings_alter.
+ */
+function ec_mapeditor_node_stand_alone_map_layer_settings_alter(&$settings, $form_state) {
+  if ($form_state['map_layer']->type == 'node_layer') {
+    $values = $form_state['values'];
+    $settings['attribution'] = $values['attribution'];
+    $settings['popup'] = $values['popup'];
+    $settings['icon'] = $values['icon'];
+    $settings['control'] = $values['control'];
+    $settings['clustering'] = $values['clustering'];
+    $settings['node_filters'] = $values['node_filters'];
+    $settings['view_mode'] = $values['view_mode'];
+  }
+  return $settings;
+}
+
+/**
+ * Implements hook_layer_info().
+ *
+ * Registers the name of the map layer sub module and which custom form
+ * elements it wants to add to the map layer forms.
+ */
+function ec_mapeditor_node_layer_info() {
+  return array(
+    'node_layer' => array(
+      'form_elements' => array(
+        'popup',
+        'clustering',
+        'attribution',
+        'icon',
+        'node_filters',
+        'term_filters',
+      ),
+      'custom_js' => base_path() . drupal_get_path('module', 'ec_mapeditor_node') . "/js/node_layer.js?v=" . rand(0, 33333),
+    ),
+  );
+}
+
+/**
+ * Implements hook_map_form_elements().
+ *
+ * Defines custom map layer form fields for the node layer. These elements
+ * are added to the form via hook_layer_info().
+ */
+function ec_mapeditor_node_map_form_elements() {
+
+  // Provides options for geofield select list.
+  $geofield_options = array();
+  foreach (_ec_mapeditor_node_get_content_types() as $key => $content_type) {
+    foreach (_ec_mapeditor_node_get_geofields($key) as $key => $field) {
+      $geofield_options[$key] = $field;
+    }
+  }
+
+  // Provides options for view mode select list.
+  // @todo make dependent on content type.
+  $entity_info = entity_get_info('node');
+  foreach ($entity_info['view modes'] as $key => $view_mode) {
+    $view_mode_options[$key] = $view_mode['label'];
+  }
+
+  // Adds a filter fieldset.
+  $form_elements = array(
+    'node_filters' => array(
+      '#type' => 'fieldset',
+
+      // Adds map content type filter field.
+      'map_content_type' => array(
+        '#type' => 'select',
+        '#options' => _ec_mapeditor_node_get_content_types(),
+        '#title' => t('Content type'),
+        '#description' => t('Content type that contains the geospatial data'),
+      ),
+
+      // Provides a geofield selection field to choose in which field to find
+      // geo data.
+      // @todo make dependent on content type.
+      'geofield' => array(
+        '#type' => 'select',
+        '#options' => $geofield_options,
+        '#title' => t('Geofield'),
+        '#description' => t('Field that contains the geospatial data'),
+      ),
+
+      // Provides node status filter.
+      'show_unpublished' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Show unpublished'),
+        '#description' => t('Show unpublished nodes in a map'),
+      ),
+
+      // Provides the view mode options list for displaying the pop-up.
+      'view_mode' => array(
+        '#type' => 'select',
+        '#options' => $view_mode_options,
+        '#title' => t('Pop-up view mode'),
+        '#description' => t('View mode to use for the pop-up'),
+      ),
+    ),
+    'term_filters' => array(
+      '#type' => 'fieldset',
+    ),
+  );
+
+  // Provides taxonomy term filter fields based on vocabularies.
+  $taxonomy_fields = _ec_mapeditor_node_get_taxonomy_fields();
+  foreach ($taxonomy_fields as $taxonomy_field) {
+    if ($taxonomy_field) {
+      $field = $taxonomy_field['field'];
+      $vocabulary = taxonomy_vocabulary_machine_name_load($taxonomy_field['vocabulary']);
+      $options = _ec_mapeditor_node_get_taxonomy_term_options($taxonomy_field['vocabulary']);
+      $form_elements['term_filters'][$field] = array(
+        '#type' => 'select',
+        '#options' => $options,
+        '#title' => $vocabulary->name,
+        '#multiple' => TRUE,
+        '#description' => t('Filter results by @vocab', array('@vocab' => $vocabulary->name)),
+      );
+    }
+  }
+
+  return $form_elements;
+}

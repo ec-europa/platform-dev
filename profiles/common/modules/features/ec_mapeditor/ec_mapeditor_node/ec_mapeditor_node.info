@@ -1,0 +1,10 @@
+name = EC mapeditor node layer
+description = Provides a map layer bundle to store and display geospatial data from Drupal nodes.
+core = 7.x
+dependencies[] = ec_mapeditor
+dependencies[] = node
+dependencies[] = geophp
+files[] = ec_mapeditor_node.geofeatures.inc
+multisite_version = 2.1
+package = Maps
+php = 5.2.4

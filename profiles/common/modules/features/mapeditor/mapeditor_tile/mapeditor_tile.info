@@ -1,7 +1,0 @@
-name = Mapeditor tile layer
-description = Provides a map layer bundle to store and display map tiles.
-core = 7.x
-dependencies[] = mapeditor
-multisite_version = 2.1
-package = Maps
-php = 5.2.4

@@ -1,0 +1,7 @@
+name = EC mapeditor CSV layer
+description = Provides a map layer bundle to store and display geospatial data found in CSV data.
+core = 7.x
+dependencies[] = ec_mapeditor
+multisite_version = 2.1
+package = Maps
+php = 5.2.4

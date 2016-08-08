@@ -1,0 +1,8 @@
+name = EC mapeditor country layer
+description = Provides a map layer bundle to store and display country outlines on a map.
+core = 7.x
+dependencies[] = ec_mapeditor
+dependencies[] = text
+multisite_version = 2.1
+package = Maps
+php = 5.2.4
