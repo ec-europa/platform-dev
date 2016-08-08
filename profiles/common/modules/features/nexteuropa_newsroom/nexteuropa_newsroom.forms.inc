@@ -44,22 +44,22 @@ function nexteuropa_newsroom_restore_conf($form, &$form_state) {
   foreach ($term as $propname => $prop) {
     for ($i = 0; $i < count($prop); $i++) {
       switch ($propname) {
-        case 'field_newsroom_topic': 
+        case 'field_newsroom_topic':
           $form_state['values'][$propname][LANGUAGE_NONE][$i]['tid'] = $prop[$i];
           break;
 
-        case 'field_newsroom_featured_item': 
+        case 'field_newsroom_featured_item':
           $form_state['values'][$propname][LANGUAGE_NONE][$i]['target_id'] = $prop[$i];
           break;
 
         case 'field_newsroom_category_domain':
           $form_state['values'][$propname][$def_lang][$i]['value'] = $prop[$i];
           break;
-        
+
         default:
           $form_state['values'][$propname][LANGUAGE_NONE][$i]['value'] = $prop[$i];
       }
-    }    
+    }
   }
 
   // Set a message for the user.
@@ -158,9 +158,6 @@ function nexteuropa_newsroom_form_nexteuropa_newsroom_admin_settings_alter(&$for
  *   Form array.
  * @param array $form_state
  *   Form state.
- *
- * @return string
- *   Form submit result.
  */
 function nexteuropa_newsroom_backup_conf($form, &$form_state) {
   // Save the term.
@@ -1276,7 +1273,6 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
       // Let's work with an array.
       $term = get_object_vars($term);
 
-
       if (!empty($fields)) {
         // Override values.
         foreach ($fields as $field_name => $values) {
@@ -1286,12 +1282,12 @@ function nexteuropa_newsroom_restore_batch(array $chunk, $voc, array $operation_
                 $term_wrapper->{$field_name}[] = $values[$i];
               }
               break;
-      
+
             default:
               $term_wrapper->{$field_name}->set($values[0]);
-          }  
+          }
         }
-        
+
         if (isset($context)) {
           // Build the worked term name list.
           $context['results'][] .= $conf['name'] . ', ';
@@ -1389,7 +1385,7 @@ function _nexteuropa_newsroom_export_prepare_values($term) {
       if ($propname == 'field_' . $voc . '_id') {
         continue;
       }
-      
+
       $check_value = field_get_items('taxonomy_term', $term, $propname);
 
       if (!empty($check_value)) {
@@ -1404,7 +1400,7 @@ function _nexteuropa_newsroom_export_prepare_values($term) {
             $values[$id][$propname][] = $value['target_id'];
           }
         }
-      } 
+      }
     }
   }
 
