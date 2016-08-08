@@ -14,7 +14,7 @@ Table of content:
 
 - [Testing](#testing)
   - [Testing locally](#testing)
-  - [Testing on playground](#testing)
+  - [Testing on Playground](#testing)
 
 - [Usage](#usage)
   - [How to request a translation](#usage)
@@ -30,17 +30,19 @@ Table of content:
 [Go to top](#table-of-content)
 
 # Installation
-## Webmaster / Site builder :
+## Webmaster / Site builder:
 ### Requesting access to poetry:
-:pray: Before you can start using poetry on playground or production, you should
+:pray: Before you can start using poetry on Playground or Production, you should
 make a formal request to the Comm Europa Management team.
 
+```
  [TO BE COMPLETED - WAITING PO FEEDBACK]
   Please send a mail to / fill the document located at http://
   DG COMM will inform DGT and send credentials to FPFIS maintenance team who
   will activate the DGT connector on your site.
   DGCOMM will provide login details to Maintenance team and will give you the
    details of a contact person at DGT.
+```
 
 [Go to top](#table-of-content)
 
@@ -54,7 +56,7 @@ details and deadlines for your request:
   - The ticket should contain the title 'Poetry activation request',
   - The ticket should include the name of your project,
   - Once maintenance team confirms the feature is ready to be used on
-    playground and/or production you can configure your connector.
+    Playground and/or Production you can configure your connector.
 
 [Go to top](#table-of-content)
 
@@ -67,29 +69,29 @@ Edit the translator labeled "DGT Connector (auto created)".
 In order to do this, navigate to:
 ``` Configuration->Regional and Language->Translation management Translator ```
 
-or go to :
+or go to:
 ``` admin/config/regional/tmgmt_translator/tmgmt_translator/manage/poetry_en ```
 
- - Translator settings : [x] Auto accept finished translations
+ - Translator settings: [x] Auto accept finished translations
    - Check this if you don't want to review a translation before publishing it.
 
  - Translator plugin:
-   - This is show for information, please do not change it.
+   - This is shown for information, please do not change it.
 
  - DGT Connector plugin settings:
    - You should see 'Main "poetry_service" variable is properly set.' if you have
-  correctly followed the steps above. Otherwise get back and check what you
+  correctly followed the steps above. Otherwise, get back and check what you
   forgot!
    - Counter: you do not need to fill this. The counter is auto generated.
    - Requester code: must always be *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
-   - Organization responsable, Author & requester: check the example provided.
+   - Organization responsible, Author & requester: check the example provided.
    - Contact usernames: should be the *username* (you connect to the network,
   ecas or the proxy with your username) of the persons in charge of the request.
   This is important as only these persons can view translation details in the
   web app.
-   - DGT contacts : The email address of your contact person at DGT. They will
-   receive feedback on translations you want to comment. That information
+   - DGT contacts: The email address of your contact person at DGT. They will
+   receive feedback on the translations you want to comment. That information
    should have been provided to you by DGCOMM.
 
 [Go to top](#table-of-content)
@@ -103,7 +105,7 @@ The module is included in the platform-dev sources. Run the drush command
 
 Update the settings.php of the project.
 It must be filled with appropriate
-values depending on the environement you are setting up.
+values depending on the environment you are setting up.
 
   - Install on Playground environment:
 
@@ -123,7 +125,7 @@ In order to test against acceptance webservice, *settings.php* should contain
 
   - Install on Production environment:
 
-Make sure the [poetry access has be requested by the webmaster]
+Make sure the [poetry access was requested by the webmaster]
 (#requesting-access-to-poetry) and you have received the credentials.
 
 *Settings.php* should contain (replace variables between [] with custom values):
@@ -159,11 +161,11 @@ DGCOMM (see 'Installations step 1').
 
  See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
 
-- On playground :
+- On Playground:
 
  1) Follow the [requesting instance procedure](#requesting-access-to-poetry).
 
- 2) Wait confirmation that the [playground was configured by the maintenance
+ 2) Await confirmation that the [Playground was configured by the maintenance
  team](#enabling-the-feature-on-your-platform-instance).
 
 [Go to top](#table-of-content)
@@ -172,7 +174,7 @@ DGCOMM (see 'Installations step 1').
 ## How to request a translation
 :warning: TO BE UPDATED AFTER 7719.
 - When you are browsing a node that is translatable, an additional tab
-'Translate' appears.
+'Translate' appears,
 - Click that tab and select one language you wish to request a translation for,
 - Submit the 'Request translation' button,
 - Select the 'DGT connector (auto created)' plugin from the select list,
@@ -181,11 +183,11 @@ DGCOMM (see 'Installations step 1').
 
 > The values that show in 'Contact Usernames' and in 'Organization' are the
 default values you entered when [you configured your translator]
-(#configure-the-dgt-connector). Those values can be overriden on a page per
+(#configure-the-dgt-connector). Those values can be overridden on a page per
 page basis. To do this, just click 'Contact Usernames' or 'Organization' and
 changes the values.
 
-- You can select an 'Expected delivery time' : Click the field and select a
+- You can select an 'Expected delivery time': Click the field and select a
 date from the calendar that will pop up. This is an indicative date, DGT might
 want to change that date,
 
@@ -195,9 +197,9 @@ share with DGT.
 [Go to top](#table-of-content)
 
 # Interesting information regarding the DGT connector
-## DGT Web app : Checking the translation was received
+## DGT Web app: Checking the translation was received
 
-Once a translation has been requested to DGT, the status will be updated in the
+Once a translation has been requested to DGT, the status will be updated on the
 Drupal site. In additions it is also possible for EC staff to view translation
 status and references using the [DGT web app]
 (http://www.cc.cec/translation/webpoetry/).
@@ -220,32 +222,30 @@ Files messages are saved in:
 
 > public://tmgmt_files/JobID[#id]_source_target.html_poetry
 
-### Log of activities from Drupal and from DGT in watchdog.
+### Log of activities from Drupal and from DGT in watchdog
 
-Transations sent and received from the webervices are saved into the watchdog.
+Translations sent and received from the webservices are saved into the watchdog.
 
-:warning: We gradually move the dblog to [kibana]
-(https://webgate.ec.europa.eu/fpfis/logging/).
-If dblog is disabled from your instance, request access to Kibana by creating a
-request in [Jira's MULTISITE project]
+:warning: We gradually move the _dblog_ to [kibana]
+(https://webgate.ec.europa.eu/fpfis/logging/) and if dblog is disabled from your instance, request access to Kibana
+by creating a request in [Jira's MULTISITE project]
 (https://webgate.ec.europa.eu/CITnet/jira/).
 
 [Go to top](#table-of-content)
 
 ## DGT reference number
 
-DGT references has a format of type *WEB/2016/72000/0/1* and is a suite of
-several variables:
+DGT reference has a format of type *WEB/2016/72000/0/1* and is a suite of several variables:
 
-  - The *requester code*  ``` (ex: WEB) ```
+  - The *requester code*  ``` (ex: WEB) ```,
 > Every Website instance using DGT connector will have as a requester code *WEB*.
 
-  - The *year* a new counter was received  ``` (ex: 2016) ```
+  - The *year* a new counter was received  ``` (ex: 2016) ```,
 
-  - The *counter* used when request was sent  ``` (ex: 72000) ```
+  - The *counter* used when request was sent  ``` (ex: 72000) ```,
 
-  - The *version* (version is incremented each time a 'partie' version is sent) ```(ex:0) ```
+  - The *version* (version is incremented each time a 'partie' version is sent) ```(ex:0) ```,
 
-  - The *partie* (in our case this is a unique page id) ``` (ex: 1) ```
+  - The *partie* (in our case this is a unique page id) ``` (ex: 1) ```.
 
 [Go to top](#table-of-content)
