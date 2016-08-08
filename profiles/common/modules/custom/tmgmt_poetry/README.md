@@ -67,10 +67,10 @@ proceed with the module's configuration.
 Edit the translator labeled "DGT Connector (auto created)".
 
 In order to do this, navigate to:
-``` Configuration->Regional and Language->Translation management Translator ```
+``` Configuration->Regional and Language->Translation management Translator ```.
 
 or go to:
-``` admin/config/regional/tmgmt_translator/tmgmt_translator/manage/poetry_en ```
+``` admin/config/regional/tmgmt_translator/tmgmt_translator/manage/poetry_en ```.
 
  - Translator settings: [x] Auto accept finished translations
    - Check this if you don't want to review a translation before publishing it.
@@ -101,7 +101,7 @@ or go to:
 ### Enable the feature
 
 The module is included in the platform-dev sources. Run the drush command
-```drush en tmgmt_poetry```
+```drush en tmgmt_poetry```.
 
 Update the settings.php of the project.
 It must be filled with appropriate
