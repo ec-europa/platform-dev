@@ -1,20 +1,20 @@
-This "FEATURE" module supplies default settings and permissions linked to
-multilingual feature of the Next Europa platform.
+The "Multilingual" feature supplies default settings and permissions linked to
+multilingual features of the Next Europa platform.
 
-It also contains alteration of:
+It also contains alterations of:
 * The path alias generation made by the "Pathauto" module in order
-to force the use of neutral language for all created alias;
-*The path alias saving made by "Path" module in order to ensure
+to force the use of neutral language for all created aliases;
+*The path alias saving made by the "Path" module in order to ensure
 that it is data of the source content that is always used to set the alias and
-that the neutral language is set for all defined alias;
+that the neutral language is set for all defined aliases;
 * The "Drupal core" language negotiation system in order to
  implement the platform specific process;
 * The display of the language switcher.
 
 # Important
 
- Concerning content, this module is designed for supporting "Entity translation"
- module but not "Content  translation" one.
+ Concerning content, this module is designed for supporting the
+ "Entity translation" module but not the "Content  translation" one.
 
 # Installation
 
@@ -22,12 +22,12 @@ The module is activated when the platform is installed.
 
 # Configuration
 
-The module set by default some permissions and variables used by the different
+The module by default sets some permissions and variables used by the different
 multilingual features.
 It comes also with the default definition of the sentence set below the
-content edit form and the workbench moderation state form. it is stored in the
+content edit form and the workbench moderation state form. It is stored in the
 Drupal variable "nexteuropa_multilingual_warning_message_languages".
 
-It can be modified this administration page: Configuration > Content authoring
- > MULTISITE WYSIWYG > settings (path: "admin/config/content/multisite_wysiwyg/setup_en");
- The value can contains tokens and HTML tags.
+It can be modified on this administration page:
+Configuration > Content authoring > MULTISITE WYSIWYG > settings (path: "admin/config/content/multisite_wysiwyg/setup_en");
+The value can contain tokens and HTML tags.

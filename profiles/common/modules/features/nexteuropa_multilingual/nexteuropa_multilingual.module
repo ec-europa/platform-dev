@@ -286,9 +286,6 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
       // 2. Add new warning message to URL alias field.
       $custom_alias_description = $form['path']['alias']['#description'];
       $message = t('This URL alias will be used for ALL translations of this content.');
-      $message_attributes = array(
-        'id'    => array('nexteuropa-multilingual-warning-alias-message'),
-      );
       $variables = array(
         'message' => $message,
         'message_attributes' => array('id' => 'nexteuropa-multilingual-alias-message'),
