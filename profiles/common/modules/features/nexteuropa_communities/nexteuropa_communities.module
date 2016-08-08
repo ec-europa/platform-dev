@@ -123,8 +123,9 @@ function nexteuropa_communities_context_handler() {
       $node = node_load($community_path[1]);
       if (og_is_group('node', $node)) {
         return [
-          'gid' => $node->nid,
-          'group_type' => 'node',
+          'node' => [
+            $node->nid,
+          ],
         ];
       }
     }
