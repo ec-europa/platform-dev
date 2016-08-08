@@ -151,3 +151,13 @@ function tmgmt_poetry_update_7003() {
     db_drop_table('poetry_map_7002');
   }
 }
+
+/**
+ * Disable tmgmt_poetry_test and test translator.
+ */
+function tmgmt_poetry_update_7004() {
+  if (module_exists('tmgmt_poetry_test')) {
+    module_disable(array('tmgmt_poetry_test'));
+    drupal_uninstall_modules(array('tmgmt_poetry_test'));
+  }
+}
