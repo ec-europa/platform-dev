@@ -28,10 +28,14 @@ New menu items appear in the admin menu bar:
 
 1. POETRY Mock: Setup
 > Set up the variables required by POETRY Mock.
+
 2. POETRY Mock: Dashboard
 > View the list of jobs for which you can mock translation receipt.
+
 3. POETRY Mock: Send request
 > Send an XML request to Drupal endpoint to mock a specific response.
+
+*Workflow:*
 
 * Create a page, click translate tab and select a language,
 * Select 'TMGMT Poetry Test translator' and press 'Submit to translator',
