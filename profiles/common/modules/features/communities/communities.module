@@ -50,20 +50,24 @@ function communities_views_pre_render(&$view) {
  */
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
-  global $language;
+  $arguments = explode("/", request_path());
 
-  // Set og context on comunities views.
-  if (arg(0) == 'community') {
-    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", arg(1)), 'en');
+  // Set og context on communities views.
+  if ($arguments[0] == 'community' && isset($arguments[1])) {
+
+    // Sometimes the parameter contains a language suffix, remove it.
+    $suffix_clean = preg_replace('/\\_[^.\\s]{2}$/', '', $arguments[1]);
+    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $suffix_clean), 'en');
 
     $param = explode("/", $alias);
-    $group = node_load($param[1]);
+    $nid = $param[1];
+    $group = node_load($nid);
     if (og_is_group('node', $group->nid)) {
       og_context('node', $group);
     }
   }
 
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
+  if ($arguments[0] == 'node' && isset($arguments[1]) && is_numeric($arguments[1])) {
     // If inside a node page, get the group from the path and store in session.
     $group_name = _communities_get_group_name_from_path(request_path());
     if ($group_name) {
@@ -72,6 +76,7 @@ function communities_init() {
         // Check that the found group is one of the groups
         // the node is linked to.
         $groups = og_get_entity_groups('node', arg(1), array());
+
         if ($groups && isset($groups['node']) && in_array($group_nid, $groups['node'])) {
           // Save to session so that it will be returned
           // in future calls to og_context().
@@ -80,7 +85,6 @@ function communities_init() {
       }
     }
   }
-
 }
 
 /**
@@ -88,12 +92,19 @@ function communities_init() {
  */
 function _communities_get_group_name_from_path($path) {
   $group_name = FALSE;
-  // Asuming a path pattern of
+  // Assuming a path pattern of
+  // "node/[node:id]".
+  $node_patt = '/(node\/)([0-9]+)/';
+  // Assuming a path pattern of
   // "community/[node:og_group_ref]/articles/[node:title]".
   $patt = '/^community\/([^\/]+)(\/.*)?$/';
+  if (preg_match($node_patt, $path, $matches)) {
+    $path = drupal_lookup_path('alias', $path);
+  }
   if (preg_match($patt, $path, $matches)) {
     $group_name = $matches[1];
   }
+
   return $group_name;
 }
 
@@ -304,12 +315,18 @@ function _communities_get_url_in_group($path, $original_path) {
 function group_name_to_arg($arg = NULL) {
   module_load_include('inc', 'pathauto', 'pathauto');
   $context = og_context();
+  if (empty($context) && is_numeric($arg)) {
+    $group = node_load($arg);
+    if (og_is_group('node', $group->nid)) {
+      $context = og_context('node', $group);
+    }
+  }
   if (isset($context['gid'])) {
     $node = node_load($context['gid']);
     return pathauto_cleanstring($node->title);
   }
   else {
-    return 'none';
+    return NULL;
   }
 }
 
@@ -356,7 +373,7 @@ function communities_menu() {
     'title' => 'Home page',
     'page arguments' => array(1),
     'access callback' => TRUE,
-    'page callback' => '_redirection',
+    'page callback' => '_communities_menu_redirect',
     'type' => MENU_NORMAL_ITEM,
     'menu_name' => 'menu-communities-menu',
     'weight' => -10,
@@ -371,21 +388,20 @@ function communities_menu() {
     'menu_name' => 'menu-communities-menu',
     'weight' => 1,
   );
-
   return $items;
 }
 
 /**
- * Redirection to a community page with the gid $arg.
+ * Redirects to the right place depending the last argument.
  */
-function _redirection($arg) {
-
-  drupal_goto('community/' . group_name_to_arg($arg));
-
+function _communities_menu_redirect($arg1) {
+  // Sometimes the parameter contains a language suffix, remove it.
+  $suffix_clean = preg_replace('/\\_[^.\\s]{2}$/', '', $arg1);
+  drupal_goto('community/' . group_name_to_arg($suffix_clean));
 }
 
 /**
- * Dynalically change menu item title.
+ * Dynamically change menu item title.
  */
 function _communities_title_item($arg) {
   $n = db_select('og', 'og')
