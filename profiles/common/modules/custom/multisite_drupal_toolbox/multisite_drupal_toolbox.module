@@ -1636,7 +1636,6 @@ function multisite_drupal_toolbox_sort_weight_object($a, $b) {
   return ($a_weight < $b_weight) ? -1 : 1;
 }
 
-
 /**
  * Implements hook_features_post_restore().
  *
@@ -1656,4 +1655,29 @@ function multisite_drupal_toolbox_features_post_restore($op, $items) {
       }
     }
   }
+}
+
+/**
+ * Remove PHP Warning logs from HTML5 during a loadHTML.
+ *
+ * Extend SimpleXMLElement function.
+ *
+ * @see $dom->loadHTML;
+ */
+function multisite_drupal_toolbox_load_html(&$dom, $html) {
+  $old = libxml_use_internal_errors(TRUE);
+  libxml_clear_errors();
+  if (!$dom->loadHTML($html)) {
+    return FALSE;
+  }
+  $errors = libxml_get_errors();
+  libxml_use_internal_errors($old);
+  $re = '#Tag (article|aside|audio|bdi|canvas|data|datalist|figcaption|figure|footer|header|keygen|main|mark'
+    . '|meter|nav|output|progress|rb|rp|rt|rtc|ruby|section|source|template|time|track|video|wbr) invalid#';
+  foreach ($errors as $error) {
+    if (!preg_match($re, $error->message)) {
+      trigger_error(__METHOD__ . ": $error->message on line $error->line.", E_USER_WARNING);
+    }
+  }
+  return TRUE;
 }

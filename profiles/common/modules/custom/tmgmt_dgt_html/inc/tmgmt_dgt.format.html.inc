@@ -89,7 +89,7 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
       }
     }
     else {
-      if (!$dom->loadHTML($imported_file)) {
+      if (!multisite_drupal_toolbox_load_html($dom, $imported_file)) {
         return FALSE;
       }
     }
@@ -139,7 +139,7 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
       $dom->loadHTMLFile($imported_file);
     }
     else {
-      $dom->loadHTML($imported_file);
+      multisite_drupal_toolbox_load_html($dom, $imported_file);
     }
 
     return simplexml_import_dom($dom);
