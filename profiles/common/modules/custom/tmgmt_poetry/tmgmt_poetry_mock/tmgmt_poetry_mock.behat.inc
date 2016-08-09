@@ -109,7 +109,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    *
    * @Then the poetry translation service received the translation request
    */
-  public function aPoetryTranslatorCanConfirmThatTheyReceivedTheTranslationRequest() {
+  public function assertPoetryTranslationServiceReceivedTheTranslationRequest() {
     $translation_request = PoetryMock::getTranslationRequestByJobReference(
       $this->poetryContext->jobReference
     );
@@ -131,7 +131,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    *
    * @Then the translation request has version :arg1
    */
-  public function theTranslationRequestHasVersion($arg1) {
+  public function assertTranslationRequestHasVersion($arg1) {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
@@ -154,7 +154,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    *
    * @Then the translation request document is valid XHTML
    */
-  public function theTranslationRequestDocumentIsValidXhtml() {
+  public function assertTranslationRequestDocumentIsValidXhtml() {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
