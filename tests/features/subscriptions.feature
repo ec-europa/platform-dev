@@ -58,7 +58,7 @@ Feature: Subscription
 
   Scenario: Save a page to exclude from subscriptions
     When I am viewing my page with the title "A new page title"
-    Then I write down node ID of this page
+    Then I remember node ID of this page
 
 
   Scenario: Check users cannot subscribe to pages excluded from subscriptions
