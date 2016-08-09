@@ -75,7 +75,7 @@ function multisite_notifications_core_menu() {
 }
 
 /**
- * Implements hook_workbench_moderation_transition.
+ * Implements hook_workbench_moderation_transition().
  */
 function multisite_notifications_core_workbench_moderation_transition($node, $previous_state, $new_state) {
   if ($new_state == 'published') {
