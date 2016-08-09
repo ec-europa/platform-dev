@@ -107,7 +107,7 @@ Your subscription on [site:name] notifies you of {{[subs:is-new]==0?:a new post:
 [subs:comments:join:
 ]
 }}| Direct unsubscribe link ([subs:type]):
-| [site:url]/unsubscribe/[current-user:uid]
+| [subs:unsubscribe-url]
 {{MAIL@| This is an automated message. Please do NOT reply to the sender address!
 {{[current-user:roles:last] == subscriber? :"To manage your subscriptions go to: [subs:manage-url]"}}
 
