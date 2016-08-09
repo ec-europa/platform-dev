@@ -370,12 +370,8 @@ class NewsroomPage {
     $url_parts = array();
     $url_parts[] = $this->getTermUrl($this->getType() ? $this->getType()->name : NULL);
     $url_parts[] = $this->getTermUrl($this->getTopic() ? $this->getTopic()->name : NULL);
-    if ($this->getStartDate()) {
-      $url_parts[] = $this->getStartDate()->format(NewsroomPage::MYSQL_DATE_FORMAT);
-    }
-    if ($this->getEndDate()) {
-      $url_parts[] = $this->getEndDate()->format(NewsroomPage::MYSQL_DATE_FORMAT);
-    }
+    $url_parts[] = $this->getStartDate() ? $this->getStartDate()->format(NewsroomPage::MYSQL_DATE_FORMAT) : NEXTEUROPA_NEWSROOM_ALL;
+    $url_parts[] = $this->getEndDate() ? $this->getEndDate()->format(NewsroomPage::MYSQL_DATE_FORMAT) : NEXTEUROPA_NEWSROOM_ALL;
 
     return $is_rss ? NewsroomHelper::getNewsroomRssUrl($url_parts) : NewsroomHelper::getNewsroomPageUrl($url_parts);
   }
