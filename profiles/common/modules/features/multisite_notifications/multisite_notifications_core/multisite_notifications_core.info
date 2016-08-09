@@ -29,7 +29,6 @@ features[user_permission][] = subscribe to content types
 features[user_permission][] = subscribe to taxonomy terms
 features[user_permission][] = suspend own subscriptions
 features[user_permission][] = view subscription block
-features[user_role][] = subscriber
 features[variable][] = subscribe_message_en
 features[variable][] = subscribe_subject_en
 features[variable][] = subscriptions_avoid_empty_subscribe_links

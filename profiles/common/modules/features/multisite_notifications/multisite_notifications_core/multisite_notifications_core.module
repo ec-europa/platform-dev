@@ -35,46 +35,6 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
 }
 
 /**
- * Implements hook_menu().
- */
-function multisite_notifications_core_menu() {
-  $items = array();
-
-  $items['subscribe'] = array(
-    'title' => 'Subscribe',
-    'description' => 'Confirmation for subscribing',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('multisite_notifications_core_subscribe_form'),
-    'access callback' => TRUE,
-    'weight' => 0,
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['unsubscribe'] = array(
-    'title' => 'Unsubscribe',
-    'description' => 'Confirmation for unsubscribing',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('multisite_notifications_core_unsubscribe_form'),
-    'access callback' => TRUE,
-    'weight' => 0,
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['admin/config/system/subscriptions/subscription-block'] = array(
-    'title' => 'Subscription Block',
-    'description' => 'Configure the subscription block settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('multisite_notifications_core_general_settings'),
-    'access arguments' => array('administer user subscriptions'),
-    // See subscriptions module.
-    'weight' => -10,
-    'type' => MENU_NORMAL_ITEM | MENU_LOCAL_TASK,
-    'file' => 'includes/multisite_notifications_core.settings.inc',
-  );
-  return $items;
-}
-
-/**
  * Implements hook_workbench_moderation_transition().
  */
 function multisite_notifications_core_workbench_moderation_transition($node, $previous_state, $new_state) {
@@ -110,69 +70,6 @@ function multisite_notifications_core_mail($key, &$message, $params) {
       break;
 
   }
-}
-
-/**
- * Helper function to delete the account.
- *
- * @param string|int|object $mail
- *   User mail.
- * @param string|int|object $waiting_confirmation
- *   Waiting confirmation.
- * @param int $uid
- *   User id.
- */
-function _multisite_notifications_core_delete_anonymous_account($mail, $waiting_confirmation = NULL, $uid = NULL) {
-  // Block user until user confirms.
-  if ($waiting_confirmation) {
-    $blocked = db_update('users')
-      ->fields(array('status' => 0))
-      ->condition('mail', $mail, '=')
-      ->execute();
-  }
-  else {
-    $user_deleted = db_delete('users')
-      ->condition('uid', $uid, '=')
-      ->execute();
-    if ($user_deleted > 0) {
-      drupal_set_message(t('You have confirmed your unsubscription.'), 'status');
-    }
-    else {
-      drupal_set_message(t('An error occurred during while unsubscribing your account.'), 'error');
-    }
-    drupal_goto();
-  }
-  if ($waiting_confirmation) {
-    return $blocked;
-  }
-}
-
-/**
- * Form constructor for the notification subscription form.
- *
- * @see multisite_notifications_core_subscribe_form_submit()
- *
- * @ingroup forms
- */
-function multisite_notifications_core_subscribe_form($form, &$form_states) {
-
-  $form = array();
-  $form['subscribe']['confirmation_text'] = array(
-    '#type' => 'markup',
-    '#prefix' => '<h3>',
-    '#suffix' => '</h3>',
-    '#markup' => t('Please confirm your subscription'),
-  );
-
-  $form['subscribe']['subscribe'] = array(
-    '#type' => 'submit',
-    '#value' => t('Confirm'),
-    '#weight' => 30,
-  );
-
-  $form['#submit'][] = 'multisite_notifications_core_subscribe_form_submit';
-
-  return $form;
 }
 
 /**
