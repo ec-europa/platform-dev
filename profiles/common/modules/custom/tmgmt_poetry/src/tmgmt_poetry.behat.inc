@@ -16,6 +16,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
 
   public $nodeId;
   public $jobId;
+  public $jobReference;
 
   /**
    * The Drupal driver manager.
@@ -60,10 +61,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @Then /^I store node ID of translation request page$/
    */
   public function iStoreNodeIdOfTranslationRequestPage() {
-    $url = $this->getSession()->getCurrentUrl();
-    preg_match_all('/node\/(\d*)/', $url, $matches);
-    $node_id = isset($matches[1][0]) ? $matches[1][0] : FALSE;
-
+    $node_id = $this->getCurrentNodeId();
     if (!$node_id) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
     }
@@ -117,12 +115,44 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
+   * Stores the job reference of the translation request page.
+   *
+   * @Then /^I store the job reference of the translation request page$/
+   */
+  public function iStoreJobReferenceOfTranslationRequestPage() {
+    $node_id = $this->getCurrentNodeId();
+    if (!$node_id) {
+      throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
+    }
+    else {
+      $jobs = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($node_id);
+      foreach ($jobs as $job) {
+        if (strpos($job->reference, "MAIN_") !== FALSE) {
+          $this->jobReference = $job->reference;
+          return;
+        }
+      }
+      throw new \InvalidArgumentException("Job Reference mismatch: the current node don't have MAIN Job associated.");
+    }
+  }
+
+  /**
    * Waiting for 1 second.
    *
    * @Then /^I wait$/
    */
   public function iWaitFor() {
     $this->getSession()->wait(1000);
+  }
+
+
+  /**
+   * Get the Current Node Id in the URL.
+   */
+  private function getCurrentNodeId() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/node\/(\d*)/', $url, $matches);
+    return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
   }
 
 }
