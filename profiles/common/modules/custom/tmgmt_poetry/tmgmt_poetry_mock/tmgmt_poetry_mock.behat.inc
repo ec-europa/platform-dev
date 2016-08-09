@@ -4,7 +4,6 @@
  * Contains TMGMTPoetryMockSubContexts.
  */
 
-use Behat\Behat\Context\Environment\InitializedContextEnvironment;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\DrupalDriverManager;
@@ -60,7 +59,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * @BeforeScenario
    */
   public function gatherContexts(BeforeScenarioScope $scope) {
-    /** @var InitializedContextEnvironment $environment */
     $environment = $scope->getEnvironment();
 
     $this->poetryContext = $environment->getContext(TmgmtPoetrySubContext::class);
