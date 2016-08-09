@@ -20,6 +20,9 @@ Feature: Subscription
     And I press "Save"
     And I select "Published" from "Moderation state"
     Then I press "Apply"
+    And I run cron
+    And I go to "admin/reports/dblog"
+    Then I should not see text matching "Subscriptions sent"
     Then I am logged in as a user with the "authenticated" role
     And I am on "content/new-page"
     And I click "Subscribe"
@@ -35,6 +38,13 @@ Feature: Subscription
     And I select "Basic HTML" from "Text format"
     And I fill in "Body" with "A body text"
     And I press "Save"
+    And I select "Validated" from "Moderation state"
+    When I press "Apply"
+    And I run cron
+    And I go to "admin/reports/dblog"
+    Then I should not see text matching "Subscriptions sent"
+    When I am on "content/new-page"
+    And I click "View draft" in the "primary_tabs" region
     And I select "Published" from "Moderation state"
     When I press "Apply"
     And I run cron
