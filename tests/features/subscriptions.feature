@@ -21,7 +21,8 @@ Feature: Subscription
     And I press "Save"
     And I select "Published" from "Moderation state"
     When I press "Apply"
-    And I run cron
+    And I am on "admin/config/system/cron_en"
+    And I press "Run cron"
     And I go to "admin/reports/dblog"
     Then I should not see text matching "Subscriptions sent"
     Then I am logged in as a user with the "authenticated" role
@@ -41,7 +42,8 @@ Feature: Subscription
     And I press "Save"
     And I select "Validated" from "Moderation state"
     When I press "Apply"
-    And I run cron
+    And I am on "admin/config/system/cron_en"
+    And I press "Run cron"
     And I go to "admin/reports/dblog"
     Then I should not see text matching "Subscriptions sent"
     When I am on "content/new-page"
