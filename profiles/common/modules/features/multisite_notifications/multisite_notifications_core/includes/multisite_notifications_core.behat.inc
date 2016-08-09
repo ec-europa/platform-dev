@@ -45,7 +45,7 @@ class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextI
    *
    * @Then /^I remember node ID of this page$/
    */
-  public function iExcludeNodeIdOfPage() {
+  public function iRememberIdOfPage() {
     $url = $this->getSession()->getCurrentUrl();
     preg_match_all('/node\/(\d*)/', $url, $matches);
     $node_id = isset($matches[1][0]) ? $matches[1][0] : FALSE;
@@ -64,7 +64,7 @@ class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextI
    * @Then /^I insert in Blocked nodes the node ID$/
    */
   public function iInsertNodeIdInBlockedNodes() {
-    $this->getSession()->getPage()->fillField("Blocked Nodes", $this->nid);
+    $this->getSession()->getPage()->fillField("Blocked nodes", $this->nid);
   }
 
 }
