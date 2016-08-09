@@ -173,7 +173,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         else {
           $form['actions']['request'] = array(
             '#type' => 'submit',
-            '#value' => t('Re-Request translation'),
+            '#value' => t('Request translation update'),
             '#submit' => array('tmgmt_workbench_update_translate_form_submit'),
             '#validate' => array('tmgmt_workbench_translate_form_validate'),
           );
