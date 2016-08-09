@@ -245,6 +245,7 @@ function _nexteuropa_newsroom_tools() {
         'text' => '<span class="glyphicon glyphicon-edit"></span> Edit item in the Newsroom',
         'path' => NewsroomHelper::getNewsroomUrl(variable_get('newsroom_single_item_edit_segment', NEXTEUROPA_NEWSROOM_ITEM_EDIT_SEGMENT) . $newsroom_id),
         'options' => array(
+          'external' => TRUE,
           'html' => TRUE,
           'attributes' => array('class' => 'btn btn-success'),
         ),
@@ -255,7 +256,6 @@ function _nexteuropa_newsroom_tools() {
         'text' => '<span class="glyphicon glyphicon-refresh"></span> Re-import from the Newsroom',
         'path' => 'newsroom-import/item/' . $newsroom_id,
         'options' => array(
-          'external' => TRUE,
           'html' => TRUE,
           'attributes' => array('class' => 'btn btn-danger'),
         ),
@@ -263,7 +263,7 @@ function _nexteuropa_newsroom_tools() {
     }
 
     foreach ($links as $link) {
-      $content .= '<div class="btn-group-sm btn-group">' . theme('link', $link) . '</div>';
+      $content .= '<div class="btn-group-sm btn-group">' . l($link['text'], $link['path'], $link['options']) . '</div>';
     }
 
     if (!empty($content)) {

@@ -107,7 +107,7 @@ class NewsroomHelper {
       $source->setConfig($config);
     }
 
-    $source->startImport();
+    $source->import();
 
     if (!empty($url)) {
       // Restore the default URL in order to run importers manually or via cron.
