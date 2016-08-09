@@ -47,16 +47,18 @@ make a formal request to the Comm Europa Management team.
 [Go to top](#table-of-content)
 
 ### Enabling the feature on your platform instance:
-:hand: Poetry is not a feature you can enable using feature sets.
+:hand: Poetry feature can not be enable using feature sets.
 
 - Once green light has been received from DG COMM, the feature needs to be
-activated by your FPFIS maintenance team.  Create a support ticket in [Jira's
-MULTISITE project] (https://webgate.ec.europa.eu/CITnet/jira/) explaining the
-details and deadlines for your request:
+activated by your FPFIS maintenance team.  Create a support ticket in
+[Jira's MULTISITE project]
+(https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa) (use the blue
+button labeled *Create*) explaining the details and deadlines for your request:
   - The ticket should contain the title 'Poetry activation request',
   - The ticket should include the name of your project,
   - Once maintenance team confirms the feature is ready to be used on
     Playground and/or Production you can configure your connector.
+  - It is proved helpful to have the deadline crafted in the jira ticket title.
 
 [Go to top](#table-of-content)
 
@@ -70,7 +72,7 @@ In order to do this, navigate to:
 ``` Configuration->Regional and Language->Translation management Translator ```.
 
 or go to:
-``` admin/config/regional/tmgmt_translator/tmgmt_translator/manage/poetry_en ```.
+``` admin/config/regional/tmgmt_translator/manage/poetry_en ```.
 
  - Translator settings: [x] Auto accept finished translations
    - Check this if you don't want to review a translation before publishing it.
@@ -79,9 +81,9 @@ or go to:
    - This is shown for information, please do not change it.
 
  - DGT Connector plugin settings:
-   - You should see 'Main "poetry_service" variable is properly set.' if you have
-  correctly followed the steps above. Otherwise, get back and check what you
-  forgot!
+   - You should see 'Main "poetry_service" variable is properly set.' if you
+   have correctly followed the steps above. Otherwise, get back and check what
+   you forgot!
    - Counter: you do not need to fill this. The counter is auto generated.
    - Requester code: must always be *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
@@ -132,7 +134,7 @@ Make sure the [poetry access was requested by the webmaster]
 
 ```php
     $conf['poetry_service'] = array(
-      'address' => ''http://intragate.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
+      'address' => 'http://intragate.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
       'method' => 'requestService',
       'callback_user' => [CALLBACK_USERNAME],
       'callback_password' => [CALLBACK_PASSWORD],
@@ -227,24 +229,28 @@ Files messages are saved in:
 Translations sent and received from the webservices are saved into the watchdog.
 
 :warning: We gradually move the _dblog_ to [kibana]
-(https://webgate.ec.europa.eu/fpfis/logging/) and if dblog is disabled from your instance, request access to Kibana
-by creating a request in [Jira's MULTISITE project]
-(https://webgate.ec.europa.eu/CITnet/jira/).
+(https://webgate.ec.europa.eu/fpfis/logging/) and if dblog is disabled from your
+ instance, request access to Kibana by creating a request in
+ [Jira's MULTISITE project]
+(https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa).
 
 [Go to top](#table-of-content)
 
 ## DGT reference number
 
-DGT reference has a format of type *WEB/2016/72000/0/1* and is a suite of several variables:
+DGT reference has a format of type *WEB/2016/72000/0/1* and is a suite of
+several variables:
 
   - The *requester code*  ``` (ex: WEB) ```,
-> Every Website instance using DGT connector will have as a requester code *WEB*.
+> Every Website instance using DGT connector will have as a requester code
+*WEB*.
 
   - The *year* a new counter was received  ``` (ex: 2016) ```,
 
   - The *counter* used when request was sent  ``` (ex: 72000) ```,
 
-  - The *version* (version is incremented each time a 'partie' version is sent) ```(ex:0) ```,
+  - The *version* (version is incremented each time a 'partie' version is sent)
+  ```(ex:0) ```,
 
   - The *partie* (in our case this is a unique page id) ``` (ex: 1) ```.
 
