@@ -239,3 +239,4 @@ Feature: TMGMT Poetry features
       | Unclosed break       | '<p>This paragraph contains <br> a not properly closed line break.</p>'              |
       | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                          |
       | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                    |
+      | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
