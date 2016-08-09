@@ -38,7 +38,7 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
  * Implements hook_workbench_moderation_transition().
  */
 function multisite_notifications_core_workbench_moderation_transition($node, $previous_state, $new_state) {
-  if ($new_state == 'published') {
+  if ($new_state == workbench_moderation_state_published()) {
     $full_node = node_load($node->nid);
     subscriptions_content_node_update($full_node);
   }
