@@ -67,4 +67,16 @@ class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextI
     $this->getSession()->getPage()->fillField("Blocked nodes", $this->nid);
   }
 
+  /**
+   * Browsing to node page saved as blocked.
+   *
+   * @Then /^I go to the page I remember of$/
+   */
+  public function iGoToThePageIRememberOf() {
+    $path = url('node/' . $this->nid, array(
+      'base_url' => '',
+      'absolute' => TRUE,
+    ));
+    $this->visitPath($path);
+  }
 }

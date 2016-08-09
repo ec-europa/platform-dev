@@ -47,7 +47,7 @@ Feature: Subscription
     And I should see "Taxonomy settings"
     And I should see "Display settings"
     And I should see "Mail settings"
-
+  @javascript
   Scenario: Block a given page from subscriptions
     When I am viewing my page with the title "A new page title"
     Then I remember node ID of this page
@@ -56,13 +56,9 @@ Feature: Subscription
     And I press "Save configuration"
     Then I should see "The configuration options have been saved."
 
-  Scenario: Save a page to exclude from subscriptions
-    When I am viewing my page with the title "A new page title"
-    Then I remember node ID of this page
-
-
+  @javascript
   Scenario: Check users cannot subscribe to pages excluded from subscriptions
     When I am logged in as a user with the "authenticated" role
-    And I go to "node/2"
+    And I go to the page I remember of
     Then I should not see "subscribe"
 
