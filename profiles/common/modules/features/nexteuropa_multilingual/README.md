@@ -4,7 +4,7 @@ multilingual features of the Next Europa platform.
 It also contains alterations of:
 * The path alias generation made by the "Pathauto" module in order
 to force the use of neutral language for all created aliases;
-*The path alias saving made by the "Path" module in order to ensure
+* The path alias saving made by the "Path" module in order to ensure
 that it is data of the source content that is always used to set the alias and
 that the neutral language is set for all defined aliases;
 * The "Drupal core" language negotiation system in order to
