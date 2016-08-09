@@ -79,5 +79,5 @@ class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextI
     ));
     $this->visitPath($path);
   }
-  
+
 }
