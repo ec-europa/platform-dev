@@ -50,11 +50,15 @@ function template_preprocess_tmgmt_dgt_html_template(&$variables) {
       }
 
       if ($is_html) {
-        // Ensure line break tags are always properly closed in order to be
+        // Ensure tags without content are always properly closed in order to be
         // XHTML compliant.
+        $replacements = [
+          '<br>' => '<br />',
+          '<hr>' => '<hr />',
+        ];
         $variables['items'][$tjid][$data_id]['#text'] = str_replace(
-          '<br>',
-          '<br/>',
+          array_keys($replacements),
+          array_values($replacements),
           $variables['items'][$tjid][$data_id]['#text']
         );
       }
