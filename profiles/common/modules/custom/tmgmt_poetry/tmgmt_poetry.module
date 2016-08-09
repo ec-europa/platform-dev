@@ -267,6 +267,42 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = 
 }
 
 /**
+ * Fetches active translation jobs based on a given entity id.
+ *
+ * @param int $entity_id
+ *    Entity id.
+ *
+ * @return mixed
+ *    An array of results with active translation jobs for given entity id.
+ */
+function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
+  $query = db_select('tmgmt_job_item', 'item');
+  $query->join('tmgmt_job', 'job', 'item.tjid = job.tjid');
+  $query->groupBy('job.tjid');
+  $query->condition('item.item_id', $entity_id, '=');
+  $query->condition('job.state', TMGMT_JOB_STATE_ACTIVE, '=');
+  // List of available fields form tmgmt_job_item column.
+  $query->fields('item', [
+    'tjiid',
+    'item_type',
+    'item_id',
+    'state',
+  ]);
+  // List of available fields form tmgmt_job column.
+  $query->fields('job', [
+    'tjid',
+    'reference',
+    'source_language',
+    'target_language',
+    'state',
+    'changed',
+  ]);
+
+  $result = $query->execute()->fetchAllAssoc('tjid');
+  return $result;
+}
+
+/**
  * Insert a row on the item status table.
  *
  * @param int $tjiid

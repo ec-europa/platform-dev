@@ -211,3 +211,32 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+
+  @javascript
+  Scenario Outline: Request translation of a basic page into French.
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "<title>"
+    And I fill in the rich text editor "Body" with <body>
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I wait
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has version 0
+    And the translation request document is valid XHTML
+
+    Examples:
+      | title                | body                                                                                 |
+      | Simple text          | 'Some simple text.'                                                                  |
+      | Paragraph            | '<p>A paragraph</p>'                                                                 |
+      | Abbreviation         | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>' |
+      | Unclosed break       | '<p>This paragraph contains <br> a not properly closed line break.</p>'              |
+      | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                          |
+      | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                    |
+      | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |

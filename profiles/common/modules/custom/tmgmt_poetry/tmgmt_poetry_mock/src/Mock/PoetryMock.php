@@ -419,4 +419,65 @@ class PoetryMock {
     }
   }
 
+  /**
+   * Get the poetry demande_id from a tmgmt_poetry job reference.
+   *
+   * @param string $job_reference
+   *   The tmgmt_poetry job reference.
+   *
+   * @return array
+   *   The poetry demande_id data.
+   */
+  private static function getDemandeIdFromJobReference($job_reference) {
+    $parts = array(
+      '(?<codeDemandeur>[a-z0-9]+)',
+      '(?<annee>[0-9]+)',
+      '(?<numero>[0-9]+)',
+      '(?<version>[0-9]+)',
+      '(?<partie>[0-9]+)',
+      '(?<produit>[a-z0-9]+)',
+    );
+    $pattern = '@' . implode('/', $parts) . '$@i';
+    preg_match(
+      $pattern,
+      $job_reference,
+      $matches
+    );
+
+    return array(
+      'codeDemandeur' => $matches['codeDemandeur'],
+      'annee' => $matches['annee'],
+      'numero' => $matches['numero'],
+      'version' => $matches['version'],
+      'partie' => $matches['partie'],
+      'produit' => $matches['produit'],
+    );
+  }
+
+  /**
+   * Gets the translation request data by their tmgmt_poetry job reference.
+   *
+   * @param string $job_reference
+   *   A tmgmt_poetry job reference.
+   */
+  public static function getTranslationRequestByJobReference($job_reference) {
+    $demande_id = self::getDemandeIdFromJobReference($job_reference);
+
+    $file_path = TMGMT_POETRY_MOCK_REQUESTS_PATH . implode('_', $demande_id) . '.xml';
+
+    $result = db_select('file_managed', 'fm')
+      ->fields('fm', ['fid'])
+      ->condition('filemime', 'application/xml', '=')
+      ->condition('uri', $file_path)
+      ->execute()
+      ->fetchAllAssoc('fid');
+
+    if ($result) {
+      return array(
+        'demande_id' => $demande_id,
+        'file' => file_load(key($result)),
+      );
+    }
+  }
+
 }
