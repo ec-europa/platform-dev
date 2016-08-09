@@ -192,7 +192,7 @@ Feature: TMGMT Poetry features
     And I should see "Aborted" in the "Original version" row
 
   @javascript
-  Scenario: Test re-request translation - no translation received.
+  Scenario: Test Request translation update - no translation received.
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "The content of the page for original version"
@@ -210,7 +210,7 @@ Feature: TMGMT Poetry features
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     Then I select the radio button "" with the id "edit-languages-fr"
-    And I press "Re-Request translation"
+    And I press "Request translation update"
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
@@ -225,7 +225,7 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
 
   @javascript
-  Scenario: Test re-request translation - not translations received for all languages.
+  Scenario: Test Request translation update - not translations received for all languages.
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "The content of the page for original version"
@@ -248,7 +248,7 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "None" in the "French" row
     Then I select the radio button "" with the id "edit-languages-fr"
-    And I press "Re-Request translation"
+    And I press "Request translation update"
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
