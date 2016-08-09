@@ -12,7 +12,7 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
 /**
  * Behat step definitions for Nexteuropa modules.
  */
-class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextInterface {
+class MultisiteNotificationsSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
   public $nid;
 
