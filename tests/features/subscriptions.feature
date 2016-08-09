@@ -48,7 +48,8 @@ Feature: Subscription
     And I click "View draft" in the "primary_tabs" region
     And I select "Published" from "Moderation state"
     When I press "Apply"
-    And I run cron
+    And I am on "admin/config/system/cron_en"
+    And I press "Run cron"
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent"
 
