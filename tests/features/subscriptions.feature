@@ -9,6 +9,7 @@ Feature: Subscription
     And the module is enabled
       |modules                      |
       |multisite_notifications_core |
+
   @javascript
   Scenario: Create a page and have someone subscribe to it
     And I go to "admin/config/system/site-information_en"
@@ -60,7 +61,7 @@ Feature: Subscription
 
   Scenario: Block a given page from subscriptions
     When I am viewing my page with the title "A new page title"
-    Then I remember node ID of this page
+    And I remember the node ID of this page
     When I go to "admin/config/system/subscriptions_en"
     Then I insert in Blocked nodes the node ID
     And I press "Save configuration"

@@ -43,7 +43,7 @@ class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextI
   /**
    * Storing node id from URL.
    *
-   * @Then /^I remember node ID of this page$/
+   * @Then /^I remember the node ID of this page$/
    */
   public function iRememberIdOfPage() {
     $url = $this->getSession()->getCurrentUrl();
