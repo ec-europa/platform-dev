@@ -14,7 +14,7 @@ that the neutral language is set for all defined aliases;
 # Important
 
  Concerning content, this module is designed for supporting the
- "Entity translation" module but not the "Content  translation" one.
+ "Entity translation" module but not the "Content translation" one.
 
 # Installation
 
