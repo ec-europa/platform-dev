@@ -115,9 +115,9 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   * Storing job reference from the Page.
+   * Stores the job reference of the translation request page.
    *
-   * @Then /^I store job Reference of translation request page$/
+   * @Then /^I store the job reference of the translation request page$/
    */
   public function iStoreJobReferenceOfTranslationRequestPage() {
     $node_id = $this->getCurrentNodeId();
