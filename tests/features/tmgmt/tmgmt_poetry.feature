@@ -232,11 +232,16 @@ Feature: TMGMT Poetry features
     And the translation request document is valid XHTML
 
     Examples:
-      | title                | body                                                                                 |
-      | Simple text          | 'Some simple text.'                                                                  |
-      | Paragraph            | '<p>A paragraph</p>'                                                                 |
-      | Abbreviation         | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>' |
-      | Unclosed break       | '<p>This paragraph contains <br> a not properly closed line break.</p>'              |
-      | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                          |
-      | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                    |
-      | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
+      | title                | body                                                                                                         |
+      | Simple text          | 'Some simple text.'                                                                                          |
+      | Paragraph            | '<p>A paragraph</p>'                                                                                         |
+      | Abbreviation         | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>'                         |
+      | Unclosed break       | '<p>This paragraph contains <br> a not properly closed line break.</p>'                                      |
+      | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                                                  |
+      | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                                            |
+      | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                                          |
+      | HTML5 Section        | '<section><h1>WWW</h1><p>The World Wide Web is ...</p></section>'                                            |
+      | HTML5 Audio          | '<audio controls=""><source src="horse.ogg" type="audio/ogg"/>...</audio>'                                   |
+      | HTML5 Video          | '<video controls="" height="240" width="320"><source src="movie.mp4" type="video/mp4">...</video>'           |
+      | HTML5 Figure         | '<figure><img alt="..." height="228" src="a.jpg" width="304"><figcaption>...</figcaption></figure>'          |
+      | TMGMT Poetry Ignore  | '<tmgmt_poetry_ignore value="[node:2:view-mode:full]{Visit the European Commission as Link}"/>'              |
