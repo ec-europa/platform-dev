@@ -19,7 +19,7 @@ Feature: Subscription
     And I fill in "Title" with "New page"
     And I press "Save"
     And I select "Published" from "Moderation state"
-    Then I press "Apply"
+    When I press "Apply"
     And I run cron
     And I go to "admin/reports/dblog"
     Then I should not see text matching "Subscriptions sent"
@@ -28,12 +28,12 @@ Feature: Subscription
     And I click "Subscribe"
     And I check "subscriptions[1]"
     And I press "Save"
-    Then I go to "user"
+    When I go to "user"
     And I click "Subscriptions" in the "primary_tabs" region
   #  Then I should see "1" in the "Pages/Thread" row
     When I am logged in as a user with the 'administrator' role
     And I am on "content/new-page"
-    Then I click "New draft" in the "primary_tabs" region
+    And I click "New draft" in the "primary_tabs" region
     And I fill in "Title" with "New Page title"
     And I select "Basic HTML" from "Text format"
     And I fill in "Body" with "A body text"
@@ -65,7 +65,7 @@ Feature: Subscription
     Then I insert in Blocked nodes the node ID
     And I press "Save configuration"
     Then I should see "The configuration options have been saved."
-    And I go to the page I remember of
+    And I go to the page of the node I remembered
     Then I should see "A new page title"
     And I should not see "subscribe"
 
