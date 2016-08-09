@@ -72,11 +72,12 @@ class NexteuropaSubContext extends RawDrupalContext implements DrupalSubContextI
    *
    * @Then /^I go to the page I remember of$/
    */
-  public function iGoToThePageIRememberOf() {
+  public function iGoToThePageRememberedOf() {
     $path = url('node/' . $this->nid, array(
       'base_url' => '',
       'absolute' => TRUE,
     ));
     $this->visitPath($path);
   }
+  
 }
