@@ -40,14 +40,14 @@ Feature: Subscription
     And I run cron
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent"
-@javascript
+
   Scenario: Check administration pages are available
     When I go to "admin/config/system/subscriptions_en"
     Then I should see "Content settings"
     And I should see "Taxonomy settings"
     And I should see "Display settings"
     And I should see "Mail settings"
-  @javascript
+
   Scenario: Block a given page from subscriptions
     When I am viewing my page with the title "A new page title"
     Then I remember node ID of this page
@@ -55,10 +55,7 @@ Feature: Subscription
     Then I insert in Blocked nodes the node ID
     And I press "Save configuration"
     Then I should see "The configuration options have been saved."
-
-  @javascript
-  Scenario: Check users cannot subscribe to pages excluded from subscriptions
-    When I am logged in as a user with the "authenticated" role
     And I go to the page I remember of
-    Then I should not see "subscribe"
+    Then I should see "A new page title"
+    And I should not see "subscribe"
 

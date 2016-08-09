@@ -33,6 +33,7 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
     }
   }
 }
+
 /**
  * Implements hook_menu().
  */
@@ -74,21 +75,10 @@ function multisite_notifications_core_menu() {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_workbench_moderation_transition.
  */
-function multisite_notifications_core_form_workbench_moderation_moderate_form_alter(&$form, &$form_state) {
-  $form['#submit'][] = '_multisite_notifications_core_wf_submit';
-
-}
-
-/**
- * Custom submit function.
- *
- * Checks if the status moved to published, then we notify subscribers.
- */
-function _multisite_notifications_core_wf_submit($form, &$form_state) {
-  if ($form_state['values']['state'] == 'published') {
-    $node = node_load($form_state['values']['node']->nid);
+function multisite_notifications_core_workbench_moderation_transition($node, $previous_state, $new_state) {
+  if ($new_state == 'published') {
     subscriptions_content_node_update($node);
   }
 }
