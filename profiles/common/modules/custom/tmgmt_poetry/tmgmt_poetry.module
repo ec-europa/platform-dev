@@ -267,7 +267,7 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = 
 }
 
 /**
- * Helper method for fetching active translation jobs based on give entity id.
+ * Fetches active translation jobs based on a given entity id.
  *
  * @param int $entity_id
  *    Entity id.
