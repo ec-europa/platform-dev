@@ -63,7 +63,7 @@ Feature: Subscription
     When I am viewing my page with the title "A new page title"
     And I remember the node ID of this page
     When I go to "admin/config/system/subscriptions_en"
-    Then I insert in Blocked nodes the node ID
+    And I insert in Blocked nodes the node ID
     And I press "Save configuration"
     Then I should see "The configuration options have been saved."
     And I go to the page of the node I remembered
