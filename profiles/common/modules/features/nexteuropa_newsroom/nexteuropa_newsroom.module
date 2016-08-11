@@ -569,8 +569,9 @@ function nexteuropa_newsroom_node_view($node, $view_mode, $langcode) {
     if ($primary_topic_id = NewsroomHelper::getFieldValue($node, 'field_newsroom_primary_topic', 'tid')) {
       $topics[] = $primary_topic_id;
     }
+
     if ($associated_topics = NewsroomHelper::getFieldValue($node, 'field_newsroom_topics', 'tid')) {
-      $topics = array_merge($topics, $associated_topics);
+      $topics = array_merge($topics, is_array($associated_topics) ? $associated_topics : array($associated_topics));
     }
     $topics = array_unique($topics);
     // Loop through topics (start with primary) to find menu item.
