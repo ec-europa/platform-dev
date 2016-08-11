@@ -81,5 +81,8 @@ communities:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+      flickr:
+        key: '{{ flickr.key }}'
+        secret: '{{ flickr.secret }}'
   formatters:
     {{ behat.formatter.name }}: ~
