@@ -474,7 +474,7 @@ projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.7"
+projects[piwik][version] = "2.9"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.7"
