@@ -7,6 +7,11 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\VariablesContext:
+          values:
+            flickr:
+              key: '{{ flickr.key }}'
+              secret: '{{ flickr.secret }}'
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
@@ -81,8 +86,5 @@ communities:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
-      flickr:
-        key: '{{ flickr.key }}'
-        secret: '{{ flickr.secret }}'
   formatters:
     {{ behat.formatter.name }}: ~
