@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Related content tree presentation.

@@ -70,7 +70,6 @@ function _nexteuropa_newsroom_create_multilingual_newsletter_importer() {
   _nexteuropa_newsroom_save_importer($feeds_importer);
 }
 
-
 /**
  * Creates items feed importer and runs the import.
  */

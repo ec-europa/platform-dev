@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_newsroom.feeds_importer_default.inc

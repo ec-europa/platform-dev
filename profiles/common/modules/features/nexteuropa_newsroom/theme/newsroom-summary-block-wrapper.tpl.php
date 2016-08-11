@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Summary block wrapper.

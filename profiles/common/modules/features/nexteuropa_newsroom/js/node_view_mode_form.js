@@ -6,7 +6,7 @@
 (function ($) {
   Drupal.behaviors.nexteuropa_newsroom = {
     attach: function (context, settings) {
-      $("#edit-reveal-modes").click(function(event) {
+      $("#edit-reveal-modes").click(function (event) {
         event.preventDefault();
         jQuery('#newsroom-import-code').css('display', 'block');
         jQuery('#newsroom-export-code').css('display', 'block');

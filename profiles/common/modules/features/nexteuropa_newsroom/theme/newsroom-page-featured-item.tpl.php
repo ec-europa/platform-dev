@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Page newsroom featured item.

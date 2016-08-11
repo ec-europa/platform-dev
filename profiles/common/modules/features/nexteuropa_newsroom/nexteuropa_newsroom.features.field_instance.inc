@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_newsroom.features.field_instance.inc
@@ -3203,7 +3204,8 @@ function nexteuropa_newsroom_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-newsroom_newsletter_issue-field_newsroom_service'.
+  // Exported field_instance:
+  // 'node-newsroom_newsletter_issue-field_newsroom_service'.
   $field_instances['node-newsroom_newsletter_issue-field_newsroom_service'] = array(
     'bundle' => 'newsroom_newsletter_issue',
     'default_value' => array(

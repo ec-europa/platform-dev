@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Zoomable image HTML markup.
