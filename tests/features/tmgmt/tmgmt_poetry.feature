@@ -34,11 +34,11 @@ Feature: TMGMT Poetry features
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
     Given I create the following multilingual "page" content:
-      | language | title              | body              |
+      | language | title              | field_ne_body     |
       | en       | Title in English 1 | Body in English 1 |
       | de       | Title in German 1  | Body in German 1  |
     And I create the following multilingual "page" content:
-      | language | title              | body              |
+      | language | title              | field_ne_body     |
       | en       | Title in English 2 | Body in English 2 |
       | it       | Title in Italian 2 | Body in Italian 2 |
       | de       | Title in German 2  | Body in German 2  |
