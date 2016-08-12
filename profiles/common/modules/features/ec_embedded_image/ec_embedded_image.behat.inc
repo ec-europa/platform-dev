@@ -217,10 +217,13 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
     do {
       $preview = $media_field_div->find('css', 'div.preview div.media-thumbnail');
 
-      if (!$preview) {
+      // Additionally, wait for the remove button.
+      $remove_button = $media_field_div->findButton('Remove');
+
+      if (!$preview || !$remove_button) {
         usleep(500);
       }
-    } while (!$preview && microtime(true) < $end);
+    } while ((!$preview || !$remove_button) && microtime(true) < $end);
 
     if (!$preview) {
       echo ($this->getSession()->getPage()->getContent());
