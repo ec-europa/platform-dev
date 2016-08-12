@@ -114,6 +114,7 @@
         <!-- Composer configuration. -->
         <symlink link="${platform.build.composer.json}" target="${platform.resources.composer.json}" />
         <symlink link="${platform.build.composer.lock}" target="${platform.resources.composer.lock}" />
+        <symlink link="${platform.build.favicon.ico}" target="${platform.resources.favicon.ico}" />
     </target>
 
     <!-- Copy various resources for deploying on production. -->
@@ -123,6 +124,7 @@
             <fileset dir="${platform.resources.dir}">
                 <!-- Composer configuration. -->
                 <include name="composer.*"></include>
+                <include name="favicon.ico"></include>
             </fileset>
         </copy>
     </target>
