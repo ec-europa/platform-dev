@@ -192,7 +192,44 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
    */
   public function theMediaBrowserCloses() {
     $this->getSession()->switchToIFrame(NULL);
-    $this->minkContext->iWaitForAjaxToFinish();
+    $this->getSession()->wait(5000, '(!document.getElementById("mediaBrowser"))');
+
+  }
+
+  /**
+   * @Then /^(?:|I )see the "(?P<field>(?:[^"]|\\")*)" preview$/
+   */
+  public function assertMediaAssetFieldPreview($field) {
+    $field = str_replace('\\"', '"', $field);
+    $label = $this->getSession()->getPage()->find('xpath', '//label[contains(text(), \'' . $field . '\')]');
+
+    $current_element = $label;
+
+    // Ascend back up to the div with class field-type-media.
+    do {
+      $current_element = $current_element->getParent();
+    } while (!$current_element->hasClass('field-type-media'));
+
+    $media_field_div = $current_element;
+
+    // Try to find the preview (for max. 5 seconds).
+    $end = microtime(true) + 5;
+    do {
+      $preview = $media_field_div->find('css', 'div.preview div.media-thumbnail');
+
+      if (!$preview) {
+        usleep(500);
+      }
+    } while (!$preview && microtime(true) < $end);
+
+    if (!$preview) {
+      throw new Exception(
+        sprintf(
+          'Preview for field "%s" not found.',
+          $field
+        )
+      );
+    }
   }
 
   /**

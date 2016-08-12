@@ -21,7 +21,8 @@ Scenario Outline: Embed Flickr photoset via media asset field
   And I fill in "File URL or media resource" with "<url>"
   And I press "Next"
   And the media browser closes
-  And I press "Save"
+  Then I see the "Flickr set" preview
+  When I press "Save"
   And I wait for the page to reload
   And print last response
   Then I should see the success message "Media Gallery <title> has been created."
