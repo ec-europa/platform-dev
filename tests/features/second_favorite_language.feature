@@ -11,8 +11,8 @@ Feature: Second favorite language tests
       | de        |
       | it        |
       | bg        |
-  
-  Scenario: Create multilingual content with visible body labels.
+
+  Scenario Outline: Check consistency of second favorite language fallback
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/translate/translate"
     And I fill in "String contains" with "Body"
@@ -35,9 +35,7 @@ Feature: Second favorite language tests
       | en       | This title is in English    | English body               |
       | fr       | Ce titre est en Français    | Corps de texte français    |
       | it       | Questo titolo è in italiano | Corpo di testo in italiano |
-
-  Scenario Outline: Check consistency of second favorite language fallback
-    Then I go to "<url><favorite>"
+    And I go to "<url><favorite>"
     And I click "<language>" in the "content_top"
     Then I should be on "<target><target_favorite>"
     And I should see the heading "<title>"
