@@ -11,18 +11,13 @@ function ec_resp_preprocess_feature_set_admin_form(&$variables) {
   // Add specific javascript.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array(
     'scope' => 'footer',
-    'weight' => 13
+    'weight' => 13,
   ));
 
   $categories_list = '';
   $features_list = '';
 
   foreach ($variables['feature_set_category']['category'] as $category => $features) {
-    $table = array(
-      'header' => NULL,
-      'rows' => array(),
-      'attributes' => array('class' => array('feature-set-content table table-striped table-hover')),
-    );
 
     // Create category id.
     $category_id = preg_replace("/[^a-z0-9_\s-]/", "", strtolower($category));
@@ -134,8 +129,8 @@ function ec_resp_preprocess_feature_set_admin_form(&$variables) {
             'class' => 'feature-set__doc',
           ),
           '#value' => !empty($item['#featuresetinfo']['require'])
-            ? $item['#featuresetinfo']['require']
-            : '',
+          ? $item['#featuresetinfo']['require']
+          : '',
         ),
       ));
 
@@ -323,7 +318,7 @@ function ec_resp_preprocess_node(&$variables) {
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
   $variables['submitted'] = t('Published by !username on !datetime', array(
     '!username' => $variables['name'],
-    '!datetime' => $custom_date
+    '!datetime' => $custom_date,
   ));
 
   // Add classes.
@@ -506,15 +501,15 @@ function ec_resp_preprocess_html(&$variables) {
   // Add javascripts to the footer scope.
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array(
     'scope' => 'footer',
-    'weight' => 10
+    'weight' => 10,
   ));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array(
     'scope' => 'footer',
-    'weight' => 11
+    'weight' => 11,
   ));
   drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array(
     'scope' => 'footer',
-    'weight' => 12
+    'weight' => 12,
   ));
 }
 
@@ -959,11 +954,11 @@ function ec_resp_form_element($variables) {
   }
   if (!empty($element['#name'])) {
     $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(
-        ' ' => '-',
-        '_' => '-',
-        '[' => '-',
-        ']' => '',
-      ));
+      ' ' => '-',
+      '_' => '-',
+      '[' => '-',
+      ']' => '',
+    ));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -1179,7 +1174,7 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
         $form['search_input_group']['europa_search_submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
         $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge($form['search_input_group']['europa_search_submit']['#attributes']['class'], array(
           'btn',
-          'btn-default'
+          'btn-default',
         ));
         $form['search_input_group']['europa_search_submit']['#attributes']['alt'] = t('Search');
       }
@@ -1644,7 +1639,7 @@ function ec_resp_preprocess_block(&$variables) {
         if ($user->uid) {
           $name = theme('username', array(
             'account' => $user,
-            'nolink' => TRUE
+            'nolink' => TRUE,
           ));
           $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name) . '</strong></div>';
 
