@@ -8,10 +8,10 @@ default:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\VariablesContext:
-          values:
-            flickr:
-              key: '{{ flickr.key }}'
-              secret: '{{ flickr.secret }}'
+            values:
+              flickr:
+                key: '{{ flickr.key }}'
+                secret: '{{ flickr.secret }}'
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:
