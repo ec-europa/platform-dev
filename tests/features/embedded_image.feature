@@ -22,7 +22,7 @@ Scenario Outline: Embed Flickr photoset via media asset field
   And I press "Next"
   And the media browser closes
   And I press "Save"
-  And I wait for AJAX to finish
+  And I wait for the page to reload
   Then I should see the success message "Media Gallery <title> has been created."
 
   Examples:

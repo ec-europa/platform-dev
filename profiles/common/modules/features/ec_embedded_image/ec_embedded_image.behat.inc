@@ -195,4 +195,13 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
     $this->minkContext->iWaitForAjaxToFinish();
   }
 
+  /**
+   * Waits at most 2 seconds for the page to be entirely loaded.
+   *
+   * @When I wait for the page to reload
+   */
+  public function iWaitForThePageToReload() {
+    $this->getSession()->wait(2000, '(document.readyState === "complete")');
+  }
+
 }
