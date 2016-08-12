@@ -46,17 +46,23 @@
 ?>
 <div class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <?php if (!$label_hidden): ?>
-    <div class="field-label"<?php print $title_attributes; ?>><?php print $label ?>:&nbsp;</div>
+    <div
+      class="field-label"<?php print $title_attributes; ?>><?php print $label ?>
+      :&nbsp;</div>
   <?php endif; ?>
   <div class="field-items"<?php print $content_attributes; ?>>
     <?php foreach ($items as $delta => $item): ?>
-      <div class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>>
-      <?php print render($item); ?>
+      <div
+        class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>>
+        <?php print render($item); ?>
       </div>
-      <?php $image_caption = isset($item['#item']['field_caption'][LANGUAGE_NONE][0]['safe_value']) ? $item['#item']['field_caption'][LANGUAGE_NONE][0]['safe_value'] : ''; ?>
-      <?php if (isset($image_caption)): ?>
-      <div class="field-image-caption"><?php print $image_caption; ?></div>
-      <?php endif;?>
+      <?php
+      global $language;
+      if (isset($item['#item']['field_caption'][$language->language][0]['safe_value'])):
+        ?>
+        <div
+          class="field-image-caption"><?php print $item['#item']['field_caption'][$language->language][0]['safe_value']; ?></div>
+      <?php endif; ?>
     <?php endforeach; ?>
   </div>
 </div>

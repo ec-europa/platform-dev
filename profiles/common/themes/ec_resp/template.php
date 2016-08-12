@@ -9,7 +9,10 @@
  */
 function ec_resp_preprocess_feature_set_admin_form(&$variables) {
   // Add specific javascript.
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array(
+    'scope' => 'footer',
+    'weight' => 13
+  ));
 
   $categories_list = '';
   $features_list = '';
@@ -131,8 +134,8 @@ function ec_resp_preprocess_feature_set_admin_form(&$variables) {
             'class' => 'feature-set__doc',
           ),
           '#value' => !empty($item['#featuresetinfo']['require'])
-          ? $item['#featuresetinfo']['require']
-          : '',
+            ? $item['#featuresetinfo']['require']
+            : '',
         ),
       ));
 
@@ -282,7 +285,8 @@ function ec_resp_preprocess_page(&$variables) {
   if (!empty($variables['page']['featured'])) {
     foreach ($variables['page']['featured'] as $key => $value) {
       if ($key == 'system_main-menu' ||
-        strpos($key, 'om_maximenu') !== FALSE) {
+        strpos($key, 'om_maximenu') !== FALSE
+      ) {
         $variables['menu_visible'] = TRUE;
       }
     }
@@ -317,7 +321,10 @@ function ec_resp_preprocess_node(&$variables) {
 
   // Alter date format.
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
-  $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
+  $variables['submitted'] = t('Published by !username on !datetime', array(
+    '!username' => $variables['name'],
+    '!datetime' => $custom_date
+  ));
 
   // Add classes.
   if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
@@ -347,11 +354,11 @@ function ec_resp_preprocess_node(&$variables) {
     $variables['revision_name'] = theme('username', array('account' => $revision_account));
     $variables['revision_date'] = format_date($node->changed);
     $variables['submitted'] .= "<br />" . t('Last modified by !revision-name on !revision-date',
-      array(
-        '!revision-name' => $variables['revision_name'],
-        '!revision-date' => $variables['revision_date'],
-      )
-    );
+        array(
+          '!revision-name' => $variables['revision_name'],
+          '!revision-date' => $variables['revision_date'],
+        )
+      );
   }
 
 }
@@ -497,9 +504,18 @@ function ec_resp_preprocess_html(&$variables) {
   }
 
   // Add javascripts to the footer scope.
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array('scope' => 'footer', 'weight' => 12));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array(
+    'scope' => 'footer',
+    'weight' => 10
+  ));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array(
+    'scope' => 'footer',
+    'weight' => 11
+  ));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array(
+    'scope' => 'footer',
+    'weight' => 12
+  ));
 }
 
 /**
@@ -943,11 +959,11 @@ function ec_resp_form_element($variables) {
   }
   if (!empty($element['#name'])) {
     $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(
-      ' ' => '-',
-      '_' => '-',
-      '[' => '-',
-      ']' => '',
-    ));
+        ' ' => '-',
+        '_' => '-',
+        '[' => '-',
+        ']' => '',
+      ));
   }
   // Add a class for disabled elements to facilitate cross-browser styling.
   if (!empty($element['#attributes']['disabled'])) {
@@ -1161,7 +1177,10 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       if (theme_get_setting('enable_interinstitutional_theme')) {
         $form['search_input_group']['europa_search_submit']['#type'] = 'image_button';
         $form['search_input_group']['europa_search_submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
-        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge($form['search_input_group']['europa_search_submit']['#attributes']['class'], array('btn', 'btn-default'));
+        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge($form['search_input_group']['europa_search_submit']['#attributes']['class'], array(
+          'btn',
+          'btn-default'
+        ));
         $form['search_input_group']['europa_search_submit']['#attributes']['alt'] = t('Search');
       }
       break;
@@ -1623,7 +1642,10 @@ function ec_resp_preprocess_block(&$variables) {
 
       case 'system-user-menu':
         if ($user->uid) {
-          $name = theme('username', array('account' => $user, 'nolink' => TRUE));
+          $name = theme('username', array(
+            'account' => $user,
+            'nolink' => TRUE
+          ));
           $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name) . '</strong></div>';
 
         }
