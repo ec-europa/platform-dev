@@ -31,6 +31,9 @@ function nexteuropa_editorial_install() {
     // Contextual.
     'access contextual links',
 
+    // Ckedtior lite.
+    'ckeditor_lite highlight changes',
+
     // Entity Translation.
     'translate any entity',
 
@@ -226,4 +229,16 @@ function nexteuropa_editorial_enable() {
   foreach ($og_roles as $og_role) {
     multisite_config_service('og')->grantOgPermissions($og_role, array('access group broken links report'), 'node', 'editorial_team', 'og_linkchecker');
   }
+}
+
+/**
+ * NEXTEUROPA-11901: "ckeditor_lite highlight changes" (editorial team member).
+ */
+function nexteuropa_editorial_update_7001() {
+  // Set permissions for "contributor" role.
+  $permissions = array(
+    // Version Management.
+    'ckeditor_lite highlight changes',
+  );
+  multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
 }
