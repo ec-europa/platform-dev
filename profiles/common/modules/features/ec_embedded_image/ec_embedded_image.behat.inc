@@ -197,6 +197,8 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
   }
 
   /**
+   * Assert the preview of a media asset field is shown.
+   *
    * @Then /^(?:|I )see the "(?P<field>(?:[^"]|\\")*)" preview$/
    */
   public function assertMediaAssetFieldPreview($field) {
@@ -213,7 +215,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
     $media_field_div = $current_element;
 
     // Try to find the preview (for max. 10 seconds).
-    $end = microtime(true) + 10;
+    $end = microtime(TRUE) + 10;
     do {
       $preview = $media_field_div->find('css', 'div.preview div.media-thumbnail');
 
@@ -223,7 +225,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
       if (!$preview || !$remove_button) {
         usleep(500);
       }
-    } while ((!$preview || !$remove_button) && microtime(true) < $end);
+    } while ((!$preview || !$remove_button) && microtime(TRUE) < $end);
 
     if (!$preview) {
       echo ($this->getSession()->getPage()->getContent());
