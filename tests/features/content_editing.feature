@@ -61,7 +61,7 @@ Feature: Content editing
     And I press "Save"
     Then the response should contain "<expected>"
     And I should see the following warning messages:
-      | warning messages | <strong>The change tracking is activated on some fields</strong>.<br /> <small>Please validate tracked changes before publishing it or sending it for translation.</small> |
+      | warning messages | <strong>The change tracking is activated on some fields of this page</strong>.<br /> <small>Please validate tracked changes before publishing it or sending it for translation.</small> |
     And I should see an "div.ICE-Tracking" element
     
     Examples:
@@ -80,7 +80,7 @@ Feature: Content editing
     And I press "Save"
     Then the response should contain "<expected>"
     And I should not see the following warning messages:
-      | warning messages | <strong>The change tracking is activated on some fields</strong>.<br /> <small>Please validate tracked changes before publishing it or sending it for translation.</small> |
+      | warning messages | <strong>The change tracking is activated on some fields of this page</strong>.<br /> <small>Please validate tracked changes before publishing it or sending it for translation.</small> |
     And I should not see an "div.ICE-Tracking" element
 
     Examples:

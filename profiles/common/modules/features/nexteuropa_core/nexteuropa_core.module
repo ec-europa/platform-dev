@@ -51,9 +51,9 @@ function nexteuropa_core_entity_view_alter(&$build, $type) {
 }
 
 /**
- * Unsets the "ckeditor_lite" post render callback.
+ * Removes the "ckeditor_lite" post render callback.
  *
- * It is replaced by another matching platform needs.
+ * It is replaced by one matching platform needs.
  *
  * @param array $build
  *   The entity view build.
@@ -87,8 +87,9 @@ function _nexteuropa_core_ckeditor_lite_view_alter(&$build, $type) {
 function _nexteuropa_core_ckeditor_lite_entity_post_render($output, $element) {
   // First we check if change tracking exist.
   if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $output)) {
-    drupal_set_message(t('<strong>The change tracking is activated on some fields</strong>.<br />
-     <small>Please validate tracked changes before publishing it or sending it for translation.</small>'), 'warning');
+    drupal_set_message(t('<strong>The change tracking is activated</strong> on some fields of this @type.<br />
+     <small>Please validate tracked changes before publishing it or sending it for translation.</small>',
+      array('@type' => $element['#bundle'])), 'warning');
 
     $pattern = array(
       // Activate Highlighting - div with node-page class.
