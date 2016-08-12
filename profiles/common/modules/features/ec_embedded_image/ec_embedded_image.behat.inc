@@ -227,7 +227,9 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
       }
     } while ((!$preview || !$remove_button) && microtime(TRUE) < $end);
 
-    if (!$preview) {
+    if (!$preview || !$remove_button) {
+      echo base64_encode($this->getSession()->getScreenshot());
+
       echo ($this->getSession()->getPage()->getContent());
 
       throw new Exception(
