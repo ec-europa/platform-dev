@@ -207,7 +207,10 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     // Assign translated title field.
     $values['title_field'][$language][0]['value'] = $fields['title'];
     // Assign translated body field, if any.
-    if (isset($fields['body']) && !empty($fields['body'])) {
+    if (isset($fields['field_ne_body']) && !empty($fields['field_ne_body'])) {
+      $values['field_ne_body'][$language][0]['value'] = $fields['field_ne_body'];
+    }
+    elseif (isset($fields['body']) && !empty($fields['body'])) {
       $values['body'][$language][0]['value'] = $fields['body'];
     }
     $handler->setTranslation($translation, $values);
