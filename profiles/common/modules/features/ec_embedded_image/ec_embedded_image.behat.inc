@@ -212,8 +212,8 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
 
     $media_field_div = $current_element;
 
-    // Try to find the preview (for max. 5 seconds).
-    $end = microtime(true) + 5;
+    // Try to find the preview (for max. 10 seconds).
+    $end = microtime(true) + 10;
     do {
       $preview = $media_field_div->find('css', 'div.preview div.media-thumbnail');
 
@@ -223,6 +223,8 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
     } while (!$preview && microtime(true) < $end);
 
     if (!$preview) {
+      echo ($this->getSession()->getPage()->getContent());
+
       throw new Exception(
         sprintf(
           'Preview for field "%s" not found.',
