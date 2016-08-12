@@ -29,7 +29,7 @@ class VariablesContext implements Context {
    * @param array $values
    *   The values.
    */
-  public function __construct($values) {
+  public function __construct(array $values) {
     $this->variables = $values;
   }
 
