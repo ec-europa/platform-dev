@@ -128,7 +128,9 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   );
   // Setting up default value to be poetry if available.
   if (isset($form['translator_wrapper']['translator']['#options'])) {
-    if (in_array('poetry', array_keys($form['translator_wrapper']['translator']['#options']))) {
+    $translators = $form['translator_wrapper']['translator']['#options'];
+    if (in_array('poetry', array_keys($translators))
+      && !in_array('tmgmt_poetry_test_translator', array_keys($translators))) {
       $form['translator_wrapper']['translator']['#default_value'] = 'poetry';
     }
   }
@@ -156,10 +158,6 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     $job = $form_state['tmgmt_job'];
     if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
       $form['translator_wrapper']['#collapsed'] = TRUE;
-    }
-    $job_items = $job->getItems();
-    if (count($job_items) > 0) {
-      $job_item = array_shift($job_items);
     }
   }
 

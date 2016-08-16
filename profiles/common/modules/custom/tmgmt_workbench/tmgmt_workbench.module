@@ -165,7 +165,10 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       }
 
       // Provide 'Request translation' action or hide actions.
-      if ($translation_possible) {
+      // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
+      // there is new #markup element which will be displayed every time when
+      // there is a translation request on going.
+      if ($translation_possible && !$existing_jobs) {
         $form['actions']['#type'] = 'actions';
         $form['actions']['request'] = array(
           '#type' => 'submit',
@@ -176,6 +179,21 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       }
       else {
         unset($form['actions']);
+        foreach ($options as $lang_code => $option) {
+          $form['languages'][$lang_code] = array(
+            '#type' => 'checkbox',
+            '#disabled' => TRUE,
+          );
+        }
+        $form['languages_description'] = [
+          '#type' => 'item',
+          '#prefix' => "<div class='messages warning'>",
+          '#markup' => t('There is already translation request ongoing. Please end up translation process before creating a new translation request.'),
+          '#sufix' => "</div>",
+          '#attributes' => [
+            'class' => ['messages warning'],
+          ],
+        ];
       }
 
       // Remove add to cart button.
