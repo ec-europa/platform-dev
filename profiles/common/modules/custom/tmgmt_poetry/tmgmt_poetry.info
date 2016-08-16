@@ -11,6 +11,7 @@ dependencies[] = tmgmt_node
 dependencies[] = tmgmt_node_ui
 dependencies[] = tmgmt_dgt_html
 dependencies[] = tmgmt_workbench
+dependencies[] = multisite_drupal_toolbox
 files[] = entity/tmgmt_poetry.entity.job.inc
 files[] = controller/tmgmt_poetry.controller.job.inc
 files[] = plugins/tmgmt_poetry.plugin.inc

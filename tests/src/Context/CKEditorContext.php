@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Contains \Drupal\nexteuropa\Context\CKEditorContext.
  */
 
 namespace Drupal\nexteuropa\Context;
@@ -39,4 +40,5 @@ class CKEditorContext extends RawMinkContext {
       "CKEDITOR.instances[args.ckeditor_instance_id].setData(args.value);"
     );
   }
+
 }
