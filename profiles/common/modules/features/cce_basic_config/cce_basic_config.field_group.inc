@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function cce_basic_config_field_group_info() {
-  $field_groups = array();
+  $export = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -36,7 +36,7 @@ function cce_basic_config_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_article_content|node|article|form'] = $field_group;
+  $export['group_article_content|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -63,7 +63,7 @@ function cce_basic_config_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_article_date|node|article|form'] = $field_group;
+  $export['group_article_date|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -90,13 +90,7 @@ function cce_basic_config_field_group_info() {
       ),
     ),
   );
-  $field_groups['group_article_metadata|node|article|form'] = $field_group;
+  $export['group_article_metadata|node|article|form'] = $field_group;
 
-  // Translatables
-  // Included for use with string extractors like potx.
-  t('Content');
-  t('Dates');
-  t('Metadata');
-
-  return $field_groups;
+  return $export;
 }
