@@ -36,7 +36,7 @@ class MediaContext implements Context {
   /**
    * Switches to the media browser iframe.
    *
-   * @When the media browser opens
+   * @Then the media browser opens
    */
   public function iEnterTheMediaBrowser() {
     $this->mink->getSession()->switchToIFrame('mediaBrowser');
@@ -45,7 +45,7 @@ class MediaContext implements Context {
   /**
    * Switches back from an iframe to the main window.
    *
-   * @When the media browser closes
+   * @Then the media browser closes
    */
   public function theMediaBrowserCloses() {
     $this->mink->getSession()->switchToIFrame(NULL);
@@ -54,7 +54,7 @@ class MediaContext implements Context {
   }
 
   /**
-   * Assert the preview of a media asset field is shown.
+   * Asserts the preview of a media asset field is shown.
    *
    * @Then /^(?:|I )see the "(?P<field>(?:[^"]|\\")*)" preview$/
    */
@@ -71,23 +71,41 @@ class MediaContext implements Context {
 
     $media_field_div = $current_element;
 
-    // Try to find the preview (for max. 10 seconds).
+    $preview_thumbnail = NULL;
+    $remove_button = NULL;
+
+    // Try to find the preview thumbnail & remove button (for max. 10 seconds).
     $end = microtime(TRUE) + 10;
     do {
-      $preview = $media_field_div->find('css', 'div.preview div.media-thumbnail');
+      if (!$preview_thumbnail) {
+        $preview_thumbnail = $media_field_div->find(
+          'css',
+          'div.preview div.media-thumbnail'
+        );
+      }
 
-      // Additionally, wait for the remove button.
-      $remove_button = $media_field_div->findButton('Remove');
+      if (!$remove_button) {
+        $remove_button = $media_field_div->findButton('Remove');
+      }
 
-      if (!$preview || !$remove_button) {
+      if (!$preview_thumbnail || !$remove_button) {
         usleep(500);
       }
-    } while ((!$preview || !$remove_button) && microtime(TRUE) < $end);
+    } while ((!$preview_thumbnail || !$remove_button) && microtime(TRUE) < $end);
 
-    if (!$preview || !$remove_button) {
+    if (!$preview_thumbnail) {
       throw new Exception(
         sprintf(
-          'Preview for field "%s" not found.',
+          'Preview thumbnail for field "%s" not found.',
+          $field
+        )
+      );
+    }
+
+    if (!$remove_button) {
+      throw new Exception(
+        sprintf(
+          'Remove button for field "%s" not found.',
           $field
         )
       );
