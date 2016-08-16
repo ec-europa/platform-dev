@@ -25,9 +25,9 @@ Scenario Outline: Embed Flickr photoset via media asset field
   Then I should see the success message "Media Gallery <title> has been created."
 
   Examples:
-  | title              | url                                                |
-  | Old Flickr set URL | https://www.flickr.com/photos/junku/sets/303691/   |
-  | New Flickr set URL | https://www.flickr.com/photos/junku/albums/303691/ |
+  | title              | url                                                                 |
+  | Old Flickr set URL | https://www.flickr.com/photos/69583224@N05/sets/72157669193515074   |
+  | New Flickr set URL | https://www.flickr.com/photos/69583224@N05/albums/72157669193515074 |
 
 Scenario Outline: Error when an invalid Flickr url is filled in
   When I go to "node/add/test-media-gallery"
