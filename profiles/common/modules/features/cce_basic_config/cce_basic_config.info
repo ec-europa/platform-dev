@@ -46,9 +46,6 @@ dependencies[] = password_policy
 dependencies[] = print
 dependencies[] = print_mail
 dependencies[] = print_pdf
-# The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
-features[variable][] = print_pdf_pdf_tool
 dependencies[] = print_pdf_mpdf
 dependencies[] = print_ui
 dependencies[] = rate
@@ -71,6 +68,9 @@ stylesheets[all][] = cce_basic_config.css
 # The image_captcha_fonts variable is set in cce_basic_config_strongarm_alter().
 # Please do not remove this entry when re-exporting the variables.
 features[variable][] = image_captcha_fonts
+# The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
+# Please do not remove this entry when re-exporting the variables.
+features[variable][] = print_pdf_pdf_tool
 # The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
 # Please do not remove this entry when re-exporting the variables.
 features[variable][] = print_pdf_pdf_tool
@@ -131,12 +131,6 @@ features[image][] = preview
 features[image][] = square_thumbnail
 features[menu_custom][] = menu-breadcrumb-menu
 features[menu_custom][] = menu-service-tools
-features[menu_links][] = menu-breadcrumb-menu:http://ec.europa.eu/index_en.htm
-features[menu_links][] = menu-breadcrumb-menu:menutoken/52ebaf910f9d0
-features[menu_links][] = menu-service-tools:http://ec.europa.eu/contact/index_en.htm
-features[menu_links][] = menu-service-tools:http://ec.europa.eu/cookies/index_en.htm
-features[menu_links][] = menu-service-tools:http://ec.europa.eu/geninfo/legal_notices_en.htm
-features[menu_links][] = menu-service-tools:http://ec.europa.eu/geninfo/query/search_en.html
 features[node][] = article
 features[password_policy][] = Example policy
 features[rules_config][] = rules_manage_article_node_publication
@@ -215,6 +209,10 @@ features[variable][] = date_format_long
 features[variable][] = date_format_medium
 features[variable][] = date_format_short
 features[variable][] = drupal_http_request_function
+features[variable][] = easy_breadcrumb-capitalizator_mode
+features[variable][] = easy_breadcrumb-include_home_segment
+features[variable][] = easy_breadcrumb-include_invalid_paths
+features[variable][] = easy_breadcrumb-segments_separator
 features[variable][] = file_private_path
 features[variable][] = filter_fallback_format
 features[variable][] = i18n_select_nodes
