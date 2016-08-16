@@ -1679,7 +1679,7 @@ function multisite_drupal_toolbox_load_html(&$dom, $html) {
 /**
  * Remove PHP Warning logs from HTML5 during a loadHTMLFile.
  *
- * Extend SimpleXMLElement function.
+ * Extend DOMDocument::LoadHTML() function.
  *
  * @see $dom->loadHTMLFile;
  */

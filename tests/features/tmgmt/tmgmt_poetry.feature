@@ -242,7 +242,7 @@ Feature: TMGMT Poetry features
       | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
 
   @javascript
-  Scenario Outline: Request translation of a page with HTML5 and Custom Tags into French.
+  Scenario Outline: Request translation of a page with HTML5 into French.
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -251,7 +251,7 @@ Feature: TMGMT Poetry features
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
-    Then I click "Translate" in the "primary_tabs" region
+    When I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
     And I wait
@@ -259,7 +259,7 @@ Feature: TMGMT Poetry features
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
     And the translation request has version 0
-    Then I go to "admin/poetry_mock/dashboard"
+    When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
