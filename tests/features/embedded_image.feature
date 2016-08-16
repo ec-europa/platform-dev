@@ -16,15 +16,12 @@ Scenario Outline: Embed Flickr photoset via media asset field
   When I go to "node/add/test-media-gallery"
   And I fill in "title" with "<title>"
   And I click "Browse"
-  And I wait for AJAX to finish
-  And the media browser opens
-  And I fill in "File URL or media resource" with "<url>"
+  Then the media browser opens
+  When I fill in "File URL or media resource" with "<url>"
   And I press "Next"
-  And the media browser closes
-  Then I see the "Flickr set" preview
+  Then the media browser closes
+  And I see the "Flickr set" preview
   When I press "Save"
-  And I wait for the page to reload
-  And print last response
   Then I should see the success message "Media Gallery <title> has been created."
 
   Examples:
@@ -36,9 +33,8 @@ Scenario Outline: Error when an invalid Flickr url is filled in
   When I go to "node/add/test-media-gallery"
   And I fill in "title" with "<title>"
   And I click "Browse"
-  And I wait for AJAX to finish
-  And the media browser opens
-  And I fill in "File URL or media resource" with "<url>"
+  Then the media browser opens
+  When I fill in "File URL or media resource" with "<url>"
   And I press "Next"
   Then I should see the error message "Unable to handle the provided embed string or URL."
 
