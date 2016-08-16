@@ -5,64 +5,18 @@
  */
 
 use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
-use \Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use \Drupal\nexteuropa\Context\VariablesContext;
-use \Drupal\nexteuropa\Context\MinkContext;
 
 /**
- * Behat context for actions related to the Embedded Image feature.
+ * Behat context for test setup related to the Embedded Image feature.
  */
 class ECEmbeddedImageSubContext extends DrupalSubContextBase {
 
   /**
-   * The variables context.
+   * Indicates if the custom content type was set up.
    *
-   * @var VariablesContext
+   * @var bool
    */
-  protected $variablesContext;
-
-  /**
-   * The Mink context.
-   *
-   * @var MinkContext
-   */
-  protected $minkContext;
-
-  /**
-   * Initial variable values to restore at the end of the test.
-   *
-   * @var array
-   */
-  protected $initialVariables = array();
-
-  /**
-   * Gathers other contexts we rely on, before the scenario starts.
-   *
-   * @BeforeScenario
-   */
-  public function gatherContexts(BeforeScenarioScope $scope) {
-    $environment = $scope->getEnvironment();
-
-    $this->variablesContext = $environment->getContext(VariablesContext::class);
-    $this->minkContext = $environment->getContext(MinkContext::class);
-  }
-
-  /**
-   * Configures the Flickr API keys for the media_flickr module.
-   *
-   * @Given a valid Flickr API key & secret have been configured
-   */
-  public function aValidFlickrApiKeySecretHaveBeenConfigured() {
-    $flickr = $this->variablesContext->getVariable('flickr');
-
-    $this->initialVariables += array(
-      'media_flickr__api_key' => variable_get('media_flickr__api_key'),
-      'media_flickr__api_secret' => variable_get('media_flickr__api_secret'),
-    );
-
-    variable_set('media_flickr__api_key', $flickr['key']);
-    variable_set('media_flickr__api_secret', $flickr['secret']);
-  }
+  private $contentTypeWasSetUp = FALSE;
 
   /**
    * Creates a test_media_gallery content type with a test_flickr_set field.
@@ -70,8 +24,6 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
    * @Given there is a media gallery content type with a field to embed images from flickr
    */
   public function createMediaGalleryContentType() {
-    $this->removeMediaGalleryContentType();
-
     $media_gallery = [
       'type' => 'test_media_gallery',
       'name' => 'Media Gallery',
@@ -133,25 +85,22 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
         'access media browser',
       ]
     );
+
+    $this->contentTypeWasSetUp = TRUE;
   }
 
   /**
-   * Reverts to the previous values of the overwritten variables.
-   *
-   * @AfterScenario
-   */
-  public function revertVariables() {
-    foreach ($this->initialVariables as $variable => $value) {
-      variable_set($variable, $value);
-    }
-  }
-
-  /**
-   * Removes the test_media_gallery content type.
+   * Removes the test_media_gallery content type and related permissions.
    *
    * @AfterScenario
    */
   public function removeMediaGalleryContentType() {
+    if (!$this->contentTypeWasSetUp) {
+      return;
+    }
+
+    $this->contentTypeWasSetUp = FALSE;
+
     $instance = field_info_instance('node', 'test_flickr_set', 'test_media_gallery');
 
     if ($instance) {
@@ -174,67 +123,6 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
         'access media browser',
       ]
     );
-  }
-
-  /**
-   * Switches to the media browser iframe.
-   *
-   * @When the media browser opens
-   */
-  public function iEnterTheMediaBrowser() {
-    $this->getSession()->switchToIFrame('mediaBrowser');
-  }
-
-  /**
-   * Switches back from an iframe to the main window.
-   *
-   * @When the media browser closes
-   */
-  public function theMediaBrowserCloses() {
-    $this->getSession()->switchToIFrame(NULL);
-    $this->getSession()->wait(5000, '(!document.getElementById("mediaBrowser"))');
-
-  }
-
-  /**
-   * Assert the preview of a media asset field is shown.
-   *
-   * @Then /^(?:|I )see the "(?P<field>(?:[^"]|\\")*)" preview$/
-   */
-  public function assertMediaAssetFieldPreview($field) {
-    $field = str_replace('\\"', '"', $field);
-    $label = $this->getSession()->getPage()->find('xpath', '//label[contains(text(), \'' . $field . '\')]');
-
-    $current_element = $label;
-
-    // Ascend back up to the div with class field-type-media.
-    do {
-      $current_element = $current_element->getParent();
-    } while (!$current_element->hasClass('field-type-media'));
-
-    $media_field_div = $current_element;
-
-    // Try to find the preview (for max. 10 seconds).
-    $end = microtime(TRUE) + 10;
-    do {
-      $preview = $media_field_div->find('css', 'div.preview div.media-thumbnail');
-
-      // Additionally, wait for the remove button.
-      $remove_button = $media_field_div->findButton('Remove');
-
-      if (!$preview || !$remove_button) {
-        usleep(500);
-      }
-    } while ((!$preview || !$remove_button) && microtime(TRUE) < $end);
-
-    if (!$preview || !$remove_button) {
-      throw new Exception(
-        sprintf(
-          'Preview for field "%s" not found.',
-          $field
-        )
-      );
-    }
   }
 
   /**
