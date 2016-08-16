@@ -71,9 +71,6 @@ features[variable][] = image_captcha_fonts
 # The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
 # Please do not remove this entry when re-exporting the variables.
 features[variable][] = print_pdf_pdf_tool
-# The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
-features[variable][] = print_pdf_pdf_tool
 features[context][] = site_wide
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
@@ -131,6 +128,12 @@ features[image][] = preview
 features[image][] = square_thumbnail
 features[menu_custom][] = menu-breadcrumb-menu
 features[menu_custom][] = menu-service-tools
+features[menu_links][] = menu-breadcrumb-menu:http://ec.europa.eu/index_en.htm
+features[menu_links][] = menu-breadcrumb-menu:menutoken/52ebaf910f9d0
+features[menu_links][] = menu-service-tools:http://ec.europa.eu/contact/index_en.htm
+features[menu_links][] = menu-service-tools:http://ec.europa.eu/cookies/index_en.htm
+features[menu_links][] = menu-service-tools:http://ec.europa.eu/geninfo/legal_notices_en.htm
+features[menu_links][] = menu-service-tools:http://ec.europa.eu/geninfo/query/search_en.html
 features[node][] = article
 features[password_policy][] = Example policy
 features[rules_config][] = rules_manage_article_node_publication
