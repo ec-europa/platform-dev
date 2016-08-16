@@ -69,7 +69,6 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
         }
         else {
           throw new Exception("Error Processing Request. (Error: {$response->code}, {$response->error})");
-          return;
         }
       }
     }
