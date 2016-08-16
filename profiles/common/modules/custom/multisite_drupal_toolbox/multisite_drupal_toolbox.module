@@ -1660,11 +1660,19 @@ function multisite_drupal_toolbox_features_post_restore($op, $items) {
 /**
  * Remove PHP Warning logs from HTML5 during a loadHTML.
  *
- * Extend SimpleXMLElement function.
+ * Extend DOMDocument::LoadHTML() function.
+ *
+ * @param DOMDocument $dom
+ *   The DOMDocument $dom.
+ * @param string $html
+ *   The html string.
+ *
+ * @return bool
+ *   Return False if an error occurred.
  *
  * @see $dom->loadHTML;
  */
-function multisite_drupal_toolbox_load_html(&$dom, $html) {
+function multisite_drupal_toolbox_load_html(DOMDocument $dom, $html) {
   $old = libxml_use_internal_errors(TRUE);
   libxml_clear_errors();
   if (!$dom->loadHTML($html)) {
@@ -1679,11 +1687,19 @@ function multisite_drupal_toolbox_load_html(&$dom, $html) {
 /**
  * Remove PHP Warning logs from HTML5 during a loadHTMLFile.
  *
- * Extend DOMDocument::LoadHTML() function.
+ * Extend DOMDocument::LoadHTMLFile() function.
+ *
+ * @param DOMDocument $dom
+ *   The DOMDocument $dom.
+ * @param string $htmlfile
+ *   The path to the HTML file.
+ *
+ * @return bool
+ *   Return False if an error occurred.
  *
  * @see $dom->loadHTMLFile;
  */
-function multisite_drupal_toolbox_load_html_file(&$dom, $htmlfile) {
+function multisite_drupal_toolbox_load_html_file(DOMDocument $dom, $htmlfile) {
   $old = libxml_use_internal_errors(TRUE);
   libxml_clear_errors();
   if (!$dom->loadHTMLFile($htmlfile)) {
@@ -1696,7 +1712,10 @@ function multisite_drupal_toolbox_load_html_file(&$dom, $htmlfile) {
 }
 
 /**
- * Filter Errors.
+ * Filter errors removing PHP Warning concerning HTML5.
+ *
+ * @param array $errors
+ *   Return an array with LibXMLError objects.
  */
 function multisite_drupal_toolbox_filter_errors($errors) {
   $re = '#Tag (article|aside|audio|bdi|canvas|data|datalist|figcaption|figure|footer|header|keygen|main|mark'
