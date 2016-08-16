@@ -61,6 +61,8 @@
                     <token key="behat.base_url" value="${behat.base_url}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
+                    <token key="flickr.key" value="${flickr.key}" />
+                    <token key="flickr.secret" value="${flickr.secret}" />
                     <token key="drush.bin" value="${drush.bin}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
                 </replacetokens>
