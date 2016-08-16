@@ -85,3 +85,11 @@ function sitemap_update_7120() {
 
   cache_clear_all('variables', 'cache_bootstrap');
 }
+
+/**
+ * NEXTEUROPA-12244: Disable and uninstall xmlsitemap_i18n module.
+ */
+function sitemap_update_7121() {
+  module_disable(array('xmlsitemap_i18n'), FALSE);
+  drupal_uninstall_modules(array('xmlsitemap_i18n'), TRUE);
+}
