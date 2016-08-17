@@ -45,7 +45,7 @@ function sitemap_disable() {
     'xmlsitemap_node',
     'xmlsitemap_taxonomy',
     'xmlsitemap_user',
-  ), TRUE);
+  ), FALSE);
 
   variable_del('xmlsitemap_base_url');
   variable_del('xmlsitemap_batch_limit');
