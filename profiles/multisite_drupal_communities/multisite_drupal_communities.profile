@@ -4,7 +4,16 @@
  * Multisite Drupal Communities installation profile.
  */
 
-if (file_exists(DRUPAL_ROOT . '/vendor/autoload.php')) {
+// First attempt: sub-site on production.
+if (conf_path() != 'sites/default' && file_exists(DRUPAL_ROOT . '/' . conf_path() . '/vendor/autoload.php')) {
+  include_once DRUPAL_ROOT . '/' . conf_path() . '/vendor/autoload.php';
+}
+// Second attempt: sub-site in development.
+elseif (file_exists(DRUPAL_ROOT . '/sites/all/vendor/autoload.php')) {
+  include_once DRUPAL_ROOT . '/sites/all/vendor/autoload.php';
+}
+// Third attempt: Fallback to platform autoload.php, if any.
+elseif (file_exists(DRUPAL_ROOT . '/vendor/autoload.php')) {
   include_once DRUPAL_ROOT . '/vendor/autoload.php';
 }
 

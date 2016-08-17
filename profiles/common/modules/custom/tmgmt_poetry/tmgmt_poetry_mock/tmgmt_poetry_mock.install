@@ -7,13 +7,13 @@
 /**
  * Implements hook_install().
  */
-function tmgmt_poetry_test_install() {
+function tmgmt_poetry_mock_install() {
   /** @var EntityDrupalWrapper $translator */
   $translator = entity_import('tmgmt_translator', '{
     "name" : "tmgmt_poetry_test_translator",
     "label" : "TMGMT Poetry Test translator",
     "description" : "",
-    "weight" : "0",
+    "weight" : "-999",
     "plugin" : "poetry",
     "settings" : {
       "auto_accept" : 0,
@@ -42,7 +42,7 @@ function tmgmt_poetry_test_install() {
 /**
  * Implements hook_uninstall().
  */
-function tmgmt_poetry_test_uninstall() {
+function tmgmt_poetry_mock_uninstall() {
   $translator = tmgmt_translator_load('tmgmt_poetry_test_translator');
   if (isset($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);

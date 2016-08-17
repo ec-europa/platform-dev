@@ -260,7 +260,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $organization = $job->settings['organization'];
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
-    $demande->addChild('titre', 'NE-CMS: ' . $job->label);
+    $titre = $demande->addChild('titre');
+    $titre->value = 'NE-CMS: ' . $job->label;
     $demande->addChild('organisationResponsable', $organization['responsable']);
     $demande->addChild('organisationAuteur', $organization['auteur']);
     $demande->addChild('serviceDemandeur', $organization['demandeur']);
@@ -413,7 +414,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $id_data = array(
       'codeDemandeur' => $settings['code'],
       'annee' => date("Y"),
-      'sequence' => $settings['counter'],
+      'numero' => $settings['counter'],
       'version' => 00,
       'partie' => 00,
       'produit' => 'TRA',

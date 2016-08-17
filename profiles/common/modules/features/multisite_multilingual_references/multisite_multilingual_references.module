@@ -315,7 +315,7 @@ function multisite_multilingual_references_entity_view($entity, $type, $view_mod
             if (isset($content[$item_k]) && isset($content[$item_k]['#markup']) && !empty($content[$item_k]['#markup'])) {
               // Get all href to nodes in the field.
               $dom = new DOMDocument();
-              if ($dom->loadHTML(mb_convert_encoding($content[$item_k]['#markup'], 'HTML-ENTITIES', 'UTF-8'))) {
+              if (multisite_drupal_toolbox_load_html($dom, mb_convert_encoding($content[$item_k]['#markup'], 'HTML-ENTITIES', 'UTF-8'))) {
                 foreach ($dom->getElementsByTagName('a') as $link_node) {
                   if ($link_node && $link_node->hasAttributes()) {
 

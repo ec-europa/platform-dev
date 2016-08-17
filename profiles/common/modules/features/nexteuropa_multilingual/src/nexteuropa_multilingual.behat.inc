@@ -207,7 +207,10 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     // Assign translated title field.
     $values['title_field'][$language][0]['value'] = $fields['title'];
     // Assign translated body field, if any.
-    if (isset($fields['body']) && !empty($fields['body'])) {
+    if (isset($fields['field_ne_body']) && !empty($fields['field_ne_body'])) {
+      $values['field_ne_body'][$language][0]['value'] = $fields['field_ne_body'];
+    }
+    elseif (isset($fields['body']) && !empty($fields['body'])) {
       $values['body'][$language][0]['value'] = $fields['body'];
     }
     $handler->setTranslation($translation, $values);
@@ -359,65 +362,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     }
   }
 
-  /**
-   * Validate current job using poetry test.
-   *
-   * @Then I receive the translation of current job item
-   */
-  public function receiveJobTranslationFromPoetryTest() {
-
-    $url = $this->getSession()->getCurrentUrl();
-    // We can't simply use Drupal's menu_get_item() because of caching reasons.
-    $tjiid = $this->getTranslationJobSubItemFromUrl();
-    if (!$tjiid) {
-      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
-    }
-    else {
-      $tjid = $this->getParentJobId($tjiid);
-      if (!$tjid) {
-        throw new \InvalidArgumentException("No translation job found for Job Item '$tjiid''.");
-      }
-
-      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/receivetranslation/' . $tjid, array(
-        'base_url' => '',
-        'absolute' => TRUE,
-      ));
-      // Visit newly created node page.
-      $this->visitPath($path);
-      $this->visitPath($url);
-    }
-  }
-
-  /**
-   * Refuse current job using poetry test.
-   *
-   * @Then I get a refused translation of current job item
-   */
-  public function receiveJobRejectionFromPoetryTest() {
-
-    $url = $this->getSession()->getCurrentUrl();
-    // We can't simply use Drupal's menu_get_item() because of caching reasons.
-    $tjiid = $this->getTranslationJobSubItemFromUrl();
-    if (!$tjiid) {
-      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
-    }
-    else {
-      $tjid = $this->getParentJobId($tjiid);
-      if (!$tjid) {
-        throw new \InvalidArgumentException("No translation job found for Job Item '$tjiid''.");
-      }
-
-      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/refusetranslation/' . $tjid, array(
-        'base_url' => '',
-        'absolute' => TRUE,
-      ));
-      // Visit newly created node page.
-      $this->visitPath($path);
-      $this->visitPath($url);
-    }
-  }
   /**
    * Get translation job ID from current page's URL.
    *
