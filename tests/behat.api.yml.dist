@@ -7,6 +7,11 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\VariableContext
+        - Drupal\nexteuropa\Context\FlickrContext:
+            key: '{{ flickr.key }}'
+            secret: '{{ flickr.secret }}'
+        - Drupal\nexteuropa\Context\MediaContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:

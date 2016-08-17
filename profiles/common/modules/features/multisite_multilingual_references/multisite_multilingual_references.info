@@ -4,6 +4,7 @@ package = Multisite Features
 core = 7.x
 dependencies[] = features
 dependencies[] = "ctools"
+dependencies[] = multisite_drupal_toolbox
 features[features_api][] = api:2
 stylesheets[all][] = "css/multisite_multilingual_references.css"
 scripts[] = "js/multisite_multilingual_references.js"

@@ -4,4 +4,5 @@ package = Translation Management
 core = 7.x
 dependencies[] = tmgmt
 dependencies[] = tmgmt_file
+dependencies[] = multisite_drupal_toolbox
 files[] = inc/tmgmt_dgt.format.html.inc

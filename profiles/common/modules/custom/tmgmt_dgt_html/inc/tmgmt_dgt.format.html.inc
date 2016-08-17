@@ -84,12 +84,12 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
   public function validateImport($imported_file) {
     $dom = new DOMDocument();
     if (file_exists($imported_file)) {
-      if (!$dom->loadHTMLFile($imported_file)) {
+      if (!multisite_drupal_toolbox_load_html_file($dom, $imported_file)) {
         return FALSE;
       }
     }
     else {
-      if (!$dom->loadHTML($imported_file)) {
+      if (!multisite_drupal_toolbox_load_html($dom, $imported_file)) {
         return FALSE;
       }
     }
@@ -136,10 +136,10 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
   protected function getXml($imported_file) {
     $dom = new DOMDocument();
     if (file_exists($imported_file)) {
-      $dom->loadHTMLFile($imported_file);
+      multisite_drupal_toolbox_load_html_file($dom, $imported_file);
     }
     else {
-      $dom->loadHTML($imported_file);
+      multisite_drupal_toolbox_load_html($dom, $imported_file);
     }
 
     return simplexml_import_dom($dom);
