@@ -232,7 +232,6 @@ function nexteuropa_multilingual_form_locale_languages_configure_form_alter(&$fo
  */
 function nexteuropa_multilingual_form_node_form_alter(&$form, &$form_state, $form_id) {
   $node = $form_state['node'];
-
   _nexteuropa_multilingual_warning_message($form, $node);
   _nexteuropa_multilingual_alias_node_form_alter($form, $form_state);
 }
