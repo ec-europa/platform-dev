@@ -22,9 +22,16 @@ use function bovigo\assert\predicate\isNotNull;
 use function bovigo\assert\predicate\isOfSize;
 
 /**
- * Behat context with functionality related to the Integration Layer.
+ * Behat context with functionality related to Integration.
  */
 class IntegrationLayerContext implements Context {
+
+  /**
+   * The port the mocked central Integration HTTP server should listen on.
+   *
+   * @var int
+   */
+  protected $mockServerPort;
 
   /**
    * Indicates if the producer was configured.
@@ -41,24 +48,38 @@ class IntegrationLayerContext implements Context {
   protected $consumerWasConfigured = FALSE;
 
   /**
-   * The mocked integration layer server.
+   * The mocked central Integration HTTP server.
    *
    * @var Server
    */
   protected $server;
 
   /**
-   * Facade to access requests made to the mocked server.
+   * Facade to access requests made to the mocked HTTP server.
    *
    * @var RequestCollectionFacade
    */
   protected $requests;
 
   /**
-   * Gets mocked integration layer backend.
+   * IntegrationLayerContext constructor.
+   *
+   * @param int $mock_server_port
+   *   The port the mocked central Integration HTTP server should listen on.
+   */
+  public function __construct($mock_server_port = 8888) {
+    $this->mockServerPort = $mock_server_port;
+  }
+
+  /**
+   * Gets the mocked central Integration HTTP server.
+   *
+   * Initializes the server if it was not used before.
+   * By default it responds to any POST requests with 201 Created response,
+   * additional behavior can be added in further steps.
    *
    * @return Server
-   *   The mocked integration layer backend.
+   *   The mocked central Integration HTTP server.
    */
   protected function getServer() {
     if (!$this->server) {
@@ -81,7 +102,7 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Gets the requests made to the mocked integration layer backend.
+   * Gets the requests made to the mocked Integration backend.
    *
    * @return RequestCollectionFacade
    *   The requests facade.
@@ -95,11 +116,11 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Configures an integration layer producer.
+   * Configures an Integration producer.
    *
-   * @Given the integration layer producer is configured
+   * @Given the Integration producer is configured
    */
-  public function theIntegrationLayerProducerIsConfigured() {
+  public function theIntegrationProducerIsConfigured() {
     $this->setupTestBackend();
 
     $producer = entity_import(
@@ -123,11 +144,11 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Configures the Integration Layer consumer for testing purposes.
+   * Configures the Integration consumer for testing purposes.
    *
-   * @Given the integration layer consumer is configured
+   * @Given the Integration consumer is configured
    */
-  public function theIntegrationLayerConsumerIsConfigured() {
+  public function theIntegrationConsumerIsConfigured() {
     $this->setupTestBackend();
 
     $consumer = entity_import(
@@ -179,11 +200,11 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Asserts that the integration layer received content in certain languages.
+   * Asserts the language of content received by the central Integration server.
    *
-   * @Then the integration layer received content in the following languages:
+   * @Then the central Integration server received content in the following languages:
    */
-  public function assertIntegrationLayerReceivedContentWithTheFollowingLanguages(
+  public function assertIntegrationServerReceivedContentWithTheFollowingLanguages(
     TableNode $table
   ) {
     $rows = $table->getHash();
@@ -204,7 +225,7 @@ class IntegrationLayerContext implements Context {
   /**
    * Configures an Integration backend for testing purposes.
    *
-   * The backend points to our mocked Integration Layer HTTP server.
+   * The backend points to our mocked Integration HTTP server.
    */
   private function setupTestBackend() {
     $server = $this->getServer();
@@ -227,11 +248,11 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Sets up specific responses for 'news' on the mocked Integration Layer.
+   * Sets up specific responses for 'news' on the mocked Integration server.
    *
-   * @When the integration layer backend publishes the following news with id :arg1:
+   * @When the central Integration server publishes the following news with id :arg1:
    */
-  public function theIntegrationLayerBackendPublishesTheFollowingNews(
+  public function theIntegrationServerBackendPublishesTheFollowingNews(
     $arg1,
     TableNode $table
   ) {
@@ -287,11 +308,11 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Asserts that the integration consumer imported a specific item.
+   * Asserts that the Integration consumer imported a specific item.
    *
-   * @Then the integration layer consumer imported the item with id :arg1 as the following page:
+   * @Then the Integration consumer imported the item with id :arg1 as the following page:
    */
-  public function assertIntegrationLayerConsumerImportedTheFollowingPage(
+  public function assertIntegrationConsumerImportedTheFollowingPage(
     $arg1,
     TableNode $table
   ) {
