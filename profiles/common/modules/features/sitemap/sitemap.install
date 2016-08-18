@@ -39,13 +39,6 @@ function sitemap_disable() {
     'xmlsitemap_taxonomy',
     'xmlsitemap_user',
   ), FALSE);
-  drupal_uninstall_modules(array(
-    'xmlsitemap',
-    'xmlsitemap_engines',
-    'xmlsitemap_node',
-    'xmlsitemap_taxonomy',
-    'xmlsitemap_user',
-  ), FALSE);
 
   variable_del('xmlsitemap_base_url');
   variable_del('xmlsitemap_batch_limit');
