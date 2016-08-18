@@ -557,11 +557,12 @@ function multisite_drupal_toolbox_add_block_context($context_name, $block_title,
       'region' => $region,
       'weight' => $weight,
     );
-
     // Add modification to the context.
+
     $context->reactions['block']['blocks'][$block_title] = $block_to_add;
     // Update the context.
     module_invoke('context', 'save', $context);
+
   }
 }
 
