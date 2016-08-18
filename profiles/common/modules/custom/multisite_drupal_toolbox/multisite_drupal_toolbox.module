@@ -549,7 +549,7 @@ function _disable_content_type($type) {
 function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  if(!isset ($context->reactions['block']['blocks'][$block_title])) {
+  if (!isset($context->reactions['block']['blocks'][$block_title])) {
     // Make some modifications.
     $block_to_add = array(
       'module' => $module,
