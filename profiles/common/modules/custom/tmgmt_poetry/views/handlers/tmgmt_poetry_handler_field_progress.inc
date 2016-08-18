@@ -38,19 +38,27 @@ class tmgmt_poetry_handler_field_progress extends views_handler_field_entity {
     }
 
     $counts = array(
-      '@accepted' => $object->getCountAccepted(),
-      '@reviewed' => $object->getCountReviewed(),
-      '@translated' => $object->getCountTranslated(),
       '@pending' => $object->getCountPending(),
+      '@translated' => $object->getCountTranslated(),
+      '@reviewed' => $object->getCountReviewed(),
+      '@accepted' => $object->getCountAccepted(),
     );
+
     $id = $object->internalIdentifier();
 
     if (module_exists('google_chart_tools')) {
       draw_chart($this->build_progressbar_settings($id, $counts));
       return '<div id="progress' . $id . '"></div>';
     }
-    $title = t('Accepted: @accepted, reviewed: @reviewed, translated: @translated, pending: @pending.', $counts);
-    return sprintf('<span title="%s">%s</span>', $title, implode('/', $counts));
+    $title = t('[P]ending: @pending, [T]ranslated: @translated, [R]eviewed: @reviewed, [A]ccepted: @accepted.', $counts);
+    $output = theme('tmgmt_poetry_progress_field',
+      [
+        'stats' => $counts,
+        'title' => $title,
+      ]
+    );
+
+    return $output;
   }
 
   /**
