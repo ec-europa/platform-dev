@@ -29,4 +29,64 @@ function nexteuropa_integration_integration_producer_document_build_alter(Abstra
   }
   $document->setMetadata('canonical_url', $canonical_urls);
   $document->setMetadata('type', $producer->getConfiguration()->getResourceSchema());
+
+  _nexteuropa_integration_replace_language_codes($document);
+}
+
+/**
+ * Get language code replacements to perform.
+ *
+ * @return array
+ *   The language code replacements. Keys are the values to replace, values
+ *   are the new ones.
+ */
+function _nexteuropa_integration_language_code_replacement_map() {
+  return [
+    'pt-pt' => 'pt',
+  ];
+}
+
+/**
+ * Replaces occurrences of language codes.
+ *
+ * @param DocumentInterface $document
+ *   The document to perform the replacements in.
+ */
+function _nexteuropa_integration_replace_language_codes(DocumentInterface $document) {
+  $replacements = _nexteuropa_integration_language_code_replacement_map();
+
+  array_walk(
+    $replacements,
+    function ($new_language_code, $original_language_code) use ($document) {
+      $languages = $document->getAvailableLanguages();
+
+      if ($document->getDefaultLanguage() === $original_language_code) {
+        $document->setMetadata('default_language', $new_language_code);
+      }
+
+      $key = array_search($original_language_code, $languages);
+      if (FALSE !== $key) {
+        $languages[$key] = $new_language_code;
+        $document->setMetadata('languages', $languages);
+      }
+
+      /** @var stdClass $fields */
+      $fields = $document->getFields();
+
+      foreach ($fields as $name => $values) {
+        if (isset($fields->{$name}->{$original_language_code})) {
+          $fields->{$name}->{$new_language_code} = $fields->{$name}->{$original_language_code};
+          unset($fields->{$name}->{$original_language_code});
+        }
+      }
+
+      $canonical_url = $document->getMetadata('canonical_url');
+      if (array_key_exists($original_language_code, $canonical_url)) {
+        $canonical_url[$new_language_code] = $canonical_url[$original_language_code];
+        unset($canonical_url[$original_language_code]);
+
+        $document->setMetadata('canonical_url', $canonical_url);
+      }
+    }
+  );
 }
