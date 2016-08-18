@@ -8,13 +8,18 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
+use Drupal\integration_consumer\ConsumerFactory;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
 use InterNations\Component\HttpMock\RequestCollectionFacade;
 use InterNations\Component\HttpMock\Server;
+use Migration;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\hasKey;
+use function bovigo\assert\predicate\isNotNull;
+use function bovigo\assert\predicate\isOfSize;
 
 /**
  * Behat context with functionality related to the Integration Layer.
@@ -27,6 +32,13 @@ class IntegrationLayerContext implements Context {
    * @var bool
    */
   protected $producerWasConfigured = FALSE;
+
+  /**
+   * Indicates if the consumer was configured.
+   *
+   * @var bool
+   */
+  protected $consumerWasConfigured = FALSE;
 
   /**
    * The mocked integration layer server.
@@ -43,55 +55,100 @@ class IntegrationLayerContext implements Context {
   protected $requests;
 
   /**
+   * Gets mocked integration layer backend.
+   *
+   * @return Server
+   *   The mocked integration layer backend.
+   */
+  protected function getServer() {
+    if (!$this->server) {
+      $this->server = new Server('8888', 'localhost');
+
+      $this->server->start();
+
+      // Accept any POSTS.
+      $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
+      $mock
+        ->when()
+        ->methodIs('POST')
+        ->then()
+        ->statusCode(201);
+
+      $this->server->setUp($mock->flushExpectations());
+    }
+
+    return $this->server;
+  }
+
+  /**
+   * Gets the requests made to the mocked integration layer backend.
+   *
+   * @return RequestCollectionFacade
+   *   The requests facade.
+   */
+  protected function getRequests() {
+    if (!$this->requests) {
+      $this->requests = new RequestCollectionFacade($this->server->getClient());
+    }
+
+    return $this->requests;
+  }
+
+  /**
    * Configures an integration layer producer.
    *
    * @Given the integration layer producer is configured
    */
   public function theIntegrationLayerProducerIsConfigured() {
-    $backend = entity_load_single('integration_backend', 'couchdb');
+    $this->setupTestBackend();
 
-    $this->producerWasConfigured = TRUE;
-    $this->revertConfiguration();
-
-    $test_backend = clone $backend;
-    $test_backend->id = NULL;
-    $test_backend->authentication = 'no_authentication';
-    $test_backend->machine_name = 'http-mock';
-    $test_backend->name = 'HTTP Mock';
-    $test_backend->settings['plugin']['backend']['base_url'] = 'http://localhost:8888';
-
-    entity_save('integration_backend', $test_backend);
-
-    $producer = entity_import('integration_producer', '{
+    $producer = entity_import(
+      'integration_producer',
+      '{
       "entity_bundle" : "page",
-      "backend" : "http-mock",
+      "backend" : "",
       "resource" : "news",
       "settings" : { "plugin" : { "mapping" : { "title_field" : "title", "field_ne_body" : "body" } } },
       "name" : "test",
-      "machine_name" : "test-news",
+      "machine_name" : "test_news",
       "plugin" : "node_producer",
       "enabled" : "1",
       "description" : null,
       "rdf_mapping" : []
-    }');
-    $saved = entity_save('integration_producer', $producer);
-
-    $this->server = new Server('8888', 'localhost');
-
-    $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory('/'));
-    $mock
-      ->when()
-        ->methodIs('POST')
-      ->then()
-        ->statusCode(201);
-
-    $this->server->start();
-
-    $this->server->setUp($mock->flushExpectations());
-
-    $this->requests = new RequestCollectionFacade($this->server->getClient());
+    }'
+    );
+    entity_save('integration_producer', $producer);
 
     $this->producerWasConfigured = TRUE;
+  }
+
+  /**
+   * Configures the Integration Layer consumer for testing purposes.
+   *
+   * @Given the integration layer consumer is configured
+   */
+  public function theIntegrationLayerConsumerIsConfigured() {
+    $this->setupTestBackend();
+
+    $consumer = entity_import(
+      'integration_consumer',
+      '{
+      "entity_bundle" : "page",
+      "backend" : "http_mock",
+      "resource" : "news",
+      "mapping" : [],
+      "settings" : { "plugin" : { "mapping" : { "title" : "title_field", "body" : "field_ne_body" } } },
+      "name" : "test-consumer",
+      "machine_name" : "test_consumer",
+      "plugin" : "node_consumer",
+      "enabled" : "1",
+      "description" : null,
+      "rdf_mapping" : []
+    }'
+    );
+    entity_save('integration_consumer', $consumer);
+
+    $this->consumerWasConfigured = TRUE;
   }
 
   /**
@@ -101,12 +158,22 @@ class IntegrationLayerContext implements Context {
    */
   public function revertConfiguration() {
     if ($this->producerWasConfigured) {
-      entity_delete('integration_backend', 'http-mock');
-
-      entity_delete('integration_producer', 'test-news');
+      entity_delete('integration_producer', 'test_news');
     }
 
-    if ($this->server) {
+    if ($this->consumerWasConfigured) {
+      // Roll back any changes made by our consumer.
+      $consumer = ConsumerFactory::getInstance('test_consumer');
+      $consumer->processRollback();
+
+      // Remove consumer & its corresponding migration.
+      Migration::deregisterMigration('test_consumer');
+      entity_delete('integration_consumer', 'test_consumer');
+    }
+
+    entity_delete('integration_backend', 'http_mock');
+
+    if ($this->server && $this->server->isStarted()) {
       $this->server->stop();
     }
   }
@@ -116,7 +183,9 @@ class IntegrationLayerContext implements Context {
    *
    * @Then the integration layer received content in the following languages:
    */
-  public function assertIntegrationLayerReceivedContentWithTheFollowingLanguages(TableNode $table) {
+  public function assertIntegrationLayerReceivedContentWithTheFollowingLanguages(
+    TableNode $table
+  ) {
     $rows = $table->getHash();
     $expected_languages = array_map(
       function ($row) {
@@ -125,11 +194,137 @@ class IntegrationLayerContext implements Context {
       $rows
     );
 
-    $request = $this->requests->last();
+    $request = $this->getRequests()->last();
     $json_body = (string) $request->getBody();
     $document = json_decode($json_body);
 
     assert($document->languages, equals($expected_languages));
+  }
+
+  /**
+   * Configures an Integration backend for testing purposes.
+   *
+   * The backend points to our mocked Integration Layer HTTP server.
+   */
+  private function setupTestBackend() {
+    $server = $this->getServer();
+
+    $backend = entity_load_single('integration_backend', 'couchdb');
+
+    $test_backend = clone $backend;
+    $test_backend->id = NULL;
+    $test_backend->authentication = 'no_authentication';
+    $test_backend->machine_name = 'http_mock';
+    $test_backend->name = 'HTTP Mock';
+    $test_backend->settings['plugin']['backend']['base_url'] = $server->getBaseUrl(
+    );
+
+    entity_save('integration_backend', $test_backend);
+
+    if (!$server->isStarted()) {
+      $server->start();
+    }
+  }
+
+  /**
+   * Sets up specific responses for 'news' on the mocked Integration Layer.
+   *
+   * @When the integration layer backend publishes the following news with id :arg1:
+   */
+  public function theIntegrationLayerBackendPublishesTheFollowingNews(
+    $arg1,
+    TableNode $table
+  ) {
+    $data = $table->getHash();
+    $translations = [];
+    foreach ($data as $row) {
+      $translations[$row['language']] = [
+        'title' => $row['title'],
+        'body' => $row['body'],
+      ];
+    }
+    $languages = array_keys($translations);
+    $default_language = reset($languages);
+
+    $date = new \DateTime('now', new \DateTimeZone('UTC'));
+    $news = [
+      '_id' => $arg1,
+      'created' => $date->format('Y-m-d H:i:s'),
+      'updated' => $date->format('Y-m-d H:i:s'),
+      'languages' => $languages,
+      'default_language' => $default_language,
+      'fields' => [
+        'title' => [],
+        'body' => [],
+      ],
+    ];
+
+    foreach ($translations as $language => $translation) {
+      $news['fields']['title'][$language] = [$translation['title']];
+      $news['fields']['body'][$language] = [$translation['body']];
+    }
+
+    $list = json_encode(['rows' => [['id' => $arg1]]]);
+
+    $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
+    $mock
+      ->when()
+      ->pathIs('/docs/types/news')
+      ->methodIs('GET')
+      ->then()
+      ->statusCode(200)
+      ->body($list);
+
+    $mock
+      ->when()
+      ->methodIs('GET')
+      ->pathIs('/docs/types/news/' . $arg1)
+      ->then()
+      ->statusCode(200)
+      ->body(json_encode($news));
+
+    $this->getServer()->setUp($mock->flushExpectations());
+  }
+
+  /**
+   * Asserts that the integration consumer imported a specific item.
+   *
+   * @Then the integration layer consumer imported the item with id :arg1 as the following page:
+   */
+  public function assertIntegrationLayerConsumerImportedTheFollowingPage(
+    $arg1,
+    TableNode $table
+  ) {
+    $consumer = ConsumerFactory::getInstance('test_consumer');
+
+    $map = $consumer->getMap();
+    $row = $map->getRowBySource([$arg1]);
+
+    assert($row, hasKey('destid1'));
+    $nid = $row['destid1'];
+    assert($nid, isNotNull());
+
+    $node = node_load($nid);
+
+    $expected_translations = $table->getHash();
+    assert($node->translations->data, isOfSize(2));
+
+    foreach ($expected_translations as $expected_translation) {
+      assert(
+        $node->translations->data,
+        hasKey($expected_translation['language'])
+      );
+
+      assert(
+        $node->title_field[$expected_translation['language']][0]['value'],
+        equals($expected_translation['title'])
+      );
+
+      assert(
+        $node->field_ne_body[$expected_translation['language']][0]['value'],
+        equals($expected_translation['body'])
+      );
+    }
   }
 
 }
