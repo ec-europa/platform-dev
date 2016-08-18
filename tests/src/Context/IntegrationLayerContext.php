@@ -48,6 +48,13 @@ class IntegrationLayerContext implements Context {
   protected $consumerWasConfigured = FALSE;
 
   /**
+   * Indicates if the consumer was configured.
+   *
+   * @var bool
+   */
+  protected $backendWasConfigured = FALSE;
+
+  /**
    * The mocked central Integration HTTP server.
    *
    * @var Server
@@ -192,7 +199,9 @@ class IntegrationLayerContext implements Context {
       entity_delete('integration_consumer', 'test_consumer');
     }
 
-    entity_delete('integration_backend', 'http_mock');
+    if ($this->backendWasConfigured) {
+      entity_delete('integration_backend', 'http_mock');
+    }
 
     if ($this->server && $this->server->isStarted()) {
       $this->server->stop();
@@ -241,6 +250,8 @@ class IntegrationLayerContext implements Context {
     );
 
     entity_save('integration_backend', $test_backend);
+
+    $this->backendWasConfigured = TRUE;
 
     if (!$server->isStarted()) {
       $server->start();
