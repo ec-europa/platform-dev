@@ -16,13 +16,22 @@ Background:
   And the Integration producer is configured
   And I am logged in as a user with the 'administrator' role
 
-Scenario: pt-pt Drupal language code will be pushed to the central Integration server as pt
+Scenario: pt-pt translation will be pushed to the central Integration server as pt
   When I am viewing a multilingual "page" content:
-    | language | title             |
-    | en       | Title in English  |
-    | pt-pt    | Título em Inglês  |
+    | language | title               |
+    | en       | Title in English    |
+    | pt-pt    | Título em Português |
   And I run drush "integration-export http_mock test_news"
   Then the central Integration server received content in the following languages:
-    | language |
-    | en       |
-    | pt       |
+    | language | title               |
+    | en       | Title in English    |
+    | pt       | Título em Português |
+
+Scenario: content in main language pt-pt will be pushed to the central Integration server as pt
+    When I am viewing a multilingual "page" content:
+      | language | title               |
+      | pt-pt    | Título em Português |
+    And I run drush "integration-export http_mock test_news"
+    Then the central Integration server received content in the following languages:
+      | language | title               |
+      | pt       | Título em Português |
