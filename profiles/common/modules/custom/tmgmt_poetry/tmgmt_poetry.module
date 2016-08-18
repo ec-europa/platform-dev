@@ -100,7 +100,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   // Reference to the translation job object.
   $job = &$form_state['tmgmt_job'];
   // Overwriting details which are coming from tmgmt_ui.pages.inc.
-  // Details about job items for give job and sub jobs realted to that job.
+  // Details about job items for give job and sub jobs related to that job.
   unset($form['job_items_wrapper']['items']);
   // Inject details only when job was submitted.
   if (($view = views_get_view('tmgmt_poetry_translation_job_items')) && !$job->isSubmittable()) {
