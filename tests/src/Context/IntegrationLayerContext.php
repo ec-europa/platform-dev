@@ -224,11 +224,28 @@ class IntegrationLayerContext implements Context {
       $rows
     );
 
+    $first_language_in_the_table = reset($expected_languages);
+
     $request = $this->getRequests()->last();
     $json_body = (string) $request->getBody();
     $document = json_decode($json_body);
 
+    assert($document->default_language, equals($first_language_in_the_table));
+
+    // The list of languages is not necessarily ordered in the same way,
+    // so use sort() on both before comparing.
+    sort($document->languages);
+    sort($expected_languages);
     assert($document->languages, equals($expected_languages));
+
+    assert((array) $document->fields->title, isOfSize(count($expected_languages)));
+
+    foreach ($rows as $translation) {
+      assert(
+        $document->fields->title->{$translation['language']}[0],
+        equals($translation['title'])
+      );
+    }
   }
 
   /**
