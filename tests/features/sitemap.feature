@@ -9,7 +9,6 @@ Feature: Check the Sitemap
       | modules     |
       | sitemap     |
     Given I am logged in as a user with the 'administrator' role
-    When I run drush "pm-enable bootstrap -y"
-    Then I go to "/sitemap.xml"
+    When I go to "/sitemap.xml"
     And the response should not contain "Page not found"
     And the response should contain "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">"
