@@ -132,8 +132,18 @@ global $base_url;
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header" data-spy="affix" data-offset-top="165">
             <?php if ($menu_visible): ?>
+              <?php print l(t('Home'), '<front>', array(
+                'html' => TRUE,
+                'attributes' => array(
+                  'id' => 'home-button',
+                  'class' => array(
+                    'btn',
+                    'navbar-toggle',
+                  ),
+                ),
+              )); ?>
               <button id="menu-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <div class="arrow-down"></div>
+                <?php print t('Menu'); ?>
               </button>
             <?php endif; ?>
 
