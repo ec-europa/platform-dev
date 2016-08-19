@@ -138,6 +138,13 @@ function nexteuropa_editorial_install() {
 
   // Linkchecker: checks for both internal and external links.
   multisite_config_service('system')->setVariable('linkchecker_check_links_types', 0);
+
+  // Workbench moderation state for wysiwyg tracking settings.
+  $wbm_state = array(
+    'validated' => 'validated',
+    'published' => 'published',
+  );
+  variable_set('nexteuropa_editorial_tracking_wbm_states', $wbm_state);
 }
 
 /**
@@ -226,4 +233,16 @@ function nexteuropa_editorial_enable() {
   foreach ($og_roles as $og_role) {
     multisite_config_service('og')->grantOgPermissions($og_role, array('access group broken links report'), 'node', 'editorial_team', 'og_linkchecker');
   }
+}
+
+/**
+ * NEXTEUROPA-12634: Set "nexteuropa_editorial_tracking_wbm_states" variable.
+ */
+function nexteuropa_editorial_update_7001() {
+  // Workbench moderation state for wysiwyg tracking settings.
+  $wbm_state = array(
+    'validated' => 'validated',
+    'published' => 'published',
+  );
+  variable_set('nexteuropa_editorial_tracking_wbm_states', $wbm_state);
 }
