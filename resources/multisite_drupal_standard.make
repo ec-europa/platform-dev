@@ -427,6 +427,10 @@ projects[media_flickr][patch][] = patches/media_flickr-Media_v2_removed_XML_APIs
 projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-2183.patch
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
 projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
+; Support for newer Flickr album urls.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12401
+; https://www.drupal.org/node/2602558
+projects[media_flickr][patch][] = https://www.drupal.org/files/issues/import_albums_error-7.x-1.x-2602558-5.patch
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
@@ -514,7 +518,7 @@ projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.7"
+projects[piwik][version] = "2.9"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.7"
