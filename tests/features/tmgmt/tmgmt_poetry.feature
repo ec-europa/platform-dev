@@ -143,7 +143,7 @@ Feature: TMGMT Poetry features
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see an "#edit-languages-fr.form-checkbox" element
-    But I should not see "There is already translation request ongoing."
+    But I should not see "Please end up the active translation process before creating a new request."
 
   @javascript
   Scenario: Request main job before other translations.
@@ -160,7 +160,7 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
-    But I should see "There is already translation request ongoing."
+    But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     Then I go to "admin/poetry_mock/dashboard"
@@ -189,7 +189,7 @@ Feature: TMGMT Poetry features
     And I wait
     And I store job ID of translation request page
     And I press "Submit to translator"
-    But I should see "There is already translation request ongoing."
+    But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
     Then I go to "admin/poetry_mock/dashboard"
     And I click "Reject translation" in the "en->fr" row
