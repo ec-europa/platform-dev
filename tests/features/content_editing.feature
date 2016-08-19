@@ -49,3 +49,29 @@ Feature: Content editing
     | <div class=\"classname?&*\">Applied invalid css class</div>         | classname                     |
     | <div id=\"2invalidid\">A container with an invalid HTML ID</div>    | invalidid                     |
     | <div id=\"invalidid.\">A container with an invalid HTML ID</div>    | invalidid                     |
+
+  @api
+  Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
+  CKEditor Lite tracked changes exist in WYSIWYG fields
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I fill in "Body" with "Page body"
+    And I press "Save"
+    Then I should see "View draft"
+    When I click "Edit draft"
+    And I select "Full HTML + Change tracking" from "field_ne_body[en][0][format]"
+    And I fill in "Body" with "<html>"
+    And I select "Validated" from "Moderation state"
+    And I press "Save"
+    Then I should see the error message "The field contains change tracking that cannot be saved."
+    And I select "Validated" from "Moderation state"
+    And I press "Save"
+    Then I should see the error message "The field contains change tracking that cannot be saved."
+    And I select "Needs Review" from "Moderation state"
+    And I press "Save"
+    Then I should see the success message "Basic page Page title has been updated."
+
+  Examples:
+  | html                                                                                                                                                                                                                          |
+  | <p>Page body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
