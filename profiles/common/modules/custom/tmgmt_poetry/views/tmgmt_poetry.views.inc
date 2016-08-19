@@ -12,7 +12,8 @@
  */
 function tmgmt_poetry_views_data_alter(&$data) {
   // This is how you can change views handlers for specific fields.
-  // It is run once after clearing cashes so to debug you need to flush cache.
+  // It runs only once after clearing the cache,
+  // keep it in mind when running a debugger.
   if (isset($data['tmgmt_job']['reference']['field'])) {
     $data['tmgmt_job']['reference']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_reference';
   }

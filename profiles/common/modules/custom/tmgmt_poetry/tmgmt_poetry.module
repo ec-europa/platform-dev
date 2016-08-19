@@ -107,12 +107,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     $form['job_items_wrapper']['items'] = array(
       '#type' => 'markup',
       '#markup' => $view->preview('block', array($job->tjid)),
-      '#prefix' => '<div class="' . 'tmgmt-ui-job-items ' . ('tmgmt-ui-job-manage') . '">',
-      '#attributes' => array(
-        'class' => array(
-          'tmgmt-ui-job-items', 'tmgmt-ui-job-manage',
-        ),
-      ),
+      '#prefix' => '<div class="tmgmt-ui-job-items tmgmt-ui-job-manage">',
       '#suffix' => '</div>',
     );
   }
@@ -137,13 +132,8 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
       $form['translator_wrapper']['#access'] = FALSE;
     }
 
-    $job = $job;
     if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
       $form['translator_wrapper']['#collapsed'] = TRUE;
-    }
-    $job_items = $job->getItems();
-    if (count($job_items) > 0) {
-      $job_item = array_shift($job_items);
     }
   }
 
@@ -469,6 +459,15 @@ function tmgmt_poetry_theme($existing, $type, $theme, $path) {
       'path' => $templates_path,
     ],
   ];
+}
+
+/**
+ * Preprocess theme function for the progress field.
+ *
+ * It adds specific CSS styles for the progress field.
+ */
+function tmgmt_poetry_preprocess_tmgmt_poetry_progress_field(&$variables) {
+  drupal_add_css(drupal_get_path('module', 'tmgmt_poetry') . '/css/tmgmt_poetry.css');
 }
 
 /**

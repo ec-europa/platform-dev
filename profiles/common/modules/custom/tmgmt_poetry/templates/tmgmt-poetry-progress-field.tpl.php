@@ -7,7 +7,6 @@
  * - $stats: An array with statistics data.
  * - $title: String which can be used as a tooltip.
  */
-drupal_add_css(drupal_get_path('module', 'tmgmt_poetry') . '/css/tmgmt_poetry.css');
 ?>
 <span title="<?php print $title ?>">
   <ul class="tmgmt-poetry progress-field-list">
