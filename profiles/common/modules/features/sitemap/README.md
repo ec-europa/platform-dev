@@ -8,6 +8,11 @@ The module aims to provide a Sitemap (XML).
 The feature can be activated using the feature set menu
 (/admin/structure/feature-set).
 
+## Developer and administrator notes
+
+Submodule xmlsitemap_i18n is not compatible with this feature and the two
+should never be enabled together.
+
 # Usage
 
 When the feature is enabled, the /sitemap.xml is available.
