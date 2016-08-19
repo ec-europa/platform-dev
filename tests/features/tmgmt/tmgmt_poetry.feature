@@ -272,7 +272,7 @@ Feature: TMGMT Poetry features
       | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
       | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
 
-  Scenario: Poetry replaces tokens correctly.
+  Scenario: Poetry replaces all tokens present in the node.
     Given I am logged in as a user with the "administrator" role
     Given I create the following multilingual "page" content:
       | language | title             | field_ne_body                                                                                      |
@@ -286,4 +286,5 @@ Feature: TMGMT Poetry features
     And I visit the "page" content with title "Two tokens please"
     And I click "Translate" in the "primary_tabs" region
     And I click "Needs review" in the "content" region
-    Then I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'
+    Then I should see the text '<tmgmt_poetry_ignore value="[node:1:link]{Title in English 1 as Link}"/>'
+    And I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'
