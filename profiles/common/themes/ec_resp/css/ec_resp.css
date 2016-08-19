@@ -6741,6 +6741,12 @@ button.close {
     display: none !important;
   }
 }
+/* -------------- Custom utilities   -------------- */
+@media (max-width: 479px) {
+  .hidden-xxs {
+    display: none !important;
+  }
+}
 /*!
  * Ec resp
  */
@@ -7823,6 +7829,9 @@ fieldset[disabled] .node-form .multipage-controls-list input.form-submit.active 
   border-radius: 0;
   margin-bottom: 0;
 }
+#main-menu .navbar p.menu-browse {
+  display: none;
+}
 #main-menu .navbar .collapse {
   display: block;
 }
@@ -7940,7 +7949,7 @@ fieldset[disabled] .node-form .multipage-controls-list input.form-submit.active 
     position: static;
   }
 }
-@media all and (min-width: 767px) and (max-width: 991px) {
+@media all and (min-width: 768px) and (max-width: 991px) {
   .region-featured-wrapper {
     position: relative;
     z-index: 1030;
@@ -7989,16 +7998,29 @@ fieldset[disabled] .node-form .multipage-controls-list input.form-submit.active 
     margin-top: 10px;
   }
 }
+#home-button,
 #menu-button {
   padding: 12px 10px 11px;
+  color: #fff;
 }
+#home-button:focus,
 #menu-button:focus {
   background: none;
 }
+#home-button:hover,
 #menu-button:hover,
+#home-button:active,
 #menu-button:active,
+#home-button.menu-open,
 #menu-button.menu-open {
   background-color: #074A8B;
+}
+#home-button {
+  display: none;
+}
+.navbar-toggle {
+  float: left;
+  margin-left: 15px;
 }
 /* ---------------- action bar (expand/collapse/create)  ----------------- */
 .action_bar {
@@ -8174,6 +8196,14 @@ ul.menu li.expanded {
 }
 .navbar-collapse {
   max-height: none;
+}
+@media (max-width: 479px) {
+  #home-button {
+    display: block;
+  }
+  #main-menu .resp-main-menu-frontpage {
+    display: none;
+  }
 }
 @media (max-width: 767px) {
   #services,

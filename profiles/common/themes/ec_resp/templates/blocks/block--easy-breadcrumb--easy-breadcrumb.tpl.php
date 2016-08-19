@@ -43,7 +43,7 @@
  * @ingroup themeable
  */
 ?>
-<div id="path" class="hidden-xs">
+<div id="path" class="hidden-xxs">
   <div class="container">
     <?php
       print drupal_render($menu_breadcrumb);
