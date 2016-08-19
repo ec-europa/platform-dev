@@ -52,4 +52,8 @@ Additional settings:
   truncate it safely. This will also overwrite the maxlength validation from
   core, so that it will strip the tags before checking the length.
 
+## Additional information
 
+### JS Counter
+By default the count does not show for UID 1(admin) and the Administrator role.
+They have the permission 'bypass max length' assigned by default.
