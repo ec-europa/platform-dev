@@ -197,7 +197,7 @@ Feature: TMGMT Poetry features
     And I click "Reject translation" in the "en->fr" row
     Then I should see "None" in the "French" row
     And I go to stored job Id translation request page
-    And I should see "Aborted" in the "Original version" row
+    Then I should see "Aborted" in the "French" row
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies using TMGMT.
@@ -240,3 +240,34 @@ Feature: TMGMT Poetry features
       | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                          |
       | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                    |
       | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
+
+  @javascript
+  Scenario Outline: Request translation of a page with HTML5 into French.
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I select "Basic HTML" from "Text format"
+    And I fill in "Title" with "<title>"
+    And I fill in "Body" with "<body>"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    When I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I wait
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has version 0
+    When I go to "admin/poetry_mock/dashboard"
+    And I click "Translate" in the "en->fr" row
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "None" in the "French" row
+
+    Examples:
+      | title                | body                                                                                                       |
+      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                            |
+      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
+      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
+      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
