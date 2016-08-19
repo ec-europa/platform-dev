@@ -6,6 +6,9 @@
 
 use Drupal\integration_producer\AbstractProducer;
 use Drupal\integration\Document\DocumentInterface;
+use Drupal\integration_consumer\AbstractConsumer;
+use Drupal\nexteuropa_integration\ClosureDecoratedMigrateSourceBackend;
+use Drupal\integration_migrate\DocumentWrapperInterface;
 
 include_once 'nexteuropa_integration.features.inc';
 
@@ -30,7 +33,8 @@ function nexteuropa_integration_integration_producer_document_build_alter(Abstra
   $document->setMetadata('canonical_url', $canonical_urls);
   $document->setMetadata('type', $producer->getConfiguration()->getResourceSchema());
 
-  _nexteuropa_integration_replace_language_codes($document);
+  $replacements = _nexteuropa_integration_language_code_replacement_map();
+  _nexteuropa_integration_replace_language_codes($document, $replacements);
 }
 
 /**
@@ -51,10 +55,10 @@ function _nexteuropa_integration_language_code_replacement_map() {
  *
  * @param DocumentInterface $document
  *   The document to perform the replacements in.
+ * @param array $replacements
+ *   Replacements to perform.
  */
-function _nexteuropa_integration_replace_language_codes(DocumentInterface $document) {
-  $replacements = _nexteuropa_integration_language_code_replacement_map();
-
+function _nexteuropa_integration_replace_language_codes(DocumentInterface $document, array $replacements) {
   array_walk(
     $replacements,
     function ($new_language_code, $original_language_code) use ($document) {
@@ -81,12 +85,33 @@ function _nexteuropa_integration_replace_language_codes(DocumentInterface $docum
       }
 
       $canonical_url = $document->getMetadata('canonical_url');
-      if (array_key_exists($original_language_code, $canonical_url)) {
-        $canonical_url[$new_language_code] = $canonical_url[$original_language_code];
-        unset($canonical_url[$original_language_code]);
+      if (is_array($canonical_url)) {
+        if (array_key_exists($original_language_code, $canonical_url)) {
+          $canonical_url[$new_language_code] = $canonical_url[$original_language_code];
+          unset($canonical_url[$original_language_code]);
 
-        $document->setMetadata('canonical_url', $canonical_url);
+          $document->setMetadata('canonical_url', $canonical_url);
+        }
       }
     }
   );
+}
+
+/**
+ * Implements hook_integration_consumer_migrate_pre_import().
+ */
+function nexteuropa_integration_integration_consumer_migrate_pre_import(AbstractConsumer $consumer) {
+  $replacements = _nexteuropa_integration_language_code_replacement_map();
+  $replacements = array_flip($replacements);
+
+  $source = new ClosureDecoratedMigrateSourceBackend(
+    $consumer->getSource(),
+    function (DocumentWrapperInterface $document_wrapper) use ($replacements) {
+      $document = $document_wrapper->getDocument();
+      _nexteuropa_integration_replace_language_codes($document, $replacements);
+      return $document_wrapper;
+    }
+  );
+
+  $consumer->setSource($source);
 }
