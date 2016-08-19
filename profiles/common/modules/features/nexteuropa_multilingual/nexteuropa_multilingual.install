@@ -51,7 +51,7 @@ function nexteuropa_multilingual_install() {
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
   // Set nexteuropa_multilingual_url_suffix as default language negotiation.
-  //@TODO is not working
+  //@ TODO is not working
   multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix');
 
   // Set translatable states for TMGMT Workbench module.
@@ -62,15 +62,18 @@ function nexteuropa_multilingual_install() {
   variable_set('pathauto_node_pattern', 'content/[node:source:title]');
 
   // Remove old language switcher block.
-  //@TODO is not working
+  //@ TODO is not working
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
 
   // Add new language switcher block.
-  //multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_site', 'language_selector_site', 'language_selector_site', "header_top", -10);
-  multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_page', 'language_selector_page', 'language_selector_page', "content_top", -10);
+  //multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_site', 'language_selector_site', 'language_selector_site', "header_top", -10);.
+  multisite_drupal_toolbox_add_block_context('site_wide',
+    'language_selector_page', 'language_selector_page',
+    'language_selector_page', "content_top", -10);
 
   // Set the warning message when changing node state.
-  variable_set('nexteuropa_multilingual_warning_message_languages', "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!");
+  variable_set('nexteuropa_multilingual_warning_message_languages',
+    "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!");
 }
 
 /**
