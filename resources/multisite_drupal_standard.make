@@ -423,6 +423,7 @@ projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol
 
 projects[media_flickr][subdir] = "contrib"
 projects[media_flickr][version] = "1.0-alpha4"
+projects[media_flickr][patch][] = https://www.drupal.org/files/issues/import_albums_error-7.x-1.x-2602558-5.patch
 projects[media_flickr][patch][] = patches/media_flickr-Media_v2_removed_XML_APIs-2089665-1.patch
 projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-2183.patch
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
