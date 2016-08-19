@@ -8,7 +8,7 @@ Feature: Images
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/article"
     And I fill in "Title" with "Article with image and caption"
-    And I attach the file "/profiles/multisite_drupal_standard/themes/ec_resp/logo.png" to "edit-field-image-und-0-upload"
+    And I attach the file "/tests/files/logo.png" to "edit-field-image-und-0-upload"
     And I press "Save"
     Then the response should contain "has been created."
     When I go to "/admin/content/file"
