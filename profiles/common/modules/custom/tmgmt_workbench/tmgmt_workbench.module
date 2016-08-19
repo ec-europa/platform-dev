@@ -188,7 +188,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         $form['languages_description'] = [
           '#type' => 'item',
           '#prefix' => "<div class='messages warning'>",
-          '#markup' => t('There is already translation request ongoing. Please end up translation process before creating a new translation request.'),
+          '#markup' => t('Please end up the active translation process before creating a new request.'),
           '#sufix' => "</div>",
           '#attributes' => [
             'class' => ['messages warning'],
