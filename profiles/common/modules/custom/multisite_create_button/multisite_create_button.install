@@ -9,7 +9,7 @@
  * Implements hook_enable().
  */
 function multisite_create_button_enable() {
-   drupal_set_message(t("Content creation button installed"));
+  drupal_set_message(t("Content creation button installed"));
 }
 
 /**
