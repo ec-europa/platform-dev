@@ -5,7 +5,7 @@ The module aims to provide a Sitemap (XML).
 
 # Installation
 
-The feature can be activated using feature set menu #
+The feature can be activated using feature set menu
 (/admin/structure/feature-set).
 
 # Usage
@@ -23,8 +23,11 @@ The feature regenerates the XML sitemap files using the cron or it's possible to
 regenerate manually.
 
 ## Multilingual
-The feature includes the tags (rel = "alternate") for assuming the various
-languages.
+The feature includes the tags (rel = "alternate") for indexation of the
+various languages.
+
+## More information
+https://webmasters.googleblog.com/2012/05/multilingual-and-multinational-site.html
 
 
 
