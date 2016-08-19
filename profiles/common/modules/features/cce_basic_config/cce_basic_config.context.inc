@@ -38,12 +38,6 @@ function cce_basic_config_context_default_contexts() {
           'region' => 'tools',
           'weight' => '2',
         ),
-        'locale-language' => array(
-          'module' => 'locale',
-          'delta' => 'language',
-          'region' => 'header_top',
-          'weight' => '-10',
-        ),
         'system-main-menu' => array(
           'module' => 'system',
           'delta' => 'main-menu',
