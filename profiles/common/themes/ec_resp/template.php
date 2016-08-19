@@ -415,6 +415,21 @@ function ec_resp_preprocess_field(&$variables, $hook) {
       }
       break;
 
+    case 'field_image':
+      global $language;
+      foreach ($variables['items'] as $key => $item) {
+        /** @var \EntityDrupalWrapper $entity_wrapper */
+        $entity = (object) $item['#item'];
+        $variables['items'][$key]['image_caption'] = '';
+        if (isset($entity->field_caption)) {
+          $entity_wrapper = entity_metadata_wrapper('file', $entity);
+          $variables['items'][$key]['image_caption'] = $entity_wrapper
+            ->language($language->language)
+            ->field_caption
+            ->value(array('sanitize' => TRUE));
+        }
+      }
+      break;
   }
 }
 

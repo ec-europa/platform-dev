@@ -56,13 +56,9 @@
         class="field-item <?php print $delta % 2 ? 'odd' : 'even'; ?>"<?php print $item_attributes[$delta]; ?>>
         <?php print render($item); ?>
       </div>
-      <?php
-      global $language;
-      if (isset($item['#item']['field_caption'][$language->language][0]['safe_value'])):
-        ?>
-        <div
-          class="field-image-caption"><?php print $item['#item']['field_caption'][$language->language][0]['safe_value']; ?></div>
-      <?php endif; ?>
+      <?php if (isset($item['image_caption'])): ?>
+      <div class="field-image-caption"><?php print $item['image_caption']; ?></div>
+      <?php endif;?>
     <?php endforeach; ?>
   </div>
 </div>
