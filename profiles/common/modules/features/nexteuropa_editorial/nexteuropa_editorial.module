@@ -139,6 +139,7 @@ function nexteuropa_editorial_module_implements_alter(&$implementations, $hook) 
  */
 function nexteuropa_editorial_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
   $entity = $form['node']['#value'];
+
   if (isset($entity->tracking_activate)) {
     if (!isset($form['language'])) {
       // Aligning the language setting for validate callback.
@@ -152,7 +153,7 @@ function nexteuropa_editorial_form_workbench_moderation_moderate_form_alter(&$fo
         '#value' => $language,
       );
     }
-    $form['#validate'][] = '_nexteuropa_editorial_tracking_change_entity_validate';
+    $form['#validate'][] = '_nexteuropa_editorial_tracking_entity_validate';
   }
 }
 /**
@@ -161,7 +162,7 @@ function nexteuropa_editorial_form_workbench_moderation_moderate_form_alter(&$fo
  * It implements it for "Text area" widget.
  */
 function nexteuropa_editorial_field_widget_text_textarea_form_alter(&$element, &$form_state, $context) {
-  _nexteuropa_editorial_field_widget_tracking_change_form_alter($element, $form_state, $context);
+  _nexteuropa_editorial_field_widget_tracking_form_alter($element, $form_state, $context);
 }
 
 /**
@@ -170,7 +171,7 @@ function nexteuropa_editorial_field_widget_text_textarea_form_alter(&$element, &
  * It implements it for "Text area with a summary" widget.
  */
 function nexteuropa_editorial_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
-  _nexteuropa_editorial_field_widget_tracking_change_form_alter($element, $form_state, $context);
+  _nexteuropa_editorial_field_widget_tracking_form_alter($element, $form_state, $context);
 }
 
 /**
@@ -179,7 +180,7 @@ function nexteuropa_editorial_field_widget_text_textarea_with_summary_form_alter
  * It implements it for "Text field" widget.
  */
 function nexteuropa_editorial_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
-  _nexteuropa_editorial_field_widget_tracking_change_form_alter($element, $form_state, $context);
+  _nexteuropa_editorial_field_widget_tracking_form_alter($element, $form_state, $context);
 }
 
 /**
@@ -196,7 +197,7 @@ function nexteuropa_editorial_entity_load($entities, $type) {
     $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
 
     if ($settings['is_activate']) {
-      _nexteuropa_editorial_set_change_tracking_flags($entity, $type);
+      _nexteuropa_editorial_set_tracking_flags($entity, $type);
     }
   }
 }
@@ -218,6 +219,6 @@ function nexteuropa_editorial_field_attach_form($entity_type, $entity, &$form, &
         '#value' => $langcode,
       );
     }
-    $form['#validate'][] = '_nexteuropa_editorial_tracking_change_entity_validate';
+    $form['#validate'][] = '_nexteuropa_editorial_tracking_entity_validate';
   }
 }
