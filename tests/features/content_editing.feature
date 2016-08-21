@@ -61,17 +61,25 @@ Feature: Content editing
     Then I should see "View draft"
     When I click "Edit draft"
     And I select "Full HTML + Change tracking" from "field_ne_body[en][0][format]"
-    And I fill in "Body" with "<html>"
+    And I fill in "Body" with "<blocked>"
     And I select "Validated" from "Moderation state"
     And I press "Save"
-    Then I should see the error message "The field contains change tracking that cannot be saved."
-    And I select "Validated" from "Moderation state"
+    Then I should see the error message "The field contains tracked changes that may not be saved."
+    And I should see the error message "The form cannot be saved because of tracked changes existing in the English version."
+    When I select "Validated" from "Moderation state"
     And I press "Save"
-    Then I should see the error message "The field contains change tracking that cannot be saved."
-    And I select "Needs Review" from "Moderation state"
+    Then I should see the error message "The field contains tracked changes that may not be saved."
+    And I should see the error message "The form cannot be saved because of tracked changes existing in the English version."
+    When I select "Needs Review" from "Moderation state"
     And I press "Save"
     Then I should see the success message "Basic page Page title has been updated."
+    When I select "Validated" from "state"
+    And I press "Apply"
+    Then I should see the error message "The form cannot be saved because of tracked changes existing in the English version."
 
   Examples:
-  | html                                                                                                                                                                                                                          |
+  | blocked                                                                                                                                                                                                                        |
   | <p>Page body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
+
+
+

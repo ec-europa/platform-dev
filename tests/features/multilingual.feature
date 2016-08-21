@@ -179,3 +179,34 @@ Feature: Multilingual features
     And I click "Français" in the "header_top" region
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
+
+  Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
+  CKEditor Lite tracked changes exist in WYSIWYG fields of a translation
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title              | body                 |
+      | en       | Title in English   | <p>Page body</p>     |
+      | fr       | Titre en Français  | <p>Corps de page</p> |
+    And I click "English" in the "header_top" region
+    And I click "Français"
+    And I click "New draft"
+    And I select "Full HTML + Change tracking" from "field_ne_body[fr][0][format]"
+    And I fill in "Body" with "<blocked>"
+    And I press "Save"
+    Then I should see the success message "Basic page Titre en Français has been updated."
+    When I click "Français" in the "header_top" region
+    And I click "English"
+    When I select "Published" from "state"
+    And I press "Apply"
+    Then I should see the error message "The form cannot be saved because of tracked changes existing in the French version."
+    When I select "Validated" from "state"
+    And I press "Apply"
+    Then I should see the error message "The form cannot be saved because of tracked changes existing in the French version."
+    When I select "Needs Review" from "state"
+    And I press "Apply"
+    Then I should not see the error message "The form cannot be saved because of tracked changes existing in the French version."
+
+    Examples:
+      | blocked                                                                                                                                                                                                                                  |
+      | <p>Corps de page<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> avec contenu additionnel</span></p> |
+
