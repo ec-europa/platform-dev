@@ -49,3 +49,22 @@ Feature: Content editing
     | <div class=\"classname?&*\">Applied invalid css class</div>         | classname                     |
     | <div id=\"2invalidid\">A container with an invalid HTML ID</div>    | invalidid                     |
     | <div id=\"invalidid.\">A container with an invalid HTML ID</div>    | invalidid                     |
+
+  @api @javascript
+  Scenario Outline: Test that media images added in wysiwyg are correctly displayed
+    When I go to "node/add/page"
+    And I select "<filter>" from "Text format"
+    And I fill in "Title" with "<title>"
+    And I click the "Add media" button in the "edit-field-ne-body-und-0-value" WYSIWYG editor
+    And I wait for AJAX to finish
+ #  And I click "Library" in the "primary_tabs" region of the "edit-field-ne-body-und-0-value" WYSIWYG editor
+ #  And I click "user_default.png"
+ #  And I press "Submit"
+ #  And I press "Submit"
+ #   And I click "Disable rich-text"
+ #   Then I should see "<img " in the "Body" WYSIWYG editor
+
+    Examples:
+    | title                | filter                        | 
+    | Title in full        | Full HTML                     | 
+    | Title with tracking  | Full HTML + Change tracking   |
