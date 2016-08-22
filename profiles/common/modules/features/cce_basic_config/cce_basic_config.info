@@ -299,3 +299,4 @@ features[variable][] = video_use_default_thumb
 features[variable][] = video_use_preset_wxh
 features[variable][] = workbench_moderation_default_state_article
 features[video][] = default_flash_conversion
+registry_autoload[] = PSR-4
