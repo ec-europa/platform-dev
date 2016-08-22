@@ -17,7 +17,7 @@ Feature: Images
     And I fill in "Name" with "Image name"
     And I fill in "Caption" with "Image caption"
     And I press "Save"
-    And the response should contain "has been updated."
+    Then the response should contain "has been updated."
     When I go to "/admin/content"
     And the cache has been cleared
     And I click "Article with image and caption"
