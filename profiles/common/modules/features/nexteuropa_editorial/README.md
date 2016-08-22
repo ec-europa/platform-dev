@@ -37,9 +37,10 @@ Configuration > Content authoring > MULTISITE WYSIWYG > WYSIWYG workflow setting
 
 # Remark for editors: Tracking changes
 
-Depending on settings made in "WYSIWYG workflow settings", content saving can be
-blocked if tracked changes managed by the module "CKEditor LITE" module exist in
-"WYSIWYG" fields of this content or in one of these translations.
+Depending on the feature configuration options for given content workflow status
+(ex. published), saving progress could be blocked if tracked changes are not
+validated in the current revision or one of translations.
 
-In order to unblock the saving,editors must validate or refuse tracked changes
-where they are present.
+In order to save content for configured workflow statuses, editors must
+accept or reject tracked changes if those are present,or change the
+content state.

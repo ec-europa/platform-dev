@@ -23,14 +23,20 @@ function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$for
     if (!isset($entity->entity_type) && isset($element['#entity_type'])) {
       $entity->entity_type = $element['#entity_type'];
     }
-  }
-  $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
-  if ($tracking_settings['is_activate']) {
-    $instance_settings = $context['instance']['settings'];
-    if (isset($instance_settings['text_processing']) && $instance_settings['text_processing']) {
-      // Tracking change is only possible on fields on which
-      // a text format can be set.
-      $element['#element_validate'][] = '_nexteuropa_editorial_tracking_field_validate';
+
+    if ($entity->entity_type != 'node') {
+      // Only nodes are supported.
+      return;
+    }
+
+    $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+    if ($tracking_settings['is_activate']) {
+      $instance_settings = $context['instance']['settings'];
+      if (isset($instance_settings['text_processing']) && $instance_settings['text_processing']) {
+        // Tracking change is only possible on fields on which
+        // a text format can be set.
+        $element['#element_validate'][] = '_nexteuropa_editorial_tracking_field_validate';
+      }
     }
   }
 }
@@ -50,7 +56,7 @@ function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$for
  *   If the entity bundle is not set.
  */
 function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
-  // Tracking changes are only present in these "fields type".
+  // Tracking changes are only present n the following "field widget types".
   $screened_field_types = array(
     'text_textarea',
     'text_textarea_with_summary',
@@ -260,13 +266,17 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang, $current_
   switch ($count) {
     case 0:
       // LANGUAGE_NONE case.
-      return t('The form cannot be saved because of tracked changes existing in this revision.');
+      return t('Current content includes unprocessed changes in this revision.
+        In order to save progress, please accept or reject them, or
+         change the content state.');
 
     case 1:
       $implied_lang = end($tracking_lang);
       $lang_name = locale_language_name($implied_lang);
       $message_param = array('@lang' => $lang_name);
-      return t('The form cannot be saved because of tracked changes existing in the @lang version.',
+      return t('Current content includes unprocessed changes in the @lang
+       version. In order to save progress, please accept or reject them,
+       or change the content state.',
         $message_param);
 
     default:
@@ -275,7 +285,9 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang, $current_
         $language_names[$lang] = locale_language_name($lang);
       }
       $message_param = array('@lang' => implode(', ', $language_names));
-      return t('The form cannot be saved because of tracked changes existing in the @lang versions.',
+      return t('Current content includes unprocessed changes in the @lang
+      versions. In order to save progress, please accept or reject them,
+      or change the content state.',
         $message_param);
   }
 }
