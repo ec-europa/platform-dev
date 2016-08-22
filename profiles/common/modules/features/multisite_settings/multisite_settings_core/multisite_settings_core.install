@@ -61,7 +61,7 @@ function multisite_settings_core_update_7121() {
 
 /**
  * Implements hook_update_N().
- * 
+ *
  * Disable cookie language.
  */
 function multisite_settings_core_update_7122() {
