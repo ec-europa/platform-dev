@@ -209,4 +209,4 @@ Feature: Multilingual features
     And I select "Published" from "state"
     And I press "Apply"
     And I go to "content/new-article-title_it"
-    Then I should see "Corpo del testo"                                                              |
+    Then I should see "Corpo del testo"
