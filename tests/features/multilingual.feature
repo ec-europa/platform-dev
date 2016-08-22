@@ -198,9 +198,6 @@ Feature: Multilingual features
     Then I should see the following success messages:
       | success messages               |
       | Your settings have been saved. |
-
-  Scenario: Create an english page.
-    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/article"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "This is a new article title"
