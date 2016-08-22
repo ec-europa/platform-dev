@@ -7,6 +7,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\CKEditorContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:
@@ -53,6 +54,7 @@ communities:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\CKEditorContext
       filters:
         tags: "@communities&&~@wip&&@i18n"
   extensions:

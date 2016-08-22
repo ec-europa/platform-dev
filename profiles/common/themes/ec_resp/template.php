@@ -215,7 +215,7 @@ function ec_resp_preprocess_page(&$variables) {
   $regions['footer'] = (isset($variables['page']['footer']) ? render($variables['page']['footer']) : '');
 
   // Check if there is a responsive sidebar or not.
-  $has_responsive_sidebar = 0;
+  $has_responsive_sidebar = ($regions['header_right'] || $regions['sidebar_left'] || $regions['sidebar_right'] ? 1 : 0);
 
   // Calculate size of regions.
   $cols = array();
@@ -489,10 +489,10 @@ function ec_resp_preprocess_html(&$variables) {
     }
 
     if (theme_get_setting('enable_interinstitutional_theme')) {
-      $variables['head_title'] = format_string('EUROPA - !title', array('!title' => $title));
+      $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
     }
     else {
-      $variables['head_title'] = format_string('!title - European Commission', array('!title' => $title));
+      $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
     }
   }
 
@@ -526,11 +526,6 @@ function ec_resp_preprocess_menu_link(&$variables) {
   $remove_default_classes = (isset($variables['element']['#localized_options']['attributes']['data-remove-class']) ? $variables['element']['#localized_options']['attributes']['data-remove-class'] : 0);
   if (!$remove_default_classes) {
     $variables['element']['#localized_options']['attributes']['class'][] = 'list-group-item';
-  }
-
-  // Add CSS class property to the <front> item.
-  if ($variables['element']['#href'] == '<front>' && $variables['element']['#original_link']['menu_name'] == 'main-menu' && $variables['element']['#original_link']['has_children'] == 0) {
-    $variables['element']['#attributes']['class'][] = 'resp-main-menu-frontpage';
   }
 }
 
@@ -700,7 +695,7 @@ function ec_resp_page_alter(&$page) {
     }
   }
   $keywords .= filter_xss(variable_get('site_name')) . ', ';
-  $keywords .= 'European Commission, European Union, EU';
+  $keywords .= t('European Commission, European Union, EU');
 
   $type = 'website';
   if (!empty($node)) {
@@ -1100,7 +1095,7 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
 
   if (theme_get_setting('enable_interinstitutional_theme') && $element['#title'] == 'European Commission') {
     global $language;
-    $element['#title'] = 'Europa';
+    $element['#title'] = t('Europa');
     $element['#href'] = 'http://europa.eu/index_' . $language->language . '.htm';
   }
 

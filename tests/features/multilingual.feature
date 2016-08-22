@@ -159,3 +159,23 @@ Feature: Multilingual features
     Then I should see the link "Français" in the "content" region
     And I click "Français" in the "content" region
     Then I should see "Ce titre est en Français"
+
+  Scenario: Path alias must be synchronized through all translations of
+  content when it is manually defined
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+    And I click "English" in the "header_top" region
+    And I click "Français"
+    Then I should be on "content/title-english_fr"
+    And I click "New draft"
+    And I uncheck the box "edit-path-pathauto"
+    And I fill in "URL alias" with "page-alias-for-all-languages"
+    And I select "published" from "Moderation state"
+    When I press "Save"
+    Then I should be on "page-alias-for-all-languages_fr"
+    And I click "Français" in the "header_top" region
+    When I click "English"
+    Then I should be on "page-alias-for-all-languages_en"

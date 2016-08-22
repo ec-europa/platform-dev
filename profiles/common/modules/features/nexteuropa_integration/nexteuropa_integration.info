@@ -8,3 +8,4 @@ dependencies[] = integration_couchdb
 features[features_api][] = api:2
 features[integration_backend][] = couchdb
 features[integration_resource_schema][] = departments
+features[integration_resource_schema][] = news

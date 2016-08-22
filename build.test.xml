@@ -19,6 +19,9 @@
             <!-- Prevent e-mails from being sent during the installation. -->
             <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
         </drush>
+
+		<!-- Rebuild node access after site installation -->
+        <phingcall target="rebuild-node-access" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -61,6 +64,8 @@
                     <token key="behat.base_url" value="${behat.base_url}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
+                    <token key="flickr.key" value="${flickr.key}" />
+                    <token key="flickr.secret" value="${flickr.secret}" />
                     <token key="drush.bin" value="${drush.bin}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
                 </replacetokens>
@@ -95,4 +100,15 @@
         />
     </target>
 
+    <!-- Rebuild node access. -->
+    <target name="rebuild-node-access">
+        <drush
+            command="php-eval"
+            assume="yes"
+            root="${platform.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <param>"node_access_rebuild()"</param>
+        </drush>
+    </target>
 </project>

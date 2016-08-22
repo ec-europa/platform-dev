@@ -18,15 +18,21 @@ function nexteuropa_integration_default_integration_backend() {
     "enabled" : "1",
     "settings" : {
       "plugin" : {
-        "resource_schemas" : [ "departments" ],
+        "resource_schemas" : [ "departments", "news" ],
         "backend" : {
           "base_url" : "https:\\/\\/webgate.acceptance.ec.europa.eu\\/fpfis\\/ilayer\\/beta",
           "id_endpoint" : "\\/uuid"
         },
-        "resource_schema" : { "departments" : {
+        "resource_schema" : {
+          "departments" : {
             "endpoint" : "\\/docs\\/types\\/departments",
-            "all_docs_endpoint" : "\\/docs\\/types\\/departments\\/producers\\/prd",
-            "changes_endpoint" : "\\/changes\\/types\\/departments\\/producers\\/prd"
+            "all_docs_endpoint" : "\\/docs\\/types\\/departments\\/producers\\/infosite",
+            "changes_endpoint" : "\\/changes\\/types\\/departments\\/producers\\/infosite"
+          },
+          "news" : {
+            "endpoint" : "\\/docs\\/types\\/news",
+            "all_docs_endpoint" : "\\/docs\\/types\\/news",
+            "changes_endpoint" : "\\/changes\\/types\\/news"
           }
         }
       },
@@ -56,6 +62,33 @@ function nexteuropa_integration_default_integration_resource_schema() {
           "description" : "Description",
           "introduction" : "Introduction",
           "abbreviation" : "Abbreviation"
+        }
+      }
+    },
+    "description" : null,
+    "rdf_mapping" : []
+  }');
+  $items['news'] = entity_import('integration_resource_schema', '{
+    "name" : "News",
+    "machine_name" : "news",
+    "plugin" : "raw_resource_schema",
+    "enabled" : "1",
+    "settings" : { "plugin" : { "fields" : {
+          "title" : "Title",
+          "long_title" : "Long title",
+          "description" : "Description",
+          "introduction" : "Introduction",
+          "background_information" : "Background information",
+          "body" : "Body",
+          "news_type" : "News type",
+          "publish_date" : "Publish date",
+          "update_date" : "Update date",
+          "location" : "Location",
+          "featured_image" : "Featured image",
+          "featured_media" : "Featured media",
+          "sources" : "Sources",
+          "department" : "Department",
+          "person" : "Person"
         }
       }
     },
