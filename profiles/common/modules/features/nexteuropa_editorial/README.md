@@ -6,7 +6,7 @@ It also contains alterations of:
  users that join an editorial team organic group;
 * The "Roles" field of the user edit form in order to allow selecting only the
  "editorial team member" role;
-* The content saving process in order to block it if CKEditor Lite tracked
+* The content saving process in order to block it if "CKEditor LITE" tracked
   changes are present in its WYSIWYG fields, depending on its workbench
   moderation state or status.
 
@@ -34,3 +34,12 @@ activated or if no states are selected below ("Block if status" is true checkbox
 They can be modified on this administration page:
 Configuration > Content authoring > MULTISITE WYSIWYG > WYSIWYG workflow settings
 (path: "admin/config/content/multisite_wysiwyg/workbench_en");
+
+# Remark for editors: Tracking changes
+
+Depending on settings made in "WYSIWYG workflow settings", content saving can be
+blocked if tracked changes managed by the module "CKEditor LITE" module exist in
+"WYSIWYG" fields of this content or in one of these translations.
+
+In order to unblock the saving,editors must validate or refuse tracked changes
+where they are present.
