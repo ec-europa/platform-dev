@@ -70,7 +70,7 @@ Feature: User menu
   @api
   Scenario Outline: Test that editors and editorial team members can access workbench moderation menu
     Given I am logged in as a "<role>"
-    When I am on admin/workbench/moderate-all
+    When I am at "admin/workbench/moderate-all"
     Then I should see the link "economic"
     And I should see text matching "Tags"
 
