@@ -38,7 +38,6 @@ function multisite_settings_core_strongarm() {
   $strongarm->value = '31536000';
   $export['language_cookie_time'] = $strongarm;
 
-
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
