@@ -40,7 +40,7 @@ function multisite_settings_core_update_7121() {
   variable_set('taxonomy_browser_vocabulary', $vids);
 
   multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'taxonomy_browser', 'taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'sidebar_left');
-  
+
 }
 
 /**
