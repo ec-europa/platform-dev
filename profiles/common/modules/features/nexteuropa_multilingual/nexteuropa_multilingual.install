@@ -51,7 +51,6 @@ function nexteuropa_multilingual_install() {
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
   // Set nexteuropa_multilingual_url_suffix as default language negotiation.
-  // @TODO is not working
   multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix');
 
   // Set translatable states for TMGMT Workbench module.
