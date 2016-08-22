@@ -211,7 +211,11 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $values['field_ne_body'][$language][0]['value'] = $fields['field_ne_body'];
     }
     elseif (isset($fields['body']) && !empty($fields['body'])) {
-      $values['body'][$language][0]['value'] = $fields['body'];
+      // It is LANGUAGE_NONE and not $language because "Body" is not
+      // translatable, and then, it is the undefined language that is always
+      // used.
+      // Additional note: The feature prevent to change that.
+      $values['body'][LANGUAGE_NONE][0]['value'] = $fields['body'];
     }
     $handler->setTranslation($translation, $values);
     // Set translation language.
