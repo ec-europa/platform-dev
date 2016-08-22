@@ -8,7 +8,6 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Behat\Gherkin\Node\TableNode;
 
 /**
  * Behat step definitions for the Multisite Maxlength module.
@@ -49,9 +48,8 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
    *
    * @Then I create a new :field_type field named :field_name on :field_bundle
    */
-  public function iCreateANewFieldNamedOn($field_name, $field_type, $field_bundle) {
+  public function iCreateNewFieldNamedOn($field_name, $field_type, $field_bundle) {
     // Make sure the field doesn't already exist.
-
     if (!field_info_field($field_name)) {
       // Create the field.
       $field = array(
@@ -62,7 +60,8 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
       field_create_field($field);
 
       // Create the instance.
-      $instance = array( 'field_name' => $field_name,
+      $instance = array(
+        'field_name' => $field_name,
         'entity_type' => 'node',
         'bundle' => $field_bundle,
         'label' => $field_name,
@@ -85,8 +84,8 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
    * @AfterScenario
    */
   public function removeFields() {
-    // remove the fields
-    foreach ($this->fields as $field){
+    // Remove the fields.
+    foreach ($this->fields as $field) {
       field_delete_field($field['field_name']);
     }
   }
