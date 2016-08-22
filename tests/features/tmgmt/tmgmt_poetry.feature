@@ -197,7 +197,7 @@ Feature: TMGMT Poetry features
     And I click "Reject translation" in the "en->fr" row
     Then I should see "None" in the "French" row
     And I go to stored job Id translation request page
-    And I should see "Aborted" in the "Original version" row
+    Then I should see "Aborted" in the "French" row
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies using TMGMT.
