@@ -215,7 +215,7 @@ function ec_resp_preprocess_page(&$variables) {
   $regions['footer'] = (isset($variables['page']['footer']) ? render($variables['page']['footer']) : '');
 
   // Check if there is a responsive sidebar or not.
-  $has_responsive_sidebar = 0;
+  $has_responsive_sidebar = ($regions['header_right'] || $regions['sidebar_left'] || $regions['sidebar_right'] ? 1 : 0);
 
   // Calculate size of regions.
   $cols = array();
