@@ -153,7 +153,7 @@ function nexteuropa_editorial_form_workbench_moderation_moderate_form_alter(&$fo
         '#value' => $language,
       );
     }
-    $form['#validate'][] = '_nexteuropa_editorial_tracking_entity_validate';
+    $form['#validate'][] = '_nexteuropa_editorial_tracking_wbm_validate';
   }
 }
 /**
@@ -206,7 +206,8 @@ function nexteuropa_editorial_entity_load($entities, $type) {
  * Implements hook_field_attach_form().
  */
 function nexteuropa_editorial_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
-  if (isset($entity->tracking_activate)) {
+  // Only node entities are supported.
+  if (($entity_type == 'node') && isset($entity->tracking_activate)) {
     $form['tracking_activate'] = array(
       '#type' => 'value',
       '#value' => $entity->tracking_activate,

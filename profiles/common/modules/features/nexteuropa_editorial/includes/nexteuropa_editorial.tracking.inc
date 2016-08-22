@@ -24,8 +24,8 @@ function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$for
       $entity->entity_type = $element['#entity_type'];
     }
   }
-  $tracking_change_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
-  if ($tracking_change_settings['is_activate']) {
+  $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+  if ($tracking_settings['is_activate']) {
     $instance_settings = $context['instance']['settings'];
     if (isset($instance_settings['text_processing']) && $instance_settings['text_processing']) {
       // Tracking change is only possible on fields on which
@@ -63,21 +63,20 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
     $entity->tracking_activate = array();
   }
 
+  // Content translation case.
+  $available_transl_langs = array($entity_language);
   if (isset($entity->translations)) {
     // Entity translation case.
-    $available_translations = $entity->translations;
-    $available_transl_langs = array_keys($available_translations->data);
-  }
-  else {
-    $available_transl_langs = array($entity_language);
+    $available_transl = $entity->translations;
+    $available_transl_langs = array_keys($available_transl->data);
   }
 
-  $entity_field_instances = field_info_instances($type, $bundle);
+  $ent_field_instances = field_info_instances($type, $bundle);
   // Note: special field types like field collection or paragraphs
   // are not supported yet.
-  foreach ($entity_field_instances as $field_name => $entity_field_instance) {
+  foreach ($ent_field_instances as $field_name => $ent_field_instance) {
     $field_info = field_info_field($field_name);
-    $widget_type = _nexteuropa_editorial_field_get_widget_type($entity_field_instance);
+    $widget_type = _nexteuropa_editorial_field_get_widget_type($ent_field_instance);
     // To cover the case where a field is not translatable while
     // the entity is.
     $field_languages = array(LANGUAGE_NONE);
@@ -87,12 +86,12 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
 
     // Detecting tracked changes in entity by screening fields.
     if (in_array($widget_type, $screened_field_types)) {
-      $field_settings = $entity_field_instance['settings'];
+      $field_settings = $ent_field_instance['settings'];
       if ($field_settings['text_processing']) {
         foreach ($field_languages as $translation_lang) {
           $values = field_get_items($type, $entity, $field_name, $translation_lang);
           if ($values) {
-            foreach ($values as $delta => $value) {
+            foreach ($values as $value) {
               if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $value['value'])) {
                 $entity->tracking_activate[$translation_lang] = $translation_lang;
               }
@@ -121,16 +120,15 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
   $values = $form_state['values'];
 
   // So far, we only support "node" entity type.
-  if (isset($form_state['node']) || isset($values['node'])) {
-    $entity = isset($form_state['node']) ? $form_state['node'] : $values['node'];
-    $current_wbm_state = FALSE;
-    if (isset($values['workbench_moderation_state_new'])) {
-      // Content Edit form.
-      $current_wbm_state = $values['workbench_moderation_state_new'];
-    }
-    elseif (isset($values['state'])) {
-      // Workbench moderation form on content view.
-      $current_wbm_state = $values['state'];
+  if (isset($form_state['node'])) {
+    $entity = $form_state['node'];
+    $current_wbm_state = $values['workbench_moderation_state_new'];
+
+    // Get current entity language.
+    $current_ent_lang = $values['language'];
+    if (isset($form_state['entity_translation'])) {
+      // Entity translation case.
+      $current_ent_lang = $form_state['entity_translation']['form_langcode'];
     }
 
     $tracking_to_check = _nexteuropa_editorial_tracking_saving_to_block($entity, $current_wbm_state);
@@ -138,29 +136,65 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
     if ($tracking_to_check) {
       $tracking_activate = $values['tracking_activate'];
 
-      // Treating current revision.
-      if (isset($form_state['tracked_changed_detected'])) {
-        $current_ent_language = $values['language'];
-        if (isset($form_state['entity_translation'])) {
-          $current_ent_language = $form_state['entity_translation']['form_langcode'];
-        }
+      // Unset current language because current form could be emptied of
+      // its tracked changes.
+      unset($tracking_activate[$current_ent_lang]);
 
-        foreach ($form_state['tracked_changed_detected'] as $field_name => $field_path) {
+      // Treating current revision.
+      $tracking_detected = FALSE;
+      if (isset($form_state['tracked_changed_detected'])) {
+        $tracking_detected = $form_state['tracked_changed_detected'];
+      }
+
+      if ($tracking_detected) {
+        foreach ($form_state['tracked_changed_detected'] as $field_path) {
           form_set_error($field_path, t('The field contains tracked changes that may not be saved.'));
         }
 
         // Ensure that an error message for the whole entity will be displayed.
-        $tracking_activate[$current_ent_language] = $current_ent_language;
+        $tracking_activate[$current_ent_lang] = $current_ent_lang;
       }
 
       // Treating other translation revisions.
       if ($tracking_activate) {
-        // We remove LANGUAGE_NONE because it is common to all translations.
-        unset($tracking_activate[LANGUAGE_NONE]);
-
-        $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate);
+        $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate, $current_ent_lang);
         form_set_error('tracking_activate', $entity_message);
       }
+    }
+  }
+}
+
+/**
+ * Node validation callback.
+ *
+ * It checks if the node or one of these translations contains tracking changes.
+ * Then, depending on settings, it blocks the form submitting.
+ *
+ * @param array $form
+ *   The submitted form.
+ * @param array $form_state
+ *   The form state of the submitted form.
+ *
+ * @see nexteuropa_editorial_form_workbench_moderation_moderate_form_alter()
+ */
+function _nexteuropa_editorial_tracking_wbm_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  // Get current entity language.
+  $current_ent_lang = $values['language'];
+  if (isset($form_state['entity_translation'])) {
+    $current_ent_lang = $form_state['entity_translation']['form_langcode'];
+  }
+  $entity = $values['node'];
+  $current_wbm_state = $values['state'];
+  $tracking_to_check = _nexteuropa_editorial_tracking_saving_to_block($entity, $current_wbm_state);
+  // Generates errors only if required by WYSIWYG tracking workflow settings.
+  if ($tracking_to_check) {
+    $tracking_activate = $values['tracking_activate'];
+
+    // Treating other translation revisions.
+    if ($tracking_activate) {
+      $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate, $current_ent_lang);
+      form_set_error('tracking_activate', $entity_message);
     }
   }
 }
@@ -183,6 +217,7 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
  */
 function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $form) {
   $value = '';
+  $field_name = $element['#field_name'];
   if (isset($element['#value'])) {
     $value = $element['#value'];
   }
@@ -193,9 +228,10 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
     $element = $element['value'];
   }
 
+  unset($form_state['tracked_changed_detected'][$field_name]);
   if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $value)) {
     // Storing field info in form_state to treat it later with the entity.
-    $form_state['tracked_changed_detected'][$element['#field_name']] = $element['#name'];
+    $form_state['tracked_changed_detected'][$field_name] = $element['#name'];
   }
 }
 
@@ -204,13 +240,22 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
  *
  * @param array $tracking_lang
  *   List of languages where tracked changes are detected.
+ * @param string $current_lang
+ *   The current language if it must be removed from the message.
  *
  * @return string
  *   The message to display
  *
  * @see _nexteuropa_editorial_tracking_entity_validate()
  */
-function _nexteuropa_editorial_tracking_entity_message($tracking_lang) {
+function _nexteuropa_editorial_tracking_entity_message($tracking_lang, $current_lang) {
+  if (isset($tracking_lang[LANGUAGE_NONE])) {
+    unset($tracking_lang[LANGUAGE_NONE]);
+    $tracking_lang[$current_lang] = $current_lang;
+  }
+  // We remove LANGUAGE_NONE because it is common to all translations.
+  unset($tracking_lang[LANGUAGE_NONE]);
+
   $count = count($tracking_lang);
   switch ($count) {
     case 0:
@@ -323,16 +368,16 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
     if (empty($cached_settings) && ($type == 'node')) {
       $status = variable_get('nexteuropa_editorial_tracking_status');
       $states = variable_get('nexteuropa_editorial_tracking_wbm_states', array());
-      $actual_states_to_check = array();
+      $states_to_check = array();
       foreach ($states as $state_name => $state_status) {
         if ($state_status) {
-          $actual_states_to_check[] = $state_name;
+          $states_to_check[] = $state_name;
         }
       }
       $cached_settings = array(
         'is_activate' => TRUE,
         'saving_blocking' => $status,
-        'wbm_states' => $actual_states_to_check,
+        'wbm_states' => $states_to_check,
       );
     }
     return $cached_settings;
