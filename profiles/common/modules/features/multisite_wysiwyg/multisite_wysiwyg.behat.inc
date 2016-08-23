@@ -294,7 +294,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
 
 
   /**
-   * Wait for the given number of seconds. ONLY USE FOR DEBUGGING!
+   * Wait for the given number of seconds.
    *
    * @When (I )wait( for) :seconds second(s)
    */
@@ -315,4 +315,17 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $buttons[0]->click();
   }
 
+  /**
+   * Check that a tag is available in a region.
+   *
+   * @Then I( should) see the :tag element in the :region( region)
+   */
+  public function assertRegionElement($tag, $region) {
+    $regionObj = $this->getRegion($region);
+    $elements = $regionObj->findAll('css', $tag);
+    if (!empty($elements)) {
+      return;
+    }
+    throw new \Exception(sprintf('The element "%s" was not found in the "%s" region on the page %s', $tag, $region, $this->getSession()->getCurrentUrl()));
+  }
 }
