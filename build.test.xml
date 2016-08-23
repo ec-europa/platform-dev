@@ -68,6 +68,7 @@
                     <token key="flickr.secret" value="${flickr.secret}" />
                     <token key="drush.bin" value="${drush.bin}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
+                    <token key="integration.server.port" value="${integration.server.port}" />
                 </replacetokens>
             </filterchain>
             <mapper type="glob" from="*.yml.dist" to="*.yml" />
