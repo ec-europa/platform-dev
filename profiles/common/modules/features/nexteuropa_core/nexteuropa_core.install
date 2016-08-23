@@ -80,6 +80,9 @@ function nexteuropa_core_install() {
   // Enable Version Management for node types.
   multisite_config_service('version_management')->enableVersionManagement('article');
   multisite_config_service('version_management')->enableVersionManagement('page');
+
+  // Enable translation of 'body' field by default.
+  multisite_config_service('field')->enableFieldTranslation('body');
 }
 
 /**
@@ -99,4 +102,11 @@ function nexteuropa_core_update_7001() {
  */
 function nexteuropa_core_update_7002() {
   field_delete_field('field_core_user_tasks');
+}
+
+/**
+ * NEXTEUROPA-10433: Enable translation of 'body' field.
+ */
+function nexteuropa_core_update_7003() {
+  multisite_config_service('field')->enableFieldTranslation('body');
 }
