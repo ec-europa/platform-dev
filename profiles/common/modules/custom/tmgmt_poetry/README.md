@@ -174,13 +174,13 @@ DGCOMM (see 'Installations step 1').
 
 # Usage
 ## How to request a translation
-:warning: TO BE UPDATED AFTER 7719.
 - When you are browsing a node that is translatable, an additional tab
 'Translate' appears,
-- Click that tab and select one language you wish to request a translation for,
+- Click that tab and select languages you wish to request a translation for,
 - Submit the 'Request translation' button,
-- Select the 'DGT connector (auto created)' plugin from the select list,
-- Select all the languages you want to be translated,
+- By default the 'DGT connector (auto created)' translator will be selected but you can click 'Change translator' to
+change it if needed,
+- You can change the languages you want to be translated,
 - Default values:
 
 > The values that show in 'Contact Usernames' and in 'Organization' are the
