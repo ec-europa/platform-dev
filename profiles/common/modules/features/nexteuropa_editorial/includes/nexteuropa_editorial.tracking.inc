@@ -135,7 +135,7 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
       $current_ent_lang = $form_state['entity_translation']['form_langcode'];
     }
 
-    $tracking_to_check = _nexteuropa_editorial_tracking_is_saving_stop($entity, $current_wbm_state);
+    $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
     // Generates errors only if required by WYSIWYG tracking workflow settings.
     if ($tracking_to_check) {
       $tracking_activate = $values['tracking_activate'];
@@ -146,7 +146,7 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
       unset($tracking_activate[LANGUAGE_NONE]);
 
       // Treating current revision.
-      if (isset($form_state['tracked_changed_detected']) && $form_state['tracked_changed_detected']) {
+      if (isset($form_state['tracking_changes_detected']) && $form_state['tracking_changes_detected']) {
         // Ensure that an error message for the whole entity will be displayed.
         $tracking_activate[$current_ent_lang] = $current_ent_lang;
       }
@@ -182,7 +182,7 @@ function _nexteuropa_editorial_tracking_wbm_validate($form, &$form_state) {
   }
   $entity = $values['node'];
   $current_wbm_state = $values['state'];
-  $tracking_to_check = _nexteuropa_editorial_tracking_is_saving_stop($entity, $current_wbm_state);
+  $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
   // Generates errors only if required by WYSIWYG tracking workflow settings.
   if ($tracking_to_check) {
     $tracking_activate = $values['tracking_activate'];
@@ -218,7 +218,7 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
     $current_wbm_state = $form_state['values']['workbench_moderation_state_new'];
   }
 
-  $is_to_check = _nexteuropa_editorial_tracking_is_saving_stop($entity, $current_wbm_state);
+  $is_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
   if ($is_to_check) {
     $value = '';
     if (isset($element['#value'])) {
@@ -232,10 +232,10 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
     }
 
     $field_path = implode('][', $element['#parents']);
-    unset($form_state['tracked_changed_detected'][$field_path]);
+    unset($form_state['tracking_changes_detected'][$field_path]);
     if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $value)) {
       // Flag used in entity validate callback.
-      $form_state['tracked_changed_detected'][$field_path] = TRUE;
+      $form_state['tracking_changes_detected'][$field_path] = TRUE;
 
       // Get the field label.
       if (!empty($element['#title'])) {
@@ -247,7 +247,7 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
         $title = check_plain($info['label']);
       }
 
-      $message = t('!title contains tracked changes that may not be saved.',
+      $message = t('!title contains tracked changes information.',
         array('!title' => $title));
       form_error($element, $message);
     }
@@ -300,7 +300,7 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang) {
 }
 
 /**
- * Checks if the saving of the entity must be blocked or not.
+ * Checks if the change tracking must be tested on given entity.
  *
  * @param object $entity
  *   The entity to check.
@@ -308,13 +308,13 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang) {
  *   The entity current workbench moderation state (node only).
  *
  * @return bool
- *   TRUE if the saving must be blocked; otherwise FALSE.
+ *   TRUE if it needs to be tested; otherwise FALSE.
  */
-function _nexteuropa_editorial_tracking_is_saving_stop($entity, $current_wbm_state = FALSE) {
+function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALSE) {
   $type = $entity->entity_type;
   // So far, only nodes are support.
   if ($type == 'node') {
-    // Prepare the future when it will be extended to other entity.
+    // Prepared for other entities if needed.
     list($id) = entity_extract_ids($type, $entity);
     $cached_settings = &drupal_static(__FUNCTION__ . '_' . $type . '_' . $id);
     if (empty($cached_settings)) {
@@ -322,7 +322,7 @@ function _nexteuropa_editorial_tracking_is_saving_stop($entity, $current_wbm_sta
 
       if ($settings['is_activate']) {
         if (empty($settings['wbm_states'])) {
-          $cached_settings = $settings['saving_blocking'];
+          $cached_settings = $settings['check_entity_status'];
         }
         elseif (in_array($current_wbm_state, $settings['wbm_states'])) {
           $cached_settings = TRUE;
@@ -346,8 +346,8 @@ function _nexteuropa_editorial_tracking_is_saving_stop($entity, $current_wbm_sta
  *   An associative array containing:
  *   - is_activate: flag indicating if controls are active about change
  *       tracking.
- *   - saving_blocking: flag indicating if savings must blocked if tracked
- *      changes exist.
+ *   - check_entity_status: flag indicating if savings just with entity status
+ *      should be blocked if tracked changes information exist.
  *   - wbm_states: (only node) it gives the list of state to take into account.
  */
 function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
@@ -363,7 +363,7 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
 
       $cached_settings = array(
         'is_activate' => TRUE,
-        'saving_blocking' => $status,
+        'check_entity_status' => $status,
         'wbm_states' => $states_to_check,
       );
     }
@@ -372,7 +372,7 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
 
   return array(
     'is_activate' => FALSE,
-    'saving_blocking' => FALSE,
+    'check_entity_status' => FALSE,
     'wbm_states' => array(),
   );
 }
@@ -399,9 +399,10 @@ function nexteuropa_editorial_wysiwyg_tracking_settings_form($form, &$form_state
     '#type' => 'checkbox',
     '#title' => t('Block if status is true'),
     '#default_value' => variable_get('nexteuropa_editorial_tracking_status'),
-    '#description' => t('If checked, all content cannot be saved with tracked
-       changes; except if the content type has a workbench moderation flow and
-       the states are selected in the field below.'),
+    '#description' => t('If checked, all content types cannot be saved if
+       tracking changes feature is enabled; except content types which are
+       using the workbench moderation flow with states selected in the field
+       below.'),
   );
 
   $form['node_workflow']['nexteuropa_editorial_tracking_wbm_states'] = array(
