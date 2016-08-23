@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ca440f52ad9147eebb6aaacf370d682a",
-    "content-hash": "b1606e36bcac1d38b3e8b3611d6c69b1",
+    "hash": "a71c51fbd187d8afc648933c07eade71",
+    "content-hash": "a4f2d83c247d034c02ce8e51b6213056",
     "packages": [
         {
             "name": "behat/behat",
@@ -509,41 +509,39 @@
         },
         {
             "name": "drupal/coder",
-            "version": "dev-NEXTEUROPA-4429",
+            "version": "8.2.6",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pfrenssen/coder.git",
-                "reference": "f5c2d9db3bb95ee515b745090a20acb1b5dcf2cc"
+                "url": "https://github.com/klausi/coder.git",
+                "reference": "717cb8b6cb64a0e2b701542f26ee59b4d1e4ab57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pfrenssen/coder/zipball/f5c2d9db3bb95ee515b745090a20acb1b5dcf2cc",
-                "reference": "f5c2d9db3bb95ee515b745090a20acb1b5dcf2cc",
+                "url": "https://api.github.com/repos/klausi/coder/zipball/717cb8b6cb64a0e2b701542f26ee59b4d1e4ab57",
+                "reference": "717cb8b6cb64a0e2b701542f26ee59b4d1e4ab57",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.2.0",
-                "squizlabs/php_codesniffer": "dev-master#139fe39bea7"
+                "php": ">=5.4.0",
+                "squizlabs/php_codesniffer": ">=2.5.1",
+                "symfony/yaml": ">=2.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7 <5.0"
+                "phpunit/phpunit": ">=3.7"
             },
             "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0+"
             ],
             "description": "Coder is a library to review Drupal code.",
-            "homepage": "https://drupal.org/project/coder",
+            "homepage": "https://www.drupal.org/project/coder",
             "keywords": [
                 "code review",
                 "phpcs",
                 "standards"
             ],
-            "support": {
-                "issues": "https://drupal.org/project/issues/coder",
-                "source": "https://drupal.org/project/coder"
-            },
-            "time": "2015-11-11 14:24:37"
+            "time": "2016-02-07 12:15:20"
         },
         {
             "name": "drupal/drupal-driver",
@@ -1691,12 +1689,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pfrenssen/PHP_CodeSniffer.git",
+                "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
                 "reference": "7cecde705abef667a6bc67429d767046aa1cce11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pfrenssen/PHP_CodeSniffer/zipball/7cecde705abef667a6bc67429d767046aa1cce11",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/7cecde705abef667a6bc67429d767046aa1cce11",
                 "reference": "7cecde705abef667a6bc67429d767046aa1cce11",
                 "shasum": ""
             },
@@ -2578,7 +2576,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "behat/behat": 20,
-        "drupal/coder": 20,
         "drush/drush": 10,
         "pear/versioncontrol_git": 20
     },
