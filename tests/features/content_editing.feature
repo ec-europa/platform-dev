@@ -71,7 +71,7 @@ Feature: Content editing
     # Save the whole node.
     And I press "edit-submit"
     # See the image in the node
-    Then I should see the "img" element in the "Content" region
+    Then I should see the "img" element in the "content" region
     Examples:
       | title                | filter                        |
       | Title in full        | Full HTML                     |
