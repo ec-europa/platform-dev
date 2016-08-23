@@ -3,12 +3,14 @@ Feature: Check the feature Maxlength
   As an administrator, Contributor and Editor User
   I want to control the maximum length in the input on the form before and after submission.
 
-  @api
-  Scenario: Contributor User can check the maxlength counts (without the tags and specific characters).
+  Background:
     Given the module is enabled
       | modules                 |
       | multisite_maxlength     |
-    And I am logged in as a user with the 'administrator' role
+
+  @api
+  Scenario: Contributor User can check the maxlength counts (without the tags and specific characters).
+    Given I am logged in as a user with the 'administrator' role
     When I create a new "text_long" field named "test_maxlength" on "article"
     When I go to "/admin/structure/types/manage/article/fields/test_maxlength"
     And I fill in "Maximum length" with "10"
@@ -25,10 +27,7 @@ Feature: Check the feature Maxlength
 
   @api
   Scenario: Administrator User can check his bypass.
-    Given the module is enabled
-      | modules                 |
-      | multisite_maxlength     |
-    And I am logged in as a user with the 'administrator' role
+    Given I am logged in as a user with the 'administrator' role
     When I create a new "text_long" field named "test_maxlength" on "article"
     When I go to "/admin/structure/types/manage/article/fields/test_maxlength"
     And I fill in "Maximum length" with "10"
