@@ -1,7 +1,7 @@
 Feature: Check the feature Maxlength
-  In order to check the functionality of limiting and validating their maximum length in the edit form.
-  As an administrator
-  I want to check the maxlength.
+  In order to provides to fields of a content type the functionality of limiting and validating their maximum length in the edit form, before submission.
+  As an administrator, Contributor and Editor User
+  I want to control the maximum length in the input on the form before and after submission.
 
   @api
   Scenario: Contributor User can check the maxlength counts (without the tags and specific characters).

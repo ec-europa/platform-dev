@@ -22,7 +22,7 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
   /**
    * List of Fields created during test execution.
    *
-   * @var \Array[]
+   * @var \Fields[]
    */
   protected $fields = [];
 
@@ -88,7 +88,7 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
     foreach ($this->fields as $field) {
       field_delete_field($field['field_name']);
     }
-    field_purge_batch();
+    field_purge_batch(100);
   }
 
 }
