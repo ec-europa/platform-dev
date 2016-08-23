@@ -274,8 +274,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @Then I should see :text in the :tag element in the :region region
    */
   public function assertRegionElementText($text, $tag, $region) {
-    $regionObj = $this->getRegion($region);
-    $elements = $regionObj->findAll('css', $tag);
+    $region_obj = $this->getRegion($region);
+    $elements = $region_obj->findAll('css', $tag);
     if (empty($elements)) {
       throw new \Exception(sprintf('The element "%s" was not found in the "%s" region on the page %s', $tag, $region, $this->getSession()->getCurrentUrl()));
     }
@@ -315,21 +315,4 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $buttons[0]->click();
   }
 
-  /**
-   * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the "(?P<region>[^"]*)" region$/
-   *
-   * NOTE: We specify a regex to allow escaped quotes in the alt text.
-   */
-  public function assertAltRegion($text, $region) {
-    $region_obj = $this->getRegion($region);
-    $element = $region_obj->find('css', 'img');
-    $tmp = $element->getAttribute('alt');
-    if ($text == $tmp) {
-      $result = $text;
-    }
-    if (empty($result)) {
-      throw new \Exception(sprintf('No alt text matching "%s" in the "%s" region on the page %s', $text, $region, $this->getSession()->getCurrentUrl()));
-    }
-  }
-  
 }
