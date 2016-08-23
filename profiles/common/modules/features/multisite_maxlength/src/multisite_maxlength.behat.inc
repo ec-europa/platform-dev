@@ -22,7 +22,7 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
   /**
    * List of Fields created during test execution.
    *
-   * @var \TMGMTJob[]
+   * @var \Array[]
    */
   protected $fields = [];
 
@@ -37,7 +37,7 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
   }
 
   /**
-   * Create a field in the .
+   * Create a new field and a new instance.
    *
    * @param string $field_name
    *    Machine name of the field.
@@ -74,7 +74,7 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
       $this->fields[] = $field;
     }
     else {
-      throw new \InvalidArgumentException("The field '{$field_name}' is already existing.");
+      throw new \InvalidArgumentException("The field '{$field_name}' already exists.");
     }
   }
 
@@ -88,6 +88,7 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
     foreach ($this->fields as $field) {
       field_delete_field($field['field_name']);
     }
+    field_purge_batch();
   }
 
 }

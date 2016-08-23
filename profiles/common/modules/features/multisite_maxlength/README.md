@@ -3,12 +3,12 @@ Multisite Maxlength Feature
 
 Multisite Maxlength is a feature that provides to fields of a content type the
 functionality of limiting and validating their maximum length in the edit form,
-before submission, and showing a counter displaying number of characters left
+before submission, and showing a counter displaying the number of characters left
 before the maximum length is reached.
 
 # Installation
 
-The feature can be activated using feature set menu
+The feature can be activated using the feature set menu
 (/admin/structure/feature-set).
 
 As it is needed to configure a field's settings in a content-type to enable
@@ -37,14 +37,14 @@ activate the counter, which will use the maximum length value of the field.
 It is possible to customize the message that will be shown with the counter.
 
 ### Text area and Text area with a summary
-For these widgets there are more settings options. In this case, you have to
+For these widgets there are more options. In this case, you have to
 enter a value into the 'Maximum length' setting to activate the counter.
 If this field is left empty, the counter won't be activated.
 
 Additional settings:
 
 - Force text truncate:
-  Check this option if you want that the html (or the text) that the user
+  Check this option if you want the html (or the text) that the user
   inserts into the field to be truncated.
 
 - Truncate HTML:
@@ -55,5 +55,5 @@ Additional settings:
 ## Additional information
 
 ### JS Counter
-By default the count does not show for UID 1(admin) and the Administrator role.
+By default the count does not show for UID 1 (admin) and the Administrator role.
 They have the permission 'bypass max length' assigned by default.
