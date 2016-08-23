@@ -321,11 +321,12 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @Then I( should) see the :tag element in the :region( region)
    */
   public function assertRegionElement($tag, $region) {
-    $regionObj = $this->getRegion($region);
-    $elements = $regionObj->findAll('css', $tag);
+    $region_obj = $this->getRegion($region);
+    $elements = $region_obj->findAll('css', $tag);
     if (!empty($elements)) {
       return;
     }
     throw new \Exception(sprintf('The element "%s" was not found in the "%s" region on the page %s', $tag, $region, $this->getSession()->getCurrentUrl()));
   }
+
 }
