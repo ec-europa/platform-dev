@@ -50,7 +50,7 @@ Feature: Content editing
     | <div id=\"2invalidid\">A container with an invalid HTML ID</div>    | invalidid                     |
     | <div id=\"invalidid.\">A container with an invalid HTML ID</div>    | invalidid                     |
 
-  @api
+  @api @javascript
   Scenario Outline: Upload an image with format and alt text
     When I go to "node/add/page"
     And I select "<filter>" from "Text format"
