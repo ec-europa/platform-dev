@@ -50,21 +50,29 @@ Feature: Content editing
     | <div id=\"2invalidid\">A container with an invalid HTML ID</div>    | invalidid                     |
     | <div id=\"invalidid.\">A container with an invalid HTML ID</div>    | invalidid                     |
 
-  @api @javascript
-  Scenario Outline: Test that media images added in wysiwyg are correctly displayed
+  @api
+  Scenario Outline: Upload an image with format and alt text
     When I go to "node/add/page"
     And I select "<filter>" from "Text format"
     And I fill in "Title" with "<title>"
     And I click the "Add media" button in the "edit-field-ne-body-und-0-value" WYSIWYG editor
-    And I wait for AJAX to finish
- #  And I click "Library" in the "primary_tabs" region of the "edit-field-ne-body-und-0-value" WYSIWYG editor
- #  And I click "user_default.png"
- #  And I press "Submit"
- #  And I press "Submit"
- #   And I click "Disable rich-text"
- #   Then I should see "<img " in the "Body" WYSIWYG editor
-
+    And I switch to the frame "mediaBrowser"
+    And I attach the file "/profiles/multisite_drupal_standard/themes/ec_resp/logo.png" to "files[upload]"
+    And I press "Next"
+    Then I should see "Destination"
+    When I select the radio button "Public local files served by the webserver."
+    And I press "Next"
+    Then I should see a "#edit-submit" element
+    And I press "Save"
+    And I wait for 15 seconds
+    And I switch to the frame "mediaStyleSelector"
+    And I click the fake "Submit" button
+    And I switch out of all frames
+    # Save the whole node.
+    And I press "edit-submit"
+    # See the image in the node
+    Then I should see the "img" element in the "Content" region
     Examples:
-    | title                | filter                        | 
-    | Title in full        | Full HTML                     | 
-    | Title with tracking  | Full HTML + Change tracking   |
+      | title                | filter                        |
+      | Title in full        | Full HTML                     |
+      | Title with tracking  | Full HTML + Change tracking   |

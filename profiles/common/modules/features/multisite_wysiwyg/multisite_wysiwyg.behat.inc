@@ -8,7 +8,6 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-
 /**
  * Behat step definitions for the NextEuropa Editorial module.
  */
@@ -27,7 +26,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @var string
    */
   private $iframe = NULL;
-  
+
   /**
    * Constructs a NextEuropaTokenSubContext object.
    *
@@ -217,4 +216,112 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $this->getSession()->switchToIFrame($frame);
     $this->iframe = $frame;
   }
+
+  /**
+   * @When I click the :cssSelector element in the :instanceId WYSIWYG editor
+   */
+  public function iClickTheElementInTheWysiwygEditor($cssSelector, $instanceId) {
+    $instance = $this->getWysiwygInstance($instanceId);
+    $editorType = $this->getSession()->evaluateScript("return $instance.editor");
+
+    // TODO: This is tinyMCE specific. We should probably do a switch statement
+    // based on $editorType.
+    $editor_iframe_id = $instanceId . '_ifr';
+
+    // This Javascript only works on Chrome - not Firefox.
+    $javascript  = "jQuery('#{$editor_iframe_id}').each(function() {";
+    $javascript .= "  jQuery('{$cssSelector}', this.contentWindow.document || this.contentDocument).click();";
+    $javascript .= "});";
+
+    $this->getSession()->executeScript($javascript);
+  }
+
+  /**
+   * Click some text
+   *
+   * @When /^I click on the text "([^"]*)"$/
+   */
+  public function iClickOnTheText($text)
+  {
+    $session = $this->getSession();
+    $element = $session->getPage()->find(
+      'xpath',
+      $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[text()="'. $text .'"]')
+    );
+    if (null === $element) {
+      throw new \InvalidArgumentException(sprintf('Cannot find text: "%s"', $text));
+    }
+
+    $element->click();
+  }
+
+  /**
+   * @When I switch out of all frames
+   */
+  public function iSwitchOutOfAllFrames() {
+    $this->getSession()->switchToIFrame();
+    $this->iframe = NULL;
+  }
+
+  /**
+   * @Then I should see :text in the :tag element in the :region region
+   */
+  public function assertRegionElementText($text, $tag, $region) {
+    $regionObj = $this->getRegion($region);
+    $elements = $regionObj->findAll('css', $tag);
+    if (empty($elements)) {
+      throw new \Exception(sprintf('The element "%s" was not found in the "%s" region on the page %s', $tag, $region, $this->getSession()->getCurrentUrl()));
+    }
+
+    $found = FALSE;
+    foreach ($elements as $element) {
+      if ($element->getText() == $text) {
+        $found = TRUE;
+        break;
+      }
+    }
+    if (!$found) {
+      throw new \Exception(sprintf('The text "%s" was not found in the "%s" element in the "%s" region on the page %s', $text, $tag, $region, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
+
+  /**
+   * Wait for the given number of seconds. ONLY USE FOR DEBUGGING!
+   *
+   * @When (I )wait( for) :seconds second(s)
+   */
+  public function iWaitForSeconds($seconds) {
+    sleep($seconds);
+  }
+
+  /**
+   * @When I click the fake :text button
+   */
+  public function iClickTheFakeButton($text) {
+    // Media style selector "buttons" are A tags with no href, so not findable
+    // by normal steps.
+    $driver = $this->getSession()->getDriver();
+    $buttons = $driver->find("//a[text()='$text']");
+    $buttons[0]->click();
+  }
+
+  /**
+   * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the "(?P<region>[^"]*)" region$/
+   *
+   * NOTE: We specify a regex to allow escaped quotes in the alt text.
+   */
+  public function assertAltRegion($text, $region) {
+    $regionObj = $this->getRegion($region);
+    $element = $regionObj->find('css', 'img');
+    $tmp = $element->getAttribute('alt');
+    if ($text == $tmp) {
+      $result = $text;
+    }
+    if (empty($result)) {
+      throw new \Exception(sprintf('No alt text matching "%s" in the "%s" region on the page %s', $text, $region, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
+
 }
