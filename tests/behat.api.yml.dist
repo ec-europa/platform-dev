@@ -12,6 +12,7 @@ default:
             key: '{{ flickr.key }}'
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\DrupalExtension\Context\MarkupContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
