@@ -198,13 +198,13 @@ Feature: Multilingual features
     And I click "English"
     When I select "Published" from "state"
     And I press "Apply"
-    Then I should see the error message "Current content includes unprocessed changes in the French version. In order to save progress, please accept or reject them, or change the content state."
+    Then I should see the error message "Tracked changes detected in the French version. To save progress, please accept or reject them, or change the content state."
     When I select "Validated" from "state"
     And I press "Apply"
-    Then I should see the error message "Current content includes unprocessed changes in the French version. In order to save progress, please accept or reject them, or change the content state."
+    Then I should see the error message "Tracked changes detected in the French version. To save progress, please accept or reject them, or change the content state."
     When I select "Needs Review" from "state"
     And I press "Apply"
-    Then I should not see the error message "Current content includes unprocessed changes in the French version. In order to save progress, please accept or reject them, or change the content state."
+    Then I should not see the error message "Tracked changes detected in the French version. To save progress, please accept or reject them, or change the content state."
 
     Examples:
       | blocked                                                                                                                                                                                                                                  |

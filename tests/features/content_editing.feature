@@ -64,18 +64,18 @@ Feature: Content editing
     And I fill in "Body" with "<blocked>"
     And I select "Validated" from "Moderation state"
     And I press "Save"
-    Then I should see the error message "The field contains tracked changes that may not be saved."
-    And I should see the error message "Current content includes unprocessed changes in the English version. In order to save progress, please accept or reject them, or change the content state."
+    Then I should see the error message "Body contains tracked changes that may not be saved."
+    And I should see the error message "Tracked changes detected in the English version. To save progress, please accept or reject them, or change the content state."
     When I select "Validated" from "Moderation state"
     And I press "Save"
-    Then I should see the error message "The field contains tracked changes that may not be saved."
-    And I should see the error message "Current content includes unprocessed changes in the English version. In order to save progress, please accept or reject them, or change the content state."
+    Then I should see the error message "Body contains tracked changes that may not be saved."
+    And I should see the error message "Tracked changes detected in the English version. To save progress, please accept or reject them, or change the content state."
     When I select "Needs Review" from "Moderation state"
     And I press "Save"
     Then I should see the success message "Basic page Page title has been updated."
     When I select "Validated" from "state"
     And I press "Apply"
-    Then I should see the error message "Current content includes unprocessed changes in the English version. In order to save progress, please accept or reject them, or change the content state."
+    Then I should see the error message "Tracked changes detected in the English version. To save progress, please accept or reject them, or change the content state."
 
     Examples:
   | blocked                                                                                                                                                                                                                        |
