@@ -22,6 +22,13 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   protected $drupal;
 
   /**
+   * Contains the name of the currently selected iframe.
+   *
+   * @var string
+   */
+  private $iframe = NULL;
+  
+  /**
    * Constructs a NextEuropaTokenSubContext object.
    *
    * @param DrupalDriverManager $drupal
@@ -203,4 +210,11 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     }
   }
 
+  /**
+   * @When I switch to the frame :frame
+   */
+  public function iSwitchToTheFrame($frame) {
+    $this->getSession()->switchToIFrame($frame);
+    $this->iframe = $frame;
+  }
 }
