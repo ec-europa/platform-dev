@@ -27,7 +27,7 @@ Widgets currently accepted are:
 
 ## Activation
 Administrators can activate this functionality at the field settings edition
-page, which can be reached from the ¡§manage fields¡¨ tab of the content type
+page, which can be reached from the 'manage fields' tab of the content type
 settings form. There are two different set ups for this functionality depending
 on the widget type:
 
