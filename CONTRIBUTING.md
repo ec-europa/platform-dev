@@ -1,3 +1,5 @@
+# Contributing to NextEuropa platform
+
 ## Commit Message Format
 
 Our commit message format is based on the one used by AngularJS.
