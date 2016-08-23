@@ -231,21 +231,7 @@ function nexteuropa_multilingual_form_locale_languages_configure_form_alter(&$fo
  * Implements hook_form_BASE_FORM_ID_alter().
  */
 function nexteuropa_multilingual_form_node_form_alter(&$form, &$form_state, $form_id) {
-  $language_default = language_default();
   $node = $form_state['node'];
-  // Hide all languages except neutral language and default language
-  // in node source form.
-  if ($node->language == LANGUAGE_NONE || $node->language == $language_default->language) {
-    // Check if node source or new node.
-    if (isset($form['language']['#options'])) {
-      foreach ($form['language']['#options'] as $lg => $language) {
-        if ($lg != $language_default->language && $lg != LANGUAGE_NONE) {
-          unset($form['language']['#options'][$lg]);
-        }
-      }
-    }
-  }
-
   _nexteuropa_multilingual_warning_message($form, $node);
   _nexteuropa_multilingual_alias_node_form_alter($form, $form_state);
 }

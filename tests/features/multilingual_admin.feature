@@ -4,15 +4,14 @@ Feature: Content translation
   As an administrator
   I want to be able to manage content and translations for fields.
 
-  @api
   Scenario: Content page does not show mixed content language
     Given the following languages are available:
       | languages |
       | en        |
       | de        |
     Given I am logged in as a user with the 'administrator' role
-    When I enable translation for field "body"
-    And I go to "node/add/page"
+    And the "body" field is translatable
+    When I go to "node/add/page"
     And I fill in "Title" with "English title"
     And I press "Save"
     And I select "Validated" from "state"
