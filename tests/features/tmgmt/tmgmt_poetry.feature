@@ -279,7 +279,11 @@ Feature: TMGMT Poetry features
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
-    Then I click "Translate" in the "primary_tabs" region
+    When I click "Translate" in the "primary_tabs" region
+    Then I store node ID of translation request page
+    Given I am logged in as a user with the 'contributor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I go to stored node Id translation request page
     And I check the box on the "French" row
     And I check the box on the "Italian" row
     And I check the box on the "Portuguese" row
