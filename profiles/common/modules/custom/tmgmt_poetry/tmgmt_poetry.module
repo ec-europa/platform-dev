@@ -100,7 +100,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   $job = &$form_state['tmgmt_job'];
 
   // NEXTEUROPA-7719 - Simplifying Poetry UI.
-  drupal_set_title(t("Tranlsation Request - JobID: @id", ['@id' => $form_state['tmgmt_job']->tjid]));
+  drupal_set_title(t("Translation Request - Job ID: @id", ['@id' => $form_state['tmgmt_job']->tjid]));
   $form['info']['#access'] = FALSE;
   $form['translator_wrapper']['settings']['#collapsible'] = TRUE;
   $form['translator_wrapper']['settings']['#collapsed'] = FALSE;
@@ -530,4 +530,14 @@ function tmgmt_poetry_views_api() {
     'api' => 3,
     'path' => drupal_get_path('module', 'tmgmt_poetry') . '/views',
   ];
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function tmgmt_poetry_page_alter(&$page) {
+  // Removing empty workbench block from request transaction page.
+  if (in_array('node', arg()) && in_array('translate', arg())) {
+    unset($page['content']['workbench_block']);
+  }
 }
