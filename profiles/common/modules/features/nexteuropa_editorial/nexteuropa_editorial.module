@@ -139,20 +139,8 @@ function nexteuropa_editorial_module_implements_alter(&$implementations, $hook) 
  */
 function nexteuropa_editorial_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
   $entity = $form['node']['#value'];
-
-  if (isset($entity->tracking_activate)) {
-    if (!isset($form['language'])) {
-      // Aligning the language setting for validate callback.
-      $form['tracking_activate'] = array(
-        '#type' => 'value',
-        '#value' => $entity->tracking_activate,
-      );
-      $language = entity_language('node', $entity);
-      $form['language'] = array(
-        '#type' => 'value',
-        '#value' => $language,
-      );
-    }
+  $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+  if ($tracking_settings['is_activate']) {
     $form['#validate'][] = '_nexteuropa_editorial_tracking_wbm_validate';
   }
 }
@@ -184,34 +172,12 @@ function nexteuropa_editorial_field_widget_text_textfield_form_alter(&$element, 
 }
 
 /**
- * Implements hook_entity_load().
- */
-function nexteuropa_editorial_entity_load($entities, $type) {
-  foreach ($entities as $entity) {
-    // There is not entity_type attribute existing for all entity types.
-    // Then we inject it in entities that do not have it.
-    // See https://www.drupal.org/node/1042822 for more info.
-    if (!isset($entity->entity_type)) {
-      $entity->entity_type = $type;
-    }
-    $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
-
-    if ($settings['is_activate']) {
-      _nexteuropa_editorial_set_tracking_flags($entity, $type);
-    }
-  }
-}
-
-/**
  * Implements hook_field_attach_form().
  */
 function nexteuropa_editorial_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
   // Only node entities are supported.
-  if (($entity_type == 'node') && isset($entity->tracking_activate)) {
-    $form['tracking_activate'] = array(
-      '#type' => 'value',
-      '#value' => $entity->tracking_activate,
-    );
+  $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+  if (($entity_type == 'node') && $tracking_settings['is_activate']) {
     if (!isset($form['language'])) {
       // The form item containing the entity can change from an entity to
       // another. Then we set it like that to easy future treatment.

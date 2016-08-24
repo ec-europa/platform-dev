@@ -50,6 +50,10 @@ function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$for
  * @param string $type
  *   The entity type.
  *
+ * @return array
+ *   An associative array containing all languages where tracked changes
+ *   have been detected.
+ *
  * @throws EntityMalformedException
  *   If the entity bundle is not set.
  */
@@ -64,9 +68,7 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
   list(,, $bundle) = entity_extract_ids($type, $entity);
   $entity_language = entity_language($type, $entity);
 
-  if (!isset($entity->tracking_activate)) {
-    $entity->tracking_activate = array();
-  }
+  $tracking_activate = array();
 
   // Content translation case.
   $available_transl_langs = array($entity_language);
@@ -97,7 +99,7 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
           if ($values) {
             foreach ($values as $value) {
               if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $value['value'])) {
-                $entity->tracking_activate[$translation_lang] = $translation_lang;
+                $tracking_activate[$translation_lang] = $translation_lang;
               }
             }
           }
@@ -105,6 +107,8 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
       }
     }
   }
+
+  return $tracking_activate;
 }
 
 /**
@@ -138,8 +142,7 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
     $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
     // Generates errors only if required by WYSIWYG tracking workflow settings.
     if ($tracking_to_check) {
-      $tracking_activate = $values['tracking_activate'];
-
+      $tracking_activate = _nexteuropa_editorial_set_tracking_flags($entity);
       // Unset because current form could be emptied of its tracked changes.
       unset($tracking_activate[$current_ent_lang]);
       // Unset because it is common to all translations;even the current one.
@@ -175,17 +178,12 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
  */
 function _nexteuropa_editorial_tracking_wbm_validate($form, &$form_state) {
   $values = $form_state['values'];
-  // Get current entity language.
-  $current_ent_lang = $values['language'];
-  if (isset($form_state['entity_translation'])) {
-    $current_ent_lang = $form_state['entity_translation']['form_langcode'];
-  }
   $entity = $values['node'];
   $current_wbm_state = $values['state'];
   $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
   // Generates errors only if required by WYSIWYG tracking workflow settings.
   if ($tracking_to_check) {
-    $tracking_activate = $values['tracking_activate'];
+    $tracking_activate = _nexteuropa_editorial_set_tracking_flags($entity);
 
     // Treating other translation revisions.
     if ($tracking_activate) {
