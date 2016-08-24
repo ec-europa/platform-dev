@@ -397,7 +397,7 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.2"
+projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
 projects[media][version] = 2.0-beta1

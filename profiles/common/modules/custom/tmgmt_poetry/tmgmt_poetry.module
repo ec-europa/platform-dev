@@ -4,7 +4,6 @@
  * Module file of the translation management Poetry .
  */
 
-module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.access_control');
 module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 
 /**
@@ -13,21 +12,6 @@ module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 function tmgmt_poetry_entity_info_alter(&$entity_info) {
   $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
   $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
-}
-
-/**
- * Implements hook_views_data_alter().
- */
-function tmgmt_poetry_views_data_alter(&$data) {
-  if (isset($data['tmgmt_job']['reference']['field'])) {
-    $data['tmgmt_job']['reference']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_reference';
-  }
-  if (isset($data['tmgmt_job_item']['operations']['field'])) {
-    $data['tmgmt_job_item']['operations']['field']['handler'] = 'tmgmt_poetry_handler_field_tmgmt_job_item_operations';
-  }
-  if (isset($data['tmgmt_job']['progress']['field'])) {
-    $data['tmgmt_job']['progress']['field']['handler'] = 'tmgmt_poetry_handler_field_progress';
-  }
 }
 
 /**
@@ -112,33 +96,44 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
  */
 function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
   $translator = FALSE;
+
+  // Reference to the translation job object.
+  $job = &$form_state['tmgmt_job'];
+  // Overwriting details which are coming from tmgmt_ui.pages.inc.
+  // Details about job items for give job and sub jobs related to that job.
+  unset($form['job_items_wrapper']['items']);
+  // Inject details only when job was submitted.
+  if (($view = views_get_view('tmgmt_poetry_translation_job_items')) && !$job->isSubmittable()) {
+    $form['job_items_wrapper']['items'] = array(
+      '#type' => 'markup',
+      '#markup' => $view->preview('block', array($job->tjid)),
+      '#prefix' => '<div class="tmgmt-ui-job-items tmgmt-ui-job-manage">',
+      '#suffix' => '</div>',
+    );
+  }
+
   // If translator values has been changed.
   if (isset($form_state['values']['translator'])) {
     $translator_name = $form_state['values']['translator'];
     // Obtain current translation job translator.
     $translator = tmgmt_translator_load($translator_name);
   }
-  elseif (isset($form_state['tmgmt_job']->translator)) {
-    $translator = $form_state['tmgmt_job']->getTranslator();
+  elseif (isset($job->translator)) {
+    $translator = $job->getTranslator();
   }
   $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
-  if ($translator && ($translator->plugin == 'poetry' || $form_state['tmgmt_job']->getTranslator()->plugin == 'poetry')) {
+  if ($translator && ($translator->plugin == 'poetry' || $job->getTranslator()->plugin == 'poetry')) {
     $form['#submit'][] = '_tmgmt_poetry_form_tmgmt_job_submit';
 
-    if (strpos($form_state['tmgmt_job']->reference, 'SUB_') !== FALSE) {
+    if (strpos($job->reference, 'SUB_') !== FALSE) {
       $form['actions']['abort_job']['#access'] = FALSE;
       $form['actions']['submit']['#access'] = FALSE;
       $form['actions']['delete']['#access'] = FALSE;
       $form['translator_wrapper']['#access'] = FALSE;
     }
 
-    $job = $form_state['tmgmt_job'];
     if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
       $form['translator_wrapper']['#collapsed'] = TRUE;
-    }
-    $job_items = $job->getItems();
-    if (count($job_items) > 0) {
-      $job_item = array_shift($job_items);
     }
   }
 
@@ -446,4 +441,41 @@ function tmgmt_poetry_job_statistics(TMGMTJob $job, $key) {
     return $statistics[$job->tjid]->$key;
   }
   return 0;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function tmgmt_poetry_theme($existing, $type, $theme, $path) {
+  // Setting up templates path.
+  $templates_path = drupal_get_path('module', 'tmgmt_poetry') . '/templates';
+  return [
+    'tmgmt_poetry_progress_field' => [
+      'variables' => [
+        'stats' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'tmgmt-poetry-progress-field',
+      'path' => $templates_path,
+    ],
+  ];
+}
+
+/**
+ * Preprocess theme function for the progress field.
+ *
+ * It adds specific CSS styles for the progress field.
+ */
+function tmgmt_poetry_preprocess_tmgmt_poetry_progress_field(&$variables) {
+  drupal_add_css(drupal_get_path('module', 'tmgmt_poetry') . '/css/tmgmt_poetry.css');
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function tmgmt_poetry_views_api() {
+  return [
+    'api' => 3,
+    'path' => drupal_get_path('module', 'tmgmt_poetry') . '/views',
+  ];
 }

@@ -39,13 +39,6 @@ function sitemap_disable() {
     'xmlsitemap_taxonomy',
     'xmlsitemap_user',
   ), FALSE);
-  drupal_uninstall_modules(array(
-    'xmlsitemap',
-    'xmlsitemap_engines',
-    'xmlsitemap_node',
-    'xmlsitemap_taxonomy',
-    'xmlsitemap_user',
-  ), TRUE);
 
   variable_del('xmlsitemap_base_url');
   variable_del('xmlsitemap_batch_limit');
@@ -84,4 +77,12 @@ function sitemap_update_7120() {
   variable_del('xmlsitemap_generated_last');
 
   cache_clear_all('variables', 'cache_bootstrap');
+}
+
+/**
+ * NEXTEUROPA-12244: Disable and uninstall xmlsitemap_i18n module.
+ */
+function sitemap_update_7121() {
+  module_disable(array('xmlsitemap_i18n'), FALSE);
+  drupal_uninstall_modules(array('xmlsitemap_i18n'), TRUE);
 }
