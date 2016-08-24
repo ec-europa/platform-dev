@@ -533,7 +533,7 @@ function tmgmt_poetry_views_api() {
 }
 
 /**
- * Implements hook_block_view_alter().
+ * Implements hook_page_alter().
  */
 function tmgmt_poetry_page_alter(&$page) {
   // Removing empty workbench block from request transaction page.
