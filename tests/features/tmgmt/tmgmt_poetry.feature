@@ -269,3 +269,31 @@ Feature: TMGMT Poetry features
       | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
       | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
       | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
+
+  @javascript
+  Scenario Outline: Request translation for multiple languages.
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "<title>"
+    And I fill in the rich text editor "Body" with <body>
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    Then I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I check the box on the "Italian" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I wait
+    Then I should see "Change translator"
+    And the "edit-settings-languages-fr" field should contain "fr"
+    And the "edit-settings-languages-it" field should contain "it"
+    And the "edit-settings-languages-pt-pt" field should contain "pt-pt"
+    And I press "Submit to translator"
+    Then I should see "In progress" in the "French" row
+    And I should see "In progress" in the "Italian" row
+    And I should see "In progress" in the "Portuguese" row
+
+    Examples:
+      | title      | body                                                                                                       |
+      | Page title | '<p>Body content</p>' |
