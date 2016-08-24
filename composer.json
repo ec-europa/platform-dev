@@ -1,6 +1,6 @@
 {
   "require": {
-    "drupal/coder": "8.2.5",
+    "drupal/coder": "8.2.6",
     "drupal/phing-drush-task": "1.0",
     "drush/drush": ">=8.0.1",
     "ext-json": "*",
