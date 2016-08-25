@@ -9,6 +9,7 @@ namespace Drupal\nexteuropa\Context;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Drupal\integration_consumer\ConsumerFactory;
+use Drupal\integration_producer\ProducerFactory;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -130,22 +131,12 @@ class IntegrationLayerContext implements Context {
   public function theIntegrationProducerIsConfigured() {
     $this->setupTestBackend();
 
-    $producer = entity_import(
-      'integration_producer',
-      '{
-      "entity_bundle" : "page",
-      "backend" : "",
-      "resource" : "news",
-      "settings" : { "plugin" : { "mapping" : { "title_field" : "title", "field_ne_body" : "body" } } },
-      "name" : "test",
-      "machine_name" : "test_news",
-      "plugin" : "node_producer",
-      "enabled" : "1",
-      "description" : null,
-      "rdf_mapping" : []
-    }'
-    );
-    entity_save('integration_producer', $producer);
+    $producer = ProducerFactory::create('test_news')
+      ->setEntityBundle('page')
+      ->setResourceSchema('news')
+      ->setMapping('title_field', 'title')
+      ->setMapping('field_ne_body', 'body');
+    $producer->getConfiguration()->save();
 
     $this->producerWasConfigured = TRUE;
   }
@@ -158,23 +149,12 @@ class IntegrationLayerContext implements Context {
   public function theIntegrationConsumerIsConfigured() {
     $this->setupTestBackend();
 
-    $consumer = entity_import(
-      'integration_consumer',
-      '{
-      "entity_bundle" : "page",
-      "backend" : "http_mock",
-      "resource" : "news",
-      "mapping" : [],
-      "settings" : { "plugin" : { "mapping" : { "title" : "title_field", "body" : "field_ne_body" } } },
-      "name" : "test-consumer",
-      "machine_name" : "test_consumer",
-      "plugin" : "node_consumer",
-      "enabled" : "1",
-      "description" : null,
-      "rdf_mapping" : []
-    }'
-    );
-    entity_save('integration_consumer', $consumer);
+    $consumer = ConsumerFactory::create('test_consumer', 'http_mock')
+      ->setEntityBundle('page')
+      ->setResourceSchema('news')
+      ->setMapping('title', 'title_field')
+      ->setMapping('body', 'field_ne_body');
+    $consumer->getConfiguration()->save();
 
     $this->consumerWasConfigured = TRUE;
   }
@@ -263,8 +243,7 @@ class IntegrationLayerContext implements Context {
     $test_backend->authentication = 'no_authentication';
     $test_backend->machine_name = 'http_mock';
     $test_backend->name = 'HTTP Mock';
-    $test_backend->settings['plugin']['backend']['base_url'] = $server->getBaseUrl(
-    );
+    $test_backend->settings['plugin']['backend']['base_url'] = $server->getBaseUrl();
 
     entity_save('integration_backend', $test_backend);
 
