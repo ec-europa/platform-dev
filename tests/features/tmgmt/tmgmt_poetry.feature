@@ -288,3 +288,31 @@ Feature: TMGMT Poetry features
     And I click "Needs review" in the "content" region
     Then I should see the text '<tmgmt_poetry_ignore value="[node:1:link]{Title in English 1 as Link}"/>'
     And I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'
+
+  @javascript
+  Scenario: Fill in metadata when requesting a translation.
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "<title>"
+    And I fill in the rich text editor "Body" with "Metadata test"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    When I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I wait
+    And I click "Contact usernames"
+    And inside fieldset "Contact usernames" I fill in "Author" with "Janssen & Janssen"
+    And inside fieldset "Contact usernames" I fill in "Secretaire" with "Janssen & Janssen secretary"
+    And inside fieldset "Contact usernames" I fill in "Contact" with "Janssen & Janssen contact"
+    And inside fieldset "Contact usernames" I fill in "Responsible" with "Janssen & Janssen responsible"
+    And I click "Organization"
+    And inside fieldset "Organization" I fill in "Responsable" with "Janssen & Janssen directorate-general"
+    And inside fieldset "Organization" I fill in "Author" with "Janssen & Janssen directorate"
+    And inside fieldset "Organization" I fill in "Requester" with "Janssen & Janssen unit"
+    And inside fieldset "Organization" I fill in "Remark" with "Further remarks & comments"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has version 0
