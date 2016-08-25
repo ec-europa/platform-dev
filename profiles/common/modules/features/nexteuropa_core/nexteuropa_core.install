@@ -60,6 +60,9 @@ function nexteuropa_core_install() {
 
     // Version Management.
     'version management edits',
+
+    // ckeditor_lite highlight changes.
+    'ckeditor_lite highlight changes',
   );
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
@@ -104,7 +107,19 @@ function nexteuropa_core_update_7002() {
 
 /**
  * NEXTEUROPA-10433: Enable translation of 'body' field.
+ *
+ * Moved to cce_basic_config_update_7212.
  */
 function nexteuropa_core_update_7003() {
-  multisite_config_service('field')->enableFieldTranslation('body');
+  // multisite_config_service('field')->enableFieldTranslation('body');
+}
+
+/**
+ * NEXTEUROPA-11901: "ckeditor_lite highlight changes" (contributor & editor).
+ */
+function nexteuropa_core_update_7004() {
+  $permissions = array(
+    // ckeditor_lite highlight changes.
+    'ckeditor_lite highlight changes',
+  );
 }

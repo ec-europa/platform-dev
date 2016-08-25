@@ -179,3 +179,31 @@ Feature: Multilingual features
     And I click "Français" in the "header_top" region
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
+
+  Scenario: Multilingual view on language neutral content
+    Given I am logged in as a user with the "administrator" role
+    When I go to "admin/config/regional/translate/translate"
+    And I fill in "String contains" with "Body"
+    And I press "Filter"
+    And I click "edit" in the "body:article:label" row
+    And I fill in "French" with "Corps du texte"
+    And I fill in "Italian" with "Corpo del testo"
+    And I press "Save translations"
+    Then I should see the following success messages:
+      | success messages           |
+      | The string has been saved. |
+    When I go to "admin/structure/types/manage/article/display_en"
+    And I select "above" from "edit-fields-body-label"
+    And I press "Save"
+    Then I should see the following success messages:
+      | success messages               |
+      | Your settings have been saved. |
+    When I go to "node/add/article"
+    And I select "Basic HTML" from "Text format"
+    And I fill in "Title" with "This is a new article title"
+    And I fill in "Body" with "This is a new article body"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    And I go to "content/new-article-title_it"
+    Then I should see "Corpo del testo"

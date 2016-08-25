@@ -2195,3 +2195,10 @@ function cce_basic_config_update_7210() {
 function cce_basic_config_update_7211() {
   variable_set('apachesolr_delay_removals', 1);
 }
+
+/**
+ * NEXTEUROPA-12635: reexport cce_basic_config and fix dependencies.
+ */
+function cce_basic_config_update_7212() {
+  multisite_config_service('field')->enableFieldTranslation('body');
+}
