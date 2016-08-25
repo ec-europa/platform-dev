@@ -13,6 +13,7 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
+  const COUNTER_VALUE = '1234';
   public $settings;
   private $client;
 
@@ -66,7 +67,7 @@ class PoetryMock {
     $demande_id = (array) $request->demandeId;
     // This is to deal with initial request when website doesn't have counter.
     if (isset($demande_id['sequence']) && $demande_id['sequence'] == self::COUNTER_STRING) {
-      $demande_id['numero'] = '1234';
+      $demande_id['numero'] = self::COUNTER_VALUE;
       unset($demande_id['sequence']);
     }
     $reference = self::prepareReferenceNumber($demande_id);
@@ -143,7 +144,7 @@ class PoetryMock {
     $data = self::getDataFromRequest($message);
     $requests = [];
     if (isset($data['demande_id']['sequence'])) {
-      $data['demande_id']['numero'] = $data['demande_id']['sequence'];
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
     }
     if (isset($data['attributions']) && isset($data['content']) && $lg_code == 'ALL') {
       foreach ($data['attributions'] as $attribution) {
@@ -466,21 +467,25 @@ class PoetryMock {
    *
    * @param string $job_reference
    *   A tmgmt_poetry job reference.
+   *
+   * @return array
+   *   An array with reference and request file details.
    */
   public static function getTranslationRequestByJobReference($job_reference) {
     $demande_id = self::getDemandeIdFromJobReference($job_reference);
 
-    $file_uri = TMGMT_POETRY_MOCK_REQUESTS_PATH . self::prepareReferenceNumber($demande_id) . '.xml';
+    $file_name = self::prepareReferenceNumber($demande_id) . '.xml';
 
     $query = new \EntityFieldQuery();
     $query->entityCondition('entity_type', 'file')
-      ->propertyCondition('uri', $file_uri);
+      ->propertyCondition('filename', $file_name);
     $result = $query->execute();
 
     if ($result) {
+      $file_info = reset($result['file']);
       return array(
         'demande_id' => $demande_id,
-        'file' => file_load(key($result['file'])),
+        'file' => file_load($file_info->fid),
       );
     }
   }
