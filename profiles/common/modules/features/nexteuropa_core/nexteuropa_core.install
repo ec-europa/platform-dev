@@ -111,7 +111,7 @@ function nexteuropa_core_update_7002() {
  * Moved to cce_basic_config_update_7212.
  */
 function nexteuropa_core_update_7003() {
-  // multisite_config_service('field')->enableFieldTranslation('body');
+  // multisite_config_service('field')->enableFieldTranslation('body');.
 }
 
 /**
