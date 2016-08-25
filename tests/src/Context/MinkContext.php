@@ -8,6 +8,7 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
@@ -52,6 +53,48 @@ class MinkContext extends DrupalExtensionMinkContext {
         throw new ExpectationException("File $file could not be downloaded.");
       }
     }
+  }
+
+  /**
+   * Fills in a field (input, textarea, select) inside a specific fieldset.
+   *
+   * @param string $fieldset_locator
+   *   Fieldset id or legend.
+   * @param string $field_locator
+   *   Input id, name or label.
+   * @param string $value
+   *   The value to fill in.
+   *
+   * @throws ElementNotFoundException
+   *   When the fieldset or field are not found.
+   *
+   * @When /^inside fieldset "(?P<fieldset_locator>(?:[^"]|\\")*)" (?:|I )fill in "(?P<field_locator>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
+   */
+  public function fillFieldInsideFieldset($fieldset_locator, $field_locator, $value) {
+    $fieldset = $this->getSession()->getPage()->find(
+      'named',
+      array('fieldset', $fieldset_locator)
+    );
+
+    if (!$fieldset) {
+      throw new ElementNotFoundException(
+        $this->getSession()->getDriver(),
+        'fieldset', 'id|legend',
+        $fieldset_locator
+      );
+    }
+
+    $field = $fieldset->findField($field_locator);
+
+    if (!$field) {
+      throw new ElementNotFoundException(
+        $this->getSession()->getDriver(),
+        'form field', 'id|name|label|value|placeholder',
+        $field_locator
+      );
+    }
+
+    $field->setValue($value);
   }
 
 }
