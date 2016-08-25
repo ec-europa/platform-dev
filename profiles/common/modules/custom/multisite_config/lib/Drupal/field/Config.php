@@ -68,4 +68,16 @@ class Config extends ConfigBase {
     }
   }
 
+  /**
+   * Enable field translation.
+   *
+   * @param string $field_name
+   *    Field machine name.
+   */
+  public function enableFieldTranslation($field_name) {
+    $info = field_info_field($field_name);
+    $info['translatable'] = TRUE;
+    field_update_field($info);
+  }
+
 }

@@ -180,33 +180,31 @@ Feature: Multilingual features
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
 
-  Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
-  CKEditor Lite tracked changes exist in WYSIWYG fields of a translation
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title              | body                 |
-      | en       | Title in English   | <p>Page body</p>     |
-      | fr       | Titre en Français  | <p>Corps de page</p> |
-    And I click "English" in the "header_top" region
-    And I click "Français"
-    And I click "New draft"
-    And I select "Full HTML + Change tracking" from "field_ne_body[fr][0][format]"
-    And I fill in "Body" with "<blocked>"
+
+  Scenario: Multilingual view on language neutral content
+    Given I am logged in as a user with the "administrator" role
+    When I go to "admin/config/regional/translate/translate"
+    And I fill in "String contains" with "Body"
+    And I press "Filter"
+    And I click "edit" in the "body:article:label" row
+    And I fill in "French" with "Corps du texte"
+    And I fill in "Italian" with "Corpo del testo"
+    And I press "Save translations"
+    Then I should see the following success messages:
+      | success messages           |
+      | The string has been saved. |
+    When I go to "admin/structure/types/manage/article/display_en"
+    And I select "above" from "edit-fields-body-label"
     And I press "Save"
-    Then I should see the success message "Basic page Titre en Français has been updated."
-    When I click "Français" in the "header_top" region
-    And I click "English"
-    When I select "Published" from "state"
+    Then I should see the following success messages:
+      | success messages               |
+      | Your settings have been saved. |
+    When I go to "node/add/article"
+    And I select "Basic HTML" from "Text format"
+    And I fill in "Title" with "This is a new article title"
+    And I fill in "Body" with "This is a new article body"
+    And I press "Save"
+    And I select "Published" from "state"
     And I press "Apply"
-    Then I should see the error message "Tracked changes detected in the French version. To save progress, please accept or reject them, or change the content state."
-    When I select "Validated" from "state"
-    And I press "Apply"
-    Then I should see the error message "Tracked changes detected in the French version. To save progress, please accept or reject them, or change the content state."
-    When I select "Needs Review" from "state"
-    And I press "Apply"
-    Then I should not see the error message "Tracked changes detected in the French version. To save progress, please accept or reject them, or change the content state."
-
-    Examples:
-      | blocked                                                                                                                                                                                                                                  |
-      | <p>Corps de page<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> avec contenu additionnel</span></p> |
-
+    And I go to "content/new-article-title_it"
+    Then I should see "Corpo del testo"
