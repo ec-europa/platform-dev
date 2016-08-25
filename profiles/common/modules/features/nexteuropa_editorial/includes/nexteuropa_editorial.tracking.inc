@@ -46,9 +46,9 @@ function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$for
  * managed by "Entity translation".
  *
  * @param object $entity
- *   The entity to treat.
+ *   Entity to treat.
  * @param string $type
- *   The entity type.
+ *   Entity type.
  *
  * @return array
  *   An associative array containing all languages where tracked changes
@@ -87,10 +87,9 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
     // To cover the case where a field is not translatable while
     // the entity is.
     $field_languages = array(LANGUAGE_NONE);
-    if ($field_info['translatable']) {
+    if ($field_info['translatable'] && $available_transl_langs) {
       $field_languages = $available_transl_langs;
     }
-
     // Detecting tracked changes in entity by screening fields.
     if (in_array($widget_type, $screened_field_types)) {
       if ($ent_field_instance['settings']['text_processing']) {
@@ -120,9 +119,9 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
  * Then, depending on settings, it blocks the form submitting.
  *
  * @param array $form
- *   The submitted form.
+ *   Submitted form.
  * @param array $form_state
- *   The form state of the submitted form.
+ *   Form state of the submitted form.
  */
 function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
   $values = $form_state['values'];
@@ -130,7 +129,11 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
   // So far, we only support "node" entity type.
   if (isset($form_state['node'])) {
     $entity = $form_state['node'];
-    $current_wbm_state = $values['workbench_moderation_state_new'];
+
+    $current_wbm_state = FALSE;
+    if (isset($values['workbench_moderation_state_new'])) {
+      $current_wbm_state = $values['workbench_moderation_state_new'];
+    }
 
     // Get current entity language.
     $current_ent_lang = $values['language'];
@@ -139,7 +142,8 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
       $current_ent_lang = $form_state['entity_translation']['form_langcode'];
     }
 
-    $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
+    $current_status = $values['status'];
+    $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state, $current_status);
     // Generates errors only if required by WYSIWYG tracking workflow settings.
     if ($tracking_to_check) {
       $tracking_activate = _nexteuropa_editorial_set_tracking_flags($entity);
@@ -170,9 +174,9 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
  * Then, depending on settings, it blocks the form submitting.
  *
  * @param array $form
- *   The submitted form.
+ *   Submitted form.
  * @param array $form_state
- *   The form state of the submitted form.
+ *   Form state of the submitted form.
  *
  * @see nexteuropa_editorial_form_workbench_moderation_moderate_form_alter()
  */
@@ -203,20 +207,24 @@ function _nexteuropa_editorial_tracking_wbm_validate($form, &$form_state) {
  * @param array $element
  *   Field element that has been edited.
  * @param array $form_state
- *   The form_state related to the submitted form.
+ *   Form_state related to the submitted form.
  * @param array $form
- *   The submitted form.
+ *   Submitted form.
  *
  * @see _nexteuropa_editorial_tracking_entity_validate()
  */
 function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $form) {
   $entity = $element['#entity'];
+  $values = $form_state['values'];
+
   $current_wbm_state = FALSE;
-  if (isset($form_state['values']['workbench_moderation_state_new'])) {
+  if (isset($values['workbench_moderation_state_new'])) {
     $current_wbm_state = $form_state['values']['workbench_moderation_state_new'];
   }
 
-  $is_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
+  $current_status = $values['status'];
+  $is_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state, $current_status);
+
   if ($is_to_check) {
     $value = '';
     if (isset($element['#value'])) {
@@ -259,7 +267,7 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
  *   List of languages where tracked changes are detected.
  *
  * @return string
- *   The message to display
+ *   Message to display
  *
  * @see _nexteuropa_editorial_tracking_entity_validate()
  */
@@ -301,14 +309,16 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang) {
  * Checks if the change tracking must be tested on given entity.
  *
  * @param object $entity
- *   The entity to check.
+ *   Entity to check.
  * @param bool|FALSE $current_wbm_state
- *   The entity current workbench moderation state (node only).
+ *   Submitted entity workbench moderation state (node only).
+ * @param bool|FALSE $current_status
+ *   Submitted entity current status (node without workbench moderation only).
  *
  * @return bool
  *   TRUE if it needs to be tested; otherwise FALSE.
  */
-function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALSE) {
+function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALSE, $current_status = FALSE) {
   $type = $entity->entity_type;
   // So far, only nodes are support.
   if ($type == 'node') {
@@ -317,13 +327,12 @@ function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALS
     $cached_settings = &drupal_static(__FUNCTION__ . '_' . $type . '_' . $id);
     if (empty($cached_settings)) {
       $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
-
       if ($settings['is_activate']) {
-        if (empty($settings['wbm_states'])) {
-          $cached_settings = $settings['check_entity_status'];
-        }
-        elseif (in_array($current_wbm_state, $settings['wbm_states'])) {
+        if (in_array($current_wbm_state, $settings['wbm_states'])) {
           $cached_settings = TRUE;
+        }
+        elseif ($settings['check_entity_status'] && !$current_wbm_state) {
+          $cached_settings = $current_status;
         }
       }
     }
@@ -338,7 +347,7 @@ function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALS
  * Get the WYSIWYG tracking workflow settings for the entity.
  *
  * @param object $entity
- *   The entity from which retrieving settings.
+ *   Entity from which retrieving settings.
  *
  * @return array
  *   An associative array containing:
@@ -357,8 +366,7 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
     if (empty($cached_settings) && ($type == 'node')) {
       $status = variable_get('nexteuropa_editorial_tracking_status');
       $states = variable_get('nexteuropa_editorial_tracking_wbm_states', array());
-      $states_to_check = array_keys($states);
-
+      $states_to_check = array_filter($states);
       $cached_settings = array(
         'is_activate' => TRUE,
         'check_entity_status' => $status,
@@ -412,4 +420,93 @@ function nexteuropa_editorial_wysiwyg_tracking_settings_form($form, &$form_state
   );
 
   return system_settings_form($form);
+}
+
+/**
+ * Removes the "ckeditor_lite" post render callback.
+ *
+ * It is replaced by one matching platform needs.
+ *
+ * @param array $build
+ *   Entity view build.
+ *
+ * @see nexteuropa_editorial_entity_view_alter()
+ */
+function _nexteuropa_editorial_ckeditor_lite_view_alter(&$build, $type) {
+  if ($type == 'node' &&  user_access('ckeditor_lite highlight changes')) {
+    // Only applicable on node., other entity does not have the same workflow.
+    // If the user does not have the permission, we leave ckeditor_lite
+    // working normally.
+    if (isset($build['#post_render'])) {
+      $key = array_search('_ckeditor_lite_entity_post_render', $build['#post_render']);
+      if ($key !== FALSE) {
+        unset($build['#post_render'][$key]);
+        $build['#post_render'][] = '_nexteuropa_editorial_ckeditor_lite_entity_post_render';
+
+        // Add the ckeditor_lite.js in order to use "highlighting" css classes.
+        $path = drupal_get_path('module', 'ckeditor_lite');
+        $build['#attached'] = array(
+          'css' => array('data' => $path . '/css/ckeditor_lite.css', 'type' => 'file'),
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Post render callback forcing the presence of the required ckeditor_lite css.
+ */
+function _nexteuropa_editorial_ckeditor_lite_entity_post_render($output, $element) {
+  // First we check if change tracking exist.
+  if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $output)) {
+    // We only support node here.
+    $node = $element['#node'];
+    $bundle = node_type_get_name($node);
+    $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($node);
+
+    // Set the warning message,depending on settings.
+    $message = t('<strong>The change tracking is activated</strong> on some fields of this "@type" content.',
+      array('@type' => $bundle));
+    if ($settings['is_activate']) {
+      $message = t('<strong>The change tracking was activated</strong> on some fields of this "@type" content
+       before the control process was activated.<br />
+       <small>Please accept or reject tracked changes in order to avoid bad content display.</small>',
+        array('@type' => $bundle));
+      if ($settings['wbm_states'] && isset($node->workbench_moderation)) {
+        $params = array(
+          '@type' => $bundle,
+          '@states' => implode(' or ', $settings['wbm_states']),
+        );
+        $message = t('<strong>The change tracking is activated</strong> on some fields of this "@type" content.<br />
+          <small>Please accept or reject tracked changes before setting the content state to @states.</small>',
+          $params);
+      }
+      elseif ($settings['check_entity_status'] && (!$node->status)) {
+        $message = t('<strong>The change tracking is activated</strong> on some fields of this "@type" content.<br />
+          <small>Please accept or reject tracked changes before publishing it.</small>',
+          array('@type' => $bundle));
+      }
+    }
+    drupal_set_message($message, 'warning');
+
+    // Injecting css classes required to highlight tracked changes.
+    $pattern = array(
+      // Activate Highlighting - div with node-page class.
+      '/( class="[^"]*node) (.+")/',
+      // Tracked inserts - spans with "ice-ins" class.
+      '/( class="[^"]*ice-ins) (.+")/',
+      // Tracked deletes  spans with "ice-del" class.
+      '/( class="[^"]*ice-del) (.+")/',
+    );
+    $replacement = array(
+      // Activate Highlighting - div with node-page class.
+      '$1 ICE-Tracking $2',
+      // Tracked inserts - spans with "ice-ins" class.
+      '$1 ckeditor-lite-ins $2',
+      // Tracked deletes  spans with "ice-del" class.
+      '$1 ckeditor-lite-del-inv $2',
+    );
+    $output = preg_replace($pattern, $replacement, $output);
+  }
+  return $output;
 }

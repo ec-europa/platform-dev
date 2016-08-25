@@ -189,3 +189,10 @@ function nexteuropa_editorial_field_attach_form($entity_type, $entity, &$form, &
     $form['#validate'][] = '_nexteuropa_editorial_tracking_entity_validate';
   }
 }
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function nexteuropa_editorial_entity_view_alter(&$build, $type) {
+  _nexteuropa_editorial_ckeditor_lite_view_alter($build, $type);
+}
