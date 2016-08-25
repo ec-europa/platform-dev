@@ -5,6 +5,9 @@
  * Exposes as TMGMT source content in a specific moderation state.
  */
 
+define('TMGMT_WORKBENCH_REQUEST_STATE_INDEX', 4);
+define('TMGMT_WORKBENCH_REQUEST_OPERATION_INDEX', 5);
+
 /**
  * Implements hook_help().
  */
@@ -136,7 +139,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           $item = $existing_jobs[$lang_code];
           $uri = $item->uri();
           $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
-          $form['languages']['#options'][$lang_code][4] = l($wrapper->state->label(),
+          $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_STATE_INDEX] = l($wrapper->state->label(),
             $uri['path'],
             array('query' => array('destination' => current_path())));
           // Disable the checkbox for this row since there is already a
@@ -159,7 +162,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             t('This content cannot be translated.') . '</div>';
 
           if ($always_show_direct_translation_links && ($lang_code != $node->translations->original)) {
-            $options[$lang_code][5] = '';
+            $options[$lang_code][TMGMT_WORKBENCH_REQUEST_OPERATION_INDEX] = '';
           }
         }
       }
@@ -170,28 +173,28 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       // there is a translation request on going.
       if ($translation_possible && !$existing_jobs) {
         $form['actions']['#type'] = 'actions';
-        $form['actions']['request'] = array(
+        $form['actions']['request'] = [
           '#type' => 'submit',
           '#value' => t('Request translation'),
-          '#submit' => array('tmgmt_workbench_translate_form_submit'),
-          '#validate' => array('tmgmt_workbench_translate_form_validate'),
-        );
+          '#submit' => ['tmgmt_workbench_translate_form_submit'],
+          '#validate' => ['tmgmt_workbench_translate_form_validate'],
+        ];
       }
       else {
         unset($form['actions']);
         foreach ($options as $lang_code => $option) {
-          $form['languages'][$lang_code] = array(
+          $form['languages'][$lang_code] = [
             '#type' => 'checkbox',
             '#disabled' => TRUE,
-          );
+          ];
         }
         $form['languages_description'] = [
           '#type' => 'item',
-          '#prefix' => "<div class='messages warning'>",
+          '#prefix' => '<div class="messages warning">',
           '#markup' => t('Please end up the active translation process before creating a new request.'),
-          '#sufix' => "</div>",
+          '#sufix' => '</div>',
           '#attributes' => [
-            'class' => ['messages warning'],
+            'class' => ['messages', 'warning'],
           ],
         ];
       }
@@ -275,7 +278,7 @@ function _tmgmt_workbench_available_states() {
  * Storing chosen translation request languages for further processing.
  *
  * @param array $languages
- *    An array with languages.
+ *   An array with languages.
  *
  * @see TMGMTPoetryTranslatorUIController
  */
@@ -287,7 +290,7 @@ function _tmgmt_workbench_store_request_languages($languages) {
  * Get chosen translation request languages from session.
  *
  * @return array
- *    An array with languages.
+ *   An array with languages.
  */
 function _tmgmt_workbench_get_request_languages() {
   $languages = [];

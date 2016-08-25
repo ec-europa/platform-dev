@@ -47,7 +47,7 @@ make a formal request to the Comm Europa Management team.
 [Go to top](#table-of-content)
 
 ### Enabling the feature on your platform instance:
-:hand: Poetry feature cannot be enable using feature sets.
+:hand: Poetry feature cannot be enabled using feature sets.
 
 - Once green light has been received from DG COMM, the feature needs to be
 activated by your FPFIS maintenance team.  Create a support ticket in

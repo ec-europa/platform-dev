@@ -536,7 +536,7 @@ function tmgmt_poetry_views_api() {
  * Implements hook_page_alter().
  */
 function tmgmt_poetry_page_alter(&$page) {
-  // Removing empty workbench block from request transaction page.
+  // Removing empty workbench block from request translation page.
   if (in_array('node', arg()) && in_array('translate', arg())) {
     unset($page['content']['workbench_block']);
   }
