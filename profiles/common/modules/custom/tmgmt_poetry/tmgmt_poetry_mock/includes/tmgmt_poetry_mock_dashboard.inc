@@ -27,6 +27,9 @@ function _poetry_mock_prepare_request_data_set() {
       $file_object = file_load($request_file->fid);
       $message = file_get_contents($file_object->uri);
       $request_data = PoetryMock::getDataFromRequest($message);
+      if (isset($request_data['demande_id']['sequence'])) {
+        $request_data['demande_id']['numero'] = $request_data['demande_id']['sequence'];
+      }
       $entity_details = PoetryMock::getEntityDetailsByDemandeId($request_data['demande_id']);
       $jobs = PoetryMock::getActiveTranslationJobsByEntityId($entity_details['entity_id']);
       if ($entity_details && !empty($jobs)) {

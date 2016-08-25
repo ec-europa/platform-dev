@@ -64,6 +64,9 @@ class PoetryMock {
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
     $reference = implode("_", (array) $demande_id);
+    if (isset($demande_id['sequence'])) {
+      $demande_id['numero'] = $demande_id['sequence'];
+    }
 
     // Saving translation request as a file with give reference ID.
     self::saveTranslationRequest($message, $reference);
@@ -136,7 +139,9 @@ class PoetryMock {
   public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
     $requests = [];
-
+    if (isset($data['demande_id']['sequence'])) {
+      $data['demande_id']['numero'] = $data['demande_id']['sequence'];
+    }
     if (isset($data['attributions']) && isset($data['content']) && $lg_code == 'ALL') {
       foreach ($data['attributions'] as $attribution) {
         $requests[$attribution['language']] = self::getTranslationResponseData(
