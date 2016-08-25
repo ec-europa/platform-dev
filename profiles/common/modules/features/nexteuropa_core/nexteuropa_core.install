@@ -81,8 +81,6 @@ function nexteuropa_core_install() {
   multisite_config_service('version_management')->enableVersionManagement('article');
   multisite_config_service('version_management')->enableVersionManagement('page');
 
-  // Enable translation of 'body' field by default.
-  multisite_config_service('field')->enableFieldTranslation('body');
 }
 
 /**

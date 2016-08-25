@@ -64,6 +64,9 @@ function nexteuropa_multilingual_install() {
   // @TODO is not working
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
 
+  // Enable translation of 'body' field by default.
+  multisite_config_service('field')->enableFieldTranslation('body');
+
   // Set the warning message when changing node state.
   variable_set('nexteuropa_multilingual_warning_message_languages',
     "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!");
