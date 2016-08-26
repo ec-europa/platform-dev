@@ -291,4 +291,15 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
     assert($value, $predicate);
   }
 
+  /**
+   * Assert the value of titre of the translation request.
+   *
+   * @Then the translation request has titre :arg1
+   */
+  public function assertTranslationRequestHasTitre($arg1) {
+    $this->assertTranslationRequestDemandeProperty(
+      'titre',
+      equals($arg1)
+    );
+  }
 }
