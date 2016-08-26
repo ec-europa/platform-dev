@@ -366,16 +366,19 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       ->execute()
       ->fetchAssoc();
     if ($result) {
-      // If a request id exists, increase the version and return it.
-      $id_data = array(
-        'codeDemandeur' => $settings['code'],
-        'annee' => $result['annee'],
-        'numero' => $result['numero'],
-        'version' => $result['version'] + 1,
-        'partie' => $result['partie'],
-        'produit' => 'TRA',
-      );
-      return $id_data;
+      // Check if the 'numero' is misconfigured in the db.
+      if ($result['numero'] != -1) {
+        // If a request id exists, increase the version and return it.
+        $id_data = array(
+          'codeDemandeur' => $settings['code'],
+          'annee' => $result['annee'],
+          'numero' => $result['numero'],
+          'version' => $result['version'] + 1,
+          'partie' => $result['partie'],
+          'produit' => 'TRA',
+        );
+        return $id_data;
+      }
     }
     else {
       // If it doesn't, check the highest numero.
