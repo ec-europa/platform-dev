@@ -531,7 +531,7 @@ function template_preprocess_nexteuropa_multilingual_message(&$variables) {
 function nexteuropa_multilingual_preprocess_field(&$variables) {
   $element = $variables['element'];
   if (isset($element['#object']) && isset($element['#language'])) {
-    if ($element['#language'] != LANGUAGE_NONE){
+    if ($element['#language'] != LANGUAGE_NONE) {
       // Get the field object and the field instance.
       $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
       $field = field_info_field($element['#field_name']);
