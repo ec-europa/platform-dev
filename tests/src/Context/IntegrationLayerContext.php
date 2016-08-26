@@ -9,6 +9,7 @@ namespace Drupal\nexteuropa\Context;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Drupal\integration\ResourceSchema\ResourceSchemaFactory;
 use Drupal\integration_consumer\ConsumerFactory;
 use Drupal\integration_producer\ProducerFactory;
 use Drupal\nexteuropa\Component\PyStringYamlParser;
@@ -318,9 +319,11 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Create Integration Layer producer stating its configuration as shown below.
+   * Create Integration Layer producer specifying its configuration.
    *
-   * And the following Integration Layer node producer is created:
+   * Use it following the example below:
+   *
+   * Given the following Integration Layer node producer is created:
    *   """
    *     name: test_news
    *     bundle: page
@@ -353,9 +356,11 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Create Integration Layer consumer stating its configuration as shown below.
+   * Create Integration Layer consumer specifying its configuration.
    *
-   * And the following Integration Layer node consumer is created:
+   * Use it following the example below:
+   *
+   * Given the following Integration Layer node consumer is created:
    *   """
    *     name: test_news
    *     backend: http_mock
@@ -387,6 +392,42 @@ class IntegrationLayerContext implements Context {
     }
     $consumer->getConfiguration()->save();
     $this->configurationEntities[] = $consumer->getConfiguration();
+  }
+
+  /**
+   * Create Integration Layer resource schema specifying its configuration.
+   *
+   * Use it following the example below:
+   *
+   * Given the following Integration Layer resource schema is created:
+   *   """
+   *     name: article_schema
+   *     fields:
+   *       title: Title
+   *       body: Body
+   *   """
+   *
+   * @param \Behat\Gherkin\Node\PyStringNode $node
+   *    PyString containing configuration in YAML format.
+   *
+   * @Given the following Integration Layer resource schema is created:
+   */
+  public function createIntegrationLayerResourceSchema(PyStringNode $node) {
+    $this->setupTestBackend();
+    $parser = new PyStringYamlParser($node);
+    $configuration = $parser->parse();
+    assert($configuration, hasKey('name'));
+    assert($configuration, hasKey('fields'));
+    assert($configuration['fields'], isOfType('array'));
+    assert($configuration['fields'], isNotEmpty());
+
+    /** @var \Drupal\integration\ResourceSchema\AbstractResourceSchema $resource */
+    $resource = ResourceSchemaFactory::create($configuration['name']);
+    foreach ($configuration['fields'] as $machine_name => $label) {
+      $resource->setField($machine_name, $label);
+    }
+    $resource->getConfiguration()->save();
+    $this->configurationEntities[] = $resource->getConfiguration();
   }
 
   /**
