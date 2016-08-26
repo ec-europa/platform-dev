@@ -530,26 +530,27 @@ function template_preprocess_nexteuropa_multilingual_message(&$variables) {
  */
 function nexteuropa_multilingual_preprocess_field(&$variables) {
   $element = $variables['element'];
-  if (isset($element['#object']) && isset($element['#language'])) {
-    if ($element['#language'] != LANGUAGE_NONE) {
-      // Get the field object and the field instance.
-      $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
-      $field = field_info_field($element['#field_name']);
-      // Get entity language (content language).
-      $lang = entity_translation_get_existing_language($element['#entity_type'], $element['#object']);
+  if (isset($element['#object']) &&
+      isset($element['#language']) &&
+      $element['#language'] != LANGUAGE_NONE
+  ) {
+    // Get the field object and the field instance.
+    $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
+    $field = field_info_field($element['#field_name']);
+    // Get entity language (content language).
+    $lang = entity_translation_get_existing_language($element['#entity_type'], $element['#object']);
 
-      // Translate label.
-      if (!empty($variables['label'])) {
-        $variables['label'] = i18n_field_translate_property($instance, 'label', $lang);
-      }
-      // Translate field value (for select list field).
-      if ($field['type'] == 'list_text' && $translated_value = i18n_field_translate_allowed_values($field, $lang)) {
-        foreach ($variables['items'] as $key => $item) {
-          // Get key of the value.
-          $key_value = $element['#items'][$key]['value'];
-          // Get translated field value.
-          $variables['items'][$key]['#markup'] = $translated_value[$key_value];
-        }
+    // Translate label.
+    if (!empty($variables['label'])) {
+      $variables['label'] = i18n_field_translate_property($instance, 'label', $lang);
+    }
+    // Translate field value (for select list field).
+    if ($field['type'] == 'list_text' && $translated_value = i18n_field_translate_allowed_values($field, $lang)) {
+      foreach ($variables['items'] as $key => $item) {
+        // Get key of the value.
+        $key_value = $element['#items'][$key]['value'];
+        // Get translated field value.
+        $variables['items'][$key]['#markup'] = $translated_value[$key_value];
       }
     }
   }
