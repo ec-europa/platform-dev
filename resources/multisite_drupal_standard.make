@@ -477,10 +477,10 @@ projects[migrate][subdir] = contrib
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
 
-projects[newsroom][download][type] = get
-projects[newsroom][download][file_type] = "zip"
-projects[newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
-projects[newsroom][subdir] = custom
+projects[nexteuropa_newsroom][download][type] = get
+projects[nexteuropa_newsroom][download][file_type] = "zip"
+projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
+projects[nexteuropa_newsroom][subdir] = custom
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
