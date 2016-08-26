@@ -302,4 +302,5 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       equals($arg1)
     );
   }
+
 }
