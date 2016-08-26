@@ -41,16 +41,9 @@ class IntegrationLayerContext implements Context {
   /**
    * Array of configuration entity objects created during test execution.
    *
-   * @var AbstractConfiguration[]
+   * @var \Drupal\integration\Configuration\AbstractConfiguration[]
    */
   protected $configurationEntities = [];
-
-  /**
-   * Indicates if the consumer was configured.
-   *
-   * @var bool
-   */
-  protected $consumerWasConfigured = FALSE;
 
   /**
    * Indicates if the consumer was configured.
@@ -128,24 +121,6 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Configures the Integration consumer for testing purposes.
-   *
-   * @Given the Integration consumer is configured
-   */
-  public function theIntegrationConsumerIsConfigured() {
-    $this->setupTestBackend();
-
-    $consumer = ConsumerFactory::create('test_consumer', 'http_mock')
-      ->setEntityBundle('page')
-      ->setResourceSchema('news')
-      ->setMapping('title', 'title_field')
-      ->setMapping('body', 'field_ne_body');
-    $consumer->getConfiguration()->save();
-
-    $this->consumerWasConfigured = TRUE;
-  }
-
-  /**
    * Reverts configuration done by the context.
    *
    * @AfterScenario
@@ -153,17 +128,15 @@ class IntegrationLayerContext implements Context {
   public function revertConfiguration() {
     // Remove configuration entities.
     foreach ($this->configurationEntities as $configuration) {
+      if ($configuration->entityType() == 'integration_consumer') {
+        /** @var AbstractConsumer $consumer */
+        $consumer = ConsumerFactory::getInstance($configuration->getMachineName());
+        $consumer->processRollback();
+
+        // Remove consumer & its corresponding migration.
+        Migration::deregisterMigration('test_consumer');
+      }
       $configuration->delete();
-    }
-
-    if ($this->consumerWasConfigured) {
-      // Roll back any changes made by our consumer.
-      $consumer = ConsumerFactory::getInstance('test_consumer');
-      $consumer->processRollback();
-
-      // Remove consumer & its corresponding migration.
-      Migration::deregisterMigration('test_consumer');
-      entity_delete('integration_consumer', 'test_consumer');
     }
 
     if ($this->backendWasConfigured) {
@@ -362,13 +335,13 @@ class IntegrationLayerContext implements Context {
    *
    * @Given the following Integration Layer node producer is created:
    */
-  public function theFollowingIntegrationLayerProducerIsCreated(PyStringNode $node) {
+  public function createIntegrationLayerProducer(PyStringNode $node) {
     $this->setupTestBackend();
     $parser = new PyStringYamlParser($node);
     $configuration = $parser->parse();
     $this->assertValidConfiguration($configuration);
 
-    /** @var AbstractProducer $producer */
+    /** @var \Drupal\integration_producer\AbstractProducer $producer */
     $producer = ProducerFactory::create($configuration['name'])
       ->setEntityBundle($configuration['bundle'])
       ->setResourceSchema($configuration['resource']);
@@ -377,6 +350,43 @@ class IntegrationLayerContext implements Context {
     }
     $producer->getConfiguration()->save();
     $this->configurationEntities[] = $producer->getConfiguration();
+  }
+
+  /**
+   * Create Integration Layer consumer stating its configuration as shown below.
+   *
+   * And the following Integration Layer node consumer is created:
+   *   """
+   *     name: test_news
+   *     backend: http_mock
+   *     bundle: page
+   *     resource: news
+   *     mapping:
+   *       title: title_field
+   *       body: field_ne_body
+   *   """
+   *
+   * @param \Behat\Gherkin\Node\PyStringNode $node
+   *    PyString containing configuration in YAML format.
+   *
+   * @Given the following Integration Layer node consumer is created:
+   */
+  public function createIntegrationLayerConsumer(PyStringNode $node) {
+    $this->setupTestBackend();
+    $parser = new PyStringYamlParser($node);
+    $configuration = $parser->parse();
+    $this->assertValidConfiguration($configuration);
+    assert($configuration, hasKey('backend'));
+
+    /** @var \Drupal\integration_consumer\AbstractConsumer $consumer */
+    $consumer = ConsumerFactory::create($configuration['name'], $configuration['backend'])
+      ->setEntityBundle($configuration['bundle'])
+      ->setResourceSchema($configuration['resource']);
+    foreach ($configuration['mapping'] as $source => $destination) {
+      $consumer->setMapping($source, $destination);
+    }
+    $consumer->getConfiguration()->save();
+    $this->configurationEntities[] = $consumer->getConfiguration();
   }
 
   /**

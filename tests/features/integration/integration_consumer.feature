@@ -9,7 +9,20 @@ Background:
     | modules                |
     | nexteuropa_integration |
     | integration_consumer   |
-  And the Integration consumer is configured
+  And the following languages are available:
+    | languages |
+    | en        |
+    | pt-pt     |
+  And the following Integration Layer node consumer is created:
+    """
+      name: test_consumer
+      backend: http_mock
+      bundle: page
+      resource: news
+      mapping:
+        title: title_field
+        body: field_ne_body
+    """
   And I am logged in as a user with the 'administrator' role
 
 Scenario: news content with pt language code will be consumed as pt-pt when pt is not available
