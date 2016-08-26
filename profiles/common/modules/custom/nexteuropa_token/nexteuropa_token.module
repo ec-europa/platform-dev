@@ -30,6 +30,7 @@ function nexteuropa_token_nexteuropa_token_token_handlers() {
     'view_mode_entity_handler'  => '\Drupal\nexteuropa_token\Entity\ViewModeTokenHandler',
     'url_entity_handler'        => '\Drupal\nexteuropa_token\Entity\UrlTokenHandler',
     'link_entity_handler'       => '\Drupal\nexteuropa_token\Entity\LinkTokenHandler',
+    'base_url_token_handler'       => '\Drupal\nexteuropa_token\BaseUrlTokenHandler',
   );
 }
 

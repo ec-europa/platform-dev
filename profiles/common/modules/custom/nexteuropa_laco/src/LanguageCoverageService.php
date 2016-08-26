@@ -108,7 +108,7 @@ class LanguageCoverageService {
     }
 
     if ($this->hasStatus()) {
-      drupal_exit();
+      exit;
     }
   }
 
@@ -134,7 +134,7 @@ class LanguageCoverageService {
         $this->setDebugHeader('Menu item not found');
         $this->setStatus('404 Not found');
       }
-      drupal_exit();
+      exit;
     }
     else {
       $this->setDebugHeader('Full bootstrap fallback');

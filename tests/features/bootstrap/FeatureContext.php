@@ -6,7 +6,10 @@
  */
 
 use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Hook\Scope\AfterStepScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\Element;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -383,7 +386,60 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Enables translation for a field (temporary step @todo remove).
+   * Prepare for PHP errors log.
+   *
+   * @BeforeScenario
+   */
+  public static function preparePhpErrors(BeforeScenarioScope $scope) {
+    // Clear out the watchdog table at the beginning of each test scenario.
+    db_truncate('watchdog')->execute();
+  }
+
+  /**
+   * Check for PHP errors log.
+   *
+   * @param AfterStepScope $scope
+   *    AfterStep hook scope object.
+   *
+   * @throws \Exception
+   *    Print out descriptive error message by throwing an exception.
+   *
+   * @AfterStep
+   */
+  public static function checkPhpErrors(AfterStepScope $scope) {
+    // Find any PHP errors at the end of the suite
+    // and output them as an exception.
+    $log = db_select('watchdog', 'w')
+      ->fields('w')
+      ->condition('w.type', 'php', '=')
+      ->execute()
+      ->fetchAll();
+    if (!empty($log)) {
+      $errors = count($log);
+      $step_text = $scope->getStep()->getText();
+      $step_line = $scope->getStep()->getLine();
+      $feature_title = $scope->getFeature()->getTitle();
+      $feature_file = $scope->getFeature()->getFile();
+      $message = "$errors PHP errors were logged to the watchdog\n";
+      $message .= "Feature: '$feature_title' on '$feature_file' line $step_line\n";
+      $message .= "Step: '$step_text'\n";
+      $message .= "Errors:\n";
+      $message .= "----------\n";
+      foreach ($log as $error) {
+        $error->variables = unserialize($error->variables);
+        $date = date('Y-m-d H:i:sP', $error->timestamp);
+        $message .= sprintf("Message: %s: %s in %s (line %s of %s).\n", $error->variables['%type'], $error->variables['!message'], $error->variables['%function'], $error->variables['%line'], $error->variables['%file']);
+        $message .= "Location: $error->location\n";
+        $message .= "Referer: $error->referer\n";
+        $message .= "Date/Time: $date\n\n";
+      }
+      $message .= "----------\n";
+      throw new \Exception($message);
+    }
+  }
+
+  /**
+   * Enables translation for a field.
    *
    * @param string $field
    *   The name of the field.
@@ -391,9 +447,90 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @When I enable translation for field :field
    */
   public function enableTranslationForField($field) {
-    $info = field_info_field($field);
-    $info['translatable'] = 1;
-    field_update_field($info);
+    multisite_config_service('field')->enableFieldTranslation($field);
+  }
+
+  /**
+   * Assert the given class exists.
+   *
+   * @param string $class_name
+   *    Fully namespaced class name.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if class specified has not been found.
+   *
+   * @Then the class :arg1 exists in my codebase
+   */
+  public function assertClassExists($class_name) {
+    if (!class_exists($class_name)) {
+      throw new ExpectationException("Class '{$class_name}' not found.", $this->getSession());
+    }
+  }
+
+  /**
+   * Attempts to find and check a checkbox in a table row containing given text.
+   *
+   * @param string $row_text
+   *    Text on the table row.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if class table row was not found.
+   *
+   * @Given I check the box on the :row_text row
+   */
+  public function checkCheckboxOnTableRow($row_text) {
+    $page = $this->getSession()->getPage();
+    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
+      $checkbox->check();
+      return;
+    }
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
+  }
+
+  /**
+   * Retrieve a table row containing specified text from a given element.
+   *
+   * @param Element $element
+   *    Mink element object.
+   * @param string $search
+   *    Table row text.
+   *
+   * @throws \Exception
+   *    Throw exception if class table row was not found.
+   *
+   * @return NodeElement
+   *    Table row node element.
+   */
+  public function getTableRow(Element $element, $search) {
+    $rows = $element->findAll('css', 'tr');
+    if (empty($rows)) {
+      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
+    }
+    /** @var NodeElement $row */
+    foreach ($rows as $row) {
+      if (strpos($row->getText(), $search) !== FALSE) {
+        return $row;
+      }
+    }
+    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
+  }
+
+  /**
+   * Check if given field is translatable.
+   *
+   * @param string $field_name
+   *    Field machine name.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if field is not translatable.
+   *
+   * @Given the :field_name field is translatable
+   */
+  public function assertFieldIsTranslatable($field_name) {
+    $info = field_info_field($field_name);
+    if (!isset($info['translatable']) || !$info['translatable']) {
+      throw new ExpectationException("Field '{$field_name}' is not translatable.", $this->getSession());
+    }
   }
 
 }

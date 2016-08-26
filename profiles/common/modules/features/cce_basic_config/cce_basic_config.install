@@ -436,14 +436,6 @@ function cce_basic_config_install() {
       'media',
       'break',
     ),
-    'lite' => array(
-      'lite_AcceptAll',
-      'lite_RejectAll',
-      'lite_AcceptOne',
-      'lite_RejectOne',
-      'lite_ToggleShow',
-      'lite_ToggleTracking',
-    ),
     'nexteuropa_token_ckeditor' => array(
       'NextEuropaToken',
     ),
@@ -451,6 +443,56 @@ function cce_basic_config_install() {
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
+
+  /*
+   * Create WYSIWYG profile for Full HTML text format with Change Tracking.
+   *
+   * Introducing that format will allow users to choose tracking changes
+   * functionality for WYSIWYG fields based on filter type.
+   * Format is based on 'Full HTML' text format and profile.
+   */
+
+  // Preparing filer format required further to build WYSIWYG profile.
+  $fl_html_filters = multisite_config_service('filter')->getFormatFilters('full_html');
+
+  // Transforming array of objects in to array by small trick.
+  $fl_html_filters = json_decode(json_encode($fl_html_filters), TRUE);
+  $full_html_track_format = (object) array(
+    'format' => 'full_html_track',
+    'name' => 'Full HTML + Change tracking',
+    'cache' => '0',
+    'status' => '1',
+    'weight' => '-10',
+    'filters' => $fl_html_filters,
+  );
+  // Filter module function for saving and updating text formats.
+  filter_format_save($full_html_track_format);
+
+  // Create WYSIWYG profile for Full HTML text format with change tracking.
+  // Creation based on Full HTML profile to keep a consistent functionality.
+  $wys_fl_html = multisite_config_service('wysiwyg')->getProfile('full_html');
+  $wys_fl_html_settings = (array) $wys_fl_html->settings;
+  multisite_config_service('wysiwyg')->createProfile(
+    'full_html_track',
+    'ckeditor',
+    $wys_fl_html_settings
+  );
+
+  // Adding LITE plugin change tracking functionality to new profile.
+  // Enable ckeditor_lite WYSIWYG plugin.
+  $lite_plugin_settings = array(
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
+  );
+  multisite_config_service('wysiwyg')->addButtonsToProfile(
+    'full_html_track',
+    'lite',
+    $lite_plugin_settings
+  );
 
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
@@ -608,6 +650,7 @@ function _cce_basic_config_post_install_apachesolr() {
   $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
   $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
 
+  variable_set('apachesolr_delay_removals', 1);
 }
 
 /**
@@ -621,15 +664,6 @@ function _cce_basic_config_post_install_default_content_type() {
   // documentation at: http://api.drupal.org/api/HEAD/function/hook_node_info.
   $t = get_t();
   $types = array(
-    array(
-      'type' => 'page',
-      'name' => $t('Basic page'),
-      'base' => 'node_content',
-      'description' => $t("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
-      'custom' => 1,
-      'modified' => 1,
-      'locked' => 0,
-    ),
     array(
       'type' => 'article',
       'name' => $t('Article'),
@@ -802,11 +836,15 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access print',
     'access site-wide contact form',
     'access user contact forms',
-    'access user profiles',
     'post comments',
     'search content',
     'use advanced search',
   ));
+
+  // Cloning roles to 'Full HTML + Change tracking' text format. It needs to be
+  // done at least here because sooner it was not possible.
+  $fl_html_roles = multisite_config_service('filter')->getFormatRoles('full_html');
+  multisite_config_service('filter')->setFormatRoles('full_html_track', $fl_html_roles);
 }
 
 /**
@@ -2136,4 +2174,20 @@ function cce_basic_config_update_7209() {
     'binary' => TRUE,
   );
   db_change_field('date_format_locale', 'format', 'format', $spec);
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Update platforme version.
+ */
+function cce_basic_config_update_7210() {
+  variable_set('multisite_version', '2.2');
+}
+
+/**
+ * NEXTEUROPA-11582: Delay removal of entities from Apache Solr to cron.
+ */
+function cce_basic_config_update_7211() {
+  variable_set('apachesolr_delay_removals', 1);
 }

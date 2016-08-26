@@ -107,17 +107,23 @@ global $base_url;
 
   <div id="layout-header">
     <div class="container">
-      <img alt="European Commission logo" id="banner-flag" src="<?php print $logo; ?>" />
+      <?php if (!empty($svg_logo)): ?>
+      <object id="banner-flag" data="<?php print $svg_logo; ?>" type="image/svg+xml">
+        <img alt="<?php print t('European Commission logo'); ?>" src="<?php print $logo; ?>" />
+      </object>
+      <?php elseif (!empty($logo)): ?>
+      <img alt="<?php print t('European Commission logo'); ?>" id="banner-flag" src="<?php print $logo; ?>" />
+      <?php endif; ?>
 
       <span id="banner-image-right" class="hidden-sm hidden-xs">
         <?php print $regions['header_right']; ?>
       </span>
 
       <div id="main-title"><?php print $site_name; ?></div>
-      <div id="sub-title" class="hidden-xs"><?php print $site_slogan; ?></div>
+      <div id="sub-title"><?php print $site_slogan; ?></div>
     </div>
   </div><!-- /#layout-header -->
-  
+
   <div class="region-featured-wrapper <?php print ($has_responsive_sidebar ? 'sidebar-visible-sm' : ''); ?>">
     <?php if ($menu_visible || $has_responsive_sidebar): ?>
       <div class="mobile-user-bar navbar navbar-default visible-sm visible-xs" data-spy="affix" data-offset-top="82">
@@ -154,7 +160,7 @@ global $base_url;
       <div id="responsive-header-right"></div>
       <div id="responsive-sidebar-left"></div>
       <div id="responsive-sidebar-right"></div>
-    </div><!-- /#responsive-sidebar-->   
+    </div><!-- /#responsive-sidebar-->
   <?php endif; ?>
 
   <div id="layout-body" class="container">
@@ -170,7 +176,7 @@ global $base_url;
           <?php print $title; ?>
         </h1>
       <?php endif; ?>
-      
+
       <?php print render($title_suffix); ?>
 
       <div class="col-lg-<?php print $cols['tools']['lg']; ?> col-md-<?php print $cols['tools']['md']; ?> col-sm-<?php print $cols['tools']['sm']; ?> col-xs-<?php print $cols['tools']['xs']; ?>">
@@ -183,16 +189,16 @@ global $base_url;
         <?php print $messages; ?>
     </div><!-- /#messages -->
     <?php endif; ?>
-        
+
     <div class="row">
       <?php if ($regions['sidebar_left']): ?>
       <div id="sidebar-left" class="col-lg-<?php print ($cols['sidebar_left']['lg']); ?> col-md-<?php print ($cols['sidebar_left']['md']); ?> col-sm-<?php print ($cols['sidebar_left']['sm']); ?> col-xs-<?php print ($cols['sidebar_left']['xs']); ?> sidebar-left visible-lg visible-md">
         <?php print $regions['sidebar_left']; ?>
       </div>
-      <?php endif; ?>     
+      <?php endif; ?>
 
       <div id="content-wrapper" class="col-lg-<?php print $cols['content_main']['lg']; ?> col-md-<?php print $cols['content_main']['md']; ?> col-sm-<?php print $cols['content_main']['sm']; ?> col-md-<?php print $cols['content_main']['xs']; ?>">
-        
+
         <a id="content"></a>
 
         <?php if ($title): ?>
@@ -212,7 +218,7 @@ global $base_url;
         <?php endif; ?>
 
         <?php print $regions['help']; ?>
-        
+
         <?php if ($action_links): ?>
         <ul class="action-links">
           <?php print render($action_links); ?>
@@ -228,7 +234,7 @@ global $base_url;
           <?php print $regions['content_right']; ?>
           </div>
         </div>
-        
+
         <?php print $feed_icons; ?>
 
         <?php print $regions['content_bottom']; ?>
@@ -242,7 +248,7 @@ global $base_url;
       <?php if ($regions['sidebar_right']): ?>
       <div id="sidebar-right" class="col-lg-<?php print ($cols['sidebar_right']['lg']); ?> col-md-<?php print ($cols['sidebar_right']['md']); ?> col-sm-<?php print ($cols['sidebar_right']['sm']); ?> col-xs-<?php print ($cols['sidebar_right']['xs']); ?> sidebar-right visible-lg visible-md">
         <?php print $regions['sidebar_right']; ?>
-      </div>  
+      </div>
       <?php endif; ?>
     </div>
   </div><!-- /#layout-body -->
@@ -250,7 +256,7 @@ global $base_url;
   <a href="#top-page" class="btn-back-top">
     <span class="glyphicon glyphicon-chevron-up"></span>
   </a>
-  
+
   <div id="layout-footer">
     <div class="container">
       <?php print $regions['footer']; ?>

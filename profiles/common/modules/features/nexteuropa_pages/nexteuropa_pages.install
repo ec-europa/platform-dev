@@ -23,12 +23,14 @@ function nexteuropa_pages_install() {
   // Stage page field instance settings.
   $service = multisite_config_service('field');
 
-  $service->createInstanceField('body', 'node', 'page')
+  $service->createInstanceField('field_ne_body', 'node', 'page')
     ->label('Body')
     ->widget('text_textarea_with_summary')
     ->display('default', 'text_default', 'hidden')
     ->display('teaser', 'text_summary_or_trimmed', 'hidden')
     ->save();
+
+  $service->deleteInstanceField('body', 'node', 'page');
 
   $service->createInstanceField('field_tags', 'node', 'page')
     ->label('Tags')
@@ -50,7 +52,7 @@ function nexteuropa_pages_install() {
     ->setChildren(array(
       'title_field',
       'title',
-      'body',
+      'field_ne_body',
     ))
     ->setType('tab')->setFormatter('closed')->setWeight(0)
     ->setInstanceSetting('classes', 'group-page-content field-group-tab')
@@ -81,7 +83,7 @@ function nexteuropa_pages_update_7201() {
     ->setChildren(array(
       'title_field',
       'title',
-      'body',
+      'field_ne_body',
     ))
     ->setType('tab')->setFormatter('closed')->setWeight(0)
     ->setInstanceSetting('classes', 'group-page-content field-group-tab')
@@ -100,4 +102,41 @@ function nexteuropa_pages_update_7201() {
     ->setInstanceSetting('classes', 'group-page-metadata field-group-tab')
     ->setInstanceSetting('required_fields', TRUE)
     ->save();
+}
+
+
+/**
+ * MULTISITE-9813 : Replace the body field by the nexteuropa body field.
+ */
+function nexteuropa_pages_update_7202() {
+  $service = multisite_config_service('field');
+
+  $service->createInstanceField('field_ne_body', 'node', 'page')
+    ->label('Body')
+    ->widget('text_textarea_with_summary')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_summary_or_trimmed', 'hidden')
+    ->save();
+
+  $group = field_group_load_field_group('group_page_content', 'node', 'page', 'form');
+  $group->children[] = 'field_ne_body';
+  field_group_group_save($group);
+
+  // Copy values from body field to field_ne_body field.
+  $efq = new EntityFieldQuery();
+  $efq->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'page')
+    ->fieldCondition('body', 'value', '', '!=');
+  $result = $efq->execute();
+
+  foreach ($result['node'] as $nid => $stub_node) {
+    $node = node_load($nid);
+    $wrapped_node = entity_metadata_wrapper("node", $node);
+    $body = $wrapped_node->body->value();
+    $wrapped_node->field_ne_body->set($body);
+    $wrapped_node->save();
+  }
+
+  // Remove the instance of the body field in page.
+  $service->deleteInstanceField('body', 'node', 'page');
 }

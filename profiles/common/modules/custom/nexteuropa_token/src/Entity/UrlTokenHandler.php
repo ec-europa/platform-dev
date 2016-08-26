@@ -55,7 +55,13 @@ class UrlTokenHandler extends TokenAbstractHandler {
           $entity_info = entity_get_info($entity_type);
           $entity = $entity_info['load hook']($entity_id);
 
-          $replacements[$original] = $this->getEntityUrl($entity_type, $entity);
+          if ($entity = $entity_info['load hook']($entity_id)) {
+            $replacements[$original] = $this->getEntityUrl($entity_type, $entity);
+          }
+          else {
+            $this->watchdogTokenNotFound($data, $original);
+            $replacements[$original] = "";
+          }
         }
       }
     }

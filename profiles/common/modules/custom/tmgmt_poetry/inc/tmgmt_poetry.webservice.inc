@@ -27,7 +27,10 @@ function tmgmt_poetry_menu() {
 function _tmgmt_poetry_service_callback() {
   // Generate our own SOAP server.
   $context = stream_context_create();
-  $uri = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+  $uri = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
 
   $server = new SoapServer($uri, array(
     'stream_context' => $context,
@@ -119,14 +122,6 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $language_job = $request->status['lgCode'];
-
-    if ($xml->request['type'] == 'status') {
-      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $reference));
-      // Send answer to poetry.
-      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'OK', 0, $request);
-      return $xml->asXML();
-    }
-
     $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
 
     // Handling the case where we can't find the corresponding job.
@@ -191,7 +186,10 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             $message = t('No message.');
           }
 
-          $message_job->addMessage("DGT update received. Request status: @status. Message: @message", array('@status' => $status_message, '@message' => $message));
+          $message_job->addMessage("DGT update received. Request status: @status. Message: @message", array(
+            '@status' => $status_message,
+            '@message' => $message,
+          ));
           if ($cancelled) {
             $reference = '%' . $reference;
             $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)->fetchAll();
@@ -229,11 +227,14 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           $job = tmgmt_job_load($ids->tjid);
           $job_item = tmgmt_job_item_load($ids->tjiid);
           $language = $languages[$job->target_language]->name;
-          $message_job->addMessage("DGT update received. Affected language: @language. Request status: @status.", array('@language' => $language, '@status' => $status_message));
+          $message_job->addMessage("DGT update received. Affected language: @language. Request status: @status.", array(
+            '@language' => $language,
+            '@status' => $status_message,
+          ));
           db_update('poetry_status')
-              ->fields(array('status' => $status_message))
-              ->condition('tjiid', $job_item->tjiid, '=')
-              ->execute();
+            ->fields(array('status' => $status_message))
+            ->condition('tjiid', $job_item->tjiid, '=')
+            ->execute();
         }
       }
     }
@@ -251,7 +252,10 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       $job_item = tmgmt_job_item_load($ids->tjiid);
 
       if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), strtolower((string) $attributions['format'])) === FALSE))) {
-        $message_job->addMessage('Received format "@format" is not compatible, translation job format "@job_format" should be used instead', array('@format' => (string) $attributions['format'], '@job_format' => $job->getSetting('export_format')));
+        $message_job->addMessage('Received format "@format" is not compatible, translation job format "@job_format" should be used instead', array(
+          '@format' => (string) $attributions['format'],
+          '@job_format' => $job->getSetting('export_format'),
+        ));
         $xml = _tmgmt_poetry_generate_answer_xml($message_job, 'ERROR: Received format is not compatible', -1, $request);
         return $xml->asXML();
       }
@@ -310,13 +314,20 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
               }
             }
             catch (Exception $e) {
-              $message_job->addMessage('@language File import failed with the following message: @message', array('@language' => $language, '@message' => $e->getMessage()), 'error');
+              $message_job->addMessage('@language File import failed with the following message: @message', array(
+                '@language' => $language,
+                '@message' => $e->getMessage(),
+              ), 'error');
+              watchdog_exception('tmgmt_poetry', $e);
             }
           }
         }
       }
     }
 
+    if ($xml->request['type'] == 'status') {
+      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $main_reference));
+    }
     // Send answer to poetry.
     $xml = _tmgmt_poetry_generate_answer_xml($job, 'OK', 0, $request);
     return $xml->asXML();
@@ -339,9 +350,16 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
     case 'html_poetry':
     case 'xml_dgt':
       $dom = new DOMDocument();
-      if (!$dom->loadHTML($content)) {
+      if (!multisite_drupal_toolbox_load_html($dom, $content)) {
         return FALSE;
       }
+
+      // Workaround for saveXML() generating two xmlns attributes.
+      // See https://bugs.php.net/bug.php?id=47666.
+      if ($dom->documentElement->hasAttributeNS(NULL, 'xmlns')) {
+        $dom->documentElement->removeAttributeNS(NULL, 'xmlns');
+      }
+
       $xml = simplexml_import_dom($dom);
 
       if (count($xml->head->meta) > 0) {
@@ -353,11 +371,13 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
                 break;
 
               case 'languageSource':
-                $meta_tag['content'] = $job->getTranslator()->mapToRemoteLanguage($job->source_language);
+                $meta_tag['content'] = $job->getTranslator()
+                  ->mapToRemoteLanguage($job->source_language);
                 break;
 
               case 'languageTarget':
-                $meta_tag['content'] = $job->getTranslator()->mapToRemoteLanguage($job->target_language);
+                $meta_tag['content'] = $job->getTranslator()
+                  ->mapToRemoteLanguage($job->target_language);
                 break;
             }
           }
@@ -386,7 +406,8 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
           }
         }
       }
-      $result = $xml->asXML();
+
+      $result = $xml->saveXML();
       break;
 
     case 'xliff_xsl_xml_poetry':
@@ -429,7 +450,10 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
  * Function to return our webservice description.
  */
 function _tmgmt_poetry_wsdl() {
-  $uri = url('tmgmt_poetry/service_callback', array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+  $uri = url('tmgmt_poetry/service_callback', array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
   $wsdl = '<?xml version="1.0"?>
 <definitions name="FPFISPoetryIntegration"
              targetNamespace="urn:FPFISPoetryIntegration"

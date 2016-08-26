@@ -1,5 +1,5 @@
-name = Multisite plateform standard
-description = Install with debut features pre-configured and modules required by the multisite plateform.
+name = Multisite platform standard
+description = Install with start features pre-configured and modules required by the multisite platform.
 core = 7.x
 
 dependencies[] = block
@@ -104,6 +104,7 @@ dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
 dependencies[] = entityreference_prepopulate
+dependencies[] = username_enumeration_prevention
 
 dependencies[] = filefield_sources_plupload
 

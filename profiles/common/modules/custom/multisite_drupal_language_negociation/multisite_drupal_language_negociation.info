@@ -1,5 +1,5 @@
-name = multisite drupal language negociation
-description = language negociation process for the multisite plateform
+name = multisite drupal language negotiation
+description = language negotiation process for the multisite platform
 package = multisite drupal toolbox
 core = 7.x
 dependencies[] = locale

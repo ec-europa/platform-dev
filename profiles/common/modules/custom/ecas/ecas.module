@@ -12,6 +12,8 @@
  * Both will be included from the FPFIS_COMMON_LIBRARIES_PATH.
  */
 
+define('ECAS_MIN_PHPCAS_VERSION', "1.3.3");
+
 // Include the admin part of the module first.
 $admin_ecas_module_include = drupal_get_path('module', 'ecas') . '/includes/ecas.admin.inc';
 include_once $admin_ecas_module_include;
@@ -20,7 +22,7 @@ $fpfis_common_include = constant('FPFIS_COMMON_LIBRARIES_PATH') . '/FPFIS_Common
 include_once $fpfis_common_include;
 
 // The FPFIS_Common is supposed to provide the FPFIS_ECAS_PATH constant.
-$phpcas_client_include = constant('FPFIS_ECAS_PATH');
+$phpcas_client_include = variable_get('FPFIS_ECAS_PATH', constant('FPFIS_ECAS_PATH'));
 include_once $phpcas_client_include;
 
 // Finally, include the module code.

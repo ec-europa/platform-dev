@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Install the feature Nexteuropa Integration.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_integration_enable() {
+  // Activation message.
+  drupal_set_message(t('Nexteuropa Integration is now active on your site.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_integration_disable() {
+  // Desactivation message.
+  drupal_set_message(t('Nexteuropa Integration is now disabled on your site.'));
+}

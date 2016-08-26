@@ -232,34 +232,41 @@ function ecas_admin_settings() {
     );
   }
 
-  $form['param']['ecas_pages_method'] = array(
-    '#type' => 'radios',
-    '#title' => t('Force ECAS authentication on specific pages'),
-    '#options' => array(
-      ECAS_LOGIN_EXLUDE_PAGES => t('All pages except those listed'),
-      ECAS_LOGIN_INCLUDE_PAGES => t('Only the listed pages'),
-    ),
-    '#default_value' => variable_get('ecas_pages_method', ECAS_LOGIN_INCLUDE_PAGES),
+  // Commented out. No longer working and reactivating it breaks ECAS logic.
+  /*$form['param']['ecas_pages_method'] = array(
+  '#type' => 'radios',
+  '#title' => t('Force ECAS authentication on specific pages'),
+  '#options' => array(
+  ECAS_LOGIN_EXLUDE_PAGES => t('All pages except those listed'),
+  ECAS_LOGIN_INCLUDE_PAGES => t('Only the listed pages'),
+  ),
+  '#default_value' => variable_get('ecas_pages_method',
+  ECAS_LOGIN_INCLUDE_PAGES),
   );
   $args = array(
-    '%blog' => 'blog',
-    '%blog-wildcard' => 'blog/*',
-    '%front' => '<front>',
+  '%blog' => 'blog',
+  '%blog-wildcard' => 'blog/*',
+  '%front' => '<front>',
   );
   $form['param']['ecas_pages'] = array(
-    '#type' => 'textarea',
-    '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
-    '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
-    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", $args),
+  '#type' => 'textarea',
+  '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
+  '#default_value' => variable_get('ecas_pages', ECAS_DEFAULT_PAGES),
+  '#description' => t("Specify pages by using their paths.
+  Enter one path per line. The '*' character is a wildcard.
+  Example paths are %blog for the blog page and %blog-wildcard for
+  every personal blog. %front is the front page.", $args),
   );
-
+   */
   // FPFIS Common SETTINGS.
   // Checkbox to enable or disable the whole FPFIS integration stuff.
   $form['param']['ecas_use_shared_fpfis'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use the shared &quot;FPFIS Common&quot; library'),
     '#default_value' => variable_get('ecas_use_shared_fpfis', 0),
-    '#description' => t('If this option is checked, the ECAS module will attempt use the shared FPFIS Common library to connect to LDAP and the ECAS server. Otherwise a local implementation will be used.'),
+    '#description' => t('If this option is checked, the ECAS module
+    will attempt use the shared FPFIS Common library to connect to LDAP
+    and the ECAS server. Otherwise a local implementation will be used.'),
   );
 
   return system_settings_form($form);
@@ -274,10 +281,10 @@ function ecas_admin_settings() {
  */
 function _ecas_assurance_levels() {
   $assurance_levels = array(
-    'TOP'    => t('TOP: EC only'),
-    'HIGH'   => t('HIGH: + Other institutions'),
+    'TOP' => t('TOP: EC only'),
+    'HIGH' => t('HIGH: + Other institutions'),
     'MEDIUM' => t('MEDIUM: + Sponsored'),
-    'LOW'    => t('LOW: + External + Self-registered'),
+    'LOW' => t('LOW: + External + Self-registered'),
   );
   drupal_alter('ecas_assurance_levels', $assurance_levels);
   return $assurance_levels;
@@ -291,16 +298,16 @@ function _ecas_assurance_levels() {
  */
 function _ecas_domains() {
   $known_ecas_domains = array(
-    'eu.europa.ec'        => 'European Commission',
-    'eu.europa.cdt'       => 'Translation Centre',
-    'eu.europa.curia'     => 'Court of Justice of the European Union',
-    'eu.europa.gsa'       => 'European GNSS Supervisory Authority',
-    'eu.europa.eca'       => 'European Court of Auditors',
-    'external'            => 'External',
+    'eu.europa.ec' => 'European Commission',
+    'eu.europa.cdt' => 'Translation Centre',
+    'eu.europa.curia' => 'Court of Justice of the European Union',
+    'eu.europa.gsa' => 'European GNSS Supervisory Authority',
+    'eu.europa.eca' => 'European Court of Auditors',
+    'external' => 'External',
     'eu.europa.consilium' => 'Council of the European Union',
-    'eu.europa.eesc'      => 'European Economic and Social Committee',
-    'eu.europa.cor'       => 'Committee of the Regions',
-    'eu.europa.europarl'  => 'European Parliament',
+    'eu.europa.eesc' => 'European Economic and Social Committee',
+    'eu.europa.cor' => 'Committee of the Regions',
+    'eu.europa.europarl' => 'European Parliament',
   );
   drupal_alter('ecas_domains', $known_ecas_domains);
   return $known_ecas_domains;

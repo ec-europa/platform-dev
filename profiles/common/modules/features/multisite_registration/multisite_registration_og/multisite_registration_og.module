@@ -12,7 +12,8 @@ function multisite_registration_og_init() {
   if (arg(0) == 'node' && is_numeric(arg(1)) && (arg(2) == 'register' || (arg(2) == 'registations'))) {
     $groups = og_get_entity_groups('node', arg(1), array());
     if ($groups && isset($groups['node'])) {
-      og_context('node', node_load(current($groups['node'])));
+      $group = node_load(current($groups['node']));
+      og_context('node', $group);
     }
   }
 }

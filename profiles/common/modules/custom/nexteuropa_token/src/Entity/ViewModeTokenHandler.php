@@ -50,21 +50,33 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
 
           switch ($type) {
             case 'node':
-              $node = node_load($entity_id);
-              if ($this->canViewNode($node)) {
-                $render = node_view($node, $view_mode);
+              if ($node = node_load($entity_id)) {
+                if ($this->canViewNode($node)) {
+                  $render = node_view($node, $view_mode);
+                }
+              }
+              else {
+                $this->watchdogTokenNotFound($data, $original);
               }
               break;
 
             case 'term':
-              $term = taxonomy_term_load($entity_id);
-              $render = taxonomy_term_view($term, $view_mode);
+              if ($term = taxonomy_term_load($entity_id)) {
+                $render = taxonomy_term_view($term, $view_mode);
+              }
+              else {
+                $this->watchdogTokenNotFound($data, $original);
+              }
               break;
 
             case 'user':
-              $account = user_load($entity_id);
-              if (user_access('access user profiles')) {
-                $render = user_view($account, $view_mode);
+              if ($account = user_load($entity_id)) {
+                if (user_access('access user profiles')) {
+                  $render = user_view($account, $view_mode);
+                }
+              }
+              else {
+                $this->watchdogTokenNotFound($data, $original);
               }
               break;
           }

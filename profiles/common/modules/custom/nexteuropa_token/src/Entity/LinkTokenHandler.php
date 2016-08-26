@@ -54,11 +54,17 @@ class LinkTokenHandler extends TokenAbstractHandler {
           $entity_type = ($type == 'term') ? 'taxonomy_term' : $type;
 
           $entity_info = entity_get_info($entity_type);
-          $entity = $entity_info['load hook']($entity_id);
-
-          $label = entity_label($entity_type, $entity);
-          $uri = entity_uri($entity_type, $entity);
-          $replacements[$original] = l($label, $uri['path'], array('absolute' => TRUE));
+          // Check if the entity is available.
+          if ($entity = $entity_info['load hook']($entity_id)) {
+            $label = entity_label($entity_type, $entity);
+            $uri = entity_uri($entity_type, $entity);
+            $replacements[$original] = l($label, $uri['path'], array('absolute' => TRUE));
+          }
+          else {
+            $this->watchdogTokenNotFound($data, $original);
+            // Return an empty replacement to not show a broken link.
+            $replacements[$original] = '';
+          }
         }
       }
     }

@@ -4,7 +4,6 @@ Feature: Multilingual features
   As a citizen of the European Union
   I want to be able to read content in my native language
 
-
   Background:
     Given the following languages are available:
       | languages |
@@ -161,27 +160,50 @@ Feature: Multilingual features
     And I click "Français" in the "content" region
     Then I should see "Ce titre est en Français"
 
-  Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
-    Given local translator "Translator A" is available
+  Scenario: Path alias must be synchronized through all translations of
+  content when it is manually defined
     Given I am logged in as a user with the 'administrator' role
-    And I go to "node/add/page"
-    And I fill in "Title" with "Original version"
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+    And I click "English" in the "header_top" region
+    And I click "Français"
+    Then I should be on "content/title-english_fr"
+    And I click "New draft"
+    And I uncheck the box "edit-path-pathauto"
+    And I fill in "URL alias" with "page-alias-for-all-languages"
+    And I select "published" from "Moderation state"
+    When I press "Save"
+    Then I should be on "page-alias-for-all-languages_fr"
+    And I click "Français" in the "header_top" region
+    When I click "English"
+    Then I should be on "page-alias-for-all-languages_en"
+
+  Scenario: Multilingual view on language neutral content
+    Given I am logged in as a user with the "administrator" role
+    When I go to "admin/config/regional/translate/translate"
+    And I fill in "String contains" with "Body"
+    And I press "Filter"
+    And I click "edit" in the "body:article:label" row
+    And I fill in "French" with "Corps du texte"
+    And I fill in "Italian" with "Corpo del testo"
+    And I press "Save translations"
+    Then I should see the following success messages:
+      | success messages           |
+      | The string has been saved. |
+    When I go to "admin/structure/types/manage/article/display_en"
+    And I select "above" from "edit-fields-body-label"
+    And I press "Save"
+    Then I should see the following success messages:
+      | success messages               |
+      | Your settings have been saved. |
+    When I go to "node/add/article"
+    And I select "Basic HTML" from "Text format"
+    And I fill in "Title" with "This is a new article title"
+    And I fill in "Body" with "This is a new article body"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
-    Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
-    And I press "Request translation"
-    And I select "Translator A" from "Translator"
-    And I press "Submit to translator"
-    Then I click "In progress" in the "French" row
-    And I press "Save"
-    And I click "Needs review" in the "French" row
-    And I press "Save as completed"
-    Then I click "New draft" in the "primary_tabs" region
-    And I fill in "Other different Title" for "Title"
-    And I press "Save"
-    And I select "Validated" from "Moderation state"
-    And I press "Apply"
-    And I click "View published" in the "primary_tabs" region
-    Then the url should match "(.)*content/original-version_en"
+    And I go to "content/new-article-title_it"
+    Then I should see "Corpo del testo"

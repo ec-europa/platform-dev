@@ -17,9 +17,15 @@ function tmgmt_poetry_schema() {
         'length' => 128,
         'not null' => TRUE,
       ),
+      // Originally this column was erroneously set to be an integer in the
+      // assumption that TMGMT module would only provide entity IDs.
+      // In reality object IDs can be strings describing any kind of object.
+      // @see tmgmt_poetry_update_7003()
+      // @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12492
       'entity_id' => array(
-        'description' => 'Entity id',
-        'type' => 'int',
+        'description' => 'Identification string of the object being translated.',
+        'type' => 'varchar',
+        'length' => 128,
         'not null' => TRUE,
       ),
       'annee' => array(
@@ -102,4 +108,46 @@ function tmgmt_poetry_update_7001() {
   }
   $translator->settings['settings'] = $settings;
   $translator->save();
+}
+
+/**
+ * Enable nexteuropa_token_ckeditor.
+ */
+function tmgmt_poetry_update_7002() {
+  module_enable(array('nexteuropa_token_ckeditor'));
+}
+
+/**
+ * Change Entity ID field type to 'varchar'.
+ */
+function tmgmt_poetry_update_7003() {
+
+  // Backup current state of poetry_map table as it was on schema 7002.
+  db_query('CREATE TABLE {poetry_map_7002} LIKE {poetry_map}');
+  db_query('INSERT {poetry_map_7002} SELECT * FROM {poetry_map}');
+
+  // Alter "entity_id" field.
+  db_drop_primary_key('poetry_map');
+  $spec = array(
+    'description' => 'Entity id',
+    'type' => 'varchar',
+    'length' => 128,
+    'not null' => TRUE,
+  );
+  $keys = array(
+    'primary key' => array('entity_type', 'entity_id'),
+  );
+  db_change_field('poetry_map', 'entity_id', 'entity_id', $spec, $keys);
+
+  // Compare the two tables and abort update if something went wrong.
+  try {
+    $count1 = db_query('SELECT * FROM {poetry_map}')->rowCount();
+    $count2 = db_query('SELECT * FROM {poetry_map} UNION SELECT * FROM {poetry_map_7002}')->rowCount();
+    if ($count1 != $count2) {
+      throw new \Exception(t('Data corrupted in "poetry_map" after running tmgmt_poetry_update_7003().'));
+    }
+  }
+  finally {
+    db_drop_table('poetry_map_7002');
+  }
 }

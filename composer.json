@@ -1,8 +1,6 @@
 {
   "require": {
-    "behat/behat": "~3.1.0@rc",
-    "drupal/coder": ">=8.2.5",
-    "drupal/drupal-extension": "~3.1.0",
+    "drupal/coder": "8.2.6",
     "drupal/phing-drush-task": "1.0",
     "drush/drush": ">=8.0.1",
     "ext-json": "*",
@@ -17,7 +15,6 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "Drupal\\nexteuropa\\": "tests/src",
       "NextEuropa\\": "src"
     }
   },

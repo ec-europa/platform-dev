@@ -1,0 +1,9 @@
+name = TMGMT Poetry Mock
+description = Provides a mock of the Poetry API
+package = TMGT Poetry
+core = 7.x
+hidden = TRUE
+
+dependencies[] = tmgmt_poetry
+dependencies[] = registry_autoload
+registry_autoload[] = PSR-4

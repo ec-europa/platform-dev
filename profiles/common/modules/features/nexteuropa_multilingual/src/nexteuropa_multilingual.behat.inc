@@ -16,6 +16,13 @@ use Behat\Gherkin\Node\TableNode;
 class NextEuropaMultilingualSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
   /**
+   * Published workbench moderation state.
+   *
+   * @see workbench_moderation_state_none()
+   */
+  const MODERATION_PUBLISHED = 'published';
+
+  /**
    * {@inheritdoc}
    */
   protected $drupal;
@@ -40,6 +47,13 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @var \TMGMTJob
    */
   protected $latestJob;
+
+  /**
+   * Settings that may be changed during test execution.
+   *
+   * @var array
+   */
+  protected $settings = [];
 
   /**
    * Constructs a NextEuropaMultilingualSubContext object.
@@ -69,7 +83,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param string $type
    *    Content type machine name.
    * @param TableNode $table
-   *    List of available languages and title translations.
+   *    List of available languages and field translations.
    *
    * @return object
    *    The created node object.
@@ -84,14 +98,14 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       throw new \InvalidArgumentException("'$type' is not a translatable content type.");
     }
 
-    $translations = array();
+    $translations = [];
     foreach ($table->getHash() as $row) {
       $node = (object) $row;
       $node->type = $type;
       $node->status = TRUE;
       // If the node is managed by Workbench Moderation, mark it as published.
       if (workbench_moderation_node_moderated($node)) {
-        $node->workbench_moderation_state_new = workbench_moderation_state_published();
+        $node->workbench_moderation_state_new = self::MODERATION_PUBLISHED;
       }
       $translations[$node->language] = $node;
     }
@@ -99,11 +113,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     // Consider the first defined language as the default one.
     $node = array_shift($translations);
     $node = $this->nodeCreate($node);
-    $translation = array(
-      'translate' => 0,
-      'status' => TRUE,
-      'source' => $node->language,
-    );
 
     // Apply Pathauto settings.
     $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
@@ -119,28 +128,101 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
 
     // Add others languages.
     foreach ($translations as $language => $node_translation) {
-      $handler  = entity_translation_get_handler('node', $node);
-
-      $translation['uid'] = $node->uid;
-      $translation['created'] = $node->created;
-      $translation['changed'] = $node->changed;
-      $translation['language'] = $language;
-
-      $values = array();
-      // Assign translated title field.
-      $values['title_field'][$language][0]['value'] = $node_translation->title;
-      // Assign translated body field, if any.
-      if (isset($node_translation->body) && !empty($node_translation->body)) {
-        $values['body'][$language][0]['value'] = $node_translation->body;
-      }
-      $handler->setTranslation($translation, $values);
-      // Set translation language.
-      $handler->setFormLanguage($language);
-
-      // Save node (new translation).
-      node_save($node);
+      $fields = (array) $node_translation;
+      $this->saveNodeTranslation($node, $language, $fields);
     }
     return $node;
+  }
+
+  /**
+   * Add a translation to an existing node.
+   *
+   * @param string $type
+   *    Content type machine name.
+   * @param string $title
+   *    Source node title.
+   * @param TableNode $table
+   *    List of available languages and field translations.
+   *
+   * @Then I create the following translations for :type content with title :arg2:
+   */
+  public function createTranslationForContentWithTitle($type, $title, TableNode $table) {
+    $node = $this->getNodeByTitle($type, $title);
+    foreach ($table->getHash() as $row) {
+      if (!isset($row['language']) || empty($row['language'])) {
+        throw new \InvalidArgumentException("You must specify a translation language.");
+      }
+      $this->saveNodeTranslation($node, $row['language'], $row);
+    }
+  }
+
+  /**
+   * Get a node by specifying its type and title.
+   *
+   * @param string $label
+   *    Moderation state label.
+   *
+   * @return string
+   *    Moderation state machine name.
+   */
+  protected function getModerationStateMachineName($label) {
+    $states = [];
+    foreach (workbench_moderation_states() as $state) {
+      $states[$state->label] = $state->name;
+    }
+    if (!isset($states[$label])) {
+      throw new \InvalidArgumentException("Property 'moderation state' not valid, must be chosen among: " . implode(', ', array_keys($states)));
+    }
+    return $states[$label];
+  }
+
+  /**
+   * Save a translation for an existing node.
+   *
+   * @param object $node
+   *    Node object.
+   * @param string $language
+   *    Language for which to create the translation for.
+   * @param array $fields
+   *    Translation fields.
+   * @param int|null $vid
+   *    Node revision ID to which to apply the translation.
+   * @param string $moderation_state
+   *    Moderation state.
+   */
+  public function saveNodeTranslation($node, $language, array $fields, $vid = NULL, $moderation_state = self::MODERATION_PUBLISHED) {
+    $handler = entity_translation_get_handler('node', $node);
+
+    $translation = [
+      'translate' => 0,
+      'status' => TRUE,
+      'source' => $node->language,
+      'uid' => $node->uid,
+      'created' => $node->created,
+      'changed' => $node->changed,
+      'language' => $language,
+    ];
+
+    $values = [];
+    // Assign translated title field.
+    $values['title_field'][$language][0]['value'] = $fields['title'];
+    // Assign translated body field, if any.
+    if (isset($fields['field_ne_body']) && !empty($fields['field_ne_body'])) {
+      $values['field_ne_body'][$language][0]['value'] = $fields['field_ne_body'];
+    }
+    elseif (isset($fields['body']) && !empty($fields['body'])) {
+      $values['body'][$language][0]['value'] = $fields['body'];
+    }
+    $handler->setTranslation($translation, $values);
+    // Set translation language.
+    $handler->setFormLanguage($language);
+
+    // Workbench Moderation disables pathauto after node has been published.
+    // Enforcing it here will ensure a consistent behavior.
+    $node->path['pathauto'] = 0;
+
+    // Save node (new translation).
+    node_save($node);
   }
 
   /**
@@ -214,9 +296,9 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param string $name
    *    Local translator human readable name.
    *
-   * @Given local translator :name is available
+   * @Given :plugin translator :name is available
    */
-  public function localTranslatorIsAvailable($name) {
+  public function isTranslatorAvailable($name, $plugin) {
     /** @var \TMGMTTranslatorController $controller */
     $controller = entity_get_controller('tmgmt_translator');
     $machine_name = strtolower(str_replace(' ', '_', $name));
@@ -226,7 +308,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
         "label" => $name,
         "description" => "",
         "weight" => 0,
-        "plugin" => "local",
+        "plugin" => $plugin,
         "settings" => [
           "auto_accept" => FALSE,
           "allow_all" => TRUE,
@@ -281,31 +363,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Validate current job using poetry test.
-   *
-   * @Then I receive the translation of :arg1 job item
-   */
-  public function receiveJobTranslationFromPoetryTest() {
-
-    $url = $this->getSession()->getCurrentUrl();
-    // We can't simply use Drupal's menu_get_item() because of caching reasons.
-    $job_id = $this->getTranslationJobSubItemFromUrl();
-    if (!$job_id) {
-      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
-    }
-    else {
-      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/receivetranslation/' . $job_id, array(
-        'base_url' => '',
-        'absolute' => TRUE,
-      ));
-      // Visit newly created node page.
-      $this->visitPath($path);
-      $this->visitPath($url);
-    }
-  }
-
-  /**
    * Get translation job ID from current page's URL.
    *
    * @return int|FALSE
@@ -315,6 +372,23 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $url = $this->getSession()->getCurrentUrl();
     preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
     return isset($matches[1][0]) ? $matches[1][0] : FALSE;
+  }
+
+  /**
+   * Get the id of the parent job.
+   *
+   * @param int $tjiid
+   *    Job Item id.
+   *
+   * @return int|FALSE
+   *    Parent Job id or FALSE if none was found.
+   */
+  public function getParentJobId($tjiid) {
+    return db_select('tmgmt_job_item', 't')
+      ->fields('t', ['tjid'])
+      ->condition('t.tjiid', $tjiid)
+      ->execute()
+      ->fetchField();
   }
 
   /**
@@ -353,13 +427,13 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $tjiid = array_shift($result);
       $job_item = tmgmt_job_item_load($tjiid);
       if (!$job_item) {
-        throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+        throw new \InvalidArgumentException("No translation job found for node of type '{$type}' and title '{$title}'.");
       }
       $controller = $job_item->getSourceController();
       $controller->saveTranslation($job_item);
     }
     else {
-      throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+      throw new \InvalidArgumentException("No translation job found for node of type '{$type}' and title '{$title}'.");
     }
   }
 
@@ -388,6 +462,9 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     if (!isset($properties['translator'])) {
       throw new \InvalidArgumentException('Property "translator" is required.');
     }
+    if (!isset($properties['plugin'])) {
+      $properties['plugin'] = 'entity';
+    }
     $reference = isset($properties['reference']) ? $properties['reference'] : NULL;
 
     $source = $properties['source language'];
@@ -400,7 +477,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $job->translator = $translator->name;
     $job->reference = $reference;
     $job->settings = [];
-    $job->addItem('entity', 'node', $node->nid);
+    $job->addItem($properties['plugin'], 'node', $node->nid);
     if (!$job->save()) {
       throw new \InvalidArgumentException('Error occurred while saving the translation job.');
     }
@@ -500,7 +577,8 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       'target_language' => $language,
     ]);
     if (!$jobs) {
-      throw new \InvalidArgumentException("Translation job with label '{$label}' and target language '{$language}' not found.");
+      throw new \InvalidArgumentException("Translation job with label '{$label}'
+       and target language '{$language}' not found.");
     }
     /** @var \TMGMTJob $job */
     $job = array_shift($jobs);
@@ -510,7 +588,35 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Get a node by specifying its default type and title.
+   * Get moderation state machine name by labeland languages settings.
+   *
+   * @Given :field for language :langcode is set to :value
+   */
+  public function setLanguageSetting($field, $value, $langcode) {
+
+    if ($field == 'language') {
+      throw new \InvalidArgumentException("Field '{$field}' can not be changed.");
+    }
+
+    $query = "SELECT * FROM {languages} WHERE language = :lang";
+    $language = db_query($query, array(':lang' => $langcode))->fetchObject();
+
+    if (empty($language)) {
+      throw new \InvalidArgumentException("Language '{$langcode}' does not exists.");
+    }
+
+    $this->settings['language'] = array(
+      'field' => $field,
+      'value' => $language->$field,
+      'langcode' => $langcode,
+    );
+
+    $this->updateLanguage($field, $value, $langcode);
+
+  }
+
+  /**
+   * Get a node by specifying its type and title.
    *
    * @param string $type
    *    The node type.
@@ -521,11 +627,37 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    *    The node object.
    */
   protected function getNodeByTitle($type, $title) {
-    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type]);
+    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
     if ($nodes) {
       return array_shift($nodes);
     }
     throw new \InvalidArgumentException("Node of type '{$type}' and title '{$title}' not found.");
+  }
+
+  /**
+   * Get a node revision by specifying its type and title.
+   *
+   * @param string $type
+   *    The node type.
+   * @param string $title
+   *    The node title.
+   *
+   * @return object
+   *    The node object.
+   */
+  protected function getNodeRevisionByTitle($type, $title) {
+    $query = db_select('node', 'n');
+    $query->addJoin('LEFT', 'node_revision', 'nr', 'nr.nid = n.nid');
+    $result = $query->fields('nr', ['nid', 'vid'])
+      ->condition('n.type', $type)
+      ->condition('nr.title', $title)
+      ->orderBy('nr.vid')
+      ->execute()
+      ->fetch();
+    if ($result) {
+      return node_load($result->nid, $result->vid, TRUE);
+    }
+    throw new \InvalidArgumentException("Node revision of type '{$type}' and title '{$title}' not found.");
   }
 
   /**
@@ -537,7 +669,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @return \TMGMTTranslator
    *    Translator object.
    *
-   * @see NextEuropaMultilingualSubContext::localTranslatorIsAvailable()
+   * @see NextEuropaMultilingualSubContext::isTranslatorAvailable()
    */
   protected function getTranslatorByName($name) {
     $name = strtolower(str_replace(' ', '_', $name));
@@ -604,6 +736,37 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       return $states[$state];
     }
     throw new \InvalidArgumentException("Translation job item state labeled '{$state}' does not exists.");
+  }
+
+  /**
+   * Update language in database.
+   *
+   * @param string $field
+   *    The field to change.
+   * @param string $value
+   *    The new value.
+   * @param string $langcode
+   *    The code of the language to bee changed.
+   */
+  protected function updateLanguage($field, $value, $langcode) {
+    db_update('languages')
+      ->fields(array($field => $value))
+      ->condition('language', $langcode)
+      ->execute();
+  }
+
+  /**
+   * Revert to previous settings after scenario execution.
+   *
+   * @AfterScenario
+   */
+  public function revertSettings() {
+    if (!empty($this->settings)) {
+      if (isset($this->settings['language'])) {
+        $lang = $this->settings['language'];
+        $this->updateLanguage($lang['field'], $lang['value'], $lang['langcode']);
+      }
+    }
   }
 
 }

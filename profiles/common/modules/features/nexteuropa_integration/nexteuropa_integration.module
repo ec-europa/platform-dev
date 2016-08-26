@@ -1,0 +1,152 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Integration feature.
+ */
+
+use Drupal\integration_producer\AbstractProducer;
+use Drupal\integration\Document\DocumentInterface;
+use Drupal\integration_consumer\AbstractConsumer;
+use Drupal\nexteuropa_integration\ClosureDecoratedMigrateSourceBackend;
+use Drupal\integration_migrate\DocumentWrapperInterface;
+
+include_once 'nexteuropa_integration.features.inc';
+
+/**
+ * Implements hook_integration_producer_document_build_alter().
+ */
+function nexteuropa_integration_integration_producer_document_build_alter(AbstractProducer $producer, DocumentInterface &$document) {
+  // NEXTEUROPA-11012: add node canonical URLs and use resource schema type
+  // instead of bundle name.
+  $canonical_urls = [];
+  switch ($producer->getEntityType()) {
+    case 'node':
+      $wrapper = $producer->getEntityWrapper();
+      $languages = $wrapper->getAvailableLanguages();
+      $node = $wrapper->value();
+      foreach ($languages as $language) {
+        $url = url(drupal_lookup_path('alias', 'node/' . $node->nid, $language), ['absolute' => TRUE]);
+        $canonical_urls[$language] = $url;
+      }
+      break;
+  }
+  $document->setMetadata('canonical_url', $canonical_urls);
+  $document->setMetadata('type', $producer->getConfiguration()->getResourceSchema());
+
+  $replacements = _nexteuropa_integration_language_code_replacement_map();
+
+  // Remove replacements for languages that are actually not enabled.
+  // Trying to perform these replacements would only cause unneeded processing.
+  foreach (array_keys($replacements) as $language) {
+    if (!_nexteuropa_integration_language_enabled($language)) {
+      unset($replacements[$language]);
+    }
+  }
+
+  if (!empty($replacements)) {
+    _nexteuropa_integration_replace_language_codes($document, $replacements);
+  }
+}
+
+/**
+ * Checks if the language is enabled.
+ *
+ * @param string $language
+ *   The language code.
+ */
+function _nexteuropa_integration_language_enabled($language) {
+  $enabled_languages = locale_language_list();
+  return array_key_exists($language, $enabled_languages);
+}
+
+/**
+ * Get language code replacements to perform.
+ *
+ * @return array
+ *   The language code replacements. Keys are the values to replace, values
+ *   are the new ones.
+ */
+function _nexteuropa_integration_language_code_replacement_map() {
+  return [
+    'pt-pt' => 'pt',
+  ];
+}
+
+/**
+ * Replaces occurrences of language codes.
+ *
+ * @param DocumentInterface $document
+ *   The document to perform the replacements in.
+ * @param array $replacements
+ *   Replacements to perform.
+ */
+function _nexteuropa_integration_replace_language_codes(DocumentInterface $document, array $replacements) {
+  array_walk(
+    $replacements,
+    function ($new_language_code, $original_language_code) use ($document) {
+      $languages = $document->getAvailableLanguages();
+
+      if ($document->getDefaultLanguage() === $original_language_code) {
+        $document->setMetadata('default_language', $new_language_code);
+      }
+
+      $key = array_search($original_language_code, $languages);
+      if (FALSE !== $key) {
+        $languages[$key] = $new_language_code;
+        $document->setMetadata('languages', $languages);
+      }
+
+      /** @var stdClass $fields */
+      $fields = $document->getFields();
+
+      foreach ($fields as $name => $values) {
+        if (isset($fields->{$name}->{$original_language_code})) {
+          $fields->{$name}->{$new_language_code} = $fields->{$name}->{$original_language_code};
+          unset($fields->{$name}->{$original_language_code});
+        }
+      }
+
+      $canonical_url = $document->getMetadata('canonical_url');
+      if (is_array($canonical_url)) {
+        if (array_key_exists($original_language_code, $canonical_url)) {
+          $canonical_url[$new_language_code] = $canonical_url[$original_language_code];
+          unset($canonical_url[$original_language_code]);
+
+          $document->setMetadata('canonical_url', $canonical_url);
+        }
+      }
+    }
+  );
+}
+
+/**
+ * Implements hook_integration_consumer_migrate_pre_import().
+ */
+function nexteuropa_integration_integration_consumer_migrate_pre_import(AbstractConsumer $consumer) {
+  $replacements = _nexteuropa_integration_language_code_replacement_map();
+  $replacements = array_flip($replacements);
+
+  // If the source language is also enabled on Drupal, then remove the
+  // replacement.
+  // e.g. replacement of pt with pt-pt, but pt is enabled on Drupal.
+  foreach (array_keys($replacements) as $source_language) {
+    if (_nexteuropa_integration_language_enabled($source_language)) {
+      unset($replacements[$source_language]);
+    }
+  }
+
+  if (empty($replacements)) {
+    return;
+  }
+
+  $source = new ClosureDecoratedMigrateSourceBackend(
+    $consumer->getSource(),
+    function (DocumentWrapperInterface $document_wrapper) use ($replacements) {
+      $document = $document_wrapper->getDocument();
+      _nexteuropa_integration_replace_language_codes($document, $replacements);
+      return $document_wrapper;
+    }
+  );
+
+  $consumer->setSource($source);
+}

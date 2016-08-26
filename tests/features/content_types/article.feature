@@ -1,3 +1,4 @@
+@api
 Feature: Article content type
   In order to manage articles on the website
   As an editor

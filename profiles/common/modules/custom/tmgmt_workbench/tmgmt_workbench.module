@@ -123,7 +123,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       // Disable checkbox for languages already translated.
       foreach ($languages as $langcode => $language) {
-        if (isset($node->translations->data[$langcode]) &&!empty($existing_jobs)) {
+        if (isset($node->translations->data[$langcode]) && !empty($existing_jobs)) {
           $form['languages'][$langcode] = array(
             '#type' => 'checkbox',
             '#disabled' => TRUE,
