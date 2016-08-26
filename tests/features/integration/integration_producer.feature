@@ -13,7 +13,15 @@ Background:
     | languages |
     | en        |
     | pt-pt     |
-  And the Integration producer is configured
+  And the following Integration Layer node producer is created:
+    """
+      name: test_news
+      bundle: page
+      resource: news
+      mapping:
+        title_field: title
+        field_ne_body: body
+    """
   And I am logged in as a user with the 'administrator' role
 
 Scenario: pt-pt translation will be pushed to the central Integration server as pt

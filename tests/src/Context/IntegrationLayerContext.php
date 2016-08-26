@@ -7,9 +7,11 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Drupal\integration_consumer\ConsumerFactory;
 use Drupal\integration_producer\ProducerFactory;
+use Drupal\nexteuropa\Component\PyStringYamlParser;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -21,6 +23,8 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\isNotNull;
 use function bovigo\assert\predicate\isOfSize;
+use function bovigo\assert\predicate\isOfType;
+use function bovigo\assert\predicate\isNotEmpty;
 
 /**
  * Behat context with functionality related to Integration.
@@ -35,11 +39,11 @@ class IntegrationLayerContext implements Context {
   protected $mockServerPort;
 
   /**
-   * Indicates if the producer was configured.
+   * Array of configuration entity objects created during test execution.
    *
-   * @var bool
+   * @var AbstractConfiguration[]
    */
-  protected $producerWasConfigured = FALSE;
+  protected $configurationEntities = [];
 
   /**
    * Indicates if the consumer was configured.
@@ -124,24 +128,6 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
-   * Configures an Integration producer.
-   *
-   * @Given the Integration producer is configured
-   */
-  public function theIntegrationProducerIsConfigured() {
-    $this->setupTestBackend();
-
-    $producer = ProducerFactory::create('test_news')
-      ->setEntityBundle('page')
-      ->setResourceSchema('news')
-      ->setMapping('title_field', 'title')
-      ->setMapping('field_ne_body', 'body');
-    $producer->getConfiguration()->save();
-
-    $this->producerWasConfigured = TRUE;
-  }
-
-  /**
    * Configures the Integration consumer for testing purposes.
    *
    * @Given the Integration consumer is configured
@@ -165,8 +151,9 @@ class IntegrationLayerContext implements Context {
    * @AfterScenario
    */
   public function revertConfiguration() {
-    if ($this->producerWasConfigured) {
-      entity_delete('integration_producer', 'test_news');
+    // Remove configuration entities.
+    foreach ($this->configurationEntities as $configuration) {
+      $configuration->delete();
     }
 
     if ($this->consumerWasConfigured) {
@@ -234,23 +221,25 @@ class IntegrationLayerContext implements Context {
    * The backend points to our mocked Integration HTTP server.
    */
   private function setupTestBackend() {
-    $server = $this->getServer();
+    if (!$this->backendWasConfigured) {
+      $server = $this->getServer();
 
-    $backend = entity_load_single('integration_backend', 'couchdb');
+      $backend = entity_load_single('integration_backend', 'couchdb');
 
-    $test_backend = clone $backend;
-    $test_backend->id = NULL;
-    $test_backend->authentication = 'no_authentication';
-    $test_backend->machine_name = 'http_mock';
-    $test_backend->name = 'HTTP Mock';
-    $test_backend->settings['plugin']['backend']['base_url'] = $server->getBaseUrl();
+      $test_backend = clone $backend;
+      $test_backend->id = NULL;
+      $test_backend->authentication = 'no_authentication';
+      $test_backend->machine_name = 'http_mock';
+      $test_backend->name = 'HTTP Mock';
+      $test_backend->settings['plugin']['backend']['base_url'] = $server->getBaseUrl();
 
-    entity_save('integration_backend', $test_backend);
+      entity_save('integration_backend', $test_backend);
 
-    $this->backendWasConfigured = TRUE;
+      $this->backendWasConfigured = TRUE;
 
-    if (!$server->isStarted()) {
-      $server->start();
+      if (!$server->isStarted()) {
+        $server->start();
+      }
     }
   }
 
@@ -353,6 +342,56 @@ class IntegrationLayerContext implements Context {
         equals($expected_translation['body'])
       );
     }
+  }
+
+  /**
+   * Create Integration Layer producer stating its configuration as shown below.
+   *
+   * And the following Integration Layer node producer is created:
+   *   """
+   *     name: test_news
+   *     bundle: page
+   *     resource: news
+   *     mapping:
+   *       title_field: title
+   *       field_ne_body: body
+   *   """
+   *
+   * @param \Behat\Gherkin\Node\PyStringNode $node
+   *    PyString containing configuration in YAML format.
+   *
+   * @Given the following Integration Layer node producer is created:
+   */
+  public function theFollowingIntegrationLayerProducerIsCreated(PyStringNode $node) {
+    $this->setupTestBackend();
+    $parser = new PyStringYamlParser($node);
+    $configuration = $parser->parse();
+    $this->assertValidConfiguration($configuration);
+
+    /** @var AbstractProducer $producer */
+    $producer = ProducerFactory::create($configuration['name'])
+      ->setEntityBundle($configuration['bundle'])
+      ->setResourceSchema($configuration['resource']);
+    foreach ($configuration['mapping'] as $source => $destination) {
+      $producer->setMapping($source, $destination);
+    }
+    $producer->getConfiguration()->save();
+    $this->configurationEntities[] = $producer->getConfiguration();
+  }
+
+  /**
+   * Assert that configuration array is actually valid.
+   *
+   * @param array $configuration
+   *    Configuration array.
+   */
+  protected function assertValidConfiguration(array $configuration) {
+    assert($configuration, hasKey('name'));
+    assert($configuration, hasKey('bundle'));
+    assert($configuration, hasKey('resource'));
+    assert($configuration, hasKey('mapping'));
+    assert($configuration['mapping'], isOfType('array'));
+    assert($configuration['mapping'], isNotEmpty());
   }
 
 }
