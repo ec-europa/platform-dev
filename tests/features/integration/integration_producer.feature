@@ -5,10 +5,10 @@ Feature: Integration producer
   I can push content published on my website to the central Integration server
 
   Background:
-#    Given these modules are enabled
-#      | modules                |
-#      | nexteuropa_integration |
-#      | integration_producer   |
+    Given these modules are enabled
+      | modules                |
+      | nexteuropa_integration |
+      | integration_producer   |
     And the following languages are available:
       | languages |
       | en        |
@@ -53,8 +53,7 @@ Feature: Integration producer
       | language | title               |
       | pt       | Título em Português |
 
-  @run
-  Scenario: ...
+  Scenario: producers will produce a valid document for content containing title, body and taxonomy term reference.
     Given "tags" terms:
       | name  |
       | Tag 1 |
