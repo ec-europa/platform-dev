@@ -321,7 +321,7 @@ class IntegrationLayerContext implements Context {
   /**
    * Create Integration Layer producer specifying its configuration.
    *
-   * Use it following the example below:
+   * Usage example:
    *
    * Given the following Integration Layer node producer is created:
    *   """
@@ -358,7 +358,7 @@ class IntegrationLayerContext implements Context {
   /**
    * Create Integration Layer consumer specifying its configuration.
    *
-   * Use it following the example below:
+   * Usage example:
    *
    * Given the following Integration Layer node consumer is created:
    *   """
@@ -397,7 +397,7 @@ class IntegrationLayerContext implements Context {
   /**
    * Create Integration Layer resource schema specifying its configuration.
    *
-   * Use it following the example below:
+   * Usage example:
    *
    * Given the following Integration Layer resource schema is created:
    *   """
@@ -443,6 +443,72 @@ class IntegrationLayerContext implements Context {
     assert($configuration, hasKey('mapping'));
     assert($configuration['mapping'], isOfType('array'));
     assert($configuration['mapping'], isNotEmpty());
+  }
+
+  /**
+   * Assert that a given producer correctly builds a given node.
+   *
+   * Usage example:
+   *
+   * Then the "article" producer builds the following document for the etc...
+   *     """
+   *       version: v1
+   *       default_language: und
+   *       type: article
+   *       languages:
+   *         - und
+   *       fields:
+   *         title:
+   *           und:
+   *             - Article title 1
+   *         body:
+   *           und:
+   *             - Article body 1
+   *         tags:
+   *           und:
+   *             - Tag 1
+   *             - Tag 2
+   *     """
+   *
+   * @param string $producer_name
+   *    Producer machine name.
+   * @param string $type
+   *    Node type.
+   * @param string $title
+   *    Node title.
+   * @param \Behat\Gherkin\Node\PyStringNode $node
+   *    Expected document in YAML format.
+   *
+   * @Then the :producer_name producer builds the following document for the :type with title :title:
+   */
+  public function assertProducedDocument($producer_name, $type, $title, PyStringNode $node) {
+    $this->setupTestBackend();
+    $parser = new PyStringYamlParser($node);
+    $expected = $parser->parse();
+
+    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
+    assert($nodes, isNotEmpty());
+    $node = array_shift($nodes);
+    /** @var \Drupal\integration_producer\AbstractProducer $producer */
+    $producer = ProducerFactory::getInstance($producer_name);
+    $document = $producer->build($node);
+
+    // Assert document fields equals the expected ones.
+    if (isset($expected['fields'])) {
+      foreach ($expected['fields'] as $field_name => $field_values) {
+        foreach ($field_values as $language => $values) {
+          $values = count($values) == 1 ? array_shift($values) : $values;
+          assert($document->getFieldValue($field_name, $language), equals($values));
+        }
+      }
+      // Unset fields so we can easily test metadata.
+      unset($expected['fields']);
+    }
+
+    // Assert document metadata equals the expected one.
+    foreach ($expected as $name => $value) {
+      assert($document->getMetadata($name), equals($value));
+    }
   }
 
 }
