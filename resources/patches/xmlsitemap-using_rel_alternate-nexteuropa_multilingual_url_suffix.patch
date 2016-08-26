@@ -1,0 +1,12 @@
+# Use rel_alternate also with our nexteuropa_multilingual_url_suffix option
+--- a/xmlsitemap.generate.inc
++++ b/xmlsitemap.generate.inc
+@@ -576,7 +576,7 @@ function xmlsitemap_generate_multilingual($link) {
+
+   // Only add hreflang if we have different URL's for different languages.
+   // For that locale-url has to be activated for language negotiation.
+-  if (language_negotiation_get('language', 'locale-url')) {
++  if (language_negotiation_get('language', 'nexteuropa_multilingual_url_suffix') || language_negotiation_get('language', 'locale-url')) {
+     foreach (language_list() as $lang) {
+       if (xmlsitemap_var('multilingual_only_nodes')) {
+         if (!$translation) {

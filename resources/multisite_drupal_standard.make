@@ -43,6 +43,10 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-u
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 ; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
 projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
+; Delay removing entities from the index.
+; https://www.drupal.org/node/2764637
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-delay-entity-removal-2764637-1.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -142,6 +146,10 @@ projects[css_injector][version] = "1.10"
 ; https://www.drupal.org/node/2506775
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
 projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
+; Unnecessary DB query and cache_set when rules are empty
+; https://www.drupal.org/node/2759319
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12128
+projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
@@ -323,7 +331,12 @@ projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
-projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
+; Language field display should default to hidden.
+; https://www.drupal.org/node/1350638
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
+; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
+; you can find it in drupal-core.make.
+projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
@@ -363,6 +376,11 @@ projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
+; Allow to override the http client code, to support proxying secure
+; http connections with the chr module.
+; https://www.drupal.org/node/750000
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11765
+projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-allow-alternate-http-client-750000-15.patch
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
@@ -389,7 +407,7 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.2"
+projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
 projects[media][version] = 2.0-beta1
@@ -419,6 +437,10 @@ projects[media_flickr][patch][] = patches/media_flickr-Media_v2_removed_XML_APIs
 projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-2183.patch
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
 projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
+; Support for newer Flickr album urls.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12401
+; https://www.drupal.org/node/2602558
+projects[media_flickr][patch][] = https://www.drupal.org/files/issues/import_albums_error-7.x-1.x-2602558-5.patch
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
@@ -468,10 +490,8 @@ projects[mimemail][version] = "1.0-beta4"
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
-projects[og][download][branch] = 7.x-2.x
-projects[og][download][revision] = fba6dda
-projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+projects[og][version] = "2.9"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
@@ -508,7 +528,7 @@ projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.7"
+projects[piwik][version] = "2.9"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.7"
@@ -712,6 +732,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/su
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
+; Node revision history optimization on large websites.
+; https://www.drupal.org/node/1408838
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
+
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
@@ -728,6 +753,11 @@ projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
 projects[xmlsitemap][version] = "2.3"
+; Using rel="alternate" rather than multiple sitemaps by language context
+; https://www.drupal.org/node/1670086
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
+projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
 
 
 ; =========

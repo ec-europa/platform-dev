@@ -9,6 +9,8 @@
  */
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
   $language_url = FALSE;
+  $current_path = request_path();
+  $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
     return $language_url;
@@ -16,9 +18,10 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
 
   // $_GET['q'] might not be available at this time, because
   // path initialization runs after the language bootstrap phase.
-  list($language, $_GET['q']) = nexteuropa_multilingual_language_negotiation_split_suffix(isset($_GET['q']) ? $_GET['q'] : NULL, $languages);
-  if ($language !== FALSE) {
-    $language_url = $language->language;
+  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($current_path) ? $current_path : NULL, $languages);
+  if ($check_prefix[0] !== FALSE) {
+    $language_url = $check_prefix[0]->language;
+    $_GET['q'] = $check_prefix[1];
   }
   return $language_url;
 }
@@ -32,9 +35,15 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
   // Don't add the language suffix for an internal file URL.
   $file_public = variable_get('file_public_path', conf_path() . '/files');
-  $file_private = variable_get('file_private_path');
+  $file_private = 'system/files';
   if ($file_public && preg_match("#^/?$file_public#", $path) ||
-      $file_private && preg_match("#^/?$file_private#", $path)) {
+    $file_private && preg_match("#^/?$file_private#", $path)) {
+    return;
+  }
+
+  // Don't add the language suffix for sitemap.*** .
+  // @todo We should use $options['absolute'] (if true) or a variable with exceptions
+  if (strpos($path, 'sitemap.') === 0) {
     return;
   }
 
@@ -53,7 +62,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     }
   }
   // We allow only enabled languages here.
-  elseif (!isset($languages[$options['language']->language])) {
+  elseif (empty($options['language']->language) || !isset($languages[$options['language']->language])) {
     unset($options['language']);
     return;
   }
@@ -73,9 +82,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
     // Check if the language suffix has been already added.
     $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
-    if (!isset($check_prefix[0]->language)) {
-      $path .= $delimiter . $language_suffix;
-    }
+    $path = $check_prefix[1] . $delimiter . $language_suffix;
 
     $options['alias'] = TRUE;
   }
@@ -87,6 +94,10 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
+
+  if (_nexteuropa_multilingual_get_source_path($path) != $path) {
+    return array(FALSE, $path);
+  }
 
   // Forcing to use the prefix at the end of the path with the delimiter '_'.
   // example:
@@ -125,6 +136,10 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
         $path .= ($path == '') ? '' : '/';
         $path .= implode("/", $extra_params);
       }
+      // English does not have a prefix by default, so we add it for the future
+      // comparisons that rely on prefix.
+      $language->prefix = empty($language->prefix) ? $language->language : $language->prefix;
+
       return array($language, $path);
     }
   }
@@ -157,8 +172,8 @@ function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path)
  * This suffix is used on the last part of the URL.
  */
 function _nexteuropa_multilingual_get_language_suffix($language) {
-  if (is_object($language) && isset($language->language)) {
-    if (isset($language->prefix) && !empty($language->prefix)) {
+  if (is_object($language)) {
+    if (!empty($language->prefix)) {
       return $language->prefix;
     }
     elseif (!empty($language->language)) {
@@ -166,4 +181,25 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
     }
   }
   return NULL;
+}
+
+/**
+ * Get source path given its alias. Return input path if no alias is found.
+ *
+ * @param string $path
+ *    Relative Drupal path.
+ *
+ * @return string
+ *    Source path if any, input path if none.
+ */
+function _nexteuropa_multilingual_get_source_path($path) {
+  $result = db_select('url_alias', 'a')
+    ->fields('a', ['source'])
+    ->condition('a.alias', $path)
+    ->execute()
+    ->fetchAssoc();
+  if (is_array($result) && !empty($result)) {
+    return array_shift($result);
+  }
+  return $path;
 }

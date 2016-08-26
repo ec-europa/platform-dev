@@ -2,5 +2,6 @@ name = Language selector (Page)
 description = Manage language selector at page level.
 core = 7.x
 dependencies[] = entity_translation
+dependencies[] = multisite_drupal_toolbox
 
 datestamp = "1427356701"

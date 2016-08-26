@@ -42,13 +42,3 @@ function nexteuropa_core_form_taxonomy_overview_terms_submit($form, &$form_state
     }
   }
 }
-
-/**
- * Implements hook_wysiwyg_editor_settings_alter().
- */
-function nexteuropa_core_wysiwyg_editor_settings_alter(&$settings, $context) {
-  // Turn CKEditor Lite tracking off by default.
-  if (module_exists('ckeditor_lite') && $context['profile']->editor == 'ckeditor') {
-    $settings['lite']['isTracking'] = FALSE;
-  }
-}

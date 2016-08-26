@@ -84,22 +84,25 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     }
     // Check that the item does not have pending requests.
     $item = array_shift($items);
-    $results = db_select('tmgmt_job_item', 'tji')
-      ->fields('tji', array('tjid'))
-      ->condition('item_type', $item->item_type, '=')
-      ->condition('item_id', $item->item_id, '=')
-      ->execute()
-      ->fetchAllAssoc('tjid');
-    if ($results) {
-      foreach ($results as $tjid) {
-        if ($job = tmgmt_job_load($tjid->tjid)) {
-          $translator = $job->getTranslator();
-          if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
-            return FALSE;
+    if (!empty($item)) {
+      $results = db_select('tmgmt_job_item', 'tji')
+          ->fields('tji', array('tjid'))
+          ->condition('item_type', $item->item_type, '=')
+          ->condition('item_id', $item->item_id, '=')
+          ->execute()
+          ->fetchAllAssoc('tjid');
+      if ($results) {
+        foreach ($results as $tjid) {
+          if ($job = tmgmt_job_load($tjid->tjid)) {
+            $translator = $job->getTranslator();
+            if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
+              return FALSE;
+            }
           }
         }
       }
     }
+
     // All languages are supported at the moment.
     return TRUE;
   }
@@ -257,7 +260,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $organization = $job->settings['organization'];
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
-    $demande->addChild('titre', 'NE-CMS: ' . $job->label);
+    $titre = $demande->addChild('titre');
+    $titre->value = 'NE-CMS: ' . $job->label;
     $demande->addChild('organisationResponsable', $organization['responsable']);
     $demande->addChild('organisationAuteur', $organization['auteur']);
     $demande->addChild('serviceDemandeur', $organization['demandeur']);
@@ -410,7 +414,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $id_data = array(
       'codeDemandeur' => $settings['code'],
       'annee' => date("Y"),
-      'sequence' => $settings['counter'],
+      'numero' => $settings['counter'],
       'version' => 00,
       'partie' => 00,
       'produit' => 'TRA',
