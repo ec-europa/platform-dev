@@ -10,6 +10,7 @@ namespace Drupal\nexteuropa\Context;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Selector\Xpath\Escaper;
 use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 
@@ -71,10 +72,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @When /^inside fieldset "(?P<fieldset_locator>(?:[^"]|\\")*)" (?:|I )fill in "(?P<field_locator>(?:[^"]|\\")*)" with "(?P<value>(?:[^"]|\\")*)"$/
    */
   public function fillFieldInsideFieldset($fieldset_locator, $field_locator, $value) {
-    $fieldset = $this->getSession()->getPage()->find(
-      'named',
-      array('fieldset', $fieldset_locator)
-    );
+    $fieldset = $this->findFieldset($fieldset_locator);
 
     if (!$fieldset) {
       throw new ElementNotFoundException(
@@ -95,6 +93,37 @@ class MinkContext extends DrupalExtensionMinkContext {
     }
 
     $field->setValue($value);
+  }
+
+  /**
+   * Finds the closest ancestor fieldset element for a given legend.
+   *
+   * The "fieldset" named selector that Mink provides out of the box
+   * has unexpected behavior when used on nested fieldsets. Therefore
+   * this alternative.
+   *
+   * @param string $legend
+   *   The legend of the fieldset.
+   *
+   * @see https://github.com/minkphp/Mink/issues/714
+   */
+  protected function findFieldset($legend) {
+    $legend = (new Escaper())->escapeLiteral($legend);
+    $legend_element = $this->getSession()->getPage()->find('xpath', '//legend[contains(normalize-space(string(.)), ' . $legend . ')]');
+
+    $fieldset = NULL;
+    do {
+      $parent = $legend_element->getParent();
+
+      if ($parent->getTagName() === 'fieldset') {
+        $fieldset = $parent;
+      }
+      elseif ($parent->getTagName() === 'body') {
+        break;
+      }
+    } while (!$fieldset);
+
+    return $fieldset;
   }
 
 }
