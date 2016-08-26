@@ -439,9 +439,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    */
   protected function sendSoapRequest(SimpleXMLElement $xml, TMGMTJob $job) {
     $msg = $xml->asXML();
-    $translator = $job->getTranslator();
-    $settings = $translator->getSetting('settings');
-    watchdog('Poetry: Send request', $msg, array(), WATCHDOG_DEBUG);
+    $msg_watchdog = "Send request: " . $msg;
+    watchdog('tmgmt_poetry', $msg_watchdog, array(), WATCHDOG_DEBUG);
 
     // Get Poetry configuration.
     $poetry = variable_get("poetry_service");
@@ -450,18 +449,18 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
     }
     catch (Exception $e) {
-      $response = 'Error new SoapClient : ' . $e->getMessage();
+      watchdog_exception('tmgmt_poetry', $e);
     }
 
     if ($client) {
       // Send the SOAP request and handle possible errors.
       try {
         $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+        return $response;
       }
       catch (Exception $e) {
-        $response = 'Error sending soap call : ' . $e->getMessage();
+        watchdog_exception('tmgmt_poetry', $e);
       }
-      return $response;
     }
   }
 
