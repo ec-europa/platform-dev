@@ -22,7 +22,7 @@ Feature: Change tracking features
     And I press "Save"
     Then I should see "View draft"
     When I click "Edit draft"
-    And I select "Full HTML + Change tracking" from "field_ne_body[en][0][format]"
+    And I select "Full HTML + Change tracking" from "Text format"
     And I fill in "Body" with "<blocked>"
     And I select "Validated" from "Moderation state"
     And I press "Save"
@@ -58,7 +58,7 @@ Feature: Change tracking features
     And I press "Save"
     Then I should see "View draft"
     When I click "Edit draft"
-    And I select "Full HTML + Change tracking" from "body[und][0][format]"
+    And I select "Full HTML + Change tracking" from "Text format"
     And I fill in "Body" with "<blocked>"
     And I select "Validated" from "Moderation state"
     And I press "Save"
@@ -96,7 +96,7 @@ Feature: Change tracking features
     Then the response should contain "<expected>"
     And I should see the following warning messages:
       | warning messages | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
-    And I should see an "div.ICE-Tracking" element
+    And I should see highlighted elements
 
     Examples:
       | html                                                                                                                                                                                                                                                | expected                                                                                                                                                                                                                                                              |
@@ -120,7 +120,7 @@ Feature: Change tracking features
     Then the response should contain "<expected>"
     And I should not see the following warning messages:
       | warning messages | <strong>The change tracking is activated on some fields of this "Basic page" content</strong>.<br /> <small>Please accept or reject tracked changes before setting the content state to validated or published.</small> |
-    And I should not see an "div.ICE-Tracking" element
+    And I should not see highlighted elements
 
     Examples:
       | html                                                                                                       | expected                                                                                                   |

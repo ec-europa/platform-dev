@@ -2,7 +2,7 @@ The "Editorial" feature supplies default settings and permissions linked to
 editorial features of the Next Europa platform based on "OG" and "Workbench moderation" modules.
 
 It also contains alterations of:
-* The automatically assignment of the "editorial team member" role to
+* The automatic assignment of the "editorial team member" role to
  users that join an editorial team organic group;
 * The "Roles" field of the user edit form in order to allow selecting only the
  "editorial team member" role;
@@ -26,10 +26,13 @@ The module is activated when the platform is installed.
 The module by default sets some permissions and variables used by the different
 editorial features.
 So, it is possible to set workbench moderation states that are not possible if
-tracked changes exists in WYSIWYG fields ("Block the saving for these
-Workbench Moderation states" checkboxes).
-It is also possible to set if content types that have not workbench moderation
-activated or if no states are selected below ("Block if status" is true checkbox).
+tracked changes exist in WYSIWYG fields (**"Block the saving for these
+Workbench Moderation states"** checkboxes).
+
+It is also possible to set if the content saving must be blocked when the flag 
+"Published" is checked (**"Block if status"** is true checkbox) in the case of 
+contents of a type without workbench moderation activated or if no states are 
+selected in the other field.
 
 They can be modified on this administration page:
 Configuration > Content authoring > MULTISITE WYSIWYG > WYSIWYG workflow settings
@@ -37,10 +40,10 @@ Configuration > Content authoring > MULTISITE WYSIWYG > WYSIWYG workflow setting
 
 # Remark for editors: Tracking changes
 
-Depending on the feature configuration options for given content workflow status
-(ex. published), saving progress could be blocked if tracked changes are not
-validated in the current revision or one of translations.
+Depending on the feature configuration options for a given content workflow 
+status (ex. published), saving progress could be blocked if tracked changes are 
+not validated in the current revision or one of the translations.
 
 In order to save content for configured workflow statuses, editors must
-accept or reject tracked changes if those are present,or change the
+accept or reject tracked changes if those are present, or change the
 content state.
