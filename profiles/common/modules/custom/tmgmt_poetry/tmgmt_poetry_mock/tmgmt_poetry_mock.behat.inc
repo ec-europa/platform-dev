@@ -108,8 +108,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * Remove "poetry data" before triggering a scenario tagged with @cleanPoetry.
    *
    * @BeforeScenario @cleanPoetry
-   *
-   * @AfterScenario @cleanPoetry
    */
   public function removeTranslationJobs() {
     // Cleaning TMGMT jobs and related items.
@@ -124,7 +122,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
 
     // Cleaning the tmgmt_poetry custom database tables.
     db_truncate('poetry_map')->execute();
-    db_truncate('poetry_status')->execute();
 
     // Deleting files which were created by tmgmt_poetry_mock.
     PoetryMock::removeAllRequestTranslationFiles();

@@ -17,12 +17,11 @@ Feature: TMGMT Poetry features
       | de        |
       | it        |
 
-  @cleanPoetry
-  Scenario Outline: Checking the counter init request.
+  Scenario: Checking the counter init request.
     Given I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
-    And I fill in "Title" with "<title>"
-    And I fill in "Body" with "<body>"
+    And I fill in "Title" with "Page title"
+    And I fill in "Body" with "Page body content"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
@@ -34,10 +33,6 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has the codeDemandeur "ABCD"
     And the translation request has the sequence "NEXT_EUROPA_COUNTER"
-
-    Examples:
-      | title        | body                 |
-      | Page title   | <p>Page body content |
 
   @javascript
   Scenario: Create a request translation for French and Portuguese
