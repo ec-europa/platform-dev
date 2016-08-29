@@ -14,16 +14,3 @@ Feature: Text formats configuration
     And I should see "Filtered HTML"
     And I should see "Basic HTML"
     And I should see "Plain text"
-  
-  @api
-  Scenario: Text formats should be correctly configured
-    When I go to "admin/config/content/formats/full_html"
-    Then the checkbox "Sanitize HTML" should be checked
-    When I go to "admin/config/content/formats/filtered_html"
-    Then the checkbox "Limit allowed HTML tags" should be checked
-    And the checkbox "Sanitize HTML" should be checked
-    And the "Allowed HTML tags" field should contain "<a> <em> <strong> <abbr> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>"
-    When I go to "admin/config/content/formats/basic_html"
-    Then the checkbox "Limit allowed HTML tags" should be checked
-    And the checkbox "Sanitize HTML" should be checked
-    And the "Allowed HTML tags" field should contain "<a> <em> <strong> <abbr> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd>"
