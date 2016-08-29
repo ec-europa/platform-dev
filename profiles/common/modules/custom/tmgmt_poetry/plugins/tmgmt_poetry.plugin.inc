@@ -395,7 +395,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
           ->fetchAssoc();
         // If we have a numero and we haven't reached the max partie,
         // increment it and return it.
-        if ($result && $result['max_partie'] < 99) {
+        if ($result && $result['max_partie'] < 99 && $result['numero'] > -1) {
           $id_data = array(
             'codeDemandeur' => $settings['code'],
             'annee' => $result['annee'],
