@@ -303,7 +303,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     // Media style selector "buttons" are A tags with no href, so not findable
     // by normal steps.
     $driver = $this->getSession()->getDriver();
-    $driver->resizeWindow(1440, 900);
+    $driver->resizeWindow(1440, 900, 'current');
     $buttons = $driver->find("//a[text()='$text']");
     $buttons[0]->click();
     $this->getSession()->wait(5000);
