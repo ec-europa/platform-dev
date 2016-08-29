@@ -544,7 +544,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Checks, hat no elements are highlighted on page.
+   * Checks that no elements are highlighted on page.
    *
    * @Then I should not see highlighted elements
    */
