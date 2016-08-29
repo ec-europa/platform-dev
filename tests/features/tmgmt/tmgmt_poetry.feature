@@ -17,7 +17,7 @@ Feature: TMGMT Poetry features
       | de        |
       | it        |
 
-  Scenario Outline: Checking automatic counter request.
+  Scenario Outline: Checking the counter init request.
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
     And I fill in "Title" with "<title>"
@@ -31,7 +31,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    Then the poetry translation service received initial request with automatic counter
+    Then the poetry translation service received the counter init request
 
     Examples:
       | title        | body                 |

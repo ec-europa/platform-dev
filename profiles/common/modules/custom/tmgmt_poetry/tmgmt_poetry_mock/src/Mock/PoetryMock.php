@@ -14,6 +14,7 @@ class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
   const COUNTER_VALUE = '1234';
+  const TRANSLATOR_NAME = 'tmgmt_poetry_test_translator';
   public $settings;
   private $client;
 
@@ -506,6 +507,33 @@ class PoetryMock {
       . '_' . $demande_id['version']
       . '_' . $demande_id['version']
       . '_' . $demande_id['produit'];
+  }
+
+  /**
+   * Checks if given reference details are coming from the counter init request.
+   *
+   * @param array $demande_id
+   *   An array with reference elements.
+   *
+   * @return bool
+   *   TRUE if yes / FALSE if no
+   */
+  public static function checkCounterInitRequest($demande_id) {
+    $translator = tmgmt_translator_load(self::TRANSLATOR_NAME);
+
+    if ($translator) {
+      $tr_setts = $translator->getSetting('settings');
+
+      if (isset($demande_id['sequence'])) {
+        if ($tr_setts['counter'] == self::COUNTER_STRING
+          && $tr_setts['code'] == $demande_id['codeDemandeur']) {
+
+          return TRUE;
+        }
+      }
+    }
+
+    return FALSE;
   }
 
 }

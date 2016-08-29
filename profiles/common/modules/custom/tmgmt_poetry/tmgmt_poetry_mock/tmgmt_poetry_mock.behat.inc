@@ -196,23 +196,21 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Verifies that poetry received initial request with NEXT_EUROPA_COUNTER.
+   * Verifies that poetry received the counter init request.
    *
-   * @Then the poetry translation service received initial request with automatic counter
+   * @Then the poetry translation service received the counter init request
    */
-  public function assertPoetryTranslationServiceReceivedTheInitialRequest() {
-    $message = '';
+  public function assertPoetryTranslationServiceReceivedTheInitCounterRequest() {
+    $data = [];
     if (is_object($this->translationRequest['file'])) {
       $file_object = $this->translationRequest['file'];
       $message = file_get_contents($file_object->uri);
+      $data = PoetryMock::getDataFromRequest($message);
     }
 
-    if (strpos($message, PoetryMock::COUNTER_STRING) === FALSE) {
+    if (isset($data['demande_id']) && !PoetryMock::checkCounterInitRequest($data['demande_id'])) {
       throw new \Exception(
-        sprintf(
-          'the poetry translation service did not receive the initial translation with automatic counter %s',
-          PoetryMock::COUNTER_STRING
-        )
+        'The Poetry translation service did not receive the counter init request.'
       );
     }
   }
