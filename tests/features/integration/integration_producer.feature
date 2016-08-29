@@ -59,12 +59,12 @@ Feature: Integration producer
       | Tag 1 |
       | Tag 2 |
     And "article" content:
-      | title           | body          | field_tags   |
+      | title           | body           | field_tags   |
       | Article title 1 | Article body 1 | Tag 1, Tag 2 |
     And "article" content:
       | title           | body           |
       | Article title 2 | Article body 2 |
-    And the following Integration Layer resource schema is created:
+    When the following Integration Layer resource schema is created:
     """
       name: article
       fields:
@@ -108,7 +108,6 @@ Feature: Integration producer
       type: article
       languages:
         - und
-      fields:
       fields:
         title:
           und:
