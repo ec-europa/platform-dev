@@ -56,8 +56,7 @@ class TaxonomyContext implements Context {
   public function removeVocabularies() {
     // Remove the vocabularies.
     foreach ($this->vocabularies as $vocabulary_name) {
-      $vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = '$vocabulary_name'")->fetchField();
-      taxonomy_vocabulary_delete($vid);
+      taxonomy_vocabulary_delete(taxonomy_vocabulary_machine_name_load($vocabulary_name)->vid);
     }
   }
 
@@ -73,7 +72,7 @@ class TaxonomyContext implements Context {
    */
   public function iCreateNewTermInTheVocabulary($term_name, $vocabulary_name) {
     // Get the vocabulary ID.
-    $vid = db_query("SELECT vid FROM {taxonomy_vocabulary} WHERE machine_name = '$vocabulary_name'")->fetchField();
+    $vid = taxonomy_vocabulary_machine_name_load($vocabulary_name)->vid;
     if (empty($vid)) {
       throw new \InvalidArgumentException("The vocabulary '{$vocabulary_name}' doesn't exist.");
     }
