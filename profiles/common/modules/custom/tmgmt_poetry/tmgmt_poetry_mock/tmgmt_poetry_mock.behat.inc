@@ -273,7 +273,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   /**
    * Assert the value of 'codeDemandeur' of the translation request.
    *
-   * @Then the translation request has codeDemandeur :arg1
+   * @Then the translation request has the codeDemandeur :arg1
    */
   public function assertTranslationRequestHasCodeDemandeur($arg1) {
     $this->assertTranslationRequestDemandeIdProperty(
@@ -285,7 +285,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   /**
    * Assert the value of 'sequence' of the translation request.
    *
-   * @Then the translation request has a sequence :arg1
+   * @Then the translation request has the sequence :arg1
    */
   public function assertTranslationHasRequestSequence($arg1) {
     $file_object = $this->translationRequest['file'];

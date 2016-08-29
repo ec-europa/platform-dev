@@ -32,8 +32,8 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has codeDemandeur "ABCD"
-    And the translation request has a sequence "NEXT_EUROPA_COUNTER"
+    And the translation request has the codeDemandeur "ABCD"
+    And the translation request has the sequence "NEXT_EUROPA_COUNTER"
 
     Examples:
       | title        | body                 |
