@@ -17,7 +17,6 @@ Feature: TMGMT Poetry features
       | de        |
       | it        |
 
-  @cleanPoetry
   Scenario Outline: Checking the counter init request.
     Given I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
