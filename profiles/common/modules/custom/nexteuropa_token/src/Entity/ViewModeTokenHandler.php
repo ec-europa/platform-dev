@@ -79,6 +79,12 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
                 $this->watchdogTokenNotFound($data, $original);
               }
               break;
+
+            case 'nexteuropa_remote':
+              $served_code = entity_translation_get_existing_language('node', $data['node']);
+              $entity = entity_load_single('nexteuropa_remote', $entity_id);
+              $render = $entity->view($view_mode, $served_code);
+              break;
           }
 
           // Remove contextual links for inline rendered entities.

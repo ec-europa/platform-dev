@@ -1,0 +1,216 @@
+<?php
+/**
+ * @file
+ * Install file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_remote_install() {
+  // Set variables.
+  $service = multisite_config_service('system');
+  $service->setVariable('remote_browser_endpoint', 'http://www.development.ec.europa.eu/fpfis/multisite/degliwe/ilayer/mock/browser');
+
+  // Add fields to the remote_entity entity.
+  $service = multisite_config_service('field');
+
+  // Field remote_id.
+  $service->createBaseField('field_nexteuropa_remote_id', 'text')
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_id', 'nexteuropa_remote', 'default')
+    ->label('Id')
+    ->widget('text_textfield')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+
+  // Field title.
+  $service->createBaseField('field_nexteuropa_remote_title', 'text')
+    ->translatable(1)
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_title', 'nexteuropa_remote', 'default')
+    ->label('Title')
+    ->widget('text_textfield')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+
+  // Field url.
+  $service->createBaseField('field_nexteuropa_remote_url', 'text')
+    ->translatable(1)
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_url', 'nexteuropa_remote', 'default')
+    ->label('Url')
+    ->widget('text_textfield')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+
+  // Field data (to store the json).
+  $service->createBaseField('field_nexteuropa_remote_data', 'text_long')
+    ->save();
+  $service->createInstanceField('field_nexteuropa_remote_data', 'nexteuropa_remote', 'default')
+    ->label('Data')
+    ->widget('text_textarea')
+    ->display('default', 'text_default', 'hidden')
+    ->display('teaser', 'text_default', 'hidden')
+    ->display('title', 'hidden', 'hidden')
+    ->save();
+}
+
+/**
+ * Implements hook_schema().
+ */
+function nexteuropa_remote_schema() {
+  $schema['nexteuropa_remote_entity'] = [
+    'description' => 'Stores remote entities.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Unique ID.',
+      ],
+      'revision_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Revision ID.',
+        'default' => 0,
+        'unsigned' => TRUE,
+      ],
+      'label' => [
+        'description' => 'Language-independent label.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'type' => [
+        'description' => 'The {while_type}.type of this while.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'language' => [
+        'description' => 'Language code.',
+        'type' => 'varchar',
+        'length' => 12,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'uid' => [
+        'description' => 'User ID owning the remote entity.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'created' => [
+        'description' => 'The Unix timestamp when the entity was created.',
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'changed' => [
+        'description' => 'The Unix timestamp when the entity was changed.',
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'status' => [
+        'description' => 'Whether the entity is active (1) or not (0).',
+        'type' => 'int',
+        'default' => 0,
+        'size' => 'tiny',
+        'not null' => FALSE,
+      ],
+    ],
+    'indexes' => [
+      'changed' => ['changed'],
+      'created' => ['created'],
+      'uid' => ['uid'],
+    ],
+    'foreign keys' => [
+      'owner' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+      'nexteuropa_remote_revision' => [
+        'table' => 'nexteuropa_remote_revision',
+        'columns' => ['revision_id' => 'revision_id'],
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+
+  $schema['nexteuropa_remote_entity_revision'] = [
+    'description' => 'Stores remote entity revisions.',
+    'fields' => [
+      'revision_id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique revision ID.',
+      ],
+      'id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Remote entity ID.',
+      ],
+      'label' => [
+        'description' => 'Language-independent label.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'language' => [
+        'description' => 'Language code.',
+        'type' => 'varchar',
+        'length' => 12,
+        'not null' => TRUE,
+        'default' => '',
+      ],
+      'uid' => [
+        'description' => 'User ID owning the remote entity.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'created' => [
+        'description' => 'The Unix timestamp when the entity was created.',
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'changed' => [
+        'description' => 'The Unix timestamp when the entity was changed.',
+        'type' => 'int',
+        'not null' => FALSE,
+      ],
+      'status' => [
+        'description' => 'Whether the entity is active (1) or not (0).',
+        'type' => 'int',
+        'default' => 0,
+        'size' => 'tiny',
+        'not null' => FALSE,
+      ],
+    ],
+    'indexes' => [
+      'changed' => ['changed'],
+      'created' => ['created'],
+      'uid' => ['uid'],
+    ],
+    'foreign keys' => [
+      'owner' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+      'nexteuropa_remote_entity' => [
+        'table' => 'nexteuropa_remote_entity',
+        'columns' => ['id' => 'id'],
+      ],
+    ],
+    'primary key' => ['revision_id'],
+  ];
+  return $schema;
+}

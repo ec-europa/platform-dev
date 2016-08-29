@@ -43,6 +43,20 @@ class DefaultFieldHandler implements FieldHandlerInterface {
   }
 
   /**
+   * Set field translatable.
+   *
+   * @param int $translatable
+   *    Translatable property.
+   *
+   * @return \Drupal\field\BaseField\DefaultFieldHandler $this
+   *    Current object.
+   */
+  public function translatable($translatable) {
+    $this->field['translatable'] = $translatable;
+    return $this;
+  }
+
+  /**
    * Return field array built using field handler methods.
    *
    * @return array
