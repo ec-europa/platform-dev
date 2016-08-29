@@ -299,7 +299,7 @@ Feature: TMGMT Poetry features
     And I should see "In progress" in the "Portuguese" row
 
     Examples:
-      | title      | body                                                                                                       |
+      | title      | body                  |
       | Page title | '<p>Body content</p>' |
 
   Scenario: Poetry replaces all tokens present in the node.
