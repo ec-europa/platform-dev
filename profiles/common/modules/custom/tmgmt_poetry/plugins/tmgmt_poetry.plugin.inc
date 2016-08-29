@@ -137,43 +137,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     else {
       $request = $response_xml->request;
 
-      // Insert or update the mapping information.
-      $demande_id = (array) $request->demandeId;
-      $items = $job->getItems();
-      $item = array_shift($items);
-
-      $result = db_select('poetry_map', 'pm')
-        ->fields('pm', array('annee', 'numero', 'version', 'partie'))
-        ->condition('entity_type', $item->item_type, '=')
-        ->condition('entity_id', $item->item_id, '=')
-        ->execute()
-        ->fetchAssoc();
-      if (!$result) {
-        db_insert('poetry_map')
-          ->fields(array(
-            'entity_type' => $item->item_type,
-            'entity_id' => $item->item_id,
-            'annee' => $demande_id['annee'],
-            'numero' => $demande_id['numero'],
-            'version' => $demande_id['version'],
-            'partie' => $demande_id['partie'],
-          ))
-          ->execute();
-      }
-      else {
-        // @FIXME Do not overwrite data. Might not be for the same revision.
-        db_update('poetry_map')
-          ->fields(array(
-            'annee' => $demande_id['annee'],
-            'numero' => $demande_id['numero'],
-            'version' => $demande_id['version'],
-            'partie' => $demande_id['partie'],
-          ))
-          ->condition('entity_type', $item->item_type, '=')
-          ->condition('entity_id', $item->item_id, '=')
-          ->execute();
-      }
-
       $statuses = $request->status;
       // Check the statuses of the response
       // in order to verify that everything is correct.
@@ -184,6 +147,46 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
             array('@error' => $message), 'error');
         }
       }
+
+      if (isset($request->demandeId)) {
+        // Insert or update the mapping information.
+        $demande_id = (array) $request->demandeId;
+        $items = $job->getItems();
+        $item = array_shift($items);
+
+        $result = db_select('poetry_map', 'pm')
+          ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+          ->condition('entity_type', $item->item_type, '=')
+          ->condition('entity_id', $item->item_id, '=')
+          ->execute()
+          ->fetchAssoc();
+        if (!$result) {
+          db_insert('poetry_map')
+            ->fields(array(
+              'entity_type' => $item->item_type,
+              'entity_id' => $item->item_id,
+              'annee' => $demande_id['annee'],
+              'numero' => $demande_id['numero'],
+              'version' => $demande_id['version'],
+              'partie' => $demande_id['partie'],
+            ))
+            ->execute();
+        }
+        else {
+          // @FIXME Do not overwrite data. Might not be for the same revision.
+          db_update('poetry_map')
+            ->fields(array(
+              'annee' => $demande_id['annee'],
+              'numero' => $demande_id['numero'],
+              'version' => $demande_id['version'],
+              'partie' => $demande_id['partie'],
+            ))
+            ->condition('entity_type', $item->item_type, '=')
+            ->condition('entity_id', $item->item_id, '=')
+            ->execute();
+        }
+      }
+
       if (!$job->isRejected()) {
         if (strpos($job->reference, '_POETRY_') === FALSE) {
           $job->reference .= '_POETRY_' . implode('/', $demande_id);
@@ -426,10 +429,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * Execute a request against the Poetry API.
    */
   protected function doRequest(array $query, TMGMTJob $job) {
-    $xml = $query['xml'];
-
-    $result = $this->sendSoapRequest($xml, $job);
-    return $result;
+    return $this->sendSoapRequest($query['xml'], $job);
   }
 
   /**
@@ -459,11 +459,14 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       // Send the SOAP request and handle possible errors.
       try {
         $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
-        return $response;
       }
       catch (Exception $e) {
         watchdog_exception('tmgmt_poetry', $e);
+        $response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"\">
+                     <request communication=\"asynchrone\" type=\"status\"><status code=\"-1\" type=\"request\">
+                     <statusMessage>" . $e->getMessage() . "</statusMessage></status></request></POETRY>";
       }
+      return $response;
     }
   }
 
