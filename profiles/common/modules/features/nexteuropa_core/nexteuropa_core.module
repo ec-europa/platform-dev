@@ -42,3 +42,72 @@ function nexteuropa_core_form_taxonomy_overview_terms_submit($form, &$form_state
     }
   }
 }
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function nexteuropa_core_entity_view_alter(&$build, $type) {
+  _nexteuropa_core_ckeditor_lite_view_alter($build, $type);
+}
+
+/**
+ * Removes the "ckeditor_lite" post render callback.
+ *
+ * It is replaced by one matching platform needs.
+ *
+ * @param array $build
+ *   The entity view build.
+ *
+ * @see nexteuropa_core_entity_view_alter()
+ */
+function _nexteuropa_core_ckeditor_lite_view_alter(&$build, $type) {
+  if ($type == 'node' &&  user_access('ckeditor_lite highlight changes')) {
+    // Only applicable on node., other entity does not have the same workflow.
+    // If the user does not have the permission, we leave ckeditor_lite
+    // working normally.
+    if (isset($build['#post_render'])) {
+      $key = array_search('_ckeditor_lite_entity_post_render', $build['#post_render']);
+      if ($key !== FALSE) {
+        unset($build['#post_render'][$key]);
+        $build['#post_render'][] = '_nexteuropa_core_ckeditor_lite_entity_post_render';
+
+        // Add the ckeditor_lite.js in order to use "highlighting" css classes.
+        $path = drupal_get_path('module', 'ckeditor_lite');
+        $build['#attached'] = array(
+          'css' => array('data' => $path . '/css/ckeditor_lite.css', 'type' => 'file'),
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Post render callback forcing the presence of the required ckeditor_lite css.
+ */
+function _nexteuropa_core_ckeditor_lite_entity_post_render($output, $element) {
+  // First we check if change tracking exist.
+  if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $output)) {
+    drupal_set_message(t('<strong>The change tracking is activated</strong> on some fields of this @type.<br />
+     <small>Please validate tracked changes before publishing it or sending it for translation.</small>',
+      array('@type' => $element['#bundle'])), 'warning');
+
+    $pattern = array(
+      // Activate Highlighting - div with node-page class.
+      '/( class="[^"]*node) (.+")/',
+      // Tracked inserts - spans with "ice-ins" class.
+      '/( class="[^"]*ice-ins) (.+")/',
+      // Tracked deletes  spans with "ice-del" class.
+      '/( class="[^"]*ice-del) (.+")/',
+    );
+    $replacement = array(
+      // Activate Highlighting - div with node-page class.
+      '$1 ICE-Tracking $2',
+      // Tracked inserts - spans with "ice-ins" class.
+      '$1 ckeditor-lite-ins $2',
+      // Tracked deletes  spans with "ice-del" class.
+      '$1 ckeditor-lite-del-inv $2',
+    );
+    $output = preg_replace($pattern, $replacement, $output);
+  }
+  return $output;
+}

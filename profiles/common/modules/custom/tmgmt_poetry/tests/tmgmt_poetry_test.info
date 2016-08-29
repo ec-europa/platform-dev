@@ -1,8 +1,0 @@
-name = TMGMT Poetry Test Service Mocker
-description = Provides a local implementation of the Poetry API
-package = TMGT Poetry
-core = 7.x
-hidden = TRUE
-
-dependencies[] = tmgmt_poetry
-

@@ -439,7 +439,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Enables translation for a field (temporary step @todo remove).
+   * Enables translation for a field.
    *
    * @param string $field
    *   The name of the field.
@@ -447,9 +447,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @When I enable translation for field :field
    */
   public function enableTranslationForField($field) {
-    $info = field_info_field($field);
-    $info['translatable'] = 1;
-    field_update_field($info);
+    multisite_config_service('field')->enableFieldTranslation($field);
   }
 
   /**
@@ -459,7 +457,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
+<<<<<<< HEAD
    *    Print out descriptive error message by throwing an exception.
+=======
+   *    Throw exception if class specified has not been found.
+>>>>>>> master
    *
    * @Then the class :arg1 exists in my codebase
    */
@@ -575,9 +577,9 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Print out descriptive error message by throwing an exception.
+   *    Throw exception if class table row was not found.
    *
-   * @Given I check the box on the :rowText row
+   * @Given I check the box on the :row_text row
    */
   public function checkCheckboxOnTableRow($row_text) {
     $page = $this->getSession()->getPage();
@@ -596,11 +598,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @param string $search
    *    Table row text.
    *
-   * @return NodeElement
-   *    Return the node element.
-   *
    * @throws \Exception
-   *    Print out descriptive error message by throwing an exception.
+   *    Throw exception if class table row was not found.
+   *
+   * @return NodeElement
+   *    Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
@@ -614,6 +616,24 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       }
     }
     throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
+  }
+
+  /**
+   * Check if given field is translatable.
+   *
+   * @param string $field_name
+   *    Field machine name.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if field is not translatable.
+   *
+   * @Given the :field_name field is translatable
+   */
+  public function assertFieldIsTranslatable($field_name) {
+    $info = field_info_field($field_name);
+    if (!isset($info['translatable']) || !$info['translatable']) {
+      throw new ExpectationException("Field '{$field_name}' is not translatable.", $this->getSession());
+    }
   }
 
 }

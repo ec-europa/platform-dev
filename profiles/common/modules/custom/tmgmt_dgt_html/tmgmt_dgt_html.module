@@ -41,17 +41,28 @@ function template_preprocess_tmgmt_dgt_html_template(&$variables) {
 
   foreach (array_keys($variables['items']) as $tjid) {
     foreach (array_keys($variables['items'][$tjid]) as $data_id) {
-      $escape_for_html = TRUE;
+      $is_html = FALSE;
 
       if (isset($variables['items'][$tjid][$data_id]['#format'])) {
         $format = $variables['items'][$tjid][$data_id]['#format'];
 
-        if (in_array($format, $html_formats)) {
-          $escape_for_html = FALSE;
-        }
+        $is_html = in_array($format, $html_formats);
       }
 
-      if ($escape_for_html) {
+      if ($is_html) {
+        // Ensure tags without content are always properly closed in order to be
+        // XHTML compliant.
+        $replacements = [
+          '<br>' => '<br />',
+          '<hr>' => '<hr />',
+        ];
+        $variables['items'][$tjid][$data_id]['#text'] = str_replace(
+          array_keys($replacements),
+          array_values($replacements),
+          $variables['items'][$tjid][$data_id]['#text']
+        );
+      }
+      else {
         $variables['items'][$tjid][$data_id]['#text']
           = check_plain($variables['items'][$tjid][$data_id]['#text']);
       }
