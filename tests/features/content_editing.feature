@@ -64,10 +64,11 @@ Feature: Content editing
     And I press "Next"
     Then I should see a "#edit-submit" element
     And I press "Save"
-    And I wait for 15 seconds
     And I switch to the frame "mediaStyleSelector"
+    And I should see "Choose the type of display you would like for this file"
     And I click the fake "Submit" button
     And I switch out of all frames
+    And I wait for AJAX to finish
     # Save the whole node.
     And I press "edit-submit"
     # See the image in the node

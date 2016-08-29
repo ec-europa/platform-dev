@@ -217,6 +217,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   public function iSwitchToTheFrame($frame) {
     $this->getSession()->switchToIFrame($frame);
     $this->iframe = $frame;
+    $this->getSession()->wait(5000);
+
   }
 
   /**
@@ -292,16 +294,6 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     }
   }
 
-
-  /**
-   * Wait for the given number of seconds.
-   *
-   * @When (I )wait( for) :seconds second(s)
-   */
-  public function iWaitForSeconds($seconds) {
-    sleep($seconds);
-  }
-
   /**
    * Click on a button which is in fact a link with CSS.
    *
@@ -313,6 +305,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $driver = $this->getSession()->getDriver();
     $buttons = $driver->find("//a[text()='$text']");
     $buttons[0]->click();
+    $this->getSession()->wait(5000);
   }
 
 }
