@@ -301,3 +301,20 @@ Feature: TMGMT Poetry features
     Examples:
       | title      | body                                                                                                       |
       | Page title | '<p>Body content</p>' |
+
+  Scenario: Poetry replaces all tokens present in the node.
+    Given I am logged in as a user with the "administrator" role
+    Given I create the following multilingual "page" content:
+      | language | title             | field_ne_body                                                                                      |
+      | en       | Two tokens please | <p>[node:1:link]{Title in English 1 as Link}.</p><p>[node:2:link]{Title in English 2 as Link}.</p> |
+    And I create the following job for "page" with title "Two tokens please"
+      | source language | en                                   |
+      | target language | fr                                   |
+      | translator      | TMGMT Poetry Test translator         |
+      | title_field     | Title in French 1                    |
+      | reference       | MAIN_1_POETRY_WEB/2016/63904/0/0/TRA |
+    And I visit the "page" content with title "Two tokens please"
+    And I click "Translate" in the "primary_tabs" region
+    And I click "Needs review" in the "content" region
+    Then I should see the text '<tmgmt_poetry_ignore value="[node:1:link]{Title in English 1 as Link}"/>'
+    And I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'

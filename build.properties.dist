@@ -177,3 +177,9 @@ phpcs.verbose = 0
 # A valid API key & secret used by the behat tests
 flickr.key = foobar
 flickr.secret = bas
+
+# Integration configuration
+# -------------------------
+
+# Port on which the mocked integration server used by the behat tests will listen.
+integration.server.port = 8888
