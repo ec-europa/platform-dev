@@ -302,11 +302,10 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   public function iClickTheFakeButton($text) {
     // Media style selector "buttons" are A tags with no href, so not findable
     // by normal steps.
-    $driver = $this->getSession()->getDriver();
-    $driver->resizeWindow(1440, 900, 'current');
-    $buttons = $driver->find("//a[text()='$text']");
-    $buttons[0]->click();
-    $this->getSession()->wait(5000);
+    $this->getSession()->getDriver()->resizeWindow(1440, 900, 'current');
+    $this->getSession()->wait(5000, "typeof jQuery !== 'undefined' && jQuery('a').filter(function(index) { return jQuery(this).text() === \"Submit\"; })");
+    $element = $this->getSession()->getPage()->find('xpath', '//a[text() = "' . $text . '"]');
+    $element->click();
   }
 
 }
