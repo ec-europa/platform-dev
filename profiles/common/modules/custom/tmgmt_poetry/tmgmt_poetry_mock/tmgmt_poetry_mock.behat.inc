@@ -105,34 +105,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Remove "poetry data" before triggering a scenario tagged with @cleanPoetry.
-   *
-   * @BeforeScenario @cleanPoetry
-   */
-  public function removeTranslationJobs() {
-    // Cleaning TMGMT jobs and related items.
-    $jobs = PoetryMock::getAllTmgmtJobs();
-    foreach ($jobs as $job) {
-      $job_items = $job->getItems();
-      foreach ($job_items as $item) {
-        $item->delete();
-      }
-      $job->delete();
-    }
-
-    // Cleaning the tmgmt_poetry custom database tables.
-    db_truncate('poetry_map')->execute();
-
-    // Deleting files which were created by tmgmt_poetry_mock.
-    PoetryMock::removeAllRequestTranslationFiles();
-    file_unmanaged_delete_recursive(TMGMT_POETRY_MOCK_REQUESTS_PATH);
-
-    // Setting up clean directory.
-    $directory = 'public://tmgmt_file/poetry_mock_requests';
-    file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
-  }
-
-  /**
    * Verifies that poetry received the last translation request.
    *
    * @Then the poetry translation service received the translation request
