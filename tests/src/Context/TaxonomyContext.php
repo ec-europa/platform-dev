@@ -33,6 +33,7 @@ class TaxonomyContext implements Context {
    * @param string $name
    *    Name of the taxonomy.
    *
+   * @Given The vocabulary :name exists
    * @When I create a new vocabulary :name
    */
   public function iCreateNewVocabulary($name) {
@@ -68,6 +69,7 @@ class TaxonomyContext implements Context {
    * @param string $vocabulary_name
    *    Name of the vocabulary.
    *
+   * @Given The term :term_name in the vocabulary :vocabulary_name exists
    * @Then I create a new term :term_name in the vocabulary :vocabulary_name
    */
   public function iCreateNewTermInTheVocabulary($term_name, $vocabulary_name) {
@@ -88,6 +90,7 @@ class TaxonomyContext implements Context {
    * @param string $vocabulary_name
    *    Name of the vocabulary.
    *
+   * @Given The group :group_type named :group_name in the vocabulary :vocabulary_name exists
    * @Then I create a new group :group_type named :group_name in the vocabulary :vocabulary_name
    */
   public function iCreateNewGroupNamedInTheVocabulary($group_name, $group_type, $vocabulary_name) {
@@ -129,10 +132,10 @@ class TaxonomyContext implements Context {
    * @param string $vocabulary_name
    *    Name of the vocabulary.
    *
+   * @Then The field :field_type named :field_name grouped in :group_name in the vocabulary :vocabulary_name exists
    * @Then I create a new field :field_type named :field_name grouped in :group_name in the vocabulary :vocabulary_name
    */
   public function iCreateNewFieldNamedGroupedInInTheVocabulary($field_name, $field_type, $group_name, $vocabulary_name) {
-
     $field_machine_name = "field_" . $this->getMachineName($field_name);
     $field_machine_type = $this->getFieldTypeFormatByName($field_type);
     $group_machine_name = "group_" . $this->getMachineName($group_name);
@@ -197,7 +200,6 @@ class TaxonomyContext implements Context {
    *    Machine name.
    */
   private function getMachineName($name) {
-
     $a = explode(",", " ,&,à,á,â,ã,ä,å,æ,ç,è,é,ê,ë,ì,í,î,ï,ñ,ò,ó,ô,õ,ö,ø,ù,ú,û,ü,ý,ÿ,ā,ă,ą,ć,ĉ,ċ,č,ď,đ,ē,ĕ,ė,ę,ě,ĝ,ğ,ġ,ģ,ĥ,ħ,ĩ,ī,ĭ,į,ı,ĳ,ĵ,ķ,ĺ,ļ,ľ,ŀ,ł,ń,ņ,ň,ŉ,ō,ŏ,ő,œ,ŕ,ŗ,ř,ś,ŝ,ş,š,ţ,ť,ŧ,ũ,ū,ŭ,ů,ű,ų,ŵ,ŷ,ź,ż,ž,ƒ,ơ,ư,ǎ,ǐ,ǒ,ǔ,ǖ,ǘ,ǚ,ǜ,ǻ,ǽ,ǿ,ά,έ,ό,Ώ,ώ,ί,ϊ,ΐ,ύ,ϋ,ΰ,ή");
     $b = explode(",", "_,_,a,a,a,a,a,a,ae,c,e,e,e,e,i,i,i,i,n,o,o,o,o,o,o,u,u,u,u,y,y,a,a,a,c,c,c,c,d,d,e,e,e,e,e,g,g,g,g,h,h,i,i,i,i,i,ij,j,k,l,l,l,l,l,l,n,n,n,n,o,o,o,oe,r,r,r,s,s,s,s,t,t,t,u,u,u,u,u,u,w,y,z,z,z,s,f,o,u,a,i,o,u,u,u,u,u,a,ae,o,α,ε,ο,Ω,ω,ι,ι,ι,υ,υ,υ,η");
     $machine_name = str_replace($a, $b, strtolower($name));
@@ -220,6 +222,7 @@ class TaxonomyContext implements Context {
         $group_type_id = $key;
       }
     }
+
     if (!isset($group_type_id)) {
       throw new \InvalidArgumentException("The Group Type Format '{$name}' doesn't exist.");
     }
@@ -265,6 +268,7 @@ class TaxonomyContext implements Context {
     if (empty($vocabulary)) {
       throw new \InvalidArgumentException("The vocabulary '{$vocabulary_name}' doesn't exist.");
     }
+    
     return $vocabulary->vid;
   }
 
