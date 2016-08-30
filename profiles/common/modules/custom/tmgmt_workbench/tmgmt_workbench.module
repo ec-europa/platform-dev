@@ -127,7 +127,10 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
 
-      foreach ($options as $lang_code => $option) {
+      // Setting up an array with language codes based on the available options.
+      $lang_codes = array_keys($options);
+
+      foreach ($lang_codes as $lang_code) {
         // Disable checkbox for languages already translated.
         if (isset($node->translations->data[$lang_code]) && !empty($existing_jobs)) {
           $form['languages'][$lang_code] = array(
@@ -182,7 +185,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       }
       else {
         unset($form['actions']);
-        foreach ($options as $lang_code => $option) {
+        foreach ($lang_codes as $lang_code) {
           $form['languages'][$lang_code] = [
             '#type' => 'checkbox',
             '#disabled' => TRUE,
