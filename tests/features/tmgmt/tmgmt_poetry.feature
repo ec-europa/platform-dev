@@ -323,16 +323,15 @@ Feature: TMGMT Poetry features
   Scenario: Fill in metadata when requesting a translation.
     Given I am logged in as a user with the 'administrator' role
     And I go to "node/add/page"
-    And I fill in "Title" with "<title>"
+    And I fill in "Title" with "<title> &"
     And I fill in the rich text editor "Body" with "Metadata test"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
     When I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I fill in "Label" with "Testing translation metadata including special chars like &"
     And I click "Contact usernames"
     And inside fieldset "Contact usernames" I fill in "Author" with "Janssen & Janssen auteur"
     And inside fieldset "Contact usernames" I fill in "Secretaire" with "Janssen & Janssen secretary"
@@ -346,7 +345,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has titre "NE-CMS: Testing translation metadata including special chars like &"
+    And the translation request has titre "NE-CMS: <title> &"
     And the translation request has the following contacts:
       | type        | nickname                      |
       | auteur      | Janssen & Janssen auteur      |
