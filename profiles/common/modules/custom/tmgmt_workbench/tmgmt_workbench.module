@@ -5,9 +5,6 @@
  * Exposes as TMGMT source content in a specific moderation state.
  */
 
-define('TMGMT_WORKBENCH_REQUEST_STATE_INDEX', 4);
-define('TMGMT_WORKBENCH_REQUEST_OPERATION_INDEX', 5);
-
 /**
  * Implements hook_help().
  */
@@ -108,6 +105,7 @@ function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(Quer
  */
 function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form_state) {
   $entity_type = $form_state['entity_type'];
+
   if ($entity_type == 'node') {
     $node = $form_state['entity'];
     if (workbench_moderation_node_moderated($node)) {
@@ -116,94 +114,74 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       $state = $node->workbench_moderation['current']->state;
       $translation_possible = in_array($state, $states, 'strict');
 
-      $options = $form['languages']['#options'];
+      $languages = tmgmt_available_languages();
+      $options = &$form['languages']['#options'];
 
-      $existing_jobs = tmgmt_job_item_load_latest(
-        'workbench_moderation',
-        $entity_type,
-        $node->nid,
-        $node->translations->original
-      );
-
+      $existing_jobs = tmgmt_job_item_load_latest('workbench_moderation',
+        $entity_type, $node->nid, $node->translations->original);
       $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
 
-      // Setting up an array with language codes based on the available options.
-      $lang_codes = array_keys($options);
-
-      foreach ($lang_codes as $lang_code) {
-        // Disable checkbox for languages already translated.
-        if (isset($node->translations->data[$lang_code]) && !empty($existing_jobs)) {
-          $form['languages'][$lang_code] = array(
+      // Disable checkbox for languages already translated.
+      foreach ($languages as $langcode => $language) {
+        if (isset($node->translations->data[$langcode]) && !empty($existing_jobs)) {
+          $form['languages'][$langcode] = array(
             '#type' => 'checkbox',
             '#disabled' => TRUE,
           );
         }
-        if (isset($options[$lang_code]) && isset($existing_jobs[$lang_code])) {
-          $item = $existing_jobs[$lang_code];
+        if (isset($options[$langcode]) && isset($existing_jobs[$langcode])) {
+          $item = $existing_jobs[$langcode];
           $uri = $item->uri();
           $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
-          $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_STATE_INDEX] = l($wrapper->state->label(),
+          $form['languages']['#options'][$langcode][4] = l($wrapper->state->label(),
             $uri['path'],
             array('query' => array('destination' => current_path())));
           // Disable the checkbox for this row since there is already a
           // translation in progress that has not yet been finished. This way we
           // make sure that we don't stack multiple active translations for the
           // same item on top of each other.
-          $form['languages'][$lang_code] = array(
+          $form['languages'][$langcode] = array(
             '#type' => 'checkbox',
             '#disabled' => TRUE,
           );
         }
+
         // Disable checkbox selection if current node revision is not
         // in translatable moderation states.
         if (!$translation_possible) {
-          $form['languages'][$lang_code] = array(
+          $form['languages'][$langcode] = array(
             '#type' => 'checkbox',
             '#disabled' => TRUE,
           );
           $form['languages']['#suffix'] = '<div class="description">' .
             t('This content cannot be translated.') . '</div>';
 
-          if ($always_show_direct_translation_links && ($lang_code != $node->translations->original)) {
-            $options[$lang_code][TMGMT_WORKBENCH_REQUEST_OPERATION_INDEX] = '';
+          if (!$always_show_direct_translation_links && ($langcode != $node->translations->original)) {
+            $options[$langcode][5] = '';
           }
         }
       }
 
-      // Provide 'Request translation' action or hide actions.
-      // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
-      // there is new #markup element which will be displayed every time when
-      // there is a translation request on going.
-      if ($translation_possible && !$existing_jobs) {
+      if ($translation_possible) {
         $form['actions']['#type'] = 'actions';
-        $form['actions']['request'] = [
+        $form['actions']['request'] = array(
           '#type' => 'submit',
           '#value' => t('Request translation'),
-          '#submit' => ['tmgmt_workbench_translate_form_submit'],
-          '#validate' => ['tmgmt_workbench_translate_form_validate'],
-        ];
+          '#submit' => array('tmgmt_workbench_translate_form_submit'),
+          '#validate' => array('tmgmt_workbench_translate_form_validate'),
+        );
       }
       else {
         unset($form['actions']);
-        foreach ($lang_codes as $lang_code) {
-          $form['languages'][$lang_code] = [
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          ];
-        }
-        $form['languages_description'] = [
-          '#type' => 'item',
-          '#prefix' => '<div class="messages warning">',
-          '#markup' => t('Please end up the active translation process before creating a new request.'),
-          '#suffix' => '</div>',
-        ];
       }
-
       // Remove add to cart button.
       unset($form['top_actions']);
-
-      // Allow to select multiple languages.
-      $form['languages']['#multiple'] = TRUE;
+      // Allow requesting only one language. Explain user can add more later.
+      $form['languages']['#multiple'] = FALSE;
+      $form['languages']['#suffix'] = '<div class="description">' .
+        t('More target languages can be added after you click %i',
+          array('%i' => 'Request Translation')) .
+        '</div>';
     }
   }
 }
@@ -222,22 +200,7 @@ function tmgmt_workbench_translate_form_validate($form, &$form_state) {
  */
 function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
-
-  // NEXTEUROPA-7719 - Simplifying Poetry UI.
-  // @todo: To be changed after implementing resending request procedure.
-  $chosen_languages = $form_state['values']['languages'];
-  foreach ($chosen_languages as $key => $language) {
-    if ($language === 0) {
-      unset($chosen_languages[$key]);
-    }
-  }
-  // Pick first language to be a main translation request language.
-  $langcode = reset($chosen_languages);
-  $chosen_languages['main'] = $langcode;
-  // Store chosen languages in session because there is no other more elegant
-  // way to move them between requests (passing data to tmgmt job form).
-  _tmgmt_workbench_store_request_languages($chosen_languages);
-
+  $langcode = $form_state['input']['languages'];
   $jobs = array();
   // Create the job object.
   $job = tmgmt_job_create(entity_language('node', $entity), $langcode,
@@ -272,40 +235,4 @@ function _tmgmt_workbench_available_states() {
     drupal_set_message(t('You have to enable at least one workbench state'));
   }
   return $states;
-}
-
-/**
- * Storing chosen translation request languages for further processing.
- *
- * @param array $languages
- *   An array with languages.
- *
- * @see TMGMTPoetryTranslatorUIController
- */
-function _tmgmt_workbench_store_request_languages($languages) {
-  $_SESSION['tmgmt_workbench']['languages'] = $languages;
-}
-
-/**
- * Get chosen translation request languages from session.
- *
- * @return array
- *   An array with languages.
- */
-function _tmgmt_workbench_get_request_languages() {
-  $languages = [];
-  if (isset($_SESSION['tmgmt_workbench']['languages'])) {
-    $languages = $_SESSION['tmgmt_workbench']['languages'];
-  }
-
-  return $languages;
-}
-
-/**
- * Clearing session for chosen translation request languages.
- */
-function _tmgmt_workbench_clear_request_languages() {
-  if (isset($_SESSION['tmgmt_workbench']['languages'])) {
-    unset($_SESSION['tmgmt_workbench']['languages']);
-  }
 }

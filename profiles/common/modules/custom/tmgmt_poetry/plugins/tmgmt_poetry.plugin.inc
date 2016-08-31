@@ -260,13 +260,14 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $organization = $job->settings['organization'];
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
-    $demande->titre = 'NE-CMS: ' . $job->label;
-    $demande->organisationResponsable = $organization['responsable'];
-    $demande->organisationAuteur = $organization['auteur'];
-    $demande->serviceDemandeur = $organization['demandeur'];
+    $titre = $demande->addChild('titre');
+    $titre->value = 'NE-CMS: ' . $job->label;
+    $demande->addChild('organisationResponsable', $organization['responsable']);
+    $demande->addChild('organisationAuteur', $organization['auteur']);
+    $demande->addChild('serviceDemandeur', $organization['demandeur']);
     $demande->addChild('applicationReference', 'FPFIS');
     $demande->addChild('delai', date('d/m/Y', strtotime($job->settings['delai'])));
-    $demande->remarque = $job->settings['remark'];
+    $demande->addChild('remarque', $job->settings['remark']);
 
     // Add the source url as a reference.
     $item_type = $item->item_type;
@@ -284,11 +285,23 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $type->addAttribute('id', 'INTER');
 
     // Get contact information from translator and add it to the request.
-    foreach ($job->settings['contacts'] as $contact_type => $contact_nickname) {
-      $contacts = $request->addChild('contacts');
-      $contacts->addAttribute('type', $contact_type);
-      $contacts->contactNickname = $contact_nickname;
-    }
+    $contacts = $job->settings['contacts'];
+
+    $auteur = $request->addChild('contacts');
+    $auteur->addAttribute('type', 'auteur');
+    $auteur->addChild('contactNickname', $contacts['auteur']);
+
+    $secretaire = $request->addChild('contacts');
+    $secretaire->addAttribute('type', 'secretaire');
+    $secretaire->addChild('contactNickname', $contacts['secretaire']);
+
+    $contact = $request->addChild('contacts');
+    $contact->addAttribute('type', 'contact');
+    $contact->addChild('contactNickname', $contacts['contact']);
+
+    $responsable = $request->addChild('contacts');
+    $responsable->addAttribute('type', 'responsable');
+    $responsable->addChild('contactNickname', $contacts['responsable']);
 
     // Add callback information to the request.
     $retour = $request->addChild('retour');

@@ -96,35 +96,9 @@ function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form
  */
 function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
   $translator = FALSE;
+
   // Reference to the translation job object.
   $job = &$form_state['tmgmt_job'];
-
-  // NEXTEUROPA-7719 - Simplifying Poetry UI.
-  drupal_set_title(t("Translation Request - Job ID: @id", ['@id' => $form_state['tmgmt_job']->tjid]));
-  $form['info']['#access'] = FALSE;
-  $form['translator_wrapper']['settings']['#collapsible'] = TRUE;
-  $form['translator_wrapper']['settings']['#collapsed'] = FALSE;
-  // Changing fieldsets labels.
-  $form['translator_wrapper']['#title'] = t('Translation request details');
-  $form['translator_wrapper']['settings']['#title'] = t('Configure translation request');
-  // Attaching script for disabling translator field.
-  $form['#attached']['js'] = array(
-    drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js',
-  );
-  // Setting up default value to be poetry if available.
-  if (isset($form['translator_wrapper']['translator']['#options'])) {
-    $translators = $form['translator_wrapper']['translator']['#options'];
-    if (in_array('poetry', array_keys($translators))
-      && !in_array('tmgmt_poetry_test_translator', array_keys($translators))) {
-      $form['translator_wrapper']['translator']['#default_value'] = 'poetry';
-    }
-  }
-
-  // If job is submittable to the translator then don't show job items fieldset.
-  if ($job->isSubmittable()) {
-    $form['job_items_wrapper']['#access'] = FALSE;
-  }
-
   // Overwriting details which are coming from tmgmt_ui.pages.inc.
   // Details about job items for give job and sub jobs related to that job.
   unset($form['job_items_wrapper']['items']);
@@ -149,8 +123,8 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   }
   $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
   if ($translator && ($translator->plugin == 'poetry' || $job->getTranslator()->plugin == 'poetry')) {
-    // Putting custom form submit as a first one on the list.
-    array_unshift($form['#submit'], '_tmgmt_poetry_form_tmgmt_job_submit');
+    $form['#submit'][] = '_tmgmt_poetry_form_tmgmt_job_submit';
+
     if (strpos($job->reference, 'SUB_') !== FALSE) {
       $form['actions']['abort_job']['#access'] = FALSE;
       $form['actions']['submit']['#access'] = FALSE;
@@ -173,36 +147,10 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
  * Job Form Callback.
  */
 function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
-  // NEXTEUROPA-7719 - Simplifying Poetry UI.
-  // Checking if main language has been changed and picking another one if so
-  // and saving it in to the job to keep the current implementation way.
-  $target_lg = $form_state['values']['target_language'];
-  if (isset($form_state['values']['settings']['languages'])) {
-    if ($form_state['values']['settings']['languages'][$target_lg] === 0) {
-      $chosen_lg = [];
-      foreach ($form_state['values']['settings']['languages'] as $language) {
-        if ($language !== 0) {
-          $chosen_lg[] = $language;
-        }
-      }
-      $new_main_lg = reset($chosen_lg);
-      // There are other submit callbacks after this, that's why changes of
-      // $form_state variable are needed.
-      $form_state['values']['target_language'] = $new_main_lg;
-      $form_state['tmgmt_job']->target_language = $new_main_lg;
-      $form_state['tmgmt_job']->save();
-    }
-    // Clearing chosen request languages from the session.
-    _tmgmt_workbench_clear_request_languages();
-  }
-
-  // Current implementation part.
   $origin_job = $form_state['tmgmt_job'];
   $translator = $origin_job->getTranslator();
-  $requested_languages = array();
-
-  // Checking translator plugin type.
   if ($translator->plugin != 'poetry') {
+    $requested_languages = array();
     // The translator has benn changed,
     // proceed to clear the settings of origin job and the main reference.
     if (isset($origin_job->settings['languages'])) {
@@ -211,13 +159,13 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
       $origin_job->save();
     }
   }
-  // Getting requested languages from the $form_state submitted values.
-  if (isset($form_state['values']['settings']['languages'])) {
-    $requested_languages = $form_state['values']['settings']['languages'];
-  }
-  // Checking if job already has been submit to translator at least once.
-  if (!is_null($origin_job->settings) && isset($origin_job->settings['languages'])) {
-    $requested_languages = $origin_job->settings['languages'];
+  else {
+    if (isset($form_state['values']['languages'])) {
+      $requested_languages = $form_state['values']['languages'];
+    }
+    else {
+      $requested_languages = $origin_job->settings['languages'];
+    }
   }
 
   $languages = language_list('language');
@@ -530,14 +478,4 @@ function tmgmt_poetry_views_api() {
     'api' => 3,
     'path' => drupal_get_path('module', 'tmgmt_poetry') . '/views',
   ];
-}
-
-/**
- * Implements hook_page_alter().
- */
-function tmgmt_poetry_page_alter(&$page) {
-  // Removing empty workbench block from request translation page.
-  if (in_array('node', arg()) && in_array('translate', arg())) {
-    unset($page['content']['workbench_block']);
-  }
 }

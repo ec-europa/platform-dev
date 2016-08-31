@@ -7,12 +7,8 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Drupal\integration\ResourceSchema\ResourceSchemaFactory;
 use Drupal\integration_consumer\ConsumerFactory;
-use Drupal\integration_producer\ProducerFactory;
-use Drupal\nexteuropa\Component\PyStringYamlParser;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -24,8 +20,6 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\hasKey;
 use function bovigo\assert\predicate\isNotNull;
 use function bovigo\assert\predicate\isOfSize;
-use function bovigo\assert\predicate\isOfType;
-use function bovigo\assert\predicate\isNotEmpty;
 
 /**
  * Behat context with functionality related to Integration.
@@ -40,11 +34,18 @@ class IntegrationLayerContext implements Context {
   protected $mockServerPort;
 
   /**
-   * Array of configuration entity objects created during test execution.
+   * Indicates if the producer was configured.
    *
-   * @var \Drupal\integration\Configuration\AbstractConfiguration[]
+   * @var bool
    */
-  protected $configurationEntities = [];
+  protected $producerWasConfigured = FALSE;
+
+  /**
+   * Indicates if the consumer was configured.
+   *
+   * @var bool
+   */
+  protected $consumerWasConfigured = FALSE;
 
   /**
    * Indicates if the consumer was configured.
@@ -122,22 +123,80 @@ class IntegrationLayerContext implements Context {
   }
 
   /**
+   * Configures an Integration producer.
+   *
+   * @Given the Integration producer is configured
+   */
+  public function theIntegrationProducerIsConfigured() {
+    $this->setupTestBackend();
+
+    $producer = entity_import(
+      'integration_producer',
+      '{
+      "entity_bundle" : "page",
+      "backend" : "",
+      "resource" : "news",
+      "settings" : { "plugin" : { "mapping" : { "title_field" : "title", "field_ne_body" : "body" } } },
+      "name" : "test",
+      "machine_name" : "test_news",
+      "plugin" : "node_producer",
+      "enabled" : "1",
+      "description" : null,
+      "rdf_mapping" : []
+    }'
+    );
+    entity_save('integration_producer', $producer);
+
+    $this->producerWasConfigured = TRUE;
+  }
+
+  /**
+   * Configures the Integration consumer for testing purposes.
+   *
+   * @Given the Integration consumer is configured
+   */
+  public function theIntegrationConsumerIsConfigured() {
+    $this->setupTestBackend();
+
+    $consumer = entity_import(
+      'integration_consumer',
+      '{
+      "entity_bundle" : "page",
+      "backend" : "http_mock",
+      "resource" : "news",
+      "mapping" : [],
+      "settings" : { "plugin" : { "mapping" : { "title" : "title_field", "body" : "field_ne_body" } } },
+      "name" : "test-consumer",
+      "machine_name" : "test_consumer",
+      "plugin" : "node_consumer",
+      "enabled" : "1",
+      "description" : null,
+      "rdf_mapping" : []
+    }'
+    );
+    entity_save('integration_consumer', $consumer);
+
+    $this->consumerWasConfigured = TRUE;
+  }
+
+  /**
    * Reverts configuration done by the context.
    *
    * @AfterScenario
    */
   public function revertConfiguration() {
-    // Remove configuration entities.
-    foreach ($this->configurationEntities as $configuration) {
-      if ($configuration->entityType() == 'integration_consumer') {
-        /** @var AbstractConsumer $consumer */
-        $consumer = ConsumerFactory::getInstance($configuration->getMachineName());
-        $consumer->processRollback();
+    if ($this->producerWasConfigured) {
+      entity_delete('integration_producer', 'test_news');
+    }
 
-        // Remove consumer & its corresponding migration.
-        Migration::deregisterMigration('test_consumer');
-      }
-      $configuration->delete();
+    if ($this->consumerWasConfigured) {
+      // Roll back any changes made by our consumer.
+      $consumer = ConsumerFactory::getInstance('test_consumer');
+      $consumer->processRollback();
+
+      // Remove consumer & its corresponding migration.
+      Migration::deregisterMigration('test_consumer');
+      entity_delete('integration_consumer', 'test_consumer');
     }
 
     if ($this->backendWasConfigured) {
@@ -195,25 +254,24 @@ class IntegrationLayerContext implements Context {
    * The backend points to our mocked Integration HTTP server.
    */
   private function setupTestBackend() {
-    if (!$this->backendWasConfigured) {
-      $server = $this->getServer();
+    $server = $this->getServer();
 
-      $backend = entity_load_single('integration_backend', 'couchdb');
+    $backend = entity_load_single('integration_backend', 'couchdb');
 
-      $test_backend = clone $backend;
-      $test_backend->id = NULL;
-      $test_backend->authentication = 'no_authentication';
-      $test_backend->machine_name = 'http_mock';
-      $test_backend->name = 'HTTP Mock';
-      $test_backend->settings['plugin']['backend']['base_url'] = $server->getBaseUrl();
+    $test_backend = clone $backend;
+    $test_backend->id = NULL;
+    $test_backend->authentication = 'no_authentication';
+    $test_backend->machine_name = 'http_mock';
+    $test_backend->name = 'HTTP Mock';
+    $test_backend->settings['plugin']['backend']['base_url'] = $server->getBaseUrl(
+    );
 
-      entity_save('integration_backend', $test_backend);
+    entity_save('integration_backend', $test_backend);
 
-      $this->backendWasConfigured = TRUE;
+    $this->backendWasConfigured = TRUE;
 
-      if (!$server->isStarted()) {
-        $server->start();
-      }
+    if (!$server->isStarted()) {
+      $server->start();
     }
   }
 
@@ -315,199 +373,6 @@ class IntegrationLayerContext implements Context {
         $node->field_ne_body[$expected_translation['language']][0]['value'],
         equals($expected_translation['body'])
       );
-    }
-  }
-
-  /**
-   * Create Integration Layer producer specifying its configuration.
-   *
-   * Usage example:
-   *
-   * Given the following Integration Layer node producer is created:
-   *   """
-   *     name: test_news
-   *     bundle: page
-   *     resource: news
-   *     mapping:
-   *       title_field: title
-   *       field_ne_body: body
-   *   """
-   *
-   * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
-   *
-   * @Given the following Integration Layer node producer is created:
-   */
-  public function createIntegrationLayerProducer(PyStringNode $node) {
-    $this->setupTestBackend();
-    $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
-    $this->assertValidConfiguration($configuration);
-
-    /** @var \Drupal\integration_producer\AbstractProducer $producer */
-    $producer = ProducerFactory::create($configuration['name'])
-      ->setEntityBundle($configuration['bundle'])
-      ->setResourceSchema($configuration['resource']);
-    foreach ($configuration['mapping'] as $source => $destination) {
-      $producer->setMapping($source, $destination);
-    }
-    $producer->getConfiguration()->save();
-    $this->configurationEntities[] = $producer->getConfiguration();
-  }
-
-  /**
-   * Create Integration Layer consumer specifying its configuration.
-   *
-   * Usage example:
-   *
-   * Given the following Integration Layer node consumer is created:
-   *   """
-   *     name: test_news
-   *     backend: http_mock
-   *     bundle: page
-   *     resource: news
-   *     mapping:
-   *       title: title_field
-   *       body: field_ne_body
-   *   """
-   *
-   * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
-   *
-   * @Given the following Integration Layer node consumer is created:
-   */
-  public function createIntegrationLayerConsumer(PyStringNode $node) {
-    $this->setupTestBackend();
-    $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
-    $this->assertValidConfiguration($configuration);
-    assert($configuration, hasKey('backend'));
-
-    /** @var \Drupal\integration_consumer\AbstractConsumer $consumer */
-    $consumer = ConsumerFactory::create($configuration['name'], $configuration['backend'])
-      ->setEntityBundle($configuration['bundle'])
-      ->setResourceSchema($configuration['resource']);
-    foreach ($configuration['mapping'] as $source => $destination) {
-      $consumer->setMapping($source, $destination);
-    }
-    $consumer->getConfiguration()->save();
-    $this->configurationEntities[] = $consumer->getConfiguration();
-  }
-
-  /**
-   * Create Integration Layer resource schema specifying its configuration.
-   *
-   * Usage example:
-   *
-   * Given the following Integration Layer resource schema is created:
-   *   """
-   *     name: article_schema
-   *     fields:
-   *       title: Title
-   *       body: Body
-   *   """
-   *
-   * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
-   *
-   * @Given the following Integration Layer resource schema is created:
-   */
-  public function createIntegrationLayerResourceSchema(PyStringNode $node) {
-    $this->setupTestBackend();
-    $parser = new PyStringYamlParser($node);
-    $configuration = $parser->parse();
-    assert($configuration, hasKey('name'));
-    assert($configuration, hasKey('fields'));
-    assert($configuration['fields'], isOfType('array'));
-    assert($configuration['fields'], isNotEmpty());
-
-    /** @var \Drupal\integration\ResourceSchema\AbstractResourceSchema $resource */
-    $resource = ResourceSchemaFactory::create($configuration['name']);
-    foreach ($configuration['fields'] as $machine_name => $label) {
-      $resource->setField($machine_name, $label);
-    }
-    $resource->getConfiguration()->save();
-    $this->configurationEntities[] = $resource->getConfiguration();
-  }
-
-  /**
-   * Assert that configuration array is actually valid.
-   *
-   * @param array $configuration
-   *    Configuration array.
-   */
-  protected function assertValidConfiguration(array $configuration) {
-    assert($configuration, hasKey('name'));
-    assert($configuration, hasKey('bundle'));
-    assert($configuration, hasKey('resource'));
-    assert($configuration, hasKey('mapping'));
-    assert($configuration['mapping'], isOfType('array'));
-    assert($configuration['mapping'], isNotEmpty());
-  }
-
-  /**
-   * Assert that a given producer correctly builds a given node.
-   *
-   * Usage example:
-   *
-   * Then the "article" producer builds the following document for the etc...
-   *     """
-   *       version: v1
-   *       default_language: und
-   *       type: article
-   *       languages:
-   *         - und
-   *       fields:
-   *         title:
-   *           und:
-   *             - Article title 1
-   *         body:
-   *           und:
-   *             - Article body 1
-   *         tags:
-   *           und:
-   *             - Tag 1
-   *             - Tag 2
-   *     """
-   *
-   * @param string $producer_name
-   *    Producer machine name.
-   * @param string $type
-   *    Node type.
-   * @param string $title
-   *    Node title.
-   * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    Expected document in YAML format.
-   *
-   * @Then the :producer_name producer builds the following document for the :type with title :title:
-   */
-  public function assertProducedDocument($producer_name, $type, $title, PyStringNode $node) {
-    $this->setupTestBackend();
-    $parser = new PyStringYamlParser($node);
-    $expected = $parser->parse();
-
-    $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
-    assert($nodes, isNotEmpty());
-    $node = array_shift($nodes);
-    /** @var \Drupal\integration_producer\AbstractProducer $producer */
-    $producer = ProducerFactory::getInstance($producer_name);
-    $document = $producer->build($node);
-
-    // Assert document fields equals the expected ones.
-    if (isset($expected['fields'])) {
-      foreach ($expected['fields'] as $field_name => $field_values) {
-        foreach ($field_values as $language => $values) {
-          $values = count($values) == 1 ? array_shift($values) : $values;
-          assert($document->getFieldValue($field_name, $language), equals($values));
-        }
-      }
-      // Unset fields so we can easily test metadata.
-      unset($expected['fields']);
-    }
-
-    // Assert document metadata equals the expected one.
-    foreach ($expected as $name => $value) {
-      assert($document->getMetadata($name), equals($value));
     }
   }
 
