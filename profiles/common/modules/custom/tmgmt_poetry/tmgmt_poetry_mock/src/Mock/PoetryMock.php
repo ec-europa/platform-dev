@@ -184,8 +184,13 @@ class PoetryMock {
   public static function prepareRefuseJobResponseData($message) {
     $data = self::getDataFromRequest($message);
     $languages = self::getLanguagesFromRequest($message);
+    // Initial translation request.
     if (isset($data['demande_id']['sequence'])) {
       unset($data['demande_id']['sequence']);
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+    // In case if numero is not set.
+    if (!isset($data['demande_id']['numero'])) {
       $data['demande_id']['numero'] = self::COUNTER_VALUE;
     }
 
