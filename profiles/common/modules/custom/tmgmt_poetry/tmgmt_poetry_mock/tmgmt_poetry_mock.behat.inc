@@ -10,9 +10,6 @@ use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
-use Behat\Gherkin\Node\TableNode;
-use function bovigo\assert\assert;
-use function bovigo\assert\predicate\equals;
 
 /**
  * Behat step definitions for the TMGMT Poetry Mock module.
@@ -125,9 +122,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
     }
 
     $this->translationRequest = $translation_request;
-
-    $request_xml = file_get_contents($this->translationRequest['file']->uri);
-    $this->translationRequest['data'] = PoetryMock::getDataFromRequest($request_xml);
   }
 
   /**
@@ -159,9 +153,17 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * @Then the translation request document is valid XHTML
    */
   public function assertTranslationRequestDocumentIsValidXhtml() {
-    $this->assertTranslationRequest();
+    if (!$this->translationRequest) {
+      throw new Exception(
+        'translator first needs to confirm they received the translation request'
+      );
+    }
 
-    $document = base64_decode($this->translationRequest['data']['content']);
+    $request = file_get_contents($this->translationRequest['file']->uri);
+
+    $request_data = PoetryMock::getDataFromRequest($request);
+
+    $document = base64_decode($request_data['content']);
 
     $response = drupal_http_request(
       'https://validator.w3.org/check',
@@ -191,116 +193,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
         )
       );
     }
-  }
-
-  /**
-   * Assert the contacts in the translation request.
-   *
-   * @Then the translation request has the following contacts:
-   */
-  public function assertTranslationRequestHasTheFollowingContacts(TableNode $table) {
-    $this->assertTranslationRequest();
-
-    $expected_contacts = $table->getHash();
-
-    $by_type = function ($a, $b) {
-      return strcmp($a['type'], $b['type']);
-    };
-
-    usort($expected_contacts, $by_type);
-    usort($this->translationRequest['data']['contacts'], $by_type);
-
-    assert($this->translationRequest['data']['contacts'], equals($expected_contacts));
-  }
-
-  /**
-   * Assert a translation request was captured.
-   *
-   * @throws Exception
-   *   When no translation request was captured.
-   */
-  protected function assertTranslationRequest() {
-    if (!$this->translationRequest) {
-      throw new Exception(
-        'translator first needs to confirm they received the translation request'
-      );
-    }
-  }
-
-  /**
-   * Assert the value of organisationResponsable of the translation request.
-   *
-   * @Then the translation request has organisationResponsable :arg1
-   */
-  public function assertTranslationRequestHasOrganisationResponsable($arg1) {
-    $this->assertTranslationRequestDemandeProperty(
-      'organisationResponsable',
-      equals($arg1)
-    );
-  }
-
-  /**
-   * Assert the value of organisationAuteur of the translation request.
-   *
-   * @Then the translation request has organisationAuteur :arg1
-   */
-  public function assertTranslationRequestHasOrganisationAuteur($arg1) {
-    $this->assertTranslationRequestDemandeProperty(
-      'organisationAuteur',
-      equals($arg1)
-    );
-  }
-
-  /**
-   * Assert the value of serviceDemandeur of the translation request.
-   *
-   * @Then the translation request has serviceDemandeur :arg1
-   */
-  public function assertTranslationRequestHasServiceDemandeur($arg1) {
-    $this->assertTranslationRequestDemandeProperty(
-      'serviceDemandeur',
-      equals($arg1)
-    );
-  }
-
-  /**
-   * Assert the value of remarque of the translation request.
-   *
-   * @Then the translation request has remarque :arg1
-   */
-  public function assertTranslationRequestHasRemarque($arg1) {
-    $this->assertTranslationRequestDemandeProperty(
-      'remarque',
-      equals($arg1)
-    );
-  }
-
-  /**
-   * Assert the value of a 'demande' translation request property.
-   *
-   * @param string $property
-   *   Which property to assert.
-   * @param \bovigo\assert\predicate\Predicate|callable $predicate
-   *   The assertion predicate.
-   */
-  protected function assertTranslationRequestDemandeProperty($property, $predicate) {
-    $this->assertTranslationRequest();
-
-    $value = $this->translationRequest['data']['demande'][$property];
-
-    assert($value, $predicate);
-  }
-
-  /**
-   * Assert the value of titre of the translation request.
-   *
-   * @Then the translation request has titre :arg1
-   */
-  public function assertTranslationRequestHasTitre($arg1) {
-    $this->assertTranslationRequestDemandeProperty(
-      'titre',
-      equals($arg1)
-    );
   }
 
 }
