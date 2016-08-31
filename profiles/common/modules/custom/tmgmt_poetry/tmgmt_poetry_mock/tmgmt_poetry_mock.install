@@ -4,6 +4,8 @@
  * Install file.
  */
 
+use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
+
 /**
  * Implements hook_install().
  */
@@ -47,4 +49,27 @@ function tmgmt_poetry_mock_uninstall() {
   if (isset($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);
   }
+}
+
+/**
+ * Implements hook_disable().
+ */
+function tmgmt_poetry_mock_disable() {
+  // Cleaning TMGMT jobs and related items.
+  $jobs = PoetryMock::getAllTmgmtJobs();
+  foreach ($jobs as $job) {
+    $job_items = $job->getItems();
+    foreach ($job_items as $item) {
+      $item->delete();
+    }
+    $job->delete();
+  }
+
+  // Deleting files which were created by tmgmt_poetry_mock.
+  PoetryMock::removeAllRequestTranslationFiles();
+  file_unmanaged_delete_recursive(TMGMT_POETRY_MOCK_REQUESTS_PATH);
+
+  // Cleaning the tmgmt_poetry custom database tables.
+  db_truncate('poetry_map')->execute();
+  db_truncate('poetry_status')->execute();
 }

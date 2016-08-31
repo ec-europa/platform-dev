@@ -184,6 +184,11 @@ class PoetryMock {
   public static function prepareRefuseJobResponseData($message) {
     $data = self::getDataFromRequest($message);
     $languages = self::getLanguagesFromRequest($message);
+    if (isset($data['demande_id']['sequence'])) {
+      unset($data['demande_id']['sequence']);
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+
     return [
       'languages' => $languages,
       'demande_id' => $data['demande_id'],
