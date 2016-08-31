@@ -68,6 +68,7 @@ platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.p
 
 platform.resources.composer.json = ${platform.resources.dir}/composer.json
 platform.resources.composer.lock = ${platform.resources.dir}/composer.lock
+platform.resources.favicon.ico = ${platform.resources.dir}/favicon.ico
 
 platform.resources.source.dir = ${platform.basedir}/src
 
@@ -83,6 +84,7 @@ platform.build.profile.dir = ${platform.build.profiles.dir}/${platform.profile.n
 
 platform.build.composer.json = ${platform.build.dir}/composer.json
 platform.build.composer.lock = ${platform.build.dir}/composer.lock
+platform.build.favicon.ico = ${platform.build.dir}/favicon.ico
 
 # Git resources.
 phing.project.git.dir = ${project.basedir}/.git
@@ -112,11 +114,11 @@ behat.base_url = http://localhost
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
-behat.formatter.name = progress
+behat.formatter.name = pretty
 
 # Enable strict mode in Behat tests. Will only pass if all tests are explicitly
 # passing.
-behat.options.strict = false
+behat.options.strict = true
 
 # Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
 # shows exception backtraces, 3 shows debugging information.
@@ -168,3 +170,16 @@ drush.verbose = FALSE
 
 # Verbosity of PHP Codesniffer. Set to 1 for progress report, 2 for debugging info.
 phpcs.verbose = 0
+
+# Flickr configuration
+# --------------------
+
+# A valid API key & secret used by the behat tests
+flickr.key = foobar
+flickr.secret = bas
+
+# Integration configuration
+# -------------------------
+
+# Port on which the mocked integration server used by the behat tests will listen.
+integration.server.port = 8888

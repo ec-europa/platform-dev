@@ -157,7 +157,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Get moderation state machine name given its label.
+   * Get a node by specifying its type and title.
    *
    * @param string $label
    *    Moderation state label.
@@ -191,7 +191,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    *    Moderation state.
    */
   public function saveNodeTranslation($node, $language, array $fields, $vid = NULL, $moderation_state = self::MODERATION_PUBLISHED) {
-    $handler  = entity_translation_get_handler('node', $node);
+    $handler = entity_translation_get_handler('node', $node);
 
     $translation = [
       'translate' => 0,
@@ -207,7 +207,10 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     // Assign translated title field.
     $values['title_field'][$language][0]['value'] = $fields['title'];
     // Assign translated body field, if any.
-    if (isset($fields['body']) && !empty($fields['body'])) {
+    if (!empty($fields['field_ne_body'])) {
+      $values['field_ne_body'][$language][0]['value'] = $fields['field_ne_body'];
+    }
+    elseif (!empty($fields['body'])) {
       $values['body'][$language][0]['value'] = $fields['body'];
     }
     $handler->setTranslation($translation, $values);
@@ -293,9 +296,9 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param string $name
    *    Local translator human readable name.
    *
-   * @Given local translator :name is available
+   * @Given :plugin translator :name is available
    */
-  public function localTranslatorIsAvailable($name) {
+  public function isTranslatorAvailable($name, $plugin) {
     /** @var \TMGMTTranslatorController $controller */
     $controller = entity_get_controller('tmgmt_translator');
     $machine_name = strtolower(str_replace(' ', '_', $name));
@@ -305,7 +308,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
         "label" => $name,
         "description" => "",
         "weight" => 0,
-        "plugin" => "local",
+        "plugin" => $plugin,
         "settings" => [
           "auto_accept" => FALSE,
           "allow_all" => TRUE,
@@ -360,31 +363,6 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Validate current job using poetry test.
-   *
-   * @Then I receive the translation of current job item
-   */
-  public function receiveJobTranslationFromPoetryTest() {
-
-    $url = $this->getSession()->getCurrentUrl();
-    // We can't simply use Drupal's menu_get_item() because of caching reasons.
-    $job_id = $this->getTranslationJobSubItemFromUrl();
-    if (!$job_id) {
-      throw new \InvalidArgumentException("URL mismatch: the current page is not a translation job page.");
-    }
-    else {
-      // Get node path w/o any base path by setting 'base_url' and 'absolute'.
-      $path = url('tmgmt_poetry_test/receivetranslation/' . $job_id, array(
-        'base_url' => '',
-        'absolute' => TRUE,
-      ));
-      // Visit newly created node page.
-      $this->visitPath($path);
-      $this->visitPath($url);
-    }
-  }
-
-  /**
    * Get translation job ID from current page's URL.
    *
    * @return int|FALSE
@@ -394,6 +372,23 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
     $url = $this->getSession()->getCurrentUrl();
     preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
     return isset($matches[1][0]) ? $matches[1][0] : FALSE;
+  }
+
+  /**
+   * Get the id of the parent job.
+   *
+   * @param int $tjiid
+   *    Job Item id.
+   *
+   * @return int|FALSE
+   *    Parent Job id or FALSE if none was found.
+   */
+  public function getParentJobId($tjiid) {
+    return db_select('tmgmt_job_item', 't')
+      ->fields('t', ['tjid'])
+      ->condition('t.tjiid', $tjiid)
+      ->execute()
+      ->fetchField();
   }
 
   /**
@@ -432,13 +427,13 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       $tjiid = array_shift($result);
       $job_item = tmgmt_job_item_load($tjiid);
       if (!$job_item) {
-        throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+        throw new \InvalidArgumentException("No translation job found for node of type '{$type}' and title '{$title}'.");
       }
       $controller = $job_item->getSourceController();
       $controller->saveTranslation($job_item);
     }
     else {
-      throw new \InvalidArgumentException("No translation job found tor node of type '{$type}' and title '{$title}'.");
+      throw new \InvalidArgumentException("No translation job found for node of type '{$type}' and title '{$title}'.");
     }
   }
 
@@ -582,7 +577,8 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       'target_language' => $language,
     ]);
     if (!$jobs) {
-      throw new \InvalidArgumentException("Translation job with label '{$label}' and target language '{$language}' not found.");
+      throw new \InvalidArgumentException("Translation job with label '{$label}'
+       and target language '{$language}' not found.");
     }
     /** @var \TMGMTJob $job */
     $job = array_shift($jobs);
@@ -592,7 +588,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   }
 
   /**
-   * Change settings for a language.
+   * Get moderation state machine name by labeland languages settings.
    *
    * @Given :field for language :langcode is set to :value
    */
@@ -673,7 +669,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @return \TMGMTTranslator
    *    Translator object.
    *
-   * @see NextEuropaMultilingualSubContext::localTranslatorIsAvailable()
+   * @see NextEuropaMultilingualSubContext::isTranslatorAvailable()
    */
   protected function getTranslatorByName($name) {
     $name = strtolower(str_replace(' ', '_', $name));

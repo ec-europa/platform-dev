@@ -1,3 +1,4 @@
+@api
 Feature: Page Layout
   In order to respect standard templates
   As a citizen of the European Union
@@ -37,5 +38,4 @@ Feature: Page Layout
     | search     | Search - European Commission                |
     | contact    | Contact - European Commission               |
     | user       | User account - European Commission          |
-    | user/1     | admin - European Commission                 |
 

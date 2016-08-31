@@ -1,3 +1,4 @@
+@api
 Feature: User authentication
   In order to protect the integrity of the website
   As a product owner
@@ -32,8 +33,8 @@ Scenario Outline: Editors can access certain administration pages
   Then I visit "<path>"
 
   Examples:
-  | path             |
-  | node/add/article |
+  | path                       |
+  | node/add/article           |
 
 @api
 Scenario Outline: Editors cannot access pages intended for administrators
@@ -47,6 +48,7 @@ Scenario Outline: Editors cannot access pages intended for administrators
   | admin/dashboard             |
   | admin/structure             |
   | admin/structure/feature-set |
+  | node/add/editorial-team_en  |
 
 @api
 Scenario Outline: Administrators can access certain administration pages
@@ -60,6 +62,7 @@ Scenario Outline: Administrators can access certain administration pages
   | admin/structure             |
   | admin/structure/feature-set |
   | node/add/article            |
+  | node/add/editorial-team_en |
 
 @api
 Scenario Outline: Administrators should not be able to access technical pages intended for developers

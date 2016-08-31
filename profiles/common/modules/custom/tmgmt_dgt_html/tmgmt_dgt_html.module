@@ -27,3 +27,119 @@ function tmgmt_dgt_html_theme() {
     ),
   );
 }
+
+/**
+ * Template preprocess function for tmgmt_dgt_html_template.
+ *
+ * Escapes translation source strings for output to HTML where required.
+ *
+ * @param array $variables
+ *   Variables passed to the template.
+ */
+function template_preprocess_tmgmt_dgt_html_template(&$variables) {
+  $html_formats = _tmgmt_dgt_html_filter_formats_containing_html();
+
+  foreach (array_keys($variables['items']) as $tjid) {
+    foreach (array_keys($variables['items'][$tjid]) as $data_id) {
+      $is_html = FALSE;
+
+      if (isset($variables['items'][$tjid][$data_id]['#format'])) {
+        $format = $variables['items'][$tjid][$data_id]['#format'];
+
+        $is_html = in_array($format, $html_formats);
+      }
+
+      if ($is_html) {
+        // Ensure tags without content are always properly closed in order to be
+        // XHTML compliant.
+        $replacements = [
+          '<br>' => '<br />',
+          '<hr>' => '<hr />',
+        ];
+        $variables['items'][$tjid][$data_id]['#text'] = str_replace(
+          array_keys($replacements),
+          array_values($replacements),
+          $variables['items'][$tjid][$data_id]['#text']
+        );
+      }
+      else {
+        $variables['items'][$tjid][$data_id]['#text']
+          = check_plain($variables['items'][$tjid][$data_id]['#text']);
+      }
+    }
+  }
+}
+
+/**
+ * Get a list of filter formats containing html.
+ *
+ * @return array
+ *   List of filter format names containing html.
+ *
+ * @see hook_tmgmt_dgt_html_filter_formats_containing_html()
+ */
+function _tmgmt_dgt_html_filter_formats_containing_html() {
+  return module_invoke_all('tmgmt_dgt_html_filter_formats_containing_html');
+}
+
+/**
+ * Implements hook_tmgmt_field_source_data_alter().
+ *
+ * Adds #format to tmgmt translation data coming form text_format fields, so
+ * later we can take the format into account when formatting the data as HTML.
+ */
+function tmgmt_dgt_html_tmgmt_field_source_data_alter(&$data, $entity_type, $entity, $langcode) {
+  list(, , $bundle_name) = entity_extract_ids($entity_type, $entity);
+  $field_instances = _tmgmt_dgt_html_translateable_textareas(
+    $entity_type,
+    $bundle_name
+  );
+
+  foreach ($field_instances as $name => $field_instance) {
+    if (!isset($entity->{$name}[$langcode])) {
+      continue;
+    }
+
+    if (!is_array($entity->{$name}[$langcode])) {
+      continue;
+    }
+
+    foreach ($entity->{$name}[$langcode] as $delta => $value) {
+      $data[$name][$delta]['value']['#format'] = $value['format'];
+    }
+  }
+}
+
+/**
+ * Get the translateable textarea field instances of a specific bundle.
+ *
+ * @param string $entity_type
+ *   The entity type for which to return instances.
+ * @param string $bundle_name
+ *   The bundle name for which to return instances.
+ *
+ * @return array
+ *   All translateable textarea field instances of the bundle.
+ */
+function _tmgmt_dgt_html_translateable_textareas($entity_type, $bundle_name) {
+  $field_instances = field_info_instances($entity_type, $bundle_name);
+
+  $textarea_field_instances = array_filter(
+    $field_instances,
+    function ($field_instance, $name) use ($entity_type) {
+      $widget_type = $field_instance['widget']['type'];
+
+      $textarea_widget_types = array(
+        'text_textarea_with_summary',
+        'text_textarea',
+      );
+
+      return
+        in_array($widget_type, $textarea_widget_types) &&
+        field_is_translatable($entity_type, field_info_field($name));
+    },
+    ARRAY_FILTER_USE_BOTH
+  );
+
+  return $textarea_field_instances;
+}

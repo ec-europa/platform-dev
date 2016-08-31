@@ -1,0 +1,17 @@
+ul.tmgmt-poetry.progress-field-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.tmgmt-poetry.progress-field-list > li {
+  float: left;
+}
+
+.view-id-tmgmt_poetry_translation_job_items caption {
+  margin: 0;
+  padding: 0 0 1em 0;
+  text-align: left;
+  font-weight: bold;
+  font-size: 1.2em;
+}

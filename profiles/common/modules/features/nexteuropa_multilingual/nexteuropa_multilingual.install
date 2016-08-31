@@ -69,7 +69,7 @@ function nexteuropa_multilingual_install() {
   multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_page', 'language_selector_page', 'language_selector_page', "content_top", -10);
 
   // Set the warning message when changing node state.
-  variable_set("warning_message_languages", "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated !");
+  variable_set('nexteuropa_multilingual_warning_message_languages', "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!");
 }
 
 /**
@@ -83,4 +83,13 @@ function nexteuropa_multilingual_disable() {
   // Disable modules.
   module_disable(array('language_selector_site'), FALSE);
   module_disable(array('language_selector_page'), FALSE);
+}
+
+/**
+ * NEXTEUROPA-9937: Normalizes the "warning_message_languages" variable name.
+ */
+function nexteuropa_multilingual_update_7001() {
+  $old_variable = variable_get('warning_message_languages');
+  variable_set('nexteuropa_multilingual_warning_message_languages', $old_variable);
+  variable_del('warning_message_languages');
 }

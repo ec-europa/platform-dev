@@ -1,3 +1,4 @@
+@api
 Feature: Testing
   In order to run simpletests
   As an administrator
@@ -8,6 +9,7 @@ Scenario: Administrator user can see the testing page
   Given the module is enabled
     | modules    |
     | simpletest |
+
   Given I am logged in as a user with the 'administrator' role
   When I visit "admin/config/development"
   Then I should see the link "Testing"

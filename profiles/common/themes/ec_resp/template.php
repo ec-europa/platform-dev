@@ -9,17 +9,15 @@
  */
 function ec_resp_preprocess_feature_set_admin_form(&$variables) {
   // Add specific javascript.
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array('scope' => 'footer', 'weight' => 13));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/feature-set.js', array(
+    'scope' => 'footer',
+    'weight' => 13,
+  ));
 
   $categories_list = '';
   $features_list = '';
 
   foreach ($variables['feature_set_category']['category'] as $category => $features) {
-    $table = array(
-      'header' => NULL,
-      'rows' => array(),
-      'attributes' => array('class' => array('feature-set-content table table-striped table-hover')),
-    );
 
     // Create category id.
     $category_id = preg_replace("/[^a-z0-9_\s-]/", "", strtolower($category));
@@ -282,7 +280,8 @@ function ec_resp_preprocess_page(&$variables) {
   if (!empty($variables['page']['featured'])) {
     foreach ($variables['page']['featured'] as $key => $value) {
       if ($key == 'system_main-menu' ||
-        strpos($key, 'om_maximenu') !== FALSE) {
+        strpos($key, 'om_maximenu') !== FALSE
+      ) {
         $variables['menu_visible'] = TRUE;
       }
     }
@@ -317,7 +316,10 @@ function ec_resp_preprocess_node(&$variables) {
 
   // Alter date format.
   $custom_date = format_date($variables['created'], 'custom', 'l, d/m/Y');
-  $variables['submitted'] = t('Published by !username on !datetime', array('!username' => $variables['name'], '!datetime' => $custom_date));
+  $variables['submitted'] = t('Published by !username on !datetime', array(
+    '!username' => $variables['name'],
+    '!datetime' => $custom_date,
+  ));
 
   // Add classes.
   if ($variables['view_mode'] == 'full' && node_is_page($variables['node'])) {
@@ -347,11 +349,11 @@ function ec_resp_preprocess_node(&$variables) {
     $variables['revision_name'] = theme('username', array('account' => $revision_account));
     $variables['revision_date'] = format_date($node->changed);
     $variables['submitted'] .= "<br />" . t('Last modified by !revision-name on !revision-date',
-      array(
-        '!revision-name' => $variables['revision_name'],
-        '!revision-date' => $variables['revision_date'],
-      )
-    );
+        array(
+          '!revision-name' => $variables['revision_name'],
+          '!revision-date' => $variables['revision_date'],
+        )
+      );
   }
 
 }
@@ -413,6 +415,21 @@ function ec_resp_preprocess_field(&$variables, $hook) {
       }
       break;
 
+    case 'field_image':
+      global $language;
+      foreach ($variables['items'] as $key => $item) {
+        /** @var \EntityDrupalWrapper $entity_wrapper */
+        $entity = (object) $item['#item'];
+        $variables['items'][$key]['image_caption'] = '';
+        if (isset($entity->field_caption)) {
+          $entity_wrapper = entity_metadata_wrapper('file', $entity);
+          $variables['items'][$key]['image_caption'] = $entity_wrapper
+            ->language($language->language)
+            ->field_caption
+            ->value(array('sanitize' => TRUE));
+        }
+      }
+      break;
   }
 }
 
@@ -489,17 +506,26 @@ function ec_resp_preprocess_html(&$variables) {
     }
 
     if (theme_get_setting('enable_interinstitutional_theme')) {
-      $variables['head_title'] = format_string('EUROPA - !title', array('!title' => $title));
+      $variables['head_title'] = t('EUROPA - !title', array('!title' => $title));
     }
     else {
-      $variables['head_title'] = format_string('!title - European Commission', array('!title' => $title));
+      $variables['head_title'] = t('!title - European Commission', array('!title' => $title));
     }
   }
 
   // Add javascripts to the footer scope.
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array('scope' => 'footer', 'weight' => 10));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array('scope' => 'footer', 'weight' => 11));
-  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array('scope' => 'footer', 'weight' => 12));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec.js', array(
+    'scope' => 'footer',
+    'weight' => 10,
+  ));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/jquery.mousewheel.min.js', array(
+    'scope' => 'footer',
+    'weight' => 11,
+  ));
+  drupal_add_js(drupal_get_path('theme', 'ec_resp') . '/scripts/ec_resp.js', array(
+    'scope' => 'footer',
+    'weight' => 12,
+  ));
 }
 
 /**
@@ -695,7 +721,7 @@ function ec_resp_page_alter(&$page) {
     }
   }
   $keywords .= filter_xss(variable_get('site_name')) . ', ';
-  $keywords .= 'European Commission, European Union, EU';
+  $keywords .= t('European Commission, European Union, EU');
 
   $type = 'website';
   if (!empty($node)) {
@@ -1095,7 +1121,7 @@ function ec_resp_menu_link__menu_breadcrumb_menu(array $variables) {
 
   if (theme_get_setting('enable_interinstitutional_theme') && $element['#title'] == 'European Commission') {
     global $language;
-    $element['#title'] = 'Europa';
+    $element['#title'] = t('Europa');
     $element['#href'] = 'http://europa.eu/index_' . $language->language . '.htm';
   }
 
@@ -1161,7 +1187,10 @@ function ec_resp_form_alter(&$form, &$form_state, $form_id) {
       if (theme_get_setting('enable_interinstitutional_theme')) {
         $form['search_input_group']['europa_search_submit']['#type'] = 'image_button';
         $form['search_input_group']['europa_search_submit']['#src'] = drupal_get_path('theme', 'ec_resp') . '/images/search-button.gif';
-        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge($form['search_input_group']['europa_search_submit']['#attributes']['class'], array('btn', 'btn-default'));
+        $form['search_input_group']['europa_search_submit']['#attributes']['class'] = array_merge($form['search_input_group']['europa_search_submit']['#attributes']['class'], array(
+          'btn',
+          'btn-default',
+        ));
         $form['search_input_group']['europa_search_submit']['#attributes']['alt'] = t('Search');
       }
       break;
@@ -1623,7 +1652,10 @@ function ec_resp_preprocess_block(&$variables) {
 
       case 'system-user-menu':
         if ($user->uid) {
-          $name = theme('username', array('account' => $user, 'nolink' => TRUE));
+          $name = theme('username', array(
+            'account' => $user,
+            'nolink' => TRUE,
+          ));
           $variables['welcome_message'] = "<div class='username'>" . t('Welcome,') . ' <strong>' . ($name) . '</strong></div>';
 
         }
@@ -1911,4 +1943,52 @@ function ec_resp_preprocess_comment(&$variables) {
  */
 function ec_resp_preprocess_comment_wrapper(&$variables) {
   $variables['title_text'] = $variables['content']['#node']->type != 'forum' ? t('Comments') : t('Replies');
+}
+
+/**
+ * Implements theme_nexteuropa_multilingual_language_list().
+ */
+function ec_resp_nexteuropa_multilingual_language_list(array $variables) {
+  // Provide defaults.
+  $options = !empty($variables['options']) ? $variables['options'] : [];
+
+  $content = '<div class="row">';
+
+  $half = ceil(count($variables['languages']) / 2);
+  $first_half = array_slice($variables['languages'], 0, $half);
+  $second_half = array_slice($variables['languages'], $half);
+
+  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($first_half, $variables['path'], $options);
+  $content .= _ec_resp_nexteuropa_multilingual_language_list_column($second_half, $variables['path'], $options);
+
+  $content .= '</div>';
+
+  return $content;
+}
+
+/**
+ * Helper function to display splash page language list column.
+ *
+ * @param array $languages
+ *   An associative array of languages to link to.
+ * @param string $path
+ *   The internal path being linked to.
+ * @param array $options
+ *   An associative array of additional options.
+ *
+ * @return string
+ *   Formatted HTML column displaying the list of provided languages.
+ */
+function _ec_resp_nexteuropa_multilingual_language_list_column($languages, $path, $options) {
+  $content = '<div class="col-sm-6">';
+  foreach ($languages as $language) {
+    $options['attributes']['lang'] = $language->language;
+    $options['attributes']['hreflang'] = $language->language;
+    $options['attributes']['class'] = 'btn splash-page__btn-language';
+    $options['language'] = $language;
+    $content .= l($language->native, $path, $options);
+  }
+  $content .= '</div>';
+
+  return $content;
 }

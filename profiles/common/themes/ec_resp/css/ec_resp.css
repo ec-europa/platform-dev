@@ -7572,9 +7572,7 @@ tr.odd {
   padding: 0;
 }
 .lang-select-site .panel-body .lang-select-site__link {
-  display: block;
-  margin-top: -30px;
-  padding: 0;
+  font-size: 90%;
 }
 .lang-select-site .panel-body .lang-select-site__code {
   display: inline;
@@ -9234,19 +9232,7 @@ div.node-nexteuropa-mediagallery div.field-type-media div.field-items {
 body.page-splash,
 body.page-language-selector-site-language {
   min-height: 100%;
-  background-image: -webkit-linear-gradient(top, #369 0%, #69C 100%);
-  background-image: -o-linear-gradient(top, #369 0%, #69C 100%);
-  background-image: linear-gradient(to bottom, #369 0%, #69C 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff336699', endColorstr='#ff6699cc', GradientType=0);
-  background-repeat: no-repeat;
-  background-color: #69C;
-}
-body.page-splash #splash-block,
-body.page-language-selector-site-language #splash-block,
-body.page-splash #language-selector-site-language-list-page,
-body.page-language-selector-site-language #language-selector-site-language-list-page {
-  margin: 50px 20px 20px;
+  background: #004494;
 }
 body.page-splash h2,
 body.page-language-selector-site-language h2,
@@ -9254,10 +9240,71 @@ body.page-splash h3,
 body.page-language-selector-site-language h3 {
   text-align: center;
 }
-#logo {
+body.page-splash .btn,
+body.page-language-selector-site-language .btn {
+  margin-bottom: 1em;
+  line-height: 1;
+  border-radius: 0;
+  border-width: 2px;
+  font-weight: 600;
+  padding: 0.75em 1em;
+  min-height: 2.75em;
+  text-decoration: none;
+}
+body.page-splash .btn:hover,
+body.page-language-selector-site-language .btn:hover,
+body.page-splash .btn:active,
+body.page-language-selector-site-language .btn:active,
+body.page-splash .btn:focus,
+body.page-language-selector-site-language .btn:focus {
+  text-decoration: underline;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  z-index: 999;
+  position: relative;
+}
+body.page-splash .splash-page__btn-language,
+body.page-language-selector-site-language .splash-page__btn-language {
+  background: #ffffff;
+  margin-bottom: 4px;
+  width: 100%;
+  text-align: left !important;
+}
+body.page-splash .splash-page__btn-language:hover,
+body.page-language-selector-site-language .splash-page__btn-language:hover {
+  color: #000000;
+  background: #ffd617;
+}
+body.page-splash .site-level-language-selector,
+body.page-language-selector-site-language .site-level-language-selector {
+  position: relative;
+}
+body.page-splash .site-level-language-selector > img,
+body.page-language-selector-site-language .site-level-language-selector > img {
+  margin: 20px;
+}
+body.page-splash .site-level-language-selector > a,
+body.page-language-selector-site-language .site-level-language-selector > a {
+  text-decoration: underline;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+}
+body.page-splash #logo,
+body.page-language-selector-site-language #logo {
   width: 100%;
   height: 119px;
   background: url('../logo.png') no-repeat top center;
+}
+#splash-block,
+#language-selector-site-language-list-page {
+  padding-top: 3em;
+}
+#splash-block .panel,
+#language-selector-site-language-list-page .panel {
+  background: transparent;
+  border: none;
 }
 /* ---------------- Wikis  ----------------- */
 .node-wiki #toc {

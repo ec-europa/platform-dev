@@ -47,6 +47,8 @@ Default is to not force a domain
 #### Change Password URL
 #### Debug mode
 When enabled, each attempt will be logged to the phpCas.log file
+IE: if you enter 'sites/default/files/phpCas.log' in the textfield, you will be
+able to view the log output on /build/sites/default/files/phpCas.log
 #### User account status (first login)
 Activate or block user at the time his account is created.
 #### Login message
@@ -69,3 +71,13 @@ This screens allow to configure the email sent went access is denied.
 ### Import users settings
 The feature provides a user import functionality
 admin/people/import_en
+
+Debugging
+---------
+The feature ecas_env uses the libraries located in
+custom/ecas/libraries/phpcas/CAS/Client.php
+You can create an account and use it to test on website that are set up as LOW
+in the "Assurance Level of the application".
+To create an external account go to
+https://webgate.ec.europa.eu/cas/eim/external/register.cgi
+Change the domain to 'External' and fill in the fields.

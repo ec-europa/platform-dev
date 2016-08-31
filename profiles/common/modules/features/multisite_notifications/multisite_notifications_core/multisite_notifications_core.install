@@ -85,13 +85,20 @@ function multisite_notifications_core_disable() {
   );
   module_disable($modules, FALSE);
   drupal_uninstall_modules(array('subscriptions'), TRUE);
-  user_role_delete('subscriber');
   drupal_set_message(t('Notifications feature is now disabled on your site.'), 'status');
 }
 
 /**
  * Refactor mail template with correct unsubscribe url.
  */
-function multisite_notifications_core_update_7101(&$sandbox = NULL) {
+function multisite_notifications_core_update_7101() {
   db_query("update mail_edit set body = replace(body, '[site:url]unsubscribe/[current-user:uid]', '[site:url]/unsubscribe/[current-user:uid]') ");
+}
+
+/**
+ * Refactor mail template with correct unsubscribe url.
+ */
+function multisite_notifications_core_update_7102() {
+  db_query("update {mail_edit} set body = replace(body, '[site:url]/unsubscribe/[current-user:uid]', '[subs:unsubscribe-url]') ");
+  user_role_delete('subscriber');
 }
