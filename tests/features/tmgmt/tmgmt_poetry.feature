@@ -288,3 +288,42 @@ Feature: TMGMT Poetry features
     And I click "Needs review" in the "content" region
     Then I should see the text '<tmgmt_poetry_ignore value="[node:1:link]{Title in English 1 as Link}"/>'
     And I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'
+
+  @javascript
+  Scenario: Fill in metadata when requesting a translation.
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "<title>"
+    And I fill in the rich text editor "Body" with "Metadata test"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    When I click "Translate" in the "primary_tabs" region
+    And I select the radio button "" with the id "edit-languages-fr"
+    And I press "Request translation"
+    And I wait
+    And I fill in "Label" with "Testing translation metadata including special chars like &"
+    And I click "Contact usernames"
+    And inside fieldset "Contact usernames" I fill in "Author" with "Janssen & Janssen auteur"
+    And inside fieldset "Contact usernames" I fill in "Secretaire" with "Janssen & Janssen secretary"
+    And inside fieldset "Contact usernames" I fill in "Contact" with "Janssen & Janssen contact"
+    And inside fieldset "Contact usernames" I fill in "Responsible" with "Janssen & Janssen responsible"
+    And I click "Organization"
+    And inside fieldset "Organization" I fill in "Responsable" with "& DG/directorate/unit who is responsible"
+    And inside fieldset "Organization" I fill in "Author" with "& DG/directorate/unit from which the document comes"
+    And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
+    And I fill in "Remark" with "Further remarks & comments"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: Testing translation metadata including special chars like &"
+    And the translation request has the following contacts:
+      | type        | nickname                      |
+      | auteur      | Janssen & Janssen auteur      |
+      | secretaire  | Janssen & Janssen secretary   |
+      | contact     | Janssen & Janssen contact     |
+      | responsable | Janssen & Janssen responsible |
+    And the translation request has organisationResponsable "& DG/directorate/unit who is responsible"
+    And the translation request has organisationAuteur "& DG/directorate/unit from which the document comes"
+    And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
+    And the translation request has remarque "Further remarks & comments"
