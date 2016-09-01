@@ -379,8 +379,8 @@ function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $f
     $entity = $form['#entity'];
   }
 
-  if ($entity) {
-    $language_fallback = entity_translation_get_existing_language($entity_type, $entity);
+  if (!empty($entity)) {
+    $language_fallback = entity_translation_get_existing_language($entity_type, (object) $entity);
     $group->label_language = $language_fallback;
   }
 }
