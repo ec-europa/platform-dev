@@ -329,7 +329,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     When I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
     And I fill in "Label" with "Testing translation metadata including special chars like &"

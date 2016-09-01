@@ -101,23 +101,41 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
 
   // NEXTEUROPA-7719 - Simplifying Poetry UI.
   drupal_set_title(t("Translation Request - Job ID: @id", ['@id' => $form_state['tmgmt_job']->tjid]));
-  $form['info']['#access'] = FALSE;
+
+  // Hiding some parts of the 'info' fieldset.
+  $form['info']['source_language']['#access'] = FALSE;
+  $form['info']['target_language']['#access'] = FALSE;
+  $form['info']['word_count']['#access'] = FALSE;
+  // Setting up the 'translator_wrapper' fieldset properties.
   $form['translator_wrapper']['settings']['#collapsible'] = TRUE;
   $form['translator_wrapper']['settings']['#collapsed'] = FALSE;
   // Changing fieldsets labels.
   $form['translator_wrapper']['#title'] = t('Translation request details');
-  $form['translator_wrapper']['settings']['#title'] = t('Configure translation request');
-  // Attaching script for disabling translator field.
+
+  // Attaching the custom script for the 'Translator' select field.
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js',
   );
-  // Setting up default value to be poetry if available.
+  // Setting up default value for the 'Translator' field.
   if (isset($form['translator_wrapper']['translator']['#options'])) {
     $translators = $form['translator_wrapper']['translator']['#options'];
     if (in_array('poetry', array_keys($translators))
-      && !in_array('tmgmt_poetry_test_translator', array_keys($translators))) {
+      && !in_array('tmgmt_poetry_test_translator', array_keys($translators))
+    ) {
       $form['translator_wrapper']['translator']['#default_value'] = 'poetry';
     }
+  }
+  // Loading settings for a given translator.
+  // If tmgmt_poetry job form was never submitted use the default 'poetry'.
+  if (!isset($form_state['values'])) {
+    $job->translator = 'poetry';
+    _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
+  }
+
+  // If tmgmt_poetry job form was submitted, check translator and load settings.
+  if (isset($form_state['values']['translator'])) {
+    $job->translator = $form_state['values']['translator'];
+    _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
   }
 
   // If job is submittable to the translator then don't show job items fieldset.
@@ -167,6 +185,25 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   // it should only send translation request or delete the job.
   unset($form['actions']['submit']);
   unset($form['actions']['cancel']);
+}
+
+/**
+ * Sets up TMGMT translator settings for given parameters.
+ */
+function _tmgmt_poetry_form_load_translator_settings(&$form_state, &$form, $job) {
+  $settings = tmgmt_ui_checkout_settings_form($form_state, $job);
+
+  if (!is_array($settings)) {
+    $settings = [];
+  }
+
+  $form['translator_wrapper']['settings'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Configure translation request'),
+    '#prefix' => '<div id="tmgmt-ui-translator-settings">',
+    '#suffix' => '</div>',
+    '#tree' => TRUE,
+  ] + $settings;
 }
 
 /**
