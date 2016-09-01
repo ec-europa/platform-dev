@@ -33,7 +33,8 @@ class TaxonomyContext implements Context {
    * @param string $name
    *    Name of the taxonomy.
    *
-   * @Given The vocabulary :name exists
+   * @Given the vocabulary :name exists
+   *
    * @When I create a new vocabulary :name
    */
   public function iCreateNewVocabulary($name) {
@@ -69,7 +70,8 @@ class TaxonomyContext implements Context {
    * @param string $vocabulary_name
    *    Name of the vocabulary.
    *
-   * @Given The term :term_name in the vocabulary :vocabulary_name exists
+   * @Given the term :term_name in the vocabulary :vocabulary_name exists
+   *
    * @Then I create a new term :term_name in the vocabulary :vocabulary_name
    */
   public function iCreateNewTermInTheVocabulary($term_name, $vocabulary_name) {
@@ -90,7 +92,8 @@ class TaxonomyContext implements Context {
    * @param string $vocabulary_name
    *    Name of the vocabulary.
    *
-   * @Given The group :group_type named :group_name in the vocabulary :vocabulary_name exists
+   * @Given the group :group_type named :group_name in the vocabulary :vocabulary_name exists
+   *
    * @Then I create a new group :group_type named :group_name in the vocabulary :vocabulary_name
    */
   public function iCreateNewGroupNamedInTheVocabulary($group_name, $group_type, $vocabulary_name) {
@@ -132,7 +135,8 @@ class TaxonomyContext implements Context {
    * @param string $vocabulary_name
    *    Name of the vocabulary.
    *
-   * @Then The field :field_type named :field_name grouped in :group_name in the vocabulary :vocabulary_name exists
+   * @Given the field :field_type named :field_name grouped in :group_name in the vocabulary :vocabulary_name exists
+   *
    * @Then I create a new field :field_type named :field_name grouped in :group_name in the vocabulary :vocabulary_name
    */
   public function iCreateNewFieldNamedGroupedInInTheVocabulary($field_name, $field_type, $group_name, $vocabulary_name) {
@@ -268,7 +272,7 @@ class TaxonomyContext implements Context {
     if (empty($vocabulary)) {
       throw new \InvalidArgumentException("The vocabulary '{$vocabulary_name}' doesn't exist.");
     }
-    
+
     return $vocabulary->vid;
   }
 
