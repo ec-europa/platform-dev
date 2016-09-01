@@ -160,7 +160,7 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
 
       // Treating other translation revisions.
       if ($tracking_activate) {
-        $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate);
+        $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate, $entity);
         form_set_error('tracking_activate', $entity_message);
       }
     }
@@ -191,7 +191,7 @@ function _nexteuropa_editorial_tracking_wbm_validate($form, &$form_state) {
 
     // Treating other translation revisions.
     if ($tracking_activate) {
-      $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate);
+      $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate, $entity);
       form_set_error('tracking_activate', $entity_message);
     }
   }
@@ -265,31 +265,50 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
  *
  * @param array $tracking_lang
  *   List of languages where tracked changes are detected.
+ * @param object $entity
+ *   The entity for which the message is required.
  *
  * @return string
  *   Message to display
  *
  * @see _nexteuropa_editorial_tracking_entity_validate()
  */
-function _nexteuropa_editorial_tracking_entity_message($tracking_lang) {
+function _nexteuropa_editorial_tracking_entity_message($tracking_lang, $entity) {
+
+  $lang_related = _nexteuropa_editorial_tracking_message_for_languages($tracking_lang);
+  $state_related = _nexteuropa_editorial_tracking_message_for_wbm_states($entity);
+
+  return $lang_related . ' ' . $state_related;
+
+}
+
+/**
+ * Gets error message related to languages where tracked changes are detected.
+ *
+ * It is used by tracking change validation process.
+ *
+ * @param array $tracking_lang
+ *   The language list for which tracked changes are detected.
+ *
+ * @return string
+ *   The error message
+ *
+ * @see _nexteuropa_editorial_tracking_entity_message()
+ */
+function _nexteuropa_editorial_tracking_message_for_languages($tracking_lang) {
   // LANGUAGE_NONE means all languages and then the current one too.
   unset($tracking_lang[LANGUAGE_NONE]);
-
   $count = count($tracking_lang);
   switch ($count) {
     case 0:
       // LANGUAGE_NONE case.
-      return t('Tracked changes detected in this revision.
-      To save progress, please accept or reject them, or
-       change the content state.');
+      return t('Tracked changes detected in this revision.');
 
     case 1:
       $implied_lang = end($tracking_lang);
       $lang_name = locale_language_name($implied_lang);
       $message_param = array('@lang' => $lang_name);
-      return t('Tracked changes detected in the @lang version. To
-       save progress, please accept or reject them, or change the content
-       state.',
+      return t('Tracked changes detected in the @lang version.',
         $message_param);
 
     default:
@@ -298,11 +317,56 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang) {
         $language_names[$lang] = locale_language_name($lang);
       }
       $message_param = array('@lang' => implode(', ', $language_names));
-      return t('Tracked changes detected in the @lang versions. To
-      save progress, please accept or reject them, or change the content
-      state.',
+      return t('Tracked changes detected in the @lang versions.',
         $message_param);
   }
+}
+
+/**
+ * Gets error message related to Workbench moderation states.
+ *
+ * It is used by tracking change validation process.
+ *
+ * @param object $entity
+ *   The entity for which errors have been detected.
+ *
+ * @return string
+ *   The error message
+ *
+ * @see _nexteuropa_editorial_tracking_entity_message()
+ */
+function _nexteuropa_editorial_tracking_message_for_wbm_states($entity) {
+  $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+  $blocked_states = $settings['wbm_states'];
+  $ok_states = array_diff($settings['wbm_states_list'], $blocked_states);
+
+  if (!$ok_states || !$blocked_states) {
+    // If ok_state is empty, that means all state block the saving with
+    // tracked changes.
+    // If $blocked_states is empty, that means "check_entity_status" is true
+    // and the node status is 1 as the process reaches this step.
+    return t('Please reject or accept changes before saving the content');
+  }
+
+  // Retrieve state labels and using them into the message.
+  $state_labels = workbench_moderation_state_labels();
+
+  $ok_param = array();
+  foreach ($ok_states as $state) {
+    $ok_param[] = $state_labels[$state];
+  }
+
+  $blocked_param = array();
+  foreach ($blocked_states as $state) {
+    $blocked_param[] = $state_labels[$state];
+  }
+  $message_param = array(
+    '@blocked' => implode(' or ', $blocked_param),
+    '@ok' => implode(', ', $ok_param),
+  );
+
+  return t('Please reject or accept changes before setting the state to 
+  @blocked, or set another state (@ok).', $message_param);
 }
 
 /**
@@ -367,10 +431,12 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
       $status = variable_get('nexteuropa_editorial_tracking_status');
       $states = variable_get('nexteuropa_editorial_tracking_wbm_states', array());
       $states_to_check = array_filter($states);
+      $wbm_states_list = array_keys(workbench_moderation_state_labels());
       $cached_settings = array(
         'is_activate' => TRUE,
         'check_entity_status' => $status,
         'wbm_states' => $states_to_check,
+        'wbm_states_list' => $wbm_states_list,
       );
     }
     return $cached_settings;
@@ -380,6 +446,7 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
     'is_activate' => FALSE,
     'check_entity_status' => FALSE,
     'wbm_states' => array(),
+    'wbm_states_list' => array(),
   );
 }
 
@@ -390,10 +457,7 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
  */
 function nexteuropa_editorial_wysiwyg_tracking_settings_form($form, &$form_state) {
 
-  $options = array();
-  foreach (workbench_moderation_states() as $key => $state) {
-    $options[$key] = $state->label;
-  }
+  $options = workbench_moderation_state_labels();
 
   $form['node_workflow'] = array(
     '#type' => 'fieldset',
@@ -472,7 +536,14 @@ function _nexteuropa_editorial_ckeditor_lite_entity_post_render($output, $elemen
        before the control process was activated.<br />
        <small>Please accept or reject tracked changes in order to avoid bad content display.</small>',
         array('@type' => $bundle));
-      if ($settings['wbm_states'] && isset($node->workbench_moderation)) {
+
+      $use_draft_message = TRUE;
+      if (isset($node->workbench_moderation) && isset($node->workbench_moderation['published'])) {
+        $wbm_published_vid = $node->workbench_moderation['published']->vid;
+        $use_draft_message = ($wbm_published_vid != $node->vid);
+      }
+      if ($settings['wbm_states'] && $use_draft_message) {
+        // Only if the published version is not displayed.
         $params = array(
           '@type' => $bundle,
           '@states' => implode(' or ', $settings['wbm_states']),
