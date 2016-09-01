@@ -28,6 +28,7 @@ function nexteuropa_communities_context_default_contexts() {
     ),
     'context_og_condition_group_type' => array(
       'values' => array(
+        '_any_' => '_any_',
         'community' => 'community',
       ),
       'options' => array(
