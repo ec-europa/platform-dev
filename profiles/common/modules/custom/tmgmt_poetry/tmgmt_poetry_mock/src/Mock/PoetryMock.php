@@ -264,8 +264,18 @@ class PoetryMock {
       ];
     }
 
+    $contacts = [];
+    foreach ($xml->request->contacts as $contact) {
+      $contacts[] = [
+        'type' => (string) $contact->attributes()->type,
+        'nickname' => (string) $contact->contactNickname,
+      ];
+    }
+
     return [
       'demande_id' => (array) $xml->request->demandeId,
+      'demande' => (array) $xml->request->demande,
+      'contacts' => $contacts,
       'content' => (string) $xml->request->documentSource->documentSourceFile,
       'attributions' => $attributions,
     ];
