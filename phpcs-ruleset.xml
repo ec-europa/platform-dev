@@ -37,6 +37,7 @@
     <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_newsroom/</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_20/</exclude-pattern>
