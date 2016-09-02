@@ -10,7 +10,9 @@ When the feature is regenerated, ensure that at the end,the ".info" file contain
 # Please do not remove this entry when re-exporting the variables.
 features[variable][] = image_captcha_fonts
 ```
+
 And 
+
 ```php
 # The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
 # Please do not remove this entry when re-exporting the variables.
