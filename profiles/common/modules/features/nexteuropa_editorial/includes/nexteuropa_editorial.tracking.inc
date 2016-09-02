@@ -244,10 +244,8 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
       $form_state['tracking_changes_detected'][$field_path] = TRUE;
 
       // Get the field label.
-      if (!empty($element['#title'])) {
-        $title = $element['#title'];
-      }
-      else {
+      $title = $element['#title'];
+      if (empty($element['#title'])) {
         // Multi value fields have an empty '#title'.
         $info = field_info_instance($entity->entity_type, $element['#field_name'], $element['#bundle']);
         $title = check_plain($info['label']);
@@ -298,6 +296,7 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang, $entity) 
 function _nexteuropa_editorial_tracking_message_for_languages($tracking_lang) {
   // LANGUAGE_NONE means all languages and then the current one too.
   unset($tracking_lang[LANGUAGE_NONE]);
+
   $count = count($tracking_lang);
   switch ($count) {
     case 0:
@@ -338,9 +337,8 @@ function _nexteuropa_editorial_tracking_message_for_languages($tracking_lang) {
 function _nexteuropa_editorial_tracking_message_for_wbm_states($entity) {
   $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
   $blocked_states = $settings['wbm_states'];
-  $ok_states = array_diff($settings['wbm_states_list'], $blocked_states);
 
-  if (!$ok_states || !$blocked_states) {
+  if (!$blocked_states) {
     // If ok_state is empty, that means all state block the saving with
     // tracked changes.
     // If $blocked_states is empty, that means "check_entity_status" is true
@@ -351,22 +349,16 @@ function _nexteuropa_editorial_tracking_message_for_wbm_states($entity) {
   // Retrieve state labels and using them into the message.
   $state_labels = workbench_moderation_state_labels();
 
-  $ok_param = array();
-  foreach ($ok_states as $state) {
-    $ok_param[] = $state_labels[$state];
-  }
-
   $blocked_param = array();
   foreach ($blocked_states as $state) {
     $blocked_param[] = $state_labels[$state];
   }
   $message_param = array(
     '@blocked' => implode(' or ', $blocked_param),
-    '@ok' => implode(', ', $ok_param),
   );
 
   return t('Please reject or accept changes before setting the state to 
-  @blocked, or set another state (@ok).', $message_param);
+  @blocked.', $message_param);
 }
 
 /**
@@ -431,12 +423,10 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
       $status = variable_get('nexteuropa_editorial_tracking_status');
       $states = variable_get('nexteuropa_editorial_tracking_wbm_states', array());
       $states_to_check = array_filter($states);
-      $wbm_states_list = array_keys(workbench_moderation_state_labels());
       $cached_settings = array(
         'is_activate' => TRUE,
         'check_entity_status' => $status,
         'wbm_states' => $states_to_check,
-        'wbm_states_list' => $wbm_states_list,
       );
     }
     return $cached_settings;
@@ -446,7 +436,6 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
     'is_activate' => FALSE,
     'check_entity_status' => FALSE,
     'wbm_states' => array(),
-    'wbm_states_list' => array(),
   );
 }
 

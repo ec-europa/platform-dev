@@ -27,17 +27,17 @@ Feature: Change tracking features
     And I select "Validated" from "Moderation state"
     And I press "Save"
     Then I should see the error message "Body contains tracked changes information."
-    And I should see the error message "Tracked changes detected in the English version. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    And I should see the error message "Tracked changes detected in the English version. Please reject or accept changes before setting the state to Validated or Published."
     When I select "Validated" from "Moderation state"
     And I press "Save"
     Then I should see the error message "Body contains tracked changes information."
-    And I should see the error message "Tracked changes detected in the English version. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    And I should see the error message "Tracked changes detected in the English version. Please reject or accept changes before setting the state to Validated or Published."
     When I select "Needs Review" from "Moderation state"
     And I press "Save"
     Then I should see the success message "Basic page Page title has been updated."
     When I select "Validated" from "state"
     And I press "Apply"
-    Then I should see the error message "Tracked changes detected in the English version. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    Then I should see the error message "Tracked changes detected in the English version. Please reject or accept changes before setting the state to Validated or Published."
 
     Examples:
       | blocked                                                                                                                                                                                                                        |
@@ -63,17 +63,17 @@ Feature: Change tracking features
     And I select "Validated" from "Moderation state"
     And I press "Save"
     Then I should see the error message "Body contains tracked changes information."
-    And I should see the error message "Tracked changes detected in this revision. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    And I should see the error message "Tracked changes detected in this revision. Please reject or accept changes before setting the state to Validated or Published."
     When I select "Validated" from "Moderation state"
     And I press "Save"
     Then I should see the error message "Body contains tracked changes information."
-    And I should see the error message "Tracked changes detected in this revision. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    And I should see the error message "Tracked changes detected in this revision. Please reject or accept changes before setting the state to Validated or Published."
     When I select "Needs Review" from "Moderation state"
     And I press "Save"
     Then I should see the success message "Article Article title has been updated."
     When I select "Validated" from "state"
     And I press "Apply"
-    Then I should see the error message "Tracked changes detected in this revision. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    Then I should see the error message "Tracked changes detected in this revision. Please reject or accept changes before setting the state to Validated or Published."
 
     Examples:
       | blocked                                                                                                                                                                                                                        |
@@ -155,13 +155,13 @@ Feature: Change tracking features
     And I click "English"
     When I select "Published" from "state"
     And I press "Apply"
-    Then I should see the error message "Tracked changes detected in the French version. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    Then I should see the error message "Tracked changes detected in the French version. Please reject or accept changes before setting the state to Validated or Published."
     When I select "Validated" from "state"
     And I press "Apply"
-    Then I should see the error message "Tracked changes detected in the French version. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    Then I should see the error message "Tracked changes detected in the French version. Please reject or accept changes before setting the state to Validated or Published."
     When I select "Needs Review" from "state"
     And I press "Apply"
-    Then I should not see the error message "Tracked changes detected in the French version. Please reject or accept changes before setting the state to Validated or Published, or set another state (Draft, Needs Review, Expired, Archived)."
+    Then I should not see the error message "Tracked changes detected in the French version. Please reject or accept changes before setting the state to Validated or Published."
 
     Examples:
       | blocked                                                                                                                                                                                                                                  |
