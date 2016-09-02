@@ -141,6 +141,15 @@ function nexteuropa_editorial_install() {
 
   // Linkchecker: checks for both internal and external links.
   multisite_config_service('system')->setVariable('linkchecker_check_links_types', 0);
+
+  // Workbench moderation state for WYSIWYG tracking settings.
+  $wbm_state = array(
+    'validated' => 'validated',
+    'published' => 'published',
+  );
+  variable_set('nexteuropa_editorial_tracking_wbm_states', $wbm_state);
+  // WYSIWYG tracking settings for "Published" status case.
+  variable_set('nexteuropa_editorial_tracking_status', 1);
 }
 
 /**
@@ -241,4 +250,18 @@ function nexteuropa_editorial_update_7001() {
     'ckeditor_lite highlight changes',
   );
   multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
+}
+
+/**
+ * NEXTEUROPA-12634: Set "wysiwyg tracking settings." variable.
+ */
+function nexteuropa_editorial_update_7002() {
+  // Workbench moderation state for WYSIWYG tracking settings.
+  $wbm_state = array(
+    'validated' => 'validated',
+    'published' => 'published',
+  );
+  variable_set('nexteuropa_editorial_tracking_wbm_states', $wbm_state);
+  // WYSIWYG tracking settings for "Published" status case.
+  variable_set('nexteuropa_editorial_tracking_status', 1);
 }

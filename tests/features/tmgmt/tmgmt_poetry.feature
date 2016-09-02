@@ -41,7 +41,7 @@ Feature: TMGMT Poetry features
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-pt-pt"
+    And I check the box on the "Portuguese" row
     And I press the "Request translation" button
     And I wait
     Then I should see "Contact usernames"
@@ -101,7 +101,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
     And I check the box "settings[languages][it]"
@@ -141,7 +141,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     Then I go to "node/add/page"
     And I fill in "Title" with "A second original version"
@@ -149,7 +149,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
     And I press "Submit to translator"
@@ -159,8 +159,8 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "en->fr" row
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
-    Then I should see an "#edit-languages-fr.form-radio" element
-    But I should not see an "#edit-languages-fr.form-checkbox" element
+    Then I should see an "#edit-languages-fr.form-checkbox" element
+    But I should not see "Please end up the active translation process before creating a new request."
 
   @javascript
   Scenario: Request main job before other translations.
@@ -171,14 +171,13 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
-    Then I should not see an "#edit-languages-fr.form-radio" element
-    But I should see an "#edit-languages-fr.form-checkbox" element
+    But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     Then I go to "admin/poetry_mock/dashboard"
@@ -202,13 +201,12 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
     And I store job ID of translation request page
     And I press "Submit to translator"
-    Then I should not see an "#edit-languages-fr.form-radio" element
-    But I should see an "#edit-languages-fr.form-checkbox" element
+    But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
     Then I go to "admin/poetry_mock/dashboard"
     And I click "Reject translation" in the "en->fr" row
@@ -224,7 +222,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "classification (taxonomy:vocabulary:1)" row
     And I press "Request translation"
     Then I should see the success message "One job needs to be checked out."
-    And I select "Italian" from "Target language"
+    And I check the box "settings[languages][it]"
     And I wait for AJAX to finish
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
@@ -239,7 +237,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
     And I press "Submit to translator"
@@ -269,7 +267,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     When I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
     And I press "Submit to translator"
@@ -288,6 +286,38 @@ Feature: TMGMT Poetry features
       | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
       | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
       | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
+
+  @javascript
+  Scenario Outline: Request translation for multiple languages.
+    Given I am logged in as a user with the 'administrator' role
+    And I go to "node/add/page"
+    And I fill in "Title" with "<title>"
+    And I fill in the rich text editor "Body" with <body>
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    When I click "Translate" in the "primary_tabs" region
+    Then I store node ID of translation request page
+    Given I am logged in as a user with the 'contributor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I go to stored node Id translation request page
+    And I check the box on the "French" row
+    And I check the box on the "Italian" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I wait
+    Then I should see "Change translator"
+    And the "edit-settings-languages-fr" field should contain "fr"
+    And the "edit-settings-languages-it" field should contain "it"
+    And the "edit-settings-languages-pt-pt" field should contain "pt-pt"
+    And I press "Submit to translator"
+    Then I should see "In progress" in the "French" row
+    And I should see "In progress" in the "Italian" row
+    And I should see "In progress" in the "Portuguese" row
+
+    Examples:
+      | title      | body                  |
+      | Page title | '<p>Body content</p>' |
 
   Scenario: Poetry replaces all tokens present in the node.
     Given I am logged in as a user with the "administrator" role
@@ -316,7 +346,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     When I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I wait
     And I fill in "Label" with "Testing translation metadata including special chars like &"

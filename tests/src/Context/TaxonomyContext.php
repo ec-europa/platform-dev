@@ -272,7 +272,6 @@ class TaxonomyContext implements Context {
     if (empty($vocabulary)) {
       throw new \InvalidArgumentException("The vocabulary '{$name}' doesn't exist.");
     }
-
     return $vocabulary->vid;
   }
 
