@@ -14,6 +14,7 @@ default:
             key: '{{ flickr.key }}'
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:

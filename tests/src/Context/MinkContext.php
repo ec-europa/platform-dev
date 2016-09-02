@@ -7,6 +7,8 @@
 
 namespace Drupal\nexteuropa\Context;
 
+use Behat\Behat\Tester\Exception\PendingException;
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
@@ -124,6 +126,20 @@ class MinkContext extends DrupalExtensionMinkContext {
     } while (!$fieldset);
 
     return $fieldset;
+  }
+
+  /**
+   * @When I fill :arg1 with:
+   */
+  public function iFillWith($arg1, PyStringNode $string) {
+    throw new PendingException();
+  }
+
+  /**
+   * @BeforeScenario @maximizedwindow
+   */
+  public function maximizeBrowserWindow() {
+    $this->getSession()->getDriver()->maximizeWindow();
   }
 
 }
