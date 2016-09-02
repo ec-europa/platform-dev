@@ -47,13 +47,13 @@ make a formal request to the Comm Europa Management team.
 [Go to top](#table-of-content)
 
 ### Enabling the feature on your platform instance:
-:hand: Poetry feature can not be enable using feature sets.
+:hand: Poetry feature cannot be enabled using feature sets.
 
 - Once green light has been received from DG COMM, the feature needs to be
 activated by your FPFIS maintenance team.  Create a support ticket in
 [Jira's MULTISITE project]
 (https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa) (use the blue
-button labeled *Create*) explaining the details and deadlines for your request:
+button labelled *Create*) explaining the details and deadlines for your request:
   - The ticket should contain the title 'Poetry activation request',
   - The ticket should include the name of your project,
   - Once maintenance team confirms the feature is ready to be used on
@@ -66,7 +66,7 @@ button labeled *Create*) explaining the details and deadlines for your request:
 Once the module is enabled and the settings properly set, the webmaster can
 proceed with the module's configuration.
 
-Edit the translator labeled "DGT Connector (auto created)".
+Edit the translator labelled "DGT Connector (auto created)".
 
 In order to do this, navigate to:
 ``` Configuration->Regional and Language->Translation management Translator ```.
@@ -174,13 +174,13 @@ DGCOMM (see 'Installations step 1').
 
 # Usage
 ## How to request a translation
-:warning: TO BE UPDATED AFTER 7719.
 - When you are browsing a node that is translatable, an additional tab
 'Translate' appears,
-- Click that tab and select one language you wish to request a translation for,
+- Click that tab and select languages you wish to request a translation for,
 - Submit the 'Request translation' button,
-- Select the 'DGT connector (auto created)' plugin from the select list,
-- Select all the languages you want to be translated,
+- By default the 'DGT connector (auto created)' translator will be selected but you can click 'Change translator' to
+change it if needed,
+- You can change the languages you want to be translated,
 - Default values:
 
 > The values that show in 'Contact Usernames' and in 'Organization' are the
