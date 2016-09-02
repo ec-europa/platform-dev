@@ -139,6 +139,11 @@ argument. The tests are located in `tests/features/`. For example:
 $ ./bin/behat -c tests/behat.api.yml tests/features/content_editing.feature
 ```
 
+Some tests need to mimic external services that listen on particular ports, e.g.
+the central server of the Integration Layer. If you already have services running
+on the same ports, they will conflict. You will need to change the ports used in
+build.properties.local.
+
 Remember to specify the right configuration file before running the tests.
 
 ## Checking for coding standards violations
