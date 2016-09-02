@@ -6,10 +6,10 @@ Feature: Taxonomy
   @api
   Scenario: Administrator user creates a new vocabulary and adds a new group and terms.
     Given I am logged in as a user with the 'administrator' role
-    And The vocabulary "Vocabulary Test" exists
-    And The group "Vertical tab" named "Group Test" in the vocabulary "Vocabulary Test" exists
-    And The field "Long text" named "Field Test" grouped in "Group Test" in the vocabulary "Vocabulary Test" exists
-    And The term "Term Test" in the vocabulary "Vocabulary Test" exists
+    And the vocabulary "Vocabulary Test" exists
+    And the group "Vertical tab" named "Group Test" in the vocabulary "Vocabulary Test" exists
+    And the field "Long text" named "Field Test" grouped in "Group Test" in the vocabulary "Vocabulary Test" exists
+    And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test"
     And I click "Add term"
     And I fill in "Name" with "Term Test 2"
