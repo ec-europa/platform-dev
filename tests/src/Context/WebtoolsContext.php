@@ -29,6 +29,13 @@ class WebtoolsContext implements Context {
   protected $variableContext;
 
   /**
+   * List of Bean created during test execution.
+   *
+   * @var \Bean[]
+   */
+  protected $beans = [];
+
+  /**
    * Gathers other contexts we rely on, before the scenario starts.
    *
    * @BeforeScenario
@@ -56,7 +63,7 @@ class WebtoolsContext implements Context {
    * @Given a valid Smartload Url has been configured
    */
   public function aValidSmartloadUrlHasBeenConfigured() {
-    $this->variableContext->setVariable('nexteuropa_webtools_smartloader_prurl', $this->$smartloadurl);
+    $this->variableContext->setVariable('nexteuropa_webtools_smartloader_prurl', $this->smartloadurl);
   }
 
   /**
@@ -65,24 +72,51 @@ class WebtoolsContext implements Context {
    * @param string $name
    *   Name of the block webtools.
    *
-   * @Given a webtools :name exists
+   * @Given a map webtools :name exists
    *
-   * @Then I create a new webtools :name
+   * @Then I create a new map webtools :name
    */
-  public function aWebtoolsExists($name) {
-    $bean = bean_create(array('type' => 'webtools'));
-    $bean->label = $name;
-    $bean->title = $name . ' Title';
-    $bean->field_custom_js_link = "link";
-    $bean->field_json_object = array(
-      'LANGUAGE_NONE' => array(array(
-        'value' => 'json',
-        'format' => 'text_plain',
+  public function aWebtoolsMapExists($name) {
+    $values = array(
+      'delta' => $name,
+      'label' => $name,
+      'title' => $name . " Title",
+      'type' => 'webtools',
+      'view_mode' => 'default',
+      'data' => array('view_mode' => 'default'),
+      'field_json_object' => array(
+        LANGUAGE_NONE => array(
+          0 => array(
+            'value' => '{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}',
+          ),
+        ),
       ),
+      'field_custom_js_link' => array(
+        LANGUAGE_NONE => array(
+          0 => array(
+            'url' => 'http://europa.eu/webtools/showcase/demo/map/samples/demo.js',
+            'title' => '',
+            'attributes' => array(),
+          ),
+        ),
       ),
     );
 
+    $bean = bean_create($values);
+    $this->beans[] = $bean->delta;
     $bean->save();
+  }
+
+  /**
+   * Revert to previous settings after scenario execution.
+   *
+   * @AfterScenario
+   */
+  public function removeWebtools() {
+    // Remove the beans.
+    foreach ($this->beans as $bean) {
+      bean_delete(bean_load_delta($bean));
+    }
   }
 
 }
