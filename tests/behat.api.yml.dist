@@ -15,6 +15,7 @@ default:
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\MediaContext
         - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\WebtoolsContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
