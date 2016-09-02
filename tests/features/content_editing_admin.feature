@@ -88,7 +88,7 @@ Feature: Content editing as administrator
       | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> |
       | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    |
 
-  @api @javascript
+  @api @javascript @wip
   Scenario: Upload an image with format and alt text
     When I go to "node/add/page"
     And I select "Full HTML + Change tracking" from "Text format"
