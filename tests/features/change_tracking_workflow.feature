@@ -140,7 +140,7 @@ Feature: Change tracking features
     And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
     And I press "Save configuration"
     Then I should see the success message "The configuration options have been saved."
-    And I am viewing a multilingual "page" content:
+    When I am viewing a multilingual "page" content:
       | language | title              | body                 |
       | en       | Title in English   | <p>Page body</p>     |
       | fr       | Titre en Français  | <p>Corps de page</p> |
