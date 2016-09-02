@@ -1,7 +1,7 @@
 @api
-Feature: Content editing
+Feature: Content editing as administrator
   In order to manage the content on the website
-  As an editor
+  As an administrator
   I want to be able to create, edit and delete content
 
   Background:

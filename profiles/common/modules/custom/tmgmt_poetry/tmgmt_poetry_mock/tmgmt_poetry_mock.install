@@ -18,7 +18,7 @@ function tmgmt_poetry_mock_install() {
     "settings" : {
       "auto_accept" : 0,
       "settings" : {
-        "counter" : "1234",
+        "counter" : "NEXT_EUROPA_COUNTER",
         "code" : "ABCD"
       },
       "organization" : {
