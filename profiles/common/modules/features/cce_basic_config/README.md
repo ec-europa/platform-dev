@@ -3,7 +3,7 @@ the running Next Europa platform.
 
 # :warning:  Attention points while regenerating the feature
 
-When the feature is regenerated, ensure that at the end,the ".info" file contains:
+When the feature is regenerated, ensure that at the end, the ".info" file contains:
 
 ```php
 # The image_captcha_fonts variable is set in cce_basic_config_strongarm_alter().
