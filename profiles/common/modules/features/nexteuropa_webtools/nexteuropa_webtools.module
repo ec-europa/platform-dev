@@ -238,15 +238,6 @@ function nexteuropa_webtools_ckeditor_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_custom_theme().
- */
-function nexteuropa_webtools_ckeditor_custom_theme() {
-  if (strpos(current_path(), 'nexteuropa/token-ckeditor') === 0) {
-    return 'seven';
-  }
-}
-
-/**
  * AJAX page callback.
  *
  * @see: nexteuropa_token_ckeditor_menu()
