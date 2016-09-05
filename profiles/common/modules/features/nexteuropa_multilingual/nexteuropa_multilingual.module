@@ -427,7 +427,11 @@ function nexteuropa_multilingual_path_update($path) {
  *     - language: The language of the alias.
  */
 function _nexteuropa_multilingual_path_und_sync($path) {
-  if ($path['language'] != LANGUAGE_NONE) {
+
+  $node = menu_get_object("node", 1, $path['source']);
+  $translation_mechanism = variable_get('language_content_type_' . $node->type, 0);
+
+  if ($path['language'] != LANGUAGE_NONE && $translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
     // We synchronize the alias to force all aliases to be saved as
     // language neutral.
     $query = db_select('url_alias', 'ua')->condition('source', $path['source']);
@@ -495,11 +499,17 @@ function nexteuropa_multilingual_path_delete($path) {
 
 /**
  * Implements hook_pathauto_alias_alter().
+ *
+ * If entity uses entity translation force all aliases to be saved as
+ * language neutral. All content translations will have a unique alias.
  */
 function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
-  // Force all aliases to be saved as language neutral.
-  // All content translations will have a unique alias.
-  $context['language'] = LANGUAGE_NONE;
+
+  $translation_mechanism = variable_get('language_content_type_' . $context['type'], 0);
+
+  if ($translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
+    $context['language'] = LANGUAGE_NONE;
+  }
 }
 
 /**
