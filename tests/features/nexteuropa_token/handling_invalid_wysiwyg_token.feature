@@ -19,7 +19,7 @@ Feature: Testing wrong token association for Next Europa token module
     When I go to "node/add/page"
     And I fill in "Title" with "The right way is the right way"
     And I click the "Insert internal content" button in the "edit-field-ne-body-und-0-value" WYSIWYG editor
-    Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal links" title
+    Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     And I wait for AJAX to finish
     When I click the "Full content" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I click the "OK" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor

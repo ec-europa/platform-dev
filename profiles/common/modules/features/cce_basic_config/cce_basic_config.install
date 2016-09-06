@@ -2195,7 +2195,6 @@ function cce_basic_config_update_7211() {
   variable_set('apachesolr_delay_removals', 1);
 }
 
-
 /**
  * NEXTEUROPA-12797: Activate multisite_wysiwyg_link_hreflang plugin.
  */

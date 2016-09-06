@@ -108,7 +108,7 @@ on beans module.
 As an authorized user, edit the content and go to the CKEditor:
 
 Steps:
-- Click "Insert internal links"
+- Click "Insert internal content"
 - Go in the tab "Insert internal blocks"
 - Select a block and click the link "Default" in the column "Insert as"
 
