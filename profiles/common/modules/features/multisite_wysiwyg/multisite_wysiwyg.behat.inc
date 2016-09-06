@@ -82,7 +82,10 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @param string $instance_id
    *    The instanceId used by the WYSIWYG module to identify the instance.
    * @param string $modal
-   *    CSS class for give modal dialog or "CKEditor".
+   *    CSS class for give modal dialog or the "CKEditor" keyword for pointing
+   *    the CKEditor specific modal.
+   * @param string $field_id
+   *    The HTML id of the input from where the modal dialog is called.
    *
    * @throws Exception
    *   Throws an exception if the modal dialog can't be found.
@@ -231,7 +234,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   }
 
   /**
-   * Fix the screen resolution to use for the scenario.
+   * Sets the screen resolution used by Behat to run the scenario.
    *
    * @param int $width
    *   The screen width in px.
@@ -262,13 +265,17 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       }
     }
     catch (Exception $e) {
-      // It is not the right level to raise an exception.
-      // the catch is nevertheless there because exceptions happen when
-      // attribute is not found.
-      // Put a "echo" for debug purpose.
+      // Exceptions occurring here, have no relationship with the running test.
+      // Then, it is not the right level to raise an exception.
+      // The catch is nevertheless useful because exceptions could happen if
+      // the label value corresponds to the input id.
+      // The "echo" is inserted for debug purpose.
       echo (sprintf('An exception happens because "%s" was not found as Label.
       that means that could be an id then getFieldIdFromInputLabel is as id.', $label_value));
     }
+    // If the id is not found, the label is considered as input id and the
+    // scenario step calling the function must decide what to do with the
+    // returned value.
     return $label_value;
   }
 

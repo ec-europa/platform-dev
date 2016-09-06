@@ -1,15 +1,12 @@
 @api
-Feature: Testing the rich text options available with the toolbar present on
-  WYSIWYG fields like "Body".
-  I want to be able to format my content with rich text options supplied by the
-  displayed toolbar
+Feature: Testing the rich text options available with the toolbar present on WYSIWYG fields like "Body".
+  I want to be able to format my content with rich text options supplied by the displayed toolbar
 
   Background:
     Given I am logged in as a user with the 'administrator' role
 
   @javascript
-  Scenario: I create a content that contains a link with the following tag
-  attributes: id, class and hreflang
+  Scenario: I create a content that contains a link with the following tag attributes: id, class and hreflang
     # Necessary for PhantomJS to set a wider screen resolution.
     Given I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"

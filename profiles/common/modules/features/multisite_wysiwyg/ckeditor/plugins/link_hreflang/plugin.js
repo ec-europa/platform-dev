@@ -17,40 +17,44 @@
         // Removing the "lang" input and adding the "hreflang" one
         // in the advanced tab.
         var advancedTab = definition.getContents("advanced");
-        // Removing "lang" input.
-        advancedTab.remove("advLangCode");
+        if ((advancedTab != null) && (typeof advancedTab.add == 'function')) {
+          // Removing "lang" input.
+          advancedTab.remove("advLangCode");
 
-        // Adding "hreflang" input.
-        advancedTab.add({
-          type: "text",
-          id: "multisite_wysiwyg_link_hreflang",
-          label: Drupal.t("Language code (hreflang)"),
-          title: Drupal.t("Language code (hreflang): the code is on 2 characters (ex: en)."),
-          width: "100px",
-          setup: function () {
-            var definedLink = CKEDITOR.plugins.link.getSelectedLink(editor);
-            var setHreflang = '';
-            if (definedLink) {
-              setHreflang = definedLink.getAttribute("hreflang");
-            }
-            this.setValue(setHreflang || '');
-          },
-        });
+          // Adding "hreflang" input.
+          advancedTab.add({
+            type: "text",
+            id: "multisite_wysiwyg_link_hreflang",
+            label: Drupal.t("Language code (hreflang)"),
+            title: Drupal.t("The language of the document in the link (2 characters code, e.g. 'en')"),
+            width: "100px",
+            setup: function () {
+              // Gets "hreflang" attribute from the selected hyperlink value and initialise the
+              // input field.
+              var definedLink = CKEDITOR.plugins.link.getSelectedLink(editor);
+              var setHreflang = '';
+              if (definedLink) {
+                setHreflang = definedLink.getAttribute("hreflang");
+              }
+              this.setValue(setHreflang || '');
+            },
+          });
 
-        // Override the onOk event to display custom elements like the
-        // "hreflang" attribute.
-        definition.onOk = CKEDITOR.tools.override(definition.onOk, function (original) {
-          return function () {
-            original.call(this);
-            var hrefLangValue = this.getValueOf("advanced", "multisite_wysiwyg_link_hreflang");
-            if (hrefLangValue) {
-              CKEDITOR.plugins.link.getSelectedLink(editor).setAttribute("hreflang", hrefLangValue);
-            }
-            else {
-              CKEDITOR.plugins.link.getSelectedLink(editor).removeAttribute("hreflang");
-            }
-          };
-        });
+          // Override the onOk event to display custom elements like the
+          // "hreflang" attribute.
+          definition.onOk = CKEDITOR.tools.override(definition.onOk, function (original) {
+            return function () {
+              original.call(this);
+              var hrefLangValue = this.getValueOf("advanced", "multisite_wysiwyg_link_hreflang");
+              if (hrefLangValue) {
+                CKEDITOR.plugins.link.getSelectedLink(editor).setAttribute("hreflang", hrefLangValue);
+              }
+              else {
+                CKEDITOR.plugins.link.getSelectedLink(editor).removeAttribute("hreflang");
+              }
+            };
+          });
+        }
       });
     }
   });
