@@ -22,7 +22,6 @@ Feature: Testing wrong token association for Next Europa token module
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     And I wait for AJAX to finish
     When I click the "Full content" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
-    And I click the "OK" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     Then I press "Save"
     Then I should see "This is a page i want to reference"
     And I should see "Here is the content of the referenced page."
