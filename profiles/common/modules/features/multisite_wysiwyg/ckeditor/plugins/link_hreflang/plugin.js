@@ -26,7 +26,7 @@
             type: "text",
             id: "multisite_wysiwyg_link_hreflang",
             label: Drupal.t("Language code (hreflang)"),
-            title: Drupal.t("The language of the document in the link (2 characters code, e.g. 'en')"),
+            title: Drupal.t("The language of the linked document (2 characters code, e.g. 'en')"),
             width: "100px",
             setup: function () {
               // Gets "hreflang" attribute from the selected hyperlink value and initialise the

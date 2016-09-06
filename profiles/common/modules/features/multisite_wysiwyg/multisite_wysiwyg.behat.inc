@@ -80,15 +80,15 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * Get a Mink Element representing the WYSIWYG modal dialog.
    *
    * @param string $instance_id
-   *    The instanceId used by the WYSIWYG module to identify the instance.
+   *   The instanceId used by the WYSIWYG module to identify the instance.
    * @param string $modal
-   *    CSS class for give modal dialog or the "CKEditor" keyword for pointing
-   *    the CKEditor specific modal.
+   *   A CSS class or the "CKEditor" string in order to select
+   *   the CKEditor specific modal.
    * @param string $field_id
-   *    The HTML id of the input from where the modal dialog is called.
+   *   The HTML id of the input field from which the modal dialog is called.
    *
    * @throws Exception
-   *   Throws an exception if the modal dialog can't be found.
+   *   Throws an exception if the modal dialog cannot be found.
    *
    * @return \Behat\Mink\Element\NodeElement
    *   The toolbar DOM Node.
