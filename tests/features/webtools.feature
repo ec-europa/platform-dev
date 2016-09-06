@@ -32,7 +32,7 @@ Feature: Webtools as administrator
     Given a map webtools "Block Webtools" exists
     # When I go to "node/add/page"
     # And I fill in "Title" with "Basic page with a Map"
-    # And I click the "Insert internal links" button in the "edit-field-ne-body-und-0-value" WYSIWYG editor
+    # And I click the "Insert internal content" button in the "edit-field-ne-body-und-0-value" WYSIWYG editor
     # And I wait for AJAX to finish
     # And I click the "Advanced" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     # And I click the "Insert internal blocks" link in the "cke_editor_edit-field-ne-body-und-0-value_dialog" modal dialog from the "edit-field-ne-body-und-0-value" WYSIWYG editor
