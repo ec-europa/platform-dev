@@ -6,12 +6,12 @@ Webtools service documentation: https://webgate.ec.europa.eu/fpfis/wikis/display
 
 Table of content:
 =================
-- [Installation](#a-installation)
+- [Installation](#installation)
   - [How to: activate the feature](#how-to-activate-the-feature)
 
-- [Configuration](#usage)
-  - [Configure the Smartloader](#usage)
-  - [Set up permissions](#usage)
+- [Configuration](#configuration)
+  - [Configure the Smartloader](#configure-the-smartloader)
+  - [Set up permissions](#set-up-permissions)
 
 - [Usage](#usage)
   - [How to: create a block](#how-to-create-a-block)
