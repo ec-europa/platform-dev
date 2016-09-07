@@ -9,7 +9,6 @@ Feature: Webtools as administrator
       | modules             |
       | nexteuropa_webtools |
     And a valid Smartload Url has been configured
-    And I use device with "1920" px and "1080" px resolution
     And I am logged in as a user with the 'administrator' role
 
   @api
@@ -31,6 +30,7 @@ Feature: Webtools as administrator
   @api @javascript
   Scenario: Insert a webtools block into a content
     Given a map webtools "Block Webtools" exists
+    And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I fill in "Title" with "Basic page with a Map"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
