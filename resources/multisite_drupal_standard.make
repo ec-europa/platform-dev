@@ -735,6 +735,10 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/2645622
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
+; Prevent node aliasing deactivation by workbench moderation.
+; https://www.drupal.org/node/2308095
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13093
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-pathauto_alias_issue-2308095-20.patch
 
 
 projects[workbench_og][subdir] = "contrib"
