@@ -18,15 +18,15 @@ Feature:
       | page         | /, /all-basic-pages |
       | page         | /more-basic-pages   |
       | article      | /all-articles       |
-    When I go to "/config/frontend_cache_purge_rules"
+    When I go to "/admin/config/frontend_cache_purge_rules"
     Then I see an overview with the following cache purge rules:
       | Content Type | Paths to Purge      |
-      | Page         | /, /all-basic-pages |
-      | Page         | /more-basic-pages   |
+      | Basic page   | /, /all-basic-pages |
+      | Basic page   | /more-basic-pages   |
       | Article      | /all-articles       |
 
   Scenario: Add a purge rule.
-    When I go to "/config/frontend_cache_purge_rules"
+    When I go to "/admin/config/frontend_cache_purge_rules"
     And I click "Add"
     And I select "Basic page" from "Content type"
     And I fill "Paths" with:
@@ -46,12 +46,12 @@ Feature:
       | page         | /, /all-basic-pages |
       | page         | /more-basic-pages   |
       | article      | /all-articles       |
-    When I go to "/config/frontend_cache_purge_rules"
+    When I go to "/admin/config/frontend_cache_purge_rules"
     And I click "delete" next to the 2nd cache purge rule
     And I press the "Confirm" button
     Then I see an overview with the following cache purge rules:
       | Content Type | Paths to Purge      |
-      | Page         | /, /all-basic-pages |
+      | Basic page   | /, /all-basic-pages |
       | Article      | /all-articles       |
 
   Scenario: Create a draft.

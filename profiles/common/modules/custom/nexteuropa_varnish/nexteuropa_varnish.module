@@ -4,3 +4,58 @@
  * @file
  * Module file.
  */
+
+/**
+ * Implements hook_entity_info().
+ */
+function nexteuropa_varnish_entity_info() {
+  return array(
+    'nexteuropa_varnish_cache_purge_rule' => array(
+      'label' => t('Cache purge rule'),
+      'fieldable' => FALSE,
+      'entity keys' => array(
+        'id' => 'id',
+        'label' => 'id',
+      ),
+      'base table' => 'nexteuropa_varnish_cache_purge_rule',
+      'controller class' => 'EntityAPIController',
+      'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
+      'admin ui' => array(
+        'path' => 'admin/config/frontend_cache_purge_rules',
+        'controller class' => 'CachePurgeRuleEntityUIController',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_varnish_permission() {
+  return array(
+    'administer frontend cache purge rules' => array(
+      'title' => 'Administer frontend cache purge rules',
+      'description' => '',
+    ),
+  );
+}
+
+/**
+ * Access callback for the cache purge rule entity..
+ *
+ * @param string $op
+ *   The operation being performed. One of 'view', 'update', 'create', 'delete'
+ *   or just 'edit' (being the same as 'create' or 'update').
+ * @param object $cache_purge_rule
+ *   (optional) A cache purge rule to check access for. If nothing is given,
+ *   access for all cache purge rules is determined.
+ * @param object $account
+ *   (optional) The user to check for. Leave it to NULL to check for the
+ *   global user.
+ *
+ * @return bool
+ *   Whether access is allowed or not.
+ */
+function nexteuropa_varnish_cache_purge_rule_access($op, $cache_purge_rule = NULL, $account = NULL) {
+  return user_access('administer frontend cache purge rules', $account);
+}
