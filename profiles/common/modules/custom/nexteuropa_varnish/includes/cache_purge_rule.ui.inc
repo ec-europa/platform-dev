@@ -28,7 +28,7 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
    * {@inheritdoc}
    */
   protected function overviewTableRow($conditions, $id, $entity, $additional_cols = array()) {
-    array_unshift($additional_cols, preg_replace("/[\n\r]/", ", ", $entity->paths));
+    array_unshift($additional_cols, preg_replace("/[\r\n]+/", ", ", $entity->paths));
 
     $content_type_names = node_type_get_names();
     $content_type_label = $content_type_names[$entity->content_type];
@@ -36,7 +36,7 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
 
     $row = parent::overviewTableRow($conditions, $id, $entity, $additional_cols);
 
-    // We remove the 'Label' row, because our entity has no meaninful label.
+    // We remove the 'Label' row, because our entity has no meaningful label.
     array_shift($row);
 
     return $row;

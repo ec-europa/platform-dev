@@ -11,18 +11,20 @@
 function nexteuropa_varnish_entity_info() {
   return array(
     'nexteuropa_varnish_cache_purge_rule' => array(
+      'module' => 'nexteuropa_varnish',
       'label' => t('Cache purge rule'),
       'fieldable' => FALSE,
       'entity keys' => array(
         'id' => 'id',
-        'label' => 'id',
       ),
+      'label callback' => 'nexteuropa_varnish_cache_purge_rule_label',
       'base table' => 'nexteuropa_varnish_cache_purge_rule',
       'controller class' => 'EntityAPIController',
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
         'path' => 'admin/config/frontend_cache_purge_rules',
         'controller class' => 'CachePurgeRuleEntityUIController',
+        'file' => 'nexteuropa_varnish.admin.inc',
       ),
     ),
   );
@@ -58,4 +60,18 @@ function nexteuropa_varnish_permission() {
  */
 function nexteuropa_varnish_cache_purge_rule_access($op, $cache_purge_rule = NULL, $account = NULL) {
   return user_access('administer frontend cache purge rules', $account);
+}
+
+/**
+ * Label callback for the cache purge rule entity.
+ *
+ * @param object $purge_rule
+ *   The cache purge rule.
+ */
+function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
+  if (isset($purge_rule->id)) {
+    return t('cache purge rule !id', array('!id' => $purge_rule->id));
+  }
+
+  return t('new cache purge rule');
 }

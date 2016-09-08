@@ -27,8 +27,8 @@ Feature:
 
   Scenario: Add a purge rule.
     When I go to "/admin/config/frontend_cache_purge_rules"
-    And I click "Add"
-    And I select "Basic page" from "Content type"
+    And I click "Add cache purge rule"
+    And I select "Basic page" from "Content Type"
     And I fill "Paths" with:
       """
       /
