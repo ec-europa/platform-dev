@@ -8,12 +8,16 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
+use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
+use InterNations\Component\HttpMock\Matcher\MatcherFactory;
+use InterNations\Component\HttpMock\MockBuilder;
+use InterNations\Component\HttpMock\RequestCollectionFacade;
+use InterNations\Component\HttpMock\Server;
 
 /**
  * Context for steps and assertions related to web frontend caching (Varnish).
@@ -35,6 +39,82 @@ class FrontendCacheContext implements Context {
   protected $variables;
 
   /**
+   * The port the mocked HTTP server should listen on.
+   *
+   * @var int
+   */
+  protected $mockServerPort;
+
+  /**
+   * The mocked HTTP server.
+   *
+   * @var Server
+   */
+  protected $server;
+
+  /**
+   * Facade to access requests made to the mocked HTTP server.
+   *
+   * @var RequestCollectionFacade
+   */
+  protected $requests;
+
+  /**
+   * FrontendCacheContext constructor.
+   *
+   * @param int $mock_server_port
+   *   The port the mocked HTTP server should listen on.
+   */
+  public function __construct($mock_server_port = 8888) {
+    $this->mockServerPort = $mock_server_port;
+  }
+
+  /**
+   * Gets the mocked HTTP server.
+   *
+   * Initializes the server if it was not used before.
+   * By default it responds to any POST requests to /invalidate with 200 OK,
+   * additional behavior can be added in further steps.
+   *
+   * @return Server
+   *   The mocked HTTP server.
+   */
+  protected function getServer() {
+    if (!$this->server) {
+      $this->server = new Server($this->mockServerPort, 'localhost');
+
+      $this->server->start();
+
+      // Accept any POSTS.
+      $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
+      $mock
+        ->when()
+        ->pathIs('/invalidate')
+        ->methodIs('POST')
+        ->then()
+        ->statusCode(200);
+
+      $this->server->setUp($mock->flushExpectations());
+    }
+
+    return $this->server;
+  }
+
+  /**
+   * Gets the requests made to the mocked Integration backend.
+   *
+   * @return RequestCollectionFacade
+   *   The requests facade.
+   */
+  protected function getRequests() {
+    if (!$this->requests) {
+      $this->requests = new RequestCollectionFacade($this->server->getClient());
+    }
+
+    return $this->requests;
+  }
+
+  /**
    * Gathers other contexts we rely on, before the scenario starts.
    *
    * @BeforeScenario
@@ -54,7 +134,51 @@ class FrontendCacheContext implements Context {
   public function valueIsConfiguredAsThePurgeApplicationTag($arg1) {
     $this->variables->setVariable('fp_tag_for_cache_page', $arg1);
 
-    // @todo Further configuration, mock the expected HTTP interface.
+    $server = $this->getServer();
+
+    // Do not let poor man's cron interfere with our test.
+    $this->variables->setVariable('cron_safe_threshold', 0);
+
+    $this->variables->setVariable('page_cache_invoke_hooks', TRUE);
+    $this->variables->setVariable('cache', TRUE);
+    $this->variables->setVariable('cache_lifetime', FALSE);
+    $this->variables->setVariable('page_cache_without_database', FALSE);
+    $cache_handler_file = drupal_get_path('module', 'flexible_purge') . '/flexible_purge.cache.inc';
+    // $cache_backends = variable_get('cache_backends', array());
+    // $cache_backends[] = $cache_handler_file;
+    // $this->variables->setVariable('cache_backends', $cache_backends);
+    // Workaround for cache handler class not getting loaded properly by the
+    // 3 lines above.
+    require_once 'includes/registry.inc';
+    _registry_parse_files([$cache_handler_file => ['module' => 'flexible_purge', 'weight' => 0]]);
+    $this->variables->setVariable('cache_class_cache_page', 'FlexiblePurgeCache');
+    $this->variables->setVariable('fp_keep_caching_for_cache_page', 'DrupalDatabaseCache');
+    $this->variables->setVariable('fp_http_targets_for_cache_page', array($server->getConnectionString()));
+
+    // Act as if the flexible purge page cache just got cleared.
+    $this->variables->setVariable('fp_latest_clear_for_cache_page', time());
+
+    // Set minimum cache lifetime to something high enough so a full
+    // cache clear does not get triggered during 1 scenario. Currently 10
+    // minutes.
+    $this->variables->setVariable('fp_min_cache_lifetime_for_cache_page', 60 * 10);
+
+    // The builtin webserver of PHP which is used by our HTTP mock server, does
+    // not support the PURGE method which flexible_purge uses by default.
+    // Configure it to use POST instead.
+    $this->variables->setVariable(
+      'fp_http_request_for_cache_page', array(
+        'method' => 'POST',
+        'path' => '/invalidate',
+        'headers' => array(
+          'X-Invalidate-Tag' => '@{tag}',
+          'X-Invalidate-Host' => '@{host}',
+          'X-Invalidate-Base-Path' => '@{base_path}',
+          'X-Invalidate-Type' => '@{clear_type}',
+          'X-Invalidate-Regexp' => '@{path_regexp}',
+        ),
+      )
+    );
   }
 
   /**
@@ -154,7 +278,25 @@ class FrontendCacheContext implements Context {
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
-    throw new PendingException();
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+
+    $rows = $table->getHash();
+
+    $paths = array_map(
+      function ($row) {
+        return preg_quote(ltrim($row['Path'], '/'));
+      },
+      $rows
+    );
+
+    $path_string = '^(' . implode('|', $paths) . ')$';
+
+    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+    assert($purge_request->getHeader('X-Invalidate-Regexp')->toArray(), equals([$path_string]));
   }
 
   /**
@@ -163,7 +305,19 @@ class FrontendCacheContext implements Context {
    * @Then the web front end cache was not instructed to purge any paths
    */
   public function theWebFrontEndCacheWasNotInstructedToPurgeAnyPaths() {
-    throw new PendingException();
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(0));
+  }
+
+  /**
+   * Stops the mock HTTP server if it was started.
+   *
+   * @AfterScenario
+   */
+  public function stopMockServer() {
+    if ($this->server && $this->server->isStarted()) {
+      $this->server->stop();
+    }
   }
 
   /**
