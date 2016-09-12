@@ -37,6 +37,8 @@ Feature: Webtools as administrator
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I wait for AJAX to finish
-    When I click the "Default" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
+    When I click "Default" in the "Block Webtools" row
+    And I wait for AJAX to finish
     And I press "Save"
     Then I should see the success message "Basic page with a Map has been created."
+    And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"

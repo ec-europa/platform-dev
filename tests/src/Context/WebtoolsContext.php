@@ -87,7 +87,7 @@ class WebtoolsContext implements Context {
       'field_json_object' => array(
         LANGUAGE_NONE => array(
           0 => array(
-            'value' => '{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}',
+            'value' => '{"service":"map","custom":"//europa.eu/webtools/showcase/demo/map/samples/demo.js"}',
           ),
         ),
       ),
