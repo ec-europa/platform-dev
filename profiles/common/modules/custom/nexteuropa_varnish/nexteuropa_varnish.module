@@ -130,7 +130,12 @@ function _nexteuropa_varnish_purge_paths($paths) {
     return;
   }
 
-  // First trigger a clear operation on the actual backend cache, if any.
+  // First clear the actual backend page cache (usually DrupalDatabaseCache),
+  // if there is any. Otherwise the web frontend cache will receive again
+  // outdated cached versions of pages.
+  // Be aware that this clears the full page cache instead of clearing only
+  // certain pages. To make it more precise, we need to have full knowledge of
+  // all possible base URLs. This can be improved later on.
   $backend = $cache->keepCachingObject();
   if (!is_null($backend)) {
     $backend->clear(NULL, FALSE);
