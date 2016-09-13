@@ -225,3 +225,70 @@ function tmgmt_poetry_mock_service_configuration() {
 
   return $poetry_service;
 }
+
+/**
+ * Get the path for translation job item related entity.
+ *
+ * @param int $tjiid
+ *    A translation job item ID.
+ *
+ * @return string
+ *    Path to the entity.
+ */
+function _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, $translation = false) {
+
+  $item = entity_load_single('tmgmt_job_item', $tjiid);
+  switch ($item->item_type) {
+    case "node":
+      if ($translation) {
+        return 'node/' . $item->item_id . '/translate';
+      }
+      else {
+        $uri = $item->getSourceUri();
+        return $uri['path'];
+      }
+    case "taxonomy_vocabulary":
+      $uri = $item->getSourceUri();
+      if ($translation) {
+        return $uri['path'] . '/translate';
+      }
+      else {
+        return $uri['path'];
+      }
+    case "taxonomy_term":
+      list(,,$term_id) = explode(':', $item->item_id);
+      if ($translation) {
+        return url('taxonomy/term/' . $term_id . '/translate');
+      }
+      else {
+        $uri = $item->getSourceUri();
+        return $uri['path'];
+      }
+  }
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function tmgmt_poetry_mock_entity_info_alter(&$info) {
+  if (isset($info['taxonomy_vocabulary']) && empty($info['taxonomy_vocabulary']['uri callback'])) {
+    $info['taxonomy_vocabulary']['uri callback'] = 'tmgmt_poetry_mock_entity_info_uri_callback';
+  }
+}
+
+/**
+ * Add uri callback for vocabulary.
+ *
+ * @param object $vocabulary
+ *   The vocabulary for which we want the path.
+ *
+ * @return array
+ *    The path for vocabulary's administration page.
+ */
+function tmgmt_poetry_mock_entity_info_uri_callback($vocabulary) {
+  if (user_access('administer taxonomy')) {
+    return array(
+      'path' => 'admin/structure/taxonomy/' . $vocabulary->machine_name,
+    );
+  }
+}
