@@ -82,7 +82,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
 
             case 'bean':
               if ($bean = bean_load($entity_id)) {
-                if (bean_access('view')) {
+                if (bean_access('view', $bean)) {
                   $render = bean_view($bean, $view_mode);
                 }
               }
