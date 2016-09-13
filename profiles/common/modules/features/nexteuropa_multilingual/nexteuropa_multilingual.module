@@ -419,7 +419,7 @@ function nexteuropa_multilingual_path_update($path) {
 /**
  * Force the path to have a language neutral alias.
  *
- * If entity does not have a translation mechanism other than entity translation
+ * If entity is a node using entity translation,
  * force the path to have a language neutral alias even if it is custom.
  *
  * @param array $path
@@ -431,10 +431,11 @@ function nexteuropa_multilingual_path_update($path) {
  */
 function _nexteuropa_multilingual_path_und_sync($path) {
 
-  // Check if entity has a translation mechanism other than entity translation.
+  // Only apply this logic to nodes that don't have
+  // a translation mechanism different from entity translation.
   $node = menu_get_object("node", 1, $path['source']);
   if (isset($node->type)) {
-    $translation_mechanism = variable_get('language_content_type_' . $node->type, ENTITY_TRANSLATION_ENABLED);
+    $translation_mechanism = variable_get('language_content_type_' . $node->type, 0);
   }
   if (!isset($translation_mechanism) || $translation_mechanism != ENTITY_TRANSLATION_ENABLED) {
     return;
@@ -509,13 +510,13 @@ function nexteuropa_multilingual_path_delete($path) {
 /**
  * Implements hook_pathauto_alias_alter().
  *
- * If entity does not have a translation mechanism other than entity translation
+ * If entity has entity translation enabled,
  * force all aliases to be saved as language neutral.
  * All content translations will have a unique alias.
  */
 function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
 
-  $translation_mechanism = variable_get('language_content_type_' . $context['type'], ENTITY_TRANSLATION_ENABLED);
+  $translation_mechanism = variable_get('language_content_type_' . $context['type'], 0);
 
   if ($translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
     $context['language'] = LANGUAGE_NONE;
