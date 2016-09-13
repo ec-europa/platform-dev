@@ -82,7 +82,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
 
             case 'bean':
               if ($bean = bean_load($entity_id)) {
-                if (user_access('view any webtools bean')) {
+                if (bean_access('view')) {
                   $render = bean_view($bean, $view_mode);
                 }
               }
