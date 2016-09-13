@@ -81,9 +81,13 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
               break;
 
             case 'bean':
-              $bean = bean_load($entity_id);
-              if (user_access('access user profiles')) {
-                $render = bean_view($bean, $view_mode);
+              if ($bean = bean_load($entity_id)) {
+                if (user_access('view any webtools bean')) {
+                  $render = bean_view($bean, $view_mode);
+                }
+              }
+              else {
+                $this->watchdogTokenNotFound($data, $original);
               }
               break;
           }
