@@ -141,6 +141,8 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $backend->clear(NULL, FALSE);
   }
 
+  // Escape the paths for usage in a regular expression. Also remove leading
+  // slashes.
   $escaped_paths = array_map(
     function ($path) {
       return preg_quote(ltrim($path, '/'));
@@ -148,6 +150,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $paths
   );
 
+  // Fill in placeholders in the request skeleton.
   $values = array(
     'host' => '',
     'base_path' => '',
@@ -170,6 +173,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
   $http_targets = $cache->vget('http_targets', array());
   $method = $request['method'];
 
+  // Remove empty headers.
   $request['headers'] = array_filter(
     $request['headers'],
     function ($value) {
@@ -177,6 +181,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
     }
   );
 
+  // Format headers.
   $formatted_headers = array_map(
     function ($name, $value) {
       return sprintf('%s: %s', $name, trim($value));
