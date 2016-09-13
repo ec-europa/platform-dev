@@ -4,7 +4,7 @@ Feature user documentation: https://webgate.ec.europa.eu/fpfis/wikis/display/MUL
 
 Webtools service documentation: https://webgate.ec.europa.eu/fpfis/wikis/display/webtools/Webtools+documentation+-+Homepage
 
-Table of content:
+Table of contents:
 =================
 - [Installation](#installation)
   - [How to: activate the feature](#how-to-activate-the-feature)
@@ -41,7 +41,7 @@ To activate the feature, an administrator user needs to:
 The only thing that needs to be configured is the url where the Smartloader is defined.
 This can be done as an administrative user on "/admin/config/services/webtools".
 Most sites can use the europa.eu smartloader (//europa.eu/webtools/load.js),
-but this can be configured to use an other one if needed.
+but this can be configured to use another one if needed.
 
 Or set the variable "nexteuropa_webtools_smartloader_prurl"
 
@@ -93,7 +93,7 @@ Steps:
 ## How to: use the webtools block(s)
 
 The created blocks are listed at "admin/content/blocks".
-These blocks can be uses as any other block in Drupal.
+These blocks can be used as any other block in Drupal.
 You can add them to the page with the block system "admin/structure/blocks" -
 or via context "admin/structure/context" or via any other system to place blocks
 in Drupal.
@@ -103,9 +103,9 @@ on beans module.
 
 [Go to top](#table-of-content)
 
-## How to: insert a existing webtools block into a content
+## How to: insert a existing webtools block into content
 
-As an authorized user, edit the content and go to the CKEditor:
+As an authorized user, edit the content and use the WYSIWYG:
 
 Steps:
 - Click "Insert internal content"
@@ -116,7 +116,7 @@ Steps:
 
 # Testing
 
-The Behat test exist in the file "/tests/features/webtools.feature".
+The Behat test is located in the file "/tests/features/webtools.feature".
 
 [Go to top](#table-of-content)
 
