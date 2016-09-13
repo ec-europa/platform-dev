@@ -80,35 +80,38 @@ function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
  * Implements hook_workbench_moderation_transition().
  */
 function nexteuropa_varnish_workbench_moderation_transition($node, $previous_state, $new_state) {
-  $query = new EntityFieldQuery();
-  $query
-    ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
-    ->propertyCondition('content_type', $node->type);
-
-  $result = $query->execute();
-
-  $paths = array();
-
-  if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
-    $purge_rules = entity_load(
-      'nexteuropa_varnish_cache_purge_rule',
-      array_keys($result['nexteuropa_varnish_cache_purge_rule'])
-    );
-    foreach ($purge_rules as $purge_rule) {
-      $purge_paths = preg_split("/[\r\n]+/", $purge_rule->paths);
-
-      $paths = array_merge($paths, $purge_paths);
-    }
-  }
-
-  $paths = array_unique($paths);
-
   $purge
     = ($new_state == workbench_moderation_state_published()) ||
       ($previous_state == workbench_moderation_state_published() && $new_state !== $previous_state);
 
-  if ($purge && !empty($paths)) {
-    _nexteuropa_varnish_purge_paths($paths);
+  if ($purge) {
+    $query = new EntityFieldQuery();
+    $query
+      ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
+      ->propertyCondition('content_type', $node->type);
+
+    $result = $query->execute();
+
+    $paths = array();
+
+    if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
+      $purge_rules = entity_load(
+        'nexteuropa_varnish_cache_purge_rule',
+        array_keys($result['nexteuropa_varnish_cache_purge_rule'])
+      );
+      foreach ($purge_rules as $purge_rule) {
+        $purge_paths = preg_split("/[\r\n]+/", $purge_rule->paths);
+
+        $paths = array_merge($paths, $purge_paths);
+      }
+    }
+
+    $paths = array_unique($paths);
+    $paths = array_filter($paths);
+
+    if (!empty($paths)) {
+      _nexteuropa_varnish_purge_paths($paths);
+    }
   }
 }
 
