@@ -386,4 +386,5 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       ->find('xpath', '//a[text() = "' . $text . '"]');
     $element->click();
   }
+  
 }
