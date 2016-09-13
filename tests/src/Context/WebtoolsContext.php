@@ -15,7 +15,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 class WebtoolsContext implements Context {
 
   /**
-   * The Smarloader Protocol-Relative URL.
+   * The Smartloader Protocol-Relative URL.
    *
    * @var string
    */
@@ -49,7 +49,7 @@ class WebtoolsContext implements Context {
    * Constructs a new WebtoolsContext.
    *
    * @param string $smartloadurl
-   *   The Smarloader Protocol-Relative URL.
+   *   The Smartloader Protocol-Relative URL.
    */
   public function __construct($smartloadurl) {
     // @todo continuousphp insert the right $url
@@ -58,7 +58,7 @@ class WebtoolsContext implements Context {
   }
 
   /**
-   * Configures the Smarloader URL for the nexteuropa_webtools module.
+   * Configures the Smartloader URL for the nexteuropa_webtools module.
    *
    * @Given a valid Smartload Url has been configured
    */
@@ -67,14 +67,14 @@ class WebtoolsContext implements Context {
   }
 
   /**
-   * Create a Webtools blocks.
+   * Create a Webtools block.
    *
    * @param string $name
    *   Name of the block webtools.
    *
    * @Given a map webtools :name exists
    *
-   * @Then I create a new map webtools :name
+   * @When I create a new map webtools :name
    */
   public function aWebtoolsMapExists($name) {
     $values = array(
