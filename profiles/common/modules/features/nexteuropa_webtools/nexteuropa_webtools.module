@@ -31,7 +31,7 @@ function nexteuropa_webtools_menu() {
 
   $items['nexteuropa/webtools-ckeditor/%'] = array(
     'page callback' => 'nexteuropa_webtools_ajax_callback',
-    'page arguments' => array(2, 3),
+    'page arguments' => array(2),
     'access callback' => 'nexteuropa_webtools_ajax_access_callback',
     'type' => MENU_CALLBACK,
     'delivery callback' => 'ajax_deliver',

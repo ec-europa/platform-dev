@@ -1,6 +1,6 @@
 @api
-Feature: Webtools as administrator
-  In order to manage Webtools on the website
+Feature: Webtools feature
+  In order to use widgets (charts, maps, social tools and more) on the website with the Webtools service
   As an administrator
   I want to be able to create, edit and delete block Webtools
 
