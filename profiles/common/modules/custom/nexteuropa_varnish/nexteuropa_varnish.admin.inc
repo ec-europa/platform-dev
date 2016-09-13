@@ -22,6 +22,7 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     '#type' => 'textarea',
     '#default_value' => isset($purge_rule->paths) ? $purge_rule->paths : '',
     '#required' => TRUE,
+    '#description' => t('Paths to purge. One per line. The paths should be relative to the base URL. Use / for the front page.'),
   );
 
   $form['actions'] = array('#type' => 'actions');
