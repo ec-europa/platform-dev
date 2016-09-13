@@ -5,12 +5,30 @@
  */
 
 include_once 'nexteuropa_editorial.features.inc';
+include_once 'includes/nexteuropa_editorial.tracking.inc';
 
 /**
  * Editorial team member role name.
  */
 define('NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE', 'editorial team member');
 
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_editorial_menu() {
+
+  $items['admin/config/content/multisite_wysiwyg/workbench'] = [
+    'title' => 'WYSIWYG workflow settings',
+    'description' => 'Setup page for Multisite WYSIWYG workflow',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['nexteuropa_editorial_wysiwyg_tracking_settings_form'],
+    'access arguments' => ['administer site configuration'],
+    'file' => 'includes/nexteuropa_editorial.tracking.inc',
+    'weight' => 1,
+  ];
+
+  return $items;
+}
 /**
  * Implements hook_workbench_block().
  */
@@ -113,4 +131,68 @@ function nexteuropa_editorial_module_implements_alter(&$implementations, $hook) 
     unset($implementations['nexteuropa_editorial']);
     $implementations['nexteuropa_editorial'] = $group;
   }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_editorial_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
+  $entity = $form['node']['#value'];
+  $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+  if ($tracking_settings['is_activate']) {
+    $form['#validate'][] = '_nexteuropa_editorial_tracking_wbm_validate';
+  }
+}
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area" widget.
+ */
+function nexteuropa_editorial_field_widget_text_textarea_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_editorial_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area with a summary" widget.
+ */
+function nexteuropa_editorial_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_editorial_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text field" widget.
+ */
+function nexteuropa_editorial_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_editorial_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_attach_form().
+ */
+function nexteuropa_editorial_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  // Only node entities are supported.
+  $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+  if (($entity_type == 'node') && $tracking_settings['is_activate']) {
+    if (!isset($form['language'])) {
+      // The form item containing the entity can change from an entity to
+      // another. Then we set it like that to easy future treatment.
+      $form['language'] = array(
+        '#type' => 'value',
+        '#value' => $langcode,
+      );
+    }
+    $form['#validate'][] = '_nexteuropa_editorial_tracking_entity_validate';
+  }
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function nexteuropa_editorial_entity_view_alter(&$build, $type) {
+  _nexteuropa_editorial_ckeditor_lite_view_alter($build, $type);
 }

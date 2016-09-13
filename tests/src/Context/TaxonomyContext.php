@@ -270,9 +270,8 @@ class TaxonomyContext implements Context {
   private function getTaxonomyIdByName($name) {
     $vocabulary = taxonomy_vocabulary_machine_name_load($this->getMachineName($name));
     if (empty($vocabulary)) {
-      throw new \InvalidArgumentException("The vocabulary '{$vocabulary_name}' doesn't exist.");
+      throw new \InvalidArgumentException("The vocabulary '{$name}' doesn't exist.");
     }
-
     return $vocabulary->vid;
   }
 

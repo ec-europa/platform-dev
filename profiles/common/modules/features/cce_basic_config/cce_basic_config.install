@@ -439,6 +439,9 @@ function cce_basic_config_install() {
     'nexteuropa_token_ckeditor' => array(
       'NextEuropaToken',
     ),
+    'multisite_wysiwyg_link_hreflang' => array(
+      'Link',
+    ),
   );
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
@@ -1611,7 +1614,7 @@ function cce_basic_config_update_7192() {
   variable_set('image_captcha_distortion_amplitude', '5');
   variable_set('image_captcha_bilinear_interpolation', 1);
 
-  if (db_table_exists($captcha_points)) {
+  if (db_table_exists('captcha_points')) {
     db_update('captcha_points')
       ->fields(array('captcha_type' => 'default'))
       ->condition('form_id', 'contact_site_form')
@@ -2194,5 +2197,20 @@ function cce_basic_config_update_7210() {
  */
 function cce_basic_config_update_7211() {
   variable_set('apachesolr_delay_removals', 1);
+}
+
+/**
+ * NEXTEUROPA-12797: Activate multisite_wysiwyg_link_hreflang plugin.
+ */
+function cce_basic_config_update_7212() {
+  $plugin_settings = array(
+    'multisite_wysiwyg_link_hreflang' => array(
+      'Link',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html_track', $group, $buttons);
+  }
 }
 

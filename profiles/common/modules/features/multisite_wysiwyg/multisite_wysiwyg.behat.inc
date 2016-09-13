@@ -86,20 +86,30 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * Get a Mink Element representing the WYSIWYG modal dialog.
    *
    * @param string $instance_id
-   *    The instanceId used by the WYSIWYG module to identify the instance.
-   * @param string $modal_id
-   *    CSS class for give modal dialog.
+   *   The instanceId used by the WYSIWYG module to identify the instance.
+   * @param string $modal
+   *   A CSS class or the "CKEditor" string in order to select
+   *   the CKEditor specific modal.
+   * @param string $field_id
+   *   The HTML id of the input field from which the modal dialog is called.
    *
    * @throws Exception
-   *   Throws an exception if the modal dialog can't be found.
+   *   Throws an exception if the modal dialog cannot be found.
    *
    * @return \Behat\Mink\Element\NodeElement
    *   The toolbar DOM Node.
    */
-  protected function getWysiwygModalDialog($instance_id, $modal_id) {
+  protected function getWysiwygModalDialog($instance_id, $modal, $field_id = NULL) {
     $driver = $this->getSession()->getDriver();
+
+    $modal_id = $modal;
+    if ('ckeditor' == strtolower($modal) && $field_id) {
+      // Example: cke_editor_edit-field-ne-body-und-0-value_dialog.
+      $modal_id = 'cke_editor_' . $field_id . '_dialog';
+    }
     $modal_element = $driver->find("//div[contains(@class, 'cke_1') and contains(@class, '$modal_id')]");
     $modal_element = !empty($modal_element) ? $modal_element[0] : NULL;
+
     if (!$modal_element) {
       throw new \Exception(sprintf('Modal dialog for editor "%s" was not found on the page %s', $instance_id, $this->getSession()->getCurrentUrl()));
     }
@@ -113,7 +123,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @When /^I type "([^"]*)" in the "([^"]*)" WYSIWYG editor$/
    */
   public function iTypeInTheWysiwygEditor($text, $instance_id) {
-    $instance = $this->getWysiwygInstance($instance_id);
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance = $this->getWysiwygInstance($field_id);
     $this->getSession()->executeScript("$instance.insert(\"$text\");");
   }
 
@@ -124,7 +135,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    */
   public function iClickTheButtonInTheWysiwygEditor($action, $instance_id) {
     $driver = $this->getSession()->getDriver();
-    $instance_id = $this->getWysiwygInstance($instance_id);
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance_id = $this->getWysiwygInstance($field_id);
     $toolbar_element = $this->getWysiwygToolbar($instance_id);
 
     // Click the action button.
@@ -140,17 +152,31 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    */
   public function iClickTheLinkInTheModalDialog($action, $modal_id, $instance_id) {
     $driver = $this->getSession()->getDriver();
-    $instance_id = $this->getWysiwygInstance($instance_id);
-    $modal_element = $this->getWysiwygModalDialog($instance_id, $modal_id);
-    // Click the action link.
-    $link = $modal_element->find("xpath", "//a[contains(text(),'$action')]");
-    $link->click();
-    $driver->wait(1000, TRUE);
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance_id = $this->getWysiwygInstance($field_id);
+    $modal_element = $this->getWysiwygModalDialog($instance_id, $modal_id, $field_id);
 
-    // Closing modal dialog @todo: could be moved to separate step.
-    $close_modal_link = $modal_element->find("xpath", "//span[@class='cke_dialog_ui_button']");
-    $close_modal_link->click();
-    $driver->wait(1000, TRUE);
+    // Click the action link.
+    $action_test = strtolower($action);
+    switch ($action_test) {
+      case 'ok':
+        $close_modal_link = $modal_element->find("xpath", "//a[contains(@class, 'cke_dialog_ui_button_ok')]/span[@class='cke_dialog_ui_button']");
+        $close_modal_link->click();
+        $driver->wait(1000, TRUE);
+        break;
+
+      case 'cancel':
+        $close_modal_link = $modal_element->find("xpath", "//a[contains(@class, 'cke_dialog_ui_button_cancel']/span[@class='cke_dialog_ui_button']");
+        $close_modal_link->click();
+        $driver->wait(1000, TRUE);
+        break;
+
+      default:
+        $link = $modal_element->find("xpath", "//a[contains(text(),'$action')]");
+        $link->click();
+        $driver->wait(1000, TRUE);
+        break;
+    }
   }
 
   /**
@@ -159,8 +185,9 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @Then /^I should see the "([^"]*)" modal dialog from the "([^"]*)" WYSIWYG editor with "([^"]*)" title$/
    */
   public function iShouldSeeTheModal($modal_id, $instance_id, $title) {
-    $instance_id = $this->getWysiwygInstance($instance_id);
-    $modal_element = $this->getWysiwygModalDialog($instance_id, $modal_id);
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance_id = $this->getWysiwygInstance($field_id);
+    $modal_element = $this->getWysiwygModalDialog($instance_id, $modal_id, $field_id);
     $title_xpath = "//div[@class='cke_dialog_title']";
     $modal_title = $modal_element->find('xpath', $title_xpath)->getText();
     if ($modal_title !== $title) {
@@ -174,7 +201,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @Then /^I should see "([^"]*)" in the "([^"]*)" WYSIWYG editor$/
    */
   public function assertContentInWysiwygEditor($text, $instance_id) {
-    $instance = $this->getWysiwygInstance($instance_id);
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance = $this->getWysiwygInstance($field_id);
     $content = $this->getSession()->evaluateScript("return $instance.getContent()");
     if (strpos($text, $content) === FALSE) {
       throw new \Exception(sprintf('The text "%s" was not found in the "%s" WYSWIYG editor on the page %s', $text, $instance_id, $this->getSession()->getCurrentUrl()));
@@ -187,7 +215,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @Then /^I should not see the "([^"]*)" button in the "([^"]*)" WYSIWYG editor$/
    */
   public function iShouldNotSeeButtonInToolbar($action, $instance_id) {
-    $instance_id = $this->getWysiwygInstance($instance_id);
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance_id = $this->getWysiwygInstance($field_id);
     $toolbar_element = $this->getWysiwygToolbar($instance_id);
     $button = $toolbar_element->find("xpath", "//a[starts-with(@title, '$action')]");
     if (!is_null($button)) {
@@ -201,12 +230,59 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @Then /^I should see the "([^"]*)" button in the "([^"]*)" WYSIWYG editor$/
    */
   public function iShouldSeeButtonInToolbar($action, $instance_id) {
-    $instance_id = $this->getWysiwygInstance($instance_id);
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance_id = $this->getWysiwygInstance($field_id);
     $toolbar_element = $this->getWysiwygToolbar($instance_id);
     $button = $toolbar_element->find("xpath", "//a[starts-with(@title, '$action')]");
     if (is_null($button)) {
       throw new \Exception(sprintf('Button "%s" was not found on the page %s', $action, $this->getSession()->getCurrentUrl()));
     }
+  }
+
+  /**
+   * Sets the screen resolution used by Behat to run the scenario.
+   *
+   * @param int $width
+   *   The screen width in px.
+   * @param int $height
+   *   The screen height in px.
+   *
+   * @Given /^I use device with "([^"]*)" px and "([^"]*)" px resolution$/
+   */
+  public function iUseDeviceWithAndResolution($width, $height) {
+    $this->getSession()->resizeWindow((int) $width, (int) $height, 'current');
+  }
+
+  /**
+   * Gets the form input id from the input element label.
+   *
+   * @param string $label_value
+   *   The form input label text.
+   *
+   * @return string
+   *   The form input id
+   */
+  protected function getFieldIdFromInputLabel($label_value) {
+    $driver = $this->getSession()->getDriver();
+    try {
+      $input_id = $driver->getAttribute("//label[contains(text(),'$label_value')]", 'for');
+      if ($input_id) {
+        return $input_id;
+      }
+    }
+    catch (Exception $e) {
+      // Exceptions occurring here, have no relationship with the running test.
+      // Then, it is not the right level to raise an exception.
+      // The catch is nevertheless useful because exceptions could happen if
+      // the label value corresponds to the input id.
+      // The "echo" is inserted for debug purpose.
+      echo (sprintf('An exception happens because "%s" was not found as Label.
+      that means that could be an id then getFieldIdFromInputLabel is as id.', $label_value));
+    }
+    // If the id is not found, the label is considered as input id and the
+    // scenario step calling the function must decide what to do with the
+    // returned value.
+    return $label_value;
   }
 
   /**
@@ -303,9 +379,11 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     // Media style selector "buttons" are A tags with no href, so not findable
     // by normal steps.
     $this->getSession()->getDriver()->resizeWindow(1440, 900, 'current');
-    $this->getSession()->wait(5000, "typeof jQuery !== 'undefined' && jQuery('a').filter(function(index) { return jQuery(this).text() === \"Submit\"; })");
-    $element = $this->getSession()->getPage()->find('xpath', '//a[text() = "' . $text . '"]');
+    $this->getSession()
+      ->wait(5000, "typeof jQuery !== 'undefined' && jQuery('a').filter(function(index) { return jQuery(this).text() === \"Submit\"; })");
+    $element = $this->getSession()
+      ->getPage()
+      ->find('xpath', '//a[text() = "' . $text . '"]');
     $element->click();
   }
-
 }
