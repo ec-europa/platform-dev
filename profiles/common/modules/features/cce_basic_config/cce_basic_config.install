@@ -2213,4 +2213,3 @@ function cce_basic_config_update_7212() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html_track', $group, $buttons);
   }
 }
-
