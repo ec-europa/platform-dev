@@ -155,4 +155,44 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
   }
 
+  /**
+   * Find specific date in a table row containing given text.
+   *
+   * @Then I should see operation date in the ":rowText" row
+   */
+  public function assertOperationDateInTableRow($row_text) {
+    $context = $this->getContext('\Drupal\DrupalExtension\Context\DrupalContext');
+    $row = $context->getTableRow($this->getSession()->getPage(), $row_text);
+    $date_regexp = "/\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}/";
+
+    if (preg_match($date_regexp, $row->getText()) == FALSE) {
+      throw new \Exception(sprintf('Found a row containing "%s", but it did not contain the operation date.', $row_text));
+    }
+  }
+
+  /**
+   * Returns the Behat context that corresponds with the given class name.
+   *
+   * This is different from InitializedContextEnvironment::getContext() in that
+   * it also returns subclasses of the given class name. This allows us to
+   * retrieve for example DrupalContext even if it is overridden in a project.
+   *
+   * @param string $class
+   *   A fully namespaced class name.
+   *
+   * @return \Behat\Behat\Context\Context|false
+   *   The requested context, or FALSE if the context is not registered.
+   */
+  protected function getContext($class) {
+    /** @var \Behat\Behat\Context\Environment\InitializedContextEnvironment $environment */
+    $environment = $this->drupal->getEnvironment();
+    foreach ($environment->getContexts() as $context) {
+      if ($context instanceof $class) {
+        return $context;
+      }
+    }
+
+    return FALSE;
+  }
+
 }

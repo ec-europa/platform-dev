@@ -374,3 +374,18 @@ Feature: TMGMT Poetry features
     And the translation request has organisationAuteur "& DG/directorate/unit from which the document comes"
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
+
+    Scenario: Checking of the 'Last change' data on the 'Translate' tab
+      Given I am logged in as a user with the 'administrator' role
+      And I go to "node/add/page"
+      And I fill in "Title" with "Title"
+      And I fill in "Body" with "Last change column test"
+      And I press "Save"
+      And I select "Published" from "state"
+      And I press "Apply"
+      And I click "Translate" in the "primary_tabs" region
+      Then I should see "Last change"
+      When I check the box on the "French" row
+      And I press "Request translation"
+      And I press "Submit to translator"
+      Then I should see operation date in the "French" row
