@@ -135,8 +135,8 @@ function _poetry_mock_render_table($data_set) {
 function _poetry_mock_get_data_row_action_links($data_row) {
   $action_list = [
     'see' => [
-      'title' => 'See',
-      'href' => _tmgmt_poetry_mock_get_job_item_entity_path($data_row['tjiid'], TRUE),
+      'title' => 'View',
+      'href' => _tmgmt_poetry_mock_get_job_item_entity_path($data_row['tjiid']),
     ],
     'translate' => [
       'title' => 'Translate',
