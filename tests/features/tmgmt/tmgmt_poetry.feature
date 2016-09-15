@@ -374,3 +374,32 @@ Feature: TMGMT Poetry features
     And the translation request has organisationAuteur "& DG/directorate/unit from which the document comes"
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
+
+  Scenario: Adding new languages to the ongoing translation request
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    And I press "Apply"
+    And I click "Translate" in the "primary_tabs" region
+    Then I should not see the "Add languages" button in the "content"
+    When I check the box on the "French" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then I should see the "Add languages" button in the "content"
+    And I should not see "In progress" in the "German" row
+    And I should not see "In progress" in the "Italian" row
+    When I click "Add languages"
+    Then I should see the error message "Select one of the available languages"
+    When I check the box on the "German" row
+    And I check the box on the "Italian" row
+    And I click "Add languages"
+    Then the poetry translation service received the additional language translation request
+    And I should see "In progress" in the "German" row
+    And I should see "In progress" in the "Italian" row
+    And I should not see the "Add languages" button in the "content"
+    When I go to stored job Id translation request page
+    Then I should see "In progress" in the "German" row
+    And I should see "In progress" in the "Italian" row
