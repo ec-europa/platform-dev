@@ -8,6 +8,7 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Drupal\DrupalExtension\Context\DrupalContext;
 
 /**
  * Behat step definitions for the TMGMT Poetry module.
@@ -158,15 +159,21 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   /**
    * Find specific date in a table row containing given text.
    *
-   * @Then I should see operation date in the ":rowText" row
+   * @Then I see the date of the last change in the ":rowText" row
    */
-  public function assertOperationDateInTableRow($row_text) {
-    $context = $this->getContext('\Drupal\DrupalExtension\Context\DrupalContext');
-    $row = $context->getTableRow($this->getSession()->getPage(), $row_text);
+  public function assertLastChangeDateInTableRow($row_text) {
+    /** @var DrupalContext $drupal_context */
+    $drupal_context = $this->getContext(DrupalContext::class);
+    $row = $drupal_context->getTableRow($this->getSession()->getPage(), $row_text);
     $date_regexp = "/\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}/";
 
     if (preg_match($date_regexp, $row->getText()) == FALSE) {
-      throw new \Exception(sprintf('Found a row containing "%s", but it did not contain the operation date.', $row_text));
+      throw new \Exception(
+        sprintf(
+          'Found a row containing "%s", but it did not contain a date of the last change.',
+          $row_text
+        )
+      );
     }
   }
 
