@@ -375,7 +375,6 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-    @javascript
     Scenario: Inspect the 'Last change' data of a translation request
       Given I am logged in as a user with the 'administrator' role
       And I am viewing a multilingual "page" content:
