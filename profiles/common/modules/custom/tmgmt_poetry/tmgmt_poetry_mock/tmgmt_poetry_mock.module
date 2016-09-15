@@ -235,28 +235,27 @@ function tmgmt_poetry_mock_service_configuration() {
  * @return bool $translation
  *    Indicates if the pretended path is for translation page.
  */
-function _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, $translation = false) {
+function _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, $translation = FALSE) {
 
   $item = entity_load_single('tmgmt_job_item', $tjiid);
-  if (empty($item)) {
-    throw New Exception('NOP ' . $tjiid);
-  }
 
-  // Get the special paths
+  // Get the special paths.
   if ($translation) {
     switch ($item->item_type) {
       case "node":
         return 'node/' . $item->item_id . '/translate';
+
       case "taxonomy_vocabulary":
         $uri = $item->getSourceUri();
         return $uri['path'] . '/translate';
+
       case "taxonomy_term":
         list(, , $term_id) = explode(':', $item->item_id);
         return url('taxonomy/term/' . $term_id . '/translate');
     }
   }
 
-  // Get the common paths
+  // Get the common paths.
   $uri = $item->getSourceUri();
   return $uri['path'];
 }

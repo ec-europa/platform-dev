@@ -136,7 +136,7 @@ function _poetry_mock_get_data_row_action_links($data_row) {
   $action_list = [
     'see' => [
       'title' => 'See',
-      'href' => _tmgmt_poetry_mock_get_job_item_entity_path($data_row['tjiid'], true),
+      'href' => _tmgmt_poetry_mock_get_job_item_entity_path($data_row['tjiid'], TRUE),
     ],
     'translate' => [
       'title' => 'Translate',

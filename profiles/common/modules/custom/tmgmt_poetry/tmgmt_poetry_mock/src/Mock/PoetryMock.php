@@ -416,10 +416,12 @@ class PoetryMock {
         $message = theme('poetry_receive_translation', $response);
         $this->sendRequestToDrupal($message);
       }
-      $msg = t(
-        'Translation was received. !link.',
-        array('!link' => l(t('Check the translation page'), _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, true)))
-      );
+      $msg = t('Translation was received. !link.', array(
+        '!link' => l(
+            t('Check the translation page'),
+            _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, TRUE)
+        ),
+      ));
       drupal_set_message($msg, 'status');
     }
     else {
@@ -444,10 +446,12 @@ class PoetryMock {
       $response = self::prepareRefuseJobResponseData($message);
       $message = theme('poetry_refuse_translation', $response);
       $this->sendRequestToDrupal($message);
-      $msg = t(
-        'Translation was refused. !link.',
-        array('!link' => l(t('Check the translation page'), _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, true)))
-      );
+      $msg = t('Translation was refused. !link.', array(
+        '!link' => l(
+          t('Check the translation page'),
+          _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, TRUE)
+        ),
+      ));
       drupal_set_message($msg, 'status');
     }
     else {
