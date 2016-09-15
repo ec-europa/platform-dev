@@ -119,6 +119,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       $options = $form['languages']['#options'];
 
+      /** @var TMGMTJobItem[] $existing_jobs */
       $existing_jobs = tmgmt_job_item_load_latest(
         'workbench_moderation',
         $entity_type,
@@ -139,6 +140,10 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       }
 
       foreach ($lang_codes as $lang_code) {
+        // NEXTEUROPA-12429 - additional column with last change date.
+        // By default the last change date column is empty.
+        $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = '';
+
         // Disable checkbox for languages already translated.
         if (isset($node->translations->data[$lang_code]) && !empty($existing_jobs)) {
           $form['languages'][$lang_code] = array(
@@ -166,16 +171,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           if (isset($form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX])) {
             $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = format_date($wrapper->changed->value(), 'short');
           }
-        }
-
-        // NEXTEUROPA-12429.
-        // There is no information about the job item for the given language.
-        if (!isset($existing_jobs[$lang_code])) {
-          _tmgmt_workbench_set_last_change_column_empty($form, $lang_code);
-        }
-        // There are no existing translation jobs.
-        if (!$existing_jobs) {
-          _tmgmt_workbench_set_last_change_column_empty($form, $lang_code);
         }
 
         // Disable checkbox selection if current node revision is not
@@ -331,16 +326,5 @@ function _tmgmt_workbench_get_request_languages() {
 function _tmgmt_workbench_clear_request_languages() {
   if (isset($_SESSION['tmgmt_workbench']['languages'])) {
     unset($_SESSION['tmgmt_workbench']['languages']);
-  }
-}
-
-/**
- * Sets last change column rows to be empty.
- */
-function _tmgmt_workbench_set_last_change_column_empty(&$form, $lang_code) {
-  if (isset($form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX])
-    && (!isset($form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]))
-  ) {
-    $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = '';
   }
 }
