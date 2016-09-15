@@ -168,9 +168,8 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           );
 
           // NEXTEUROPA-12429 - additional column with last change date.
-          if (isset($form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX])) {
-            $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = format_date($wrapper->changed->value(), 'short');
-          }
+          $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]
+            = format_date($wrapper->changed->value(), 'short');
         }
 
         // Disable checkbox selection if current node revision is not
