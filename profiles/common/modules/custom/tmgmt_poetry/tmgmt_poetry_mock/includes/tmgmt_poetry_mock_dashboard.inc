@@ -143,7 +143,6 @@ function _poetry_mock_get_data_row_action_links($data_row) {
       'href' => 'tmgmt_poetry_mock/translate/'
       . $data_row['target_lg'] . '/'
       . $data_row['file_id'] . '/'
-      . $data_row['entity_type'] . '/'
       . $data_row['tjiid'],
       'query' => array('destination' => current_path()),
     ],
@@ -151,7 +150,6 @@ function _poetry_mock_get_data_row_action_links($data_row) {
       'title' => 'Refuse',
       'href' => 'tmgmt_poetry_mock/refuse/'
       . $data_row['file_id'] . '/'
-      . $data_row['entity_type'] . '/'
       . $data_row['tjiid'],
       'query' => array('destination' => current_path()),
     ],
