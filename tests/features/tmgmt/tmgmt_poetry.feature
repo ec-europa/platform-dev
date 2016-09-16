@@ -1,8 +1,8 @@
 @api @poetry @i18n
 Feature: TMGMT Poetry features
-  In order request a new translation for the Portuguese language
-  As a Translation manager user
-  I want to be able to create a translation request for the Portuguese language (from Portugal)
+  In order request new translations for nodes/taxonomies with Poetry service.
+  As an Administrator
+  I want to be able to create/manage translation requests.
 
   Background:
     Given I am logged in as a user with the "administrator" role
@@ -221,28 +221,31 @@ Feature: TMGMT Poetry features
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
     And I select the radio button "Localize. Terms are common for all languages, but their name and description may be localized."
     And I press "Save and translate"
-    And I check the box on the "Italian" row
+    Then I should see the success message "Updated vocabulary Vocabulary Test."
+    When I check the box on the "Italian" row
     And I press "Request translation"
     Then I should see the success message "One job needs to be checked out."
-    And I press "Submit to translator"
+    When I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    Then I click "List"
-    Then I click "Term Test"
-    When I click "Translate" in the "primary_tabs" region
+    When I click "List"
+    And I click "Term Test"
+    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     Then I should see the success message "One job needs to be checked out."
-    And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation."
-    Then I go to "admin/poetry_mock/dashboard"
+    When I press "Submit to translator"
+    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->it" row
-    And I click "Check the translation page"
+    Then I should see the success message "Translation was received. Check the translation page."
+    When I click "Check the translation page"
     And I click "review" in the "Italian" row
     And I press "Save as completed"
     Then I should see "translated" in the "Italian" row
-    Then I go to "admin/poetry_mock/dashboard"
+    When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
-    And I click "Check the translation page"
+    Then I should see the success message "Translation was received. Check the translation page."
+    When I click "Check the translation page"
     And I click "review" in the "French" row
     And I press "Save as completed"
     Then I should see "translated" in the "French" row
