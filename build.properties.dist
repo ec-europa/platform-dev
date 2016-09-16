@@ -183,3 +183,9 @@ flickr.secret = bas
 
 # Port on which the mocked integration server used by the behat tests will listen.
 integration.server.port = 8888
+
+# Varnish configuration
+# -------------------------
+
+# Port on which the mocked Varnish server used by the behat tests will listen.
+varnish.server.port = 8888
