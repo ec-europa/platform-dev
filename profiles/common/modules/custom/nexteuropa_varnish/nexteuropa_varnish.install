@@ -1,0 +1,82 @@
+<?php
+/**
+ * @file
+ * Contains install and update functions for nexteuropa_varnish.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function nexteuropa_varnish_schema() {
+  $schema = array();
+
+  $schema['nexteuropa_varnish_cache_purge_rule'] = array(
+    'description' => 'Purge rules',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique purge rule ID.',
+      ),
+      'content_type' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => 'The machine name of the content type a rule applies for.',
+      ),
+      'paths' => array(
+        'type' => 'text',
+        'description' => 'Paths to purge, one per line.',
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_varnish_enable() {
+  $administrator = user_role_load_by_name('administrator');
+
+  if ($administrator) {
+    user_role_grant_permissions(
+      $administrator->rid,
+      array(
+        'administer frontend cache purge rules',
+      )
+    );
+  }
+}
+
+/**
+ * Add the cache purge rules table.
+ */
+function nexteuropa_varnish_update_7100() {
+  db_create_table(
+    'nexteuropa_varnish_cache_purge_rule',
+    array(
+      'description' => 'Purge rules',
+      'fields' => array(
+        'id' => array(
+          'type' => 'serial',
+          'not null' => TRUE,
+          'description' => 'Primary Key: Unique purge rule ID.',
+        ),
+        'content_type' => array(
+          'type' => 'varchar',
+          'length' => 128,
+          'not null' => TRUE,
+          'description' => 'The machine name of the content type a rule applies for.',
+        ),
+        'paths' => array(
+          'type' => 'text',
+          'description' => 'Paths to purge, one per line.',
+        ),
+      ),
+      'primary key' => array('id'),
+    )
+  );
+}
