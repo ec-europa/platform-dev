@@ -375,13 +375,14 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
+  @javascript
   Scenario: Adding new languages to the ongoing translation request
-    Given I am logged in as a user with the 'administrator' role
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
     And I am viewing a multilingual "page" content:
       | language | title            | body                    |
       | en       | Title            | Last change column test |
-    And I press "Apply"
-    And I click "Translate" in the "primary_tabs" region
+    When I click "Translate" in the "primary_tabs" region
     Then I should not see the "Add languages" button in the "content"
     When I check the box on the "French" row
     And I check the box on the "Portuguese" row
@@ -397,6 +398,9 @@ Feature: TMGMT Poetry features
     And I check the box on the "Italian" row
     And I click "Add languages"
     Then the poetry translation service received the additional language translation request
+      | Language   | Language code |
+      | German     | de            |
+      | Italian    | it            |
     And I should see "In progress" in the "German" row
     And I should see "In progress" in the "Italian" row
     And I should not see the "Add languages" button in the "content"
