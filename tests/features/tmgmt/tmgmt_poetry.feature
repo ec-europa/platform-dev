@@ -398,9 +398,9 @@ Feature: TMGMT Poetry features
     And I check the box on the "Italian" row
     And I click "Add languages"
     Then the poetry translation service received the additional language translation request
-      | Language   | Language code |
-      | German     | de            |
-      | Italian    | it            |
+      | Language   |
+      | German     |
+      | Italian    |
     And I should see "In progress" in the "German" row
     And I should see "In progress" in the "Italian" row
     And I should not see the "Add languages" button in the "content"
