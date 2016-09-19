@@ -26,7 +26,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
@@ -101,7 +101,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I check the box "settings[languages][it]"
+    And I check the box on the "Italian" row
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -152,7 +152,6 @@ Feature: TMGMT Poetry features
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see "None" in the "French" row
-    But I should not see "Please end up the active translation process before creating a new request."
 
   @javascript
   Scenario: Request main job before other translations.
@@ -168,7 +167,6 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
-    But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     Then I go to "admin/poetry_mock/dashboard"
@@ -196,7 +194,6 @@ Feature: TMGMT Poetry features
     And I wait
     And I store job ID of translation request page
     And I press "Submit to translator"
-    But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
     Then I go to "admin/poetry_mock/dashboard"
     And I click "Reject translation" in the "en->fr" row
@@ -253,12 +250,12 @@ Feature: TMGMT Poetry features
     Then I store job Reference of translation request page
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
-    Then I go to "admin/poetry_mock/dashboard"
+    When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see "None" in the "French" row
-    Then I select the radio button "" with the id "edit-languages-fr"
+    When I check the box on the "French" row
     And I press "Request translation update"
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
@@ -267,7 +264,7 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     And I test job Reference have the next version
-    Then I go to "admin/poetry_mock/dashboard"
+    When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Needs review" in the "French" row
     And I press "Save as completed"

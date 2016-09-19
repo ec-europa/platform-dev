@@ -167,11 +167,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      // Provide 'Request translation' action or hide actions.
-      // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
-      // there is new #markup element which will be displayed every time when
-      // there is a translation request on going.
-      if ($translation_possible && !$existing_jobs) {
+      if ($translation_possible) {
         $form['actions']['#type'] = 'actions';
         if (!$language_requested) {
           $form['actions']['request'] = [
@@ -189,28 +185,9 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             '#validate' => ['tmgmt_workbench_translate_form_validate'],
           ];
         }
-
-        // Allow requesting only one language. Explain user can add more later.
-        $form['languages']['#multiple'] = FALSE;
-        $form['languages']['#suffix'] = '<div class="description">' .
-          t('More target languages can be added after you click %i',
-            array('%i' => 'Request Translation')) .
-          '</div>';
       }
       else {
         unset($form['actions']);
-        foreach ($lang_codes as $lang_code) {
-          $form['languages'][$lang_code] = [
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          ];
-        }
-        $form['languages_description'] = [
-          '#type' => 'item',
-          '#prefix' => '<div class="messages warning">',
-          '#markup' => t('Please end up the active translation process before creating a new request.'),
-          '#suffix' => '</div>',
-        ];
       }
 
       // Remove add to cart button.
