@@ -397,7 +397,7 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.2"
+projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
 projects[media][version] = 2.0-beta1
@@ -427,6 +427,10 @@ projects[media_flickr][patch][] = patches/media_flickr-Media_v2_removed_XML_APIs
 projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-2183.patch
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
 projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
+; Support for newer Flickr album urls.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12401
+; https://www.drupal.org/node/2602558
+projects[media_flickr][patch][] = https://www.drupal.org/files/issues/import_albums_error-7.x-1.x-2602558-5.patch
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
@@ -473,6 +477,11 @@ projects[migrate][subdir] = contrib
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
 
+projects[nexteuropa_newsroom][download][type] = get
+projects[nexteuropa_newsroom][download][file_type] = "zip"
+projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
+projects[nexteuropa_newsroom][subdir] = custom
+
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
@@ -514,7 +523,7 @@ projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.7"
+projects[piwik][version] = "2.9"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.7"

@@ -2,11 +2,21 @@ default:
   suites:
     default:
       contexts:
+        - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_port: {{ integration.server.port }}
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\VariableContext
+        - Drupal\nexteuropa\Context\FlickrContext:
+            key: '{{ flickr.key }}'
+            secret: '{{ flickr.secret }}'
+        - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_port: {{ varnish.server.port }}
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
@@ -53,6 +63,7 @@ communities:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "@communities&&~@wip"
   extensions:

@@ -12,6 +12,8 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
  */
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
+  const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
+  const COUNTER_VALUE = '1234';
   public $settings;
   private $client;
 
@@ -63,7 +65,12 @@ class PoetryMock {
     $response_xml = simplexml_load_string($message);
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
-    $reference = implode("_", (array) $demande_id);
+    // This is to deal with initial request when website doesn't have counter.
+    if (isset($demande_id['sequence']) && $demande_id['sequence'] == self::COUNTER_STRING) {
+      $demande_id['numero'] = self::COUNTER_VALUE;
+      unset($demande_id['sequence']);
+    }
+    $reference = self::prepareReferenceNumber($demande_id);
 
     // Saving translation request as a file with give reference ID.
     self::saveTranslationRequest($message, $reference);
@@ -136,7 +143,9 @@ class PoetryMock {
   public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
     $requests = [];
-
+    if (isset($data['demande_id']['sequence'])) {
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
     if (isset($data['attributions']) && isset($data['content']) && $lg_code == 'ALL') {
       foreach ($data['attributions'] as $attribution) {
         $requests[$attribution['language']] = self::getTranslationResponseData(
@@ -175,6 +184,16 @@ class PoetryMock {
   public static function prepareRefuseJobResponseData($message) {
     $data = self::getDataFromRequest($message);
     $languages = self::getLanguagesFromRequest($message);
+    // Initial translation request.
+    if (isset($data['demande_id']['sequence'])) {
+      unset($data['demande_id']['sequence']);
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+    // In case if numero is not set.
+    if (!isset($data['demande_id']['numero'])) {
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+
     return [
       'languages' => $languages,
       'demande_id' => $data['demande_id'],
@@ -245,8 +264,18 @@ class PoetryMock {
       ];
     }
 
+    $contacts = [];
+    foreach ($xml->request->contacts as $contact) {
+      $contacts[] = [
+        'type' => (string) $contact->attributes()->type,
+        'nickname' => (string) $contact->contactNickname,
+      ];
+    }
+
     return [
       'demande_id' => (array) $xml->request->demandeId,
+      'demande' => (array) $xml->request->demande,
+      'contacts' => $contacts,
       'content' => (string) $xml->request->documentSource->documentSourceFile,
       'attributions' => $attributions,
     ];
@@ -268,11 +297,10 @@ class PoetryMock {
     $xml_content = simplexml_load_string($decoded_content);
     // Add language prefix to the title and body first paragraph.
     $title = (string) $xml_content->body->div->div[0];
-    $body = (string) $xml_content->body->div->div[1];
     // Overwriting title with language prefix.
     $xml_content->body->div->div[0] = "[$language] " . $title;
-    // Overwriting body with language prefix.
-    $xml_content->body->div->div[1] = '<p>' . "[$language] " . $body . '</p>';
+    // Adding language prefix into the body.
+    $xml_content->body->div->div[1]->p[] = "[$language]";
     $translated_content = explode("\n", $xml_content->asXML(), 2)[1];
 
     return base64_encode($translated_content);
@@ -417,6 +445,87 @@ class PoetryMock {
       // Redirect to translate tab for given entity ID.
       drupal_goto($entity_type . '/' . $entity_id . '/translate');
     }
+  }
+
+  /**
+   * Get the poetry demande_id from a tmgmt_poetry job reference.
+   *
+   * @param string $job_reference
+   *   The tmgmt_poetry job reference.
+   *
+   * @return array
+   *   The poetry demande_id data.
+   */
+  private static function getDemandeIdFromJobReference($job_reference) {
+    $parts = array(
+      '(?<codeDemandeur>[a-z0-9]+)',
+      '(?<annee>[0-9]+)',
+      '(?<numero>[0-9]+)',
+      '(?<version>[0-9]+)',
+      '(?<partie>[0-9]+)',
+      '(?<produit>[a-z0-9]+)',
+    );
+    $pattern = '@' . implode('/', $parts) . '$@i';
+    preg_match(
+      $pattern,
+      $job_reference,
+      $matches
+    );
+
+    return array(
+      'codeDemandeur' => $matches['codeDemandeur'],
+      'annee' => $matches['annee'],
+      'numero' => $matches['numero'],
+      'version' => $matches['version'],
+      'partie' => $matches['partie'],
+      'produit' => $matches['produit'],
+    );
+  }
+
+  /**
+   * Gets the translation request data by their tmgmt_poetry job reference.
+   *
+   * @param string $job_reference
+   *   A tmgmt_poetry job reference.
+   *
+   * @return array
+   *   An array with reference and request file details.
+   */
+  public static function getTranslationRequestByJobReference($job_reference) {
+    $demande_id = self::getDemandeIdFromJobReference($job_reference);
+
+    $file_name = self::prepareReferenceNumber($demande_id) . '.xml';
+
+    $query = new \EntityFieldQuery();
+    $query->entityCondition('entity_type', 'file')
+      ->propertyCondition('filename', $file_name);
+    $result = $query->execute();
+
+    if ($result) {
+      $file_info = reset($result['file']);
+      return array(
+        'demande_id' => $demande_id,
+        'file' => file_load($file_info->fid),
+      );
+    }
+  }
+
+  /**
+   * Returning properly formatted reference number string.
+   *
+   * @param array $demande_id
+   *   An array with reference elements.
+   *
+   * @return string
+   *   The string with properly formatted reference number.
+   */
+  public static function prepareReferenceNumber($demande_id) {
+    return $demande_id['codeDemandeur']
+      . '_' . $demande_id['annee']
+      . '_' . $demande_id['numero']
+      . '_' . $demande_id['version']
+      . '_' . $demande_id['partie']
+      . '_' . $demande_id['produit'];
   }
 
 }

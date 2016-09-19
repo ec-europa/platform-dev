@@ -439,7 +439,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Enables translation for a field (temporary step @todo remove).
+   * Enables translation for a field.
    *
    * @param string $field
    *   The name of the field.
@@ -447,9 +447,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @When I enable translation for field :field
    */
   public function enableTranslationForField($field) {
-    $info = field_info_field($field);
-    $info['translatable'] = 1;
-    field_update_field($info);
+    multisite_config_service('field')->enableFieldTranslation($field);
   }
 
   /**
@@ -515,6 +513,44 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       }
     }
     throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
+  }
+
+  /**
+   * Check if given field is translatable.
+   *
+   * @param string $field_name
+   *    Field machine name.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if field is not translatable.
+   *
+   * @Given the :field_name field is translatable
+   */
+  public function assertFieldIsTranslatable($field_name) {
+    $info = field_info_field($field_name);
+    if (!isset($info['translatable']) || !$info['translatable']) {
+      throw new ExpectationException("Field '{$field_name}' is not translatable.", $this->getSession());
+    }
+  }
+
+  /**
+   * Checks, that elements are highlighted on page.
+   *
+   * @Then I should see highlighted elements
+   */
+  public function iShouldSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementExists('css', 'div.ICE-Tracking');
+  }
+
+  /**
+   * Checks that no elements are highlighted on page.
+   *
+   * @Then I should not see highlighted elements
+   */
+  public function iShouldNotSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
   }
 
 }

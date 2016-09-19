@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * cce_basic_config.rules_defaults.inc

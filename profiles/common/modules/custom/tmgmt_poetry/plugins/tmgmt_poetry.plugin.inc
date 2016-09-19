@@ -140,43 +140,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     else {
       $request = $response_xml->request;
 
-      // Insert or update the mapping information.
-      $demande_id = (array) $request->demandeId;
-      $items = $job->getItems();
-      $item = array_shift($items);
-
-      $result = db_select('poetry_map', 'pm')
-        ->fields('pm', array('annee', 'numero', 'version', 'partie'))
-        ->condition('entity_type', $item->item_type, '=')
-        ->condition('entity_id', $item->item_id, '=')
-        ->execute()
-        ->fetchAssoc();
-      if (!$result) {
-        db_insert('poetry_map')
-          ->fields(array(
-            'entity_type' => $item->item_type,
-            'entity_id' => $item->item_id,
-            'annee' => $demande_id['annee'],
-            'numero' => $demande_id['numero'],
-            'version' => $demande_id['version'],
-            'partie' => $demande_id['partie'],
-          ))
-          ->execute();
-      }
-      else {
-        // @FIXME Do not overwrite data. Might not be for the same revision.
-        db_update('poetry_map')
-          ->fields(array(
-            'annee' => $demande_id['annee'],
-            'numero' => $demande_id['numero'],
-            'version' => $demande_id['version'],
-            'partie' => $demande_id['partie'],
-          ))
-          ->condition('entity_type', $item->item_type, '=')
-          ->condition('entity_id', $item->item_id, '=')
-          ->execute();
-      }
-
       $statuses = $request->status;
       // Check the statuses of the response
       // in order to verify that everything is correct.
@@ -187,6 +150,46 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
             array('@error' => $message), 'error');
         }
       }
+
+      if (isset($request->demandeId)) {
+        // Insert or update the mapping information.
+        $demande_id = (array) $request->demandeId;
+        $items = $job->getItems();
+        $item = array_shift($items);
+
+        $result = db_select('poetry_map', 'pm')
+          ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+          ->condition('entity_type', $item->item_type, '=')
+          ->condition('entity_id', $item->item_id, '=')
+          ->execute()
+          ->fetchAssoc();
+        if (!$result) {
+          db_insert('poetry_map')
+            ->fields(array(
+              'entity_type' => $item->item_type,
+              'entity_id' => $item->item_id,
+              'annee' => $demande_id['annee'],
+              'numero' => $demande_id['numero'],
+              'version' => $demande_id['version'],
+              'partie' => $demande_id['partie'],
+            ))
+            ->execute();
+        }
+        else {
+          // @FIXME Do not overwrite data. Might not be for the same revision.
+          db_update('poetry_map')
+            ->fields(array(
+              'annee' => $demande_id['annee'],
+              'numero' => $demande_id['numero'],
+              'version' => $demande_id['version'],
+              'partie' => $demande_id['partie'],
+            ))
+            ->condition('entity_type', $item->item_type, '=')
+            ->condition('entity_id', $item->item_id, '=')
+            ->execute();
+        }
+      }
+
       if (!$job->isRejected()) {
         if (strpos($job->reference, '_POETRY_') === FALSE) {
           $job->reference .= '_POETRY_' . implode('/', $demande_id);
@@ -260,13 +263,13 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $organization = $job->settings['organization'];
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
-    $demande->addChild('titre', 'NE-CMS: ' . $job->label);
-    $demande->addChild('organisationResponsable', $organization['responsable']);
-    $demande->addChild('organisationAuteur', $organization['auteur']);
-    $demande->addChild('serviceDemandeur', $organization['demandeur']);
+    $demande->titre = 'NE-CMS: ' . $job->label;
+    $demande->organisationResponsable = $organization['responsable'];
+    $demande->organisationAuteur = $organization['auteur'];
+    $demande->serviceDemandeur = $organization['demandeur'];
     $demande->addChild('applicationReference', 'FPFIS');
     $demande->addChild('delai', date('d/m/Y', strtotime($job->settings['delai'])));
-    $demande->addChild('remarque', $job->settings['remark']);
+    $demande->remarque = $job->settings['remark'];
 
     // Add the source url as a reference.
     $item_type = $item->item_type;
@@ -284,23 +287,11 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $type->addAttribute('id', 'INTER');
 
     // Get contact information from translator and add it to the request.
-    $contacts = $job->settings['contacts'];
-
-    $auteur = $request->addChild('contacts');
-    $auteur->addAttribute('type', 'auteur');
-    $auteur->addChild('contactNickname', $contacts['auteur']);
-
-    $secretaire = $request->addChild('contacts');
-    $secretaire->addAttribute('type', 'secretaire');
-    $secretaire->addChild('contactNickname', $contacts['secretaire']);
-
-    $contact = $request->addChild('contacts');
-    $contact->addAttribute('type', 'contact');
-    $contact->addChild('contactNickname', $contacts['contact']);
-
-    $responsable = $request->addChild('contacts');
-    $responsable->addAttribute('type', 'responsable');
-    $responsable->addChild('contactNickname', $contacts['responsable']);
+    foreach ($job->settings['contacts'] as $contact_type => $contact_nickname) {
+      $contacts = $request->addChild('contacts');
+      $contacts->addAttribute('type', $contact_type);
+      $contacts->contactNickname = $contact_nickname;
+    }
 
     // Add callback information to the request.
     $retour = $request->addChild('retour');
@@ -368,7 +359,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       ->condition('entity_id', $item->item_id, '=')
       ->execute()
       ->fetchAssoc();
-    if ($result) {
+    if ($result and isset($result['numero']) and $result['numero'] != -1) {
       // If a request id exists, increase the version and return it.
       $id_data = array(
         'codeDemandeur' => $settings['code'],
@@ -395,7 +386,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
           ->fetchAssoc();
         // If we have a numero and we haven't reached the max partie,
         // increment it and return it.
-        if ($result && $result['max_partie'] < 99) {
+        if ($result && $result['max_partie'] < 99 && $result['numero'] > -1) {
           $id_data = array(
             'codeDemandeur' => $settings['code'],
             'annee' => $result['annee'],
@@ -413,7 +404,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $id_data = array(
       'codeDemandeur' => $settings['code'],
       'annee' => date("Y"),
-      'numero' => $settings['counter'],
+      'sequence' => $settings['counter'],
       'version' => 00,
       'partie' => 00,
       'produit' => 'TRA',
@@ -426,10 +417,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * Execute a request against the Poetry API.
    */
   protected function doRequest(array $query, TMGMTJob $job) {
-    $xml = $query['xml'];
-
-    $result = $this->sendSoapRequest($xml, $job);
-    return $result;
+    return $this->sendSoapRequest($query['xml'], $job);
   }
 
   /**
@@ -442,18 +430,20 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    */
   protected function sendSoapRequest(SimpleXMLElement $xml, TMGMTJob $job) {
     $msg = $xml->asXML();
+
     $translator = $job->getTranslator();
     $settings = $translator->getSetting('settings');
-    watchdog('Poetry: Send request', htmlentities($msg), array(), WATCHDOG_DEBUG);
+    $msg_watchdog = htmlentities("Send request: " . $msg);
+    watchdog('tmgmt_poetry', $msg_watchdog, array(), WATCHDOG_DEBUG);
 
     // Get Poetry configuration.
     $poetry = variable_get("poetry_service");
+
     // Create soap client.
     try {
       $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
     }
     catch (Exception $e) {
-      $response = 'Error new SoapClient : ' . $e->getMessage();
       watchdog_exception('tmgmt_poetry', $e);
     }
 
@@ -463,8 +453,10 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
         $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
       }
       catch (Exception $e) {
-        $response = 'Error sending soap call : ' . $e->getMessage();
         watchdog_exception('tmgmt_poetry', $e);
+        $response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"\">
+                     <request communication=\"asynchrone\" type=\"status\"><status code=\"-1\" type=\"request\">
+                     <statusMessage>" . $e->getMessage() . "</statusMessage></status></request></POETRY>";
       }
       return $response;
     }

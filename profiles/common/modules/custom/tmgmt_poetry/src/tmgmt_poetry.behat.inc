@@ -16,6 +16,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
 
   public $nodeId;
   public $jobId;
+  public $jobReference;
 
   /**
    * The Drupal driver manager.
@@ -114,9 +115,9 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   * Storing job reference from the Page.
+   * Stores the job reference of the translation request page.
    *
-   * @Then /^I store job Reference of translation request page$/
+   * @Then /^I store the job reference of the translation request page$/
    */
   public function iStoreJobReferenceOfTranslationRequestPage() {
     $node_id = $this->getCurrentNodeId();
@@ -194,7 +195,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     $this->getSession()->wait(1000);
   }
 
-
   /**
    * Get the Current Node Id in the URL.
    */
@@ -203,5 +203,4 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     preg_match_all('/node\/(\d*)/', $url, $matches);
     return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
   }
-
 }
