@@ -215,8 +215,8 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
-    Then I store the job Reference of the translation request page
-    And I should see "In progress" in the "French" row
+    And I store the job Reference of the translation request page
+    Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     When I check the box on the "French" row
     And I press "Request translation update"
@@ -247,8 +247,8 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
-    Then I store the job Reference of the translation request page
-    And I should see "In progress" in the "French" row
+    And I store the job Reference of the translation request page
+    Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
