@@ -117,7 +117,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   /**
    * Stores the job reference of the translation request page.
    *
-   * @Then /^I store the job reference of the translation request page$/
+   * @And /^I store the job reference of the translation request page$/
    */
   public function iStoreJobReferenceOfTranslationRequestPage() {
     $node_id = $this->getCurrentNodeId();
@@ -139,7 +139,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   /**
    * Test if the job reference from the page have the next version.
    *
-   * @Then /^I test job Reference have the next version$/
+   * @Then /^I test job reference have the next version$/
    */
   public function iTestJobReferenceHaveTheNextVersion() {
     // Test if a Job reference is stored.
