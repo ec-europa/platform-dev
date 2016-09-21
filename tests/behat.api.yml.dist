@@ -15,6 +15,8 @@ default:
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\MediaContext
         - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_port: {{ varnish.server.port }}
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
