@@ -184,16 +184,21 @@ function _nexteuropa_varnish_purge_paths($paths) {
     }
   );
 
-  // Format headers.
-  $formatted_headers = array_map(
-    function ($name, $value) {
-      return sprintf('%s: %s', $name, trim($value));
-    },
-    array_keys($request['headers']),
-    $request['headers']
-  );
-
   foreach ($http_targets as $target) {
+    // First chance to customize the request.
+    if (function_exists('fp_alter_request_for_cache_page')) {
+      $request = fp_alter_request_for_cache_page(NULL, NULL, $target, $request);
+    }
+
+    // Format headers.
+    $formatted_headers = array_map(
+      function ($name, $value) {
+        return sprintf('%s: %s', $name, trim($value));
+      },
+      array_keys($request['headers']),
+      $request['headers']
+    );
+
     $url = sprintf('http://%s%s', $target, $request['path']);
 
     $curl_res = curl_init();
@@ -202,6 +207,15 @@ function _nexteuropa_varnish_purge_paths($paths) {
     curl_setopt($curl_res, CURLOPT_HTTPHEADER, $formatted_headers);
     curl_setopt($curl_res, CURLOPT_FOLLOWLOCATION, FALSE);
     curl_setopt($curl_res, CURLOPT_RETURNTRANSFER, TRUE);
+
+    // Second chance to customize the request.
+    if (function_exists('fp_alter_curl_for_cache_page')) {
+      $send_request = fp_alter_curl_for_cache_page(NULL, NULL, $target, $request, $curl_res);
+
+      if ($send_request === FALSE) {
+        continue;
+      }
+    }
 
     // Send the HTTP request.
     $exec = curl_exec($curl_res);
