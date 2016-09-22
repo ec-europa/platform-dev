@@ -61,7 +61,6 @@ function nexteuropa_multilingual_install() {
   variable_set('pathauto_node_pattern', 'content/[node:source:title]');
 
   // Remove old language switcher block.
-  // @TODO is not working
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
 
   // Set the warning message when changing node state.
