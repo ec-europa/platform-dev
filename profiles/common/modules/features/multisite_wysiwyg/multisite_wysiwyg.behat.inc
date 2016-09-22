@@ -298,27 +298,6 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   }
 
   /**
-   * Click on an element inside a WYSIWYG dialog.
-   *
-   * @When I click the :cssSelector element in the :instanceId WYSIWYG editor
-   */
-  public function iClickTheElementInTheWysiwygEditor($css_elector, $instance_id) {
-    $instance = $this->getWysiwygInstance($instance_id);
-    $editor_type = $this->getSession()->evaluateScript("return $instance.editor");
-
-    // TODO: This is tinyMCE specific. We should probably do a switch statement
-    // based on $editorType.
-    $editor_iframe_id = $instance_id . '_ifr';
-
-    // This Javascript only works on Chrome - not Firefox.
-    $javascript  = "jQuery('#{$editor_iframe_id}').each(function() {";
-    $javascript .= "  jQuery('{$css_elector}', this.contentWindow.document || this.contentDocument).click();";
-    $javascript .= "});";
-
-    $this->getSession()->executeScript($javascript);
-  }
-
-  /**
    * Click some text in the page.
    *
    * @When /^I click on the text "([^"]*)"$/
