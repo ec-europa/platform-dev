@@ -405,3 +405,15 @@ Feature: TMGMT Poetry features
     And the translation request has organisationAuteur "& DG/directorate/unit from which the document comes"
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
+
+    Scenario: Inspect the 'Last change' data of a translation request
+      Given I am logged in as a user with the 'administrator' role
+      And I am viewing a multilingual "page" content:
+        | language | title            | body                    |
+        | en       | Title            | Last change column test |
+      When I click "Translate" in the "primary_tabs" region
+      Then I should see "Last change"
+      When I check the box on the "French" row
+      And I press "Request translation"
+      And I press "Submit to translator"
+      Then I see the date of the last change in the "French" row
