@@ -167,9 +167,13 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      if ($translation_possible) {
-        $form['actions']['#type'] = 'actions';
-        if (!$language_requested) {
+      if (!isset($form_state['bypass_actions']) || !$form_state['bypass_actions']) {
+        // Provide 'Request translation' action or hide actions.
+        // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
+        // there is new #markup element which will be displayed every time when
+        // there is a translation request on going.
+        if ($translation_possible && !$existing_jobs) {
+          $form['actions']['#type'] = 'actions';
           $form['actions']['request'] = [
             '#type' => 'submit',
             '#value' => t('Request translation'),
@@ -178,16 +182,22 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           ];
         }
         else {
-          $form['actions']['request'] = [
-            '#type' => 'submit',
-            '#value' => t('Request translation update'),
-            '#submit' => ['tmgmt_workbench_update_translate_form_submit'],
-            '#validate' => ['tmgmt_workbench_translate_form_validate'],
-          ];
+          unset($form['actions']);
+          foreach ($lang_codes as $lang_code) {
+            $form['languages'][$lang_code] = [
+              '#type' => 'checkbox',
+              '#disabled' => TRUE,
+            ];
+          }
+          if (!isset($form['languages_description'])) {
+            $form['languages_description'] = [
+              '#type' => 'item',
+              '#prefix' => '<div class="messages warning">',
+              '#markup' => t('Please end up the active translation process before creating a new request.'),
+              '#suffix' => '</div>',
+            ];
+          }
         }
-      }
-      else {
-        unset($form['actions']);
       }
 
       // Remove add to cart button.
@@ -215,7 +225,6 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
 
   // NEXTEUROPA-7719 - Simplifying Poetry UI.
-  // @todo: To be changed after implementing resending request procedure.
   $chosen_languages = $form_state['values']['languages'];
   foreach ($chosen_languages as $key => $language) {
     if ($language === 0) {
@@ -252,24 +261,6 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
       'error');
   }
   tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
-}
-
-/**
- * Submit callback for updating the entity translation overview form.
- */
-function tmgmt_workbench_update_translate_form_submit($form, &$form_state) {
-  $entity = $form_state['entity'];
-  // Cancel all activate jobs associated to this entity.
-  $jobs_canceled = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity->nid);
-  foreach ($jobs_canceled as $job_item) {
-    $job_canceled = tmgmt_job_load($job_item->tjid);
-    if (!empty($jobs_canceled)) {
-      $job_canceled->aborted();
-    }
-  }
-
-  // Create a new request.
-  tmgmt_workbench_translate_form_submit($form, $form_state);
 }
 
 /**
