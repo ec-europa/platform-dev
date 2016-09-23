@@ -108,7 +108,7 @@ function nexteuropa_core_update_7002() {
 /**
  * NEXTEUROPA-10433: Enable translation of 'body' field.
  *
- * Removed see NEXTEUROPA-13008.
+ * See NEXTEUROPA-13008: This update needs to be done site by site.
  */
 function nexteuropa_core_update_7003() {
   // multisite_config_service('field')->enableFieldTranslation('body');.

@@ -115,7 +115,7 @@ function cce_basic_config_filter_default_formats() {
         'settings' => array(),
       ),
       'filter_tokens' => array(
-        'weight' => 0,
+        'weight' => 20,
         'status' => 1,
         'settings' => array(),
       ),

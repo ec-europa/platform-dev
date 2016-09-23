@@ -2213,3 +2213,13 @@ function cce_basic_config_update_7212() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html_track', $group, $buttons);
   }
 }
+
+/**
+ * NEXTEUROPA-8413.
+ *
+ * Change the filter_tokens weight to be on the bottom of the processing order.
+ */
+function cce_basic_config_update_7213() {
+  // Enable token_filter on full_html text filter.
+  multisite_config_service('filter')->setTextFilterWeight('full_html', 'filter_tokens', 20);
+}

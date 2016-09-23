@@ -13,14 +13,12 @@ use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
  *    Request translation file.
  * @param int $file_id
  *    Request translation dump file ID.
- * @param string $entity_type
- *    An entity type.
  * @param int $entity_id
  *    An entity ID.
  */
-function _tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_type, $entity_id) {
+function _tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_id) {
   $poetry_mock = new PoetryMock();
-  $poetry_mock->translateJob($lg_code, $file_id, $entity_type, $entity_id);
+  $poetry_mock->translateJob($lg_code, $file_id, $entity_id);
 }
 
 /**
@@ -28,12 +26,10 @@ function _tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_type, $ent
  *
  * @param int $file_id
  *    Request translation file dump ID.
- * @param string $entity_type
- *    An entity type.
  * @param int $entity_id
  *    An entity ID.
  */
-function _tmgmt_poetry_mock_refuse_job($file_id, $entity_type, $entity_id) {
+function _tmgmt_poetry_mock_refuse_job($file_id, $entity_id) {
   $poetry_mock = new PoetryMock();
-  $poetry_mock->refuseJob($file_id, $entity_type, $entity_id);
+  $poetry_mock->refuseJob($file_id, $entity_id);
 }
