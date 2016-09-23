@@ -18,19 +18,19 @@ function tmgmt_poetry_mock_menu() {
     'file' => 'includes/tmgmt_poetry_mock.server.inc',
   ];
 
-  $items['tmgmt_poetry_mock/translate/%/%/%/%'] = [
+  $items['tmgmt_poetry_mock/translate/%/%/%'] = [
     'title' => 'Poetry Mock: Translate job',
     'page callback' => '_tmgmt_poetry_mock_translate_job',
-    'page arguments' => [2, 3, 4, 5],
+    'page arguments' => [2, 3, 4],
     'access arguments' => ['access content'],
     'type' => MENU_CALLBACK,
     'file' => 'includes/tmgmt_poetry_mock.actions.inc',
   ];
 
-  $items['tmgmt_poetry_mock/refuse/%/%/%'] = [
+  $items['tmgmt_poetry_mock/refuse/%/%'] = [
     'title' => 'Poetry Mock: Refuse job',
     'page callback' => '_tmgmt_poetry_mock_refuse_job',
-    'page arguments' => [2, 3, 4],
+    'page arguments' => [2, 3],
     'access arguments' => ['access content'],
     'type' => MENU_CALLBACK,
     'file' => 'includes/tmgmt_poetry_mock.actions.inc',
@@ -224,4 +224,64 @@ function tmgmt_poetry_mock_service_configuration() {
   );
 
   return $poetry_service;
+}
+
+/**
+ * Get the path for translation job item related entity.
+ *
+ * @param int $tjiid
+ *    A translation job item ID.
+ *
+ * @return bool $translation
+ *    Indicates if the pretended path is for translation page.
+ */
+function _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, $translation = FALSE) {
+
+  $item = entity_load_single('tmgmt_job_item', $tjiid);
+
+  // Get the special paths.
+  if ($translation) {
+    switch ($item->item_type) {
+      case "node":
+        return 'node/' . $item->item_id . '/translate';
+
+      case "taxonomy_vocabulary":
+        $uri = $item->getSourceUri();
+        return $uri['path'] . '/translate';
+
+      case "taxonomy_term":
+        list(, , $term_id) = explode(':', $item->item_id);
+        return url('taxonomy/term/' . $term_id . '/translate');
+    }
+  }
+
+  // Get the common paths.
+  $uri = $item->getSourceUri();
+  return $uri['path'];
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function tmgmt_poetry_mock_entity_info_alter(&$info) {
+  if (isset($info['taxonomy_vocabulary']) && empty($info['taxonomy_vocabulary']['uri callback'])) {
+    $info['taxonomy_vocabulary']['uri callback'] = 'tmgmt_poetry_mock_entity_info_uri_callback';
+  }
+}
+
+/**
+ * Add uri callback for vocabulary.
+ *
+ * @param object $vocabulary
+ *   The vocabulary for which we want the path.
+ *
+ * @return array
+ *    The path for vocabulary's administration page.
+ */
+function tmgmt_poetry_mock_entity_info_uri_callback($vocabulary) {
+  if (user_access('administer taxonomy')) {
+    return array(
+      'path' => 'admin/structure/taxonomy/' . $vocabulary->machine_name,
+    );
+  }
 }
