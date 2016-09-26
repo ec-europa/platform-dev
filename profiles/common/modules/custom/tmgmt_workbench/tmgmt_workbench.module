@@ -5,6 +5,7 @@
  * Exposes as TMGMT source content in a specific moderation state.
  */
 
+define('TMGMT_WORKBENCH_REQUEST_SOURCE_LG_INDEX', 1);
 define('TMGMT_WORKBENCH_REQUEST_STATE_INDEX', 4);
 define('TMGMT_WORKBENCH_REQUEST_OPERATION_INDEX', 5);
 define('TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX', 6);
@@ -203,17 +204,23 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       }
       else {
         unset($form['actions']);
-        foreach ($lang_codes as $lang_code) {
-          $form['languages'][$lang_code] = [
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          ];
-        }
         $form['languages_description'] = [
           '#type' => 'item',
           '#prefix' => '<div class="messages warning">',
           '#markup' => t('Please end up the active translation process before creating a new request.'),
           '#suffix' => '</div>',
+        ];
+      }
+
+      // If translatable languages are available add the button.
+      $translatable_lg = _tmgmt_workbench_get_translatable_languages(array_keys($existing_jobs), $form, $form_state);
+      if (!empty($translatable_lg)) {
+        $form['actions']['#type'] = 'actions';
+        $form['actions']['request'] = [
+          '#type' => 'submit',
+          '#value' => t('Add languages'),
+          '#submit' => ['tmgmt_workbench_add_langs_to_request_form_submit'],
+          '#validate' => ['tmgmt_workbench_add_langs_to_request_form_validate'],
         ];
       }
 
@@ -224,6 +231,52 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       $form['languages']['#multiple'] = TRUE;
     }
   }
+}
+
+/**
+ * Provides translatable language codes.
+ *
+ * Function omits languages which are:
+ *  - in ongoing translation request (present in $existing_jobs),
+ *  - already translated,
+ *  - source language.
+ *
+ * @param array $existing_lg
+ *   An array with language codes which are already in ongoing translation.
+ * @param array $form
+ *   Reference to the $form variable.
+ * @param array $form_state
+ *   Reference to the $form_state variable.
+ *
+ * @return array
+ *   An array with translatable language codes.
+ */
+function _tmgmt_workbench_get_translatable_languages($existing_lg, &$form, &$form_state) {
+  $translatable_lg = [];
+  foreach ($form['languages']['#options'] as $lg_code => $language) {
+    if (!in_array($lg_code, $existing_lg) &&
+      !in_array($lg_code, array_keys($form_state['entity']->translations->data)) &&
+      $language[TMGMT_WORKBENCH_REQUEST_SOURCE_LG_INDEX] != '(original content)'
+    ) {
+      $translatable_lg[] = $lg_code;
+    }
+  }
+
+  return $translatable_lg;
+}
+
+/**
+ * Validation callback of the addition of languages to the ongoing translation.
+ */
+function tmgmt_workbench_add_langs_to_request_form_validate($form, &$form_state) {
+
+}
+
+/**
+ * Submit callback of the addition of languages to the ongoing translation.
+ */
+function tmgmt_workbench_add_langs_to_request_form_submit($form, &$form_state) {
+
 }
 
 /**
