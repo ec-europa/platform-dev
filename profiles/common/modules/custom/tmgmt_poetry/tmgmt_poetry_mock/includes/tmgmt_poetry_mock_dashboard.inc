@@ -88,7 +88,7 @@ function _poetry_mock_render_table($data_set) {
         $data_row['source_lg'] . '->' . $data_row['target_lg'],
         $data_row['date'],
         $data_row['entity_type'],
-        l($data_row['entity_id'], 'node/' . $data_row['entity_id'] . '/translate'),
+        l($data_row['entity_id'], _tmgmt_poetry_mock_get_job_item_entity_path($data_row['tjiid'])),
         l($data_row['file_id'], 'file/' . $data_row['file_id']),
         _poetry_mock_get_data_row_action_links($data_row),
       ];
@@ -134,20 +134,24 @@ function _poetry_mock_render_table($data_set) {
  */
 function _poetry_mock_get_data_row_action_links($data_row) {
   $action_list = [
+    'see' => [
+      'title' => 'View',
+      'href' => _tmgmt_poetry_mock_get_job_item_entity_path($data_row['tjiid']),
+    ],
     'translate' => [
       'title' => 'Translate',
       'href' => 'tmgmt_poetry_mock/translate/'
       . $data_row['target_lg'] . '/'
       . $data_row['file_id'] . '/'
-      . $data_row['entity_type'] . '/'
-      . $data_row['entity_id'],
+      . $data_row['tjiid'],
+      'query' => array('destination' => current_path()),
     ],
     'refuse' => [
-      'title' => 'Reject translation',
+      'title' => 'Refuse',
       'href' => 'tmgmt_poetry_mock/refuse/'
       . $data_row['file_id'] . '/'
-      . $data_row['entity_type'] . '/'
-      . $data_row['entity_id'],
+      . $data_row['tjiid'],
+      'query' => array('destination' => current_path()),
     ],
   ];
 

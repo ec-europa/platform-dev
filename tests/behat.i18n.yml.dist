@@ -8,6 +8,7 @@ default:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:
@@ -55,6 +56,7 @@ communities:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "@communities&&~@wip&&@i18n"
   extensions:
