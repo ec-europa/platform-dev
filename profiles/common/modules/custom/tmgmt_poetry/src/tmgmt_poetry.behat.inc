@@ -149,41 +149,40 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     }
 
     $node_id = $this->getCurrentNodeId();
-
     if (!$node_id) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
     }
-    else {
-      $jobs = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($node_id);
-      foreach ($jobs as $job) {
-        if (strpos($job->reference, "MAIN_") !== FALSE) {
-          $old_job_reference_array = explode("/", $this->jobReference);
-          $new_job_reference_array = explode("/", $job->reference);
-          // Test 'Annee' is the same.
-          if ($old_job_reference_array[1] != $new_job_reference_array[1]) {
-            throw new \InvalidArgumentException("Reference mismatch: the 'Annee' is not the same.");
-          }
-          // Test 'Entity' is the same.
-          if ($old_job_reference_array[2] != $new_job_reference_array[2]) {
-            throw new \InvalidArgumentException("Reference mismatch: the 'Entity' is not the same.");
-          }
-          // Test 'Version' is the next.
-          if ((intval($old_job_reference_array[3]) + 1) != intval($new_job_reference_array[3])) {
-            throw new \InvalidArgumentException("Reference mismatch: the 'Version' is not the next.");
-          }
-          // Test 'Entity' is the same.
-          if ($old_job_reference_array[4] != $new_job_reference_array[4]) {
-            throw new \InvalidArgumentException("Reference mismatch: the 'Entity' is not the same.");
-          }
-          // Test 'Format' is the same.
-          if ($old_job_reference_array[5] != $new_job_reference_array[5]) {
-            throw new \InvalidArgumentException("Reference mismatch: the 'Format' is not the same.");
-          }
-          $this->jobReference = $job->reference;
-          return;
+
+    $jobs = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($node_id);
+    foreach ($jobs as $job) {
+      if (strpos($job->reference, "MAIN_") !== FALSE) {
+        $old_job_reference_array = explode("/", $this->jobReference);
+        $new_job_reference_array = explode("/", $job->reference);
+        // Test 'Annee' is the same.
+        if ($old_job_reference_array[1] != $new_job_reference_array[1]) {
+          throw new \InvalidArgumentException("Reference mismatch: the 'Annee' is not the same.");
         }
+        // Test 'Entity' is the same.
+        if ($old_job_reference_array[2] != $new_job_reference_array[2]) {
+          throw new \InvalidArgumentException("Reference mismatch: the 'Entity' is not the same.");
+        }
+        // Test 'Version' is the next.
+        if ((intval($old_job_reference_array[3]) + 1) != intval($new_job_reference_array[3])) {
+          throw new \InvalidArgumentException("Reference mismatch: the 'Version' is not the next.");
+        }
+        // Test 'Entity' is the same.
+        if ($old_job_reference_array[4] != $new_job_reference_array[4]) {
+          throw new \InvalidArgumentException("Reference mismatch: the 'Entity' is not the same.");
+        }
+        // Test 'Format' is the same.
+        if ($old_job_reference_array[5] != $new_job_reference_array[5]) {
+          throw new \InvalidArgumentException("Reference mismatch: the 'Format' is not the same.");
+        }
+        $this->jobReference = $job->reference;
+        return;
       }
     }
+
     throw new \InvalidArgumentException("Job Reference mismatch: the current node don't have active MAIN job associated.");
   }
 
