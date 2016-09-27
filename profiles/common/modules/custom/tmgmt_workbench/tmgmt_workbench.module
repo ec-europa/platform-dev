@@ -239,6 +239,17 @@ function tmgmt_workbench_translate_form_validate($form, &$form_state) {
   if (!isset($form_state['input']['languages'])) {
     form_set_error('languages', t('You have to select a language for requesting a translation.'));
   }
+  else {
+    $validated = FALSE;
+    foreach ($form_state['input']['languages'] as $language) {
+      if (!empty($language)) {
+        $validated = TRUE;
+      }
+    }
+    if (!$validated) {
+      form_set_error('languages', t('You have to select a language for requesting a translation.'));
+    }
+  }
 }
 
 /**
