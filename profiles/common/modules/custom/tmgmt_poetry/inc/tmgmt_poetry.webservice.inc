@@ -630,20 +630,13 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
 
         // Check the poetry status of subjobs.
         foreach ($existing_jobs as $existing_job) {
-          $result = db_select('tmgmt_job')
-            ->fields('tmgmt_job')
-            ->condition('tjid', $existing_job->tjid, '=')
-            ->execute()
-            ->fetchAssoc();
-
-          if (!empty($result)) {
-            $existing_job->reference = $result['reference'];
-
-            if (preg_match("/(_POETRY_)/", $existing_job->reference) == FALSE) {
-              return;
-            }
+          // Check if it's a poetry job.
+          $translator = $existing_job->getTranslator();
+          if ($translator && $translator->plugin != 'poetry') {
+            return;
           }
 
+          // Check the poetry status.
           $result = db_select('poetry_status', 'ps')
             ->fields('ps')
             ->condition('tjiid', $existing_job->tjiid, '=')
@@ -666,7 +659,7 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
           $form['actions']['request'] = [
             '#type' => 'submit',
             '#value' => t('Request translation update'),
-            '#submit' => ['tmgmt_poetry_update_translate_form_submit'],
+            '#submit' => ['tmgmt_workbench_translate_form_submit'],
             '#validate' => ['tmgmt_workbench_translate_form_validate'],
           ];
         }
@@ -690,24 +683,6 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
       }
     }
   }
-}
-
-/**
- * Submit callback for updating the entity translation overview form.
- */
-function tmgmt_poetry_update_translate_form_submit($form, &$form_state) {
-  $entity = $form_state['entity'];
-  // Cancel all activate jobs associated to this entity.
-  $jobs_canceled = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity->nid);
-  foreach ($jobs_canceled as $job_item) {
-    $job_canceled = tmgmt_job_load($job_item->tjid);
-    if (!empty($jobs_canceled)) {
-      $job_canceled->aborted();
-    }
-  }
-
-  // Create a new request.
-  tmgmt_workbench_translate_form_submit($form, $form_state);
 }
 
 /**

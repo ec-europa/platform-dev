@@ -162,10 +162,12 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           // translation in progress that has not yet been finished. This way we
           // make sure that we don't stack multiple active translations for the
           // same item on top of each other.
-          $form['languages'][$lang_code] = array(
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          );
+          if (!isset($form_state['bypass_actions']) || !$form_state['bypass_actions']) {
+            $form['languages'][$lang_code] = array(
+              '#type' => 'checkbox',
+              '#disabled' => TRUE,
+            );
+          }
 
           // NEXTEUROPA-12429 - additional column with last change date.
           $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]

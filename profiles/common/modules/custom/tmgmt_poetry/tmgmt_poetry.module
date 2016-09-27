@@ -327,6 +327,15 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
       }
     }
   }
+
+  // Cancel all old activate jobs associated to this entity.
+  $jobs_canceled = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($origin_job_item->item_id);
+  foreach ($jobs_canceled as $job_item) {
+    $job_canceled = tmgmt_job_load($job_item->tjid);
+    if (!empty($jobs_canceled)) {
+      $job_canceled->aborted();
+    }
+  }
 }
 
 /**
