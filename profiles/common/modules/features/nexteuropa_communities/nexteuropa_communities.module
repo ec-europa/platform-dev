@@ -358,7 +358,7 @@ function _nexteuropa_communities_create_alias($node, $op) {
     $path = [
       'pathauto' => FALSE,
       'source' => $node_source,
-      'language' => $node_language,
+      'language' => LANGUAGE_NONE,
     ];
     foreach ($new_paths as $p) {
       $path['pid'] = '';
@@ -406,7 +406,7 @@ function nexteuropa_communities_url_outbound_alter(&$path, &$options, $original_
     // Get the node aliases.
     $select = db_select('url_alias');
     $select->condition('source', $original_path);
-    $select->condition('language', $language->language);
+    $select->condition('language', LANGUAGE_NONE);
     $select->fields('url_alias', ['alias']);
     $paths = $select->execute()->fetchAll();
 
