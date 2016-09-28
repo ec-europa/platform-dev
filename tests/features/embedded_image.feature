@@ -19,6 +19,7 @@ Scenario Outline: Embed Flickr photoset via media asset field
   Then the media browser opens
   When I fill in "File URL or media resource" with "<url>"
   And I press "Next"
+  And I press "Save"
   Then the media browser closes
   And I see the "Flickr set" preview
   When I press "Save"
