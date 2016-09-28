@@ -55,6 +55,19 @@
 
     <!-- Set up Behat. -->
     <target name="setup-behat">
+        <if>
+            <isset property="env.FLICKR-KEY" />
+            <then>
+                <property name="flickr.key" value="${env.FLICKR-KEY}" override="true" />
+            </then>
+        </if>
+        <if>
+            <isset property="env.FLICKR-SECRET" />
+            <then>
+                <property name="flickr.secret" value="${env.FLICKR-SECRET}" override="true" />
+            </then>
+        </if>
+        
         <copy todir="${behat.dir}">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
