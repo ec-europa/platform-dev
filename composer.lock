@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "00c851e45dfd517fbf1009d4ddbb2e28",
-    "content-hash": "c813d754e028726f238787cbb13830cc",
+    "hash": "1d9284416ae6e59e872ef0dc7289e149",
+    "content-hash": "268730a5bc49fd1fb8843530218ebb6e",
     "packages": [
         {
             "name": "behat/behat",
@@ -524,16 +524,16 @@
         },
         {
             "name": "bex/behat-screenshot",
-            "version": "dev-feature/scenario-outlines",
+            "version": "1.2.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/2dotstwice/behat-screenshot.git",
-                "reference": "6f71e53afd3e508583be88499b448c2cffe71310"
+                "url": "https://github.com/elvetemedve/behat-screenshot.git",
+                "reference": "3594004f77ffa76b6b46f5dc9e2353b3f7151b15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/2dotstwice/behat-screenshot/zipball/6f71e53afd3e508583be88499b448c2cffe71310",
-                "reference": "6f71e53afd3e508583be88499b448c2cffe71310",
+                "url": "https://api.github.com/repos/elvetemedve/behat-screenshot/zipball/3594004f77ffa76b6b46f5dc9e2353b3f7151b15",
+                "reference": "3594004f77ffa76b6b46f5dc9e2353b3f7151b15",
                 "shasum": ""
             },
             "require": {
@@ -562,43 +562,33 @@
                     "Bex\\Behat\\ScreenshotExtension\\": "src"
                 }
             },
-            "scripts": {
-                "post-install-cmd": [
-                    "PhantomInstaller\\Installer::installPhantomJS"
-                ],
-                "post-update-cmd": [
-                    "PhantomInstaller\\Installer::installPhantomJS"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Tibor Kotosz",
-                    "email": "kotosy@gmail.com",
-                    "homepage": "https://github.com/tkotosz",
-                    "role": "Developer"
-                },
-                {
                     "name": "Geza Buza",
                     "email": "bghome@gmail.com",
                     "homepage": "https://twitter.com/medve540",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tibor Kotosz",
+                    "email": "kotosy@gmail.com",
+                    "homepage": "https://github.com/tkotosz",
                     "role": "Developer"
                 }
             ],
             "description": "Extension for behat to help debug failing scenarios",
             "homepage": "https://github.com/elvetemedve/behat-screenshot",
             "keywords": [
-                "bdd",
-                "behat",
-                "behat-screenshot",
-                "tdd"
+                "BDD",
+                "Behat",
+                "TDD",
+                "behat-screenshot"
             ],
-            "support": {
-                "source": "https://github.com/2dotstwice/behat-screenshot/tree/feature/scenario-outlines"
-            },
-            "time": "2016-08-12 16:45:40"
+            "time": "2016-09-16 12:41:25"
         },
         {
             "name": "bex/behat-screenshot-image-driver-uploadpie",
@@ -2854,20 +2844,12 @@
         }
     ],
     "packages-dev": [],
-    "aliases": [
-        {
-            "alias": "1.2.4",
-            "alias_normalized": "1.2.4.0",
-            "version": "dev-feature/scenario-outlines",
-            "package": "bex/behat-screenshot"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
         "behat/behat": 20,
         "drush/drush": 10,
-        "pear/versioncontrol_git": 20,
-        "bex/behat-screenshot": 20
+        "pear/versioncontrol_git": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
