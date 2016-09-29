@@ -160,9 +160,9 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
           if (!isset($form_state['force_actions']) || !$form_state['force_actions']) {
             // Disable the checkbox for this row since there is already a
-            // translation in progress that has not yet been finished. This way we
-            // make sure that we don't stack multiple active translations for the
-            // same item on top of each other.
+            // translation in progress that has not yet been finished.
+            // This way we make sure that we don't stack multiple active
+            // translations for the same item on top of each other.
             $form['languages'][$lang_code] = array(
               '#type' => 'checkbox',
               '#disabled' => TRUE,
