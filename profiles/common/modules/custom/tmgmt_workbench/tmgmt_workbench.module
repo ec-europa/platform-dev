@@ -158,11 +158,11 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             $uri['path'],
             array('query' => array('destination' => current_path())));
 
-          // Disable the checkbox for this row since there is already a
-          // translation in progress that has not yet been finished. This way we
-          // make sure that we don't stack multiple active translations for the
-          // same item on top of each other.
-          if (!isset($form_state['bypass_actions']) || !$form_state['bypass_actions']) {
+          if (!isset($form_state['force_actions']) || !$form_state['force_actions']) {
+            // Disable the checkbox for this row since there is already a
+            // translation in progress that has not yet been finished. This way we
+            // make sure that we don't stack multiple active translations for the
+            // same item on top of each other.
             $form['languages'][$lang_code] = array(
               '#type' => 'checkbox',
               '#disabled' => TRUE,
@@ -190,7 +190,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      if (!isset($form_state['bypass_actions']) || !$form_state['bypass_actions']) {
+      if (!isset($form_state['force_actions']) || !$form_state['force_actions']) {
         // Provide 'Request translation' action or hide actions.
         // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
         // there is new #markup element which will be displayed every time when
