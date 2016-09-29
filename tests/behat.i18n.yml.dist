@@ -43,6 +43,12 @@ default:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: upload_pie
+      image_drivers:
+        upload_pie:
+          expire: '1d'
   formatters:
     {{ behat.formatter.name }}: ~
 
