@@ -907,7 +907,7 @@ libraries[plupload][download][request_type]= "get"
 libraries[plupload][download][file_type] = "zip"
 libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v1.5.8.zip"
 libraries[plupload][directory_name] = "plupload"
-libraries[plupload][patch][1903850] = "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-21.patch"
+libraries[plupload][patch][1903850] = "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
 
 ; ===========================
 ; Libraries for Ec_resp Theme
