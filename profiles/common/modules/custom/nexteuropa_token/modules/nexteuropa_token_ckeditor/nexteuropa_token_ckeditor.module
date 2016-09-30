@@ -165,15 +165,6 @@ function nexteuropa_token_ckeditor_pre_render_text_format($element) {
 }
 
 /**
- * Implements hook_custom_theme().
- */
-function nexteuropa_token_ckeditor_custom_theme() {
-  if (strpos(current_path(), 'nexteuropa/token-ckeditor') === 0) {
-    return 'seven';
-  }
-}
-
-/**
  * Implements hook_filter_info_alter().
  */
 function nexteuropa_token_ckeditor_filter_info_alter(&$info) {
