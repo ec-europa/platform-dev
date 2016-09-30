@@ -88,6 +88,15 @@ class Config extends ConfigBase {
         $format->filters[$filter_name]->status = 1;
         return $this->saveTextFormat($format);
       }
+      else {
+        $filters = $this->getFilters();
+        if (isset($filters[$filter_name])) {
+          // Enable filter and save text format.
+          $format->filters[$filter_name] = $filters[$filter_name];
+          $format->filters[$filter_name]['status'] = TRUE;
+          return $this->saveTextFormat($format);
+        }
+      }
     }
     return FALSE;
   }
@@ -115,6 +124,15 @@ class Config extends ConfigBase {
       if (isset($format->filters[$filter_name])) {
         $format->filters[$filter_name]->status = 0;
         return $this->saveTextFormat($format);
+      }
+      else {
+        $filters = $this->getFilters();
+        if (isset($filters[$filter_name])) {
+          // Enable filter and save text format.
+          $format->filters[$filter_name] = $filters[$filter_name];
+          $format->filters[$filter_name]['status'] = FALSE;
+          return $this->saveTextFormat($format);
+        }
       }
     }
     return FALSE;
@@ -145,6 +163,15 @@ class Config extends ConfigBase {
       if (isset($format->filters[$filter_name])) {
         $format->filters[$filter_name]->weight = $weight;
         return $this->saveTextFormat($format);
+      }
+      else {
+        $filters = $this->getFilters();
+        if (isset($filters[$filter_name])) {
+          // Enable filter and save text format.
+          $format->filters[$filter_name] = $filters[$filter_name];
+          $format->filters[$filter_name]['weight'] = $weight;
+          return $this->saveTextFormat($format);
+        }
       }
     }
     return FALSE;
