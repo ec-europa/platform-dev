@@ -273,8 +273,8 @@ function _tmgmt_workbench_get_translatable_languages($existing_lg, &$form, &$for
  * Validation callback of the addition of languages to the ongoing translation.
  */
 function tmgmt_workbench_add_target_languages_form_validate($form, &$form_state) {
-  if (isset($form_state['input']['languages'])) {
-    foreach ($form_state['input']['languages'] as $language) {
+  if (isset($form_state['input']['translatable_languages'])) {
+    foreach ($form_state['input']['translatable_languages'] as $language) {
       if (!is_null($language)) {
 
         return;
@@ -430,7 +430,7 @@ function _tmgmt_workbench_inject_add_new_languages_elements(&$form, $trans_langs
   $form['add_new_languages'] = [
     '#type' => 'fieldset',
     '#title' => t('Request addition of new languages'),
-    '#prefix' => '<div id="tmgmt-poetry-ui-add-new-languages">',
+    '#prefix' => '<div class="tmgmt-poetry-ui-add-new-languages">',
     '#suffix' => '</div>',
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
