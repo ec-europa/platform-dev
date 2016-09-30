@@ -204,6 +204,12 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       }
       else {
         unset($form['actions']);
+        foreach ($lang_codes as $lang_code) {
+          $form['languages'][$lang_code] = [
+            '#type' => 'checkbox',
+            '#disabled' => TRUE,
+          ];
+        }
         $form['languages_description'] = [
           '#type' => 'item',
           '#prefix' => '<div class="messages warning">',
@@ -212,19 +218,13 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         ];
       }
 
-      // If translatable languages are available add the button.
+      // If translatable languages are available add the
+      // button and other elements.
       if ($existing_jobs && !empty(_tmgmt_workbench_get_translatable_languages(array_keys($existing_jobs), $form, $form_state))) {
-        $form['actions']['#type'] = 'actions';
-        $form['actions']['add_langs'] = [
-          '#type' => 'submit',
-          '#value' => t('Add languages'),
-          '#submit' => ['tmgmt_workbench_add_target_languages_form_submit'],
-          '#validate' => ['tmgmt_workbench_add_target_languages_form_validate'],
-        ];
-        $form['add_new_languages'] = [
-          '#type' => 'hidden',
-          '#value' => _tmgmt_workbench_get_translatable_languages(array_keys($existing_jobs), $form, $form_state),
-        ];
+        // Getting additional translatable languages.
+        $trans_langs = _tmgmt_workbench_get_translatable_languages(array_keys($existing_jobs), $form, $form_state);
+        // Injecting 'request additional languages' functionality form elements.
+        _tmgmt_workbench_inject_add_new_languages_elements($form, $trans_langs);
       }
 
       // Remove add to cart button.
@@ -256,12 +256,13 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
  */
 function _tmgmt_workbench_get_translatable_languages($existing_lg, &$form, &$form_state) {
   $translatable_lg = [];
+  $languages = language_list();
   foreach ($form['languages']['#options'] as $lg_code => $language) {
     if (!in_array($lg_code, $existing_lg) &&
       !in_array($lg_code, array_keys($form_state['entity']->translations->data)) &&
       $language[TMGMT_WORKBENCH_REQUEST_SOURCE_LG_INDEX] != '(original content)'
     ) {
-      $translatable_lg[] = $lg_code;
+      $translatable_lg[$lg_code] = $languages[$lg_code]->name;
     }
   }
 
@@ -295,8 +296,13 @@ function tmgmt_workbench_add_target_languages_form_submit($form, &$form_state) {
   // Getting TMGMT Job controller to perform custom request.
   $ctrl = $main_job->getTranslatorController();
 
+  // Getting selected languages.
+  $selected_languages = array_diff($form_state['values']['translatable_languages'], [0]);
+  $selected_languages = array_keys($selected_languages);
+
+  $delivery_date = strtotime($form_state['values']['delai']);
   // Performing request for addition of new languages.
-  $ctrl->addNewTargetLanguages($main_job, $form_state['values']['add_new_languages']);
+  $ctrl->addNewTargetLanguages($main_job, $selected_languages, $delivery_date);
 
 }
 
@@ -400,4 +406,61 @@ function _tmgmt_workbench_clear_request_languages() {
   if (isset($_SESSION['tmgmt_workbench']['languages'])) {
     unset($_SESSION['tmgmt_workbench']['languages']);
   }
+}
+
+/**
+ * Injects 'request additional languages' functionality form elements.
+ *
+ * @param array $form
+ *   Reference to the main form array.
+ * @param array $trans_langs
+ *   An array with translatable languages.
+ */
+function _tmgmt_workbench_inject_add_new_languages_elements(&$form, $trans_langs) {
+  // Setting up header for the additional languages.
+  $trans_lang_header = array(
+    'language' => t('Language'),
+  );
+
+  // Setting up $options for the additional languages.
+  foreach ($trans_langs as $lg_code => $trans_lang) {
+    $trans_langs_options[$lg_code]['language'] = $trans_lang;
+  }
+
+  $form['add_new_languages'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Request addition of new languages'),
+    '#prefix' => '<div id="tmgmt-poetry-ui-add-new-languages">',
+    '#suffix' => '</div>',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#tree' => FALSE,
+  ];
+
+  $form['add_new_languages']['translatable_languages'] = [
+    '#title' => t('Additional languages'),
+    '#type' => 'tableselect',
+    '#header' => $trans_lang_header,
+    '#options' => $trans_langs_options,
+    '#empty' => t('No content available.'),
+    '#prefix' => '<div class="col-lg-4, col-md-4">',
+    '#suffix' => '</div>',
+  ];
+
+  $form['add_new_languages']['delai'] = [
+    '#type' => 'date_popup',
+    '#title' => t('Expected delivery time'),
+    '#default_value' => date('Y-m-d', strtotime('+1 month')),
+    '#date_format' => 'd/m/Y',
+    '#date_year_range' => '-0:+1',
+    '#required' => TRUE,
+  ];
+
+  $form['add_new_languages']['actions']['#type'] = 'actions';
+  $form['add_new_languages']['actions']['add_langs'] = [
+    '#type' => 'submit',
+    '#value' => t('Add languages'),
+    '#submit' => ['tmgmt_workbench_add_target_languages_form_submit'],
+    '#validate' => ['tmgmt_workbench_add_target_languages_form_validate'],
+  ];
 }

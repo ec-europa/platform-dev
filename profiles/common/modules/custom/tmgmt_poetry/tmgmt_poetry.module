@@ -633,6 +633,7 @@ function _tmgmt_poetry_create_job_and_item($lg_code, TMGMTPoetryJob $main_job) {
   );
   $job->label = $main_job->label . ' ' . $languages[$lg_code]->name;
   $job->save();
+  $job->submitted();
 
   $job_item = tmgmt_job_item_create($main_job_item->plugin, $main_job_item->item_type, $main_job_item->item_id);
   $job_item->tjid = $job->tjid;

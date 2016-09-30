@@ -487,8 +487,11 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    *   Main TMGMT job.
    * @param array $new_languages
    *   An array with new target languages.
+   * @param int $delivery_date
+   *   Delivery date timestamp ('delai').
    */
-  public function addNewTargetLanguages(TMGMTPoetryJob $job, $new_languages) {
+  public function addNewTargetLanguages(TMGMTPoetryJob $job, $new_languages, $delivery_date) {
+    $languages = language_list();
     $poetry_xml = $this->prepareRequestPoetryXml();
 
     $this->appendRequestXmlElement(
@@ -496,7 +499,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       self::REQUEST_TYPE_NEW_POST,
       self::COMMUNICATION_SYNCHRONE,
       $job,
-      $new_languages
+      $new_languages,
+      $delivery_date
     );
 
     $response = $this->sendAddNewTargetLanguagesRequest($poetry_xml);
@@ -504,12 +508,21 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
 
     if (!$response_xml) {
       $job->addMessage("There was an SOAP error while requesting addition of new target languages. Message error: @error",
-        array('@error' => $response), 'error');
+        ['@error' => $response], 'error');
     }
     else {
       foreach ($new_languages as $language) {
+        // Create a job and a job item for the given language.
         _tmgmt_poetry_create_job_and_item($language, $job);
+        // Helper array to store processed languages.
+        $processed_lang[] = $languages[$language]->name;
       }
+      // Setting up messages to notify a user.
+      $processed_languages = implode(', ', $processed_lang);
+      $job->addMessage("Following languages were added to the ongoing translation request: @processed_languages.",
+        ['@processed_languages' => $processed_languages]);
+      drupal_set_message(t("Following languages were added to the ongoing translation request: @processed_languages",
+        ['@processed_languages' => $processed_languages]));
     }
 
   }
@@ -584,10 +597,13 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    *   Main TMGMT job.
    * @param array $new_languages
    *   An array with new target languages.
+   * @param int $delivery_date
+   *   Delivery date timestamp ('delai').
    */
-  protected function appendRequestXmlElement(SimpleXMLElement &$poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, $new_languages) {
+  protected function appendRequestXmlElement(SimpleXMLElement &$poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, $new_languages, $delivery_date) {
     // Add the 'request' XML element to the main XML document.
-    $request_id = end(explode('_POETRY_', $job->reference));
+    $req_id_split = explode('_POETRY_', $job->reference);
+    $request_id = end($req_id_split);
     $request = $poetry_xml->addChild('request');
     $request->addAttribute('type', $request_type);
     $request->addAttribute('communication', $comm_type);
@@ -597,7 +613,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $this->appendDemandeIdXmlElement($request, $request_id);
 
     // Append the 'attributions' XML elements.
-    $this->appendAttributionsXmlElement($request, $job, $new_languages);
+    $this->appendAttributionsXmlElement($request, $new_languages, $delivery_date);
   }
 
   /**
@@ -626,21 +642,23 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    *   The 'request' XML element.
    * @param array $new_languages
    *   An array with new target languages.
+   * @param int $delivery_date
+   *   Delivery date timestamp ('delai').
    */
-  protected function appendAttributionsXmlElement(SimpleXMLElement &$request_xml, $new_languages) {
+  protected function appendAttributionsXmlElement(SimpleXMLElement &$request_xml, $new_languages, $delivery_date) {
     $poetry = variable_get("poetry_service");
     $callback_username = $poetry['callback_user'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
 
     foreach ($new_languages as $language) {
       // Portuguese 'pt-pt' language code case.
-      if ($language = 'pt-pt') {
+      if ($language == 'pt-pt') {
         $language = 'pt';
       }
       $attribution = $request_xml->addChild('attributions');
       $attribution->addAttribute('lgCode', strtoupper($language));
       $attribution->addAttribute('format', 'HTML');
-      $attribution->addChild('attributionsDelai', date('Y-m-d', strtotime('+1 month')));
+      $attribution->addChild('attributionsDelai', date('d/m/Y', $delivery_date));
       $attribution_send = $attribution->addChild('attributionsSend');
       $attribution_send->addAttribute('type', 'smtp');
       $attribution_send->addChild('retourUser', $callback_username);
