@@ -273,10 +273,10 @@ function nexteuropa_webtools_ajax_access_callback() {
  * Implements hook_custom_theme().
  */
 function nexteuropa_webtools_ckeditor_custom_theme() {
-  $theme = variable_get('node_admin_theme', '1') ?
-    variable_get('admin_theme_default', 'seven') :
-    variable_get('theme_default', 'ec_resp');
   if (strpos(current_path(), 'nexteuropa/webtools-ckeditor') === 0) {
+    $theme = variable_get('node_admin_theme', '0') ?
+      variable_get('admin_theme_default', 'seven') :
+      variable_get('theme_default', 'ec_resp');
     return $theme;
   }
 }
