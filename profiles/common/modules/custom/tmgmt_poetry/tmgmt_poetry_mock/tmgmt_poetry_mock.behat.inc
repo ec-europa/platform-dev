@@ -109,6 +109,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * Verifies that poetry received the last translation request.
    *
    * @Then the poetry translation service received the translation request
+   * @Then the poetry translation service received the additional language translation request
    */
   public function assertPoetryTranslationServiceReceivedTheTranslationRequest() {
     $translation_request = PoetryMock::getTranslationRequestByJobReference(
@@ -358,6 +359,59 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       $sequence,
       equals($arg1)
     );
+  }
+
+  /**
+   * Verifies that the new target language request contains given languages.
+   *
+   * @Then the additional language translation request contains following languages
+   */
+  public function assertNewTargetLanguageRequestContainsLanguages(TableNode $table) {
+    // Getting languages from the given table.
+    $expected_languages = $table->getRowsHash();
+    $expected_languages = array_keys($expected_languages);
+    unset($expected_languages[0]);
+    // Getting available languages.
+    $languages = language_list();
+
+    // Initializing helper arrays.
+    $new_languages = [];
+
+    // Checking if there are multiple requests stored in files by poetry mock
+    // and getting the last of them.
+    if (isset($this->translationRequest['files'])) {
+      $request_file_info = end($this->translationRequest['files']);
+      $request_file = file_load($request_file_info->fid);
+
+      // Getting and processing a XML request.
+      $request_xml = file_get_contents($request_file->uri);
+      $xml = new SimpleXMLElement($request_xml);
+      $results = $xml->xpath('/POETRY/request/attributions');
+
+      // Preparing an array with languages which are a part of the request.
+      foreach ($results as $result) {
+        foreach ($result->attributes() as $key => $attribute) {
+          if ($key == 'lgCode') {
+            $lg_code = drupal_strtolower((string) $attribute);
+            $new_languages[] = $languages[$lg_code]->name;
+          }
+        }
+      }
+
+    }
+
+    // Comparing arrays.
+    $compare = array_diff($expected_languages, $new_languages);
+
+    // Asserting coditions.
+    if (!$new_languages && !empty($compare)) {
+      throw new \Exception(
+        sprintf(
+          'the poetry translation service did not receive an additional language translation request with reference %s',
+          $this->poetryContext->jobReference
+        )
+      );
+    }
   }
 
 }

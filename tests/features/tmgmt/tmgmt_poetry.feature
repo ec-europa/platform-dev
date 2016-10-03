@@ -426,27 +426,28 @@ Feature: TMGMT Poetry features
       | language | title            | body                    |
       | en       | Title            | Last change column test |
     When I click "Translate" in the "primary_tabs" region
-    Then I should not see the "Add languages" button in the "content"
+    Then I should not see "Request addition of new languages"
     When I check the box on the "French" row
     And I check the box on the "Portuguese" row
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
-    Then I should see the "Add languages" button in the "content"
-    And I should not see "In progress" in the "German" row
-    And I should not see "In progress" in the "Italian" row
-    When I click "Add languages"
-    Then I should see the error message "Select one of the available languages"
-    When I check the box on the "German" row
-    And I check the box on the "Italian" row
-    And I click "Add languages"
+    Then I should see "Request addition of new languages"
+    And I should see "None" in the "German" row
+    And I should see "None" in the "Italian" row
+    When I click "Request addition of new languages"
+    And I press "Add languages"
+    Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."
+    When I click "Request addition of new languages"
+    And inside fieldset "Request addition of new languages" I check the box on the "German" row
+    And inside fieldset "Request addition of new languages" I check the box on the "Italian" row
+    And I press "Add languages"
     Then the poetry translation service received the additional language translation request
+    And the additional language translation request contains following languages
       | Language   |
       | German     |
       | Italian    |
     And I should see "In progress" in the "German" row
     And I should see "In progress" in the "Italian" row
-    And I should not see the "Add languages" button in the "content"
-    When I go to stored job Id translation request page
-    Then I should see "In progress" in the "German" row
-    And I should see "In progress" in the "Italian" row
+    Then I should not see "Request addition of new languages"
+    And I should see the success message "Following languages were added to the ongoing translation request: German, Italian"
