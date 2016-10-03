@@ -236,12 +236,12 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
  * Validation callback for the entity translation overview form.
  */
 function tmgmt_workbench_translate_form_validate($form, &$form_state) {
-  if (!isset($form_state['input']['languages'])) {
+  if (!isset($form_state['values']['languages'])) {
     form_set_error('languages', t('You have to select a language for requesting a translation.'));
   }
   else {
     $validated = FALSE;
-    foreach ($form_state['input']['languages'] as $language) {
+    foreach ($form_state['values']['languages'] as $language) {
       if (!empty($language)) {
         $validated = TRUE;
       }
