@@ -4,6 +4,7 @@ package = Translation Management
 core = 7.x
 dependencies[] = date_popup
 dependencies[] = i18n
+dependencies[] = multisite_translations
 dependencies[] = nexteuropa_token_ckeditor
 dependencies[] = tmgmt
 dependencies[] = tmgmt_entity_ui
