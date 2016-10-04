@@ -6,6 +6,7 @@ Table of content:
 =================
 - [Installation](#a-installation)
   - [Webmaster / Site builder](#webmaster--site-builder-)
+    - [Prerequisite](#prerequisite)
     - [Requesting access](#requesting-access-to-poetry)
     - [Enabling the feature](#enabling-the-feature-on-your-platform-instance)
     - [Configuration of the connector](#configure-the-dgt-connector)
@@ -31,6 +32,12 @@ Table of content:
 
 # Installation
 ## Webmaster / Site builder:
+### Prerequisite:
+You can only send translation requests using poetry on content type that is
+using "entity translation" translation mode.
+Also, your request will only contain fields that are marked as 'Translatable'
+field.
+
 ### Requesting access to poetry:
 :pray: Before you can start using poetry on Playground or Production, you should
 make a formal request to the Comm Europa Management team.
@@ -84,7 +91,10 @@ or go to:
    - You should see 'Main "poetry_service" variable is properly set.' if you
    have correctly followed the steps above. Otherwise, get back and check what
    you forgot!
-   - Counter: you do not need to fill this. The counter is auto generated.
+   - Counter: The counter always is 'NEXT_EUROPA_COUNTER'.
+   The available counters are visible on
+   http://www.test.cc.cec/translation/webpoetry/ (for test environment) or
+     http://www.cc.cec/translation/webpoetry/ (for prod environment)
    - Requester code: must always be *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
    - Organization responsible, Author & requester: check the example provided.
@@ -118,13 +128,15 @@ In order to test against acceptance webservice, *settings.php* should contain
    $conf['poetry_service'] = array(
      'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
      'method' => 'requestService',
-     'callback_user' => 'Callback',
-     'callback_password' => 'CallbackPWD',
+     'callback_user' => [CALLBACK_USERNAME],
+     'callback_password' => [CALLBACK_PASSWORD],
      'poetry_user' => 'Poetry',
      'poetry_password' => 'PoetryPWD',
    );
 ```
-
+> The values of [CALLBACK_USERNAME] should match NE-projectname where
+projectname is the project's code.
+> *Example: NE-ERASMUSPLUS*
   - Install on Production environment:
 
 Make sure the [poetry access was requested by the webmaster]
@@ -152,6 +164,14 @@ projectname is the project's code.
 
 >[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
 DGCOMM (see 'Installations step 1').
+
+### Show Remote languages mappings
+
+The language mapping configuration screen allows to map drupal language codes
+to poetry language codes.
+For example : a website that uses 'Portuguese, Portugual' language code pt-pt,
+needs to map pt-pt to pt language code in poetry, so that portuguese
+translations are correctly processed.
 
 [Go to top](#table-of-content)
 
@@ -248,6 +268,8 @@ several variables:
   - The *year* a new counter was received  ``` (ex: 2016) ```,
 
   - The *counter* used when request was sent  ``` (ex: 72000) ```,
+  For the first request sent by a website, the log will show
+  'NEXT_EUROPA_COUNTER' instead of the actual counter.
 
   - The *version* (version is incremented each time a 'partie' version is sent)
   ```(ex:0) ```,
