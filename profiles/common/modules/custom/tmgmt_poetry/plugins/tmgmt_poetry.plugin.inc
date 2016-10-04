@@ -522,9 +522,9 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       }
       // Setting up messages to notify a user.
       $processed_languages = implode(', ', $processed_lang);
-      $job->addMessage("Following languages were added to the ongoing translation request: @processed_languages.",
+      $job->addMessage("The following languages were added to the ongoing translation request: @processed_languages.",
         ['@processed_languages' => $processed_languages]);
-      drupal_set_message(t("Following languages were added to the ongoing translation request: @processed_languages",
+      drupal_set_message(t("The following languages were added to the ongoing translation request: @processed_languages",
         ['@processed_languages' => $processed_languages]));
     }
 
