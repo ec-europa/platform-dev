@@ -507,8 +507,11 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $response_xml = simplexml_load_string($response);
 
     if (!$response_xml) {
-      $job->addMessage("There was a SOAP error while requesting addition of new target languages. Message error: @error",
-        ['@error' => $response], 'error');
+      $job->addMessage(
+        "There was a SOAP error while requesting addition of new target languages. Message error: @error",
+        ['@error' => $response],
+        'error'
+      );
     }
     else {
       foreach ($new_languages as $language) {
