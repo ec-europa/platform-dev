@@ -364,7 +364,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   /**
    * Verifies that the new target language request contains given languages.
    *
-   * @Then the additional language translation request contains following languages
+   * @Then the additional language translation request contains the following languages:
    */
   public function assertNewTargetLanguageRequestContainsLanguages(TableNode $table) {
     // Getting languages from the given table.

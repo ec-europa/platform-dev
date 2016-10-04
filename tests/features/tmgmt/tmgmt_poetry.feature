@@ -443,7 +443,7 @@ Feature: TMGMT Poetry features
     And inside fieldset "Request addition of new languages" I check the box on the "Italian" row
     And I press "Add languages"
     Then the poetry translation service received the additional language translation request
-    And the additional language translation request contains following languages
+    And the additional language translation request contains the following languages:
       | Language   |
       | German     |
       | Italian    |
