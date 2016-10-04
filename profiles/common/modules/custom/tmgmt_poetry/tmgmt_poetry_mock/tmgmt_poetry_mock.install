@@ -22,9 +22,9 @@ function tmgmt_poetry_mock_install() {
         "code" : "ABCD"
       },
       "organization" : {
-        "responsable" : "John Doe (Responsible)",
-        "auteur" : "John Doe (Author)",
-        "demandeur" : "John Doe (Requester)"
+        "responsable" : "DIGIT",
+        "auteur" : "IE/CE/DIGIT",
+        "demandeur" : "IE/CE/DIGIT/A/3"
       },
       "contacts" : {
         "auteur" : "John Doe (Author)",
