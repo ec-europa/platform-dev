@@ -449,5 +449,5 @@ Feature: TMGMT Poetry features
       | Italian    |
     And I should see "In progress" in the "German" row
     And I should see "In progress" in the "Italian" row
-    Then I should not see "Request addition of new languages"
+    And I should not see "Request addition of new languages"
     And I should see the success message "Following languages were added to the ongoing translation request: German, Italian"
