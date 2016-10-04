@@ -181,7 +181,7 @@ DGCOMM (see 'Installations step 1').
 - Submit the 'Request translation' button,
 - By default the 'DGT connector (auto created)' translator will be selected but you can click 'Change translator' to
 change it if needed,
-- You can change the languages you want to be translated,
+- You can modify the selection of languages you want to be translated,
 - Default values:
 
 > The values that show in 'Contact Usernames' and in 'Organization' are the
@@ -200,14 +200,14 @@ share with DGT.
 [Go to top](#table-of-content)
 
 ## How to update a translation request.
-- After to request a translation and that is accepted by Poetry team,
-- Click on the "Translation" tab and select the languages you wish to request a translation for,
+- After a translation request has been accepted by DGT,
+- Click the "Translation" tab and select the languages you wish to request a translation for,
 - Submit the 'Update Request translation' button,
 
-> Note: This action will cancel all jobs in progress and that need a review.
+> Note: This action will cancel all jobs in progress and jobs that need a review.
 
 - By default the 'DGT connector (auto created)' translator will be selected,
-- You can change the languages you want to be translated,
+- You can modify the selection of languages you want to be translated,
 - You can select an 'Expected delivery time': Click the field and select a date from the calendar that will pop up. This is an indicative date, DGT
 
 [Go to top](#table-of-content)
