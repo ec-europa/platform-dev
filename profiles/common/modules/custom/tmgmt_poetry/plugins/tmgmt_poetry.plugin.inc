@@ -146,8 +146,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       foreach ($statuses as $status) {
         $message = (string) $status->statusMessage;
         if ($message != 'OK') {
-          $job->rejected("There was an error with the Poetry request . Message error: @error",
-            array('@error' => $message), 'error');
+          _tmgmt_poetry_tmgmt_job_reject($job, "Rejected", $message);
         }
       }
 
