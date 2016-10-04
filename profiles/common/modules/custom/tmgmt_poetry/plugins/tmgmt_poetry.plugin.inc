@@ -490,7 +490,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param int $delivery_date
    *   Delivery date timestamp ('delai').
    */
-  public function addNewTargetLanguages(TMGMTPoetryJob $job, $new_languages, $delivery_date) {
+  public function addNewTargetLanguages(TMGMTPoetryJob $job, array $new_languages, $delivery_date) {
     $languages = language_list();
     $poetry_xml = $this->prepareRequestPoetryXml();
 
@@ -645,7 +645,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param int $delivery_date
    *   Delivery date timestamp ('delai').
    */
-  protected function appendAttributionsXmlElement(SimpleXMLElement &$request_xml, $new_languages, $delivery_date) {
+  protected function appendAttributionsXmlElement(SimpleXMLElement &$request_xml, array $new_languages, $delivery_date) {
     $poetry = variable_get("poetry_service");
     $callback_username = $poetry['callback_user'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
