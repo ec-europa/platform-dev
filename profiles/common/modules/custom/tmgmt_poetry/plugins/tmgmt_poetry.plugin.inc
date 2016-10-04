@@ -600,7 +600,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param int $delivery_date
    *   Delivery date timestamp ('delai').
    */
-  protected function appendRequestXmlElement(SimpleXMLElement &$poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, $new_languages, $delivery_date) {
+  protected function appendRequestXmlElement(SimpleXMLElement &$poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, array $new_languages, $delivery_date) {
     // Add the 'request' XML element to the main XML document.
     $req_id_split = explode('_POETRY_', $job->reference);
     $request_id = end($req_id_split);
