@@ -276,7 +276,6 @@ function tmgmt_workbench_add_target_languages_form_validate($form, &$form_state)
   if (isset($form_state['input']['translatable_languages'])) {
     foreach ($form_state['input']['translatable_languages'] as $language) {
       if (!is_null($language)) {
-
         return;
       }
 
