@@ -514,6 +514,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       );
     }
     else {
+      $processed_lang = [];
       foreach ($new_languages as $language) {
         // Create a job and a job item for the given language.
         _tmgmt_poetry_create_job_and_item($language, $job);
