@@ -608,6 +608,13 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     // Append the 'demandeId' XML element.
     $this->appendDemandeIdXmlElement($request, $request_id);
 
+    $new_languages = array_map(
+      function ($new_language) use ($job) {
+        return $job->getTranslator()->mapToRemoteLanguage($new_language);
+      },
+      $new_languages
+    );
+
     // Append the 'attributions' XML elements.
     $this->appendAttributionsXmlElement($request, $new_languages, $delivery_date);
   }
@@ -647,10 +654,6 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
 
     foreach ($new_languages as $language) {
-      // Portuguese 'pt-pt' language code case.
-      if ($language == 'pt-pt') {
-        $language = 'pt';
-      }
       $attribution = $request_xml->addChild('attributions');
       $attribution->addAttribute('lgCode', drupal_strtoupper($language));
       $attribution->addAttribute('format', 'HTML');
