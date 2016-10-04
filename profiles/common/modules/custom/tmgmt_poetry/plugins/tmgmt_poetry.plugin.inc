@@ -504,7 +504,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     );
 
     $response = $this->sendAddNewTargetLanguagesRequest($poetry_xml);
-    $response_xml = simplexml_load_string($response);
+    $response_xml = $response ? simplexml_load_string($response) : FALSE;
 
     if (!$response_xml) {
       $job->addMessage(
@@ -547,24 +547,16 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     // Get Poetry configuration.
     $poetry = variable_get("poetry_service");
 
-    // Create soap client.
+    // Create soap client and send the request.
     try {
       $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
+
+      $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+
+      return $response;
     }
     catch (Exception $e) {
       watchdog_exception('tmgmt_poetry', $e);
-    }
-
-    if ($client) {
-      // Send the SOAP request and handle possible errors.
-      try {
-        $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
-      }
-      catch (Exception $e) {
-        watchdog_exception('tmgmt_poetry', $e);
-      }
-
-      return $response;
     }
 
     return FALSE;
