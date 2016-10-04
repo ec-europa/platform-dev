@@ -603,7 +603,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param int $delivery_date
    *   Delivery date timestamp ('delai').
    */
-  protected function appendRequestXmlElement(SimpleXMLElement &$poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, array $new_languages, $delivery_date) {
+  protected function appendRequestXmlElement(SimpleXMLElement $poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, array $new_languages, $delivery_date) {
     // Add the 'request' XML element to the main XML document.
     $req_id_split = explode('_POETRY_', $job->reference);
     $request_id = end($req_id_split);
@@ -627,7 +627,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param string $request_id
    *   String with job reference id.
    */
-  protected function appendDemandeIdXmlElement(SimpleXMLElement &$request_xml, $request_id) {
+  protected function appendDemandeIdXmlElement(SimpleXMLElement $request_xml, $request_id) {
     $demande = explode('/', $request_id);
     $demande_id = $request_xml->addChild('demandeId');
     $demande_id->addChild('codeDemandeur', $demande[0]);
@@ -648,7 +648,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param int $delivery_date
    *   Delivery date timestamp ('delai').
    */
-  protected function appendAttributionsXmlElement(SimpleXMLElement &$request_xml, array $new_languages, $delivery_date) {
+  protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date) {
     $poetry = variable_get("poetry_service");
     $callback_username = $poetry['callback_user'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
