@@ -18,6 +18,7 @@ Table of content:
 
 - [Usage](#usage)
   - [How to request a translation](#usage)
+  - [How to update a translation request](#usage)
 
 - [Interesting information to go further]
 (#interesting-information-regarding-the-dgt-connector)
@@ -195,6 +196,19 @@ want to change that date,
 
 - The field remark is not mandatory, you can add there any comment you want to
 share with DGT.
+
+[Go to top](#table-of-content)
+
+## How to update a translation request.
+- After to request a translation and that is accepted by Poetry team,
+- Click on the "Translation" tab and select the languages you wish to request a translation for,
+- Submit the 'Update Request translation' button,
+
+> Note: This action will cancel all jobs in progress and that need a review.
+
+- By default the 'DGT connector (auto created)' translator will be selected,
+- You can change the languages you want to be translated,
+- You can select an 'Expected delivery time': Click the field and select a date from the calendar that will pop up. This is an indicative date, DGT
 
 [Go to top](#table-of-content)
 
