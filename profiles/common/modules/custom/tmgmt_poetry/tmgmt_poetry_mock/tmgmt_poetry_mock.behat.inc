@@ -368,11 +368,13 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    */
   public function assertNewTargetLanguageRequestContainsLanguages(TableNode $table) {
     // Getting languages from the given table.
-    $expected_languages = $table->getRowsHash();
-    $expected_languages = array_keys($expected_languages);
-    unset($expected_languages[0]);
-    // Getting available languages.
-    $languages = language_list();
+    $table_body_rows = $table->getHash();
+    $expected_languages = array_map(
+      function ($row) {
+        return $row['Language'];
+      },
+      $table_body_rows
+    );
 
     // Initializing helper arrays.
     $new_languages = [];
@@ -380,6 +382,9 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
     // Checking if there are multiple requests stored in files by poetry mock
     // and getting the last of them.
     if (isset($this->translationRequest['files'])) {
+      // Getting available languages.
+      $languages = language_list();
+
       $request_file_info = end($this->translationRequest['files']);
       $request_file = file_load($request_file_info->fid);
 
@@ -388,7 +393,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       $xml = new SimpleXMLElement($request_xml);
       $results = $xml->xpath('/POETRY/request/attributions');
 
-      // Preparing an array with languages which are a part of the request.
+      // Preparing an array with languages which are part of the request.
       foreach ($results as $result) {
         foreach ($result->attributes() as $key => $attribute) {
           if ($key == 'lgCode') {
@@ -400,18 +405,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
 
     }
 
-    // Comparing arrays.
-    $compare = array_diff($expected_languages, $new_languages);
-
-    // Asserting coditions.
-    if (!$new_languages && !empty($compare)) {
-      throw new \Exception(
-        sprintf(
-          'the poetry translation service did not receive an additional language translation request with reference %s',
-          $this->poetryContext->jobReference
-        )
-      );
-    }
+    assert($new_languages, equals($expected_languages));
   }
 
 }
