@@ -271,6 +271,9 @@ function nexteuropa_webtools_ajax_access_callback() {
 
 /**
  * Implements hook_custom_theme().
+ *
+ * NEPT-105:The popup 'Insert internal content' (on a Ckeditor block)
+ * when the theme of the modal and the back page isn't the same.
  */
 function nexteuropa_webtools_ckeditor_custom_theme() {
   if (strpos(current_path(), 'nexteuropa/webtools-ckeditor') === 0) {
