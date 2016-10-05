@@ -1,14 +1,13 @@
 <?php
-
 /**
  * @file
- * nexteuropa_core.field_group.inc
+ * nexteuropa_communities.field_group.inc
  */
 
 /**
  * Implements hook_field_group_info().
  */
-function nexteuropa_core_field_group_info() {
+function nexteuropa_communities_field_group_info() {
   $field_groups = array();
 
   $field_group = new stdClass();
@@ -22,20 +21,18 @@ function nexteuropa_core_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Content',
-    'weight' => '0',
+    'weight' => '2',
     'children' => array(
       0 => 'body',
-      1 => 'group_access',
-      2 => 'group_group',
-      3 => 'title_field',
-      4 => 'path',
+      1 => 'title_field',
+      2 => 'path',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
       'formatter' => 'closed',
       'instance_settings' => array(
         'description' => '',
-        'classes' => 'group-community-content field-group-tab',
+        'classes' => '',
         'required_fields' => 1,
       ),
     ),
@@ -53,9 +50,11 @@ function nexteuropa_core_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Metadata',
-    'weight' => '1',
+    'weight' => '3',
     'children' => array(
-      0 => 'language',
+      0 => 'group_access',
+      1 => 'group_group',
+      2 => 'language',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
