@@ -4,6 +4,8 @@
 <ruleset name="NextEuropa">
     <description>Drupal coding standard for NextEuropa</description>
 
+
+
     <!-- Exclude unsupported file types. -->
     <exclude-pattern>*\.gif</exclude-pattern>
     <exclude-pattern>*\.less</exclude-pattern>
@@ -25,6 +27,19 @@
     <exclude-pattern>profiles/multisite_drupal_standard/themes/europa</exclude-pattern>
 
     <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
+
+    <!-- START rules maintained by the maintenance team. -->
+    <rule ref="./vendor/ec-europa/qa-automation/DrupalSecure" />
+    <rule ref="./vendor/ec-europa/qa-automation/QualityAssurance">
+        <exclude name="QualityAssurance.InfoFiles.Required.Multisite version" />
+        <exclude name="QualityAssurance.InfoFiles.Required.PHP" />
+    </rule>
+
+    <rule ref="QualityAssurance.InfoFiles.Forbidden.Dependency on menu">
+        <exclude-pattern>profiles/multisite_drupal_standard</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_communities</exclude-pattern>
+    </rule>
+    <!-- END rules maintained by the maintenance team. -->
 
     <!-- Exclude third party code. -->
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
