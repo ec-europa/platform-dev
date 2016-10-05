@@ -66,10 +66,10 @@ dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 stylesheets[all][] = cce_basic_config.css
 # The image_captcha_fonts variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
+# Please do not remove this entry when recreating the feature.
 features[variable][] = image_captcha_fonts
 # The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
+# Please do not remove this entry when recreating the feature.
 features[variable][] = print_pdf_pdf_tool
 features[context][] = site_wide
 features[ctools][] = context:context:3
