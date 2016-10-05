@@ -327,6 +327,15 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
       }
     }
   }
+
+  // Cancel all old activate jobs associated to this entity.
+  $jobs_canceled = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($origin_job_item->item_id);
+  foreach ($jobs_canceled as $job_item) {
+    $job_canceled = tmgmt_job_load($job_item->tjid);
+    if (!empty($jobs_canceled)) {
+      $job_canceled->aborted();
+    }
+  }
 }
 
 /**
@@ -345,8 +354,8 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
-  $query->fields('job', array('tjid'))
-    ->fields('job_item', array('tjiid'));
+  $query->fields('job', ['tjid'])
+    ->fields('job_item', ['tjiid']);
   if (count($languages) > 0) {
     $query->condition('job.target_language', $languages, 'IN');
   }
@@ -533,7 +542,7 @@ function tmgmt_poetry_job_statistics_load(array $tjids) {
  *   The requested information as an integer.
  */
 function tmgmt_poetry_job_statistics(TMGMTJob $job, $key) {
-  $statistics = tmgmt_poetry_job_statistics_load(array($job->tjid));
+  $statistics = tmgmt_poetry_job_statistics_load([$job->tjid]);
   if (isset($statistics[$job->tjid]->$key)) {
     return $statistics[$job->tjid]->$key;
   }
@@ -584,5 +593,82 @@ function tmgmt_poetry_page_alter(&$page) {
   // Removing empty workbench block from request translation page.
   if (in_array('node', arg()) && in_array('translate', arg())) {
     unset($page['content']['workbench_block']);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Change tmgmt_entity_ui_translate_form form to
+ * allow user to request a translation update.
+ */
+function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+  $entity_type = $form_state['entity_type'];
+  if ($entity_type == 'node') {
+    $node = $form_state['entity'];
+    if (workbench_moderation_node_moderated($node)) {
+
+      $existing_jobs = tmgmt_job_item_load_latest(
+        'workbench_moderation',
+        $entity_type,
+        $node->nid,
+        $node->translations->original
+      );
+
+      if (!empty($existing_jobs)) {
+
+        $translation_possible = TRUE;
+
+        // Check the poetry status of subjobs.
+        foreach ($existing_jobs as $existing_job) {
+          // Check if it's a poetry job.
+          $translator = $existing_job->getTranslator();
+          if ($translator && $translator->plugin != 'poetry') {
+            return;
+          }
+
+          // Check the poetry status.
+          $result = db_select('poetry_status', 'ps')
+            ->fields('ps')
+            ->condition('tjiid', $existing_job->tjiid, '=')
+            ->execute()
+            ->fetchAssoc();
+
+          if (isset($result['status']) && $result['status'] == POETRY_STATUS_MESSAGE_PEN) {
+            $translation_possible = FALSE;
+          }
+        }
+
+        // Force form to allow user actions.
+        $form_state['force_actions'] = TRUE;
+
+        if ($translation_possible) {
+          // Add the new submit button.
+          $form['actions']['request'] = [
+            '#type' => 'submit',
+            '#value' => t('Request translation update'),
+            '#submit' => ['tmgmt_workbench_translate_form_submit'],
+            '#validate' => ['tmgmt_workbench_translate_form_validate'],
+          ];
+        }
+        else {
+          // Disable all actions.
+          unset($form['actions']);
+          $lang_codes = array_keys($form['languages']['#options']);
+          foreach ($lang_codes as $lang_code) {
+            $form['languages'][$lang_code] = [
+              '#type' => 'checkbox',
+              '#disabled' => TRUE,
+            ];
+          }
+          $form['languages_description'] = [
+            '#type' => 'item',
+            '#prefix' => '<div class="messages warning">',
+            '#markup' => t('Please wait the acceptation translation process before update request.'),
+            '#suffix' => '</div>',
+          ];
+        }
+      }
+    }
   }
 }

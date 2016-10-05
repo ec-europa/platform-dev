@@ -32,6 +32,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
+
       $origin_job_item = array_shift($origin_job_items);
       $languages = language_list('language');
       $requested_languages = $origin_job->settings['languages'];
