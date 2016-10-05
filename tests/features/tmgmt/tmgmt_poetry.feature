@@ -45,7 +45,7 @@ Feature: TMGMT Poetry features
     And I wait
     Then I should see "Contact usernames"
     And I should see "Organization"
-    And I should see "Original delivery date"
+    And I should see "Requested delivery date"
 
   @javascript
   Scenario: I can access an overview of recent translation jobs.
