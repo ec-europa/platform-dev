@@ -304,7 +304,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
 
     $form['delai'] = array(
       '#type' => 'date_popup',
-      '#title' => t('Original delivery date'),
+      '#title' => t('Requested delivery date'),
       '#default_value' => (!empty($job->settings['delai']) ? $job->settings['delai'] : date('Y-m-d', strtotime('+1 month'))),
       '#date_format' => 'd/m/Y',
       '#date_year_range' => '-3:+3',
