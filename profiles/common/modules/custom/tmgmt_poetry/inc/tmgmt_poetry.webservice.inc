@@ -260,7 +260,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       $language = $languages[$job->target_language]->name;
 
       // Update the delai provided by DGT.
-      if (isset($attributions->attributionsDelaiAccepted)) {
+      if (!empty($attributions->attributionsDelaiAccepted)) {
         _tmgmt_poetry_update_item_status($job_item->tjiid, "", "", (string) $attributions->attributionsDelaiAccepted);
       }
 

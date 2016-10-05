@@ -464,6 +464,10 @@ function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $de
  *   Item delay.
  */
 function _tmgmt_poetry_update_item_status($tjiid, $target_language, $status, $delai) {
+  if (empty($target_language) && empty($status) && empty($delai)) {
+    return;
+  }
+
   $query = db_update('poetry_status');
   if (!empty($target_language)) {
     $query->fields(array('target_language' => $target_language));
