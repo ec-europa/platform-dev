@@ -196,3 +196,18 @@ function nexteuropa_token_ckeditor_token_filter_filter_tokens($text, $filter, $f
 
   return _token_filter_filter_tokens($text, $filter, $format, $langcode, $cache, $cache_id);
 }
+
+/**
+ * Implements hook_custom_theme().
+ *
+ * NEPT-105:The popup 'Insert internal content' (on a Ckeditor block)
+ * when the theme of the modal and the back page isn't the same.
+ */
+function nexteuropa_token_ckeditor_custom_theme() {
+  if (strpos(current_path(), 'nexteuropa/token-ckeditor') === 0) {
+    $theme = variable_get('node_admin_theme', '0') ?
+      variable_get('admin_theme_default', 'seven') :
+      variable_get('theme_default', 'ec_resp');
+    return $theme;
+  }
+}

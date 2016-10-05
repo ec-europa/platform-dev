@@ -4,5 +4,7 @@ package = multisite drupal toolbox
 core = 7.x
 
 dependencies[] = libraries
+dependencies[] = multisite_config
 
 files[] = multisite_drupal_toolbox.test
+registry_autoload[] = PSR-4
