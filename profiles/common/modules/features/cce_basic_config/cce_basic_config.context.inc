@@ -38,9 +38,15 @@ function cce_basic_config_context_default_contexts() {
           'region' => 'tools',
           'weight' => '2',
         ),
-        'locale-language' => array(
-          'module' => 'locale',
-          'delta' => 'language',
+        'language_selector_page' => array(
+          'module' => 'language_selector_page',
+          'delta' => 'language_selector_page',
+          'region' => 'content_top',
+          'weight' => '-10',
+        ),
+        'language_selector_site' => array(
+          'module' => 'language_selector_site',
+          'delta' => 'language_selector_site',
           'region' => 'header_top',
           'weight' => '-10',
         ),
