@@ -76,7 +76,10 @@ class PoetryMock {
     self::saveTranslationRequest($message, $reference);
 
     // Generating response XML based on template.
-    $xml = theme('poetry_confirmation_of_receiving_translation_request', ['demande_id' => $demande_id]);
+    $xml = theme(
+      'poetry_confirmation_of_receiving_translation_request',
+      ['demande_id' => $demande_id]
+    );
 
     // Sending response.
     return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);

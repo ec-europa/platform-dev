@@ -134,8 +134,12 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $response_xml = simplexml_load_string($response);
     // If it is not an xml response, the SOAP request failed.
     if (!$response_xml) {
-      $job->rejected("There was an error with the SOAP service . Message error: @error",
-        array('@error' => $response), 'error');
+      _tmgmt_poetry_tmgmt_job_reject(
+        $job,
+        "Rejected",
+        "There was an error with the SOAP service.",
+        $response
+      );
     }
     else {
       $request = $response_xml->request;
@@ -146,7 +150,12 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       foreach ($statuses as $status) {
         $message = (string) $status->statusMessage;
         if ($message != 'OK') {
-          _tmgmt_poetry_tmgmt_job_reject($job, "Rejected", $message);
+          _tmgmt_poetry_tmgmt_job_reject(
+            $job,
+            "Rejected",
+            "There was an error with the Poetry request.",
+            $message
+          );
         }
       }
 

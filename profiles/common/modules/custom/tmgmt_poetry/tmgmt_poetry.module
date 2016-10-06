@@ -361,11 +361,11 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = 
 /**
  * Helper function to reject a Job and its related sub Job.
  */
-function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $message) {
+function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message, $message) {
 
   // Reject the main Job.
   $job->rejected(
-    "There was an error with the Poetry request . Message error: @error",
+    $internal_message . " Message error: @error",
     ['@error' => $message],
     'error'
   );
@@ -385,7 +385,7 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $message) {
   foreach ($related_jobs as $related_job) {
     $job_rejected = tmgmt_job_load($related_job->tjid);
     $job_rejected->rejected(
-      "There was an error with the Poetry request . Message error: @error",
+      $internal_message . " Message error: @error",
       ['@error' => $message],
       'error');
     _tmgmt_poetry_update_item_status($related_job->tjiid, "", $status_message, "");
