@@ -94,6 +94,40 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
 }
 
 /**
+ * Implements hook_node_insert().
+ */
+function nexteuropa_varnish_node_insert($node) {
+  if ($node->status == NODE_PUBLISHED) {
+    nexteuropa_varnish_node_update($node);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function nexteuropa_varnish_node_update($node) {
+  // Ignore moderated nodes, they are handled by the workbench moderation hooks
+  // implemented in this module.
+  if (workbench_moderation_node_moderated($node)) {
+    return;
+  }
+
+  // Ignore updates on existing, unpublished content that remains unpublished.
+  if (isset($node->original) &&
+      $node->original->status == NODE_NOT_PUBLISHED &&
+      $node->status == NODE_NOT_PUBLISHED
+  ) {
+    return;
+  }
+
+  $paths = _nexteuropa_varnish_get_paths_to_purge($node->type);
+
+  if (!empty($paths)) {
+    _nexteuropa_varnish_purge_paths($paths);
+  }
+}
+
+/**
  * Get the paths to purge for a specific content type.
  *
  * @param string $content_type
