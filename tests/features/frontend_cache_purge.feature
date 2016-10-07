@@ -181,6 +181,18 @@ Feature:
       | /all-articles |
 
   @non-moderated-content
+  Scenario: Edit an existing draft of an editorial team.
+    Given I go to "node/add/editorial-team"
+    And I fill in "Name" with "NextEuropa Platform Core"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    And I click "Edit"
+    And I fill in "Name" with "NextEuropa Platform Core Next generation"
+    And I press "Save"
+    Then the web front end cache was not instructed to purge any paths
+
+  @non-moderated-content
   Scenario: Withdraw a published editorial team.
     Given I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
