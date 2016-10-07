@@ -75,9 +75,7 @@ the DGT-Connector (adaptation of "settings.php").
 :construction: Only maintenance team can enable the DGT translator.
 ### The feature
 
-The module is included in the platform-dev sources. Run the drush command
-```drush en tmgmt_poetry```.
-
+Make sure the 
 Update the settings.php of the project.
 It must be filled with appropriate
 values depending on the environment you are setting up.
@@ -174,13 +172,21 @@ or go to:
 
 
 # Testing
-:black_joker: Testing the DGT-Connector is possible locally, without the need 
-to access the webservice by using the tmgmt_poetry_mock module.
+:black_joker: 
 
- See [the mock readme] (tmgmt_poetry_mock/README.md) for more information.
+## Testing locally (for developers)
 
+If you hired a contractor and he needs to test the DGT-Connector UI and 
+workflow locally, this can be done without the need to access the webservice by 
+using the tmgmt_poetry_mock module.
+
+ Contractors : see [the mock readme] (tmgmt_poetry_mock/README.md) for more 
+ information on testing with the mock.
+
+## Testing inhouse (for webmasters)
 When the DGT-Connector will be properly enabled, setup and configured in your 
 playground environment, CEM will ask you to perform few tests monitored by DGT.
+Go to next section ([Usage](#usage)) to complete your test.
 
 [Go to top](#table-of-content)
 
