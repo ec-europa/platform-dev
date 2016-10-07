@@ -5,8 +5,8 @@ that make use of the European Commission DGT connector services
 Table of content:
 =================
 - [Installation](#a-installation)
-  - [Webmaster / Site builder](#webmaster--site-builder-)
-    - [Requesting access](#requesting-access-to-poetry)
+  - [Webmaster / Site builder](#webmaster--site-builder)
+    - [Requesting access](#requesting-access-to-the-dgt-connector)
     - [Enabling the feature](#enabling-the-feature-on-your-platform-instance)
     - [Configuration of the DGT-Connector](#configure-the-dgt-connector)
   - [Maintenance staff (FPFIS staff)](#maintenance-staff-fpfis-staff)
@@ -17,7 +17,7 @@ Table of content:
   - [Testing on Playground](#testing)
 
 - [Usage](#usage)
-  - [How to request a translation](#usage)
+  - [How to request a translation](#how-to-request-a-translation)
 
 - [Interesting information to go further]
 (#interesting-information-regarding-the-dgt-connector)
@@ -172,7 +172,6 @@ or go to:
 
 
 # Testing
-:black_joker: 
 
 ## Testing locally (for developers)
 
@@ -186,7 +185,12 @@ using the tmgmt_poetry_mock module.
 ## Testing inhouse (for webmasters)
 When the DGT-Connector will be properly enabled, setup and configured in your 
 playground environment, CEM will ask you to perform few tests monitored by DGT.
-Go to next section ([Usage](#usage)) to complete your test.
+
+Go to next section ([Usage](#usage)) on how to complete your test.
+
+When your test are successfully completed, please inform CEM.
+CEM will request the deployment of the DGT-Connector in you production 
+environment.
 
 [Go to top](#table-of-content)
 
@@ -274,6 +278,3 @@ several variables:
 
 [Go to top](#table-of-content)
 
-   When your test are successfully completed, please inform CEM.
-   CEM will request the deployment of the DGT-Connector in you production
-   environment.
