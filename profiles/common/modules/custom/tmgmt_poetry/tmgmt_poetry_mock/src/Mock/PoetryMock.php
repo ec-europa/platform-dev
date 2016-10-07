@@ -12,8 +12,11 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
  */
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
+  const NAME_TRANSLATOR = 'tmgmt_poetry_test_translator';
+  const LABEL_TRANSLATOR = 'TMGMT Poetry Test translator';
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
   const COUNTER_VALUE = '1234';
+  const COUNTER_VALUE_NOK = '-1';
   public $settings;
   private $client;
 
@@ -65,10 +68,26 @@ class PoetryMock {
     $response_xml = simplexml_load_string($message);
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
+
     // This is to deal with initial request when website doesn't have counter.
-    if (isset($demande_id['sequence']) && $demande_id['sequence'] == self::COUNTER_STRING) {
-      $demande_id['numero'] = self::COUNTER_VALUE;
-      unset($demande_id['sequence']);
+    if (isset($demande_id['sequence'])) {
+      if ($demande_id['sequence'] == self::COUNTER_STRING) {
+        $demande_id['numero'] = self::COUNTER_VALUE;
+        unset($demande_id['sequence']);
+      }
+      else {
+        $demande_id['numero'] = self::COUNTER_VALUE_NOK;
+        // Generating response XML based on template.
+        $xml = theme(
+          'poetry_confirmation_of_receiving_translation_request_error_configuration',
+          [
+            'demande_id' => $demande_id,
+            'message' => "Error in xmlActions:newRequest: Counter name not found (code_demandeur=" . $demande_id['codeDemandeur'] . ",compteur=" . $demande_id['sequence'] . ",year=" . $demande_id['annee'] . ")",
+          ]
+        );
+        // Sending response.
+        return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
+      }
     }
     $reference = self::prepareReferenceNumber($demande_id);
 
