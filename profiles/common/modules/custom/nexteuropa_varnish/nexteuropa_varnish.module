@@ -85,34 +85,49 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
       ($previous_state == workbench_moderation_state_published() && $new_state !== $previous_state);
 
   if ($purge) {
-    $query = new EntityFieldQuery();
-    $query
-      ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
-      ->propertyCondition('content_type', $node->type);
-
-    $result = $query->execute();
-
-    $paths = array();
-
-    if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
-      $purge_rules = entity_load(
-        'nexteuropa_varnish_cache_purge_rule',
-        array_keys($result['nexteuropa_varnish_cache_purge_rule'])
-      );
-      foreach ($purge_rules as $purge_rule) {
-        $purge_paths = preg_split("/[\r\n]+/", $purge_rule->paths);
-
-        $paths = array_merge($paths, $purge_paths);
-      }
-    }
-
-    $paths = array_unique($paths);
-    $paths = array_filter($paths);
+    $paths = _nexteuropa_varnish_get_paths_to_purge($node->type);
 
     if (!empty($paths)) {
       _nexteuropa_varnish_purge_paths($paths);
     }
   }
+}
+
+/**
+ * Get the paths to purge for a specific content type.
+ *
+ * @param string $content_type
+ *   The content type to filter on.
+ *
+ * @return string[]
+ *   The paths to purge.
+ */
+function _nexteuropa_varnish_get_paths_to_purge($content_type) {
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
+    ->propertyCondition('content_type', $content_type);
+
+  $result = $query->execute();
+
+  $paths = array();
+
+  if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
+    $purge_rules = entity_load(
+      'nexteuropa_varnish_cache_purge_rule',
+      array_keys($result['nexteuropa_varnish_cache_purge_rule'])
+    );
+    foreach ($purge_rules as $purge_rule) {
+      $purge_paths = preg_split("/[\r\n]+/", $purge_rule->paths);
+
+      $paths = array_merge($paths, $purge_paths);
+    }
+  }
+
+  $paths = array_unique($paths);
+  $paths = array_filter($paths);
+
+  return $paths;
 }
 
 /**
