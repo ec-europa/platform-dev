@@ -15,6 +15,13 @@ use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext
 class DrupalContext extends DrupalExtensionDrupalContext {
 
   /**
+   * The last node id before a scenario starts.
+   *
+   * @var int
+   */
+  protected $maxNodeId;
+
+  /**
    * {@inheritdoc}
    */
   public function loggedIn() {
@@ -48,6 +55,37 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $path = url($path, ['base_url' => '', 'absolute' => TRUE]);
     // Visit newly created node page.
     $this->visitPath($path);
+  }
+
+  /**
+   * Remember the last node id.
+   *
+   * @BeforeScenario @reset-nodes
+   */
+  public function rememberCurrentLastNode() {
+    $query = db_select('node');
+    $query->addExpression('MAX(nid)');
+    $this->maxNodeId = $query->execute()->fetchField();
+  }
+
+  /**
+   * Removes any nodes created after the last node id remembered.
+   *
+   * @AfterScenario @reset-nodes
+   */
+  public function resetNodes() {
+    $max_nid = isset($this->maxNodeId) ? $this->maxNodeId : 0;
+
+    $all_nodes_after_query = (new \EntityFieldQuery())
+      ->entityCondition('entity_type', 'node')
+      ->propertyCondition('nid', $max_nid, '>');
+
+    $all_nodes_after = $all_nodes_after_query->execute();
+    $all_nodes_after = reset($all_nodes_after);
+    if (is_array($all_nodes_after)) {
+      entity_delete_multiple('node', array_keys($all_nodes_after));
+    }
+    unset($this->maxNodeId);
   }
 
 }
