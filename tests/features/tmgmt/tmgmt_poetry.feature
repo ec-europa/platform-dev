@@ -18,15 +18,41 @@ Feature: TMGMT Poetry features
       | de        |
       | it        |
 
-  Scenario: Checking the counter init request.
-    Given I go to "node/add/page"
+  Scenario: Checking a wrong configuration.
+    Given reset the numero into poetry history
+    When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
+    And I press "Save translator"
+    Then I should see the success message "The configuration options have been saved."
+    When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I fill in "Body" with "Page body content"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
+    And I check the box on the "Italian" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    Then I should see the error message "There was an error with the Poetry request."
+    And I should see "Rejected" in the "French" row
+    And I should see "Rejected" in the "Italian" row
+    When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
+    And I press "Save translator"
+    Then I should see the success message "The configuration options have been saved."
+
+  Scenario: Checking the counter init request.
+    Given reset the numero into poetry history
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I fill in "Body" with "Page body content"
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page

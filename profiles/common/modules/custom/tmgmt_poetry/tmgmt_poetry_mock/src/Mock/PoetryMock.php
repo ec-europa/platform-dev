@@ -507,14 +507,27 @@ class PoetryMock {
       $matches
     );
 
-    return array(
-      'codeDemandeur' => $matches['codeDemandeur'],
-      'annee' => $matches['annee'],
-      'numero' => $matches['numero'],
-      'version' => $matches['version'],
-      'partie' => $matches['partie'],
-      'produit' => $matches['produit'],
-    );
+    $demande_id = array();
+    if(isset($matches['codeDemandeur'])) {
+      $demande_id['codeDemandeur'] = $matches['codeDemandeur'];
+    }
+    if(isset($matches['annee'])) {
+      $demande_id['annee'] = $matches['annee'];
+    }
+    if(isset($matches['numero'])) {
+      $demande_id['numero'] = $matches['numero'];
+    }
+    if(isset($matches['version'])) {
+      $demande_id['version'] = $matches['version'];
+    }
+    if(isset($matches['partie'])) {
+      $demande_id['partie'] = $matches['partie'];
+    }
+    if(isset($matches['produit'])) {
+      $demande_id['produit'] = $matches['produit'];
+    }
+
+    return $demande_id;
   }
 
   /**
