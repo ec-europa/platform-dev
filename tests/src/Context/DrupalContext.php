@@ -65,7 +65,14 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   public function rememberCurrentLastNode() {
     $query = db_select('node');
     $query->addExpression('MAX(nid)');
-    $this->maxNodeId = $query->execute()->fetchField();
+    $max_node_id = $query->execute()->fetchField();
+
+    if (NULL === $max_node_id) {
+      $this->maxNodeId = 0;
+    }
+    else {
+      $this->maxNodeId = intval($max_node_id);
+    }
   }
 
   /**
@@ -74,11 +81,13 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @AfterScenario @reset-nodes
    */
   public function resetNodes() {
-    $max_nid = isset($this->maxNodeId) ? $this->maxNodeId : 0;
+    if (!isset($this->maxNodeId)) {
+      return;
+    }
 
     $all_nodes_after_query = (new \EntityFieldQuery())
       ->entityCondition('entity_type', 'node')
-      ->propertyCondition('nid', $max_nid, '>');
+      ->propertyCondition('nid', $this->maxNodeId, '>');
 
     $all_nodes_after = $all_nodes_after_query->execute();
     $all_nodes_after = reset($all_nodes_after);
