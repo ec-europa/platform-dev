@@ -508,22 +508,22 @@ class PoetryMock {
     );
 
     $demande_id = array();
-    if(isset($matches['codeDemandeur'])) {
+    if (isset($matches['codeDemandeur'])) {
       $demande_id['codeDemandeur'] = $matches['codeDemandeur'];
     }
-    if(isset($matches['annee'])) {
+    if (isset($matches['annee'])) {
       $demande_id['annee'] = $matches['annee'];
     }
-    if(isset($matches['numero'])) {
+    if (isset($matches['numero'])) {
       $demande_id['numero'] = $matches['numero'];
     }
-    if(isset($matches['version'])) {
+    if (isset($matches['version'])) {
       $demande_id['version'] = $matches['version'];
     }
-    if(isset($matches['partie'])) {
+    if (isset($matches['partie'])) {
       $demande_id['partie'] = $matches['partie'];
     }
-    if(isset($matches['produit'])) {
+    if (isset($matches['produit'])) {
       $demande_id['produit'] = $matches['produit'];
     }
 
