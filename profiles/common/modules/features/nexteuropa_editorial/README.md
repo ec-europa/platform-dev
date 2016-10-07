@@ -38,11 +38,23 @@ They can be modified on this administration page:
 Configuration > Content authoring > MULTISITE WYSIWYG > WYSIWYG workflow settings
 (path: "admin/config/content/multisite_wysiwyg/workbench_en");
 
+The form contains 2 sections:
+* "Set when content with tracking change cannot be saved.": Sets if content saving 
+must be blocked or not, when the "Published" checkbox is checked while tracked changes 
+are detected in some WYSIWYG fields.
+This setting is only applicable for content types that do not use Workbench moderation workflow 
+(no applicable moderation state). 
+<br>By default, this option is checked.
+* "Block the saving for these Workbench Moderation states": Sets moderation states for which the
+content saving must be blocked when tracked changes are detected in some WYSIWYG fields.
+<br>By default, the saving is blocked for "Validated" and "Published" when tracked changes 
+are detected in some WYSIWYG fields.
+
 # Remark for editors: Tracking changes
 
 Depending on the feature configuration options for a given content workflow 
 status (ex. published), saving progress could be blocked if tracked changes are 
-not validated in the current revision or one of the translations.
+not validated in the current revision **or one of the translations**.
 
 In order to save content for configured workflow statuses, editors must
 accept or reject tracked changes if those are present, or change the
