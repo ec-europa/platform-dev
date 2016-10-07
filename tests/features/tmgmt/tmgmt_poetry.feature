@@ -417,3 +417,75 @@ Feature: TMGMT Poetry features
       And I press "Request translation"
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
+
+  @wip @javascript
+  Scenario: Rejecting and resending translation request
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                 |
+      | en       | Title example    | Body content example |
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I should see "In progress" in the "French" row
+    And I should see "In progress" in the "Portuguese" row
+    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    And I should see "Please wait the acceptation translation process before update request."
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "admin/poetry_mock/dashboard"
+    And I click "Refuse" in the "en->fr" row
+    Then I should see the success message "Translation was refused. Check the translation page."
+    When I click "Check the translation page"
+    And I check the box on the "Italian" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has version 1
+    And I should see "In progress" in the "Italian" row
+    And I should see "In progress" in the "Portuguese" row
+    And I should see "Please wait the acceptation translation process before update request."
+
+  @wip @javascript
+  Scenario: Resending translation request while translation process is ongoing
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                 |
+      | en       | Title example    | Body content example |
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I should see "In progress" in the "French" row
+    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    And I should see "Please wait the acceptation translation process before update request."
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    Then I should see the success message "The status request was sent. Check the translation page."
+    When I click "Check the translation page"
+    Then I should not see "Please wait the acceptation translation process before update request."
+    When I check the box on the "French" row
+    When I check the box on the "Italian" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has version 1
+    And I should see "In progress" in the "French" row
+    And I should see "Please wait the acceptation translation process before update request."
+    When I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    Then I should see the success message "The status request was sent. Check the translation page."
+    When I click "Check the translation page"
+    Then I should see "Please wait the acceptation translation process before update request."
+    When I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->it" row
+    Then I should see the success message "The status request was sent. Check the translation page."
+    When I click "Check the translation page"
+    Then I should not see "Please wait the acceptation translation process before update request."

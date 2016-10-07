@@ -510,7 +510,13 @@ class PoetryMock {
     $data = self::prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code);
     $message = theme('poetry_send_status', $data);
     $this->sendRequestToDrupal($message);
-    $msg = t('The status request was sent.');
+    $entity = self::getEntityDetailsByDemandeId($demande_id);
+    $msg = t('The status request was sent. !link.', [
+      '!link' => l(
+        t('Check the translation page'),
+        $entity['entity_type'] . '/' . $entity['entity_id'] . '/translate'
+      ),
+    ]);
     drupal_set_message($msg, 'status');
 
     drupal_goto();
