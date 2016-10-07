@@ -54,6 +54,7 @@ Feature:
       | Basic page   | /, /all-basic-pages |
       | Article      | /all-articles       |
 
+  @moderated-content
   Scenario: Create a draft.
     Given the following cache purge rules:
       | Content Type | Paths to Purge      |
@@ -65,6 +66,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
+  @moderated-content
   Scenario: Immediately publish a new page.
     Given the following cache purge rules:
       | Content Type | Paths to Purge      |
@@ -83,6 +85,7 @@ Feature:
       | /all-basic-pages  |
       | /more-basic-pages |
 
+  @moderated-content
   Scenario: Moderate a page.
     Given the following cache purge rules:
       | Content Type | Paths to Purge      |
@@ -97,6 +100,7 @@ Feature:
     And I press the "Apply" button
     Then the web front end cache was not instructed to purge any paths
 
+  @moderated-content
   Scenario: Publish a page with moderation.
     Given the following cache purge rules:
       | Content Type | Paths to Purge      |
@@ -115,6 +119,7 @@ Feature:
       | /all-basic-pages  |
       | /more-basic-pages |
 
+  @moderated-content
   Scenario: Withdraw a published page.
     Given I am viewing a multilingual "page" content:
       | language | title            | body                       |
