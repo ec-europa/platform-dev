@@ -131,3 +131,69 @@ Feature:
       | /                       |
       | /all-basic-pages        |
       | /more-basic-pages       |
+
+  @non-moderated-content
+  Scenario: Create draft of a an editorial team.
+    Given the following cache purge rules:
+      | Content Type   | Paths to Purge      |
+      | page           | /, /all-basic-pages |
+      | page           | /more-basic-pages   |
+      | editorial_team | /all-articles       |
+    When I go to "node/add/editorial-team"
+    And I fill in "Name" with "NextEuropa Platform Core"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    Then the web front end cache was not instructed to purge any paths
+
+  @non-moderated-content
+  Scenario: Immediately publish a new editorial team.
+    Given the following cache purge rules:
+      | Content Type   | Paths to Purge      |
+      | page           | /, /all-basic-pages |
+      | page           | /more-basic-pages   |
+      | editorial_team | /all-articles       |
+    When I go to "node/add/editorial-team"
+    And I fill in "Name" with "NextEuropa Platform Core"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path          |
+      | /all-articles |
+
+  @non-moderated-content
+  Scenario: Publish an existing draft of an editorial team.
+    Given the following cache purge rules:
+      | Content Type   | Paths to Purge      |
+      | page           | /, /all-basic-pages |
+      | page           | /more-basic-pages   |
+      | editorial_team | /all-articles       |
+    When I go to "node/add/editorial-team"
+    And I fill in "Name" with "NextEuropa Platform Core"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    And I click "Edit"
+    And I click "Publishing options"
+    And I check the box "Published"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path          |
+      | /all-articles |
+
+  @non-moderated-content
+  Scenario: Withdraw a published editorial team.
+    Given I go to "node/add/editorial-team"
+    And I fill in "Name" with "NextEuropa Platform Core"
+    And I press "Save"
+    And the following cache purge rules:
+      | Content Type   | Paths to Purge      |
+      | page           | /, /all-basic-pages |
+      | page           | /more-basic-pages   |
+      | editorial_team | /all-articles       |
+    When I click "Edit"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path          |
+      | /all-articles |
