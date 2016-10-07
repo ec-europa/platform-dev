@@ -108,13 +108,3 @@ function nexteuropa_token_get_token_handlers() {
   }
   return $handlers;
 }
-
-/**
- * Implements hook_filter_info_alter().
- *
- * Changes the weight field to the tokens filter.
- */
-function nexteuropa_token_filter_info_alter(&$filters) {
-  $filters['filter_tokens']['weight'] = 20;
-  return $filters;
-}
