@@ -473,6 +473,7 @@ Feature: TMGMT Poetry features
     When I click "Check the translation page"
     Then I should not see "Please wait the acceptation translation process before update request."
     When I check the box on the "French" row
+    And I check the box on the "Italian" row
     And I press "Request translation update"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
