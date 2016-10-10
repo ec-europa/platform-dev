@@ -27,7 +27,7 @@
     <status code="0" type="request">
       <statusDate><?php print date('d/m/Y'); ?></statusDate>
       <statusTime><?php print date('H:i:s'); ?></statusTime>
-      <statusMessage><?php print $request_status_msg; ?></statusMessage>
+      <statusMessage>OK</statusMessage>
     </status>
     <status code="<?php print $status_code; ?>" type="demande">
       <statusDate><?php print date('d/m/Y'); ?></statusDate>
