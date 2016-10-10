@@ -12,6 +12,13 @@ include_once 'includes/nexteuropa_token_ckeditor.tmgmt_poetry.inc';
  *
  * @see nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter()
  */
+define('NEXTEUROPA_TOKEN_CKEDITOR_BEAN_DEFAULT_FILTER_VIEW', 'nexteuropa_token_ckeditor_bean_filter_view:default');
+
+/**
+ * Default filter view, exposed by nexteuropa_token_ckeditor module.
+ *
+ * @see nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter()
+ */
 define('NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW', 'nexteuropa_token_ckeditor_filter_view:default');
 
 /**
@@ -45,11 +52,20 @@ function nexteuropa_token_ckeditor_menu() {
   $items = array();
   $items['nexteuropa/token-ckeditor/%'] = array(
     'page callback' => 'nexteuropa_token_ckeditor_ajax_callback',
-    'page arguments' => array(2, 3),
+    'page arguments' => array(2),
     'access callback' => 'nexteuropa_token_ckeditor_ajax_access_callback',
     'type' => MENU_CALLBACK,
     'delivery callback' => 'ajax_deliver',
   );
+
+  $items['nexteuropa/token-bean-ckeditor/%'] = array(
+    'page callback' => 'nexteuropa_token_ckeditor_bean_ajax_callback',
+    'page arguments' => array(2),
+    'access callback' => 'nexteuropa_token_ckeditor_bean_ajax_access_callback',
+    'type' => MENU_CALLBACK,
+    'delivery callback' => 'ajax_deliver',
+  );
+
   return $items;
 }
 
@@ -71,10 +87,27 @@ function nexteuropa_token_ckeditor_theme($existing, $type, $theme, $path) {
  * @see: nexteuropa_token_ckeditor_menu()
  */
 function nexteuropa_token_ckeditor_ajax_callback($editor_id = '') {
+  $filter_view = variable_get('nexteuropa_token_ckeditor_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW);
+  return nexteuropa_token_ckeditor_ajax_sub_callback($filter_view, $editor_id);
+}
+
+/**
+ * AJAX page callback.
+ *
+ * @see: nexteuropa_token_ckeditor_menu()
+ */
+function nexteuropa_token_ckeditor_bean_ajax_callback($editor_id = '') {
+  $filter_view = variable_get('nexteuropa_token_ckeditor_bean_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_BEAN_DEFAULT_FILTER_VIEW);
+  return nexteuropa_token_ckeditor_ajax_sub_callback($filter_view, $editor_id);
+}
+
+/**
+ * AJAX page callback's callback.
+ */
+function nexteuropa_token_ckeditor_ajax_sub_callback($filter_view, $editor_id = '') {
   drupal_add_js(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/nexteuropa_token_ckeditor.js');
   drupal_add_css(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/css/nexteuropa_token_ckeditor.css');
 
-  $filter_view = variable_get('nexteuropa_token_ckeditor_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW);
   list($view_name, $display_id) = explode(':', $filter_view);
   $content = '';
   $content .= theme('token_ckeditor_tips');
@@ -90,9 +123,25 @@ function nexteuropa_token_ckeditor_ajax_callback($editor_id = '') {
  *
  * @see: nexteuropa_token_ckeditor_menu()
  */
-function nexteuropa_token_ckeditor_ajax_access_callback() {
+function nexteuropa_token_ckeditor_bean_ajax_access_callback() {
+  $filter_view = variable_get('nexteuropa_token_ckeditor_bean_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_BEAN_DEFAULT_FILTER_VIEW);
+  return nexteuropa_token_ckeditor_ajax_access_sub_callback($filter_view);
+}
 
+/**
+ * Menu access callback.
+ *
+ * @see: nexteuropa_token_ckeditor_menu()
+ */
+function nexteuropa_token_ckeditor_ajax_access_callback() {
   $filter_view = variable_get('nexteuropa_token_ckeditor_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW);
+  return nexteuropa_token_ckeditor_ajax_access_sub_callback($filter_view);
+}
+
+/**
+ * Menu access sub callback.
+ */
+function nexteuropa_token_ckeditor_ajax_access_sub_callback($filter_view) {
   list($view_name, $display_id) = explode(':', $filter_view);
   $view = views_get_view($view_name);
   return $view && $view->access($display_id);
@@ -130,7 +179,6 @@ function nexteuropa_token_ckeditor_wysiwyg_plugin($editor, $version) {
  * Implements hook_form_FORM_ID_alter().
  */
 function nexteuropa_token_ckeditor_form_nexteuropa_token_settings_form_alter(&$form, &$form_state) {
-
   $form['token_ckeditor'] = array(
     '#type' => 'fieldset',
     '#title' => t('CKEditor Token settings'),
@@ -168,7 +216,6 @@ function nexteuropa_token_ckeditor_pre_render_text_format($element) {
  * Implements hook_filter_info_alter().
  */
 function nexteuropa_token_ckeditor_filter_info_alter(&$info) {
-
   if (isset($info['filter_tokens'])) {
     $info['filter_tokens']['process callback'] = 'nexteuropa_token_ckeditor_token_filter_filter_tokens';
   }
@@ -209,5 +256,15 @@ function nexteuropa_token_ckeditor_custom_theme() {
       variable_get('admin_theme_default', 'seven') :
       variable_get('theme_default', 'ec_resp');
     return $theme;
+  }
+}
+
+/**
+ * Implements hook_wysiwyg_editor_settings_alter().
+ */
+function nexteuropa_token_ckeditor_wysiwyg_editor_settings_alter(&$settings, $context) {
+  if ($context['profile']->editor == 'ckeditor') {
+    // Provide additional custom settings.
+    $settings['customConfig'] = base_path() . drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/nexteuropa_token_wysiwyg_config.js';
   }
 }

@@ -17,9 +17,9 @@
               title: Drupal.t('Insert internal blocks'),
               elements: [
                   {
-                      id: 'nexteuropa_webtools_block_content',
+                      id: 'nexteuropa_token_ckeditor_bean_block_content',
                       type: 'html',
-                      html: '<div class="nexteuropa-webtools-block-container"></div>'
+                      html: '<div class="nexteuropa-token-ckeditor-bean-block-container"></div>'
                     }
               ]
             });
@@ -34,24 +34,24 @@
                   var editor = dialog.getParentEditor();
 
                   // Store current editor id. It will be refreshed every time a new dialog is open.
-                  Drupal.nexteuropa_webtools_block_content = Drupal.nexteuropa_webtools_block_content || {};
-                  Drupal.nexteuropa_webtools_block_content.current_editor_id = editor.id;
+                  Drupal.nexteuropa_token_ckeditor_bean_block_content = Drupal.nexteuropa_token_ckeditor_bean_block_content || {};
+                  Drupal.nexteuropa_token_ckeditor_bean_block_content.current_editor_id = editor.id;
 
-                if (!(editor.id in Drupal.nexteuropa_webtools_block_content)) {
+                if (!(editor.id in Drupal.nexteuropa_token_ckeditor_bean_block_content)) {
                     // Store editor reference in global Drupal object since it will be accessed from within
                     // Drupal.behaviors.nexteuropa_webtools_block_content defined in nexteuropa_webtools_block_content.js.
-                    Drupal.nexteuropa_webtools_block_content[editor.id] = editor;
+                    Drupal.nexteuropa_token_ckeditor_bean_block_content[editor.id] = editor;
 
                     // Get dialog container ID.
-                    var id = 'nexteuropa-webtools-' + editor.id + '-block-container';
+                    var id = 'nexteuropa-token-ckeditor-bean-' + editor.id + '-block-container';
 
                     // Get dialog DOM object.
-                    var content = $(this.getElement('info', 'nexteuropa_webtools_block_content').$);
-                    $('.nexteuropa-webtools-block-container', content).attr('id', id);
+                    var content = $(this.getElement('info', 'nexteuropa_token_ckeditor_bean_block_content').$);
+                    $('.nexteuropa-token-ckeditor-bean-block-container', content).attr('id', id);
 
                     var ajax_settings = {
-                        url: Drupal.settings.basePath + 'nexteuropa/webtools-ckeditor/' + id,
-                        event: 'dialog.nexteuropa_webtools_block_content',
+                        url: Drupal.settings.basePath + 'nexteuropa/token-bean-ckeditor/' + id,
+                        event: 'dialog.nexteuropa_token_ckeditor_bean_block_content',
                         method: 'html'
                       };
 
