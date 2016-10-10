@@ -359,6 +359,40 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = 
 }
 
 /**
+ * Helper function to reject a TMGMT job and its related sub jobs.
+ */
+function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message, $message) {
+
+  // Reject the main Job.
+  $job->rejected(
+    $internal_message . " Message error: @error",
+    ['@error' => $message],
+    'error'
+  );
+
+  $results = db_select('tmgmt_job_item', 'job_item')
+    ->fields('job_item', array('tjiid'))
+    ->condition('tjid', $job->tjid, '=')
+    ->execute();
+  if ($results) {
+    foreach ($results as $result) {
+      _tmgmt_poetry_update_item_status($result->tjiid, "", $status_message, "");
+    }
+  }
+
+  // Reject the related sub Job.
+  $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+  foreach ($related_jobs as $related_job) {
+    $job_rejected = tmgmt_job_load($related_job->tjid);
+    $job_rejected->rejected(
+      $internal_message . " Message error: @error",
+      ['@error' => $message],
+      'error');
+    _tmgmt_poetry_update_item_status($related_job->tjiid, "", $status_message, "");
+  }
+}
+
+/**
  * Fetches active translation jobs based on a given entity id.
  *
  * @param int $entity_id
@@ -415,6 +449,37 @@ function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $de
       'delai' => $delai,
     ))
     ->execute();
+}
+
+/**
+ * Update a row on the item status table.
+ *
+ * @param int $tjiid
+ *   Job item identifier.
+ * @param string $target_language
+ *   Target language.
+ * @param string $status
+ *   Item status.
+ * @param string $delai
+ *   Item delay.
+ */
+function _tmgmt_poetry_update_item_status($tjiid, $target_language, $status, $delai) {
+  if (empty($target_language) && empty($status) && empty($delai)) {
+    return;
+  }
+
+  $query = db_update('poetry_status');
+  if (!empty($target_language)) {
+    $query->fields(array('target_language' => $target_language));
+  }
+  if (!empty($status)) {
+    $query->fields(array('status' => $status));
+  }
+  if (!empty($delai)) {
+    $query->fields(array('delai' => $delai));
+  }
+  $query->condition('tjiid', $tjiid, '=');
+  $query->execute();
 }
 
 /**

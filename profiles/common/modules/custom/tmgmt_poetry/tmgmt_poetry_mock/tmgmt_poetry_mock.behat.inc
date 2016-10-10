@@ -81,6 +81,23 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
+   * Reset the 'numero' column in the poetry_map table.
+   *
+   * @BeforeScenario @resetPoetryNumero
+   */
+  public function resetTheNumeroIntoPoetryHistory() {
+    // Resetting all entries in the 'numero' column to enforce the 'sequence'
+    // XML tag instead of the 'numero' in the outgoing translation request.
+    if (db_table_exists('poetry_map')) {
+      db_update('poetry_map')
+        ->fields(array(
+          'numero' => '-1',
+        ))
+        ->execute();
+    }
+  }
+
+  /**
    * Restore initial variables.
    *
    * @AfterScenario

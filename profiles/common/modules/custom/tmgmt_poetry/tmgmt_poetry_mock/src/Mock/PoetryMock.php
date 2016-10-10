@@ -12,8 +12,11 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
  */
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
+  const TRANSLATOR_NAME = 'tmgmt_poetry_test_translator';
+  const TRANSLATOR_LABEL = 'TMGMT Poetry Test translator';
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
   const COUNTER_VALUE = '1234';
+  const COUNTER_VALUE_NOK = '-1';
   public $settings;
   private $client;
 
@@ -65,10 +68,26 @@ class PoetryMock {
     $response_xml = simplexml_load_string($message);
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
+
     // This is to deal with initial request when website doesn't have counter.
-    if (isset($demande_id['sequence']) && $demande_id['sequence'] == self::COUNTER_STRING) {
-      $demande_id['numero'] = self::COUNTER_VALUE;
-      unset($demande_id['sequence']);
+    if (isset($demande_id['sequence'])) {
+      if ($demande_id['sequence'] == self::COUNTER_STRING) {
+        $demande_id['numero'] = self::COUNTER_VALUE;
+        unset($demande_id['sequence']);
+      }
+      else {
+        $demande_id['numero'] = self::COUNTER_VALUE_NOK;
+        // Generating response XML based on template.
+        $xml = theme(
+          'poetry_confirmation_of_receiving_translation_request_error_configuration',
+          [
+            'demande_id' => $demande_id,
+            'message' => "Error in xmlActions:newRequest: Counter name not found (code_demandeur=" . $demande_id['codeDemandeur'] . ",compteur=" . $demande_id['sequence'] . ",year=" . $demande_id['annee'] . ")",
+          ]
+        );
+        // Sending response.
+        return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
+      }
     }
     $reference = self::prepareReferenceNumber($demande_id);
 
@@ -76,7 +95,10 @@ class PoetryMock {
     self::saveTranslationRequest($message, $reference);
 
     // Generating response XML based on template.
-    $xml = theme('poetry_confirmation_of_receiving_translation_request', ['demande_id' => $demande_id]);
+    $xml = theme(
+      'poetry_confirmation_of_receiving_translation_request',
+      ['demande_id' => $demande_id]
+    );
 
     // Sending response.
     return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
@@ -485,14 +507,27 @@ class PoetryMock {
       $matches
     );
 
-    return array(
-      'codeDemandeur' => $matches['codeDemandeur'],
-      'annee' => $matches['annee'],
-      'numero' => $matches['numero'],
-      'version' => $matches['version'],
-      'partie' => $matches['partie'],
-      'produit' => $matches['produit'],
-    );
+    $demande_id = array();
+    if (isset($matches['codeDemandeur'])) {
+      $demande_id['codeDemandeur'] = $matches['codeDemandeur'];
+    }
+    if (isset($matches['annee'])) {
+      $demande_id['annee'] = $matches['annee'];
+    }
+    if (isset($matches['numero'])) {
+      $demande_id['numero'] = $matches['numero'];
+    }
+    if (isset($matches['version'])) {
+      $demande_id['version'] = $matches['version'];
+    }
+    if (isset($matches['partie'])) {
+      $demande_id['partie'] = $matches['partie'];
+    }
+    if (isset($matches['produit'])) {
+      $demande_id['produit'] = $matches['produit'];
+    }
+
+    return $demande_id;
   }
 
   /**
