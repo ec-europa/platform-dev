@@ -81,12 +81,13 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Reset poetry_map.
+   * Reset the 'numero' column in the poetry_map table.
    *
-   * @Given reset the numero into poetry history
+   * @BeforeScenario @resetPoetryNumero
    */
   public function resetTheNumeroIntoPoetryHistory() {
-    // Reset all 'numero' into poetry_map for force to send the 'sequence'.
+    // Resetting all entries in the 'numero' column to enforce the 'sequence'
+    // XML tag instead of the 'numero' in the outgoing translation request.
     db_update('poetry_map')
       ->fields(array(
         'numero' => '-1',

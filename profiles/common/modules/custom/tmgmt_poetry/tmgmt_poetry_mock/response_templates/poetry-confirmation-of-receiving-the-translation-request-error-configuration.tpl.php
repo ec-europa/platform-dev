@@ -1,10 +1,11 @@
 <?php
 /**
  * @file
- * Template file for the POETRY confirmation of receiving translation request.
+ * Template file for the POETRY mock about receiving wrong translation request.
  *
  * Available custom variables:
  * - $demande_id: An array with requester data.
+ * - $message: A string with the error message.
  */
 ?>
 <POETRY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">

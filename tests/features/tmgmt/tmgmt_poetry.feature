@@ -18,8 +18,8 @@ Feature: TMGMT Poetry features
       | de        |
       | it        |
 
+  @resetPoetryNumero
   Scenario: Checking a wrong configuration.
-    Given reset the numero into poetry history
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
     And I press "Save translator"
@@ -43,8 +43,8 @@ Feature: TMGMT Poetry features
     And I press "Save translator"
     Then I should see the success message "The configuration options have been saved."
 
+  @resetPoetryNumero
   Scenario: Checking the counter init request.
-    Given reset the numero into poetry history
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I fill in "Body" with "Page body content"

@@ -12,8 +12,8 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
  */
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
-  const NAME_TRANSLATOR = 'tmgmt_poetry_test_translator';
-  const LABEL_TRANSLATOR = 'TMGMT Poetry Test translator';
+  const TRANSLATOR_NAME = 'tmgmt_poetry_test_translator';
+  const TRANSLATOR_LABEL = 'TMGMT Poetry Test translator';
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
   const COUNTER_VALUE = '1234';
   const COUNTER_VALUE_NOK = '-1';

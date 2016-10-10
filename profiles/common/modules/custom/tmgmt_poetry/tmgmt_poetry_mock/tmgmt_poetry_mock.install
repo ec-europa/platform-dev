@@ -10,8 +10,8 @@
 function tmgmt_poetry_mock_install() {
   /** @var EntityDrupalWrapper $translator */
   $translator = entity_import('tmgmt_translator', '{
-    "name" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::NAME_TRANSLATOR . '",
-    "label" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::LABEL_TRANSLATOR . '",
+    "name" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME . '",
+    "label" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_LABEL . '",
     "description" : "",
     "weight" : "-999",
     "plugin" : "poetry",

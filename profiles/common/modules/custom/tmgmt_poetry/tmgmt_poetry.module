@@ -359,7 +359,7 @@ function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = 
 }
 
 /**
- * Helper function to reject a Job and its related sub Job.
+ * Helper function to reject a TMGMT job and its related sub jobs.
  */
 function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message, $message) {
 
