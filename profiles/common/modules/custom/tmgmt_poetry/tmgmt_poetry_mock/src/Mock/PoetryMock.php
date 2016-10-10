@@ -504,7 +504,7 @@ class PoetryMock {
     $job = tmgmt_job_load($job_id);
     $lg_code = drupal_strtoupper($job->getTranslator()->mapToRemoteLanguage($job->target_language));
     $status_code = drupal_strtoupper($status_code);
-    $demande_id = self::prepareDemendeIdArray($job->reference);
+    $demande_id = self::prepareDemandeIdArray($job->reference);
 
     // Prepare responses array.
     $data = self::prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code);
@@ -612,7 +612,7 @@ class PoetryMock {
    * @return array
    *   'Demande ID' array.
    */
-  public static function prepareDemendeIdArray($reference) {
+  public static function prepareDemandeIdArray($reference) {
     $demande_id = [];
     $req_id_split = explode('_POETRY_', $reference);
     $request_id = end($req_id_split);
