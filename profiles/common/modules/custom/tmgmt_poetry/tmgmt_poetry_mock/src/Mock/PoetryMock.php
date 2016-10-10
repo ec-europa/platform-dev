@@ -203,6 +203,34 @@ class PoetryMock {
   }
 
   /**
+   * Prepares status request data.
+   *
+   * @param array $demande_id
+   *   'Demande ID' array.
+   * @param string $status_code
+   *   Status code.
+   * @param string $request_status_msg
+   *   Request status message.
+   * @param string $demande_status_msg
+   *   'Demande' status message.
+   * @param string $lg_code
+   *   Language code.
+   *
+   * @return array
+   *   Array with data status request data.
+   */
+  public static function prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code) {
+    return [
+      'demande_id' => $demande_id,
+      'format' => 'HTML',
+      'status_code' => $status_code,
+      'request_status_msg' => $request_status_msg,
+      'demande_status_msg' => $demande_status_msg,
+      'lg_code' => $lg_code,
+    ];
+  }
+
+  /**
    * Helper function for setting up translation response data array.
    *
    * @param array $attribution
@@ -461,6 +489,40 @@ class PoetryMock {
   }
 
   /**
+   * Sends given status with messages to Drupal.
+   *
+   * @param int $job_id
+   *   TMGMT Poetry Job ID.
+   * @param string $status_code
+   *   The status code.
+   * @param string $request_status_msg
+   *   The request status message.
+   * @param string $demande_status_msg
+   *   The 'demande' status message.
+   */
+  public function sendStatus($job_id, $status_code, $request_status_msg, $demande_status_msg) {
+    $job = tmgmt_job_load($job_id);
+    $lg_code = drupal_strtoupper($job->getTranslator()->mapToRemoteLanguage($job->target_language));
+    $status_code = drupal_strtoupper($status_code);
+    $demande_id = self::prepareDemandeIdArray($job->reference);
+
+    // Prepare responses array.
+    $data = self::prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code);
+    $message = theme('poetry_send_status', $data);
+    $this->sendRequestToDrupal($message);
+    $entity = self::getEntityDetailsByDemandeId($demande_id);
+    $msg = t('The status request was sent. !link.', [
+      '!link' => l(
+        t('Check the translation page'),
+        $entity['entity_type'] . '/' . $entity['entity_id'] . '/translate'
+      ),
+    ]);
+    drupal_set_message($msg, 'status');
+
+    drupal_goto();
+  }
+
+  /**
    * Get the poetry demande_id from a tmgmt_poetry job reference.
    *
    * @param string $job_reference
@@ -539,6 +601,33 @@ class PoetryMock {
       . '_' . $demande_id['version']
       . '_' . $demande_id['partie']
       . '_' . $demande_id['produit'];
+  }
+
+  /**
+   * Returns 'Demande ID' array based on given job reference.
+   *
+   * @param string $reference
+   *   TMGMT Poetry Job reference.
+   *
+   * @return array
+   *   'Demande ID' array.
+   */
+  public static function prepareDemandeIdArray($reference) {
+    $demande_id = [];
+    $req_id_split = explode('_POETRY_', $reference);
+    $request_id = end($req_id_split);
+    $demande = explode('/', $request_id);
+
+    if (count($demande) == 6) {
+      $demande_id['codeDemandeur'] = $demande[0];
+      $demande_id['annee'] = $demande[1];
+      $demande_id['numero'] = $demande[2];
+      $demande_id['version'] = $demande[3];
+      $demande_id['partie'] = $demande[4];
+      $demande_id['produit'] = $demande[5];
+    }
+
+    return $demande_id;
   }
 
 }
