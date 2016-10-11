@@ -29,7 +29,7 @@
     <status code="<?php print $status; ?>" type="demande">
       <statusDate><?php print date('d/m/Y'); ?></statusDate>
       <statusTime><?php print date('H:i:s'); ?></statusTime>
-      <statusMessage>OK</statusMessage>
+      <statusMessage>I'm refusing. Please send a new request.</statusMessage>
     </status>
   <?php foreach ($languages as $language): ?>
     <status code="<?php print $status; ?>" lgCode="<?php print $language; ?>" type="attribution">
@@ -40,7 +40,7 @@
   <?php foreach ($languages as $language): ?>
     <attributions format="<?php print $format ?>" lgCode="<?php print $language; ?>">
       <attributionsDelai><?php print date('d/m/Y H:i:s'); ?></attributionsDelai>
-      <attributionsDelaiAccepted/>
+      <attributionsDelaiAccepted></attributionsDelaiAccepted>
     </attributions>
   <?php endforeach; ?>
   </request>

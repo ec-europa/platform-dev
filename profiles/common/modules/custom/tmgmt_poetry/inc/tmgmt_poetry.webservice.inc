@@ -265,6 +265,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           $ids = array_shift($ids);
           $job = tmgmt_job_load($ids->tjid);
           $job_item = tmgmt_job_item_load($ids->tjiid);
+
           if (!empty($job->target_language) && !empty($languages[(string) $job->target_language])) {
             $language = $languages[(string) $job->target_language]->name;
           }
@@ -280,10 +281,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             ]
           );
 
-          db_update('poetry_status')
-            ->fields(array('status' => $status_message))
-            ->condition('tjiid', $job_item->tjiid, '=')
-            ->execute();
+          _tmgmt_poetry_update_item_status($job_item->tjiid, "", $status_message, "");
         }
       }
     }
@@ -330,10 +328,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
       // Update the delai provided by DGT.
       if (!empty($attributions->attributionsDelaiAccepted)) {
-        db_update('poetry_status')
-          ->fields(array('delai' => (string) $attributions->attributionsDelaiAccepted))
-          ->condition('tjiid', $job_item->tjiid, '=')
-          ->execute();
+        _tmgmt_poetry_update_item_status($job_item->tjiid, "", "", (string) $attributions->attributionsDelaiAccepted);
       }
 
       // If the received message has the translated file, add it to the job.
@@ -375,10 +370,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
                 );
 
                 // Update the status to executed when we receive a translation.
-                db_update('poetry_status')
-                  ->fields(array('status' => 'Executed'))
-                  ->condition('tjiid', $job_item->tjiid, '=')
-                  ->execute();
+                _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
               }
 
               // Save the file and make it available in the job.
