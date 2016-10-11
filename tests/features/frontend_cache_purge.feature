@@ -225,7 +225,7 @@ Feature:
     And I click "Moderate"
     And I select "Published" from "state"
     And I press the "Apply" button
-    Then the web front end cache was instructed to purge certain paths
+    Then the web front end cache was instructed to purge certain paths for the application tag "my-website"
     And the web front end cache will not use existing caches for the following paths:
       | Path                  |
       | /all-pages/foo        |
@@ -259,7 +259,7 @@ Feature:
     And I click "Moderate"
     And I select "Published" from "state"
     And I press the "Apply" button
-    Then the web front end cache was instructed to purge certain paths
+    Then the web front end cache was instructed to purge certain paths for the application tag "my-website"
     And the web front end cache will not use existing caches for the following paths:
       | Path                           |
       | /all-pages/yet/another         |
@@ -282,7 +282,7 @@ Feature:
     And I click "Moderate"
     And I select "Published" from "state"
     And I press the "Apply" button
-    Then the web front end cache was instructed to purge certain paths
+    Then the web front end cache was instructed to purge certain paths for the application tag "my-website"
     And the web front end cache will not use existing caches for the following paths:
       | Path          |
       | /all-pages_fr |
