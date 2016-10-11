@@ -13,6 +13,8 @@ use Behat\Mink\Element\Element;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
+use function bovigo\assert\predicate\matches;
+use function bovigo\assert\predicate\not;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -330,6 +332,75 @@ class FrontendCacheContext implements Context {
       $rules = entity_load('nexteuropa_varnish_cache_purge_rule');
       $rule_ids = array_keys($rules);
       entity_delete_multiple('nexteuropa_varnish_cache_purge_rule', $rule_ids);
+    }
+  }
+
+  /**
+   * Assert that a purge request was received.
+   *
+   * @Then the web front end cache was instructed to purge certain paths for the application tag :arg1
+   */
+  public function theWebFrontEndCacheWasInstructedToPurgeCertainPaths($arg1) {
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+
+    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+  }
+
+  /**
+   * Assert that the last purge request matches specific paths.
+   *
+   * @Then the web front end cache will not use existing caches for the following paths:
+   */
+  public function theWebFrontEndCacheWillNotUseExistingCachesForTheFollowingPaths(TableNode $table) {
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+
+    $purge_patterns = $purge_request->getHeader('X-Invalidate-Regexp')->toArray();
+    $purge_pattern = reset($purge_patterns);
+
+    $rows = $table->getHash();
+    $paths = array_map(
+      function ($row) {
+        return ltrim($row['Path'], '/');
+      },
+      $rows
+    );
+
+    foreach ($paths as $path) {
+      assert($path, matches('@' . $purge_pattern . '@'));
+    }
+  }
+
+  /**
+   * Assert that the last purge request does not match specific paths.
+   *
+   * @Then the web front end cache will still use existing caches for the following paths:
+   */
+  public function theWebFrontEndCacheWillStillUseExistingCachesForTheFollowingPaths(TableNode $table) {
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+
+    $purge_patterns = $purge_request->getHeader('X-Invalidate-Regexp')->toArray();
+    $purge_pattern = reset($purge_patterns);
+
+    $rows = $table->getHash();
+    $paths = array_map(
+      function ($row) {
+        return ltrim($row['Path'], '/');
+      },
+      $rows
+    );
+
+    foreach ($paths as $path) {
+      assert($path, not(matches('@' . $purge_pattern . '@')));
     }
   }
 
