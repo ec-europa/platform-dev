@@ -214,3 +214,86 @@ Feature:
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
       | /all-articles |
+
+  Scenario: Purge with wildcard pattern "*".
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge |
+      | page         | /all-pages/*   |
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I press "Save"
+    And I click "Moderate"
+    And I select "Published" from "state"
+    And I press the "Apply" button
+    Then the web front end cache was instructed to purge certain paths
+    And the web front end cache will not use existing caches for the following paths:
+      | Path                  |
+      | /all-pages/foo        |
+      | /all-pages/bar        |
+      | /all-pages/foo_fr     |
+      | /all-pages/bar_fr     |
+      | /all-pages/foo-bar    |
+      | /all-pages/foo-bar_fr |
+      | /all-pages/foo_bar    |
+      | /all-pages/foo_bar_fr |
+    But the web front end cache will still use existing caches for the following paths:
+      | Path                               |
+      | /some-completely-irrelevant-page   |
+      | /all_pages                         |
+      | /all_pages_fr                      |
+      | /all-pages_f                       |
+      | /all-pages-fr                      |
+      | /all-pages_pt-pt                   |
+      | /all-pages/yet/another             |
+      | /all-pages/yet/another-page        |
+      | /all-pages/yet/another-page_fr     |
+      | /all-pages/yet/another-page/inside |
+
+  Scenario: Purge with multiple wildcard patterns "*" deeper in the path hierarchy.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge |
+      | page         | /all-pages/*/* |
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I press "Save"
+    And I click "Moderate"
+    And I select "Published" from "state"
+    And I press the "Apply" button
+    Then the web front end cache was instructed to purge certain paths
+    And the web front end cache will not use existing caches for the following paths:
+      | Path                           |
+      | /all-pages/yet/another         |
+      | /all-pages/yet/another-page    |
+      | /all-pages/yet/another-page_fr |
+    But the web front end cache will still use existing caches for the following paths:
+      | Path                                  |
+      | /all-pages/foo                        |
+      | /all-pages/foo                        |
+      | /all-pages/yet/another-page/inside    |
+      | /all-pages/yet/another-page/inside_fr |
+
+  Scenario: Purge with wildcard pattern "?" to match language suffix.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge |
+      | page         | /all-pages_??  |
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I press "Save"
+    And I click "Moderate"
+    And I select "Published" from "state"
+    And I press the "Apply" button
+    Then the web front end cache was instructed to purge certain paths
+    And the web front end cache will not use existing caches for the following paths:
+      | Path          |
+      | /all-pages_fr |
+      | /all-pages_po |
+    But the web front end cache will still use existing caches for the following paths:
+      | Path                |
+      | /all-pages          |
+      | /another_fr         |
+      | /all_pages_fr       |
+      | /all-pages_/page_fr |
+      | /all-pages_f        |
+      | /all-pages-fr       |
+      | /all-pages_fre      |
+      | /all-pages_pt-pt    |
