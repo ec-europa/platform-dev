@@ -54,20 +54,13 @@ should make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 [Go to top](#table-of-content)
 
 ### Enabling the feature on your platform instance:
-:hand: DGT-Connector feature cannot be enabled using feature sets.
+:hand: You cannot enable DGT-Connector feature using feature sets.
 
 - If approved by CEM, a JIRA issue will have been created in the [project 
 MULTISITE](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa) 
-- Ask your developer to implement a hook_update_N hook that will include
-
-    ```
-    module_enable('tmgmt_poetry');
-    ```
-- Then submit your implementation to QA via the JIRA issue created by CEM 
-explaining the details and deadlines for your request. For a faster QA review,
-please do not add other implementations.
-- The maintenance team will review your implementation and, if accepted, setup
-the DGT-Connector (adaptation of "settings.php").
+- CEM will enable the feature for you.
+- The maintenance team will setup the DGT-Connector 
+(adaptation of "settings.php").
 
 [Go to top](#table-of-content)
 
