@@ -220,7 +220,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       // If translatable languages are available add the
       // button and other elements.
-      if ($existing_jobs && !empty(_tmgmt_workbench_get_translatable_languages(array_keys($existing_jobs), $form, $form_state))) {
+      if ($existing_jobs && !empty(_tmgmt_workbench_get_translatable_languages($existing_jobs, $form, $form_state))) {
         // Getting additional translatable languages.
         $trans_langs = _tmgmt_workbench_get_translatable_languages(array_keys($existing_jobs), $form, $form_state);
         // Injecting 'request additional languages' functionality form elements.
@@ -244,8 +244,8 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
  *  - already translated,
  *  - source language.
  *
- * @param array $existing_lg
- *   An array with language codes which are already in ongoing translation.
+ * @param array $existing_jobs
+ *   An array with existing TMGMT jobs.
  * @param array $form
  *   Reference to the $form variable.
  * @param array $form_state
@@ -254,7 +254,8 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
  * @return array
  *   An empty array or an array with translatable language codes.
  */
-function _tmgmt_workbench_get_translatable_languages($existing_lg, &$form, &$form_state) {
+function _tmgmt_workbench_get_translatable_languages($existing_jobs, &$form, &$form_state) {
+  $existing_lg = array_keys($existing_jobs);
   $translatable_lg = [];
   $languages = language_list();
   foreach ($form['languages']['#options'] as $lg_code => $language) {
