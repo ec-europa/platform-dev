@@ -5,6 +5,17 @@
  */
 
 /**
+ * Log message severity -- Emergency: system is unusable.
+ */
+define('POETRY_STATUS_MESSAGE_PEN', t('Pending'));
+define('POETRY_STATUS_MESSAGE_SUS', t('Suspended'));
+define('POETRY_STATUS_MESSAGE_ONG', t('Ongoing'));
+define('POETRY_STATUS_MESSAGE_LCK', t('Acceptance in Progress'));
+define('POETRY_STATUS_MESSAGE_EXE', t('Executed'));
+define('POETRY_STATUS_MESSAGE_REF', t('Refused'));
+define('POETRY_STATUS_MESSAGE_CNL', t('Canceled'));
+
+/**
  * Implements hook_menu().
  */
 function tmgmt_poetry_menu() {
@@ -101,7 +112,12 @@ function _tmgmt_poetry_authenticate($user, $password) {
  * Function available to call from our webservice.
  */
 function FPFISPoetryIntegrationRequest($user, $password, $msg) {
-  watchdog('Poetry: Response', filter_xss(htmlentities($msg)), array(), WATCHDOG_DEBUG);
+  watchdog(
+    'tmgmt_poetry',
+    "Receive request: !msg",
+    ['!msg' => htmlentities($msg)],
+    WATCHDOG_DEBUG
+  );
 
   // Authenticate the request.
   if (_tmgmt_poetry_authenticate($user, $password)) {
@@ -122,17 +138,25 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
     $language_job = $request->status['lgCode'];
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
+    $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+      ->fetchAll();
 
     // Handling the case where we can't find the corresponding job.
     if (!$ids) {
-      watchdog("Poetry: Error message", "Callback can't find a job with remote reference !reference .",
-        array(
-          '!reference' => $reference,
-        ), WATCHDOG_ERROR);
+      watchdog(
+        "tmgmt_poetry",
+        "Callback can't find a job with remote reference !reference .",
+        ['!reference' => $reference],
+        WATCHDOG_ERROR);
 
       // Send answer to poetry.
-      $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'ERROR: Job does not exists', -1, $request);
+      $xml = _tmgmt_poetry_generate_answer_xml(
+        NULL,
+        'ERROR: Job does not exists',
+        -1,
+        $request
+      );
+
       return $xml->asXML();
     }
 
@@ -140,44 +164,46 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     $message_job = tmgmt_job_load($ids->tjid);
 
     // If the received message has a status, record it in the job.
+    // </STATUS>.
     if (isset($request->status)) {
       $cancelled = FALSE;
+      $status_message = "";
       foreach ($request->status as $status) {
-
         // Check status code.
         switch ($status['code']) {
           case 'SUS':
-            $status_message = t('Suspended');
+            $status_message = POETRY_STATUS_MESSAGE_SUS;
             $cancelled = FALSE;
             break;
 
           case 'ONG':
-            $status_message = 'Ongoing';
+            $status_message = POETRY_STATUS_MESSAGE_ONG;
             $cancelled = FALSE;
             break;
 
           case 'LCK':
-            $status_message = 'Acceptance in Progress';
+            $status_message = POETRY_STATUS_MESSAGE_LCK;
             $cancelled = FALSE;
             break;
 
           case 'EXE':
-            $status_message = 'Executed';
+            $status_message = POETRY_STATUS_MESSAGE_EXE;
             $cancelled = FALSE;
             break;
 
           case 'REF':
-            $status_message = 'Refused';
+            $status_message = POETRY_STATUS_MESSAGE_REF;
             $cancelled = TRUE;
             break;
 
           case 'CNL':
-            $status_message = 'Canceled';
+            $status_message = POETRY_STATUS_MESSAGE_CNL;
             $cancelled = TRUE;
             break;
         }
 
         // Status update for the whole request.
+        // </STATUS> - type:demande.
         if ($status['type'] == 'demande') {
           if (isset($status->statusMessage)) {
             $message = (string) $status->statusMessage;
@@ -186,24 +212,35 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             $message = t('No message.');
           }
 
-          $message_job->addMessage("DGT update received. Request status: @status. Message: @message", array(
-            '@status' => $status_message,
-            '@message' => $message,
-          ));
+          $message_job->addMessage(
+            "DGT update received. Request status: @status. Message: @message",
+            [
+              '@status' => $status_message,
+              '@message' => $message,
+            ]
+          );
+
           if ($cancelled) {
             $reference = '%' . $reference;
-            $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)->fetchAll();
+
+            $ids = _tmgmt_poetry_obtain_related_translation_jobs([], $reference)
+              ->fetchAll();
             foreach ($ids as $id) {
               $job = tmgmt_job_load($id->tjid);
-              $job->aborted("Request aborted by DGT.", array());
+              $job->aborted(t("Request aborted by DGT."), []);
             }
           }
           elseif ($message_job->isAborted()) {
             $reference = '%' . $reference;
-            $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)->fetchAll();
+            $ids = _tmgmt_poetry_obtain_related_translation_jobs([], $reference)
+              ->fetchAll();
+
             foreach ($ids as $id) {
               $reopen_job = tmgmt_job_load($id->tjid);
-              $reopen_job->setState(TMGMT_JOB_STATE_ACTIVE, t('DGT reopened the request'));
+              $reopen_job->setState(
+                TMGMT_JOB_STATE_ACTIVE,
+                t('Request re-opened by DGT.')
+              );
               $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
               $reopen_job_item->active();
             }
@@ -211,26 +248,38 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
         }
 
         // Status update for a specific language.
+        // </STATUS> - type:attribution.
         if ($status['type'] == 'attribution') {
-          if (isset($status['lgCode']) && !empty($status['lgCode'])) {
+          if (!empty($status['lgCode'])) {
             $reference = '%' . $reference;
             $language_code = strtolower((string) $status['lgCode']);
             $language_code = $poetry_translator->mapToLocalLanguage($language_code);
-            $language_job = array($language_code);
+            $language_job = [$language_code];
           }
           else {
             $reference = 'MAIN_%_POETRY_%' . $reference;
-            $language_job = array();
+            $language_job = [];
           }
-          $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
+          $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+            ->fetchAll();
           $ids = array_shift($ids);
           $job = tmgmt_job_load($ids->tjid);
           $job_item = tmgmt_job_item_load($ids->tjiid);
-          $language = $languages[$job->target_language]->name;
-          $message_job->addMessage("DGT update received. Affected language: @language. Request status: @status.", array(
-            '@language' => $language,
-            '@status' => $status_message,
-          ));
+          if (!empty($job->target_language) && !empty($languages[(string) $job->target_language])) {
+            $language = $languages[(string) $job->target_language]->name;
+          }
+          else {
+            $language = "";
+          }
+
+          $message_job->addMessage(
+            "DGT update received. Affected language: @language. Request status: @status.",
+            [
+              '@language' => $language,
+              '@status' => $status_message,
+            ]
+          );
+
           db_update('poetry_status')
             ->fields(array('status' => $status_message))
             ->condition('tjiid', $job_item->tjiid, '=')
@@ -240,30 +289,47 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     }
 
     // Check the attributions to look for translations and delai confirmations.
+    // </ATTRIBUTIONS>.
     foreach ($request->attributions as $attributions) {
       $reference = '%' . $reference;
       $language_code = strtolower((string) $attributions['lgCode']);
       $language_code = $poetry_translator->mapToLocalLanguage($language_code);
       $language_job = array($language_code);
 
-      $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
+      $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+        ->fetchAll();
       $ids = array_shift($ids);
       $job = tmgmt_job_load($ids->tjid);
       $job_item = tmgmt_job_item_load($ids->tjiid);
 
       if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), strtolower((string) $attributions['format'])) === FALSE))) {
-        $message_job->addMessage('Received format "@format" is not compatible, translation job format "@job_format" should be used instead', array(
-          '@format' => (string) $attributions['format'],
-          '@job_format' => $job->getSetting('export_format'),
-        ));
-        $xml = _tmgmt_poetry_generate_answer_xml($message_job, 'ERROR: Received format is not compatible', -1, $request);
+        $message_job->addMessage(
+          'Received format "@format" is not compatible, translation job format "@job_format" should be used instead',
+          [
+            '@format' => (string) $attributions['format'],
+            '@job_format' => $job->getSetting('export_format'),
+          ]
+        );
+
+        $xml = _tmgmt_poetry_generate_answer_xml(
+          $message_job,
+          'ERROR: Received format is not compatible',
+          -1,
+          $request
+        );
+
         return $xml->asXML();
       }
 
-      $language = $languages[$job->target_language]->name;
+      if (!empty($job->target_language) && !empty($languages[(string) $job->target_language])) {
+        $language = $languages[(string) $job->target_language]->name;
+      }
+      else {
+        $language = "";
+      }
 
       // Update the delai provided by DGT.
-      if (isset($attributions->attributionsDelaiAccepted)) {
+      if (!empty($attributions->attributionsDelaiAccepted)) {
         db_update('poetry_status')
           ->fields(array('delai' => (string) $attributions->attributionsDelaiAccepted))
           ->condition('tjiid', $job_item->tjiid, '=')
@@ -272,7 +338,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
       // If the received message has the translated file, add it to the job.
       if (isset($attributions->attributionsFile)) {
-        $content = (string) $request->attributions->attributionsFile;
+        $content = (string) $attributions->attributionsFile;
         $content = _tmgmt_poetry_replace_job_in_content(base64_decode($content), $job, $job_item);
 
         $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
@@ -280,44 +346,64 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           // Validate the file.
           $validated_job = $controller->validateImport($content);
           if (!$validated_job) {
-            $message_job->addMessage('@language Failed to validate file, import aborted.', array('@language' => $language), 'error');
+            $message_job->addMessage(
+              '@language Failed to validate file, import aborted.',
+              ['@language' => $language],
+              'error');
           }
           elseif ($validated_job->tjid != $job->tjid) {
             $uri = $validated_job->uri();
             $label = $validated_job->label();
-            $message_job->addMessage('@language Import file is from job <a href="@url">@label</a>, import aborted.', array(
-              '@language' => $language,
-              '@url' => url($uri['path']),
-              '@label' => $label,
-            ));
+            $message_job->addMessage(
+              '@language Import file is from job <a href="@url">@label</a>, import aborted.',
+              [
+                '@language' => $language,
+                '@url' => url($uri['path']),
+                '@label' => $label,
+              ]
+            );
           }
           else {
             try {
               if (!$job->isAborted()) {
                 // Validation successful, start import.
                 $job->addTranslatedData($controller->import($content));
-                $message_job->addMessage('@language Successfully received the translation file.', array('@language' => $language));
+
+                $message_job->addMessage(
+                  '@language Successfully received the translation file.',
+                  ['@language' => $language]
+                );
+
                 // Update the status to executed when we receive a translation.
                 db_update('poetry_status')
                   ->fields(array('status' => 'Executed'))
                   ->condition('tjiid', $job_item->tjiid, '=')
                   ->execute();
               }
+
               // Save the file and make it available in the job.
               $name = "JobID" . $job->tjid . '_' . $job->source_language . '_' . $job->target_language;
               $path = 'public://tmgmt_file/' . $name . '.' . $job->getSetting('export_format');
+
               $dirname = dirname($path);
               if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
                 $file = file_save_data($content, $path);
                 file_usage_add($file, 'tmgmt_file', 'tmgmt_job', $job->tjid);
-                $message_job->addMessage('Received tanslation can be downloaded <a href="!link">here</a>.', array('!link' => file_create_url($path)));
+                $message_job->addMessage(
+                  'Received tanslation can be downloaded <a href="!link">here</a>.',
+                  ['!link' => file_create_url($path)]
+                );
               }
             }
             catch (Exception $e) {
-              $message_job->addMessage('@language File import failed with the following message: @message', array(
-                '@language' => $language,
-                '@message' => $e->getMessage(),
-              ), 'error');
+              $message_job->addMessage(
+                '@language File import failed with the following message: @message',
+                [
+                  '@language' => $language,
+                  '@message' => $e->getMessage(),
+                ],
+                'error'
+              );
               watchdog_exception('tmgmt_poetry', $e);
             }
           }
@@ -325,19 +411,34 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       }
     }
 
-    if ($xml->request['type'] == 'status') {
-      watchdog("Poetry: Status message", "Response of type 'status' with remote reference !reference.", array('!reference' => $main_reference));
-    }
-    // Send answer to poetry.
+    // Send answer 'OK' to poetry.
+    watchdog(
+      "tmgmt_poetry",
+      "Send response 'status' with remote reference !reference: !xml",
+      [
+        '!reference' => $main_reference,
+        '!xml' => htmlentities($xml->asXML()),
+      ],
+      WATCHDOG_DEBUG
+    );
+
     $xml = _tmgmt_poetry_generate_answer_xml($job, 'OK', 0, $request);
+
     return $xml->asXML();
   }
   else {
-    watchdog("Poetry: Error message", "Poetry callback failed authentication.");
+    // Send answer 'ERROR' to poetry.
+    watchdog(
+      "tmgmt_poetry",
+      "Poetry callback failed authentication.",
+      [],
+      WATCHDOG_ERROR
+    );
+
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
-    // Send answer to poetry.
     $xml = _tmgmt_poetry_generate_answer_xml(NULL, 'ERROR: Failed authentication', -1, $request);
+
     return $xml->asXML();
   }
 }

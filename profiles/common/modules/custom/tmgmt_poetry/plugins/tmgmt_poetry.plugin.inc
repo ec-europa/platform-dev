@@ -87,16 +87,26 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     if (!empty($item)) {
       $results = db_select('tmgmt_job_item', 'tji')
           ->fields('tji', array('tjid'))
+          ->fields('tji', array('tjiid'))
           ->condition('item_type', $item->item_type, '=')
           ->condition('item_id', $item->item_id, '=')
           ->execute()
           ->fetchAllAssoc('tjid');
       if ($results) {
-        foreach ($results as $tjid) {
-          if ($job = tmgmt_job_load($tjid->tjid)) {
+        foreach ($results as $result) {
+          if ($job = tmgmt_job_load($result->tjid)) {
             $translator = $job->getTranslator();
             if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
-              return FALSE;
+              // Check the poetry status.
+              $result_ps = db_select('poetry_status', 'ps')
+                ->fields('ps')
+                ->condition('tjiid', $result->tjiid, '=')
+                ->execute()
+                ->fetchAssoc();
+
+              if (empty($result_ps) || (!empty($result_ps) && $result_ps['status'] == POETRY_STATUS_MESSAGE_PEN)) {
+                return FALSE;
+              }
             }
           }
         }
