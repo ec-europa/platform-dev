@@ -7,13 +7,13 @@
 /**
  * Log message severity -- Emergency: system is unusable.
  */
-define('POETRY_STATUS_MESSAGE_PEN', t('Pending'));
-define('POETRY_STATUS_MESSAGE_SUS', t('Suspended'));
-define('POETRY_STATUS_MESSAGE_ONG', t('Ongoing'));
-define('POETRY_STATUS_MESSAGE_LCK', t('Acceptance in Progress'));
-define('POETRY_STATUS_MESSAGE_EXE', t('Executed'));
-define('POETRY_STATUS_MESSAGE_REF', t('Refused'));
-define('POETRY_STATUS_MESSAGE_CNL', t('Canceled'));
+define('POETRY_STATUS_MESSAGE_PEN', 'Pending');
+define('POETRY_STATUS_MESSAGE_SUS', 'Suspended');
+define('POETRY_STATUS_MESSAGE_ONG', 'Ongoing');
+define('POETRY_STATUS_MESSAGE_LCK', 'Acceptance in Progress');
+define('POETRY_STATUS_MESSAGE_EXE', 'Executed');
+define('POETRY_STATUS_MESSAGE_REF', 'Refused');
+define('POETRY_STATUS_MESSAGE_CNL', 'Canceled');
 
 /**
  * Implements hook_menu().
@@ -227,7 +227,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
               ->fetchAll();
             foreach ($ids as $id) {
               $job = tmgmt_job_load($id->tjid);
-              $job->aborted(t("Request aborted by DGT."), []);
+              $job->aborted('Request aborted by DGT.', []);
             }
           }
           elseif ($message_job->isAborted()) {
@@ -239,7 +239,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
               $reopen_job = tmgmt_job_load($id->tjid);
               $reopen_job->setState(
                 TMGMT_JOB_STATE_ACTIVE,
-                t('Request re-opened by DGT.')
+                'Request re-opened by DGT.'
               );
               $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
               $reopen_job_item->active();
