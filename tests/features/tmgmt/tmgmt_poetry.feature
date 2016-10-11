@@ -432,9 +432,16 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
-    Then I should see "Request addition of new languages"
+    Then I should not see "Request addition of new languages"
     And I should see "None" in the "German" row
     And I should see "None" in the "Italian" row
+    When I am logged in as a user with the 'administrator' role
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    And I click "Send 'ONG' status" in the "en->pt-pt" row
+    Then I should see the success message "The status request was sent. Check the translation page."
+    When I click "Check the translation page"
+    Then I should see "Request addition of new languages"
     When I click "Request addition of new languages"
     And I press "Add languages"
     Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."

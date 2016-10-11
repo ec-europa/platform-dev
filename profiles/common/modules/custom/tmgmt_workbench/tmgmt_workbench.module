@@ -220,9 +220,13 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       // If translatable languages are available add the
       // button and other elements.
-      if ($existing_jobs && !empty(_tmgmt_workbench_get_translatable_languages($existing_jobs, $form, $form_state))) {
+      if (
+        $existing_jobs
+        && _tmgmt_workbench_check_translatability($form_state['tmgmt_cart']['item_id'])
+        && !empty(_tmgmt_workbench_get_translatable_languages($existing_jobs, $form, $form_state))
+      ) {
         // Getting additional translatable languages.
-        $trans_langs = _tmgmt_workbench_get_translatable_languages(array_keys($existing_jobs), $form, $form_state);
+        $trans_langs = _tmgmt_workbench_get_translatable_languages($existing_jobs, $form, $form_state);
         // Injecting 'request additional languages' functionality form elements.
         _tmgmt_workbench_inject_add_new_languages_elements($form, $trans_langs);
       }
@@ -234,6 +238,22 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       $form['languages']['#multiple'] = TRUE;
     }
   }
+}
+
+/**
+ * Checks if translation request was at least accepted by the Poetry service.
+ *
+ * @param int $entity_id
+ *   Entity id.
+ *
+ * @return bool
+ *   TRUE if sending a request is possible otherwise FALSE.
+ */
+function _tmgmt_workbench_check_translatability($entity_id) {
+  $main_job = _tmgmt_poetry_get_main_job_by_entity_id($entity_id);
+  $translator = $main_job->getTranslator();
+
+  return $translator->canTranslate($main_job);
 }
 
 /**
@@ -258,6 +278,7 @@ function _tmgmt_workbench_get_translatable_languages($existing_jobs, &$form, &$f
   $existing_lg = array_keys($existing_jobs);
   $translatable_lg = [];
   $languages = language_list();
+
   foreach ($form['languages']['#options'] as $lg_code => $language) {
     if (!in_array($lg_code, $existing_lg) &&
       !in_array($lg_code, array_keys($form_state['entity']->translations->data)) &&
