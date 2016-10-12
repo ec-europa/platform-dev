@@ -7,6 +7,7 @@
 
 namespace Drupal\nexteuropa\Context;
 
+use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
@@ -124,6 +125,29 @@ class MinkContext extends DrupalExtensionMinkContext {
     } while (!$fieldset);
 
     return $fieldset;
+  }
+
+  /**
+   * Fills in a field with a multiline text.
+   *
+   * @When I fill :arg1 with:
+   */
+  public function iFillWith($arg1, PyStringNode $string) {
+    $field = $this->getSession()->getPage()->findField($arg1);
+
+    $field->setValue($string->getRaw());
+  }
+
+  /**
+   * Maximizes the browser window.
+   *
+   * Use this when some tests fail due to elements not being visible because
+   * of a limited screen size.
+   *
+   * @BeforeScenario @maximizedwindow
+   */
+  public function maximizeBrowserWindow() {
+    $this->getSession()->getDriver()->maximizeWindow();
   }
 
 }

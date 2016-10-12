@@ -35,6 +35,7 @@
               token = token + '{' + Drupal.t('@label as @mode', {'@label': $(this).attr('token-ckeditor-label'), '@mode': $(this).text()}) + '}';
             }
             editor.insertHtml(token);
+            CKEDITOR.dialog.getCurrent().hide();
           });
         });
       }

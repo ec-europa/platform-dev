@@ -4,8 +4,12 @@
  * Default theme implementation to display a block.
  *
  * Available variables:
+ * - $attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
  * - $block->subject: Block title.
  * - $content: Block content.
+ * - $content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
  * - $block->module: Module that generated the block.
  * - $block->delta: An ID for the block, unique within each module.
  * - $block->region: The block region embedding the current block.
@@ -43,7 +47,7 @@
  * @ingroup themeable
  */
 ?>
-<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> <?php print ($panel ? 'panel panel-default clearfix' : ''); ?>">
+<div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?> <?php print ($panel ? 'panel panel-default clearfix' : ''); ?>" <?php print $attributes; ?>>
   
 <?php print render($title_prefix); ?>
 <?php if ($title && $block->subject): ?>

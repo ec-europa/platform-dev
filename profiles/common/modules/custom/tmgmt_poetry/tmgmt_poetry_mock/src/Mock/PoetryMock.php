@@ -397,18 +397,16 @@ class PoetryMock {
   }
 
   /**
-   * Helper method for translating job based on given parameters.
+   * Prepare to translate job based on given parameters.
    *
    * @param string $lg_code
    *    Language code.
    * @param int $file_id
    *    Translation request file dump ID.
-   * @param string $entity_type
-   *    An entity type.
-   * @param int $entity_id
-   *    An entity id.
+   * @param int $tjiid
+   *    A translation job item ID.
    */
-  public function translateJob($lg_code, $file_id, $entity_type, $entity_id) {
+  public function translateJob($lg_code, $file_id, $tjiid) {
     if ($lg_code and $file_id) {
       $file_object = file_load($file_id);
       $message = file_get_contents($file_object->uri);
@@ -418,22 +416,29 @@ class PoetryMock {
         $message = theme('poetry_receive_translation', $response);
         $this->sendRequestToDrupal($message);
       }
-      // Redirect to translate tab for given entity ID.
-      drupal_goto($entity_type . '/' . $entity_id . '/translate');
+      $msg = t('Translation was received. !link.', array(
+        '!link' => l(
+            t('Check the translation page'),
+            _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, TRUE)
+        ),
+      ));
+      drupal_set_message($msg, 'status');
     }
+    else {
+      drupal_set_message(t('Error, data was missing.'), 'error');
+    }
+    drupal_goto();
   }
 
   /**
-   * Helper method for refusing job translation based on given data.
+   * Prepare to refuse job translation based on given data.
    *
    * @param int $file_id
    *    Translation request file dump ID.
-   * @param string $entity_type
-   *    An entity type.
-   * @param int $entity_id
-   *    An entity id.
+   * @param int $tjiid
+   *    A translation job item ID.
    */
-  public function refuseJob($file_id, $entity_type, $entity_id) {
+  public function refuseJob($file_id, $tjiid) {
     if ($file_id) {
       $file_object = file_load($file_id);
       $message = file_get_contents($file_object->uri);
@@ -441,10 +446,18 @@ class PoetryMock {
       $response = self::prepareRefuseJobResponseData($message);
       $message = theme('poetry_refuse_translation', $response);
       $this->sendRequestToDrupal($message);
-
-      // Redirect to translate tab for given entity ID.
-      drupal_goto($entity_type . '/' . $entity_id . '/translate');
+      $msg = t('Translation was refused. !link.', array(
+        '!link' => l(
+          t('Check the translation page'),
+          _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, TRUE)
+        ),
+      ));
+      drupal_set_message($msg, 'status');
     }
+    else {
+      drupal_set_message(t('Error, data was missing.'), 'error');
+    }
+    drupal_goto();
   }
 
   /**
