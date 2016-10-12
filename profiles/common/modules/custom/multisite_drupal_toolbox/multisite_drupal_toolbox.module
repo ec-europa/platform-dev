@@ -803,9 +803,20 @@ function _disable_block($module, $delta) {
 /**
  * Public function to add or delete nodes from the index.
  *
- * You need to add the module apachesolr as a dependancy to your feature.
+ * You need to add the module apachesolr as a dependency to your feature.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
+  if (!module_exists('apachesolr')) {
+    watchdog(
+      'multisite_drupal_toolbox',
+      'Function @function was called, but required apachesolr module is not enabled. You need to add the module apachesolr as a dependency to the features you are calling this function from.',
+      array('@function' => __FUNCTION__),
+      WATCHDOG_ERROR
+    );
+
+    return;
+  }
+
   if ($op != 'delete' && $op != 'add') {
     return;
   }
