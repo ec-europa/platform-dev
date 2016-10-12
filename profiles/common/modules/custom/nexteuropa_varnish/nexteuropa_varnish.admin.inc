@@ -22,7 +22,7 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     '#type' => 'textarea',
     '#default_value' => isset($purge_rule->paths) ? $purge_rule->paths : '',
     '#required' => TRUE,
-    '#description' => t('Paths to purge. One per line. The paths should be relative to the base URL. Use / for the front page.'),
+    '#description' => _nexteuropa_varnish_paths_description(),
   );
 
   $form['actions'] = array('#type' => 'actions');
@@ -33,6 +33,37 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
   );
 
   return $form;
+}
+
+/**
+ * Get the description for the purge paths field.
+ *
+ * @return string
+ *   Description for the field.
+ */
+function _nexteuropa_varnish_paths_description() {
+  $wildcard_descriptions = array(
+    t('* (asterisk) matches any number of any characters including none'),
+    t('? (question mark) matches any single character'),
+  );
+
+  $description = '<p>' . t('Paths to purge. One per line. The paths should be relative to the base URL. Use / for the front page.') . '</p>';
+
+  $description .= '<p>' . t('You can use the following wildcard patterns:') . '</p>';
+
+  $wildcard_description = array(
+    '#theme' => 'item_list',
+    '#type' => 'ul',
+    '#items' => $wildcard_descriptions,
+  );
+
+  $description .= drupal_render(
+    $wildcard_description
+  );
+
+  $description .= '<p>' . t('In all cases above, the / (forward slash) will never be matched.') . '</p>';
+
+  return $description;
 }
 
 /**
