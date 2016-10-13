@@ -8,6 +8,7 @@
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
 use Behat\Mink\Element\NodeElement;
@@ -21,11 +22,11 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
-   * Restarts PhantomJS before each scenario to prevent memory leaking and freezing.
+   * Restarts PhantomJS after each scenario to prevent memory leaking and freezing.
    * 
-   * @BeforeScenario
+   * @AfterScenario
    */
-  public static function restartPhantomJs(BeforeScenarioScope $scope) {
+  public static function restartPhantomJs(AfterScenarioScope $scope) {
     if (getenv('CONTINUOUSPHP') == 'continuousphp') {
       exec('sudo supervisorctl restart phantomjs');
     }
