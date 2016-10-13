@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa\Context\ViewsContext
+ * Contains \Drupal\nexteuropa\Context\ViewsContext.
  */
 
 namespace Drupal\nexteuropa\Context;
@@ -27,6 +27,8 @@ class ViewsContext extends RawDrupalContext {
   protected $views = [];
 
   /**
+   * Import given view.
+   *
    * @Given I import the following view:
    */
   public function importView(PyStringNode $view_export) {
@@ -46,6 +48,8 @@ class ViewsContext extends RawDrupalContext {
   }
 
   /**
+   * Remove views imported during test execution.
+   *
    * @AfterScenario
    */
   public function removeViews() {
