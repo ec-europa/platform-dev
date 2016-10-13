@@ -24,6 +24,15 @@
     <echo msg="Loading PHP Codesniffer Configuration task." />
     <taskdef name="phpcodesnifferconfiguration" classname="\NextEuropa\Phing\PhpCodeSnifferConfigurationTask" />
 
+    <target name="stop-services">
+        <echo msg="Stopping unused services..." />
+        <exec command="sudo supervisorctl stop selenium_node" passthru="true" checkreturn="true"/>
+        <exec command="sudo supervisorctl stop selenium_hub" passthru="true" checkreturn="true"/>
+        <exec command="sudo supervisorctl stop solr5" passthru="true" checkreturn="true"/>
+        <exec command="sudo supervisorctl stop virtuoso" passthru="true" checkreturn="true"/>
+        <exec command="sudo supervisorctl stop couchbase-server" passthru="true" checkreturn="true"/>
+    </target>
+
     <import file="build.package.xml" />
     <import file="build.test.xml" />
 
