@@ -21,6 +21,16 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * @BeforeScenario
+   */
+  public static function restartPhantomJs(BeforeScenarioScope $scope)
+  {
+    if (getenv('CONTINUOUSPHP') == 'continuousphp') {
+      exec('sudo supervisorctl restart phantomjs');
+    }
+  }
+
+  /**
    * Checks that a 403 Access Denied error occurred.
    *
    * @Then I should get an access denied error
