@@ -99,6 +99,13 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
     return array(FALSE, $path);
   }
 
+  // Handle Estonian language enabled and user adding title_field_et to a view.
+  // @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-107
+  $parts = explode('/', $path);
+  if (count($parts) > 0 && array_pop($parts) == 'title_field_et') {
+    return array(FALSE, $path);
+  }
+
   // Forcing to use the prefix at the end of the path with the delimiter '_'.
   // example:
   // /foo/bar_en  (supported),
