@@ -110,3 +110,23 @@ Feature: Content editing as administrator
     And I press "edit-submit"
     # See the image in the node
     Then I should see the "img" element in the "content" region
+
+
+  @api @javascript
+  Scenario: User can create a page and he can define the path alias, even during an update.
+    The alias is crated automatically.
+    When I go to "node/add/page"
+    And I fill in "Title" with "Automate page alias"
+    And I click "Publishing options"
+    And I click "URL path settings"
+    Then the "Generate automatic URL alias" checkbox should be checked
+    When I press "Save"
+    Then I should be on "content/automate-page-alias_en"
+    When I click "Edit draft"
+    And I click "URL path settings"
+    Then the "Generate automatic URL alias" checkbox should be checked
+    And the "URL alias" field should contain "content/automate-page-alias"
+    When I uncheck "Generate automatic URL alias"
+    And I fill in "URL alias" with "custom-page-alias"
+    And I press "Save"
+    Then I should be on "custom-page-alias_en"
