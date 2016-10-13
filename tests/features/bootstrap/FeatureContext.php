@@ -22,7 +22,8 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
-   * Restarts PhantomJS after each scenario to prevent memory leaking and freezing.
+   * Restarts PhantomJS after each scenario to prevent memory leaking and
+   * freezing.
    * 
    * @AfterScenario
    */
