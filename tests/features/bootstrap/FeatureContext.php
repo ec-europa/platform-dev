@@ -21,10 +21,11 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * Restarts PhantomJS before each scenario to prevent memory leaking and freezing.
+   * 
    * @BeforeScenario
    */
-  public static function restartPhantomJs(BeforeScenarioScope $scope)
-  {
+  public static function restartPhantomJs(BeforeScenarioScope $scope) {
     if (getenv('CONTINUOUSPHP') == 'continuousphp') {
       exec('sudo supervisorctl restart phantomjs');
     }
