@@ -28,6 +28,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -103,6 +104,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I check the box "settings[languages][it]"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
@@ -150,6 +152,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
@@ -174,6 +177,7 @@ Feature: TMGMT Poetry features
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
@@ -204,6 +208,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I store job ID of translation request page
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     But I should see "Please end up the active translation process before creating a new request."
     And I should see "In progress" in the "French" row
@@ -225,6 +230,7 @@ Feature: TMGMT Poetry features
     When I check the box on the "Italian" row
     And I press "Request translation"
     Then I should see the success message "One job needs to be checked out."
+    And I fill in "Date" with "01/12/2016"
     When I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
     When I click "List"
@@ -233,6 +239,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     Then I should see the success message "One job needs to be checked out."
+    And I fill in "Date" with "01/12/2016"
     When I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
     When I go to "admin/poetry_mock/dashboard"
@@ -259,6 +266,7 @@ Feature: TMGMT Poetry features
     Then I should see the success message "One job needs to be checked out."
     And I check the box "settings[languages][it]"
     And I wait for AJAX to finish
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
@@ -274,6 +282,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -303,6 +312,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -343,6 +353,7 @@ Feature: TMGMT Poetry features
     And the "edit-settings-languages-fr" field should contain "fr"
     And the "edit-settings-languages-it" field should contain "it"
     And the "edit-settings-languages-pt-pt" field should contain "pt-pt"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -391,6 +402,7 @@ Feature: TMGMT Poetry features
     And inside fieldset "Organization" I fill in "Author" with "& DG/directorate/unit from which the document comes"
     And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
     And I fill in "Remark" with "Further remarks & comments"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -415,5 +427,20 @@ Feature: TMGMT Poetry features
       Then I should see "Last change"
       When I check the box on the "French" row
       And I press "Request translation"
+      And I fill in "Date" with "01/12/2016"
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
+
+    Scenario: Inspect if the 'Requested delivery date' field is mandatory
+      Given I am logged in as a user with the 'administrator' role
+      And I am viewing a multilingual "page" content:
+        | language | title            | body                    |
+        | en       | Title            | Last change column test |
+      When I click "Translate" in the "primary_tabs" region
+      When I check the box on the "French" row
+      And I press "Request translation"
+      And I press "Submit to translator"
+      Then I should see the error message "A valid date is required for Requested delivery date."
+      When I fill in "Date" with "01/12/2016"
+      And I press "Submit to translator"
+      Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
