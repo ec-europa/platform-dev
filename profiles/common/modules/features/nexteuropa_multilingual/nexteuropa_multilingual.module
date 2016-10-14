@@ -275,7 +275,7 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
         $variables = array(
           'message' => t(
             'This URL alias will be used for <strong>%langs</strong> translations of this content.',
-            implode(', ', $languages)
+            array('%langs' => implode(', ', $languages))
           ),
           'message_attributes' => array('id' => 'nexteuropa-multilingual-alias-message'),
         );
