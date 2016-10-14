@@ -114,10 +114,9 @@ Feature: Content editing as administrator
 
   @api @javascript
   Scenario: User can create a page and he can define the path alias, even during an update.
-    The alias is crated automatically.
+    The alias is created automatically.
     When I go to "node/add/page"
     And I fill in "Title" with "Automate page alias"
-    And I click "Publishing options"
     And I click "URL path settings"
     Then the "Generate automatic URL alias" checkbox should be checked
     When I press "Save"

@@ -40,7 +40,7 @@ Feature: Content editing as editor
       | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | <ol><li>Lorem ipsum</li>
 
   @api
-  Scenario: User can create an article but he cannot define it path alias, even during an update.
+  Scenario: User can create an article but he cannot define its path alias, even during an update.
     The alias is generated automatically.
     When I go to "node/add/article"
     And I fill in "Title" with "Automate article alias"

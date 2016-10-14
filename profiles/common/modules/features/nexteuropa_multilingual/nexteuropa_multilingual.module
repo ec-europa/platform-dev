@@ -261,8 +261,8 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
     // First we need which translation mechanism is used because
     // the logic to implement is only for entity translation.
     if ($set_translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
-      // 1. If pathauto deactivated, defining the right default value.
-      // reproduction of the default behavior but with the LANGUAGE_NONE alias.
+      // 1.  Reproduction of the default behavior but with the LANGUAGE_NONE
+      // alias.
       if ($nid) {
         $und_alias_info = _nexteuropa_multilingual_get_und_entity_alias_info('node', $node);
         $form['path']['alias']['#default_value'] = $und_alias_info['alias'];
@@ -316,6 +316,9 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
   $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_path, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
   $pathauto = ($language_none_alias != $entity_path && $language_none_alias == $pathauto_alias);
 
+  // Reimplementation of the Workbench moderation fix (see
+  // https://www.drupal.org/node/2308095 andsee "workbench_moderation_store"
+  // callback in workbench_moderation.module.
   if (isset($entity->workbench_moderation) && isset($entity->workbench_moderation['published'])) {
     $pathauto = FALSE;
   }
