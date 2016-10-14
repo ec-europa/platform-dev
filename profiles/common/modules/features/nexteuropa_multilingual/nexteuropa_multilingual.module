@@ -10,7 +10,6 @@
  */
 
 include_once 'nexteuropa_multilingual.features.inc';
-include_once 'nexteuropa_multilingual.tokens.inc';
 
 /**
  * Implements hook_theme().
@@ -270,14 +269,19 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
         }
       }
       // 2. Add new warning message to URL alias field.
-      $custom_alias_description = $form['path']['alias']['#description'];
-      $message = t('This URL alias will be used for ALL translations of this content.');
-      $variables = array(
-        'message' => $message,
-        'message_attributes' => array('id' => 'nexteuropa-multilingual-alias-message'),
-      );
-      $custom_alias_description .= theme('nexteuropa_multilingual_message', $variables);
-      $form['path']['alias']['#description'] = $custom_alias_description;
+      $languages = _nexteuropa_multilingual_languages_list($node);
+      if (count($languages) > 1) {
+        $custom_alias_description = $form['path']['alias']['#description'];
+        $variables = array(
+          'message' => t(
+            'This URL alias will be used for <strong>%langs</strong> translations of this content.',
+            implode(', ', $languages)
+          ),
+          'message_attributes' => array('id' => 'nexteuropa-multilingual-alias-message'),
+        );
+        $custom_alias_description .= theme('nexteuropa_multilingual_message', $variables);
+        $form['path']['alias']['#description'] = $custom_alias_description;
+      }
     }
   }
 }
@@ -334,11 +338,15 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_typ
  */
 function _nexteuropa_multilingual_warning_message(&$form, $node) {
   $translatable = variable_get('language_content_type_' . $node->type, 0);
-  $warning_message_languages = variable_get('nexteuropa_multilingual_warning_message_languages');
-  if (!empty($warning_message_languages) && $translatable !== '0') {
-    $message = token_replace($warning_message_languages, array('node' => $node));
+  $languages = _nexteuropa_multilingual_languages_list($node);
+
+  if ($translatable !== '0' && count($languages) > 1) {
+
     $variables = array(
-      'message' => $message,
+      'message' => t(
+        'The state of this content and all its validated translations <strong>%langs</strong> will be updated!',
+        array('%langs' => implode(', ', $languages))
+      ),
       'message_attributes' => array('id' => 'nexteuropa-multilingual-warning-message-languages'),
     );
     $warning_message = theme('nexteuropa_multilingual_message', $variables);
@@ -351,6 +359,7 @@ function _nexteuropa_multilingual_warning_message(&$form, $node) {
       ),
     );
   }
+
 }
 
 /**
@@ -646,4 +655,28 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
       }
     }
   }
+}
+
+/**
+ * Helper function to retrieve the languages for each a content is translated.
+ *
+ * @param object $node
+ *    The node of the content.
+ *
+ * @return array
+ *    List of the name of the languages.
+ */
+function _nexteuropa_multilingual_languages_list($node) {
+  $handler = entity_translation_get_handler('node', $node);
+  $translations = $handler->getTranslations();
+  $entity_languages = array_keys($translations->data);
+  $language_list = language_list();
+  $languages = array();
+  foreach ($entity_languages as $language) {
+    // LANGUAGE_NONE would fail, check if value is set.
+    if (isset($language_list[$language])) {
+      $languages[] = $language_list[$language]->name;
+    }
+  }
+  return $languages;
 }

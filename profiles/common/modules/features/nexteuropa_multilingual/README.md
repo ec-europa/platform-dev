@@ -24,10 +24,3 @@ The module is activated when the platform is installed.
 
 The module by default sets some permissions and variables used by the different
 multilingual features.
-It comes also with the default definition of the sentence set below the
-content edit form and the workbench moderation state form. It is stored in the
-Drupal variable "nexteuropa_multilingual_warning_message_languages".
-
-It can be modified on this administration page:
-Configuration > Content authoring > MULTISITE WYSIWYG > settings (path: "admin/config/content/multisite_wysiwyg/setup_en");
-The value can contain tokens and HTML tags.
