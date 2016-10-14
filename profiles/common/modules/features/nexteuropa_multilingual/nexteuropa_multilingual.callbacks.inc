@@ -99,10 +99,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
     return array(FALSE, $path);
   }
 
-  // Handle Estonian language enabled and user adding title_field_et to a view.
+  // Handle adding an Entity Translation field to a view with Estonian enabled.
   // @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-107
-  $parts = explode('/', $path);
-  if (count($parts) > 0 && array_pop($parts) == 'title_field_et') {
+  if (preg_match("/^admin\/structure\/views\/.+\/field\/\w+\_et$/", $path, $matches)) {
     return array(FALSE, $path);
   }
 
