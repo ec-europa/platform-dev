@@ -501,12 +501,7 @@ function _mont_block_taxonomy_navigation() {
 function _mont_block_item_list_children($root_elements, array $child_elements, $term, array $active_class) {
   if (array_key_exists($term->tid, $child_elements)) {
     $item = array();
-    // @todo The t() function cannot be used to translate dynamic strings.
-    // @see i18n_taxonomy_term_name()
-    // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3894
-    // @codingStandardsIgnoreStart
-    $item['data'] = l(t($term->name), 'taxonomy/term/' . $term->tid, array(
-      // @codingStandardsIgnoreEnd
+    $item['data'] = l(i18n_taxonomy_term_name($term), 'taxonomy/term/' . $term->tid, array(
       'attributes' => array('class' => array('collapsed')),
     ));
 
