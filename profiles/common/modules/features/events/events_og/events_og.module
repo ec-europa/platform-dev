@@ -25,3 +25,54 @@ function events_og_menu() {
 
   return $items;
 }
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ */
+function events_og_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['calendar'] = array(
+    'name' => t('Calendar'),
+    'description' => t("Determine context by checking if an event is a group or a group content."),
+    'callback' => 'og_context_handler_calendar',
+    'menu path' => array('community/%'),
+  );
+
+  return $providers;
+}
+
+/**
+ * Context handler; Get groups from events.
+ */
+function og_context_handler_calendar() {
+  global $language;
+
+  $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+
+  // Use the NextEuropa language split for the url to remove language suffix.
+  $path = nexteuropa_multilingual_language_negotiation_split_suffix(request_path(), [$language]);
+  $path_args = explode('/', $path[1]);
+
+  // Look for the community keyword in the path.
+  if ($path_args[0] === $keyword) {
+    $community_path = drupal_lookup_path('source', $path_args[0] . '/' . $path_args[1], $language->language);
+
+    // If no path was found, then it's not a community in particular.
+    if ($community_path !== FALSE) {
+      $community_path = explode('/', $community_path);
+
+      // Check that the node acts as a group.
+      $node = node_load($community_path[1]);
+
+      if (og_is_group('node', $node)) {
+        return [
+          'node' => [
+            $node->nid,
+          ],
+        ];
+      }
+    }
+  }
+  return [];
+}
