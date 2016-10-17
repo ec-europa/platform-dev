@@ -31,8 +31,6 @@ dependencies[] = media_node
 dependencies[] = media_wysiwyg
 dependencies[] = media_wysiwyg_view_mode
 dependencies[] = multisite_config
-dependencies[] = multisite_create_button
-dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_wysiwyg
 dependencies[] = nexteuropa_token_ckeditor
@@ -61,12 +59,6 @@ dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
 stylesheets[all][] = cce_basic_config.css
-# The image_captcha_fonts variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
-features[variable][] = image_captcha_fonts
-# The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
-# Please do not remove this entry when re-exporting the variables.
-features[variable][] = print_pdf_pdf_tool
 features[context][] = site_wide
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
@@ -214,6 +206,9 @@ features[variable][] = i18n_select_nodes
 features[variable][] = i18n_string_allowed_formats
 features[variable][] = image_captcha_bilinear_interpolation
 features[variable][] = image_captcha_distortion_amplitude
+# The image_captcha_fonts variable is set in cce_basic_config_strongarm_alter().
+# Please do not remove this entry when re-exporting the variables.
+features[variable][] = image_captcha_fonts
 features[variable][] = jquery_update_compression_type
 features[variable][] = jquery_update_jquery_admin_version
 features[variable][] = jquery_update_jquery_cdn
@@ -264,6 +259,9 @@ features[variable][] = print_pdf_node_link_pages
 features[variable][] = print_pdf_node_link_visibility
 features[variable][] = print_pdf_page_orientation
 features[variable][] = print_pdf_paper_size
+# The print_pdf_pdf_tool variable is set in cce_basic_config_strongarm_alter().
+# Please do not remove this entry when re-exporting the variables.
+features[variable][] = print_pdf_pdf_tool
 features[variable][] = print_pdf_show_link
 features[variable][] = print_pdf_sys_link_pages
 features[variable][] = print_pdf_sys_link_visibility
