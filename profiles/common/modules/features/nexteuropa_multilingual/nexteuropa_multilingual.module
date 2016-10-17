@@ -272,10 +272,14 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
       $languages = _nexteuropa_multilingual_language_list($node);
       if (count($languages) > 1) {
         $custom_alias_description = $form['path']['alias']['#description'];
+        $languages_name = array();
+        foreach ($languages as $language) {
+          $languages_name[] = isset($language->name) ? $language->name : t("undefined");
+        }
         $variables = array(
           'message' => t(
             'This URL alias will be used for <strong>%langs</strong> translations of this content.',
-            array('%langs' => implode(', ', $languages))
+            array('%langs' => implode(', ', $languages_name))
           ),
           'message_attributes' => array('id' => 'nexteuropa-multilingual-alias-message'),
         );
@@ -341,11 +345,14 @@ function _nexteuropa_multilingual_warning_message(&$form, $node) {
   $languages = _nexteuropa_multilingual_language_list($node);
 
   if ($translatable !== '0' && count($languages) > 1) {
-
+    $languages_name = array();
+    foreach ($languages as $language) {
+      $languages_name[] = isset($language->name) ? $language->name : t("undefined");
+    }
     $variables = array(
       'message' => t(
         'The state of this content and all its validated translations <strong>%langs</strong> will be updated!',
-        array('%langs' => implode(', ', $languages))
+        array('%langs' => implode(', ', $languages_name))
       ),
       'message_attributes' => array('id' => 'nexteuropa-multilingual-warning-message-languages'),
     );
@@ -675,7 +682,7 @@ function _nexteuropa_multilingual_language_list($node) {
   foreach ($entity_languages as $language) {
     // LANGUAGE_NONE would fail, check if value is set.
     if (isset($language_list[$language])) {
-      $languages[] = $language_list[$language]->name;
+      $languages[] = $language_list[$language];
     }
   }
   return $languages;
