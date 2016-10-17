@@ -122,4 +122,8 @@ function nexteuropa_core_update_7004() {
     // ckeditor_lite highlight changes.
     'ckeditor_lite highlight changes',
   );
+  // Set permissions for "contributor" role.
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
+  // Set permissions for "editor" role.
+  multisite_config_service('user')->grantPermission('editor', $permissions);
 }
