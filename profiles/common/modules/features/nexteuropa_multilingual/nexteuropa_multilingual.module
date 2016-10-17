@@ -269,7 +269,7 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
         }
       }
       // 2. Add new warning message to URL alias field.
-      $languages = _nexteuropa_multilingual_languages_list($node);
+      $languages = _nexteuropa_multilingual_language_list($node);
       if (count($languages) > 1) {
         $custom_alias_description = $form['path']['alias']['#description'];
         $variables = array(
@@ -338,7 +338,7 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_typ
  */
 function _nexteuropa_multilingual_warning_message(&$form, $node) {
   $translatable = variable_get('language_content_type_' . $node->type, 0);
-  $languages = _nexteuropa_multilingual_languages_list($node);
+  $languages = _nexteuropa_multilingual_language_list($node);
 
   if ($translatable !== '0' && count($languages) > 1) {
 
@@ -666,7 +666,7 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
  * @return array
  *    List of the name of the languages.
  */
-function _nexteuropa_multilingual_languages_list($node) {
+function _nexteuropa_multilingual_language_list($node) {
   $handler = entity_translation_get_handler('node', $node);
   $translations = $handler->getTranslations();
   $entity_languages = array_keys($translations->data);
