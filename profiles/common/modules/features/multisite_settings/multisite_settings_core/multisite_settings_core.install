@@ -30,8 +30,6 @@ function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Add and configure the context workbench.
  */
 function multisite_settings_core_update_7121() {
@@ -72,8 +70,6 @@ function multisite_settings_core_update_7121() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Disable cookie language.
  */
 function multisite_settings_core_update_7122() {
@@ -85,8 +81,6 @@ function multisite_settings_core_update_7122() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Regenerate the language negotiation URL.
  */
 function multisite_settings_core_update_7123() {
