@@ -9,6 +9,7 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\Element;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Selector\Xpath\Escaper;
@@ -148,6 +149,123 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   public function maximizeBrowserWindow() {
     $this->getSession()->getDriver()->maximizeWindow();
+  }
+
+  /**
+   * Attempts to find and check a checkbox in a table row containing given text.
+   *
+   * @param string $row_text
+   *    Text on the table row.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if class table row was not found.
+   *
+   * @Given I check the box on the :row_text row
+   */
+  public function checkCheckboxOnTableRow($row_text) {
+    $page = $this->getSession()->getPage();
+    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
+      $checkbox->check();
+      return;
+    }
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
+  }
+
+  /**
+   * Checks a checkbox in a table row inside a specific fieldset.
+   *
+   * @param string $fieldset_locator
+   *   Fieldset id or legend.
+   * @param string $row_text
+   *   Text on the table row.
+   *
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   *   When the fieldset or field are not found.
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if class table row was not found.
+   *
+   * @When /^inside fieldset "(?P<fieldset_locator>(?:[^"]|\\")*)" I check the box on the "(?P<row_text>(?:[^"]|\\")*)" row$/
+   */
+  public function checkCheckboxInsideFieldsetOnTableRow($fieldset_locator, $row_text) {
+    $fieldset = $this->findFieldset($fieldset_locator);
+
+    if (!$fieldset) {
+      throw new ElementNotFoundException(
+        $this->getSession()->getDriver(),
+        'fieldset', 'id|legend',
+        $fieldset_locator
+      );
+    }
+
+    if ($checkbox = $this->getTableRow($fieldset, $row_text)
+      ->find('css', 'input[type=checkbox]')
+    ) {
+      $checkbox->check();
+      return;
+    }
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()
+      ->getCurrentUrl()), $this->getSession());
+  }
+
+  /**
+   * Retrieve a table row containing specified text from a given element.
+   *
+   * @param Element $element
+   *    Mink element object.
+   * @param string $search
+   *    Table row text.
+   *
+   * @throws \Exception
+   *    Throw exception if class table row was not found.
+   *
+   * @return NodeElement
+   *    Table row node element.
+   */
+  public function getTableRow(Element $element, $search) {
+    $rows = $element->findAll('css', 'tr');
+    if (empty($rows)) {
+      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
+    }
+    /** @var NodeElement $row */
+    foreach ($rows as $row) {
+      if (strpos($row->getText(), $search) !== FALSE) {
+        return $row;
+      }
+    }
+    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
+  }
+
+  /**
+   * Set all permissions to admin role.
+   *
+   * @Given I update the administrator role permissions
+   */
+  public function iGiveAllPermToAdminRole() {
+    if ($rid = variable_get('user_admin_role', 0)) {
+      $perms = array();
+
+      foreach (module_implements('permission') as $module) {
+        foreach (module_invoke($module, 'permission') as $key => $perm) {
+          $perms[$key] = $module;
+        }
+      }
+
+      if ($perms) {
+        foreach ($perms as $perm => $module) {
+          $query = db_merge('role_permission');
+          $query->key(array(
+            'rid' => $rid,
+            'permission' => $perm,
+          ));
+          $query->fields(array(
+            'rid' => $rid,
+            'permission' => $perm,
+            'module' => $module,
+          ));
+          $query->execute();
+        }
+      }
+    }
   }
 
 }
