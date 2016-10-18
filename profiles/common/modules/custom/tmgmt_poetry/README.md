@@ -35,7 +35,7 @@ Table of content:
 :pray: Before you can start using the DGT-Connector on Playground or Production,
 a representative of your DG at the 
 [Europa Forum](http://www.cc.cec/home/europa-info/basics/management/committees/forum_europa/members/index_en.htm) 
-should make a formal request to the COMM EUROPA MANAGEMENT (CEM).
+must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 
 ```
  From: Webmaster
@@ -59,7 +59,7 @@ should make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 - Once approved by CEM, a JIRA issue is created in the [project 
 MULTISITE](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa) 
 - As a next step, CEM enables the feature for you.
-- Finally, the maintenance team set the DGT-Connector up  
+- Finally, the maintenance team sets the DGT-Connector up  
 (adaptation of "settings.php").
 
 [Go to top](#table-of-content)
@@ -74,7 +74,7 @@ setting up.
 
   - Install on Playground environment:
 
-In order to test against acceptance webservice, *settings.php* should contain
+In order to test against acceptance webservice, *settings.php* must contain
     (exactly as is):
 
 ```php
@@ -93,7 +93,7 @@ In order to test against acceptance webservice, *settings.php* should contain
 Make sure the [poetry access was requested by the webmaster]
 (#requesting-access-to-poetry) and you have received the credentials.
 
-*Settings.php* should contain (replace variables between [] with custom values):
+*Settings.php* must contain (replace variables between [] with the appropriate values):
 
 ```php
     $conf['poetry_service'] = array(
@@ -106,20 +106,20 @@ Make sure the [poetry access was requested by the webmaster]
     );
 ```
 
-> The values of [CALLBACK_USERNAME] should match NE-projectname where
+> The values of [CALLBACK_USERNAME] must match NE-projectname where
 projectname is the project's code.
 > *Example: NE-ERASMUSPLUS*
 
 > [CALLBACK_PASSWORD] is the same as the callback_username.
 > These fields are limited to 15 characters.
 
->[POETRY_USERNAME] and [POETRY_PASSWORD] should have been received from
+>[POETRY_USERNAME] and [POETRY_PASSWORD] must have been received from
 DGCOMM (see 'Installations step 1').
 
 [Go to top](#table-of-content)
 
 ### Configure the DGT-Connector:
-Once the module is enabled and the settings properly setup, CEM proceeds
+Once the module is enabled and the settings are properly set up, CEM proceeds
 with the module's configuration.
 
 Edit the translator labelled "DGT Connector (auto created)".
@@ -150,8 +150,8 @@ or go to:
    (#dgt-reference-number).
    - Organization responsible, Author & requester: consult the values examples
    shown below each form field as an example.
-   - Contact usernames: should be the *username* (you connect to the network,
-  ecas or the proxy with your username) of the persons in charge of the request.
+   - Contact usernames: should be the *user names* (you connect to the network,
+  ecas or the proxy with your user name) of the persons in charge of the request.
   This is important as only these persons can view translation details in the
   web app.
    - DGT contacts: The email address of your contact person at DGT. They receive
@@ -168,21 +168,21 @@ or go to:
 
 ## Testing locally (for developers)
 
-If you are working in collaboration with a contractor and he needs to test the 
-DGT-Connector UI and workflow locally, this can be done without the need to 
+If you are working in collaboration with a contractor and he needs to test locally the 
+DGT-Connector UI and the workflow, this can be done without the need to 
 access the webservice by using the tmgmt_poetry_mock module.
 
  Contractors : see [the mock readme] (tmgmt_poetry_mock/README.md) for more 
  information on testing with the mock.
 
-## Testing inhouse (for webmasters)
+## Testing in-house (for webmasters)
 When the DGT-Connector will be properly enabled and configured in your 
 playground environment, CEM will ask you to perform few tests monitored by DGT.
 
 Go to next section ([Usage](#usage)) on how to complete your test.
 
 When your test are successful, please inform CEM team.
-CEM team will request the deployment of the DGT-Connector in you production 
+CEM team will request the deployment of the DGT-Connector in your production 
 environment.
 
 [Go to top](#table-of-content)
