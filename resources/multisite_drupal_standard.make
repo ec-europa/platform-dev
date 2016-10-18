@@ -184,11 +184,11 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = 221e302
-projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
+projects[entity_translation][version] = "1.0-beta5"
+; Issue #1707156 : Workbench Moderation integration
+; https://www.drupal.org/node/1707156
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-47.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -238,7 +238,7 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta1"
+projects[feeds][version] = "2.0-beta2"
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
