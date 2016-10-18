@@ -458,3 +458,34 @@ Feature: TMGMT Poetry features
     And I should see "In progress" in the "Italian" row
     And I should not see "Request addition of new languages"
     And I should see the success message "The following languages were added to the ongoing translation request: German, Italian"
+
+  @javascript
+  Scenario: Accepting the translation of the main requested language when additional languages were added.
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    When I click "Translate" in the "primary_tabs" region
+    Then I should not see "Request addition of new languages"
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    When I am logged in as a user with the 'administrator' role
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    And I click "Check the translation page"
+    And I click "Request addition of new languages"
+    And inside fieldset "Request addition of new languages" I check the box on the "German" row
+    And I press "Add languages"
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->de" row
+    And I click "Translate" in the "en->fr" row
+    And I click "Check the translation page"
+    And I click "In progress" in the "German" row
+    And I press "Save"
+    Then I should see "Needs review" in the "German" row
+    When I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "Needs review" in the "German" row
