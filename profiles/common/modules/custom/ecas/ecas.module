@@ -3,7 +3,7 @@
  * @file
  * This is the main file of the ECAS module.
  *
- * This module allows users to authenticate to Drupal with their ECAS account.
+ * Allows users to authenticate to Drupal with their ECAS account.
  *
  * Note that this module depends on the presence of:
  * - the "FPFIS_Common" library

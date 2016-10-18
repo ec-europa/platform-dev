@@ -87,7 +87,7 @@ function ecas_admin_settings() {
     '#title' => t('ECAS Assurance Level for this application'),
     '#default_value' => variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL')),
     '#options' => _ecas_assurance_levels(),
-    '#description' => t('The ECAS Assurance Level defines which kinds of users may log into the application.'),
+    '#description' => t('The EU Login Assurance Level defines which kinds of users may log into the application.'),
   );
 
   $ecas_domains = array(ECAS_DEFAULT_DOMAIN => 'Do not force the default domain');
