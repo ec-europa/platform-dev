@@ -28,8 +28,9 @@ function events_og_views_default_views_alter(&$views) {
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
     $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
     $handler->display->display_options['arguments']['gid']['field'] = 'gid';
+    $handler->display->display_options['arguments']['gid']['relationship'] = 'og_membership_rel';
     $handler->display->display_options['arguments']['gid']['default_action'] = 'default';
-    $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'node';
+    $handler->display->display_options['arguments']['gid']['default_argument_type'] = 'og_context';
     $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
     $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
     $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
