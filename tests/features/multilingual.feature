@@ -105,7 +105,7 @@ Feature: Multilingual features
     And I click "Path aliases are not deleted in English"
     And I should be on "content/path-aliases-are-not-deleted-english_en"
     And I should see the heading "Path aliases are not deleted in English"
-    And I visit "content/content/path-aliases-are-not-deleted-english_de"
+    And I visit "content/path-aliases-are-not-deleted-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
   Scenario: I can re-import a translation by re-submitting the translation job.
