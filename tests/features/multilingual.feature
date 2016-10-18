@@ -99,13 +99,13 @@ Feature: Multilingual features
     And I click "view" in the "In progress" row
     And I fill in "Translation" with "Dieser Titel ist auf Deutsch"
     And I press the "Save" button
-    And I click "reviewed" in the "The translation of This title is in English to German is finished and can now be reviewed." row
+    And I click "reviewed" in the "The translation of Path aliases are not deleted in English to German is finished and can now be reviewed." row
     And I press the "Save as completed" button
-    Then I should see "The translation for This title is in English has been accepted."
+    Then I should see "The translation for Path aliases are not deleted in English has been accepted."
     And I click "Path aliases are not deleted in English"
-    And I should be on "content/title-english_en"
+    And I should be on "content/path-aliases-are-not-deleted-english_en"
     And I should see the heading "Path aliases are not deleted in English"
-    And I visit "content/title-english_de"
+    And I visit "content/content/path-aliases-are-not-deleted-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
   Scenario: I can re-import a translation by re-submitting the translation job.
