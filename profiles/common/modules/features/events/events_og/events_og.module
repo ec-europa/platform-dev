@@ -48,10 +48,11 @@ function events_og_og_context_negotiation_info() {
 function og_context_handler_calendar() {
   global $language;
 
-  $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+  $keyword = 'community';
 
   // Use the NextEuropa language split for the url to remove language suffix.
-  $path = nexteuropa_multilingual_language_negotiation_split_suffix(request_path(), [$language]);
+  $path = language_url_split_suffix(request_path(), [$language]);
+
   $path_args = explode('/', $path[1]);
 
   // Look for the community keyword in the path.
