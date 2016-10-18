@@ -50,7 +50,6 @@ function og_context_handler_calendar() {
 
   $keyword = 'community';
 
-  // Use the NextEuropa language split for the url to remove language suffix.
   $path = language_url_split_suffix(request_path(), [$language]);
 
   $path_args = explode('/', $path[1]);
