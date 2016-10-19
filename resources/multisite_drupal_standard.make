@@ -895,7 +895,7 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/7.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
