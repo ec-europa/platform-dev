@@ -192,18 +192,3 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object, JSON_UNESCAPED_SLASHES));
   }
 }
-
-/**
- * Implements hook_custom_theme().
- *
- * NEPT-105:The popup 'Insert internal content' (on a Ckeditor block)
- * when the theme of the modal and the back page isn't the same.
- */
-function nexteuropa_webtools_custom_theme() {
-  if (strpos(current_path(), 'nexteuropa/webtools-ckeditor') === 0) {
-    $theme = variable_get('node_admin_theme', '0') ?
-      variable_get('admin_theme_default', 'seven') :
-      variable_get('theme_default', 'ec_resp');
-    return $theme;
-  }
-}

@@ -105,8 +105,7 @@ function nexteuropa_token_ckeditor_bean_ajax_callback($editor_id = '') {
  * AJAX page callback's callback.
  */
 function nexteuropa_token_ckeditor_ajax_sub_callback($filter_view, $editor_id = '') {
-  drupal_add_js(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/nexteuropa_token_ckeditor.js');
-  drupal_add_css(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/css/nexteuropa_token_ckeditor.css');
+  drupal_add_css(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/css/nexteuropa_token.css');
 
   list($view_name, $display_id) = explode(':', $filter_view);
   $content = '';
@@ -251,20 +250,23 @@ function nexteuropa_token_ckeditor_token_filter_filter_tokens($text, $filter, $f
  * when the theme of the modal and the back page isn't the same.
  */
 function nexteuropa_token_ckeditor_custom_theme() {
-  if (strpos(current_path(), 'nexteuropa/token-ckeditor') === 0) {
+  // Get current path.
+  $path = current_path();
+
+  // Clean the paths.
+  $paths = array_map(function($value) {
+    return str_replace('/%', '', $value);
+  }, array_keys(nexteuropa_token_ckeditor_menu()));
+
+  // Find is there are any candidates.
+  $candidates = array_filter($paths, function($v) use ($path) {
+    return strpos($path, $v) !== FALSE;
+  });
+
+  if ($candidates) {
     $theme = variable_get('node_admin_theme', '0') ?
       variable_get('admin_theme_default', 'seven') :
       variable_get('theme_default', 'ec_resp');
     return $theme;
-  }
-}
-
-/**
- * Implements hook_wysiwyg_editor_settings_alter().
- */
-function nexteuropa_token_ckeditor_wysiwyg_editor_settings_alter(&$settings, $context) {
-  if ($context['profile']->editor == 'ckeditor') {
-    // Provide additional custom settings.
-    $settings['customConfig'] = base_path() . drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/nexteuropa_token_wysiwyg_config.js';
   }
 }
