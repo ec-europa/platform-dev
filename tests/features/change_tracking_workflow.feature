@@ -6,17 +6,19 @@ Feature: Change tracking features
   Tracked changes must be cleared before content is published or sent for
   translation; otherwise the content publishing is blocked
 
-  @api
-  Scenario Outline: "Basic page" case: If WYSIWYG workflow settings are correctly
-  configured, The change of the content state to "validated" or "published" must
-  be blocked if CKEditor Lite tracked changes exist in WYSIWYG fields
+  Background:
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/multisite_wysiwyg/workbench"
     And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
     And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
     And I press "Save configuration"
     Then I should see the success message "The configuration options have been saved."
-    When I go to "node/add/page"
+
+  @api
+  Scenario Outline: "Basic page" case: If WYSIWYG workflow settings are correctly
+  configured, The change of the content state to "validated" or "published" must
+  be blocked if CKEditor Lite tracked changes exist in WYSIWYG fields
+    Given I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I fill in "Body" with "Page body"
     And I press "Save"
@@ -47,12 +49,7 @@ Feature: Change tracking features
   Scenario Outline: "Article with neutral language" case: The change of the
   content state to "validated" or "published" must be blocked if CKEditor
   Lite tracked changes exist in WYSIWYG fields
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
-    And I press "Save configuration"
-    When I go to "node/add/article"
+    Given I go to "node/add/article"
     And I fill in "Title" with "Article title"
     And I fill in "Body" with "Article body"
     And I press "Save"
@@ -81,12 +78,7 @@ Feature: Change tracking features
 
   @api
   Scenario Outline: Change tracking are visible while seeing the content page
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
-    And I press "Save configuration"
-    When I am viewing an "page" content:
+    Given I am viewing an "page" content:
       | title            | Lorem ipsum dolor sit amet                                      |
       | body             | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
       | moderation state | draft                                                           |
@@ -105,12 +97,7 @@ Feature: Change tracking features
 
  @api
   Scenario Outline: If no changing tracks exist, I do not see any messages or HTML tags related to the change tracking
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
-    And I press "Save configuration"
-    When I am viewing an "page" content:
+   Given I am viewing an "page" content:
       | title            | Lorem ipsum dolor sit amet                                      |
       | body             | <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> |
       | moderation state | draft                                                           |
@@ -130,16 +117,10 @@ Feature: Change tracking features
   @api
   Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
   CKEditor Lite tracked changes exist in WYSIWYG fields of a translation
-    Given I am logged in as a user with the 'administrator' role
-    And the following languages are available:
+    Given the following languages are available:
       | languages |
       | en        |
       | fr        |
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
-    And I press "Save configuration"
-    Then I should see the success message "The configuration options have been saved."
     When I am viewing a multilingual "page" content:
       | language | title              | body                 |
       | en       | Title in English   | <p>Page body</p>     |
