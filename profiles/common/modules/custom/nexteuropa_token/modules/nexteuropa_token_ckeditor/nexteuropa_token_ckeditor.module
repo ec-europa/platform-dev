@@ -270,3 +270,17 @@ function nexteuropa_token_ckeditor_custom_theme() {
     return $theme;
   }
 }
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * See NEPT-191: Delete the History object to avoid errors in the views
+ * provided by this module only.
+ */
+function nexteuropa_token_ckeditor_views_pre_render(&$view) {
+  if (isset($view->export_module) && 'nexteuropa_token_ckeditor' == $view->export_module) {
+    if ($view->use_ajax && !$view->editing) {
+      drupal_add_js(drupal_get_path('module', 'nexteuropa_token_ckeditor') . '/js/delete_history.js', array('weight' => 1));
+    }
+  }
+}
