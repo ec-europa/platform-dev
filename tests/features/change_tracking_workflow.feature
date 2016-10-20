@@ -1,3 +1,4 @@
+@api
 Feature: Change tracking features
   In order to ease communications between editors while they manage website
   content, a tracking feature is available with WYSIWYG fields.
@@ -14,7 +15,6 @@ Feature: Change tracking features
     And I press "Save configuration"
     Then I should see the success message "The configuration options have been saved."
 
-  @api
   Scenario Outline: "Basic page" case: If WYSIWYG workflow settings are correctly
   configured, The change of the content state to "validated" or "published" must
   be blocked if CKEditor Lite tracked changes exist in WYSIWYG fields
@@ -45,7 +45,6 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Page body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
-  @api
   Scenario Outline: "Article with neutral language" case: The change of the
   content state to "validated" or "published" must be blocked if CKEditor
   Lite tracked changes exist in WYSIWYG fields
@@ -76,7 +75,6 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Article body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
-  @api
   Scenario Outline: Change tracking are visible while seeing the content page
     Given I am viewing an "page" content:
       | title            | Lorem ipsum dolor sit amet                                      |
@@ -95,7 +93,6 @@ Feature: Change tracking features
       | <p><span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">consectetur </span></p>                                      | <p><span class=\"ice-del ckeditor-lite-del-inv ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">consectetur </span></p>                                  |
       | <p><a href=\"http://www.europa.eu\"><span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"3\" data-last-change-time=\"1470931716682\" data-time=\"1470931698028\" data-userid=\"1\" data-username=\"admin\">Link example</span></a></p> | <p><a href=\"http://www.europa.eu\"><span class=\"ice-ins ckeditor-lite-ins ice-cts-1\" data-changedata=\"\" data-cid=\"3\" data-last-change-time=\"1470931716682\" data-time=\"1470931698028\" data-userid=\"1\" data-username=\"admin\">Link example</span></a></p> |
 
- @api
   Scenario Outline: If no changing tracks exist, I do not see any messages or HTML tags related to the change tracking
    Given I am viewing an "page" content:
       | title            | Lorem ipsum dolor sit amet                                      |
@@ -114,7 +111,6 @@ Feature: Change tracking features
       | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> |
       | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    |
 
-  @api
   Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
   CKEditor Lite tracked changes exist in WYSIWYG fields of a translation
     Given the following languages are available:
