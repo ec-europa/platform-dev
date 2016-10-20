@@ -144,8 +144,6 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                                  |
       | <p>Corps de page<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> avec contenu additionnel</span></p> |
 
-    @run
-    @javascript
     Scenario: Make sure that inline images are correctly shown when tracking change is enabled.
       Given I am viewing an "page" content:
         | title                | Checking inline images work |
@@ -153,4 +151,4 @@ Feature: Change tracking features
         | field_ne_body:format | full_html_track |
       Then I should not see "[[{"
       And I should not see "}]]"
-      But the response should contain "default_images/user_default.png\" typeof=\"foaf:Image\" class=\"media-element file-default\" />"
+      But the response should contain "sites/default/files/default_images/user_default.png"
