@@ -54,6 +54,15 @@ Feature:
       | Basic page   | /, /all-basic-pages |
       | Article      | /all-articles       |
 
+  Scenario: Edit a purge rule.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge      |
+      | page         | /, /all-basic-pages |
+    When I go to "/admin/config/frontend_cache_purge_rules"
+    And I click "edit" next to the 1st cache purge rule
+    Then the "Content Type" field should contain "page"
+    And the radio button "A specific list of paths" is selected
+
   @moderated-content
   Scenario: Create a draft.
     Given the following cache purge rules:
@@ -308,6 +317,16 @@ Feature:
     Then I see an overview with the following cache purge rules:
       | Content Type | Paths to Purge                         |
       | Basic page   | paths of the node                      |
+
+  @purge-rule-type-node
+  Scenario: Edit a purge rule.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge      |
+      | page         |                     |
+    When I go to "/admin/config/frontend_cache_purge_rules"
+    And I click "edit" next to the 1st cache purge rule
+    Then the "Content Type" field should contain "page"
+    And the radio button "Paths of the node the action is performed on" is selected
 
   @moderated-content @purge-rule-type-node
   Scenario: Immediately publish a new page and purge its paths.
