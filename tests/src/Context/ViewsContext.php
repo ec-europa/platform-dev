@@ -37,9 +37,7 @@ class ViewsContext extends RawDrupalContext {
 
     // This is actually how Views imports exported views.
     // @see views_ui_import_validate()
-    ob_start();
     eval($view_export->getRaw());
-    ob_end_clean();
 
     assert($view, isNotNull());
     $view->vid = 'new';
