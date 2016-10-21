@@ -484,7 +484,7 @@ function _tmgmt_workbench_inject_add_new_languages_elements(&$form, $trans_langs
   $form['add_new_languages']['delai'] = [
     '#type' => 'date_popup',
     '#title' => t('Expected delivery time'),
-    '#default_value' => date('Y-m-d', strtotime('+1 month')),
+    '#default_value' => '',
     '#date_format' => 'd/m/Y',
     '#date_year_range' => '-0:+1',
     '#required' => TRUE,

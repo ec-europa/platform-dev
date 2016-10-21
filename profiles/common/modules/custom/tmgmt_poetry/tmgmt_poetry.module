@@ -407,6 +407,11 @@ function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
  *   Item delay.
  */
 function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
+  // Converting date format.
+  if (strtotime($delai)) {
+    $delai = format_date(strtotime($delai), 'custom', 'd/m/Y');
+  }
+
   db_insert('poetry_status')
     ->fields(array(
       'tjiid' => $tjiid,
