@@ -78,4 +78,5 @@ class ViewsContext extends RawDrupalContext {
     $handler->display->display_options['row_plugin'] = 'fields';
     return $view;
   }
+
 }
