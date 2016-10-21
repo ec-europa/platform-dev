@@ -263,7 +263,16 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $organization = $job->settings['organization'];
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
-    $demande->titre = 'NE-CMS: ' . $job->label;
+
+    $website_identifier = variable_get('tmgmt_poetry_website_identifier', '');
+    if ($website_identifier) {
+      $request_title = "NE-CMS: {$website_identifier} - {$job->label}";
+    }
+    else {
+      $request_title = 'NE-CMS: ' . $job->label;
+    }
+
+    $demande->titre = $request_title;
     $demande->organisationResponsable = $organization['responsable'];
     $demande->organisationAuteur = $organization['auteur'];
     $demande->serviceDemandeur = $organization['demandeur'];

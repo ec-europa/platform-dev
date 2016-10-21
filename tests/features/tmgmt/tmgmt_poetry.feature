@@ -421,6 +421,7 @@ Feature: TMGMT Poetry features
   # Deliberately not using a JavaScript enabled browser here, as it will probably
   # respect the maximum length specified on the input field and automatically
   # trim any value we fill it with.
+  @cleanup-tmgmt-poetry-website-identifier
   Scenario: A website identifier longer than 15 characters is not accepted.
     When I go to "/admin/config"
     And I click "DGT Connector"
@@ -428,7 +429,7 @@ Feature: TMGMT Poetry features
     And I press the "Save configuration" button
     Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
 
-  @javascript
+  @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including the website identifier.
     Given I go to "/admin/config"
     And I click "DGT Connector"
@@ -445,7 +446,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: redjeddacmehaca - My page"
 
-  @javascript
+  @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including a website identifier with
       characters that have a special meaning in HTML.
     Given I go to "/admin/config"

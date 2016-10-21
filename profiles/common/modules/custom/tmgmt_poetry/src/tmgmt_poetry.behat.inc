@@ -6,9 +6,10 @@
  */
 
 use Drupal\DrupalDriverManager;
+use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Drupal\DrupalExtension\Context\DrupalContext;
+use Drupal\nexteuropa\Context\VariableContext;
 
 /**
  * Behat step definitions for the TMGMT Poetry module.
@@ -200,6 +201,20 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     }
 
     return FALSE;
+  }
+
+  /**
+   * Prepares to clean up the website identifier setting.
+   *
+   * We don't need to do anything ourselves after the scenario finishes,
+   * VariableContext will reset to the original value for us.
+   *
+   * @BeforeScenario cleanup-tmgmt-poetry-website-identifier
+   */
+  public function prepareCleanupWebsiteIdentifier() {
+    /** @var VariableContext $variable_context */
+    $variable_context = $this->getContext(VariableContext::class);
+    $variable_context->setVariable('tmgmt_poetry_website_identifier', '');
   }
 
 }

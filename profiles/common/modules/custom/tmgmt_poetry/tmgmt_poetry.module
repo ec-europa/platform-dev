@@ -586,3 +586,45 @@ function tmgmt_poetry_page_alter(&$page) {
     unset($page['content']['workbench_block']);
   }
 }
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_poetry_menu() {
+  $items = array();
+
+  $items['tmgmt_poetry/service_callback'] = array(
+    'page callback' => '_tmgmt_poetry_service_callback',
+    'access callback' => TRUE,
+  );
+
+  $items[drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl"] = array(
+    'page callback' => '_tmgmt_poetry_wsdl',
+    'access callback' => TRUE,
+  );
+
+  $items['admin/config/regional/tmgmt_poetry'] = array(
+    'title' => 'DGT Connector',
+    'description' => "Settings for the DGT translation service connector",
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tmgmt_poetry_settings_form'),
+    'access arguments' => array('administer tmgmt'),
+  );
+
+  return $items;
+}
+
+/**
+ * TMGMT Poetry settings form callback.
+ */
+function tmgmt_poetry_settings_form($form, &$form_state) {
+  $form['tmgmt_poetry_website_identifier'] = array(
+    '#title' => t('Website identifier'),
+    '#type' => 'textfield',
+    '#maxlength' => 15,
+    '#default_value' => variable_get('tmgmt_poetry_website_identifier', ''),
+    '#description' => t('This value - when specified - will be put inside the title of translation requests, in order to identify which website the request came from.'),
+  );
+
+  return system_settings_form($form);
+}
