@@ -25,36 +25,14 @@ Feature: Content translation
     And I click "English" in the "content" region
     Then I should not see the text "Deutsch Body not for English version."
 
-   @javascript
+  @javascript
   Scenario: Make sure that I can add "title_field" fields to a view when the Estonian language is enabled.
       Given the following languages are available:
         | languages |
         | en        |
         | et        |
-      And I am logged in as a user with the "administrator" role
-      And I import the following view:
-        """
-          $view = new view();
-          $view->name = 'testing_view';
-          $view->description = '';
-          $view->tag = 'default';
-          $view->base_table = 'node';
-          $view->human_name = 'Testing view';
-          $view->core = 7;
-          $view->api_version = '3.0';
-          $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
-
-          /* Display: Master */
-          $handler = $view->new_display('default', 'Master', 'default');
-          $handler->display->display_options['use_more_always'] = FALSE;
-          $handler->display->display_options['access']['type'] = 'perm';
-          $handler->display->display_options['cache']['type'] = 'none';
-          $handler->display->display_options['query']['type'] = 'views_query';
-          $handler->display->display_options['exposed_form']['type'] = 'basic';
-          $handler->display->display_options['pager']['type'] = 'full';
-          $handler->display->display_options['style_plugin'] = 'default';
-          $handler->display->display_options['row_plugin'] = 'fields';
-        """
+      And a content view with machine name "testing_view"
+      When I am logged in as a user with the "administrator" role
       And I visit "admin/structure/views/view/testing_view/edit"
       And I click "views-add-field"
       And I wait for AJAX to finish
@@ -64,6 +42,5 @@ Feature: Content translation
       And I press the "Apply" button
       And I wait for AJAX to finish
       And I press the "Save" button
-      Then I should see "The view Testing view has been saved."
+      Then I should see "The view testing_view has been saved."
       And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/title_field_et_en"
-

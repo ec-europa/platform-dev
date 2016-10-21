@@ -7,10 +7,7 @@
 
 namespace Drupal\nexteuropa\Context;
 
-use Behat\Gherkin\Node\PyStringNode;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use function \bovigo\assert\assert;
-use function \bovigo\assert\predicate\isNotNull;
 
 /**
  * Class ViewsContext.
@@ -29,31 +26,56 @@ class ViewsContext extends RawDrupalContext {
   /**
    * Import given view.
    *
-   * @Given I import the following view:
+   * @Given a content view with machine name :arg1
    */
-  public function importView(PyStringNode $view_export) {
-    /** @var \view $view */
-    $view = NULL;
-
-    // This is actually how Views imports exported views.
-    // @see views_ui_import_validate()
-    eval($view_export->getRaw());
-
-    assert($view, isNotNull());
-    $view->vid = 'new';
+  public function createView($machine_name) {
+    $view = $this->getContentView($machine_name);
     $view->save();
     $this->views[] = $view;
   }
 
   /**
-   * Remove views imported during test execution.
+   * Delete views imported during test execution.
    *
    * @AfterScenario
    */
-  public function removeViews() {
+  public function deleteViews() {
     foreach ($this->views as $view) {
       views_delete_view($view);
     }
   }
 
+  /**
+   * Provide a test content view.
+   *
+   * @param string $machine_name
+   *    View machine name.
+   *
+   * @return \view
+   *    View object, not yet saved.
+   */
+  protected function getContentView($machine_name) {
+    $view = new \view();
+    $view->name = $machine_name;
+    $view->vid = 'new';
+    $view->description = '';
+    $view->tag = 'default';
+    $view->base_table = 'node';
+    $view->human_name = $machine_name;
+    $view->core = 7;
+    $view->api_version = '3.0';
+    $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+    /* Display: Master */
+    $handler = $view->new_display('default', 'Master', 'default');
+    $handler->display->display_options['use_more_always'] = FALSE;
+    $handler->display->display_options['access']['type'] = 'perm';
+    $handler->display->display_options['cache']['type'] = 'none';
+    $handler->display->display_options['query']['type'] = 'views_query';
+    $handler->display->display_options['exposed_form']['type'] = 'basic';
+    $handler->display->display_options['pager']['type'] = 'full';
+    $handler->display->display_options['style_plugin'] = 'default';
+    $handler->display->display_options['row_plugin'] = 'fields';
+    return $view;
+  }
 }
