@@ -31,7 +31,7 @@ Feature: Content translation
         | languages |
         | en        |
         | et        |
-      And a content view with machine name "testing_view"
+      And a content view with machine name "testing_view" is available
       When I am logged in as a user with the "administrator" role
       And I visit "admin/structure/views/view/testing_view/edit"
       And I click "views-add-field"

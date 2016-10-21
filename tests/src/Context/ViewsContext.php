@@ -26,7 +26,7 @@ class ViewsContext extends RawDrupalContext {
   /**
    * Import given view.
    *
-   * @Given a content view with machine name :arg1
+   * @Given a content view with machine name :machine_name is available
    */
   public function createView($machine_name) {
     $view = $this->getContentView($machine_name);
