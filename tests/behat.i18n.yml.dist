@@ -17,7 +17,7 @@ default:
       goutte: ~
       javascript_session: 'selenium2'
       selenium2:
-        wd_host: "http://localhost:8643/wd/hub"
+        wd_host: "http://localhost:4444/wd/hub"
         capabilities:
           version: ''
       base-url: '{{ behat.base_url }}'
@@ -67,7 +67,7 @@ communities:
       goutte: ~
       javascript_session: 'selenium2'
       selenium2:
-        wd_host: "http://localhost:8643/wd/hub"
+        wd_host: "http://localhost:4444/wd/hub"
       base-url: '{{ behat.base_url }}'
     Drupal\DrupalExtension:
       api_driver: 'drupal'
