@@ -417,3 +417,30 @@ Feature: TMGMT Poetry features
       And I press "Request translation"
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
+
+  # Deliberately not using a JavaScript enabled browser here, as it will probably
+  # respect the maximum length specified on the input field and automatically
+  # trim any value we fill it with.
+  Scenario: A website identifier longer than 15 characters is not accepted.
+    When I go to "/admin/config"
+    And I click "DGT Connector"
+    And I fill in "itphachyufbabtap" for "Website identifier"
+    And I press the "Save configuration" button
+    Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
+
+  @javascript
+  Scenario: Send translation request including the website identifier.
+    Given I go to "/admin/config"
+    And I click "DGT Connector"
+    And I fill in "redjeddacmehaca" for "Website identifier"
+    And I press the "Save configuration" button
+    And I am viewing a multilingual "page" content:
+      | language | title   |
+      | en       | My page |
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: redjeddacmehaca - My page"
