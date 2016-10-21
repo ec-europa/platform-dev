@@ -444,3 +444,21 @@ Feature: TMGMT Poetry features
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: redjeddacmehaca - My page"
+
+  @javascript
+  Scenario: Send translation request including a website identifier with
+      characters that have a special meaning in HTML.
+    Given I go to "/admin/config"
+    And I click "DGT Connector"
+    And I fill in "/>&mywebsite<" for "Website identifier"
+    And I press the "Save configuration" button
+    And I am viewing a multilingual "page" content:
+      | language | title   |
+      | en       | My page |
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: />&mywebsite< - My page"
