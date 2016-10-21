@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- PHP_CodeSniffer standard for PHP compatiblity of NextEuropa. -->
+<ruleset name="NextEuropa-Compat">
+    <description>Verifies PHP Compatibility of NextEuropa</description>
+
+    <rule ref="PHPCompatibility" />
+
+    <file>/var/www/sites/ec/profiles</file>
+    <file>/var/www/sites/ec/src</file>
+
+    <!--
+        Exclude database dumps used in simpletest.
+        They are bigger than the usual source code and on some
+        even the PHP memory resources will be exceeded.
+    -->
+    <exclude-pattern>*.database.php</exclude-pattern>
+    <exclude-pattern>d6_simplenews_*.php</exclude-pattern>
+
+    <arg name="extensions" value="php,inc,module,install,profile,theme"/>
+    <arg name="report" value="full"/>
+    <arg value="p"/>
+
+    <!-- only print errors for now -->
+    <arg name="warning-severity" value="0" />
+</ruleset>
