@@ -25,10 +25,9 @@ default:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: chrome
       selenium2:
         wd_host: "http://selenium:4444/wd/hub"
-        capabilities:
-          version: ''
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
     Drupal\DrupalExtension:
@@ -73,6 +72,7 @@ communities:
   extensions:
     Behat\MinkExtension:
       goutte: ~
+      browser_name: chrome
       javascript_session: 'selenium2'
       selenium2:
         wd_host: "http://selenium:4444/wd/hub"

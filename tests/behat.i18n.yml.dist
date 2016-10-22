@@ -16,6 +16,7 @@ default:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: chrome
       selenium2:
         wd_host: "http://selenium:4444/wd/hub"
       base-url: '{{ behat.base_url }}'
@@ -64,6 +65,7 @@ communities:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: chrome
       selenium2:
         wd_host: "http://selenium:4444/wd/hub"
       base-url: '{{ behat.base_url }}'
