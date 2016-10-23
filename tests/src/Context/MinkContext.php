@@ -151,9 +151,12 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-   * Attach File to field
-   * @param $field
-   * @param $path
+   * Attach File to field.
+   *
+   * @param string $field
+   *   Field name.
+   * @param string $path
+   *   File path.
    */
   public function attachFileToField($field, $path) {
     $field = $this->fixStepArgument($field);
