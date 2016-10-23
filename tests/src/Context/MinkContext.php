@@ -150,32 +150,35 @@ class MinkContext extends DrupalExtensionMinkContext {
     $this->getSession()->getDriver()->maximizeWindow();
   }
 
-    public function attachFileToField($field, $path) {
-        $field = $this->fixStepArgument($field);
-
-        if ($this->getMinkParameter('files_path')) {
-            $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
-            if (is_file($fullPath)) {
-                $path = $fullPath;
-            }
-        }
-
-        if (!$this->getSession()->getDriver() instanceof Behat\Mink\Driver\GoutteDriver) {
-            $tempZip = tempnam('', 'WebDriverZip');
-            $zip = new \ZipArchive();
-            $zip->open($tempZip, \ZipArchive::CREATE);
-            $zip->addFile($path, basename($path));
-            $zip->close();
-            $path = $this->getSession()->getDriver()->getWebDriverSession()->file([
-                'file' => base64_encode(file_get_contents($tempZip))
-            ]);
-        }
-
-        $this->getSession()->getPage()->attachFileToField($field, $path);
-
-        if (isset($tempZip)) {
-            unlink($tempZip);
-        }
+  /**
+   * Attach File to field
+   * @param $field
+   * @param $path
+   */
+  public function attachFileToField($field, $path) {
+    $field = $this->fixStepArgument($field);
+    if ($this->getMinkParameter('files_path')) {
+      $full_path = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR)
+                 . DIRECTORY_SEPARATOR
+                 . $path;
+      if (is_file($full_path)) {
+        $path = $full_path;
+      }
     }
+    if (!$this->getSession()->getDriver() instanceof \Behat\Mink\Driver\GoutteDriver) {
+      $temp_zip = tempnam('', 'WebDriverZip');
+      $zip = new \ZipArchive();
+      $zip->open($temp_zip, \ZipArchive::CREATE);
+      $zip->addFile($path, basename($path));
+      $zip->close();
+      $path = $this->getSession()->getDriver()->getWebDriverSession()->file([
+        'file' => base64_encode(file_get_contents($temp_zip)),
+      ]);
+    }
+    $this->getSession()->getPage()->attachFileToField($field, $path);
+    if (isset($temp_zip)) {
+      unlink($temp_zip);
+    }
+  }
 
 }
