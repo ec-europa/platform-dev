@@ -1,4 +1,4 @@
-@api
+@api @wip @wip:travis
 Feature: Subscription
   In order to be notified on content created or updated on the website
   As an authenticated user

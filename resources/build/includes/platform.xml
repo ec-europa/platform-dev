@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa Platform targets">
+    <!-- Install the platform. -->
+    <target name="install-platform" description="Install the platform." unless="install.platform" depends="build-platform-dev">
+        <drush
+                command="site-install"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <option name="db-url" value="${drupal.db.url}"/>
+            <option name="site-name" value="${platform.site.name}"/>
+            <option name="account-name" value="${drupal.admin.username}"/>
+            <option name="account-pass" value="${drupal.admin.password}"/>
+            <option name="account-mail" value="${drupal.admin.email}"/>
+            <param>${platform.profile.name}</param>
+            <!-- Prevent e-mails from being sent during the installation. -->
+            <param escape="no">install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
+        </drush>
+
+        <!-- Rebuild node access after site installation -->
+        <drush
+                command="php-eval"
+                assume="yes"
+                root="${platform.build.dir}"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}">
+            <param quote="true" escape="no">node_access_rebuild()</param>
+        </drush>
+
+        <property name="install.platform" value="1"/>
+    </target>
+
+    <!-- Delete the previous build. -->
+    <target name="delete-platform">
+        <!--
+            During the Drupal installation process the settings folder is write
+            protected. Ensure it is writeable so it can be removed.
+         -->
+        <if>
+            <available file="${platform.build.settings.dir}" type="dir" />
+            <then>
+                <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
+                    <fileset dir="${platform.build.settings.dir}" />
+                </chmod>
+            </then>
+        </if>
+
+        <echo msg="Delete previous build." />
+        <delete dir="${phing.project.build.dir}" includeemptydirs="true" failonerror="false" />
+    </target>
+
+    <target name="setup-apache">
+        <echo>Configuring Apache...</echo>
+    </target>
+
+    <target name="setup-phantomjs">
+        <echo>Configuring PhantomJS...</echo>
+    </target>
+
+    <target name="setup-selenium">
+        <echo>Configuring Selenium...</echo>
+    </target>
+</project>

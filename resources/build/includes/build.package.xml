@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<project name="NextEuropa" default="help">
-
-    <!-- Delete the previous build. -->
-    <target name="delete-platform">
-        <!--
-            During the Drupal installation process the settings folder is write
-            protected. Ensure it is writeable so it can be removed.
-         -->
-        <if>
-            <available file="${platform.build.settings.dir}" type="dir" />
-            <then>
-                <chmod mode="0777" failonerror="false" verbose="false" quiet="true">
-                    <fileset dir="${platform.build.settings.dir}" />
-                </chmod>
-            </then>
-        </if>
-
-        <echo msg="Delete previous build." />
-        <delete dir="${phing.project.build.dir}" includeemptydirs="true" failonerror="false" />
-    </target>
+<project name="NextEuropa">
 
     <!-- Make Drupal core. -->
     <target name="make-drupal-core">
@@ -35,7 +16,9 @@
             bin="${drush.bin}"
             pipe="yes"
             verbose="${drush.verbose}"
-            root="${platform.build.dir}">
+            root="${platform.build.dir}"
+            logoutput="yes"
+            passthru="yes">
             <param>${drupal.make}</param>
             <param>${platform.build.dir}</param>
             <option name="no-patch-txt"></option>
@@ -49,9 +32,11 @@
             command="make"
             assume="yes"
             bin="${drush.bin}"
-            pipe="yes"
             verbose="${drush.verbose}"
-            root="${platform.build.dir}">
+            root="${platform.build.dir}"
+            logoutput="yes"
+            passthru="yes"
+            checkreturn="yes">
             <param>${platform.make}</param>
             <param>${platform.build.dir}</param>
             <!-- Increasing the concurrency improves the build time by a factor of 3. -->
@@ -71,32 +56,15 @@
         <phingcall target="make-platform" />
     </target>
 
-    <!-- Symlink the profile folders for easy development. -->
-    <target name="link-platform-profiles">
-        <!-- Delete the core profiles folder. -->
-        <delete dir="${platform.build.profiles.dir}" />
-        <!-- Symlink our profiles folder. -->
-        <symlink link="${platform.build.profiles.dir}" target="${platform.resources.profiles.dir}" />
-    </target>
-
     <!-- Copy the profile folders for deploying on production. -->
     <target name="copy-platform-profiles">
-        <!-- Delete the core profiles folder so it can be replaced with ours. -->
-        <delete dir="${platform.build.profiles.dir}" includeemptydirs="true" failonerror="true" />
-        <!-- Copy our profiles folder. -->
-        <copy todir="${platform.build.profiles.dir}">
-            <fileset dir="${platform.resources.profiles.dir}">
-                <include name="**"></include>
-            </fileset>
-        </copy>
-    </target>
+        <echo>Synchronizing ${project.basedir}/profiles/ in ${platform.build.profiles.dir} ...</echo>
+        <filesync
+                sourcedir="${project.basedir}/profiles/"
+                destinationdir="${platform.build.profiles.dir}"
+                verbose="false"
 
-    <!-- Symlink various resources for easy development. -->
-    <target name="link-platform-resources">
-        <!-- Composer configuration. -->
-        <symlink link="${platform.build.composer.json}" target="${platform.resources.composer.json}" />
-        <symlink link="${platform.build.composer.lock}" target="${platform.resources.composer.lock}" />
-        <symlink link="${platform.build.favicon.ico}" target="${platform.resources.favicon.ico}" />
+        />
     </target>
 
     <!-- Copy various resources for deploying on production. -->
@@ -126,13 +94,6 @@
         </composer>
     </target>
 
-    <!-- Link site document root to Webserver document root. -->
-    <target
-        name="link-docroot"
-        description="Create a symlink from the build folder to the webserver document root.">
-        <symlink link="${server.docroot}" target="${platform.build.dir}" overwrite="true" />
-    </target>
-
     <!-- Update .htaccess. -->
     <target name="update-htaccess">
         <if>
@@ -155,7 +116,7 @@
 
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
-        <composer command="install" composer="${composer.bin}">
+        <composer command="install" composer="${composer.bin}" >
             <arg value="--working-dir=${project.basedir}" />
         </composer>
     </target>
@@ -163,7 +124,7 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess, setup-files-directory" />
+        depends="load-properties, setup-composer, install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dev-dependencies, setup-behat, update-htaccess, setup-files-directory" />
 
     <target
         name="build-platform-dist"

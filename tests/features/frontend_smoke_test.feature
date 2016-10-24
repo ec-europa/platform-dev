@@ -1,4 +1,4 @@
-@api
+@api @wip @failOnTravis
 Feature: Frontend smoke test
   In order to detect whether the front end has any obvious failures
   As a front end developer

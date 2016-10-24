@@ -4,7 +4,7 @@
 if [ -h ".git/hooks/pre-push" ] ; then
   rm ".git/hooks/pre-push"
 fi
-ln -s "../../vendor/pfrenssen/phpcs-pre-push/pre-push" ".git/hooks/pre-push"
+ln -s "../../resources/script/git/pre-push" ".git/hooks/pre-push"
 
 # Copy PHPCompatibility coding standard over to CodeSniffer directory.
 # See https://github.com/wimg/PHPCompatibility/issues/102.

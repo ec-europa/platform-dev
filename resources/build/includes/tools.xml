@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa">
+
+    <!-- ### Load properties
+Loads a set of project specific properties from a `.properties` file.
+These properties contain information regarding the individual project and/or
+environment such as which version of Drupal you are using, how to create a
+database and the names of your custom modules.
+All available properties are described and set to a default value in
+[`build.default.properties`](https://raw.github.com/reload/phing-drupal-template/master/build.default.properties).
+You should create your own properties file by copying the
+`build.default.properties` file to the root directory, rename it
+`build.properties` and modify it according to your project.
+Both property files are loaded so your custom `build.properties` file should
+only contain properties where you want to override the default value e.g. set
+your custom module code prefix or use a special version of one of the build
+tools. -->
+    <target name="load-properties" depends="update-path" hidden="true">
+        <php function="dirname" returnProperty="phing.dir">
+            <param value="${phing.file}"/>
+        </php>
+
+        <property name="project.basedir" value="${phing.dir}" />
+
+        <!-- Use condition instead of unless property as we cannot unset properties in Phing -->
+        <if>
+            <or>
+                <!-- `istrue` evaluates to true is value is not set we need to check
+                     `isset` as well -->
+                <not><istrue value="${project.properties.loaded}" /></not>
+                <not><isset property="project.properties.loaded" /></not>
+            </or>
+            <then>
+                <!-- By default Jenkins runs Phing from the directory containing the build
+                file.  If this file is located in a subdirectory - e.g. when using Phing Drupal as a submodule -
+                we need to reset the project basedir and reload properties.
+                NB: This only works if the subdirectory is directly within the Drupal
+                root directory. -->
+                <if>
+                    <!-- If `build.properties` exists then assume we have a
+                         project root directory -->
+                    <available file="${project.basedir}/../build.properties"/>
+                    <then>
+                        <resolvepath propertyName="project.basedir"
+                                     file="${project.basedir}/../"/>
+                    </then>
+                </if>
+
+                <!-- By default use default properties file
+                     `build.default.properties` -->
+                <property name="project.properties.file"
+                          value="${phing.dir}/build.properties.dist" />
+                <!-- Load the default properties.
+                     Override in case `load-properties` are called multiple times. -->
+                <property file="${project.properties.file}" override="true" />
+
+                <!-- Allow override using `build.properties` in project base
+                     directory -->
+                <available file="${project.basedir}/build.properties"
+                           property="project.properties.file"
+                           value="${project.basedir}/build.properties" />
+
+                <!-- Load the overriding properties. -->
+                <property file="${project.properties.file}" override="true" />
+
+                <!-- Set property to prevent unnecessary additional invocations of this target -->
+                <property name="project.properties.loaded" value="true" />
+            </then>
+        </if>
+    </target>
+
+    <target name="setup-composer" hidden="true">
+        <echo>Checking if Composer is available...</echo>
+        <echo>Trying to guess the Composer path...</echo>
+
+        <if>
+            <or>
+                <equals arg1="${host.os}" arg2="Linux"/>
+                <equals arg1="${host.os}" arg2="Darwin"/>
+            </or>
+            <then>
+                <if>
+                    <not>
+                        <available file="${composer.bin}" type="file" property="composer.bin.exists" />
+                    </not>
+                    <then>
+                        <exec command="which composer" outputProperty="composer.bin"/>
+                    </then>
+                </if>
+            </then>
+        </if>
+
+        <if>
+            <not>
+                <available file="${composer.bin}" type="file" property="composer.bin.exists" />
+            </not>
+            <then>
+                <fail>Looks like Composer was not found on your setup. Please install it manually.</fail>
+            </then>
+            <else>
+                <echo>Composer available at ${composer.bin}.</echo>
+            </else>
+        </if>
+    </target>
+
+    <target name="update-path" hidden="true">
+        <echo>Adding ${project.basedir}/bin directory to the path...</echo>
+        <exec command="export PATH=$PATH:${project.basedir}/bin"/>
+        <echo>Adding ${project.basedir}/src/Phing to the class path...</echo>
+        <includepath classpath="${project.basedir}/src/Phing" />
+    </target>
+
+</project>

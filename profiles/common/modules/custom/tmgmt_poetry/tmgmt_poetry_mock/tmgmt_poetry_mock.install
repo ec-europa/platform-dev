@@ -4,21 +4,23 @@
  * Install file.
  */
 
+use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
+
 /**
  * Implements hook_install().
  */
 function tmgmt_poetry_mock_install() {
   /** @var EntityDrupalWrapper $translator */
   $translator = entity_import('tmgmt_translator', '{
-    "name" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME . '",
-    "label" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_LABEL . '",
+    "name" : "' . PoetryMock::TRANSLATOR_NAME . '",
+    "label" : "' . PoetryMock::TRANSLATOR_LABEL . '",
     "description" : "",
     "weight" : "-999",
     "plugin" : "poetry",
     "settings" : {
       "auto_accept" : 0,
       "settings" : {
-        "counter" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::COUNTER_STRING . '",
+        "counter" : "' . PoetryMock::COUNTER_STRING . '",
         "code" : "ABCD"
       },
       "organization" : {

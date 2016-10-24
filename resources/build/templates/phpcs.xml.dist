@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="NextEuropa_default">
+  <description>Default PHP CodeSniffer configuration for NextEuropa.</description>
+  <rule ref="{{ phpcs.standard }}"/>
+  <file>./profiles</file>
+  <arg name="extensions" value="{{ phpcs.extensions }}"/>
+  <arg name="report" value="{{ phpcs.report }}"/>
+  <arg value="p"/>
+</ruleset>
