@@ -4,8 +4,8 @@
  * Default theme implementation for beans.
  *
  * Available variables:
- * - $content: An array of comment items. Use render($content) to print them all, or
- *   print a subset such as render($content['field_example']). Use
+ * - $content: An array of comment items. Use render($content) to print them all
+ *   or print a subset such as render($content['field_example']). Use
  *   hide($content['field_example']) to temporarily suppress the printing of a
  *   given element.
  * - $title: The (sanitized) entity label.
@@ -27,17 +27,10 @@
  * @see template_process()
  */
 ?>
+<?php print render($title_suffix); ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-
   <?php print render($title_prefix); ?>
-  <?php if (isset($bean->title)): ?>
-    <h2<?php print $title_attributes; ?>><?php print $bean->title ?></h2>
-  <?php endif;?>
-  <?php print render($title_suffix); ?>
-
   <div class="content"<?php print $content_attributes; ?>>
-    <?php
-    print render($content);
-    ?>
+    <?php print render($content); ?>
   </div>
 </div>
