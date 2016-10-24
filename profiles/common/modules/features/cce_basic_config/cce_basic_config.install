@@ -1731,7 +1731,7 @@ function cce_basic_config_update_7193() {
 }
 
 /**
- * Implements hook_update_N().
+ * Grant user permission to show format selection for node.
  */
 function cce_basic_config_update_7194() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
@@ -1866,9 +1866,8 @@ function cce_basic_config_update_7199() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Use jquery 1.10.
+ *
  * Define admin pages that should use default theme.
  * Disable user contact form for anonymous.
  * Activate captcha of user contact form.
@@ -1906,8 +1905,6 @@ function cce_basic_config_update_7200() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Set linkchecker interval from 3hrs [259200] to 4 weeks [2419200].
  */
 function cce_basic_config_update_7201() {
@@ -1915,9 +1912,8 @@ function cce_basic_config_update_7201() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Update list of admin pages using jquery 1.10.
+ *
  * Update display of user menu.
  */
 function cce_basic_config_update_7202() {
@@ -2184,8 +2180,6 @@ function cce_basic_config_update_7209() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Update platforme version.
  */
 function cce_basic_config_update_7210() {
