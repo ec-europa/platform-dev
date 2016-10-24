@@ -29,10 +29,15 @@
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
 
+  <?php print render($title_prefix); ?>
+  <?php if (isset($bean->title)): ?>
+    <h2<?php print $title_attributes; ?>><?php print $bean->title ?></h2>
+  <?php endif;?>
+  <?php print render($title_suffix); ?>
+
   <div class="content"<?php print $content_attributes; ?>>
-    <?php print render($title_suffix); ?>asdasdasdasdas
     <?php
-      print render($content);
+    print render($content);
     ?>
   </div>
 </div>
