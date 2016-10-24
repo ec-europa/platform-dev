@@ -549,21 +549,18 @@ function _disable_content_type($type) {
 function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  if (!isset($context->reactions['block']['blocks'][$block_title])) {
-    // Make some modifications.
-    $block_to_add = array(
-      'module' => $module,
-      'delta' => $delta,
-      'region' => $region,
-      'weight' => $weight,
-    );
+  // Make some modifications.
+  $block_to_add = array(
+    'module' => $module,
+    'delta' => $delta,
+    'region' => $region,
+    'weight' => $weight,
+  );
 
-    // Add modification to the context.
-    $context->reactions['block']['blocks'][$block_title] = $block_to_add;
-    // Update the context.
-    module_invoke('context', 'save', $context);
-
-  }
+  // Add modification to the context.
+  $context->reactions['block']['blocks'][$block_title] = $block_to_add;
+  // Update the context.
+  module_invoke('context', 'save', $context);
 }
 
 /**
@@ -584,11 +581,9 @@ function _add_block_context($context_name, $block_title, $module, $delta, $regio
 function multisite_drupal_toolbox_remove_block_context($context_name, $block_title) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  if (is_object($context)) {
-    unset($context->reactions['block']['blocks'][$block_title]);
-    // Update the context.
-    module_invoke('context', 'save', $context);
-  }
+  unset($context->reactions['block']['blocks'][$block_title]);
+  // Update the context.
+  module_invoke('context', 'save', $context);
 }
 
 /**
