@@ -8,6 +8,8 @@
     <file>./profiles</file>
     <file>./src</file>
     <file>./tests</file>
+    <file>./vendor</file>
+    <file>./build/vendor</file>
 
     <!--
         Exclude database dumps used in simpletest.
@@ -16,6 +18,18 @@
     -->
     <exclude-pattern>*.database.php</exclude-pattern>
     <exclude-pattern>d6_simplenews_*.php</exclude-pattern>
+
+    <!--
+      Exclude some projects in the vendor directory of which
+      we are pretty certain they provide good PHP 7 support.
+    -->
+    <exclude-pattern>/vendor/wimg/php-compatibility/</exclude-pattern>
+    <exclude-pattern>/vendor/nikic/PHP-Parser/</exclude-pattern>
+    <exclude-pattern>/vendor/squizlabs/php_codesniffer/</exclude-pattern>
+    <exclude-pattern>/vendor/symfony/</exclude-pattern>
+    <exclude-pattern>/vendor/drupal/coder/</exclude-pattern>
+    <exclude-pattern>/vendor/phing/</exclude-pattern>
+    <exclude-pattern>/vendor/composer/</exclude-pattern>
 
     <arg name="extensions" value="php,inc,module,install,profile,theme"/>
     <arg name="report" value="csv"/>
