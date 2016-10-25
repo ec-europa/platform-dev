@@ -439,9 +439,6 @@ function cce_basic_config_install() {
     'nexteuropa_token_ckeditor' => array(
       'NextEuropaToken',
     ),
-    'multisite_wysiwyg_link_hreflang' => array(
-      'Link',
-    ),
   );
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
@@ -518,7 +515,7 @@ function cce_basic_config_install() {
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
-
+  
 }
 
 /**
@@ -712,9 +709,6 @@ function _cce_basic_config_post_install_default_content_type() {
   foreach ($rdf_mappings as $rdf_mapping) {
     rdf_mapping_save($rdf_mapping);
   }
-
-  // Enable translation of 'body' field by default.
-  multisite_config_service('field')->enableFieldTranslation('body');
 }
 
 /**
@@ -1614,7 +1608,7 @@ function cce_basic_config_update_7192() {
   variable_set('image_captcha_distortion_amplitude', '5');
   variable_set('image_captcha_bilinear_interpolation', 1);
 
-  if (db_table_exists('captcha_points')) {
+  if (db_table_exists($captcha_points)) {
     db_update('captcha_points')
       ->fields(array('captcha_type' => 'default'))
       ->condition('form_id', 'contact_site_form')
@@ -1731,7 +1725,7 @@ function cce_basic_config_update_7193() {
 }
 
 /**
- * Grant user permission to show format selection for node.
+ * Implements hook_update_N().
  */
 function cce_basic_config_update_7194() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
@@ -1866,8 +1860,9 @@ function cce_basic_config_update_7199() {
 }
 
 /**
- * Use jquery 1.10.
+ * Implements hook_update_n().
  *
+ * Use jquery 1.10.
  * Define admin pages that should use default theme.
  * Disable user contact form for anonymous.
  * Activate captcha of user contact form.
@@ -1905,6 +1900,8 @@ function cce_basic_config_update_7200() {
 }
 
 /**
+ * Implements hook_update_N().
+ *
  * Set linkchecker interval from 3hrs [259200] to 4 weeks [2419200].
  */
 function cce_basic_config_update_7201() {
@@ -1912,8 +1909,9 @@ function cce_basic_config_update_7201() {
 }
 
 /**
- * Update list of admin pages using jquery 1.10.
+ * Implements hook_update_n().
  *
+ * Update list of admin pages using jquery 1.10.
  * Update display of user menu.
  */
 function cce_basic_config_update_7202() {
@@ -2180,6 +2178,8 @@ function cce_basic_config_update_7209() {
 }
 
 /**
+ * Implements hook_update_N().
+ *
  * Update platforme version.
  */
 function cce_basic_config_update_7210() {
@@ -2191,29 +2191,4 @@ function cce_basic_config_update_7210() {
  */
 function cce_basic_config_update_7211() {
   variable_set('apachesolr_delay_removals', 1);
-}
-
-/**
- * NEXTEUROPA-12797: Activate multisite_wysiwyg_link_hreflang plugin.
- */
-function cce_basic_config_update_7212() {
-  $plugin_settings = array(
-    'multisite_wysiwyg_link_hreflang' => array(
-      'Link',
-    ),
-  );
-  foreach ($plugin_settings as $group => $buttons) {
-    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
-    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html_track', $group, $buttons);
-  }
-}
-
-/**
- * NEXTEUROPA-8413.
- *
- * Change the filter_tokens weight to be on the bottom of the processing order.
- */
-function cce_basic_config_update_7213() {
-  // Enable token_filter on full_html text filter.
-  multisite_config_service('filter')->setTextFilterWeight('full_html', 'filter_tokens', 20);
 }

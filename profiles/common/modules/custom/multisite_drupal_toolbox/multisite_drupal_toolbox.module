@@ -5,7 +5,7 @@
  * Multisite Toolbox definition module.
  */
 
-define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
  * Implements hook_menu().
  */
@@ -206,13 +206,11 @@ function multisite_drupal_toolbox_media_wysiwyg_token_to_markup_alter(&$element,
 
   // Add the media img css styles to the containing div.
   if (isset($element['content']['#bundle'])
-    && ($element['content']['#bundle'] == 'image')
-  ) {
+    && ($element['content']['#bundle'] == 'image')) {
 
     // Wrap element in a fancybox hyperlink.
     if (isset($element['content']['file']['#theme'])
-      && ($element['content']['file']['#theme']) == 'image_style'
-    ) {
+      && ($element['content']['file']['#theme']) == 'image_style') {
       $element['content']['file']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
       $element['content']['file']['#suffix'] = '</a></div>';
     };
@@ -549,18 +547,20 @@ function _disable_content_type($type) {
 function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  // Make some modifications.
-  $block_to_add = array(
-    'module' => $module,
-    'delta' => $delta,
-    'region' => $region,
-    'weight' => $weight,
-  );
+  if (!isset($context->reactions['block']['blocks'][$block_title])) {
+    // Make some modifications.
+    $block_to_add = array(
+      'module' => $module,
+      'delta' => $delta,
+      'region' => $region,
+      'weight' => $weight,
+    );
+    // Add modification to the context.
+    $context->reactions['block']['blocks'][$block_title] = $block_to_add;
+    // Update the context.
+    module_invoke('context', 'save', $context);
 
-  // Add modification to the context.
-  $context->reactions['block']['blocks'][$block_title] = $block_to_add;
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -581,9 +581,12 @@ function _add_block_context($context_name, $block_title, $module, $delta, $regio
 function multisite_drupal_toolbox_remove_block_context($context_name, $block_title) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  unset($context->reactions['block']['blocks'][$block_title]);
-  // Update the context.
-  module_invoke('context', 'save', $context);
+  // Remove element from the context.
+  if (is_object($context)) {
+    unset($context->reactions['block']['blocks'][$block_title]);
+    // Update the context.
+    module_invoke('context', 'save', $context);
+  }
 }
 
 /**
@@ -1535,10 +1538,10 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
     if (db_table_exists('field_revision_' . $field['field_name'])) {
       // Clean revision field.
       db_delete('field_revision_' . $field['field_name'])
-        ->condition('entity_type', $target->entity_type)
-        ->condition('entity_id', $target->entity_id)
-        ->condition($field['field_name'] . '_tid', $term->tid)
-        ->execute();
+          ->condition('entity_type', $target->entity_type)
+          ->condition('entity_id', $target->entity_id)
+          ->condition($field['field_name'] . '_tid', $term->tid)
+          ->execute();
     }
   }
 }

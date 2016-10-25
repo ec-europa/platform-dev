@@ -3,7 +3,6 @@
  * @file
  * cce_basic_config.default_password_policy.inc
  */
-
 /**
  * Implements hook_default_password_policy().
  */
