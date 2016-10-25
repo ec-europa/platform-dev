@@ -87,7 +87,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'date_default_timezone';
-  $strongarm->value = 'Europe/Berlin';
+  $strongarm->value = 'Europe/Luxembourg';
   $export['date_default_timezone'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -171,14 +171,6 @@ function cce_basic_config_strongarm() {
   /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'image_captcha_bilinear_interpolation';
-  $strongarm->value = 1;
-  $export['image_captcha_bilinear_interpolation'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'jquery_update_compression_type';
   $strongarm->value = 'min';
   $export['jquery_update_compression_type'] = $strongarm;
@@ -236,7 +228,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'linkchecker_check_links_types';
-  $strongarm->value = 0;
+  $strongarm->value = '0';
   $export['linkchecker_check_links_types'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -955,7 +947,8 @@ video
   $export['easy_breadcrumb-include_home_segment'] = $strongarm;
 
   $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'easy_breadcrumb-include_invalid_paths';
   $strongarm->value = 0;
@@ -974,15 +967,23 @@ video
   $strongarm->api_version = 1;
   $strongarm->name = 'cce_basic_config_admin_pages';
   $strongarm->value = array(
-    0 => 'admin/structure/feature-set',
-    1 => 'admin/workbench',
-    2 => 'admin/content/comment',
-    3 => 'admin/content/media',
-    4 => 'admin/content/webform',
-    5 => 'admin/structure/block',
-    6 => 'admin/help',
+    'admin/structure/feature-set',
+    'admin/workbench',
+    'admin/content/comment',
+    'admin/content/media',
+    'admin/content/webform',
+    'admin/structure/block',
+    'admin/help',
   );
   $export['cce_basic_config_admin_pages'] = $strongarm;
+
+  $strongarm = new stdClass();
+  /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->disabled = FALSE;
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_bilinear_interpolation';
+  $strongarm->value = 1;
+  $export['image_captcha_bilinear_interpolation'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

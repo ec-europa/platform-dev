@@ -6,21 +6,6 @@
  */
 
 /**
- * Implements hook_install().
- */
-function multisite_settings_core_install() {
-  // Add the vocabulary tags to the taxonomy browser settings.
-  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
-  $vids = variable_get('taxonomy_browser_vocabulary');
-  $vids[$tags_vocab->vid] = $tags_vocab->vid;
-  variable_set('taxonomy_browser_vocabulary', $vids);
-  multisite_drupal_toolbox_add_block_context('workbench_moderate_all',
-    'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid,
-    'taxonomy_browser', 'taxonomy_browser_vocabulary_' . $tags_vocab->vid,
-    'sidebar_left');
-}
-
-/**
  * Implements hook_taxonomy_vocabulary_insert().
  */
 function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
@@ -44,8 +29,6 @@ function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Add and configure the context workbench.
  */
 function multisite_settings_core_update_7121() {
@@ -54,13 +37,37 @@ function multisite_settings_core_update_7121() {
   $vids = variable_get('taxonomy_browser_vocabulary');
   $vids[$tags_vocab->vid] = $tags_vocab->vid;
   variable_set('taxonomy_browser_vocabulary', $vids);
-  multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'taxonomy_browser', 'taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'sidebar_left');
 
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'workbench_moderate_all';
+  $context->description = '';
+  $context->tag = 'workbench';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        'admin/workbench/moderate-all*' => 'admin/workbench/moderate-all*',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid => array(
+          'module' => 'taxonomy_browser',
+          'delta' => 'taxonomy_browser_vocabulary_' . $tags_vocab->vid,
+          'region' => 'sidebar_left',
+          'weight' => '-10',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+  context_save($context);
 }
 
 /**
- * Implements hook_update_N().
- *
  * Disable cookie language.
  */
 function multisite_settings_core_update_7122() {
@@ -72,8 +79,6 @@ function multisite_settings_core_update_7122() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Regenerate the language negotiation URL.
  */
 function multisite_settings_core_update_7123() {
