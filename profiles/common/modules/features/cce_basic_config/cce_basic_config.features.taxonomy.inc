@@ -9,15 +9,15 @@
  */
 function cce_basic_config_taxonomy_default_vocabularies() {
   return array(
-    'classification' => (object) array(
+    'classification' => array(
       'name' => 'classification',
       'machine_name' => 'classification',
       'description' => 'Classification IPG compliant.',
-      'hierarchy' => 0,
+      'hierarchy' => '0',
       'module' => 'taxonomy',
-      'weight' => 0,
+      'weight' => '0',
       'language' => 'und',
-      'i18n_mode' => 0,
+      'i18n_mode' => '0',
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
@@ -34,15 +34,15 @@ function cce_basic_config_taxonomy_default_vocabularies() {
         ),
       ),
     ),
-    'tags' => (object) array(
+    'tags' => array(
       'name' => 'Tags',
       'machine_name' => 'tags',
       'description' => 'Use tags to group articles on similar topics into categories.',
-      'hierarchy' => 0,
+      'hierarchy' => '0',
       'module' => 'taxonomy',
-      'weight' => 0,
+      'weight' => '0',
       'language' => 'und',
-      'i18n_mode' => 0,
+      'i18n_mode' => '0',
       'rdf_mapping' => array(
         'rdftype' => array(
           0 => 'skos:ConceptScheme',
