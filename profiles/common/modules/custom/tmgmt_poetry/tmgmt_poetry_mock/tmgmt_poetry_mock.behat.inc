@@ -154,6 +154,29 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
+   * Sets the version of the last translation request.
+   *
+   * @Then set the translation request version to :arg1
+   */
+  public function setTranslationRequestHasVersion($arg1) {
+    if (!$this->translationRequest) {
+      throw new Exception(
+        'translator first needs to confirm they received the translation request'
+      );
+    }
+
+    db_update('poetry_map')
+      ->fields(array('version' => $arg1))
+      ->condition('annee', $this->translationRequest['demande_id']['annee'], '=')
+      ->condition('numero', $this->translationRequest['demande_id']['numero'], '=')
+      ->condition('version', $this->translationRequest['demande_id']['version'], '=')
+      ->condition('partie', $this->translationRequest['demande_id']['partie'], '=')
+      ->execute();
+
+    $this->translationRequest['demande_id']['version'] = $arg1;
+  }
+
+  /**
    * Verifies that the last translation request document is valid XHTML.
    *
    * @Then the translation request document is valid XHTML
