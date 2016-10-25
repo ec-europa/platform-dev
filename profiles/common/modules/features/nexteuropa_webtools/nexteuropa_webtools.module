@@ -89,7 +89,7 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
  */
 function nexteuropa_webtools_file_insert($file) {
   // This only works/tested for the field_custom_js_file field on webtools bean.
-  if (strpos($file->source, 'field_custom_js_file') !== 0) {
+  if (!isset($file->source) || strpos($file->source, 'field_custom_js_file') !== 0) {
     return;
   }
   // Drupal Core will not allow users to upload js files.
