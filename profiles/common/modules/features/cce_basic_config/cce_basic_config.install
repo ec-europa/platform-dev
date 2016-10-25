@@ -518,7 +518,6 @@ function cce_basic_config_install() {
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
-
 }
 
 /**
@@ -712,9 +711,6 @@ function _cce_basic_config_post_install_default_content_type() {
   foreach ($rdf_mappings as $rdf_mapping) {
     rdf_mapping_save($rdf_mapping);
   }
-
-  // Enable translation of 'body' field by default.
-  multisite_config_service('field')->enableFieldTranslation('body');
 }
 
 /**
