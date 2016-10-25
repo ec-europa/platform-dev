@@ -158,7 +158,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    *
    * @Then set the translation request version to :arg1
    */
-  public function setTranslationRequestHasVersion($arg1) {
+  public function setTranslationRequestVersion($arg1) {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
@@ -174,6 +174,52 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       ->execute();
 
     $this->translationRequest['demande_id']['version'] = $arg1;
+  }
+
+  /**
+   * Verifies the version of the last translation request.
+   *
+   * @Then the translation request has partie :arg1
+   */
+  public function assertTranslationRequestHasPartie($arg1) {
+    if (!$this->translationRequest) {
+      throw new Exception(
+        'translator first needs to confirm they received the translation request'
+      );
+    }
+
+    if ($this->translationRequest['demande_id']['partie'] != $arg1) {
+      throw new Exception(
+        sprintf(
+          'Translation request version is %s, expected %s instead',
+          $this->translationRequest['demande_id']['partie'],
+          $arg1
+        )
+      );
+    }
+  }
+
+  /**
+   * Sets the 'partie' of the last translation request.
+   *
+   * @Then set the translation request partie to :arg1
+   */
+  public function setTranslationRequestPartie($arg1) {
+    if (!$this->translationRequest) {
+      throw new Exception(
+        'translator first needs to confirm they received the translation request'
+      );
+    }
+
+    db_update('poetry_map')
+      ->fields(array('partie' => $arg1))
+      ->condition('annee', $this->translationRequest['demande_id']['annee'], '=')
+      ->condition('numero', $this->translationRequest['demande_id']['numero'], '=')
+      ->condition('version', $this->translationRequest['demande_id']['version'], '=')
+      ->condition('partie', $this->translationRequest['demande_id']['partie'], '=')
+      ->execute();
+
+    $this->translationRequest['demande_id']['partie'] = $arg1;
   }
 
   /**
