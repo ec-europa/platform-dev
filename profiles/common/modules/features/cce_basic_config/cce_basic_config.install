@@ -515,7 +515,6 @@ function cce_basic_config_install() {
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
-  
 }
 
 /**
