@@ -430,7 +430,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
-    Then the poetry translation service received the translation request
+    And the poetry translation service received the translation request
     And set the translation request version to 99
     And I click "In progress" in the "French" row
     And I press "Save"
@@ -444,3 +444,30 @@ Feature: TMGMT Poetry features
     Then I check the job reference of the translation request page
     And the poetry translation service received the translation request
     And the translation request has version 0
+
+
+  Scenario: Check the limit 'partie' of the request
+    Given I create the following multilingual "page" content:
+      | language | title                | field_ne_body |
+      | en       | Title last version 1 | Body test 1   |
+    When I visit the "page" content with title "Title last version 1"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    And the poetry translation service received the translation request
+    And set the translation request partie to 99
+    And I create the following multilingual "page" content:
+      | language | title                | field_ne_body |
+      | en       | Title last version 2 | Body test 2   |
+    And I visit the "page" content with title "Title last version 2"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then I check the job reference of the translation request page
+    And the poetry translation service received the translation request
+    And the translation request has version 0
+    And the translation request has partie 0
