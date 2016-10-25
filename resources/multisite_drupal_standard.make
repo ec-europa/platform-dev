@@ -881,11 +881,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7.4a
+; mpdf 7.0
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/7.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
