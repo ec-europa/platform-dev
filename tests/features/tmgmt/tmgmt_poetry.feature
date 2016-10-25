@@ -407,14 +407,39 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-    Scenario: Inspect the 'Last change' data of a translation request
-      Given I am logged in as a user with the 'administrator' role
-      And I am viewing a multilingual "page" content:
-        | language | title            | body                    |
-        | en       | Title            | Last change column test |
-      When I click "Translate" in the "primary_tabs" region
-      Then I should see "Last change"
-      When I check the box on the "French" row
-      And I press "Request translation"
-      And I press "Submit to translator"
-      Then I see the date of the last change in the "French" row
+  Scenario: Inspect the 'Last change' data of a translation request
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    When I click "Translate" in the "primary_tabs" region
+    Then I should see "Last change"
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    Then I see the date of the last change in the "French" row
+
+  Scenario: Check the limit version of the request
+    Given I create the following multilingual "page" content:
+      | language | title              | field_ne_body |
+      | en       | Title last version | Body test     |
+    When I visit the "page" content with title "Title last version"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And set the translation request version to 99
+    And I click "In progress" in the "French" row
+    And I press "Save"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "None" in the "French" row
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then I check the job reference of the translation request page
+    And the poetry translation service received the translation request
+    And the translation request has version 0
