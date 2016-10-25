@@ -14,6 +14,11 @@ default:
             key: '{{ flickr.key }}'
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\WebtoolsContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_port: {{ varnish.server.port }}
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
@@ -22,6 +27,8 @@ default:
       javascript_session: 'selenium2'
       selenium2:
         wd_host: "http://localhost:8643/wd/hub"
+        capabilities:
+          version: ''
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
     Drupal\DrupalExtension:
@@ -60,6 +67,7 @@ communities:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "@communities&&~@wip"
   extensions:

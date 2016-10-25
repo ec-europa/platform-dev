@@ -6,3 +6,6 @@ package = NextEuropa
 dependencies[] = rules
 dependencies[] = flexible_purge
 dependencies[] = workbench_moderation
+dependencies[] = entity
+
+files[] = includes/cache_purge_rule.ui.inc
