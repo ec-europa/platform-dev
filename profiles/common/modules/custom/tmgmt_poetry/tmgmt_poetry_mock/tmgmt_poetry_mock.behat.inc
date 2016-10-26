@@ -303,4 +303,61 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
     );
   }
 
+  /**
+   * Assert the value of a 'demande_id' translation request property.
+   *
+   * @param string $property
+   *   Which property of the reference to assert.
+   * @param \bovigo\assert\predicate\Predicate|callable $predicate
+   *   The assertion predicate.
+   */
+  protected function assertTranslationRequestDemandeIdProperty($property, $predicate) {
+    $this->assertTranslationRequest();
+    $value = $this->translationRequest['demande_id'][$property];
+
+    assert($value, $predicate);
+  }
+
+  /**
+   * Assert the value of a 'sequence' translation request property.
+   *
+   * @param string $value
+   *   The string with the sequence.
+   * @param \bovigo\assert\predicate\Predicate|callable $predicate
+   *   The assertion predicate.
+   */
+  protected function assertTranslationRequestSequenceProperty($value, $predicate) {
+    $this->assertTranslationRequest();
+    assert($value, $predicate);
+  }
+
+  /**
+   * Assert the value of 'codeDemandeur' of the translation request.
+   *
+   * @Then the translation request has the codeDemandeur :arg1
+   */
+  public function assertTranslationRequestHasCodeDemandeur($arg1) {
+    $this->assertTranslationRequestDemandeIdProperty(
+      'codeDemandeur',
+      equals($arg1)
+    );
+  }
+
+  /**
+   * Assert the value of 'sequence' of the translation request.
+   *
+   * @Then the translation request has the sequence :arg1
+   */
+  public function assertTranslationHasRequestSequence($arg1) {
+    $file_object = $this->translationRequest['file'];
+    $message = file_get_contents($file_object->uri);
+    $data = PoetryMock::getDataFromRequest($message);
+    $sequence = $data['demande_id']['sequence'];
+
+    $this->assertTranslationRequestSequenceProperty(
+      $sequence,
+      equals($arg1)
+    );
+  }
+
 }

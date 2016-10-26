@@ -7,6 +7,7 @@
 
 define('TMGMT_WORKBENCH_REQUEST_STATE_INDEX', 4);
 define('TMGMT_WORKBENCH_REQUEST_OPERATION_INDEX', 5);
+define('TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX', 6);
 
 /**
  * Implements hook_help().
@@ -118,6 +119,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       $options = $form['languages']['#options'];
 
+      /** @var TMGMTJobItem[] $existing_jobs */
       $existing_jobs = tmgmt_job_item_load_latest(
         'workbench_moderation',
         $entity_type,
@@ -130,7 +132,18 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       // Setting up an array with language codes based on the available options.
       $lang_codes = array_keys($options);
 
+      // NEXTEUROPA-12429 - additional header with last change date.
+      $form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = t('Last change');
+      foreach ($form['languages']['#options'] as $key => $src_lang) {
+        $form['languages']['#options'][$key][] = '';
+        break;
+      }
+
       foreach ($lang_codes as $lang_code) {
+        // NEXTEUROPA-12429 - additional column with last change date.
+        // By default the last change date column is empty.
+        $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = '';
+
         // Disable checkbox for languages already translated.
         if (isset($node->translations->data[$lang_code]) && !empty($existing_jobs)) {
           $form['languages'][$lang_code] = array(
@@ -153,7 +166,12 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             '#type' => 'checkbox',
             '#disabled' => TRUE,
           );
+
+          // NEXTEUROPA-12429 - additional column with last change date.
+          $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]
+            = format_date($wrapper->changed->value(), 'short');
         }
+
         // Disable checkbox selection if current node revision is not
         // in translatable moderation states.
         if (!$translation_possible) {

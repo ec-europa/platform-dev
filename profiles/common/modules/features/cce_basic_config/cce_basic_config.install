@@ -439,6 +439,9 @@ function cce_basic_config_install() {
     'nexteuropa_token_ckeditor' => array(
       'NextEuropaToken',
     ),
+    'multisite_wysiwyg_link_hreflang' => array(
+      'Link',
+    ),
   );
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
@@ -515,6 +518,7 @@ function cce_basic_config_install() {
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
+
 }
 
 /**
@@ -708,6 +712,9 @@ function _cce_basic_config_post_install_default_content_type() {
   foreach ($rdf_mappings as $rdf_mapping) {
     rdf_mapping_save($rdf_mapping);
   }
+
+  // Enable translation of 'body' field by default.
+  multisite_config_service('field')->enableFieldTranslation('body');
 }
 
 /**
@@ -1607,7 +1614,7 @@ function cce_basic_config_update_7192() {
   variable_set('image_captcha_distortion_amplitude', '5');
   variable_set('image_captcha_bilinear_interpolation', 1);
 
-  if (db_table_exists($captcha_points)) {
+  if (db_table_exists('captcha_points')) {
     db_update('captcha_points')
       ->fields(array('captcha_type' => 'default'))
       ->condition('form_id', 'contact_site_form')
@@ -2190,4 +2197,29 @@ function cce_basic_config_update_7210() {
  */
 function cce_basic_config_update_7211() {
   variable_set('apachesolr_delay_removals', 1);
+}
+
+/**
+ * NEXTEUROPA-12797: Activate multisite_wysiwyg_link_hreflang plugin.
+ */
+function cce_basic_config_update_7212() {
+  $plugin_settings = array(
+    'multisite_wysiwyg_link_hreflang' => array(
+      'Link',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html_track', $group, $buttons);
+  }
+}
+
+/**
+ * NEXTEUROPA-8413.
+ *
+ * Change the filter_tokens weight to be on the bottom of the processing order.
+ */
+function cce_basic_config_update_7213() {
+  // Enable token_filter on full_html text filter.
+  multisite_config_service('filter')->setTextFilterWeight('full_html', 'filter_tokens', 20);
 }

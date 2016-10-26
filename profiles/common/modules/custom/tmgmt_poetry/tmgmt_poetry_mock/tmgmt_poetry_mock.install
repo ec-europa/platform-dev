@@ -18,13 +18,13 @@ function tmgmt_poetry_mock_install() {
     "settings" : {
       "auto_accept" : 0,
       "settings" : {
-        "counter" : "1234",
+        "counter" : "NEXT_EUROPA_COUNTER",
         "code" : "ABCD"
       },
       "organization" : {
-        "responsable" : "John Doe (Responsible)",
-        "auteur" : "John Doe (Author)",
-        "demandeur" : "John Doe (Requester)"
+        "responsable" : "DIGIT",
+        "auteur" : "IE/CE/DIGIT",
+        "demandeur" : "IE/CE/DIGIT/A/3"
       },
       "contacts" : {
         "auteur" : "John Doe (Author)",

@@ -180,6 +180,7 @@ Feature: Multilingual features
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
 
+
   Scenario: Multilingual view on language neutral content
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/translate/translate"
