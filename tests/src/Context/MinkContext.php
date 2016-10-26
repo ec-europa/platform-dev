@@ -150,4 +150,17 @@ class MinkContext extends DrupalExtensionMinkContext {
     $this->getSession()->getDriver()->maximizeWindow();
   }
 
+  /**
+   * Checks if the box is unchecked.
+   *
+   * @When I should not see the box :arg1 checked
+   */
+  public function assertBoxIsUnChecked($arg1) {
+    $is_checked = $this->getSession()->getPage()->hasCheckedField($arg1);
+
+    if ($is_checked) {
+      throw new ExpectationException("The box '$arg1' is not checked.", $this->getSession());
+    }
+  }
+
 }

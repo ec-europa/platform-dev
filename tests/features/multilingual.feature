@@ -161,8 +161,10 @@ Feature: Multilingual features
     Then I should see "Ce titre est en Français"
 
   Scenario: Path alias must be synchronized through all translations of
-  content when it is manually defined
+  content when it is manually defined and the configuration is maintained
+  when I come back on the content edit form
     Given I am logged in as a user with the 'administrator' role
+    And I use device with "1920" px and "1080" px resolution
     And I am viewing a multilingual "page" content:
       | language | title            |
       | en       | Title in English |
@@ -171,14 +173,20 @@ Feature: Multilingual features
     And I click "Français"
     Then I should be on "content/title-english_fr"
     And I click "New draft"
+    And I click "URL path settings"
     And I uncheck the box "edit-path-pathauto"
     And I fill in "URL alias" with "page-alias-for-all-languages"
+    And I click "Publishing options"
     And I select "published" from "Moderation state"
     When I press "Save"
     Then I should be on "page-alias-for-all-languages_fr"
     And I click "Français" in the "header_top" region
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
+    When I click "New draft"
+    And I click "URL path settings"
+    Then I should not see the box "edit-path-pathauto" checked
+    And the "URL alias" field should contain "page-alias-for-all-languages"
 
 
   Scenario: Multilingual view on language neutral content
@@ -204,7 +212,7 @@ Feature: Multilingual features
     And I fill in "Title" with "This is a new article title"
     And I fill in "Body" with "This is a new article body"
     And I press "Save"
-    And I select "Published" from "state"
+    And I select "Published" from "Moderation state"
     And I press "Apply"
     And I go to "content/new-article-title_it"
     Then I should see "Corpo del testo"

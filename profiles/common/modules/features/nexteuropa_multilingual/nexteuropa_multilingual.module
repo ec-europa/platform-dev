@@ -265,7 +265,11 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
       // alias.
       if ($nid) {
         $und_alias_info = _nexteuropa_multilingual_get_und_entity_alias_info('node', $node);
+
         $form['path']['alias']['#default_value'] = $und_alias_info['alias'];
+        if (isset($form['path']['pathauto'])) {
+          $form['path']['pathauto']['#default_value'] = $und_alias_info['pathauto'];
+        }
       }
       // 2. Add new warning message to URL alias field.
       $custom_alias_description = $form['path']['alias']['#description'];
