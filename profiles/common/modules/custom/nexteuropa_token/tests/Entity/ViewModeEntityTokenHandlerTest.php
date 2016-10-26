@@ -66,7 +66,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   public function testGetEntityViewModes($entity_type) {
 
     $view_modes = $this->handler->getEntityViewModes($entity_type);
-    $this->assertTrue(in_array('full', $view_modes));
+    $this->assertTrue(in_array('token', $view_modes));
   }
 
   /**
@@ -100,6 +100,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
       array('[node:1:view-mode:teaser]', 1, 'teaser'),
       array('[user:1:view-mode:full]', 1, 'full'),
       array('[term:1:view-mode:token]', 1, 'token'),
+      array('[bean:1:view-mode:default]', 1, 'default'),
       // Not valid tokens.
       array('[comment:123:view-mode:full]', '', ''),
       array('[any-text:123:view-mode:full]', '', ''),
@@ -117,7 +118,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
-    return array(array('node'), array('user'), array('term'));
+    return array(array('node'), array('user'), array('term'), array('bean'));
   }
 
 }

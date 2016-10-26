@@ -417,7 +417,10 @@ function nexteuropa_multilingual_path_update($path) {
 }
 
 /**
- * Forces the path to have a language neutral alias even if it is custom.
+ * Force the path to have a language neutral alias.
+ *
+ * If entity is a node using entity translation,
+ * force the path to have a language neutral alias even if it is custom.
  *
  * @param array $path
  *   An associative array containing the following keys:
@@ -427,6 +430,17 @@ function nexteuropa_multilingual_path_update($path) {
  *     - language: The language of the alias.
  */
 function _nexteuropa_multilingual_path_und_sync($path) {
+
+  // Only apply this logic to nodes that don't have
+  // a translation mechanism different from entity translation.
+  $node = menu_get_object("node", 1, $path['source']);
+  if (isset($node->type)) {
+    $translation_mechanism = variable_get('language_content_type_' . $node->type, 0);
+  }
+  if (!isset($translation_mechanism) || $translation_mechanism != ENTITY_TRANSLATION_ENABLED) {
+    return;
+  }
+
   if ($path['language'] != LANGUAGE_NONE) {
     // We synchronize the alias to force all aliases to be saved as
     // language neutral.
@@ -495,11 +509,18 @@ function nexteuropa_multilingual_path_delete($path) {
 
 /**
  * Implements hook_pathauto_alias_alter().
+ *
+ * If entity has entity translation enabled,
+ * force all aliases to be saved as language neutral.
+ * All content translations will have a unique alias.
  */
 function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
-  // Force all aliases to be saved as language neutral.
-  // All content translations will have a unique alias.
-  $context['language'] = LANGUAGE_NONE;
+
+  $translation_mechanism = variable_get('language_content_type_' . $context['type'], 0);
+
+  if ($translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
+    $context['language'] = LANGUAGE_NONE;
+  }
 }
 
 /**
@@ -579,8 +600,8 @@ function nexteuropa_multilingual_field_group_pre_render(&$element, &$group, & $f
     $entity = $form['#entity'];
   }
 
-  if ($entity) {
-    $language_fallback = entity_translation_get_existing_language($entity_type, $entity);
+  if (!empty($entity)) {
+    $language_fallback = entity_translation_get_existing_language($entity_type, (object) $entity);
     $group->label_language = $language_fallback;
   }
 }

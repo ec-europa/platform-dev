@@ -12,6 +12,8 @@ namespace Drupal\tmgmt_poetry_mock\Mock;
  */
 class PoetryMock {
   const SOAP_METHOD = 'FPFISPoetryIntegrationRequest';
+  const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
+  const COUNTER_VALUE = '1234';
   public $settings;
   private $client;
 
@@ -63,7 +65,12 @@ class PoetryMock {
     $response_xml = simplexml_load_string($message);
     $request = $response_xml->request;
     $demande_id = (array) $request->demandeId;
-    $reference = implode("_", (array) $demande_id);
+    // This is to deal with initial request when website doesn't have counter.
+    if (isset($demande_id['sequence']) && $demande_id['sequence'] == self::COUNTER_STRING) {
+      $demande_id['numero'] = self::COUNTER_VALUE;
+      unset($demande_id['sequence']);
+    }
+    $reference = self::prepareReferenceNumber($demande_id);
 
     // Saving translation request as a file with give reference ID.
     self::saveTranslationRequest($message, $reference);
@@ -136,7 +143,9 @@ class PoetryMock {
   public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
     $requests = [];
-
+    if (isset($data['demande_id']['sequence'])) {
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
     if (isset($data['attributions']) && isset($data['content']) && $lg_code == 'ALL') {
       foreach ($data['attributions'] as $attribution) {
         $requests[$attribution['language']] = self::getTranslationResponseData(
@@ -175,6 +184,16 @@ class PoetryMock {
   public static function prepareRefuseJobResponseData($message) {
     $data = self::getDataFromRequest($message);
     $languages = self::getLanguagesFromRequest($message);
+    // Initial translation request.
+    if (isset($data['demande_id']['sequence'])) {
+      unset($data['demande_id']['sequence']);
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+    // In case if numero is not set.
+    if (!isset($data['demande_id']['numero'])) {
+      $data['demande_id']['numero'] = self::COUNTER_VALUE;
+    }
+
     return [
       'languages' => $languages,
       'demande_id' => $data['demande_id'],
@@ -378,18 +397,16 @@ class PoetryMock {
   }
 
   /**
-   * Helper method for translating job based on given parameters.
+   * Prepare to translate job based on given parameters.
    *
    * @param string $lg_code
    *    Language code.
    * @param int $file_id
    *    Translation request file dump ID.
-   * @param string $entity_type
-   *    An entity type.
-   * @param int $entity_id
-   *    An entity id.
+   * @param int $tjiid
+   *    A translation job item ID.
    */
-  public function translateJob($lg_code, $file_id, $entity_type, $entity_id) {
+  public function translateJob($lg_code, $file_id, $tjiid) {
     if ($lg_code and $file_id) {
       $file_object = file_load($file_id);
       $message = file_get_contents($file_object->uri);
@@ -399,22 +416,29 @@ class PoetryMock {
         $message = theme('poetry_receive_translation', $response);
         $this->sendRequestToDrupal($message);
       }
-      // Redirect to translate tab for given entity ID.
-      drupal_goto($entity_type . '/' . $entity_id . '/translate');
+      $msg = t('Translation was received. !link.', array(
+        '!link' => l(
+            t('Check the translation page'),
+            _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, TRUE)
+        ),
+      ));
+      drupal_set_message($msg, 'status');
     }
+    else {
+      drupal_set_message(t('Error, data was missing.'), 'error');
+    }
+    drupal_goto();
   }
 
   /**
-   * Helper method for refusing job translation based on given data.
+   * Prepare to refuse job translation based on given data.
    *
    * @param int $file_id
    *    Translation request file dump ID.
-   * @param string $entity_type
-   *    An entity type.
-   * @param int $entity_id
-   *    An entity id.
+   * @param int $tjiid
+   *    A translation job item ID.
    */
-  public function refuseJob($file_id, $entity_type, $entity_id) {
+  public function refuseJob($file_id, $tjiid) {
     if ($file_id) {
       $file_object = file_load($file_id);
       $message = file_get_contents($file_object->uri);
@@ -422,10 +446,18 @@ class PoetryMock {
       $response = self::prepareRefuseJobResponseData($message);
       $message = theme('poetry_refuse_translation', $response);
       $this->sendRequestToDrupal($message);
-
-      // Redirect to translate tab for given entity ID.
-      drupal_goto($entity_type . '/' . $entity_id . '/translate');
+      $msg = t('Translation was refused. !link.', array(
+        '!link' => l(
+          t('Check the translation page'),
+          _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, TRUE)
+        ),
+      ));
+      drupal_set_message($msg, 'status');
     }
+    else {
+      drupal_set_message(t('Error, data was missing.'), 'error');
+    }
+    drupal_goto();
   }
 
   /**
@@ -468,25 +500,45 @@ class PoetryMock {
    *
    * @param string $job_reference
    *   A tmgmt_poetry job reference.
+   *
+   * @return array
+   *   An array with reference and request file details.
    */
   public static function getTranslationRequestByJobReference($job_reference) {
     $demande_id = self::getDemandeIdFromJobReference($job_reference);
 
-    $file_path = TMGMT_POETRY_MOCK_REQUESTS_PATH . implode('_', $demande_id) . '.xml';
+    $file_name = self::prepareReferenceNumber($demande_id) . '.xml';
 
-    $result = db_select('file_managed', 'fm')
-      ->fields('fm', ['fid'])
-      ->condition('filemime', 'application/xml', '=')
-      ->condition('uri', $file_path)
-      ->execute()
-      ->fetchAllAssoc('fid');
+    $query = new \EntityFieldQuery();
+    $query->entityCondition('entity_type', 'file')
+      ->propertyCondition('filename', $file_name);
+    $result = $query->execute();
 
     if ($result) {
+      $file_info = reset($result['file']);
       return array(
         'demande_id' => $demande_id,
-        'file' => file_load(key($result)),
+        'file' => file_load($file_info->fid),
       );
     }
+  }
+
+  /**
+   * Returning properly formatted reference number string.
+   *
+   * @param array $demande_id
+   *   An array with reference elements.
+   *
+   * @return string
+   *   The string with properly formatted reference number.
+   */
+  public static function prepareReferenceNumber($demande_id) {
+    return $demande_id['codeDemandeur']
+      . '_' . $demande_id['annee']
+      . '_' . $demande_id['numero']
+      . '_' . $demande_id['version']
+      . '_' . $demande_id['partie']
+      . '_' . $demande_id['produit'];
   }
 
 }

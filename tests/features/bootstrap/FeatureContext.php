@@ -636,4 +636,24 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+  /**
+   * Checks, that elements are highlighted on page.
+   *
+   * @Then I should see highlighted elements
+   */
+  public function iShouldSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementExists('css', 'div.ICE-Tracking');
+  }
+
+  /**
+   * Checks that no elements are highlighted on page.
+   *
+   * @Then I should not see highlighted elements
+   */
+  public function iShouldNotSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
+  }
+
 }
