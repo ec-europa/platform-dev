@@ -164,7 +164,6 @@ Feature: Multilingual features
   content when it is manually defined and the configuration is maintained
   when I come back on the content edit form
     Given I am logged in as a user with the 'administrator' role
-    And I use device with "1920" px and "1080" px resolution
     And I am viewing a multilingual "page" content:
       | language | title            |
       | en       | Title in English |
