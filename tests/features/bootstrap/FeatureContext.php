@@ -457,11 +457,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-<<<<<<< HEAD
-   *    Print out descriptive error message by throwing an exception.
-=======
    *    Throw exception if class specified has not been found.
->>>>>>> master
    *
    * @Then the class :arg1 exists in my codebase
    */
