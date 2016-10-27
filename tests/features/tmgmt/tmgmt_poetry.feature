@@ -408,8 +408,7 @@ Feature: TMGMT Poetry features
     And the translation request has remarque "Further remarks & comments"
 
   Scenario: Inspect the 'Last change' data of a translation request
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
+    Given I am viewing a multilingual "page" content:
       | language | title            | body                    |
       | en       | Title            | Last change column test |
     When I click "Translate" in the "primary_tabs" region
