@@ -25,21 +25,21 @@
       <produit><?php print $demande_id['produit']; ?></produit>
     </demandeId>
     <status code="0" type="request">
-      <statusDate><?php print date('d/m/Y'); ?></statusDate>
-      <statusTime><?php print date('H:i:s'); ?></statusTime>
+      <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
+      <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
       <statusMessage><?php print $request_status_msg; ?></statusMessage>
     </status>
     <status code="<?php print $status_code; ?>" type="demande">
-      <statusDate><?php print date('d/m/Y'); ?></statusDate>
-      <statusTime><?php print date('H:i:s'); ?></statusTime>
+      <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
+      <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
       <statusMessage><?php print $demande_status_msg; ?></statusMessage>
     </status>
     <status code="<?php print $status_code; ?>" lgCode="<?php print $lg_code; ?>" type="attribution">
-      <statusDate><?php print date('d/m/Y'); ?></statusDate>
-      <statusTime><?php print date('H:i:s'); ?></statusTime>
+      <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
+      <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
     </status>
     <attributions format="<?php print $format ?>" lgCode="<?php print $lg_code; ?>">
-      <attributionsDelai><?php print date('d/m/Y H:i:s'); ?></attributionsDelai>
+      <attributionsDelai><?php print format_date(time(), 'custom', t('d/m/Y H:i:s', array(), array('context' => 'php date format'))); ?></attributionsDelai>
       <attributionsDelaiAccepted/>
     </attributions>
   </request>

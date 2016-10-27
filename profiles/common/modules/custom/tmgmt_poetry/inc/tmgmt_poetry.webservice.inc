@@ -115,8 +115,8 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
   watchdog(
     'tmgmt_poetry',
     "Receive request: !msg",
-    ['!msg' => htmlentities($msg)],
-    WATCHDOG_DEBUG
+    array('!msg' => htmlentities($msg)),
+    WATCHDOG_INFO
   );
 
   // Authenticate the request.
@@ -146,13 +146,13 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       watchdog(
         "tmgmt_poetry",
         "Callback can't find a job with remote reference !reference .",
-        ['!reference' => $reference],
+        array('!reference' => $reference),
         WATCHDOG_ERROR);
 
       // Send answer to poetry.
       $xml = _tmgmt_poetry_generate_answer_xml(
         NULL,
-        'ERROR: Job does not exists',
+        'ERROR: Job does not exist',
         -1,
         $request
       );
@@ -213,33 +213,33 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           }
 
           $message_job->addMessage(
-            "DGT update received. Request status: @status. Message: @message",
-            [
+            t("DGT update received. Request status: @status. Message: @message"),
+            array(
               '@status' => $status_message,
               '@message' => $message,
-            ]
+            )
           );
 
           if ($cancelled) {
             $reference = '%' . $reference;
 
-            $ids = _tmgmt_poetry_obtain_related_translation_jobs([], $reference)
+            $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
               ->fetchAll();
             foreach ($ids as $id) {
               $job = tmgmt_job_load($id->tjid);
-              $job->aborted('Request aborted by DGT.', []);
+              $job->aborted(t('Request aborted by DGT.'), array());
             }
           }
           elseif ($message_job->isAborted()) {
             $reference = '%' . $reference;
-            $ids = _tmgmt_poetry_obtain_related_translation_jobs([], $reference)
+            $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
               ->fetchAll();
 
             foreach ($ids as $id) {
               $reopen_job = tmgmt_job_load($id->tjid);
               $reopen_job->setState(
                 TMGMT_JOB_STATE_ACTIVE,
-                'Request re-opened by DGT.'
+                t('Request re-opened by DGT.')
               );
               $reopen_job_item = tmgmt_job_item_load($ids->tjiid);
               $reopen_job_item->active();
@@ -254,11 +254,11 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
             $reference = '%' . $reference;
             $language_code = strtolower((string) $status['lgCode']);
             $language_code = $poetry_translator->mapToLocalLanguage($language_code);
-            $language_job = [$language_code];
+            $language_job = array($language_code);
           }
           else {
             $reference = 'MAIN_%_POETRY_%' . $reference;
-            $language_job = [];
+            $language_job = array();
           }
           $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
             ->fetchAll();
@@ -274,11 +274,11 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           }
 
           $message_job->addMessage(
-            "DGT update received. Affected language: @language. Request status: @status.",
-            [
+            t("DGT update received. Affected language: @language. Request status: @status."),
+            array(
               '@language' => $language,
               '@status' => $status_message,
-            ]
+            )
           );
 
           _tmgmt_poetry_update_item_status($job_item->tjiid, "", $status_message, "");
@@ -302,11 +302,11 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
       if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), strtolower((string) $attributions['format'])) === FALSE))) {
         $message_job->addMessage(
-          'Received format "@format" is not compatible, translation job format "@job_format" should be used instead',
-          [
+          t('Received format "@format" is not compatible, translation job format "@job_format" should be used instead'),
+          array(
             '@format' => (string) $attributions['format'],
             '@job_format' => $job->getSetting('export_format'),
-          ]
+          )
         );
 
         $xml = _tmgmt_poetry_generate_answer_xml(
@@ -342,20 +342,20 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
           $validated_job = $controller->validateImport($content);
           if (!$validated_job) {
             $message_job->addMessage(
-              '@language Failed to validate file, import aborted.',
-              ['@language' => $language],
+              t('@language Failed to validate file, import aborted.'),
+              array('@language' => $language),
               'error');
           }
           elseif ($validated_job->tjid != $job->tjid) {
             $uri = $validated_job->uri();
             $label = $validated_job->label();
             $message_job->addMessage(
-              '@language Import file is from job <a href="@url">@label</a>, import aborted.',
-              [
+              t('@language Import file is from job <a href="@url">@label</a>, import aborted.'),
+              array(
                 '@language' => $language,
                 '@url' => url($uri['path']),
                 '@label' => $label,
-              ]
+              )
             );
           }
           else {
@@ -365,8 +365,8 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
                 $job->addTranslatedData($controller->import($content));
 
                 $message_job->addMessage(
-                  '@language Successfully received the translation file.',
-                  ['@language' => $language]
+                  t('@language Successfully received the translation file.'),
+                  array('@language' => $language)
                 );
 
                 // Update the status to executed when we receive a translation.
@@ -382,18 +382,18 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
                 $file = file_save_data($content, $path);
                 file_usage_add($file, 'tmgmt_file', 'tmgmt_job', $job->tjid);
                 $message_job->addMessage(
-                  'Received tanslation can be downloaded <a href="!link">here</a>.',
-                  ['!link' => file_create_url($path)]
+                  t('Received tanslation can be downloaded <a href="!link">here</a>.'),
+                  array('!link' => file_create_url($path))
                 );
               }
             }
             catch (Exception $e) {
               $message_job->addMessage(
-                '@language File import failed with the following message: @message',
-                [
+                t('@language File import failed with the following message: @message'),
+                array(
                   '@language' => $language,
                   '@message' => $e->getMessage(),
-                ],
+                ),
                 'error'
               );
               watchdog_exception('tmgmt_poetry', $e);
@@ -406,12 +406,12 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // Send answer 'OK' to poetry.
     watchdog(
       "tmgmt_poetry",
-      "Send response 'status' with remote reference !reference: !xml",
-      [
-        '!reference' => $main_reference,
+      "Send response 'status' with remote reference @reference: !xml",
+      array(
+        '@reference' => $main_reference,
         '!xml' => htmlentities($xml->asXML()),
-      ],
-      WATCHDOG_DEBUG
+      ),
+      WATCHDOG_INFO
     );
 
     $xml = _tmgmt_poetry_generate_answer_xml($job, 'OK', 0, $request);
@@ -423,7 +423,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     watchdog(
       "tmgmt_poetry",
       "Poetry callback failed authentication.",
-      [],
+      array(),
       WATCHDOG_ERROR
     );
 

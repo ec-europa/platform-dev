@@ -43,10 +43,10 @@ class PoetryMock {
   private function instantiateClient($wsdl_endpoint) {
     $this->client = new \SoapClient(
       $wsdl_endpoint,
-      [
+      array(
         'cache_wsdl' => WSDL_CACHE_NONE,
         'trace' => 1,
-      ]
+      )
     );
   }
 
@@ -80,10 +80,17 @@ class PoetryMock {
         // Generating response XML based on template.
         $xml = theme(
           'poetry_confirmation_of_receiving_translation_request_error_configuration',
-          [
+          array(
             'demande_id' => $demande_id,
-            'message' => "Error in xmlActions:newRequest: Counter name not found (code_demandeur=" . $demande_id['codeDemandeur'] . ",compteur=" . $demande_id['sequence'] . ",year=" . $demande_id['annee'] . ")",
-          ]
+            'message' => t(
+              "Error in xmlActions:newRequest: Counter name not found (code_demandeur=@codedemandeur, compteur=@sequence, year=@annee)",
+              array(
+                "@codedemandeur" => $demande_id['codeDemandeur'],
+                "@sequence" => $demande_id['sequence'],
+                "@annee" => $demande_id['annee'],
+              )
+            ),
+          )
         );
         // Sending response.
         return new \SoapVar('<requestServiceReturn><![CDATA[' . $xml . ']]> </requestServiceReturn>', \XSD_ANYXML);
@@ -97,7 +104,7 @@ class PoetryMock {
     // Generating response XML based on template.
     $xml = theme(
       'poetry_confirmation_of_receiving_translation_request',
-      ['demande_id' => $demande_id]
+      array('demande_id' => $demande_id)
     );
 
     // Sending response.
@@ -164,7 +171,7 @@ class PoetryMock {
    */
   public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
-    $requests = [];
+    $requests = array();
     if (isset($data['demande_id']['sequence'])) {
       $data['demande_id']['numero'] = self::COUNTER_VALUE;
     }
@@ -216,12 +223,12 @@ class PoetryMock {
       $data['demande_id']['numero'] = self::COUNTER_VALUE;
     }
 
-    return [
+    return array(
       'languages' => $languages,
       'demande_id' => $data['demande_id'],
       'status' => 'REF',
       'format' => 'HTML',
-    ];
+    );
   }
 
   /**
@@ -242,14 +249,14 @@ class PoetryMock {
    *   Array with data status request data.
    */
   public static function prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code) {
-    return [
+    return array(
       'demande_id' => $demande_id,
       'format' => 'HTML',
       'status_code' => $status_code,
       'request_status_msg' => $request_status_msg,
       'demande_status_msg' => $demande_status_msg,
       'lg_code' => $lg_code,
-    ];
+    );
   }
 
   /**
@@ -266,7 +273,7 @@ class PoetryMock {
    *    Array with translation response data.
    */
   private static function getTranslationResponseData($attribution, $content, $demande_id) {
-    return [
+    return array(
       'language' => $attribution['language'],
       'format' => $attribution['format'],
       'content' => self::translateRequestContent(
@@ -274,7 +281,7 @@ class PoetryMock {
         $attribution['language']
       ),
       'demande_id' => $demande_id,
-    ];
+    );
   }
 
   /**
@@ -288,7 +295,7 @@ class PoetryMock {
    */
   public static function getLanguagesFromRequest($message) {
     $request_data = self::getDataFromRequest($message);
-    $languages = [];
+    $languages = array();
     foreach ($request_data['attributions'] as $attribution) {
       $languages[$attribution['language']] = $attribution['language'];
     }
@@ -308,27 +315,27 @@ class PoetryMock {
   public static function getDataFromRequest($message) {
     $xml = simplexml_load_string($message);
     foreach ($xml->request->attributions as $attribution) {
-      $attributions[(string) $attribution->attributes()->{'lgCode'}] = [
+      $attributions[(string) $attribution->attributes()->{'lgCode'}] = array(
         'language' => (string) $attribution->attributes()->{'lgCode'},
         'format' => (string) $attribution->attributes()->{'format'},
-      ];
+      );
     }
 
-    $contacts = [];
+    $contacts = array();
     foreach ($xml->request->contacts as $contact) {
-      $contacts[] = [
+      $contacts[] = array(
         'type' => (string) $contact->attributes()->type,
         'nickname' => (string) $contact->contactNickname,
-      ];
+      );
     }
 
-    return [
+    return array(
       'demande_id' => (array) $xml->request->demandeId,
       'demande' => (array) $xml->request->demande,
       'contacts' => $contacts,
       'content' => (string) $xml->request->documentSource->documentSourceFile,
       'attributions' => $attributions,
-    ];
+    );
   }
 
   /**
@@ -367,7 +374,7 @@ class PoetryMock {
    */
   public static function getEntityDetailsByDemandeId($demande_id) {
     return db_select('poetry_map', 'pm')
-      ->fields('pm', ['entity_type', 'entity_id'])
+      ->fields('pm', array('entity_type', 'entity_id'))
       ->condition('annee', $demande_id['annee'], '=')
       ->condition('numero', $demande_id['numero'], '=')
       ->condition('version', $demande_id['version'], '=')
@@ -384,7 +391,7 @@ class PoetryMock {
    */
   public static function getAllRequestTranslationFiles() {
     $result = db_select('file_managed', 'fm')
-      ->fields('fm', ['fid'])
+      ->fields('fm', array('fid'))
       ->condition('filemime', 'application/xml', '=')
       ->condition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
       ->orderBy('timestamp', 'DESC')
@@ -395,7 +402,7 @@ class PoetryMock {
       return file_load_multiple(array_keys($result));
     }
 
-    return [];
+    return array();
   }
 
   /**
@@ -424,22 +431,26 @@ class PoetryMock {
     $query->condition('item.item_id', $entity_id, '=');
     $query->condition('job.state', TMGMT_JOB_STATE_ACTIVE, '=');
     // List of available fields form tmgmt_job_item column.
-    $query->fields('item', [
-      'tjiid',
-      'item_type',
-      'item_id',
-      'state',
-    ]
+    $query->fields(
+      'item',
+      array(
+        'tjiid',
+        'item_type',
+        'item_id',
+        'state',
+      )
     );
     // List of available fields form tmgmt_job column.
-    $query->fields('job', [
-      'tjid',
-      'reference',
-      'source_language',
-      'target_language',
-      'state',
-      'changed',
-    ]
+    $query->fields(
+      'job',
+      array(
+        'tjid',
+        'reference',
+        'source_language',
+        'target_language',
+        'state',
+        'changed',
+      )
     );
 
     $result = $query->execute()->fetchAllAssoc('tjid');
@@ -533,14 +544,16 @@ class PoetryMock {
     $message = theme('poetry_send_status', $data);
     $this->sendRequestToDrupal($message);
     $entity = self::getEntityDetailsByDemandeId($demande_id);
-    $msg = t('The status request was sent. !link.', [
-      '!link' => l(
-        t('Check the translation page'),
-        $entity['entity_type'] . '/' . $entity['entity_id'] . '/translate'
-      ),
-    ]);
+    $msg = t(
+      'The status request was sent. !link.',
+      array(
+        '!link' => l(
+          t('Check the translation page'),
+          $entity['entity_type'] . '/' . $entity['entity_id'] . '/translate'
+        ),
+      )
+    );
     drupal_set_message($msg, 'status');
-
     drupal_goto();
   }
 
@@ -648,7 +661,7 @@ class PoetryMock {
    *   'Demande ID' array.
    */
   public static function prepareDemandeIdArray($reference) {
-    $demande_id = [];
+    $demande_id = array();
     $req_id_split = explode('_POETRY_', $reference);
     $request_id = end($req_id_split);
     $demande = explode('/', $request_id);

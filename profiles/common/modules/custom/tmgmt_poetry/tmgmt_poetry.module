@@ -330,9 +330,12 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 
   // Cancel all old activate jobs associated to this entity.
   $jobs_canceled = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($origin_job_item->item_id);
+  $jobs_canceled_id = array();
   foreach ($jobs_canceled as $job_item) {
-    $job_canceled = tmgmt_job_load($job_item->tjid);
-    if (!empty($jobs_canceled)) {
+    $jobs_canceled_id[] = $job_item->tjid;
+  }
+  foreach (tmgmt_job_load_multiple($jobs_canceled_id, array()) as $job_canceled) {
+    if (!empty($job_canceled)) {
       $job_canceled->aborted();
     }
   }

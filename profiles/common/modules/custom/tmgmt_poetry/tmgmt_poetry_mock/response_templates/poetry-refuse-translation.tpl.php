@@ -22,24 +22,24 @@
       <produit><?php print $demande_id['produit']; ?></produit>
     </demandeId>
     <status code="0" type="request">
-      <statusDate><?php print date('d/m/Y'); ?></statusDate>
-      <statusTime><?php print date('H:i:s'); ?></statusTime>
+      <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
+      <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
       <statusMessage>OK</statusMessage>
     </status>
     <status code="<?php print $status; ?>" type="demande">
-      <statusDate><?php print date('d/m/Y'); ?></statusDate>
-      <statusTime><?php print date('H:i:s'); ?></statusTime>
+      <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
+      <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
       <statusMessage>I'm refusing. Please send a new request.</statusMessage>
     </status>
   <?php foreach ($languages as $language): ?>
     <status code="<?php print $status; ?>" lgCode="<?php print $language; ?>" type="attribution">
-      <statusDate><?php print date('d/m/Y'); ?></statusDate>
-      <statusTime><?php print date('H:i:s'); ?></statusTime>
+      <statusDate><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
+      <statusTime><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
     </status>
   <?php endforeach; ?>
   <?php foreach ($languages as $language): ?>
     <attributions format="<?php print $format ?>" lgCode="<?php print $language; ?>">
-      <attributionsDelai><?php print date('d/m/Y H:i:s'); ?></attributionsDelai>
+      <attributionsDelai><?php print format_date(time(), 'custom', t('d/m/Y H:i:s', array(), array('context' => 'php date format'))); ?></attributionsDelai>
       <attributionsDelaiAccepted></attributionsDelaiAccepted>
     </attributions>
   <?php endforeach; ?>

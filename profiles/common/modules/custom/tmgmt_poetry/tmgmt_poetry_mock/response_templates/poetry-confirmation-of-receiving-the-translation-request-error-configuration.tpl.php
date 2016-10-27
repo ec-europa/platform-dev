@@ -19,8 +19,8 @@
       <produit><?php print $demande_id['produit']; ?></produit>
     </demandeId>
     <status code="-1" type="request">
-      <statusDate format="dd/mm/yyyy"><?php print date('d/m/Y'); ?></statusDate>
-      <statusTime format="hh:mm:ss"><?php print date('H:i:s'); ?></statusTime>
+      <statusDate format="dd/mm/yyyy"><?php print format_date(time(), 'custom', t('d/m/Y', array(), array('context' => 'php date format'))); ?></statusDate>
+      <statusTime format="hh:mm:ss"><?php print format_date(time(), 'custom', t('H:i:s', array(), array('context' => 'php date format'))); ?></statusTime>
       <statusMessage><?php print $message; ?></statusMessage>
     </status>
   </request>
