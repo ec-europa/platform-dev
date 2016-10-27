@@ -85,5 +85,6 @@ communities:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console .messages"
   formatters:
     {{ behat.formatter.name }}: ~
