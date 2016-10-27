@@ -17,7 +17,8 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
-
+    
+  @javascript
   Scenario: Checking the counter init request.
     Given I go to "node/add/page"
     And I fill in "Title" with "Page title"
