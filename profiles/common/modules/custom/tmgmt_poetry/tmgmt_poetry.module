@@ -603,14 +603,6 @@ function tmgmt_poetry_menu() {
     'access callback' => TRUE,
   );
 
-  $items['admin/config/regional/tmgmt_poetry'] = array(
-    'title' => 'DGT Connector',
-    'description' => "Settings for the DGT translation service connector",
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('tmgmt_poetry_settings_form'),
-    'access arguments' => array('administer tmgmt'),
-  );
-
   return $items;
 }
 

@@ -38,15 +38,22 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'textfield',
       '#title' => t('Counter'),
       '#required' => TRUE,
-      '#default_value' => $settings['counter'],
+      '#default_value' => 'NEXT_EUROPA_COUNTER',
     );
     $form['settings']['code'] = array(
       '#type' => 'textfield',
       '#title' => t('Requester code'),
       '#required' => TRUE,
-      '#default_value' => $settings['code'],
+      '#default_value' => 'WEB',
     );
-
+    $form['settings']['website_identifier'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Website identifier'),
+      '#maxlength' => 15,
+      '#required' => TRUE,
+      '#default_value' => $settings['website_identifier'],
+      '#description' => t('This value - which is mandatory - will be put inside the title of translation requests, in order for DGT to identify which website the request came from.'),
+    );
     $organization = $translator->getSetting('organization');
     $form['organization'] = array(
       '#type' => 'fieldset',
