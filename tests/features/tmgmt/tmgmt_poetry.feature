@@ -42,7 +42,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "Portuguese" row
     And I press the "Request translation" button
-    And I wait
+    And I wait for AJAX to finish
     Then I should see "Contact usernames"
     And I should see "Organization"
     And I should see "Requested delivery date"
