@@ -50,6 +50,14 @@ feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
 feature_sets[nexteuropa_integration][enable][] = nexteuropa_integration
 feature_sets[nexteuropa_integration][disable][] = nexteuropa_integration
 
+feature_sets[nexteuropa_varnish][title] = 'Rule based web frontend cache purging'
+feature_sets[nexteuropa_varnish][description] = 'Define rules to trigger granular purging of the web frontend caches'
+feature_sets[nexteuropa_varnish][documentation] = ''
+feature_sets[nexteuropa_varnish][category] = 'Integration'
+feature_sets[nexteuropa_varnish][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_varnish][enable][] = nexteuropa_varnish
+feature_sets[nexteuropa_varnish][disable][] = nexteuropa_varnish
+
 feature_sets[links_standard][title] = 'Links'
 feature_sets[links_standard][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.'
 feature_sets[links_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/64bhAg'
