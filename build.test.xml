@@ -55,13 +55,14 @@
 
     <!-- Set up Behat. -->
     <target name="setup-behat">
-        <copy todir="${behat.dir}">
+        <copy todir="${behat.dir}" overwrite="true">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
             </fileset>
             <filterchain>
                 <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="behat.browser" value="${behat.browser}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
                     <token key="flickr.key" value="${flickr.key}" />
@@ -70,6 +71,7 @@
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
                     <token key="integration.server.port" value="${integration.server.port}" />
                     <token key="varnish.server.port" value="${varnish.server.port}" />
+                    <token key="behat.seleniumuri" value="${behat.seleniumuri}" />
                 </replacetokens>
             </filterchain>
             <mapper type="glob" from="*.yml.dist" to="*.yml" />
