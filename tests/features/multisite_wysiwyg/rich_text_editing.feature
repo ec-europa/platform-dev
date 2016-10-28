@@ -21,17 +21,3 @@ Feature: Testing the rich text options available with the toolbar present on WYS
     And I click the "OK" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I press "Save"
     Then the response should contain "<a class=\"css-behat-test\" href=\"http://europa.eu/european-union/index_ga\" hreflang=\"ga\" id=\"id-behat-987456\">http://europa.eu/european-union/index_ga</a>"
-    
-  Scenario Outline: I create content with Full HTML format.
-    Given I go to "node/add/page"
-    And I select "Full HTML" from "Text format"
-    And I fill in "Title" with "<title>"
-    And I fill in "Body" with "<body>"
-    And I press "Save"
-    And I select "Published" from "state"
-    And I press "Apply"
-    Then the response should contain "<dt>Title Full HTML</dt>"
-
-    Examples:
-      | title                | body                                  |
-      | HTML5 Figure         | <dl><dt>Title Full HTML</dt><dd>Text</dd></dl>  |
