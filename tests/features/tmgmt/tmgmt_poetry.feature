@@ -419,7 +419,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I see the date of the last change in the "French" row
 
-  Scenario: Check the limit version of the request
+  Scenario: Check the limit 'version' of the request
     Given I create the following multilingual "page" content:
       | language | title              | field_ne_body |
       | en       | Title last version | Body test     |
@@ -443,7 +443,6 @@ Feature: TMGMT Poetry features
     Then I check the job reference of the translation request page
     And the poetry translation service received the translation request
     And the translation request has version 0
-
 
   Scenario: Check the limit 'partie' of the request
     Given I create the following multilingual "page" content:

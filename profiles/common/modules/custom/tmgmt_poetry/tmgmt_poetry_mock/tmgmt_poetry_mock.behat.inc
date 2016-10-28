@@ -131,95 +131,67 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Verifies the version of the last translation request.
+   * Verifies the version/partie of the last translation request.
    *
-   * @Then the translation request has version :arg1
+   * @Then the translation request has :arg1 :arg2
    */
-  public function assertTranslationRequestHasVersion($arg1) {
+  public function assertTranslationRequestHas($arg1, $arg2) {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
       );
     }
 
-    if ($this->translationRequest['demande_id']['version'] != $arg1) {
+    if (!isset($this->translationRequest['demande_id'][$arg1])) {
+      throw new Exception(
+        sprintf(
+          '%s does not exist',
+          $arg1
+        )
+      );
+    }
+
+    if ($this->translationRequest['demande_id'][$arg1] != $arg2) {
       throw new Exception(
         sprintf(
           'Translation request version is %s, expected %s instead',
-          $this->translationRequest['demande_id']['version'],
-          $arg1
+          $this->translationRequest['demande_id'][$arg1],
+          $arg2
         )
       );
     }
   }
 
   /**
-   * Sets the version of the last translation request.
+   * Sets the version/partie of the last translation request.
    *
-   * @Then set the translation request version to :arg1
+   * @Then set the translation request :arg1 to :arg2
    */
-  public function setTranslationRequestVersion($arg1) {
+  public function setTranslationRequest($arg1, $arg2) {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
       );
     }
 
-    db_update('poetry_map')
-      ->fields(array('version' => $arg1))
-      ->condition('annee', $this->translationRequest['demande_id']['annee'], '=')
-      ->condition('numero', $this->translationRequest['demande_id']['numero'], '=')
-      ->condition('version', $this->translationRequest['demande_id']['version'], '=')
-      ->condition('partie', $this->translationRequest['demande_id']['partie'], '=')
-      ->execute();
-
-    $this->translationRequest['demande_id']['version'] = $arg1;
-  }
-
-  /**
-   * Verifies the version of the last translation request.
-   *
-   * @Then the translation request has partie :arg1
-   */
-  public function assertTranslationRequestHasPartie($arg1) {
-    if (!$this->translationRequest) {
-      throw new Exception(
-        'translator first needs to confirm they received the translation request'
-      );
-    }
-
-    if ($this->translationRequest['demande_id']['partie'] != $arg1) {
+    if (!in_array($arg1, array("version", "partie"))) {
       throw new Exception(
         sprintf(
-          'Translation request version is %s, expected %s instead',
-          $this->translationRequest['demande_id']['partie'],
+          '%s does not exist or is not allowed to be changed',
           $arg1
         )
       );
     }
-  }
-
-  /**
-   * Sets the 'partie' of the last translation request.
-   *
-   * @Then set the translation request partie to :arg1
-   */
-  public function setTranslationRequestPartie($arg1) {
-    if (!$this->translationRequest) {
-      throw new Exception(
-        'translator first needs to confirm they received the translation request'
-      );
-    }
 
     db_update('poetry_map')
-      ->fields(array('partie' => $arg1))
+      ->fields(array($arg1 => $arg2))
       ->condition('annee', $this->translationRequest['demande_id']['annee'], '=')
       ->condition('numero', $this->translationRequest['demande_id']['numero'], '=')
       ->condition('version', $this->translationRequest['demande_id']['version'], '=')
       ->condition('partie', $this->translationRequest['demande_id']['partie'], '=')
       ->execute();
 
-    $this->translationRequest['demande_id']['partie'] = $arg1;
+    $this->translationRequest['demande_id'][$arg1] = $arg2;
   }
 
   /**
