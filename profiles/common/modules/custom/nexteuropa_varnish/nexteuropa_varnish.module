@@ -200,32 +200,15 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
 
 /**
  * Purges certain paths on the web frontend cache.
- *
- * Based on FlexiblePurgeCache::emitRequests(), but takes a more
- * straightforward approach to pass through the necessary HTTP headers
- * suitable for the NextEuropa platform.
  */
 function _nexteuropa_varnish_purge_paths($paths) {
-  $cache = _cache_get_object('cache_page');
-  if (!$cache instanceof FlexiblePurgeCache) {
-    watchdog(
-      'nexteuropa_varnish',
-      'FlexiblePurgeCache is not set as the handler for the page cache bin.',
-      WATCHDOG_WARNING
-    );
-    return;
-  }
-
-  // First clear the actual backend page cache (usually DrupalDatabaseCache),
-  // if there is any. Otherwise the web frontend cache will receive again
+  // First clear the actual backend page cache (usually DrupalDatabaseCache).
+  // Otherwise the web frontend cache will receive again
   // outdated cached versions of pages.
   // Be aware that this clears the full page cache instead of clearing only
   // certain pages. To make it more precise, we need to have full knowledge of
   // all possible base URLs. This can be improved later on.
-  $backend = $cache->keepCachingObject();
-  if (!is_null($backend)) {
-    $backend->clear(NULL, FALSE);
-  }
+  cache_clear_all('*', 'cache_page', TRUE);
 
   // Escape the paths for usage in a regular expression. Also remove leading
   // slashes.
@@ -253,16 +236,19 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $escaped_paths
   );
 
+  // Getting site name to set up the tag property.
+  $site_name = variable_get('site_name', "Default site name");
+
   // Fill in placeholders in the request skeleton.
   $values = array(
     'host' => '',
     'base_path' => '',
     'clear_type' => 'regexp-multiple',
     'path_regexp' => '^(' . implode('|', $escaped_paths) . ')$',
-    'tag' => $cache->vget('tag', ''),
+    'tag' => variable_get('nexteuropa_varnish_tag', $site_name),
   );
 
-  $request = $cache->defaultRequestSkeleton();
+  $request = _nexteuropa_varnish_get_default_request_skeleton();
   array_walk_recursive(
     $request,
     function (&$item, $key, $values) {
@@ -273,7 +259,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $values
   );
 
-  $http_targets = $cache->vget('http_targets', array());
+  $http_targets = variable_get('nexteuropa_varnish_http_targets');
   $method = $request['method'];
 
   // Remove empty headers.
@@ -285,10 +271,6 @@ function _nexteuropa_varnish_purge_paths($paths) {
   );
 
   foreach ($http_targets as $target) {
-    // First chance to customize the request.
-    if (function_exists('fp_alter_request_for_cache_page')) {
-      $request = fp_alter_request_for_cache_page(NULL, NULL, $target, $request);
-    }
 
     // Format headers.
     $formatted_headers = array_map(
@@ -308,15 +290,6 @@ function _nexteuropa_varnish_purge_paths($paths) {
     curl_setopt($curl_res, CURLOPT_FOLLOWLOCATION, FALSE);
     curl_setopt($curl_res, CURLOPT_RETURNTRANSFER, TRUE);
 
-    // Second chance to customize the request.
-    if (function_exists('fp_alter_curl_for_cache_page')) {
-      $send_request = fp_alter_curl_for_cache_page(NULL, NULL, $target, $request, $curl_res);
-
-      if ($send_request === FALSE) {
-        continue;
-      }
-    }
-
     // Send the HTTP request.
     $exec = curl_exec($curl_res);
 
@@ -332,4 +305,33 @@ function _nexteuropa_varnish_purge_paths($paths) {
       );
     }
   }
+}
+
+/**
+ * Provide the default skeleton used to generate HTTP requests to be emitted.
+ *
+ * @return array
+ *   An array with the following keys:
+ *    - method: the HTTP method (or "verb") -- defaults to 'PURGE'
+ *    - path: the URL to contact -- defaults to '/invalidate'
+ *    - headers: an array of HTTP headers; defaults to 5 X-Invalidate-*
+ *      headers: Tag, Host, Base-Path, Type, Regexp.
+ *   Values within that array contain placeholders, such as \@{tag}, and
+ *   are bound to be interpreted and replaced with values.
+ */
+function _nexteuropa_varnish_get_default_request_skeleton() {
+  // This is the default skeleton used to generate invalidation requests.
+  $default_request = array(
+    'method' => 'PURGE',
+    'path' => '/invalidate',
+    'headers' => array(
+      'X-Invalidate-Tag' => '@{tag}',
+      'X-Invalidate-Host' => '@{host}',
+      'X-Invalidate-Base-Path' => '@{base_path}',
+      'X-Invalidate-Type' => '@{clear_type}',
+      'X-Invalidate-Regexp' => '@{path_regexp}',
+    ),
+  );
+
+  return variable_get('nexteuropa_http_request', $default_request);
 }
