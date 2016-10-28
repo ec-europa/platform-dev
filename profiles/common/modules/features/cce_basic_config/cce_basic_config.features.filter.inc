@@ -98,7 +98,7 @@ function cce_basic_config_filter_default_formats() {
   $formats['full_html'] = (object) array(
     'format' => 'full_html',
     'name' => 'Full HTML',
-    'cache' => 0,
+    'cache' => 1,
     'status' => 1,
     'weight' => -10,
     'filters' => array(
