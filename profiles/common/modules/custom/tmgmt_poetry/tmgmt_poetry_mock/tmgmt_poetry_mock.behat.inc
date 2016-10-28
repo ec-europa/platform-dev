@@ -135,7 +135,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    *
    * @Then the translation request has :arg1 :arg2
    */
-  public function assertTranslationRequestHas($arg1, $arg2) {
+  public function assertTranslationRequestHasElement($arg1, $arg2) {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
