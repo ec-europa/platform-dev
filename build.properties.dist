@@ -124,6 +124,12 @@ behat.options.strict = true
 # shows exception backtraces, 3 shows debugging information.
 behat.options.verbosity = 2
 
+# The browser to use for javascript testing
+behat.browser = phantomjs
+
+# The selenium uri to use
+behat.seleniumuri = http://127.0.0.1:8643/wd/hub/
+
 
 # PHP CodeSniffer configuration
 # -----------------------------
