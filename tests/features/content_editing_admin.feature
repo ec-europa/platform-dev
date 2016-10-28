@@ -7,7 +7,7 @@ Feature: Content editing as administrator
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @api @run
+  @api
   Scenario Outline: Test allowed HTML
     # The Wysiwyg does not return the HTML exactly as entered. It will insert
     # whitespace and some additional tags. Hence the expected HTML differs from
