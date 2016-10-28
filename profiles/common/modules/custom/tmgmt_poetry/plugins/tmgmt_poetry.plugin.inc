@@ -360,7 +360,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       ->execute()
       ->fetchAssoc();
     if ($result and isset($result['numero']) and $result['numero'] != -1 and isset($result['version']) and $result['version'] < 99) {
-      // If a request id exists, increase the version and return it.
+      // If a usable request id exists, increase the version and return it.
       $id_data = array(
         'codeDemandeur' => $settings['code'],
         'annee' => $result['annee'],
