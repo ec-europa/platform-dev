@@ -174,7 +174,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       );
     }
 
-    if (!in_array($arg1, array("version", "partie"))) {
+    if (!in_array($arg1, array('version', 'partie'))) {
       throw new Exception(
         sprintf(
           '%s does not exist or is not allowed to be changed',
