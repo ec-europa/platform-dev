@@ -7,7 +7,7 @@ Feature: Content editing as administrator
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @api
+  @api @run
   Scenario Outline: Test allowed HTML
     # The Wysiwyg does not return the HTML exactly as entered. It will insert
     # whitespace and some additional tags. Hence the expected HTML differs from
@@ -20,17 +20,7 @@ Feature: Content editing as administrator
 
     Examples:
       | html                                                                                         | expected                                                                                     |
-      | <p style=\"text-align:right\">The right way</p>                                              | <p style=\"text-align:right\">The right way</p>                                              |
-      | <p><span style=\"font-family:courier\"><span style=\"font-size:18px\"><strong>Fancy</strong> | <p><span style=\"font-family:courier\"><span style=\"font-size:18px\"><strong>Fancy</strong> |
-      | <p><span style=\"color:#800000\"><em><u>Yay!</u></em></span></p>                             | <p><span style=\"color:#800000\"><em><u>Yay!</u></em></span></p>                             |
-      | <pre>Preformatted text</pre>                                                                 | <pre>Preformatted text</pre>                                                                 |
-      | <blockquote>A quote</blockquote>                                                             | <blockquote><p>A quote</p></blockquote>                                                      |
-      | <ul><li>A bullet!</li></ul>                                                                  | <ul><li>A bullet!</li>                                                                       |
-      | <ol><li>A number?</li></ol>                                                                  | <ol><li>A number?</li>                                                                       |
-      | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         | <p><a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                         |
-      | <h2 style=\"font-style:italic\">Styled heading</h2>                                          | <h2 style=\"font-style:italic\">Styled heading</h2>                                          |
-      | <div class=\"css_class-name\">Applied css class</div>                                        | <div class=\"css_class-name\">Applied css class</div>                                        |
-      | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               |
+      | <dl><dt>List Title</dt><dd>List item</dd></dl>                                               | <dt>List Title</dt>                                                                        |
 
   @api
   Scenario Outline: Test disallowed HTML
