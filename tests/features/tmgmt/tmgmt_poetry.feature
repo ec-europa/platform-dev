@@ -37,12 +37,12 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Create a request translation for Portuguese
     Given I am viewing a multilingual "page" content:
-      | language | title                        |
-      | en       | This title is in English     |
+      | language | title                                           |
+      | en       | This is an english page I want to translate     |
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "Portuguese" row
     And I press the "Request translation" button
-    And I wait
+    And I wait for AJAX to finish
     Then I should see "Contact usernames"
     And I should see "Organization"
     And I should see "Requested delivery date"
