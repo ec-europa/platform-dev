@@ -300,7 +300,7 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
  */
 function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_type) {
   // This function only support entity translation for now.
-  list($nid, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  list($nid, , $bundle) = entity_extract_ids($entity_type, $entity);
   $pattern = pathauto_pattern_load_by_entity($entity_type, $bundle, LANGUAGE_NONE);
   if (empty($pattern)) {
     return FALSE;
@@ -310,7 +310,7 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_typ
   $language_none_path = path_load(array('source' => $entity_uri, 'language' => LANGUAGE_NONE));
   $language_none_alias = $language_none_path['alias'];
 
-  // Check if pathauto is activted in LANGUAGE_NONE case.
+  // Check if pathauto is activated in LANGUAGE_NONE case.
   // Logic is taken from Pathauto itself.
   // @see pathauto_entity_presave() & pathauto_field_attach_form().
   module_load_include('inc', 'pathauto');
