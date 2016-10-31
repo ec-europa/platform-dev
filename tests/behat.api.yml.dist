@@ -25,9 +25,9 @@ default:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
-      browser_name: ${behat.browser}
+      browser_name: {{ behat.browser }}
       selenium2:
-        wd_host: '${behat.seleniumuri}'
+        wd_host: '{{ behat.seleniumuri }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
     Drupal\DrupalExtension:
