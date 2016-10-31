@@ -55,6 +55,7 @@
 
     <!-- Set up Behat. -->
     <target name="setup-behat">
+        <echo message="Setup Mink to run on ${behat.seleniumuri} with ${behat.browser} browser" />
         <copy todir="${behat.dir}" overwrite="true">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
