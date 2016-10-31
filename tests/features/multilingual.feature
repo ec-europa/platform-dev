@@ -171,10 +171,10 @@ Feature: Multilingual features
     And I click "Français"
     Then I should be on "content/title-english_fr"
     And I click "New draft"
-    And I click "URL path settings"
+    # And I click "URL path settings"
     And I uncheck the box "edit-path-pathauto"
     And I fill in "URL alias" with "page-alias-for-all-languages"
-    And I click "Publishing options"
+    # And I click "Publishing options"
     And I select "published" from "Moderation state"
     When I press "Save"
     Then I should be on "page-alias-for-all-languages_fr"
@@ -182,7 +182,7 @@ Feature: Multilingual features
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
     When I click "New draft"
-    And I click "URL path settings"
+    # And I click "URL path settings"
     Then I should not see the box "edit-path-pathauto" checked
     And the "URL alias" field should contain "page-alias-for-all-languages"
 
