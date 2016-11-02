@@ -731,6 +731,10 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/1408838
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
+; URL alias reverts to Automatic generate alias when published.
+; https://www.drupal.org/node/2308095
+; see comment https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-282?focusedCommentId=1937458&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-1937458
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-pathauto_alias_issue-2308095-20.patch
 
 
 projects[workbench_og][subdir] = "contrib"

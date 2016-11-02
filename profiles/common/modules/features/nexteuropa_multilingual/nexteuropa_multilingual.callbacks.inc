@@ -70,7 +70,18 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   // We don't add the language suffix if $path is empty.
   // We don't force the frontpage URL to $path if $path is empty.
   if (!empty($path)) {
-    $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
+    // NEPT-282: $options['alias'] allows saying that the given path is a URL
+    // alias already.
+    // Then, we do not need to try to retrieve an alias again, we can apply the
+    // language negotiation logic directly on the given path.
+    // Furthermore, Workbench moderation uses it to avoid a "Page not found"
+    // when user changes the moderation state to "Published" through the form
+    // of Workbench moderation block displayed on the node view.
+    // see workbench_moderation_moderate_form_submit(): there, displayed URL is
+    // the technical one but it is better than having a "Page not found" one.
+    if (empty($options['alias'])) {
+      $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
+    }
 
     // Remove duplicate base_path in URL (NEXTEUROPA-9311).
     // Temporary fix until the next version of the link module.
