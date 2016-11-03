@@ -17,7 +17,7 @@ use Drupal\multisite_config\ConfigBase;
 class Config extends ConfigBase {
 
   /**
-   * Assign a specific role to an user, give its UID.
+   * Assign a specific role to a user, given its UID.
    *
    * @param string $role_name
    *    Role machine name.
@@ -30,16 +30,19 @@ class Config extends ConfigBase {
   public function assignRoleToUser($role_name, $uid) {
     $account = user_load($uid);
     $role = user_role_load_by_name($role_name);
-    if ($role && $account) {
-      $account->roles[$role->rid] = $role->name;
-      user_save($account);
+
+    if ($account && $role && !isset($account->roles[$role->rid])) {
+      $roles = $account->roles + array($role->rid => $role->name);
+      $account->original = clone $account;
+      user_save($account, array('roles' => $roles));
       return TRUE;
     }
+
     return FALSE;
   }
 
   /**
-   * Revoke a specific role from an user, give its UID.
+   * Revoke a specific role from a user, given its UID.
    *
    * @param string $role_name
    *    Role machine name.
@@ -52,15 +55,17 @@ class Config extends ConfigBase {
   public function revokeRoleFromUser($role_name, $uid) {
     $account = user_load($uid);
     $role = user_role_load_by_name($role_name);
-    if ($role && $account) {
-      db_delete('users_roles')
-        ->condition('rid', $role->rid)
-        ->condition('uid', $account->uid)
-        ->execute();
+
+    if ($account && $role && isset($account->roles[$role->rid])) {
+      $roles = array_diff($account->roles, array($role->rid => $role->name));
+      $account->original = clone $account;
+      user_save($account, array('roles' => $roles));
       return TRUE;
     }
+
     return FALSE;
   }
+
   /**
    * Grant permissions to a specific role, if it exists.
    *
