@@ -82,7 +82,9 @@ $ ./bin/phing build-platform-dev
 $ ./bin/phing install-platform
 ```
 
-## Running Behat tests
+## Behat tests
+
+### Configuration
 
 The Behat test suite is located in the `tests/` folder. When the development
 version is installed (by running `./bin/phing build-platform-dev`) the Behat
@@ -97,14 +99,35 @@ then you'll need to set up the Behat configuration manually:
 $ ./bin/phing setup-behat
 ```
 
-In order to run JavaScript in your Behat tests, you must launch a PhantomJS
-instance before. Use the `--debug` parameter to get more information. Please
-be sure that the webdriver's port you specify corresponds to the one in your
-Behat configuration (`wd_host: "http://localhost:8643/wd/hub"`).
+### Testing JavaScript code
+
+In order to run JavaScript in your Behat tests, you must launch a Selenium
+instance. Please be sure that the webdriver's port you specify corresponds to
+the one in your Behat configuration (`behat.webdriver_port`). The default port
+is 4444.
+
+You can install and run a local instance of the Selenium standalone server, but
+the recommended way is to install the official Docker container.  This will
+guarantee that you have the same version running locally as is used by
+ContinuousPHP. This will make it easier to debug any test failures.
 
 ```
-$ phantomjs --debug=true --webdriver=8643
+$ docker run -d -p 4444:4444 --network=host selenium/standalone-chrome
 ```
+
+If you want to see the tests running in the browser, run the 'debug' version
+and install a VNC client such as TigerVNC, and connect it to port 5900. The VNC
+password is 'secret'.
+
+```
+$ docker run -d -p 4444:4444 -p 5900:5900 --network=host selenium/standalone-chrome-debug
+```
+
+Note that you can also test Firefox. Do do this, set the `behat.browser_name`
+property to `firefox`, and use the `selenium/standalone-firefox(-debug)` Docker
+container.
+
+### Running the tests
 
 The tests can also be run from the root of the repository (or any other folder)
 by calling the behat executable directly and specifying the location of the
