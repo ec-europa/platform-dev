@@ -9,7 +9,6 @@ dependencies[] = entityreference_prepopulate
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = list
-dependencies[] = menu
 dependencies[] = multisite_og_button
 dependencies[] = nexteuropa_multilingual
 dependencies[] = og_ui

@@ -50,16 +50,16 @@ function nexteuropa_communities_menu() {
 function nexteuropa_communities_configure_form() {
   $form['nexteuropa_communities_url_keyword'] = [
     '#type' => 'textfield',
-    '#title' => 'Url Keyword',
-    '#description' => 'The url keyword used for community detection',
+    '#title' => t('Url Keyword'),
+    '#description' => t('The url keyword used for community detection'),
     '#default_value' => variable_get('nexteuropa_communities_url_keyword', 'community'),
   ];
 
   $options = og_get_all_group_bundle();
 
   $form['nexteuropa_communities_content_types'] = [
-    '#title' => 'Community group  content types',
-    '#description' => 'Select the content types that are used as a community group',
+    '#title' => t('Community group  content types'),
+    '#description' => t('Select the content types that are used as a community group'),
     '#type' => 'select',
     '#multiple' => TRUE,
     '#required' => TRUE,
@@ -316,12 +316,13 @@ function nexteuropa_communities_pathauto_bulkupdate() {
  * Helper function to create node aliases.
  */
 function _nexteuropa_communities_create_alias($node, $op) {
+  module_load_include('inc', 'pathauto');
+
   $node_source = 'update' != $op ? 'node/' . $node->nid : $node->path['source'];
   $node_language = 'update' != $op ? $node->language : $node->path['language'];
 
   // For each linked group, leave only that group alone
   // linked in the node and obtain the node alias.
-  module_load_include('inc', 'pathauto');
   $og_group_ref = $node->og_group_ref[LANGUAGE_NONE];
 
   $group_types = variable_get('nexteuropa_communities_content_types', ['community']);

@@ -510,6 +510,9 @@ function communities_og_context_negotiation_info() {
 
 /**
  * Context handler; Get groups from events.
+ *
+ * @return array
+ *   OG context
  */
 function communities_context_handler() {
   global $language;
