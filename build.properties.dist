@@ -124,11 +124,14 @@ behat.options.strict = true
 # shows exception backtraces, 3 shows debugging information.
 behat.options.verbosity = 2
 
-# The browser to use for javascript testing
-behat.browser = phantomjs
+# The browser to use for testing, either 'firefox' or 'chrome'.
+behat.browser_name = chrome
 
-# The selenium uri to use
-behat.seleniumuri = http://127.0.0.1:8643/wd/hub/
+# The port of the webdriver host (e.g. Selenium or PhantomJS).
+behat.webdriver_port = 4444
+
+# The URL of the webdriver host (e.g. Selenium or PhantomJS).
+behat.webdriver_url = http://localhost:${behat.webdriver_port}/wd/hub
 
 
 # PHP CodeSniffer configuration
