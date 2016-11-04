@@ -55,6 +55,7 @@ default:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -96,5 +97,6 @@ communities:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
   formatters:
     {{ behat.formatter.name }}: ~
