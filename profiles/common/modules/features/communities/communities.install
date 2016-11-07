@@ -32,7 +32,7 @@ function communities_enable() {
 function communities_install() {
   global $_communities_fid_default_community_image;
 
-  $path = drupal_get_path('module', 'cce_basic_config') . '/assets/images/default_images';
+  $path = drupal_get_path('module', 'communities') . '/assets/images/default_images';
 
   $default_images = array(
     'user_picture_default' => array(
