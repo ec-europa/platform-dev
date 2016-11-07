@@ -141,24 +141,12 @@ class FrontendCacheContext implements Context {
     // Do not let poor man's cron interfere with our test.
     $this->variables->setVariable('cron_safe_threshold', 0);
 
-    $this->variables->setVariable('nexteuropa_varnish_http_targets', array($server->getConnectionString()));
-
     // The builtin webserver of PHP which is used by our HTTP mock server, does
     // not support the PURGE method which flexible_purge uses by default.
     // Configure it to use POST instead.
-    $this->variables->setVariable(
-      'nexteuropa_http_request', array(
-        'method' => 'POST',
-        'path' => '/invalidate',
-        'headers' => array(
-          'X-Invalidate-Tag' => '@{tag}',
-          'X-Invalidate-Host' => '@{host}',
-          'X-Invalidate-Base-Path' => '@{base_path}',
-          'X-Invalidate-Type' => '@{clear_type}',
-          'X-Invalidate-Regexp' => '@{path_regexp}',
-        ),
-      )
-    );
+    $this->variables->setVariable('nexteuropa_varnish_request_method', 'POST');
+
+    $this->variables->setVariable('nexteuropa_varnish_http_targets', array($server->getConnectionString()));
   }
 
   /**

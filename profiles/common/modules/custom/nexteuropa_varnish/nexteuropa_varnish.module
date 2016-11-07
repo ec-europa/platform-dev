@@ -236,55 +236,30 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $escaped_paths
   );
 
-  // Getting site name to set up the tag property.
-  $site_name = variable_get('site_name', "Default site name");
-
-  // Fill in placeholders in the request skeleton.
-  $values = array(
-    'host' => '',
-    'base_path' => '',
-    'clear_type' => 'regexp-multiple',
-    'path_regexp' => '^(' . implode('|', $escaped_paths) . ')$',
-    'tag' => variable_get('nexteuropa_varnish_tag', $site_name),
+  $request_method = variable_get('nexteuropa_varnish_request_method', 'PURGE');
+  $request_path = '/invalidate';
+  $request_headers = array(
+    'X-Invalidate-Tag' => variable_get('nexteuropa_varnish_tag'),
+    'X-Invalidate-Type' => 'regexp-multiple',
+    'X-Invalidate-Regexp' => '^(' . implode('|', $escaped_paths) . ')$',
   );
 
-  $request = _nexteuropa_varnish_get_default_request_skeleton();
-  array_walk_recursive(
-    $request,
-    function (&$item, $key, $values) {
-      foreach ($values as $token => $value) {
-        $item = str_replace('@{' . $token . '}', $value, $item);
-      }
+  // Format headers.
+  $formatted_headers = array_map(
+    function ($name, $value) {
+      return sprintf('%s: %s', $name, trim($value));
     },
-    $values
+    array_keys($request_headers),
+    $request_headers
   );
 
-  $http_targets = variable_get('nexteuropa_varnish_http_targets');
-  $method = $request['method'];
-
-  // Remove empty headers.
-  $request['headers'] = array_filter(
-    $request['headers'],
-    function ($value) {
-      return drupal_strlen(trim($value)) > 0;
-    }
-  );
+  $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
 
   foreach ($http_targets as $target) {
-
-    // Format headers.
-    $formatted_headers = array_map(
-      function ($name, $value) {
-        return sprintf('%s: %s', $name, trim($value));
-      },
-      array_keys($request['headers']),
-      $request['headers']
-    );
-
-    $url = sprintf('http://%s%s', $target, $request['path']);
+    $url = sprintf('http://%s%s', $target, $request_path);
 
     $curl_res = curl_init();
-    curl_setopt($curl_res, CURLOPT_CUSTOMREQUEST, $method);
+    curl_setopt($curl_res, CURLOPT_CUSTOMREQUEST, $request_method);
     curl_setopt($curl_res, CURLOPT_URL, $url);
     curl_setopt($curl_res, CURLOPT_HTTPHEADER, $formatted_headers);
     curl_setopt($curl_res, CURLOPT_FOLLOWLOCATION, FALSE);
@@ -305,33 +280,4 @@ function _nexteuropa_varnish_purge_paths($paths) {
       );
     }
   }
-}
-
-/**
- * Provide the default skeleton used to generate HTTP requests to be emitted.
- *
- * @return array
- *   An array with the following keys:
- *    - method: the HTTP method (or "verb") -- defaults to 'PURGE'
- *    - path: the URL to contact -- defaults to '/invalidate'
- *    - headers: an array of HTTP headers; defaults to 5 X-Invalidate-*
- *      headers: Tag, Host, Base-Path, Type, Regexp.
- *   Values within that array contain placeholders, such as \@{tag}, and
- *   are bound to be interpreted and replaced with values.
- */
-function _nexteuropa_varnish_get_default_request_skeleton() {
-  // This is the default skeleton used to generate invalidation requests.
-  $default_request = array(
-    'method' => 'PURGE',
-    'path' => '/invalidate',
-    'headers' => array(
-      'X-Invalidate-Tag' => '@{tag}',
-      'X-Invalidate-Host' => '@{host}',
-      'X-Invalidate-Base-Path' => '@{base_path}',
-      'X-Invalidate-Type' => '@{clear_type}',
-      'X-Invalidate-Regexp' => '@{path_regexp}',
-    ),
-  );
-
-  return variable_get('nexteuropa_http_request', $default_request);
 }

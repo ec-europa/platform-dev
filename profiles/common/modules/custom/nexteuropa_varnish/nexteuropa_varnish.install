@@ -64,6 +64,21 @@ function nexteuropa_varnish_install() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function nexteuropa_varnish_uninstall() {
+  $vars = [
+    'nexteuropa_varnish_http_targets',
+    'nexteuropa_varnish_tag',
+    'nexteuropa_varnish_request_method',
+  ];
+
+  foreach ($vars as $var) {
+    variable_del($var);
+  }
+}
+
+/**
  * Add the cache purge rules table.
  */
 function nexteuropa_varnish_update_7100() {
