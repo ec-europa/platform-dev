@@ -153,6 +153,12 @@ projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_inject
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
+; Deprecate PHP 4 style constructors for PHP 7 compatibility
+; https://www.drupal.org/node/2528736
+; The patch corresponds to commit 96e56f523ce3d9609e677fcc6263cfc3e798b0ab in
+; the ctools repository.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
+projects[ctools][patch][] = patches/ctools-php7-2528736.patch
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -389,6 +395,10 @@ projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
+; Linkchecker PHP 7.0 compatibility.
+; https://www.drupal.org/node/2660694
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
@@ -881,11 +891,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7.4a
+; mpdf 7.0
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/7.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
