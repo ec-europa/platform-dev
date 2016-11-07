@@ -238,19 +238,12 @@ function _nexteuropa_varnish_purge_paths($paths) {
 
   $request_method = variable_get('nexteuropa_varnish_request_method', 'PURGE');
   $request_path = '/invalidate';
-  $request_headers = array(
+
+  $base_request_headers = _nexteuropa_varnish_base_request_headers();
+  $request_headers = $base_request_headers + array(
     'X-Invalidate-Tag' => variable_get('nexteuropa_varnish_tag'),
     'X-Invalidate-Type' => 'regexp-multiple',
     'X-Invalidate-Regexp' => '^(' . implode('|', $escaped_paths) . ')$',
-  );
-
-  // Format headers.
-  $formatted_headers = array_map(
-    function ($name, $value) {
-      return sprintf('%s: %s', $name, trim($value));
-    },
-    array_keys($request_headers),
-    $request_headers
   );
 
   $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
@@ -258,26 +251,47 @@ function _nexteuropa_varnish_purge_paths($paths) {
   foreach ($http_targets as $target) {
     $url = sprintf('http://%s%s', $target, $request_path);
 
-    $curl_res = curl_init();
-    curl_setopt($curl_res, CURLOPT_CUSTOMREQUEST, $request_method);
-    curl_setopt($curl_res, CURLOPT_URL, $url);
-    curl_setopt($curl_res, CURLOPT_HTTPHEADER, $formatted_headers);
-    curl_setopt($curl_res, CURLOPT_FOLLOWLOCATION, FALSE);
-    curl_setopt($curl_res, CURLOPT_RETURNTRANSFER, TRUE);
+    $response = drupal_http_request(
+      $url,
+      array(
+        'headers' => $request_headers,
+        'method' => $request_method,
+        'timeout' => variable_get('nexteuropa_varnish_http_timeout', 2.0),
+      )
+    );
 
-    // Send the HTTP request.
-    $exec = curl_exec($curl_res);
-
-    if ($exec === FALSE || curl_errno($curl_res)) {
+    if (isset($response->error)) {
       watchdog(
         'nexteuropa_varnish',
-        'Clear operation failed for target :target: :curl_error',
+        'Clear operation failed for target %target: %code %error',
         array(
-          ':target' => $target,
-          ':curl_error' => curl_error($curl_res),
+          '%target' => $target,
+          '%error' => $response->error,
+          '%code' => $response->code,
         ),
         WATCHDOG_ERROR
       );
     }
   }
+}
+
+/**
+ * Get the base headers for the web frontend cache purge requests.
+ *
+ * @return array
+ *   Key value pairs of request headers.
+ */
+function _nexteuropa_varnish_base_request_headers() {
+  $headers = array();
+
+  $request_user = variable_get('nexteuropa_varnish_request_user');
+  $request_password = variable_get('nexteuropa_varnish_request_password');
+
+  if ($request_user && $request_password) {
+    $basic_auth = base64_encode("{$request_user}:{$request_password}");
+
+    $headers['Authorization'] = 'Basic ' . $basic_auth;
+  }
+
+  return $headers;
 }
