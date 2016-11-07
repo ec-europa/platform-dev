@@ -35,16 +35,17 @@ Feature: TMGMT Poetry features
     And the translation request has the sequence "NEXT_EUROPA_COUNTER"
 
   @javascript
-  Scenario: Create a request translation for French and Portuguese
+  Scenario: Create a request translation for Portuguese
     Given I am viewing a multilingual "page" content:
-      | language | title                        |
-      | en       | This title is in English     |
+      | language | title                                           |
+      | en       | This is an english page I want to translate     |
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "Portuguese" row
     And I press the "Request translation" button
-    And I wait
+    And I wait for AJAX to finish
     Then I should see "Contact usernames"
     And I should see "Organization"
+    And I should see "Requested delivery date"
 
   @javascript
   Scenario: I can access an overview of recent translation jobs.
@@ -320,6 +321,7 @@ Feature: TMGMT Poetry features
       | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
       | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
       | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
+      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
