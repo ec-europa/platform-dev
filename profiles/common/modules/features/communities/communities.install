@@ -9,7 +9,7 @@
  */
 function communities_requirements() {
   $requirements = [];
-  if (module_exists('nexteuropa_communitites')) {
+  if (module_exists('nexteuropa_communities')) {
     $t = get_t();
     $args = array('%module' => 'Nexteuropa Communities');
     $requirements['communities_module_conflict'] = [
