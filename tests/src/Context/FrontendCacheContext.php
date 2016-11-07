@@ -134,53 +134,19 @@ class FrontendCacheContext implements Context {
    * @Given :arg1 is configured as the purge application tag
    */
   public function valueIsConfiguredAsThePurgeApplicationTag($arg1) {
-    $this->variables->setVariable('fp_tag_for_cache_page', $arg1);
+    $this->variables->setVariable('nexteuropa_varnish_tag', $arg1);
 
     $server = $this->getServer();
 
     // Do not let poor man's cron interfere with our test.
     $this->variables->setVariable('cron_safe_threshold', 0);
 
-    $this->variables->setVariable('page_cache_invoke_hooks', TRUE);
-    $this->variables->setVariable('cache', TRUE);
-    $this->variables->setVariable('cache_lifetime', FALSE);
-    $this->variables->setVariable('page_cache_without_database', FALSE);
-    $cache_handler_file = drupal_get_path('module', 'flexible_purge') . '/flexible_purge.cache.inc';
-    // $cache_backends = variable_get('cache_backends', array());
-    // $cache_backends[] = $cache_handler_file;
-    // $this->variables->setVariable('cache_backends', $cache_backends);
-    // Workaround for cache handler class not getting loaded properly by the
-    // 3 lines above.
-    require_once 'includes/registry.inc';
-    _registry_parse_files([$cache_handler_file => ['module' => 'flexible_purge', 'weight' => 0]]);
-    $this->variables->setVariable('cache_class_cache_page', 'FlexiblePurgeCache');
-    $this->variables->setVariable('fp_keep_caching_for_cache_page', 'DrupalDatabaseCache');
-    $this->variables->setVariable('fp_http_targets_for_cache_page', array($server->getConnectionString()));
-
-    // Act as if the flexible purge page cache just got cleared.
-    $this->variables->setVariable('fp_latest_clear_for_cache_page', time());
-
-    // Set minimum cache lifetime to something high enough so a full
-    // cache clear does not get triggered during 1 scenario. Currently 10
-    // minutes.
-    $this->variables->setVariable('fp_min_cache_lifetime_for_cache_page', 60 * 10);
-
     // The builtin webserver of PHP which is used by our HTTP mock server, does
     // not support the PURGE method which flexible_purge uses by default.
     // Configure it to use POST instead.
-    $this->variables->setVariable(
-      'fp_http_request_for_cache_page', array(
-        'method' => 'POST',
-        'path' => '/invalidate',
-        'headers' => array(
-          'X-Invalidate-Tag' => '@{tag}',
-          'X-Invalidate-Host' => '@{host}',
-          'X-Invalidate-Base-Path' => '@{base_path}',
-          'X-Invalidate-Type' => '@{clear_type}',
-          'X-Invalidate-Regexp' => '@{path_regexp}',
-        ),
-      )
-    );
+    $this->variables->setVariable('nexteuropa_varnish_request_method', 'POST');
+
+    $this->variables->setVariable('nexteuropa_varnish_http_targets', array($server->getConnectionString()));
   }
 
   /**
