@@ -88,8 +88,8 @@ or go to:
    - Requester code: must always be *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
    - Organization responsible, Author & requester: check the example provided.
-   - Contact usernames: should be the *username* (you connect to the network,
-  EU Login or the proxy with your username) of the persons in charge of the request.
+   - Contact usernames: should be the *username* of the persons in charge 
+  of the request.
   This is important as only these persons can view translation details in the
   web app.
    - DGT contacts: The email address of your contact person at DGT. They will
