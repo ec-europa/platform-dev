@@ -2232,7 +2232,9 @@ function cce_basic_config_update_7213() {
 function cce_basic_config_update_7214(){
   if (!filter_format_allowcache('full_html')){
     $filter = filter_format_load('full_html');
-    $filter->cache = TRUE;
-    filter_format_save($filter);
+    if (!empty($filter)) {
+      $filter->cache = TRUE;
+      filter_format_save($filter);
+    }
   };
 }
