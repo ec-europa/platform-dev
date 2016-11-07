@@ -2229,8 +2229,8 @@ function cce_basic_config_update_7213() {
  *
  * Enable caching of full_html for existing instances.
  */
-function cce_basic_config_update_7214(){
-  if (!filter_format_allowcache('full_html')){
+function cce_basic_config_update_7214() {
+  if (!filter_format_allowcache('full_html')) {
     $filter = filter_format_load('full_html');
     if (!empty($filter)) {
       $filter->cache = TRUE;
