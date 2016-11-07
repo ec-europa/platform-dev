@@ -28,7 +28,6 @@ dependencies[] = ctools
 dependencies[] = token
 dependencies[] = apachesolr
 dependencies[] = apachesolr_search
-dependencies[] = apachesolr_multisitesearch
 dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
 dependencies[] = fast_404
