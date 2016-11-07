@@ -91,19 +91,16 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.7"
-; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
-; https://www.drupal.org/node/2512054
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call-2512054-2.patch
-; Issue #2142949 : Receiving error message - Notice: Undefined offset: 1 in chr_curl_http_request().
-; https://www.drupal.org/node/2142949
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
+projects[chr][version] = "1.8"
 ; Issue #2355631 : rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
+; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
+; https://www.drupal.org/node/2816399
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
+
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
@@ -276,7 +273,7 @@ projects[filefield_sources_plupload][version] = "1.1"
 projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.7"
+projects[flag][version] = "3.9"
 
 projects[flexible_purge][subdir] = "contrib"
 projects[flexible_purge][version] = "1.x-dev"
@@ -746,6 +743,10 @@ projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
+; Features export doesn't work correctly
+; https://www.drupal.org/node/2414575
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1
+projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-feature_export_object_to_array-2414575-10-7.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
