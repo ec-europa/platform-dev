@@ -50,7 +50,7 @@ feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
 feature_sets[nexteuropa_integration][enable][] = nexteuropa_integration
 feature_sets[nexteuropa_integration][disable][] = nexteuropa_integration
 
-feature_sets[nexteuropa_varnish][title] = 'Rule based web frontend cache purging'
+feature_sets[nexteuropa_varnish][title] = 'Rule-based web frontend cache purging'
 feature_sets[nexteuropa_varnish][description] = 'Define rules to trigger granular purging of the web frontend caches'
 feature_sets[nexteuropa_varnish][documentation] = ''
 feature_sets[nexteuropa_varnish][category] = 'Integration'
