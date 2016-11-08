@@ -291,7 +291,7 @@ Feature: TMGMT Poetry features
       | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                    |
       | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
 
-  @javascript @wip
+  @javascript
   Scenario Outline: Request translation of a page with HTML5 into French.
     Given I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
