@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * cce_basic_config.helpers.inc
+ */
+
+/**
  * Custom function to import images.
  *
  * @param array $images
