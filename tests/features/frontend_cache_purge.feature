@@ -151,7 +151,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
-  @non-moderated-content
+  @non-moderated-content @wip
   Scenario: Immediately publish a new editorial team.
     Given the following cache purge rules:
       | Content Type   | Paths to Purge      |
@@ -197,7 +197,7 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
-  @non-moderated-content
+  @non-moderated-content @wip
   Scenario: Withdraw a published editorial team.
     Given I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"

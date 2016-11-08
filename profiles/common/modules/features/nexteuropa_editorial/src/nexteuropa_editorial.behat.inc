@@ -137,10 +137,15 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   protected function getContext($class) {
     /** @var \Behat\Behat\Context\Environment\InitializedContextEnvironment $environment */
     $environment = $this->drupal->getEnvironment();
-    foreach ($environment->getContexts() as $context) {
-      if ($context instanceof $class) {
-        return $context;
+    try {
+      foreach ($environment->getContexts() as $context) {
+        if ($context instanceof $class) {
+          return $context;
+        }
       }
+    }
+    catch (Exception $e) {
+      return $environment->getContext($class);
     }
 
     return FALSE;

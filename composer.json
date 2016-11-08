@@ -5,6 +5,7 @@
     "drush/drush": ">=8.0.1",
     "ext-json": "*",
     "ext-phar": "*",
+    "ext-soap": "*",
     "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
