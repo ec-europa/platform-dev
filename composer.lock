@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c2c34595d8f82c3fe4890ed8bf675c8c",
-    "content-hash": "b612958388179323dd235a3488aae92d",
+    "content-hash": "183308d074cb4446b0feb296efe50d7b",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1113,6 +1112,53 @@
             "include-path": [
                 "."
             ]
+        },
+        {
+            "name": "wimg/php-compatibility",
+            "version": "7.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wimg/PHPCompatibility.git",
+                "reference": "ce2ac5df6d1be7f93dbeed3581b18260ce6303b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wimg/PHPCompatibility/zipball/ce2ac5df6d1be7f93dbeed3581b18260ce6303b6",
+                "reference": "ce2ac5df6d1be7f93dbeed3581b18260ce6303b6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.1.2",
+                "squizlabs/php_codesniffer": "~2.0"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "PHPCompatibility\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Wim Godden",
+                    "role": "lead"
+                }
+            ],
+            "description": "This is a set of sniffs for PHP_CodeSniffer that checks for PHP version compatibility.",
+            "homepage": "http://techblog.wimgodden.be/tag/codesniffer/",
+            "keywords": [
+                "compatibility",
+                "phpcs",
+                "standards"
+            ],
+            "time": "2016-10-20 13:31:11"
         }
     ],
     "packages-dev": [],
