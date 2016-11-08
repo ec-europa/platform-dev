@@ -14,7 +14,6 @@ default:
             key: '{{ flickr.key }}'
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\MediaContext
-        - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\nexteuropa\Context\TaxonomyContext
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:

@@ -7,7 +7,6 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MarkupContext
       filters:
         tags: "~@communities&&~@wip&&~@i18n&&~@api"
   extensions:
