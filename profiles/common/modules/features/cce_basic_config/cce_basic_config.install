@@ -740,26 +740,7 @@ function _cce_basic_config_post_install_default_images() {
     ),
   );
 
-  foreach ($default_images as $variable => $default_image_data) {
-    $file_uri = $default_image_data['scheme'] . $default_image_data['dest_directory'] . '/' . $default_image_data['filename'];
-    $full_dir = $default_image_data['scheme'] . $default_image_data['dest_directory'];
-
-    file_prepare_directory($full_dir, FILE_CREATE_DIRECTORY);
-    file_unmanaged_copy($default_image_data['source_path'], $file_uri, FILE_EXISTS_REPLACE);
-
-    $file = (object) array(
-      'uid' => 1,
-      'status' => FILE_STATUS_PERMANENT,
-      'filename' => $default_image_data['filename'],
-      'uri' => $file_uri,
-      'filemime' => file_get_mimetype($default_image_data['source_path']),
-    );
-    $file = file_save($file);
-
-    if ($file) {
-      variable_set($default_image_data['variable'], $file->fid);
-    }
-  }
+  cce_basic_config_import_images($default_images);
 }
 
 /**
