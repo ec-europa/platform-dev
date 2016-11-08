@@ -133,7 +133,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   /**
    * Verifies the version/partie of the last translation request.
    *
-   * @Then the translation request has :arg1 :arg2
+   * @Then the translation request has :arg1 to :arg2
    */
   public function assertTranslationRequestHasElement($arg1, $arg2) {
     if (!$this->translationRequest) {

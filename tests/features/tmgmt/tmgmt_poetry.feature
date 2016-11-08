@@ -278,7 +278,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version 0
+    And the translation request has version to 0
     And the translation request document is valid XHTML
 
     Examples:
@@ -307,7 +307,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version 0
+    And the translation request has version to 0
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Check the translation page"
@@ -373,7 +373,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Fill in metadata when requesting a translation.
     Given I go to "node/add/page"
-    And I fill in "Title" with "<title>"
+    And I fill in "Title" with "Title"
     And I fill in the rich text editor "Body" with "Metadata test"
     And I press "Save"
     And I select "Published" from "state"
@@ -442,7 +442,7 @@ Feature: TMGMT Poetry features
     And I store the job reference of the translation request page
     Then I check the job reference of the translation request page
     And the poetry translation service received the translation request
-    And the translation request has version 0
+    And the translation request has version to 0
 
   Scenario: Check the limit 'partie' of the request
     Given I create the following multilingual "page" content:
@@ -467,5 +467,5 @@ Feature: TMGMT Poetry features
     And I store the job reference of the translation request page
     Then I check the job reference of the translation request page
     And the poetry translation service received the translation request
-    And the translation request has version 0
-    And the translation request has partie 0
+    And the translation request has version to 0
+    And the translation request has partie to 0
