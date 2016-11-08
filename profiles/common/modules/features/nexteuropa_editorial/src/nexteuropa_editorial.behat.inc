@@ -143,7 +143,8 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
           return $context;
         }
       }
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
       return $environment->getContext($class);
     }
 
