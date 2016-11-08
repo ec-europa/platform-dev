@@ -36,10 +36,12 @@ function communities_views_pre_render(&$view) {
 
   if ($view->name == "communities_members") {
     $og = og_context();
-    if ($og) {
-      $gid = $og['gid'];
-      if (!og_is_member('node', $gid)) {
-        $view->result = array();
+    if (og_user_access('node', $og['gid'], 'displays-community-member')) {
+      if ($og) {
+        $gid = $og['gid'];
+        if (!og_is_member('node', $gid)) {
+          $view->result = array();
+        }
       }
     }
   }
@@ -526,4 +528,20 @@ function communities_node_view_alter(&$build) {
       $build['group_group'][0]['#href'] = 'ecas';
     }
   }
+}
+
+/**
+ * Implements hook_og_permission().
+ */
+function communities_og_permission() {
+  return array(
+    'displays-community-member' => array(
+      'title' => t('Displays information of a community'),
+      'description' => t("Displays information of a community if a user is a member of it"),
+      // Determine to which role to limit the permission.
+      'roles' => array(OG_AUTHENTICATED_ROLE),
+      // Determine to which roles the permissions will be enabled by default.
+      'default role' => array(OG_AUTHENTICATED_ROLE),
+    ),
+  );
 }
