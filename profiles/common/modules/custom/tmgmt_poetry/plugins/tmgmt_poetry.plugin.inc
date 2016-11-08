@@ -450,7 +450,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     if ($client) {
       // Send the SOAP request and handle possible errors.
       try {
-        $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+        $method = $poetry['method'];
+        $response = $client->$method($poetry['poetry_user'], $poetry['poetry_password'], $msg);
       }
       catch (Exception $e) {
         watchdog_exception('tmgmt_poetry', $e);
