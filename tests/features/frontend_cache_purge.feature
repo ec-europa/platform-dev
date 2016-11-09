@@ -484,4 +484,4 @@ Feature:
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
-    Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target localhost:[0-7]*: 401 Unauthorized"
+    Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target localhost:[0-9]*: 401 Unauthorized"
