@@ -1,7 +1,6 @@
 # These tests are temporarily disabled, the editorial workflow functionality is
 # broken after NextEuropa was merged into Multisite.
 # See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4249
-@group:default
 @api @wip
 Feature: Editorial workflow
   In order to control how content is handled on the website

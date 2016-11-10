@@ -1,4 +1,3 @@
-@group:i18n
 @api @i18n
 Feature: Second favorite language tests
   In order to be accessible to European citizens,

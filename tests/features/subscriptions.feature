@@ -1,4 +1,3 @@
-@group:default
 @api
 Feature: Subscription
   In order to be notified on content created or updated on the website

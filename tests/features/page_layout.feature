@@ -1,4 +1,3 @@
-@group:default
 @api
 Feature: Page Layout
   In order to respect standard templates

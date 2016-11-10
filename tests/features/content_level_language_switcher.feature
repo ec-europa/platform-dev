@@ -1,4 +1,3 @@
-@group:i18n
 @api @i18n
 Feature: Content level language switcher tests
   In order to read a content in different languages

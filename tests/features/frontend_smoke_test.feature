@@ -1,4 +1,3 @@
-@group:default
 @api
 Feature: Frontend smoke test
   In order to detect whether the front end has any obvious failures

@@ -1,4 +1,3 @@
-@group:i18n
 @api @i18n
 Feature: Webtools Language Coverage (LACO) service can check the language coverage of site pages
   In order to have a clear view of the language coverage

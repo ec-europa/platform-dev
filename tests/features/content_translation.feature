@@ -1,7 +1,6 @@
 # These tests are temporarily disabled, the editorial workflow functionality is
 # broken after NextEuropa was merged into Multisite.
 # See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4249
-@group:i18n
 @api @wip
 Feature: Content translation
   In order to translate my content

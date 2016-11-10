@@ -1,4 +1,3 @@
-@group:i18n
 @api @i18n
 Feature: Splash Screen features
   In order navigate on the site in my language of preference

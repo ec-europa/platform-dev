@@ -1,4 +1,3 @@
-@group:default
 @api
 Feature: Content editing as administrator
   In order to manage the content on the website

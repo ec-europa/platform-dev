@@ -1,4 +1,3 @@
-@group:default
 @api
 Feature: Event features
   In order programm events

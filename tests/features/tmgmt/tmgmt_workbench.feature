@@ -1,4 +1,3 @@
-@group:i18n
 @api @i18n
 Feature: TMGMT Workbench features
   In order to request a new translation for moderated content

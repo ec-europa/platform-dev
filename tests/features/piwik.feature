@@ -1,4 +1,3 @@
-@group:default
 @api
 Feature: Check Piwik
   In order to check if the the type attribute is set for the Piwik element.

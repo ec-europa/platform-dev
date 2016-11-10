@@ -1,4 +1,3 @@
-@group:default
 @api
 Feature: Check the Sitemap
   In order to let search engines know about the pages in my site and improve traffic from them
