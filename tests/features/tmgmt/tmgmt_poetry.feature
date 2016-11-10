@@ -497,4 +497,3 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
->>>>>>> release/2.3
