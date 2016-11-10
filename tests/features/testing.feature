@@ -4,7 +4,6 @@ Feature: Testing
   As an administrator
   I want to be able to access to page listing tests
 
-@api
 Scenario: Administrator user can see the testing page
   Given the module is enabled
     | modules    |

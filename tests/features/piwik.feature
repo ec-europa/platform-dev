@@ -1,9 +1,9 @@
+@api
 Feature: Check Piwik
   In order to check if the the type attribute is set for the Piwik element.
   As an administrator
   I want to check Piwik is available.
 
-@api
 Scenario: Administrator user can check Piwik Script with the theme Bootstrap
   Given the module is enabled
     | modules            |

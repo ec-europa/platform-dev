@@ -7,7 +7,6 @@ Feature: Content editing as editor
   Background:
     Given I am logged in as a user with the 'editor' role
 
-  @api
   Scenario: User can create an article and update it
     When I go to "node/add/article"
     And I fill in "Title" with "Lorem ipsum dolor sit amet"
@@ -20,7 +19,6 @@ Feature: Content editing as editor
     And I press "Save"
     Then the response should contain "<p>Consectetur elit adipiscing.</p>"
 
-  @api
   Scenario Outline: User can create an article with allowed HTML
     When I go to "node/add/article"
     And I fill in "Title" with "This is the title"
