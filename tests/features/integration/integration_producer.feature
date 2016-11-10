@@ -1,3 +1,4 @@
+@group:default
 @api @integration
 Feature: Integration producer
   In order to share my content with other websites

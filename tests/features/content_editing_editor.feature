@@ -1,3 +1,4 @@
+@group:default
 @api
 Feature: Content editing as editor
   In order to manage the content on the website

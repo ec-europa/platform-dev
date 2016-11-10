@@ -1,3 +1,4 @@
+@group:default
 @api
 Feature: User menu
   In order to easily access the important functionality

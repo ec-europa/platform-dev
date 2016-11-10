@@ -1,3 +1,4 @@
+@group:default
 @api
 Feature: Administrators can check information on status page
   In order to know site status

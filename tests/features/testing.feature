@@ -1,3 +1,4 @@
+@group:default
 @api
 Feature: Testing
   In order to run simpletests

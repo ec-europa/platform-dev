@@ -1,3 +1,4 @@
+@group:default
 @api
 Feature: Text formats configuration
   In order to input text in the website

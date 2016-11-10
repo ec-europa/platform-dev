@@ -1,3 +1,4 @@
+@group:default
 @api
 Feature: Taxonomy
   In order to manage the taxonomy on the website

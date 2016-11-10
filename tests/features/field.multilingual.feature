@@ -1,3 +1,4 @@
+@group:i18n
 @api @i18n
 Feature: Field Multilingual features
   In order to easily understand the content of the European Commission

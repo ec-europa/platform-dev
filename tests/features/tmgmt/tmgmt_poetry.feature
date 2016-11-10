@@ -1,3 +1,4 @@
+@group:i18n
 @api @poetry @i18n
 Feature: TMGMT Poetry features
   In order request new translations for nodes/taxonomies with Poetry service.

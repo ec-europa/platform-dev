@@ -1,3 +1,4 @@
+@group:default
 @api
 Feature: Article content type
   In order to manage articles on the website
