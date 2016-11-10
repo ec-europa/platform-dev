@@ -937,7 +937,7 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 
 projects[bootstrap][type] = theme
 projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.8.zip
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
