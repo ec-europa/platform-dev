@@ -394,4 +394,55 @@ class FrontendCacheContext implements Context {
     return $paths;
   }
 
+  /**
+   * Configures basic authentication.
+   *
+   * @When nexteuropa_varnish is configured to authenticate with user :arg1 and password :arg2
+   */
+  public function nexteuropaVarnishIsConfiguredToAuthenticateWithUserAndPassword($arg1, $arg2) {
+    $this->variables->setVariable('nexteuropa_varnish_request_user', $arg1);
+    $this->variables->setVariable('nexteuropa_varnish_request_password', $arg2);
+  }
+
+  /**
+   * Assert that the last request was authenticated.
+   *
+   * @Then the web front end cache received a request authenticated with user :arg1 and password :arg2
+   */
+  public function theWebFrontEndCacheReceivedRequestAuthenticatedWithUserAndPassword($arg1, $arg2) {
+    $requests = $this->getRequests();
+    $purge_request = $requests->last();
+
+    $authorization = $purge_request->getHeader('Authorization')->toArray();
+    $authorization = reset($authorization);
+
+    assert($authorization, matches('@Basic [ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=]+@'));
+
+    $base64_user_password = substr($authorization, 5);
+    $decoded_user_password = base64_decode($base64_user_password);
+
+    assert($decoded_user_password, equals("{$arg1}:{$arg2}"));
+  }
+
+  /**
+   * Set up the mock front end cache to refuse the HTTP authentication.
+   *
+   * The mock will return a 401 Unauthorized response.
+   *
+   * @When the web front end cache will refuse the authentication credentials
+   */
+  public function theWebFrontEndCacheWillRefuseTheAuthenticationCredentials() {
+    $server = $this->getServer();
+
+    $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
+    $mock
+      ->when()
+      ->methodIs('POST')
+      ->pathIs('/invalidate')
+      ->then()
+      ->statusCode(401);
+
+    $server->setUp($mock->flushExpectations());
+  }
+
 }

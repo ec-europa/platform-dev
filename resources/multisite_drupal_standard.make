@@ -91,19 +91,19 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.7"
-; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
-; https://www.drupal.org/node/2512054
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call-2512054-2.patch
-; Issue #2142949 : Receiving error message - Notice: Undefined offset: 1 in chr_curl_http_request().
-; https://www.drupal.org/node/2142949
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
+projects[chr][version] = "1.8"
 ; Issue #2355631 : rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
+; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
+; https://www.drupal.org/node/2816399
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
+; Issue #2825701: allow PURGE requests.
+; https://www.drupal.org/node/2825701
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
