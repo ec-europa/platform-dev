@@ -312,6 +312,8 @@ class PoetryMock {
   /**
    * Helper function to mimic translation by adding language prefix.
    *
+   * The code is based on _tmgmt_poetry_replace_job_in_content().
+   *
    * @param string $content
    *    Content that should be translated (encoded HTML markup).
    * @param string $language
@@ -322,15 +324,22 @@ class PoetryMock {
    */
   private static function translateRequestContent($content, $language) {
     $decoded_content = base64_decode($content);
-    $xml_content = simplexml_load_string($decoded_content);
+    $dom = new \DOMDocument();
+    multisite_drupal_toolbox_load_html($dom, $decoded_content);
+    if ($dom->documentElement->hasAttributeNS(NULL, 'xmlns')) {
+      $dom->documentElement->removeAttributeNS(NULL, 'xmlns');
+    }
+    $xml_content = simplexml_import_dom($dom);
     // Add language prefix to the title and body first paragraph.
     $title = (string) $xml_content->body->div->div[0];
     // Overwriting title with language prefix.
-    $xml_content->body->div->div[0] = "[$language] " . $title;
+    $xml_content->body->div->div[0] = "[$language] $title";
     // Adding language prefix into the body.
     $xml_content->body->div->div[1]->p[] = "[$language]";
-    $translated_content = explode("\n", $xml_content->asXML(), 2)[1];
-
+    $translated_content = '<!DOCTYPE html PUBLIC
+        "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . PHP_EOL .
+      $xml_content->asXML();
     return base64_encode($translated_content);
   }
 
