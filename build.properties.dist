@@ -114,7 +114,7 @@ behat.base_url = http://localhost
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
-behat.formatter.name = pretty
+behat.formatter.name = progress
 
 # Enable strict mode in Behat tests. Will only pass if all tests are explicitly
 # passing.
@@ -123,6 +123,10 @@ behat.options.strict = true
 # Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
 # shows exception backtraces, 3 shows debugging information.
 behat.options.verbosity = 2
+
+# Behat\MinkExtension settings.
+behat.extensions.selenium2.host = localhost
+behat.extensions.selenium2.port = 8643
 
 
 # PHP CodeSniffer configuration
