@@ -36,16 +36,17 @@ Feature: TMGMT Poetry features
     And the translation request has the sequence "NEXT_EUROPA_COUNTER"
 
   @javascript
-  Scenario: Create a request translation for French and Portuguese
+  Scenario: Create a request translation for Portuguese
     Given I am viewing a multilingual "page" content:
-      | language | title                        |
-      | en       | This title is in English     |
+      | language | title                                           |
+      | en       | This is an english page I want to translate     |
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "Portuguese" row
     And I press the "Request translation" button
-    And I wait
+    And I wait for AJAX to finish
     Then I should see "Contact usernames"
     And I should see "Organization"
+    And I should see "Requested delivery date"
 
   @javascript
   Scenario: I can access an overview of recent translation jobs.
@@ -286,7 +287,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version 0
+    And the translation request has version to 0
     And the translation request document is valid XHTML
 
     Examples:
@@ -316,7 +317,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version 0
+    And the translation request has version to 0
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Check the translation page"
@@ -330,6 +331,7 @@ Feature: TMGMT Poetry features
       | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
       | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
       | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
+      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
@@ -382,7 +384,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Fill in metadata when requesting a translation.
     Given I go to "node/add/page"
-    And I fill in "Title" with "<title>"
+    And I fill in "Title" with "Title"
     And I fill in the rich text editor "Body" with "Metadata test"
     And I press "Save"
     And I select "Published" from "state"
@@ -444,3 +446,55 @@ Feature: TMGMT Poetry features
       When I fill in "Date" with "01/12/2016"
       And I press "Submit to translator"
       Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+  
+  Scenario: Check the limit 'version' of the request
+    Given I create the following multilingual "page" content:
+      | language | title              | field_ne_body |
+      | en       | Title last version | Body test     |
+    When I visit the "page" content with title "Title last version"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    And the poetry translation service received the translation request
+    And set the translation request version to 99
+    And I click "In progress" in the "French" row
+    And I press "Save"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "None" in the "French" row
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then I check the job reference of the translation request page
+    And the poetry translation service received the translation request
+    And the translation request has version to 0
+
+  Scenario: Check the limit 'partie' of the request
+    Given I create the following multilingual "page" content:
+      | language | title                | field_ne_body |
+      | en       | Title last version 1 | Body test 1   |
+    When I visit the "page" content with title "Title last version 1"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    And the poetry translation service received the translation request
+    And set the translation request partie to 99
+    And I create the following multilingual "page" content:
+      | language | title                | field_ne_body |
+      | en       | Title last version 2 | Body test 2   |
+    And I visit the "page" content with title "Title last version 2"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then I check the job reference of the translation request page
+    And the poetry translation service received the translation request
+    And the translation request has version to 0
+    And the translation request has partie to 0
+>>>>>>> release/2.3
