@@ -128,6 +128,11 @@ behat.options.verbosity = 2
 behat.extensions.selenium2.host = localhost
 behat.extensions.selenium2.port = 8643
 
+# Load balancer Phing task configuration.
+behat.load_balancer.containers = 5
+behat.load_balancer.root = ${behat.dir}
+behat.load_balancer.destination = ${behat.dir}/balancer
+behat.load_balancer.import = ${behat.yml.path}
 
 # PHP CodeSniffer configuration
 # -----------------------------
