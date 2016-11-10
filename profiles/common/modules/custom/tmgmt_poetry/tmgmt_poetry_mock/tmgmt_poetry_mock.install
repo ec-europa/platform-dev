@@ -19,7 +19,8 @@ function tmgmt_poetry_mock_install() {
       "auto_accept" : 0,
       "settings" : {
         "counter" : "NEXT_EUROPA_COUNTER",
-        "code" : "ABCD"
+        "code" : "WEB"
+        "website_identifier" : "my-website"
       },
       "organization" : {
         "responsable" : "DIGIT",
