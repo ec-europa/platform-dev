@@ -1,9 +1,10 @@
 node('master') {
 
-    env.PROJECT = 'platform_dev'
+    env.PROJECT = 'platform-dev'
     tokens = "${env.WORKSPACE}".tokenize('/')
-    env.SITEPATH = tokens[tokens.size()-1]
-    env.DBNAME = env.PROJECT + '_' + sh(returnStdout: true, script: 'date | md5sum | head -c 8').trim()
+    env.SITE_PATH = tokens[tokens.size()-1]
+    env.DB_NAME = "${env.PROJECT}".replaceAll('-','_').trim() + '_' + sh(returnStdout: true, script: 'date | md5sum | head -c 4').trim()
+    env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim() + '-' + env.BUILD_NUMBER
 
     stage('Init') {
         deleteDir()
@@ -14,12 +15,12 @@ node('master') {
          withCredentials([[
            $class: 'UsernamePasswordMultiBinding',
            credentialsId: 'mysql',
-           usernameVariable: 'DBUSER',
-           passwordVariable: 'DBPASS']]) {
-             sh 'mysql -u $DBUSER --password=$DBPASS -e "CREATE database $DBNAME;"'
+           usernameVariable: 'DB_USER',
+           passwordVariable: 'DB_PASS']]) {
+             sh 'mysql -u $DB_USER --password=$DB_PASS -e "CREATE database $DB_NAME;"'
              sh 'composer install --no-suggest'
-             sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITEPATH/build'"
-             sh "./bin/phing install-platform -D'drupal.db.name'='$DBNAME' -D'drupal.db.user'='$DBUSER' -D'drupal.db.password'='$DBPASS'"
+             sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build'"
+             sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS'"
         }
     }
 
@@ -31,13 +32,18 @@ node('master') {
         sh './bin/phpcs'
     }
 
+    stage('Package') {
+        sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
+        sh "tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz build"
+    }
+
     stage('Cleanup') {
         withCredentials([[
            $class: 'UsernamePasswordMultiBinding',
            credentialsId: 'mysql',
-           usernameVariable: 'DBUSER',
-           passwordVariable: 'DBPASS']]) {
-           sh 'mysql -u $DBUSER --password=$DBPASS -e "DROP database $DBNAME;"'
+           usernameVariable: 'DB_USER',
+           passwordVariable: 'DB_PASS']]) {
+           sh 'mysql -u $DB_USER --password=$DB_PASS -e "DROP database $DB_NAME;"'
         }
     }
 }
