@@ -28,7 +28,6 @@ dependencies[] = ctools
 dependencies[] = token
 dependencies[] = apachesolr
 dependencies[] = apachesolr_search
-dependencies[] = apachesolr_multisitesearch
 dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
 dependencies[] = fast_404
@@ -109,7 +108,6 @@ dependencies[] = username_enumeration_prevention
 dependencies[] = filefield_sources_plupload
 
 dependencies[] = multisite_create_button
-dependencies[] = multisite_config
 dependencies[] = multisite_drupal_toolbox
 dependencies[] = multisite_drupal_features_set_standard
 
