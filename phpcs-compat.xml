@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!-- PHP_CodeSniffer standard for PHP compatiblity of NextEuropa. -->
+<ruleset name="NextEuropa-Compat">
+    <description>Verifies PHP Compatibility of NextEuropa</description>
+
+    <rule ref="PHPCompatibility"/>
+
+    <file>./profiles</file>
+    <file>./src</file>
+    <file>./tests</file>
+    <file>./vendor</file>
+    <file>./build/vendor</file>
+
+    <!--
+        Exclude database dumps used in simpletest.
+        They are bigger than the usual source code and on some
+        even the PHP memory resources will be exceeded.
+    -->
+    <exclude-pattern>*.database.php</exclude-pattern>
+    <exclude-pattern>d6_simplenews_*.php</exclude-pattern>
+
+    <!--
+      Exclude some projects in the vendor directory of which
+      we are pretty certain they provide good PHP 7 support.
+    -->
+    <exclude-pattern>/vendor/wimg/php-compatibility/</exclude-pattern>
+    <exclude-pattern>/vendor/nikic/PHP-Parser/</exclude-pattern>
+    <exclude-pattern>/vendor/squizlabs/php_codesniffer/</exclude-pattern>
+    <exclude-pattern>/vendor/symfony/</exclude-pattern>
+    <exclude-pattern>/vendor/drupal/coder/</exclude-pattern>
+    <exclude-pattern>/vendor/phing/</exclude-pattern>
+    <exclude-pattern>/vendor/composer/</exclude-pattern>
+
+    <arg name="extensions" value="php,inc,module,install,profile,theme"/>
+    <arg name="report" value="csv"/>
+    <arg name="report-file" value="php-compatibility-report.csv"/>
+
+    <arg value="p"/>
+
+    <!-- only print errors for now -->
+    <arg name="warning-severity" value="0"/>
+
+    <config name="testVersion" value="5.6-7.0"/>
+</ruleset>
