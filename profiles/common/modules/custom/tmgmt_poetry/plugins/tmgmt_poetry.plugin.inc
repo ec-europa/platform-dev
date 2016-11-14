@@ -90,8 +90,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $item = array_shift($items);
     if (!empty($item)) {
       $results = db_select('tmgmt_job_item', 'tji')
-        ->fields('tji', array('tjid'))
-        ->fields('tji', array('tjiid'))
+        ->fields('tji', array('tjid', 'tjiid'))
         ->condition('item_type', $item->item_type, '=')
         ->condition('item_id', $item->item_id, '=')
         ->execute()
