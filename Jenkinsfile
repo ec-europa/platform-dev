@@ -4,7 +4,7 @@ node('master') {
     tokens = "${env.WORKSPACE}".tokenize('/')
     env.SITE_PATH = tokens[tokens.size()-1]
     env.DB_NAME = "${env.PROJECT}".replaceAll('-','_').trim() + '_' + sh(returnStdout: true, script: 'date | md5sum | head -c 4').trim()
-    env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim() + '-' + env.BUILD_NUMBER
+    env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
 
     stage('Init') {
         deleteDir()
@@ -12,22 +12,21 @@ node('master') {
     }
 
     stage('Build') {
-         withCredentials([[
-           $class: 'UsernamePasswordMultiBinding',
-           credentialsId: 'mysql',
-           usernameVariable: 'DB_USER',
-           passwordVariable: 'DB_PASS']]) {
-             sh 'mysql -u $DB_USER --password=$DB_PASS -e "CREATE database $DB_NAME;"'
-             sh 'composer install --no-suggest'
-             sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build'"
-             sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS'"
+        withCredentials([
+            [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
+            [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
+        ]) {
+            sh 'mysql -u $DB_USER --password=$DB_PASS -e "CREATE database $DB_NAME;"'
+            sh 'composer install --no-suggest'
+            sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET'"
+            sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS'"
         }
     }
 
     stage('Test') {
         wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-          sh './bin/behat -c build/behat.api.yml --colors -f pretty --strict'
-          sh './bin/behat -c build/behat.i18n.yml --colors -f pretty --strict'
+            sh './bin/behat -c build/behat.api.yml --colors -f pretty --strict'
+            sh './bin/behat -c build/behat.i18n.yml --colors -f pretty --strict'
         }
         sh './bin/phpcs'
     }
@@ -38,12 +37,10 @@ node('master') {
     }
 
     stage('Cleanup') {
-        withCredentials([[
-           $class: 'UsernamePasswordMultiBinding',
-           credentialsId: 'mysql',
-           usernameVariable: 'DB_USER',
-           passwordVariable: 'DB_PASS']]) {
-           sh 'mysql -u $DB_USER --password=$DB_PASS -e "DROP database $DB_NAME;"'
+        withCredentials([
+            [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS']
+        ]) {
+            sh 'mysql -u $DB_USER --password=$DB_PASS -e "DROP database $DB_NAME;"'
         }
     }
 }
