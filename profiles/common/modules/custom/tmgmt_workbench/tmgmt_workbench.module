@@ -254,7 +254,7 @@ function _tmgmt_workbench_check_translatability($entity_id) {
   // Getting the main TMGMT job based on the given entity id.
   $query = db_select('tmgmt_job_item', 'tji');
   $query->join('tmgmt_job', 'tj', 'tji.tjid = tj.tjid');
-  $query->fields('tj', ['tjid', 'reference']);
+  $query->fields('tj', ['tjid']);
   $query->condition('tji.item_id', $entity_id, '=');
   $query->condition('reference', "^(MAIN)_", "REGEXP");
   $result = $query->execute()->fetchAssoc();
