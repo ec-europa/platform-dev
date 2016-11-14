@@ -368,8 +368,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       ->condition('entity_id', $item->item_id, '=')
       ->execute()
       ->fetchAssoc();
-    if ($result and isset($result['numero']) and $result['numero'] != -1) {
-      // If a request id exists, increase the version and return it.
+    if ($result and isset($result['numero']) and $result['numero'] != -1 and isset($result['version']) and $result['version'] < 99) {
+      // If a usable request id exists, increase the version and return it.
       $id_data = array(
         'codeDemandeur' => $settings['code'],
         'annee' => $result['annee'],
@@ -459,7 +459,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     if ($client) {
       // Send the SOAP request and handle possible errors.
       try {
-        $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+        $method = $poetry['method'];
+        $response = $client->$method($poetry['poetry_user'], $poetry['poetry_password'], $msg);
       }
       catch (Exception $e) {
         watchdog_exception('tmgmt_poetry', $e);

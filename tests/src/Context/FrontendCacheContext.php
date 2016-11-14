@@ -13,6 +13,8 @@ use Behat\Mink\Element\Element;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
+use function bovigo\assert\predicate\matches;
+use function bovigo\assert\predicate\not;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -331,6 +333,92 @@ class FrontendCacheContext implements Context {
       $rule_ids = array_keys($rules);
       entity_delete_multiple('nexteuropa_varnish_cache_purge_rule', $rule_ids);
     }
+  }
+
+  /**
+   * Assert that a purge request was received.
+   *
+   * @Then the web front end cache was instructed to purge certain paths for the application tag :arg1
+   */
+  public function theWebFrontEndCacheWasInstructedToPurgeCertainPaths($arg1) {
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+
+    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+  }
+
+  /**
+   * Assert that the last purge request matches specific paths.
+   *
+   * @Then the web front end cache will not use existing caches for the following paths:
+   */
+  public function theWebFrontEndCacheWillNotUseExistingCachesForTheFollowingPaths(TableNode $table) {
+    $purge_pattern = $this->getPurgePatternFromLastRequest();
+
+    $paths = $this->getPathsFromTable($table);
+
+    foreach ($paths as $path) {
+      assert($path, matches('@' . $purge_pattern . '@'));
+    }
+  }
+
+  /**
+   * Assert that the last purge request does not match specific paths.
+   *
+   * @Then the web front end cache will still use existing caches for the following paths:
+   */
+  public function theWebFrontEndCacheWillStillUseExistingCachesForTheFollowingPaths(TableNode $table) {
+    $purge_pattern = $this->getPurgePatternFromLastRequest();
+
+    $paths = $this->getPathsFromTable($table);
+
+    foreach ($paths as $path) {
+      assert($path, not(matches('@' . $purge_pattern . '@')));
+    }
+  }
+
+  /**
+   * Retrieve the purge pattern from the last purge request.
+   *
+   * @return string
+   *   The purge pattern, which is a regular expression.
+   */
+  private function getPurgePatternFromLastRequest() {
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+
+    $purge_patterns = $purge_request
+      ->getHeader('X-Invalidate-Regexp')
+      ->toArray();
+
+    $purge_pattern = reset($purge_patterns);
+
+    return $purge_pattern;
+  }
+
+  /**
+   * Retrieve the values in the 'Path' column.
+   *
+   * @param TableNode $table
+   *   The Behat Gherkin table node.
+   *
+   * @return string[]
+   *   The values in the 'Path' column, with any leading slash removed.
+   */
+  private function getPathsFromTable(TableNode $table) {
+    $rows = $table->getHash();
+    $paths = array_map(
+      function ($row) {
+        return ltrim($row['Path'], '/');
+      },
+      $rows
+    );
+    return $paths;
   }
 
 }
