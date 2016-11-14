@@ -496,10 +496,6 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
-; NEXTEUROPA-13743 Issue with og_field_access hiding all content fields on creation
-; https://www.drupal.org/node/1743332
-projects[og][patch][] = https://www.drupal.org/files/issues/og-hidden-body-field-1743332-1.patch
-
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
