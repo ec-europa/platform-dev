@@ -458,6 +458,7 @@ projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
 projects[menu_token][subdir] = "contrib"
 projects[menu_token][version] = "1.0-beta7"
+projects[menu_token][patch][] = https://www.drupal.org/files/issues/2826475.patch
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
