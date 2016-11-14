@@ -8,7 +8,6 @@ default:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
-        - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\nexteuropa\Context\TaxonomyContext
         - Drupal\nexteuropa\Context\DatabaseLogContext
       filters:
@@ -19,8 +18,6 @@ default:
       javascript_session: 'selenium2'
       selenium2:
         wd_host: "http://localhost:8643/wd/hub"
-        capabilities:
-          version: ''
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
     Drupal\DrupalExtension:
@@ -48,6 +45,12 @@ default:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: upload_pie
+      image_drivers:
+        upload_pie:
+          expire: '1d'
   formatters:
     {{ behat.formatter.name }}: ~
 

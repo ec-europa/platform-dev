@@ -202,4 +202,42 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     return FALSE;
   }
 
+  /**
+   * Check values in the reference poetry job.
+   *
+   * @When I check the job reference of the translation request page
+   */
+  public function iCheckTheJobReferenceOfTheTranslationRequestPage() {
+    $node_id = $this->getCurrentNodeId();
+    if (!$node_id) {
+      throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
+    }
+    else {
+      $jobs = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($node_id);
+      foreach ($jobs as $job) {
+        if (strpos($job->reference, "MAIN_") !== FALSE) {
+          $test_reference = explode("/", $job->reference);
+
+          // Check the syntax "MAIN_99_POETRY_XXXX/2016/9999/0/0/TRA".
+          if (count($test_reference) == 0) {
+            throw new \InvalidArgumentException("Job Reference mismatch: the current reference doesn't have good syntax.");
+          }
+
+          // Check the 'version' field (0-99).
+          if (isset($test_reference[3]) && ($test_reference[3] < 0 || $test_reference[3] > 99)) {
+            throw new \InvalidArgumentException("Job Reference mismatch: the 'version' doesn't respect specification.");
+          }
+
+          // Check the 'partie' field (0-99).
+          if (isset($test_reference[4]) && ($test_reference[4] < 0 || $test_reference[4] > 99)) {
+            throw new \InvalidArgumentException("Job Reference mismatch: the 'partie' doesn't respect specification.");
+          }
+
+          return;
+        }
+      }
+      throw new \InvalidArgumentException("Job Reference mismatch: the current node don't have MAIN Job associated.");
+    }
+  }
+
 }
