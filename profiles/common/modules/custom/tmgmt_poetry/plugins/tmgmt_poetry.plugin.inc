@@ -558,7 +558,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
 
     // Create soap client and send the request.
     try {
-      $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
+      $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE));
 
       $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
 
