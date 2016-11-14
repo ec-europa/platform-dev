@@ -598,7 +598,7 @@ function tmgmt_poetry_page_alter(&$page) {
  * @param int $entity_id
  *   Entity id.
  *
- * @return \TMGMTJob
+ * @return \TMGMTJob|bool
  *   TMGMT Job object or FALSE.
  */
 function _tmgmt_poetry_get_main_job_by_entity_id($entity_id) {
