@@ -661,11 +661,13 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $callback_username = $poetry['callback_user'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
 
+    $formatted_delivery_date = format_date($delivery_date, 'custom', 'd/m/Y');
+
     foreach ($new_languages as $language) {
       $attribution = $request_xml->addChild('attributions');
       $attribution->addAttribute('lgCode', drupal_strtoupper($language));
       $attribution->addAttribute('format', 'HTML');
-      $attribution->addChild('attributionsDelai', date('d/m/Y', $delivery_date));
+      $attribution->addChild('attributionsDelai', $formatted_delivery_date);
       $attribution_send = $attribution->addChild('attributionsSend');
       $attribution_send->addAttribute('type', 'smtp');
       $attribution_send->addChild('retourUser', $callback_username);
