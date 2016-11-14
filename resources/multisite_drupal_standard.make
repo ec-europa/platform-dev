@@ -882,13 +882,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 7.x series (no stable release yet)
-; pinned to latest commit on the development branch, at the time of writing
-; https://github.com/mpdf/mpdf/commit/f3c3295e331e31b71f158bb38d779b3e596af30e
+; mpdf
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/f3c3295e331e31b71f158bb38d779b3e596af30e.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v6.1.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
