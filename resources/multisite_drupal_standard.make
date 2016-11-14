@@ -152,7 +152,7 @@ projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload
 projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.9"
+projects[ctools][version] = "1.11"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -276,7 +276,7 @@ projects[filefield_sources_plupload][version] = "1.1"
 projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.7"
+projects[flag][version] = "3.9"
 
 projects[flexible_purge][subdir] = "contrib"
 projects[flexible_purge][version] = "1.x-dev"
@@ -389,6 +389,10 @@ projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
+; Linkchecker PHP 7.0 compatibility.
+; https://www.drupal.org/node/2660694
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
@@ -881,11 +885,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7.4a
+; mpdf 7.0
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/7.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet

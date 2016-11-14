@@ -131,26 +131,67 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Verifies the version of the last translation request.
+   * Verifies the version/partie of the last translation request.
    *
-   * @Then the translation request has version :arg1
+   * @Then the translation request has :arg1 to :arg2
    */
-  public function assertTranslationRequestHasVersion($arg1) {
+  public function assertTranslationRequestHasElement($arg1, $arg2) {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
       );
     }
 
-    if ($this->translationRequest['demande_id']['version'] != $arg1) {
+    if (!isset($this->translationRequest['demande_id'][$arg1])) {
       throw new Exception(
         sprintf(
-          'Translation request version is %s, expected %s instead',
-          $this->translationRequest['demande_id']['version'],
+          '%s does not exist',
           $arg1
         )
       );
     }
+
+    if ($this->translationRequest['demande_id'][$arg1] != $arg2) {
+      throw new Exception(
+        sprintf(
+          'Translation request version is %s, expected %s instead',
+          $this->translationRequest['demande_id'][$arg1],
+          $arg2
+        )
+      );
+    }
+  }
+
+  /**
+   * Sets the version/partie of the last translation request.
+   *
+   * @Then set the translation request :arg1 to :arg2
+   */
+  public function setTranslationRequest($arg1, $arg2) {
+    if (!$this->translationRequest) {
+      throw new Exception(
+        'translator first needs to confirm they received the translation request'
+      );
+    }
+
+    if (!in_array($arg1, array('version', 'partie'))) {
+      throw new Exception(
+        sprintf(
+          '%s does not exist or is not allowed to be changed',
+          $arg1
+        )
+      );
+    }
+
+    db_update('poetry_map')
+      ->fields(array($arg1 => $arg2))
+      ->condition('annee', $this->translationRequest['demande_id']['annee'], '=')
+      ->condition('numero', $this->translationRequest['demande_id']['numero'], '=')
+      ->condition('version', $this->translationRequest['demande_id']['version'], '=')
+      ->condition('partie', $this->translationRequest['demande_id']['partie'], '=')
+      ->execute();
+
+    $this->translationRequest['demande_id'][$arg1] = $arg2;
   }
 
   /**
