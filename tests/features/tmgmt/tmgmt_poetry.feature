@@ -445,6 +445,7 @@ Feature: TMGMT Poetry features
     When I click "Check the translation page"
     Then I should see "Request addition of new languages"
     When I click "Request addition of new languages"
+    And I fill in "Date" with "14/11/2016"
     And I press "Add languages"
     Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."
     When I click "Request addition of new languages"
@@ -480,6 +481,7 @@ Feature: TMGMT Poetry features
     And I click "Check the translation page"
     And I click "Request addition of new languages"
     And inside fieldset "Request addition of new languages" I check the box on the "German" row
+    And I fill in "Date" with "14/11/2016"
     And I press "Add languages"
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->de" row
