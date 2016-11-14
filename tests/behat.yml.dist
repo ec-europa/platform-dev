@@ -7,7 +7,6 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MarkupContext
       filters:
         tags: "~@communities&&~@wip&&~@i18n&&~@api"
   extensions:
@@ -16,8 +15,6 @@ default:
       javascript_session: 'selenium2'
       selenium2:
         wd_host: "http://localhost:8643/wd/hub"
-        capabilities:
-          version: ''
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
     Drupal\DrupalExtension:
@@ -44,6 +41,7 @@ default:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -84,5 +82,6 @@ communities:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
   formatters:
     {{ behat.formatter.name }}: ~
