@@ -5,6 +5,17 @@
  */
 
 /**
+ * Log message severity -- Emergency: system is unusable.
+ */
+define('POETRY_STATUS_MESSAGE_PEN', t('Pending'));
+define('POETRY_STATUS_MESSAGE_SUS', t('Suspended'));
+define('POETRY_STATUS_MESSAGE_ONG', t('Ongoing'));
+define('POETRY_STATUS_MESSAGE_LCK', t('Acceptance in Progress'));
+define('POETRY_STATUS_MESSAGE_EXE', t('Executed'));
+define('POETRY_STATUS_MESSAGE_REF', t('Refused'));
+define('POETRY_STATUS_MESSAGE_CNL', t('Canceled'));
+
+/**
  * Implements hook_menu().
  */
 function tmgmt_poetry_menu() {
