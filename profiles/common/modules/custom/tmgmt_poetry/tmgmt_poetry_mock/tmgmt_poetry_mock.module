@@ -82,6 +82,15 @@ function tmgmt_poetry_mock_menu() {
     'weight' => 2,
   ];
 
+  $items['tmgmt_poetry_mock/send-status/%/%'] = [
+    'title' => 'Poetry Mock: Send status',
+    'page callback' => '_tmgmt_poetry_mock_send_status',
+    'page arguments' => [2, 3],
+    'access arguments' => ['access content'],
+    'type' => MENU_CALLBACK,
+    'file' => 'includes/tmgmt_poetry_mock.actions.inc',
+  ];
+
   return $items;
 }
 
@@ -200,6 +209,18 @@ function tmgmt_poetry_mock_theme($existing, $type, $theme, $path) {
         'uri' => NULL,
       ],
       'template' => 'poetry-wsdl',
+      'path' => $response_template_path,
+    ],
+    'poetry_send_status' => [
+      'variables' => [
+        'demande_id' => NULL,
+        'languages' => NULL,
+        'format' => NULL,
+        'status_code' => NULL,
+        'request_status_msg' => NULL,
+        'demande_status_msg' => NULL,
+      ],
+      'template' => 'poetry-send-status',
       'path' => $response_template_path,
     ],
   ];
