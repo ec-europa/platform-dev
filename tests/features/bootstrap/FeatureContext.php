@@ -457,11 +457,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-<<<<<<< HEAD
-   *    Print out descriptive error message by throwing an exception.
-=======
    *    Throw exception if class specified has not been found.
->>>>>>> master
    *
    * @Then the class :arg1 exists in my codebase
    */
@@ -634,6 +630,26 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     if (!isset($info['translatable']) || !$info['translatable']) {
       throw new ExpectationException("Field '{$field_name}' is not translatable.", $this->getSession());
     }
+  }
+
+  /**
+   * Checks, that elements are highlighted on page.
+   *
+   * @Then I should see highlighted elements
+   */
+  public function iShouldSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementExists('css', 'div.ICE-Tracking');
+  }
+
+  /**
+   * Checks that no elements are highlighted on page.
+   *
+   * @Then I should not see highlighted elements
+   */
+  public function iShouldNotSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
   }
 
 }

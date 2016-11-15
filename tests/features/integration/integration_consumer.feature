@@ -1,5 +1,5 @@
 @api @integration
-Feature: Integration Consumer
+Feature: Integration consumer
   In order to use content from other sources
   As a site administrator
   I can pull content from the central Integration backend

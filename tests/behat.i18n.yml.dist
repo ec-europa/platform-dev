@@ -8,6 +8,7 @@ default:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:
@@ -42,6 +43,7 @@ default:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -55,6 +57,7 @@ communities:
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "@communities&&~@wip&&@i18n"
   extensions:
@@ -83,5 +86,6 @@ communities:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
   formatters:
     {{ behat.formatter.name }}: ~

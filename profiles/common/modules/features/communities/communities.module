@@ -52,41 +52,6 @@ function communities_views_pre_render(&$view) {
  */
 function communities_init() {
   drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
-  $arguments = explode("/", request_path());
-
-  // Set og context on communities views.
-  if ($arguments[0] == 'community' && isset($arguments[1])) {
-
-    // Sometimes the parameter contains a language suffix, remove it.
-    $suffix_clean = preg_replace('/\\_[^.\\s]{2}$/', '', $arguments[1]);
-    $alias = drupal_get_normal_path("community/" . str_replace(" ", "-", $suffix_clean), 'en');
-
-    $param = explode("/", $alias);
-    $nid = $param[1];
-    $group = node_load($nid);
-    if (og_is_group('node', $group->nid)) {
-      og_context('node', $group);
-    }
-  }
-
-  if ($arguments[0] == 'node' && isset($arguments[1]) && is_numeric($arguments[1])) {
-    // If inside a node page, get the group from the path and store in session.
-    $group_name = _communities_get_group_name_from_path(request_path());
-    if ($group_name) {
-      $group_nid = @group_name_load($group_name);
-      if ($group_nid) {
-        // Check that the found group is one of the groups
-        // the node is linked to.
-        $groups = og_get_entity_groups('node', arg(1), array());
-
-        if ($groups && isset($groups['node']) && in_array($group_nid, $groups['node'])) {
-          // Save to session so that it will be returned
-          // in future calls to og_context().
-          $_SESSION['og_context']['gid'] = $group_nid;
-        }
-      }
-    }
-  }
 }
 
 /**
@@ -516,7 +481,6 @@ function communities_node_delete($node) {
   }
 }
 
-
 /**
  * Implements hook_node_view_alter().
  */
@@ -544,4 +508,65 @@ function communities_og_permission() {
       'default role' => array(OG_AUTHENTICATED_ROLE),
     ),
   );
+}
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ */
+function communities_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['multisite_communities'] = array(
+    'name' => t('Multisite Communities'),
+    'description' => t("Select group context for any url that start with 'community'"),
+    'callback' => 'communities_context_handler',
+    'menu path' => array('community/%'),
+  );
+
+  return $providers;
+}
+
+/**
+ * Context handler; Get groups from events.
+ *
+ * @return array
+ *   OG context
+ */
+function communities_context_handler() {
+  global $language;
+
+  $keyword = 'community';
+
+  // Remove langcode on URL according the language negotiation type used.
+  if (language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
+    $path = nexteuropa_multilingual_language_negotiation_split_suffix(request_path(), [$language]);
+  }
+  elseif (language_negotiation_get_any(LANGUAGE_NEGOTIATION_URL)) {
+    $path = language_url_split_suffix(request_path(), [$language]);
+  }
+
+  $path_args = explode('/', $path[1]);
+
+  // Look for the community keyword in the path.
+  if ($path_args[0] === $keyword) {
+    $community_path = drupal_lookup_path('source', $path_args[0] . '/' . $path_args[1], $language->language);
+
+    // If no path was found, then it's not a community in particular.
+    if ($community_path !== FALSE) {
+      $community_path = explode('/', $community_path);
+
+      // Check that the node acts as a group.
+      $node = node_load($community_path[1]);
+
+      if (og_is_group('node', $node)) {
+        return [
+          'node' => [
+            $node->nid,
+          ],
+        ];
+      }
+    }
+  }
+  return [];
+>>>>>>> release/communities
 }

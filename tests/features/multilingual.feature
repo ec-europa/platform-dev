@@ -83,8 +83,8 @@ Feature: Multilingual features
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
     Given I am viewing a multilingual "page" content:
-      | language | title                        |
-      | en       | This title is in English     |
+      | language | title                                       |
+      | en       | Path aliases are not deleted in English     |
     And I click "Translate" in the "primary_tabs" region
     And I select the radio button "" with the id "edit-languages-de"
     And I press the "Request translation" button
@@ -94,18 +94,17 @@ Feature: Multilingual features
       | success messages                        |
       | The translation job has been submitted. |
     And I click "Translation"
-    Then I should see "This title is in English"
-    And I click "manage" in the "This title is in English" row
+    Then I should see "Path aliases are not deleted in English"
+    And I click "manage" in the "Path aliases are not deleted in English" row
     And I click "view" in the "In progress" row
     And I fill in "Translation" with "Dieser Titel ist auf Deutsch"
     And I press the "Save" button
-    And I click "reviewed" in the "The translation of This title is in English to German is finished and can now be reviewed." row
+    And I click "reviewed" in the "The translation of Path aliases are not deleted in English to German is finished and can now be reviewed." row
     And I press the "Save as completed" button
-    Then I should see "The translation for This title is in English has been accepted."
-    And I click "This title is in English"
-    And I should be on "content/title-english_en"
-    And I should see the heading "This title is in English"
-    And I visit "content/title-english_de"
+    Then I should see "The translation for Path aliases are not deleted in English has been accepted."
+    And I visit "content/path-aliases-are-not-deleted-english_en"
+    And I should see the heading "Path aliases are not deleted in English"
+    And I visit "content/path-aliases-are-not-deleted-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
   Scenario: I can re-import a translation by re-submitting the translation job.
@@ -179,6 +178,7 @@ Feature: Multilingual features
     And I click "Français" in the "header_top" region
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
+
 
   Scenario: Multilingual view on language neutral content
     Given I am logged in as a user with the "administrator" role
