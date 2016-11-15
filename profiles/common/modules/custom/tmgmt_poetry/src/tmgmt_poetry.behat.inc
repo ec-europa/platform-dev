@@ -191,7 +191,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @return \Behat\Behat\Context\Context|false
    *   The requested context, or FALSE if the context is not registered.
    */
-
   protected function getContext($class) {
     /** @var \Behat\Behat\Context\Environment\InitializedContextEnvironment $environment */
     $environment = $this->drupal->getEnvironment();
@@ -223,7 +222,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    *
    * @When I check the job reference of the translation request page
    */
-
   public function iCheckTheJobReferenceOfTheTranslationRequestPage() {
     $node_id = $this->getCurrentNodeId();
     if (!$node_id) {
@@ -256,4 +254,5 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
       throw new \InvalidArgumentException("Job Reference mismatch: the current node don't have MAIN Job associated.");
     }
   }
+
 }
