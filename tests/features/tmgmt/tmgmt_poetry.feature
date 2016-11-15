@@ -445,6 +445,7 @@ Feature: TMGMT Poetry features
     When I check the box on the "French" row
     And I check the box on the "Portuguese" row
     And I press "Request translation"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then I should not see "Request addition of new languages"
@@ -486,6 +487,7 @@ Feature: TMGMT Poetry features
     Then I should not see "Request addition of new languages"
     When I check the box on the "French" row
     And I press "Request translation"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     When I am logged in as a user with the 'administrator' role
@@ -515,6 +517,7 @@ Feature: TMGMT Poetry features
     Then I should see "Last change"
     When I check the box on the "French" row
     And I press "Request translation"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     Then I see the date of the last change in the "French" row
 
@@ -540,6 +543,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     And the poetry translation service received the translation request
@@ -565,6 +569,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
+    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     And the poetry translation service received the translation request
