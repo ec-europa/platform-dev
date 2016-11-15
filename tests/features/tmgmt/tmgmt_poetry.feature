@@ -278,7 +278,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version to 0
+    And the translation request has version 0
     And the translation request document is valid XHTML
 
     Examples:
@@ -307,7 +307,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version to 0
+    And the translation request has version 0
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Check the translation page"
@@ -321,7 +321,6 @@ Feature: TMGMT Poetry features
       | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
       | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
       | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
-      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
@@ -373,7 +372,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Fill in metadata when requesting a translation.
     Given I go to "node/add/page"
-    And I fill in "Title" with "Title"
+    And I fill in "Title" with "<title>"
     And I fill in the rich text editor "Body" with "Metadata test"
     And I press "Save"
     And I select "Published" from "state"
@@ -424,36 +423,36 @@ Feature: TMGMT Poetry features
   # respect the maximum length specified on the input field and automatically
   # trim any value we fill it with.
   @cleanup-tmgmt-poetry-website-identifier
+  Scenario: The website identifier is mandatory.
+    When I go to "/admin/config"
+    And I click "DGT Connector"
+    And I press the "Save configuration" button
+    Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
+
+  @cleanup-tmgmt-poetry-website-identifier
   Scenario: A website identifier longer than 15 characters is not accepted.
     When I go to "/admin/config"
     And I click "DGT Connector"
     And I fill in "itphachyufbabtap" for "Website identifier"
     And I press the "Save configuration" button
-    Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
+    Then I should see the error message "Website identifier field is required."
 
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including the website identifier.
     Given I go to "/admin/config"
     And I click "DGT Connector"
-    And I fill in "redjeddacmehaca" for "Website identifier"
+    And I fill in "my-website" for "Website identifier"
     And I press the "Save configuration" button
     And I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
     When I click "Translate" in the "primary_tabs" region
-
-  Scenario: Check the limit 'version' of the request
-    Given I create the following multilingual "page" content:
-      | language | title              | field_ne_body |
-      | en       | Title last version | Body test     |
-    When I visit the "page" content with title "Title last version"
-    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has titre "NE-CMS: redjeddacmehaca - My page"
+    And the translation request has titre "NE-CMS: my-website - My page"
 
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including a website identifier with
@@ -466,50 +465,9 @@ Feature: TMGMT Poetry features
       | language | title   |
       | en       | My page |
     When I click "Translate" in the "primary_tabs" region
-=======
-    And the poetry translation service received the translation request
-    And set the translation request version to 99
-    And I click "In progress" in the "French" row
-    And I press "Save"
-    And I click "Needs review" in the "French" row
-    And I press "Save as completed"
-    Then I should see "None" in the "French" row
-    When I check the box on the "French" row
-    And I press "Request translation"
-    And I press "Submit to translator"
-    And I store the job reference of the translation request page
-    Then I check the job reference of the translation request page
-    And the poetry translation service received the translation request
-    And the translation request has version to 0
-
-  Scenario: Check the limit 'partie' of the request
-    Given I create the following multilingual "page" content:
-      | language | title                | field_ne_body |
-      | en       | Title last version 1 | Body test 1   |
-    When I visit the "page" content with title "Title last version 1"
-    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
-    And the poetry translation service received the translation request
-    And set the translation request partie to 99
-    And I create the following multilingual "page" content:
-      | language | title                | field_ne_body |
-      | en       | Title last version 2 | Body test 2   |
-    And I visit the "page" content with title "Title last version 2"
-    And I click "Translate" in the "primary_tabs" region
->>>>>>> release/2.3
-    And I check the box on the "French" row
-    And I press "Request translation"
-    And I press "Submit to translator"
-    And I store the job reference of the translation request page
-<<<<<<< HEAD
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: />&mywebsite< - My page"
-=======
-    Then I check the job reference of the translation request page
-    And the poetry translation service received the translation request
-    And the translation request has version to 0
-    And the translation request has partie to 0
->>>>>>> release/2.3
