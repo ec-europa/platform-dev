@@ -433,6 +433,91 @@ Feature: TMGMT Poetry features
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
 
+  @javascript
+  Scenario: Adding new languages to the ongoing translation request
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    When I click "Translate" in the "primary_tabs" region
+    Then I should not see "Request addition of new languages"
+    When I check the box on the "French" row
+    And I check the box on the "Portuguese" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then I should not see "Request addition of new languages"
+    And I should see "None" in the "German" row
+    And I should see "None" in the "Italian" row
+    When I am logged in as a user with the 'administrator' role
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    And I click "Send 'ONG' status" in the "en->pt-pt" row
+    Then I should see the success message "The status request was sent. Check the translation page."
+    When I click "Check the translation page"
+    Then I should see "Request addition of new languages"
+    When I click "Request addition of new languages"
+    And I fill in "Date" with "14/11/2016"
+    And I press "Add languages"
+    Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."
+    When I click "Request addition of new languages"
+    And inside fieldset "Request addition of new languages" I check the box on the "German" row
+    And inside fieldset "Request addition of new languages" I check the box on the "Italian" row
+    And I press "Add languages"
+    Then the poetry translation service received the additional language translation request
+    And the additional language translation request contains the following languages:
+      | Language   |
+      | German     |
+      | Italian    |
+    And I should see "In progress" in the "German" row
+    And I should see "In progress" in the "Italian" row
+    And I should not see "Request addition of new languages"
+    And I should see the success message "The following languages were added to the ongoing translation request: German, Italian"
+
+  @javascript
+  Scenario: Accepting the translation of the main requested language when additional languages were added.
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    When I click "Translate" in the "primary_tabs" region
+    Then I should not see "Request addition of new languages"
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    When I am logged in as a user with the 'administrator' role
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->fr" row
+    And I click "Check the translation page"
+    And I click "Request addition of new languages"
+    And inside fieldset "Request addition of new languages" I check the box on the "German" row
+    And I fill in "Date" with "14/11/2016"
+    And I press "Add languages"
+    And I go to "admin/poetry_mock/dashboard"
+    And I click "Send 'ONG' status" in the "en->de" row
+    And I click "Translate" in the "en->fr" row
+    And I click "Check the translation page"
+    And I click "In progress" in the "German" row
+    And I press "Save"
+    Then I should see "Needs review" in the "German" row
+    When I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "Needs review" in the "German" row
+
+  Scenario: Inspect the 'Last change' data of a translation request
+    Given I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    When I click "Translate" in the "primary_tabs" region
+    Then I should see "Last change"
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I press "Submit to translator"
+    Then I see the date of the last change in the "French" row
+
     Scenario: Inspect if the 'Requested delivery date' field is mandatory
       Given I am logged in as a user with the 'administrator' role
       And I am viewing a multilingual "page" content:
