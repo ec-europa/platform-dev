@@ -568,5 +568,4 @@ function communities_context_handler() {
     }
   }
   return [];
->>>>>>> release/communities
 }
