@@ -145,7 +145,9 @@ or go to:
    have correctly followed the steps above. Otherwise, get back and check what
    you forgot!
    - Counter: The counter always is *NEXT_EUROPA_COUNTER* 
-   [See DGT reference explanation]  
+     [See DGT reference explanation]  
+   - Website identifier: This helps DGT identifying which site requested the 
+     translation.
    - Requester code: always is *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
    - Organization responsible, Author & requester: consult the values examples

@@ -278,7 +278,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version to 0
+    And the translation request has version 0
     And the translation request document is valid XHTML
 
     Examples:
@@ -307,7 +307,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has version to 0
+    And the translation request has version 0
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Check the translation page"
@@ -321,7 +321,6 @@ Feature: TMGMT Poetry features
       | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
       | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
       | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
-      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
@@ -373,7 +372,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Fill in metadata when requesting a translation.
     Given I go to "node/add/page"
-    And I fill in "Title" with "Title"
+    And I fill in "Title" with "<title>"
     And I fill in the rich text editor "Body" with "Metadata test"
     And I press "Save"
     And I select "Published" from "state"
@@ -420,90 +419,58 @@ Feature: TMGMT Poetry features
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
 
-  @javascript
-  Scenario: Adding new languages to the ongoing translation request
-    Given I am logged in as a user with the 'editor' role
-    And I have the 'contributor' role in the 'Global editorial team' group
+  # Deliberately not using a JavaScript enabled browser here, as it will probably
+  # respect the maximum length specified on the input field and automatically
+  # trim any value we fill it with.
+  @cleanup-tmgmt-poetry-website-identifier
+  Scenario: The website identifier is mandatory.
+    When I go to "/admin/config"
+    And I click "DGT Connector"
+    And I press the "Save configuration" button
+    Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
+
+  @cleanup-tmgmt-poetry-website-identifier
+  Scenario: A website identifier longer than 15 characters is not accepted.
+    When I go to "/admin/config"
+    And I click "DGT Connector"
+    And I fill in "itphachyufbabtap" for "Website identifier"
+    And I press the "Save configuration" button
+    Then I should see the error message "Website identifier field is required."
+
+  @javascript @cleanup-tmgmt-poetry-website-identifier
+  Scenario: Send translation request including the website identifier.
+    Given I go to "/admin/config"
+    And I click "DGT Connector"
+    And I fill in "my-website" for "Website identifier"
+    And I press the "Save configuration" button
     And I am viewing a multilingual "page" content:
-      | language | title            | body                    |
-      | en       | Title            | Last change column test |
+      | language | title   |
+      | en       | My page |
     When I click "Translate" in the "primary_tabs" region
-    Then I should not see "Request addition of new languages"
-    When I check the box on the "French" row
-    And I check the box on the "Portuguese" row
+    And I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
-    Then I should not see "Request addition of new languages"
-    And I should see "None" in the "German" row
-    And I should see "None" in the "Italian" row
-    When I am logged in as a user with the 'administrator' role
-    And I go to "admin/poetry_mock/dashboard"
-    And I click "Send 'ONG' status" in the "en->fr" row
-    And I click "Send 'ONG' status" in the "en->pt-pt" row
-    Then I should see the success message "The status request was sent. Check the translation page."
-    When I click "Check the translation page"
-    Then I should see "Request addition of new languages"
-    When I click "Request addition of new languages"
-    And I fill in "Date" with "14/11/2016"
-    And I press "Add languages"
-    Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."
-    When I click "Request addition of new languages"
-    And inside fieldset "Request addition of new languages" I check the box on the "German" row
-    And inside fieldset "Request addition of new languages" I check the box on the "Italian" row
-    And I press "Add languages"
-    Then the poetry translation service received the additional language translation request
-    And the additional language translation request contains the following languages:
-      | Language   |
-      | German     |
-      | Italian    |
-    And I should see "In progress" in the "German" row
-    And I should see "In progress" in the "Italian" row
-    And I should not see "Request addition of new languages"
-    And I should see the success message "The following languages were added to the ongoing translation request: German, Italian"
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: my-website - My page"
 
-  @javascript
-  Scenario: Accepting the translation of the main requested language when additional languages were added.
-    Given I am logged in as a user with the 'editor' role
-    And I have the 'contributor' role in the 'Global editorial team' group
+  @javascript @cleanup-tmgmt-poetry-website-identifier
+  Scenario: Send translation request including a website identifier with
+      characters that have a special meaning in HTML.
+    Given I go to "/admin/config"
+    And I click "DGT Connector"
+    And I fill in "/>&mywebsite<" for "Website identifier"
+    And I press the "Save configuration" button
     And I am viewing a multilingual "page" content:
-      | language | title            | body                    |
-      | en       | Title            | Last change column test |
+      | language | title   |
+      | en       | My page |
     When I click "Translate" in the "primary_tabs" region
-    Then I should not see "Request addition of new languages"
-    When I check the box on the "French" row
+    And I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
-    When I am logged in as a user with the 'administrator' role
-    And I go to "admin/poetry_mock/dashboard"
-    And I click "Send 'ONG' status" in the "en->fr" row
-    And I click "Check the translation page"
-    And I click "Request addition of new languages"
-    And inside fieldset "Request addition of new languages" I check the box on the "German" row
-    And I fill in "Date" with "14/11/2016"
-    And I press "Add languages"
-    And I go to "admin/poetry_mock/dashboard"
-    And I click "Send 'ONG' status" in the "en->de" row
-    And I click "Translate" in the "en->fr" row
-    And I click "Check the translation page"
-    And I click "In progress" in the "German" row
-    And I press "Save"
-    Then I should see "Needs review" in the "German" row
-    When I click "Needs review" in the "French" row
-    And I press "Save as completed"
-    Then I should see "Needs review" in the "German" row
-
-  Scenario: Inspect the 'Last change' data of a translation request
-    Given I am viewing a multilingual "page" content:
-      | language | title            | body                    |
-      | en       | Title            | Last change column test |
-    When I click "Translate" in the "primary_tabs" region
-    Then I should see "Last change"
-    When I check the box on the "French" row
-    And I press "Request translation"
-    And I press "Submit to translator"
-    Then I see the date of the last change in the "French" row
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: />&mywebsite< - My page"
 
   Scenario: Check the limit 'version' of the request
     Given I create the following multilingual "page" content:
@@ -555,4 +522,3 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
-
