@@ -407,6 +407,11 @@ function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
  *   Item delay.
  */
 function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
+  // Converting date format.
+  if (strtotime($delai)) {
+    $delai = format_date(strtotime($delai), 'custom', 'd/m/Y');
+  }
+
   db_insert('poetry_status')
     ->fields(array(
       'tjiid' => $tjiid,
@@ -585,4 +590,60 @@ function tmgmt_poetry_page_alter(&$page) {
   if (in_array('node', arg()) && in_array('translate', arg())) {
     unset($page['content']['workbench_block']);
   }
+}
+
+/**
+ * Provides main TMGMT job based on the given entity id.
+ *
+ * @param int $entity_id
+ *   Entity id.
+ *
+ * @return \TMGMTJob|bool
+ *   TMGMT Job object or FALSE.
+ */
+function _tmgmt_poetry_get_main_job_by_entity_id($entity_id) {
+  $query = db_select('tmgmt_job_item', 'tji');
+  $query->join('tmgmt_job', 'tj', 'tji.tjid = tj.tjid');
+  $query->fields('tj', ['tjid', 'reference']);
+  $query->condition('tji.item_id', $entity_id, '=');
+  $query->condition('reference', "^(MAIN)_", "REGEXP");
+  $result = $query->execute()->fetchAssoc();
+
+  if ($result) {
+    return tmgmt_job_load($result['tjid']);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Creates 'sub' job and related job item based on the 'main' job and language.
+ *
+ * @param string $lg_code
+ *   Language code.
+ * @param \TMGMTPoetryJob $main_job
+ *   Main TMGMT Poetry job.
+ */
+function _tmgmt_poetry_create_job_and_item($lg_code, TMGMTPoetryJob $main_job) {
+  $languages = language_list('language');
+  $job = tmgmt_job_create($main_job->source_language, $lg_code, $main_job->uid);
+  $main_job_items = $main_job->getItems();
+  $main_job_item = array_shift($main_job_items);
+
+  $job->translator = $main_job->translator;
+  $job->reference = str_replace(
+    'MAIN_' . $main_job->tjid . '_POETRY_',
+    'SUB_' . $main_job->tjid . '_POETRY_',
+    $main_job->reference
+  );
+  $job->label = $main_job->label . ' ' . $languages[$lg_code]->name;
+  $job->save();
+  $job->submitted();
+
+  $job_item = tmgmt_job_item_create($main_job_item->plugin, $main_job_item->item_type, $main_job_item->item_id);
+  $job_item->tjid = $job->tjid;
+
+  $job->state = TMGMT_JOB_STATE_ACTIVE;
+  $job_item->save();
+  _tmgmt_poetry_insert_item_status($job_item->tjiid, $job->target_language, "Pending", date('Y-m-d', strtotime('+1 month')));
 }
