@@ -610,11 +610,11 @@ function tmgmt_poetry_menu() {
  * TMGMT Poetry settings form callback.
  */
 function tmgmt_poetry_settings_form($form, &$form_state) {
-  $form['tmgmt_poetry_website_identifier'] = array(
+  $form['website_identifier'] = array(
     '#title' => t('Website identifier'),
     '#type' => 'textfield',
     '#maxlength' => 15,
-    '#default_value' => variable_get('tmgmt_poetry_website_identifier', ''),
+    '#default_value' => variable_get('website_identifier', ''),
     '#description' => t('This value - when specified - will be put inside the title of translation requests, in order to identify which website the request came from.'),
   );
 

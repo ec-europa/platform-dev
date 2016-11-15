@@ -265,7 +265,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
 
     $website_identifier = $settings['website_identifier'];
-    if ($website_identifier) {
+    if (isset($website_identifier)) {
       $request_title = "NE-CMS: {$website_identifier} - {$job->label}";
     }
     else {
