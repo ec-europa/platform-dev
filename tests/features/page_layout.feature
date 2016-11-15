@@ -28,6 +28,9 @@ Feature: Page Layout
   @api
   Scenario Outline: Anonymous user can see the page title
   Given I am not logged in
+  And these modules are enabled
+    | modules     |
+    | solr_config |
   When I am on "<page>"
   Then I should see "<text>" in the "html head title" element
 
