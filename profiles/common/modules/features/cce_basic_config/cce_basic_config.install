@@ -631,7 +631,7 @@ function _cce_basic_config_post_install_default_blocks() {
 
 }
 
-/*
+/**
  * Initialize content type.
  *
  * Add 'page' and ''article' CT and their body.
