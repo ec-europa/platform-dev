@@ -9,7 +9,6 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Element\Element;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -467,53 +466,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
-  /**
-   * Attempts to find and check a checkbox in a table row containing given text.
-   *
-   * @param string $row_text
-   *    Text on the table row.
-   *
-   * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
-   *
-   * @Given I check the box on the :row_text row
-   */
-  public function checkCheckboxOnTableRow($row_text) {
-    $page = $this->getSession()->getPage();
-    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
-      $checkbox->check();
-      return;
-    }
-    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
-  }
-
-  /**
-   * Retrieve a table row containing specified text from a given element.
-   *
-   * @param Element $element
-   *    Mink element object.
-   * @param string $search
-   *    Table row text.
-   *
-   * @throws \Exception
-   *    Throw exception if class table row was not found.
-   *
-   * @return NodeElement
-   *    Table row node element.
-   */
-  public function getTableRow(Element $element, $search) {
-    $rows = $element->findAll('css', 'tr');
-    if (empty($rows)) {
-      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
-    }
-    /** @var NodeElement $row */
-    foreach ($rows as $row) {
-      if (strpos($row->getText(), $search) !== FALSE) {
-        return $row;
-      }
-    }
-    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
-  }
 
   /**
    * Check if given field is translatable.

@@ -633,11 +633,22 @@ class PoetryMock {
       ->propertyCondition('filename', $file_name);
     $result = $query->execute();
 
-    if ($result) {
+    if (count($result['file']) == 1) {
       $file_info = reset($result['file']);
+
       return array(
         'demande_id' => $demande_id,
         'file' => file_load($file_info->fid),
+      );
+    }
+
+    if (count($result['file']) > 1) {
+      $file_info = reset($result['file']);
+
+      return array(
+        'demande_id' => $demande_id,
+        'file' => file_load($file_info->fid),
+        'files' => $result['file'],
       );
     }
   }
