@@ -9,11 +9,11 @@
  *
  * It injects a specific validate callback in charge of scanning field value.
  *
- * @see nexteuropa_editorial_field_widget_text_textarea_form_alter()
- * @see nexteuropa_editorial_field_widget_text_textarea_with_summary_form_alter()
- * @see nexteuropa_editorial_field_widget_text_textfield_form_alter()
+ * @see nexteuropa_trackedchanges_field_widget_text_textarea_form_alter()
+ * @see nexteuropa_trackedchanges_field_widget_text_textarea_with_summary_form_alter()
+ * @see nexteuropa_trackedchanges_field_widget_text_textfield_form_alter()
  */
-function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$form_state, $context) {
+function _nexteuropa_trackedchanges_field_widget_tracking_form_alter(&$element, &$form_state, $context) {
   if (isset($element['#entity'])) {
     $entity = $element['#entity'];
     // Workaround for entities that do not use "entity_load" correctly
@@ -27,13 +27,13 @@ function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$for
       return;
     }
 
-    $tracking_settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+    $tracking_settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
     if ($tracking_settings['is_activate']) {
       $instance_settings = $context['instance']['settings'];
       if (isset($instance_settings['text_processing']) && $instance_settings['text_processing']) {
         // Tracking change is only possible on fields on which
         // a text format can be set.
-        $element['#element_validate'][] = '_nexteuropa_editorial_tracking_field_validate';
+        $element['#element_validate'][] = '_nexteuropa_trackedchanges_tracking_field_validate';
       }
     }
   }
@@ -57,7 +57,7 @@ function _nexteuropa_editorial_field_widget_tracking_form_alter(&$element, &$for
  * @throws EntityMalformedException
  *   If the entity bundle is not set.
  */
-function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
+function _nexteuropa_trackedchanges_set_tracking_flags($entity, $type = 'node') {
   // Tracking changes are only present n the following "field widget types".
   $screened_field_types = array(
     'text_textarea',
@@ -123,7 +123,7 @@ function _nexteuropa_editorial_set_tracking_flags($entity, $type = 'node') {
  * @param array $form_state
  *   Form state of the submitted form.
  */
-function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
+function _nexteuropa_trackedchanges_tracking_entity_validate($form, &$form_state) {
   $values = $form_state['values'];
 
   // So far, we only support "node" entity type.
@@ -143,10 +143,10 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
     }
 
     $current_status = $values['status'];
-    $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state, $current_status);
+    $tracking_to_check = _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state, $current_status);
     // Generates errors only if required by WYSIWYG tracking workflow settings.
     if ($tracking_to_check) {
-      $tracking_activate = _nexteuropa_editorial_set_tracking_flags($entity);
+      $tracking_activate = _nexteuropa_trackedchanges_set_tracking_flags($entity);
       // Unset because current form could be emptied of its tracked changes.
       unset($tracking_activate[$current_ent_lang]);
       // Unset because it is common to all translations;even the current one.
@@ -160,7 +160,7 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
 
       // Treating other translation revisions.
       if ($tracking_activate) {
-        $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate, $entity);
+        $entity_message = _nexteuropa_trackedchanges_tracking_entity_message($tracking_activate, $entity);
         form_set_error('tracking_activate', $entity_message);
       }
     }
@@ -178,20 +178,20 @@ function _nexteuropa_editorial_tracking_entity_validate($form, &$form_state) {
  * @param array $form_state
  *   Form state of the submitted form.
  *
- * @see nexteuropa_editorial_form_workbench_moderation_moderate_form_alter()
+ * @see nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter()
  */
-function _nexteuropa_editorial_tracking_wbm_validate($form, &$form_state) {
+function _nexteuropa_trackedchanges_tracking_wbm_validate($form, &$form_state) {
   $values = $form_state['values'];
   $entity = $values['node'];
   $current_wbm_state = $values['state'];
-  $tracking_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state);
+  $tracking_to_check = _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state);
   // Generates errors only if required by WYSIWYG tracking workflow settings.
   if ($tracking_to_check) {
-    $tracking_activate = _nexteuropa_editorial_set_tracking_flags($entity);
+    $tracking_activate = _nexteuropa_trackedchanges_set_tracking_flags($entity);
 
     // Treating other translation revisions.
     if ($tracking_activate) {
-      $entity_message = _nexteuropa_editorial_tracking_entity_message($tracking_activate, $entity);
+      $entity_message = _nexteuropa_trackedchanges_tracking_entity_message($tracking_activate, $entity);
       form_set_error('tracking_activate', $entity_message);
     }
   }
@@ -211,9 +211,9 @@ function _nexteuropa_editorial_tracking_wbm_validate($form, &$form_state) {
  * @param array $form
  *   Submitted form.
  *
- * @see _nexteuropa_editorial_tracking_entity_validate()
+ * @see _nexteuropa_trackedchanges_tracking_entity_validate()
  */
-function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $form) {
+function _nexteuropa_trackedchanges_tracking_field_validate($element, &$form_state, $form) {
   $entity = $element['#entity'];
   $values = $form_state['values'];
 
@@ -223,7 +223,7 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
   }
 
   $current_status = $values['status'];
-  $is_to_check = _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state, $current_status);
+  $is_to_check = _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state, $current_status);
 
   if ($is_to_check) {
     $value = '';
@@ -269,12 +269,12 @@ function _nexteuropa_editorial_tracking_field_validate($element, &$form_state, $
  * @return string
  *   Message to display
  *
- * @see _nexteuropa_editorial_tracking_entity_validate()
+ * @see _nexteuropa_trackedchanges_tracking_entity_validate()
  */
-function _nexteuropa_editorial_tracking_entity_message($tracking_lang, $entity) {
+function _nexteuropa_trackedchanges_tracking_entity_message($tracking_lang, $entity) {
 
-  $lang_related = _nexteuropa_editorial_tracking_message_for_languages($tracking_lang);
-  $state_related = _nexteuropa_editorial_tracking_message_for_wbm_states($entity);
+  $lang_related = _nexteuropa_trackedchanges_tracking_message_for_languages($tracking_lang);
+  $state_related = _nexteuropa_trackedchanges_tracking_message_for_wbm_states($entity);
 
   return $lang_related . ' ' . $state_related;
 
@@ -291,9 +291,9 @@ function _nexteuropa_editorial_tracking_entity_message($tracking_lang, $entity) 
  * @return string
  *   The error message
  *
- * @see _nexteuropa_editorial_tracking_entity_message()
+ * @see _nexteuropa_trackedchanges_tracking_entity_message()
  */
-function _nexteuropa_editorial_tracking_message_for_languages($tracking_lang) {
+function _nexteuropa_trackedchanges_tracking_message_for_languages($tracking_lang) {
   // LANGUAGE_NONE means all languages and then the current one too.
   unset($tracking_lang[LANGUAGE_NONE]);
 
@@ -332,10 +332,10 @@ function _nexteuropa_editorial_tracking_message_for_languages($tracking_lang) {
  * @return string
  *   The error message
  *
- * @see _nexteuropa_editorial_tracking_entity_message()
+ * @see _nexteuropa_trackedchanges_tracking_entity_message()
  */
-function _nexteuropa_editorial_tracking_message_for_wbm_states($entity) {
-  $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+function _nexteuropa_trackedchanges_tracking_message_for_wbm_states($entity) {
+  $settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
   $blocked_states = $settings['wbm_states'];
 
   if (!$blocked_states) {
@@ -374,7 +374,7 @@ function _nexteuropa_editorial_tracking_message_for_wbm_states($entity) {
  * @return bool
  *   TRUE if it needs to be tested; otherwise FALSE.
  */
-function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALSE, $current_status = FALSE) {
+function _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state = FALSE, $current_status = FALSE) {
   $type = $entity->entity_type;
   // So far, only nodes are support.
   if ($type == 'node') {
@@ -382,7 +382,7 @@ function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALS
     list($id) = entity_extract_ids($type, $entity);
     $cached_settings = &drupal_static(__FUNCTION__ . '_' . $type . '_' . $id);
     if (empty($cached_settings)) {
-      $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($entity);
+      $settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
       if ($settings['is_activate']) {
         if (in_array($current_wbm_state, $settings['wbm_states'])) {
           $cached_settings = TRUE;
@@ -413,15 +413,15 @@ function _nexteuropa_editorial_tracking_is_on($entity, $current_wbm_state = FALS
  *      should be blocked if tracked changes information exist.
  *   - wbm_states: (only node) it gives the list of state to take into account.
  */
-function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
+function _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity = NULL) {
   if ($entity && isset($entity->entity_type)) {
     $type = $entity->entity_type;
     $cached_settings = &drupal_static(__FUNCTION__ . '_' . $type);
 
     // So far, only nodes are supported.
     if (empty($cached_settings) && ($type == 'node')) {
-      $status = variable_get('nexteuropa_editorial_tracking_status');
-      $states = variable_get('nexteuropa_editorial_tracking_wbm_states', array());
+      $status = variable_get('nexteuropa_trackedchanges_tracking_status');
+      $states = variable_get('nexteuropa_trackedchanges_tracking_wbm_states', array());
       $states_to_check = array_filter($states);
       $cached_settings = array(
         'is_activate' => TRUE,
@@ -440,42 +440,6 @@ function _nexteuropa_editorial_wysiwyg_tracking_settings($entity = NULL) {
 }
 
 /**
- * Form callback for the settings form.
- *
- * @see system_settings_form()
- */
-function nexteuropa_editorial_wysiwyg_tracking_settings_form($form, &$form_state) {
-
-  $options = workbench_moderation_state_labels();
-
-  $form['node_workflow'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Node tracking change workflow'),
-    '#description' => t("Set when content with tracking change cannot be saved."),
-  );
-
-  $form['node_workflow']['nexteuropa_editorial_tracking_status'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Block if status is true'),
-    '#default_value' => variable_get('nexteuropa_editorial_tracking_status'),
-    '#description' => t('If checked, all content types cannot be saved if
-       tracking changes feature is enabled; except content types which are
-       using the workbench moderation flow with states selected in the field
-       below.'),
-  );
-
-  $form['node_workflow']['nexteuropa_editorial_tracking_wbm_states'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Block the saving for these Workbench Moderation states'),
-    '#options' => $options,
-    '#default_value' => variable_get('nexteuropa_editorial_tracking_wbm_states', array()),
-    '#description' => t('Choose states where content saving must be blocked if tracked changes exists.'),
-  );
-
-  return system_settings_form($form);
-}
-
-/**
  * Removes the "ckeditor_lite" post render callback.
  *
  * It is replaced by one matching platform needs.
@@ -483,9 +447,9 @@ function nexteuropa_editorial_wysiwyg_tracking_settings_form($form, &$form_state
  * @param array $build
  *   Entity view build.
  *
- * @see nexteuropa_editorial_entity_view_alter()
+ * @see nexteuropa_trackedchanges_entity_view_alter()
  */
-function _nexteuropa_editorial_ckeditor_lite_view_alter(&$build, $type) {
+function _nexteuropa_trackedchanges_ckeditor_lite_view_alter(&$build, $type) {
   if ($type == 'node' &&  user_access('ckeditor_lite highlight changes')) {
     // Only applicable on node., other entity does not have the same workflow.
     // If the user does not have the permission, we leave ckeditor_lite
@@ -494,7 +458,7 @@ function _nexteuropa_editorial_ckeditor_lite_view_alter(&$build, $type) {
       $key = array_search('_ckeditor_lite_entity_post_render', $build['#post_render']);
       if ($key !== FALSE) {
         unset($build['#post_render'][$key]);
-        $build['#post_render'][] = '_nexteuropa_editorial_ckeditor_lite_entity_post_render';
+        $build['#post_render'][] = '_nexteuropa_trackedchanges_ckeditor_lite_entity_post_render';
 
         // Add the ckeditor_lite.js in order to use "highlighting" css classes.
         $path = drupal_get_path('module', 'ckeditor_lite');
@@ -509,13 +473,13 @@ function _nexteuropa_editorial_ckeditor_lite_view_alter(&$build, $type) {
 /**
  * Post render callback forcing the presence of the required ckeditor_lite css.
  */
-function _nexteuropa_editorial_ckeditor_lite_entity_post_render($output, $element) {
+function _nexteuropa_trackedchanges_ckeditor_lite_entity_post_render($output, $element) {
   // First we check if change tracking exist.
   if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $output)) {
     // We only support node here.
     $node = $element['#node'];
     $bundle = node_type_get_name($node);
-    $settings = _nexteuropa_editorial_wysiwyg_tracking_settings($node);
+    $settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($node);
 
     // Set the warning message,depending on settings.
     $message = t('<strong>The change tracking is activated</strong> on some fields of this "@type" content.',

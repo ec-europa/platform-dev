@@ -1,0 +1,139 @@
+<?php
+/**
+ * @file
+ * NextEuropa Tracked Changes install, update and uninstall functions.
+ */
+
+/**
+ * Implements hook_enable().
+ *
+ * Sets the default value of parameters used by this module and CKEditor LITE.
+ */
+function nexteuropa_trackedchanges_enable() {
+
+  // Workbench moderation state for WYSIWYG tracking settings.
+  $wbm_state = array(
+    'validated' => 'validated',
+    'published' => 'published',
+  );
+  variable_set('nexteuropa_trackedchanges_tracking_wbm_states', $wbm_state);
+  // WYSIWYG tracking settings for "Published" status case.
+  variable_set('nexteuropa_trackedchanges_tracking_status', 1);
+
+  // Default behavior for CKEditor LITE buttons.
+  variable_set('nexteuropa_trackedchanges_disable_track_on_create', 1);
+  variable_set('nexteuropa_trackedchanges_force_track_on_edit', 0);
+
+  /*
+   * Create WYSIWYG profile for Full HTML text format with Change Tracking.
+   *
+   * Introducing that format will allow users to choose tracking changes
+   * functionality for WYSIWYG fields based on filter type.
+   * Format is based on 'Full HTML' text format and profile.
+   */
+
+  // Preparing filer format required further to build WYSIWYG profile.
+  $fl_html_filters = multisite_config_service('filter')->getFormatFilters('full_html');
+
+  if ($fl_html_filters) {
+    // Transforming array of objects in to array by small trick.
+    $fl_html_filters = json_decode(json_encode($fl_html_filters), TRUE);
+    $full_html_track_format = (object) array(
+      'format' => 'full_html_track',
+      'name' => 'Full HTML + Change tracking',
+      'cache' => '0',
+      'status' => '1',
+      'weight' => '-10',
+      'filters' => $fl_html_filters,
+    );
+    // Filter module function for saving and updating text formats.
+    filter_format_save($full_html_track_format);
+
+    // Create WYSIWYG profile for Full HTML text format with change tracking.
+    // Creation based on Full HTML profile to keep a consistent functionality.
+    $wys_fl_html = multisite_config_service('wysiwyg')->getProfile('full_html');
+    $wys_fl_html_settings = (array) $wys_fl_html->settings;
+    multisite_config_service('wysiwyg')->createProfile(
+      'full_html_track',
+      'ckeditor',
+      $wys_fl_html_settings
+    );
+
+    // Adding LITE plugin change tracking functionality to new profile.
+    // Enable ckeditor_lite WYSIWYG plugin.
+    $lite_plugin_settings = array(
+      'lite_AcceptAll',
+      'lite_RejectAll',
+      'lite_AcceptOne',
+      'lite_RejectOne',
+      'lite_ToggleShow',
+      'lite_ToggleTracking',
+    );
+    multisite_config_service('wysiwyg')->addButtonsToProfile(
+      'full_html_track',
+      'lite',
+      $lite_plugin_settings
+    );
+  }
+
+  // Cloning roles to 'Full HTML + Change tracking' text format. It needs to be
+  // done at least here because sooner it was not possible.
+  $fl_html_roles = multisite_config_service('filter')->getFormatRoles('full_html');
+  if ($fl_html_roles) {
+    multisite_config_service('filter')->setFormatRoles('full_html_track', $fl_html_roles);
+  }
+
+  // CKEditor Lite permission.
+  $permissions = array(
+    // ckeditor_lite highlight changes.
+    'ckeditor_lite highlight changes',
+  );
+  multisite_config_service('user')->grantPermission('administrator', $permissions);
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
+  multisite_config_service('user')->grantPermission('editor', $permissions);
+
+  if (module_exists('nexteuropa_editorial')) {
+    multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
+  }
+  drupal_set_message(t('NextEuropa Tracked Changes feature is now active on your site.'));
+}
+
+/**
+ * Implements hook_disable().
+ *
+ * Cleans the default value of parameters used by this module and CKEditor LITE.
+ */
+function nexteuropa_trackedchanges_disable() {
+
+  // Workbench moderation state for WYSIWYG tracking settings.
+  variable_del('nexteuropa_trackedchanges_tracking_wbm_states');
+  // WYSIWYG tracking settings for "Published" status case.
+  variable_del('nexteuropa_trackedchanges_tracking_status');
+  // Default behavior for CKEditor LITE buttons.
+  variable_del('nexteuropa_trackedchanges_disable_track_on_create');
+  variable_del('nexteuropa_trackedchanges_force_track_on_edit');
+
+  // @todo Remove the 'full_html_track' profile and text format
+  // + update field filters to "full_html".
+  // Disabling CKEditor LITE if no other module depends on it.
+  $module_data = system_rebuild_module_data();
+  $dependent_modules = $module_data['dkeditor_lite']->required_by;
+  unset($dependent_modules['nexteuropa_trackedchanges']);
+  $ckedlite_to_disable = TRUE;
+  if (!empty($dependent_modules)) {
+    $dpdt_module_names = array_keys($dependent_modules);
+
+    foreach ($dpdt_module_names as $dpdt_module_name) {
+      if (module_exists($dpdt_module_name)) {
+        $ckedlite_to_disable = FALSE;
+        break;
+      }
+    }
+  }
+
+  if ($ckedlite_to_disable) {
+    module_disable(array('dkeditor_lite'));
+  }
+
+  drupal_set_message(t('NextEuropa Tracked Changes feature is now inactive on your site.'));
+}

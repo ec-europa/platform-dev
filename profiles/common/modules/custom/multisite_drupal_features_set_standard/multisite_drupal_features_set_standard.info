@@ -398,3 +398,15 @@ feature_sets[multisite_business_indicators_standard][icon] = ''
 feature_sets[multisite_business_indicators_standard][font] = 'multisite-icon-stats'
 feature_sets[multisite_business_indicators_standard][enable][] = multisite_business_indicators_standard
 feature_sets[multisite_business_indicators_standard][disable][] = multisite_business_indicators_standard
+
+; NextEuropa Tracked Changes
+feature_sets[nexteuropa_trackedchanges][title] = 'WYSIWYG Tracked Changes'
+feature_sets[nexteuropa_trackedchanges][description] = 'Provides editorial teams with change tracking capabilities in WYSIWYG.'
+feature_sets[nexteuropa_trackedchanges][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/I4fhAg'
+feature_sets[nexteuropa_trackedchanges][category] = 'Editorial Management'
+feature_sets[nexteuropa_trackedchanges][icon] = ''
+feature_sets[nexteuropa_trackedchanges][font] = 'multisite-icon-keyboard'
+feature_sets[nexteuropa_trackedchanges][enable][] = nexteuropa_trackedchanges
+feature_sets[nexteuropa_trackedchanges][enable][] = ckeditor_lite
+feature_sets[nexteuropa_trackedchanges][disable][] = nexteuropa_trackedchanges
+feature_sets[nexteuropa_trackedchanges][disable][] = ckeditor_lite

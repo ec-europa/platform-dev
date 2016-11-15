@@ -1,0 +1,168 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Tracked Changes feature.
+ */
+
+include_once 'nexteuropa_trackedchanges.admin.inc';
+include_once 'nexteuropa_trackedchanges.tracking.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_trackedchanges_menu() {
+  $items['admin/config/content/wysiwyg/tracked_changes'] = [
+    'title' => 'WYSIWYG tracked changes',
+    'description' => 'Setup pages for "WYSIWYG tracked changes" feature',
+    'position' => 'right',
+    'weight' => -5,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => ['administer ckeditor_lite'],
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  ];
+
+  $items['admin/config/content/wysiwyg/tracked_changes/setup'] = [
+    'title' => 'Tracked changes buttons settings',
+    'description' => 'Setup page for "WYSIWYG tracked changes" related buttons',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['nexteuropa_trackedchanges_settings_form'],
+    'access arguments' => ['administer ckeditor_lite'],
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+    'weight' => 1,
+  ];
+
+  $items['admin/config/content/wysiwyg/tracked_changes/%/enable'] = [
+    'title' => 'Enable tracked changes for profile',
+    'page callback' => '_nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable',
+    'page arguments' => array(5),
+    'access arguments' => ['administer ckeditor_lite'],
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+  ];
+
+  $items['admin/config/content/wysiwyg/tracked_changes/%/disable'] = [
+    'title' => 'Enable tracked changes for profile',
+    'page callback' => '_nexteuropa_trackedchanges_wysiwyg_tracking_settings_disable',
+    'page arguments' => array(5),
+    'access arguments' => ['administer ckeditor_lite'],
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+  ];
+
+  $items['admin/config/content/wysiwyg/tracked_changes/workbench'] = [
+    'title' => 'Tracked changes workflow settings',
+    'description' => 'Setup page for the workflow controls on "WYSIWYG tracked changes" related buttons',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => ['nexteuropa_trackedchanges_wysiwyg_tracking_settings_form'],
+    'access arguments' => ['administer ckeditor_lite'],
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
+  $entity = $form['node']['#value'];
+  $tracking_settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
+  if ($tracking_settings['is_activate']) {
+    $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_wbm_validate';
+  }
+}
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area" widget.
+ */
+function nexteuropa_trackedchanges_field_widget_text_textarea_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_trackedchanges_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area with a summary" widget.
+ */
+function nexteuropa_trackedchanges_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_trackedchanges_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text field" widget.
+ */
+function nexteuropa_trackedchanges_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_trackedchanges_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_attach_form().
+ */
+function nexteuropa_trackedchanges_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  // Only node entities are supported.
+  $tracking_settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
+  if (($entity_type == 'node') && $tracking_settings['is_activate']) {
+    if (!isset($form['language'])) {
+      // The form item containing the entity can change from an entity to
+      // another. Then we set it like that to easy future treatment.
+      $form['language'] = array(
+        '#type' => 'value',
+        '#value' => $langcode,
+      );
+    }
+    $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_entity_validate';
+  }
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function nexteuropa_trackedchanges_entity_view_alter(&$build, $type) {
+  _nexteuropa_trackedchanges_ckeditor_lite_view_alter($build, $type);
+}
+
+/**
+ * Implements hook_tmgmt_dgt_html_filter_formats_containing_html().
+ */
+function nexteuropa_trackedchanges_tmgmt_dgt_html_filter_formats_containing_html() {
+  return array(
+    'full_html_track',
+  );
+}
+
+/**
+ * Implements hook_wysiwyg_editor_settings_alter().
+ *
+ * Alter the display and the status (active/inactive) of CKEditor LITE buttons.
+ */
+function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $context) {
+  $state = multisite_wysiwyg_set_current_entity_object_state();
+
+  if ($context['profile']->editor == 'ckeditor') {
+    $settings['lite']['isTracking'] = FALSE;
+  }
+
+  if ($state == 'create') {
+    $is_btn_disabled = variable_get('nexteuropa_trackedchanges_disable_track_on_create');
+    if ($is_btn_disabled) {
+      // Turn CKEditor Lite tracking off by default.
+      $extra_plugins = explode(',', $settings['extraPlugins']);
+      foreach ($extra_plugins as $key => $plugin) {
+        if ($plugin == 'lite') {
+          unset($extra_plugins[$key]);
+        }
+      }
+      $settings['extraPlugins'] = implode(',', $extra_plugins);
+    }
+  }
+  elseif ($state == 'edit') {
+    // Force the enabling of CKEditor Lite change tracking on edit
+    // entity pages.
+    $force_btn_enabled = variable_get('nexteuropa_trackedchanges_force_track_on_edit');
+    if ($force_btn_enabled) {
+      $settings['lite']['isTracking'] = TRUE;
+    }
+  }
+}
