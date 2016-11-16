@@ -118,20 +118,21 @@ function nexteuropa_trackedchanges_disable() {
   // + update field filters to "full_html".
   // Disabling CKEditor LITE if no other module depends on it.
   $module_data = system_rebuild_module_data();
-  $dependent_modules = $module_data['dkeditor_lite']->required_by;
-  unset($dependent_modules['nexteuropa_trackedchanges']);
-  $ckedlite_to_disable = TRUE;
-  if (!empty($dependent_modules)) {
-    $dpdt_module_names = array_keys($dependent_modules);
+  if (!empty($module_data['dkeditor_lite'])) {
+    $dependent_modules = $module_data['dkeditor_lite']->required_by;
+    unset($dependent_modules['nexteuropa_trackedchanges']);
+    $ckedlite_to_disable = TRUE;
+    if (!empty($dependent_modules)) {
+      $dpdt_module_names = array_keys($dependent_modules);
 
-    foreach ($dpdt_module_names as $dpdt_module_name) {
-      if (module_exists($dpdt_module_name)) {
-        $ckedlite_to_disable = FALSE;
-        break;
+      foreach ($dpdt_module_names as $dpdt_module_name) {
+        if (module_exists($dpdt_module_name)) {
+          $ckedlite_to_disable = FALSE;
+          break;
+        }
       }
     }
   }
-
   if ($ckedlite_to_disable) {
     module_disable(array('dkeditor_lite'));
   }
