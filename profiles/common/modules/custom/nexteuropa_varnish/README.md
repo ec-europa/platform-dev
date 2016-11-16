@@ -1,7 +1,7 @@
 About Varnish
 =============
 Varnish is a very fast reverse-proxy system which is serving static 
-files and anonymous page views based on the previously processed 
+files and anonymous page views based on the previously processed
 requests.
 
 Nexteuropa Varnish
@@ -23,13 +23,13 @@ be configured before enabling the feature:
 - 'nexteuropa_varnish_tag',
 - 'nexteuropa_varnish_request_method'
 
-In order to enable the feature make sure that above varibales are set
-then go to the `admin/structure/feature-set` page select 
+In order to enable the feature make sure that above variables are set
+and if so then go to the `admin/structure/feature-set` page select
 'Rule-based web frontend cache purging' and click 'Validate' button.
 
 ### Custom entity - 'Purge rule'
 The Nexteuropa Varnish provides additional custom entity type:
-- Purge rule - machine name: `nexteuropa_varnish_cache_purge_rule` 
+- Purge rule - machine name: `nexteuropa_varnish_cache_purge_rule`
 
 It allows to create and maintain a set of rules which are responsible
 for sending customized HTTP requests to the Varnish server and by
@@ -38,5 +38,19 @@ that invalidating the frontend cache.
 To add and maintain purge rules go to the following url:
 `admin/config/frontend_cache_purge_rules`
 
-
-
+### Purge rules logic
+The Nexteuropa Varnish provides hardcoded logic for triggering
+configured rules. Current version implements two workflow cases for:
+- content types moderated via the workbench moderation module
+- content types without additional moderation (default Drupal settings)
+#### Content moderated via the workbench moderation module
+For the content types which are controlled via workbench moderation
+module, created purge rules would be triggered in the following cases:
+- always when the given content would have a workflow state change to 'Published'
+- always when the given content would have a workflow state change from 'Published' to the other
+#### Content without moderation
+For the content types which are not moderated (default Drupal content
+type with two states published and unpublished), created purge rules
+would be triggered in the following cases:
+- when the node of the given content type would be created and saved with the 'Publish' state
+- when the published node of the given content type would be updated
