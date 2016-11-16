@@ -68,12 +68,12 @@ Feature: Page Layout
     And I press the "Save" button
     Then I should see the success message "Your settings have been saved."
     When I visit "node/add/content-type-test"
-    And I fill in "Title" with "Title"
+    And I fill in "Title" with "Example to compare two divs"
     And I fill in "field 1" with "text 1"
     And I fill in "field 2" with "text 2"
     And I press the "Save" button
-    Then I should see the success message "Content type test Title has been created."
+    Then I should see the success message "Content type test Example to compare two divs has been created."
     And I check if "field-name-field-field-1" and "field-name-field-field-2" have the same position from top
     When I am not logged in
-    And I visit "content/title"
+    And I visit "content/example-compare-two-divs"
     Then I check if "field-name-field-field-1" and "field-name-field-field-2" have the same position from top
