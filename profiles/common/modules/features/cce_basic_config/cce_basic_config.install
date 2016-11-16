@@ -632,20 +632,6 @@ function _cce_basic_config_post_install_default_blocks() {
 }
 
 /**
- * Initialize apachesorl.
- */
-function _cce_basic_config_post_install_apachesolr() {
-  // Disable all Solr environments for the remainder of this request. We are
-  // going to create some files, and need to prevent the apachesolr module from
-  // trying to update the Solr indexes when hook_entity_save() fires.
-  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
-  $environments = &drupal_static('apachesolr_load_all_environments');
-  $environments = array();
-
-  variable_set('apachesolr_delay_removals', 1);
-}
-
-/**
  * Initialize content type.
  *
  * Add 'page' and ''article' CT and their body.
@@ -1005,7 +991,6 @@ function cce_basic_config_post_install() {
   _cce_basic_config_post_install_default_images();
   _cce_basic_config_post_install_default_menu_items();
   _cce_basic_config_post_install_default_terms();
-  _cce_basic_config_post_install_apachesolr();
 }
 
 /**
