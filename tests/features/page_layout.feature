@@ -36,4 +36,44 @@ Feature: Page Layout
       | contact    | Contact - European Commission               |
       | user       | User account - European Commission          |
 
+  @javascript @reset-node-types
   Scenario: Logged user can see the content in the column right and left
+    Given I am logged in as a user with the 'administrator' role
+    When I visit "admin/structure/types/add"
+    And I fill in "name" with "Content type test"
+    And I press the "Save and add fields" button
+    Then I should see the success message "The content type Content type test has been added."
+    When I fill in "fields[_add_new_field][label]" with "field 1"
+    And I select "Long text" from "fields[_add_new_field][type]"
+    And I select "Text area (multiple rows)" from "fields[_add_new_field][widget_type]"
+    And I press the "Save" button
+    And I press the "Save field settings" button
+    Then I should see the success message "Updated field field 1 field settings."
+    When I press the "Save settings" button
+    Then I should see the success message "Saved field 1 configuration."
+    When I fill in "fields[_add_new_field][label]" with "field 2"
+    And I select "Long text" from "fields[_add_new_field][type]"
+    And I select "Text area (multiple rows)" from "fields[_add_new_field][widget_type]"
+    And I press the "Save" button
+    And I press the "Save field settings" button
+    Then I should see the success message "Updated field field 2 field settings."
+    When I press the "Save settings" button
+    Then I should see the success message "Saved field 2 configuration."
+    When I visit "admin/structure/types/manage/content-type-test/display"
+    And I select "Two column" from "additional_settings[layout]"
+    And I press the "Save" button
+    Then I should see the success message "Your settings have been saved."
+    When I select "Left" from "edit-fields-field-field-1-region"
+    And I select "Right" from "edit-fields-field-field-2-region"
+    And I press the "Save" button
+    Then I should see the success message "Your settings have been saved."
+    When I visit "node/add/content-type-test"
+    And I fill in "Title" with "Title"
+    And I fill in "field 1" with "text 1"
+    And I fill in "field 2" with "text 2"
+    And I press the "Save" button
+    Then I should see the success message "Content type test Title has been created."
+    And I check if "field-name-field-field-1" and "field-name-field-field-2" have the same position from top
+    When I am not logged in
+    And I visit "content/title"
+    Then I check if "field-name-field-field-1" and "field-name-field-field-2" have the same position from top

@@ -235,4 +235,29 @@ class MinkContext extends DrupalExtensionMinkContext {
     throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
   }
 
+  /**
+   * Compare the position from top between 2 divs by class.
+   *
+   * @param string $div1
+   *   Class of the first div.
+   * @param string $div2
+   *   Class of the second div.
+   *
+   * @throws \Exception
+   *    Throw exception if the two positions from top are different.
+   *
+   * @Then I check if :div1 and :div2 have the same position from top
+   */
+  public function checkIfTwoDivHaveSamePosition($div1, $div2) {
+    $javascript1 = "return jQuery('." . $div1 . "').offset().top;";
+    $resultDiv1 = intval($this->getSession()->evaluateScript($javascript1));
+
+    $javascript2 = "return jQuery('." . $div2 . "').offset().top;";
+    $resultDiv2 = intval($this->getSession()->evaluateScript($javascript2));
+
+    if($resultDiv1 != $resultDiv2) {
+      throw new \Exception(sprintf('Failed to check the position from top between "%s" (%s) and "%s" (%s).', $div1, $resultDiv1, $div2, $resultDiv2));
+    }
+  }
+
 }

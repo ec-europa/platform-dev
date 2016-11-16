@@ -22,6 +22,13 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   protected $maxNodeId;
 
   /**
+   * The list of node type before a scenario starts.
+   *
+   * @var array
+   */
+  protected $nodeTypes;
+
+  /**
    * {@inheritdoc}
    */
   public function loggedIn() {
@@ -95,6 +102,46 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       entity_delete_multiple('node', array_keys($all_nodes_after));
     }
     unset($this->maxNodeId);
+  }
+
+  /**
+   * Remember the list of node type.
+   *
+   * @BeforeScenario @reset-node-types
+   */
+  public function rememberCurrentNodeTypes() {
+    $results = db_select('node_type')
+      ->fields('node_type', array('type'))
+      ->execute();
+    if ($results) {
+      foreach ($results as $result) {
+        $this->nodeTypes[] = $result->type;
+      }
+    }
+  }
+
+  /**
+   * Removes any node types created after the last list node type remembered.
+   *
+   * @AfterScenario @reset-node-types
+   */
+  public function resetNodeTypes() {
+    if (!isset($this->nodeTypes)) {
+      return;
+    }
+
+    $results = db_select('node_type')
+      ->fields('node_type', array('type'))
+      ->execute();
+    if ($results) {
+      foreach ($results as $result) {
+        if (!in_array($result->type, $this->nodeTypes)) {
+          node_type_delete($result->type);
+        }
+      }
+    }
+
+    unset($this->nodeTypes);
   }
 
 }
