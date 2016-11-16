@@ -24,7 +24,7 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
     '#description' => t('Disable change tracking on create content pages.'),
     '#default_value' => variable_get('nexteuropa_trackedchanges_disable_track_on_create'),
   );
-  $cke_lite_admin_link = l('CKEditor LITE', 'admin/config/content/ckeditor_lite');
+  $cke_lite_admin_link = l(t('CKEditor LITE'), 'admin/config/content/ckeditor_lite');
   $form['nexteuropa_trackedchanges_force_track_on_edit'] = array(
     '#title' => t('Enable tracking on edit content pages.'),
     '#type' => 'checkbox',
