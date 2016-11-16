@@ -6,14 +6,19 @@ Feature: Change tracking features
   Tracked changes must be cleared before content is published or sent for
   translation; otherwise the content publishing is blocked
 
+  Background:
+    Given the module is enabled
+      | modules                   |
+      | nexteuropa_trackedchanges |
+
   @api
   Scenario Outline: "Basic page" case: If WYSIWYG workflow settings are correctly
   configured, The change of the content state to "validated" or "published" must
   be blocked if CKEditor Lite tracked changes exist in WYSIWYG fields
     Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
+    When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
+    And I check the box "Validated"
+    And I check the box "Published"
     And I press "Save configuration"
     Then I should see the success message "The configuration options have been saved."
     When I go to "node/add/page"
@@ -48,9 +53,9 @@ Feature: Change tracking features
   content state to "validated" or "published" must be blocked if CKEditor
   Lite tracked changes exist in WYSIWYG fields
     Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
+    When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
+    And I check the box "Validated"
+    And I check the box "Published"
     And I press "Save configuration"
     When I go to "node/add/article"
     And I fill in "Title" with "Article title"
@@ -82,9 +87,9 @@ Feature: Change tracking features
   @api
   Scenario Outline: Change tracking are visible while seeing the content page
     Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
+    When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
+    And I check the box "Validated"
+    And I check the box "Published"
     And I press "Save configuration"
     When I am viewing an "page" content:
       | title            | Lorem ipsum dolor sit amet                                      |
@@ -106,9 +111,9 @@ Feature: Change tracking features
  @api
   Scenario Outline: If no changing tracks exist, I do not see any messages or HTML tags related to the change tracking
     Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
+    When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
+    And I check the box "Validated"
+    And I check the box "Published"
     And I press "Save configuration"
     When I am viewing an "page" content:
       | title            | Lorem ipsum dolor sit amet                                      |
@@ -135,9 +140,9 @@ Feature: Change tracking features
       | languages |
       | en        |
       | fr        |
-    When I go to "admin/config/content/multisite_wysiwyg/workbench"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-validated"
-    And I check the box "edit-nexteuropa-editorial-tracking-wbm-states-published"
+    When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
+    And I check the box "Validated"
+    And I check the box "Published"
     And I press "Save configuration"
     Then I should see the success message "The configuration options have been saved."
     When I am viewing a multilingual "page" content:

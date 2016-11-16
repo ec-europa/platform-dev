@@ -270,8 +270,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       // The catch is nevertheless useful because exceptions could happen if
       // the label value corresponds to the input id.
       // The "echo" is inserted for debug purpose.
-      echo (sprintf('An exception happens because "%s" was not found as Label.
-      that means that could be an id then getFieldIdFromInputLabel is as id.', $label_value));
+      echo (sprintf('NOTICE: An exception has been raised because "%s" was not found as Label.
+      that means that could be an id then getFieldIdFromInputLabel will simply return the submitted label value as id.', $label_value));
     }
     // If the id is not found, the label is considered as input id and the
     // scenario step calling the function must decide what to do with the
