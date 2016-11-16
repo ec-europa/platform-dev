@@ -250,13 +250,13 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   public function checkIfTwoDivHaveSamePosition($div1, $div2) {
     $javascript1 = "return jQuery('." . $div1 . "').offset().top;";
-    $resultDiv1 = intval($this->getSession()->evaluateScript($javascript1));
+    $result_div1 = intval($this->getSession()->evaluateScript($javascript1));
 
     $javascript2 = "return jQuery('." . $div2 . "').offset().top;";
-    $resultDiv2 = intval($this->getSession()->evaluateScript($javascript2));
+    $result_div2 = intval($this->getSession()->evaluateScript($javascript2));
 
-    if($resultDiv1 != $resultDiv2) {
-      throw new \Exception(sprintf('Failed to check the position from top between "%s" (%s) and "%s" (%s).', $div1, $resultDiv1, $div2, $resultDiv2));
+    if ($result_div1 != $result_div2) {
+      throw new \Exception(sprintf('Failed to check the position from top between "%s" (%s) and "%s" (%s).', $div1, $result_div1, $div2, $result_div2));
     }
   }
 
