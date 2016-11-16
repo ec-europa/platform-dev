@@ -17,45 +17,46 @@ function nexteuropa_trackedchanges_menu() {
     'position' => 'right',
     'weight' => -5,
     'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => ['administer ckeditor_lite'],
+    'access arguments' => array('administer ckeditor_lite'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
   ];
 
-  $items['admin/config/content/wysiwyg/tracked_changes/setup'] = [
+  $items['admin/config/content/wysiwyg/tracked_changes/setup'] = array(
     'title' => 'Tracked changes buttons settings',
     'description' => 'Setup page for "WYSIWYG tracked changes" related buttons',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['nexteuropa_trackedchanges_settings_form'],
-    'access arguments' => ['administer ckeditor_lite'],
+    'page arguments' => array('nexteuropa_trackedchanges_settings_form'),
+    'access arguments' => array('administer ckeditor_lite'),
     'file' => 'nexteuropa_trackedchanges.admin.inc',
-    'weight' => 1,
-  ];
+    'weight' => 0,
+  );
 
-  $items['admin/config/content/wysiwyg/tracked_changes/%/enable'] = [
+  $items['admin/config/content/wysiwyg/tracked_changes/%/enable'] = array(
     'title' => 'Enable tracked changes for profile',
     'page callback' => '_nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable',
     'page arguments' => array(5),
-    'access arguments' => ['administer ckeditor_lite'],
+    'access arguments' => array('administer ckeditor_lite'),
     'file' => 'nexteuropa_trackedchanges.admin.inc',
-  ];
+  );
 
-  $items['admin/config/content/wysiwyg/tracked_changes/%/disable'] = [
+  $items['admin/config/content/wysiwyg/tracked_changes/%/disable'] = array(
     'title' => 'Enable tracked changes for profile',
     'page callback' => '_nexteuropa_trackedchanges_wysiwyg_tracking_settings_disable',
     'page arguments' => array(5),
-    'access arguments' => ['administer ckeditor_lite'],
+    'access arguments' => array('administer ckeditor_lite'),
     'file' => 'nexteuropa_trackedchanges.admin.inc',
-  ];
+  );
 
-  $items['admin/config/content/wysiwyg/tracked_changes/workbench'] = [
+  $items['admin/config/content/wysiwyg/tracked_changes/workbench'] = array(
     'title' => 'Tracked changes workflow settings',
     'description' => 'Setup page for the workflow controls on "WYSIWYG tracked changes" related buttons',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['nexteuropa_trackedchanges_wysiwyg_tracking_settings_form'],
-    'access arguments' => ['administer ckeditor_lite'],
+    'page arguments' => array('nexteuropa_trackedchanges_wysiwyg_tracking_settings_form'),
+    'access arguments' => array('administer ckeditor_lite'),
     'file' => 'nexteuropa_trackedchanges.admin.inc',
-  ];
+    'weight' => 1,
+  );
 
   return $items;
 }
@@ -141,7 +142,9 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
   $state = multisite_wysiwyg_set_current_entity_object_state();
 
   if ($context['profile']->editor == 'ckeditor') {
-    $settings['lite']['isTracking'] = FALSE;
+    // If ckeditor_lite_istracking is not set, the default value is 1.
+    // For feature needs, the logic is inverted.
+    $settings['lite']['isTracking'] = variable_get('ckeditor_lite_istracking') ? TRUE : FALSE;
   }
 
   if ($state == 'create') {

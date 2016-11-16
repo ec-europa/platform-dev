@@ -11,26 +11,27 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
   $profiles = _nexteuropa_trackedchanges_get_profiles();
   $info_table = _nexteuropa_trackedchanges_render_info_table($profiles['info']);
 
-  $form['wysiwyg_profiles_info'] = [
+  $form['wysiwyg_profiles_info'] = array(
     '#title' => t('WYSIWYG profiles: change tracking status'),
     '#type' => 'item',
     '#markup' => $info_table,
     '#weight' => -10,
-  ];
+  );
 
-  $form['nexteuropa_trackedchanges_disable_track_on_create'] = [
+  $form['nexteuropa_trackedchanges_disable_track_on_create'] = array(
     '#title' => t('Disable on create content pages.'),
     '#type' => 'checkbox',
-    '#description' => 'Disable change tracking on create content pages.',
+    '#description' => t('Disable change tracking on create content pages.'),
     '#default_value' => variable_get('nexteuropa_trackedchanges_disable_track_on_create'),
-  ];
-
-  $form['nexteuropa_trackedchanges_force_track_on_edit'] = [
+  );
+  $cke_lite_admin_link = l('CKEditor LITE', 'admin/config/content/ckeditor_lite');
+  $form['nexteuropa_trackedchanges_force_track_on_edit'] = array(
     '#title' => t('Enable tracking on edit content pages.'),
     '#type' => 'checkbox',
-    '#description' => 'Force the change tracking by default on edit content pages.',
+    '#description' => t('Force the change tracking by default on edit content pages; 
+      it overrides !link configuration.', array('!link' => $cke_lite_admin_link)),
     '#default_value' => variable_get('nexteuropa_trackedchanges_force_track_on_edit'),
-  ];
+  );
 
   return system_settings_form($form);
 }
@@ -136,17 +137,17 @@ function _nexteuropa_trackedchanges_get_profiles() {
 function _nexteuropa_trackedchanges_render_info_table($info) {
   // Setting up table header.
   $header = array(
-    ['data' => t('Profile')],
-    ['data' => t('Machine name')],
-    ['data' => t('Status')],
-    ['data' => t('Actions')],
+    array('data' => t('Profile')),
+    array('data' => t('Machine name')),
+    array('data' => t('Status')),
+    array('data' => t('Actions')),
   );
   // Setting up table rows.
   foreach ($info as $profile_name => $data_row) {
     $status = $data_row['status'];
-    $action = l(t('enable'), 'admin/config/content/wysiwyg/tracked_changes/' . $profile_name . '/enable');
+    $action = l(t('enable tracked changes buttons'), 'admin/config/content/wysiwyg/tracked_changes/' . $profile_name . '/enable');
     if ($status) {
-      $action = l(t('disable'), 'admin/config/content/wysiwyg/tracked_changes/' . $profile_name . '/disable');
+      $action = l(t('disable tracked changes buttons'), 'admin/config/content/wysiwyg/tracked_changes/' . $profile_name . '/disable');
       if ($profile_name == 'full_html_track') {
         $action = t('Enabled by default. Can not be disabled.');
       }
@@ -161,15 +162,15 @@ function _nexteuropa_trackedchanges_render_info_table($info) {
   }
   // Rendering table.
   $rendered_table = theme('table',
-    [
+    array(
       'header' => $header,
       'rows' => $rows,
-      'attributes' => ['class' => ['table', 'table-striped']],
+      'attributes' => array('class' => array('table', 'table-striped')),
       'caption' => '',
-      'colgroups' => [],
+      'colgroups' => array(),
       'sticky' => FALSE,
       'empty' => FALSE,
-    ]
+    )
   );
 
   return $rendered_table;
