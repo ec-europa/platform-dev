@@ -170,6 +170,10 @@ projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.11"
+; Issue #2541786 : Changing layout to "fluid 2 columns stacked" resulted in crash
+; https://www.drupal.org/node/2541786
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-330
+projects[ds][patch][] = https://www.drupal.org/files/issues/2541786-8.patch
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
