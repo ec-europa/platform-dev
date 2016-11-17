@@ -174,7 +174,6 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-<<<<<<< HEAD
    * Assert that a radio button is selected.
    *
    * @Then the radio button :arg1 is selected
