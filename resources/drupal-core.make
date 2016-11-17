@@ -2,9 +2,9 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.50"
+projects[drupal][version] = "7.51"
 projects[drupal][download][type] = get
-projects[drupal][download][url] = https://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
+projects[drupal][download][url] = https://ftp.drupal.org/files/projects/drupal-7.51.tar.gz
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -26,7 +26,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupa
 
 ; Move local configuration directives out of the Git repository.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
-projects[drupal][patch][] = patches/default-settings-php-include-local-settings-3154.patch
+projects[drupal][patch][] = patches/default-settings-php-include-local-settings.patch
 
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
@@ -36,9 +36,10 @@ projects[drupal][patch][] = patches/default-settings-php-include-local-settings-
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-91.patch
 
 ; Allow DRUPAL_MAXIMUM_TEMP_FILE_AGE to be overridden.
-; https://www.drupal.org/node/1399846
+; Please read carefully: https://www.drupal.org/node/1399846?page=1#comment-11718181
+; The hook_update_N() has been removed from the patch, it needs to be added somewhere else to be consistent.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641
-projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-291.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-306_0.patch
 
 ; A validation error occurs for anonymous users when $form['#token'] == FALSE.
 ; https://www.drupal.org/node/1617918
