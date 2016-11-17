@@ -54,3 +54,28 @@ type with two states published and unpublished), created purge rules
 would be triggered in the following cases:
 - when the node of the given content type would be created and saved with the 'Publish' state
 - when the published node of the given content type would be updated
+
+## Tests and custom Behat Feature Context
+The Nexteuropa Varnish provides complete Behat test suite and additional
+Feature Context located in the FrontendCacheContext class.
+
+Tests are performed against mocked HTTP server. Only difference is that
+mocked HTTP server doesn't support 'PURGE' method and instead of it
+'POST' method is used.
+
+You can find Behat scenarios in the frontend_cache_purge.feature file
+which is located test folder.
+
+## Developer's notes
+The Nexteuropa Varnish uses https://www.drupal.org/project/chr module
+which is overriding default `drupal_http_request()` function.
+
+Specifically for this feature the custom patch was created.
+You can find the patch [here](https://www.drupal.org/files/issues/chr-purge-2825701-2.patch)
+
+Patch adds 'PURGE' HTTP method which is commonly used by systems such
+as Varnish, Squid and SAAS CDNs like Fastly to clear cached versions of
+certain paths.
+
+All of HTTP requests are send by the `_nexteuropa_varnish_purge_paths()`
+function.
