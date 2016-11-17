@@ -36,6 +36,36 @@ class Config extends ConfigBase {
   }
 
   /**
+   * Get a text format object given its machine name.
+   *
+   * It contains filters set for this format
+   *
+   * @param string $format_name
+   *    Text format machine name.
+   * @param bool $reset
+   *    TRUE to reset filter formats cache.
+   *
+   * @return object|bool
+   *    Text format object (filters config. included and filter format saving compatible) or FALSE.
+   */
+  public function getFullFormat($format_name, $reset = FALSE)
+  {
+    $format = $this->getFormat($format_name, $reset);
+    if ($format) {
+      $format->filters = array();
+      $format_filters = $this->getFormatFilters($format_name, $reset);
+
+      if ($format_filters) {
+        foreach ($format_filters as $name => $filter) {
+          $format->filters[$name] = (array)$filter;
+        }
+      }
+      return $format;
+    }
+    return FALSE;
+  }
+
+  /**
    * Retrieves a list of filters for a given text format.
    *
    * @param string $format_name
@@ -187,6 +217,7 @@ class Config extends ConfigBase {
     foreach ($format->filters as $key => $value) {
       $format->filters[$key] = (array) $value;
     }
+
     return filter_format_save($format);
   }
 
