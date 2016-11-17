@@ -16,6 +16,9 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
     '#type' => 'item',
     '#markup' => $info_table,
     '#weight' => -10,
+    '#description' => t('<strong>Warning</strong>: The disabling of the "change
+      tracking" buttons in a profile will be blocked if any tracked changes 
+      exist in any fields using this profile.'),
   );
 
   $form['nexteuropa_trackedchanges_disable_track_on_create'] = array(
