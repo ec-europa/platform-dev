@@ -32,7 +32,7 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
   protected function overviewTableRow($conditions, $id, $entity, $additional_cols = array()) {
     $paths_cell_content = '<em>' . t('paths of the node') . '</em>';
 
-    if ($entity->type() === PurgeRuleType::PATHS) {
+    if ($entity->type() == PurgeRuleType::PATHS) {
       $paths_cell_content = check_plain(implode(', ', $entity->paths()));
     }
 

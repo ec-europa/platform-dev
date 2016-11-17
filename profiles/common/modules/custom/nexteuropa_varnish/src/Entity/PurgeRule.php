@@ -26,16 +26,17 @@ class PurgeRule extends Entity {
   /**
    * Get the type of the purge rule.
    *
-   * @return string
+   * @return PurgeRuleType
    *   The type of the purge rule.
    */
   public function type() {
+    $type = PurgeRuleType::NODE;
+
     if (is_string($this->paths) && $this->paths !== '') {
-      return PurgeRuleType::PATHS;
+      $type = PurgeRuleType::PATHS;
     }
-    else {
-      return PurgeRuleType::NODE;
-    }
+
+    return new PurgeRuleType($type);
   }
 
   /**
