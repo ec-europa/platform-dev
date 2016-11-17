@@ -36,12 +36,10 @@ function communities_views_pre_render(&$view) {
 
   if ($view->name == "communities_members") {
     $og = og_context();
-    if (og_user_access('node', $og['gid'], 'displays-community-member')) {
-      if ($og) {
-        $gid = $og['gid'];
-        if (!og_is_member('node', $gid)) {
-          $view->result = array();
-        }
+    if ($og) {
+      $gid = $og['gid'];
+      if (!og_is_member('node', $gid)) {
+        $view->result = array();
       }
     }
   }
