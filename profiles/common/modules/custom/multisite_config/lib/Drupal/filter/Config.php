@@ -38,7 +38,7 @@ class Config extends ConfigBase {
   /**
    * Get a text format object given its machine name.
    *
-   * It contains filters set for this format
+   * It contains filters set for this format.
    *
    * @param string $format_name
    *    Text format machine name.
@@ -46,10 +46,10 @@ class Config extends ConfigBase {
    *    TRUE to reset filter formats cache.
    *
    * @return object|bool
-   *    Text format object (filters config. included and filter format saving compatible) or FALSE.
+   *    Text format object (filters config. included and filter format
+   *    saving compatible) or FALSE.
    */
-  public function getFullFormat($format_name, $reset = FALSE)
-  {
+  public function getFullFormat($format_name, $reset = FALSE) {
     $format = $this->getFormat($format_name, $reset);
     if ($format) {
       $format->filters = array();
@@ -57,7 +57,7 @@ class Config extends ConfigBase {
 
       if ($format_filters) {
         foreach ($format_filters as $name => $filter) {
-          $format->filters[$name] = (array)$filter;
+          $format->filters[$name] = (array) $filter;
         }
       }
       return $format;

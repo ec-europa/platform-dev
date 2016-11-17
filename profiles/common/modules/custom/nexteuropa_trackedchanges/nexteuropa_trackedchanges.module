@@ -7,6 +7,9 @@
 include_once 'nexteuropa_trackedchanges.admin.inc';
 include_once 'nexteuropa_trackedchanges.tracking.inc';
 
+define('NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME', 'full_html_track');
+define('NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME', 'Full HTML + Change tracking');
+
 /**
  * Implements hook_menu().
  */
@@ -168,4 +171,81 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
       $settings['lite']['isTracking'] = TRUE;
     }
   }
+}
+
+
+/**
+ * Add all buttons related to CKEditor Lite in the WYSIWYG profile.
+ *
+ * @param string $profile_name
+ *   The machine name of the profile's text format.
+ */
+function _nexteuropa_trackedchanges_enable_buttons($profile_name) {
+  $lite_plugin_settings = array(
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
+  );
+  multisite_config_service('wysiwyg')->addButtonsToProfile(
+    $profile_name,
+    'lite',
+    $lite_plugin_settings
+  );
+}
+
+
+/**
+ * Remove all buttons related to CKEditor Lite in the WYSIWYG profile.
+ *
+ * That has the same effect as delting 'lite' settings from the profile.
+ *
+ * @param string $profile_name
+ *   The machine name of the profile's text format.
+ */
+function _nexteuropa_trackedchanges_disable_buttons($profile_name) {
+  $profile = multisite_config_service('wysiwyg')->getProfile($profile_name);
+
+  if (isset($profile->settings['buttons']['lite'])) {
+    unset($profile->settings['buttons']['lite']);
+  }
+
+  multisite_config_service('wysiwyg')->updateProfile($profile);
+}
+
+/**
+ * Helper function for fetching WYSIWYG profiles.
+ *
+ * @return array
+ *    An array with WYSIWYG profiles.
+ */
+function _nexteuropa_trackedchanges_get_profiles() {
+  $wysiwyg_profiles = [];
+  $formats = filter_formats();
+
+  // Only list profiles that have a WYSIWYG editor associated with.
+  $profiles = wysiwyg_profile_load_all();
+  $profiles = array_filter($profiles, function ($profile) {
+    return !empty($profile->editor);
+  });
+
+  // Generating array with options array and change tracking status.
+  foreach ($profiles as $key => $profile) {
+    $wysiwyg_profiles['options'][$key] = $formats[$key]->name;
+    $wysiwyg_profiles['info'][$key]['name'] = $formats[$key]->name;
+    if (isset($profile->settings['buttons']['lite']) && count($profile->settings['buttons']['lite'])) {
+      $wysiwyg_profiles['info'][$key]['cke_lite_status'] = TRUE;
+    }
+    else {
+      $wysiwyg_profiles['info'][$key]['cke_lite_status'] = FALSE;
+    }
+  }
+
+  // Removing profile which by default needs to have change tracking enabled.
+  if (isset($wysiwyg_profiles['options'][NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME])) {
+    unset($wysiwyg_profiles['options'][NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME]);
+  }
+  return $wysiwyg_profiles;
 }

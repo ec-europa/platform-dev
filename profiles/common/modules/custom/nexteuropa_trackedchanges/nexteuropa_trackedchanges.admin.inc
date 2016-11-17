@@ -46,19 +46,7 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
  *   The machine name of the WYSIWYG profile.
  */
 function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable($profile) {
-  $lite_plugin_settings = array(
-    'lite_AcceptAll',
-    'lite_RejectAll',
-    'lite_AcceptOne',
-    'lite_RejectOne',
-    'lite_ToggleShow',
-    'lite_ToggleTracking',
-  );
-  multisite_config_service('wysiwyg')->addButtonsToProfile(
-    $profile,
-    'lite',
-    $lite_plugin_settings
-  );
+  _nexteuropa_trackedchanges_enable_buttons($profile);
 
   drupal_set_message(t('Change tracking enabled on !profile WYSIWYG profile.', ['!profile' => $profile]));
 
@@ -74,58 +62,11 @@ function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable($profile) {
 function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_disable($profile) {
   $disable = TRUE;
   // TODO Add check on existign tracked changes.
-  $lite_plugin_settings = array(
-    'lite_AcceptAll',
-    'lite_RejectAll',
-    'lite_AcceptOne',
-    'lite_RejectOne',
-    'lite_ToggleShow',
-    'lite_ToggleTracking',
-  );
   if ($disable) {
-    multisite_config_service('wysiwyg')->removeButtonsFromProfile(
-      $profile,
-      'lite',
-      $lite_plugin_settings
-    );
+    _nexteuropa_trackedchanges_disable_buttons($profile);
     drupal_set_message(t('Change tracking disabled on !profile WYSIWYG profile.', ['!profile' => $profile]));
   }
   drupal_goto('admin/config/content/wysiwyg/tracked_changes/setup');
-}
-
-/**
- * Helper function for fetching WYSIWYG profiles.
- *
- * @return array
- *    An array with WYSIWYG profiles.
- */
-function _nexteuropa_trackedchanges_get_profiles() {
-  $wysiwyg_profiles = [];
-  $formats = filter_formats();
-
-  // Only list profiles that have a WYSIWYG editor associated with.
-  $profiles = wysiwyg_profile_load_all();
-  $profiles = array_filter($profiles, function ($profile) {
-    return !empty($profile->editor);
-  });
-
-  // Generating array with options array and change tracking status.
-  foreach ($profiles as $key => $profile) {
-    $wysiwyg_profiles['options'][$key] = $formats[$key]->name;
-    $wysiwyg_profiles['info'][$key]['name'] = $formats[$key]->name;
-    if (isset($profile->settings['buttons']['lite']) && count($profile->settings['buttons']['lite'])) {
-      $wysiwyg_profiles['info'][$key]['status'] = TRUE;
-    }
-    else {
-      $wysiwyg_profiles['info'][$key]['status'] = FALSE;
-    }
-  }
-
-  // Removing profile which by default needs to have change tracking enabled.
-  if (isset($wysiwyg_profiles['options']['full_html_track'])) {
-    unset($wysiwyg_profiles['options']['full_html_track']);
-  }
-  return $wysiwyg_profiles;
 }
 
 /**
@@ -147,18 +88,18 @@ function _nexteuropa_trackedchanges_render_info_table($info) {
   );
   // Setting up table rows.
   foreach ($info as $profile_name => $data_row) {
-    $status = $data_row['status'];
+    $status = $data_row['cke_lite_status'];
     $action = l(t('enable tracked changes buttons'), 'admin/config/content/wysiwyg/tracked_changes/' . $profile_name . '/enable');
     if ($status) {
       $action = l(t('disable tracked changes buttons'), 'admin/config/content/wysiwyg/tracked_changes/' . $profile_name . '/disable');
-      if ($profile_name == 'full_html_track') {
+      if ($profile_name == NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME) {
         $action = t('Enabled by default. Can not be disabled.');
       }
     }
     $row = array(
       $data_row['name'],
       $profile_name,
-      $data_row['status'] ? t('Enabled') : t('Disabled'),
+      $status ? t('Enabled') : t('Disabled'),
       $action,
     );
     $rows[] = $row;
