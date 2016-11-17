@@ -530,7 +530,7 @@ function communities_context_handler() {
     $path = language_url_split_prefix(request_path(), [$language]);
   }
   else {
-    $path = [ FALSE, request_path() ];
+    $path = [FALSE, request_path()];
   }
 
   $path_args = explode('/', $path[1]);
