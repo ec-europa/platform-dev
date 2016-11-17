@@ -10,6 +10,7 @@ node('master') {
 
     stage('Init') {
         deleteDir()
+        slackSend "${env.RELEASE_NAME} - build ${env.BUILD_NUMBER} started"
         checkout scm
         sh 'composer install --no-suggest'
     }
@@ -40,9 +41,11 @@ node('master') {
         stage('Package') {
             sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
             sh "tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz build"
+            slackSend "${env.RELEASE_NAME} - build ${env.BUILD_NUMBER} finished"
         }
 
     } catch(err) {
+        slackSend "${env.RELEASE_NAME} - build ${env.BUILD_NUMBER} failed"
         throw(err)
     } finally {
         withCredentials([
