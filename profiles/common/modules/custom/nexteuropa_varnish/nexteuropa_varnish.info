@@ -5,6 +5,7 @@ package = NextEuropa
 
 dependencies[] = workbench_moderation
 dependencies[] = entity
+dependencies[] = chr
 dependencies[] = registry_autoload
 
 registry_autoload[] = PSR-4
