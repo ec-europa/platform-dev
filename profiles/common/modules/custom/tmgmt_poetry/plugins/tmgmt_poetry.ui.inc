@@ -44,7 +44,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#type' => 'textfield',
       '#title' => t('Requester code'),
       '#required' => TRUE,
-      '#default_value' => 'WEB',
+      '#default_value' => $settings['code'],
     );
     $form['settings']['website_identifier'] = array(
       '#type' => 'textfield',

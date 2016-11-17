@@ -423,17 +423,16 @@ Feature: TMGMT Poetry features
   # respect the maximum length specified on the input field and automatically
   # trim any value we fill it with.
   @cleanup-tmgmt-poetry-website-identifier
-  Scenario: The website identifier is mandatory.
+  Scenario: A website identifier longer than 15 characters is not accepted.
     When I go to "/admin/config"
     And I click "DGT Connector"
     And I press the "Save configuration" button
     Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
 
   @cleanup-tmgmt-poetry-website-identifier
-  Scenario: A website identifier longer than 15 characters is not accepted.
+  Scenario: The website identifier is mandatory.
     When I go to "/admin/config"
     And I click "DGT Connector"
-    And I fill in "itphachyufbabtap" for "Website identifier"
     And I press the "Save configuration" button
     Then I should see the error message "Website identifier field is required."
 
