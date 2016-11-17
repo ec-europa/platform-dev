@@ -365,7 +365,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   /**
    * Get translation job ID from current page's URL.
    *
-   * @return int|FALSE
+   * @return int|false
    *    Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobItemFromUrl() {
@@ -380,7 +380,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    * @param int $tjiid
    *    Job Item id.
    *
-   * @return int|FALSE
+   * @return int|false
    *    Parent Job id or FALSE if none was found.
    */
   public function getParentJobId($tjiid) {
@@ -394,7 +394,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
   /**
    * Get translation job item ID from current page's URL.
    *
-   * @return int|FALSE
+   * @return int|false
    *    Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobSubItemFromUrl() {

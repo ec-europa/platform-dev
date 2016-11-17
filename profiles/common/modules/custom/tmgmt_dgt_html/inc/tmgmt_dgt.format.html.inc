@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Export into DGT supported HTML format.

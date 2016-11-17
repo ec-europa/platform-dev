@@ -38,7 +38,6 @@ function wiki_og_disable() {
   variable_del('pathauto_node_wiki_pattern');
 }
 
-
 /**
  * Implements hook_modules_enabled().
  */

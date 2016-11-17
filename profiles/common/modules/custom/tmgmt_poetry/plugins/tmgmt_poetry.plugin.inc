@@ -395,7 +395,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       $query = db_select('poetry_map', 'pm');
       $query->addExpression('MAX(numero)', 'max_numero');
       $max_numero = $query->execute()
-          ->fetchAssoc();
+        ->fetchAssoc();
       if (!empty($max_numero['max_numero'])) {
         $query = db_select('poetry_map', 'pm')
           ->fields('pm', array('annee', 'numero', 'version', 'partie'))

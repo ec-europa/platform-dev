@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the multisite_translations feature.
@@ -251,7 +252,6 @@ function create_translation_roles() {
 
 }
 
-
 /**
  * Implements hook_rules_action_info().
  */
@@ -325,7 +325,6 @@ function rules_action_mail_to_related_translation_role($subject, $message, $from
     watchdog('rules', 'Successfully sent email to the role(s) :roles.', array(':roles' => $translator_role_name));
   }
 }
-
 
 /**
  * Form constructor for the user multisite translation form.

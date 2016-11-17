@@ -38,7 +38,6 @@
 
     <target name="travis-install-chrome" hidden="true">
         <echo>Installing Chrome...</echo>
-        <exec command="sudo apt-get install chromium-chromedriver" passthru="yes"/>
     </target>
 
     <!-- Start phantomjs server -->

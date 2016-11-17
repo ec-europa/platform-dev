@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature feed rss.
@@ -37,7 +38,6 @@ function feed_rss_core_enable() {
   drupal_set_message(t('RSS Feed feature is now active on your site.'));
   drupal_cron_run();
 }
-
 
 /**
  * Implements hook_disable().

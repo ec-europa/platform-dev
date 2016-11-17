@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\linkchecker\\Config.
- */
-
 namespace Drupal\linkchecker;
 
 use Drupal\multisite_config\ConfigBase;

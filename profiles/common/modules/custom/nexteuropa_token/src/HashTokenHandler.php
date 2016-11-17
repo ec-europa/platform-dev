@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\HashTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token;
 
 /**
@@ -19,6 +14,9 @@ class HashTokenHandler extends TokenAbstractHandler {
 
   /**
    * Character sets used in encoding routine.
+   *
+   * @var string
+   *   TODO.
    */
   protected $sliceChars   = "5zqcn9l7mg0rskjb621pwtv3xd84fh";
   protected $typeChars    = "d3gxr6zws4fb2qp8mk9n1vtcj7l5h0";

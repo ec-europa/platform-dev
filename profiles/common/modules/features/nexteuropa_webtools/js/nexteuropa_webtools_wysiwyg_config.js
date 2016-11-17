@@ -3,8 +3,8 @@
  * Wysiwyg configuration file.
  */
 
-(function($) {
-    CKEDITOR.on('dialogDefinition', function(ev) {
+(function ($) {
+    CKEDITOR.on('dialogDefinition', function (ev) {
         // Take the dialog name and its definition from the event data.
         var dialogName = ev.data.name;
         var dialogDefinition = ev.data.definition;
@@ -25,8 +25,8 @@
             });
 
           // Override the onShow event.
-          dialogDefinition.onShow = CKEDITOR.tools.override(dialogDefinition.onShow, function(original) {
-              return function() {
+          dialogDefinition.onShow = CKEDITOR.tools.override(dialogDefinition.onShow, function (original) {
+              return function () {
                   original.call(this);
 
                   // Get CKEditor object.

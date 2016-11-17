@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field\InstanceField\DefaultFieldHandler.
- */
-
 namespace Drupal\field\InstanceField;
+
 use Drupal\field\FieldHandlerInterface;
 
 /**
@@ -57,7 +53,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * @param string $label
    *    Field label.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
    *    Current object.
    */
   public function label($label) {
@@ -71,7 +67,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * @param bool $required
    *    TRUE if required, FALSE otherwise.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
    *    Current object.
    */
   public function required($required) {
@@ -85,7 +81,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * @param string $widget_type
    *    Widget type machine name.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
    *    Current object.
    */
   public function widget($widget_type) {
@@ -105,7 +101,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * @param string $label
    *    Label settings, either 'inline', 'above' or 'hidden'.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
    *    Current object.
    */
   public function display($display_name, $formatter_type, $label = 'above') {

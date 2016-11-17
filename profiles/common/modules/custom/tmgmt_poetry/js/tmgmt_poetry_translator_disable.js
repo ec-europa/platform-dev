@@ -3,7 +3,7 @@
  * Scripts for TMGMT Poetry module.
  */
 
-(function($) {
+(function ($) {
 
   /**
    * Small script for making Translator select field disabled on /admin/tmgmt/jobs/% path.
@@ -17,7 +17,7 @@
         $('#edit-translator').parent().append('<a href="#" id="unblock-translator">' + Drupal.t('Change translator') + '</a>');
       }
 
-      $('#unblock-translator').click(function(e) {
+      $('#unblock-translator').click(function (e) {
         $('#edit-translator').removeAttr('disabled', 'disabled');
         $('#edit-translator').parent().removeClass('form-disabled');
         $(this).remove();

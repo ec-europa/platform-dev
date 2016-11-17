@@ -17,7 +17,6 @@
             pipe="yes"
             verbose="${drush.verbose}"
             root="${platform.build.dir}"
-            logoutput="yes"
             passthru="yes">
             <param>${drupal.make}</param>
             <param>${platform.build.dir}</param>
@@ -34,7 +33,6 @@
             bin="${drush.bin}"
             verbose="${drush.verbose}"
             root="${platform.build.dir}"
-            logoutput="yes"
             passthru="yes"
             checkreturn="yes">
             <param>${platform.make}</param>

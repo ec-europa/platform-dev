@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_laco\LanguageCoverageService.
- */
-
 namespace Drupal\nexteuropa_laco;
 
 /**
@@ -279,7 +274,7 @@ class LanguageCoverageService {
   /**
    * Get requested language.
    *
-   * @return string|FALSE
+   * @return string|false
    *    The requested language, FALSE if none found.
    */
   protected function getRequestedLanguage() {

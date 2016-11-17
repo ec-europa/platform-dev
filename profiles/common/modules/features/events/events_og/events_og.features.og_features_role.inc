@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * events_og.features.og_features_role.inc

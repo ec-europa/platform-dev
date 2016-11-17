@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains classes for Client connections handlers.
@@ -155,7 +156,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
    * @param bool $server_info
    *   Display server response.
    *
-   * @return bool|mixed
+   * @return bool|mixed|null
    *   The cookie, or FALSE if no cookie was returned.
    *
    * @throws \Exception
@@ -443,7 +444,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
    * @return bool|mixed
    *   The request, or FALSE if an error occurred.
    *
-   * @throws Exception
+   * @throws Exception|null|bool
    *   Thrown if an error occurred during JSON decoding.
    */
   public function retrieveStatictext($server_info = FALSE) {
@@ -476,7 +477,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
     elseif (in_array($response->code, array(200, 201))) {
       $message = t('Remote service is alive! To view the server response please check the "See service response".');
       drupal_set_message(t('%message'), array('%message' => $message));
-      return;
+      return TRUE;
     }
     else {
       return FALSE;

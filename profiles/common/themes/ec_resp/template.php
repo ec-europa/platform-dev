@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default theme functions.
@@ -1582,9 +1583,10 @@ function ec_resp_preprocess_block(&$variables) {
       case 'locale-language':
         $languages = language_list();
 
+        $text = t('Current language: @language', array('@language' => $language->language));
         $items = array();
         $items[] = array(
-          'data' => '<span class="off-screen">' . t("Current language") . ':</span> ' . $language->language,
+          'data' => '<span class="off-screen">' . $text . '</span>',
           'class' => array('selected'),
           'title' => $language->native,
           'lang' => $language->language,

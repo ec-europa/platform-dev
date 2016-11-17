@@ -5,13 +5,13 @@
 
 (function ($) {
   Drupal.behaviors.contextual_nav = {
-    attach: function(context) {
+    attach: function (context) {
       // Define our dropdown button.
       var dropDown = '<span class="context-nav__more-button">' + Drupal.t('More') + '<span class="caret"></span></span>';
 
       // Loop all our contextual navigation items. We should only do this for
       // the wrappers that have the class .has-expander.
-      $.each($('.context-nav__items.has-expander'), function() {
+      $.each($('.context-nav__items.has-expander'), function () {
 
         // Cache our variables.
         var $item = $(this),
@@ -31,7 +31,7 @@
       });
 
       // Add the button onclick event.
-      $('.context-nav__expander').click('.context-nav__more-button', function() {
+      $('.context-nav__expander').click('.context-nav__more-button', function () {
         var $button = $(this),
             $elements = $button.closest('.has-expander').find('.context-nav__item').detach();
         // Replace the content with our elements.

@@ -17,7 +17,7 @@
           if (editor_id in Drupal.nexteuropa_webtools_block_content) {
                 var editor = Drupal.nexteuropa_webtools_block_content[editor_id];
                 var content = context[0];
-                $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function() {
+                $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function () {
                     $(this).click(function (e) {
                         e.preventDefault();
                         var token = $(this).attr('token-ckeditor-token');

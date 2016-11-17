@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Nexteuropa_multililngual.tokens.inc file.
+ * Code for the NextEuropa Multilingual feature.
  */
 
 /**

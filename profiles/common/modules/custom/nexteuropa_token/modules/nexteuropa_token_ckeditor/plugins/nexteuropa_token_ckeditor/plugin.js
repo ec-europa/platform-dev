@@ -3,12 +3,12 @@
  * CKEDITOR plugin file.
  */
 
-(function($) {
+(function ($) {
 
   CKEDITOR.plugins.add('nexteuropa_token_ckeditor', {
-    init: function(editor) {
+    init: function (editor) {
 
-      CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function() {
+      CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function () {
         return {
           title: Drupal.t('Insert internal content'),
           minWidth: 750,
@@ -87,19 +87,19 @@
       }
 
       // Ensure tokens instead the html element is saved.
-      editor.on('setData', function(event) {
+      editor.on('setData', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
       });
 
       // Replace tokens with WYSIWYG placeholders.
-      editor.on('getData', function(event) {
+      editor.on('getData', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replacePlaceholderWithToken(content);
       });
 
       // Replace tokens with WYSIWYG placeholders.
-      editor.on('insertHtml', function(event) {
+      editor.on('insertHtml', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
       });
@@ -129,7 +129,7 @@
      *
      * @returns {string}
      */
-    getPlaceholderFromToken: function(token) {
+    getPlaceholderFromToken: function (token) {
       var matches = token.match(this.regex.parse_token);
       return (matches) ? '<nexteuropatoken contenteditable="false" token="' + matches[1] + '">' + matches[3] + '</nexteuropatoken>' : '';
     },
@@ -142,7 +142,7 @@
      *
      * @returns {string}
      */
-    getTokenFromPlaceholder: function(placeholder) {
+    getTokenFromPlaceholder: function (placeholder) {
       var matches = placeholder.match(this.regex.parse_placeholder);
       return (matches) ? '[' + matches[1] + ']{' + matches[2] + '}' : '';
     },
@@ -155,7 +155,7 @@
      *
      * @returns {string}
      */
-    replaceTokenWithPlaceholder: function(content) {
+    replaceTokenWithPlaceholder: function (content) {
       var matches = content.match(this.regex.get_tokens);
       if (matches) {
         for (var i = 0; i < matches.length; i++) {
@@ -170,7 +170,7 @@
      *
      * @param content
      */
-    replacePlaceholderWithToken: function(content) {
+    replacePlaceholderWithToken: function (content) {
       var matches = content.match(this.regex.get_placeholders);
       if (matches) {
         for (var i = 0; i < matches.length; i++) {

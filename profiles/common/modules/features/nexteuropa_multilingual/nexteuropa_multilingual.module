@@ -1,12 +1,8 @@
 <?php
-/**
- * @file
- * Code for the NextEuropa Multilingual feature.
- */
 
 /**
  * @file
- * Nexteuropa_multilingual module file.
+ * Code for the NextEuropa Multilingual feature.
  */
 
 include_once 'nexteuropa_multilingual.features.inc';
@@ -171,7 +167,6 @@ function nexteuropa_multilingual_language_negotiation_info() {
   );
   return $providers;
 }
-
 
 /**
  * Implements hook_menu().
