@@ -4,12 +4,14 @@ Feature: Content translation
   As an administrator
   I want to be able to manage content and translations for fields.
 
+  Background:
+    Given I am logged in as a user with the 'administrator' role
+
   Scenario: Content page does not show mixed content language
     Given the following languages are available:
       | languages |
       | en        |
       | de        |
-    Given I am logged in as a user with the 'administrator' role
     And the "field_ne_body" field is translatable
     When I go to "node/add/page"
     And I fill in "Title" with "English title"
@@ -32,11 +34,10 @@ Feature: Content translation
         | en        |
         | et        |
       And a content view with machine name "testing_view" is available
-      When I am logged in as a user with the "administrator" role
-      And I visit "admin/structure/views/view/testing_view/edit"
+      When I visit "admin/structure/views/view/testing_view/edit"
       And I click "views-add-field"
       And I wait for AJAX to finish
-      And I check the box "name[field_data_title_field.title_field_et]"
+      And I check the box "Entity translation: Name: translated"
       And I press the "Add and configure fields" button
       And I wait for AJAX to finish
       And I press the "Apply" button
