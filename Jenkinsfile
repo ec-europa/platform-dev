@@ -10,13 +10,12 @@ node('master') {
 
     stage('Init') {
         deleteDir()
-        slackSend "${env.RELEASE_NAME} - build ${env.BUILD_NUMBER} started"
+        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> started"
         checkout scm
-        sh 'composer install --no-suggest'
     }
 
     try {
-
+        sh 'composer install --no-suggest'
         stage('Build') {
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
@@ -41,11 +40,11 @@ node('master') {
         stage('Package') {
             sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
             sh "tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz build"
-            slackSend "${env.RELEASE_NAME} - build ${env.BUILD_NUMBER} finished"
+            slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> finished :+1:"
         }
 
     } catch(err) {
-        slackSend "${env.RELEASE_NAME} - build ${env.BUILD_NUMBER} failed"
+        slackSend color: "warning", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> failed :-1:"
         throw(err)
     } finally {
         withCredentials([
