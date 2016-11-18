@@ -77,6 +77,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @Then /^I store job ID of translation request page$/
    */
   public function iStoreJobIdOfTranslationRequestPage() {
+    $this->_driver->wait()->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector('.messages')));
     $url = $this->getSession()->getCurrentUrl();
     preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
     $job_id = isset($matches[1][0]) ? $matches[1][0] : FALSE;
