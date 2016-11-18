@@ -77,7 +77,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @Then /^I store job ID of translation request page$/
    */
   public function iStoreJobIdOfTranslationRequestPage() {
-    $this->_driver->wait()->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector('.messages')));
     $url = $this->getSession()->getCurrentUrl();
     preg_match_all('/admin\/tmgmt\/jobs\/(\d*)/', $url, $matches);
     $job_id = isset($matches[1][0]) ? $matches[1][0] : FALSE;
@@ -147,6 +146,12 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     $this->getSession()->wait(1000);
   }
 
+  /**
+   * @Then I wait for text :text to :appear
+   */
+  public function iWaitForText($text, $appear) {
+    $this->waitForXpathNode(".//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
+  }
 
   /**
    * Get the Current Node Id in the URL.
