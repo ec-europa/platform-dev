@@ -147,6 +147,8 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
+   * Wait for text to appear.
+   *
    * @Then I wait for text :text to :appear
    */
   public function iWaitForText($text, $appear) {
