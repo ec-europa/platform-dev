@@ -192,7 +192,16 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
       }
     });
   }
-
+  /**
+   * Stops the execution for few seconds
+   *
+   * @param string $fn
+   *   The function context.
+   * @param int $timeout
+   *   Determine the end of waiting period.
+   *
+   * @throws Exception
+   */
   private function waitFor($fn, $timeout = 5000) {
     $start = microtime(TRUE);
     $end = $start + $timeout / 1000.0;
