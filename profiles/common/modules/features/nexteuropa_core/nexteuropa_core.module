@@ -44,11 +44,16 @@ function nexteuropa_core_form_taxonomy_overview_terms_submit($form, &$form_state
 }
 
 /**
- * Implements hook_wysiwyg_editor_settings_alter().
+ * Implements hook_entity_load().
  */
-function nexteuropa_core_wysiwyg_editor_settings_alter(&$settings, $context) {
-  // Turn CKEditor Lite tracking off by default.
-  if (module_exists('ckeditor_lite') && $context['profile']->editor == 'ckeditor') {
-    $settings['lite']['isTracking'] = FALSE;
+function nexteuropa_core_entity_load($entities, $type) {
+  foreach ($entities as $entity) {
+    // On entity load, there is not entity_type attribute existing for all
+    // entity types.
+    // Then we inject it in entities that do not have it.
+    // See https://www.drupal.org/node/1042822 for more info.
+    if (!isset($entity->entity_type)) {
+      $entity->entity_type = $type;
+    }
   }
 }

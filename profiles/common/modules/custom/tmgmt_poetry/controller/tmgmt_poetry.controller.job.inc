@@ -16,39 +16,35 @@ class TMGMTPoetryJobController extends TMGMTJobController {
    * {@inheritdoc}
    */
   public function save($origin_job, DatabaseTransaction $transaction = NULL) {
+
     $translator = $origin_job->getTranslator();
-    // Set poetry as default translator.
-    if ($origin_job->reference === NULL && $translator === FALSE) {
-      $translator = tmgmt_translator_load('poetry');
-      $origin_job->translator = $translator->plugin;
-    }
+    $origin_job_items = $origin_job->jobItemSessionGetSaveAndUnset();
+
     if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
-      $origin_job_items = $origin_job->getItems();
       $origin_job_item = array_shift($origin_job_items);
+      if (empty($origin_job_item)) {
+        drupal_set_message('The selected job cannot be used. Please make a new translation request.', 'warning');
+        drupal_goto('admin/tmgmt');
+        return;
+      }
       _tmgmt_poetry_insert_item_status($origin_job_item->tjiid, $origin_job->target_language, "Pending", date('d/m/Y', strtotime($origin_job->settings['delai'])));
     }
 
-    $origin_job_items = $origin_job->getItems();
     if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
       $origin_job_item = array_shift($origin_job_items);
       $languages = language_list('language');
       $requested_languages = $origin_job->settings['languages'];
       foreach ($requested_languages as $key_requested_language => $requested_language) {
         if ($key_requested_language != $origin_job->target_language) {
+          // If language was not requested in the first translation request
+          // skip creation of a job and a job item (value is equal 0).
           if (empty($requested_language)) {
-            // Remove a job if it was unchecked.
-            $job_ids_remove = _tmgmt_poetry_obtain_related_translation_jobs(array($key_requested_language), 'SUB_' . $origin_job->tjid)->fetchAll();
-            if (count($job_ids_remove) > 0) {
-              $job_id_remove = array_shift($job_ids_remove);
-              $job_remove = tmgmt_job_load($job_id_remove->tjid);
-              $job_remove->delete();
-            }
             continue;
           }
 
           // Check if job is already created
-          // and it that case don't create it again.
+          // and in that case don't create it again.
           if (_tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid)->rowCount() > 0) {
             continue;
           }
@@ -73,16 +69,16 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     // If a poetry translation has accepted a translation request
-    // we should update the related additionnal sub translation jobs
+    // we should update the related additional sub translation jobs
     // with a reference returned by poetry.
     if ($origin_job->state == TMGMT_JOB_STATE_ACTIVE && (strpos($origin_job->reference, 'MAIN_' . $origin_job->tjid . '_POETRY') !== FALSE)) {
       $jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $origin_job->tjid, TRUE);
       foreach ($jobs as $ids) {
         $job = tmgmt_job_load($ids->tjid);
         $job->reference = str_replace(
-            'MAIN_' . $origin_job->tjid . '_POETRY_',
-            'SUB_' . $origin_job->tjid . '_POETRY_',
-            $origin_job->reference
+          'MAIN_' . $origin_job->tjid . '_POETRY_',
+          'SUB_' . $origin_job->tjid . '_POETRY_',
+          $origin_job->reference
         );
         $job->state = TMGMT_JOB_STATE_ACTIVE;
         $job->save();
@@ -90,6 +86,14 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     return parent::save($origin_job, $transaction);
+  }
+
+  /**
+   * Remove unused Jobs.
+   */
+  public function removeUnusedJobs() {
+    // Remove Jobs that don't have an associated Job Item.
+    db_query('DELETE {tmgmt_job}.* FROM {tmgmt_job} LEFT JOIN {tmgmt_job_item} ON {tmgmt_job}.tjid={tmgmt_job_item}.tjid WHERE {tmgmt_job_item}.tjid IS NULL');
   }
 
 }

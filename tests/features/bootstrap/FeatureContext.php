@@ -7,6 +7,7 @@
 
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
@@ -386,10 +387,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Prepare for PHP errors log.
    *
-   * @BeforeStep
+   * @BeforeScenario
    */
-  public static function preparePhpErrors($event) {
-    // Clear out the watchdog table at the beginning of each test suite.
+  public static function preparePhpErrors(BeforeScenarioScope $scope) {
+    // Clear out the watchdog table at the beginning of each test scenario.
     db_truncate('watchdog')->execute();
   }
 
@@ -437,7 +438,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Enables translation for a field (temporary step @todo remove).
+   * Enables translation for a field.
    *
    * @param string $field
    *   The name of the field.
@@ -445,9 +446,63 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @When I enable translation for field :field
    */
   public function enableTranslationForField($field) {
-    $info = field_info_field($field);
-    $info['translatable'] = 1;
-    field_update_field($info);
+    multisite_config_service('field')->enableFieldTranslation($field);
+  }
+
+  /**
+   * Assert the given class exists.
+   *
+   * @param string $class_name
+   *    Fully namespaced class name.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if class specified has not been found.
+   *
+   * @Then the class :arg1 exists in my codebase
+   */
+  public function assertClassExists($class_name) {
+    if (!class_exists($class_name)) {
+      throw new ExpectationException("Class '{$class_name}' not found.", $this->getSession());
+    }
+  }
+
+
+  /**
+   * Check if given field is translatable.
+   *
+   * @param string $field_name
+   *    Field machine name.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if field is not translatable.
+   *
+   * @Given the :field_name field is translatable
+   */
+  public function assertFieldIsTranslatable($field_name) {
+    $info = field_info_field($field_name);
+    if (!isset($info['translatable']) || !$info['translatable']) {
+      throw new ExpectationException("Field '{$field_name}' is not translatable.", $this->getSession());
+    }
+  }
+
+  /**
+   * Checks, that elements are highlighted on page.
+   *
+   * @Then I should see highlighted elements
+   */
+  public function iShouldSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementExists('css', 'div.ICE-Tracking');
+  }
+
+  /**
+   * Checks that no elements are highlighted on page.
+   *
+   * @Then I should not see highlighted elements
+   */
+  public function iShouldNotSeeHighlightedElements() {
+    // div.ICE-Tracking is the css definition that highlights page elements.
+    $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
   }
 
 }

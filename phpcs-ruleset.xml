@@ -5,13 +5,13 @@
     <description>Drupal coding standard for NextEuropa</description>
 
     <!-- Exclude unsupported file types. -->
-    <exclude-pattern>*.gif</exclude-pattern>
-    <exclude-pattern>*.less</exclude-pattern>
-    <exclude-pattern>*.png</exclude-pattern>
+    <exclude-pattern>*\.gif</exclude-pattern>
+    <exclude-pattern>*\.less</exclude-pattern>
+    <exclude-pattern>*\.png</exclude-pattern>
 
     <!-- Minified files don't have to comply with coding standards. -->
-    <exclude-pattern>*.min.css</exclude-pattern>
-    <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>*\.min\.css</exclude-pattern>
+    <exclude-pattern>*\.min\.js</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/js/ReadSpeaker/</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/css/eu_resp.css</exclude-pattern>
@@ -37,6 +37,7 @@
     <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_newsroom/</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins</exclude-pattern>
     <exclude-pattern>profiles/common/themes/ec_resp_20/</exclude-pattern>

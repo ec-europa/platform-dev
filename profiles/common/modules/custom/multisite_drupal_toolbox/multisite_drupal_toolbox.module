@@ -157,13 +157,18 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   $items['node/add/node_export']['access callback'] = FALSE;
   // Hide broken links tab in the my account page.
   $items['user/%user/linkchecker']['access callback'] = FALSE;
-  // Only super admin can configure apache solR.
-  $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/solr']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/solr/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/solr/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+
+  if (module_exists('apachesolr')) {
+    // Only super admin can configure apache solR.
+    $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/add']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+  }
 
   $items['user/%user/edit']['access callback'] = 'multisite_drupal_toolbox_edit_access';
   $items['user/%user/cancel']['access callback'] = 'multisite_drupal_toolbox_edit_access';
@@ -794,9 +799,29 @@ function _disable_block($module, $delta) {
 /**
  * Public function to add or delete nodes from the index.
  *
- * You need to add the module apachesolr as a dependancy to your feature.
+ * You need to add the module apachesolr as a dependency to your feature.
+ *
+ * @param string $bundle
+ *   Node type (node entity bundle) to perform the operation with.
+ * @param string $op
+ *   Operation to perform, either 'add' or 'delete.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
+  if (!module_exists('apachesolr')) {
+    watchdog(
+      'multisite_drupal_toolbox',
+      'Function %function was called with bundle %bundle and op %op, but the required apachesolr module is not enabled. You either need to add the module apachesolr as a dependency to the feature you are calling this function from, or prevent the call from happening if apachesolr is not a strict dependency and is disabled.',
+      array(
+        '%function' => __FUNCTION__,
+        '%bundle' => $bundle,
+        '%op' => $op,
+      ),
+      WATCHDOG_ERROR
+    );
+
+    return;
+  }
+
   if ($op != 'delete' && $op != 'add') {
     return;
   }
@@ -1634,7 +1659,6 @@ function multisite_drupal_toolbox_sort_weight_object($a, $b) {
   return ($a_weight < $b_weight) ? -1 : 1;
 }
 
-
 /**
  * Implements hook_features_post_restore().
  *
@@ -1652,6 +1676,76 @@ function multisite_drupal_toolbox_features_post_restore($op, $items) {
           node_type_save($type_info);
         }
       }
+    }
+  }
+}
+
+/**
+ * Remove PHP Warning logs from HTML5 during a loadHTML.
+ *
+ * Extend DOMDocument::LoadHTML() function.
+ *
+ * @param DOMDocument $dom
+ *   The DOMDocument $dom.
+ * @param string $html
+ *   The html string.
+ *
+ * @return bool
+ *   Return False if an error occurred.
+ *
+ * @see $dom->loadHTML;
+ */
+function multisite_drupal_toolbox_load_html(DOMDocument $dom, $html) {
+  $old = libxml_use_internal_errors(TRUE);
+  libxml_clear_errors();
+  if (!$dom->loadHTML($html)) {
+    return FALSE;
+  }
+  $errors = libxml_get_errors();
+  libxml_use_internal_errors($old);
+  multisite_drupal_toolbox_filter_errors($errors);
+  return TRUE;
+}
+
+/**
+ * Remove PHP Warning logs from HTML5 during a loadHTMLFile.
+ *
+ * Extend DOMDocument::LoadHTMLFile() function.
+ *
+ * @param DOMDocument $dom
+ *   The DOMDocument $dom.
+ * @param string $htmlfile
+ *   The path to the HTML file.
+ *
+ * @return bool
+ *   Return False if an error occurred.
+ *
+ * @see $dom->loadHTMLFile;
+ */
+function multisite_drupal_toolbox_load_html_file(DOMDocument $dom, $htmlfile) {
+  $old = libxml_use_internal_errors(TRUE);
+  libxml_clear_errors();
+  if (!$dom->loadHTMLFile($htmlfile)) {
+    return FALSE;
+  }
+  $errors = libxml_get_errors();
+  libxml_use_internal_errors($old);
+  multisite_drupal_toolbox_filter_errors($errors);
+  return TRUE;
+}
+
+/**
+ * Filter errors removing PHP Warning concerning HTML5.
+ *
+ * @param array $errors
+ *   Return an array with LibXMLError objects.
+ */
+function multisite_drupal_toolbox_filter_errors($errors) {
+  $re = '#Tag (article|aside|audio|bdi|canvas|data|datalist|figcaption|figure|footer|header|keygen|main|mark'
+    . '|meter|nav|output|progress|rb|rp|rt|rtc|ruby|section|source|template|time|track|video|wbr) invalid#';
+  foreach ($errors as $error) {
+    if (!preg_match($re, $error->message)) {
+      trigger_error(__METHOD__ . ": $error->message on line $error->line.", E_USER_WARNING);
     }
   }
 }

@@ -79,6 +79,17 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
                 $this->watchdogTokenNotFound($data, $original);
               }
               break;
+
+            case 'bean':
+              if ($bean = bean_load($entity_id)) {
+                if (bean_access('view', $bean)) {
+                  $render = bean_view($bean, $view_mode);
+                }
+              }
+              else {
+                $this->watchdogTokenNotFound($data, $original);
+              }
+              break;
           }
 
           // Remove contextual links for inline rendered entities.

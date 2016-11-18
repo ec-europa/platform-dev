@@ -213,6 +213,20 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       }
     }
 
+    // NEXTEUROPA-7719 - Simplifying Poetry UI.
+    // Get languages that were chosen during creation of translation request.
+    // This should work only for new translation requests to prevent an impact
+    // off stored in session language array.
+    if (is_null($job->settings)) {
+      $chosen_languages = _tmgmt_workbench_get_request_languages();
+      foreach ($chosen_languages as $lg_code => $language) {
+        if ($lg_code !== 'main') {
+          $default_value[$language] = $language;
+        }
+      }
+    }
+    $form['languages'][$target_language]['#disabled'] = FALSE;
+
     // Build the tableselect.
     $form['languages'] = array(
       '#type' => 'tableselect',
@@ -221,12 +235,6 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#default_value' => $default_value,
       '#empty' => t('No content available.'),
     );
-    $form['languages'][$target_language]['#disabled'] = TRUE;
-
-    $job_items = $job->getItems();
-    if (count($job_items) > 0) {
-      $job_item = array_shift($job_items);
-    }
 
     // Load translator settings : Contacts.
     $translator = $job->getTranslator();
@@ -296,7 +304,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
 
     $form['delai'] = array(
       '#type' => 'date_popup',
-      '#title' => t('Expected delivery time'),
+      '#title' => t('Requested delivery date'),
       '#default_value' => (!empty($job->settings['delai']) ? $job->settings['delai'] : date('Y-m-d', strtotime('+1 month'))),
       '#date_format' => 'd/m/Y',
       '#date_year_range' => '-3:+3',

@@ -19,6 +19,9 @@
             <!-- Prevent e-mails from being sent during the installation. -->
             <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
         </drush>
+
+		<!-- Rebuild node access after site installation -->
+        <phingcall target="rebuild-node-access" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -52,6 +55,19 @@
 
     <!-- Set up Behat. -->
     <target name="setup-behat">
+        <if>
+            <isset property="env.FLICKR_KEY" />
+            <then>
+                <property name="flickr.key" value="${env.FLICKR_KEY}" override="true" />
+            </then>
+        </if>
+        <if>
+            <isset property="env.FLICKR_SECRET" />
+            <then>
+                <property name="flickr.secret" value="${env.FLICKR_SECRET}" override="true" />
+            </then>
+        </if>
+        
         <copy todir="${behat.dir}">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
@@ -61,8 +77,12 @@
                     <token key="behat.base_url" value="${behat.base_url}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
+                    <token key="flickr.key" value="${flickr.key}" />
+                    <token key="flickr.secret" value="${flickr.secret}" />
                     <token key="drush.bin" value="${drush.bin}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
+                    <token key="integration.server.port" value="${integration.server.port}" />
+                    <token key="varnish.server.port" value="${varnish.server.port}" />
                 </replacetokens>
             </filterchain>
             <mapper type="glob" from="*.yml.dist" to="*.yml" />
@@ -95,4 +115,15 @@
         />
     </target>
 
+    <!-- Rebuild node access. -->
+    <target name="rebuild-node-access">
+        <drush
+            command="php-eval"
+            assume="yes"
+            root="${platform.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <param>"node_access_rebuild()"</param>
+        </drush>
+    </target>
 </project>

@@ -436,21 +436,66 @@ function cce_basic_config_install() {
       'media',
       'break',
     ),
-    'lite' => array(
-      'lite_AcceptAll',
-      'lite_RejectAll',
-      'lite_AcceptOne',
-      'lite_RejectOne',
-      'lite_ToggleShow',
-      'lite_ToggleTracking',
-    ),
     'nexteuropa_token_ckeditor' => array(
       'NextEuropaToken',
+    ),
+    'multisite_wysiwyg_link_hreflang' => array(
+      'Link',
     ),
   );
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
+
+  /*
+   * Create WYSIWYG profile for Full HTML text format with Change Tracking.
+   *
+   * Introducing that format will allow users to choose tracking changes
+   * functionality for WYSIWYG fields based on filter type.
+   * Format is based on 'Full HTML' text format and profile.
+   */
+
+  // Preparing filer format required further to build WYSIWYG profile.
+  $fl_html_filters = multisite_config_service('filter')->getFormatFilters('full_html');
+
+  // Transforming array of objects in to array by small trick.
+  $fl_html_filters = json_decode(json_encode($fl_html_filters), TRUE);
+  $full_html_track_format = (object) array(
+    'format' => 'full_html_track',
+    'name' => 'Full HTML + Change tracking',
+    'cache' => '0',
+    'status' => '1',
+    'weight' => '-10',
+    'filters' => $fl_html_filters,
+  );
+  // Filter module function for saving and updating text formats.
+  filter_format_save($full_html_track_format);
+
+  // Create WYSIWYG profile for Full HTML text format with change tracking.
+  // Creation based on Full HTML profile to keep a consistent functionality.
+  $wys_fl_html = multisite_config_service('wysiwyg')->getProfile('full_html');
+  $wys_fl_html_settings = (array) $wys_fl_html->settings;
+  multisite_config_service('wysiwyg')->createProfile(
+    'full_html_track',
+    'ckeditor',
+    $wys_fl_html_settings
+  );
+
+  // Adding LITE plugin change tracking functionality to new profile.
+  // Enable ckeditor_lite WYSIWYG plugin.
+  $lite_plugin_settings = array(
+    'lite_AcceptAll',
+    'lite_RejectAll',
+    'lite_AcceptOne',
+    'lite_RejectOne',
+    'lite_ToggleShow',
+    'lite_ToggleTracking',
+  );
+  multisite_config_service('wysiwyg')->addButtonsToProfile(
+    'full_html_track',
+    'lite',
+    $lite_plugin_settings
+  );
 
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
@@ -586,31 +631,7 @@ function _cce_basic_config_post_install_default_blocks() {
 
 }
 
-/**
- * Initialize apachesorl.
- */
-function _cce_basic_config_post_install_apachesolr() {
-  // Disable all Solr environments for the remainder of this request. We are
-  // going to create some files, and need to prevent the apachesolr module from
-  // trying to update the Solr indexes when hook_entity_save() fires.
-  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
-  $environments = &drupal_static('apachesolr_load_all_environments');
-  $environments = array();
-
-  // At the end of the installation cron will be run. During cron an error
-  // might occur in the apachesolr_multisitesearch module when it tries to
-  // update the solr metadata for servers that may not be configured, or may
-  // not be reachable from the environment where the site is being installed.
-  // We can work around it by tricking the module into thinking it has already
-  // performed its updates.
-  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
-  global $conf;
-  $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
-  $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
-
-}
-
-/**
+/*
  * Initialize content type.
  *
  * Add 'page' and ''article' CT and their body.
@@ -793,11 +814,15 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access print',
     'access site-wide contact form',
     'access user contact forms',
-    'access user profiles',
     'post comments',
     'search content',
     'use advanced search',
   ));
+
+  // Cloning roles to 'Full HTML + Change tracking' text format. It needs to be
+  // done at least here because sooner it was not possible.
+  $fl_html_roles = multisite_config_service('filter')->getFormatRoles('full_html');
+  multisite_config_service('filter')->setFormatRoles('full_html_track', $fl_html_roles);
 }
 
 /**
@@ -966,7 +991,6 @@ function cce_basic_config_post_install() {
   _cce_basic_config_post_install_default_images();
   _cce_basic_config_post_install_default_menu_items();
   _cce_basic_config_post_install_default_terms();
-  _cce_basic_config_post_install_apachesolr();
 }
 
 /**
@@ -1560,7 +1584,7 @@ function cce_basic_config_update_7192() {
   variable_set('image_captcha_distortion_amplitude', '5');
   variable_set('image_captcha_bilinear_interpolation', 1);
 
-  if (db_table_exists($captcha_points)) {
+  if (db_table_exists('captcha_points')) {
     db_update('captcha_points')
       ->fields(array('captcha_type' => 'default'))
       ->condition('form_id', 'contact_site_form')
@@ -2136,4 +2160,36 @@ function cce_basic_config_update_7209() {
  */
 function cce_basic_config_update_7210() {
   variable_set('multisite_version', '2.2');
+}
+
+/**
+ * NEXTEUROPA-11582: Delay removal of entities from Apache Solr to cron.
+ */
+function cce_basic_config_update_7211() {
+  variable_set('apachesolr_delay_removals', 1);
+}
+
+/**
+ * NEXTEUROPA-12797: Activate multisite_wysiwyg_link_hreflang plugin.
+ */
+function cce_basic_config_update_7212() {
+  $plugin_settings = array(
+    'multisite_wysiwyg_link_hreflang' => array(
+      'Link',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
+    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html_track', $group, $buttons);
+  }
+}
+
+/**
+ * NEXTEUROPA-8413.
+ *
+ * Change the filter_tokens weight to be on the bottom of the processing order.
+ */
+function cce_basic_config_update_7213() {
+  // Enable token_filter on full_html text filter.
+  multisite_config_service('filter')->setTextFilterWeight('full_html', 'filter_tokens', 20);
 }

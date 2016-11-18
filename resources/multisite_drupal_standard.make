@@ -43,6 +43,10 @@ projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-u
 projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch
 ; Issue NEXTEUROPA-11356 - setting up default timeout value for drupal_http_request function (500 errors investigation).
 projects[apachesolr][patch][] = patches/apachesolr-changing_drupal_http_request_timeout_value.patch
+; Delay removing entities from the index.
+; https://www.drupal.org/node/2764637
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11582
+projects[apachesolr][patch][] = https://www.drupal.org/files/issues/apachesolr-delay-entity-removal-2764637-1.patch
 
 projects[apachesolr_attachments][subdir] = "contrib"
 projects[apachesolr_attachments][version] = "1.4"
@@ -91,19 +95,16 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.7"
-; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
-; https://www.drupal.org/node/2512054
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call-2512054-2.patch
-; Issue #2142949 : Receiving error message - Notice: Undefined offset: 1 in chr_curl_http_request().
-; https://www.drupal.org/node/2142949
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
+projects[chr][version] = "1.8"
 ; Issue #2355631 : rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
+; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
+; https://www.drupal.org/node/2816399
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
+
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
@@ -152,7 +153,7 @@ projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload
 projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.9"
+projects[ctools][version] = "1.11"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -187,11 +188,11 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = 221e302
-projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
+projects[entity_translation][version] = "1.0-beta5"
+; Issue #1707156 : Workbench Moderation integration
+; https://www.drupal.org/node/1707156
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-47.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -241,7 +242,7 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta1"
+projects[feeds][version] = "2.0-beta2"
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
@@ -276,7 +277,7 @@ projects[filefield_sources_plupload][version] = "1.1"
 projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.7"
+projects[flag][version] = "3.9"
 
 projects[flexible_purge][subdir] = "contrib"
 projects[flexible_purge][version] = "1.x-dev"
@@ -325,7 +326,12 @@ projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.13"
-projects[i18n][patch][] = patches/i18n-hide_language_field-3996.patch
+; Language field display should default to hidden.
+; https://www.drupal.org/node/1350638
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
+; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
+; you can find it in drupal-core.make.
+projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
@@ -365,6 +371,11 @@ projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
+; Allow to override the http client code, to support proxying secure
+; http connections with the chr module.
+; https://www.drupal.org/node/750000
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11765
+projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-allow-alternate-http-client-750000-15.patch
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
@@ -379,6 +390,10 @@ projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
+; Linkchecker PHP 7.0 compatibility.
+; https://www.drupal.org/node/2660694
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
@@ -387,7 +402,7 @@ projects[mailsystem][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 
 projects[maxlength][subdir] = "contrib"
-projects[maxlength][version] = "3.2"
+projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
 projects[media][version] = 2.0-beta1
@@ -417,6 +432,10 @@ projects[media_flickr][patch][] = patches/media_flickr-Media_v2_removed_XML_APIs
 projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-2183.patch
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
 projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
+; Support for newer Flickr album urls.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12401
+; https://www.drupal.org/node/2602558
+projects[media_flickr][patch][] = https://www.drupal.org/files/issues/import_albums_error-7.x-1.x-2602558-5.patch
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
@@ -426,7 +445,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "2.0-rc5"
+projects[media_youtube][version] = "3.0"
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
@@ -463,13 +482,16 @@ projects[migrate][subdir] = contrib
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
 
+projects[nexteuropa_newsroom][download][type] = get
+projects[nexteuropa_newsroom][download][file_type] = "zip"
+projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
+projects[nexteuropa_newsroom][subdir] = custom
+
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
 
-projects[og][download][branch] = 7.x-2.x
-projects[og][download][revision] = fba6dda
-projects[og][download][type] = git
 projects[og][subdir] = "contrib"
+projects[og][version] = "2.9"
 ; VBO and OG
 ; https://www.drupal.org/node/2561507
 projects[og][patch][] = https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch
@@ -506,7 +528,7 @@ projects[pathauto_persist][subdir] = "contrib"
 projects[pathauto_persist][version] = "1.4"
 
 projects[piwik][subdir] = "contrib"
-projects[piwik][version] = "2.7"
+projects[piwik][version] = "2.9"
 
 projects[plupload][subdir] = "contrib"
 projects[plupload][version] = "1.7"
@@ -591,6 +613,10 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
+; NEPT-60
+; @see https://www.drupal.org/node/2812863
+; This patch fix the insufficient access check on Views.
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -725,12 +751,21 @@ projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
+; Features export doesn't work correctly
+; https://www.drupal.org/node/2414575
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1
+projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-feature_export_object_to_array-2414575-10-7.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
 
 projects[xmlsitemap][subdir] = "contrib"
-projects[xmlsitemap][version] = "2.2"
+projects[xmlsitemap][version] = "2.3"
+; Using rel="alternate" rather than multiple sitemaps by language context
+; https://www.drupal.org/node/1670086
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11505
+projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch
+projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
 
 
 ; =========
@@ -855,11 +890,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7.4a
+; mpdf
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v6.1.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
@@ -909,8 +944,7 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 ; ======
 
 projects[bootstrap][type] = theme
-projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+projects[bootstrap][version] = 3.8
 
 projects[europa][type] = theme
 projects[europa][download][type] = get

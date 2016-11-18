@@ -2,11 +2,22 @@ default:
   suites:
     default:
       contexts:
+        - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_port: {{ integration.server.port }}
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\VariableContext
+        - Drupal\nexteuropa\Context\FlickrContext:
+            key: '{{ flickr.key }}'
+            secret: '{{ flickr.secret }}'
+        - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\WebtoolsContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_port: {{ varnish.server.port }}
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
@@ -41,6 +52,13 @@ default:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: upload_pie
+      image_drivers:
+        upload_pie:
+          expire: '1d'
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -53,6 +71,7 @@ communities:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "@communities&&~@wip"
   extensions:
@@ -81,5 +100,6 @@ communities:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
+        messages: "#console"
   formatters:
     {{ behat.formatter.name }}: ~
