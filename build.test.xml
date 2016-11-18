@@ -68,12 +68,6 @@
             </then>
         </if>
 
-        <behatloadbalancer
-            containers="${behat.load_balancer.containers}"
-            root="${behat.load_balancer.root}"
-            destination="${behat.load_balancer.destination}"
-            import="${behat.load_balancer.import}"
-        />
         <copy todir="${behat.dir}">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
@@ -103,6 +97,16 @@
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
         <symlink link="${phing.project.build.dir}/tests" target="../tests" />
         <symlink link="bin/behat" target="../${phing.project.build.dir}/vendor/bin/behat" overwrite="true"/>
+    </target>
+
+    <!-- Set up Behat balancer. -->
+    <target name="setup-behat-balancer">
+        <behat:balancer
+            containers="${behat.load_balancer.containers}"
+            root="${behat.load_balancer.root}"
+            destination="${behat.load_balancer.destination}"
+            import="${behat.load_balancer.import}"
+        />
     </target>
 
     <!-- Run Behat tests. -->

@@ -10,7 +10,7 @@
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2.10",
     "php": ">=5.4.0",
-    "typhonius/behattask": "1.0"
+    "drupol/phingbehattask": "dev-master"
   },
   "prefer-stable": true,
   "autoload": {
@@ -30,20 +30,6 @@
           "reference": "7.x-1.0"
         },
         "autoload": { "classmap": [ "DrushTask.php" ] },
-        "include-path": [ "." ]
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "typhonius/behattask",
-        "version": "1.0",
-        "source": {
-          "url": "https://gist.github.com/5719e15be9687ff7c138.git",
-          "type": "git",
-          "reference": "0ea666882cba3099dfa4feeb02e1bb85b2c0bde9"
-        },
-        "autoload": { "classmap": [ "BehatTask.php" ] },
         "include-path": [ "." ]
       }
     },
