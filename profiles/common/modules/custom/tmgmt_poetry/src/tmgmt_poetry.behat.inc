@@ -175,7 +175,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @throws Exception
    */
   private function waitForXpathNode($xpath, $appear = TRUE) {
-    $this->waitFor(function($context) use ($xpath, $appear) {
+    $this->waitFor(function ($context) use ($xpath, $appear) {
       try {
         $nodes = $context->getSession()->getDriver()->find($xpath);
         if (count($nodes) > 0) {
@@ -193,6 +193,18 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     });
   }
 
+  private function waitFor($fn, $timeout = 5000) {
+    $start = microtime(TRUE);
+    $end = $start + $timeout / 1000.0;
+    while (microtime(TRUE) < $end) {
+      if ($fn($this)) {
+        return;
+      }
+    }
+    throw new \Exception("waitFor timed out");
+  }
+
+
   /**
    * Find specific date in a table row containing given text.
    *
@@ -201,7 +213,8 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   public function assertLastChangeDateInTableRow($row_text) {
     /** @var DrupalContext $drupal_context */
     $drupal_context = $this->getContext(DrupalContext::class);
-    $row = $drupal_context->getTableRow($this->getSession()->getPage(), $row_text);
+    $row = $drupal_context->getTableRow($this->getSession()
+      ->getPage(), $row_text);
     $date_regexp = "/\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}/";
 
     if (preg_match($date_regexp, $row->getText()) == FALSE) {
