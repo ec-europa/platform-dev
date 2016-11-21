@@ -50,3 +50,4 @@ Feature: Page Layout
     Examples:
       | page       | text                                      |
       | search     | Search - European Commission              |
+    
