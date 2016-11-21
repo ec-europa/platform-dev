@@ -10,6 +10,11 @@ node('master') {
 
     stage('Init') {
         deleteDir()
+        step([
+          $class: 'GitHubCommitStatusSetter',
+          contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: '${env.BUILD_CONTEXT}'],
+          statusResultSource: [$class: 'ConditionalStatusResultSource', results: [[$class: 'AnyBuildResult', message: 'Build started.', state: 'PENDING']]]
+        ])
         slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> started"
         checkout scm
     }
@@ -40,10 +45,20 @@ node('master') {
         stage('Package') {
             sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
             sh "tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz build"
+            step([
+              $class: 'GitHubCommitStatusSetter',
+              contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: '${env.BUILD_CONTEXT}'],
+              statusResultSource: [$class: 'ConditionalStatusResultSource', results: [[$class: 'AnyBuildResult', message: 'Build finished.', state: 'SUCCESS']]]
+            ])
             slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> finished :+1:"
         }
 
     } catch(err) {
+        step([
+          $class: 'GitHubCommitStatusSetter',
+          contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: '${env.BUILD_CONTEXT}'],
+          statusResultSource: [$class: 'ConditionalStatusResultSource', results: [[$class: 'AnyBuildResult', message: 'Build failed.', state: 'FAILURE']]]
+        ])
         slackSend color: "warning", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> failed :-1:"
         throw(err)
     } finally {
