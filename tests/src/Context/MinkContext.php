@@ -9,12 +9,15 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Element\Element;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Selector\Xpath\Escaper;
 use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
+use function bovigo\assert\predicate\equals;
+use function bovigo\assert\assert;
 
 /**
  * Provides step definitions for interacting with Mink.
@@ -131,12 +134,31 @@ class MinkContext extends DrupalExtensionMinkContext {
   /**
    * Fills in a field with a multiline text.
    *
+   * The only supported fields is currently a textarea.
+   *
    * @When I fill :arg1 with:
    */
   public function iFillWith($arg1, PyStringNode $string) {
-    $field = $this->getSession()->getPage()->findField($arg1);
+    $locator = array('field', $arg1);
+    $items = $this->getSession()->getPage()->findAll('named', $locator);
 
-    $field->setValue($string->getRaw());
+    $item = $this->findElementMatching(
+      function (NodeElement $item) {
+        return $item->getTagName() === 'textarea';
+      },
+      $items
+    );
+
+    if (!$item) {
+      throw new ElementNotFoundException(
+        $this->getSession()->getDriver(),
+        'textarea',
+        'named',
+        $locator
+      );
+    }
+
+    $item->setValue($string->getRaw());
   }
 
   /**
@@ -149,6 +171,57 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   public function maximizeBrowserWindow() {
     $this->getSession()->getDriver()->maximizeWindow();
+  }
+
+  /**
+   * Assert that a radio button is selected.
+   *
+   * @Then the radio button :arg1 is selected
+   */
+  public function assertRadioButtonIsSelected($arg1) {
+    $locator = array('field', $arg1);
+    $items = $this->getSession()->getPage()->findAll('named', $locator);
+
+    $item = $this->findElementMatching(
+      function (NodeElement $item) {
+        return
+          $item->getTagName() === 'input' &&
+          $item->getAttribute('type') === 'radio';
+      },
+      $items
+    );
+
+    if (!$item) {
+      throw new ElementNotFoundException(
+        $this->getSession()->getDriver(),
+        'radio',
+        'named',
+        $locator
+      );
+    }
+
+    assert($item->getValue(), equals($item->getAttribute('value')));
+  }
+
+  /**
+   * Find an element matching the criteria defined by a callable.
+   *
+   * @param callable $matcher
+   *   Callable which returns if the element matches or not.
+   * @param NodeElement[] $elements
+   *   Array of elements to search through.
+   *
+   * @return NodeElement|NULL
+   *   The matching element, or NULL if no matching element was found.
+   */
+  protected function findElementMatching(callable $matcher, array $elements) {
+    foreach ($elements as $element) {
+      if (TRUE === $matcher($element)) {
+        return $element;
+      }
+    }
+
+    return NULL;
   }
 
   /**
