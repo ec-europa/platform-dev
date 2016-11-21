@@ -32,19 +32,15 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
+
       $origin_job_item = array_shift($origin_job_items);
       $languages = language_list('language');
       $requested_languages = $origin_job->settings['languages'];
       foreach ($requested_languages as $key_requested_language => $requested_language) {
         if ($key_requested_language != $origin_job->target_language) {
+          // If language was not requested in the first translation request
+          // skip creation of a job and a job item (value is equal 0).
           if (empty($requested_language)) {
-            // Remove a job if it was unchecked.
-            $job_ids_remove = _tmgmt_poetry_obtain_related_translation_jobs(array($key_requested_language), 'SUB_' . $origin_job->tjid)->fetchAll();
-            if (count($job_ids_remove) > 0) {
-              $job_id_remove = array_shift($job_ids_remove);
-              $job_remove = tmgmt_job_load($job_id_remove->tjid);
-              $job_remove->delete();
-            }
             continue;
           }
 

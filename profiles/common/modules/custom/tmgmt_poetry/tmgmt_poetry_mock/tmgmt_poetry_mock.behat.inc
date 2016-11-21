@@ -81,6 +81,23 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
+   * Reset the 'numero' column in the poetry_map table.
+   *
+   * @BeforeScenario @resetPoetryNumero
+   */
+  public function resetTheNumeroIntoPoetryHistory() {
+    // Resetting all entries in the 'numero' column to enforce the 'sequence'
+    // XML tag instead of the 'numero' in the outgoing translation request.
+    if (db_table_exists('poetry_map')) {
+      db_update('poetry_map')
+        ->fields(array(
+          'numero' => '-1',
+        ))
+        ->execute();
+    }
+  }
+
+  /**
    * Restore initial variables.
    *
    * @AfterScenario
@@ -109,6 +126,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * Verifies that poetry received the last translation request.
    *
    * @Then the poetry translation service received the translation request
+   * @Then the poetry translation service received the additional language translation request
    */
   public function assertPoetryTranslationServiceReceivedTheTranslationRequest() {
     $translation_request = PoetryMock::getTranslationRequestByJobReference(
@@ -131,26 +149,67 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Verifies the version of the last translation request.
+   * Verifies the version/partie of the last translation request.
    *
-   * @Then the translation request has version :arg1
+   * @Then the translation request has :arg1 to :arg2
    */
-  public function assertTranslationRequestHasVersion($arg1) {
+  public function assertTranslationRequestHasElement($arg1, $arg2) {
     if (!$this->translationRequest) {
       throw new Exception(
         'translator first needs to confirm they received the translation request'
       );
     }
 
-    if ($this->translationRequest['demande_id']['version'] != $arg1) {
+    if (!isset($this->translationRequest['demande_id'][$arg1])) {
       throw new Exception(
         sprintf(
-          'Translation request version is %s, expected %s instead',
-          $this->translationRequest['demande_id']['version'],
+          '%s does not exist',
           $arg1
         )
       );
     }
+
+    if ($this->translationRequest['demande_id'][$arg1] != $arg2) {
+      throw new Exception(
+        sprintf(
+          'Translation request version is %s, expected %s instead',
+          $this->translationRequest['demande_id'][$arg1],
+          $arg2
+        )
+      );
+    }
+  }
+
+  /**
+   * Sets the version/partie of the last translation request.
+   *
+   * @Then set the translation request :arg1 to :arg2
+   */
+  public function setTranslationRequest($arg1, $arg2) {
+    if (!$this->translationRequest) {
+      throw new Exception(
+        'translator first needs to confirm they received the translation request'
+      );
+    }
+
+    if (!in_array($arg1, array('version', 'partie'))) {
+      throw new Exception(
+        sprintf(
+          '%s does not exist or is not allowed to be changed',
+          $arg1
+        )
+      );
+    }
+
+    db_update('poetry_map')
+      ->fields(array($arg1 => $arg2))
+      ->condition('annee', $this->translationRequest['demande_id']['annee'], '=')
+      ->condition('numero', $this->translationRequest['demande_id']['numero'], '=')
+      ->condition('version', $this->translationRequest['demande_id']['version'], '=')
+      ->condition('partie', $this->translationRequest['demande_id']['partie'], '=')
+      ->execute();
+
+    $this->translationRequest['demande_id'][$arg1] = $arg2;
   }
 
   /**
@@ -358,6 +417,53 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
       $sequence,
       equals($arg1)
     );
+  }
+
+  /**
+   * Verifies that the new target language request contains given languages.
+   *
+   * @Then the additional language translation request contains the following languages:
+   */
+  public function assertNewTargetLanguageRequestContainsLanguages(TableNode $table) {
+    // Getting languages from the given table.
+    $table_body_rows = $table->getHash();
+    $expected_languages = array_map(
+      function ($row) {
+        return $row['Language'];
+      },
+      $table_body_rows
+    );
+
+    // Initializing helper arrays.
+    $new_languages = [];
+
+    // Checking if there are multiple requests stored in files by poetry mock
+    // and getting the last of them.
+    if (isset($this->translationRequest['files'])) {
+      // Getting available languages.
+      $languages = language_list();
+
+      $request_file_info = end($this->translationRequest['files']);
+      $request_file = file_load($request_file_info->fid);
+
+      // Getting and processing a XML request.
+      $request_xml = file_get_contents($request_file->uri);
+      $xml = new SimpleXMLElement($request_xml);
+      $results = $xml->xpath('/POETRY/request/attributions');
+
+      // Preparing an array with languages which are part of the request.
+      foreach ($results as $result) {
+        foreach ($result->attributes() as $key => $attribute) {
+          if ($key == 'lgCode') {
+            $lg_code = drupal_strtolower((string) $attribute);
+            $new_languages[] = $languages[$lg_code]->name;
+          }
+        }
+      }
+
+    }
+
+    assert($new_languages, equals($expected_languages));
   }
 
 }
