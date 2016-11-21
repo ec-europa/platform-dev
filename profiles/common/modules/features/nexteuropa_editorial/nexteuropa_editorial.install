@@ -274,7 +274,7 @@ function nexteuropa_editorial_update_7004(&$sandbox) {
       return in_array($item['type'], $field_types);
     });
 
-    $sandbox['field_list'] =  array_keys($filtered);
+    $sandbox['field_list'] = array_keys($filtered);
 
     $sandbox['max'] = count($sandbox['field_list']);
   }
