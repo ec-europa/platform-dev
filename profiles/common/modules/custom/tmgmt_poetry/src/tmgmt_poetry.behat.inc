@@ -121,7 +121,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @Then /^I store the job reference of the translation request page$/
    */
   public function iStoreJobReferenceOfTranslationRequestPage() {
-    $this->_driver->wait()->until(WebDriverExpectedCondition::visibilityOfElementLocated(WebDriverBy::cssSelector('.messages')));
     $node_id = $this->getCurrentNodeId();
     if (!$node_id) {
       throw new \InvalidArgumentException("URL mismatch: the current page is not a node translation page.");
