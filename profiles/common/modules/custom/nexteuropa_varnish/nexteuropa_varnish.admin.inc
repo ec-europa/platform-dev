@@ -19,7 +19,7 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     '#required' => TRUE,
   );
 
-  $type_default_value = isset($purge_rule->is_new) ? PurgeRuleType::PATHS : $purge_rule->type();
+  $type_default_value = isset($purge_rule->is_new) ? PurgeRuleType::PATHS : (string) $purge_rule->type();
 
   $form['rule_type'] = array(
     '#title' => t('What should be purged'),

@@ -153,43 +153,63 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
       'nexteuropa_varnish_cache_purge_rule',
       array_keys($result['nexteuropa_varnish_cache_purge_rule'])
     );
-    /** @var \Drupal\nexteuropa_varnish\Entity\PurgeRule $purge_rule */
-    foreach ($purge_rules as $purge_rule) {
-      if ($purge_rule->type() === PurgeRuleType::PATHS) {
-        $purge_paths = $purge_rule->paths();
-      }
-      else {
-        $purge_paths = array();
 
-        $entity_uri = entity_uri('node', $node);
+    $paths = _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node);
+  }
 
-        if ($entity_uri) {
-          // Get the languages the node is translated into (entity translation).
-          if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
-            $handler = entity_translation_get_handler('node', $node);
+  return $paths;
+}
 
-            $translations = $handler->getTranslations();
+/**
+ * Merge the paths of a list of purge rules.
+ *
+ * @var \Drupal\nexteuropa_varnish\Entity\PurgeRule[] $purge_rules
+ *   Purge rules to merge the paths from.
+ *
+ * @var object $node
+ *   The node object that triggered the purging mechanism.
+ *
+ * @return array
+ *   The paths to purge.
+ */
+function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
+  $paths = array();
 
-            $lang_codes = array_keys($translations->data);
-            $all_languages = entity_translation_languages('node', $node);
+  foreach ($purge_rules as $purge_rule) {
+    if ($purge_rule->type() == PurgeRuleType::PATHS) {
+      $purge_paths = $purge_rule->paths();
+    }
+    else {
+      $purge_paths = array();
 
-            foreach ($lang_codes as $lang_code) {
-              if (isset($all_languages[$lang_code])) {
-                $purge_paths[] = url(
-                  $entity_uri['path'],
-                  $entity_uri['options'] + array('language' => $all_languages[$lang_code])
-                );
-              }
+      $entity_uri = entity_uri('node', $node);
+
+      if ($entity_uri) {
+        // Get the languages the node is translated into (entity translation).
+        if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
+          $handler = entity_translation_get_handler('node', $node);
+
+          $translations = $handler->getTranslations();
+
+          $lang_codes = array_keys($translations->data);
+          $all_languages = entity_translation_languages('node', $node);
+
+          foreach ($lang_codes as $lang_code) {
+            if (isset($all_languages[$lang_code])) {
+              $purge_paths[] = url(
+                $entity_uri['path'],
+                $entity_uri['options'] + array('language' => $all_languages[$lang_code])
+              );
             }
           }
-          else {
-            $purge_paths[] = url($entity_uri['path'], $entity_uri['options']);
-          }
+        }
+        else {
+          $purge_paths[] = url($entity_uri['path'], $entity_uri['options']);
         }
       }
-
-      $paths = array_merge($paths, $purge_paths);
     }
+
+    $paths = array_merge($paths, $purge_paths);
   }
 
   $paths = array_unique($paths);
