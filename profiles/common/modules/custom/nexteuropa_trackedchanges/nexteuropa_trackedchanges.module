@@ -74,6 +74,40 @@ function nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter
     $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_wbm_validate';
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_trackedchanges_form_system_modules_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = '_nexteuropa_trackedchanges_system_disable_check_validate';
+  $form['#submit'][] = '_nexteuropa_trackedchanges_system_disable_check_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_trackedchanges_form_feature_set_admin_form_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = '_nexteuropa_trackedchanges_disable_check_validate';
+  $form['#submit'][] = '_nexteuropa_trackedchanges_disable_check_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Put in place the mechanism bypassing the disabling process of Feature set
+ * module to replace it by specific one starting with a tracked changes scan.
+ */
+function nexteuropa_trackedchanges_form_feature_set_disable_url_alter(&$form, &$form_state, $form_id) {
+  if ($form['featureset']['#value'] == 'nexteuropa_trackedchanges') {
+    $form['nexteuropa_trackedchanges_disabling'] = array(
+      '#type' => 'value',
+      '#value' => TRUE,
+    );
+    $feature_set_submit_key = array_search('feature_set_disable_url_submit', $form['#submit']);
+    $form['#submit'][$feature_set_submit_key] = '_nexteuropa_trackedchanges_disable_check_submit';
+  }
+}
+
 /**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  *
@@ -173,7 +207,6 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
   }
 }
 
-
 /**
  * Add all buttons related to CKEditor Lite in the WYSIWYG profile.
  *
@@ -248,4 +281,164 @@ function _nexteuropa_trackedchanges_get_profiles() {
     unset($wysiwyg_profiles['options'][NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME]);
   }
   return $wysiwyg_profiles;
+}
+
+/**
+ * Get entities that have  tracked changes in values for a specific field.
+ *
+ * @param string $field_name
+ *    The field machine name to scan.
+ * @param string $text_format
+ *   The text_format on which the scanning process needs to focus.
+ *   If set, the process scans only values using this text format.
+ *
+ * @return array|bool
+ *   Array of entities data where tracked changes have been detected for the
+ *   scanned field; FALSE if not tracked changes have been detected.
+ *   For each retrived entity, the following data are supplied:
+ *   - string entity_type: Entity type (node, traxonomy term, etc.);
+ *   - string bundle: the bundle of the entity;
+ *   - int entity_id: entity id;
+ *   - string language: entity language code;
+ *   - string|bool state: Workbench moderation state; FALSE if not applicable.
+ */
+function _nexteuropa_trackedchanges_check_field_values($field_name, $text_format = '') {
+  // 2. Scan field revision table to see if tracked changes tag are present.
+  // Because of Workbench moderation, field data table could not contain any
+  // tags for node values while the draft revision (contained in the revision
+  // tables could have.
+  $query = db_select('field_revision_' . $field_name, 'fr');
+  $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
+        ->condition('fr.deleted', 0);
+  if ($text_format) {
+    $query->condition('fr.' . $field_name . '_format', $text_format);
+  }
+  $query->fields('fr', array('entity_type', 'bundle'));
+  $query->distinct(TRUE);
+  $query_results = $query->execute()->fetchAllAssoc('bundle');
+
+  if (!$query_results) {
+    return FALSE;
+  }
+
+  $return = array();
+  foreach ($query_results as $query_result) {
+    $entity_type = $query_result->entity_type;
+    $bundle = $query_result->bundle;
+
+    switch ($entity_type) {
+      case 'node':
+        // 3.a.1 Check if workbench moderation is active for the node.
+        // Check content published and "draft" versions.
+        if (module_exists('workbench_moderation')) {
+          if (workbench_moderation_node_type_moderated($bundle)) {
+            $db_or_state = db_or()->condition('wmhn.is_current', 1)->condition('wmhn.published', 1);
+            $query = db_select('field_revision_' . $field_name, 'fr');
+            $query->join('node', 'n', 'fr.entity_id = n.nid');
+            $query->join('workbench_moderation_node_history', 'wmhn', 'fr.revision_id = wmhn.vid');
+            $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
+                  ->condition($db_or_state)
+                  ->condition('fr.bundle', $bundle);
+            if ($text_format) {
+              $query->condition('fr.' . $field_name . '_format', $text_format);
+            }
+            $query->fields('fr', array('language'))
+                  ->fields('n', array('nid'))
+                  ->fields('wmhn', array('state'));
+            $query->addField('fr', $field_name . '_format', 'format');
+            $query->distinct(TRUE);
+            $node_scans = $query->execute()->fetchAllAssoc('nid');
+
+            foreach ($node_scans as $node_scan) {
+              $key = $entity_type . '_' . $bundle . '_' . $node_scan->nid . '_' . $node_scan->language;
+              $return[$key] = array(
+                'entity_type' => $entity_type,
+                'bundle' => $bundle,
+                'entity_id' => $node_scan->nid,
+                'language' => $node_scan->language,
+                'state' => $node_scan->state,
+              );
+            }
+          }
+
+          // Code executed below is useless as already checked here.
+          // Then, break.
+          break;
+        }
+
+        // 3.a.2 Check other nodes on the field data table which is the current
+        // version to take into account.
+        $query = db_select('field_data_' . $field_name, 'fd');
+        $query->join('node', 'n', 'fd.entity_id = n.nid');
+        $query->condition('fr.bundle', $bundle)
+              ->where('fd.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
+        if ($text_format) {
+          $query->condition('fd.' . $field_name . '_format', $text_format);
+        }
+        $query->fields('fd', array('language'))
+              ->fields('n', array('nid'));
+        $query->distinct(TRUE);
+        $node_scans = $query->execute()->fetchAllAssoc('nid');
+
+        foreach ($node_scans as $node_scan) {
+          $return[] = array(
+            'entity_type' => $entity_type,
+            'bundle' => $bundle,
+            'entity_id' => $node_scan->nid,
+            'language' => $node_scan->language,
+            'state' => FALSE,
+          );
+        }
+        break;
+
+      default:
+        // 3.b. Get info on related entities.
+        $query = db_select('field_data_' . $field_name, 'fd');
+        $query->condition('fd.bundle', $bundle)
+              ->where('fd.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
+        if ($text_format) {
+          $query->condition('fd.' . $field_name . '_format', $text_format);
+        }
+        $query->fields('fd', array('entity_id', 'language'));
+        $query->distinct(TRUE);
+        $node_scans = $query->execute()->fetchAllAssoc('entity_id');
+
+        foreach ($node_scans as $entity_scan) {
+          $return[] = array(
+            'entity_type' => $entity_type,
+            'bundle' => $bundle,
+            'entity_id' => $entity_scan->entity_id,
+            'language' => $entity_scan->language,
+            'state' => FALSE,
+          );
+        }
+        break;
+    }
+  }
+
+  return $return;
+}
+
+/**
+ * Get machine name of potential WYSIWYG fields.
+ *
+ * These fields are of the following types: text_long, text, text_with_summary.
+ *
+ * @return array
+ *    list of field machine names.
+ *
+ * @see field_info_field_map
+ */
+function _nexteuropa_trackedchanges_wysiwyg_fields_info() {
+  $field_types = array(
+    'text_long',
+    'text_with_summary',
+    'text',
+  );
+  $field_info_map = field_info_field_map();
+  $filtered = array_filter($field_info_map, function ($item) use ($field_types) {
+    return in_array($item['type'], $field_types);
+  });
+
+  return array_keys($filtered);
 }
