@@ -9,6 +9,7 @@ default:
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\DatabaseLogContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:

@@ -18,6 +18,7 @@ default:
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_port: {{ varnish.server.port }}
+        - Drupal\nexteuropa\Context\DatabaseLogContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:

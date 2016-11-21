@@ -100,7 +100,10 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewri
 ; https://www.drupal.org/node/2816399
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
-
+; Issue #2825701: allow PURGE requests.
+; https://www.drupal.org/node/2825701
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
