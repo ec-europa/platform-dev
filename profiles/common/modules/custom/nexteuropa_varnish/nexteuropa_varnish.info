@@ -7,5 +7,8 @@ dependencies[] = rules
 dependencies[] = flexible_purge
 dependencies[] = workbench_moderation
 dependencies[] = entity
+dependencies[] = registry_autoload
+
+registry_autoload[] = PSR-4
 
 files[] = includes/cache_purge_rule.ui.inc

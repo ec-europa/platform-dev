@@ -4,6 +4,8 @@
  * Callbacks used by the administration area.
  */
 
+use Drupal\nexteuropa_varnish\PurgeRuleType;
+
 /**
  * Generates the cache purge rule editing form.
  */
@@ -17,13 +19,43 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     '#required' => TRUE,
   );
 
-  $form['paths'] = array(
-    '#title' => t('Paths'),
-    '#type' => 'textarea',
-    '#default_value' => isset($purge_rule->paths) ? $purge_rule->paths : '',
+  $type_default_value = isset($purge_rule->is_new) ? PurgeRuleType::PATHS : (string) $purge_rule->type();
+
+  $form['rule_type'] = array(
+    '#title' => t('What should be purged'),
+    '#type' => 'radios',
+    '#options' => array(
+      PurgeRuleType::NODE => t('Paths of the node the action is performed on'),
+      PurgeRuleType::PATHS => t('A specific list of paths'),
+    ),
+    '#limit_validation_errors' => array(),
+    '#default_value' => $type_default_value,
     '#required' => TRUE,
-    '#description' => _nexteuropa_varnish_paths_description(),
+    '#ajax' => array(
+      'callback' => 'nexteuropa_varnish_cache_purge_rule_type_selection',
+      'wrapper' => 'specifics-for-cache-purge-type',
+    ),
   );
+
+  // This fieldset just serves as a container for the part of the form
+  // that gets rebuilt.
+  $form['specifics'] = array(
+    '#type' => 'item',
+    '#prefix' => '<div id="specifics-for-cache-purge-type">',
+    '#suffix' => '</div>',
+  );
+
+  $current_rule_type = isset($form_state['values']['rule_type']) ? $form_state['values']['rule_type'] : $type_default_value;
+
+  if ($current_rule_type === PurgeRuleType::PATHS) {
+    $form['specifics']['paths'] = array(
+      '#title' => t('Paths'),
+      '#type' => 'textarea',
+      '#default_value' => isset($purge_rule->paths) ? $purge_rule->paths : '',
+      '#required' => TRUE,
+      '#description' => _nexteuropa_varnish_paths_description(),
+    );
+  }
 
   $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
@@ -33,6 +65,13 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
   );
 
   return $form;
+}
+
+/**
+ * Ajax callback triggered when the cache purge type is changed.
+ */
+function nexteuropa_varnish_cache_purge_rule_type_selection($form, $form_state) {
+  return $form['specifics'];
 }
 
 /**
@@ -70,6 +109,9 @@ function _nexteuropa_varnish_paths_description() {
  * Form API submit callback for the cache purge rule editing form.
  */
 function nexteuropa_varnish_cache_purge_rule_form_submit(&$form, &$form_state) {
+  if ($form_state['values']['rule_type'] !== PurgeRuleType::PATHS) {
+    $form_state['values']['paths'] = '';
+  }
   $purge_rule = entity_ui_form_submit_build_entity($form, $form_state);
   entity_save('nexteuropa_varnish_cache_purge_rule', $purge_rule);
 
