@@ -30,7 +30,6 @@ function communities_enable() {
  * Implements hook_install().
  */
 function communities_install() {
-  global $_communities_fid_default_community_image;
 
   $path = drupal_get_path('module', 'communities') . '/assets/images/default_images';
 
@@ -45,8 +44,4 @@ function communities_install() {
   );
 
   cce_basic_config_import_images($default_images);
-
-  if ($fid = variable_get('default_community_image', FALSE)) {
-    $_communities_fid_default_community_image = $fid;
-  }
 }
