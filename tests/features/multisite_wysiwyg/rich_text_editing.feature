@@ -20,4 +20,8 @@ Feature: Testing the rich text options available with the toolbar present on WYS
     And I fill in "Language code (hreflang)" with "ga"
     And I click the "OK" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I press "Save"
-    Then the response should contain "<a class=\"css-behat-test\" href=\"http://europa.eu/european-union/index_ga\" hreflang=\"ga\" id=\"id-behat-987456\">http://europa.eu/european-union/index_ga</a>"
+    Then the page should contain the element with following id "id-behat-987456" and given attributes:
+      | Attribute | Value                                     |
+      | class     | css-behat-test                            |
+      | href      | http://europa.eu/european-union/index_ga  |
+      | hreflang  | ga                                        |
