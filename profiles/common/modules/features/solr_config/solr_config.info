@@ -2,6 +2,7 @@ name = solr_config
 description = solr facets settings
 core = 7.x
 package = Multisite Core Features
+dependencies[] = apachesolr_search
 dependencies[] = ctools
 dependencies[] = facetapi
 dependencies[] = features

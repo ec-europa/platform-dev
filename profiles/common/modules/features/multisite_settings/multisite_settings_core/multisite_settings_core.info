@@ -2,7 +2,6 @@ name = Multisite settings core
 description = Standard blocks and default functionalities
 core = 7.x
 package = Multisite Core Features
-dependencies[] = apachesolr_search
 dependencies[] = cce_basic_config
 dependencies[] = menu
 dependencies[] = taxonomy_browser
