@@ -1,0 +1,10 @@
+name = EC mapeditor layer
+description = Provides entity that allows users to add a layer to a map.
+core = 7.x
+project path = profiles/common/modules/features/ec_mapeditor_layer
+dependencies[] = inline_entity_form
+dependencies[] = views
+files[] = ec_mapeditor_layer.controller.inc
+multisite_version = 2.1
+package = Maps
+php = 5.2.4

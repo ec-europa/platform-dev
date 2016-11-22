@@ -1,0 +1,63 @@
+name = EC mapeditor
+description = Provides map entity that allows users to create maps using the corporate webtools JavaScript library.
+core = 7.x
+dependencies[] = entity
+dependencies[] = ec_mapeditor_layer
+dependencies[] = views
+dependencies[] = inline_entity_form
+dependencies[] = entityreference
+files[] = ec_mapeditor.controller.inc
+project path = profiles/common/modules/features/ec_mapeditor
+multisite_version = 2.1
+package = Maps
+php = 5.2.4
+
+; Feature set entry for the Country layer
+feature_sets[ec_mapeditor_country][title] = 'Country layer'
+feature_sets[ec_mapeditor_country][description] = 'Allows users to display country outlines on a map'
+feature_sets[ec_mapeditor_country][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[ec_mapeditor_country][category] = 'Maps'
+feature_sets[ec_mapeditor_country][icon] = ''
+feature_sets[ec_mapeditor_country][font] = 'multisite-icon-location'
+feature_sets[ec_mapeditor_country][enable][] = ec_mapeditor_country
+feature_sets[ec_mapeditor_country][disable][] = ec_mapeditor_country
+
+; Feature set entry for the CSV layer
+feature_sets[ec_mapeditor_csv][title] = 'CSV layer'
+feature_sets[ec_mapeditor_csv][description] = 'Allows users to display geospatial data from CSV on a map'
+feature_sets[ec_mapeditor_csv][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[ec_mapeditor_csv][category] = 'Maps'
+feature_sets[ec_mapeditor_csv][icon] = ''
+feature_sets[ec_mapeditor_csv][font] = 'multisite-icon-location'
+feature_sets[ec_mapeditor_csv][enable][] = ec_mapeditor_csv
+feature_sets[ec_mapeditor_csv][disable][] = ec_mapeditor_csv
+
+; Feature set entry for the Node layer
+feature_sets[ec_mapeditor_node][title] = 'Node layer'
+feature_sets[ec_mapeditor_node][description] = 'Allows users to display geospatial data from nodes on a map'
+feature_sets[ec_mapeditor_node][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[ec_mapeditor_node][category] = 'Maps'
+feature_sets[ec_mapeditor_node][icon] = ''
+feature_sets[ec_mapeditor_node][font] = 'multisite-icon-location'
+feature_sets[ec_mapeditor_node][enable][] = ec_mapeditor_node
+feature_sets[ec_mapeditor_node][disable][] = ec_mapeditor_node
+
+; Feature set entry for the Tile layer
+feature_sets[ec_mapeditor_tile][title] = 'Tile layer'
+feature_sets[ec_mapeditor_tile][description] = 'Allows users to display tiles on a map'
+feature_sets[ec_mapeditor_tile][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[ec_mapeditor_tile][category] = 'Maps'
+feature_sets[ec_mapeditor_tile][icon] = ''
+feature_sets[ec_mapeditor_tile][font] = 'multisite-icon-location'
+feature_sets[ec_mapeditor_tile][enable][] = ec_mapeditor_tile
+feature_sets[ec_mapeditor_tile][disable][] = ec_mapeditor_tile
+
+; Feature set entry for the URL layer
+feature_sets[ec_mapeditor_url][title] = 'URL layer'
+feature_sets[ec_mapeditor_url][description] = 'Allows users to display geospatial data from URLs on a map'
+feature_sets[ec_mapeditor_url][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iKNDBg'
+feature_sets[ec_mapeditor_url][category] = 'Maps'
+feature_sets[ec_mapeditor_url][icon] = ''
+feature_sets[ec_mapeditor_url][font] = 'multisite-icon-location'
+feature_sets[ec_mapeditor_url][enable][] = ec_mapeditor_url
+feature_sets[ec_mapeditor_url][disable][] = ec_mapeditor_url

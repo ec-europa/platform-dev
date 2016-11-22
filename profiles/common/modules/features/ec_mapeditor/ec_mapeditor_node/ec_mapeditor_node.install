@@ -1,0 +1,59 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for Node layer module.
+ */
+
+/**
+ * Implements hook_instal().
+ */
+function ec_mapeditor_node_install() {
+
+  // Creates the node map layer.
+  _ec_mapeditor_node_create_layer();
+
+  // Changes map layers field to add node layer as target bundle.
+  _ec_mapeditor_node_change_map_layers_field();
+}
+
+/**
+ * Creates the node map layer bundle.
+ */
+function _ec_mapeditor_node_create_layer() {
+  $bundle = new stdClass();
+  $bundle->type = 'node_layer';
+  $bundle->label = t('Node layer');
+  $bundle->is_new = TRUE;
+  $bundle->description = t("Map layer from geo data stored in nodes");
+  $controller = new MapLayerTypeController('map_layer_type');
+  $controller->save($bundle);
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds node layer as target bundles.
+ */
+function _ec_mapeditor_node_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds node layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['node_layer'] = 'node_layer';
+  field_update_field($field_info);
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ec_mapeditor_node_enable() {
+  $t = get_t();
+  drupal_set_message($t('Node layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ec_mapeditor_node_disable() {
+  $t = get_t();
+  drupal_set_message($t('Node layer has been disabled.'));
+}

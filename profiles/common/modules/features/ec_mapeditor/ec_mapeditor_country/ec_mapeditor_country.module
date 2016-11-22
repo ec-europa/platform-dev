@@ -1,0 +1,166 @@
+<?php
+/**
+ * @file
+ * Provides functionality for the EC mapeditor country module.
+ */
+
+/**
+ * Implements hook_layer_content_alter().
+ *
+ * See MapLayerController->buildContent();
+ */
+function ec_mapeditor_country_layer_content_alter(&$content, $wrapper, $entity) {
+
+  // Fetches map data from country layer.
+  if ($entity->type == 'country_layer') {
+    $settings = drupal_json_decode($wrapper->settings->value());
+    if (_ec_mapeditor_layer_fieldcheck('map_country_list', $wrapper) || _ec_mapeditor_layer_fieldcheck('map_countries', $wrapper)) {
+      $countries = array();
+
+      // Adds country list if the map_countries_list field has values.
+      if (_ec_mapeditor_layer_fieldcheck('map_country_list', $wrapper)) {
+        $countries = explode(' ', $wrapper->map_country_list->value());
+        $countries = array_combine($countries, $countries);
+      }
+
+      // Adds country data if the map_countries field has values.
+      if (_ec_mapeditor_layer_fieldcheck('map_countries', $wrapper)) {
+        $countries = array_merge($countries, _ec_mapeditor_country_csv_countries($wrapper->map_countries->value()));
+      }
+      $layers[] = array(
+        'layer_settings' => $settings,
+        'label' => $wrapper->title->value(),
+        'countries' => $countries,
+        'id' => _ec_mapeditor_layer_id($wrapper->title->value()),
+      );
+      $content['#attached']['js'][] = array(
+        'data' => array(
+          'country_layers' => $layers,
+        ),
+        'type' => 'setting',
+      );
+      return $content;
+    }
+  }
+}
+
+/**
+ * Creates list of countries from CSV data.
+ *
+ * @param string $data
+ *   String with CSV data.
+ *
+ * @return array
+ *   Associative array with country data.
+ */
+function _ec_mapeditor_country_csv_countries($data) {
+  $lines = explode("\n", $data);
+  $csv_data = array();
+  foreach ($lines as $line) {
+    if (isset($line[0])) {
+      $csv_data[] = str_getcsv($line);
+    }
+  }
+  foreach ($csv_data as $item) {
+    $code = strtoupper($item[0]);
+    $countries[$code] = array(
+      'name' => isset($item[1]) ? check_plain($item[1]) : NULL,
+      'url' => isset($item[2]) ? trim($item[2]) : NULL,
+      'value' => isset($item[3]) ? trim($item[3]) : 1,
+      'level' => isset($item[4]) ? trim($item[4]) : 0,
+      'fill_color' => isset($item[5]) ? trim($item[5]) : '#C8E9F2',
+    );
+  }
+  return $countries;
+}
+
+/**
+ * Implements hook_layer_info().
+ *
+ * Registers the name of the map layer sub module and which custom form
+ * elements it wants to add to the map layer forms.
+ */
+function ec_mapeditor_country_layer_info() {
+  return array(
+    'country_layer' => array(
+      'form_elements' => array('style', 'nuts', 'attribution'),
+      'custom_js' => base_path() . drupal_get_path('module', 'ec_mapeditor_country') . "/js/country_layer.js?v=" . rand(0, 33333),
+    ),
+  );
+}
+
+/**
+ * Implements hook_map_form_elements().
+ *
+ * Defines custom map layer form fields for the country layer. These elements
+ * are added to the form via hook_layer_info().
+ */
+function ec_mapeditor_country_map_form_elements() {
+  $form_elements = array();
+
+  // Defines the nuts level form elements: which administrative division
+  // (region, province) is shown in the map.
+  $form_elements['nuts'] = array(
+    '#type' => 'container',
+    '#weight' => 15,
+    'level' => array(
+      '#type' => 'textfield',
+      '#title' => t('Nuts level'),
+      '#size' => 12,
+    ),
+  );
+
+  // Defines the style form elements: how are the countries displayed.
+  $form_elements['style'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Style'),
+    '#weight' => 16,
+    'show_label' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Show country label'),
+    ),
+    'fill_color' => array(
+      '#type' => 'textfield',
+      '#title' => t('Fill color'),
+      '#size' => 24,
+    ),
+    'fill_opacity' => array(
+      '#type' => 'textfield',
+      '#title' => t('Fill opacity'),
+      '#size' => 24,
+    ),
+    'border_weight' => array(
+      '#type' => 'textfield',
+      '#title' => t('Border weight'),
+      '#size' => 24,
+    ),
+    'border_color' => array(
+      '#type' => 'textfield',
+      '#title' => t('Border color'),
+      '#size' => 24,
+    ),
+    'border_opacity' => array(
+      '#type' => 'textfield',
+      '#title' => t('Border opacity'),
+      '#size' => 24,
+    ),
+    'dash_array' => array(
+      '#type' => 'textfield',
+      '#title' => t('Dash array'),
+      '#size' => 24,
+      '#description' => t('Size of the dashes in border.'),
+    ),
+  );
+  return $form_elements;
+}
+
+/**
+ * Implements hook_layer_form_alter().
+ */
+function ec_mapeditor_country_layer_form_alter(&$form, $settings, $type) {
+  if ($type == 'country_layer') {
+    $url = file_create_url(drupal_get_path('module', 'ec_mapeditor_country') . '/template.txt');
+    $form['map_countries'][LANGUAGE_NONE][0]['value']['#description'] .= ' ' . t('<a href="!url">Example</a>', array('!url' => $url));
+    return $form;
+  }
+}

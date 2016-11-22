@@ -1,0 +1,106 @@
+<?php
+/**
+ * @file
+ * Provides functionality for the csv map layer bundle.
+ */
+
+/**
+ * Implements hook_layer_content_alter().
+ *
+ * See MapLayerController->buildContent();
+ */
+function ec_mapeditor_csv_layer_content_alter(&$content, $wrapper, $entity) {
+
+  // Fetches map data from csv layer.
+  if ($entity->type == 'csv_layer') {
+    $settings = drupal_json_decode($wrapper->settings->value());
+    if (_ec_mapeditor_layer_fieldcheck('map_csv', $wrapper)) {
+      $features = ec_mapeditor_csv_features($wrapper->map_csv->value());
+      $layers[] = array(
+        'layer_settings' => $settings,
+        'label' => $wrapper->title->value(),
+        'features' => $features,
+        'id' => _ec_mapeditor_layer_id($wrapper->title->value()),
+      );
+      $content['#attached']['js'][] = array(
+        'data' => array(
+          'csv_layers' => $layers,
+        ),
+        'type' => 'setting',
+      );
+    }
+    return $content;
+  }
+}
+
+/**
+ * Implements hook_layer_form_alter().
+ */
+function ec_mapeditor_csv_layer_form_alter(&$form, $settings, $type) {
+  if ($type == 'csv_layer') {
+    $url = file_create_url(drupal_get_path('module', 'ec_mapeditor_csv') . '/template.txt');
+    $form['map_csv'][LANGUAGE_NONE][0]['value']['#description'] .= ' ' . t('<a href="!url">Example</a>', array('!url' => $url));
+    return $form;
+  }
+}
+
+/**
+ * Creates a GeoJSON feature from CSV data.
+ *
+ * @param string $data
+ *   String containing CSV data.
+ *
+ * @return array
+ *   GeoJSON formatted map features.
+ */
+function ec_mapeditor_csv_features($data) {
+  $lines = explode("\n", $data);
+  $csv_data = array();
+  foreach ($lines as $line) {
+    if (isset($line[0])) {
+      $csv_data[] = str_getcsv($line);
+    }
+  }
+  foreach ($csv_data as $item) {
+    $lat = $item[0];
+    $lon = $item[1];
+    $name = check_plain($item[2]);
+    $description = check_plain($item[3]);
+    $url = $item[4];
+    $features[] = array(
+      'type' => 'Feature',
+      'properties' => array(
+        'name' => $name,
+        'popupContent' => theme('popup', array(
+          'title' => $name,
+          'description' => $description,
+          'url' => $url,
+        )),
+      ),
+      'geometry' => array(
+        'type' => 'Point',
+        'coordinates' => array(
+          round($lon, 4),
+          round($lat, 4),
+        ),
+      ),
+    );
+  }
+  return $features;
+}
+
+/**
+ * Implements hook_layer_info().
+ *
+ * Registers the name of the map layer sub module and which custom form
+ * elements it wants to add to the map layer forms. CSV layer has no custom
+ * fields.
+ */
+function ec_mapeditor_csv_layer_info() {
+  return array(
+    'csv_layer' => array(
+      'form_elements' => array('popup', 'clustering', 'icon', 'attribution'),
+      'custom_js' => base_path() . drupal_get_path('module', 'ec_mapeditor_csv') . "/js/csv_layer.js?v=" . rand(0, 33333),
+    ),
+  );
+}

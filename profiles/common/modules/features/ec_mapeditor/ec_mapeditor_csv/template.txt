@@ -1,0 +1,5 @@
+59.325117,18.071094,"Bowsprit capstan","Line bring a spring",http://example.com
+40.844116,14.2423,"Sink me case shot","Ahoy hornswaggle",http://example.com
+37.884487,-4.779502,"Brethren of the Coast","Nelsons folly",http://example.com
+53.902339,27.561902,"Furl fluke","Quarter marooned, measured",http://example.com
+51.226307,4.466024,"Buccaneer coxswain","Mizzen hearties",http://example.com

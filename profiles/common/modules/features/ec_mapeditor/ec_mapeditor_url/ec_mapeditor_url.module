@@ -1,0 +1,51 @@
+<?php
+/**
+ * @file
+ * Provides functionality for the EC mapeditor URL module.
+ */
+
+/**
+ * Implements hook_layer_content_alter().
+ *
+ * See MapLayerController->buildContent();
+ */
+function ec_mapeditor_url_layer_content_alter(&$content, $wrapper, $entity) {
+
+  // Fetches map data from URL layer.
+  if ($entity->type == 'url_layer') {
+    $settings = drupal_json_decode($wrapper->settings->value());
+    if (_ec_mapeditor_layer_fieldcheck('map_url', $wrapper)) {
+      foreach ($wrapper->map_url->getIterator() as $delta => $item) {
+        $urls[] = $item->url->value();
+      }
+      $layers[] = array(
+        'layer_settings' => $settings,
+        'label' => $wrapper->title->value(),
+        'urls' => $urls,
+        'id' => _ec_mapeditor_layer_id($wrapper->title->value()),
+      );
+      $content['#attached']['js'][] = array(
+        'data' => array(
+          'url_layers' => $layers,
+        ),
+        'type' => 'setting',
+      );
+    }
+  }
+  return $content;
+}
+
+/**
+ * Implements hook_layer_info().
+ *
+ * Registers the name of the map layer sub module and which custom form
+ * elements it wants to add to the map layer forms.
+ */
+function ec_mapeditor_url_layer_info() {
+  return array(
+    'url_layer' => array(
+      'form_elements' => array('popup', 'clustering', 'attribution', 'icon'),
+      'custom_js' => base_path() . drupal_get_path('module', 'ec_mapeditor_url') . "/js/url_layer.js?v=" . rand(0, 33333),
+    ),
+  );
+}

@@ -1,0 +1,59 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for EC mapeditor tile module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ec_mapeditor_tile_install() {
+
+  // Creates the tile layer.
+  _ec_mapeditor_tile_create_layer();
+
+  // Changes map layers field to add tile layer as target bundle.
+  _ec_mapeditor_tile_change_map_layers_field();
+}
+
+/**
+ * Creates the tile map layer bundle.
+ */
+function _ec_mapeditor_tile_create_layer() {
+  $bundle = new stdClass();
+  $bundle->type = 'tile_layer';
+  $bundle->label = t('Tile layer');
+  $bundle->is_new = TRUE;
+  $bundle->description = t("Map layer with tiles");
+  $controller = new MapLayerTypeController('map_layer_type');
+  $controller->save($bundle);
+}
+
+/**
+ * Changes map layer field.
+ *
+ * Adds tile layer as target bundles.
+ */
+function _ec_mapeditor_tile_change_map_layers_field() {
+  $field_info = field_read_field('map_layers');
+
+  // Adds tile layer as target bundles.
+  $field_info['settings']['handler_settings']['target_bundles']['tile_layer'] = 'tile_layer';
+  field_update_field($field_info);
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ec_mapeditor_tile_enable() {
+  $t = get_t();
+  drupal_set_message($t('Tile layer has been enabled.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ec_mapeditor_tile_disable() {
+  $t = get_t();
+  drupal_set_message($t('Tile layer has been disabled.'));
+}
