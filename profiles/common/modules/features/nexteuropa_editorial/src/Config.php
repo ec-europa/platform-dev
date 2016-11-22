@@ -27,7 +27,7 @@ class Config extends ConfigBase {
    * @return bool
    *    TRUE if the user is an editorial team member, FALSE otherwise.
    */
-  public function isEditoralTeamMember($account = NULL, $states = array(OG_STATE_ACTIVE)) {
+  public function isEditorialTeamMember($account = NULL, $states = array(OG_STATE_ACTIVE)) {
     $groups = og_get_entity_groups('user', $account, $states, 'og_user_node');
     return !empty($groups['node']);
   }
