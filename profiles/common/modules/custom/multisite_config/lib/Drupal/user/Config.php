@@ -21,21 +21,26 @@ class Config extends ConfigBase {
    *
    * @param string $role_name
    *    Role machine name.
-   * @param string $uid
-   *    User UID.
+   * @param mixed $account
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function assignRoleToUser($role_name, $uid) {
-    $account = user_load($uid);
-    $role = user_role_load_by_name($role_name);
+  public function assignRoleToUser($role_name, $account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
+    }
+    elseif (is_numeric($account)) {
+      $account = user_load($account);
+    }
 
+    $role = user_role_load_by_name($role_name);
     if ($account && $role && !isset($account->roles[$role->rid])) {
       $roles = $account->roles + array($role->rid => $role->name);
       $account->original = clone $account;
-      user_save($account, array('roles' => $roles));
-      return TRUE;
+      return user_save($account, array('roles' => $roles));
     }
 
     return FALSE;
@@ -46,21 +51,26 @@ class Config extends ConfigBase {
    *
    * @param string $role_name
    *    Role machine name.
-   * @param string $uid
-   *    User UID.
+   * @param mixed $account
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function revokeRoleFromUser($role_name, $uid) {
-    $account = user_load($uid);
-    $role = user_role_load_by_name($role_name);
+  public function revokeRoleFromUser($role_name, $account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = $user;
+    }
+    elseif (is_numeric($account)) {
+      $account = user_load($account);
+    }
 
+    $role = user_role_load_by_name($role_name);
     if ($account && $role && isset($account->roles[$role->rid])) {
       $roles = array_diff($account->roles, array($role->rid => $role->name));
       $account->original = clone $account;
-      user_save($account, array('roles' => $roles));
-      return TRUE;
+      return user_save($account, array('roles' => $roles));
     }
 
     return FALSE;

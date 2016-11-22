@@ -19,25 +19,17 @@ class Config extends ConfigBase {
   /**
    * Return whereas a user is an editorial team member or not.
    *
-   * @param int $uid
-   *    User UID.
+   * @param mixed $account
+   *   (optional) The user object or UID. Defaults to the current user.
+  *  @param array $states
+   *   (optional) Array with the state(s) to return. Defaults to active.
    *
    * @return bool
-   *    TRUE if the user is a team member, FALSE otherwise.
+   *    TRUE if the user is an editorial team member, FALSE otherwise.
    */
-  public function isEditoralTeamMember($uid = 0) {
-    $is_team_member = FALSE;
-    $account = user_load($uid);
-    $groups = og_get_groups_by_user($account, 'node');
-    if ($groups) {
-      $is_team_member = (bool) db_select('node', 'n')
-        ->fields('n', array('nid'))
-        ->condition('n.type', 'editorial_team')
-        ->condition('n.nid', $groups)
-        ->execute()
-        ->fetchAll(\PDO::FETCH_COLUMN);
-    }
-    return $is_team_member;
+  public function isEditoralTeamMember($account = NULL, $states = array(OG_STATE_ACTIVE)) {
+    $groups = og_get_entity_groups('user', $account, $states, 'og_user_node');
+    return !empty($groups['node']);
   }
 
   /**
