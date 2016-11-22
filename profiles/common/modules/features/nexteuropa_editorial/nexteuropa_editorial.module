@@ -47,7 +47,6 @@ function nexteuropa_editorial_workbench_block() {
  * Implements hook_og_membership_insert().
  */
 function nexteuropa_editorial_og_membership_insert(OgMembership $og_membership) {
-  //$og_membership->entity is there
   _nexteuropa_editorial_sync_editorial_team_role($og_membership);
 }
 
