@@ -720,6 +720,10 @@ function _cce_basic_config_post_install_user_config() {
  * Initialize default images.
  */
 function _cce_basic_config_post_install_default_images() {
+  // The private stream wrapper is not set during installation
+  // so we must do it manually before creating the default files.
+  drupal_static_reset('file_get_stream_wrappers');
+  file_get_stream_wrappers();
   // Set default images.
   $path = drupal_get_path('module', 'cce_basic_config') . '/assets/images/default_images';
 
@@ -2027,7 +2031,6 @@ function cce_basic_config_update_7203() {
   variable_set('cce_basic_config_admin_pages', $admin_pages);
 }
 
-
 /**
  * Update the location of the Rate attachments.
  */
@@ -2087,7 +2090,6 @@ function cce_basic_config_update_7206() {
   module_disable(array('print_pdf_tcpdf'), FALSE);
   drupal_uninstall_modules(array('print_pdf_tcpdf'), FALSE);
 }
-
 
 /**
  * NEXTEUROPA-4706: Drupal alter makes features stay overriden.
