@@ -31,8 +31,11 @@ class Config extends ConfigBase {
     $account = user_load($uid);
     $role = user_role_load_by_name($role_name);
     if ($role && $account) {
-      $account->roles[$role->rid] = $role->name;
-      user_save($account);
+      $edit = array();
+      $edit['roles'] = $account->roles;
+      $edit['roles'][$role->rid] = $role_name;
+
+      user_save($account, $edit);
       return TRUE;
     }
     return FALSE;

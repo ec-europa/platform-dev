@@ -21,14 +21,23 @@ class Config extends ConfigBase {
    *
    * @param int $uid
    *    User UID.
+   * @param int $new_group
+   *    The group we're adding to the user.
    *
    * @return bool
    *    TRUE if the user is a team member, FALSE otherwise.
    */
-  public function isEditoralTeamMember($uid = 0) {
+  public function isEditoralTeamMember($uid = 0, $new_group = NULL) {
     $is_team_member = FALSE;
     $account = user_load($uid);
     $groups = og_get_groups_by_user($account, 'node');
+
+    // If in the process of adding a new group, add it since cache may not have
+    // been updated yet.
+    if (isset($new_group)) {
+      $groups[$new_group] = $new_group;
+    }
+
     if ($groups) {
       $is_team_member = (bool) db_select('node', 'n')
         ->fields('n', array('nid'))
