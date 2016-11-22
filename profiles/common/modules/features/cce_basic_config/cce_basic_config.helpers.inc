@@ -36,7 +36,7 @@ function cce_basic_config_import_images($images) {
     $file = file_save($file);
 
     if ($file) {
-      variable_set($default_image_data['variable'], $file->fid);
+      variable_set($default_image_data['variable'], $file->uri);
     }
   }
 }
