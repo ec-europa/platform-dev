@@ -10,13 +10,9 @@ node('master') {
 
     stage('Init') {
         deleteDir()
-        step([
-          $class: 'GitHubCommitStatusSetter',
-          contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: "${env.BUILD_CONTEXT}"],
-          statusResultSource: [$class: 'ConditionalStatusResultSource', results: [[$class: 'AnyBuildResult', message: 'Build started.', state: 'PENDING']]]
-        ])
-        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> started"
         checkout scm
+        setBuildStatus("Build started.", "PENDING");
+        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> started."
     }
 
     try {
@@ -45,21 +41,13 @@ node('master') {
         stage('Package') {
             sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
             sh "tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz build"
-            step([
-              $class: 'GitHubCommitStatusSetter',
-              contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: "${env.BUILD_CONTEXT}"],
-              statusResultSource: [$class: 'ConditionalStatusResultSource', results: [[$class: 'AnyBuildResult', message: 'Build finished.', state: 'SUCCESS']]]
-            ])
-            slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> finished :+1:"
+            setBuildStatus("Build complete.", "SUCCESS");
+            slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> complete."
         }
 
     } catch(err) {
-        step([
-          $class: 'GitHubCommitStatusSetter',
-          contextSource: [$class: 'ManuallyEnteredCommitContextSource', context: "${env.BUILD_CONTEXT}"],
-          statusResultSource: [$class: 'ConditionalStatusResultSource', results: [[$class: 'AnyBuildResult', message: 'Build failed.', state: 'FAILURE']]]
-        ])
-        slackSend color: "warning", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> failed :-1:"
+        setBuildStatus("Build failed.", "FAILURE");
+        slackSend color: "danger", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> failed."
         throw(err)
     } finally {
         withCredentials([
@@ -68,4 +56,13 @@ node('master') {
             sh 'mysql -u $DB_USER --password=$DB_PASS -e "DROP DATABASE IF EXISTS $DB_NAME;"'
         }
     }
+}
+
+void setBuildStatus(String message, String state) {
+    step([
+        $class: "GitHubCommitStatusSetter",
+        contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "${env.BUILD_CONTEXT}"],
+        errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+        statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]
+    ]);
 }
