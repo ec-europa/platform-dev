@@ -308,4 +308,27 @@ class MinkContext extends DrupalExtensionMinkContext {
     throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
   }
 
+  /**
+   * Checks, that HTML page contains specified element with given attributes.
+   *
+   * @Then /^the page should contain the element with following id "(?P<text>(?:[^"]|\\")*)" and given attributes:$/
+   */
+  public function assertPageContainsElementWithGivenAttributes($id, TableNode $table) {
+    $page = $this->getSession()->getPage();
+    $element_node = $page->findById($id);
+    // Checking if element with the given id exist in the current page.
+    if (NULL === $element_node) {
+      throw new \Exception(sprintf('Unable to find an element with the following id: "%s"', $id));
+    }
+    // Loading attributes from the step.
+    $attribs = $rules = $table->getHash();
+    // Checking if attributes of the element are equal.
+    foreach ($attribs as $attrib) {
+      $attrib_value = $element_node->getAttribute($attrib['Attribute']);
+      if ($attrib_value != $attrib['Value']) {
+        throw new \Exception(sprintf('The value "%1$s" for the "%2$s" attribute on the current page is different from the expected "%3$s"', $attrib['Value'], $attrib['Attribute'], $attrib_value));
+      }
+    }
+  }
+
 }
