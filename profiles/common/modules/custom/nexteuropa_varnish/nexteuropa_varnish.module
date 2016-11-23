@@ -1,9 +1,10 @@
 <?php
-
 /**
  * @file
  * Module file.
  */
+
+use Drupal\nexteuropa_varnish\PurgeRuleType;
 
 /**
  * Implements hook_entity_info().
@@ -19,6 +20,7 @@ function nexteuropa_varnish_entity_info() {
       ),
       'label callback' => 'nexteuropa_varnish_cache_purge_rule_label',
       'base table' => 'nexteuropa_varnish_cache_purge_rule',
+      'entity class' => 'Drupal\\nexteuropa_varnish\\Entity\\PurgeRule',
       'controller class' => 'EntityAPIController',
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
@@ -85,7 +87,7 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
       ($previous_state == workbench_moderation_state_published() && $new_state !== $previous_state);
 
   if ($purge) {
-    $paths = _nexteuropa_varnish_get_paths_to_purge($node->type);
+    $paths = _nexteuropa_varnish_get_paths_to_purge($node);
 
     if (!empty($paths)) {
       _nexteuropa_varnish_purge_paths($paths);
@@ -120,7 +122,7 @@ function nexteuropa_varnish_node_update($node) {
     return;
   }
 
-  $paths = _nexteuropa_varnish_get_paths_to_purge($node->type);
+  $paths = _nexteuropa_varnish_get_paths_to_purge($node);
 
   if (!empty($paths)) {
     _nexteuropa_varnish_purge_paths($paths);
@@ -128,19 +130,19 @@ function nexteuropa_varnish_node_update($node) {
 }
 
 /**
- * Get the paths to purge for a specific content type.
+ * Get the paths to purge for a specific node.
  *
- * @param string $content_type
- *   The content type to filter on.
+ * @param object $node
+ *   The node.
  *
  * @return string[]
- *   The paths to purge.
+ *   The paths to purge for this node.
  */
-function _nexteuropa_varnish_get_paths_to_purge($content_type) {
+function _nexteuropa_varnish_get_paths_to_purge($node) {
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
-    ->propertyCondition('content_type', $content_type);
+    ->propertyCondition('content_type', $node->type);
 
   $result = $query->execute();
 
@@ -151,11 +153,63 @@ function _nexteuropa_varnish_get_paths_to_purge($content_type) {
       'nexteuropa_varnish_cache_purge_rule',
       array_keys($result['nexteuropa_varnish_cache_purge_rule'])
     );
-    foreach ($purge_rules as $purge_rule) {
-      $purge_paths = preg_split("/[\r\n]+/", $purge_rule->paths);
 
-      $paths = array_merge($paths, $purge_paths);
+    $paths = _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node);
+  }
+
+  return $paths;
+}
+
+/**
+ * Merge the paths of a list of purge rules.
+ *
+ * @var \Drupal\nexteuropa_varnish\Entity\PurgeRule[] $purge_rules
+ *   Purge rules to merge the paths from.
+ *
+ * @var object $node
+ *   The node object that triggered the purging mechanism.
+ *
+ * @return array
+ *   The paths to purge.
+ */
+function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
+  $paths = array();
+
+  foreach ($purge_rules as $purge_rule) {
+    if ($purge_rule->type() == PurgeRuleType::PATHS) {
+      $purge_paths = $purge_rule->paths();
     }
+    else {
+      $purge_paths = array();
+
+      $entity_uri = entity_uri('node', $node);
+
+      if ($entity_uri) {
+        // Get the languages the node is translated into (entity translation).
+        if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
+          $handler = entity_translation_get_handler('node', $node);
+
+          $translations = $handler->getTranslations();
+
+          $lang_codes = array_keys($translations->data);
+          $all_languages = entity_translation_languages('node', $node);
+
+          foreach ($lang_codes as $lang_code) {
+            if (isset($all_languages[$lang_code])) {
+              $purge_paths[] = url(
+                $entity_uri['path'],
+                $entity_uri['options'] + array('language' => $all_languages[$lang_code])
+              );
+            }
+          }
+        }
+        else {
+          $purge_paths[] = url($entity_uri['path'], $entity_uri['options']);
+        }
+      }
+    }
+
+    $paths = array_merge($paths, $purge_paths);
   }
 
   $paths = array_unique($paths);
