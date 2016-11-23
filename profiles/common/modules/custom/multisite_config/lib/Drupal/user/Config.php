@@ -33,7 +33,7 @@ class Config extends ConfigBase {
       $account = clone $user;
     }
     elseif (is_numeric($account)) {
-      $account = user_load($account);
+      $account = user_load($account, TRUE);
     }
 
     $role = user_role_load_by_name($role_name);
@@ -63,7 +63,7 @@ class Config extends ConfigBase {
       $account = $user;
     }
     elseif (is_numeric($account)) {
-      $account = user_load($account);
+      $account = user_load($account, TRUE);
     }
 
     $role = user_role_load_by_name($role_name);
