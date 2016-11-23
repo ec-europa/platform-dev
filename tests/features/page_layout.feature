@@ -35,7 +35,19 @@ Feature: Page Layout
   Examples:
     | page       | text                                        |
     | /          | Welcome to NextEuropa - European Commission |
-    | search     | Search - European Commission                |
     | contact    | Contact - European Commission               |
     | user       | User account - European Commission          |
 
+  @api
+  Scenario Outline: Anonymous user can see the search page title
+    Given the module is enabled
+      | modules     |
+      | apachesolr  |
+    And I am not logged in
+    When I am on "<page>"
+    Then I should see "<text>" in the "html head title" element
+      # Test the page head title presence on search page
+    Examples:
+      | page       | text                                      |
+      | search     | Search - European Commission              |
+    
