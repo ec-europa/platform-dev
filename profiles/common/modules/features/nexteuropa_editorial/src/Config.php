@@ -21,15 +21,29 @@ class Config extends ConfigBase {
    *
    * @param mixed $account
    *   (optional) The user object or UID. Defaults to the current user.
-  *  @param array $states
-   *   (optional) Array with the state(s) to return. Defaults to active.
    *
    * @return bool
    *    TRUE if the user is an editorial team member, FALSE otherwise.
    */
-  public function isEditorialTeamMember($account = NULL, $states = array(OG_STATE_ACTIVE)) {
-    $groups = og_get_entity_groups('user', $account, $states, 'og_user_node');
-    return !empty($groups['node']);
+  public function isEditorialTeamMember($account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
+    }
+
+    $uid = is_object($account) ? $account->uid : $account;
+    $query = db_select('og_membership', 'ogm')
+      ->fields('ogm')
+      ->condition('ogm.group_type', 'node')
+      ->condition('ogm.state', OG_STATE_ACTIVE)
+      ->condition('entity_type', 'user')
+      ->condition('etid', $uid);
+
+    // Filter on the editorial_team group bundle.
+    $query->join('node', 'group_node', 'ogm.gid = group_node.nid');
+    $query->condition('group_node.type', 'editorial_team');
+
+    return (bool) $query->execute()->rowCount();
   }
 
   /**
