@@ -17,7 +17,7 @@ use Drupal\multisite_config\ConfigBase;
 class Config extends ConfigBase {
 
   /**
-   * Assign a specific role to a user, given its UID.
+   * Assign a specific role to a user.
    *
    * @param string $role_name
    *    Role machine name.
@@ -47,7 +47,7 @@ class Config extends ConfigBase {
   }
 
   /**
-   * Revoke a specific role from a user, given its UID.
+   * Revoke a specific role from a user.
    *
    * @param string $role_name
    *    Role machine name.
