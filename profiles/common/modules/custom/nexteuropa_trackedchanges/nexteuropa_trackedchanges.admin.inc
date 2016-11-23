@@ -112,27 +112,6 @@ function _nexteuropa_trackedchanges_system_disable_check_validate($form, &$form_
  * @see feature_set_admin_form_submit()
  * @see _nexteuropa_trackedchanges_disable_check_submit()
  */
-function _nexteuropa_trackedchanges_only_disable_validate($form, &$form_state) {
-  // Put a flag to indicate that the module is to disable and must be
-  // controlled.
-  $form_state['values']['nexteuropa_trackedchanges_disabling'] = TRUE;
-
-  // Reset the value flag for nexteuropa_trackedchanges to 1 in or to
-  // treat later in a batch process.
-  unset($form_state['values']['nexteuropa_trackedchanges']);
-}
-
-/**
- * Validate Callback forcing the enable value for the module to 1.
- *
- * It is designed to bypass the default disabling system related to the
- * system_modules form in to allow the check on the existence of tracked
- * changes in field values before disabling or not the module afterwards.
- *
- * @see nexteuropa_trackedchanges_form_feature_set_admin_form_alter()
- * @see feature_set_admin_form_submit()
- * @see _nexteuropa_trackedchanges_disable_check_submit()
- */
 function _nexteuropa_trackedchanges_disable_check_validate($form, &$form_state) {
   // Put a flag to indicate that the module is to disable and must be
   // controlled.

@@ -4,3 +4,9 @@ core = 7.x
 package = NextEuropa
 dependencies[] = cce_basic_config
 dependencies[] = ckeditor_lite
+dependencies[] = multisite_wysiwyg
+dependencies[] = entity
+
+files[] = NextEuropaTrackedChangesInfo.inc
+files[] = NextEuropaTrackedChangesInfoController.inc
+files[] = NextEuropaTrackedChangesInfoMetadataController.inc

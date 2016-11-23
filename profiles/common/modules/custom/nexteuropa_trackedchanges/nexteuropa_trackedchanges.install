@@ -5,6 +5,73 @@
  */
 
 /**
+ * Implements hook_schema().
+ */
+function nexteuropa_trackedchanges_schema() {
+  $schema['nexteuropa_trackedchanges_info'] = array(
+    'description' => 'Entities where tracked changes have been detected into 
+    their WYSIWYG fields.',
+    'fields' => array(
+      'info_id' => array(
+        'description' => 'Info id',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'entity_id' => array(
+        'description' => 'Related entity id',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'entity_type' => array(
+        'description' => 'Related entity type',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'bundle' => array(
+        'description' => 'Related entity bundle',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'label' => array(
+        'description' => 'Related entity label',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'languages' => array(
+        'description' => 'Related entity languages',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+        'serialize' => TRUE,
+      ),
+      'state' => array(
+        'description' => 'The current moderation state of the related entity.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+      ),
+      'scanned' => array(
+        'description' => 'The Unix timestamp when the entity has been scanned.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('info_id'),
+  );
+
+  return $schema;
+}
+
+/**
  * Implements hook_enable().
  *
  * Sets the default value of parameters used by this module and CKEditor LITE.
