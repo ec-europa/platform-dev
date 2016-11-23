@@ -498,7 +498,7 @@ projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_fo
 
 ; NEXTEUROPA-14012 Adding membership from user profile is in pending status
 ; https://www.drupal.org/node/2744405
-https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
+projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
 
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
