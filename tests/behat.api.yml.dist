@@ -7,6 +7,7 @@ default:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\VariableContext
@@ -69,6 +70,7 @@ communities:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\TaxonomyContext
