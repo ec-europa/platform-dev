@@ -36,7 +36,7 @@ Feature: Page Layout
       | contact    | Contact - European Commission               |
       | user       | User account - European Commission          |
 
-  @javascript @reset-node-types
+  @javascript @maximizedwindow @reset-node-types
   Scenario: Logged user can see the content in the column right and left
     Given I am logged in as a user with the 'administrator' role
     When I visit "admin/structure/types/add"
@@ -61,10 +61,13 @@ Feature: Page Layout
     Then I should see the success message "Saved field 2 configuration."
     When I visit "admin/structure/types/manage/content-type-test/display"
     And I select "Two column" from "additional_settings[layout]"
+    And I wait for AJAX to finish
     And I press the "Save" button
     Then I should see the success message "Your settings have been saved."
     When I select "Left" from "edit-fields-field-field-1-region"
+    And I wait for AJAX to finish
     And I select "Right" from "edit-fields-field-field-2-region"
+    And I wait for AJAX to finish
     And I press the "Save" button
     Then I should see the success message "Your settings have been saved."
     When I visit "node/add/content-type-test"
