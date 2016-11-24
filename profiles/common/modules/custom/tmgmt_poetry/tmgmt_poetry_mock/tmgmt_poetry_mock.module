@@ -184,6 +184,14 @@ function tmgmt_poetry_mock_theme($existing, $type, $theme, $path) {
       'template' => 'poetry-confirmation-of-receiving-the-translation-request',
       'path' => $response_template_path,
     ],
+    'poetry_confirmation_of_receiving_translation_request_error_configuration' => [
+      'variables' => [
+        'demande_id' => NULL,
+        'message' => NULL,
+      ],
+      'template' => 'poetry-confirmation-of-receiving-the-translation-request-error-configuration',
+      'path' => $response_template_path,
+    ],
     'poetry_receive_translation' => [
       'variables' => [
         'demande_id' => NULL,
