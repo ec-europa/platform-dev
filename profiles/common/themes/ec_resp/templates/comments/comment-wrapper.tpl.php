@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ec_resp's theme implementation to provide an HTML container for comments.

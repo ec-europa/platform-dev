@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature likedislike.
@@ -21,7 +22,6 @@ function likedislike_enable() {
   $link = l(t('admin/config/likedislike'), 'admin/config/likedislike', array('attributes' => array('target' => '_blank')));
   drupal_set_message(t('To configure the Like/Dislike widget: !link', array('!link' => $link)));
 }
-
 
 /**
  * Implements hook_disable().

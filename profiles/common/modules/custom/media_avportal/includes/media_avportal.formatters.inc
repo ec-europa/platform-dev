@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Formatters for Media: Avportal.

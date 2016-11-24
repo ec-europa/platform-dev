@@ -63,7 +63,6 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
@@ -697,7 +696,7 @@ function _ecas_init_phpcas_client() {
  * @param array $defaults
  *   An array of user fields and properties to save on the user object.
  *
- * @return FALSE|\stdClass
+ * @return false|\stdClass
  *   The user object, or FALSE if the user could not be created.
  */
 function ecas_create_user($ecas_name, $defaults = array()) {

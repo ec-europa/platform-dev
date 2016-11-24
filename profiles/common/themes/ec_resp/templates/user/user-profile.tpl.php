@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default theme implementation to present all user profile data.

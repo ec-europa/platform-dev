@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * node_pager.views_default.inc

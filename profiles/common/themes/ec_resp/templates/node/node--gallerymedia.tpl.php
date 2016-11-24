@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ec_resp's theme implementation to display a node.
@@ -108,7 +109,7 @@
         </div>
       </div>
     </div>
-    <?php endif; ?>
+  <?php endif; ?>
   </div>
 
   <div class="link-wrapper right">

@@ -7,7 +7,6 @@
 
 include_once 'nexteuropa_subscriptions.features.inc';
 
-
 /**
  * Implements hook_subscriptions_queue_alter().
  */
@@ -340,14 +339,14 @@ function _nexteuropa_subscriptions_delete_anonymous_account($mail, $waiting_conf
   // Block user until user confirms.
   if ($waiting_confirmation) {
     $blocked = db_update('users')
-            ->fields(array('status' => 0))
-            ->condition('mail', $mail, '=')
-            ->execute();
+      ->fields(array('status' => 0))
+      ->condition('mail', $mail, '=')
+      ->execute();
   }
   else {
     $user_deleted = db_delete('users')
-            ->condition('uid', $uid, '=')
-            ->execute();
+      ->condition('uid', $uid, '=')
+      ->execute();
     if ($user_deleted > 0) {
       drupal_set_message(t('You have confirmed your unsubscription.'), 'status');
     }
@@ -426,9 +425,9 @@ function nexteuropa_subscriptions_subscribe_form_submit($form, &$form_states) {
 
   // User confirmed, activate the account.
   $active = db_update('users')
-          ->fields(array('status' => 1))
-          ->condition('uid', $uid, '=')
-          ->execute();
+    ->fields(array('status' => 1))
+    ->condition('uid', $uid, '=')
+    ->execute();
   $notifications = _nexteuropa_subscriptions_insert_notification_defaults($uid);
   if ($active > 0) {
     drupal_set_message(t('Congratulations, you have confirmed your subscription. From now on you will receive notification on new updates'), 'status');

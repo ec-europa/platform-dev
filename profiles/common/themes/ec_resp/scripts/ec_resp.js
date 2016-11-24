@@ -3,12 +3,12 @@
  * Javascripts for ec_resp theme.
  */
 
-(function($){
+(function ($) {
   // Drupal.behaviours
   // https://drupal.org/node/304258
   // http://blog.amazeelabs.com/en/drupal-behaviors-quick-how
   Drupal.behaviors.ec_resp = {
-    attach: function(context, settings) {
+    attach: function (context, settings) {
 
       // Gallery carrousel.
       $('.carousel').carousel({
@@ -19,7 +19,7 @@
       $('[data-toggle="tooltip"]').tooltip();
 
       // Back on top link.
-      $(window).scroll(function() {
+      $(window).scroll(function () {
         if ($(this).scrollTop() > 200) {
           $('.btn-back-top').fadeIn(200);
         }
@@ -28,7 +28,7 @@
         }
       });
 
-      $('.btn-back-top').on("click", function(e) {
+      $('.btn-back-top').on("click", function (e) {
         e.preventDefault();
         $('html,body').animate({scrollTop: 0}, 300);
         $(this).blur();
@@ -36,7 +36,7 @@
       });
 
       // Gallery add media form.
-      $('.node-gallerymedia #add_picture').click(function(e) {
+      $('.node-gallerymedia #add_picture').click(function (e) {
         e.preventDefault();
         $('#add-media-form').slideToggle('slow');
         return false;
@@ -49,9 +49,9 @@
 
   // News slider implementation.
   Drupal.behaviors.ec_resp_news_slider = {
-    attach: function(context) {
+    attach: function (context) {
       // News slider.
-      $('#slider').once('news-slider', function() {
+      $('#slider').once('news-slider', function () {
         // Init.
         $('.view-news > .view-content').addClass('news_content tab-content');
         $('#slider .news_list li:first-child').addClass('active');
@@ -60,14 +60,14 @@
         // Browse top news.
         var topNews = new Array();
         var totalHeight = 0;
-        $('#slider .news_list li a').each(function() {
+        $('#slider .news_list li a').each(function () {
           topNews.push($(this));
           totalHeight = totalHeight + $(this).height() + 21;
         });
 
         var NbNews = topNews.length;
         var i = 1;
-        var interval = setInterval(function() {
+        var interval = setInterval(function () {
           if (i >= NbNews) {
             i = 0;
           }
@@ -76,10 +76,10 @@
           i++;
         },5000);
 
-        $('#slider').mouseover(function() {
+        $('#slider').mouseover(function () {
           clearInterval(interval);
-        }).mouseout(function() {
-          interval = setInterval(function() {
+        }).mouseout(function () {
+          interval = setInterval(function () {
             if (i >= NbNews) {
               i = 0;
             }
@@ -89,7 +89,7 @@
           },5000);
         });
 
-        $('#slider .news_list li a').click(function(e) {
+        $('#slider .news_list li a').click(function (e) {
           e.preventDefault();
           changeNews($(this));
           return false;
@@ -98,7 +98,7 @@
         function changeNews(clicked) {
           var previous_id = '';
 
-          $('#slider .news_list li a').each(function() {
+          $('#slider .news_list li a').each(function () {
             var previous_parent = $(this).parent('li');
             if (previous_parent.is('.active')) {
               previous_parent.removeClass('active');
@@ -118,7 +118,7 @@
 
   // Fancybox implementation.
   Drupal.behaviors.ec_resp_fancybox = {
-    attach: function(context) {
+    attach: function (context) {
 
       function stopPlayer() {
         var id = $('.fancybox-opened').find(".lightbox").children().attr('id');
@@ -143,10 +143,10 @@
           title:     { type : 'outside' },
           buttons:   {}
         },
-        beforeClose: function() {
+        beforeClose: function () {
           stopPlayer();
         },
-        beforeLoad: function() {
+        beforeLoad: function () {
           stopPlayer();
         }
       });
@@ -155,8 +155,8 @@
 
   // Responsive menu implementation.
   Drupal.behaviors.ec_resp_responsive_menu = {
-    attach: function(context) {
-      $('#menu-button').on("click", function() {
+    attach: function (context) {
+      $('#menu-button').on("click", function () {
         $(this).toggleClass('menu-open');
         $('#menu-button > div').toggleClass("arrow-down");
         $('#menu-button > div').toggleClass("arrow-up");
@@ -166,13 +166,13 @@
 
   // Responsive sidebar implementation.
   Drupal.behaviors.ec_resp_responsive_sidebar = {
-    attach: function(context) {
-      $('#responsive-sidebar').once('responsive-sidebar', function(){
+    attach: function (context) {
+      $('#responsive-sidebar').once('responsive-sidebar', function () {
 
         // Hide the sidebar on load.
         $('#responsive-sidebar').addClass('reduced').removeClass('expanded');
 
-        $('.sidebar-button').on("click", function() {
+        $('.sidebar-button').on("click", function () {
           $('.sidebar-button').toggleClass('sidebar-open');
 
           if ($('#layout-body').is('.reduced')) {
@@ -185,7 +185,7 @@
           }
         });
 
-        $(window).resize(function() {
+        $(window).resize(function () {
           if ($('#layout-body').is('.reduced')) {
             hide_sidebar();
           }
@@ -194,7 +194,7 @@
         function hide_sidebar() {
           // Close responsive sidebars.
           $('#responsive-sidebar').addClass('reduced').removeClass('expanded');
-          $('#layout-body').addClass('expanded').removeClass('reduced').delay(400).promise().done(function(){
+          $('#layout-body').addClass('expanded').removeClass('reduced').delay(400).promise().done(function () {
             // Move left sidebar.
             $('#responsive-sidebar-left > div').detach().appendTo($('#sidebar-left'));
 

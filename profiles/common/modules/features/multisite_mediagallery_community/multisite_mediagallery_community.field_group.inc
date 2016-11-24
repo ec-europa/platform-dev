@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_mediagallery_community.field_group.inc

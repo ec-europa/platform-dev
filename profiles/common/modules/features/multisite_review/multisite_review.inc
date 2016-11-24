@@ -57,7 +57,6 @@ function multisite_review_qa() {
   return array('result' => empty($results), 'value' => $results);
 }
 
-
 /**
  * Help callback for Security Review. Provides help for the QA check.
  */

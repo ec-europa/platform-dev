@@ -77,7 +77,7 @@ function multisite_megamenu_disable() {
  * @param string $mlid
  *   The normal menu id.
  *
- * @return mixed $menu_info
+ * @return mixed
  *   The menu info structure array or FALSE.
  */
 function _multisite_megamenu_get_menu_info($mlid = 'main-menu') {
@@ -108,7 +108,7 @@ function _multisite_megamenu_get_menu_info($mlid = 'main-menu') {
  * @param string $mlid
  *   The normal menu id.
  *
- * @return mixed $menu_id
+ * @return mixed
  *   The megamenu id or FALSE.
  */
 function _multisite_megamenu_get_imported_menu($mlid = 'main-menu') {
@@ -139,7 +139,7 @@ function _multisite_megamenu_get_imported_menu($mlid = 'main-menu') {
  * @param string $mlid
  *   The normal menu id.
  *
- * @return mixed $menu
+ * @return mixed
  *   The megamenu menu.
  */
 function _multisite_megamenu_import_menu($mlid = 'main-menu') {

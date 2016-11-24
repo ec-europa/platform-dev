@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Adding BEM related custom theme functions.

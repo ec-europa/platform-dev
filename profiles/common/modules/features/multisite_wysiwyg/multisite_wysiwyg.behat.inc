@@ -17,7 +17,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 

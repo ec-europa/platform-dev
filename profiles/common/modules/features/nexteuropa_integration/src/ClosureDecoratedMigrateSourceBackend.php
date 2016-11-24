@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa_integration\ClosureDecoratedMigrateSourceBackend.
- */
 
 namespace Drupal\nexteuropa_integration;
 

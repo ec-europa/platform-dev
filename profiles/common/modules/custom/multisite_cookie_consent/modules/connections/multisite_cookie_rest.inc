@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains classes for Client connections handlers.
@@ -189,7 +190,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
     elseif (!$server_info && in_array($response->code, array(200, 201))) {
       $message = t('Remote service is alive! To view the server response please check the "See service response".');
       drupal_set_message(t('%message'), array('%message' => $message));
-      return;
+      return TRUE;
     }
     else {
       return FALSE;
@@ -476,7 +477,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
     elseif (in_array($response->code, array(200, 201))) {
       $message = t('Remote service is alive! To view the server response please check the "See service response".');
       drupal_set_message(t('%message'), array('%message' => $message));
-      return;
+      return TRUE;
     }
     else {
       return FALSE;

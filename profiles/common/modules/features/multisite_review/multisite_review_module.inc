@@ -38,6 +38,8 @@ class MultisiteReviewModule {
 
   /**
    * Modules selected to be reviewed from the setting form.
+   *
+   * @var string
    */
   protected $specific;
 

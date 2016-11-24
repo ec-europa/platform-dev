@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\filter\\Config.
- */
-
 namespace Drupal\filter;
 
 use Drupal\multisite_config\ConfigBase;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default template implementation to display the value of a field.

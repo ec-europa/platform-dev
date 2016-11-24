@@ -37,7 +37,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     return tmgmt_field_get_source_data('node', $current_revision, $job_item->getJob()->source_language, TRUE);
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -84,7 +83,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * @param string $type
    *    Moderation type.
    *
-   * @return string|FALSE
+   * @return string|false
    *    Moderation state or FALSE.
    */
   private function getModerationState($node, $type = 'current') {
@@ -103,7 +102,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * @param string $type
    *    Moderation type.
    *
-   * @return object|FALSE
+   * @return object|false
    *    Current node object or FALSE.
    */
   private function getModerationRevision($node, $type = 'current') {

@@ -22,7 +22,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
@@ -145,7 +145,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   public function iWaitFor() {
     $this->getSession()->wait(1000);
   }
-
 
   /**
    * Get the Current Node Id in the URL.

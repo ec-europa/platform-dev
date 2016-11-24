@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\user\\Config.
- */
-
 namespace Drupal\user;
 
 use Drupal\multisite_config\ConfigBase;
@@ -61,6 +56,7 @@ class Config extends ConfigBase {
     }
     return FALSE;
   }
+
   /**
    * Grant permissions to a specific role, if it exists.
    *
