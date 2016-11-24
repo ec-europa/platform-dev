@@ -42,7 +42,7 @@ Feature: Page Layout
   Scenario Outline: Anonymous user can see the search page title
     Given the module is enabled
       | modules     |
-      | apachesolr  |
+      | apachesolr_search  |
     And I am not logged in
     When I am on "<page>"
     Then I should see "<text>" in the "html head title" element
