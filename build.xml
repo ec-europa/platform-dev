@@ -18,8 +18,7 @@
     <echo msg="Loading Drush task." />
     <taskdef name="drush" classname="DrushTask" />
 
-    <echo msg="Loading Behat task." />
-    <taskdef name="behat" classname="BehatTask" />
+    <import file="${project.basedir}/vendor/drupol/phingbehattask/import.xml"/>
 
     <echo msg="Loading PHP Codesniffer Configuration task." />
     <taskdef name="phpcodesnifferconfiguration" classname="\NextEuropa\Phing\PhpCodeSnifferConfigurationTask" />

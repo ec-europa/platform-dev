@@ -1,21 +1,35 @@
 {
   "require": {
-    "drupal/coder": "8.2.6",
+    "php": ">=5.6.0",
+    "guzzlehttp/guzzle": "^6.2"
+  },
+  "require-dev": {
+    "drupal/drupal-extension": "dev-master#203929d9d71bc0f30ff2c73a8053727b014451e1",
+    "bex/behat-screenshot": "~1.2.5",
+    "bex/behat-screenshot-image-driver-uploadpie": "^1.0",
+    "internations/http-mock": "^0.7.4",
+    "bovigo/assert": "^1.7",
+    "se/selenium-server-standalone": "~2",
+    "jakoch/phantomjs-installer": "^2.1",
+    "drupal/coder": "^8.2",
     "drupal/phing-drush-task": "1.0",
-    "drush/drush": ">=8.0.1",
+    "drupol/phingbehattask": "^1.0",
+    "drush/drush": "~8",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
-    "pfrenssen/phpcs-pre-push": "1.0",
-    "phing/phing": "~2.10",
-    "php": ">=5.4.0",
-    "typhonius/behattask": "1.0"
+    "phing/phing": "~2",
+    "wimg/php-compatibility": "^7.0",
+    "behat/behat": "~3.1.0@rc",
+    "rych/random": "v0.1.0"
   },
   "prefer-stable": true,
+  "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "NextEuropa\\": "src"
+      "NextEuropa\\": "src",
+      "Drupal\\nexteuropa\\": "tests/src"
     }
   },
   "repositories": [
@@ -63,7 +77,11 @@
   ],
   "scripts": {
     "post-install-cmd": [
-      "resources/scripts/composer/post-install.sh"
+      "resources/scripts/composer/post-install.sh",
+      "PhantomInstaller\\Installer::installPhantomJS"
+    ],
+    "post-update-cmd": [
+      "PhantomInstaller\\Installer::installPhantomJS"
     ]
   },
   "config": {
