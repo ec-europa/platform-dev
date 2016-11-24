@@ -31,12 +31,42 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
   $form['nexteuropa_trackedchanges_force_track_on_edit'] = array(
     '#title' => t('Enable tracking on edit content pages.'),
     '#type' => 'checkbox',
-    '#description' => t('Force the change tracking by default on edit content pages; 
-      it overrides !link configuration.', array('!link' => $cke_lite_admin_link)),
+    '#description' => t("Force the change tracking by default on edit content pages. 
+      It overrides the !link's configuration.", array('!link' => $cke_lite_admin_link)),
     '#default_value' => variable_get('nexteuropa_trackedchanges_force_track_on_edit'),
   );
 
+
+  $form['nexteuropa_trackedchanges_revuild_elapse_time'] = array(
+    '#title' => t('Tracked changes table refresh frequence'),
+    '#type' => 'textfield',
+    '#field_suffix' => t('seconds'),
+    '#size' => 3,
+    '#description' => t('Set the elapse time between 2 refreshes of listing 
+    entities having tracked changes. 0 second means the list will be refreshed
+    each time the "!page" page is accessed.',
+    array('!page' => l(t('Tracked changes overview'), 'admin/content/tracked_changes/entities_list'))),
+    '#default_value' => variable_get('nexteuropa_trackedchanges_revuild_elapse_time'),
+    '#required' => TRUE,
+  );
+
+
+
   return system_settings_form($form);
+}
+
+/**
+ * Implements hook_form_validate().
+ *
+ * @see nexteuropa_trackedchanges_settings_form()
+ */
+function nexteuropa_trackedchanges_settings_form_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $elapse_time_value = $values['nexteuropa_trackedchanges_revuild_elapse_time'];
+  if (!is_numeric($elapse_time_value) || ($elapse_time_value < 0)) {
+    form_set_error('nexteuropa_trackedchanges_revuild_elapse_time',
+      t('The "refresh frequence" field must be a positive number.'));
+  }
 }
 
 /**
@@ -95,8 +125,8 @@ function _nexteuropa_trackedchanges_system_disable_check_validate($form, &$form_
   $proceed_validation = (!$values['modules']['NextEuropa']['nexteuropa_trackedchanges']['enable']);
   $form_state['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
 
-  // Reset the value flag for nexteuropa_trackedchanges to 1 in or to
-  // treat later in a batch process.
+  // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
+  // be able to treat later in a batch process.
   $form_state['values']['modules']['NextEuropa']['nexteuropa_trackedchanges']
     = array('enable' => 1);
 }
@@ -120,8 +150,8 @@ function _nexteuropa_trackedchanges_disable_check_validate($form, &$form_state) 
     || (isset($values['featureset']) && ($values['featureset'] == 'nexteuropa_trackedchanges')));
   $form_state['values']['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
 
-  // Reset the value flag for nexteuropa_trackedchanges to 1 in or to
-  // treat later in a batch process.
+  // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
+  // be able to treat later in a batch process.
   $form_state['values']['featureset-nexteuropa_trackedchanges'] = 1;
 }
 
@@ -137,23 +167,10 @@ function _nexteuropa_trackedchanges_disable_check_validate($form, &$form_state) 
  */
 function _nexteuropa_trackedchanges_system_disable_check_submit($form, &$form_state) {
   // Check for which module/feature is called.
-  $proceed_validation = (!empty($form_state['nexteuropa_trackedchanges_disabling']));
-
-  if ($proceed_validation) {
-    // Then, do the control.
-    $operations = array(
-      array('_nexteuropa_trackedchanges_field_scanning_process', array('')),
-    );
-
-    $batch = array(
-      'operations' => $operations,
-      'finished' => '_nexteuropa_trackedchanges_system_disable_field_scanning_finished',
-      'title' => t('Processing disabling validation'),
-      'init_message' => t('Disabling check is starting.'),
-      'progress_message' => t('Processed @current out of @total.'),
-      'error_message' => t('Disabling check has encountered an error.'),
-    );
-    batch_set($batch);
+  $values = $form_state['values'];
+  if (!empty($values['nexteuropa_trackedchanges_disabling'])) {
+    $finished_batch = '_nexteuropa_trackedchanges_system_disable_field_scanning_finished';
+    _nexteuropa_trackedchanges_scanning_batch_set($finished_batch);
   }
 }
 
@@ -171,27 +188,41 @@ function _nexteuropa_trackedchanges_system_disable_check_submit($form, &$form_st
 function _nexteuropa_trackedchanges_disable_check_submit($form, &$form_state) {
   // Check for which module/feature is called.
   $values = $form_state['values'];
-  $proceed_validation = FALSE;
+
   if (!empty($values['nexteuropa_trackedchanges_disabling'])) {
-    $proceed_validation = TRUE;
+    $finished_batch = '_nexteuropa_trackedchanges_disable_field_scanning_finished';
+    _nexteuropa_trackedchanges_scanning_batch_set($finished_batch);
   }
+}
 
-  if ($proceed_validation) {
-    // Then, do the control.
-    $operations = array(
-      array('_nexteuropa_trackedchanges_field_scanning_process', array('')),
-    );
+/**
+ * Set the batch process in charge of validating the module disabling.
+ *
+ * The batch will check the presence of tracked changes in all WYSIWYG fields
+ * and block or not the module disabling.
+ *
+ * @param string $finished_batch
+ *    The name of the "finished" callback that must be executed.
+ *
+ * @see _nexteuropa_trackedchanges_system_disable_field_scanning_finished()
+ * @see
+ */
+function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
+  // Then, do the control.
+  $operations = array(
+    array('_nexteuropa_trackedchanges_field_scanning_process', array('')),
+  );
 
-    $batch = array(
-      'operations' => $operations,
-      'finished' => '_nexteuropa_trackedchanges_disable_field_scanning_finished',
-      'title' => t('Processing disabling validation'),
-      'init_message' => t('Disabling check is starting.'),
-      'progress_message' => t('Processed @current out of @total.'),
-      'error_message' => t('Disabling check has encountered an error.'),
-    );
-    batch_set($batch);
-  }
+  $batch = array(
+    'operations' => $operations,
+    'finished' => $finished_batch,
+    'title' => t('Processing disabling validation'),
+    'init_message' => t('Disabling check is starting.'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('Disabling check has encountered an error.'),
+  );
+  batch_set($batch);
+
 }
 
 /**

@@ -6,7 +6,7 @@
 
 include_once 'nexteuropa_trackedchanges.admin.inc';
 include_once 'nexteuropa_trackedchanges.tracking.inc';
-include_once 'nexteuropa_trackedchanges.page.inc';
+// include_once 'nexteuropa_trackedchanges.page.inc';
 
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME', 'full_html_track');
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME', 'Full HTML + Change tracking');
@@ -63,7 +63,7 @@ function nexteuropa_trackedchanges_menu() {
   );
 
   $items['admin/content/tracked_changes/entities_list'] = array(
-    'title' => 'List of entities containing tracked changes',
+    'title' => 'Tracked changes overview',
     'description' => 'List of entities having tracked changes in their 
     WYSIWYG fields.',
     'page callback' => 'nexteuropa_trackedchanges_list',

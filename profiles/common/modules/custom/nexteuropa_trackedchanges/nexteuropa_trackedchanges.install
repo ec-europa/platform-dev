@@ -91,6 +91,7 @@ function nexteuropa_trackedchanges_enable() {
   variable_set('ckeditor_lite_istracking', 0);
   variable_set('nexteuropa_trackedchanges_disable_track_on_create', 1);
   variable_set('nexteuropa_trackedchanges_force_track_on_edit', 1);
+  variable_set('nexteuropa_trackedchanges_revuild_elapse_time', 300);
 
   /*
    * Create WYSIWYG profile for Full HTML text format with Change Tracking.
@@ -166,6 +167,7 @@ function nexteuropa_trackedchanges_disable() {
   // Default behavior for CKEditor LITE buttons.
   variable_del('nexteuropa_trackedchanges_disable_track_on_create');
   variable_del('nexteuropa_trackedchanges_force_track_on_edit');
+  variable_del('nexteuropa_trackedchanges_revuild_elapse_time');
 
   // Rename the 'full_html_track' profile and text format.
   // It is better than moving all field from a format to another because
