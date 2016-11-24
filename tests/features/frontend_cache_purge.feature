@@ -54,6 +54,15 @@ Feature:
       | Basic page   | /, /all-basic-pages |
       | Article      | /all-articles       |
 
+  Scenario: Edit a purge rule.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge      |
+      | page         | /, /all-basic-pages |
+    When I go to "/admin/config/frontend_cache_purge_rules"
+    And I click "edit" next to the 1st cache purge rule
+    Then the "Content Type" field should contain "page"
+    And the radio button "A specific list of paths" is selected
+
   @moderated-content
   Scenario: Create a draft.
     Given the following cache purge rules:
@@ -297,3 +306,156 @@ Feature:
       | /all-pages-fr       |
       | /all-pages_fre      |
       | /all-pages_pt-pt    |
+
+  @purge-rule-type-node
+  Scenario: Add a purge rule to clear paths of the node the action is performed on.
+    When I go to "/admin/config/frontend_cache_purge_rules"
+    And I click "Add cache purge rule"
+    And I select "Basic page" from "Content Type"
+    And I select the radio button "Paths of the node the action is performed on"
+    And I press the "Save" button
+    Then I see an overview with the following cache purge rules:
+      | Content Type | Paths to Purge                         |
+      | Basic page   | paths of the node                      |
+
+  @purge-rule-type-node
+  Scenario: Edit a purge rule.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge      |
+      | page         |                     |
+    When I go to "/admin/config/frontend_cache_purge_rules"
+    And I click "edit" next to the 1st cache purge rule
+    Then the "Content Type" field should contain "page"
+    And the radio button "Paths of the node the action is performed on" is selected
+
+  @moderated-content @purge-rule-type-node
+  Scenario: Immediately publish a new page and purge its paths.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge |
+      | page         |                |
+    When I go to "node/add/page"
+    And I fill in "Title" with "frontend-cache-purge-publish-immediately"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I fill in "Moderation notes" with "Immediately publishing this"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                                 |
+      | /content/frontend-cache-purge-publish-immediately_en |
+
+  @moderated-content @purge-rule-type-node
+  Scenario: Purge the paths of a basic page when it is withdrawn.
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+      | nl        |
+      | de        |
+    And I am viewing a multilingual "page" content:
+      | language | title                                     | body                    |
+      | en       | frontend-cache-purge-withdrawal           | Page to test withdrawal |
+      | fr       | frontend-cache-purge-withdrawal-in-french | Page to test withdrawal |
+      | nl       | frontend-cache-purge-withdrawal-in-dutch  | Page to test withdrawal |
+    And the following cache purge rules:
+      | Content Type | Paths to Purge |
+      | page         |                |
+    When I click "Unpublish this revision"
+    And I press the "Unpublish" button
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                        |
+      | /content/frontend-cache-purge-withdrawal_en |
+      | /content/frontend-cache-purge-withdrawal_fr |
+      | /content/frontend-cache-purge-withdrawal_nl |
+
+  @moderated-content @purge-rule-type-node
+  Scenario: Purge the paths of a basic page when it is published via moderation.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge |
+      | page         |                |
+    When I go to "node/add/page"
+    And I fill in "Title" with "frontend-cache-purge-publication"
+    And I press "Save"
+    And I click "Moderate"
+    And I select "Published" from "state"
+    And I press the "Apply" button
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                         |
+      | /content/frontend-cache-purge-publication_en |
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: Publish an editorial team.
+    Given the following cache purge rules:
+      | Content Type   | Paths to Purge      |
+      | editorial_team |                     |
+    When I go to "node/add/editorial-team"
+    And I fill in "Name" with "frontend-cache-purge-editorial-team-publication"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                                        |
+      | /content/frontend-cache-purge-editorial-team-publication_en |
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: Publish an existing draft of an editorial team.
+    Given the following cache purge rules:
+      | Content Type   | Paths to Purge |
+      | editorial_team |                |
+    When I go to "node/add/editorial-team"
+    And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    And I click "Edit"
+    And I click "Publishing options"
+    And I check the box "Published"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path          |
+      | /content/frontend-cache-purge-editorial-team-publish-draft_en |
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: Change the URL of a published editorial team.
+    Given I go to "node/add/editorial-team"
+    And I fill in "Name" with "frontend-cache-purge-editorial-team-change-alias"
+    And I press "Save"
+    And the following cache purge rules:
+      | Content Type   | Paths to Purge |
+      | editorial_team |                |
+    When I click "Edit"
+    And I uncheck the box "Generate automatic URL alias"
+    And I fill in "frontend-cache-purge-editorial-team-custom-alias" for "URL alias"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                                 |
+      | /frontend-cache-purge-editorial-team-custom-alias_en |
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: Edit an existing draft of an editorial team.
+    Given the following cache purge rules:
+      | Content Type   | Paths to Purge |
+      | editorial_team |                |
+    And I go to "node/add/editorial-team"
+    And I fill in "Name" with "NextEuropa Platform Core"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    And I click "Edit"
+    And I fill in "Name" with "NextEuropa Platform Core Next generation"
+    And I press "Save"
+    Then the web front end cache was not instructed to purge any paths
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: Withdraw a published editorial team.
+    Given I go to "node/add/editorial-team"
+    And I fill in "Name" with "frontend-cache-purge-withdraw-editorial-team"
+    And I press "Save"
+    And the following cache purge rules:
+      | Content Type   | Paths to Purge |
+      | editorial_team |                |
+    When I click "Edit"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path          |
+      | /content/frontend-cache-purge-withdraw-editorial-team_en |
+

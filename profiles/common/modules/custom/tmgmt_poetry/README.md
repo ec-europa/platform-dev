@@ -18,6 +18,7 @@ Table of content:
 
 - [Usage](#usage)
   - [How to request a translation](#how-to-request-a-translation)
+  - [How to update a translation request](#how-to-update-a-translation-request)
 
 - [Interesting information to go further]
 (#interesting-information-regarding-the-dgt-connector)
@@ -215,7 +216,21 @@ share with DGT.
 
 [Go to top](#table-of-content)
 
-# Interesting information regarding the DGT-Connector
+## How to update a translation request
+- After a translation request has been accepted by DGT,
+- Click the "Translation" tab and select the languages you wish to request a translation for,
+- Submit the 'Update Request translation' button,
+
+> Note: This action will cancel all jobs in progress and jobs that need a review.
+
+- By default the 'DGT connector (auto created)' translator will be selected,
+- You can modify the selection of languages you want to be translated,
+- You can select an 'Expected delivery time': Click the field and select a date from the calendar that will pop up. This is an indicative date, DGT
+
+[Go to top](#table-of-content)
+
+# Interesting information regarding the DGT connector
+
 ## DGT Web app: Checking the translation was received
 
 Once a translation has been requested to DGT, the status is updated on the
