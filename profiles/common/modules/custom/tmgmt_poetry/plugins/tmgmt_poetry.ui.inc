@@ -391,10 +391,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
   public function reviewFormSubmit($form, &$form_state, TMGMTJobItem $item) {
     // Check if the user clicked on 'Accept', 'Submit' or 'Reject'.
     if (!empty($form['actions']['accept']) && $form_state['triggering_element']['#value'] == $form['actions']['accept']['#value']) {
-      db_update('poetry_status')
-        ->fields(array('status' => 'Translation accepted'))
-        ->condition('tjiid', $item->tjiid, '=')
-        ->execute();
+      _tmgmt_poetry_update_item_status($item->tjiid, "", "Translation accepted", "");
     }
   }
 

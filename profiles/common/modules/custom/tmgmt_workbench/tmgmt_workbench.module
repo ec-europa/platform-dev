@@ -132,6 +132,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       // Setting up an array with language codes based on the available options.
       $lang_codes = array_keys($options);
+      $language_requested = FALSE;
 
       // NEXTEUROPA-12429 - additional header with last change date.
       $form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = t('Last change');
@@ -147,11 +148,9 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
         // Disable checkbox for languages already translated.
         if (isset($node->translations->data[$lang_code]) && !empty($existing_jobs)) {
-          $form['languages'][$lang_code] = array(
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          );
+          $language_requested = TRUE;
         }
+
         if (isset($options[$lang_code]) && isset($existing_jobs[$lang_code])) {
           $item = $existing_jobs[$lang_code];
           $uri = $item->uri();
@@ -159,14 +158,17 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_STATE_INDEX] = l($wrapper->state->label(),
             $uri['path'],
             array('query' => array('destination' => current_path())));
-          // Disable the checkbox for this row since there is already a
-          // translation in progress that has not yet been finished. This way we
-          // make sure that we don't stack multiple active translations for the
-          // same item on top of each other.
-          $form['languages'][$lang_code] = array(
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
-          );
+
+          if (!isset($form_state['force_actions']) || !$form_state['force_actions']) {
+            // Disable the checkbox for this row since there is already a
+            // translation in progress that has not yet been finished.
+            // This way we make sure that we don't stack multiple active
+            // translations for the same item on top of each other.
+            $form['languages'][$lang_code] = array(
+              '#type' => 'checkbox',
+              '#disabled' => TRUE,
+            );
+          }
 
           // NEXTEUROPA-12429 - additional column with last change date.
           $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]
@@ -189,33 +191,37 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      // Provide 'Request translation' action or hide actions.
-      // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
-      // there is new #markup element which will be displayed every time when
-      // there is a translation request on going.
-      if ($translation_possible && !$existing_jobs) {
-        $form['actions']['#type'] = 'actions';
-        $form['actions']['request'] = [
-          '#type' => 'submit',
-          '#value' => t('Request translation'),
-          '#submit' => ['tmgmt_workbench_translate_form_submit'],
-          '#validate' => ['tmgmt_workbench_translate_form_validate'],
-        ];
-      }
-      else {
-        unset($form['actions']);
-        foreach ($lang_codes as $lang_code) {
-          $form['languages'][$lang_code] = [
-            '#type' => 'checkbox',
-            '#disabled' => TRUE,
+      if (!isset($form_state['force_actions']) || !$form_state['force_actions']) {
+        // Provide 'Request translation' action or hide actions.
+        // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
+        // there is new #markup element which will be displayed every time when
+        // there is a translation request on going.
+        if ($translation_possible && !$existing_jobs) {
+          $form['actions']['#type'] = 'actions';
+          $form['actions']['request'] = [
+            '#type' => 'submit',
+            '#value' => t('Request translation'),
+            '#submit' => ['tmgmt_workbench_translate_form_submit'],
+            '#validate' => ['tmgmt_workbench_translate_form_validate'],
           ];
         }
-        $form['languages_description'] = [
-          '#type' => 'item',
-          '#prefix' => '<div class="messages warning">',
-          '#markup' => t('Please end up the active translation process before creating a new request.'),
-          '#suffix' => '</div>',
-        ];
+        else {
+          unset($form['actions']);
+          foreach ($lang_codes as $lang_code) {
+            $form['languages'][$lang_code] = [
+              '#type' => 'checkbox',
+              '#disabled' => TRUE,
+            ];
+          }
+          if (!isset($form['languages_description'])) {
+            $form['languages_description'] = [
+              '#type' => 'item',
+              '#prefix' => '<div class="messages warning">',
+              '#markup' => t('Please end up the active translation process before creating a new request.'),
+              '#suffix' => '</div>',
+            ];
+          }
+        }
       }
 
       // If translatable languages are available add the
@@ -344,8 +350,19 @@ function tmgmt_workbench_add_target_languages_form_submit($form, &$form_state) {
  * Validation callback for the entity translation overview form.
  */
 function tmgmt_workbench_translate_form_validate($form, &$form_state) {
-  if (!isset($form_state['input']['languages'])) {
+  if (!isset($form_state['values']['languages'])) {
     form_set_error('languages', t('You have to select a language for requesting a translation.'));
+  }
+  else {
+    $validated = FALSE;
+    foreach ($form_state['values']['languages'] as $language) {
+      if (!empty($language)) {
+        $validated = TRUE;
+      }
+    }
+    if (!$validated) {
+      form_set_error('languages', t('You have to select a language for requesting a translation.'));
+    }
   }
 }
 
@@ -356,7 +373,6 @@ function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
 
   // NEXTEUROPA-7719 - Simplifying Poetry UI.
-  // @todo: To be changed after implementing resending request procedure.
   $chosen_languages = $form_state['values']['languages'];
   foreach ($chosen_languages as $key => $language) {
     if ($language === 0) {

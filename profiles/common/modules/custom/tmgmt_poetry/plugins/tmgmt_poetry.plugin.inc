@@ -102,7 +102,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
             if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
               // Check the poetry status.
               $result_ps = db_select('poetry_status', 'ps')
-                ->fields('ps')
+                ->fields('ps', array('status'))
                 ->condition('tjiid', $result->tjiid, '=')
                 ->execute()
                 ->fetchAssoc();
@@ -145,8 +145,12 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $response_xml = simplexml_load_string($response);
     // If it is not an xml response, the SOAP request failed.
     if (!$response_xml) {
-      $job->rejected("There was an error with the SOAP service . Message error: @error",
-        array('@error' => $response), 'error');
+      _tmgmt_poetry_tmgmt_job_reject(
+        $job,
+        "Rejected",
+        "There was an error with the SOAP service.",
+        $response
+      );
     }
     else {
       $request = $response_xml->request;
@@ -157,8 +161,12 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       foreach ($statuses as $status) {
         $message = (string) $status->statusMessage;
         if ($message != 'OK') {
-          $job->rejected("There was an error with the Poetry request . Message error: @error",
-            array('@error' => $message), 'error');
+          _tmgmt_poetry_tmgmt_job_reject(
+            $job,
+            "Rejected",
+            "There was an error with the Poetry request.",
+            $message
+          );
         }
       }
 

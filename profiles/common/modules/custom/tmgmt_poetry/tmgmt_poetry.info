@@ -1,5 +1,6 @@
 name = Poetry Translator
 description = TMGMT implementation of Poetry European Service.
+php = 5.4
 package = Translation Management
 core = 7.x
 dependencies[] = date_popup
