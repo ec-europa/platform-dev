@@ -424,22 +424,20 @@ Feature: TMGMT Poetry features
   # trim any value we fill it with.
   @cleanup-tmgmt-poetry-website-identifier
   Scenario: A website identifier longer than 15 characters is not accepted.
-    When I go to "/admin/config"
-    And I click "DGT Connector"
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en"
+    And I fill in in "my-website-but-with-too-many-char" for "Website identifier"
     And I press the "Save configuration" button
     Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
 
   @cleanup-tmgmt-poetry-website-identifier
   Scenario: The website identifier is mandatory.
-    When I go to "/admin/config"
-    And I click "DGT Connector"
+    When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en"
     And I press the "Save configuration" button
     Then I should see the error message "Website identifier field is required."
 
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including the website identifier.
-    Given I go to "/admin/config"
-    And I click "DGT Connector"
+    Given I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en"
     And I fill in "my-website" for "Website identifier"
     And I press the "Save configuration" button
     And I am viewing a multilingual "page" content:
@@ -456,8 +454,7 @@ Feature: TMGMT Poetry features
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including a website identifier with
       characters that have a special meaning in HTML.
-    Given I go to "/admin/config"
-    And I click "DGT Connector"
+    Given I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator_en"
     And I fill in "/>&mywebsite<" for "Website identifier"
     And I press the "Save configuration" button
     And I am viewing a multilingual "page" content:
