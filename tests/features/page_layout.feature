@@ -47,5 +47,3 @@ Feature: Page Layout
     And I am not logged in
     When I am on "search"
     Then I should see "Search - European Commission" in the "html head title" element
-
-    
