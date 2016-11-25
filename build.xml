@@ -16,10 +16,10 @@
     <includepath classpath="src/Phing" />
 
     <echo msg="Loading Drush task." />
-    <taskdef name="drush" classname="DrushTask" />
+    <import file="${project.basedir}/vendor/drupal/phingdrushtask/import.xml"/>
 
     <echo msg="Loading Behat tasks." />
-    <import file="vendor/drupol/phingbehattask/import.xml"/>
+    <import file="${project.basedir}/vendor/drupol/phingbehattask/import.xml"/>
 
     <echo msg="Loading PHP Codesniffer Configuration task." />
     <taskdef name="phpcodesnifferconfiguration" classname="\NextEuropa\Phing\PhpCodeSnifferConfigurationTask" />

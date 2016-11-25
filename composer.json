@@ -1,16 +1,16 @@
 {
   "require": {
+    "php": ">=5.6.0",
     "drupal/coder": "8.2.6",
-    "drupal/phing-drush-task": "1.0",
-    "drush/drush": "7.4.0",
+    "drupal/phingdrushtask": "^1.1",
+    "drupol/phingbehattask": "^1.0",
+    "drush/drush": "8.0.5",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
-    "phing/phing": "~2.10",
-    "php": ">=5.4.0",
-    "drupol/phingbehattask": "dev-master"
+    "phing/phing": "~2.10"
   },
   "prefer-stable": true,
   "autoload": {
@@ -20,18 +20,8 @@
   },
   "repositories": [
     {
-      "type": "package",
-      "package": {
-        "name": "drupal/phing-drush-task",
-        "version": "1.0",
-        "source": {
-          "url": "https://git.drupal.org/project/phingdrushtask.git",
-          "type": "git",
-          "reference": "7.x-1.0"
-        },
-        "autoload": { "classmap": [ "DrushTask.php" ] },
-        "include-path": [ "." ]
-      }
+      "type": "vcs",
+      "url": "https://git.drupal.org/project/phingdrushtask.git"
     },
     {
       "type": "package",
