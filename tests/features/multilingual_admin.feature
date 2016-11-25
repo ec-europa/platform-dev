@@ -29,19 +29,19 @@ Feature: Content translation
 
    @javascript @maximizedwindow
   Scenario: Make sure that I can add "title_field" fields to a view when the Estonian language is enabled.
-      Given the following languages are available:
-        | languages |
-        | en        |
-        | et        |
-      And a content view with machine name "testing_view" is available
-      When I visit "admin/structure/views/view/testing_view/edit"
-      And I click "views-add-field"
-      And I wait for AJAX to finish
-      And I check the box "Entity translation: Name: translated"
-      And I press the "Add and configure fields" button
-      And I wait for AJAX to finish
-      And I press the "Apply" button
-      And I wait for AJAX to finish
-      And I press the "Save" button
-      Then I should see "The view testing_view has been saved."
-      And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/title_field_et_en"
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | et        |
+    And a content view with machine name "testing_view" is available
+    When I visit "admin/structure/views/view/testing_view/edit"
+    And I click "views-add-field"
+    And I wait for AJAX to finish
+    And I check the box "Entity translation: Name: translated"
+    And I press the "Add and configure fields" button
+    And I wait for AJAX to finish
+    And I press the "Apply" button
+    And I wait for AJAX to finish
+    And I press the "Save" button
+    Then I should see "The view testing_view has been saved."
+    And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/title_field_et_en"
