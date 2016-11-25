@@ -76,8 +76,8 @@ function nexteuropa_editorial_og_membership_delete(OgMembership $og_membership) 
  */
 function _nexteuropa_editorial_sync_editorial_team_role(OgMembership $og_membership) {
   if ($og_membership->field_name == 'og_user_node' && $og_membership->entity_type == 'user' && $og_membership->etid) {
-    // Try to get the loaded entity stored in the OG membership or grab the UID.
-    $account = isset($og_membership->entity) ? $og_membership->entity : $og_membership->etid;
+    // Load the user (avoid internal cache in case the user is being saved).
+    $account = user_load($og_membership->etid, TRUE);
     $is_member = multisite_config_service('nexteuropa_editorial')->isEditorialTeamMember($account);
     $function = $is_member ? 'assignRoleToUser' : 'revokeRoleFromUser';
     multisite_config_service('user')->$function(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $account);
