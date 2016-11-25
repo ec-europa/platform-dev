@@ -18,11 +18,14 @@ function communities_disable() {
  */
 function communities_enable() {
   // SolR configuration add bundle.
-  db_insert('apachesolr_index_bundles')->fields(array(
-    'env_id' => 'solr',
-    'entity_type' => 'node',
-    'bundle' => 'community',
-  ))->execute();
+  if (module_exists('apachesolr')) {
+    db_insert('apachesolr_index_bundles')->fields(array(
+      'env_id' => 'solr',
+      'entity_type' => 'node',
+      'bundle' => 'community',
+    ))->execute();
+  }
+
   drupal_set_message(t('Communities feature is now active on your site.'));
 }
 
