@@ -25,3 +25,12 @@ function hook_nexteuropa_token_token_handlers() {
 function hook_nexteuropa_token_token_handlers_alter(array &$handlers) {
   $handlers['handler_name'] = '\Drupal\module_name\HandlerNameTokenHandler';
 }
+
+/**
+ * Implements hook_nexteuropa_token_entity_view_mode_type().
+ */
+function hook_nexteuropa_token_entity_view_mode_type() {
+  return array(
+    'entity_type' => '\Drupal\module_name\ClassName',
+  );
+}
