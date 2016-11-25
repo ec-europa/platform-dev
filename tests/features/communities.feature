@@ -1,4 +1,5 @@
-@communities
+# This scenario is obsolete and should be removed.
+@wip @communities
 Feature: Communities
   In order to effectively manage groups of people
   As a site administrator
