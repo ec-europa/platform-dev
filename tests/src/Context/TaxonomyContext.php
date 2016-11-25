@@ -98,6 +98,32 @@ class TaxonomyContext implements Context {
   }
 
   /**
+   * Create term with a parent in a vocabulary.
+   *
+   * @param string $term_name
+   *    Name of the term.
+   * @param string $vocabulary_name
+   *    Name of the vocabulary.
+   *
+   * @Given the term :term_name with the parent term :parent_term in the vocabulary :vocabulary_name exists
+   *
+   * @Then I create a new term :term_name with a parent term :parent_term in the vocabulary :vocabulary_name
+   */
+  public function iCreateNewTermWithParentInTheVocabulary($term_name, $parent_name, $vocabulary_name) {
+    $parent_term = array_shift(taxonomy_get_term_by_name($parent_term, $vocabulary_name));
+    if (!empty($parent_term)) {
+      $term = new \stdClass();
+      $term->name = $term_name;
+      $term->vid = $this->getTaxonomyIdByName($vocabulary_name);
+      $term->parent = $parent_term->tid;
+      taxonomy_term_save($term);
+    }
+    else {
+      throw new \InvalidArgumentException("The parent term '{$parent_name}' doesn't exist.");
+    }
+  }
+
+  /**
    * Create a group in a vocabulary.
    *
    * @param string $group_name

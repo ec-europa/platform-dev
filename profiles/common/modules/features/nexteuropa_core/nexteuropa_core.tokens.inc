@@ -31,9 +31,8 @@ function nexteuropa_core_tokens($type, $tokens, array $data = array(), array $op
         $field_name = str_replace('-', '_', $field_name);
         if (isset($node->{$field_name})) {
           $node_wrapper = entity_metadata_wrapper('node', $node);
-          $terms = $node_wrapper->{$field_name}->value();
-          if (isset($terms[$delta - 1])) {
-            $term = $terms[$delta - 1];
+          $term = $node_wrapper->{$field_name}->value();
+          if (!empty($term)) {
             $parents = array();
             foreach (entity_metadata_taxonomy_term_get_properties($term, array(), 'parents_all') as $tid) {
               $parent_term = taxonomy_term_load($tid);
