@@ -253,7 +253,6 @@ class FrontendCacheContext implements Context {
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
-    print_r('[URL dump]' . PHP_EOL . url());
     $requests = $this->getRequests();
     assert($requests, isOfSize(1));
 
@@ -270,7 +269,7 @@ class FrontendCacheContext implements Context {
 
     $path_string = '^(' . implode('|', $paths) . ')$';
 
-    $content_url = ltrim(url(), '/');
+    $content_url = preg_quote(ltrim(url(), '/'));
     $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
