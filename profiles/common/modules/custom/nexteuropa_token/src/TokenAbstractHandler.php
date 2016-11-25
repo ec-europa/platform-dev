@@ -36,9 +36,14 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
    */
   protected function getEntityTokenTypes() {
     $return = array();
+    $tokens = token_get_info();
     foreach (entity_get_info() as $entity_type => $entity_info) {
-      $entity_type = ($entity_type == 'taxonomy_term') ? 'term' : $entity_type;
-      $return[$entity_type] = $entity_info;
+      // Check for the token type name for a specific entity type;
+      $entity_type = (isset($entity_info['token type'])) ? $entity_info['token type'] : $entity_type;
+      // If token type already exists, add it to the return array.
+      if (isset($tokens['types'][$entity_type])) {
+        $return[$entity_type] = $entity_info;
+      }
     }
     return $return;
   }

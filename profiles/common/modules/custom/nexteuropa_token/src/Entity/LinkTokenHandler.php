@@ -47,11 +47,12 @@ class LinkTokenHandler extends TokenAbstractHandler {
     $replacements = array();
 
     if ($this->isValidTokenType($type)) {
+      $token_types = token_get_entity_mapping('token');
       foreach ($tokens as $name => $original) {
         if ($this->isValidToken($original)) {
 
           $entity_id = $this->getEntityIdFromToken($original);
-          $entity_type = ($type == 'term') ? 'taxonomy_term' : $type;
+          $entity_type = $token_types[$type];
 
           $entity_info = entity_get_info($entity_type);
           // Check if the entity is available.
