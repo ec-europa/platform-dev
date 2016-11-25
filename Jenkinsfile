@@ -33,7 +33,7 @@ node('master') {
 
         stage('Test') {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
-                sh './bin/behat -c tests/behat.yml --colors -f pretty --strict'
+                sh './bin/behat -c tests/behat.yml --colors --strict'
             }
         }
 
