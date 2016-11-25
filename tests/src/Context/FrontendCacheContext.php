@@ -192,11 +192,18 @@ class FrontendCacheContext implements Context {
     $rules = $table->getHash();
 
     foreach ($rules as $rule) {
+      if (trim($rule['Paths to Purge']) == '') {
+        $paths = '';
+      }
+      else {
+        $paths = preg_replace('/\s*,\s*/', "\n", $rule['Paths to Purge']);
+      }
+
       $rule = entity_create(
         'nexteuropa_varnish_cache_purge_rule',
         array(
           'content_type' => $rule['Content Type'],
-          'paths' => preg_replace('/\s*,\s*/', "\n", $rule['Paths to Purge']),
+          'paths' => $paths,
         )
       );
 
