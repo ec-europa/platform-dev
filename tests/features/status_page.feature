@@ -4,6 +4,7 @@ Feature: Administrators can check information on status page
   As an administrator
   I can access to the status page
 
+@api
 Scenario: FusionMap library is found
   Given the module is enabled
     |modules       |
@@ -13,6 +14,8 @@ Scenario: FusionMap library is found
   Then I should see "FusionMaps PHP file found." in the "table.system-status-report" element
   And I should not see "FusionMaps SWF file not found." in the "table.system-status-report" element
 
+
+@api
 Scenario: Show git informations in report
   In order to identify the test environment
   As an acceptance tester

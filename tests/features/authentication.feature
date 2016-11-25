@@ -27,6 +27,7 @@ Scenario Outline: Anonymous user cannot access site administration
   | admin/structure/feature-set |
   | node/add/article            |
 
+@api
 Scenario Outline: Editors can access certain administration pages
   Given I am logged in as a user with the "editor" role
   Then I visit "<path>"
@@ -35,6 +36,7 @@ Scenario Outline: Editors can access certain administration pages
   | path                       |
   | node/add/article           |
 
+@api
 Scenario Outline: Editors cannot access pages intended for administrators
   Given I am logged in as a user with the "editor" role
   When I go to "<path>"
@@ -48,6 +50,7 @@ Scenario Outline: Editors cannot access pages intended for administrators
   | admin/structure/feature-set |
   | node/add/editorial-team_en  |
 
+@api
 Scenario Outline: Administrators can access certain administration pages
   Given I am logged in as a user with the "administrator" role
   Then I visit "<path>"
@@ -61,6 +64,7 @@ Scenario Outline: Administrators can access certain administration pages
   | node/add/article            |
   | node/add/editorial-team_en |
 
+@api
 Scenario Outline: Administrators should not be able to access technical pages intended for developers
   Given I am logged in as a user with the "administrator" role
   When I go to "<path>"

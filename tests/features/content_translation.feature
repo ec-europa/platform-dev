@@ -1,12 +1,13 @@
 # These tests are temporarily disabled, the editorial workflow functionality is
 # broken after NextEuropa was merged into Multisite.
 # See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4249
-@api @wip
+@wip
 Feature: Content translation
   In order to translate my content
   As part of the editorial team
   I want to be able to create, request and edit translations.
 
+  @api
   Scenario Outline: A user with 'contributor' group role can access the "Translate" tab on a content page
     Given the following languages are available:
       | languages |
@@ -31,6 +32,7 @@ Feature: Content translation
     | contributor        |
     | authenticated user |
 
+  @api
   Scenario Outline: Content is translatable only if its moderation state is "Published" or "Validated"
     Given the following languages are available:
       | languages |
@@ -58,6 +60,7 @@ Feature: Content translation
     | contributor        | Published    |
     | authenticated user | Validated    |
 
+  @api
   Scenario Outline: User can translate content by accessing the "Translate" tab
     Given the following languages are available:
       | languages |
@@ -87,6 +90,8 @@ Feature: Content translation
     | contributor        | Published    |
     | authenticated user | Validated    |
 
+
+  @api
   Scenario Outline: User can request translation only for content marked as "Published" or "Validated"
     Given the following languages are available:
       | languages |

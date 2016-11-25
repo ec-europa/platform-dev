@@ -4,6 +4,7 @@ Feature: Article content type
   As an editor
   I want to be able to create, edit and delete articles
 
+  @api
   Scenario: Create an article
     Given "Tags" terms:
       | name              | weight | description   |

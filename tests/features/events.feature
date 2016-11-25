@@ -4,6 +4,7 @@ Feature: Event features
   As a citizen of the European Union
   I want to be able to see a callendar with events
   
+  @api
   Scenario: Users can see the calendar
     Given I am an anonymous user
     Given these featureSet are enabled

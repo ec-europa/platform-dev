@@ -1,4 +1,3 @@
-@api
 Feature: Check the feature Maxlength
   In order to provides to fields of a content type the functionality of limiting and validating their maximum length in the edit form, before submission.
   As an administrator, Contributor and Editor User
@@ -9,6 +8,7 @@ Feature: Check the feature Maxlength
       | modules                 |
       | multisite_maxlength     |
 
+  @api
   Scenario: Contributor User can check the maxlength counts (without the tags and specific characters).
     Given I am logged in as a user with the 'administrator' role
     When I create a new "text_long" field named "test_maxlength" on "article"
@@ -25,6 +25,7 @@ Feature: Check the feature Maxlength
     Then I should see the success message "Article Page title has been created."
     And I should not see "cannot be longer than"
 
+  @api
   Scenario: Administrator User can check his bypass.
     Given I am logged in as a user with the 'administrator' role
     When I create a new "text_long" field named "test_maxlength" on "article"
