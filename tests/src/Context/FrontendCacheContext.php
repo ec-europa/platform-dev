@@ -253,6 +253,7 @@ class FrontendCacheContext implements Context {
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
+    print_r('[URL dump]' . PHP_EOL . url());
     $requests = $this->getRequests();
     assert($requests, isOfSize(1));
 
