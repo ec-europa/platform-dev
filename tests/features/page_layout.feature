@@ -39,16 +39,13 @@ Feature: Page Layout
     | user       | User account - European Commission          |
 
   @api
-  Scenario Outline: Anonymous user can see the search page title
+  Scenario: Anonymous user can see the search page title
     Given the module is enabled
       | modules            |
       | apachesolr         |
       | apachesolr_search  |
     And I am not logged in
-    When I am on "<page>"
-    Then I should see "<text>" in the "html head title" element
-      # Test the page head title presence on search page
-    Examples:
-      | page       | text                                      |
-      | search     | Search - European Commission              |
+    When I am on "search"
+    Then I should see "Search - European Commission" in the "html head title" element
+
     
