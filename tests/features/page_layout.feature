@@ -38,12 +38,12 @@ Feature: Page Layout
     | contact    | Contact - European Commission               |
     | user       | User account - European Commission          |
 
-  @api
-  Scenario: Anonymous user can see the search page title
-    Given the module is enabled
-      | modules            |
-      | apachesolr         |
-      | apachesolr_search  |
-    And I am not logged in
-    When I am on "search"
-    Then I should see "Search - European Commission" in the "html head title" element
+#  @api
+#  Scenario: Anonymous user can see the search page title
+#    Given the module is enabled
+#      | modules            |
+#      | apachesolr         |
+#      | apachesolr_search  |
+#    And I am not logged in
+#    When I am on "search"
+#    Then I should see "Search - European Commission" in the "html head title" element
