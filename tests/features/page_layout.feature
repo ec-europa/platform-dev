@@ -41,7 +41,8 @@ Feature: Page Layout
   @api
   Scenario Outline: Anonymous user can see the search page title
     Given the module is enabled
-      | modules     |
+      | modules            |
+      | apachesolr         |
       | apachesolr_search  |
     And I am not logged in
     When I am on "<page>"
