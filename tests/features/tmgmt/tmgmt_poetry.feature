@@ -324,18 +324,16 @@ Feature: TMGMT Poetry features
       | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
 
   @javascript
-  Scenario Outline: Request translation for multiple languages.
+  Scenario: Request translation for multiple languages.
     Given I go to "node/add/page"
-    And I fill in "Title" with "<title>"
-    And I fill in the rich text editor "Body" with <body>
+    And I fill in "Title" with "Page title"
+    And I fill in the rich text editor "Body" with "<p>Body content</p>"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
     When I click "Translate" in the "primary_tabs" region
     Then I store node ID of translation request page
-    Given I am logged in as a user with the 'contributor' role
-    And I have the 'contributor' role in the 'Global editorial team' group
-    And I go to stored node Id translation request page
+    When I go to stored node Id translation request page
     And I check the box on the "French" row
     And I check the box on the "Italian" row
     And I check the box on the "Portuguese" row
@@ -349,10 +347,6 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     And I should see "In progress" in the "Portuguese" row
-
-    Examples:
-      | title      | body                  |
-      | Page title | '<p>Body content</p>' |
 
   Scenario: Poetry replaces all tokens present in the node.
     Given I create the following multilingual "page" content:
