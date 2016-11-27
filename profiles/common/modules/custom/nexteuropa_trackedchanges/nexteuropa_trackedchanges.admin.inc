@@ -36,37 +36,7 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
     '#default_value' => variable_get('nexteuropa_trackedchanges_force_track_on_edit'),
   );
 
-
-  $form['nexteuropa_trackedchanges_revuild_elapse_time'] = array(
-    '#title' => t('Tracked changes table refresh frequence'),
-    '#type' => 'textfield',
-    '#field_suffix' => t('seconds'),
-    '#size' => 3,
-    '#description' => t('Set the elapse time between 2 refreshes of listing 
-    entities having tracked changes. 0 second means the list will be refreshed
-    each time the "!page" page is accessed.',
-    array('!page' => l(t('Tracked changes overview'), 'admin/content/tracked_changes/entities_list'))),
-    '#default_value' => variable_get('nexteuropa_trackedchanges_revuild_elapse_time'),
-    '#required' => TRUE,
-  );
-
-
-
   return system_settings_form($form);
-}
-
-/**
- * Implements hook_form_validate().
- *
- * @see nexteuropa_trackedchanges_settings_form()
- */
-function nexteuropa_trackedchanges_settings_form_validate($form, &$form_state) {
-  $values = $form_state['values'];
-  $elapse_time_value = $values['nexteuropa_trackedchanges_revuild_elapse_time'];
-  if (!is_numeric($elapse_time_value) || ($elapse_time_value < 0)) {
-    form_set_error('nexteuropa_trackedchanges_revuild_elapse_time',
-      t('The "refresh frequence" field must be a positive number.'));
-  }
 }
 
 /**
@@ -205,7 +175,6 @@ function _nexteuropa_trackedchanges_disable_check_submit($form, &$form_state) {
  *    The name of the "finished" callback that must be executed.
  *
  * @see _nexteuropa_trackedchanges_system_disable_field_scanning_finished()
- * @see
  */
 function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
   // Then, do the control.
@@ -309,7 +278,34 @@ function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form($form, &$form_
     '#description' => t('Choose states where content saving must be blocked if tracked changes exists.'),
   );
 
+  $form['nexteuropa_trackedchanges_revuild_elapse_time'] = array(
+    '#title' => t('Tracked changes table refresh frequence'),
+    '#type' => 'textfield',
+    '#field_suffix' => t('seconds'),
+    '#size' => 3,
+    '#description' => t('Set the elapse time between 2 refreshes of listing 
+    entities having tracked changes. 0 second means the list will be refreshed
+    each time the "!page" page is accessed.',
+      array('!page' => l(t('Tracked changes overview'), 'admin/content/tracked_changes/entities_list'))),
+    '#default_value' => variable_get('nexteuropa_trackedchanges_revuild_elapse_time'),
+    '#required' => TRUE,
+  );
+
   return system_settings_form($form);
+}
+
+/**
+ * Implements hook_form_validate().
+ *
+ * @see nexteuropa_trackedchanges_settings_form()
+ */
+function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $elapse_time_value = $values['nexteuropa_trackedchanges_revuild_elapse_time'];
+  if (!is_numeric($elapse_time_value) || ($elapse_time_value < 0)) {
+    form_set_error('nexteuropa_trackedchanges_revuild_elapse_time',
+      t('The "refresh frequency" field must be a positive number.'));
+  }
 }
 
 /**
