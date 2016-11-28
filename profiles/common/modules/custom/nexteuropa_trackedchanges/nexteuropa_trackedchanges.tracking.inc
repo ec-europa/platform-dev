@@ -52,7 +52,7 @@ function _nexteuropa_trackedchanges_field_widget_tracking_form_alter(&$element, 
  *
  * @return array
  *   An associative array containing all languages where tracked changes
- *   have been detected.
+ *   have been detected; otherwise it returns an empty array.
  *
  * @throws EntityMalformedException
  *   If the entity bundle is not set.
@@ -142,26 +142,85 @@ function _nexteuropa_trackedchanges_tracking_entity_validate($form, &$form_state
       $current_ent_lang = $form_state['entity_translation']['form_langcode'];
     }
 
-    $current_status = $values['status'];
-    $tracking_to_check = _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state, $current_status);
-    // Generates errors only if required by WYSIWYG tracking workflow settings.
-    if ($tracking_to_check) {
-      $tracking_activate = _nexteuropa_trackedchanges_set_tracking_flags($entity);
+    $previous_detected = _nexteuropa_trackedchanges_set_tracking_flags($entity);
+    if ($previous_detected) {
       // Unset because current form could be emptied of its tracked changes.
-      unset($tracking_activate[$current_ent_lang]);
+      unset($previous_detected[$current_ent_lang]);
       // Unset because it is common to all translations;even the current one.
-      unset($tracking_activate[LANGUAGE_NONE]);
+      unset($previous_detected[LANGUAGE_NONE]);
+    }
+    $current_detected = (!empty($form_state['tracking_changes_detected'])) ? $form_state['tracking_changes_detected'] : array();
+    $tracking_activate = array_merge($previous_detected, $current_detected);
 
-      // Treating current revision.
-      if (isset($form_state['tracking_changes_detected']) && $form_state['tracking_changes_detected']) {
-        // Ensure that an error message for the whole entity will be displayed.
-        $tracking_activate[$current_ent_lang] = $current_ent_lang;
+    if ($tracking_activate) {
+      // tracking_activate_langs: store the list of languages for
+      // _nexteuropa_trackedchanges_tracking_entity_log uses.
+      $form_state['tracking_activate_langs'] = $tracking_activate;
+
+      $current_status = $values['status'];
+      $tracking_to_check = _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state, $current_status);
+      // Generates errors only if required by WYSIWYG tracking workflow
+      // settings.
+      if ($tracking_to_check) {
+
+        // Treating current revision.
+        if (!empty($form_state['tracking_changes_detected'])) {
+          // Ensure that an error message for the whole entity will be
+          // displayed.
+          $tracking_activate[$current_ent_lang] = $current_ent_lang;
+        }
+
+        // Treating other translation revisions.
+        if ($tracking_activate) {
+          $entity_message = _nexteuropa_trackedchanges_tracking_entity_message($tracking_activate, $entity);
+          form_set_error('tracking_activate', $entity_message);
+        }
       }
+    }
 
-      // Treating other translation revisions.
-      if ($tracking_activate) {
-        $entity_message = _nexteuropa_trackedchanges_tracking_entity_message($tracking_activate, $entity);
-        form_set_error('tracking_activate', $entity_message);
+  }
+}
+
+/**
+ * Submit callback for entity edit form.
+ *
+ * It is in charge of saving a nexteuropa_trackedchanges_info if tracked
+ * changes have been detected in one of its WYSIWYG fields.
+ */
+function _nexteuropa_trackedchanges_tracking_entity_log($form, &$form_state) {
+  $node = $form_state['node'];
+  if (!empty($node->nid)) {
+    $info_entities = nexteuropa_trackedchanges_info_load_by_entity('node', $node);
+    $langs = (isset($form_state['tracking_activate_langs'])) ? $form_state['tracking_activate_langs'] : FALSE;
+    if ($info_entities) {
+      $info_entity = reset($info_entities);
+    }
+
+    if ($langs) {
+      if (!isset($info_entity)) {
+        $values = array(
+          'rel_entity_type' => 'node',
+          'rel_entity_id' => $node->nid,
+          'rel_entity_bundle' => $node->type,
+        );
+        $info_entity = entity_create('nexteuropa_trackedchanges_info', $values);
+      }
+      $wrapper = entity_metadata_wrapper('nexteuropa_trackedchanges_info', $info_entity);
+      $wrapper->rel_entity_label->set($node->title);
+      $wrapper->rel_entity_languages->set(array_values($langs));
+
+      $rel_entity_state = $node->status;
+      $values = $form_state['values'];
+      if (isset($values['workbench_moderation_state_new'])) {
+        $rel_entity_state = $values['workbench_moderation_state_new'];
+      }
+      $wrapper->rel_entity_state->set($rel_entity_state);
+      $wrapper->save();
+    }
+    else {
+      if (isset($info_entity)) {
+        $wrapper = entity_metadata_wrapper('nexteuropa_trackedchanges_info', $info_entity);
+        $wrapper->delete();
       }
     }
   }
@@ -223,34 +282,37 @@ function _nexteuropa_trackedchanges_tracking_field_validate($element, &$form_sta
   }
 
   $current_status = $values['status'];
-  $is_to_check = _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state, $current_status);
 
-  if ($is_to_check) {
-    $value = '';
-    if (isset($element['#value'])) {
-      $value = $element['#value'];
+  $value = '';
+  if (isset($element['#value'])) {
+    $value = $element['#value'];
+  }
+  elseif (isset($element['value'])) {
+    // The callback is called twice for field with text format.
+    // In this case, the inserted value is stored differently.
+    $value = $element['value']['#value'];
+    $element = $element['value'];
+  }
+
+  $field_path = implode('][', $element['#parents']);
+  unset($form_state['tracking_changes_detected'][$field_path]);
+  // We still need to scan because we need this data for
+  // _nexteuropa_trackedchanges_tracking_entity_log uses.
+  if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $value)) {
+    // Flag used in entity validate callback.
+    $form_state['tracking_changes_detected'][$field_path] = TRUE;
+
+    // Get the field label.
+    $title = $element['#title'];
+    if (empty($element['#title'])) {
+      // Multi value fields have an empty '#title'.
+      $info = field_info_instance($entity->entity_type, $element['#field_name'], $element['#bundle']);
+      $title = check_plain($info['label']);
     }
-    elseif (isset($element['value'])) {
-      // The callback is called twice for field with text format.
-      // In this case, the inserted value is stored differently.
-      $value = $element['value']['#value'];
-      $element = $element['value'];
-    }
 
-    $field_path = implode('][', $element['#parents']);
-    unset($form_state['tracking_changes_detected'][$field_path]);
-    if (preg_match('/<span[^>]+class="[^"]*ice-[^>]+>/', $value)) {
-      // Flag used in entity validate callback.
-      $form_state['tracking_changes_detected'][$field_path] = TRUE;
-
-      // Get the field label.
-      $title = $element['#title'];
-      if (empty($element['#title'])) {
-        // Multi value fields have an empty '#title'.
-        $info = field_info_instance($entity->entity_type, $element['#field_name'], $element['#bundle']);
-        $title = check_plain($info['label']);
-      }
-
+    // Only raise the error if the validation control is on on the entity.
+    $is_to_check = _nexteuropa_trackedchanges_tracking_is_on($entity, $current_wbm_state, $current_status);
+    if ($is_to_check) {
       $message = t('!title contains tracked changes information.',
         array('!title' => $title));
       form_error($element, $message);

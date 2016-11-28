@@ -6,7 +6,7 @@
 
 include_once 'nexteuropa_trackedchanges.admin.inc';
 include_once 'nexteuropa_trackedchanges.tracking.inc';
-// include_once 'nexteuropa_trackedchanges.page.inc';
+include_once 'nexteuropa_trackedchanges.page.inc';
 
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME', 'full_html_track');
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME', 'Full HTML + Change tracking');
@@ -67,7 +67,7 @@ function nexteuropa_trackedchanges_menu() {
     'description' => 'List of entities having tracked changes in their 
     WYSIWYG fields.',
     'page callback' => 'nexteuropa_trackedchanges_list',
-    'access callback' => 'nexteuropa_trackedchanges_entities_list_access',
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
     'file' => 'nexteuropa_trackedchanges.page.inc',
     'weight' => 10,
   );
@@ -77,7 +77,7 @@ function nexteuropa_trackedchanges_menu() {
     'description' => 'Rebuild of the table listing all entities where tracked 
      changes have been detected',
     'page callback' => 'nexteuropa_trackedchanges_table_rebuilt',
-    'access callback' => 'nexteuropa_trackedchanges_entities_list_access',
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
     'file' => 'nexteuropa_trackedchanges.page.inc',
     'type' => MENU_CALLBACK,
   );
@@ -95,12 +95,11 @@ function nexteuropa_trackedchanges_entity_info() {
     'label' => 'Tracked changes info',
     'entity class' => 'NextEuropaTrackedChangesInfo',
     'controller class' => 'NextEuropaTrackedChangesInfoController',
-    'metadata controller class' => 'NextEuropaTrackedChangesInfoMetadataController',
     'views controller class' => 'EntityDefaultViewsController',
     'base table' => 'nexteuropa_trackedchanges_info',
     'uri callback' => 'entity_class_uri',
     'label callback' => 'entity_class_label',
-    'access callback' => 'nexteuropa_trackedchanges_entities_list_access',
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
     'fieldable' => FALSE,
     'entity keys' => array(
       'id' => 'info_id',
@@ -109,6 +108,129 @@ function nexteuropa_trackedchanges_entity_info() {
   );
 
   return $info;
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
+  $info['nexteuropa_trackedchanges_info']['properties']['info_id'] = array(
+    'label' => t('Info id'),
+    'description' => t('Id of nexteuropa_trackedchanges_info entity'),
+    'type' => 'integer',
+    'schema field' => 'info_id',
+  );
+  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_id'] = array(
+    'label' => t('Entity id'),
+    'description' => t('Id of entity related to the info'),
+    'type' => 'integer',
+    'schema field' => 'rel_entity_id',
+    'getter callback' => 'nexteuropa_trackedchanges_get_entity_urls',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_type'] = array(
+    'label' => t('Entity type'),
+    'description' => t('Type of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_type',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_bundle'] = array(
+    'label' => t('Entity Bundle'),
+    'description' => t('Bundle of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_bundle',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_label'] = array(
+    'label' => t('Entity label'),
+    'description' => t('Label of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_label',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_languages'] = array(
+    'label' => t('Entity concerned languages'),
+    'description' => t('Language codes of translations containing tracked changes'),
+    'type' => 'list',
+    'schema field' => 'rel_entity_languages',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_state'] = array(
+    'label' => t('Entity moderation state'),
+    'description' => t('Moderation state of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_state',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+  );
+  $info['nexteuropa_trackedchanges_info']['properties']['scanned'] = array(
+    'label' => t('Scanning date of the info'),
+    'description' => t('Timestamp of the date when the info entity has been created.'),
+    'type' => 'date',
+    'schema field' => 'scanned',
+  );
+}
+
+/**
+ * Get the 'nexteuropa_trackedchanges_info' entities related to an entity.
+ *
+ * @param string $entity_type
+ *   The type of the related entity.
+ * @param object $entity
+ *   The related entity.
+ *
+ * @return bool|array
+ *   An array of nexteuropa_trackedchanges_info objects indexed by their ids.
+ *   When no results are found, FALSE is returned.
+ *
+ * @throws EntityMalformedException
+ *   The exception is thrown if $entity is malformed or if $entity_type
+ *   is empty.
+ */
+function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
+  if (!$entity_type) {
+    throw new EntityMalformedException('No entity type are set for this entity, 
+     the "nexteuropa_trackedchanges_info" cannot be retrieved.');
+  }
+  if (is_object($entity)) {
+    list($entity_id, , $bundle) = entity_extract_ids($entity_type, $entity);
+
+    if (!$entity_id) {
+      throw new EntityMalformedException('The entity has no id, the 
+        "nexteuropa_trackedchanges_info" cannot be retrieved.');
+    }
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'nexteuropa_trackedchanges_info');
+    $query->propertyCondition('rel_entity_id', $entity_id);
+    if ($bundle) {
+      $query->propertyCondition('rel_entity_bundle', $bundle);
+    }
+    $query->propertyCondition('rel_entity_type', $entity_type);
+    $results = $query->execute();
+
+    if (isset($results['nexteuropa_trackedchanges_info'])) {
+      $info_ids = array_keys($results['nexteuropa_trackedchanges_info']);
+      $info_entities = entity_load('nexteuropa_trackedchanges_info', $info_ids);
+
+      if ($info_entities) {
+        return $info_entities;
+      }
+    }
+
+  }
+  else {
+    throw new EntityMalformedException('The entity passed in paramter is not 
+      an object, the "nexteuropa_trackedchanges_info" cannot be retrieved.');
+  }
+
+  return FALSE;
 }
 
 /**
@@ -129,6 +251,7 @@ function nexteuropa_trackedchanges_get_entity_urls($item) {
         foreach ($item->languages as $language) {
           $i18n_url = url($path, $lanquage_list[$language]);
           if ($i18n_url) {
+            // TODO filtered on languages having tracked changes.
             $urls[$language] = $i18n_url;
           }
         }
@@ -151,7 +274,7 @@ function nexteuropa_trackedchanges_get_entity_urls($item) {
  *    - ckeditor_lite highlight changes (CKEditor LITE)
  *    - administer nodes (Node)
  */
-function nexteuropa_trackedchanges_entities_list_access() {
+function nexteuropa_trackedchanges_info_access() {
   return (user_access('ckeditor_lite highlight changes') && user_access('administer nodes'));
 }
 
@@ -242,6 +365,7 @@ function nexteuropa_trackedchanges_field_attach_form($entity_type, $entity, &$fo
       );
     }
     $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_entity_validate';
+    $form['actions']['submit']['#submit'][] = '_nexteuropa_trackedchanges_tracking_entity_log';
   }
 }
 
@@ -681,4 +805,84 @@ function _nexteuropa_trackedchanges_wysiwyg_fields_info() {
   });
 
   return array_keys($filtered);
+}
+
+/**
+ * Batch operation callback scanning field revision tables for tracked changes.
+ */
+function _nexteuropa_trackedchanges_revisions_scanning_process(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['results']['detected_entity_types'] = array();
+    $context['sandbox']['field_list'] = _nexteuropa_trackedchanges_wysiwyg_fields_info();
+    $context['sandbox']['max'] = count($context['sandbox']['field_list']);
+  }
+
+  $field_name = array_shift($context['sandbox']['field_list']);
+  $context['message'] = t("@field_name's revision table is scanned", array('@field_name' => $field_name));
+
+  $scanning_results = _nexteuropa_trackedchanges_check_field_revisions($field_name);
+
+  if ($scanning_results) {
+    $previous_detected_items = $context['results']['detected_entity_types'];
+    $results = array_merge($previous_detected_items, $scanning_results);
+    $context['results']['detected_entity_types'] = $results;
+  }
+  $context['sandbox']['progress']++;
+
+  if (empty($context['sandbox']['field_list'])) {
+    $context['finished'] = 1;
+  }
+  elseif ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Batch operation scanning field revision tables for tracked changes.
+ *
+ * @see nexteuropa_trackedchanges_table_rebuilt()
+ */
+function _nexteuropa_trackedchanges_entity_scanning_process(&$context) {
+  if (!isset($context['sandbox']['detected_entity_types'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['results']['detected_entities'] = array();
+    $context['sandbox']['detected_entity_types'] = $context['results']['detected_entity_types'];
+    $context['sandbox']['max'] = count($context['sandbox']['detected_entity_types']);
+  }
+
+  $message['message'] = t('No scan to perform on entities.');
+  if (!empty($context['sandbox']['detected_entity_types'])) {
+    $field_entity_info = array_shift($context['sandbox']['detected_entity_types']);
+    $context['message'] = t("@field_name's entities are scanned", array('@field_name' => $field_entity_info->field_name));
+
+    $scanning_results = _nexteuropa_trackedchanges_check_field_entities($field_entity_info->field_name, $field_entity_info->entity_type, $field_entity_info->bundle);
+
+    if ($scanning_results) {
+      $previous_detected_items = $context['results']['detected_entities'];
+      foreach ($scanning_results as $scanning_result) {
+        $key = $scanning_result['entity_type'] . '-' . $scanning_result['bundle'] . '-' . $scanning_result['entity_id'];
+        if (isset($previous_detected_items[$key])) {
+          // From _nexteuropa_trackedchanges_check_field_entities, we know there
+          // is only one language in the "languages" array.
+          $scanned_language = end($scanning_result['languages']);
+          if (!in_array($scanned_language, $previous_detected_items[$key]['languages'])) {
+            $previous_detected_items[$key]['languages'][] = $scanned_language;
+          }
+        }
+        else {
+          $previous_detected_items[$key] = $scanning_result;
+        }
+      }
+      $context['results']['detected_entities'] = $previous_detected_items;
+    }
+  }
+  $context['sandbox']['progress']++;
+
+  if (empty($context['sandbox']['detected_entity_types'])) {
+    $context['finished'] = 1;
+  }
+  elseif ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
 }

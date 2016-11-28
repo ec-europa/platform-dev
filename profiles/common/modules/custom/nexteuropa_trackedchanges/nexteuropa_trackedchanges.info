@@ -9,4 +9,3 @@ dependencies[] = entity
 
 files[] = NextEuropaTrackedChangesInfo.inc
 files[] = NextEuropaTrackedChangesInfoController.inc
-files[] = NextEuropaTrackedChangesInfoMetadataController.inc

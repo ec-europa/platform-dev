@@ -18,41 +18,41 @@ function nexteuropa_trackedchanges_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'entity_id' => array(
+      'rel_entity_id' => array(
         'description' => 'Related entity id',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
-      'entity_type' => array(
+      'rel_entity_type' => array(
         'description' => 'Related entity type',
         'type' => 'varchar',
         'length' => 128,
         'not null' => TRUE,
         'default' => '',
       ),
-      'bundle' => array(
+      'rel_entity_bundle' => array(
         'description' => 'Related entity bundle',
         'type' => 'varchar',
         'length' => 128,
         'not null' => TRUE,
         'default' => '',
       ),
-      'label' => array(
+      'rel_entity_label' => array(
         'description' => 'Related entity label',
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '',
       ),
-      'languages' => array(
+      'rel_entity_languages' => array(
         'description' => 'Related entity languages',
         'type' => 'blob',
         'not null' => TRUE,
         'size' => 'big',
         'serialize' => TRUE,
       ),
-      'state' => array(
+      'rel_entity_state' => array(
         'description' => 'The current moderation state of the related entity.',
         'type' => 'varchar',
         'length' => '255',
@@ -91,7 +91,7 @@ function nexteuropa_trackedchanges_enable() {
   variable_set('ckeditor_lite_istracking', 0);
   variable_set('nexteuropa_trackedchanges_disable_track_on_create', 1);
   variable_set('nexteuropa_trackedchanges_force_track_on_edit', 1);
-  variable_set('nexteuropa_trackedchanges_revuild_elapse_time', 300);
+  variable_set('nexteuropa_trackedchanges_rebuild_elapse_time', 300);
 
   /*
    * Create WYSIWYG profile for Full HTML text format with Change Tracking.
@@ -167,7 +167,7 @@ function nexteuropa_trackedchanges_disable() {
   // Default behavior for CKEditor LITE buttons.
   variable_del('nexteuropa_trackedchanges_disable_track_on_create');
   variable_del('nexteuropa_trackedchanges_force_track_on_edit');
-  variable_del('nexteuropa_trackedchanges_revuild_elapse_time');
+  variable_del('nexteuropa_trackedchanges_rebuild_elapse_time');
 
   // Rename the 'full_html_track' profile and text format.
   // It is better than moving all field from a format to another because

@@ -12,7 +12,48 @@ Feature: Change tracking features
       | modules                   |
       | nexteuropa_trackedchanges |
 
-  @api
+  Scenario: Checking WYSIWYG enabling and disabling change tracking on given WYSIWYG profile
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
+    And I click "enable tracked changes buttons" in the "Full HTML" row
+    Then I should see "Enabled" in the "Full HTML" row
+    And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
+    When I click "disable tracked changes buttons" in the "Full HTML" row
+    And I wait
+    Then I should see "Disabled" in the "Full HTML" row
+    And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
+
+  @javascript @maximizedwindow
+  Scenario: Checking if WYSIWYG options are applied to CKEditor
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
+    And I click "enable tracked changes buttons" in the "Full HTML" row
+    Then I should see "Enabled" in the "Full HTML" row
+    And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
+    And I check the box "Disable on create content pages."
+    And I check the box "Enable tracking on edit content pages."
+    And I press "Save configuration"
+    And I go to "node/add/page"
+    And I fill in "Title" with "This is a page i want to reference"
+    And I select "Full HTML" from "Text format"
+    Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
+    When I press "Save"
+    And I click "Edit draft"
+    And I select "Full HTML" from "Text format"
+    Then I should see the "Stop tracking changes" button in the "Body" WYSIWYG editor
+    And I go to "admin/config/content/wysiwyg/tracked_changes/setup"
+    When I click "disable tracked changes buttons" in the "Full HTML" row
+    And I wait
+    Then I should see "Disabled" in the "Full HTML" row
+    When I go to "node/add/page"
+    And I fill in "Title" with "This is a new page i want to reference"
+    Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
+    When I press "Save"
+    And I click "Edit draft"
+    And I select "Full HTML" from "Text format"
+    Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
+
+  @javascript @maximizedwindow
   Scenario Outline: "Basic page" case: If WYSIWYG workflow settings are correctly
   configured, The change of the content state to "validated" or "published" must
   be blocked if CKEditor Lite tracked changes exist in WYSIWYG fields
@@ -49,6 +90,7 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Page body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
+  @javascript @maximizedwindow
   Scenario Outline: "Article with neutral language" case: The change of the
   content state to "validated" or "published" must be blocked if CKEditor
   Lite tracked changes exist in WYSIWYG fields
@@ -107,6 +149,7 @@ Feature: Change tracking features
       | <p><span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">consectetur </span></p>                                      | <p><span class=\"ice-del ckeditor-lite-del-inv ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">consectetur </span></p>                                  |
       | <p><a href=\"http://www.europa.eu\"><span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"3\" data-last-change-time=\"1470931716682\" data-time=\"1470931698028\" data-userid=\"1\" data-username=\"admin\">Link example</span></a></p> | <p><a href=\"http://www.europa.eu\"><span class=\"ice-ins ckeditor-lite-ins ice-cts-1\" data-changedata=\"\" data-cid=\"3\" data-last-change-time=\"1470931716682\" data-time=\"1470931698028\" data-userid=\"1\" data-username=\"admin\">Link example</span></a></p> |
 
+  @javascript @maximizedwindow
   Scenario Outline: If no changing tracks exist, I do not see any messages or HTML tags related to the change tracking
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
@@ -130,6 +173,7 @@ Feature: Change tracking features
       | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> |
       | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    |
 
+  @javascript @maximizedwindow
   Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
   CKEditor Lite tracked changes exist in WYSIWYG fields of a translation
     Given the following languages are available:
@@ -167,7 +211,7 @@ Feature: Change tracking features
     Examples:
       | blocked                                                                                                                                                                                                                                  |
       | <p>Corps de page<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> avec contenu additionnel</span></p> |
-
+  
     Scenario: Make sure that inline images are correctly shown when tracking change is enabled.
       Given I am viewing an "page" content:
         | title                | Checking inline images work |
