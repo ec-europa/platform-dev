@@ -279,7 +279,7 @@ function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form($form, &$form_
   );
 
   $form['nexteuropa_trackedchanges_revuild_elapse_time'] = array(
-    '#title' => t('Tracked changes table refresh frequence'),
+    '#title' => t('Tracked changes table refresh frequency'),
     '#type' => 'textfield',
     '#field_suffix' => t('seconds'),
     '#size' => 3,
