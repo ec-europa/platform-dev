@@ -226,7 +226,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   *  Add a deadline relative in term of days. A hardcoded date would fail.
+   * Add a deadline relative in term of days. A hardcoded date would fail.
    *
    * @Then I fill in ":field:" with a relative date of ":nr" days.
    */

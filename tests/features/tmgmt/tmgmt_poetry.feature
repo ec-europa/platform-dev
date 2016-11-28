@@ -670,7 +670,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then I check the job reference of the translation request page
