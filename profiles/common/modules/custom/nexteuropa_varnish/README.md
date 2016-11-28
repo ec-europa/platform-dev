@@ -46,16 +46,16 @@ configured rules. Current version implements two workflow cases for:
 
 ### Content moderated via the workbench moderation module
 For the content types which are controlled via workbench moderation
-module, created purge rules would be triggered in the following cases:
-- always when the given content would have a workflow state change to 'Published'
-- always when the given content would have a workflow state change from 'Published' to the other
+module, created purge rules will be triggered in the following cases:
+- always when the given content will have a workflow state change to 'Published'
+- always when the given content will have a workflow state change from 'Published' to the other
 
 ### Content without moderation
 For the content types which are not moderated (default Drupal content
 type with two states published and unpublished), created purge rules
-would be triggered in the following cases:
-- when the node of the given content type would be created and saved with the 'Publish' state
-- when the published node of the given content type would be updated
+will be triggered in the following cases:
+- when the node of the given content type will be created and saved with the 'Publish' state
+- when the published node of the given content type will be updated
 
 ## Tests and custom Behat Feature Context
 The Nexteuropa Varnish provides complete Behat test suite and additional
