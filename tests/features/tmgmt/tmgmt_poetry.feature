@@ -466,7 +466,7 @@ Feature: TMGMT Poetry features
     When I check the box on the "French" row
     And I check the box on the "Portuguese" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then I should not see "Request addition of new languages"
@@ -480,7 +480,7 @@ Feature: TMGMT Poetry features
     When I click "Check the translation page"
     Then I should see "Request addition of new languages"
     When I click "Request addition of new languages"
-    And I fill in "Date" with "14/11/2016"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Add languages"
     Then I should see the error message "You have to select at least one language to add it to the ongoing translation request."
     When I click "Request addition of new languages"
@@ -508,7 +508,7 @@ Feature: TMGMT Poetry features
     Then I should not see "Request addition of new languages"
     When I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     When I am logged in as a user with the 'administrator' role
@@ -517,7 +517,7 @@ Feature: TMGMT Poetry features
     And I click "Check the translation page"
     And I click "Request addition of new languages"
     And inside fieldset "Request addition of new languages" I check the box on the "German" row
-    And I fill in "Date" with "14/11/2016"
+    And I fill in "Date" with a relative date of "+10" days
     And I press "Add languages"
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->de" row
@@ -539,7 +539,7 @@ Feature: TMGMT Poetry features
     Then I should see "Last change"
     When I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+10" days
     And I press "Submit to translator"
     Then I see the date of the last change in the "French" row
 
@@ -553,7 +553,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I press "Submit to translator"
     Then I should see the error message "A valid date is required for Requested delivery date."
-    When I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+5" days
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
@@ -568,7 +568,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I check the box on the "Portuguese" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+10" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
@@ -582,7 +582,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I check the box on the "Portuguese" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+10" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -602,7 +602,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+5" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
@@ -643,7 +643,7 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
     When I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+2" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then I check the job reference of the translation request page
@@ -658,7 +658,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+10" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     And the poetry translation service received the translation request
