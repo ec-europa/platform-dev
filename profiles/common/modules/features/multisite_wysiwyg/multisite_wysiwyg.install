@@ -2,11 +2,11 @@
 
 /**
  * @file
- * Install the feature ec_content_slider.
+ * Install the Multisite WYSIWYG feature.
  */
 
 /**
- * Hook_install.
+ * Implements hook_install().
  */
 function multisite_wysiwyg_install() {
   // Add text formats.
@@ -81,6 +81,21 @@ function multisite_wysiwyg_install() {
       'skip comment approval',
       $filtered_html_permission,
     ));
+
+  // Adding 'use media wysiwyg' permission to the following roles.
+  $roles = array(
+    'administrator',
+    'editorial team member',
+    'contributor',
+    'editor',
+  );
+  $permission = array('use media wysiwyg');
+
+  foreach ($roles as $role_name) {
+    if ($role = user_role_load_by_name($role_name)) {
+      user_role_grant_permissions($role->rid, $permission);
+    }
+  }
 }
 
 /**
@@ -97,4 +112,24 @@ function multisite_wysiwyg_enable() {
 function multisite_wysiwyg_disable() {
   // Deactivation message.
   drupal_set_message(t('Multisite Wysiwyg feature is now disabled on your site.'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function multisite_wysiwyg_uninstall() {
+  // Removing 'use media wysiwyg' permission from the following roles.
+  $roles = array(
+    'administrator',
+    'editorial team member',
+    'contributor',
+    'editor',
+  );
+  $permission = array('use media wysiwyg');
+
+  foreach ($roles as $role_name) {
+    if ($role = user_role_load_by_name($role_name)) {
+      user_role_revoke_permissions($role->rid, $permission);
+    }
+  }
 }
