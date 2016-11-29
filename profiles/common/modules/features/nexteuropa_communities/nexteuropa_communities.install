@@ -14,7 +14,7 @@ function nexteuropa_communities_enable() {
 }
 
 /**
- * Implements hook_enable().
+ * Implements hook_disable().
  */
 function nexteuropa_communities_disable() {
   variable_del('pathauto_nexteuropa_communities_pattern');
