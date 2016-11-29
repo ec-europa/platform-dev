@@ -12,17 +12,11 @@ include_once 'multisite_notifications_core.features.inc';
  * Implements hook_subscriptions_queue_alter().
  */
 function multisite_notifications_core_subscriptions_queue_alter(&$event) {
-  // NB this only works in edit mode.
-  if (isset($event['node']->workbench_moderation['updating_live_revision'])
-    && $event['node']->workbench_moderation['updating_live_revision']
-  ) {
-    $event = NULL;
-  }
-
-  // Only send notification if the state of the content is published.
-  if (isset($event['node']->workbench_moderation_state_new)) {
-    // Content has a worbench moderation workflow.
-    if ($event['node']->workbench_moderation_state_new != workbench_moderation_state_published()) {
+  // Is workbench_moderation overriding the workflow?
+  if (isset($event['node']->workbench_moderation)) {
+    // Only process events after publishing
+    // See multisite_notifications_core_workbench_moderation_transition()
+    if (!isset($event['node']->flag_after_publishing)) {
       $event = NULL;
     }
   }
@@ -38,8 +32,11 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
  * Implements hook_workbench_moderation_transition().
  */
 function multisite_notifications_core_workbench_moderation_transition($node, $previous_state, $new_state) {
+  // Only process events after publishing
+  // See multisite_notifications_core_subscriptions_queue_alter()
   if ($new_state == workbench_moderation_state_published()) {
     $full_node = node_load($node->nid);
+    $full_node->flag_after_publishing = TRUE;
     subscriptions_content_node_update($full_node);
   }
 }
