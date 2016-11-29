@@ -68,13 +68,14 @@
             </then>
         </if>
         
-        <copy todir="${behat.dir}">
+        <copy todir="${behat.dir}" overwrite="true">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
             </fileset>
             <filterchain>
                 <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="behat.wd_host" value="${behat.wd_host}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
                     <token key="flickr.key" value="${flickr.key}" />
