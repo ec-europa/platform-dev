@@ -31,7 +31,7 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
       'cardinality' => 1,
       'deleted' => 0,
       'entity_types' => array(),
-      'field_name' => 'test_single_field',
+      'field_name' => 'field_tag',
       'foreign keys' => array(
         'tid' => array(
           'columns' => array(
@@ -83,7 +83,7 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'test_single_field',
+      'field_name' => 'field_tag',
       'label' => 'Tag',
       'required' => FALSE,
       'settings' => array(
@@ -107,24 +107,24 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
   }
 
   /**
-   * Removes the test_single_field field.
+   * Removes the field_tag field.
    *
    * @AfterScenario
    */
-  public function createSingleTermReferenceField() {
+  public function deleteSingleTermReferenceField() {
     if (!$this->termFieldWasSetup) {
       return;
     }
 
     $this->termFieldWasSetup = FALSE;
 
-    $instance = field_info_instance('node', 'test_single_field', 'article');
+    $instance = field_info_instance('node', 'field_tag', 'article');
 
     if ($instance) {
       field_delete_instance($instance);
     }
 
-    field_delete_field('test_single_field');
+    field_delete_field('field_tag');
     field_purge_batch(10);
   }
 
