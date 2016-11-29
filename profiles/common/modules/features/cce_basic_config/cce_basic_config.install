@@ -716,14 +716,14 @@ function _cce_basic_config_post_install_default_images() {
   $default_images = array(
     'user_picture_default' => array(
       'scheme' => 'public://',
-      'dest_directory' => 'default',
+      'dest_directory' => 'default_images',
       'source_path' => $path . '/user_default.png',
       'filename' => 'user_default.png',
       'variable' => 'user_picture_default',
     ),
     'empty_gallery_default' => array(
       'scheme' => 'public://',
-      'dest_directory' => 'default',
+      'dest_directory' => 'default_images',
       'source_path' => $path . '/empty_gallery.png',
       'filename' => 'empty_gallery.png',
       'variable' => 'empty_gallery_default',
