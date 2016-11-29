@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the DGT connector feature.
+ */
+
+//include_once 'node_pager.features.inc';
