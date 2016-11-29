@@ -16,12 +16,7 @@ function multisite_og_navigation_tree_settings($form) {
   $vocabularies = taxonomy_get_vocabularies();
   $options = array('' => '--------------');
   foreach ($vocabularies as $tid => $vocabulary) {
-    // @todo The t() function cannot be used to translate dynamic strings.
-    // @see i18n_taxonomy_vocabulary_name()
-    // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3893
-    // @codingStandardsIgnoreStart
-    $options[$tid] = t($vocabulary->name);
-    // @codingStandardsIgnoreEnd
+    $options[$tid] = i18n_taxonomy_vocabulary_name($vocabulary);
   }
 
   $entities = og_get_all_group_entity();
