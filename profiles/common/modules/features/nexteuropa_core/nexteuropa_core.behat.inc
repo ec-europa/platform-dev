@@ -24,7 +24,6 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
    * @Given there is a single tag field in the article content type
    */
   public function createSingleTermReferenceField() {
-    
 
     $single_tag_set_field = array(
       'active' => 1,
