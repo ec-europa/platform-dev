@@ -163,4 +163,37 @@ class MinkContext extends DrupalExtensionMinkContext {
     }
   }
 
+  /**
+   * Set all permissions to admin role.
+   *
+   * @Given I update the administrator role permissions
+   */
+  public function iGiveAllPermToAdminRole() {
+    if ($rid = variable_get('user_admin_role', 0)) {
+      $perms = array();
+
+      foreach (module_implements('permission') as $module) {
+        foreach (module_invoke($module, 'permission') as $key => $perm) {
+          $perms[$key] = $module;
+        }
+      }
+
+      if ($perms) {
+        foreach ($perms as $perm => $module) {
+          $query = db_merge('role_permission');
+          $query->key(array(
+            'rid' => $rid,
+            'permission' => $perm,
+          ));
+          $query->fields(array(
+            'rid' => $rid,
+            'permission' => $perm,
+            'module' => $module,
+          ));
+          $query->execute();
+        }
+      }
+    }
+  }
+
 }
