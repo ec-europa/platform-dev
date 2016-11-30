@@ -4,4 +4,3 @@ core = 7.x
 package = NextEuropa
 dependencies[] = tmgmt_poetry
 features[features_api][] = api:2
-features[node][] = page
