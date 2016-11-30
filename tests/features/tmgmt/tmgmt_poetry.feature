@@ -425,6 +425,7 @@ Feature: TMGMT Poetry features
     And inside fieldset "Organization" I fill in "Author" with "& DG/directorate/unit from which the document comes"
     And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
     And I fill in "Remark" with "Further remarks & comments"
+    And I fill in "Date" with a relative date of "+20" days
     And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
