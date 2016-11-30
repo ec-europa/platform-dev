@@ -17,7 +17,7 @@ default:
       goutte: ~
       javascript_session: 'selenium2'
       selenium2:
-        wd_host: '{{ behat.wd_host }}'
+        wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
     Drupal\DrupalExtension:

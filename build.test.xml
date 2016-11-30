@@ -75,7 +75,7 @@
             <filterchain>
                 <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
-                    <token key="behat.wd_host" value="${behat.wd_host}" />
+                    <token key="behat.wd_host.url" value="${behat.wd_host.url}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
                     <token key="flickr.key" value="${flickr.key}" />

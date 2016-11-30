@@ -111,7 +111,7 @@ behat.yml.path = ${behat.dir}/behat.yml
 behat.base_url = http://localhost
 
 # The URL of the Behat webdriver host.
-behat.wd_host = http://localhost:8643/wd/hub
+behat.wd_host.url = http://localhost:8643/wd/hub
 
 # The location to search for Behat subcontexts.
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
