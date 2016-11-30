@@ -28,11 +28,10 @@ Feature: Page Layout
     When I am on "<page>"
     Then I should see "<text>" in the "html head title" element
 
-    # Test the page head title in different pages
+  # Test the page head title in different pages
     Examples:
       | page       | text                                        |
       | /          | Welcome to NextEuropa - European Commission |
-      | search     | Search - European Commission                |
       | contact    | Contact - European Commission               |
       | user       | User account - European Commission          |
 
