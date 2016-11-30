@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa Behat targets">
+
+    <!-- Set up Behat load balancer. -->
+    <target name="setup-behat-load-balancer" depends="setup-behat">
+        <echo>Building Behat files...</echo>
+        <behat:balancer
+                containers="${behat.load_balancer.containers}"
+                root="${behat.load_balancer.root}"
+                destination="${behat.load_balancer.destination}"
+                import="${behat.load_balancer.import}"
+        />
+    </target>
+
+    <!-- Set up Behat. -->
+    <target name="setup-behat" depends="load-properties" hidden="true">
+        <copy todir="${behat.dir}">
+            <fileset dir="${behat.dir}" casesensitive="yes">
+                <include name="*.yml.dist"/>
+            </fileset>
+            <filterchain>
+                <replacetokens begintoken="{{ " endtoken=" }}">
+                    <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="platform.build.dir" value="${platform.build.dir}" />
+                    <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
+                    <token key="flickr.key" value="${flickr.key}" />
+                    <token key="flickr.secret" value="${flickr.secret}" />
+                    <token key="drush.bin" value="${drush.bin}" />
+                    <token key="behat.formatter.name" value="${behat.formatter.name}" />
+                    <token key="integration.server.port" value="${integration.server.port}" />
+                    <token key="varnish.server.port" value="${varnish.server.port}" />
+                    <token key="behat.extensions.selenium2.host" value="${behat.extensions.selenium2.host}" />
+                    <token key="behat.extensions.selenium2.port" value="${behat.extensions.selenium2.port}" />
+                </replacetokens>
+            </filterchain>
+            <mapper type="glob" from="*.yml.dist" to="*.yml" />
+        </copy>
+        <symlink link="${phing.project.build.dir}" overwrite="true">
+            <fileset dir="${behat.dir}" casesensitive="yes">
+                <include name="*.yml"/>
+            </fileset>
+        </symlink>
+        <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
+        <symlink link="${phing.project.build.dir}/tests" target="../tests" />
+        <symlink link="bin/behat" target="${project.basedir}/vendor/behat/behat/bin/behat" overwrite="true"/>
+    </target>
+
+    <!-- Run Behat tests. -->
+    <target name="behat" description="Run Behat tests.">
+        <foreach param="filename" absparam="config" target="behat-suite">
+            <fileset dir="${behat.dir}">
+                <include name="*.yml"/>
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="behat-suite" description="Run Behat tests suite.">
+        <exec command="${behat.bin} --colors -c ${config} --verbose ${behat.options.verbosity}"
+              passthru="true"
+              checkreturn="true" />
+    </target>
+
+</project>

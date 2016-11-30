@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa Tests targets">
+    <target name="run-tests-phpcs" depends="load-properties">
+        <copy file="resources/build/templates/phpcs.xml.dist" tofile="${phpcs.config}">
+            <filterchain>
+                <replacetokens begintoken="{{ " endtoken=" }}">
+                    <token key="phpcs.standard" value="${phpcs.standard}" />
+                    <token key="phpcs.extensions" value="${phpcs.extensions}" />
+                    <token key="phpcs.report" value="${phpcs.report}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <exec command="${project.basedir}/bin/phpcs" dir="${project.basedir}" checkreturn="true" passthru="true"/>
+        <delete file="${phpcs.config}"/>
+    </target>
+
+    <target name="run-tests-behat-0" depends="install-platform, setup-behat-load-balancer, setup-apache, setup-phantomjs">
+        <behat bin="${project.basedir}/vendor/behat/behat/bin/behat" config="${project.basedir}/tests/behat.0.yml" verbose="${behat.options.verbosity}" passthru="yes" checkreturn="yes" strict="yes" format="pretty" colors="yes"/>
+    </target>
+    <target name="run-tests-behat-1" depends="install-platform, setup-behat-load-balancer, setup-apache, setup-phantomjs">
+        <behat bin="${project.basedir}/vendor/behat/behat/bin/behat" config="${project.basedir}/tests/behat.1.yml" verbose="${behat.options.verbosity}" passthru="yes" checkreturn="yes" strict="yes" format="pretty" colors="yes"/>
+    </target>
+    <target name="run-tests-behat-2" depends="install-platform, setup-behat-load-balancer, setup-apache, setup-phantomjs">
+        <behat bin="${project.basedir}/vendor/behat/behat/bin/behat" config="${project.basedir}/tests/behat.2.yml" verbose="${behat.options.verbosity}" passthru="yes" checkreturn="yes" strict="yes" format="pretty" colors="yes"/>
+    </target>
+    <target name="run-tests-behat-3" depends="install-platform, setup-behat-load-balancer, setup-apache, setup-phantomjs">
+        <behat bin="${project.basedir}/vendor/behat/behat/bin/behat" config="${project.basedir}/tests/behat.3.yml" verbose="${behat.options.verbosity}" passthru="yes" checkreturn="yes" strict="yes" format="pretty" colors="yes"/>
+    </target>
+    <target name="run-tests-behat-4" depends="install-platform, setup-behat-load-balancer, setup-apache, setup-phantomjs">
+        <behat bin="${project.basedir}/vendor/behat/behat/bin/behat" config="${project.basedir}/tests/behat.4.yml" verbose="${behat.options.verbosity}" passthru="yes" checkreturn="yes" strict="yes" format="pretty" colors="yes"/>
+    </target>
+
+</project>

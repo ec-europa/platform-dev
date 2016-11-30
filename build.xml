@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <project name="NextEuropa" default="help">
+    <autoloader autoloaderpath="vendor/autoload.php"/>
 
-    <property file="build.properties.local" />
-    <property file="build.properties" />
-    <property file="build.properties.dist" />
+    <import>
+        <fileset dir="${project.basedir}/resources/build/includes">
+            <include name="*.xml" />
+        </fileset>
+    </import>
 
-    <target name="help" description="Phing target list">
-        <exec executable="${phing.bin}"
-              passthru="true">
+    <echo msg="Loading Phing Drush Task..." />
+    <import file="${project.basedir}/vendor/drupal/phingdrushtask/import.xml"/>
+    <echo msg="Loading Phing Behat Task ..." />
+    <import file="${project.basedir}/vendor/drupol/phingbehattask/import.xml"/>
+
+    <target name="help" description="Phing target list" depends="load-properties, update-path">
+        <exec executable="phing" passthru="true">
+            <arg value="-q"/>
             <arg value="-l"/>
+            <arg value="-f"/>
+            <arg value="${phing.file}"/>
         </exec>
     </target>
 

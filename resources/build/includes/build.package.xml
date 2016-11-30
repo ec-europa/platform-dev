@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa">
+
+    <!-- Make Drupal core. -->
+    <target name="make-drupal-core">
+        <!--
+            Drupal core is created in a separate target because Drush make only
+            allows to build in a pre-existing folder if the 'no-core' option is
+            set.
+        -->
+        <echo msg="Make Drupal core." />
+        <drush
+                command="make"
+                assume="yes"
+                bin="${drush.bin}"
+                pipe="yes"
+                verbose="${drush.verbose}"
+                root="${platform.build.dir}"
+                logoutput="yes"
+                passthru="yes">
+            <param>${drupal.make}</param>
+            <param>${platform.build.dir}</param>
+            <option name="no-patch-txt"></option>
+        </drush>
+    </target>
+
+    <!-- Make the platform. -->
+    <target name="make-platform">
+        <echo msg="Make the platform." />
+        <drush
+                command="make"
+                assume="yes"
+                bin="${drush.bin}"
+                verbose="${drush.verbose}"
+                root="${platform.build.dir}"
+                logoutput="yes"
+                passthru="yes"
+                checkreturn="yes">
+            <param>${platform.make}</param>
+            <param>${platform.build.dir}</param>
+            <!-- Increasing the concurrency improves the build time by a factor of 3. -->
+            <option name="concurrency">10</option>
+            <option name="no-patch-txt"></option>
+            <!-- This option will allow us to build inside an existing folder. -->
+            <option name="no-core"></option>
+            <!-- Install all contributed projects inside the chosen profile. -->
+            <option name="contrib-destination">profiles/${platform.profile.name}</option>
+        </drush>
+    </target>
+
+    <!-- Make one of the profiles in order to build a multisite platform. -->
+    <target name="make-multisite-platform">
+        <!-- Override the location of the make file. -->
+        <property name="platform.make" value="${platform.resources.dir}/${platform.profile.name}.make" override="yes" />
+        <phingcall target="make-platform" />
+    </target>
+
+    <!-- Copy the profile folders for deploying on production. -->
+    <target name="copy-platform-profiles">
+        <echo>Synchronizing ${project.basedir}/profiles/ in ${platform.build.profiles.dir} ...</echo>
+        <filesync
+                sourcedir="${project.basedir}/profiles/"
+                destinationdir="${platform.build.profiles.dir}"
+                verbose="false"
+
+        />
+    </target>
+
+    <!-- Copy various resources for deploying on production. -->
+    <target name="copy-platform-resources">
+        <!-- Resources to copy to the website root. -->
+        <copy todir="${platform.build.dir}">
+            <fileset dir="${platform.resources.dir}">
+                <!-- Composer configuration. -->
+                <include name="composer.*"></include>
+                <include name="favicon.ico"></include>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- Install Composer dependencies. -->
+    <target name="install-platform-dependencies">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${platform.build.dir}" />
+            <arg value="--no-dev" />
+        </composer>
+    </target>
+
+    <!-- Install Composer dependencies, including optional development dependencies. -->
+    <target name="install-platform-dev-dependencies">
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${platform.build.dir}" />
+        </composer>
+    </target>
+
+    <!-- Update .htaccess. -->
+    <target name="update-htaccess">
+        <if>
+            <istrue value="${drupal.htaccess.append.text}" />
+            <then>
+                <append destfile="${drupal.htaccess.path}" text="${drupal.htaccess.append.text}" />
+            </then>
+        </if>
+    </target>
+
+    <!-- Setup file directory -->
+    <target name="setup-files-directory">
+        <if>
+            <istrue value="${platform.build.files.dir}" />
+            <then>
+                <mkdir dir="${platform.build.files.dir}/private_files" />
+            </then>
+        </if>
+    </target>
+
+    <!-- Install Composer dependencies for the build system. -->
+    <target name="install-build-dependencies">
+        <composer command="install" composer="${composer.bin}" >
+            <arg value="--working-dir=${project.basedir}" />
+        </composer>
+    </target>
+
+    <target
+            name="build-platform-dev"
+            description="Build a local development version of the platform."
+            depends="load-properties, setup-composer, install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dev-dependencies, setup-behat, update-htaccess, setup-files-directory" />
+
+    <target
+            name="build-platform-dist"
+            description="Build a version of the platform intended to distribute as a release package."
+            depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, setup-files-directory" />
+
+    <target
+            name="build-multisite-dist"
+            description="Build a multisite version of the platform intended to distribute as a release package."
+            depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles">
+
+        <!-- First make the standard profile. -->
+        <property name="platform.profile.name" value="multisite_drupal_standard" override="yes" />
+        <phingcall target="make-multisite-platform" />
+
+        <!-- Then make the communities profile. -->
+        <property name="platform.profile.name" value="multisite_drupal_communities" override="yes" />
+        <phingcall target="make-multisite-platform" />
+
+        <!-- Call the remaining build targets. -->
+        <phingcall target="copy-platform-resources" />
+        <phingcall target="install-platform-dependencies" />
+    </target>
+
+</project>

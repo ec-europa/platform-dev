@@ -15,6 +15,9 @@ build/
 tmp/
 vendor/
 
+#Do not ignore these folders in particular.
+!resources/build
+
 # Ignore contrib modules, themes and libraries in the symlinked profiles folder.
 profiles/multisite_drupal_*/libraries
 profiles/multisite_drupal_*/modules/contrib

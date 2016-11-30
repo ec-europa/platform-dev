@@ -1,0 +1,55 @@
+# @file
+# .travis.yml
+
+sudo: required
+
+addons:
+  hosts:
+    - localhost
+    - nexteuropa
+
+language: php
+
+git:
+  depth: 1
+
+php:
+  - '5.6'
+
+cache:
+  directories:
+    - $HOME/.cache/composer
+    - $HOME/.drush/cache
+    - $HOME/.composer/cache
+    - $HOME/build/platform-dev/vendor
+
+env:
+  - PHING_TARGET=run-tests-behat-0
+  - PHING_TARGET=run-tests-behat-1
+  - PHING_TARGET=run-tests-behat-2
+  - PHING_TARGET=run-tests-behat-3
+  - PHING_TARGET=run-tests-behat-4
+  - PHING_TARGET=run-tests-phpcs
+
+matrix:
+  fast_finish: true
+
+mysql:
+  database: nexteuropa
+  username: root
+  encoding: utf8
+
+before_install:
+  - composer install
+  - ./bin/phing travis-before-install:${PHING_TARGET}
+
+script:
+  - ./bin/phing travis-script:${PHING_TARGET}
+
+notifications:
+  email: true
+  slack: platform-ec-europa:b8Ir1Pc41fttQXWiRifvjv6V
+
+after_failure:
+  - cat error.log
+  - cat access.log

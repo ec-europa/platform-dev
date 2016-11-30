@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project name="NextEuropa Travis targets">
+
+    <target name="travis-install-imagemagick" hidden="true">
+        <echo>Setting up ImageMagick...</echo>
+        <exec command="pear config-set preferred_state beta"/>
+        <exec command='printf "\n" | pecl install imagick'/>
+    </target>
+
+    <target name="travis-setup-apache" depends="setup-apache" hidden="true">
+        <echo>Setting up Apache...</echo>
+
+        <exec command="phpenv version-name" outputProperty="phpenv_version_name"/>
+        <exec command="echo $USER" outputProperty="travis.user"/>
+        <exec command="echo $TRAVIS_PHP_VERSION" outputProperty="travis.php.version"/>
+
+        <exec command="sudo apt-get update > /dev/null"/>
+        <exec command="sudo apt-get install -y --force-yes apache2 libapache2-mod-fastcgi php5-curl php5-mysql php5-intl php5-gd > /dev/null"/>
+        <exec command="sudo mkdir $(pwd)/.run" passthru="true" />
+
+        <echo>Setting up PHP-FPM for PHP 5.x</echo>
+        <exec command="sudo cp ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf.default ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf" passthru="true"/>
+        <exec command="sed -e 's,listen = 127.0.0.1:9000,listen = /tmp/php5-fpm.sock,g' --in-place ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf; fi" passthru="true"/>
+        <exec command="sudo sed -e 's,;listen.owner = nobody,listen.owner = ${travis.user},g' --in-place ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf; fi" passthru="true"/>
+        <exec command="sudo sed -e 's,;listen.group = nobody,listen.group = ${travis.user},g' --in-place ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf; fi" passthru="true"/>
+        <exec command="sudo sed -e 's,;listen.mode = 0660,listen.mode = 0666,g' --in-place ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf; fi" passthru="true"/>
+        <exec command="sudo sed -e 's,user = nobody,;user = ${travis.user},g' --in-place ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf; fi" passthru="true"/>
+        <exec command="sudo sed -e 's,group = nobody,;group = ${travis.user},g' --in-place ~/.phpenv/versions/${phpenv_version_name}/etc/php-fpm.conf; fi" passthru="true"/>
+        <exec command="sudo a2enmod rewrite actions fastcgi alias" passthru="true"/>
+        <exec command="echo 'cgi.fix_pathinfo = 1' >> ~/.phpenv/versions/${phpenv_version_name}/etc/php.ini" passthru="true"/>
+
+        <exec command="~/.phpenv/versions/${phpenv_version_name}/sbin/php-fpm" passthru="true"/>
+        <exec command="sudo cp -f resources/build/templates/travis/travis-ci-apache.conf /etc/apache2/sites-available/default" passthru="true"/>
+        <exec command="sudo sed -i -e 's,/var/www,${project.basedir}/build,g' /etc/apache2/sites-available/default" passthru="true"/>
+        <exec command="sudo service apache2 restart" passthru="true"/>
+    </target>
+
+    <target name="travis-install-chrome" hidden="true">
+        <echo>Installing Chrome...</echo>
+    </target>
+
+    <!-- Start phantomjs server -->
+    <target name="travis-setup-phantomjs" depends="travis-install-chrome, travis-install-imagemagick, setup-phantomjs" hidden="true">
+        <exec command="${project.basedir}/bin/phantomjs --version" outputProperty="phantomjs.version"/>
+        <echo>Running PhantomJS ${phantomjs.version} on port ${behat.extensions.selenium2.port} ...</echo>
+        <exec command="${project.basedir}/bin/phantomjs --webdriver=${behat.extensions.selenium2.port}" spawn="true" />
+    </target>
+
+    <!-- Start selenium server -->
+    <target name="travis-setup-selenium" depends="travis-install-chrome, setup-selenium" hidden="true">
+        <echo>Running Selenium standalone on port ${behat.extensions.selenium2.port} ...</echo>
+        <exec command="${project.basedir}/bin/selenium-server-standalone" spawn="true"/>
+    </target>
+
+    <target name="travis-before-install" depends="setup-composer" hidden="true">
+        <echo>Running Travis Before Install...</echo>
+        <echo>Disabling XDebug on Travis...</echo>
+        <exec command="phpenv config-rm xdebug.ini"/>
+        <exec command="phpenv rehash"/>
+        <echo>Setting the no_proxy variable...</echo>
+        <exec command="export no_proxy='localhost,nexteuropa,127.0.0.*'"/>
+    </target>
+
+    <target name="travis-before-install:run-tests-phpcs" depends="travis-before-install" hidden="true"/>
+
+    <target name="travis-before-install:behat" depends="travis-before-install" hidden="true">
+        <echo>Exporting the display for tests...</echo>
+        <exec command="export DISPLAY=:99.0"/>
+        <echo>Starting XVFB in background... </echo>
+        <exec command="sh -e /etc/init.d/xvfb start"/>
+    </target>
+
+    <target name="travis-before-install:run-tests-behat-0" depends="travis-before-install:behat"/>
+    <target name="travis-before-install:run-tests-behat-1" depends="travis-before-install:behat"/>
+    <target name="travis-before-install:run-tests-behat-2" depends="travis-before-install:behat"/>
+    <target name="travis-before-install:run-tests-behat-3" depends="travis-before-install:behat"/>
+    <target name="travis-before-install:run-tests-behat-4" depends="travis-before-install:behat"/>
+
+    <target name="travis-script">
+        <echo>Running Travis script...</echo>
+    </target>
+
+    <target name="travis-script:run-tests-phpcs" depends="run-tests-phpcs"/>
+
+    <target name="travis-script:run-tests-behat-0" depends="travis-script, install-platform, travis-setup-apache, travis-setup-phantomjs, run-tests-behat-0"/>
+    <target name="travis-script:run-tests-behat-1" depends="travis-script, install-platform, travis-setup-apache, travis-setup-phantomjs, run-tests-behat-1"/>
+    <target name="travis-script:run-tests-behat-2" depends="travis-script, install-platform, travis-setup-apache, travis-setup-phantomjs, run-tests-behat-2"/>
+    <target name="travis-script:run-tests-behat-3" depends="travis-script, install-platform, travis-setup-apache, travis-setup-phantomjs, run-tests-behat-3"/>
+    <target name="travis-script:run-tests-behat-4" depends="travis-script, install-platform, travis-setup-apache, travis-setup-phantomjs, run-tests-behat-4"/>
+
+    <target name="travis-script:run-tests-phpcs" depends="run-tests-phpcs" hidden="true"/>
+
+    <target name="travis-before-install:run-tests-behat-0" depends="travis-before-install:behat" hidden="true"/>
+    <target name="travis-before-install:run-tests-behat-1" depends="travis-before-install:behat" hidden="true"/>
+    <target name="travis-before-install:run-tests-behat-2" depends="travis-before-install:behat" hidden="true"/>
+    <target name="travis-before-install:run-tests-behat-3" depends="travis-before-install:behat" hidden="true"/>
+    <target name="travis-before-install:run-tests-behat-4" depends="travis-before-install:behat" hidden="true"/>
+
+    <target name="travis-script:behat" hidden="true"/>
+
+    <target name="travis-script:run-tests-behat-0" depends="travis-script:behat, run-tests-behat-0" hidden="true"/>
+    <target name="travis-script:run-tests-behat-1" depends="travis-script:behat, run-tests-behat-1" hidden="true"/>
+    <target name="travis-script:run-tests-behat-2" depends="travis-script:behat, run-tests-behat-2" hidden="true"/>
+    <target name="travis-script:run-tests-behat-3" depends="travis-script:behat, run-tests-behat-3" hidden="true"/>
+    <target name="travis-script:run-tests-behat-4" depends="travis-script:behat, run-tests-behat-4" hidden="true"/>
+
+</project>
