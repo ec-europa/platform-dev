@@ -27,6 +27,9 @@ In order to enable the feature make sure that above variables are set
 and if so then go to the `admin/structure/feature-set` page select
 'Rule-based web frontend cache purging' and click 'Validate' button.
 
+The Nexteuropa Varnish provides 'Administer frontend cache purge rules'
+permission which allows to create and maintain 'purge rules'.
+
 ## Custom entity - 'Purge rule'
 The Nexteuropa Varnish provides additional custom entity type:
 - Purge rule - machine name: `nexteuropa_varnish_cache_purge_rule`
@@ -37,6 +40,26 @@ that invalidating the frontend cache.
 
 To add and maintain purge rules go to the following url:
 `admin/config/frontend_cache_purge_rules`
+
+## How to add and maintain 'Purge rule'
+To add new cache purge rule you can expand **Configuration -> Cache purge rules** menu
+and click on the **'Add cache purge rule'** link.
+You will be redirected to the **'Add cache purge rule'** form.
+
+In the first step you need to choose a content type for which new rule will be applied.
+After picking the content type next step is to choose the purge target.
+
+If you pick the 'A specific list of paths' option you will have to provide
+paths which should be purged. In the text field you can use wildcards characters.
+
+Wildcards that are currently implemented:
+- '*' (asterisk) matches any number of any characters including none
+- '?' (question mark) matches any single character
+
+After setting up a rule you need to submit it by clicking the **'Save'** button.
+
+After creation of a new rule you will be redirected to the page with the list of rules.
+From that page you can use option to add a new rule or edit, delete existing rules.
 
 ## Purge rules logic
 The Nexteuropa Varnish provides hardcoded logic for triggering

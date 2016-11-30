@@ -239,6 +239,10 @@ projects[feature_set][version] = "1.3"
 projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
+; Issue #2831766: Feature set does not invoke hook_requirements().
+; https://www.drupal.org/node/2831766
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-79
+projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-2.patch
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta2"

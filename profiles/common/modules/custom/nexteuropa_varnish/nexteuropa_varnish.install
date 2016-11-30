@@ -36,6 +36,38 @@ function nexteuropa_varnish_schema() {
 }
 
 /**
+ * Implements hook_requirements().
+ */
+function nexteuropa_varnish_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  if ($phase == 'install') {
+    global $conf;
+
+    $required_vars = array(
+      'nexteuropa_varnish_http_targets',
+      'nexteuropa_varnish_request_method',
+      'nexteuropa_varnish_request_user',
+      'nexteuropa_varnish_request_password',
+      'nexteuropa_varnish_tag',
+    );
+
+    foreach ($required_vars as $var) {
+      if (!isset($conf[$var])) {
+        $requirements[$var] = array(
+          'description' => $t('Following variable must be set: @var.', array('@var' => $var)),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+    }
+
+  }
+
+  return $requirements;
+}
+
+/**
  * Implements hook_enable().
  */
 function nexteuropa_varnish_enable() {
