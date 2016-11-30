@@ -226,17 +226,14 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   * Add a deadline relative in term of days. A hardcoded date would fail.
-   *
-   * @Then I fill in ":field:" with a relative date of ":nr" days.
-   */
-  public function fillInDateFieldWithDate() {
-    $field = $this->fixStepArgument("Date");
-    $relative_date = date('d/m/Y', strtotime('+20 days'));
+    * @When I fill in :arg1 with a relative date of :arg2 days
+    */
+  public function iFillInWithARelativeDateOfDays($field, $number) {
+    $field = $this->fixStepArgument($field);
+    $relative_date = date('d/m/Y', strtotime($number));
     $value = $this->fixStepArgument($relative_date);
     $this->getSession()->getPage()->fillField($field, $value);
   }
-
 
   /**
    * Returns the Behat context that corresponds with the given class name.
