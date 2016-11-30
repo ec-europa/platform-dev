@@ -426,7 +426,6 @@ Feature: TMGMT Poetry features
     And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
     And I fill in "Remark" with "Further remarks & comments"
     And I fill in "Date" with a relative date of "+20" days
-    And I fill in "Date" with "01/12/2016"
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -618,7 +617,7 @@ Feature: TMGMT Poetry features
     When I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation update"
-    And I fill in "Date" with "14/11/2017"
+    And I fill in "Date" with a relative date of "+23" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
