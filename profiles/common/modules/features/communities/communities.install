@@ -45,7 +45,7 @@ function communities_install() {
   $_communities_fid_default_community_image = $f->fid;
 
   // Enable the og ontext negociation 'multisite_communities'.
-  communities_enable_og_context_negociation()
+  communities_enable_og_context_negociation();
 }
 
 /**
