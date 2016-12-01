@@ -32,15 +32,17 @@ class Config extends ConfigBase {
       global $user;
       $account = clone $user;
     }
-    elseif (is_numeric($account)) {
-      $account = user_load($account, TRUE);
-    }
 
+    $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
-    if ($account && $role && !isset($account->roles[$role->rid])) {
-      $roles = $account->roles + array($role->rid => $role->name);
-      $account->original = clone $account;
-      return user_save($account, array('roles' => $roles));
+    if ($uid && $role) {
+      db_merge('users_roles')
+        ->key(array('uid' => $uid, 'rid' => $role->rid))
+        ->execute();
+
+      // Clear the static loading cache.
+      entity_get_controller('user')->resetCache(array($uid));
+      return TRUE;
     }
 
     return FALSE;
@@ -60,17 +62,20 @@ class Config extends ConfigBase {
   public function revokeRoleFromUser($role_name, $account = NULL) {
     if (!isset($account)) {
       global $user;
-      $account = $user;
-    }
-    elseif (is_numeric($account)) {
-      $account = user_load($account, TRUE);
+      $account = clone $user;
     }
 
+    $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
-    if ($account && $role && isset($account->roles[$role->rid])) {
-      $roles = array_diff($account->roles, array($role->rid => $role->name));
-      $account->original = clone $account;
-      return user_save($account, array('roles' => $roles));
+    if ($uid && $role) {
+      db_delete('users_roles')
+        ->condition('rid', $role->rid)
+        ->condition('uid', $uid)
+        ->execute();
+
+      // Clear the static loading cache.
+      entity_get_controller('user')->resetCache(array($uid));
+      return TRUE;
     }
 
     return FALSE;

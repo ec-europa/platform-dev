@@ -69,18 +69,17 @@ function nexteuropa_editorial_og_membership_delete(OgMembership $og_membership) 
  *
  * Grants/revokes the "editorial team member" role to the related user
  * depending on whether or not he has at least 1 active OG membership
- * to an Editorial Team group.
+ * bound to an Editorial Team group.
  *
  * @param \OgMembership $og_membership
  *   The OG membership being inserted/updated/deleted.
  */
 function _nexteuropa_editorial_sync_editorial_team_role(OgMembership $og_membership) {
   if ($og_membership->field_name == 'og_user_node' && $og_membership->entity_type == 'user' && $og_membership->etid) {
-    // Load the user (avoid internal cache in case the user is being saved).
-    $account = user_load($og_membership->etid, TRUE);
-    $is_member = multisite_config_service('nexteuropa_editorial')->isEditorialTeamMember($account);
+    $uid = $og_membership->etid;
+    $is_member = multisite_config_service('nexteuropa_editorial')->isEditorialTeamMember($uid);
     $function = $is_member ? 'assignRoleToUser' : 'revokeRoleFromUser';
-    multisite_config_service('user')->$function(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $account);
+    multisite_config_service('user')->$function(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $uid);
   }
 }
 
