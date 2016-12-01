@@ -37,4 +37,3 @@ Feature: Page Layout
       | search     | Search - European Commission                |
       | contact    | Contact - European Commission               |
       | user       | User account - European Commission          |
-    
