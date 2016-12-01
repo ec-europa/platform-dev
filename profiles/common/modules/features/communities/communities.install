@@ -34,16 +34,39 @@ function communities_enable() {
  */
 function communities_install() {
   global $_communities_fid_default_community_image;
-  // Affect a file image to the default image of the field thumbnail
-  // of the content type community.
-  // File creation.
-  $file = new stdClass();
-  $file->fid = NULL;
-  $file->uri = "public://default_images/community_default.png";
-  $file->filename = "community_default.png";
-  $file->filemime = file_get_mimetype($file->uri);
-  $file->uid = 1;
-  $file->status = FILE_STATUS_PERMANENT;
-  $f = file_save($file);
-  $_communities_fid_default_community_image = $f->fid;
+
+  $path = drupal_get_path('module', 'cce_basic_config') . '/assets/images/default_images';
+
+  $default_images = array(
+    'user_picture_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default',
+      'source_path' => $path . '/community_default.png',
+      'filename' => 'community_default.png',
+      'variable' => 'default_community_image',
+    ),
+  );
+
+  foreach ($default_images as $variable => $default_image_data) {
+    $file_uri = $default_image_data['scheme'] . $default_image_data['dest_directory'] . '/' . $default_image_data['filename'];
+    $full_dir = $default_image_data['scheme'] . $default_image_data['dest_directory'];
+
+    file_prepare_directory($full_dir, FILE_CREATE_DIRECTORY);
+    file_unmanaged_copy($default_image_data['source_path'], $file_uri, FILE_EXISTS_REPLACE);
+
+    $file = (object) array(
+      'uid' => 1,
+      'status' => FILE_STATUS_PERMANENT,
+      'filename' => $default_image_data['filename'],
+      'uri' => $file_uri,
+      'filemime' => file_get_mimetype($default_image_data['source_path']),
+    );
+    $file = file_save($file);
+
+    if ($file) {
+      variable_set($default_image_data['variable'], $file->fid);
+      $_communities_fid_default_community_image = $file->fid;
+    }
+  }
+
 }
