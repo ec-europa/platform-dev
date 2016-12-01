@@ -45,7 +45,7 @@ node('master') {
 
         stage('Package') {
             sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
-            sh "tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz build"
+            sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
             setBuildStatus("Build complete.", "SUCCESS");
             slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> complete."
         }
