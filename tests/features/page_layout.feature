@@ -7,12 +7,10 @@ Feature: Page Layout
   Background:
     Given I am not logged in
 
-  @javascript
   Scenario: Anonymous user can see the links in header and footer
     When I am on "/"
     Then I should see "Legal notice" in the ".region-header-top" element
 
-  @javascript
   Scenario Outline: Anonymous user can see the links in header and footer
     When I am on the homepage
     Then I should see "<text>" in the "<element>" element
@@ -31,7 +29,6 @@ Feature: Page Layout
       | Contact on Europa        | .region-footer           |
       | Search on Europa         | .region-footer           |
 
-  @javascript
   Scenario Outline: Anonymous user can see the page title
     When I am on "<page>"
     Then I should see "<text>" in the "html head title" element
