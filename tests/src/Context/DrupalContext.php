@@ -98,6 +98,8 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
+   * Logout custom.
+   *
    * @Given I am an anonymous user
    * @Given I am not logged in
    */
