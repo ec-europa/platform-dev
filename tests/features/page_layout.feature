@@ -4,9 +4,7 @@ Feature: Page Layout
   As a citizen of the European Union
   I want to be able to see components in the right regions
 
-  @javascript
   Scenario Outline: Anonymous user can see the links in header and footer
-    Given I am not logged in custom
     When I am on the homepage
     Then I should see "<text>" in the "<element>" element
 
@@ -25,7 +23,6 @@ Feature: Page Layout
       | Search on Europa         | .region-footer           |
 
   Scenario Outline: Anonymous user can see the page title
-    Given I am not logged in custom
     When I am on "<page>"
     Then I should see "<text>" in the "html head title" element
 
