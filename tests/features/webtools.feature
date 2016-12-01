@@ -28,11 +28,12 @@ Feature: Webtools feature
     Then I should see the success message "webtools Block Map Webtools Title has been deleted."
 
   @api @javascript
-  Scenario: Insert a webtools block into a content
+  Scenario Outline: Insert a webtools block into a content by using the 2 full HTML text formats
     Given a map webtools "Block Webtools" exists
     And I use device with "1920" px and "1080" px resolution
     When I go to "node/add/page"
     And I fill in "Title" with "Basic page with a Map"
+    And I select "<format>" from "Text format"
     And I click the "Insert internal content" button in the "Body" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
@@ -42,3 +43,9 @@ Feature: Webtools feature
     And I press "Save"
     Then I should see the success message "Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
+
+    Examples:
+      | format                      |
+      | Full HTML                   |
+      | Full HTML + Change tracking |
+

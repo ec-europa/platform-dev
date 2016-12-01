@@ -768,11 +768,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'search content',
     'use advanced search',
   ));
-
-  // Cloning roles to 'Full HTML + Change tracking' text format. It needs to be
-  // done at least here because sooner it was not possible.
-  $fl_html_roles = multisite_config_service('filter')->getFormatRoles('full_html');
-  multisite_config_service('filter')->setFormatRoles('full_html_track', $fl_html_roles);
 }
 
 /**
@@ -2130,7 +2125,6 @@ function cce_basic_config_update_7212() {
   );
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
-    multisite_config_service('wysiwyg')->addButtonsToProfile('full_html_track', $group, $buttons);
   }
 }
 

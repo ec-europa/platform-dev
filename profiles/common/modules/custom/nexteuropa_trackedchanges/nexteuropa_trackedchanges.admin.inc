@@ -174,7 +174,25 @@ function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable($profile) {
  *   The machine name of the WYSIWYG profile.
  */
 function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_disable($profile) {
-  // TODO batch process for disabling.
+
+  variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+  // Then, do the control.
+  $operations = array(
+    array('_nexteuropa_trackedchanges_revisions_scanning_process', array($profile)),
+    array('_nexteuropa_trackedchanges_entity_scanning_process', array($profile)),
+    array('_nexteuropa_trackedchanges_table_rebuilt_process', array($profile)),
+  );
+
+  $batch = array(
+    'operations' => $operations,
+    'finished' => '_nexteuropa_trackedchanges_remove_field_scanning_finished',
+    'title' => t('Processing disabling validation'),
+    'init_message' => t('Disabling check is starting.'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('Disabling check has encountered an error.'),
+  );
+  batch_set($batch);
+  batch_process('admin/config/content/wysiwyg/tracked_changes/setup');
 }
 
 /**
@@ -277,6 +295,8 @@ function _nexteuropa_trackedchanges_disable_check_submit($form, &$form_state) {
  * @see _nexteuropa_trackedchanges_system_disable_field_scanning_finished()
  */
 function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
+
+  variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
   // Then, do the control.
   $operations = array(
     array('_nexteuropa_trackedchanges_revisions_scanning_process', array('')),
@@ -308,15 +328,13 @@ function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
  * It is ran in the case where change tracking buttons (CKEditore LITE) are
  * removed from a WYSIWYG process.
  *
- * @todo to refactor.
- *
  * @see _nexteuropa_trackedchanges_disable_buttons()
  */
 function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $results, $operations) {
   if ($success) {
     $text_format = $results['text_format'];
     // Here we do something meaningful with the results.
-    if ($results['detected_item']) {
+    if (!empty($results['detected_item'])) {
       $message = t('The deactivation of the change tracking feature for the 
         @name profile stopped because tracked changes have been detected.',
         array('@name' => $text_format));
@@ -357,7 +375,7 @@ function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $re
 function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $results, $operations) {
   if ($success) {
     // Here we do something meaningful with the results.
-    if ($results['detected_item']) {
+    if (!empty($results['detected_item'])) {
       $message = t('The deactivation stopped because tracked changes have been 
         detected in contents.');
       $message .= '<br />';
@@ -420,4 +438,141 @@ function _nexteuropa_trackedchanges_system_disable_field_scanning_finished($succ
     $message .= t('The deactivation is impossible.');
     drupal_set_message($message, 'error');
   }
+}
+
+/**
+ * Page Callback of the List of entities containing tracked changes.
+ *
+ * @return string
+ *   Page display.
+ */
+function nexteuropa_trackedchanges_rebuild_status($form, &$form_state) {
+  $last_rebuilt = variable_get('nexteuropa_trackedchanges_last_rebuild_time');
+  $is_lock = variable_get('nexteuropa_trackedchanges_rebuild_lock');
+  $output = '<p>' . t('The logs table has never been rebuilt.') . '</p>';
+  if ($last_rebuilt) {
+    $date = format_date($last_rebuilt, 'custom', 'd/m/y H:i:s');
+    $output = '<p>' . t('The logs table has been rebuilt on the @date.', array('@date' => $date)) . '</p>';
+  }
+  $form['table_status'] = array(
+    '#markup' => $output,
+  );
+  if (!$is_lock) {
+    $form['submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Force table rebuild'),
+    );
+    $form['#submit'] = array('nexteuropa_trackedchanges_table_rebuilt_submit');
+  }
+  else {
+    $form['table_status'] = array(
+      '#markup' => t('The rebuild of the logs table is under way.'),
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Submit form call back triggering the netc_info table.
+ *
+ * @see nexteuropa_trackedchanges_rebuild_status()
+ */
+function nexteuropa_trackedchanges_table_rebuilt_submit($form, &$form_state) {
+
+  // Empty the table and "lock" it.
+  variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+  // It is a rebuild, then we flush the table.
+  db_truncate('netc_info')->execute();
+
+  $operations = array();
+  // The 2nd argument is useless in this case because the default Batch API
+  // process fulfils function requirements.
+  $operations[] = array('_nexteuropa_trackedchanges_revisions_scanning_process', array(''));
+  $operations[] = array('_nexteuropa_trackedchanges_entity_scanning_process', array(''));
+  $operations[] = array('_nexteuropa_trackedchanges_table_rebuilt_process', array(''));
+
+  $batch = array(
+    'operations' => $operations,
+    'finished' => '_nexteuropa_trackedchanges_table_rebuilt_finished',
+    'title' => t('Processing the rebuild of the tracked change table'),
+    'init_message' => t('Content scanning is starting.'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('The rebuild has encountered an error.'),
+  );
+  batch_set($batch);
+}
+
+/**
+ * Finished callback of the batch rebuilding the "Info" table.
+ *
+ * The "Info" table is "nexteuropa_trackedchanges_info".
+ *
+ * @see nexteuropa_trackedchanges_table_rebuilt()
+ */
+function _nexteuropa_trackedchanges_table_rebuilt_finished($success, $results, $operations) {
+  // Unlock the table to allow a new rebuild if it failed.
+  variable_set('nexteuropa_trackedchanges_rebuild_lock', 0);
+  variable_set('nexteuropa_trackedchanges_last_rebuild_time', REQUEST_TIME);
+  if ($success) {
+    drupal_set_message(t('The tracked changes table is rebuilt.'));
+  }
+  else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    $message_args = array(
+      '%error_operation' => $error_operation[0],
+      '@arguments' => print_r($error_operation[1], TRUE),
+    );
+    $message = t('An error occurred during the rebuild process on the 
+      %error_operation with arguments: @arguments', $message_args);
+    drupal_set_message($message, 'error');
+  }
+}
+
+/**
+ * Callback displaying the Content tracked changes page.
+ *
+ * @see nexteuropa_trackedchanges_views_default_views()
+ */
+function nexteuropa_trackedchanges_workbench() {
+  $last_time = variable_get('nexteuropa_trackedchanges_last_rebuild_time');
+  // If the variable is empty, that means the table has never been filed.
+  // Then we redirect the user to the Btach process to ensure that the system
+  // does not miss data.
+  if (is_null($last_time)) {
+    drupal_goto('admin/config/content/wysiwyg/tracked_changes/table_status/init');
+  }
+
+  return views_embed_view('content_tracked_changes', 'default');
+}
+
+/**
+ * Menu callback triggering the netc_info table rebuild.
+ */
+function nexteuropa_trackedchanges_table_init() {
+
+  // Empty the table and "lock" it.
+  variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+  // It is a rebuild, then we flush the table.
+  db_truncate('netc_info')->execute();
+
+  $operations = array();
+  // The 2nd argument is useless in this case because the default Batch API
+  // process fulfils function requirements.
+  $operations[] = array('_nexteuropa_trackedchanges_revisions_scanning_process', array(''));
+  $operations[] = array('_nexteuropa_trackedchanges_entity_scanning_process', array(''));
+  $operations[] = array('_nexteuropa_trackedchanges_table_rebuilt_process', array(''));
+
+  $batch = array(
+    'operations' => $operations,
+    'finished' => '_nexteuropa_trackedchanges_table_rebuilt_finished',
+    'title' => t('Processing the initialisation of the tracked change table'),
+    'init_message' => t('Content scanning is starting.'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('The initialisation has encountered an error.'),
+  );
+  batch_set($batch);
+  batch_process('admin/content/tracked_changes');
 }

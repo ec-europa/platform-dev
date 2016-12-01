@@ -31,7 +31,7 @@ supplied with the NextEuropa platform with the "change tracking" buttons of the
 [CKEditor LITE](https://www.drupal.org/project/ckeditor_lite) project;
  
 ## Change tracking button configuration
-An configuration page allowing to:
+A configuration page allowing to:
 - Enable/disable the "change tracking" buttons in the different WYSIWYG profiles;
 - Control the display and the activation of buttons on the content creation/edit form;
 
@@ -40,6 +40,18 @@ An configuration page allowing to:
 It is possible to define when tracked changes must be validated before:
 - Changing the content status to "Published", in the case of the default Drupal publishing process;
 - Saving a new content revision with a new moderation state, in the case of a Workbench moderation workflow.
+
+## "Content tracked changes" page
+
+A page accessible by content administrator (permission: "Administer content" + "Use Highlight changes block") that 
+allows consult the list of entities (content but also all other entity types where the system has detected.
+
+From this page, the user can access to the listed entity page or to one of its translation
+
+### Note
+
+For sites that had already the change tracking activate, the first time that this page is accessed, the system will 
+trigger a scan of all content entities in order to detect all tracked changes that could already exist.
  
 
 [Go to top](#table-of-content)
@@ -64,12 +76,12 @@ Here, the tracking change can be activated on the edit form; even if it is no se
 ### WARNING
 
 The interface allows removing buttons from WYSIWYG profiles but it does it only if no WYSIWYG field that uses
-this profile does no contain any tracked changes.
+this profile contain any tracked changes.
 If tracked changes exist, the removing is blocked until all of them are accepted or rejected.
 
 ### RECOMMENDATIONS
 
-- Avoid to make accessible change tracking buttons on content creation form. The change tracking functions does not work 
+- Avoid making accessible change tracking buttons on content creation form. The change tracking functions does not work 
 correctly when it is activated on a field that has no default value.
 - The function can meet some running time problem on some browser like IE11 when the change tracking is enabled on 
 several WYSIWYG fields of the same entity (content). <br />
@@ -96,11 +108,11 @@ It sets the frequency in seconds for refreshing data displayed in this table.
 
 ### RECOMMENDATIONS
 
-- Tracked changes are hidden before displaying published contents. It happens the display is not correct when the HTML structure 
+- Tracked changes are hidden before displaying published contents. The display can be incorrect when the HTML structure 
 of a WYSIWYG field is complex. It is a limitation of the CKEditor LITE module.<br />
 Then, it is recommended to block the possibility to publishing content having tracked changes. 
 - For the same reason as for published contents, it is recommended to block the saving to the "Validated" moderation state if
-Poetry is used to translated contents.
+Poetry is used to translate contents.
 
 
 [Go to top](#table-of-content)
@@ -113,9 +125,23 @@ As for the installation, there are 2 ways for disabling and uninstalling the fea
 
 ## WARNING
 
-The disabling is blocked if tracked changes are detected in the lastest draft revision of a content or in any 
+### Disabling via the web interface under condition
+
+The disabling is blocked if tracked changes are detected in the latest draft revision of a content or in any 
 other entities.
 
 It is so until all tracked changes are accepted or rejected in all entities.
+
+### Disabling via Drush or via a hook_update are not recommended.
+
+It is still possible to disable the module through Drush but it is not recommended because like
+all modules related to WYSIWYG feature does not, the Drush disabling process does not allow implementing check on field values
+in order to stop the disabling or to clean values of change tracking tags.
+
+If you disabling the module without ensuring all tracked changes have been cleaned, the related HTML tags (<span>) will 
+remain and could cause bad content display.
+
+If you use a hook_update to disable it, please integrate in it a process that scans WYSIWYG fields to detect those kind of tags,
+and that implements appropriate actions (Disabling stop or Field value cleaning).
 
 [Go to top](#table-of-content)

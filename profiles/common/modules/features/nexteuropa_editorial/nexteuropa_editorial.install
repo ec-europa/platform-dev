@@ -291,7 +291,7 @@ function nexteuropa_editorial_update_7004(&$sandbox) {
   if ($scanning_results) {
     // Stop the batch because we have the minimum of info to proceed.
     $sandbox['field_list'] = array();
-    $sandbox['max'] = count($sandbox['field_list']);
+    $sandbox['max'] = 0;
 
     module_enable(array('nexteuropa_trackedchanges'));
 

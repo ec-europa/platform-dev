@@ -6,6 +6,7 @@ dependencies[] = cce_basic_config
 dependencies[] = ckeditor_lite
 dependencies[] = multisite_wysiwyg
 dependencies[] = entity
+dependencies[] = views
 
-files[] = NextEuropaTrackedChangesInfo.inc
-files[] = NextEuropaTrackedChangesInfoController.inc
+files[] = NETCInfo.inc
+files[] = NETCInfoController.inc

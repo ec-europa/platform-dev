@@ -8,7 +8,7 @@
  * Implements hook_schema().
  */
 function nexteuropa_trackedchanges_schema() {
-  $schema['nexteuropa_trackedchanges_info'] = array(
+  $schema['netc_info'] = array(
     'description' => 'Entities where tracked changes have been detected into 
     their WYSIWYG fields.',
     'fields' => array(
@@ -45,13 +45,6 @@ function nexteuropa_trackedchanges_schema() {
         'not null' => TRUE,
         'default' => '',
       ),
-      'rel_entity_languages' => array(
-        'description' => 'Related entity languages',
-        'type' => 'blob',
-        'not null' => TRUE,
-        'size' => 'big',
-        'serialize' => TRUE,
-      ),
       'rel_entity_state' => array(
         'description' => 'The current moderation state of the related entity.',
         'type' => 'varchar',
@@ -63,6 +56,13 @@ function nexteuropa_trackedchanges_schema() {
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
+      ),
+      'rel_entity_language' => array(
+        'description' => 'Related entity language',
+        'type' => 'varchar',
+        'length' => 5,
+        'not null' => TRUE,
+        'default' => '',
       ),
     ),
     'primary key' => array('info_id'),
@@ -151,6 +151,32 @@ function nexteuropa_trackedchanges_enable() {
   watchdog('nexteuropa_trackedchanges', 'Default permissions of the feature have been set.', array(), WATCHDOG_INFO);
 
   drupal_set_message(t('NextEuropa Tracked Changes feature is now active on your site.'));
+
+  // Create the field added to the netc_info entity.
+  // Only if it does not exists (disable followed by an enable case).
+  $is_field_exiting = field_info_field('field_netc_info_languages');
+  if (!$is_field_exiting) {
+    $field = array(
+      'field_name' => 'field_netc_info_languages',
+      'type' => 'text',
+      'cardinality' => -1,
+      'locked' => TRUE,
+      'settings' => array(
+        // Field is not visible in field UI and can only be instantiated
+        // programmatically.
+        'no_ui' => TRUE,
+      ),
+    );
+    field_create_field($field);
+
+    // Create instance for field, bind it to a entity bundle.
+    $instance = array(
+      'field_name' => $field['field_name'],
+      'entity_type' => 'netc_info',
+      'bundle' => 'netc_info',
+    );
+    field_create_instance($instance);
+  }
 }
 
 /**
@@ -191,4 +217,16 @@ function nexteuropa_trackedchanges_disable() {
   }
 
   drupal_set_message(t('NextEuropa Tracked Changes feature is now inactive on your site.'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function nexteuropa_trackedchanges_uninstall() {
+  $instance = array(
+    'field_name' => 'field_netc_info_languages',
+    'entity_type' => 'netc_info',
+    'bundle' => 'netc_info',
+  );
+  field_delete_instance($instance);
 }

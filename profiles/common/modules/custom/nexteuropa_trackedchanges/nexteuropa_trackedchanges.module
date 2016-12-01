@@ -5,8 +5,7 @@
  */
 
 include_once 'nexteuropa_trackedchanges.admin.inc';
-include_once 'nexteuropa_trackedchanges.tracking.inc';
-include_once 'nexteuropa_trackedchanges.page.inc';
+include_once 'nexteuropa_trackedchanges.helper.inc';
 
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME', 'full_html_track');
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME', 'Full HTML + Change tracking');
@@ -62,23 +61,29 @@ function nexteuropa_trackedchanges_menu() {
     'weight' => 1,
   );
 
-  $items['admin/content/tracked_changes/entities_list'] = array(
-    'title' => 'Tracked changes overview',
-    'description' => 'List of entities having tracked changes in their 
-    WYSIWYG fields.',
-    'page callback' => 'nexteuropa_trackedchanges_list',
+  $items['admin/config/content/wysiwyg/tracked_changes/table_status'] = array(
+    'title' => 'Tracked changes logs status',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_trackedchanges_rebuild_status'),
     'access callback' => 'nexteuropa_trackedchanges_info_access',
-    'file' => 'nexteuropa_trackedchanges.page.inc',
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
     'weight' => 10,
   );
 
-  $items['admin/content/tracked_changes/table_rebuild'] = array(
-    'title' => 'Rebuild of the table',
-    'description' => 'Rebuild of the table listing all entities where tracked 
-     changes have been detected',
-    'page callback' => 'nexteuropa_trackedchanges_table_rebuilt',
+  $items['admin/content/tracked_changes'] = array(
+    'title' => 'Content tracked changes',
+    'page callback' => 'nexteuropa_trackedchanges_workbench',
     'access callback' => 'nexteuropa_trackedchanges_info_access',
-    'file' => 'nexteuropa_trackedchanges.page.inc',
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+    'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
+    'weight' => 10,
+  );
+
+  $items['admin/config/content/wysiwyg/tracked_changes/table_status/init'] = array(
+    'title' => 'Content tracked changes: Table init',
+    'page callback' => 'nexteuropa_trackedchanges_table_init',
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
     'type' => MENU_CALLBACK,
   );
 
@@ -91,20 +96,33 @@ function nexteuropa_trackedchanges_menu() {
 function nexteuropa_trackedchanges_entity_info() {
   $info = array();
 
-  $info['nexteuropa_trackedchanges_info'] = array(
+  $info['netc_info'] = array(
     'label' => 'Tracked changes info',
-    'entity class' => 'NextEuropaTrackedChangesInfo',
-    'controller class' => 'NextEuropaTrackedChangesInfoController',
+    'entity class' => 'NETCInfo',
+    'controller class' => 'NETCInfoController',
     'views controller class' => 'EntityDefaultViewsController',
-    'base table' => 'nexteuropa_trackedchanges_info',
+    'base table' => 'netc_info',
     'uri callback' => 'entity_class_uri',
     'label callback' => 'entity_class_label',
     'access callback' => 'nexteuropa_trackedchanges_info_access',
-    'fieldable' => FALSE,
+    'fieldable' => TRUE,
     'entity keys' => array(
       'id' => 'info_id',
     ),
+    'bundle keys' => array(
+      'bundle',
+    ),
     'module' => 'nexteuropa_trackedchanges',
+    'view modes' => array(
+      'full' => array(
+        'label' => t('Full content'),
+        'custom settings' => FALSE,
+      ),
+      'list-item' => array(
+        'label' => t('List item'),
+        'custom settings' => FALSE,
+      ),
+    ),
   );
 
   return $info;
@@ -114,67 +132,171 @@ function nexteuropa_trackedchanges_entity_info() {
  * Implements hook_entity_property_info_alter().
  */
 function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
-  $info['nexteuropa_trackedchanges_info']['properties']['info_id'] = array(
+  $info['netc_info']['properties']['info_id'] = array(
     'label' => t('Info id'),
     'description' => t('Id of nexteuropa_trackedchanges_info entity'),
     'type' => 'integer',
     'schema field' => 'info_id',
+    'entity views field' => TRUE,
   );
-  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_id'] = array(
-    'label' => t('Entity id'),
-    'description' => t('Id of entity related to the info'),
-    'type' => 'integer',
-    'schema field' => 'rel_entity_id',
-    'getter callback' => 'nexteuropa_trackedchanges_get_entity_urls',
-    'getter callback' => 'entity_property_verbatim_get',
-    'setter callback' => 'entity_property_verbatim_set',
-  );
-  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_type'] = array(
-    'label' => t('Entity type'),
+  $info['netc_info']['properties']['rel_entity_type'] = array(
+    'label' => t('Concerned entity type'),
     'description' => t('Type of entity related to the info'),
     'type' => 'text',
     'schema field' => 'rel_entity_type',
     'getter callback' => 'entity_property_verbatim_get',
     'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
   );
-  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_bundle'] = array(
-    'label' => t('Entity Bundle'),
+  $info['netc_info']['properties']['rel_entity_type_name'] = array(
+    'label' => t('Concerned entity type human name'),
+    'description' => t('Type human name of entity related to the info'),
+    'type' => 'text',
+    'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_id'] = array(
+    'label' => t('Concerned entity id'),
+    'description' => t('Id of entity related to the info'),
+    'type' => 'integer',
+    'schema field' => 'rel_entity_id',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_bundle'] = array(
+    'label' => t('Concerned entity bundle'),
     'description' => t('Bundle of entity related to the info'),
     'type' => 'text',
     'schema field' => 'rel_entity_bundle',
     'getter callback' => 'entity_property_verbatim_get',
     'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
   );
-  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_label'] = array(
-    'label' => t('Entity label'),
+  $info['netc_info']['properties']['rel_entity_bundle_name'] = array(
+    'label' => t('Concerned entity bundle human name'),
+    'description' => t('bundle human name of entity related to the info'),
+    'type' => 'text',
+    'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_uri'] = array(
+    'label' => t('Concerned entity URI'),
+    'description' => t('URI of entity related to the info'),
+    'type' => 'uri',
+    'getter callback' => 'nexteuropa_trackedchanges_get_rel_uri',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_label'] = array(
+    'label' => t('Concerned entity label'),
     'description' => t('Label of entity related to the info'),
     'type' => 'text',
     'schema field' => 'rel_entity_label',
     'getter callback' => 'entity_property_verbatim_get',
     'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
   );
-  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_languages'] = array(
-    'label' => t('Entity concerned languages'),
-    'description' => t('Language codes of translations containing tracked changes'),
-    'type' => 'list',
-    'schema field' => 'rel_entity_languages',
-    'getter callback' => 'entity_property_verbatim_get',
-    'setter callback' => 'entity_property_verbatim_set',
-  );
-  $info['nexteuropa_trackedchanges_info']['properties']['rel_entity_state'] = array(
-    'label' => t('Entity moderation state'),
+  $info['netc_info']['properties']['rel_entity_state'] = array(
+    'label' => t('Concerned entity moderation state'),
     'description' => t('Moderation state of entity related to the info'),
     'type' => 'text',
     'schema field' => 'rel_entity_state',
     'getter callback' => 'entity_property_verbatim_get',
     'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
   );
-  $info['nexteuropa_trackedchanges_info']['properties']['scanned'] = array(
+  $info['netc_info']['properties']['rel_entity_state_human_name'] = array(
+    'label' => t('Concerned entity moderation state human name'),
+    'description' => t('moderation state human name of entity related to the info'),
+    'type' => 'text',
+    'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_language'] = array(
+    'label' => t('Concerned entity language'),
+    'description' => t('Concerned entity language where tracked changes have been detected.'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_language',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['scanned'] = array(
     'label' => t('Scanning date of the info'),
     'description' => t('Timestamp of the date when the info entity has been created.'),
     'type' => 'date',
     'schema field' => 'scanned',
+    'getter callback' => 'entity_property_verbatim_date_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
   );
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function nexteuropa_trackedchanges_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'nexteuropa_trackedchanges') . '/views',
+  );
+}
+
+/**
+ * Callback for getting netc_info related entity info human name.
+ *
+ * It supports Entity type, Bundle and Moderation state on netc_info data.
+ *
+ * @see nexteuropa_trackedchanges_entity_property_info_alter()
+ * @see hook_entity_property_info()
+ */
+function nexteuropa_trackedchanges_get_human_name($data, array $options, $name, $type, $info) {
+
+  $human_name = $name;
+  switch ($name) {
+    case 'rel_entity_state_human_name':
+      $human_name = t('N/A');
+      if (module_exists('workbench_moderation')) {
+        $state = $data->rel_entity_state;
+        $human_name = workbench_moderation_state_label($state);
+      }
+      break;
+
+    case 'rel_entity_bundle_name':
+      $type_info = entity_get_info($data->rel_entity_type);
+      $bundle = $data->rel_entity_bundle;
+      $bundle_info = $type_info['bundles'][$bundle];
+      $human_name = (isset($bundle_info['label'])) ? $bundle_info['label'] : $bundle;
+      break;
+
+    case 'rel_entity_type_name':
+      $type_info = entity_get_info($data->rel_entity_type);
+      $human_name = $type_info['label'];
+      break;
+  }
+
+  return $human_name;
+}
+
+/**
+ * Callback for getting netc_info related entity URL.
+ *
+ * @see nexteuropa_trackedchanges_entity_property_info_alter()
+ * @see hook_entity_property_info()
+ */
+function nexteuropa_trackedchanges_get_rel_uri($data, array $options, $name, $type, $info) {
+  $rel_entities = entity_load($data->rel_entity_type, array($data->rel_entity_id));
+  $uri = '';
+  if ($rel_entities) {
+    $rel_entity = reset($rel_entities);
+    $uri = entity_uri($data->rel_entity_type, $rel_entity);
+  }
+
+  return $uri ? url($uri['path'], $uri['options'] + $options) : '';
 }
 
 /**
@@ -186,7 +308,7 @@ function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
  *   The related entity.
  *
  * @return bool|array
- *   An array of nexteuropa_trackedchanges_info objects indexed by their ids.
+ *   An array of netc_info objects indexed by their ids.
  *   When no results are found, FALSE is returned.
  *
  * @throws EntityMalformedException
@@ -198,6 +320,7 @@ function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
     throw new EntityMalformedException('No entity type are set for this entity, 
      the "nexteuropa_trackedchanges_info" cannot be retrieved.');
   }
+
   if (is_object($entity)) {
     list($entity_id, , $bundle) = entity_extract_ids($entity_type, $entity);
 
@@ -207,7 +330,7 @@ function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
     }
 
     $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'nexteuropa_trackedchanges_info');
+    $query->entityCondition('entity_type', 'netc_info');
     $query->propertyCondition('rel_entity_id', $entity_id);
     if ($bundle) {
       $query->propertyCondition('rel_entity_bundle', $bundle);
@@ -215,9 +338,9 @@ function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
     $query->propertyCondition('rel_entity_type', $entity_type);
     $results = $query->execute();
 
-    if (isset($results['nexteuropa_trackedchanges_info'])) {
-      $info_ids = array_keys($results['nexteuropa_trackedchanges_info']);
-      $info_entities = entity_load('nexteuropa_trackedchanges_info', $info_ids);
+    if (isset($results['netc_info'])) {
+      $info_ids = array_keys($results['netc_info']);
+      $info_entities = entity_load('netc_info', $info_ids);
 
       if ($info_entities) {
         return $info_entities;
@@ -231,36 +354,6 @@ function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
   }
 
   return FALSE;
-}
-
-/**
- * Entity property info getter callback for the entity_urls property.
- */
-function nexteuropa_trackedchanges_get_entity_urls($item) {
-  $entity = entity_load($item->entity_type, array($item->entity_id));
-  if ($entity) {
-    $uri = entity_uri($item->entity_type, $entity);
-
-    if ($uri) {
-      $lanquage_list = language_list();
-      $path = $uri['path'];
-      $urls = array(
-        $entity->language => url($path, $lanquage_list[$entity->language]),
-      );
-      if (!empty($item->languages)) {
-        foreach ($item->languages as $language) {
-          $i18n_url = url($path, $lanquage_list[$language]);
-          if ($i18n_url) {
-            // TODO filtered on languages having tracked changes.
-            $urls[$language] = $i18n_url;
-          }
-        }
-      }
-      return $urls;
-    }
-  }
-
-  return NULL;
 }
 
 /**
@@ -419,470 +512,5 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
     if ($force_btn_enabled) {
       $settings['lite']['isTracking'] = TRUE;
     }
-  }
-}
-
-/**
- * Add all buttons related to CKEditor Lite in the WYSIWYG profile.
- *
- * @param string $profile_name
- *   The machine name of the profile's text format.
- */
-function _nexteuropa_trackedchanges_enable_buttons($profile_name) {
-  $lite_plugin_settings = array(
-    'lite_AcceptAll',
-    'lite_RejectAll',
-    'lite_AcceptOne',
-    'lite_RejectOne',
-    'lite_ToggleShow',
-    'lite_ToggleTracking',
-  );
-  multisite_config_service('wysiwyg')->addButtonsToProfile(
-    $profile_name,
-    'lite',
-    $lite_plugin_settings
-  );
-}
-
-
-/**
- * Remove all buttons related to CKEditor Lite in the WYSIWYG profile.
- *
- * That has the same effect as delting 'lite' settings from the profile.
- *
- * @param string $profile_name
- *   The machine name of the profile's text format.
- */
-function _nexteuropa_trackedchanges_disable_buttons($profile_name) {
-  $profile = multisite_config_service('wysiwyg')->getProfile($profile_name);
-
-  if (isset($profile->settings['buttons']['lite'])) {
-    unset($profile->settings['buttons']['lite']);
-  }
-
-  multisite_config_service('wysiwyg')->updateProfile($profile);
-}
-
-/**
- * Helper function for fetching WYSIWYG profiles.
- *
- * @return array
- *    An array with WYSIWYG profiles.
- */
-function _nexteuropa_trackedchanges_get_profiles() {
-  $wysiwyg_profiles = [];
-  $formats = filter_formats();
-
-  // Only list profiles that have a WYSIWYG editor associated with.
-  $profiles = wysiwyg_profile_load_all();
-  $profiles = array_filter($profiles, function ($profile) {
-    return !empty($profile->editor);
-  });
-
-  // Generating array with options array and change tracking status.
-  foreach ($profiles as $key => $profile) {
-    $wysiwyg_profiles['options'][$key] = $formats[$key]->name;
-    $wysiwyg_profiles['info'][$key]['name'] = $formats[$key]->name;
-    if (isset($profile->settings['buttons']['lite']) && count($profile->settings['buttons']['lite'])) {
-      $wysiwyg_profiles['info'][$key]['cke_lite_status'] = TRUE;
-    }
-    else {
-      $wysiwyg_profiles['info'][$key]['cke_lite_status'] = FALSE;
-    }
-  }
-
-  // Removing profile which by default needs to have change tracking enabled.
-  if (isset($wysiwyg_profiles['options'][NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME])) {
-    unset($wysiwyg_profiles['options'][NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME]);
-  }
-  return $wysiwyg_profiles;
-}
-
-/**
- * Scan the field revision table for traccked changes.
- *
- * @param string $field_name
- *   The field machine name of the table to scan.
- * @param string $text_format
- *   The text format machine name on which the scan must focus.
- *
- * @return array|bool
- *   Array listing entity types and bundle for which tracked changes have
- *   been detected.
- */
-function _nexteuropa_trackedchanges_check_field_revisions($field_name, $text_format = '') {
-  // 2. Scan field revision table to see if tracked changes tag are present.
-  // Because of Workbench moderation, field data table could not contain any
-  // tags for node values while the draft revision (contained in the revision
-  // tables could have.
-  $query = db_select('field_revision_' . $field_name, 'fr');
-  $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
-    ->condition('fr.deleted', 0);
-  if ($text_format) {
-    $query->condition('fr.' . $field_name . '_format', $text_format);
-  }
-  $query->fields('fr', array('entity_type', 'bundle'));
-  $query->distinct(TRUE);
-
-  $results = $query->execute()->fetchAll();
-
-  if ($results) {
-    $return = array();
-    foreach ($results as $result) {
-      $key = $field_name . '-' . $result->entity_type . '-' . $result->bundle;
-      $result->field_name = $field_name;
-      $return[$key] = $result;
-    }
-
-    return $return;
-  }
-
-  return FALSE;
-}
-
-/**
- * Get entities that have tracked changes in values for a specific field.
- *
- * @param string $field_name
- *    The field machine name to scan.
- * @param string $entity_type
- *    The type of entities to scan.
- * @param string $bundle
- *    The bundle of entities to scan.
- * @param string $text_format
- *   The text_format on which the scanning process needs to focus.
- *   If set, the process scans only values using this text format.
- *
- * @return array|bool
- *   Array of NextEuropaTrackedChangesInfo equivalent arrays;
- *   FALSE if not tracked changes have been detected.
- */
-function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_type = 'node', $bundle = 'page', $text_format = '') {
-  $return = array();
-
-  switch ($entity_type) {
-    case 'node':
-      // 3.a.1 Check if workbench moderation is active for the node.
-      // Check content published and "draft" versions.
-      if (module_exists('workbench_moderation')) {
-        if (workbench_moderation_node_type_moderated($bundle)) {
-          $query = db_select('field_revision_' . $field_name, 'fr');
-          $query->join('node', 'n', 'fr.entity_id = n.nid');
-          $query->join('workbench_moderation_node_history', 'wmhn', 'fr.revision_id = wmhn.vid');
-          $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
-            ->condition('wmhn.is_current', 1)
-            ->condition('fr.bundle', $bundle);
-          if ($text_format) {
-            $query->condition('fr.' . $field_name . '_format', $text_format);
-          }
-          $query->fields('fr', array('language'))
-            ->fields('n', array('nid'))
-            ->fields('wmhn', array('state'));
-          $query->addField('fr', $field_name . '_format', 'format');
-          $query->distinct(TRUE);
-          $node_scans = $query->execute()->fetchAllAssoc('nid');
-
-          foreach ($node_scans as $node_scan) {
-            $info = array(
-              'entity_type' => $entity_type,
-              'bundle' => $bundle,
-              'entity_id' => $node_scan->nid,
-              'state' => $node_scan->state,
-              'languages' => array($node_scan->language),
-            );
-
-            $return[] = $info;
-          }
-        }
-
-        // Code executed below is useless as already checked here.
-        // Then, break.
-        break;
-      }
-
-      // 3.a.2 Check other nodes on the field data table which is the current
-      // version to take into account.
-      $query = db_select('field_data_' . $field_name, 'fd');
-      $query->join('node', 'n', 'fd.entity_id = n.nid');
-      $query->condition('fr.bundle', $bundle)
-        ->where('fd.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
-      if ($text_format) {
-        $query->condition('fd.' . $field_name . '_format', $text_format);
-      }
-      $query->fields('fd', array('language'))
-        ->fields('n', array('nid'));
-      $query->distinct(TRUE);
-      $node_scans = $query->execute()->fetchAllAssoc('nid');
-
-      foreach ($node_scans as $node_scan) {
-        $info = array(
-          'entity_type' => $entity_type,
-          'bundle' => $bundle,
-          'entity_id' => $node_scan->nid,
-          'state' => FALSE,
-          'languages' => array($node_scan->language),
-        );
-
-        $return[] = $info;
-      }
-      break;
-
-    default:
-      // 3.b. Get info on related entities.
-      $query = db_select('field_data_' . $field_name, 'fd');
-      $query->condition('fd.bundle', $bundle)
-        ->where('fd.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
-      if ($text_format) {
-        $query->condition('fd.' . $field_name . '_format', $text_format);
-      }
-      $query->fields('fd', array('entity_id', 'language'));
-      $query->distinct(TRUE);
-      $node_scans = $query->execute()->fetchAllAssoc('entity_id');
-
-      foreach ($node_scans as $entity_scan) {
-        $info = array(
-          'entity_type' => $entity_type,
-          'bundle' => $bundle,
-          'entity_id' => $entity_scan->entity_id,
-          'state' => FALSE,
-          'languages' => array($entity_scan->language),
-        );
-
-        $return[] = $info;
-      }
-      break;
-  }
-
-  return $return;
-}
-
-/**
- * Get entities that have  tracked changes in values for a specific field.
- *
- * @param string $field_name
- *    The field machine name to scan.
- * @param string $text_format
- *   The text_format on which the scanning process needs to focus.
- *   If set, the process scans only values using this text format.
- *
- * @return array|bool
- *   Array of entities data where tracked changes have been detected for the
- *   scanned field; FALSE if not tracked changes have been detected.
- *   For each retrived entity, the following data are supplied:
- *   - string entity_type: Entity type (node, traxonomy term, etc.);
- *   - string bundle: the bundle of the entity;
- *   - int entity_id: entity id;
- *   - string language: entity language code;
- *   - string|bool state: Workbench moderation state; FALSE if not applicable.
- */
-function _nexteuropa_trackedchanges_check_field_values($field_name, $text_format = '') {
-  // 2. Scan field revision table to see if tracked changes tag are present.
-  // Because of Workbench moderation, field data table could not contain any
-  // tags for node values while the draft revision (contained in the revision
-  // tables could have.
-  $query_results = _nexteuropa_trackedchanges_check_field_revisions($field_name, $text_format);
-
-  if (!$query_results) {
-    return FALSE;
-  }
-
-  $return = array();
-  foreach ($query_results as $query_result) {
-    $entity_type = $query_result->entity_type;
-    $bundle = $query_result->bundle;
-
-    switch ($entity_type) {
-      case 'node':
-        // 3.a.1 Check if workbench moderation is active for the node.
-        // Check content published and "draft" versions.
-        if (module_exists('workbench_moderation')) {
-          if (workbench_moderation_node_type_moderated($bundle)) {
-            $db_or_state = db_or()->condition('wmhn.is_current', 1)->condition('wmhn.published', 1);
-            $query = db_select('field_revision_' . $field_name, 'fr');
-            $query->join('node', 'n', 'fr.entity_id = n.nid');
-            $query->join('workbench_moderation_node_history', 'wmhn', 'fr.revision_id = wmhn.vid');
-            $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
-                  ->condition($db_or_state)
-                  ->condition('fr.bundle', $bundle);
-            if ($text_format) {
-              $query->condition('fr.' . $field_name . '_format', $text_format);
-            }
-            $query->fields('fr', array('language'))
-                  ->fields('n', array('nid'))
-                  ->fields('wmhn', array('state'));
-            $query->addField('fr', $field_name . '_format', 'format');
-            $query->distinct(TRUE);
-            $node_scans = $query->execute()->fetchAllAssoc('nid');
-
-            foreach ($node_scans as $node_scan) {
-              $return[] = array(
-                'entity_type' => $entity_type,
-                'bundle' => $bundle,
-                'entity_id' => $node_scan->nid,
-                'language' => $node_scan->language,
-                'state' => $node_scan->state,
-              );
-            }
-          }
-
-          // Code executed below is useless as already checked here.
-          // Then, break.
-          break;
-        }
-
-        // 3.a.2 Check other nodes on the field data table which is the current
-        // version to take into account.
-        $query = db_select('field_data_' . $field_name, 'fd');
-        $query->join('node', 'n', 'fd.entity_id = n.nid');
-        $query->condition('fr.bundle', $bundle)
-              ->where('fd.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
-        if ($text_format) {
-          $query->condition('fd.' . $field_name . '_format', $text_format);
-        }
-        $query->fields('fd', array('language'))
-              ->fields('n', array('nid'));
-        $query->distinct(TRUE);
-        $node_scans = $query->execute()->fetchAllAssoc('nid');
-
-        foreach ($node_scans as $node_scan) {
-          $return[] = array(
-            'entity_type' => $entity_type,
-            'bundle' => $bundle,
-            'entity_id' => $node_scan->nid,
-            'language' => $node_scan->language,
-            'state' => FALSE,
-          );
-        }
-        break;
-
-      default:
-        // 3.b. Get info on related entities.
-        $query = db_select('field_data_' . $field_name, 'fd');
-        $query->condition('fd.bundle', $bundle)
-              ->where('fd.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
-        if ($text_format) {
-          $query->condition('fd.' . $field_name . '_format', $text_format);
-        }
-        $query->fields('fd', array('entity_id', 'language'));
-        $query->distinct(TRUE);
-        $node_scans = $query->execute()->fetchAllAssoc('entity_id');
-
-        foreach ($node_scans as $entity_scan) {
-          $return[] = array(
-            'entity_type' => $entity_type,
-            'bundle' => $bundle,
-            'entity_id' => $entity_scan->entity_id,
-            'language' => $entity_scan->language,
-            'state' => FALSE,
-          );
-        }
-        break;
-    }
-  }
-
-  return $return;
-}
-
-/**
- * Get machine name of potential WYSIWYG fields.
- *
- * These fields are of the following types: text_long, text, text_with_summary.
- *
- * @return array
- *    list of field machine names.
- *
- * @see field_info_field_map
- */
-function _nexteuropa_trackedchanges_wysiwyg_fields_info() {
-  $field_types = array(
-    'text_long',
-    'text_with_summary',
-    'text',
-  );
-  $field_info_map = field_info_field_map();
-  $filtered = array_filter($field_info_map, function ($item) use ($field_types) {
-    return in_array($item['type'], $field_types);
-  });
-
-  return array_keys($filtered);
-}
-
-/**
- * Batch operation callback scanning field revision tables for tracked changes.
- */
-function _nexteuropa_trackedchanges_revisions_scanning_process(&$context) {
-  if (!isset($context['sandbox']['progress'])) {
-    $context['sandbox']['progress'] = 0;
-    $context['results']['detected_entity_types'] = array();
-    $context['sandbox']['field_list'] = _nexteuropa_trackedchanges_wysiwyg_fields_info();
-    $context['sandbox']['max'] = count($context['sandbox']['field_list']);
-  }
-
-  $field_name = array_shift($context['sandbox']['field_list']);
-  $context['message'] = t("@field_name's revision table is scanned", array('@field_name' => $field_name));
-
-  $scanning_results = _nexteuropa_trackedchanges_check_field_revisions($field_name);
-
-  if ($scanning_results) {
-    $previous_detected_items = $context['results']['detected_entity_types'];
-    $results = array_merge($previous_detected_items, $scanning_results);
-    $context['results']['detected_entity_types'] = $results;
-  }
-  $context['sandbox']['progress']++;
-
-  if (empty($context['sandbox']['field_list'])) {
-    $context['finished'] = 1;
-  }
-  elseif ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
-  }
-}
-
-/**
- * Batch operation scanning field revision tables for tracked changes.
- *
- * @see nexteuropa_trackedchanges_table_rebuilt()
- */
-function _nexteuropa_trackedchanges_entity_scanning_process(&$context) {
-  if (!isset($context['sandbox']['detected_entity_types'])) {
-    $context['sandbox']['progress'] = 0;
-    $context['results']['detected_entities'] = array();
-    $context['sandbox']['detected_entity_types'] = $context['results']['detected_entity_types'];
-    $context['sandbox']['max'] = count($context['sandbox']['detected_entity_types']);
-  }
-
-  $message['message'] = t('No scan to perform on entities.');
-  if (!empty($context['sandbox']['detected_entity_types'])) {
-    $field_entity_info = array_shift($context['sandbox']['detected_entity_types']);
-    $context['message'] = t("@field_name's entities are scanned", array('@field_name' => $field_entity_info->field_name));
-
-    $scanning_results = _nexteuropa_trackedchanges_check_field_entities($field_entity_info->field_name, $field_entity_info->entity_type, $field_entity_info->bundle);
-
-    if ($scanning_results) {
-      $previous_detected_items = $context['results']['detected_entities'];
-      foreach ($scanning_results as $scanning_result) {
-        $key = $scanning_result['entity_type'] . '-' . $scanning_result['bundle'] . '-' . $scanning_result['entity_id'];
-        if (isset($previous_detected_items[$key])) {
-          // From _nexteuropa_trackedchanges_check_field_entities, we know there
-          // is only one language in the "languages" array.
-          $scanned_language = end($scanning_result['languages']);
-          if (!in_array($scanned_language, $previous_detected_items[$key]['languages'])) {
-            $previous_detected_items[$key]['languages'][] = $scanned_language;
-          }
-        }
-        else {
-          $previous_detected_items[$key] = $scanning_result;
-        }
-      }
-      $context['results']['detected_entities'] = $previous_detected_items;
-    }
-  }
-  $context['sandbox']['progress']++;
-
-  if (empty($context['sandbox']['detected_entity_types'])) {
-    $context['finished'] = 1;
-  }
-  elseif ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
 }
