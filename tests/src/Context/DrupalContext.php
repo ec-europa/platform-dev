@@ -100,8 +100,8 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   /**
    * Logout custom.
    *
-   * @Given I am an anonymous user
-   * @Given I am not logged in
+   * @Given I am an anonymous user custom
+   * @Given I am not logged in custom
    */
   public function assertAnonymousUser() {
     // Verify the user is logged out.
