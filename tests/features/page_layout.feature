@@ -5,6 +5,11 @@ Feature: Page Layout
   I want to be able to see components in the right regions
 
   @javascript
+  Scenario: Anonymous user can see the links in header and footer
+    When I am on "/"
+    Then I should see "Legal notice" in the ".region-header-top" element
+
+  @javascript
   Scenario Outline: Anonymous user can see the links in header and footer
     When I am on the homepage
     Then I should see "<text>" in the "<element>" element
