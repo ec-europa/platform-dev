@@ -258,24 +258,12 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    */
   protected function getFieldIdFromInputLabel($label_value) {
     $driver = $this->getSession()->getDriver();
-    // try {
-      $input_id = $driver->getAttribute("//label[contains(text(),'$label_value')]", 'for');
-      if ($input_id) {
-        return $input_id;
-      }
-    // }
-    // catch (Exception $e) {
-      // Exceptions occurring here, have no relationship with the running test.
-      // Then, it is not the right level to raise an exception.
-      // The catch is nevertheless useful because exceptions could happen if
-      // the label value corresponds to the input id.
-      // The "echo" is inserted for debug purpose.
-      // echo (sprintf('An exception happens because "%s" was not found as Label.
-      // that means that could be an id then getFieldIdFromInputLabel is as id.', $label_value));
-    // }
-    // If the id is not found, the label is considered as input id and the
-    // scenario step calling the function must decide what to do with the
-    // returned value.
+
+    $input_id = $driver->getAttribute("//label[contains(text(),'$label_value')]", 'for');
+    if ($input_id) {
+      return $input_id;
+    }
+
     return $label_value;
   }
 
