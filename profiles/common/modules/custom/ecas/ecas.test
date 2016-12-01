@@ -220,7 +220,7 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('admin/structure/block');
 
-    $this->assertText(t('ECAS User login'), 'The ECAS login block was found.');
+    $this->assertText(t('EU Login - User login'), 'The ECAS login block was found.');
 
     $edit = array(
       'blocks[ecas_ecas][region]' => 'sidebar_first',
@@ -259,14 +259,14 @@ class EcasFunctionalTest extends DrupalWebTestCase {
     $this->assertField('edit-pass-pass1', 'Password field is present');
     $this->assertField('edit-pass-pass2', 'Password confirm field is present.');
     $this->assertFieldEnabled('edit-mail');
-    $this->assertNoText(t('This account is managed by ECAS. Its password can be changed using'), 'The user edit form is not changed by the ECAS module for a normal drupal user.');
+    $this->assertNoText(t('This account is managed by EU Login. Its password can be changed using'), 'The user edit form is not changed by the ECAS module for a normal drupal user.');
     $this->drupalLogin($this->ecasUser);
     $this->drupalGet('user/' . ($this->ecasUser->uid) . '/edit');
     $this->assertNoField('edit-current-pass', 'Current password field is hidden.');
     $this->assertNoField('edit-pass-pass1', 'Password field is hidden.');
     $this->assertNoField('edit-pass-pass2', 'Password confirm field is hidden.');
     $this->assertFieldDisabled('edit-mail');
-    $this->assertText(t('This account is managed by ECAS. Its password can be changed using'), 'The user edit form was succesfully altered by the ECAS module for ECAS users.');
+    $this->assertText(t('This account is managed by EU Login. Its password can be changed using'), 'The user edit form was succesfully altered by the ECAS module for ECAS users.');
   }
 
   /**
