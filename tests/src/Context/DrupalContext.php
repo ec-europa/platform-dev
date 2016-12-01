@@ -97,4 +97,18 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     unset($this->maxNodeId);
   }
 
+  /**
+   * @Given I am an anonymous user
+   * @Given I am not logged in
+   */
+  public function assertAnonymousUser() {
+    // Verify the user is logged out.
+    if ($this->loggedIn()) {
+      $this->logout();
+    }
+    if ($this->loggedIn()) {
+      throw new \Exception("Logout failed.");
+    }
+  }
+
 }
