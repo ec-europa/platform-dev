@@ -306,16 +306,16 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_typ
     return FALSE;
   }
   // Get the corresponding LANGUAGE_NONE alias.
-  $entity_uri = $entity->path['source'];
-  $language_none_path = path_load(array('source' => $entity_uri, 'language' => LANGUAGE_NONE));
+  $entity_uri = entity_uri($entity_type, $entity);
+  $language_none_path = path_load(array('source' => $entity_uri['path'], 'language' => LANGUAGE_NONE));
   $language_none_alias = $language_none_path['alias'];
 
   // Check if pathauto is activtedin LANGUAGE_NONE case.
   // Logic is taken from Pathauto itself.
   // @see pathauto_entity_presave() & pathauto_field_attach_form().
   module_load_include('inc', 'pathauto');
-  $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_uri, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
-  $pathauto = ($language_none_alias != $entity_uri && $language_none_alias == $pathauto_alias);
+  $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_uri['path'], array($entity_type => $entity), $bundle, LANGUAGE_NONE);
+  $pathauto = ($language_none_alias != $entity_uri['path'] && $language_none_alias == $pathauto_alias);
 
   if (isset($entity_uri->workbench_moderation) && isset($entity_uri->workbench_moderation['published'])) {
     $pathauto = FALSE;

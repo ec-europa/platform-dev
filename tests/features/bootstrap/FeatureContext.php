@@ -468,6 +468,105 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * Make a user with the OG role in the group (create it if it doesn't exist).
+   *
+   * @Given I am a/an :roles user, member of entity :entity_name of type :entity_type as :group_role
+   */
+  public function iAmMemberOfEntityHavingRole($roles, $group_role, $entity_name, $entity_type) {
+    $admin = user_load(1);
+    // Create the user.
+    $account = (object) array(
+      'name' => $this->getRandom()->name(8),
+      'mail' => $this->getRandom()->name(8) . '@example.com',
+      'pass' => $this->getRandom()->name(16),
+      'role' => $roles,
+      'field_terms_and_conditions' => 'Terms and conditions have been accepted',
+    );
+    $this->userCreate($account);
+    $roles = array_map('trim', explode(',', $roles));
+    foreach ($roles as $role) {
+      if (!in_array($role, array('authenticated', 'authenticated user'))) {
+        $this->getDriver()->userAddRole($account, $role);
+      }
+    }
+    // Try to use an existing 'entity' node.
+    try {
+      $entity = $this->getNodeByTitle($entity_type, $entity_name);
+    }
+    catch (ExpectationException $e) {
+      $entity = FALSE;
+    }
+    // Create the group, if doesn't exist.
+    if (!$entity) {
+      $entity = $this->nodeCreate((object) array(
+        'status' => TRUE,
+        'uid' => 1,
+        'type' => $entity_type,
+        'title' => $entity_name,
+      ));
+    }
+    $this->addMembertoGroup($account, $group_role, $entity);
+    // Authenticate.
+    $this->login();
+  }
+
+  /**
+   * Adds a member to an organic group with the specified role.
+   *
+   * @param object $account
+   *   The user to be added in group.
+   * @param string $group_role
+   *   The machine name of the group role.
+   * @param object $group
+   *   The group node.
+   * @param string $group_type
+   *   (optional) The group's entity type.
+   *
+   * @throws \Exception
+   *    Print out descriptive error message by throwing an exception.
+   */
+  protected function addMembertoGroup($account, $group_role, $group, $group_type = 'node') {
+    list($gid,,) = entity_extract_ids($group_type, $group);
+    $membership = og_group($group_type, $gid, array(
+      'entity type' => 'user',
+      'entity' => $account,
+    ));
+    if (!$membership) {
+      throw new \Exception("The Organic Group membership could not be created.");
+    }
+    // Add role for membership.
+    $roles = og_roles($group_type, $group->type, $gid);
+    $rid = array_search($group_role, $roles);
+    if (!$rid) {
+      throw new \Exception("'$group_role' is not a valid group role.");
+    }
+    og_role_grant($group_type, $gid, $account->uid, $rid);
+  }
+
+  /**
+   * Loads a node by its title.
+   *
+   * @param string $type
+   *   The node type.
+   * @param string $title
+   *   The node title.
+   *
+   * @return \stdClass
+   *   The node object.
+   *
+   * @throws ExpectationException
+   *   When no node is found.
+   */
+  protected function getNodeByTitle($type, $title) {
+    if (!($node = node_load_multiple(array(), array('type' => $type, 'title' => $title), TRUE))) {
+      throw new ExpectationException("There's no '$type' node entitled '$title'.", $this->getSession());
+    }
+    $node = reset($node);
+    return $node;
+
+  }
+
+  /**
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
