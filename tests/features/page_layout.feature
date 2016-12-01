@@ -7,8 +7,20 @@ Feature: Page Layout
   Background:
     Given I am not logged in
 
+  Scenario Outline: Anonymous user can see the page title
+    When I go to "<page>"
+    Then I should see "<text>" in the "html head title" element
+
+    # Test the page head title in different pages
+    Examples:
+      | page       | text                                        |
+      | search     | Search - European Commission                |
+      | contact    | Contact - European Commission               |
+      | user       | User account - European Commission          |
+      | /          | Welcome to NextEuropa - European Commission |
+
   Scenario Outline: Anonymous user can see the links in header and footer
-    When I am on the homepage
+    When I go to the homepage
     Then I should see "<text>" in the "<element>" element
 
     # Test all links in header and footer
@@ -24,16 +36,3 @@ Feature: Page Layout
       | Cookies                  | .region-footer           |
       | Contact on Europa        | .region-footer           |
       | Search on Europa         | .region-footer           |
-
-
-  Scenario Outline: Anonymous user can see the page title
-    When I am on "<page>"
-    Then I should see "<text>" in the "html head title" element
-
-    # Test the page head title in different pages
-    Examples:
-      | page       | text                                        |
-      | /          | Welcome to NextEuropa - European Commission |
-      | search     | Search - European Commission                |
-      | contact    | Contact - European Commission               |
-      | user       | User account - European Commission          |
