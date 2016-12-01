@@ -4,6 +4,9 @@ Feature: Page Layout
   As a citizen of the European Union
   I want to be able to see components in the right regions
 
+  Background:
+    Given I am not logged in
+
   @javascript
   Scenario: Anonymous user can see the links in header and footer
     When I am on "/"
