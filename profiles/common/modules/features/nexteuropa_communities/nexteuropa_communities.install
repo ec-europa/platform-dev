@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install, uninstall, schema and update hooks for NextEuropa Communities.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_communities_enable() {
+  $pattern = '[site:nexteuropa_communities_keyword]/[node:og-group-ref]/[node:content-type]/[node:title]';
+  variable_set('pathauto_nexteuropa_communities_pattern', $pattern);
+}

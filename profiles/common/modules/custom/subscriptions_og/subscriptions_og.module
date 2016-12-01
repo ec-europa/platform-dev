@@ -200,16 +200,16 @@ function subscriptions_og_page(array $form, $uid) {
  *
  * Intended for use with usort() and similar functions.
  *
- * @param OgGroup $first
+ * @param StdClass $first
  *   First title to compare.
- * @param OgGroup $second
+ * @param StdClass $second
  *   Second title to compare.
  *
  * @return int
  *   < 0 if $first comes before $second, > 0 if $second comes before $first, and
  *   0 if they are equal in sorting order.
  */
-function _subscriptions_og_compare_groups(OgGroup $first, OgGroup $second) {
+function _subscriptions_og_compare_groups(StdClass $first, StdClass $second) {
   return strcmp($first->title, $second->title);
 }
 
