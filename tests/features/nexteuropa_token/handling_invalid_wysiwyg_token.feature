@@ -7,7 +7,7 @@ Feature: Testing wrong token association for Next Europa token module
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @javascript @wip
+  @javascript
   Scenario: Checking WYSIWYG elements and processing content to get entry in Drupal watchdog
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
