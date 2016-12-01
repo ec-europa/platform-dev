@@ -5,7 +5,7 @@ Feature: Page Layout
   I want to be able to see components in the right regions
 
   Background:
-    Given I am not logged in
+    Given I am logged in as a user with the 'anonymous user' role
 
   Scenario: Anonymous user can see the links in header and footer
     When I am on "/"
