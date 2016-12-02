@@ -106,7 +106,7 @@ dependencies[] = filefield_sources_plupload
 
 dependencies[] = multisite_create_button
 dependencies[] = multisite_drupal_toolbox
-dependencies[] = multisite_drupal_features_set_standard
+dependencies[] = nexteuropa_features_set
 
 ; Features.
 dependencies[] = cce_basic_config

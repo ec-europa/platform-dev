@@ -10,284 +10,284 @@
 function nexteuropa_feature_set_user_default_permissions() {
   $permissions = array();
 
-  // Exported permission: 'enable feature set contact_form'.
-  $permissions['enable feature set contact_form'] = array(
-    'name' => 'enable feature set contact_form',
+  // Exported permission: 'manage feature contact_form'.
+  $permissions['manage feature contact_form'] = array(
+    'name' => 'manage feature contact_form',
     'roles' => array(
       'administrator' => 'administrator',
     ),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set  e_library_standard'.
-  $permissions['enable feature set e_library_standard'] = array(
-    'name' => 'enable feature set e_library_standard',
+  // Exported permission: 'manage feature  e_library_standard'.
+  $permissions['manage feature e_library_standard'] = array(
+    'name' => 'manage feature e_library_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set ec_content_slider'.
-  $permissions['enable feature set ec_content_slider'] = array(
-    'name' => 'enable feature set ec_content_slider',
+  // Exported permission: 'manage feature ec_content_slider'.
+  $permissions['manage feature ec_content_slider'] = array(
+    'name' => 'manage feature ec_content_slider',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set ec_embedded_image'.
-  $permissions['enable feature set ec_embedded_image'] = array(
-    'name' => 'enable feature set ec_embedded_image',
+  // Exported permission: 'manage feature ec_embedded_image'.
+  $permissions['manage feature ec_embedded_image'] = array(
+    'name' => 'manage feature ec_embedded_image',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set ec_embedded_video'.
-  $permissions['enable feature set ec_embedded_video'] = array(
-    'name' => 'enable feature set ec_embedded_video',
+  // Exported permission: 'manage feature ec_embedded_video'.
+  $permissions['manage feature ec_embedded_video'] = array(
+    'name' => 'manage feature ec_embedded_video',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set ec_profiles'.
-  $permissions['enable feature set ec_profiles'] = array(
-    'name' => 'enable feature set ec_profiles',
+  // Exported permission: 'manage feature ec_profiles'.
+  $permissions['manage feature ec_profiles'] = array(
+    'name' => 'manage feature ec_profiles',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set ec_world_countries'.
-  $permissions['enable feature set ec_world_countries'] = array(
-    'name' => 'enable feature set ec_world_countries',
+  // Exported permission: 'manage feature ec_world_countries'.
+  $permissions['manage feature ec_world_countries'] = array(
+    'name' => 'manage feature ec_world_countries',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set events_standard'.
-  $permissions['enable feature set events_standard'] = array(
-    'name' => 'enable feature set events_standard',
+  // Exported permission: 'manage feature events_standard'.
+  $permissions['manage feature events_standard'] = array(
+    'name' => 'manage feature events_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set f_a_q'.
-  $permissions['enable feature set f_a_q'] = array(
-    'name' => 'enable feature set f_a_q',
+  // Exported permission: 'manage feature f_a_q'.
+  $permissions['manage feature f_a_q'] = array(
+    'name' => 'manage feature f_a_q',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set fat_footer'.
-  $permissions['enable feature set fat_footer'] = array(
-    'name' => 'enable feature set fat_footer',
+  // Exported permission: 'manage feature fat_footer'.
+  $permissions['manage feature fat_footer'] = array(
+    'name' => 'manage feature fat_footer',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set feed_rss_core'.
-  $permissions['enable feature set feed_rss_core'] = array(
-    'name' => 'enable feature set feed_rss_core',
+  // Exported permission: 'manage feature feed_rss_core'.
+  $permissions['manage feature feed_rss_core'] = array(
+    'name' => 'manage feature feed_rss_core',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set idea_standard'.
-  $permissions['enable feature set idea_standard'] = array(
-    'name' => 'enable feature set idea_standard',
+  // Exported permission: 'manage feature idea_standard'.
+  $permissions['manage feature idea_standard'] = array(
+    'name' => 'manage feature idea_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set links_standard'.
-  $permissions['enable feature set links_standard'] = array(
-    'name' => 'enable feature set links_standard',
+  // Exported permission: 'manage feature links_standard'.
+  $permissions['manage feature links_standard'] = array(
+    'name' => 'manage feature links_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multi_user_blog'.
-  $permissions['enable feature set multi_user_blog'] = array(
-    'name' => 'enable feature set multi_user_blog',
+  // Exported permission: 'manage feature multi_user_blog'.
+  $permissions['manage feature multi_user_blog'] = array(
+    'name' => 'manage feature multi_user_blog',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multilingual_tools'.
-  $permissions['enable feature set multilingual_tools'] = array(
-    'name' => 'enable feature set multilingual_tools',
+  // Exported permission: 'manage feature multilingual_tools'.
+  $permissions['manage feature multilingual_tools'] = array(
+    'name' => 'manage feature multilingual_tools',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_activity_standard'.
-  $permissions['enable feature set multisite_activity_standard'] = array(
-    'name' => 'enable feature set multisite_activity_standard',
+  // Exported permission: 'manage feature multisite_activity_standard'.
+  $permissions['manage feature multisite_activity_standard'] = array(
+    'name' => 'manage feature multisite_activity_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_audio'.
-  $permissions['enable feature set multisite_audio'] = array(
-    'name' => 'enable feature set multisite_audio',
+  // Exported permission: 'manage feature multisite_audio'.
+  $permissions['manage feature multisite_audio'] = array(
+    'name' => 'manage feature multisite_audio',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported 'enable feature set multisite_business_indicators_standard'.
-  $permissions['enable feature set multisite_business_indicators_standard'] = array(
-    'name' => 'enable feature set multisite_business_indicators_standard',
+  // Exported 'manage feature multisite_business_indicators_standard'.
+  $permissions['manage feature multisite_business_indicators_standard'] = array(
+    'name' => 'manage feature multisite_business_indicators_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_crop_and_resize'.
-  $permissions['enable feature set multisite_crop_and_resize'] = array(
-    'name' => 'enable feature set multisite_crop_and_resize',
+  // Exported permission: 'manage feature multisite_crop_and_resize'.
+  $permissions['manage feature multisite_crop_and_resize'] = array(
+    'name' => 'manage feature multisite_crop_and_resize',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_maxlength'.
-  $permissions['enable feature set multisite_maxlength'] = array(
-    'name' => 'enable feature set multisite_maxlength',
+  // Exported permission: 'manage feature multisite_maxlength'.
+  $permissions['manage feature multisite_maxlength'] = array(
+    'name' => 'manage feature multisite_maxlength',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_mediagallery_standard'.
-  $permissions['enable feature set multisite_mediagallery_standard'] = array(
-    'name' => 'enable feature set multisite_mediagallery_standard',
+  // Exported permission: 'manage feature multisite_mediagallery_standard'.
+  $permissions['manage feature multisite_mediagallery_standard'] = array(
+    'name' => 'manage feature multisite_mediagallery_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_megamenu'.
-  $permissions['enable feature set multisite_megamenu'] = array(
-    'name' => 'enable feature set multisite_megamenu',
+  // Exported permission: 'manage feature multisite_megamenu'.
+  $permissions['manage feature multisite_megamenu'] = array(
+    'name' => 'manage feature multisite_megamenu',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_metatags'.
-  $permissions['enable feature set multisite_metatags'] = array(
-    'name' => 'enable feature set multisite_metatags',
+  // Exported permission: 'manage feature multisite_metatags'.
+  $permissions['manage feature multisite_metatags'] = array(
+    'name' => 'manage feature multisite_metatags',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_multilingual_references'.
-  $permissions['enable feature set multisite_multilingual_references'] = array(
-    'name' => 'enable feature set multisite_multilingual_references',
+  // Exported permission: 'manage feature multisite_multilingual_references'.
+  $permissions['manage feature multisite_multilingual_references'] = array(
+    'name' => 'manage feature multisite_multilingual_references',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_notifications_core'.
-  $permissions['enable feature set multisite_notifications_core'] = array(
-    'name' => 'enable feature set multisite_notifications_core',
+  // Exported permission: 'manage feature multisite_notifications_core'.
+  $permissions['manage feature multisite_notifications_core'] = array(
+    'name' => 'manage feature multisite_notifications_core',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_registration_standard'.
-  $permissions['enable feature set multisite_registration_standard'] = array(
-    'name' => 'enable feature set multisite_registration_standard',
+  // Exported permission: 'manage feature multisite_registration_standard'.
+  $permissions['manage feature multisite_registration_standard'] = array(
+    'name' => 'manage feature multisite_registration_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set multisite_translations'.
-  $permissions['enable feature set multisite_translations'] = array(
-    'name' => 'enable feature set multisite_translations',
+  // Exported permission: 'manage feature multisite_translations'.
+  $permissions['manage feature multisite_translations'] = array(
+    'name' => 'manage feature multisite_translations',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set news_standard'.
-  $permissions['enable feature set news_standard'] = array(
-    'name' => 'enable feature set news_standard',
+  // Exported permission: 'manage feature news_standard'.
+  $permissions['manage feature news_standard'] = array(
+    'name' => 'manage feature news_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set newsletters'.
-  $permissions['enable feature set newsletters'] = array(
-    'name' => 'enable feature set newsletters',
+  // Exported permission: 'manage feature newsletters'.
+  $permissions['manage feature newsletters'] = array(
+    'name' => 'manage feature newsletters',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set nexteuropa_geofield'.
-  $permissions['enable feature set nexteuropa_geofield'] = array(
-    'name' => 'enable feature set nexteuropa_geofield',
+  // Exported permission: 'manage feature nexteuropa_geofield'.
+  $permissions['manage feature nexteuropa_geofield'] = array(
+    'name' => 'manage feature nexteuropa_geofield',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set nexteuropa_geojson_feeds'.
-  $permissions['enable feature set nexteuropa_geojson_feeds'] = array(
-    'name' => 'enable feature set nexteuropa_geojson_feeds',
+  // Exported permission: 'manage feature nexteuropa_geojson_feeds'.
+  $permissions['manage feature nexteuropa_geojson_feeds'] = array(
+    'name' => 'manage feature nexteuropa_geojson_feeds',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set nexteuropa_integration'.
-  $permissions['enable feature set nexteuropa_integration'] = array(
-    'name' => 'enable feature set nexteuropa_integration',
+  // Exported permission: 'manage feature nexteuropa_integration'.
+  $permissions['manage feature nexteuropa_integration'] = array(
+    'name' => 'manage feature nexteuropa_integration',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set nexteuropa_notices'.
-  $permissions['enable feature set nexteuropa_notices'] = array(
-    'name' => 'enable feature set nexteuropa_notices',
+  // Exported permission: 'manage feature nexteuropa_notices'.
+  $permissions['manage feature nexteuropa_notices'] = array(
+    'name' => 'manage feature nexteuropa_notices',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set nexteuropa_webtools'.
-  $permissions['enable feature set nexteuropa_webtools'] = array(
-    'name' => 'enable feature set nexteuropa_webtools',
+  // Exported permission: 'manage feature nexteuropa_webtools'.
+  $permissions['manage feature nexteuropa_webtools'] = array(
+    'name' => 'manage feature nexteuropa_webtools',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set node_pager'.
-  $permissions['enable feature set node_pager'] = array(
-    'name' => 'enable feature set node_pager',
+  // Exported permission: 'manage feature node_pager'.
+  $permissions['manage feature node_pager'] = array(
+    'name' => 'manage feature node_pager',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set sitemap'.
-  $permissions['enable feature set sitemap'] = array(
-    'name' => 'enable feature set sitemap',
+  // Exported permission: 'manage feature sitemap'.
+  $permissions['manage feature sitemap'] = array(
+    'name' => 'manage feature sitemap',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set splash_screen'.
-  $permissions['enable feature set splash_screen'] = array(
-    'name' => 'enable feature set splash_screen',
+  // Exported permission: 'manage feature splash_screen'.
+  $permissions['manage feature splash_screen'] = array(
+    'name' => 'manage feature splash_screen',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set survey_standard'.
-  $permissions['enable feature set survey_standard'] = array(
-    'name' => 'enable feature set survey_standard',
+  // Exported permission: 'manage feature survey_standard'.
+  $permissions['manage feature survey_standard'] = array(
+    'name' => 'manage feature survey_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set text_collapse'.
-  $permissions['enable feature set text_collapse'] = array(
-    'name' => 'enable feature set text_collapse',
+  // Exported permission: 'manage feature text_collapse'.
+  $permissions['manage feature text_collapse'] = array(
+    'name' => 'manage feature text_collapse',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature set wiki_standard'.
-  $permissions['enable feature set wiki_standard'] = array(
-    'name' => 'enable feature set wiki_standard',
+  // Exported permission: 'manage feature wiki_standard'.
+  $permissions['manage feature wiki_standard'] = array(
+    'name' => 'manage feature wiki_standard',
     'roles' => array(),
     'module' => 'multisite_drupal_features_set_standard',
   );
