@@ -101,7 +101,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       // Example: cke_editor_edit-field-ne-body-und-0-value_dialog.
       $modal_id = 'cke_editor_' . $field_id . '_dialog';
     }
-    $modal_element = $driver->find("//div[contains(@class, 'cke_1') and contains(@class, '$modal_id')]");
+    $modal_element = $driver->find("//div[contains(@class, 'cke_reset_all') and contains(@class, '$modal_id')]");
     $modal_element = !empty($modal_element) ? $modal_element[0] : NULL;
 
     if (!$modal_element) {
