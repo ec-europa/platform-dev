@@ -169,7 +169,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.11"
+projects[ds][version] = "2.14"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -596,10 +596,8 @@ projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
-projects[title][download][branch] = 7.x-1.x
-projects[title][download][revision] = 1f89073
-projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+projects[title][version] = "1.0-alpha8"
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
@@ -609,6 +607,10 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
+; NEPT-60
+; @see https://www.drupal.org/node/2812863
+; This patch fix the insufficient access check on Views.
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -876,11 +878,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 7.0
+; mpdf
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/7.0.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v6.1.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
@@ -930,8 +932,7 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 ; ======
 
 projects[bootstrap][type] = theme
-projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+projects[bootstrap][version] = 3.8
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
