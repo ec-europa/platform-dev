@@ -32,12 +32,30 @@ class NETCInfoController extends EntityAPIController {
       case 'paragraphs_item':
         // We need the entity label and id that host these kinds of field.
         // Retrieve the right NETCInfo in order to update it.
-        // TODO: implement recursive code.
-        $items = entity_load($entity->rel_entity_type, array($entity->rel_entity_id));
-        $related_entity = reset($items);
-        $wrapper = entity_metadata_wrapper($entity->rel_entity_type, $related_entity);
-        $entity->rel_entity_label = $wrapper->host_entity()->label();
-        $entity->rel_entity_id = $wrapper->host_entity()->id();
+        $tested_entity_id = $entity->rel_entity_id;
+        $tested_entity_type = $entity->rel_entity_type;
+        $in_array = array(
+          'field_collection_item',
+          'paragraphs_item',
+        );
+        // Recursive loop because a field collection/paragraph can be hosted in
+        // another field collection/paragraph.
+        while (in_array($tested_entity_type, $in_array)) {
+          $items = entity_load($tested_entity_type, array($tested_entity_id));
+          $related_entity = reset($items);
+          $wrapper = entity_metadata_wrapper($tested_entity_type, $related_entity);
+
+          $parent_entity_type = $wrapper->hostEntityType();
+          $parent_wrapper = entity_metadata_wrapper($parent_entity_type, $wrapper->host_entity());
+
+          $entity->rel_entity_label = $parent_wrapper->label();
+          $entity->rel_entity_id = $parent_wrapper->id();
+          $entity->rel_entity_type = $parent_entity_type;
+
+          $tested_entity_id = $parent_wrapper->id();
+          $tested_entity_type = $parent_entity_type;
+        }
+
         break;
 
       default:

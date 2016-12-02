@@ -146,9 +146,9 @@ function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form($form, &$form_
  */
 function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form_validate($form, &$form_state) {
   $values = $form_state['values'];
-  $elapse_time_value = $values['nexteuropa_trackedchanges_revuild_elapse_time'];
+  $elapse_time_value = $values['nexteuropa_trackedchanges_rebuild_elapse_time'];
   if (!is_numeric($elapse_time_value) || ($elapse_time_value < 0)) {
-    form_set_error('nexteuropa_trackedchanges_revuild_elapse_time',
+    form_set_error('nexteuropa_trackedchanges_rebuild_elapse_time',
       t('The "refresh frequency" field must be a positive number.'));
   }
 }
@@ -482,8 +482,8 @@ function nexteuropa_trackedchanges_table_rebuilt_submit($form, &$form_state) {
 
   // Empty the table and "lock" it.
   variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
-  // It is a rebuild, then we flush the table.
-  db_truncate('netc_info')->execute();
+  // It is a rebuild, then we flush the tables.
+  _nexteuropa_trackedchanges_clean_db();
 
   $operations = array();
   // The 2nd argument is useless in this case because the default Batch API
@@ -555,8 +555,8 @@ function nexteuropa_trackedchanges_table_init() {
 
   // Empty the table and "lock" it.
   variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
-  // It is a rebuild, then we flush the table.
-  db_truncate('netc_info')->execute();
+  // It is a rebuild, then we flush the tables.
+  _nexteuropa_trackedchanges_clean_db();
 
   $operations = array();
   // The 2nd argument is useless in this case because the default Batch API

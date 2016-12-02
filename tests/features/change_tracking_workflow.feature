@@ -8,24 +8,47 @@ Feature: Change tracking features
   translation; otherwise the content publishing is blocked
 
   Background:
-    Given the module is enabled
+    Given I am logged in as a user with the 'administrator' role
+    And the module is enabled
       | modules                   |
       | nexteuropa_trackedchanges |
 
+  @javascript @maximizedwindow
   Scenario: Checking WYSIWYG enabling and disabling change tracking on given WYSIWYG profile
-    Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
     Then I should see "Enabled" in the "Full HTML" row
     And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
     When I click "disable tracked changes buttons" in the "Full HTML" row
-    And I wait
+    And I wait for the batch job to finish
     Then I should see "Disabled" in the "Full HTML" row
     And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
 
+  @javascript
+  Scenario: Check that users can insert a webtools block into a content by using the Full HTML + Change tracking
+  text format
+    Given the module is enabled
+      | modules              |
+      | nexteuropa_webtools |
+    And a valid Smartload Url has been configured
+    And a map webtools "Block Webtools" exists
+    And I use device with "1920" px and "1080" px resolution
+    When I go to "node/add/page"
+    And I fill in "Title" with "Basic page with a Map"
+    And I select "Full HTML + Change tracking" from "Text format"
+    And I click the "Insert internal content" button in the "Body" WYSIWYG editor
+    Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
+    When I click the "Insert internal blocks" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
+    And I wait for AJAX to finish
+    When I click "Default" in the "Block Webtools" row
+    And I wait for AJAX to finish
+    And I press "Save"
+    Then I should see the success message "Basic page with a Map has been created."
+    And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
+
+
   @javascript @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
-    Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
     Then I should see "Enabled" in the "Full HTML" row
@@ -34,7 +57,7 @@ Feature: Change tracking features
     And I check the box "Enable tracking on edit content pages."
     And I press "Save configuration"
     And I go to "node/add/page"
-    And I fill in "Title" with "This is a page i want to reference"
+    And I fill in "Title" with "This is a page I want to reference"
     And I select "Full HTML" from "Text format"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
     When I press "Save"
@@ -43,21 +66,19 @@ Feature: Change tracking features
     Then I should see the "Stop tracking changes" button in the "Body" WYSIWYG editor
     And I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     When I click "disable tracked changes buttons" in the "Full HTML" row
-    And I wait
+    And I wait for the batch job to finish
     Then I should see "Disabled" in the "Full HTML" row
     When I go to "node/add/page"
-    And I fill in "Title" with "This is a new page i want to reference"
+    And I fill in "Title" with "This is a new page I want to reference"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
     When I press "Save"
     And I click "Edit draft"
     And I select "Full HTML" from "Text format"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
 
-  @javascript @maximizedwindow
   Scenario Outline: "Basic page" case: If WYSIWYG workflow settings are correctly
   configured, The change of the content state to "validated" or "published" must
   be blocked if CKEditor Lite tracked changes exist in WYSIWYG fields
-    Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
     And I check the box "Validated"
     And I check the box "Published"
@@ -90,15 +111,9 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Page body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
-  @javascript @maximizedwindow
-  Scenario Outline: "Article with neutral language" case: The change of the
+ Scenario Outline: "Article with neutral language" case: The change of the
   content state to "validated" or "published" must be blocked if CKEditor
   Lite tracked changes exist in WYSIWYG fields
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
-    And I check the box "Validated"
-    And I check the box "Published"
-    And I press "Save configuration"
     When I go to "node/add/article"
     And I fill in "Title" with "Article title"
     And I fill in "Body" with "Article body"
@@ -127,7 +142,6 @@ Feature: Change tracking features
       | <p>Article body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
   Scenario Outline: Change tracking are visible while seeing the content page
-    Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
     And I check the box "Validated"
     And I check the box "Published"
@@ -149,10 +163,8 @@ Feature: Change tracking features
       | <p><span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">consectetur </span></p>                                      | <p><span class=\"ice-del ckeditor-lite-del-inv ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">consectetur </span></p>                                  |
       | <p><a href=\"http://www.europa.eu\"><span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"3\" data-last-change-time=\"1470931716682\" data-time=\"1470931698028\" data-userid=\"1\" data-username=\"admin\">Link example</span></a></p> | <p><a href=\"http://www.europa.eu\"><span class=\"ice-ins ckeditor-lite-ins ice-cts-1\" data-changedata=\"\" data-cid=\"3\" data-last-change-time=\"1470931716682\" data-time=\"1470931698028\" data-userid=\"1\" data-username=\"admin\">Link example</span></a></p> |
 
-  @javascript @maximizedwindow
   Scenario Outline: If no changing tracks exist, I do not see any messages or HTML tags related to the change tracking
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
+    Given I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
     And I check the box "Validated"
     And I check the box "Published"
     And I press "Save configuration"
@@ -173,7 +185,6 @@ Feature: Change tracking features
       | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> |
       | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    |
 
-  @javascript @maximizedwindow
   Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
   CKEditor Lite tracked changes exist in WYSIWYG fields of a translation
     Given the following languages are available:

@@ -54,6 +54,14 @@ function nexteuropa_trackedchanges_views_default_views() {
   $handler->display->display_options['fields']['rel_entity_uri']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['rel_entity_uri']['display_as_link'] = FALSE;
   $handler->display->display_options['fields']['rel_entity_uri']['link_to_entity'] = 0;
+  /* Field: Tracked changes info: Concerned entity path */
+  $handler->display->display_options['fields']['rel_entity_path']['id'] = 'rel_entity_path';
+  $handler->display->display_options['fields']['rel_entity_path']['table'] = 'views_entity_netc_info';
+  $handler->display->display_options['fields']['rel_entity_path']['field'] = 'rel_entity_path';
+  $handler->display->display_options['fields']['rel_entity_path']['label'] = '';
+  $handler->display->display_options['fields']['rel_entity_path']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['rel_entity_path']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['rel_entity_path']['link_to_entity'] = 0;
   /* Field: Tracked changes info: Concerned entity label */
   $handler->display->display_options['fields']['rel_entity_label']['id'] = 'rel_entity_label';
   $handler->display->display_options['fields']['rel_entity_label']['table'] = 'views_entity_netc_info';
@@ -75,6 +83,7 @@ function nexteuropa_trackedchanges_views_default_views() {
   $handler->display->display_options['fields']['field_netc_info_languages']['field'] = 'field_netc_info_languages';
   $handler->display->display_options['fields']['field_netc_info_languages']['label'] = 'Translation with tracked changes';
   $handler->display->display_options['fields']['field_netc_info_languages']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_netc_info_languages']['type'] = 'text_plain';
   $handler->display->display_options['fields']['field_netc_info_languages']['delta_offset'] = '0';
   /* Field: Tracked changes info: Concerned entity bundle human name */
   $handler->display->display_options['fields']['rel_entity_bundle_name']['id'] = 'rel_entity_bundle_name';

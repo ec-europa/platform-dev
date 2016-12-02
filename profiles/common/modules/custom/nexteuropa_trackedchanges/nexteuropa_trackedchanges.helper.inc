@@ -142,6 +142,7 @@ function _nexteuropa_trackedchanges_tracking_entity_validate($form, &$form_state
       $current_ent_lang = $form_state['entity_translation']['form_langcode'];
     }
     $current_detected = (!empty($form_state['tracking_changes_detected'])) ? $form_state['tracking_changes_detected'] : array();
+
     // active_tracking_lang/inactive_tracking_lang: store the list of languages
     // for _nexteuropa_trackedchanges_tracking_entity_log uses.
     if ($current_detected) {
@@ -156,14 +157,15 @@ function _nexteuropa_trackedchanges_tracking_entity_validate($form, &$form_state
 
     if ($tracking_to_check) {
       $tracking_activate = _nexteuropa_trackedchanges_set_tracking_flags($entity);
-      if ($tracking_activate) {
-        // Unset because current form could be emptied of its tracked changes.
-        if (!$current_detected) {
-          unset($tracking_activate[$current_ent_lang]);
-          // Unset because it is common to all translations;even the
-          // current one.
-          unset($tracking_activate[LANGUAGE_NONE]);
-        }
+      // Merge the tracked change scan in DB and the one on form values.
+      if ($tracking_activate && !$current_detected) {
+        unset($tracking_activate[$current_ent_lang]);
+        // Unset because it is common to all translations;even the
+        // current one.
+        unset($tracking_activate[LANGUAGE_NONE]);
+      }
+      elseif ($current_detected) {
+        $tracking_activate[$current_ent_lang] = $current_ent_lang;
       }
 
       // Treating other translation revisions.
@@ -179,15 +181,16 @@ function _nexteuropa_trackedchanges_tracking_entity_validate($form, &$form_state
 /**
  * Submit callback for entity edit form.
  *
- * It is in charge of saving a nexteuropa_trackedchanges_info if tracked
+ * It is in charge of saving a netc_info if tracked
  * changes have been detected in one of its WYSIWYG fields.
  */
 function _nexteuropa_trackedchanges_tracking_entity_log($form, &$form_state) {
   $node = $form_state['node'];
   if (!empty($node->nid)) {
     $node_wrapper = entity_metadata_wrapper('node', $node);
-    $rel_entity_state = $node->status;
+    $rel_entity_state = NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE;
     $rel_entity_language = entity_language('node', $node);
+
     $values = $form_state['values'];
     if (isset($values['workbench_moderation_state_new'])) {
       $rel_entity_state = $values['workbench_moderation_state_new'];
@@ -217,6 +220,9 @@ function _nexteuropa_trackedchanges_tracking_entity_log($form, &$form_state) {
       $wrapper->rel_entity_label->set($node_wrapper->label());
       $wrapper->rel_entity_state->set($rel_entity_state);
       $wrapper->rel_entity_language->set($rel_entity_language);
+
+      $node_uri = entity_uri('node', $node);
+      $wrapper->rel_entity_path->set($node_uri['path']);
 
       // If the array contains "und" while the current lang is not "und",
       // we unset it because an entity cannot be "und" and in the same time
@@ -797,11 +803,11 @@ function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_ty
 
             $return[] = $info;
           }
-        }
 
-        // Code executed below is useless as already checked here.
-        // Then, break.
-        break;
+          // Code executed below is useless as already checked here.
+          // Then, break.
+          break;
+        }
       }
 
       // 3.a.2 Check other nodes on the field data table which is the current
@@ -848,7 +854,7 @@ function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_ty
           'rel_entity_type' => $entity_type,
           'rel_entity_bundle' => $bundle,
           'rel_entity_id' => $entity_scan->entity_id,
-          'rel_entity_state' => FALSE,
+          'rel_entity_state' => NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE,
           'rel_entity_language' => $entity_scan->language,
         );
 
@@ -1027,9 +1033,12 @@ function _nexteuropa_trackedchanges_table_rebuilt_process($wysiwyg_profile, &$co
     $entity_wrapper = entity_metadata_wrapper('netc_info', $entity);
     $entity_wrapper->rel_entity_label->set($src_wrapper->label());
     $new_languages = array_values($detected_entity['field_netc_info_languages']);
+    $src_entity_uri = entity_uri($detected_entity['rel_entity_type'], $src_entity);
+    $entity_wrapper->rel_entity_path->set($src_entity_uri['path']);
+    $entity_wrapper->rel_entity_state->set($detected_entity['rel_entity_state']);
 
     if ($context['results']['text_format']) {
-      // If we tak a profile into account, we only update the language list as
+      // If we take a profile into account, we only update the language list as
       // the entity (node, file ...) could have other WYSIWYG field using
       // another profile where the change tracking is activate.
       $persisted_values = $entity_wrapper->field_netc_info_languages->value();
@@ -1076,4 +1085,13 @@ function _nexteuropa_trackedchanges_table_rebuild() {
   }
 
   return TRUE;
+}
+
+/**
+ * Truncate data related to 'netc_info' into the DB.
+ */
+function _nexteuropa_trackedchanges_clean_db() {
+  db_truncate('netc_info')->execute();
+  db_delete('field_revision_field_netc_info_languages')->condition('entity_type', 'netc_info')->execute();
+  db_delete('field_data_field_netc_info_languages')->condition('entity_type', 'netc_info')->execute();
 }

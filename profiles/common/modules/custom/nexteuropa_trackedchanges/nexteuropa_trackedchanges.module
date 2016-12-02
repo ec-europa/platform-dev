@@ -9,6 +9,7 @@ include_once 'nexteuropa_trackedchanges.helper.inc';
 
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME', 'full_html_track');
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME', 'Full HTML + Change tracking');
+define('NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE', 'none');
 
 /**
  * Implements hook_menu().
@@ -225,6 +226,15 @@ function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
     'setter callback' => 'entity_property_verbatim_set',
     'entity views field' => TRUE,
   );
+  $info['netc_info']['properties']['rel_entity_path'] = array(
+    'label' => t('Concerned entity path'),
+    'description' => t('Concerned entity path where tracked changes have been detected.'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_path',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
   $info['netc_info']['properties']['scanned'] = array(
     'label' => t('Scanning date of the info'),
     'description' => t('Timestamp of the date when the info entity has been created.'),
@@ -238,12 +248,68 @@ function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
 
 /**
  * Implements hook_views_api().
+ *
+ * @see nexteuropa_trackedchanges_views_default_views()
  */
 function nexteuropa_trackedchanges_views_api() {
   return array(
     'api' => 3.0,
     'path' => drupal_get_path('module', 'nexteuropa_trackedchanges') . '/views',
   );
+}
+/**
+ * Implements hook_views_pre_render().
+ *
+ * @see nexteuropa_trackedchanges_views_default_views()
+ */
+function nexteuropa_trackedchanges_views_pre_render(&$view) {
+  // Alter the display of the language list shown with each row on the
+  // "Content tracked changes" page.
+  if (($view->name == 'content_tracked_changes') && ($view->current_display == 'page')) {
+    $results = $view->result;
+
+    if ($results) {
+      $language_list = language_list();
+      foreach ($results as $key => $result) {
+        $entity_path = '';
+        $entity_moderation_state = '';
+        if (isset($result->_field_data)) {
+          $nect_info_entity = $result->_field_data['info_id']['entity'];
+          $nect_info_entity_type = $result->_field_data['info_id']['entity_type'];
+          $wrapper = entity_metadata_wrapper($nect_info_entity_type, $nect_info_entity);
+          $entity_path = $wrapper->rel_entity_path->value();
+          $entity_moderation_state = $wrapper->rel_entity_state->value();
+        }
+
+        if ($entity_path) {
+          $languages_field = $result->field_field_netc_info_languages;
+          if ($languages_field) {
+            foreach ($languages_field as $key2 => $lang_value) {
+              $raw = $lang_value['raw']['value'];
+
+              $is_moderated = FALSE;
+              if (module_exists('workbench_moderation')) {
+                $is_moderated = (user_access('view all unpublished content') &&
+                  ($entity_moderation_state != NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE));
+              }
+
+              if ($is_moderated) {
+                // Workbench moderation case, we redirect directly to the
+                // draft view.
+                $entity_path .= '/draft';
+                $link = l($raw, $entity_path, array('language' => $language_list[$raw]));
+              }
+              else {
+                $link = l($raw, $entity_path, array('language' => $language_list[$raw]));
+              }
+              $lang_value['rendered']['#markup'] = $link;
+              $result->field_field_netc_info_languages[$key2] = $lang_value;
+            }
+          }
+        }
+      }
+    }
+  }
 }
 
 /**
