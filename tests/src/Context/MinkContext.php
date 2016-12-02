@@ -151,6 +151,19 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
+   * Checks if the box is unchecked.
+   *
+   * @When I should not see the box :arg1 checked
+   */
+  public function assertBoxIsUnChecked($arg1) {
+    $is_checked = $this->getSession()->getPage()->hasCheckedField($arg1);
+
+    if ($is_checked) {
+      throw new ExpectationException("The box '$arg1' is not checked.", $this->getSession());
+    }
+  }
+
+  /**
    * Set all permissions to admin role.
    *
    * @Given I update the administrator role permissions
