@@ -1,4 +1,4 @@
-The TMGMT Poetry module allows the creation of translation managers
+The Nexteuropa DGT connector feature allows the creation of translation managers
 that make use of the European Commission DGT connector services
 (translations served by DGT).
 
