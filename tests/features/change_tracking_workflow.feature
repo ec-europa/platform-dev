@@ -1,4 +1,4 @@
-@api @wip
+@api
 Feature: Change tracking features
   In order to ease communications between editors while they manage website
   content, a tracking feature is available with WYSIWYG fields.
@@ -143,3 +143,12 @@ Feature: Change tracking features
     Examples:
       | blocked                                                                                                                                                                                                                                  |
       | <p>Corps de page<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> avec contenu additionnel</span></p> |
+
+  Scenario: Make sure that inline images are correctly shown when tracking change is enabled.
+    Given I am viewing an "page" content:
+      | title                | Checking inline images work |
+      | field_ne_body:value  | <p>The following inline image should be displayed.</p> [[{"fid":"1","view_mode":"default","fields":{"format":"default","field_file_image_alt_text[und][0][value]":"","field_file_image_title_text[und][0][value]":"","field_caption[und][0][value]":""},"type":"media","attributes":{"class":"media-element file-default"}}]] |
+      | field_ne_body:format | full_html_track |
+    Then I should not see "[[{"
+    And I should not see "}]]"
+    But the response should contain "sites/default/files/default_images/user_default.png"
