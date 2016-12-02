@@ -19,7 +19,7 @@ function multisite_drupal_features_set_standard_permission() {
   $permissions = array();
   if (!empty($featuresets)) {
     foreach ($featuresets as $featureset => $details) {
-      $permissions['enable feature set' . $featureset] = array(
+      $permissions['enable feature set ' . $featureset] = array(
         'title' => t('Administer feature set @feature', array('@featureset', $featureset)),
         'description' => t('Enable and disable feature set @feature as defined by the feature set module. Note that this functionality is similar and is a subset of the functionality allowed by administer modules so be aware that users with this permission will be able to enable, disable, and uninstall modules defined via the feature set module', array('@feature' => $featureset)),
       );
