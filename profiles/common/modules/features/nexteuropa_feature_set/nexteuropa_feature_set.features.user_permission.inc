@@ -131,7 +131,7 @@ function nexteuropa_feature_set_user_default_permissions() {
     'module' => 'multisite_drupal_features_set_standard',
   );
 
-  // Exported permission: 'enable feature setmultisite_business_indicators_standard'.
+  // Exported 'enable feature setmultisite_business_indicators_standard'.
   $permissions['enable feature setmultisite_business_indicators_standard'] = array(
     'name' => 'enable feature setmultisite_business_indicators_standard',
     'roles' => array(),

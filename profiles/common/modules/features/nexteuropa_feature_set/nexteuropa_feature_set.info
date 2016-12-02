@@ -2,7 +2,7 @@ name = Nexteuropa Feature set
 description = A module that package some configuration for feature set uses
 core = 7.x
 package = NextEuropa
-version = 7.x-1.0
+
 dependencies[] = features
 dependencies[] = multisite_drupal_features_set_standard
 features[features_api][] = api:2
