@@ -2,7 +2,7 @@ name = Multisite drupal features set standard
 description = settings for the features set for the standard profile
 package = multisite drupal toolbox
 core = 7.x
-dependencies[] = features_set
+dependencies[] = feature_set
 datestamp = "1322093758"
 
 ; Communication
