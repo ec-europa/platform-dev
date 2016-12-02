@@ -94,6 +94,22 @@ function tmgmt_poetry_uninstall() {
   }
 }
 
+/**
++ * Implements hook_requirements().
++ */
+function nexteuropa_varnish_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  if ($phase == 'install') {
+    if (!isset($conf['poetry_service']['address'])) {
+      $requirements['poetry_service'] = array(
+        'description' => $t('The DGT webservice endpoint is not set.'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+    return $requirements;
+  }
+}
 
 /**
  * Remove username and passwords from db in case it was already set.
