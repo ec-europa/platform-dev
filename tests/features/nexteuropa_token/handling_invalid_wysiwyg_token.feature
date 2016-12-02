@@ -29,7 +29,7 @@ Feature: Testing wrong token association for Next Europa token module
     And I click "Disable rich-text"
     Then I should see ":view-mode:full]{This is a page i want to reference as Full content}</p>"
     And I fill in "Body" with "<p>[node:99999:view-mode:full]{A node that does not exist as Full content}</p>"
-    And I press "Save"
+    # And I press "Save"
     # Then I should see "[node:99999:view-mode:full]"
     # And I click "Edit draft"
     # And I press "Delete"
