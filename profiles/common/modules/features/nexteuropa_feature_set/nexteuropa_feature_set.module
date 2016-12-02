@@ -1,5 +1,17 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Implements some specific logic for platform feature sets.
  */
+
+function nexteuropa_feature_set_form_feature_set_admin_form_alter(&$form, &$form_state){
+  $featuresets = feature_set_get_featuresets();
+  if (!empty($featuresets)) {
+    foreach ($featuresets as $featureset => $details) {
+      if(!user_access('manage feature ' . $featureset)){
+           unset($form['featureset-' . $featureset]);
+      }
+    }
+
+  }
+}

@@ -308,8 +308,8 @@ function nexteuropa_feature_set_user_default_permissions() {
   );
 
   // Exported permission: 'manage feature nexteuropa_poetry'.
-  $permissions['manage feature nexteuropa_poetry'] = array(
-    'name' => 'manage feature nexteuropa_poetry',
+  $permissions['manage feature nexteuropa_dgt_connector'] = array(
+    'name' => 'manage feature nexteuropa_dgt_connector',
     'roles' => array(
       'cem' => 'cem',
     ),

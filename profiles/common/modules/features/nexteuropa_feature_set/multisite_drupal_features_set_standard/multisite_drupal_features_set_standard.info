@@ -50,14 +50,14 @@ feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
 feature_sets[nexteuropa_integration][enable][] = nexteuropa_integration
 feature_sets[nexteuropa_integration][disable][] = nexteuropa_integration
 
-feature_sets[nexteuropa_poetry][title] = 'Nexteuropa DGT Connector'
-feature_sets[nexteuropa_poetry][description] = 'Provides services to send translations to DGT.'
-feature_sets[nexteuropa_poetry][documentation] = 'https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Integration+Layer'
-feature_sets[nexteuropa_poetry][category] = 'Integration'
-feature_sets[nexteuropa_poetry][icon] = ''
-feature_sets[nexteuropa_poetry][font] = 'multisite-icon-share'
-feature_sets[nexteuropa_poetry][enable][] = nexteuropa_poetry
-feature_sets[nexteuropa_poetry][disable][] = nexteuropa_poetry
+feature_sets[nexteuropa_dgt_connector][title] = 'Nexteuropa DGT Connector'
+feature_sets[nexteuropa_dgt_connector][description] = 'Provides services to send translations to DGT.'
+feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
+feature_sets[nexteuropa_dgt_connector][category] = 'Multilingualism'
+feature_sets[nexteuropa_dgt_connector][icon] = ''
+feature_sets[nexteuropa_dgt_connector][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_dgt_connector][enable][] = nexteuropa_dgt_connector
+feature_sets[nexteuropa_dgt_connector][disable][] = nexteuropa_dgt_connector
 
 feature_sets[links_standard][title] = 'Links'
 feature_sets[links_standard][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.'
