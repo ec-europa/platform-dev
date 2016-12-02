@@ -21,10 +21,10 @@ Feature: Testing wrong token association for Next Europa token module
     And I click the "Insert internal content" button in the "edit-field-ne-body-und-0-value" WYSIWYG editor
     Then I should see the "CKEditor" modal dialog from the "Body" WYSIWYG editor with "Insert internal content" title
     And I wait for AJAX to finish
-    # When I click the "Full content" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
-    # Then I press "Save"
-    # Then I should see "This is a page i want to reference"
-    # And I should see "Here is the content of the referenced page."
+    When I click the "Full content" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
+    Then I press "Save"
+    Then I should see "This is a page i want to reference"
+    And I should see "Here is the content of the referenced page."
     # When I click "Edit draft"
     # And I click "Disable rich-text"
     # Then I should see ":view-mode:full]{This is a page i want to reference as Full content}</p>"
