@@ -3,7 +3,7 @@ Feature: Prevent using not defined token types in Nexturopa Tokens
   In order to check that we are not using token types that are not defined
   As an administrator
   I should not see any token warning in the status report page
-
+  # Will not pass if a feature defines a token for a token type that doesn't exist
   Background:
     Given I am logged in as a user with the 'administrator' role
 
