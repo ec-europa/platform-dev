@@ -6,9 +6,9 @@ Feature: Nexteuropa Communities
 
   Background:
 	Given these modules are enabled
-		| modules            	  |
-		| nexteuropa_communities  |
-		| nexteuropa_news         |
+      | modules            	    |
+      | nexteuropa_communities  |
+      | nexteuropa_news         |
 	# We need to rewrite value of 'group_access', because the dash in the input table does not work
 	And I am logged in as a user with the 'administrator' role
 	And I go to "admin/structure/types/manage/community/fields/group_access/field-settings_en"
@@ -35,8 +35,8 @@ Feature: Nexteuropa Communities
   Scenario: As an anonymous user, I can see content of public community, and community's block
     When I am viewing a "community" content:
       | title                          | A public community        |
-	  | group_access                   | Public                    |
-	  | workbench_moderation_state     | published                 |
+      | group_access                   | Public                    |
+      | workbench_moderation_state     | published                 |
       | workbench_moderation_state_new | published                 |
      Then I should see the heading "A public community"
 	 And I should see "A public community" in the "#block-menu-menu-community-menu" element 
@@ -58,8 +58,8 @@ Feature: Nexteuropa Communities
     Given I am not logged in
     When I am viewing a "community" content:
       | title                          | A private community                  |
-	  | group_access                   | Private                              |
-	  | workbench_moderation_state     | published                            |
+      | group_access                   | Private                              |
+      | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
     Then I should get an access denied error
 	  When I am viewing a "nexteuropa_news" content:
@@ -91,10 +91,10 @@ Feature: Nexteuropa Communities
   Scenario: As an authenticated user, I can subscribes/un-subscribe on a public community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
-    | title                          | A Public community   |
-    | group_access                   | Public               |
-    | workbench_moderation_state     | published            |
-    | workbench_moderation_state_new | published            |
+      | title                          | A Public community   |
+      | group_access                   | Public               |
+      | workbench_moderation_state     | published            |
+      | workbench_moderation_state_new | published            |
     Then I should see the heading "A Public community"
     When I click "Request group membership"
     Then I should see the heading "Are you sure you want to join the group A Public community?"
