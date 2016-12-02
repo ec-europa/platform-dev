@@ -38,21 +38,21 @@ Feature: Nexteuropa Communities
       | group_access                   | Public                    |
       | workbench_moderation_state     | published                 |
       | workbench_moderation_state_new | published                 |
-     Then I should see the heading "A public community"
-     And I should see "A public community" in the "#block-menu-menu-community-menu" element
-     # Group has no member, block don't appears
-     # And I should see "A public community" in the "#block-views-community-members-block-1" element
-     When I am viewing a "nexteuropa_news" content:
+    Then I should see the heading "A public community"
+    And I should see "A public community" in the "#block-menu-menu-community-menu" element
+    # Group has no member, block don't appears
+    # And I should see "A public community" in the "#block-views-community-members-block-1" element
+    When I am viewing a "nexteuropa_news" content:
       | title                          | A News in a public community         |
       | og_group_ref                   | A public community                   |
       | field_ne_body                  | Lorem ipsum dolor sit amet body.     |
       | field_abstract                 | Lorem ipsum dolor sit amet abstract. |
       | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
-     Then I should see the heading "A News in a public community"
-     And I should see "A public community" in the "#block-menu-menu-community-menu" element
-     # Group has no member, block don't appears
-     # And I should see "A public community" in the "#block-views-community-members-block-1" element
+    Then I should see the heading "A News in a public community"
+    And I should see "A public community" in the "#block-menu-menu-community-menu" element
+    # Group has no member, block don't appears
+    # And I should see "A public community" in the "#block-views-community-members-block-1" element
 
   Scenario: As an anonymous user, I cannot see content of private community
     Given I am not logged in
