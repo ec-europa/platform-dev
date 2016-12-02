@@ -7,7 +7,7 @@
 use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
 
 /**
- * Behat context for test setup related to Nexteuropa core tokens.
+ * Behat context for the test setup related to Nexteuropa core tokens.
  */
 class NexteuropaCoreSubContext extends DrupalSubContextBase {
 
@@ -24,7 +24,6 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
    * @Given there is a single tag field in the article content type
    */
   public function createSingleTermReferenceField() {
-
     $single_tag_set_field = array(
       'active' => 1,
       'cardinality' => 1,

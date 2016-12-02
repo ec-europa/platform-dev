@@ -2,7 +2,7 @@
 Feature: Pathauto
   In order to manage automatic aliases on the website
   As an administrator
-  I want to be able to set up patterns for automatic alias creation.
+  I want to be able to set up patterns for the automatic alias creation.
 
   Background:
     Given I am logged in as a user with the 'administrator' role

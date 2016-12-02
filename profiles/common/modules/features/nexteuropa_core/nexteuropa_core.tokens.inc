@@ -27,7 +27,7 @@ function nexteuropa_core_tokens($type, $tokens, array $data = array(), array $op
     $node = $data['node'];
     foreach ($tokens as $name => $original) {
       if (strstr($name, ':parents-uri') !== FALSE) {
-        list($field_name, $delta,) = explode(':', $name);
+        list($field_name) = explode(':', $name);
         $field_name = str_replace('-', '_', $field_name);
         if (isset($node->{$field_name})) {
           $node_wrapper = entity_metadata_wrapper('node', $node);
@@ -48,7 +48,6 @@ function nexteuropa_core_tokens($type, $tokens, array $data = array(), array $op
   if ($type == 'term' && isset($data['term'])) {
     $term = $data['term'];
     foreach ($tokens as $name => $original) {
-
       // Provide replacement value for [term:parents-uri] token.
       // It can only work paired-up with hook_pathauto_alias_alter()
       // since we have to provide an URI like replacement, containing '/'.
