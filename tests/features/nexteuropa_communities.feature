@@ -5,32 +5,32 @@ Feature: Nexteuropa Communities
   I want to be able to add, edit and delete communities
 
   Background:
-	Given these modules are enabled
+    Given these modules are enabled
       | modules            	    |
       | nexteuropa_communities  |
       | nexteuropa_news         |
-	# We need to rewrite value of 'group_access', because the dash in the input table does not work
-	And I am logged in as a user with the 'administrator' role
-	And I go to "admin/structure/types/manage/community/fields/group_access/field-settings_en"
-	And I fill in "edit-on" with "Private"
-	And I fill in "edit-off" with "Public"
-	And I press the "Save field settings" button
+    # We need to rewrite value of 'group_access', because the dash in the input table does not work
+    And I am logged in as a user with the 'administrator' role
+    And I go to "admin/structure/types/manage/community/fields/group_access/field-settings_en"
+    And I fill in "edit-on" with "Private"
+    And I fill in "edit-off" with "Public"
+    And I press the "Save field settings" button
 
   Scenario: As a group admin, all community's block are present.
     Given "community" content:
       | title          | workbench_moderation_state_new | status | language |
       | Test community | published                      | 1      | und      |
     And I have the "administrator member" role in the "test community" group
-	When I go to "community/test-community"
-	Then I should see the heading "Test community"
-	And I should see "Test community" in the "#block-menu-menu-community-menu" element 
-	And I should see "Test community" in the "#block-views-community-members-block-1" element 
-	And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element 
-	When I go to "community/test-community/foo"
-	Then I should see the heading "Page not found"
-	And I should see "Test community" in the "#block-menu-menu-community-menu" element 
-	And I should see "Test community" in the "#block-views-community-members-block-1" element 
-	And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
+    When I go to "community/test-community"
+    Then I should see the heading "Test community"
+    And I should see "Test community" in the "#block-menu-menu-community-menu" element
+    And I should see "Test community" in the "#block-views-community-members-block-1" element
+    And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
+    When I go to "community/test-community/foo"
+    Then I should see the heading "Page not found"
+    And I should see "Test community" in the "#block-menu-menu-community-menu" element
+    And I should see "Test community" in the "#block-views-community-members-block-1" element
+    And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
 
   Scenario: As an anonymous user, I can see content of public community, and community's block
     When I am viewing a "community" content:
@@ -39,10 +39,10 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state     | published                 |
       | workbench_moderation_state_new | published                 |
      Then I should see the heading "A public community"
-	 And I should see "A public community" in the "#block-menu-menu-community-menu" element 
-	 # Group has no member, block don't appears
-	 # And I should see "A public community" in the "#block-views-community-members-block-1" element 
-	 When I am viewing a "nexteuropa_news" content:
+     And I should see "A public community" in the "#block-menu-menu-community-menu" element
+     # Group has no member, block don't appears
+     # And I should see "A public community" in the "#block-views-community-members-block-1" element
+     When I am viewing a "nexteuropa_news" content:
       | title                          | A News in a public community         |
       | og_group_ref                   | A public community                   |
       | field_ne_body                  | Lorem ipsum dolor sit amet body.     |
@@ -50,9 +50,9 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
      Then I should see the heading "A News in a public community"
-	 And I should see "A public community" in the "#block-menu-menu-community-menu" element 
-	 # Group has no member, block don't appears
-	 # And I should see "A public community" in the "#block-views-community-members-block-1" element
+     And I should see "A public community" in the "#block-menu-menu-community-menu" element
+     # Group has no member, block don't appears
+     # And I should see "A public community" in the "#block-views-community-members-block-1" element
 
   Scenario: As an anonymous user, I cannot see content of private community
     Given I am not logged in
@@ -62,7 +62,7 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
     Then I should get an access denied error
-	  When I am viewing a "nexteuropa_news" content:
+      When I am viewing a "nexteuropa_news" content:
       | title                          | A News in a private community        |
       | og_group_ref                   | A private community                  |
       | field_ne_body                  | Lorem ipsum dolor sit amet body.     |
