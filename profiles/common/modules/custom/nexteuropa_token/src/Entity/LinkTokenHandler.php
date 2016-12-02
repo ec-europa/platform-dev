@@ -45,15 +45,12 @@ class LinkTokenHandler extends TokenAbstractHandler {
    */
   public function hookTokens($type, $tokens, array $data = array(), array $options = array()) {
     $replacements = array();
-
     if ($this->isValidTokenType($type)) {
-      $token_types = token_get_entity_mapping('token');
+      $token_types = token_get_entity_mapping();
       foreach ($tokens as $name => $original) {
         if ($this->isValidToken($original)) {
-
           $entity_id = $this->getEntityIdFromToken($original);
           $entity_type = $token_types[$type];
-
           $entity_info = entity_get_info($entity_type);
           // Check if the entity is available.
           if ($entity = $entity_info['load hook']($entity_id)) {
