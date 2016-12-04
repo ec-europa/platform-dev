@@ -247,6 +247,23 @@ function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
 }
 
 /**
+ * Implements hook_entity_delete().
+ *
+ * It deletes the 'netc_info' object related to the entity that is being
+ * deleted.
+ */
+function nexteuropa_trackedchanges_entity_delete($entity, $type) {
+  if ($type != 'netc_info') {
+    $netc_infos = nexteuropa_trackedchanges_info_load_by_entity($type, $entity);
+    if ($netc_infos) {
+      $netc_info = reset($netc_infos);
+      list($id) = entity_extract_ids('netc_info', $netc_info);
+      entity_delete('netc_info', $id);
+    }
+  }
+}
+
+/**
  * Implements hook_views_api().
  *
  * @see nexteuropa_trackedchanges_views_default_views()
