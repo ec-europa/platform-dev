@@ -13,6 +13,10 @@ Feature: Change tracking features
       | modules                   |
       | nexteuropa_trackedchanges |
 
+  Scenario: Text formats should be available
+    When I go to "admin/config/content/formats"
+    Then I should see "Full HTML + Change tracking"
+
   @javascript @maximizedwindow
   Scenario: Checking WYSIWYG enabling and disabling change tracking on given WYSIWYG profile
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
@@ -45,7 +49,6 @@ Feature: Change tracking features
     And I press "Save"
     Then I should see the success message "Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
-
 
   @javascript @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
@@ -231,3 +234,29 @@ Feature: Change tracking features
       Then I should not see "[[{"
       And I should not see "}]]"
       But the response should contain "sites/default/files/default_images/user_default.png"
+
+  @javascript @maximizedwindow
+   Scenario: As content administrator, I should view all entities having tracked changes in their current revision in the
+     "Content tracked changes" page
+     Given the following contents:
+       | language | title                                                 | body                                                                                                                                                                                                                | moderation state | type          |
+       | und      | Article without tracked changes                       | No tracked change                                                                                                                                                                                                   | validated        | article       |
+       | und      | Article with tracked changes                          | There are <span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">tracked change</span> | draft            | article       |
+       | en       | Page without tracked changes                          | No tracked change                                                                                                                                                                                                   | validated        | page          |
+       | en       | Page with tracked changes                             | There are <span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">tracked change</span> | draft            | page          |
+       | en       | Page with tracked changes and a published version     | No tracked change when published                                                                                                                                                                                    | published        | page          |
+     When I go to "content/page-tracked-changes-and-published-version_en"
+     And I click "New draft"
+     And I select "Full HTML + Change tracking" from "field_ne_body[en][0][format]"
+     And I fill in "Body" with "There are tracked change now."
+     And I press "Save"
+     Then I should see the success message "Page with tracked changes and a published version has been updated."
+     When I go to "admin/content/tracked_changes"
+     And I wait for the batch job to finish
+     Then I should see "und" in the "Article with tracked changes" row
+     And I should see "en" in the "Page with tracked changes" row
+     And I should see "en" in the "Page with tracked changes and a published version" row
+     And I should not see "Article with tracked changes"
+     And I should not see "Page without tracked changes"
+
+

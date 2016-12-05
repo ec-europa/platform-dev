@@ -14,7 +14,7 @@ use Behat\Gherkin\Node\TableNode;
  * Behat step definitions for the NextEuropa Multilingual module.
  */
 class NextEuropaMultilingualSubContext extends RawDrupalContext implements DrupalSubContextInterface {
-
+ use \Drupal\nexteuropa\Context\ContextUtil;
   /**
    * Published workbench moderation state.
    *
@@ -263,7 +263,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
    *   TRUE if Pathauto is enabled, FALSE if not.
    *
    * @see pathauto_field_attach_form()
-   */
+
   protected function isPathautoEnabled($entity_type, $entity, $langcode) {
     list($id, , $bundle) = entity_extract_ids($entity_type, $entity);
     if (!isset($entity->path['pathauto'])) {
@@ -279,7 +279,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       }
     }
     return $entity->path['pathauto'];
-  }
+  }*/
 
   /**
    * Assert that we are on the language selector page.

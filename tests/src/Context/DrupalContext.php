@@ -8,18 +8,13 @@
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext;
+use Behat\Gherkin\Node\TableNode;
 
 /**
  * Provides step definitions for interacting with Drupal.
  */
 class DrupalContext extends DrupalExtensionDrupalContext {
-
-  /**
-   * The last node id before a scenario starts.
-   *
-   * @var int
-   */
-  protected $maxNodeId;
+  use \Drupal\nexteuropa\Context\ContextUtil;
 
   /**
    * {@inheritdoc}
@@ -58,43 +53,57 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
-   * Remember the last node id.
+   * Create a node along with workbench moderation state.
    *
-   * @BeforeScenario @reset-nodes
-   */
-  public function rememberCurrentLastNode() {
-    $query = db_select('node');
-    $query->addExpression('MAX(nid)');
-    $max_node_id = $query->execute()->fetchField();
-
-    if (NULL === $max_node_id) {
-      $this->maxNodeId = 0;
-    }
-    else {
-      $this->maxNodeId = intval($max_node_id);
-    }
-  }
-
-  /**
-   * Removes any nodes created after the last node id remembered.
+   * Currently it supports only title and body fields since that is enough to
+   * cover basic multilingual behaviors, such as URL aliasing or field
+   * translation.
    *
-   * @AfterScenario @reset-nodes
+   * Below an example of this step usage:
+   *
+   *  Given the following contents::
+   *   | language | title         | body         | moderation state | type    |
+   *   | und      | Content title | Content body | validated        | article |
+   *   | en       | Content title | Content body | validated        | page    |
+   *
+   * @param TableNode $table
+   *    List of available content prperty.
+   *
+   * @return array
+   *    Array containing the created node objects.
+   *
+   * @Given the following contents:
    */
-  public function resetNodes() {
-    if (!isset($this->maxNodeId)) {
-      return;
-    }
+  public function theFollowingContents(TableNode $table) {
+    $nodes = array();
+    foreach ($table->getHash() as $row) {
+      $state = $row['moderation state'];
+      unset($row['moderation state']);
 
-    $all_nodes_after_query = (new \EntityFieldQuery())
-      ->entityCondition('entity_type', 'node')
-      ->propertyCondition('nid', $this->maxNodeId, '>');
+      if (isset($row['body'])) {
+        $field_instance = field_info_instance('node', 'field_ne_body', $row['type']);
 
-    $all_nodes_after = $all_nodes_after_query->execute();
-    $all_nodes_after = reset($all_nodes_after);
-    if (is_array($all_nodes_after)) {
-      entity_delete_multiple('node', array_keys($all_nodes_after));
+        if ($field_instance) {
+          $row['field_ne_body'] = $row['body'];
+          unset($row['body']);
+        }
+      }
+
+      $node = (object) $row;
+      // If the node is managed by Workbench Moderation, mark it as published.
+      if (workbench_moderation_node_moderated($node)) {
+        $node->workbench_moderation_state_new = $state;
+      }
+      $node = $this->nodeCreate($node);
+      $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
+
+      // Preserve original language setting.
+      $node->field_language = $node->language;
+
+      node_save($node);
+      $nodes[] = $node;
     }
-    unset($this->maxNodeId);
+    return $nodes;
   }
 
 }
