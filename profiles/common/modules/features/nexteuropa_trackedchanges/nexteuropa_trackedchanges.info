@@ -1,0 +1,24 @@
+name = NextEuropa Tracked Changes
+description = Provides editorial teams with change tracking capabilities in WYSIWYG.
+core = 7.x
+package = NextEuropa
+dependencies[] = cce_basic_config
+dependencies[] = ckeditor_lite
+dependencies[] = ctools
+dependencies[] = entity
+dependencies[] = features
+dependencies[] = multisite_wysiwyg
+dependencies[] = strongarm
+dependencies[] = views
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[filter][] = full_html_track
+features[user_permission][] = use text format full_html_track
+features[user_permission][] = ckeditor_lite highlight changes
+features[variable][] = nexteuropa_trackedchanges_disable_track_on_create
+features[variable][] = nexteuropa_trackedchanges_tracking_status
+features[variable][] = nexteuropa_trackedchanges_tracking_wbm_states
+features[wysiwyg][] = full_html_track
+
+files[] = NETCInfo.inc
+files[] = NETCInfoController.inc

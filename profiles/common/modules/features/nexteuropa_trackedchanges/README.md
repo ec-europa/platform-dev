@@ -44,14 +44,9 @@ It is possible to define when tracked changes must be validated before:
 ## "Content tracked changes" page
 
 A page accessible by content administrator (permission: "Administer content" + "Use Highlight changes block") that 
-allows consulting the table of entities (content but also all other entity types where the system has detected tracked changes).
+allows consult the list of entities (content but also all other entity types where the system has detected.
 
-From this page, the user can access to the listed entity page or to one of its translation.
-
-This tbale can be rebuilt via the "Tracked changes logs status" page. This page displays the latest time the list
-has been fully rebuilt and a "Force table" button that triggers the rebuild.
-This page is accessible via the admin menu Configuration / Content Authoring / WYSIWYG profiles / WYSIWYG tracked changes /
-Tracked changes logs status). 
+From this page, the user can access to the listed entity page or to one of its translation
 
 ### Note
 
@@ -70,7 +65,6 @@ The "WYSIWYG tracked changes" form accessible via the admin menu (Configuration 
 / WYSIWYG tracked changes / Tracked changes buttons settings).
 
 It allows configuring 3 items:
-
 1. Which WYSIWYG profile(s) must have Change Tracking buttons available or not. 
 By clicking on the "enable tracked changes buttons" link, you add the 6 "Change Tracking" buttons.
 2. The accessibility of "Change Tracking" buttons on the content **creation** forms;
@@ -101,7 +95,6 @@ The interface allows to set publishing states where the content saving must be b
 in it.
 
 It has 3 parts:
-
 1. "Block if status is true": it concerns contents that do not follow the workbench moderation workflow.<br />
 When it is checked, it will be impossible to save a content with the Published status if tracked changes have been
 detected in its WYSIWYG fields.

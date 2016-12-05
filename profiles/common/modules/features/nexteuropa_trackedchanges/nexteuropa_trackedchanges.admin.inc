@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Hooks for nexteuropa_trackedchanges admin interrfaces.
+ * Hooks for nexteuropa_trackedchanges admin interfaces.
  */
 
 /**

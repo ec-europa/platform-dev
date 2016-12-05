@@ -4,6 +4,7 @@
  * Code for the NextEuropa Tracked Changes feature.
  */
 
+include_once 'nexteuropa_trackedchanges.features.inc';
 include_once 'nexteuropa_trackedchanges.admin.inc';
 include_once 'nexteuropa_trackedchanges.helper.inc';
 
@@ -244,23 +245,6 @@ function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
     'setter callback' => 'entity_property_verbatim_set',
     'entity views field' => TRUE,
   );
-}
-
-/**
- * Implements hook_entity_delete().
- *
- * It deletes the 'netc_info' object related to the entity that is being
- * deleted.
- */
-function nexteuropa_trackedchanges_entity_delete($entity, $type) {
-  if ($type != 'netc_info') {
-    $netc_infos = nexteuropa_trackedchanges_info_load_by_entity($type, $entity);
-    if ($netc_infos) {
-      $netc_info = reset($netc_infos);
-      list($id) = entity_extract_ids('netc_info', $netc_info);
-      entity_delete('netc_info', $id);
-    }
-  }
 }
 
 /**

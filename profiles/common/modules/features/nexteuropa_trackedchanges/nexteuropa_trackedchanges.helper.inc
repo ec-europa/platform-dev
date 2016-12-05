@@ -772,7 +772,7 @@ function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_ty
 
   switch ($entity_type) {
     case 'node':
-      // 1.a Check if workbench moderation is active for the node.
+      // 3.a.1 Check if workbench moderation is active for the node.
       // Check content published and "draft" versions.
       if (module_exists('workbench_moderation')) {
         if (workbench_moderation_node_type_moderated($bundle)) {
@@ -810,7 +810,7 @@ function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_ty
         }
       }
 
-      // 1.b Check other nodes on the field data table which is the current
+      // 3.a.2 Check other nodes on the field data table which is the current
       // version to take into account.
       $query = db_select('field_data_' . $field_name, 'fd');
       $query->join('node', 'n', 'fd.entity_id = n.nid');
@@ -838,7 +838,7 @@ function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_ty
       break;
 
     default:
-      // 2. Get info on related entities.
+      // 3.b. Get info on related entities.
       $query = db_select('field_data_' . $field_name, 'fd');
       $query->condition('fd.bundle', $bundle)
         ->where('fd.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');

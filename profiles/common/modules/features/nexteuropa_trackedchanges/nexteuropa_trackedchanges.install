@@ -106,7 +106,7 @@ function nexteuropa_trackedchanges_enable() {
    * Introducing that format will allow users to choose tracking changes
    * functionality for WYSIWYG fields based on filter type.
    * Format is based on 'Full HTML' text format and profile.
-   */
+
   // Use the full html text format as basis to create
   // NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME one.
   $full_html_track_format = multisite_config_service('filter')->getFullFormat('full_html');
@@ -156,8 +156,7 @@ function nexteuropa_trackedchanges_enable() {
     multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
   }
   watchdog('nexteuropa_trackedchanges', 'Default permissions of the feature have been set.', array(), WATCHDOG_INFO);
-
-  drupal_set_message(t('NextEuropa Tracked Changes feature is now active on your site.'));
+   */
 
   // Create the field added to the netc_info entity.
   // Only if it does not exists (disable followed by an enable case).
@@ -184,6 +183,7 @@ function nexteuropa_trackedchanges_enable() {
     );
     field_create_instance($instance);
   }
+  drupal_set_message(t('NextEuropa Tracked Changes feature is now active on your site.'));
 }
 
 /**
@@ -192,15 +192,6 @@ function nexteuropa_trackedchanges_enable() {
  * Cleans the default value of parameters used by this module and CKEditor LITE.
  */
 function nexteuropa_trackedchanges_disable() {
-
-  // Workbench moderation state for WYSIWYG tracking settings.
-  variable_del('nexteuropa_trackedchanges_tracking_wbm_states');
-  // WYSIWYG tracking settings for "Published" status case.
-  variable_del('nexteuropa_trackedchanges_tracking_status');
-  // Default behavior for CKEditor LITE buttons.
-  variable_del('nexteuropa_trackedchanges_disable_track_on_create');
-  variable_del('nexteuropa_trackedchanges_force_track_on_edit');
-  variable_del('nexteuropa_trackedchanges_rebuild_elapse_time');
 
   // Rename the 'full_html_track' profile and text format.
   // It is better than moving all field from a format to another because
@@ -230,6 +221,15 @@ function nexteuropa_trackedchanges_disable() {
  * Implements hook_uninstall().
  */
 function nexteuropa_trackedchanges_uninstall() {
+  // Workbench moderation state for WYSIWYG tracking settings.
+  variable_del('nexteuropa_trackedchanges_tracking_wbm_states');
+  // WYSIWYG tracking settings for "Published" status case.
+  variable_del('nexteuropa_trackedchanges_tracking_status');
+  // Default behavior for CKEditor LITE buttons.
+  variable_del('nexteuropa_trackedchanges_disable_track_on_create');
+  variable_del('nexteuropa_trackedchanges_force_track_on_edit');
+  variable_del('nexteuropa_trackedchanges_rebuild_elapse_time');
+
   $instance = array(
     'field_name' => 'field_netc_info_languages',
     'entity_type' => 'netc_info',
