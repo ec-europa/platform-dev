@@ -916,6 +916,7 @@ function _nexteuropa_trackedchanges_revisions_scanning_process($wysiwyg_profile,
   $scanning_results = _nexteuropa_trackedchanges_check_field_revisions($field_name, $wysiwyg_profile);
 
   if ($scanning_results) {
+    watchdog('GILLES', '_nexteuropa_trackedchanges_revisions_scanning_process found!');
     $previous_detected_items = $context['results']['detected_entity_types'];
     $results = array_merge($previous_detected_items, $scanning_results);
     $context['results']['detected_entity_types'] = $results;
@@ -978,6 +979,7 @@ function _nexteuropa_trackedchanges_entity_scanning_process($wysiwyg_profile, &$
           $previous_detected_items[$key]['field_netc_info_languages'] = array($scanned_language);
         }
       }
+      watchdog('GILLES', '_nexteuropa_trackedchanges_entity_scanning_process found!');
       $context['results']['detected_entities'] = $previous_detected_items;
     }
   }
@@ -1050,6 +1052,7 @@ function _nexteuropa_trackedchanges_table_rebuilt_process($wysiwyg_profile, &$co
       $new_languages = $persisted_values;
     }
     $entity_wrapper->field_netc_info_languages->set($new_languages);
+    watchdog('GILLES', '_nexteuropa_trackedchanges_table_rebuilt_process found!');
     $entity_wrapper->save();
   }
   $context['sandbox']['progress']++;

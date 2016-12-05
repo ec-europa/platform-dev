@@ -333,13 +333,16 @@ function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
 function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $results, $operations) {
   if ($success) {
     $text_format = $results['text_format'];
+    
     // Here we do something meaningful with the results.
-    if (!empty($results['detected_item'])) {
+    if (!empty($results['detected_entities'])) {
       $message = t('The deactivation of the change tracking feature for the 
         @name profile stopped because tracked changes have been detected.',
         array('@name' => $text_format));
       $message .= '<br />';
-      $message .= t('Please accept or reject them before proceeding to the deactivation.');
+      $message .= t('Please accept or reject them before proceeding to the deactivation; 
+      the list of entities with tracked changes is available !here.',
+        array('!here' => l(t('here'), 'admin/content/tracked_changes')));
 
       drupal_set_message($message, 'error');
     }
@@ -375,11 +378,13 @@ function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $re
 function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $results, $operations) {
   if ($success) {
     // Here we do something meaningful with the results.
-    if (!empty($results['detected_item'])) {
+    if (!empty($results['detected_entities'])) {
       $message = t('The deactivation stopped because tracked changes have been 
         detected in contents.');
       $message .= '<br />';
-      $message .= t('Please accept or reject them before proceeding to the deactivation.');
+      $message .= t('Please accept or reject them before proceeding to the deactivation; 
+      the list of entities with tracked changes is available !here.',
+        array('!here' => l(t('here'), 'admin/content/tracked_changes')));
       drupal_set_message($message, 'error');
     }
     else {
@@ -413,11 +418,13 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
 function _nexteuropa_trackedchanges_system_disable_field_scanning_finished($success, $results, $operations) {
   if ($success) {
     // Here we do something meaningful with the results.
-    if ($results['detected_item']) {
+    if ($results['detected_entities']) {
       $message = t('The deactivation stopped because tracked changes have been 
         detected in contents.');
       $message .= '<br />';
-      $message .= t('Please accept or reject them before proceeding to the deactivation.');
+      $message .= t('Please accept or reject them before proceeding to the deactivation; 
+      the list of entities with tracked changes is available !here.',
+        array('!here' => l(t('here'), 'admin/content/tracked_changes')));
       drupal_set_message($message, 'error');
     }
     else {

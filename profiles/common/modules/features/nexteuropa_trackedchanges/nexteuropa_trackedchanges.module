@@ -266,7 +266,11 @@ function nexteuropa_trackedchanges_views_api() {
 function nexteuropa_trackedchanges_views_pre_render(&$view) {
   // Alter the display of the language list shown with each row on the
   // "Content tracked changes" page.
-  if (($view->name == 'content_tracked_changes') && ($view->current_display == 'page')) {
+  $implied_display = array(
+    'default',
+    'page'
+  );
+  if (($view->name == 'content_tracked_changes') && in_array($view->current_display, $implied_display)) {
     $results = $view->result;
 
     if ($results) {
@@ -293,15 +297,18 @@ function nexteuropa_trackedchanges_views_pre_render(&$view) {
                 $is_moderated = (user_access('view all unpublished content') &&
                   ($entity_moderation_state != NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE));
               }
-
+              $link_options = array();
+              if ($raw != LANGUAGE_NONE) {
+                array('language' => $language_list[$raw]);
+              }
               if ($is_moderated) {
                 // Workbench moderation case, we redirect directly to the
                 // draft view.
                 $entity_path .= '/draft';
-                $link = l($raw, $entity_path, array('language' => $language_list[$raw]));
+                $link = l($raw, $entity_path, $link_options);
               }
               else {
-                $link = l($raw, $entity_path, array('language' => $language_list[$raw]));
+                $link = l($raw, $entity_path, $link_options);
               }
               $lang_value['rendered']['#markup'] = $link;
               $result->field_field_netc_info_languages[$key2] = $lang_value;
