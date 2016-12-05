@@ -72,6 +72,15 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
+   * Get the Current Node Id in the URL.
+   */
+  private function getCurrentNodeId() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/node\/(\d*)/', $url, $matches);
+    return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
+  }
+
+  /**
    * Storing job id from URL.
    *
    * @Then /^I store job ID of translation request page$/
@@ -146,15 +155,64 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     $this->getSession()->wait(1000);
   }
 
+  /**
+   * Wait for text to appear.
+   *
+   * @Then I wait for text :text to :appear
+   */
+  public function iWaitForText($text, $appear) {
+    $this->waitForXpathNode(".//*[contains(normalize-space(string(text())), \"$text\")]", $appear == 'appear');
+  }
 
   /**
-   * Get the Current Node Id in the URL.
+   * Wait for an element by its XPath to appear or disappear.
+   *
+   * @param string $xpath
+   *   The XPath string.
+   * @param bool $appear
+   *   Determine if element should appear. Defaults to TRUE.
+   *
+   * @throws Exception
    */
-  private function getCurrentNodeId() {
-    $url = $this->getSession()->getCurrentUrl();
-    preg_match_all('/node\/(\d*)/', $url, $matches);
-    return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
+  private function waitForXpathNode($xpath, $appear = TRUE) {
+    $this->waitFor(function ($context) use ($xpath, $appear) {
+      try {
+        $nodes = $context->getSession()->getDriver()->find($xpath);
+        if (count($nodes) > 0) {
+          $visible = $nodes[0]->isVisible();
+          return $appear ? $visible : !$visible;
+        }
+        return !$appear;
+      }
+      catch (WebDriver\Exception $e) {
+        if ($e->getCode() == WebDriver\Exception::NO_SUCH_ELEMENT) {
+          return !$appear;
+        }
+        throw $e;
+      }
+    });
   }
+  /**
+   * Stops the execution for few seconds
+   *
+   * @param string $fn
+   *   The function context.
+   * @param int $timeout
+   *   Determine the end of waiting period.
+   *
+   * @throws Exception
+   */
+  private function waitFor($fn, $timeout = 5000) {
+    $start = microtime(TRUE);
+    $end = $start + $timeout / 1000.0;
+    while (microtime(TRUE) < $end) {
+      if ($fn($this)) {
+        return;
+      }
+    }
+    throw new \Exception("waitFor timed out");
+  }
+
 
   /**
    * Find specific date in a table row containing given text.
@@ -164,7 +222,8 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   public function assertLastChangeDateInTableRow($row_text) {
     /** @var DrupalContext $drupal_context */
     $drupal_context = $this->getContext(DrupalContext::class);
-    $row = $drupal_context->getTableRow($this->getSession()->getPage(), $row_text);
+    $row = $drupal_context->getTableRow($this->getSession()
+      ->getPage(), $row_text);
     $date_regexp = "/\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}/";
 
     if (preg_match($date_regexp, $row->getText()) == FALSE) {

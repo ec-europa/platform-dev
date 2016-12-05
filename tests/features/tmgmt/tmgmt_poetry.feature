@@ -29,6 +29,7 @@ Feature: TMGMT Poetry features
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
     And I press "Submit to translator"
+    And I wait for text "One job needs to be checked out." to appear
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
     And the translation request has the codeDemandeur "ABCD"
@@ -105,6 +106,7 @@ Feature: TMGMT Poetry features
     And I wait
     And I check the box "settings[languages][it]"
     And I press "Submit to translator"
+    And I wait for text "Job has been successfully submitted for translation." to appear
     Then I should not see an "#edit-languages-fr.form-radio" element
     But I should see an "#edit-languages-fr.form-checkbox" element
     And I should see "In progress" in the "French" row
@@ -202,8 +204,7 @@ Feature: TMGMT Poetry features
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
-    And I press "Request translation"
-    And I wait
+    And I wait for text "One job needs to be checked out." to appear
     And I store job ID of translation request page
     And I press "Submit to translator"
     But I should see "Please end up the active translation process before creating a new request."
@@ -276,6 +277,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I press "Submit to translator"
+    And I wait for text "One job needs to be checked out." to appear
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
     And the translation request has version 0
@@ -305,6 +307,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I press "Submit to translator"
+    And I wait for text "One job needs to be checked out." to appear
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
     And the translation request has version 0
@@ -332,6 +335,7 @@ Feature: TMGMT Poetry features
     And I select "Published" from "state"
     And I press "Apply"
     When I click "Translate" in the "primary_tabs" region
+    And I wait for text "Job has been successfully submitted for translation" to appear
     Then I store node ID of translation request page
     Given I am logged in as a user with the 'contributor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -394,6 +398,7 @@ Feature: TMGMT Poetry features
     And inside fieldset "Organization" I fill in "Requester" with "& DG/directorate/unit of the person submitting the request"
     And I fill in "Remark" with "Further remarks & comments"
     And I press "Submit to translator"
+    And I wait for text "One job needs to be checked out." to appear
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: Testing translation metadata including special chars like &"
