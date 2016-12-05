@@ -57,7 +57,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
-    And the translation request has the codeDemandeur "ABCD"
+    And the translation request has the codeDemandeur "WEB"
     And the translation request has the sequence "NEXT_EUROPA_COUNTER"
 
   @javascript
@@ -447,24 +447,22 @@ Feature: TMGMT Poetry features
   # trim any value we fill it with.
   @cleanup-tmgmt-poetry-website-identifier
   Scenario: A website identifier longer than 15 characters is not accepted.
-    When I go to "/admin/config"
-    And I click "DGT Connector"
-    And I press the "Save configuration" button
-    Then I should see the error message "Website identifier cannot be longer than 15 characters but is currently 16 characters long."
+    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
+    And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
+    And I press the "Save translator" button
+    Then I should see the error message "Website identifier cannot be longer than 15 characters"
 
   @cleanup-tmgmt-poetry-website-identifier
   Scenario: The website identifier is mandatory.
-    When I go to "/admin/config"
-    And I click "DGT Connector"
-    And I press the "Save configuration" button
+    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
+    And I press the "Save translator" button
     Then I should see the error message "Website identifier field is required."
 
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including the website identifier.
-    Given I go to "/admin/config"
-    And I click "DGT Connector"
-    And I fill in "my-website" for "Website identifier"
-    And I press the "Save configuration" button
+    Given I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And inside fieldset "General settings" I fill in "Website identifier" with "my-website"
+    And I press the "Save translator" button
     And I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
@@ -479,10 +477,9 @@ Feature: TMGMT Poetry features
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
-    Given I go to "/admin/config"
-    And I click "DGT Connector"
-    And I fill in "/>&mywebsite<" for "Website identifier"
-    And I press the "Save configuration" button
+    Given I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
+    And I press the "Save translator" button
     And I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
