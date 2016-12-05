@@ -14,6 +14,7 @@ default:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: '{{ behat.browser.name }}'
       selenium2:
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
@@ -62,14 +63,15 @@ communities:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: '{{ behat.browser.name }}'
       selenium2:
-        wd_host: "http://localhost:8643/wd/hub"
-      base-url: '{{ behat.base_url}'
+        wd_host: '{{ behat.wd_host.url }}'
+      base-url: '{{ behat.base_url }}'
     Drupal\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~
       drupal:
-        drupal_root: '{{ platform.build.dir}'
+        drupal_root: '{{ platform.build.dir }}'
       selectors:
         message_selector: '.messages'
         error_message_selector: '.messages.error'
