@@ -18,4 +18,5 @@ function nexteuropa_communities_enable() {
  */
 function nexteuropa_communities_disable() {
   variable_del('pathauto_nexteuropa_communities_pattern');
+  variable_del('nexteuropa_communities_private_area');
 }
