@@ -3,6 +3,7 @@
  * @file
  * Implements some specific logic for platform feature sets.
  */
+<<<<<<< HEAD
 
 /**
  * Implements hook_FORM_ID_alter().
@@ -12,8 +13,16 @@ function nexteuropa_feature_set_form_feature_set_admin_form_alter(&$form, &$form
   if (!empty($featuresets)) {
     foreach ($featuresets as $featureset => $details) {
       if (!user_access('manage feature ' . $featureset)) {
+=======
+function nexteuropa_feature_set_form_feature_set_admin_form_alter(&$form, &$form_state){
+  $featuresets = feature_set_get_featuresets();
+  if (!empty($featuresets)) {
+    foreach ($featuresets as $featureset => $details) {
+      if(!user_access('manage feature ' . $featureset)){
+>>>>>>> 4e4c7a21ae30d9f375db7ffda3d4fcd7a4e81e90
         unset($form['featureset-' . $featureset]);
       }
     }
   }
 }
+
