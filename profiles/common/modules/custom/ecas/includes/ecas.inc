@@ -381,8 +381,23 @@ function ecas_login_check() {
 
     // Preparing validation URL to retrieve attributes as well :
     $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
-    $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
-    $validate_server_url .= FPFIS_ECAS_URI . '/TicketValidationService?assuranceLevel=' . $assurance_level . '&ticketTypes=SERVICE,PROXY&userDetails=true&groups=*';
+    $request_params = variable_get('ecas_request_params', array());
+
+    $url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT . FPFIS_ECAS_URI . '/TicketValidationService';
+    // To allow individual application to override the default params.
+    // We put the $request_params before the default value.
+    $query = $request_params + array(
+      'ticketTypes' => 'SERVICE,PROXY',
+      'userDetails' => 'true',
+      'groups' => '*',
+      'assuranceLevel' => $assurance_level,
+    );
+
+    $validate_server_url = url($url, array(
+      'query' => $query,
+      'external' => TRUE,
+    ));
+
     phpCAS::setServerServiceValidateURL($validate_server_url);
 
     if ($force_login === ECAS_LOGIN) {
