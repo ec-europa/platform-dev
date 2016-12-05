@@ -332,13 +332,21 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
   }
 
   /**
-   * Helper module to check MT@EC settings.
+   * Helper module to check connector settings.
    */
   protected function checkPoetrySettings() {
     $messages = array();
     $poetry_settings = variable_get('poetry_service');
-    if (!isset($poetry_settings) || empty($poetry_settings)) {
-      $messages[] = t('Main "poetry_service" variable was not set or is empty. See the README.md file or read the wiki page.');
+    if (empty($poetry_settings['address'])) {
+      $messages[] = t('The DGT webservice address is not set. Please contact your support team.');
+      $type = 'error';
+    }
+    if (empty($poetry_settings['callback_user']) || empty($poetry_settings['callback_password'])){
+      $messages[] = t('The credentials for your drupal service are not correctly set. Please contact CEM.');
+      $type = 'error';
+    }
+    if (empty($poetry_settings['poetry_user']) || empty($poetry_settings['poetry_password'])){
+      $messages[] = t('The credentials for your DGT service are not correctly set. Please contact CEM.');
       $type = 'error';
     }
     if (empty($messages)) {
@@ -349,7 +357,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
   }
 
   /**
-   * Helper module to theme MT@EC messages.
+   * Helper module to theme connector messages.
    *
    * @param array $messages
    *   Array of messages to be displayed.

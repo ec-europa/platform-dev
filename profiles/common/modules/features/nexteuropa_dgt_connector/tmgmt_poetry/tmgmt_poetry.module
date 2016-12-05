@@ -747,6 +747,40 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
 }
 
 /**
+ * Implements hook_menu().
+ */
+function tmgmt_poetry_menu() {
+  $items = array();
+  $items['tmgmt_poetry/service_callback'] = array(
+    'page callback' => '_tmgmt_poetry_service_callback',
+    'access callback' => TRUE,
+  );
+
+  $items[drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl"] = array(
+    'page callback' => '_tmgmt_poetry_wsdl',
+    'access callback' => TRUE,
+  );
+
+  $items['admin/config/regional/tmgmt_translator/manage/poetry'] = array(
+    'access arguments' =>  'configure dgt connector',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function tmgmt_poetry_permission() {
+  return array(
+    'configure dgt connector' => array(
+      'title' => t('Configure DGT connector'),
+    )
+  );
+}
+
+
+/**
  * Provides main TMGMT job based on the given entity id.
  *
  * @param int $entity_id
