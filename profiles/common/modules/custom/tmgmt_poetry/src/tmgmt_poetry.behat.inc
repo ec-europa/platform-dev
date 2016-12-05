@@ -6,9 +6,10 @@
  */
 
 use Drupal\DrupalDriverManager;
+use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Drupal\DrupalExtension\Context\DrupalContext;
+use Drupal\nexteuropa\Context\VariableContext;
 
 /**
  * Behat step definitions for the TMGMT Poetry module.
@@ -212,7 +213,8 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   public function assertLastChangeDateInTableRow($row_text) {
     /** @var DrupalContext $drupal_context */
     $drupal_context = $this->getContext(DrupalContext::class);
-    $row = $drupal_context->getTableRow($this->getSession()->getPage(), $row_text);
+    $row = $drupal_context->getTableRow($this->getSession()
+      ->getPage(), $row_text);
     $date_regexp = "/\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}/";
 
     if (preg_match($date_regexp, $row->getText()) == FALSE) {
@@ -251,7 +253,21 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   * Check values in the reference poetry job.
+   * Prepares to clean up the website identifier setting.
+   *
+   * We don't need to do anything ourselves after the scenario finishes,
+   * VariableContext will reset to the original value for us.
+   *
+   * @BeforeScenario cleanup-tmgmt-poetry-website-identifier
+   */
+  public function prepareCleanupWebsiteIdentifier() {
+    /** @var VariableContext $variable_context */
+    $variable_context = $this->getContext(VariableContext::class);
+    $variable_context->setVariable('website_identifier', '');
+  }
+
+  /**
+   * Check values in the reference poetry job .
    *
    * @When I check the job reference of the translation request page
    */
