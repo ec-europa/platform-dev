@@ -85,7 +85,7 @@ function tmgmt_poetry_schema() {
 }
 
 /**
- ** Implements hook_requirements().
+ * Implements hook_requirements().
  */
 function tmgmt_poetry_requirements($phase) {
   $requirements = array();
