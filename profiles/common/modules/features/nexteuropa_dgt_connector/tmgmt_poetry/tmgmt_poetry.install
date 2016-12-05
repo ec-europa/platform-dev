@@ -85,17 +85,8 @@ function tmgmt_poetry_schema() {
 }
 
 /**
- * Implements hook_uninstall().
- *
- * No need to delete the tranlsator, this is already taken care of by tmgmt.
+ ** Implements hook_requirements().
  */
-function tmgmt_poetry_uninstall() {
-  // Do nothing.
-}
-
-/**
- * + * Implements hook_requirements().
-+ .*/
 function tmgmt_poetry_requirements($phase) {
   $requirements = array();
   $t = get_t();
