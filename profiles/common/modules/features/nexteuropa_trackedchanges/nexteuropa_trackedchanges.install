@@ -98,65 +98,7 @@ function nexteuropa_trackedchanges_enable() {
   variable_set('ckeditor_lite_istracking', 0);
   variable_set('nexteuropa_trackedchanges_disable_track_on_create', 1);
   variable_set('nexteuropa_trackedchanges_force_track_on_edit', 1);
-  variable_set('nexteuropa_trackedchanges_rebuild_elapse_time', 300);
-
-  /*
-   * Create WYSIWYG profile for Full HTML text format with Change Tracking.
-   *
-   * Introducing that format will allow users to choose tracking changes
-   * functionality for WYSIWYG fields based on filter type.
-   * Format is based on 'Full HTML' text format and profile.
-
-  // Use the full html text format as basis to create
-  // NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME one.
-  $full_html_track_format = multisite_config_service('filter')->getFullFormat('full_html');
-
-  if ($full_html_track_format) {
-    $full_html_track_format->format = NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME;
-    $full_html_track_format->name = NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME;
-    $full_html_track_format->status = '1';
-    $full_html_track_format->weight = '-9';
-    filter_format_save($full_html_track_format);
-
-    // Create WYSIWYG profile for Full HTML text format with change tracking.
-    // Creation based on Full HTML profile to keep a consistent functionality.
-    $wys_fl_html = multisite_config_service('wysiwyg')->getProfile('full_html');
-    $wys_fl_html_settings = (array) $wys_fl_html->settings;
-    multisite_config_service('wysiwyg')->createProfile(
-      NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME,
-      'ckeditor',
-      $wys_fl_html_settings
-    );
-
-    // Adding LITE plugin change tracking functionality to new profile.
-    // Enable ckeditor_lite WYSIWYG plugin.
-    _nexteuropa_trackedchanges_enable_buttons(NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME);
-
-    // Cloning roles to 'Full HTML + Change tracking' text format. It needs to
-    // be done at least here because sooner it was not possible.
-    $fl_html_roles = multisite_config_service('filter')->getFormatRoles('full_html');
-    if ($fl_html_roles) {
-      multisite_config_service('filter')->setFormatRoles(NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME, $fl_html_roles);
-    }
-
-    watchdog('nexteuropa_trackedchanges', 'The @name text format and its WYSIWYG profile have been created.',
-      array('@name' => NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME), WATCHDOG_INFO);
-  }
-
-  // CKEditor Lite permission.
-  $permissions = array(
-    // ckeditor_lite highlight changes.
-    'ckeditor_lite highlight changes',
-  );
-  multisite_config_service('user')->grantPermission('administrator', $permissions);
-  multisite_config_service('user')->grantPermission('contributor', $permissions);
-  multisite_config_service('user')->grantPermission('editor', $permissions);
-
-  if (module_exists('nexteuropa_editorial')) {
-    multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
-  }
-  watchdog('nexteuropa_trackedchanges', 'Default permissions of the feature have been set.', array(), WATCHDOG_INFO);
-   */
+  variable_set('nexteuropa_trackedchanges_rebuild_elapse_time', 3600);
 
   // Create the field added to the netc_info entity.
   // Only if it does not exists (disable followed by an enable case).

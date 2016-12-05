@@ -1077,11 +1077,12 @@ function _nexteuropa_trackedchanges_table_rebuild() {
   if ($is_lock) {
     return FALSE;
   }
-  $rebuild_time = variable_get('nexteuropa_trackedchanges_last_rebuild_time', 300);
+  $rebuild_time = variable_get('nexteuropa_trackedchanges_last_rebuild_time');
+  $frequency = variable_get('nexteuropa_trackedchanges_rebuild_elapse_time', 3600);
   if ($rebuild_time) {
     $now = REQUEST_TIME;
     $ellapse_time = ($now - $rebuild_time);
-    return ($ellapse_time >= $rebuild_time);
+    return ($ellapse_time >= $frequency);
   }
 
   return TRUE;

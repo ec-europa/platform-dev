@@ -10,7 +10,7 @@
 function nexteuropa_trackedchanges_wysiwyg_default_profiles() {
   $profiles = array();
 
-  // Exported profile: full_html_track
+  // Exported profile: full_html_track.
   $profiles['full_html_track'] = array(
     'format' => 'full_html_track',
     'editor' => 'ckeditor',
