@@ -3,7 +3,8 @@
  * @file
  * Implements some specific logic for platform feature sets.
  */
-<<<<<<< HEAD
+
+<< << <<< HEAD
 
 /**
  * Implements hook_FORM_ID_alter().

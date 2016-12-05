@@ -762,7 +762,7 @@ function tmgmt_poetry_menu() {
   );
 
   $items['admin/config/regional/tmgmt_translator/manage/poetry'] = array(
-    'access arguments' =>  'configure dgt connector',
+    'access arguments' => 'configure dgt connector',
   );
 
   return $items;
@@ -775,7 +775,7 @@ function tmgmt_poetry_permission() {
   return array(
     'configure dgt connector' => array(
       'title' => t('Configure DGT connector'),
-    )
+    ),
   );
 }
 

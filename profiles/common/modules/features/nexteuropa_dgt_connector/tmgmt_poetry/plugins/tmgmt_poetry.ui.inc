@@ -341,11 +341,11 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       $messages[] = t('The DGT webservice address is not set. Please contact your support team.');
       $type = 'error';
     }
-    if (empty($poetry_settings['callback_user']) || empty($poetry_settings['callback_password'])){
+    if (empty($poetry_settings['callback_user']) || empty($poetry_settings['callback_password'])) {
       $messages[] = t('The credentials for your drupal service are not correctly set. Please contact CEM.');
       $type = 'error';
     }
-    if (empty($poetry_settings['poetry_user']) || empty($poetry_settings['poetry_password'])){
+    if (empty($poetry_settings['poetry_user']) || empty($poetry_settings['poetry_password'])) {
       $messages[] = t('The credentials for your DGT service are not correctly set. Please contact CEM.');
       $type = 'error';
     }
