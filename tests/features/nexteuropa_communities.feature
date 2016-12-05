@@ -6,7 +6,7 @@ Feature: Nexteuropa Communities
 
   Background:
     Given these modules are enabled
-      | modules                    |
+      | modules                 |
       | nexteuropa_communities  |
       | nexteuropa_news         |
     # We need to rewrite value of 'group_access', because the dash in the input table does not work
