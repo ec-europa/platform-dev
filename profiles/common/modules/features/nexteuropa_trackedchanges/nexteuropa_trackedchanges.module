@@ -581,3 +581,74 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
     }
   }
 }
+
+/**
+ * Implements hook_cron().
+ */
+function nexteuropa_trackedchanges_cron() {
+  // When required, scan non-node entities after tracked changes.
+  // It is difficult to cover all entities view their edit form.
+  // Doing like that, it is the best way to avoid missing entities in the scan.
+  $is_to_rebuild = _nexteuropa_trackedchanges_table_rebuild();
+  if ($is_to_rebuild) {
+    $fields_to_scan = _nexteuropa_trackedchanges_wysiwyg_fields_info();
+
+    if ($fields_to_scan) {
+      foreach ($fields_to_scan as $field_to_scan) {
+        $query = db_select('field_data_' . $field_to_scan, 'fd');
+        $query->condition('fd.entity_type', 'node', '<>')
+          ->where('fd.' . $field_to_scan . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
+        $query->fields('fd', array(
+          'entity_type',
+          'bundle',
+          'entity_id',
+          'language',
+        ));
+        $query->distinct();
+        $entity_scans = $query->execute()->fetchAll();
+        if ($entity_scans) {
+          if (!isset($queue)) {
+            watchdog('nexteuropa_trackedchanges cron', 'Tracked change detected in non-node entities, logging started.', array(), WATCHDOG_INFO);
+            $queue = DrupalQueue::get('netc_scan_queue');
+          }
+
+          foreach ($entity_scans as $entity_scan) {
+            $info = array(
+              'rel_entity_type' => $entity_scan->entity_type,
+              'rel_entity_bundle' => $entity_scan->bundle,
+              'rel_entity_id' => $entity_scan->entity_id,
+              'rel_entity_state' => NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE,
+              'rel_entity_language' => $entity_scan->language,
+            );
+
+            $queue->createItem($info);
+          }
+        }
+      }
+      if (isset($queue)) {
+        variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+        // Add an empty item to indicate it is the rebuild is done.
+        $info = array();
+        $queue->createItem($info);
+      }
+      else {
+        watchdog('nexteuropa_trackedchanges cron', 'No queue created. Scanning stops.', array(), WATCHDOG_INFO);
+      }
+    }
+    else {
+      watchdog('nexteuropa_trackedchanges cron', 'No tracked change detected in non-node entities.', array(), WATCHDOG_INFO);
+    }
+  }
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function nexteuropa_trackedchanges_cron_queue_info() {
+  $queues = array();
+  $queues['netc_scan_queue'] = array(
+    'worker callback' => '_nexteuropa_trackedchanges_info_save',
+    'time' => 60,
+  );
+  return $queues;
+}

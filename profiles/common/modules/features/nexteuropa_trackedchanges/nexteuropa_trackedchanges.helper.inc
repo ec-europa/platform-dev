@@ -1096,3 +1096,59 @@ function _nexteuropa_trackedchanges_clean_db() {
   db_delete('field_revision_field_netc_info_languages')->condition('entity_type', 'netc_info')->execute();
   db_delete('field_data_field_netc_info_languages')->condition('entity_type', 'netc_info')->execute();
 }
+
+/**
+ * Save a netc_info object on the basis of cron output.
+ *
+ * @param array $info_to_save
+ *   Array containing data to save in the netc_info.
+ *
+ * @see nexteuropa_trackedchanges_cron()
+ */
+function _nexteuropa_trackedchanges_info_save($info_to_save) {
+
+  if (!$info_to_save) {
+    // If empty, then, it is the item indicating that the queue is done and
+    // we can set the time and end the process.
+    variable_set('nexteuropa_trackedchanges_last_rebuild_time', REQUEST_TIME);
+    variable_set('nexteuropa_trackedchanges_rebuild_lock', 0);
+
+    watchdog('nexteuropa_trackedchanges cron', 'Tracked change detected in non-node entities, logging ended.', array(), WATCHDOG_INFO);
+    return;
+  }
+
+  $src_entities = entity_load($info_to_save['rel_entity_type'], array($info_to_save['rel_entity_id']));
+  $src_entity = reset($src_entities);
+  $src_wrapper = entity_metadata_wrapper($info_to_save['rel_entity_type'], $src_entity);
+
+  $entities = nexteuropa_trackedchanges_info_load_by_entity($info_to_save['rel_entity_type'], $src_entity);
+
+  if ($entities) {
+    $entity = reset($entities);
+  }
+  else {
+    $entity = entity_create('netc_info', $info_to_save);
+  }
+
+  $entity_wrapper = entity_metadata_wrapper('netc_info', $entity);
+
+  $entity_wrapper->rel_entity_label->set($src_wrapper->label());
+
+  $src_entity_uri = entity_uri($info_to_save['rel_entity_type'], $src_entity);
+  $entity_wrapper->rel_entity_path->set($src_entity_uri['path']);
+
+  $entity_wrapper->rel_entity_state->set($info_to_save['rel_entity_state']);
+
+  $new_language = $info_to_save['rel_entity_language'];
+  $persisted_values = $entity_wrapper->field_netc_info_languages->value();
+  if (empty($persisted_values) || !in_array($new_language, $persisted_values)) {
+    $persisted_values[] = $new_language;
+  }
+  $entity_wrapper->field_netc_info_languages->set($persisted_values);
+
+  $entity_wrapper->save();
+
+  watchdog('nexteuropa_trackedchanges cron',
+    'Tracked change detected in @label saved.',
+    array('@label' => $src_wrapper->label()), WATCHDOG_INFO);
+}
