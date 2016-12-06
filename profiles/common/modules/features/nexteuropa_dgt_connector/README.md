@@ -27,6 +27,7 @@ Table of content:
     - [Files backup] (#files-backup)
     - [Watchdog logs] (#log-of-activities-from-drupal-and-from-dgt-in-watchdog)
   - [DGT reference number](#dgt-reference-number)
+  - [Error debugging](#error-debugging)
 
 [Go to top](#table-of-content)
 
@@ -284,5 +285,26 @@ several variables:
 
   - The *partie* (in our case this is a unique page id) ``` (ex: 1) ```.
 
+## Error debugging
+If your connection to DGT service is broken, please check the following 
+debugging steps:
+   - Go to URL admin/reports/status
+   - Check the status of the "DGT connector webservice"
+     - Status is red :
+       - If "The DGT webservice endpoint is not set. Please ask your support 
+       team to check the configuration." is shown, the URL of the DGT webservice
+        endpoint is not set.  Please contact your support. 
+        The URL should be set in the common settings.php file on the server.
+        
+       - If "The local connector credentials are not set.  Please contact CEM 
+       support." is shown, the credentials of the Drupal endpoint have not been 
+       set. This information should be filled in by a member of CEM team at the 
+       time of install.
+       
+       - If "The DGT remote credentials are not set.  Please contact CEM 
+       support." is shown, the credentials of the DGT endpoint have not been 
+       set. This information should be filled in by a member of CEM team at the 
+       time of install.
+              
 [Go to top](#table-of-content)
 

@@ -90,15 +90,61 @@ function tmgmt_poetry_schema() {
 function tmgmt_poetry_requirements($phase) {
   $requirements = array();
   $t = get_t();
-  if ($phase == 'install') {
-    if (!isset($conf['poetry_service']['address'])) {
-      $requirements['poetry_service'] = array(
-        'description' => $t('The DGT webservice endpoint is not set.  Please ask your support team to check the configuration.'),
-        'severity' => REQUIREMENT_ERROR,
-      );
-    }
-    return $requirements;
+  global $conf;
+
+  switch ($phase) {
+    case 'runtime':
+      if (!isset($conf['poetry_service']['address'])) {
+        $requirements['poetry_service'] = array(
+          'title' => 'DGT connector webservice',
+          'severity' => REQUIREMENT_ERROR,
+          'description' => $t('The DGT webservice endpoint is not set.  Please ask your support team to check the server configuration.'),
+          'value' => $t('Not configured'),
+        );
+      }
+      else {
+        $requirements['poetry_service'] = array(
+          'title' => $t('DGT connector webservice'),
+          'severity' => REQUIREMENT_OK,
+          'value' => $t('The DGT endpoint is correctly set'),
+        );
+      }
+      break;
+    case 'install':
+      if (!isset($conf['poetry_service']['address']) || !isset($conf['poetry_service']['method'])) {
+        $requirements['poetry_service'] = array(
+          'title' => 'DGT connector webservice',
+          'severity' => REQUIREMENT_ERROR,
+          'description' => $t('The DGT webservice endpoint is not set.  Please check the server configuration.'),
+          'value' => $t('Not configured'),
+        );
+      }
+      elseif(!isset($conf['poetry_service']['callback_user']) || !isset($conf['poetry_service']['callback_password'])){
+        $requirements['poetry_service'] = array(
+          'title' => 'DGT connector webservice',
+          'severity' => REQUIREMENT_ERROR,
+          'description' => $t('The local connector credentials are not set.  Please contact CEM support.'),
+          'value' => $t('Missing local credentials'),
+        );
+      }
+      elseif(!isset($conf['poetry_service']['poetry_user'])|| !isset($conf['poetry_service']['poetry_password'])){
+        $requirements['poetry_service'] = array(
+          'title' => 'DGT connector webservice',
+          'severity' => REQUIREMENT_ERROR,
+          'description' => $t('The DGT remote credentials are not set.  Please contact CEM support.'),
+          'value' => $t('Missing remote credentials'),
+        );
+      }
+      else {
+        $requirements['poetry_service'] = array(
+          'title' => $t('DGT connector webservice'),
+          'severity' => REQUIREMENT_OK,
+          'value' => $t('The DGT endpoint is correctly set'),
+        );
+      }
+      break;
   }
+  return $requirements;
 }
 
 /**
