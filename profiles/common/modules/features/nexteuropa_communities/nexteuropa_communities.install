@@ -9,8 +9,16 @@
  * Implements hook_enable().
  */
 function nexteuropa_communities_install() {
+  // Pattern for community content type.
+  variable_set("pathauto_node_community_pattern", "community/[node:title]");
+
+  // Pattern for community's content
   $pattern = '[site:nexteuropa_communities_keyword]/[node:og-group-ref]/[node:content-type]/[node:title]';
   variable_set('pathauto_nexteuropa_communities_pattern', $pattern);
+
+  // SolR configuration add bundle.
+  multisite_drupal_toolbox_config_solr_bundle('community', 'add');
+
 }
 
 /**
@@ -20,7 +28,7 @@ function nexteuropa_communities_uninstall() {
   variable_del('pathauto_nexteuropa_communities_pattern');
   variable_del('nexteuropa_communities_private_area');
 
-  // Delete 'community' node type.
-  node_type_delete('community');
-  field_purge_batch(1);
+  // SolR configuration remove bundle.
+  multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
+
 }

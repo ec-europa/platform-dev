@@ -652,4 +652,15 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
   }
 
+ /**
+   * Reinitialize some Community environment settings.
+   *
+   * @AfterFeature @cleanCommunityEnvironment
+   */
+  public static function cleanCommunityEnvironment() {
+    // Delete 'community' node type.
+    node_type_delete('community');
+    field_purge_batch(1);
+  }
+
 }

@@ -1,4 +1,4 @@
-@api
+@api @cleanCommunityEnvironment
 Feature: Nexteuropa Communities
   In order to effectively manage groups of people
   As a site administrator
