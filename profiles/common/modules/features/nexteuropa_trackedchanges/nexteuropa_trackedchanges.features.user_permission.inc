@@ -31,7 +31,7 @@ function nexteuropa_trackedchanges_user_default_permissions() {
       'contributor' => 'contributor',
       'editor' => 'editor',
     ),
-    'module' => 'filter',
+    'module' => 'ckeditor_lite',
   );
 
   return $permissions;

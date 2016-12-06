@@ -238,25 +238,72 @@ Feature: Change tracking features
   @javascript @maximizedwindow
    Scenario: As content administrator, I should view all entities having tracked changes in their current revision in the
      "Content tracked changes" page
-     Given the following contents:
-       | language | title                                                 | body                                                                                                                                                                                                                | moderation state | type          |
-       | und      | Article without tracked changes                       | No tracked change                                                                                                                                                                                                   | validated        | article       |
-       | und      | Article with tracked changes                          | There are <span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">tracked change</span> | draft            | article       |
-       | en       | Page without tracked changes                          | No tracked change                                                                                                                                                                                                   | validated        | page          |
-       | en       | Page with tracked changes                             | There are <span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">tracked change</span> | draft            | page          |
-       | en       | Page with tracked changes and a published version     | No tracked change when published                                                                                                                                                                                    | published        | page          |
+     Given the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
+       | language | title                                                 | Body                                                                                                                                                                                                  | moderation state | type          |
+       | und      | Article without tracked changes                       | No tracked change                                                                                                                                                                                     | validated        | article       |
+       | und      | Article with tracked changes                          | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | article       |
+       | en       | Page without tracked changes                          | No tracked change                                                                                                                                                                                     | validated        | page          |
+       | en       | Page with tracked changes                             | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | page          |
+       | en       | Page with tracked changes and a published version     | No tracked change when published                                                                                                                                                                      | published        | page          |
      When I go to "content/page-tracked-changes-and-published-version_en"
      And I click "New draft"
-     And I select "Full HTML + Change tracking" from "field_ne_body[en][0][format]"
-     And I fill in "Body" with "There are tracked change now."
+     And I select "Basic HTML" from "Text format"
+     And I fill in "Body" with "<span class=\"ice-del ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1470931683200\" data-time=\"1470931683200\" data-userid=\"1\" data-username=\"admin\">There are tracked change now.</span>"
      And I press "Save"
      Then I should see the success message "Page with tracked changes and a published version has been updated."
-     When I go to "admin/content/tracked_changes"
+     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
+     And I press "Force table rebuild"
      And I wait for the batch job to finish
+     Then I should see the success message "The tracked changes table is rebuilt."
+     When I go to "admin/content/tracked_changes"
      Then I should see "und" in the "Article with tracked changes" row
      And I should see "en" in the "Page with tracked changes" row
      And I should see "en" in the "Page with tracked changes and a published version" row
-     And I should not see "Article with tracked changes"
+     And I should not see "Article without tracked changes"
      And I should not see "Page without tracked changes"
 
+
+  @javascript @maximizedwindow
+  Scenario: As administrator, I could not be able to disable Tracking change buttons from a WYSIWYG profile if tracked changes are detected
+    on fields that use this profile
+    Given the tracking change is activate for "Full HTML" WYSIWYG profile
+    And the following contents using "Full HTML" for WYSIWYG fields:
+      | language | title                                                 | Body                                                                                                                                                                                                  | moderation state | type          |
+      | und      | Article without tracked changes                       | No tracked change                                                                                                                                                                                     | validated        | article       |
+      | und      | Article with tracked changes                          | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | article       |
+      | en       | Page without tracked changes                          | No tracked change                                                                                                                                                                                     | validated        | page          |
+      | en       | Page with tracked changes                             | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | page          |
+    When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
+    And I click "disable tracked changes buttons" in the "Full HTML" row
+    And I wait for the batch job to finish
+    Then I should see this following error message:
+    """
+    The deactivation of the change tracking feature for the full_html profile stopped because tracked changes have been detected.
+    Please accept or reject them before proceeding to the deactivation; the list of entities with tracked changes is available here.
+    """
+    And I should see "Enabled" in the "Full HTML" row
+
+
+  @javascript @maximizedwindow
+  Scenario: As administrator, I could not disable the "NextEuropa Tracked Changes" feature if tracked changes are detected
+  on fields that use this profile
+    Given the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
+      | language | title                                                 | Body                                                                                                                                                                                                  | moderation state | type          |
+      | und      | Article without tracked changes                       | No tracked change                                                                                                                                                                                     | validated        | article       |
+      | und      | Article with tracked changes                          | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | article       |
+      | en       | Page without tracked changes                          | No tracked change                                                                                                                                                                                     | validated        | page          |
+      | en       | Page with tracked changes                             | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | page          |
+    When I go to "admin/structure/feature-set"
+    And I click "Editorial Management"
+    And I uncheck "edit-featureset-nexteuropa-trackedchanges"
+    And I break
+    And I press "Validate"
+    And I wait for the batch job to finish
+    Then I should see this following error message:
+    """
+    The deactivation stopped because tracked changes have been detected in contents.
+    Please accept or reject them before proceeding to the deactivation; the list of entities with tracked changes is available here.
+    """
+    When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
+    And the response should not contain "Page not found"
 

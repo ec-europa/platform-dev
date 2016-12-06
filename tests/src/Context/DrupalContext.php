@@ -61,31 +61,50 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *
    * Below an example of this step usage:
    *
-   *  Given the following contents::
+   *  Given the following contents using "Full HTML + Change tracking"
+   *  for WYSIWYG fields:
    *   | language | title         | body         | moderation state | type    |
    *   | und      | Content title | Content body | validated        | article |
    *   | en       | Content title | Content body | validated        | page    |
    *
+   * @param string $text_format
+   *    The filter format name or its machine name.
    * @param TableNode $table
-   *    List of available content prperty.
+   *    List of available content property.
    *
    * @return array
    *    Array containing the created node objects.
    *
-   * @Given the following contents:
+   * @Given the following contents using :arg1 for WYSIWYG fields:
    */
-  public function theFollowingContents(TableNode $table) {
+  public function theFollowingContentsUsingForWysiwygFields($text_format, TableNode $table) {
     $nodes = array();
+
+    $filters = filter_formats();
+    foreach ($filters as $machine_name => $filter) {
+      if ($filter->name == $text_format) {
+        $text_format = $machine_name;
+        break;
+      }
+    }
+
     foreach ($table->getHash() as $row) {
       $state = $row['moderation state'];
       unset($row['moderation state']);
 
-      if (isset($row['body'])) {
+      if (isset($row['Body'])) {
+        $value = $row['Body'];
+        unset($row['Body']);
+
         $field_instance = field_info_instance('node', 'field_ne_body', $row['type']);
 
         if ($field_instance) {
-          $row['field_ne_body'] = $row['body'];
-          unset($row['body']);
+          $row['field_ne_body:value'] = $value;
+          $row['field_ne_body:format'] = $text_format;
+        }
+        else {
+          $row['body:value'] = $value;
+          $row['body:format'] = $text_format;
         }
       }
 

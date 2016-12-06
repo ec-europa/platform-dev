@@ -268,7 +268,7 @@ function nexteuropa_trackedchanges_views_pre_render(&$view) {
   // "Content tracked changes" page.
   $implied_display = array(
     'default',
-    'page'
+    'page',
   );
   if (($view->name == 'content_tracked_changes') && in_array($view->current_display, $implied_display)) {
     $results = $view->result;

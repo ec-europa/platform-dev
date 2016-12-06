@@ -79,11 +79,11 @@ function nexteuropa_trackedchanges_schema() {
 }
 
 /**
- * Implements hook_enable().
+ * Implements hook_install().
  *
  * Sets the default value of parameters used by this module and CKEditor LITE.
  */
-function nexteuropa_trackedchanges_enable() {
+function nexteuropa_trackedchanges_install() {
 
   // Workbench moderation state for WYSIWYG tracking settings.
   $wbm_state = array(
@@ -125,6 +125,12 @@ function nexteuropa_trackedchanges_enable() {
     );
     field_create_instance($instance);
   }
+}
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_trackedchanges_enable() {
   drupal_set_message(t('NextEuropa Tracked Changes feature is now active on your site.'));
 }
 
@@ -151,7 +157,7 @@ function nexteuropa_trackedchanges_disable() {
     $profiles_info = $wysiwyg_profiles['info'];
     foreach ($profiles_info as $profile_name => $profile_info) {
       if ($profile_info['cke_lite_status']) {
-        _nexteuropa_trackedchanges_disable_buttons($profile_name);
+        nexteuropa_trackedchanges_disable_buttons($profile_name);
       }
     }
   }

@@ -7,7 +7,7 @@ default:
         - FeatureContext
         - Drupal\DrupalExtension\Context\BatchContext
         - Drupal\DrupalExtension\Context\DrushContext
-        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\VariableContext

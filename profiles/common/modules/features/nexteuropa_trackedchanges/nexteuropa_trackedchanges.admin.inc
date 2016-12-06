@@ -160,7 +160,7 @@ function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form_validate($form
  *   The machine name of the WYSIWYG profile.
  */
 function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable($profile) {
-  _nexteuropa_trackedchanges_enable_buttons($profile);
+  nexteuropa_trackedchanges_enable_buttons($profile);
 
   drupal_set_message(t('Change tracking enabled on !profile WYSIWYG profile.', ['!profile' => $profile]));
 
@@ -328,12 +328,12 @@ function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
  * It is ran in the case where change tracking buttons (CKEditore LITE) are
  * removed from a WYSIWYG process.
  *
- * @see _nexteuropa_trackedchanges_disable_buttons()
+ * @see nexteuropa_trackedchanges_disable_buttons()
  */
 function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $results, $operations) {
   if ($success) {
     $text_format = $results['text_format'];
-    
+
     // Here we do something meaningful with the results.
     if (!empty($results['detected_entities'])) {
       $message = t('The deactivation of the change tracking feature for the 
@@ -347,7 +347,7 @@ function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $re
       drupal_set_message($message, 'error');
     }
     else {
-      _nexteuropa_trackedchanges_disable_buttons($text_format);
+      nexteuropa_trackedchanges_disable_buttons($text_format);
       drupal_set_message(t('Change tracking disabled on !profile WYSIWYG profile.',
         array('!profile' => $text_format)));
     }
