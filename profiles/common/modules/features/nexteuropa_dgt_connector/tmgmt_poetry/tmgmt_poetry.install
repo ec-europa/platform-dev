@@ -110,6 +110,7 @@ function tmgmt_poetry_requirements($phase) {
         );
       }
       break;
+
     case 'install':
       if (!isset($conf['poetry_service']['address']) || !isset($conf['poetry_service']['method'])) {
         $requirements['poetry_service'] = array(
@@ -119,7 +120,7 @@ function tmgmt_poetry_requirements($phase) {
           'value' => $t('Not configured'),
         );
       }
-      elseif(!isset($conf['poetry_service']['callback_user']) || !isset($conf['poetry_service']['callback_password'])){
+      elseif (!isset($conf['poetry_service']['callback_user']) || !isset($conf['poetry_service']['callback_password'])) {
         $requirements['poetry_service'] = array(
           'title' => 'DGT connector webservice',
           'severity' => REQUIREMENT_ERROR,
@@ -127,7 +128,7 @@ function tmgmt_poetry_requirements($phase) {
           'value' => $t('Missing local credentials'),
         );
       }
-      elseif(!isset($conf['poetry_service']['poetry_user'])|| !isset($conf['poetry_service']['poetry_password'])){
+      elseif (!isset($conf['poetry_service']['poetry_user']) || !isset($conf['poetry_service']['poetry_password'])) {
         $requirements['poetry_service'] = array(
           'title' => 'DGT connector webservice',
           'severity' => REQUIREMENT_ERROR,
