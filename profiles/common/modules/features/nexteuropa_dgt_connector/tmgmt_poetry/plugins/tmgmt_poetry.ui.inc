@@ -46,6 +46,30 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#required' => TRUE,
       '#default_value' => $settings['code'],
     );
+    $form['settings']['callback_user'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Callback User'),
+      '#required' => TRUE,
+      '#default_value' => $settings['callback_user'],
+    );
+    $form['settings']['callback_password'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Callback Password'),
+      '#required' => TRUE,
+      '#default_value' => $settings['callback_password'],
+    );
+    $form['settings']['poetry_user'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Poetry User'),
+      '#required' => TRUE,
+      '#default_value' => $settings['poetry_user'],
+    );
+    $form['settings']['poetry_password'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Poetry Password'),
+      '#required' => TRUE,
+      '#default_value' => $settings['poetry_password'],
+    );
 
     $organization = $translator->getSetting('organization');
     $form['organization'] = array(
@@ -337,15 +361,19 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
   protected function checkPoetrySettings() {
     $messages = array();
     $poetry_settings = variable_get('poetry_service');
+
+    $translator = tmgmt_translator_load('poetry');
+    $settings = $translator->getSetting('settings');
+
     if (empty($poetry_settings['address'])) {
       $messages[] = t('The DGT webservice address is not set. Please contact your support team.');
       $type = 'error';
     }
-    if (empty($poetry_settings['callback_user']) || empty($poetry_settings['callback_password'])) {
+    if (empty($settings['callback_user']) || empty($settings['callback_password'])) {
       $messages[] = t('The credentials for your drupal service are not correctly set. Please contact CEM.');
       $type = 'error';
     }
-    if (empty($poetry_settings['poetry_user']) || empty($poetry_settings['poetry_password'])) {
+    if (empty($settings['poetry_user']) || empty($settings['poetry_password'])) {
       $messages[] = t('The credentials for your DGT service are not correctly set. Please contact CEM.');
       $type = 'error';
     }

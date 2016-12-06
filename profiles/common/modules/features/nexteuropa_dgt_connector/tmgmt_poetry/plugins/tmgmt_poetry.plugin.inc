@@ -38,10 +38,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $poetry_service = array(
       'address',
       'method',
-      'callback_user',
-      'callback_password',
-      'poetry_user',
-      'poetry_password',
     );
 
     $all_settings = array();
