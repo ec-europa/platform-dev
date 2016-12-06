@@ -8,15 +8,19 @@
 /**
  * Implements hook_enable().
  */
-function nexteuropa_communities_enable() {
+function nexteuropa_communities_install() {
   $pattern = '[site:nexteuropa_communities_keyword]/[node:og-group-ref]/[node:content-type]/[node:title]';
   variable_set('pathauto_nexteuropa_communities_pattern', $pattern);
 }
 
 /**
- * Implements hook_disable().
+ * Implements hook_uninstall().
  */
-function nexteuropa_communities_disable() {
+function nexteuropa_communities_uninstall() {
   variable_del('pathauto_nexteuropa_communities_pattern');
   variable_del('nexteuropa_communities_private_area');
+
+  // Delete 'community' node type.
+  node_type_delete('community');
+  field_purge_batch(1);
 }
