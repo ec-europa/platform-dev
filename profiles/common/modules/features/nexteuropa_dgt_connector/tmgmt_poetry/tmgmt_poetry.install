@@ -214,7 +214,8 @@ function tmgmt_poetry_update_7003() {
     if ($count1 != $count2) {
       throw new \Exception(t('Data corrupted in "poetry_map" after running tmgmt_poetry_update_7003().'));
     }
-  } finally {
+  }
+  finally {
     db_drop_table('poetry_map_7002');
   }
 }
