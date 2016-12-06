@@ -328,9 +328,7 @@ class MinkContext extends DrupalExtensionMinkContext {
     $javascript2 = "return jQuery('." . $div2 . "').offset().top;";
     $result_div2 = intval($this->getSession()->evaluateScript($javascript2));
 
-    if ($result_div1 != $result_div2) {
-      throw new \Exception(sprintf('Failed to check the position from top between "%s" (%s) and "%s" (%s).', $div1, $result_div1, $div2, $result_div2));
-    }
+    assert($result_div1, equals($result_div2));
   }
 
   /**

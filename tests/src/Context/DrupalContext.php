@@ -110,13 +110,8 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @BeforeScenario @reset-node-types
    */
   public function rememberCurrentNodeTypes() {
-    $results = db_select('node_type')
-      ->fields('node_type', array('type'))
-      ->execute();
-    if ($results) {
-      foreach ($results as $result) {
-        $this->nodeTypes[] = $result->type;
-      }
+    foreach (node_type_get_types() as $result) {
+      $this->nodeTypes[] = $result->type;
     }
   }
 
@@ -130,14 +125,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       return;
     }
 
-    $results = db_select('node_type')
-      ->fields('node_type', array('type'))
-      ->execute();
-    if ($results) {
-      foreach ($results as $result) {
-        if (!in_array($result->type, $this->nodeTypes)) {
-          node_type_delete($result->type);
-        }
+    foreach (node_type_get_types() as $result) {
+      if (!in_array($result->type, $this->nodeTypes)) {
+        node_type_delete($result->type);
       }
     }
 
