@@ -93,7 +93,7 @@ function tmgmt_poetry_requirements($phase) {
   global $conf;
 
   switch ($phase) {
-    case 'runtime':
+    case 'install':
       if (!isset($conf['poetry_service']['address'])) {
         $requirements['poetry_service'] = array(
           'title' => 'DGT connector webservice',
@@ -111,7 +111,7 @@ function tmgmt_poetry_requirements($phase) {
       }
       break;
 
-    case 'install':
+    case 'runtime':
       if (!isset($conf['poetry_service']['address']) || !isset($conf['poetry_service']['method'])) {
         $requirements['poetry_service'] = array(
           'title' => 'DGT connector webservice',
