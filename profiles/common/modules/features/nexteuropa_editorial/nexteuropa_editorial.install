@@ -312,7 +312,7 @@ function nexteuropa_editorial_update_7004(&$sandbox) {
 
     $status_setting = variable_get('nexteuropa_editorial_tracking_status');
     if (!is_null($status_setting)) {
-      variable_set('nexteuropa_trackedchanges_tracking_wbm_states', $status_setting);
+      variable_set('nexteuropa_editorial_tracking_status', $status_setting);
     }
   }
   $sandbox['progress']++;
@@ -320,8 +320,8 @@ function nexteuropa_editorial_update_7004(&$sandbox) {
   // Cleaning old parameters.
   if (empty($sandbox['max'])) {
     variable_del('multisite_wysiwyg');
-    variable_del('nexteuropa_trackedchanges_tracking_status');
-    variable_del('nexteuropa_trackedchanges_tracking_wbm_states');
+    variable_del('nexteuropa_editorial_tracking_status');
+    variable_del('nexteuropa_editorial_tracking_wbm_states');
   }
 
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);

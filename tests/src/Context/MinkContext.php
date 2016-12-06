@@ -181,4 +181,5 @@ class MinkContext extends DrupalExtensionMinkContext {
 
     $element->click();
   }
+
 }
