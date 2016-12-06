@@ -366,8 +366,8 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
-  $query->fields('job', ['tjid'])
-    ->fields('job_item', ['tjiid']);
+  $query->fields('job', array('tjid'))
+    ->fields('job_item', array('tjiid'));
   if (count($languages) > 0) {
     $query->condition('job.target_language', $languages, 'IN');
   }
@@ -624,7 +624,7 @@ function tmgmt_poetry_job_statistics_load(array $tjids) {
  *   The requested information as an integer.
  */
 function tmgmt_poetry_job_statistics(TMGMTJob $job, $key) {
-  $statistics = tmgmt_poetry_job_statistics_load([$job->tjid]);
+  $statistics = tmgmt_poetry_job_statistics_load(array($job->tjid));
   if (isset($statistics[$job->tjid]->$key)) {
     return $statistics[$job->tjid]->$key;
   }
@@ -756,6 +756,25 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
       }
     }
   }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_poetry_menu() {
+  $items = array();
+
+  $items['tmgmt_poetry/service_callback'] = array(
+    'page callback' => '_tmgmt_poetry_service_callback',
+    'access callback' => TRUE,
+  );
+
+  $items[drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl"] = array(
+    'page callback' => '_tmgmt_poetry_wsdl',
+    'access callback' => TRUE,
+  );
+
+  return $items;
 }
 
 /**
