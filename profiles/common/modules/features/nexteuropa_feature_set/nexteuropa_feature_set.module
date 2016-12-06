@@ -4,16 +4,9 @@
  * Implements some specific logic for platform feature sets.
  */
 
-
 /**
  * Implements hook_FORM_ID_alter().
  */
-function nexteuropa_feature_set_form_feature_set_admin_form_alter(&$form, &$form_state) {
-  $featuresets = feature_set_get_featuresets();
-  if (!empty($featuresets)) {
-    foreach ($featuresets as $featureset => $details) {
-      if (!user_access('manage feature ' . $featureset)) {
-=======
 function nexteuropa_feature_set_form_feature_set_admin_form_alter(&$form, &$form_state){
   $featuresets = feature_set_get_featuresets();
   if (!empty($featuresets)) {
