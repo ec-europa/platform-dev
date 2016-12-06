@@ -240,7 +240,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
     // Load translator settings.
     $translator = $job->getTranslator();
-
+    $settings = $translator->getSetting('settings');
     // Load data exporter.
     $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
 
@@ -250,7 +250,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Generate the ID for the request.
     $items = $job->getItems();
     $item = array_shift($items);
-    $id_data = $this->generateRequestId($item, $translator->getSetting('settings'));
+    $id_data = $this->generateRequestId($item, $settings);
 
     // Generate the callback parameters.
     $poetry = variable_get("poetry_service");
@@ -282,7 +282,16 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $organization = $job->settings['organization'];
     $demande = $request->addChild('demande');
     $demande->addChild('userReference', 'Job ID ' . $job->tjid);
-    $demande->titre = 'NE-CMS: ' . $job->label;
+
+    $website_identifier = $settings['website_identifier'];
+    if (isset($website_identifier)) {
+      $request_title = "NE-CMS: {$website_identifier} - {$job->label}";
+    }
+    else {
+      $request_title = 'NE-CMS: ' . $job->label;
+    }
+
+    $demande->titre = $request_title;
     $demande->organisationResponsable = $organization['responsable'];
     $demande->organisationAuteur = $organization['auteur'];
     $demande->serviceDemandeur = $organization['demandeur'];

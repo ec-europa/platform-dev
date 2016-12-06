@@ -16,23 +16,6 @@ define('POETRY_STATUS_MESSAGE_REF', t('Refused'));
 define('POETRY_STATUS_MESSAGE_CNL', t('Canceled'));
 
 /**
- * Implements hook_menu().
- */
-function tmgmt_poetry_menu() {
-  $items = array();
-  $items['tmgmt_poetry/service_callback'] = array(
-    'page callback' => '_tmgmt_poetry_service_callback',
-    'access callback' => TRUE,
-  );
-  $items[drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl"] = array(
-    'page callback' => '_tmgmt_poetry_wsdl',
-    'access callback' => TRUE,
-  );
-  return $items;
-}
-
-
-/**
  * Function to define our webservice and register the available methods.
  */
 function _tmgmt_poetry_service_callback() {
