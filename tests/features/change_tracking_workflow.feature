@@ -264,7 +264,7 @@ Feature: Change tracking features
 
 
   @javascript @maximizedwindow
-  Scenario: As administrator, I could not be able to disable Tracking change buttons from a WYSIWYG profile if tracked changes are detected
+  Scenario: As administrator, I cannot disable Tracking change buttons from a WYSIWYG profile if tracked changes are detected
     on fields that use this profile
     Given the tracking change is activate for "Full HTML" WYSIWYG profile
     And the following contents using "Full HTML" for WYSIWYG fields:
@@ -282,28 +282,4 @@ Feature: Change tracking features
     Please accept or reject them before proceeding to the deactivation; the list of entities with tracked changes is available here.
     """
     And I should see "Enabled" in the "Full HTML" row
-
-
-  @javascript @maximizedwindow
-  Scenario: As administrator, I could not disable the "NextEuropa Tracked Changes" feature if tracked changes are detected
-  on fields that use this profile
-    Given the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
-      | language | title                                                 | Body                                                                                                                                                                                                  | moderation state | type          |
-      | und      | Article without tracked changes                       | No tracked change                                                                                                                                                                                     | validated        | article       |
-      | und      | Article with tracked changes                          | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | article       |
-      | en       | Page without tracked changes                          | No tracked change                                                                                                                                                                                     | validated        | page          |
-      | en       | Page with tracked changes                             | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | page          |
-    When I go to "admin/structure/feature-set"
-    And I click "Editorial Management"
-    And I uncheck "edit-featureset-nexteuropa-trackedchanges"
-    And I break
-    And I press "Validate"
-    And I wait for the batch job to finish
-    Then I should see this following error message:
-    """
-    The deactivation stopped because tracked changes have been detected in contents.
-    Please accept or reject them before proceeding to the deactivation; the list of entities with tracked changes is available here.
-    """
-    When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
-    And the response should not contain "Page not found"
 
