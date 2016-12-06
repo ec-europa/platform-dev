@@ -41,6 +41,24 @@ class Config extends ConfigBase {
   }
 
   /**
+   * Return whereas a group is an editorial team group or not.
+   *
+   * @param int $nid
+   *    Node NID.
+   *
+   * @return bool
+   *    TRUE if the node is a team group, FALSE otherwise.
+   */
+  public function isEditoralTeamGroup($nid = 0) {
+    $is_team_member = FALSE;
+    $node = node_load($nid);
+    if (isset($node) && ($node->type == "editorial_team")) {
+      $is_team_member = TRUE;
+    }
+    return $is_team_member;
+  }
+
+  /**
    * Create an Editorial Team.
    *
    * @param string $title
