@@ -872,7 +872,7 @@ libraries[jquery][directory_name] = "jquery"
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
-libraries[Leaflet.draw][download][tag] = "v0.2.4"
+libraries[Leaflet.draw][download][tag] = "v0.3.0"
 
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
