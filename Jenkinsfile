@@ -18,7 +18,7 @@ node('linux') {
     }
 
     try {
-        sh 'composer install --no-suggest'
+        sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
         stage('Build') {
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
