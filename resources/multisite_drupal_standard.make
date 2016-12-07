@@ -807,7 +807,7 @@ libraries[ckeditor_moono][directory_name] = "moonocolor"
 libraries[cycle][download][type] = "git"
 libraries[cycle][destination] = "libraries"
 libraries[cycle][download][url] = https://github.com/malsup/cycle.git
-libraries[cycle][tag] = "3.0.3"
+libraries[cycle][download][tag] = "3.0.3"
 
 ; fancybox 2.1.5
 libraries[fancybox][download][type]= "file"
@@ -876,7 +876,7 @@ libraries[jquery][directory_name] = "jquery"
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
-libraries[Leaflet.draw][tag] = "v0.2.4"
+libraries[Leaflet.draw][download][tag] = "v0.3.0"
 
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
