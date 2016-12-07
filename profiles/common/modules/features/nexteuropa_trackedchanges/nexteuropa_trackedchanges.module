@@ -447,6 +447,8 @@ function nexteuropa_trackedchanges_info_access() {
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects callbacks allowing controlling the feature disabling.
  */
 function nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
   $entity = $form['node']['#value'];
@@ -458,6 +460,8 @@ function nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects callbacks allowing controlling the feature disabling.
  */
 function nexteuropa_trackedchanges_form_system_modules_alter(&$form, &$form_state, $form_id) {
   $form['#validate'][] = '_nexteuropa_trackedchanges_system_disable_check_validate';
@@ -466,10 +470,44 @@ function nexteuropa_trackedchanges_form_system_modules_alter(&$form, &$form_stat
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects callbacks callback allowing controlling the feature disabling.
  */
 function nexteuropa_trackedchanges_form_feature_set_admin_form_alter(&$form, &$form_state, $form_id) {
   $form['#validate'][] = '_nexteuropa_trackedchanges_disable_check_validate';
   $form['#submit'][] = '_nexteuropa_trackedchanges_disable_check_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects callbacks allowing controlling the feature disabling.
+ */
+function nexteuropa_trackedchanges_form_features_admin_form_alter(&$form, &$form_state, $form_id) {
+  $form['buttons']['submit']['#validate'][] = '_nexteuropa_trackedchanges_feature_disable_check_validate';
+  $form['buttons']['submit']['#submit'][] = '_nexteuropa_trackedchanges_feature_disable_check_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * It blocks the access to settings related to CKEditor LITE buttons and
+ * displays a warning message about this.
+ */
+function nexteuropa_trackedchanges_form_wysiwyg_profile_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['buttons']['lite'])) {
+    //$form['buttons']['lite']['#access'] = FALSE;
+    if (nexteuropa_trackedchanges_info_access()) {
+      $message_link = l(t('"Tracked changes buttons settings"'),
+        'admin/config/content/wysiwyg/tracked_changes/setup');
+      drupal_set_message(t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form, 
+        but from the !link page', array('!link' => $message_link)), 'warning');
+    }
+    else {
+      drupal_set_message(t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form. 
+        Please contact the administrator.'), 'warning');
+    }
+  }
 }
 
 /**

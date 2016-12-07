@@ -196,30 +196,6 @@ function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_disable($profile) 
 }
 
 /**
- * Validate Callback forcing the enable value for the module to 1.
- *
- * It is designed to bypass the default disabling system related to the
- * system_modules form in to allow the check on the existence of tracked
- * changes in field values before disabling or not the module afterwards.
- *
- * @see nexteuropa_trackedchanges_form_feature_set_admin_form_alter()
- * @see feature_set_admin_form_submit()
- * @see _nexteuropa_trackedchanges_disable_check_submit()
- */
-function _nexteuropa_trackedchanges_disable_check_validate($form, &$form_state) {
-  // Put a flag to indicate that the module is to disable and must be
-  // controlled.
-  $values = $form_state['values'];
-  $proceed_validation = (empty($values['featureset-nexteuropa_trackedchanges'])
-    || (isset($values['featureset']) && ($values['featureset'] == 'nexteuropa_trackedchanges')));
-  $form_state['values']['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
-
-  // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
-  // be able to treat later in a batch process.
-  $form_state['values']['featureset-nexteuropa_trackedchanges'] = 1;
-}
-
-/**
  * Submit callback called on Modules form.
  *
  * It trigger a batch process that checks if no WYSIWYG field contains
@@ -282,6 +258,74 @@ function _nexteuropa_trackedchanges_disable_check_submit($form, &$form_state) {
     _nexteuropa_trackedchanges_scanning_batch_set($finished_batch);
   }
 }
+
+/**
+ * Validate Callback forcing the enable value for the module to 1.
+ *
+ * It is designed to bypass the default disabling system related to the
+ * system_modules form in to allow the check on the existence of tracked
+ * changes in field values before disabling or not the module afterwards.
+ *
+ * @see nexteuropa_trackedchanges_form_feature_set_admin_form_alter()
+ * @see feature_set_admin_form_submit()
+ * @see _nexteuropa_trackedchanges_disable_check_submit()
+ */
+function _nexteuropa_trackedchanges_disable_check_validate($form, &$form_state) {
+  // Put a flag to indicate that the module is to disable and must be
+  // controlled.
+  $values = $form_state['values'];
+  $proceed_validation = (empty($values['featureset-nexteuropa_trackedchanges'])
+    || (isset($values['featureset']) && ($values['featureset'] == 'nexteuropa_trackedchanges')));
+  $form_state['values']['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
+
+  // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
+  // be able to treat later in a batch process.
+  $form_state['values']['featureset-nexteuropa_trackedchanges'] = 1;
+}
+
+/**
+ * Submit callback called on Feature set forms.
+ *
+ * It trigger a batch process that checks if no WYSIWYG field contains
+ * any tracked changes.
+ * If its the case, the disabling process must stop and come back to the
+ * form (Feature set forms).
+ *
+ * @see features_admin_form()
+ */
+function _nexteuropa_trackedchanges_feature_disable_check_submit($form, &$form_state) {
+  // Check for which module/feature is called.
+  $values = $form_state['values'];
+
+  if (!empty($values['nexteuropa_trackedchanges_disabling'])) {
+    $finished_batch = '_nexteuropa_trackedchanges_feature_disable_field_scanning_finished';
+    _nexteuropa_trackedchanges_scanning_batch_set($finished_batch);
+  }
+}
+
+/**
+ * Validate Callback forcing the enable value for the module to 1.
+ *
+ * It is designed to bypass the default disabling system related to the
+ * features admin form in to allow the check on the existence of tracked
+ * changes in field values before disabling or not the module afterwards.
+ *
+ * @see nexteuropa_trackedchanges_form_features_admin_form_alter()
+ * @see features_admin_form_submit()
+ * @see _nexteuropa_trackedchanges_feature_disable_check_submit()
+ */
+function _nexteuropa_trackedchanges_feature_disable_check_validate($form, &$form_state) {
+  // Put a flag to indicate that the module is to disable and must be
+  // controlled.
+  $values = $form_state['values'];
+  $proceed_validation = (empty($values['status']['nexteuropa_trackedchanges']));
+  $form_state['values']['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
+
+  // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
+  // be able to treat later in a batch process.
+  $form_state['values']['status']['nexteuropa_trackedchanges'] = 1;
+}
+
 
 /**
  * Set the batch process in charge of validating the module disabling.
@@ -390,6 +434,46 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
     else {
       $featureset = feature_set_get_featureset('nexteuropa_trackedchanges');
       feature_set_disable_feature_set($featureset);
+    }
+  }
+  else {
+    // An error occurred.
+    // $operations contains the operations that remained unprocessed.
+    $error_operation = reset($operations);
+    $message_args = array(
+      '%error_operation' => $error_operation[0],
+      '@arguments' => print_r($error_operation[1], TRUE),
+    );
+    $message = t('An error occurred during the deactivation on the 
+      %error_operation with arguments: @arguments', $message_args);
+    $message .= '<br />';
+    $message .= t('The deactivation is impossible.');
+    drupal_set_message($message, 'error');
+  }
+}
+
+
+/**
+ * Finished callback of the batch field for tracked changes values.
+ *
+ * It is run in the case where the feature is disabled.
+ *
+ * @see _nexteuropa_trackedchanges_feature_disable_check_submit()
+ */
+function _nexteuropa_trackedchanges_feature_disable_field_scanning_finished($success, $results, $operations) {
+  if ($success) {
+    // Here we do something meaningful with the results.
+    if (!empty($results['detected_entities'])) {
+      $message = t('The deactivation stopped because tracked changes have been 
+        detected in contents.');
+      $message .= '<br />';
+      $message .= t('Please accept or reject them before proceeding to the deactivation; 
+      the list of entities with tracked changes is available !here.',
+        array('!here' => l(t('here'), 'admin/content/tracked_changes')));
+      drupal_set_message($message, 'error');
+    }
+    else {
+      module_disable(array('nexteuropa_trackedchanges'));
     }
   }
   else {
