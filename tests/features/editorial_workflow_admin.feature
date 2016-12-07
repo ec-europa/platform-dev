@@ -22,7 +22,7 @@ Feature: Editorial workflow - Admin
     Then the "editorial team member" checkbox should not be checked
 
     Examples:
-      | people          |
-      | John Smith      |
-      | John Doe        |
-      | John Blake      |
+      | people                  |
+      | user_administrator      |
+      | user_contributor        |
+      | user_editor             |
