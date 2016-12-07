@@ -628,6 +628,24 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
 }
 
 /**
+ * Implements hook_entity_delete().
+ *
+ * It allows deleting the netc_info object attached to the entity
+ * if it exists.
+ */
+function nexteuropa_trackedchanges_entity_delete($entity, $type) {
+  $netc_infos = nexteuropa_trackedchanges_info_load_by_entity($type, $entity);
+
+  if ($netc_infos) {
+    $netc_info = reset($netc_infos);
+    list($info_id) = entity_extract_ids('netc_info', $netc_info);
+
+    entity_delete('netc_info', $info_id);
+  }
+
+}
+
+/**
  * Implements hook_cron().
  */
 function nexteuropa_trackedchanges_cron() {
