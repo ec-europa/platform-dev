@@ -18,8 +18,8 @@ node('linux') {
     }
 
     try {
-        sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
         stage('Build') {
+            sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
@@ -36,7 +36,9 @@ node('linux') {
         stage('Test') {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
-                    sh "phantomjs --webdriver={env.WD_HOST}:${env.WD_PORT} &"
+                    if (env.WD_BROWSER_NAME == 'phantomjs') {
+                        sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
+                    }
                     sh './bin/behat -c build/behat.api.yml --colors -f pretty --strict'
                     sh './bin/behat -c build/behat.i18n.yml --colors -f pretty --strict'
                 }
