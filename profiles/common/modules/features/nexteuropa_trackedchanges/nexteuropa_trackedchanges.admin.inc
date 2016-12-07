@@ -123,34 +123,7 @@ function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form($form, &$form_
     '#description' => t('Choose states where content saving must be blocked if tracked changes exists.'),
   );
 
-  $form['nexteuropa_trackedchanges_rebuild_elapse_time'] = array(
-    '#title' => t('Tracked changes table refresh frequency'),
-    '#type' => 'textfield',
-    '#field_suffix' => t('seconds'),
-    '#size' => 3,
-    '#description' => t('Set the elapse time between 2 refreshes of listing 
-    entities having tracked changes. 0 second means the list will be refreshed
-    each time the "!page" page is accessed.',
-      array('!page' => l(t('Tracked changes overview'), 'admin/content/tracked_changes/entities_list'))),
-    '#default_value' => variable_get('nexteuropa_trackedchanges_rebuild_elapse_time'),
-    '#required' => TRUE,
-  );
-
   return system_settings_form($form);
-}
-
-/**
- * Implements hook_form_validate().
- *
- * @see nexteuropa_trackedchanges_settings_form()
- */
-function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form_validate($form, &$form_state) {
-  $values = $form_state['values'];
-  $elapse_time_value = $values['nexteuropa_trackedchanges_rebuild_elapse_time'];
-  if (!is_numeric($elapse_time_value) || ($elapse_time_value < 0)) {
-    form_set_error('nexteuropa_trackedchanges_rebuild_elapse_time',
-      t('The "refresh frequency" field must be a positive number.'));
-  }
 }
 
 /**
@@ -459,17 +432,37 @@ function nexteuropa_trackedchanges_rebuild_status($form, &$form_state) {
   $output = '<p>' . t('The logs table has never been rebuilt.') . '</p>';
   if ($last_rebuilt) {
     $date = format_date($last_rebuilt, 'custom', 'd/m/y H:i:s');
-    $output = '<p>' . t('The logs table has been rebuilt on the @date.', array('@date' => $date)) . '</p>';
+    $output = '<p>' . t('The tracked changes scanning has been executed on the @date.', array('@date' => $date)) . '</p>';
   }
+
+  $form['nexteuropa_trackedchanges_rebuild_elapse_time'] = array(
+    '#title' => t('Tracked changes table refresh frequency'),
+    '#type' => 'textfield',
+    '#field_suffix' => t('seconds'),
+    '#size' => 3,
+    '#description' => t('Set the elapse time between 2 refreshes of listing 
+    entities having tracked changes. 0 second means the list will be refreshed
+    each time the drupal cron is executed.'),
+    '#default_value' => variable_get('nexteuropa_trackedchanges_rebuild_elapse_time'),
+    '#required' => TRUE,
+  );
+  $form['save'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save configuration'),
+    '#submit' => array('nnexteuropa_trackedchanges_rebuild_elapse_time_submit'),
+    '#validate' => array('nexteuropa_trackedchanges_rebuild_elapse_time_validate'),
+  );
+
   $form['table_status'] = array(
     '#markup' => $output,
   );
   if (!$is_lock) {
-    $form['submit'] = array(
+    $form['force_rebuild'] = array(
       '#type' => 'submit',
-      '#value' => t('Force table rebuild'),
+      '#value' => t('Force scanning'),
+      '#submit' => array('nexteuropa_trackedchanges_table_rebuilt_submit'),
+      '#description' => t('Force the system to scan entities immediately. This process can take times.'),
     );
-    $form['#submit'] = array('nexteuropa_trackedchanges_table_rebuilt_submit');
   }
   else {
     $form['table_status'] = array(
@@ -478,6 +471,32 @@ function nexteuropa_trackedchanges_rebuild_status($form, &$form_state) {
   }
 
   return $form;
+}
+
+/**
+ * Form submit callback.
+ *
+ * @see nexteuropa_trackedchanges_rebuild_status()
+ */
+function nnexteuropa_trackedchanges_rebuild_elapse_time_submit($form, &$form_state) {
+  $values = $form_state['values'];
+  $elapse_time_value = (!empty($values['nexteuropa_trackedchanges_rebuild_elapse_time'])) ? $values['nexteuropa_trackedchanges_rebuild_elapse_time'] : 0;
+
+  variable_set('nexteuropa_trackedchanges_rebuild_elapse_time', $elapse_time_value);
+}
+
+/**
+ * Form validate callback.
+ *
+ * @see nexteuropa_trackedchanges_rebuild_status()
+ */
+function nexteuropa_trackedchanges_rebuild_elapse_time_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $elapse_time_value = $values['nexteuropa_trackedchanges_rebuild_elapse_time'];
+  if (!is_numeric($elapse_time_value) || ($elapse_time_value < 0)) {
+    form_set_error('nexteuropa_trackedchanges_rebuild_elapse_time',
+      t('The "refresh frequency" field must be a positive number.'));
+  }
 }
 
 /**

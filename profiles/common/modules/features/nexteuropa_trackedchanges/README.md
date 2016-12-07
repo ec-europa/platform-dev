@@ -55,7 +55,8 @@ scan all content entities in order to detect all tracked changes that could alre
 generate the list.
 
 After, the scanning process will happen during the Site Drupal cron executions, every hour. The scanning frequency inside
-cron executions can be changed through the module configuration (see [Tracked changes workflow settings](#workflow_settings))
+cron executions can be changed through the module configuration (see 
+[Configure the tracked changes scanning process](#configure-the-tracked-changes-scanning-process) section).
  
 
 [Go to top](#table-of-content)
@@ -96,6 +97,9 @@ Try as much as possible to avoid enabling it on too much fields of the same enti
 
 ## Tracked changes workflow settings
 
+The "WYSIWYG tracked changes" form accessible via the admin menu (Configuration / Content Authoring / WYSIWYG profiles
+/ WYSIWYG tracked changes / Tracked changes workflow settings).
+
 The interface allows to set moderation states where the content saving must be blocked when tracked changes are detected
 in it.
 
@@ -122,6 +126,20 @@ This is reason why the "Block if status is true" and the "Published" state of "B
 are checked by default in the NextEuropa platform settings.
 - Tracked changes are not fully supported by the Poetry translation system. For this reason, the "Validated" state of "Block the 
 saving for these Workbench Moderation states" is also checked by default in the NextEuropa platform settings.
+
+## Configure the tracked changes scanning process
+
+The "WYSIWYG tracked changes" form accessible via the admin menu (Configuration / Content Authoring / WYSIWYG profiles
+/ WYSIWYG tracked changes / Tracked changes logs status).
+
+During the Drupal cron execution, entities that are not of the node types are scanned in order to detected any tracked changes in
+their WYSIWYG fields. The results will feed the list displayed ["Content tracked changes"](#hcontent-tracked-changes-page) page.
+ 
+The form allows:
+
+- Setting the frequency in seconds of the scanning execution inside Drupal cron execution.<br />
+Ex.: If the value is 3600 and Drupal cron are executed every 30 minutes, the scanning will be executed every 2 cron executions.
+- Forcing the scanning execution by clicking on the "Force scanning".
 
 
 [Go to top](#table-of-content)
