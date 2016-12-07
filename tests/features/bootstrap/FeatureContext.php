@@ -661,6 +661,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     // Delete 'community' node type.
     node_type_delete('community');
     field_purge_batch(1);
+    drupal_flush_all_caches();
   }
-
 }
