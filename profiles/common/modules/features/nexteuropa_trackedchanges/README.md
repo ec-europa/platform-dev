@@ -118,7 +118,7 @@ It sets the frequency in seconds for refreshing data displayed in this table.
 ### Note
 
 For working with other features of the NextEuropa platform, "Block if status is true" and the "Validated" and "Published" states
-of "Block the saving for these Workbench Moderation states" are checked by default for thefollowing reasons:
+of "Block the saving for these Workbench Moderation states" are checked by default for the following reasons:
 
 - With CKEditor LITE, tracked changes are hidden before displaying published contents. The display can be incorrect when the 
 HTML structure of a WYSIWYG field is complex. It is a limitation of the CKEditor LITE module.<br />
@@ -165,7 +165,7 @@ It is still possible to disable the module through Drush but it is not recommend
 all modules related to WYSIWYG features, the Drush disabling process does not allow implementing check on field values
 in order to stop the disabling or to clean values of change tracking tags.
 
-If you disabling the module without ensuring all tracked changes have been cleaned, the related HTML tags (<span>) will 
+If you disabling the module without ensuring all tracked changes have been cleaned, the related HTML tags (&lt;span&gt;) will 
 remain and could cause bad content display.
 
 If you use a hook_update to disable it, please integrate in it a process that scans WYSIWYG fields to detect those kind of tags,
