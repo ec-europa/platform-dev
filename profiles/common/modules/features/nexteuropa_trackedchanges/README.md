@@ -33,25 +33,29 @@ supplied with the NextEuropa platform with the "change tracking" buttons of the
 ## Change tracking button configuration
 A configuration page allowing to:
 - Enable/disable the "change tracking" buttons in the different WYSIWYG profiles;
-- Control the display and the activation of buttons on the content creation/edit form;
+- Control the display and the activation of these buttons on the content creation/edit form;
 
 ## Possibilities to define a workflow for tracked changes workflow. 
 
-It is possible to define when tracked changes must be validated before:
+It is possible to define when tracked changes **must** be validated before:
 - Changing the content status to "Published", in the case of the default Drupal publishing process;
 - Saving a new content revision with a new moderation state, in the case of a Workbench moderation workflow.
 
 ## "Content tracked changes" page
 
 A page accessible by content administrator (permission: "Administer content" + "Use Highlight changes block") that 
-allows consult the list of entities (content but also all other entity types where the system has detected.
+allows consulting the list of entities (content but also other entity types) where the system has detected tracked changes.
 
-From this page, the user can access to the listed entity page or to one of its translation
+From this page, the user can access to the listed entity page or to one of its translations.
 
 ### Note
 
 For sites that had already the change tracking activate, the first time that this page is accessed, the system will 
-trigger a scan of all content entities in order to detect all tracked changes that could already exist.
+scan all content entities in order to detect all tracked changes that could already exist. The scan results is used to
+generate the list.
+
+After, the scanning process will happen during the Site Drupal cron executions, every hour. The scanning frequency inside
+cron executions can be changed through the module configuration (see [Tracked changes workflow settings](#workflow_settings))
  
 
 [Go to top](#table-of-content)
@@ -66,7 +70,7 @@ The "WYSIWYG tracked changes" form accessible via the admin menu (Configuration 
 
 It allows configuring 3 items:
 1. Which WYSIWYG profile(s) must have Change Tracking buttons available or not. 
-By clicking on the "enable tracked changes buttons" link, you add the 6 "Change Tracking" buttons.
+By clicking on the "enable tracked changes buttons" link, you add the 6 "Change Tracking" buttons to the WYSIWYG toolbar.
 2. The accessibility of "Change Tracking" buttons on the content **creation** forms;
 3. The activation of the change tracking on all WYSIWYG fields of the content **edit** forms.<br />
 **Note**: This setting overwrites the configuration of CKEditor LITE on which this module is based.  
@@ -77,12 +81,13 @@ Here, the tracking change can be activated on the edit form; even if it is no se
 
 The interface allows removing buttons from WYSIWYG profiles but it does it only if no WYSIWYG field that uses
 this profile contain any tracked changes.
-If tracked changes exist, the removing is blocked until all of them are accepted or rejected.
+If tracked changes exist, the action is blocked until all of them are accepted or rejected.
 
 ### RECOMMENDATIONS
 
 - Avoid making accessible change tracking buttons on content creation form. The change tracking functions does not work 
-correctly when it is activated on a field that has no default value.
+correctly when it is activated on a field that has no default value.<br />
+In the NextEuropa platform, this option is checked as is in its configuration.
 - The function can meet some running time problem on some browser like IE11 when the change tracking is enabled on 
 several WYSIWYG fields of the same entity (content). <br />
 Try as much as possible to avoid enabling it on too much fields of the same entity by default.
@@ -91,12 +96,12 @@ Try as much as possible to avoid enabling it on too much fields of the same enti
 
 ## Tracked changes workflow settings
 
-The interface allows to set publishing states where the content saving must be blocked when tracked changes are detected
+The interface allows to set moderation states where the content saving must be blocked when tracked changes are detected
 in it.
 
 It has 3 parts:
 1. "Block if status is true": it concerns contents that do not follow the workbench moderation workflow.<br />
-When it is checked, it will be impossible to save a content with the Published status if tracked changes have been
+When it is checked, it will be impossible to save a content with the "Published" status if tracked changes have been
 detected in its WYSIWYG fields.
 2. "Block the saving for these Workbench Moderation states": it concerns contents that follow the workbench moderation 
 workflow.<br />
@@ -106,13 +111,17 @@ have been detected in its WYSIWYG fields.
 listing entities (contents + other Drupal entities) containing tracked changes.<br />
 It sets the frequency in seconds for refreshing data displayed in this table.
 
-### RECOMMENDATIONS
+### Note
 
-- Tracked changes are hidden before displaying published contents. The display can be incorrect when the HTML structure 
-of a WYSIWYG field is complex. It is a limitation of the CKEditor LITE module.<br />
-Then, it is recommended to block the possibility to publishing content having tracked changes. 
-- For the same reason as for published contents, it is recommended to block the saving to the "Validated" moderation state if
-Poetry is used to translate contents.
+For working with other features of the NextEuropa platform, "Block if status is true" and the "Validated" and "Published" states
+of "Block the saving for these Workbench Moderation states" are checked by default for thefollowing reasons:
+
+- With CKEditor LITE, tracked changes are hidden before displaying published contents. The display can be incorrect when the 
+HTML structure of a WYSIWYG field is complex. It is a limitation of the CKEditor LITE module.<br />
+This is reason why the "Block if status is true" and the "Published" state of "Block the saving for these Workbench Moderation states" 
+are checked by default in the NextEuropa platform settings.
+- Tracked changes are not fully supported by the Poetry translation system. For this reason, the "Validated" state of "Block the 
+saving for these Workbench Moderation states" is also checked by default in the NextEuropa platform settings.
 
 
 [Go to top](#table-of-content)
@@ -127,7 +136,7 @@ As for the installation, there are 2 ways for disabling and uninstalling the fea
 
 ### Disabling via the web interface under condition
 
-The disabling is blocked if tracked changes are detected in the latest draft revision of a content or in any 
+The disabling action is blocked if tracked changes are detected in the latest draft revision of a content or in any 
 other entities.
 
 It is so until all tracked changes are accepted or rejected in all entities.
@@ -135,7 +144,7 @@ It is so until all tracked changes are accepted or rejected in all entities.
 ### Disabling via Drush or via a hook_update are not recommended.
 
 It is still possible to disable the module through Drush but it is not recommended because like
-all modules related to WYSIWYG feature does not, the Drush disabling process does not allow implementing check on field values
+all modules related to WYSIWYG features, the Drush disabling process does not allow implementing check on field values
 in order to stop the disabling or to clean values of change tracking tags.
 
 If you disabling the module without ensuring all tracked changes have been cleaned, the related HTML tags (<span>) will 
