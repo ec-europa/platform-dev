@@ -203,7 +203,7 @@ function _nexteuropa_trackedchanges_system_disable_check_validate($form, &$form_
   // controlled.
   $values = $form_state['values'];
   $proceed_validation = (!$values['modules']['NextEuropa']['nexteuropa_trackedchanges']['enable']);
-  $form_state['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
+  $form_state['values']['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
 
   // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
   // be able to treat later in a batch process.
