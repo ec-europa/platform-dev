@@ -4,11 +4,3 @@
  * Code for the DGT connector feature.
  */
 
-/**
- * Implements hook_uninstall().
- */
-
-function nexteuropa_dgt_connector_uninstall() {
-
-
-}
