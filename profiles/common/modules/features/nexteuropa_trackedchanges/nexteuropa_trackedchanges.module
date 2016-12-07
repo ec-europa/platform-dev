@@ -496,7 +496,7 @@ function nexteuropa_trackedchanges_form_features_admin_form_alter(&$form, &$form
  */
 function nexteuropa_trackedchanges_form_wysiwyg_profile_form_alter(&$form, &$form_state, $form_id) {
   if (isset($form['buttons']['lite'])) {
-    //$form['buttons']['lite']['#access'] = FALSE;
+    $form['buttons']['lite']['#access'] = FALSE;
     if (nexteuropa_trackedchanges_info_access()) {
       $message_link = l(t('"Tracked changes buttons settings"'),
         'admin/config/content/wysiwyg/tracked_changes/setup');

@@ -407,6 +407,10 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
     else {
       $featureset = feature_set_get_featureset('nexteuropa_trackedchanges');
       feature_set_disable_feature_set($featureset);
+      // Required to flush thecache to ensure that all references to the
+      // module have disappeared.
+      // @see system_modules_submit()
+      drupal_flush_all_caches();
     }
   }
   else {
@@ -447,6 +451,10 @@ function _nexteuropa_trackedchanges_feature_disable_field_scanning_finished($suc
     }
     else {
       module_disable(array('nexteuropa_trackedchanges'));
+      // Required to flush thecache to ensure that all references to the
+      // module have disappeared.
+      // @see system_modules_submit()
+      drupal_flush_all_caches();
     }
   }
   else {
@@ -486,6 +494,10 @@ function _nexteuropa_trackedchanges_system_disable_field_scanning_finished($succ
     }
     else {
       module_disable(array('nexteuropa_trackedchanges'));
+      // Required to flush thecache to ensure that all references to the
+      // module have disappeared.
+      // @see system_modules_submit()
+      drupal_flush_all_caches();
     }
   }
   else {
