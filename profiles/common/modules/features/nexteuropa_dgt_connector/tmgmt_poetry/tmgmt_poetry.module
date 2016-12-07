@@ -12,6 +12,34 @@ module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 function tmgmt_poetry_entity_info_alter(&$entity_info) {
   $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
   $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
+  $entity_info['tmgmt_translator']['access callback'] = '_tmgmt_poetry_translator_access';
+}
+
+/**
+ * Custom function to manage permissions of the poetry translator.
+ *
+ * @param $op
+ * @param $test
+ * @return bool
+ */
+function _tmgmt_poetry_translator_access($op, $translator, $account) {
+  dpm($translator);
+  if (!empty($translator)) {
+    if ($op == 'delete' && $translator->plugin == 'poetry') {
+      return FALSE;
+    }
+    elseif ($translator->plugin == 'poetry') {
+      if (user_access('configure dgt connector')) {
+        return TRUE;
+      }
+      else {
+        return FALSE;
+      }
+    }
+    else {
+      tmgmt_translator_access($op, $translator, $account);
+    }
+  }
 }
 
 /**
@@ -760,7 +788,6 @@ function tmgmt_poetry_menu() {
     'page callback' => '_tmgmt_poetry_wsdl',
     'access callback' => TRUE,
   );
-  $items['admin/config/regional/tmgmt_translator/manage/poetry']['access arguments'] = array('configure dgt connector');
   return $items;
 }
 

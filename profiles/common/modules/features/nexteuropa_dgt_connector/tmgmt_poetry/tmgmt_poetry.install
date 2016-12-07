@@ -124,6 +124,7 @@ function tmgmt_poetry_requirements($phase) {
         );
       }
       else {
+        // Cases where CEM did not set up the credentials.
         $settings = $translator->getSetting('settings');
 
         if (!isset($conf['poetry_service']['address']) || !isset($conf['poetry_service']['method'])) {
