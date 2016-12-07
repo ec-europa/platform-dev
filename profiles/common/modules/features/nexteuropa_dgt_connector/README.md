@@ -58,69 +58,42 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 ### Enabling the feature on your platform instance:
 :hand: You cannot enable DGT-Connector feature using feature sets.
 
-- Once approved by CEM, a JIRA issue is created in the [project 
-MULTISITE](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa) 
-- As a next step, CEM enables the feature for you.
-- Finally, the maintenance team sets the DGT-Connector up  
-(adaptation of "settings.php").
+- Once your request was approved by CEM, CEM will enable the feature on your 
+playground environment.
 
 [Go to top](#table-of-content)
 
-## Maintenance staff (FPFIS staff)
-:construction: Only maintenance team can enable the DGT translator.
+## Server configuration (DevOps)
+:construction: DIGIT DevOps are in charge of the endpoint configuration.
 ### The feature
 
-Update the settings.php of the project.
-It must be filled with appropriate values depending on the environment you are 
-setting up.
+The configuration of the endpoint is done once for all in the common 
+settings.php of the project.
+It is be filled with appropriate values depending on the environment. 
 
-  - Install on Playground environment:
+  - On Playground environment:
 
-In order to test against acceptance webservice, *settings.php* must contain
-    (exactly as is):
+In order to test against acceptance webservice, *common settings.php* must 
+contain:
 
 ```php
    $conf['poetry_service'] = array(
      'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
      'method' => 'requestService',
-     'callback_user' => 'Callback',
-     'callback_password' => 'CallbackPWD',
-     'poetry_user' => 'Poetry',
-     'poetry_password' => 'PoetryPWD',
    );
 ```
+  - On Production environment:
 
-  - Install on Production environment:
-
-Make sure the [poetry access was requested by the webmaster]
-(#requesting-access-to-poetry) and you have received the credentials.
-
-*Settings.php* must contain (replace variables between [] with the appropriate values):
+*common settings.php* must contain:
 
 ```php
     $conf['poetry_service'] = array(
       'address' => 'http://intragate.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
       'method' => 'requestService',
-      'callback_user' => [CALLBACK_USERNAME],
-      'callback_password' => [CALLBACK_PASSWORD],
-      'poetry_user' => [POETRY_USERNAME],
-      'poetry_password' => [POETRY_PASSWORD],
     );
 ```
 
-> The values of [CALLBACK_USERNAME] must match NE-projectname where
-projectname is the project's code.
-> *Example: NE-ERASMUSPLUS*
-
-> [CALLBACK_PASSWORD] is the same as the callback_username.
-> These fields are limited to 15 characters.
-
->[POETRY_USERNAME] and [POETRY_PASSWORD] must have been received from
-DGCOMM (see 'Installations step 1').
-
-[Go to top](#table-of-content)
-
-### Configure the DGT-Connector:
+### Configure the DGT-Connector (CEM):
 Once the module is enabled and the settings are properly set up, CEM proceeds
 with the module's configuration.
 
@@ -128,28 +101,34 @@ Edit the translator labelled "DGT Connector (auto created)".
 
 In order to do this, navigate to:
 
-
     Configuration > Regional and Language > Translation management Translator
 
 or go to:
 
+    admin/config/regional/tmgmt_translator/manage/poetry 
 
-    admin/config/regional/tmgmt_translator/manage/poetry_en 
+[Go to top](#table-of-content)
 
  - Translator settings: [x] Auto accept finished translations
-   - Check this if you don't want to review a translation before publishing it.
+   - Check this if subsite wants to review a translation before publishing it.
 
  - Translator plugin:
    - This is shown for information, please do not change it.
 
  - DGT Connector plugin settings:
-   - You should see 'Main "poetry_service" variable is properly set.' if you
-   have correctly followed the steps above. Otherwise, get back and check what
+   - You should see 'Main "poetry_service" variable is properly set.' if all
+   the steps above were correctly followed. Otherwise, get back and check what
    you forgot!
    - Counter: The counter always is *NEXT_EUROPA_COUNTER* 
    [See DGT reference explanation]  
    - Requester code: always is *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
+   - Callback User: it must match NE-projectname where projectname is the 
+   project's code.
+   *Example: NE-ERASMUSPLUS*
+   - Callback Password: is the same as the callback_username.
+   These fields are limited to 15 characters.
+   - Poetry Username and Poetry Password: Those credential are provided by DGT.
    - Organization responsible, Author & requester: consult the values examples
    shown below each form field as an example.
    - Contact usernames: should be the *user names* (you connect to the network,
@@ -170,9 +149,9 @@ or go to:
 
 ## Testing locally (for developers)
 
-If you are working in collaboration with a contractor and he needs to test locally the 
-DGT-Connector UI and the workflow, this can be done without the need to 
-access the webservice by using the tmgmt_poetry_mock module.
+If you are working in collaboration with a contractor and he needs to test 
+locally the DGT-Connector UI and the workflow, this can be done without the 
+need to access the webservice by using the tmgmt_poetry_mock module.
 
  Contractors : see [the mock readme] (tmgmt_poetry_mock/README.md) for more 
  information on testing with the mock.
@@ -184,8 +163,8 @@ playground environment, CEM will ask you to perform few tests monitored by DGT.
 Go to next section ([Usage](#usage)) on how to complete your test.
 
 When your test are successful, please inform CEM team.
-CEM team will request the deployment of the DGT-Connector in your production 
-environment.
+Once tests are successful on playground CEM will enable the DGT-Connector in 
+your production environment.
 
 [Go to top](#table-of-content)
 
@@ -201,7 +180,7 @@ can click 'Change translator' to change it if needed,
 - Default values:
 
 > The values that show in 'Contact Usernames' and in 'Organization' are the
-default values you entered when [you configured your translator]
+default values you entered when [CEM configured your translator]
 (#configure-the-dgt-connector). Those values can be overridden on a page per
 page basis. To do this, just click 'Contact Usernames' or 'Organization' and
 changes the values.
