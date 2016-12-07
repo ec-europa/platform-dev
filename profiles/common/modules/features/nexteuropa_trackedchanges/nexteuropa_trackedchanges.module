@@ -646,6 +646,25 @@ function nexteuropa_trackedchanges_entity_delete($entity, $type) {
 }
 
 /**
+ * Implements hook_entity_translation_delete().
+ */
+function nexteuropa_trackedchanges_entity_translation_delete($entity_type, $entity, $langcode) {
+  $netc_infos = nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity);
+
+  if ($netc_infos) {
+    $netc_info = reset($netc_infos);
+    $wrapper = entity_metadata_wrapper('netc_info', $netc_info);
+    $persisted_values = $wrapper->field_netc_info_languages->value();
+    if ($key = array_search($langcode, $persisted_values)) {
+      unset($persisted_values[$key]);
+      $wrapper->field_netc_info_languages->set($persisted_values);
+
+      $wrapper->save();
+    }
+  }
+}
+
+/**
  * Implements hook_cron().
  */
 function nexteuropa_trackedchanges_cron() {
