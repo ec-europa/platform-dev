@@ -133,7 +133,7 @@ The "WYSIWYG tracked changes" form accessible via the admin menu (Configuration 
 / WYSIWYG tracked changes / Tracked changes logs status).
 
 During the Drupal cron execution, entities that are not of the node types are scanned in order to detected any tracked changes in
-their WYSIWYG fields. The results will feed the list displayed ["Content tracked changes"](#hcontent-tracked-changes-page) page.
+their WYSIWYG fields. The results will feed the list displayed ["Content tracked changes"](#content-tracked-changes-page) page.
  
 The form allows:
 
