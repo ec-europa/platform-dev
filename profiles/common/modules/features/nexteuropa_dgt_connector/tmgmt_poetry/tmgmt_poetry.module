@@ -24,7 +24,9 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  *   The translator the operation is performed on.
  * @param array $account
  *   The account which is performing the update.
+ *
  * @return bool
+ *   Boolean
  */
 function _tmgmt_poetry_translator_access($op, $translator, $account) {
   if (!empty($translator)) {
