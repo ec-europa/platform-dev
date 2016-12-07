@@ -252,7 +252,7 @@ Feature: Change tracking features
      And I press "Save"
      Then I should see the success message "Page with tracked changes and a published version has been updated."
      When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
-     And I press "Force table rebuild"
+     And I press "Force scanning"
      And I wait for the batch job to finish
      Then I should see the success message "The tracked changes table is rebuilt."
      When I go to "admin/content/tracked_changes"
