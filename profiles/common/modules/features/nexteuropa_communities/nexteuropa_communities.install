@@ -23,7 +23,6 @@ function nexteuropa_communities_enable() {
  */
 function nexteuropa_communities_disable() {
   variable_del('pathauto_nexteuropa_communities_pattern');
-
 }
 
 
@@ -31,10 +30,7 @@ function nexteuropa_communities_disable() {
  * Implements hook_disable().
  */
 function nexteuropa_communities_uninstall() {
+  variable_del('nexteuropa_communities_private_area');
 
- variable_del('nexteuropa_communities_private_area');
-
- multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
-
-
+  multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
 }

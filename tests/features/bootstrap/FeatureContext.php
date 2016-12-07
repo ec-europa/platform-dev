@@ -659,6 +659,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public static function cleanCommunityEnvironment() {
     // Delete 'community' node type.
+    _node_types_build(TRUE);
     node_type_delete('community');
     field_purge_batch(1);
     
