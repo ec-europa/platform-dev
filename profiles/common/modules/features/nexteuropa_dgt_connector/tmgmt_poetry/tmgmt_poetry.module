@@ -19,11 +19,15 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  * Custom function to manage permissions of the poetry translator.
  *
  * @param $op
- * @param $test
+ *  Which operation is performed.
+ * @param $translator
+ *  The translator the operation is performed on.
+ * @param $account
+ *  The account which is performing the update.
+ *
  * @return bool
  */
 function _tmgmt_poetry_translator_access($op, $translator, $account) {
-  dpm($translator);
   if (!empty($translator)) {
     if ($op == 'delete' && $translator->plugin == 'poetry') {
       return FALSE;

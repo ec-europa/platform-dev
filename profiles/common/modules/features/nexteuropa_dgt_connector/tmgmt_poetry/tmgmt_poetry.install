@@ -139,7 +139,7 @@ function tmgmt_poetry_requirements($phase) {
           $requirements['poetry_service'] = array(
             'title' => 'DGT connector webservice',
             'severity' => REQUIREMENT_ERROR,
-            'description' => $t('The local connector credentials are not set.  Please contact CEM support.'),
+            'description' => $t('The local connector credentials are not set.  Please contact COMM EUROPA MANAGEMENT.'),
             'value' => $t('Missing local credentials'),
           );
         }
@@ -147,7 +147,7 @@ function tmgmt_poetry_requirements($phase) {
           $requirements['poetry_service'] = array(
             'title' => 'DGT connector webservice',
             'severity' => REQUIREMENT_ERROR,
-            'description' => $t('The DGT remote credentials are not set.  Please contact CEM support.'),
+            'description' => $t('The DGT remote credentials are not set.  Please contact COMM EUROPA MANAGEMENT.'),
             'value' => $t('Missing remote credentials'),
           );
         }

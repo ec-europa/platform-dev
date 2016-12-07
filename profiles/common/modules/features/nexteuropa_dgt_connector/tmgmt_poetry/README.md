@@ -9,7 +9,6 @@ Table of content:
     - [Requesting access](#requesting-access-to-the-dgt-connector)
     - [Enabling the feature](#enabling-the-feature-on-your-platform-instance)
     - [Configuration of the DGT-Connector](#configure-the-dgt-connector)
-  - [Maintenance staff (FPFIS staff)](#maintenance-staff-fpfis-staff)
   - [The feature](#the-feature)
 
 - [Testing](#testing)
@@ -54,58 +53,21 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 
 [Go to top](#table-of-content)
 
-### Enabling the feature on your platform instance:
+### Configuration of a platform instance:
 :hand: You cannot enable DGT-Connector feature using feature sets.
 
-- Once approved by CEM, a JIRA issue is created in the [project 
-MULTISITE](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa) 
-- As a next step, CEM enables the feature for you.
-- The connector configuration has already been set globally on production and 
-playground environments in the common "settings.php" file).
+- Once approved by CEM, the feature will enabled and configured for you by CEM.
+- Part of the shared configuration has already been set globally on production 
+and playground environments by the DevOps in the common "settings.php" file.
 
 [Go to top](#table-of-content)
 
-## Maintenance staff (FPFIS staff)
-:construction: Only maintenance team can enable the DGT translator.
 ### The feature
-
-Update the settings.php of the project.
-It must be filled with appropriate values depending on the environment you are 
-setting up.
-
-  - Install on Playground environment:
-
-In order to test against acceptance webservice, *settings.php* must contain
-    (exactly as is):
-
-```php
-   $conf['poetry_service'] = array(
-     'address' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
-     'method' => 'requestService',
-     'callback_user' => 'Callback',
-     'callback_password' => 'CallbackPWD',
-     'poetry_user' => 'Poetry',
-     'poetry_password' => 'PoetryPWD',
-   );
-```
 
   - Install on Production environment:
 
 Make sure the [poetry access was requested by the webmaster]
-(#requesting-access-to-poetry) and you have received the credentials.
-
-*Settings.php* must contain (replace variables between [] with the appropriate values):
-
-```php
-    $conf['poetry_service'] = array(
-      'address' => 'http://intragate.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
-      'method' => 'requestService',
-      'callback_user' => [CALLBACK_USERNAME],
-      'callback_password' => [CALLBACK_PASSWORD],
-      'poetry_user' => [POETRY_USERNAME],
-      'poetry_password' => [POETRY_PASSWORD],
-    );
-```
+(#requesting-access-to-poetry).
 
 > The values of [CALLBACK_USERNAME] must match NE-projectname where
 projectname is the project's code.
