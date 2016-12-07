@@ -56,7 +56,7 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 ### Configuration of a platform instance:
 :hand: You cannot enable DGT-Connector feature using feature sets.
 
-- Once approved by CEM, the feature will enabled and configured for you by CEM.
+- Once approved by CEM, they will enable and configure.
 - Part of the shared configuration has already been set globally on production 
 and playground environments by the DevOps in the common "settings.php" file.
 
