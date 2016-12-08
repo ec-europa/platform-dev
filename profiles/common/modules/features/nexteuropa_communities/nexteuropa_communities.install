@@ -9,8 +9,13 @@
  * Implements hook_enable().
  */
 function nexteuropa_communities_enable() {
+  variable_set("pathauto_node_community_pattern", "community/[node:title]");
+
   $pattern = '[site:nexteuropa_communities_keyword]/[node:og-group-ref]/[node:content-type]/[node:title]';
+
   variable_set('pathauto_nexteuropa_communities_pattern', $pattern);
+
+  multisite_drupal_toolbox_config_solr_bundle('community', 'add');
 }
 
 /**
@@ -18,4 +23,14 @@ function nexteuropa_communities_enable() {
  */
 function nexteuropa_communities_disable() {
   variable_del('pathauto_nexteuropa_communities_pattern');
+}
+
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_communities_uninstall() {
+  variable_del('nexteuropa_communities_private_area');
+
+  multisite_drupal_toolbox_config_solr_bundle('community', 'delete');
 }

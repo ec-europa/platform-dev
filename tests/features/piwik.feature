@@ -16,4 +16,5 @@ Scenario: Administrator user can check Piwik Script with the theme Bootstrap
   When I run drush "vset theme_default ec_resp"
   Then I am on the homepage
   And the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"instance\":\"\"}"
-
+  And I run drush "pm-disable bootstrap -y"
+  And I run drush "cc" "all"
