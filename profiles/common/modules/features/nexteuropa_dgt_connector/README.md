@@ -9,7 +9,6 @@ Table of content:
     - [Requesting access](#requesting-access-to-the-dgt-connector)
     - [Enabling the feature](#enabling-the-feature-on-your-platform-instance)
     - [Configuration of the DGT-Connector](#configure-the-dgt-connector)
-  - [Maintenance staff (FPFIS staff)](#maintenance-staff-fpfis-staff)
   - [The feature](#the-feature)
 
 - [Testing](#testing)
@@ -50,22 +49,27 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
  - (URL of your website in playground environment)
  - (URL of your website in production environment)
  
+ We want DGT translations to be automatically accepted by our website: YES/NO		
+ 	Contact person in charge of the translation requests: .............		
+ 	Contact person at DGT: .............
+ 	 
  Thank you,
 ```
 
 [Go to top](#table-of-content)
 
-### Enabling the feature on your platform instance:
+###  Configuration of a platform instance:
 :hand: You cannot enable DGT-Connector feature using feature sets.
 
-- Once your request was approved by CEM, CEM will enable the feature on your 
-playground environment.
+- Once approved by CEM, CEM will enable the feature on your playground 
+environment.
+- Part of the shared configuration has already been set globally on production 
+and playground environments by the DevOps in the common "settings.php" file.
 
 [Go to top](#table-of-content)
 
 ## Server configuration (DevOps)
 :construction: DIGIT DevOps are in charge of the endpoint configuration.
-### The feature
 
 The configuration of the endpoint is done once for all in the common 
 settings.php of the project.
@@ -110,7 +114,8 @@ or go to:
 [Go to top](#table-of-content)
 
  - Translator settings: [x] Auto accept finished translations
-   - Check this if subsite wants to review a translation before publishing it.
+   - Check this if the site owser wants to review a translation before 
+   publishing it.
 
  - Translator plugin:
    - This is shown for information, please do not change it.
