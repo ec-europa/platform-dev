@@ -772,6 +772,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view own unpublished content',
     'view revisions',
     'access media browser',
+    'use media wysiwyg',
   );
   multisite_config_service('user')->grantPermission('contributor', $permissions);
 
@@ -790,6 +791,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view all unpublished content',
     'view own unpublished content',
     'access media browser',
+    'use media wysiwyg',
   );
   multisite_config_service('user')->grantPermission('editor', $permissions);
 

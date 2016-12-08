@@ -81,21 +81,6 @@ function multisite_wysiwyg_install() {
       'skip comment approval',
       $filtered_html_permission,
     ));
-
-  // Adding 'use media wysiwyg' permission to the following roles.
-  $roles = array(
-    'administrator',
-    'editorial team member',
-    'contributor',
-    'editor',
-  );
-  $permission = array('use media wysiwyg');
-
-  foreach ($roles as $role_name) {
-    if ($role = user_role_load_by_name($role_name)) {
-      user_role_grant_permissions($role->rid, $permission);
-    }
-  }
 }
 
 /**
