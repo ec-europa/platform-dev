@@ -87,7 +87,7 @@ will be triggered in the following cases:
 The Nexteuropa Varnish provides complete a Behat test suite and additional
 Feature Context located in the FrontendCacheContext class.
 
-Tests are performed against a mocked HTTP server. Thee only difference is that
+Tests are performed against a mocked HTTP server. The only difference is that
 the mocked HTTP server doesn't support 'PURGE' method and uses
 the 'POST' method instead.
 
