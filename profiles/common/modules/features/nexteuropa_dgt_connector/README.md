@@ -97,6 +97,8 @@ contain:
     );
 ```
 
+[Go to top](#table-of-content)
+
 ## DGT-Connector configuration (CEM):
 Once the module is enabled and the settings are properly set up, CEM proceeds
 with the module's configuration.
@@ -110,8 +112,6 @@ In order to do this, navigate to:
 or go to:
 
     admin/config/regional/tmgmt_translator/manage/poetry 
-
-[Go to top](#table-of-content)
 
  - Translator settings: [x] Auto accept finished translations
    - Check this if the site owser wants to review a translation before 
