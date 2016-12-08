@@ -123,7 +123,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     if (count($job->getItems()) > 1) {
       return t('@translator can not translate more than 1 item per request.', array(
         '@translator' => $job->getTranslator()
-          ->label()
+          ->label(),
       ));
     }
     else {
@@ -257,7 +257,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $callback_password = $settings['callback_password'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
       'absolute' => TRUE,
-      'language' => (object) array('language' => FALSE)
+      'language' => (object) array('language' => FALSE),
     ));
     $callback_path = 'FPFISPoetryIntegrationRequest';
     $callback_remark = '';
@@ -466,7 +466,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     try {
       $client = new SoapClient($poetry['address'], array(
         'cache_wsdl' => WSDL_CACHE_NONE,
-        'trace' => 1
+        'trace' => 1,
       ));
     }
     catch (Exception $e) {
@@ -676,7 +676,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $callback_username = $poetry['callback_user'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
       'absolute' => TRUE,
-      'language' => (object) array('language' => FALSE)
+      'language' => (object) array('language' => FALSE),
     ));
 
     $formatted_delivery_date = format_date($delivery_date, 'custom', 'd/m/Y');

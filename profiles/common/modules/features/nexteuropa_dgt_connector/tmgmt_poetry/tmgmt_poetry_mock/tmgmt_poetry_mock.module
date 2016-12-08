@@ -244,10 +244,6 @@ function tmgmt_poetry_mock_service_configuration() {
   $poetry_service = array(
     'address' => _tmgmt_poetry_mock_get_poetry_service_wsdl(),
     'method' => 'requestService',
-    'callback_user' => 'Callback',
-    'callback_password' => 'CallbackPWD',
-    'poetry_user' => 'Poetry',
-    'poetry_password' => 'PoetryPWD',
     'drupal_wsdl' => _tmgmt_poetry_mock_get_drupal_service_wsdl(),
     'poetry_endpoint' => _tmgmt_poetry_mock_get_poetry_service_endpoint(),
   );

@@ -17,7 +17,12 @@ class PoetryMock {
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
   const COUNTER_VALUE = '1234';
   const COUNTER_VALUE_NOK = '-1';
+  const CALLBACK_USER = 'Callback';
+  const CALLBACK_PASSWORD = 'CallbackPWD';
+  const POETRY_USER = 'Poetry';
+  const POETRY_PASSWORD = 'PoetryPWD';
   public $settings;
+  public $credentials;
   private $client;
 
   /**
@@ -32,6 +37,12 @@ class PoetryMock {
    */
   public function setPoetrySettings() {
     $this->settings = variable_get('poetry_service');
+    $this->credentials = array(
+      'callback_user' => CALLBACK_USER,
+      'callback_password' => CALLBACK_PASSWORD,
+      'poetry_user' => POETRY_USER,
+      'poetry_password' => POETRY_PASSWORD,
+    );
   }
 
   /**
@@ -146,8 +157,8 @@ class PoetryMock {
     $this->instantiateClient($this->settings['drupal_wsdl']);
     try {
       $response = $this->client->{self::SOAP_METHOD}(
-        $this->settings['callback_user'],
-        $this->settings['callback_password'],
+        $this->credentials['callback_user'],
+        $this->credentials['callback_password'],
         $message
       );
     }
