@@ -7,13 +7,13 @@ Table of content:
 - [Installation](#a-installation)
   - [Webmaster / Site builder](#webmaster--site-builder)
     - [Requesting access](#requesting-access-to-the-dgt-connector)
-    - [Configuration of the feature](#configuration-of-the-feature)
-  - [Server configuration](#server-configuration)
-  - [Connector configuration](#connector-configuration)
+    - [Configuration of the feature](#activation-of-the-feature)
+  - [Server configuration](#server-configuration-devops)
+  - [Connector configuration](#dgt-connector-configuration-cem)
 
 - [Testing](#testing)
   - [Testing locally](#testing)
-  - [Testing on Playground](#testing)
+  - [Testing on Playground](#testing-in-house-for-webmasters)
 
 - [Usage](#usage)
   - [How to request a translation](#how-to-request-a-translation)
@@ -58,7 +58,7 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 
 [Go to top](#table-of-content)
 
-###  Configuration of the feature:
+###  Activation of the feature:
 :hand: You cannot enable DGT-Connector feature using feature sets.
 
 - Once approved by CEM, CEM will enable the feature on your playground 
@@ -97,7 +97,7 @@ contain:
     );
 ```
 
-### DGT-Connector configuration (CEM):
+## DGT-Connector configuration (CEM):
 Once the module is enabled and the settings are properly set up, CEM proceeds
 with the module's configuration.
 
@@ -272,8 +272,9 @@ several variables:
 ## Error debugging
 If your connection to DGT service is broken, please check the following 
 debugging steps:
-   - Go to URL admin/reports/status
-   - Check the status of the "DGT connector webservice"
+   - If you are not administrator, contact your site administrator.
+   - If you are administrator: go to URL admin/reports/status and check the 
+   status of the "DGT connector webservice"
      - Status is red :
        - If "The DGT webservice endpoint is not set. Please ask your support 
        team to check the configuration." is shown, the URL of the DGT webservice
@@ -289,6 +290,10 @@ debugging steps:
        support." is shown, the credentials of the DGT endpoint have not been 
        set. This information should be filled in by a member of CEM team at the 
        time of install.
+       
+     - Status is green: All the required fields have been filled. However, if 
+      you still experience issues, contact CEM and ask them to check the values
+      that have been configured.
               
 [Go to top](#table-of-content)
 
