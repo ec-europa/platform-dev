@@ -5,7 +5,6 @@
   "require-dev": {
     "behat/behat": "~3.1",
     "drupal/drupal-extension": "~3.1",
-    "behat/mink-selenium2-driver": "dev-master#721cbbaf37f7143",
     "internations/http-mock": "^0.7.4",
     "bovigo/assert": "^1.7",
     "rych/random": "v0.1.0"
