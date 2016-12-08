@@ -24,7 +24,7 @@ Feature: Change tracking features
     Then I should see "Enabled" in the "Full HTML" row
     And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
     When I click "disable tracked changes buttons" in the "Full HTML" row
-    And I wait for the batch job to finish
+    And I wait for the end of the batch job
     Then I should see "Disabled" in the "Full HTML" row
     And I should see the message "Change tracking disabled on full_html WYSIWYG profile"
 
@@ -69,7 +69,7 @@ Feature: Change tracking features
     Then I should see the "Stop tracking changes" button in the "Body" WYSIWYG editor
     And I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     When I click "disable tracked changes buttons" in the "Full HTML" row
-    And I wait for the batch job to finish
+    And I wait for the end of the batch job
     Then I should see "Disabled" in the "Full HTML" row
     When I go to "node/add/page"
     And I fill in "Title" with "This is a new page I want to reference"
@@ -253,7 +253,7 @@ Feature: Change tracking features
      Then I should see the success message "Page with tracked changes and a published version has been updated."
      When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
      And I press "Force scanning"
-     And I wait for the batch job to finish
+    And I wait for the end of the batch job
      Then I should see the success message "The tracked changes table is rebuilt."
      When I go to "admin/content/tracked_changes"
      Then I should see "und" in the "Article with tracked changes" row
@@ -275,7 +275,7 @@ Feature: Change tracking features
       | en       | Page with tracked changes                             | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | page          |
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "disable tracked changes buttons" in the "Full HTML" row
-    And I wait for the batch job to finish
+    And I wait for the end of the batch job
     Then I should see this following error message:
     """
     The deactivation of the change tracking feature for the full_html profile stopped because tracked changes have been detected.

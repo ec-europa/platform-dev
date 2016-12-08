@@ -15,7 +15,7 @@ Feature: Change tracking features
     And I click "Editorial Management"
     And I click the ".form-item-featureset-nexteuropa-trackedchanges" element
     And I press "Validate"
-    And I wait for the batch job to finish
+    And I wait for the end of the batch job
     Then I should see the success message "NextEuropa Tracked Changes feature is now inactive on your site."
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
     And the response should not contain "Tracked changes logs status"
@@ -35,7 +35,7 @@ Feature: Change tracking features
     And I click "Editorial Management"
     And I click the ".form-item-featureset-nexteuropa-trackedchanges" element
     And I press "Validate"
-    And I wait for the batch job to finish
+    And I wait for the end of the batch job
     Then I should see this following error message:
     """
     The deactivation stopped because tracked changes have been detected in contents.
@@ -49,7 +49,7 @@ Feature: Change tracking features
     And I click "Editorial Management"
     And I click the ".form-item-featureset-nexteuropa-trackedchanges" element
     And I press "Validate"
-    And I wait for the batch job to finish
+    And I wait for the end of the batch job
     Then I should see the success message "NextEuropa Tracked Changes feature is now active on your site."
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
     And the response should contain "Tracked changes logs status"

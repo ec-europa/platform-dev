@@ -5,7 +5,7 @@ default:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
         - FeatureContext
-        - Drupal\DrupalExtension\Context\BatchContext
+        - Drupal\nexteuropa\Context\BatchContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\DrupalContext
