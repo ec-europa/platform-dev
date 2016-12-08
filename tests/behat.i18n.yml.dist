@@ -10,6 +10,7 @@ default:
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\nexteuropa\Context\TaxonomyContext
         - Drupal\nexteuropa\Context\DatabaseLogContext
+        - Drupal\nexteuropa\Context\ViewsContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:

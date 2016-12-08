@@ -70,6 +70,10 @@ projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.9
+; Issue #2084823 : Contextual links for entity view
+; https://www.drupal.org/node/2084823
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
+projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.2"
@@ -172,7 +176,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.11"
+projects[ds][version] = "2.14"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -603,10 +607,8 @@ projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
-projects[title][download][branch] = 7.x-1.x
-projects[title][download][revision] = 1f89073
-projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+projects[title][version] = "1.0-alpha8"
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d

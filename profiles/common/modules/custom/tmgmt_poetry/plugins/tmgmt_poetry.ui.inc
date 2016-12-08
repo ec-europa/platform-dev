@@ -46,7 +46,14 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#required' => TRUE,
       '#default_value' => $settings['code'],
     );
-
+    $form['settings']['website_identifier'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Website identifier'),
+      '#maxlength' => 15,
+      '#required' => TRUE,
+      '#default_value' => $settings['website_identifier'],
+      '#description' => t('This value - which is mandatory - will be put in the title of translation requests, in order for DGT to identify which website the request came from.'),
+    );
     $organization = $translator->getSetting('organization');
     $form['organization'] = array(
       '#type' => 'fieldset',

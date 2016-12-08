@@ -269,6 +269,8 @@ class FrontendCacheContext implements Context {
 
     $path_string = '^(' . implode('|', $paths) . ')$';
 
+    // Some of environments returns different paths. To pass the test given
+    // environment path is removed from the assertion process.
     $content_url = preg_quote(ltrim(url(), '/'));
     $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
 
