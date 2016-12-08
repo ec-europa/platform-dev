@@ -7,9 +7,9 @@ Table of content:
 - [Installation](#a-installation)
   - [Webmaster / Site builder](#webmaster--site-builder)
     - [Requesting access](#requesting-access-to-the-dgt-connector)
-    - [Enabling the feature](#enabling-the-feature-on-your-platform-instance)
-    - [Configuration of the DGT-Connector](#configure-the-dgt-connector)
-  - [The feature](#the-feature)
+    - [Configuration of the feature](#configuration-of-the-feature)
+  - [Server configuration](#server-configuration)
+  - [Connector configuration](#connector-configuration)
 
 - [Testing](#testing)
   - [Testing locally](#testing)
@@ -58,7 +58,7 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 
 [Go to top](#table-of-content)
 
-###  Configuration of a platform instance:
+###  Configuration of the feature:
 :hand: You cannot enable DGT-Connector feature using feature sets.
 
 - Once approved by CEM, CEM will enable the feature on your playground 
@@ -72,8 +72,8 @@ and playground environments by the DevOps in the common "settings.php" file.
 :construction: DIGIT DevOps are in charge of the endpoint configuration.
 
 The configuration of the endpoint is done once for all in the common 
-settings.php of the project.
-It is be filled with appropriate values depending on the environment. 
+settings.php of all the projects.
+It is filled with appropriate values depending on the environment. 
 
   - On Playground environment:
 
@@ -97,7 +97,7 @@ contain:
     );
 ```
 
-### Configure the DGT-Connector (CEM):
+### DGT-Connector configuration (CEM):
 Once the module is enabled and the settings are properly set up, CEM proceeds
 with the module's configuration.
 
