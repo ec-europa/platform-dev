@@ -20,8 +20,8 @@
  */
 function cce_basic_config_import_images($images) {
   foreach ($images as $default_image_data) {
-    $file_uri = $default_image_data['scheme'] . $default_image_data['dest_directory'] . '/' . $default_image_data['filename'];
     $full_dir = $default_image_data['scheme'] . $default_image_data['dest_directory'];
+    $file_uri = $full_dir . '/' . $default_image_data['filename'];
 
     file_prepare_directory($full_dir, FILE_CREATE_DIRECTORY);
     file_unmanaged_copy($default_image_data['source_path'], $file_uri, FILE_EXISTS_REPLACE);
