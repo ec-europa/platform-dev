@@ -132,6 +132,7 @@ or go to:
    - Callback Password: is the same as the callback_username.
    These fields are limited to 15 characters.
    - Poetry Username and Poetry Password: Those credential are provided by DGT.
+   On playground, you should use 'Poetry' & 'PoetryPWD'.
    - Organization responsible, Author & requester: consult the values examples
    shown below each form field as an example.
    - Contact usernames: should be the *user names* (you connect to the network,
