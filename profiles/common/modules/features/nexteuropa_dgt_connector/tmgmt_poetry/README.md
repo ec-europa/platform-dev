@@ -48,6 +48,11 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
  - (URL of your website in playground environment)
  - (URL of your website in production environment)
  
+ We want DGT translations to be automatically accepted by our website: YES/NO
+ Contact person in charge of the translation requests: .............
+ Contact person at DGT: .............
+  
+ 
  Thank you,
 ```
 
@@ -105,8 +110,8 @@ or go to:
 
  - DGT Connector plugin settings:
    - You should see 'Main "poetry_service" variable is properly set.' if you
-   have correctly followed the steps above. Otherwise, get back and check what
-   you forgot!
+   have correctly followed the steps above. Otherwise, please read the "Error 
+   debugging section".
    - Counter: The counter always is *NEXT_EUROPA_COUNTER* 
    [See DGT reference explanation]  
    - Requester code: always is *WEB* [See DGT reference explanation]
@@ -157,7 +162,8 @@ environment.
 - Click that tab and select languages you wish to request a translation for,
 - Submit the 'Request translation' button,
 - By default the 'DGT connector (auto created)' translator is selected but you 
-can click 'Change translator' to change it if needed,
+can click 'Change translator' to change to an alternate translation mode if 
+needed,
 - You can change the languages you want to be translated,
 - Default values:
 
@@ -248,3 +254,25 @@ several variables:
 
 [Go to top](#table-of-content)
 
+## Error debugging
+If your connection to DGT service is broken, please check the following 
+debugging steps:
+   - Go to URL admin/reports/status
+   - Check the status of the "DGT connector webservice"
+     - Status is red :
+       - If "The DGT webservice endpoint is not set. Please ask your support 
+       team to check the configuration." is shown, the URL of the DGT webservice
+        endpoint is not set.  Please contact your support. 
+        The URL should be set in the common settings.php file on the server.
+        
+       - If "The local connector credentials are not set.  Please contact CEM 
+       support." is shown, the credentials of the Drupal endpoint have not been 
+       set. This information should be filled in by a member of CEM team at the 
+       time of install.
+       
+       - If "The DGT remote credentials are not set.  Please contact CEM 
+       support." is shown, the credentials of the DGT endpoint have not been 
+       set. This information should be filled in by a member of CEM team at the 
+       time of install.
+              
+[Go to top](#table-of-content)
