@@ -52,7 +52,7 @@ class Config extends ConfigBase {
   public function isEditoralTeamGroup($nid = 0) {
     $is_team_member = FALSE;
     $node = node_load($nid);
-    if (isset($node) && ($node->type == "editorial_team")) {
+    if ($node && ($node->type == "editorial_team")) {
       $is_team_member = TRUE;
     }
     return $is_team_member;
