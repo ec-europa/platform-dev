@@ -217,7 +217,8 @@ share with DGT.
 
 Once a translation has been requested to DGT, the status is updated on the
 Drupal site. In addition it is also possible for EC staff to view translation
-status and references using the [DGT web app]
+status and references using the [Test DGT web app] 
+(http://www.test.cc.cec/translation/webpoetry/) or the [DGT web app]
 (http://www.cc.cec/translation/webpoetry/).
 The requester of a translation is also able to read the actual content
 of the translations via this application.
