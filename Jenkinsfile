@@ -7,7 +7,7 @@ node('linux') {
     env.DB_NAME = "${env.PROJECT}".replaceAll('-','_').trim() + '_' + sh(returnStdout: true, script: 'date | md5sum | head -c 4').trim()
     env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
     env.HTTP_MOCK_PORT = random.nextInt(50000) + 10000
-    if (env.WD_PORT == 0) {
+    if (env.WD_PORT == '0') {
         env.WD_PORT = env.HTTP_MOCK_PORT.toInteger() + 1
     }
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
