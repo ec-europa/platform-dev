@@ -560,9 +560,9 @@ function _nexteuropa_trackedchanges_ckeditor_lite_view_alter(&$build, $type) {
 
         // Add the ckeditor_lite.js in order to use "highlighting" css classes.
         $path = drupal_get_path('module', 'ckeditor_lite');
-        $build['#attached'] = array(
-          'css' => array('data' => $path . '/css/ckeditor_lite.css', 'type' => 'file'),
-        );
+        isset($build['#attached']) ?: $build['#attached'] = array();
+        isset($build['#attached']['css']) ?: $build['#attached']['css'] = array();
+        $build['#attached']['css'][] = array('data' => $path . '/css/ckeditor_lite.css', 'type' => 'file');
       }
     }
   }
