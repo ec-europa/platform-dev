@@ -608,10 +608,6 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
-; NEPT-60
-; @see https://www.drupal.org/node/2812863
-; This patch fix the insufficient access check on Views.
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -807,7 +803,7 @@ libraries[ckeditor_moono][directory_name] = "moonocolor"
 libraries[cycle][download][type] = "git"
 libraries[cycle][destination] = "libraries"
 libraries[cycle][download][url] = https://github.com/malsup/cycle.git
-libraries[cycle][tag] = "3.0.3"
+libraries[cycle][download][tag] = "3.0.3"
 
 ; fancybox 2.1.5
 libraries[fancybox][download][type]= "file"
@@ -876,7 +872,7 @@ libraries[jquery][directory_name] = "jquery"
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
-libraries[Leaflet.draw][tag] = "v0.2.4"
+libraries[Leaflet.draw][download][tag] = "v0.3.0"
 
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
