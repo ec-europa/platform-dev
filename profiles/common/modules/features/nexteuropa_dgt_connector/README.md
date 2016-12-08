@@ -100,12 +100,10 @@ contain:
 [Go to top](#table-of-content)
 
 ## DGT-Connector configuration (CEM):
-Once the module is enabled and the settings are properly set up, CEM proceeds
-with the module's configuration.
+CEM enable the feature "DGT connector" through their feature set access and 
+proceeds with the module's configuration.
 
-Edit the translator labelled "DGT Connector (auto created)".
-
-In order to do this, navigate to:
+In order to do this, CEM navigate to:
 
     Configuration > Regional and Language > Translation management Translator
 
