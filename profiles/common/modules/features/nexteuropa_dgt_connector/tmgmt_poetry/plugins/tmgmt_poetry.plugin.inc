@@ -121,7 +121,10 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   public function getNotCanTranslateReason(TMGMTJob $job) {
     if (count($job->getItems()) > 1) {
-      return t('@translator can not translate more than 1 item per request.', array('@translator' => $job->getTranslator()->label()));
+      return t('@translator can not translate more than 1 item per request.', array(
+        '@translator' => $job->getTranslator()
+          ->label()
+      ));
     }
     else {
       return t('An active translation for this item already exists');
@@ -246,13 +249,16 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Generate the ID for the request.
     $items = $job->getItems();
     $item = array_shift($items);
-    $id_data = $this->generateRequestId($item, $translator->getSetting('settings'));
+    $settings = $translator->getSetting('settings');
+    $id_data = $this->generateRequestId($item, $settings);
 
     // Generate the callback parameters.
-    $poetry = variable_get("poetry_service");
-    $callback_username = $poetry['callback_user'];
-    $callback_password = $poetry['callback_password'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+    $callback_username = $settings['callback_user'];
+    $callback_password = $settings['callback_password'];
+    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+      'absolute' => TRUE,
+      'language' => (object) array('language' => FALSE)
+    ));
     $callback_path = 'FPFISPoetryIntegrationRequest';
     $callback_remark = '';
 
@@ -324,7 +330,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $document_source->addAttribute('format', 'HTML');
     $document_source->addChild('documentSourceName', $filename);
     $language = $document_source->addChild('documentSourceLang');
-    $language->addAttribute('lgCode', drupal_strtoupper($job->getTranslator()->mapToRemoteLanguage($job->source_language)));
+    $language->addAttribute('lgCode', drupal_strtoupper($job->getTranslator()
+      ->mapToRemoteLanguage($job->source_language)));
     $language->addChild('documentSourceLangPages', '1');
     $document_source->addChild('documentSourceFile', $content);
 
@@ -348,7 +355,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       if (!empty($attribute_action)) {
         $attribution = $request->addChild('attributions');
         $attribution->addAttribute('format', 'HTML');
-        $attribution->addAttribute('lgCode', drupal_strtoupper($job->getTranslator()->mapToRemoteLanguage($job_additional_lang_key)));
+        $attribution->addAttribute('lgCode', drupal_strtoupper($job->getTranslator()
+          ->mapToRemoteLanguage($job_additional_lang_key)));
         $attribution->addAttribute('action', $attribute_action);
         $attribution_delai = $attribution->addChild('attributionsDelai', date('d/m/Y', strtotime($job->settings['delai'])));
         $attribution_delai->addAttribute('format', 'DD/MM/YYYY ');
@@ -391,7 +399,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       $query = db_select('poetry_map', 'pm');
       $query->addExpression('MAX(numero)', 'max_numero');
       $max_numero = $query->execute()
-          ->fetchAssoc();
+        ->fetchAssoc();
       if (!empty($max_numero['max_numero'])) {
         $query = db_select('poetry_map', 'pm')
           ->fields('pm', array('annee', 'numero', 'version', 'partie'))
@@ -456,7 +464,10 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
 
     // Create soap client.
     try {
-      $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE, 'trace' => 1));
+      $client = new SoapClient($poetry['address'], array(
+        'cache_wsdl' => WSDL_CACHE_NONE,
+        'trace' => 1
+      ));
     }
     catch (Exception $e) {
       watchdog_exception('tmgmt_poetry', $e);
@@ -466,7 +477,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       // Send the SOAP request and handle possible errors.
       try {
         $method = $poetry['method'];
-        $response = $client->$method($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+        $response = $client->$method($settings['poetry_user'],
+          $settings['poetry_password'], $msg);
       }
       catch (Exception $e) {
         watchdog_exception('tmgmt_poetry', $e);
@@ -505,7 +517,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
   public function addNewTargetLanguages(TMGMTPoetryJob $job, array $new_languages, $delivery_date) {
     $languages = language_list();
     $poetry_xml = $this->prepareRequestPoetryXml();
-
+    $translator = $job->getTranslator();
+    $settings = $translator->getSetting('settings');
     $this->appendRequestXmlElement(
       $poetry_xml,
       self::REQUEST_TYPE_NEW_POST,
@@ -515,7 +528,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       $delivery_date
     );
 
-    $response = $this->sendAddNewTargetLanguagesRequest($poetry_xml);
+    $response = $this->sendAddNewTargetLanguagesRequest($poetry_xml, $settings['poetry_user'], $settings['poetry_password']);
     $response_xml = $response ? simplexml_load_string($response) : FALSE;
 
     if (!$response_xml) {
@@ -552,19 +565,17 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @return mixed
    *   FALSE or string with XML response.
    */
-  protected function sendAddNewTargetLanguagesRequest(SimpleXMLElement $poetry_xml) {
+  protected function sendAddNewTargetLanguagesRequest(SimpleXMLElement $poetry_xml, $poetry_user, $poetry_password) {
     $msg = $poetry_xml->asXML();
     $msg_watchdog = htmlentities("Send request (new target languages): " . $msg);
     watchdog('tmgmt_poetry', $msg_watchdog, array(), WATCHDOG_DEBUG);
-
-    // Get Poetry configuration.
     $poetry = variable_get("poetry_service");
 
     // Create soap client and send the request.
     try {
       $client = new SoapClient($poetry['address'], array('cache_wsdl' => WSDL_CACHE_NONE));
 
-      $response = $client->$poetry['method']($poetry['poetry_user'], $poetry['poetry_password'], $msg);
+      $response = $client->$poetry['method']($poetry_user, $poetry_password, $msg);
 
       return $response;
     }
@@ -663,7 +674,10 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
   protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date) {
     $poetry = variable_get("poetry_service");
     $callback_username = $poetry['callback_user'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array('absolute' => TRUE, 'language' => (object) array('language' => FALSE)));
+    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+      'absolute' => TRUE,
+      'language' => (object) array('language' => FALSE)
+    ));
 
     $formatted_delivery_date = format_date($delivery_date, 'custom', 'd/m/Y');
 
