@@ -505,4 +505,17 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
   }
 
+  /**
+   * Assert that the given form element is disabled.
+   *
+   * @Then the :label checkbox should be disabled
+   * @Then the :label form element should be disabled
+   */
+  public function assertDisabledElement($label) {
+    $checkbox = $this->getSession()->getPage()->findField($label);
+    if (!$checkbox->hasAttribute('disabled')) {
+      throw new ExpectationException("Form element '{$label}' is not disabled", $this->getDriver());
+    }
+  }
+
 }

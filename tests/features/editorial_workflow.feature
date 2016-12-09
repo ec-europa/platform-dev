@@ -1,13 +1,13 @@
 # These tests are temporarily disabled, the editorial workflow functionality is
 # broken after NextEuropa was merged into Multisite.
 # See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4249
-@wip
+@api
 Feature: Editorial workflow
   In order to control how content is handled on the website
   As the head of the editorial staff
   I want to define the content staging actions individual staff members can perform
 
-  @api
+  @wip
   Scenario: A user with 'contributor' group role cannot publish nodes
     # This is a regression test for a privilege escalation bug. An authenticated
     # user was able to set the moderation state of a newly created node when she
@@ -18,7 +18,7 @@ Feature: Editorial workflow
     When I go to "node/add/page"
     Then I should not see the text 'Moderation state'
 
-  @api
+  @wip
   Scenario Outline: Available moderation transitions for contributor
     Given I am logged in as a user with the '<role>' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -45,7 +45,7 @@ Feature: Editorial workflow
       | contributor        |
       | authenticated user |
 
-  @api
+  @wip
   Scenario Outline: Available moderation transitions for validator
     Given I am logged in as a user with the '<role>' role
     And I have the 'validator' role in the 'Global editorial team' group
@@ -72,7 +72,7 @@ Feature: Editorial workflow
       | contributor        |
       | authenticated user |
 
-  @api
+  @wip
   Scenario Outline: Available moderation transitions for publisher
     Given I am logged in as a user with the '<role>' role
     And I have the 'publisher' role in the 'Global editorial team' group
@@ -96,3 +96,12 @@ Feature: Editorial workflow
       | editor             |
       | contributor        |
       | authenticated user |
+
+  Scenario: User role "editorial team member" cannot be assigned via the UI.
+    Given I am logged in as a user with the "administrator" role
+    And I am on "admin/people"
+    Then I should not have the following options for "edit-operation":
+      | editorial team member |
+    And I am on "user"
+    And I click "Edit"
+    Then the "editorial team member" checkbox should be disabled
