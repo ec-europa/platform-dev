@@ -46,6 +46,26 @@ For example:
 nexteuropa_token_get_handler('hash_handler')->hookTokenInfoAlter($data);
 ```
 
+Provide custom token display handlers 
+-------------------------------------
+
+It is possible to define the class handling a particular entity with this hook:
+
+```
+/**
+ * Implements hook_nexteuropa_token_entity_view_mode_type().
+ */
+function hook_nexteuropa_token_entity_view_mode_type() {
+  return array(
+    'entity_type' => '\Drupal\module_name\ClassName',
+  );
+}
+```
+
+In that new class, you need to override the method `entityView()` to override
+the default behavior for rendering a particular entity.
+
+
 Notes
 -----
 

@@ -37,4 +37,21 @@ Feature: Content editing as editor
       | <blockquote>Lorem ipsum dolor sit amet.</blockquote>                                                | <blockquote><p>Lorem ipsum dolor sit amet.</p></blockquote>                                         |
       | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   |
       | <ul><li>Lorem ipsum</li><li>Dolor sit amet</li></ul>                                                | <ul><li>Lorem ipsum</li>                                                                            |
-      | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | <ol><li>Lorem ipsum</li>                                                                            |
+      | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | <ol><li>Lorem ipsum</li>
+
+  @api
+  Scenario: User can create an article but he cannot define its path alias, even during an update.
+    The alias is generated automatically.
+    When I go to "node/add/article"
+    And I fill in "Title" with "Automate article alias"
+    And I fill in "Body" with "<p>Consectetur adipiscing elit.</p>"
+    Then the response should not contain "<strong>URL path settings</strong>"
+    And the response should not contain "<label for=\"edit-path-alias\">URL alias</label>"
+    When I press "Save"
+    Then I should be on "content/automate-article-alias_en"
+    When I click "Edit draft"
+    And I fill in "Title" with "2nd Automate article alias"
+    Then the response should not contain "<strong>URL path settings</strong>"
+    And the response should not contain "<label for=\"edit-path-alias\">URL alias</label>"
+    When I press "Save"
+    Then I should be on "content/2nd-automate-article-alias_en"

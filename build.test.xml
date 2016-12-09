@@ -67,7 +67,6 @@
                 <property name="flickr.secret" value="${env.FLICKR_SECRET}" override="true" />
             </then>
         </if>
-        
         <copy todir="${behat.dir}">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
