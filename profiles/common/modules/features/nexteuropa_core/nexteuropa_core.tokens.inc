@@ -34,9 +34,10 @@ function nexteuropa_core_tokens($type, $tokens, array $data = array(), array $op
           $term = $node_wrapper->{$field_name}->value();
           if (!empty($term)) {
             $parents = array();
-            foreach (entity_metadata_taxonomy_term_get_properties($term, array(), 'parents_all') as $tid) {
-              $parent_term = taxonomy_term_load($tid);
-              $parents[] = $parent_term->name;
+            foreach (taxonomy_get_parents_all($term->tid) as $parent_term) {
+              if ($parent_term->tid !== $term->tid) {
+                $parents[] = $parent_term->name;
+              }
             }
             $replacements[$original] = implode($separator, array_reverse($parents));
           }
@@ -53,9 +54,10 @@ function nexteuropa_core_tokens($type, $tokens, array $data = array(), array $op
       // since we have to provide an URI like replacement, containing '/'.
       if ($original == '[term:parents-uri]') {
         $parents = array();
-        foreach (entity_metadata_taxonomy_term_get_properties($term, array(), 'parents_all') as $tid) {
-          $parent_term = taxonomy_term_load($tid);
-          $parents[] = $parent_term->name;
+        foreach (taxonomy_get_parents_all($term->tid) as $parent_term) {
+          if ($parent_term->tid !== $term->tid) {
+            $parents[] = $parent_term->name;
+          }
         }
         $replacements[$original] = implode($separator, array_reverse($parents));
       }
