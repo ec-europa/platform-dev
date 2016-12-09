@@ -525,8 +525,17 @@ projects[pathauto_persist][version] = "1.4"
 projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.9"
 
+; Instead of using a stable version of the plupload module, we stick here to a
+; more recent git revision in order to solve unexpected failures with a
+; plupload JS library patch included in the default Drush make file of the
+; module. In the scope of https://www.drupal.org/node/2088143, this default make
+; file got reduced to an example make file which is not executed any longer by
+; default, so we can download and patch the plupload JS library ourselves (see
+; further on in the libraries section of this make file).
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.7"
+projects[plupload][download][branch] = 7.x-1.x
+projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
+projects[plupload][download][type] = git
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -893,6 +902,17 @@ libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
 libraries[leaflet][directory_name] = "leaflet"
+
+; Plupload
+libraries[plupload][destination] = "libraries"
+libraries[plupload][download][type] = "file"
+libraries[plupload][download][request_type]= "get"
+libraries[plupload][download][file_type] = "zip"
+libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v1.5.8.zip"
+libraries[plupload][directory_name] = "plupload"
+; Remove the examples directory.
+; See https://www.drupal.org/node/1903850#comment-11676067.
+libraries[plupload][patch][1903850] = "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
 
 ; ===========================
 ; Libraries for Ec_resp Theme
