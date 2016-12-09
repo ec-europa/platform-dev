@@ -309,6 +309,29 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
+   * Compare the position from top between 2 divs by class.
+   *
+   * @param string $div1
+   *   Class of the first div.
+   * @param string $div2
+   *   Class of the second div.
+   *
+   * @throws \Exception
+   *    Throw exception if the two positions from top are different.
+   *
+   * @Then I check if :div1 and :div2 have the same position from top
+   */
+  public function checkIfTwoDivHaveSamePosition($div1, $div2) {
+    $javascript1 = "return jQuery('." . $div1 . "').offset().top;";
+    $result_div1 = intval($this->getSession()->evaluateScript($javascript1));
+
+    $javascript2 = "return jQuery('." . $div2 . "').offset().top;";
+    $result_div2 = intval($this->getSession()->evaluateScript($javascript2));
+
+    assert($result_div1, equals($result_div2));
+  }
+
+  /**
    * Checks, that HTML page contains specified element with given attributes.
    *
    * @Then /^the page should contain the element with following id "(?P<text>(?:[^"]|\\")*)" and given attributes:$/
