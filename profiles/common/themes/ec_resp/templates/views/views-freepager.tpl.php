@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default view template to display Free Pager.

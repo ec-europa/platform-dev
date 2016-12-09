@@ -86,11 +86,11 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $item = array_shift($items);
     if (!empty($item)) {
       $results = db_select('tmgmt_job_item', 'tji')
-          ->fields('tji', array('tjid'))
-          ->condition('item_type', $item->item_type, '=')
-          ->condition('item_id', $item->item_id, '=')
-          ->execute()
-          ->fetchAllAssoc('tjid');
+        ->fields('tji', array('tjid'))
+        ->condition('item_type', $item->item_type, '=')
+        ->condition('item_id', $item->item_id, '=')
+        ->execute()
+        ->fetchAllAssoc('tjid');
       if ($results) {
         foreach ($results as $tjid) {
           if ($job = tmgmt_job_load($tjid->tjid)) {
@@ -376,7 +376,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       $query = db_select('poetry_map', 'pm');
       $query->addExpression('MAX(numero)', 'max_numero');
       $max_numero = $query->execute()
-          ->fetchAssoc();
+        ->fetchAssoc();
       if (!empty($max_numero['max_numero'])) {
         $query = db_select('poetry_map', 'pm')
           ->fields('pm', array('annee', 'numero', 'version', 'partie'))

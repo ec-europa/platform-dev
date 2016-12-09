@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default theme implementation to display the simplenews block.

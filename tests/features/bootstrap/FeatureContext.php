@@ -21,6 +21,20 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * List of modules to enable.
+   *
+   * @var array
+   */
+  protected $modules = array();
+
+  /**
+   * List of features sets to enable.
+   *
+   * @var array
+   */
+  protected $features_set = array();
+
+  /**
    * Checks that a 403 Access Denied error occurred.
    *
    * @Then I should get an access denied error
@@ -128,7 +142,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       // Disable and uninstall any modules that were enabled.
       module_disable($this->modules);
       $res = drupal_uninstall_modules($this->modules);
-      unset($this->modules);
+      $this->modules = array();
     }
   }
 
@@ -237,7 +251,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
           feature_set_disable_feature_set($featureset);
         }
       }
-      unset($this->features_set);
+      $this->features_set = array();
     }
   }
 

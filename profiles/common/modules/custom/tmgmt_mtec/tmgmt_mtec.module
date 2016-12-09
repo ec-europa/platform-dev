@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file of the translation management MT@EC .
@@ -33,7 +34,6 @@ class TMGMTMtecException extends Exception {
   }
 
 }
-
 
 /**
  * Implements hook_menu().
@@ -193,7 +193,6 @@ function tmgmt_mtec_tmgmt_job_delete(TMGMTJob $job) {
   ftp_close($conn_id);
 }
 
-
 /**
  * Helper function to check FTP settings.
  */
@@ -284,7 +283,6 @@ function tmgmt_mtec_entity_info_alter(&$entity_info) {
     $entity_info['tmgmt_job']['entity keys']['uuid'] = 'uuid';
   }
 }
-
 
 /**
  * Helper function to remove a directory on a FTP server recursively.

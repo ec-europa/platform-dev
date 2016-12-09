@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_business_indicators_community.test
@@ -136,7 +137,6 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
       }
     }
   }
-
 
   /**
    * Tests comment creation.

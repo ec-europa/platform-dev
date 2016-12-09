@@ -3,10 +3,10 @@
  * Javascripts for feature set.
  */
 
-(function($){
+(function ($) {
 
   Drupal.behaviors.ec_resp_feature_set = {
-    attach: function(context) {
+    attach: function (context) {
 
       // Activate sticky menu.
       $('.feature-set__categories').affix({
@@ -15,7 +15,7 @@
         }
       });
       $('.feature-set__category').width($('#feature-set__scrollspy').width());
-      $(window).resize(function() {
+      $(window).resize(function () {
         $('.feature-set__category').width($('#feature-set__scrollspy').width());
       });
 
@@ -25,20 +25,20 @@
       });
 
       // Manage click on a row.
-      $('.feature-set__header').click(function() {
+      $('.feature-set__header').click(function () {
         $(this)
           .closest('.feature-set__feature')
           .not('.feature-set__feature--locked')
           .toggleClass('feature-set__feature--pending')
           .find('.form-checkbox')
-          .each(function() {
+          .each(function () {
             $this = $(this);
             if ($this.is(':checked')) {
               $this
                 .prop('checked', false)
                 .siblings('span')
                 .toggleClass('glyphicon-time')
-                .toggleClass(function() {
+                .toggleClass(function () {
                   if ($this.closest('.feature-set__feature').hasClass('feature-set__feature--disabled')) {
                     return 'glyphicon-remove';
                   }
@@ -52,7 +52,7 @@
                 .prop('checked', true)
                 .siblings('span')
                 .toggleClass('glyphicon-time')
-                .toggleClass(function() {
+                .toggleClass(function () {
                   if ($this.closest('.feature-set__feature').hasClass('feature-set__feature--disabled')) {
                     return 'glyphicon-remove';
                   }
@@ -65,7 +65,7 @@
       });
 
       // Add icon and hide checkbox.
-      $(".feature-set__feature .form-checkbox").each(function() {
+      $(".feature-set__feature .form-checkbox").each(function () {
         $this = $(this);
         // Check if the feature has been enabled.
         if ($this.is(':checked')) {

@@ -93,7 +93,7 @@
         </symlink>
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
         <symlink link="${phing.project.build.dir}/tests" target="../tests" />
-        <symlink link="bin/behat" target="../${phing.project.build.dir}/vendor/bin/behat" overwrite="true"/>
+        <symlink link="bin/behat" target="${project.basedir}/vendor/behat/behat/bin/behat" overwrite="true"/>
     </target>
 
     <!-- Run Behat tests. -->

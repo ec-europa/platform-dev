@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code specific to customization for the change tracking management.
@@ -366,9 +367,9 @@ function _nexteuropa_editorial_tracking_message_for_wbm_states($entity) {
  *
  * @param object $entity
  *   Entity to check.
- * @param bool|FALSE $current_wbm_state
+ * @param bool|false $current_wbm_state
  *   Submitted entity workbench moderation state (node only).
- * @param bool|FALSE $current_status
+ * @param bool|false $current_status
  *   Submitted entity current status (node without workbench moderation only).
  *
  * @return bool

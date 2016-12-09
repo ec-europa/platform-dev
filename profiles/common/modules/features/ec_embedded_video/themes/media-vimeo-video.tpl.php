@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template file for theme('media_vimeo_video').

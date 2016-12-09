@@ -2035,7 +2035,6 @@ function cce_basic_config_update_7203() {
   variable_set('cce_basic_config_admin_pages', $admin_pages);
 }
 
-
 /**
  * Update the location of the Rate attachments.
  */
@@ -2095,7 +2094,6 @@ function cce_basic_config_update_7206() {
   module_disable(array('print_pdf_tcpdf'), FALSE);
   drupal_uninstall_modules(array('print_pdf_tcpdf'), FALSE);
 }
-
 
 /**
  * NEXTEUROPA-4706: Drupal alter makes features stay overriden.

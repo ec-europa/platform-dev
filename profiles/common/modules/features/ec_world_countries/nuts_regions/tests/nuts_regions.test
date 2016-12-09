@@ -10,7 +10,11 @@
  */
 class NutsRegionsTestCase extends DrupalWebTestCase {
 
-  // $adminUser is a user with permission to administer blocks.
+  /**
+   * A user with permission to administer blocks.
+   *
+   * @var object
+   */
   protected $adminUser;
 
   /**

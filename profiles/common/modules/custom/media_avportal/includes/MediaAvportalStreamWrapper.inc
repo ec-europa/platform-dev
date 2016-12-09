@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Create an Avportal Stream Wrapper class for the Media/Resource module.
@@ -13,7 +14,11 @@
  */
 class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
 
-  // Overrides $base_url defined in MediaReadOnlyStreamWrapper.
+  /**
+   * Overrides $base_url defined in MediaReadOnlyStreamWrapper.
+   *
+   * @var string
+   */
   protected $baseUrl = 'http://ec.europa.eu/avservices/video/player.cfm';
 
   /**
