@@ -340,8 +340,10 @@ projects[i18nviews][version] = "3.x-dev"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
 
-projects[integration][subdir] = "contrib"
-projects[integration][version] = "1.x-dev"
+projects[integration][download][branch] = 7.x-1.x
+projects[integration][download][revision] = fb3cf87
+projects[integration][download][type] = git
+projects[integration][subdir] = contrib
 
 projects[integration_couchdb][subdir] = "contrib"
 projects[integration_couchdb][version] = "1.x-dev"
