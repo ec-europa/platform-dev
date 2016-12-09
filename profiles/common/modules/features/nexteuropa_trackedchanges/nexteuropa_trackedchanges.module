@@ -299,7 +299,9 @@ function nexteuropa_trackedchanges_views_pre_render(&$view) {
               }
               $link_options = array();
               if ($raw != LANGUAGE_NONE) {
-                array('language' => $language_list[$raw]);
+                $link_options += array(
+                  'language' => $language_list[$raw],
+                );
               }
               if ($is_moderated) {
                 // Workbench moderation case, we redirect directly to the
