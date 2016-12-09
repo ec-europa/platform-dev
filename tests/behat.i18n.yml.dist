@@ -10,6 +10,7 @@ default:
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\DrupalExtension\Context\MarkupContext
         - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\ViewsContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:
@@ -61,6 +62,7 @@ communities:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext

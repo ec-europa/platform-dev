@@ -70,6 +70,10 @@ projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.9
+; Issue #2084823 : Contextual links for entity view
+; https://www.drupal.org/node/2084823
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
+projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.2"
@@ -169,7 +173,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.11"
+projects[ds][version] = "2.14"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -331,7 +335,7 @@ projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_def
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
-projects[i18nviews][version] = "3.x-dev"
+projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
@@ -526,8 +530,17 @@ projects[pathauto_persist][version] = "1.4"
 projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.9"
 
+; Instead of using a stable version of the plupload module, we stick here to a
+; more recent git revision in order to solve unexpected failures with a
+; plupload JS library patch included in the default Drush make file of the
+; module. In the scope of https://www.drupal.org/node/2088143, this default make
+; file got reduced to an example make file which is not executed any longer by
+; default, so we can download and patch the plupload JS library ourselves (see
+; further on in the libraries section of this make file).
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.7"
+projects[plupload][download][branch] = 7.x-1.x
+projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
+projects[plupload][download][type] = git
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -566,6 +579,10 @@ projects[select_or_other][version] = 2.22
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
+; #2801239: Issue with Entity cache
+; https://www.drupal.org/node/2801239
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-121
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -596,10 +613,8 @@ projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
-projects[title][download][branch] = 7.x-1.x
-projects[title][download][revision] = 1f89073
-projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+projects[title][version] = "1.0-alpha8"
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
@@ -609,10 +624,6 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
-; NEPT-60
-; @see https://www.drupal.org/node/2812863
-; This patch fix the insufficient access check on Views.
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -808,7 +819,7 @@ libraries[ckeditor_moono][directory_name] = "moonocolor"
 libraries[cycle][download][type] = "git"
 libraries[cycle][destination] = "libraries"
 libraries[cycle][download][url] = https://github.com/malsup/cycle.git
-libraries[cycle][tag] = "3.0.3"
+libraries[cycle][download][tag] = "3.0.3"
 
 ; fancybox 2.1.5
 libraries[fancybox][download][type]= "file"
@@ -877,7 +888,7 @@ libraries[jquery][directory_name] = "jquery"
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
-libraries[Leaflet.draw][tag] = "v0.2.4"
+libraries[Leaflet.draw][download][tag] = "v0.3.0"
 
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
@@ -898,6 +909,17 @@ libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
 libraries[leaflet][directory_name] = "leaflet"
+
+; Plupload
+libraries[plupload][destination] = "libraries"
+libraries[plupload][download][type] = "file"
+libraries[plupload][download][request_type]= "get"
+libraries[plupload][download][file_type] = "zip"
+libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v1.5.8.zip"
+libraries[plupload][directory_name] = "plupload"
+; Remove the examples directory.
+; See https://www.drupal.org/node/1903850#comment-11676067.
+libraries[plupload][patch][1903850] = "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
 
 ; ===========================
 ; Libraries for Ec_resp Theme
