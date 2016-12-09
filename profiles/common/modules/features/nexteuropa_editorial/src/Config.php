@@ -50,12 +50,12 @@ class Config extends ConfigBase {
    *    TRUE if the node is a team group, FALSE otherwise.
    */
   public function isEditoralTeamGroup($nid = 0) {
-    $is_team_member = FALSE;
+    $is_team_group = FALSE;
     $node = node_load($nid);
     if ($node && ($node->type == "editorial_team")) {
-      $is_team_member = TRUE;
+      $is_team_group = TRUE;
     }
-    return $is_team_member;
+    return $is_team_group;
   }
 
   /**
