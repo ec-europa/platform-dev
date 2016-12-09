@@ -335,7 +335,7 @@ projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_def
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
-projects[i18nviews][version] = "3.x-dev"
+projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
@@ -570,6 +570,10 @@ projects[select_or_other][version] = 2.22
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
+; #2801239: Issue with Entity cache
+; https://www.drupal.org/node/2801239
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-121
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
