@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Drupal needs this blank file.
+ * Code for the Multisite WYSIWYG feature.
  */
+
+include_once 'multisite_wysiwyg.features.inc';
 
 /**
  * Implements hook__wysiwyg_editor_settings_alter().
