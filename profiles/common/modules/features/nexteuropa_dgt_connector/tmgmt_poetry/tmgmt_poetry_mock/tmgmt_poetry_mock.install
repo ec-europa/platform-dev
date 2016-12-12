@@ -19,7 +19,11 @@ function tmgmt_poetry_mock_install() {
       "auto_accept" : 0,
       "settings" : {
         "counter" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::COUNTER_STRING . '",
-        "code" : "ABCD"
+        "code" : "ABCD",
+        "callback_user" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::CALLBACK_USER . '",
+        "callback_password" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::CALLBACK_PASSWORD . '",
+        "poetry_user" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::POETRY_USER . '",
+        "poetry_password" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::POETRY_PASSWORD . '"
       },
       "organization" : {
         "responsable" : "DIGIT",

@@ -22,7 +22,6 @@ class PoetryMock {
   const POETRY_USER = 'Poetry';
   const POETRY_PASSWORD = 'PoetryPWD';
   public $settings;
-  public $credentials;
   private $client;
 
   /**
@@ -37,12 +36,6 @@ class PoetryMock {
    */
   public function setPoetrySettings() {
     $this->settings = variable_get('poetry_service');
-    $this->credentials = array(
-      'callback_user' => CALLBACK_USER,
-      'callback_password' => CALLBACK_PASSWORD,
-      'poetry_user' => POETRY_USER,
-      'poetry_password' => POETRY_PASSWORD,
-    );
   }
 
   /**
@@ -155,10 +148,12 @@ class PoetryMock {
    */
   public function sendRequestToDrupal($message) {
     $this->instantiateClient($this->settings['drupal_wsdl']);
+    $translator = tmgmt_translator_load(\Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME);
+    $settings = $translator->getSetting('settings');
     try {
       $response = $this->client->{self::SOAP_METHOD}(
-        $this->credentials['callback_user'],
-        $this->credentials['callback_password'],
+        $settings['callback_user'],
+        $settings['callback_password'],
         $message
       );
     }
