@@ -19,14 +19,5 @@ function multisite_wysiwyg_user_default_permissions() {
     'module' => 'media_wysiwyg_view_mode',
   );
 
-  // Exported permission: 'use media wysiwyg'.
-  $permissions['use media wysiwyg'] = array(
-    'name' => 'use media wysiwyg',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'media_wysiwyg',
-  );
-
   return $permissions;
 }

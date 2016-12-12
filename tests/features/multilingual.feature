@@ -14,15 +14,15 @@ Feature: Multilingual features
 
   Scenario: Content can be translated in available languages
     Given I am viewing a multilingual "page" content:
-      | language | title                        |
-      | en       | This title is in English     |
-      | fr       | Ce titre est en Français     |
-      | de       | Dieser Titel ist auf Deutsch |
-    Then I should see the heading "This title is in English"
+      | language | title                                    |
+      | en       | Content can be translated in English     |
+      | fr       | Contenu peut être traduit en Français    |
+      | de       | Dieser Titel ist auf Deutsch             |
+    Then I should see the heading "Content can be translated in English"
     And I click "English" in the "header_top" region
     Then I should be on the language selector page
     And I click "Français"
-    Then I should see the heading "Ce titre est en Français"
+    Then I should see the heading "Contenu peut être traduit en Français"
     And I click "Français" in the "header_top" region
     Then I should be on the language selector page
     When I click "Deutsch"
@@ -30,24 +30,24 @@ Feature: Multilingual features
     And I click "Deutsch"
     Then I should be on the language selector page
     And I click "English"
-    Then I should see the heading "This title is in English"
+    Then I should see the heading "Content can be translated in English"
 
   Scenario: Custom URL suffix language negotiation is applied by default on new content.
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:
-      | language | title            |
-      | en       | Title in English |
-      | fr       | Title in French  |
-      | de       | Title in German  |
-    Then I should be on "content/title-english_en"
+      | language | title                                  |
+      | en       | Custom URL suffix language negotiation |
+      | fr       | Suffix de language negotiation French  |
+      | de       | Suffix Sprache Verhandlung German      |
+    Then I should be on "content/custom-url-suffix-language-negotiation_en"
     And I click "English" in the "header_top" region
     Then I should be on the language selector page
     And I click "Français"
-    Then I should be on "content/title-english_fr"
+    Then I should be on "content/custom-url-suffix-language-negotiation_fr"
     And I click "Français" in the "header_top" region
     Then I should be on the language selector page
     And I click "Deutsch"
-    Then I should be on "content/title-english_de"
+    Then I should be on "content/custom-url-suffix-language-negotiation_de"
 
   Scenario: Enable multiple languages
     Given I am logged in as a user with the 'administrator' role
@@ -160,7 +160,8 @@ Feature: Multilingual features
     Then I should see "Ce titre est en Français"
 
   Scenario: Path alias must be synchronized through all translations of
-  content when it is manually defined
+  content when it is manually defined and the configuration is maintained
+  when I come back on the content edit form
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:
       | language | title            |
@@ -170,14 +171,20 @@ Feature: Multilingual features
     And I click "Français"
     Then I should be on "content/title-english_fr"
     And I click "New draft"
+    # And I click "URL path settings"
     And I uncheck the box "edit-path-pathauto"
     And I fill in "URL alias" with "page-alias-for-all-languages"
+    # And I click "Publishing options"
     And I select "published" from "Moderation state"
     When I press "Save"
     Then I should be on "page-alias-for-all-languages_fr"
     And I click "Français" in the "header_top" region
     When I click "English"
     Then I should be on "page-alias-for-all-languages_en"
+    When I click "New draft"
+    # And I click "URL path settings"
+    Then I should not see the box "edit-path-pathauto" checked
+    And the "URL alias" field should contain "page-alias-for-all-languages"
 
 
   Scenario: Multilingual view on language neutral content
@@ -203,7 +210,7 @@ Feature: Multilingual features
     And I fill in "Title" with "This is a new article title"
     And I fill in "Body" with "This is a new article body"
     And I press "Save"
-    And I select "Published" from "state"
+    And I select "Published" from "Moderation state"
     And I press "Apply"
     And I go to "content/new-article-title_it"
     Then I should see "Corpo del testo"

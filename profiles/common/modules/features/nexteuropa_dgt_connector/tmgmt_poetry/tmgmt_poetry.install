@@ -165,6 +165,17 @@ function tmgmt_poetry_requirements($phase) {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function tmgmt_poetry_uninstall() {
+  $translator = tmgmt_translator_load('poetry');
+  if (isset($translator)) {
+    entity_delete('tmgmt_translator', $translator->tid);
+    variable_del('website_identifier');
+  }
+}
+
+/**
  * Remove username and passwords from db in case it was already set.
  */
 function tmgmt_poetry_update_7001() {

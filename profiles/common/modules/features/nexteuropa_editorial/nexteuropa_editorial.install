@@ -79,6 +79,9 @@ function nexteuropa_editorial_install() {
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
 
+    // WYSIWYG Editor.
+    'use media wysiwyg',
+
     // System.
     'access administration pages',
   );

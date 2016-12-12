@@ -123,7 +123,9 @@ or go to:
    the steps above were correctly followed. Otherwise, get back and check what
    you forgot!
    - Counter: The counter always is *NEXT_EUROPA_COUNTER* 
-   [See DGT reference explanation]  
+     [See DGT reference explanation]  
+   - Website identifier: This helps DGT identifying which site requested the 
+     translation.
    - Requester code: always is *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
    - Callback User: it must match NE-projectname where projectname is the 
