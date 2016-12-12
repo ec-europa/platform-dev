@@ -175,19 +175,6 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-   * Checks if the box is unchecked.
-   *
-   * @When I should not see the box :arg1 checked
-   */
-  public function assertBoxIsUnChecked($arg1) {
-    $is_checked = $this->getSession()->getPage()->hasCheckedField($arg1);
-
-    if ($is_checked) {
-      throw new ExpectationException("The box '$arg1' is not checked.", $this->getSession());
-    }
-  }
-
-  /**
    * Set all permissions to admin role.
    *
    * @Given I update the administrator role permissions
@@ -270,7 +257,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     return NULL;
   }
 
-
   /**
    * Checks if the box is unchecked.
    *
@@ -280,7 +266,7 @@ class MinkContext extends DrupalExtensionMinkContext {
     $is_checked = $this->getSession()->getPage()->hasCheckedField($arg1);
 
     if ($is_checked) {
-      throw new ExpectationException("The box '$arg1' is not checked.", $this->getSession());
+      throw new ExpectationException(sprintf('The box "%s" is not checked.', $this->getSession()));
     }
   }
 
@@ -427,7 +413,7 @@ class MinkContext extends DrupalExtensionMinkContext {
     $element = $page->find('css', $selector);
 
     if (empty($element)) {
-      throw new Exception("No html element found for the selector ('$selector')");
+      throw new \Exception(sprintf('No html element found for the selector (%s)', $selector));
     }
 
     $element->click();

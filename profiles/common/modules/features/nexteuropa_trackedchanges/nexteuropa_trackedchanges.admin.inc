@@ -348,6 +348,8 @@ function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
  * @see nexteuropa_trackedchanges_disable_buttons()
  */
 function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $results, $operations) {
+  $message = FALSE;
+  $message_level = 'error';
   if ($success) {
     $text_format = $results['text_format'];
 
@@ -360,13 +362,12 @@ function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $re
       $message .= t('Please accept or reject them before proceeding to the deactivation; 
       the list of entities with tracked changes is available !here.',
         array('!here' => l(t('here'), 'admin/content/tracked_changes')));
-
-      drupal_set_message($message, 'error');
     }
     else {
       nexteuropa_trackedchanges_disable_buttons($text_format);
-      drupal_set_message(t('Change tracking disabled on !profile WYSIWYG profile.',
-        array('!profile' => $text_format)));
+      $message = t('Change tracking disabled on !profile WYSIWYG profile.',
+        array('!profile' => $text_format));
+      $message_level = 'status';
     }
   }
   else {
@@ -381,7 +382,10 @@ function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $re
       %error_operation with arguments: @arguments', $message_args);
     $message .= '<br />';
     $message .= t('The deactivation is impossible.');
-    drupal_set_message($message, 'error');
+  }
+
+  if ($message) {
+    drupal_set_message($message, $message_level);
   }
 }
 
@@ -393,6 +397,7 @@ function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $re
  * @see _nexteuropa_trackedchanges_disable_check_submit()
  */
 function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $results, $operations) {
+  $message = FALSE;
   if ($success) {
     // Here we do something meaningful with the results.
     if (!empty($results['detected_entities'])) {
@@ -402,7 +407,6 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
       $message .= t('Please accept or reject them before proceeding to the deactivation; 
       the list of entities with tracked changes is available !here.',
         array('!here' => l(t('here'), 'admin/content/tracked_changes')));
-      drupal_set_message($message, 'error');
     }
     else {
       $featureset = feature_set_get_featureset('nexteuropa_trackedchanges');
@@ -425,6 +429,9 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
       %error_operation with arguments: @arguments', $message_args);
     $message .= '<br />';
     $message .= t('The deactivation is impossible.');
+  }
+
+  if ($message) {
     drupal_set_message($message, 'error');
   }
 }
@@ -438,6 +445,7 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
  * @see _nexteuropa_trackedchanges_feature_disable_check_submit()
  */
 function _nexteuropa_trackedchanges_feature_disable_field_scanning_finished($success, $results, $operations) {
+  $message = FALSE;
   if ($success) {
     // Here we do something meaningful with the results.
     if (!empty($results['detected_entities'])) {
@@ -447,7 +455,6 @@ function _nexteuropa_trackedchanges_feature_disable_field_scanning_finished($suc
       $message .= t('Please accept or reject them before proceeding to the deactivation; 
       the list of entities with tracked changes is available !here.',
         array('!here' => l(t('here'), 'admin/content/tracked_changes')));
-      drupal_set_message($message, 'error');
     }
     else {
       module_disable(array('nexteuropa_trackedchanges'));
@@ -469,6 +476,9 @@ function _nexteuropa_trackedchanges_feature_disable_field_scanning_finished($suc
       %error_operation with arguments: @arguments', $message_args);
     $message .= '<br />';
     $message .= t('The deactivation is impossible.');
+  }
+
+  if ($message) {
     drupal_set_message($message, 'error');
   }
 }
@@ -481,6 +491,7 @@ function _nexteuropa_trackedchanges_feature_disable_field_scanning_finished($suc
  * @see _nexteuropa_trackedchanges_system_disable_check_submit
  */
 function _nexteuropa_trackedchanges_system_disable_field_scanning_finished($success, $results, $operations) {
+  $message = FALSE;
   if ($success) {
     // Here we do something meaningful with the results.
     if ($results['detected_entities']) {
@@ -490,7 +501,6 @@ function _nexteuropa_trackedchanges_system_disable_field_scanning_finished($succ
       $message .= t('Please accept or reject them before proceeding to the deactivation; 
       the list of entities with tracked changes is available !here.',
         array('!here' => l(t('here'), 'admin/content/tracked_changes')));
-      drupal_set_message($message, 'error');
     }
     else {
       module_disable(array('nexteuropa_trackedchanges'));
@@ -512,6 +522,9 @@ function _nexteuropa_trackedchanges_system_disable_field_scanning_finished($succ
       %error_operation with arguments: @arguments', $message_args);
     $message .= '<br />';
     $message .= t('The deactivation is impossible.');
+  }
+
+  if ($message) {
     drupal_set_message($message, 'error');
   }
 }
@@ -636,10 +649,10 @@ function _nexteuropa_trackedchanges_table_rebuilt_finished($success, $results, $
   // Unlock the table to allow a new rebuild if it failed.
   variable_set('nexteuropa_trackedchanges_rebuild_lock', 0);
   variable_set('nexteuropa_trackedchanges_last_rebuild_time', REQUEST_TIME);
-  if ($success) {
-    drupal_set_message(t('The tracked changes table is rebuilt.'));
-  }
-  else {
+
+  $message = t('The tracked changes table is rebuilt.');
+  $message_level = 'status';
+  if (!$success) {
     // An error occurred.
     // $operations contains the operations that remained unprocessed.
     $error_operation = reset($operations);
@@ -649,8 +662,10 @@ function _nexteuropa_trackedchanges_table_rebuilt_finished($success, $results, $
     );
     $message = t('An error occurred during the rebuild process on the 
       %error_operation with arguments: @arguments', $message_args);
-    drupal_set_message($message, 'error');
+    $message_level = 'error';
   }
+
+  drupal_set_message($message, $message_level);
 }
 
 /**

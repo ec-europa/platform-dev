@@ -305,8 +305,8 @@ function nexteuropa_trackedchanges_views_pre_render(&$view) {
               }
               if ($is_moderated) {
                 // Workbench moderation case, we redirect directly to the
-                // draft view.
-                $entity_path .= '/draft';
+                // current revision view.
+                $entity_path .= '/current-revision';
                 $link = l($raw, $entity_path, $link_options);
               }
               else {

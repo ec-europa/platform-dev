@@ -28,7 +28,6 @@ class NETCInfoController extends EntityAPIController {
 
     switch ($entity->rel_entity_type) {
       case 'field_collection_item':
-
       case 'paragraphs_item':
         // We need the entity label and id that host these kinds of field.
         // Retrieve the right NETCInfo in order to update it.
