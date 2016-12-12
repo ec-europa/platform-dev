@@ -146,7 +146,9 @@ class FrontendCacheContext implements Context {
     // Configure it to use POST instead.
     $this->variables->setVariable('nexteuropa_varnish_request_method', 'POST');
 
-    $this->variables->setVariable('nexteuropa_varnish_http_targets', array($server->getConnectionString()));
+    $this->variables->setVariable('nexteuropa_varnish_http_targets',
+      array('http://' . $server->getConnectionString())
+    );
   }
 
   /**

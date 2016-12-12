@@ -279,7 +279,7 @@ function _nexteuropa_varnish_purge_paths($paths) {
   $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
 
   foreach ($http_targets as $target) {
-    $url = sprintf('http://%s%s', $target, $request_path);
+    $url = sprintf('%s%s', $target, $request_path);
 
     $response = drupal_http_request(
       $url,

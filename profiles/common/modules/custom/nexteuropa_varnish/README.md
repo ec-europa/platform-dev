@@ -17,11 +17,13 @@ This feature can be enabled only with the support of the QA/Maintenance
 team.
 The following environment specific variables have to be configured
 before enabling the feature:
-- 'nexteuropa_varnish_request_user' 
-- 'nexteuropa_varnish_request_password'
-- 'nexteuropa_varnish_http_targets',
-- 'nexteuropa_varnish_tag',
-- 'nexteuropa_varnish_request_method'
+- 'nexteuropa_varnish_request_user' - a string with the username
+- 'nexteuropa_varnish_request_password' - a string with the password
+- 'nexteuropa_varnish_http_targets', - an array with the urls ex. 'http://localhost'
+- 'nexteuropa_varnish_tag', - a string with the tag
+- 'nexteuropa_varnish_request_method' - a string with the HTTP request method
+- 'nexteuropa_varnish_http_timeout' - a float representing the maximum number 
+    of seconds the function call may take (by default 2.0)
 
 In order to enable the feature make sure that above variables are set
 and if so then go to the `admin/structure/feature-set` page,
