@@ -608,6 +608,8 @@ projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 1f89073
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+; @see https://www.drupal.org/node/2757739
+projects[title][patch][] = https://www.drupal.org/files/issues/title-token_sanitization_support-2757739-2.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
