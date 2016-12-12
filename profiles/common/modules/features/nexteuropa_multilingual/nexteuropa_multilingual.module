@@ -261,12 +261,15 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
     // First we need which translation mechanism is used because
     // the logic to implement is only for entity translation.
     if ($set_translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
-      // 1. If pathauto deactivated, defining the right default value.
-      // reproduction of the default behavior but with the LANGUAGE_NONE alias.
+      // 1.  Reproduction of the default behavior but with the LANGUAGE_NONE
+      // alias.
       if ($nid) {
-        $und_alias_info = _nexteuropa_multilingual_get_und_entity_alias_info($node, 'node');
-        if (!$und_alias_info['pathauto']) {
+        $und_alias_info = _nexteuropa_multilingual_get_und_entity_alias_info('node', $node);
+        if ($und_alias_info) {
           $form['path']['alias']['#default_value'] = $und_alias_info['alias'];
+          if (isset($form['path']['pathauto'])) {
+            $form['path']['pathauto']['#default_value'] = $und_alias_info['pathauto'];
+          }
         }
       }
       // 2. Add new warning message to URL alias field.
@@ -285,10 +288,10 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
 /**
  * Gets alias info for the entity and LANGUAGE_NONE langcode.
  *
- * @param object $entity
- *   The entity for which data are needed.
  * @param string $entity_type
  *   The entity type.
+ * @param object $entity
+ *   The entity for which data are needed.
  *
  * @return bool|array
  *   FALSE if nothing is found; otherwise an associative array with
@@ -298,26 +301,42 @@ function _nexteuropa_multilingual_alias_node_form_alter(&$form, &$form_state) {
  *   - alias: The the LANGUAGE_NONE alias.
  *   - pathauto: The flag indicating if pathauto is activated for the node.
  */
-function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_type) {
+function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entity) {
   // This function only support entity translation for now.
-  list(, , $bundle) = entity_extract_ids($entity_type, $entity);
+  list($eid, , $bundle) = entity_extract_ids($entity_type, $entity);
+  if (!$eid) {
+    // No eid means that the entity is not saved yet and there is no
+    // LANGUAGE_NONE alias.
+    // Then no info are findable.
+    return FALSE;
+  }
+
   $pattern = pathauto_pattern_load_by_entity($entity_type, $bundle, LANGUAGE_NONE);
   if (empty($pattern)) {
     return FALSE;
   }
   // Get the corresponding LANGUAGE_NONE alias.
-  $entity_uri = $entity->path['source'];
-  $language_none_path = path_load(array('source' => $entity_uri, 'language' => LANGUAGE_NONE));
-  $language_none_alias = $language_none_path['alias'];
+  $entity_uri = entity_uri($entity_type, $entity);
+  if (empty($entity_uri)) {
+    // No URI, that means the entity has no path and then, no alias.
+    // No need to go on.
+    return FALSE;
+  }
+  $entity_path = $entity_uri['path'];
+  $language_none_path = path_load(array('source' => $entity_path, 'language' => LANGUAGE_NONE));
+  $language_none_alias = ($language_none_path) ? $language_none_path['alias'] : FALSE;
 
-  // Check if pathauto is activtedin LANGUAGE_NONE case.
+  // Check if pathauto is activated in LANGUAGE_NONE case.
   // Logic is taken from Pathauto itself.
   // @see pathauto_entity_presave() & pathauto_field_attach_form().
   module_load_include('inc', 'pathauto');
-  $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_uri, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
-  $pathauto = ($language_none_alias != $entity_uri && $language_none_alias == $pathauto_alias);
+  $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_path, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
+  $pathauto = ($language_none_alias != $entity_path && $language_none_alias == $pathauto_alias);
 
-  if (isset($entity_uri->workbench_moderation) && isset($entity_uri->workbench_moderation['published'])) {
+  // Reimplementation of the Workbench moderation fix (see
+  // https://www.drupal.org/node/2308095 and see "workbench_moderation_store"
+  // callback in workbench_moderation.module.
+  if (isset($entity->workbench_moderation) && isset($entity->workbench_moderation['published'])) {
     $pathauto = FALSE;
   }
 
