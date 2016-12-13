@@ -747,6 +747,10 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/1408838
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
+; Node revision in shutdown function causes error in behat tests
+; https://www.drupal.org/node/2645622
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
 
 
 projects[workbench_og][subdir] = "contrib"
