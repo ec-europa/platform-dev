@@ -205,15 +205,6 @@ function _tmgmt_poetry_form_load_translator_settings(&$form_state, &$form, $job)
     $settings = [];
   }
 
-  // NEPT-62: Overwriting the 'delai' field properties.
-  if (isset($settings['delai'])) {
-    $settings['delai']['#title'] = t('Requested delivery date');
-    $settings['delai']['#date_year_range'] = '-0:+1';
-    $settings['delai']['#default_value'] = '';
-    $settings['delai']['#required'] = TRUE;
-    $settings['delai']['#weight'] = -10;
-  }
-
   $form['translator_wrapper']['settings'] = [
     '#type' => 'fieldset',
     '#title' => t('Configure translation request'),
