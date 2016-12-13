@@ -626,7 +626,9 @@ projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 1f89073
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-; @see https://www.drupal.org/node/2757739
+; #2757739: Token value is not sanitized, when replaced from title field
+; https://www.drupal.org/node/2757739
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-412
 projects[title][patch][] = https://www.drupal.org/files/issues/title-token_sanitization_support-2757739-2.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
