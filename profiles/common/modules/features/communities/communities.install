@@ -46,5 +46,5 @@ function communities_install() {
     ),
   );
 
-  cce_basic_config_import_images($default_images);
+  _cce_basic_config_import_images($default_images);
 }

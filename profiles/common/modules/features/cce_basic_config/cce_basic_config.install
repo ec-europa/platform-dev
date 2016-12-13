@@ -730,7 +730,7 @@ function _cce_basic_config_post_install_default_images() {
     ),
   );
 
-  cce_basic_config_import_images($default_images);
+  _cce_basic_config_import_images($default_images);
 }
 
 /**
