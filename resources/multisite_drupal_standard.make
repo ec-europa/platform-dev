@@ -617,9 +617,9 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
-; NEPT-60
-; @see https://www.drupal.org/node/2812863
-; This patch fix the insufficient access check on Views.
+; #2812863 : Insufficient access check on Views
+; https://www.drupal.org/node/2812863
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 
