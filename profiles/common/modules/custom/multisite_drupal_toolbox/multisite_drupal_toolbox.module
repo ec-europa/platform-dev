@@ -1303,18 +1303,6 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 }
 
 /**
- * Implements hook_i18n_sync_translation().
- *
- * Fix bug: synchronise translations causes an infinite loop.
- *
- * @see https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1636
- * @see http://drupal.org/node/1372500
- */
-function multisite_drupal_toolbox_i18n_sync_translation($entity_type, $translation, $translation_language, $source, $source_language, $field_names) {
-  $translation->workbench_moderation['updating_live_revision'] = TRUE;
-}
-
-/**
  * Obsolete.
  *
  * @obsolete
