@@ -51,7 +51,7 @@ function nexteuropa_editorial_og_membership_insert(OgMembership $og_membership) 
   // Automatically assign "editorial team member" to a user joining
   // an editorial team organic group.
   if ($og_membership->entity_type == 'user') {
-    if (multisite_config_service('nexteuropa_editorial')->isEditoralTeamMember($og_membership->etid)) {
+    if (multisite_config_service('nexteuropa_editorial')->isEditoralTeamGroup($og_membership->gid)) {
       multisite_config_service('user')->assignRoleToUser(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $og_membership->etid);
     }
   }
