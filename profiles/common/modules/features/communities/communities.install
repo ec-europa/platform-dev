@@ -33,17 +33,18 @@ function communities_enable() {
  * Implements hook_install().
  */
 function communities_install() {
-  global $_communities_fid_default_community_image;
-  // Affect a file image to the default image of the field thumbnail
-  // of the content type community.
-  // File creation.
-  $file = new stdClass();
-  $file->fid = NULL;
-  $file->uri = "public://default_images/community_default.png";
-  $file->filename = "community_default.png";
-  $file->filemime = file_get_mimetype($file->uri);
-  $file->uid = 1;
-  $file->status = FILE_STATUS_PERMANENT;
-  $f = file_save($file);
-  $_communities_fid_default_community_image = $f->fid;
+
+  $path = drupal_get_path('module', 'communities') . '/assets/images/default_images';
+
+  $default_images = array(
+    'user_picture_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default',
+      'source_path' => $path . '/community_default.png',
+      'filename' => 'community_default.png',
+      'variable' => 'default_community_image',
+    ),
+  );
+
+  _cce_basic_config_import_images($default_images);
 }
