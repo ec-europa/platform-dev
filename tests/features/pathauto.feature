@@ -11,7 +11,7 @@ Feature: Pathauto
     Given there is a single tag field in the article content type
     And the term ballsports with the parent term sport in the vocabulary tags exists
     And the term football with the parent term ballsports in the vocabulary tags exists
-    And the pathauto "pathauto_node_article_pattern" pattern is set to "[node:field-tag:parents-uri]/[node:source:title]"
+    And the pathauto "pathauto_node_article_pattern" pattern is set to "[node:field-tag:parents-uri]/[node:field-tag:name]/[node:source:title]"
     Then I go to "node/add/article"
     And I fill in "Title" with "TestArticle"
     And I fill in "Tag" with "football"
