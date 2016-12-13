@@ -317,10 +317,6 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity, $entity_typ
   $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_uri, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
   $pathauto = ($language_none_alias != $entity_uri && $language_none_alias == $pathauto_alias);
 
-  if (isset($entity_uri->workbench_moderation) && isset($entity_uri->workbench_moderation['published'])) {
-    $pathauto = FALSE;
-  }
-
   return array(
     'pid' => $language_none_path['pid'],
     'alias' => $language_none_alias,
