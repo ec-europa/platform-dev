@@ -100,6 +100,29 @@ function nexteuropa_trackedchanges_install() {
   variable_set('nexteuropa_trackedchanges_force_track_on_edit', 1);
   variable_set('nexteuropa_trackedchanges_rebuild_elapse_time', 3600);
 
+  // Soft configuration of Feature related permission.
+  // Necessary to proceed in 2 steps to avoid an integrity violation while
+  // saving permission settings.
+  $permissions = array(
+    'ckeditor_lite highlight changes',
+  );
+  multisite_config_service('user')->grantPermission('administrator', $permissions);
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
+  multisite_config_service('user')->grantPermission('editor', $permissions);
+
+  $wsw_permissions = array(
+    'use text format full_html_track',
+  );
+  multisite_config_service('user')->grantPermission('administrator', $wsw_permissions, 'filter');
+  multisite_config_service('user')->grantPermission('contributor', $wsw_permissions, 'filter');
+  multisite_config_service('user')->grantPermission('editor', $wsw_permissions, 'filter');
+
+  if (module_exists('nexteuropa_editorial')) {
+    multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
+    multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $wsw_permissions, 'filter');
+  }
+  watchdog('nexteuropa_trackedchanges', 'Default permissions of the feature have been set.', array(), WATCHDOG_INFO);
+
   // Create the field added to the netc_info entity.
   // Only if it does not exists (disable followed by an enable case).
   $is_field_exiting = field_info_field('field_netc_info_languages');
@@ -124,6 +147,8 @@ function nexteuropa_trackedchanges_install() {
       'bundle' => 'netc_info',
     );
     field_create_instance($instance);
+
+    watchdog('nexteuropa_trackedchanges', 'field_netc_info_languages for netc_info entity is created', array(), WATCHDOG_INFO);
   }
 }
 
