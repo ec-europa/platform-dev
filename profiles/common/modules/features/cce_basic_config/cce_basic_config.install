@@ -806,8 +806,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
     'access PDF version',
     'access print',
-    'access site-wide contact form',
-    'access user contact forms',
     'access user profiles',
     'access workbench',
     'use text format full_html',
@@ -821,8 +819,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
   user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
     'access PDF version',
     'access print',
-    'access site-wide contact form',
-    'access user contact forms',
     'post comments',
     'search content',
     'use advanced search',
