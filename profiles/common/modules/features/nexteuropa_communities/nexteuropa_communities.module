@@ -1,7 +1,468 @@
 <?php
+
 /**
  * @file
  * Code for the Nexteuropa communities feature.
  */
 
 include_once 'nexteuropa_communities.features.inc';
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function nexteuropa_communities_block_view_alter(&$data, $block) {
+  if ($block->delta == 'menu-community-menu') {
+    $context = og_context();
+    if (isset($context['gid'])) {
+      $node = node_load($context['gid']);
+      $data['subject'] = $node->title;
+    }
+    else {
+      $data['content'] = array();
+    }
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_communities_menu() {
+  $items['admin/config/nexteuropa_communities'] = array(
+    'title' => 'NextEuropa communities',
+    'description' => 'Configure the NextEuropa communities module',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_communities_configure_form'),
+    'access arguments' => array('administer group'),
+  );
+  $items['admin/config/nexteuropa_communities/nexteuropa_private_area'] = array(
+    'title' => 'NextEuropa private area',
+    'description' => 'Configure the NextEuropa private area',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_communities_private_area_form'),
+    'access arguments' => array('administer group'),
+  );
+  return $items;
+}
+
+/**
+ * Manage the configuration form for NextEuropa Communities.
+ */
+function nexteuropa_communities_configure_form() {
+  $form['nexteuropa_communities_url_keyword'] = [
+    '#type' => 'textfield',
+    '#title' => t('Url Keyword'),
+    '#description' => t('The url keyword used for community detection'),
+    '#default_value' => variable_get('nexteuropa_communities_url_keyword', 'community'),
+  ];
+
+  $options = og_get_all_group_bundle();
+
+  $form['nexteuropa_communities_content_types'] = [
+    '#title' => t('Community group  content types'),
+    '#description' => t('Select the content types that are used as a community group'),
+    '#type' => 'select',
+    '#multiple' => TRUE,
+    '#required' => TRUE,
+    '#options' => $options,
+    '#default_value' => variable_get('nexteuropa_communities_content_types', array('community')),
+  ];
+
+  return system_settings_form($form);
+}
+
+/**
+ * Provide a form for the private area setting.
+ */
+function nexteuropa_communities_private_area_form() {
+  $form['nexteuropa_communities_private_area'] = [
+    '#type' => 'checkbox',
+    '#title' => 'Enable the private area management for the community part.',
+    '#default_value' => variable_get('nexteuropa_communities_private_area', FALSE),
+  ];
+
+  return system_settings_form($form);
+}
+
+/**
+ * Add a new context negotiation to manage the NextEuropa communities.
+ *
+ * Implements hook_og_context_negotiation_info().
+ */
+function nexteuropa_communities_og_context_negotiation_info() {
+  $providers = [];
+
+  $providers['nexteuropa_communities'] = [
+    'name' => t('NextEuropa URL'),
+    'description' => t("Select group context for any url that start with the configured word, defaults at 'community'"),
+    'callback' => 'nexteuropa_communities_context_handler',
+  ];
+
+  return $providers;
+}
+
+/**
+ * Context handler, get the context from the URL.
+ */
+function nexteuropa_communities_context_handler() {
+  global $language;
+
+  $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+
+  // Use the NextEuropa language split for the url to remove language suffix.
+  $path = nexteuropa_multilingual_language_negotiation_split_suffix(request_path(), [$language]);
+  $path_args = explode('/', $path[1]);
+
+  // Look for the community keyword in the path.
+  if ($path_args[0] === $keyword) {
+    $community_path = drupal_lookup_path('source', $path_args[0] . '/' . $path_args[1], $language->language);
+    // If no path was found, then it's not a community in particular.
+    if ($community_path !== FALSE) {
+      $community_path = explode('/', $community_path);
+
+      // Check that the node acts as a group.
+      $node = node_load($community_path[1]);
+      if (og_is_group('node', $node)) {
+        return [
+          'node' => [
+            $node->nid,
+          ],
+        ];
+      }
+    }
+  }
+  return [];
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function nexteuropa_communities_token_info() {
+  $info = [];
+
+  $info['tokens']['site']['nexteuropa_communities_keyword'] = [
+    'name' => t('NextEuropa Communities keyword'),
+    'description' => t('A token showing the url keyword triggering the community context detection.'),
+  ];
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function nexteuropa_communities_tokens($type, $tokens, $data, $options) {
+  $replacements = [];
+
+  switch ($type) {
+    case 'site':
+      foreach ($tokens as $name => $token) {
+        switch ($name) {
+          case 'nexteuropa_communities_keyword':
+            $replacements[$token] = variable_get('nexteuropa_communities_url_keyword', 'community');;
+            break;
+        }
+      }
+      break;
+  }
+
+  return $replacements;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function nexteuropa_communities_permission() {
+  return array(
+    'access private area' => array(
+      'title' => t('Access private area'),
+      'description' => t('Allow to access to the private area.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function nexteuropa_communities_node_access($node, $op, $account) {
+  if ($op != 'view') {
+    return;
+  }
+
+  if (variable_get('nexteuropa_communities_private_area', FALSE)) {
+    // The private area option is enabled.
+    // DENY access only on public contents,
+    // when the user has not the "access private area" permission.
+    $wrapper = entity_metadata_wrapper('node', $node);
+
+    // The node is a group.
+    if (!empty($wrapper->{OG_ACCESS_FIELD}) && $wrapper->{OG_ACCESS_FIELD}->value() == 0 && og_is_group('node', $node) && !user_access("access private area", $account)) {
+      return NODE_ACCESS_DENY;
+    }
+
+    // The node is a group content.
+    if (!empty($wrapper->{OG_CONTENT_ACCESS_FIELD}) && !user_access("access private area", $account)) {
+      $content_access = !empty($wrapper->{OG_CONTENT_ACCESS_FIELD}) ? $wrapper->{OG_CONTENT_ACCESS_FIELD}->value() : OG_CONTENT_ACCESS_DEFAULT;
+      switch ($content_access) {
+
+        case OG_CONTENT_ACCESS_PUBLIC:
+          return NODE_ACCESS_DENY;
+
+        case OG_CONTENT_ACCESS_DEFAULT:
+          if (!$entity_groups = og_get_entity_groups('node', $node)) {
+            break;
+          }
+          foreach ($entity_groups as $group_type => $values) {
+            entity_load($group_type, $values);
+            foreach ($values as $gid) {
+              $group_wrapper = entity_metadata_wrapper($group_type, $gid);
+              if (!empty($group_wrapper->{OG_ACCESS_FIELD}) && $group_wrapper->{OG_ACCESS_FIELD}->value() == 0) {
+                return NODE_ACCESS_DENY;
+              }
+            }
+          }
+          break;
+      }
+    }
+  }
+  return NODE_ACCESS_IGNORE;
+}
+
+/**
+ * Load a community from an URL wildcard.
+ *
+ * @param string $arg
+ *   The name or nid of the community to load.
+ *
+ * @return stdClass | string
+ *   Return the instance of a community, or
+ */
+function community_load($arg) {
+  global $language;
+
+  // If a numerical parameter was given, try do load the group directly.
+  if (is_numeric($arg)) {
+    $group = node_load((int) $arg);
+  }
+  else {
+    // Get real path to get node id.
+    $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+    $path = drupal_lookup_path('source', $keyword . '/' . $arg, $language->language);
+
+    if ($path === FALSE) {
+      return NULL;
+    }
+
+    // Get the nid and load the group.
+    $path = explode("/", $path);
+
+    // Stop the search if the url is not of type 'node/nid'.
+    if ($path[0] !== 'node' || !is_numeric($path[1])) {
+      return NULL;
+    }
+
+    $group = node_load($path[1]);
+  }
+
+  // Check if the loaded content is an OG Group.
+  if ($group !== FALSE && og_is_group('node', $group)) {
+    return $group;
+  }
+
+  // If no group was found, pass the argument as is.
+  return NULL;
+}
+
+/**
+ * Create the default community content alias pattern.
+ *
+ * Implements hook_pathauto().
+ */
+function nexteuropa_communities_pathauto() {
+  $settings = [
+    'module' => 'nexteuropa_communities',
+    'groupheader' => t('Communities contents paths'),
+    'patterndescr' => t('Default path pattern'),
+    'patterndefault' => '[site:nexteuropa_communities_keyword]/[node:og-group-ref]/[node:content-type]/[node:title]',
+    'token_type' => 'node',
+    'batch_update_callback' => 'nexteuropa_communities_pathauto_bulkupdate',
+  ];
+  return (object) $settings;
+}
+
+/**
+ * Implements hook_pathauto_bulkupdate().
+ */
+function nexteuropa_communities_pathauto_bulkupdate() {
+  // Find all node ids for contents (i.e. not communities).
+  $query = db_select('node', 'n');
+  $query
+    ->condition('n.type', 'community', '<>')
+    ->condition('n.status', '1', '=')
+    ->fields('n', array('nid'));
+
+  $results = $query->execute()->fetchCol();
+  $count = 0;
+  foreach ($results as $nid) {
+    $node = node_load($nid);
+    if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+      _nexteuropa_communities_create_alias($node, 'bulkupdate');
+      $count++;
+    }
+  }
+  drupal_set_message($count . ' community contents nodes were updated.');
+}
+
+/**
+ * Helper function to create node aliases.
+ */
+function _nexteuropa_communities_create_alias($node, $op) {
+  module_load_include('inc', 'pathauto');
+
+  $node_source = 'update' != $op ? 'node/' . $node->nid : $node->path['source'];
+  $node_language = 'update' != $op ? $node->language : $node->path['language'];
+
+  // For each linked group, leave only that group alone
+  // linked in the node and obtain the node alias.
+  $og_group_ref = $node->og_group_ref[LANGUAGE_NONE];
+
+  $group_types = variable_get('nexteuropa_communities_content_types', ['community']);
+
+  foreach ($og_group_ref as $v) {
+    $group = node_load($v['target_id']);
+
+    if (!in_array($group->type, $group_types)) {
+      continue;
+    }
+
+    // Get the path for the current community.
+    $node->og_group_ref[LANGUAGE_NONE] = [$v];
+    $new_path = pathauto_create_alias('nexteuropa_communities', 'return', $node_source, ['node' => $node], $node->type, $node->language);
+
+    if ($new_path) {
+      if (is_string($new_path)) {
+        $new_paths[] = $new_path;
+      }
+      elseif (is_array($new_path) && isset($new_path['alias'])) {
+        $new_paths[] = $new_path['alias'];
+      }
+    }
+  }
+  $node->og_group_ref[LANGUAGE_NONE] = $og_group_ref;
+
+  // We cannot respect update action (see pathauto_update_action)
+  // due to multiples alias per node, so all aliases are deleted and resaved
+  // (avoid outdated alias in case of it changed).
+  path_delete(['source' => $node_source]);
+  if (isset($new_paths)) {
+    // Save the aliases obtained.
+    $node->path['pathauto'] = FALSE;
+    $path = [
+      'pathauto' => FALSE,
+      'source' => $node_source,
+      'language' => LANGUAGE_NONE,
+    ];
+    foreach ($new_paths as $p) {
+      $path['pid'] = '';
+      $path['alias'] = $p;
+      path_save($path);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function nexteuropa_communities_node_insert($node) {
+  _nexteuropa_communities_node_alias_check($node, 'insert');
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function nexteuropa_communities_node_update($node) {
+  _nexteuropa_communities_node_alias_check($node, 'insert');
+}
+
+/**
+ * Trigger a url alias generation if needed.
+ */
+function _nexteuropa_communities_node_alias_check($node, $mode) {
+  // If the URL pattern is not set, stop immediately.
+  $pattern = variable_get('pathauto_nexteuropa_communities_pattern', FALSE);
+  if ($pattern === FALSE || empty($pattern)) {
+    return;
+  }
+
+  if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
+    // Since at least one group exists, check if any of them is a community.
+    $group_types = variable_get('nexteuropa_communities_content_types', ['community']);
+    foreach ($node->og_group_ref[LANGUAGE_NONE] as $index => $group) {
+      $group = node_load($group['target_id']);
+      if (in_array($group->type, $group_types)) {
+        // Found a community, generate the aliases and stop searching here.
+        _nexteuropa_communities_create_alias($node, $mode);
+        break;
+      }
+    }
+  }
+}
+
+/**
+ * Choose the correct URL alias for a community node, depending on the context.
+ *
+ * Implements hook_url_outbound_alter().
+ */
+function nexteuropa_communities_url_outbound_alter(&$path, &$options, $original_path) {
+  $context = og_context();
+  if ($context && strpos($original_path, 'node/') !== FALSE) {
+    global $language;
+    $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
+    // Load pathauto in order to use the cleanstring method.
+    module_load_include('inc', 'pathauto', 'pathauto');
+
+    // Manage the group.
+    $group = node_load($context['gid']);
+    $group_name = pathauto_cleanstring($group->title);
+
+    // Get the node aliases.
+    $select = db_select('url_alias');
+    $select->condition('source', $original_path);
+    $select->condition('language', LANGUAGE_NONE);
+    $select->fields('url_alias', ['alias']);
+    $paths = $select->execute()->fetchAll();
+
+    // Loop through the found paths in order to find the correct alias.
+    foreach ($paths as $p) {
+      // Check that the URL begins with the desired community pattern.
+      $search = strpos($p->alias, $keyword . '/' . $group_name);
+      if ($search !== FALSE && $search === 0) {
+        $new_path = $p->alias;
+        break;
+      }
+    }
+  }
+
+  // Set the new path if existing.
+  if (isset($new_path)) {
+    $path = $new_path;
+    $options['alias'] = $path;
+  }
+}
+
+/**
+ * Returns the sanitized community title.
+ *
+ * @return string
+ *    The community title or 'none'
+ */
+function community_to_arg($arg = NULL) {
+  module_load_include('inc', 'pathauto', 'pathauto');
+  $context = og_context();
+  if (isset($context['gid'])) {
+    $node = node_load($context['gid']);
+    return pathauto_cleanstring($node->title);
+  }
+  else {
+    return 'none';
+  }
+}
