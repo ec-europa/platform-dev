@@ -473,7 +473,7 @@ function nexteuropa_trackedchanges_form_system_modules_alter(&$form, &$form_stat
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * It injects callbacks callback allowing controlling the feature disabling.
+ * It injects callbacks callback allowing controlling the feature set disabling.
  */
 function nexteuropa_trackedchanges_form_feature_set_admin_form_alter(&$form, &$form_state, $form_id) {
   $form['#validate'][] = '_nexteuropa_trackedchanges_disable_check_validate';
@@ -499,16 +499,18 @@ function nexteuropa_trackedchanges_form_features_admin_form_alter(&$form, &$form
 function nexteuropa_trackedchanges_form_wysiwyg_profile_form_alter(&$form, &$form_state, $form_id) {
   if (isset($form['buttons']['lite'])) {
     $form['buttons']['lite']['#access'] = FALSE;
-    if (nexteuropa_trackedchanges_info_access()) {
+
+    if (user_access('administer ckeditor_lite')) {
       $message_link = l(t('"Tracked changes buttons settings"'),
         'admin/config/content/wysiwyg/tracked_changes/setup');
-      drupal_set_message(t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form, 
-        but from the !link page', array('!link' => $message_link)), 'warning');
+      $message = t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form, 
+        but from the !link page', array('!link' => $message_link));
     }
     else {
-      drupal_set_message(t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form. 
-        Please contact the administrator.'), 'warning');
+      $message = t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form. 
+        Please contact the administrator.');
     }
+    drupal_set_message($message, 'warning');
   }
 }
 
