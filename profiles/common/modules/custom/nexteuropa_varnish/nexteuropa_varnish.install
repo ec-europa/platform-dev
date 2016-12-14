@@ -51,6 +51,7 @@ function nexteuropa_varnish_requirements($phase) {
       'nexteuropa_varnish_request_user',
       'nexteuropa_varnish_request_password',
       'nexteuropa_varnish_tag',
+      'nexteuropa_varnish_http_timeout',
     );
 
     foreach ($required_vars as $var) {

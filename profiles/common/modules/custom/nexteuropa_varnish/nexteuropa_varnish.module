@@ -83,7 +83,7 @@ function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
  */
 function nexteuropa_varnish_workbench_moderation_transition($node, $previous_state, $new_state) {
   $purge
-    = ($node->workbench_moderation['my_revision']->published) ||
+    = ($new_state == workbench_moderation_state_published()) ||
       (property_exists($node->workbench_moderation['my_revision'], 'unpublishing')
         && $node->workbench_moderation['my_revision']->unpublishing);
 
