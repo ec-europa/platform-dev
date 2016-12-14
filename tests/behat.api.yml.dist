@@ -55,6 +55,8 @@ default:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_scenarios
       active_image_drivers: upload_pie
@@ -104,5 +106,7 @@ communities:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
   formatters:
     {{ behat.formatter.name }}: ~
