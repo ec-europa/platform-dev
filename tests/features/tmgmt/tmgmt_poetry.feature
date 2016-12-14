@@ -29,7 +29,7 @@ Feature: TMGMT Poetry features
     And I select the radio button "" with the id "edit-languages-fr"
     And I press "Request translation"
     And I press "Submit to translator"
-    And I wait
+    And I wait for "Job has been successfully submitted for translation." to appear
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
     And the translation request has the codeDemandeur "ABCD"
