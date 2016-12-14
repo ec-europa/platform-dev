@@ -22,6 +22,18 @@ function nexteuropa_token_menu() {
 }
 
 /**
+ * Implements hook_nexteuropa_token_entity_view_mode_type().
+ */
+function nexteuropa_token_nexteuropa_token_entity_view_mode_type() {
+  return array(
+    'bean' => '\Drupal\nexteuropa_token\Entity\ViewModeType\BeanViewModeType',
+    'node' => '\Drupal\nexteuropa_token\Entity\ViewModeType\NodeViewModeType',
+    'taxonomy_term' => '\Drupal\nexteuropa_token\Entity\ViewModeType\TermViewModeType',
+    'user' => '\Drupal\nexteuropa_token\Entity\ViewModeType\UserViewModeType',
+  );
+}
+
+/**
  * Implements hook_nexteuropa_token_token_handlers().
  */
 function nexteuropa_token_nexteuropa_token_token_handlers() {

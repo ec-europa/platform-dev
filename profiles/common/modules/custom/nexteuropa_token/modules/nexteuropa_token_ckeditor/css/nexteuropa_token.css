@@ -1,3 +1,6 @@
+.nexteuropa-token-bean-dialog-container table th,
+.nexteuropa-token-bean-dialog-container table td,
+.nexteuropa-token-bean-dialog-container table,
 .nexteuropa-token-dialog-container table {
   width: 100%;
 }
@@ -5,30 +8,37 @@
 .nexteuropa-token-dialog-container table td {
   padding: 5px;
 }
+.nexteuropa-token-bean-dialog-container table th,
 .nexteuropa-token-dialog-container table th {
   font-weight: bold;
 }
+.nexteuropa-token-bean-dialog-container .views-exposed-widgets,
 .nexteuropa-token-dialog-container .views-exposed-widgets {
   margin-bottom: 15px;
 }
+.nexteuropa-token-bean-dialog-container .pager,
 .nexteuropa-token-dialog-container .pager {
   padding-top: 15px;
   display: block;
 }
+.nexteuropa-token-bean-dialog-container table td a,
 .nexteuropa-token-dialog-container table td a {
   color: #0074bd;
 }
+.nexteuropa-token-bean-dialog-container table th a,
 .nexteuropa-token-dialog-container table th a {
   color: #333;
   font-weight: bold;
 }
+.nexteuropa-token-bean-dialog-container table th a:hover,
 .nexteuropa-token-dialog-container table th a:hover {
   color: #333;
 }
+.nexteuropa-token-bean-dialog-container table th.views-field-nexteuropa-token-ckeditor-widget-selection,
 .nexteuropa-token-dialog-container table th.views-field-nexteuropa-token-ckeditor-widget-selection {
   width: 15px;
 }
-
+.nexteuropa-token-bean-dialog-container .token-ckeditor-input,
 .nexteuropa-token-dialog-container .token-ckeditor-input {
   border: 1px solid #ccc;
   font-family: "Courier New", Courier, monospace;

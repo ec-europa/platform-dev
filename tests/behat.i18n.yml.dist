@@ -5,6 +5,7 @@ default:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
@@ -44,6 +45,8 @@ default:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -54,6 +57,7 @@ communities:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
@@ -87,5 +91,7 @@ communities:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
   formatters:
     {{ behat.formatter.name }}: ~

@@ -14,7 +14,7 @@ Feature: Frontend smoke test
       | profiles/multisite_drupal_standard/themes/ec_resp/images/search-button.png                           |
       | profiles/multisite_drupal_standard/themes/ec_resp/logo.png                                           |
 
-
+  @wip
   Scenario: Check security issue for Drupal Core
     Given the module is enabled
       |modules  |
