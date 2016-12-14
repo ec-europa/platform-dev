@@ -25,9 +25,6 @@ Feature: Page Layout
 
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
-    And the module is enabled
-      | modules     |
-      | contact     |
     When I am on "<page>"
     Then I should see "<text>" in the "html head title" element
 
@@ -35,7 +32,6 @@ Feature: Page Layout
     Examples:
       | page       | text                                        |
       | /          | Welcome to NextEuropa - European Commission |
-      | contact    | Contact - European Commission               |
       | user       | User account - European Commission          |
 
   @javascript @maximizedwindow @reset-node-types
