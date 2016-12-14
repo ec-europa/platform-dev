@@ -310,7 +310,6 @@ function _nexteuropa_trackedchanges_feature_disable_check_validate($form, &$form
   $form_state['values']['status']['nexteuropa_trackedchanges'] = 1;
 }
 
-
 /**
  * Set the batch process in charge of validating the module disabling.
  *
@@ -344,7 +343,7 @@ function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
 
 }
 
-/**
+/*
  * Finished callbacks designed for batches.
  *
  * They perform fields scanning detecting tracked changing in them.
