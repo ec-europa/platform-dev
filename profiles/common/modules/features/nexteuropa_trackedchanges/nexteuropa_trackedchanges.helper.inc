@@ -630,6 +630,7 @@ function _nexteuropa_trackedchanges_ckeditor_lite_entity_post_render($output, $e
     );
     $output = preg_replace($pattern, $replacement, $output);
   }
+
   return $output;
 }
 
@@ -705,6 +706,7 @@ function _nexteuropa_trackedchanges_get_profiles() {
   if (isset($wysiwyg_profiles['options'][NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME])) {
     unset($wysiwyg_profiles['options'][NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME]);
   }
+
   return $wysiwyg_profiles;
 }
 
@@ -774,40 +776,39 @@ function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_ty
     case 'node':
       // 3.a.1 Check if workbench moderation is active for the node.
       // Check content published and "draft" versions.
-      if (module_exists('workbench_moderation')) {
-        if (workbench_moderation_node_type_moderated($bundle)) {
-          $query = db_select('field_revision_' . $field_name, 'fr');
-          $query->join('node', 'n', 'fr.entity_id = n.nid');
-          $query->join('workbench_moderation_node_history', 'wmhn', 'fr.revision_id = wmhn.vid');
-          $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
-            ->condition('wmhn.is_current', 1)
-            ->condition('fr.bundle', $bundle);
-          if ($text_format) {
-            $query->condition('fr.' . $field_name . '_format', $text_format);
-          }
-          $query->fields('fr', array('language'))
-            ->fields('n', array('nid'))
-            ->fields('wmhn', array('state'));
-          $query->addField('fr', $field_name . '_format', 'format');
-          $query->distinct();
-          $node_scans = $query->execute()->fetchAll();
-
-          foreach ($node_scans as $node_scan) {
-            $info = array(
-              'rel_entity_type' => $entity_type,
-              'rel_entity_bundle' => $bundle,
-              'rel_entity_id' => $node_scan->nid,
-              'rel_entity_state' => $node_scan->state,
-              'rel_entity_language' => $node_scan->language,
-            );
-
-            $return[] = $info;
-          }
-
-          // Code executed below is useless as already checked here.
-          // Then, break.
-          break;
+      if (module_exists('workbench_moderation')
+           && workbench_moderation_node_type_moderated($bundle)) {
+        $query = db_select('field_revision_' . $field_name, 'fr');
+        $query->join('node', 'n', 'fr.entity_id = n.nid');
+        $query->join('workbench_moderation_node_history', 'wmhn', 'fr.revision_id = wmhn.vid');
+        $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
+          ->condition('wmhn.is_current', 1)
+          ->condition('fr.bundle', $bundle);
+        if ($text_format) {
+          $query->condition('fr.' . $field_name . '_format', $text_format);
         }
+        $query->fields('fr', array('language'))
+          ->fields('n', array('nid'))
+          ->fields('wmhn', array('state'));
+        $query->addField('fr', $field_name . '_format', 'format');
+        $query->distinct();
+        $node_scans = $query->execute()->fetchAll();
+
+        foreach ($node_scans as $node_scan) {
+          $info = array(
+            'rel_entity_type' => $entity_type,
+            'rel_entity_bundle' => $bundle,
+            'rel_entity_id' => $node_scan->nid,
+            'rel_entity_state' => $node_scan->state,
+            'rel_entity_language' => $node_scan->language,
+          );
+
+          $return[] = $info;
+        }
+
+        // Code executed below is useless as already checked here.
+        // Then, break.
+        break;
       }
 
       // 3.a.2 Check other nodes on the field data table which is the current
@@ -1094,6 +1095,7 @@ function _nexteuropa_trackedchanges_table_rebuild() {
  * Truncate data related to 'netc_info' into the DB.
  */
 function _nexteuropa_trackedchanges_clean_db() {
+  // We proceed as is for performance purposes.
   db_truncate('netc_info')->execute();
   db_delete('field_revision_field_netc_info_languages')->condition('entity_type', 'netc_info')->execute();
   db_delete('field_data_field_netc_info_languages')->condition('entity_type', 'netc_info')->execute();

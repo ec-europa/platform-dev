@@ -96,7 +96,6 @@ function _nexteuropa_trackedchanges_render_info_table($info) {
  * @see system_settings_form()
  */
 function nexteuropa_trackedchanges_wysiwyg_tracking_settings_form($form, &$form_state) {
-
   $options = workbench_moderation_state_labels();
 
   $form['node_workflow'] = array(
@@ -147,8 +146,8 @@ function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable($profile) {
  *   The machine name of the WYSIWYG profile.
  */
 function _nexteuropa_trackedchanges_wysiwyg_tracking_settings_disable($profile) {
-
   variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+
   // Then, do the control.
   $operations = array(
     array('_nexteuropa_trackedchanges_revisions_scanning_process', array($profile)),
@@ -202,13 +201,25 @@ function _nexteuropa_trackedchanges_system_disable_check_validate($form, &$form_
   // Put a flag to indicate that the module is to disable and must be
   // controlled.
   $values = $form_state['values'];
-  $proceed_validation = (!$values['modules']['NextEuropa']['nexteuropa_trackedchanges']['enable']);
-  $form_state['values']['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
 
-  // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
-  // be able to treat later in a batch process.
-  $form_state['values']['modules']['NextEuropa']['nexteuropa_trackedchanges']
-    = array('enable' => 1);
+  // If we're not coming from the confirmation form, module activation parameter
+  // are stored in "value][modules".
+  if (empty($form_state['storage'])) {
+    $proceed_validation = (!$values['modules']['NextEuropa']['nexteuropa_trackedchanges']['enable']);
+
+    // Reset the value flag for nexteuropa_trackedchanges to 1 in order to
+    // be able to treat later in a batch process.
+    $form_state['values']['modules']['NextEuropa']['nexteuropa_trackedchanges']
+      = array('enable' => 1);
+  }
+  else {
+    // If we are coming from the confirmation form, fetch
+    // the modules out of "storage][modules".
+    $modules = $form_state['storage']['modules'];
+    $proceed_validation = (!$modules['nexteuropa_trackedchanges']['enabled']);
+    $form_state['storage']['modules']['nexteuropa_trackedchanges']['enabled'] = 1;
+  }
+  $form_state['values']['nexteuropa_trackedchanges_disabling'] = $proceed_validation;
 }
 
 /**
@@ -312,8 +323,8 @@ function _nexteuropa_trackedchanges_feature_disable_check_validate($form, &$form
  * @see _nexteuropa_trackedchanges_system_disable_field_scanning_finished()
  */
 function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
-
   variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+
   // Then, do the control.
   $operations = array(
     array('_nexteuropa_trackedchanges_revisions_scanning_process', array('')),
@@ -348,7 +359,6 @@ function _nexteuropa_trackedchanges_scanning_batch_set($finished_batch) {
  * @see nexteuropa_trackedchanges_disable_buttons()
  */
 function _nexteuropa_trackedchanges_remove_field_scanning_finished($success, $results, $operations) {
-  $message = FALSE;
   $message_level = 'error';
   if ($success) {
     $text_format = $results['text_format'];
@@ -614,9 +624,9 @@ function nexteuropa_trackedchanges_rebuild_elapse_time_validate($form, &$form_st
  * @see nexteuropa_trackedchanges_rebuild_status()
  */
 function nexteuropa_trackedchanges_table_rebuilt_submit($form, &$form_state) {
-
   // Empty the table and "lock" it.
   variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+
   // It is a rebuild, then we flush the tables.
   _nexteuropa_trackedchanges_clean_db();
 
@@ -689,9 +699,9 @@ function nexteuropa_trackedchanges_workbench() {
  * Menu callback triggering the netc_info table rebuild.
  */
 function nexteuropa_trackedchanges_table_init() {
-
   // Empty the table and "lock" it.
   variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+
   // It is a rebuild, then we flush the tables.
   _nexteuropa_trackedchanges_clean_db();
 

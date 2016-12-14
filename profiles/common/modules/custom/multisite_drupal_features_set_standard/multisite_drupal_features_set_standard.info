@@ -405,6 +405,6 @@ feature_sets[nexteuropa_trackedchanges][description] = 'Provides editorial teams
 feature_sets[nexteuropa_trackedchanges][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/ayXFCg'
 feature_sets[nexteuropa_trackedchanges][category] = 'Editorial Management'
 feature_sets[nexteuropa_trackedchanges][icon] = ''
-feature_sets[nexteuropa_trackedchanges][font] = 'multisite-icon-keyboard'
+feature_sets[nexteuropa_trackedchanges][font] = 'multisite-icon-eye'
 feature_sets[nexteuropa_trackedchanges][enable][] = nexteuropa_trackedchanges
 feature_sets[nexteuropa_trackedchanges][disable][] = nexteuropa_trackedchanges

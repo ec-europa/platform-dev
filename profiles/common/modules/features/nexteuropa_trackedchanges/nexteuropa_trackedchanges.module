@@ -331,7 +331,6 @@ function nexteuropa_trackedchanges_views_pre_render(&$view) {
  * @see hook_entity_property_info()
  */
 function nexteuropa_trackedchanges_get_human_name($data, array $options, $name, $type, $info) {
-
   $human_name = $name;
   switch ($name) {
     case 'rel_entity_state_human_name':
@@ -450,13 +449,21 @@ function nexteuropa_trackedchanges_info_access() {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * It injects callbacks allowing controlling the feature disabling.
+ * It injects validate callback in charge of controlling that a content can be
+ * safe with a new moderation state.
+ *
+ * @see workbench_moderation_moderate_form()
  */
 function nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
-  $entity = $form['node']['#value'];
-  $tracking_settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
-  if ($tracking_settings['is_activate']) {
-    $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_wbm_validate';
+  // If $form['node'] is not set or empty that means the form is not accessible
+  // by the user and then, it is useless to inject the callback in the
+  // form process.
+  if (!empty($form['node'])) {
+    $entity = $form['node']['#value'];
+    $tracking_settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
+    if ($tracking_settings['is_activate']) {
+      $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_wbm_validate';
+    }
   }
 }
 

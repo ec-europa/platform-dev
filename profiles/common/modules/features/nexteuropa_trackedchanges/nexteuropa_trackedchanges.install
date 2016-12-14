@@ -84,7 +84,6 @@ function nexteuropa_trackedchanges_schema() {
  * Sets the default value of parameters used by this module and CKEditor LITE.
  */
 function nexteuropa_trackedchanges_install() {
-
   // Workbench moderation state for WYSIWYG tracking settings.
   $wbm_state = array(
     'validated' => 'validated',
@@ -165,7 +164,6 @@ function nexteuropa_trackedchanges_enable() {
  * Cleans the default value of parameters used by this module and CKEditor LITE.
  */
 function nexteuropa_trackedchanges_disable() {
-
   // Rename the 'full_html_track' profile and text format.
   // It is better than moving all field from a format to another because
   // That could take time and we could reach a time out on it.
