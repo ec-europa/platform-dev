@@ -558,7 +558,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *   When no node is found.
    */
   protected function getNodeByTitle($type, $title) {
-    if (!($node = node_load_multiple(array(), array('type' => $type, 'title' => $title), TRUE))) {
+    if (!($node = node_load_multiple(array(), array(
+      'type' => $type,
+      'title' => $title,
+    ), TRUE))
+    ) {
       throw new ExpectationException("There's no '$type' node entitled '$title'.", $this->getSession());
     }
     $node = reset($node);
@@ -583,7 +587,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
     if (empty($rows)) {
-      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
+      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
+        ->getCurrentUrl()));
     }
     /** @var NodeElement $row */
     foreach ($rows as $row) {
@@ -591,7 +596,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         return $row;
       }
     }
-    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
+    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()
+      ->getCurrentUrl()));
   }
 
   /**
