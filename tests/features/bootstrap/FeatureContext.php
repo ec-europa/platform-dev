@@ -198,7 +198,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     foreach ($featureset_table->getHash() as $row) {
       foreach ($featuresets as $featureset_available) {
         if ($featureset_available['title'] == $row['featureSet'] &&
-        feature_set_status($featureset_available) === FEATURE_SET_DISABLED) {
+          feature_set_status($featureset_available) === FEATURE_SET_DISABLED
+        ) {
           if (feature_set_enable_feature_set($featureset_available)) {
             $this->features_set[] = $featureset_available;
             $rebuild = TRUE;
@@ -525,7 +526,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Print out descriptive error message by throwing an exception.
    */
   protected function addMembertoGroup($account, $group_role, $group, $group_type = 'node') {
-    list($gid,,) = entity_extract_ids($group_type, $group);
+    list($gid, ,) = entity_extract_ids($group_type, $group);
     $membership = og_group($group_type, $gid, array(
       'entity type' => 'user',
       'entity' => $account,
@@ -557,7 +558,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *   When no node is found.
    */
   protected function getNodeByTitle($type, $title) {
-    if (!($node = node_load_multiple(array(), array('type' => $type, 'title' => $title), TRUE))) {
+    if (!($node = node_load_multiple(array(), array(
+      'type' => $type,
+      'title' => $title,
+    ), TRUE))
+    ) {
       throw new ExpectationException("There's no '$type' node entitled '$title'.", $this->getSession());
     }
     $node = reset($node);
@@ -613,32 +618,32 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     _node_types_build(TRUE);
     node_type_delete('community');
     field_purge_batch(1);
-    
+
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
-    if (isset ($feature->info['features']['variable'])){
-      foreach ($feature->info['features']['variable'] as $varname){
+    if (isset($feature->info['features']['variable'])) {
+      foreach ($feature->info['features']['variable'] as $varname) {
         variable_del($varname);
       }
     }
-   
-   // Delete community's menu_links.
-    if (isset ($feature->info['features']['menu_links'])){
-      foreach ($feature->info['features']['menu_links'] as $menulinks){
+
+    // Delete community's menu_links.
+    if (isset($feature->info['features']['menu_links'])) {
+      foreach ($feature->info['features']['menu_links'] as $menulinks) {
         menu_link_delete(NULL, $menulinks);
       }
     }
-   
-   // Delete community's menu_custom.
-    if (isset ($feature->info['features']['menu_custom'])){
-      foreach ($feature->info['features']['menu_custom'] as $menucustom){
-        $menu = menu_load($menucustom) ;
+
+    // Delete community's menu_custom.
+    if (isset($feature->info['features']['menu_custom'])) {
+      foreach ($feature->info['features']['menu_custom'] as $menucustom) {
+        $menu = menu_load($menucustom);
         menu_delete($menu);
       }
     }
-   
-   drupal_flush_all_caches();
- 
+
+    drupal_flush_all_caches();
+
   }
 
 }
