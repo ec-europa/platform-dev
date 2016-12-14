@@ -656,24 +656,31 @@ function _cce_basic_config_post_install_user_config() {
  * Initialize default images.
  */
 function _cce_basic_config_post_install_default_images() {
+  // The private stream wrapper is not set during installation
+  // so we must do it manually before creating the default files.
+  drupal_static_reset('file_get_stream_wrappers');
+  file_get_stream_wrappers();
   // Set default images.
-  $theme_path = drupal_get_path('theme', 'ec_resp');
+  $path = drupal_get_path('module', 'cce_basic_config') . '/assets/images/default_images';
+
   $default_images = array(
-    'user_picture_default' => 'user_default.png',
-    'empty_gallery_default' => 'empty_gallery.png',
+    'user_picture_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default_images',
+      'source_path' => $path . '/user_default.png',
+      'filename' => 'user_default.png',
+      'variable' => 'user_picture_default',
+    ),
+    'empty_gallery_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default_images',
+      'source_path' => $path . '/empty_gallery.png',
+      'filename' => 'empty_gallery.png',
+      'variable' => 'empty_gallery_default',
+    ),
   );
 
-  foreach ($default_images as $variable => $default_image) {
-    $file = new stdClass();
-    $file->fid = NULL;
-    $file->uri = "public://default_images/" . $default_image;
-    $file->filename = $default_image;
-    $file->filemime = file_get_mimetype($file->uri);
-    $file->uid = 1;
-    $file->status = FILE_STATUS_PERMANENT;
-    $f = file_save($file);
-    variable_set($variable, $file->uri);
-  }
+  _cce_basic_config_import_images($default_images);
 }
 
 /**
@@ -1956,7 +1963,6 @@ function cce_basic_config_update_7203() {
   variable_set('cce_basic_config_admin_pages', $admin_pages);
 }
 
-
 /**
  * Update the location of the Rate attachments.
  */
@@ -2016,7 +2022,6 @@ function cce_basic_config_update_7206() {
   module_disable(array('print_pdf_tcpdf'), FALSE);
   drupal_uninstall_modules(array('print_pdf_tcpdf'), FALSE);
 }
-
 
 /**
  * NEXTEUROPA-4706: Drupal alter makes features stay overriden.
