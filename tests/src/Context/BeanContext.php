@@ -71,8 +71,8 @@ class BeanContext implements Context {
    */
   public function removeBlockTypes() {
     // Remove the beans.
-    foreach ($this->blockType as $blockType) {
-      $blockType->revert();
+    foreach ($this->blockType as $block_type) {
+      $block_type->revert();
     }
   }
 
