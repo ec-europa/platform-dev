@@ -560,7 +560,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   protected function getNodeByTitle($type, $title) {
     if (!($node = node_load_multiple(array(), array(
       'type' => $type,
-      'title' => $title
+      'title' => $title,
     ), TRUE))
     ) {
       throw new ExpectationException("There's no '$type' node entitled '$title'.", $this->getSession());
