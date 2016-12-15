@@ -8,6 +8,7 @@
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
+use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
 use Behat\Mink\Element\NodeElement;
@@ -19,6 +20,18 @@ use Behat\Gherkin\Node\PyStringNode;
  * Contains generic step definitions.
  */
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
+
+  /**
+   * Restarts PhantomJS after each scenario to prevent memory leaking and
+   * freezing.
+   * 
+   * @AfterScenario
+   */
+  public static function restartPhantomJs(AfterScenarioScope $scope) {
+    if (getenv('CONTINUOUSPHP') == 'continuousphp') {
+      exec('sudo supervisorctl restart phantomjs');
+    }
+  }
 
   /**
    * Checks that a 403 Access Denied error occurred.
