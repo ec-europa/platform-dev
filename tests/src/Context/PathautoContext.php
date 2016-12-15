@@ -40,7 +40,6 @@ class PathautoContext implements Context {
    *    Pathauto pattern value.
    *
    * @Given the pathauto :name pattern is set to :value
-   *
    */
   public function setAliasPattern($name, $value) {
     $this->variableContext->setVariable($name, $value);
