@@ -33,6 +33,19 @@ function communities_enable() {
  * Implements hook_install().
  */
 function communities_install() {
+
+  $path = drupal_get_path('module', 'communities') . '/assets/images/default_images';
+
+  $default_images = array(
+    'user_picture_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default',
+      'source_path' => $path . '/community_default.png',
+      'filename' => 'community_default.png',
+      'variable' => 'default_community_image',
+    ),
+  );
+
   global $_communities_fid_default_community_image;
   // Affect a file image to the default image of the field thumbnail
   // of the content type community.
@@ -46,4 +59,26 @@ function communities_install() {
   $file->status = FILE_STATUS_PERMANENT;
   $f = file_save($file);
   $_communities_fid_default_community_image = $f->fid;
+
+  // Enable the og ontext negociation 'multisite_communities'.
+  communities_enable_og_context_negociation();
+}
+
+/**
+ * Enable the og context negociation 'multisite_communities'.
+ */
+function communities_update_7202() {
+  communities_enable_og_context_negociation();
+}
+
+/**
+ * Enable the og-context negociation 'multisite_communities'.
+ */
+function communities_enable_og_context_negociation() {
+  $og_negociations = variable_get('og_context_negotiation_group_context', array('url' => -5, 'node' => -4));
+  // Ensure nexteuropa_community og context negotiation is not enabled.
+  if (!isset($og_negociations["multisite_communities"]) && !isset($og_negociations["nexteuropa_communities"])) {
+    $og_negociations["multisite_communities"] = array();
+    variable_set('og_context_negotiation_group_context', $og_negociations);
+  }
 }
