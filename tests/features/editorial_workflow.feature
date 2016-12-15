@@ -101,7 +101,8 @@ Feature: Editorial workflow
     Given I am logged in as a user with the "administrator" role
     And I am on "admin/people"
     Then I should not have the following options for "edit-operation":
+      | options               |
       | editorial team member |
-    And I am on "user"
+    When I am on "user"
     And I click "Edit"
     Then the "editorial team member" checkbox should be disabled

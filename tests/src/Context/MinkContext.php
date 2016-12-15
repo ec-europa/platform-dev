@@ -269,7 +269,7 @@ class MinkContext extends DrupalExtensionMinkContext {
 
     return NULL;
   }
-  
+
   /**
    * Checks a checkbox in a table row inside a specific fieldset.
    *
