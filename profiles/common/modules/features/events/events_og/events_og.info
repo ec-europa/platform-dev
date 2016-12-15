@@ -19,7 +19,6 @@ features[og_features_permission][] = node:community:delete any event content
 features[og_features_permission][] = node:community:delete own event content
 features[og_features_permission][] = node:community:update any event content
 features[og_features_permission][] = node:community:update own event content
-features[og_features_role][] = node:community:community_manager
 features[variable][] = pathauto_node_event_pattern
 
 files[] = tests/events_og.test
