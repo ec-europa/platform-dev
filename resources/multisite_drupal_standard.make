@@ -747,6 +747,10 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
+; Content not accessible after being published - node_access not updated
+; Issue https://www.drupal.org/node/2835937
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.2"
