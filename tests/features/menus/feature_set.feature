@@ -6,7 +6,9 @@ Feature: Feature set menu
 
   @api
   Scenario Outline: Test feature set screen as administrator
-    Given I am logged in as a user with the "administrator" role
+    Given I am logged in as a user with the "administrator" role and I have the following fields:
+      | first name      | Myrrine |
+      | last name       | Augusta |
     When I am on the homepage
     And I click "<link>"
     Then I should see the heading "<heading>"
