@@ -483,6 +483,7 @@ Feature: TMGMT Poetry features
     When I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -500,6 +501,7 @@ Feature: TMGMT Poetry features
     When I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
