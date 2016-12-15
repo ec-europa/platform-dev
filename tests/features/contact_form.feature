@@ -7,8 +7,8 @@ Feature: Contact Form
 Scenario: Anonymous user can see the contact page
   Given I am not logged in
   And the module is enabled
-  | modules     |
-  | contact     |
+  | modules          |
+  | contact_form     |
   When I am on "contact"
   Then I should see "Contact - European Commission" in the "html head title" element
   When I fill in "Your name" with "Chuck"
