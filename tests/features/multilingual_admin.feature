@@ -44,4 +44,4 @@ Feature: Content translation
     And I wait for AJAX to finish
     And I press the "Save" button
     Then I should see "The view testing_view has been saved."
-    And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/title_field_et_en"
+    And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/field_ne_body_et_en"
