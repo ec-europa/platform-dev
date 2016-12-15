@@ -5,6 +5,7 @@
  * Contains \TmgmtPoetrySubContext.
  */
 
+use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
@@ -233,6 +234,11 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @When I fill in :arg1 with a relative date of :arg2 days
    */
   public function iFillInWithArelativeDateOfDays($field, $number) {
+    // Checking if the given field is available.
+    if (!$this->getSession()->getPage()->findField($field)) {
+      throw new ExpectationException("Field '$field' not found.", $this->getSession());
+    }
+
     $relative_date = date('d/m/Y', strtotime($number));
     $this->getSession()->getPage()->fillField($field, $relative_date);
   }
