@@ -30,6 +30,13 @@ class BeanContext implements Context {
   protected $random;
 
   /**
+   * The list of block types created before or during a scenario starts.
+   *
+   * @var array
+   */
+  protected $blockType = array();
+
+  /**
    * BeanContext constructor.
    */
   public function __construct() {
@@ -54,6 +61,19 @@ class BeanContext implements Context {
     $bean_type->setLabel($type);
     $bean_type->setDescription('Behat');
     $bean_type->save(TRUE);
+    $this->blockType[] = $bean_type;
+  }
+
+  /**
+   * Revert to previous settings after scenario execution.
+   *
+   * @AfterScenario
+   */
+  public function removeBlockTypes() {
+    // Remove the beans.
+    foreach ($this->blockType as $blockType) {
+      $blockType->revert();
+    }
   }
 
 }
