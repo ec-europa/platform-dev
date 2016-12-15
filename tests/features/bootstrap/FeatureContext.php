@@ -621,23 +621,37 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
+<<<<<<< HEAD
     if (isset ($feature->info['features']['variable'])) {
+=======
+    if (isset($feature->info['features']['variable'])) {
+>>>>>>> release/2.3
       foreach ($feature->info['features']['variable'] as $varname) {
         variable_del($varname);
       }
     }
 
     // Delete community's menu_links.
+<<<<<<< HEAD
     if (isset ($feature->info['features']['menu_links'])) {
+=======
+    if (isset($feature->info['features']['menu_links'])) {
+>>>>>>> release/2.3
       foreach ($feature->info['features']['menu_links'] as $menulinks) {
         menu_link_delete(NULL, $menulinks);
       }
     }
 
     // Delete community's menu_custom.
+<<<<<<< HEAD
     if (isset ($feature->info['features']['menu_custom'])) {
       foreach ($feature->info['features']['menu_custom'] as $menucustom) {
         $menu = menu_load($menucustom) ;
+=======
+    if (isset($feature->info['features']['menu_custom'])) {
+      foreach ($feature->info['features']['menu_custom'] as $menucustom) {
+        $menu = menu_load($menucustom);
+>>>>>>> release/2.3
         menu_delete($menu);
       }
     }
