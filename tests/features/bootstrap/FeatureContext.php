@@ -662,32 +662,32 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     _node_types_build(TRUE);
     node_type_delete('community');
     field_purge_batch(1);
-    
+
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
-    if (isset ($feature->info['features']['variable'])){
-      foreach ($feature->info['features']['variable'] as $varname){
+    if (isset($feature->info['features']['variable'])) {
+      foreach ($feature->info['features']['variable'] as $varname) {
         variable_del($varname);
       }
     }
-   
-   // Delete community's menu_links.
-    if (isset ($feature->info['features']['menu_links'])){
-      foreach ($feature->info['features']['menu_links'] as $menulinks){
+
+    // Delete community's menu_links.
+    if (isset($feature->info['features']['menu_links'])) {
+      foreach ($feature->info['features']['menu_links'] as $menulinks) {
         menu_link_delete(NULL, $menulinks);
       }
     }
-   
-   // Delete community's menu_custom.
-    if (isset ($feature->info['features']['menu_custom'])){
-      foreach ($feature->info['features']['menu_custom'] as $menucustom){
-        $menu = menu_load($menucustom) ;
+
+    // Delete community's menu_custom.
+    if (isset($feature->info['features']['menu_custom'])) {
+      foreach ($feature->info['features']['menu_custom'] as $menucustom) {
+        $menu = menu_load($menucustom);
         menu_delete($menu);
       }
     }
-   
-   drupal_flush_all_caches();
- 
+
+    drupal_flush_all_caches();
+
   }
 
 }
