@@ -99,7 +99,7 @@ Feature: Editorial workflow
 
   Scenario: User role "editorial team member" cannot be assigned via the UI.
     Given I am logged in as a user with the "administrator" role
-    And I am on "admin/people"
+    When I am on "admin/people"
     Then I should not have the following options for "edit-operation":
       | options               |
       | editorial team member |
