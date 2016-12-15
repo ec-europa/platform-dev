@@ -110,6 +110,12 @@ behat.yml.path = ${behat.dir}/behat.yml
 # The base URL to use in Behat tests.
 behat.base_url = http://localhost
 
+# The URL of the Behat webdriver host.
+behat.wd_host.url = http://localhost:8643/wd/hub
+
+# The browser to use for javascript testing.
+behat.browser.name = phantomjs
+
 # The location to search for Behat subcontexts.
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
@@ -123,10 +129,6 @@ behat.options.strict = true
 # Set verbosity for Behat tests. 0 is completely silent, 1 is normal output, 2
 # shows exception backtraces, 3 shows debugging information.
 behat.options.verbosity = 2
-
-# Behat\MinkExtension settings.
-behat.extensions.selenium2.host = localhost
-behat.extensions.selenium2.port = 8643
 
 # Load balancer Phing task configuration.
 behat.load_balancer.containers = 5

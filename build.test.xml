@@ -67,14 +67,15 @@
                 <property name="flickr.secret" value="${env.FLICKR_SECRET}" override="true" />
             </then>
         </if>
-
-        <copy todir="${behat.dir}">
+        <copy todir="${behat.dir}" overwrite="true">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
             </fileset>
             <filterchain>
                 <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="behat.wd_host.url" value="${behat.wd_host.url}" />
+                    <token key="behat.browser.name" value="${behat.browser.name}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
                     <token key="flickr.key" value="${flickr.key}" />
@@ -83,8 +84,6 @@
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
                     <token key="integration.server.port" value="${integration.server.port}" />
                     <token key="varnish.server.port" value="${varnish.server.port}" />
-                    <token key="behat.extensions.selenium2.host" value="${behat.extensions.selenium2.host}" />
-                    <token key="behat.extensions.selenium2.port" value="${behat.extensions.selenium2.port}" />
                 </replacetokens>
             </filterchain>
             <mapper type="glob" from="*.yml.dist" to="*.yml" />
