@@ -2,15 +2,15 @@
   "require": {
     "php": ">=5.4.0",
     "drupal/coder": "8.2.6",
-    "drupal/phingdrushtask": "1.1.1",
-    "drupol/phingbehattask": "1.0.0",
+    "drupal/phingdrushtask": "^1.1",
+    "drupol/phingbehattask": "^1.0",
     "drush/drush": "8.0.5",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
-    "phing/phing": "2.15.2"
+    "phing/phing": "~2.10"
   },
   "prefer-stable": true,
   "autoload": {
