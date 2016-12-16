@@ -27,17 +27,17 @@ function nexteuropa_core_tokens($type, $tokens, array $data = array(), array $op
     $node = $data['node'];
     foreach ($tokens as $name => $original) {
       if (strstr($name, ':parents-uri') !== FALSE) {
-        list($field_name, $delta,) = explode(':', $name);
+        list($field_name) = explode(':', $name);
         $field_name = str_replace('-', '_', $field_name);
         if (isset($node->{$field_name})) {
           $node_wrapper = entity_metadata_wrapper('node', $node);
-          $terms = $node_wrapper->{$field_name}->value();
-          if (isset($terms[$delta - 1])) {
-            $term = $terms[$delta - 1];
+          $term = $node_wrapper->{$field_name}->value();
+          if (!empty($term)) {
             $parents = array();
-            foreach (entity_metadata_taxonomy_term_get_properties($term, array(), 'parents_all') as $tid) {
-              $parent_term = taxonomy_term_load($tid);
-              $parents[] = $parent_term->name;
+            foreach (taxonomy_get_parents_all($term->tid) as $parent_term) {
+              if ($parent_term->tid !== $term->tid) {
+                $parents[] = $parent_term->name;
+              }
             }
             $replacements[$original] = implode($separator, array_reverse($parents));
           }
@@ -49,15 +49,15 @@ function nexteuropa_core_tokens($type, $tokens, array $data = array(), array $op
   if ($type == 'term' && isset($data['term'])) {
     $term = $data['term'];
     foreach ($tokens as $name => $original) {
-
       // Provide replacement value for [term:parents-uri] token.
       // It can only work paired-up with hook_pathauto_alias_alter()
       // since we have to provide an URI like replacement, containing '/'.
       if ($original == '[term:parents-uri]') {
         $parents = array();
-        foreach (entity_metadata_taxonomy_term_get_properties($term, array(), 'parents_all') as $tid) {
-          $parent_term = taxonomy_term_load($tid);
-          $parents[] = $parent_term->name;
+        foreach (taxonomy_get_parents_all($term->tid) as $parent_term) {
+          if ($parent_term->tid !== $term->tid) {
+            $parents[] = $parent_term->name;
+          }
         }
         $replacements[$original] = implode($separator, array_reverse($parents));
       }

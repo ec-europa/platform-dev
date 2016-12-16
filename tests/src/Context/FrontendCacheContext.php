@@ -192,11 +192,18 @@ class FrontendCacheContext implements Context {
     $rules = $table->getHash();
 
     foreach ($rules as $rule) {
+      if (trim($rule['Paths to Purge']) == '') {
+        $paths = '';
+      }
+      else {
+        $paths = preg_replace('/\s*,\s*/', "\n", $rule['Paths to Purge']);
+      }
+
       $rule = entity_create(
         'nexteuropa_varnish_cache_purge_rule',
         array(
           'content_type' => $rule['Content Type'],
-          'paths' => preg_replace('/\s*,\s*/', "\n", $rule['Paths to Purge']),
+          'paths' => $paths,
         )
       );
 
@@ -296,9 +303,14 @@ class FrontendCacheContext implements Context {
 
     $path_string = '^(' . implode('|', $paths) . ')$';
 
+    // Some of environments returns different paths. To pass the test given
+    // environment path is removed from the assertion process.
+    $content_url = preg_quote(ltrim(url(), '/'));
+    $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
+
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
     assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
-    assert($purge_request->getHeader('X-Invalidate-Regexp')->toArray(), equals([$path_string]));
+    assert($purge_request_paths, equals([$path_string]));
   }
 
   /**

@@ -51,7 +51,7 @@ function nexteuropa_editorial_og_membership_insert(OgMembership $og_membership) 
   // Automatically assign "editorial team member" to a user joining
   // an editorial team organic group.
   if ($og_membership->entity_type == 'user') {
-    if (multisite_config_service('nexteuropa_editorial')->isEditoralTeamMember($og_membership->etid)) {
+    if (multisite_config_service('nexteuropa_editorial')->isEditoralTeamGroup($og_membership->gid)) {
       multisite_config_service('user')->assignRoleToUser(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $og_membership->etid);
     }
   }
@@ -96,6 +96,23 @@ function nexteuropa_editorial_form_user_profile_form_alter(&$form, $form_state) 
  */
 function nexteuropa_editorial_form_diff_node_revisions_alter(&$form, $form_state) {
   $form['submit']['#submit'] = array('nexteuropa_editorial_diff_node_revisions_submit');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_editorial_form_user_admin_account_alter(&$form, $form_state) {
+
+  if (isset($form['options']['operation']['#options'])) {
+    $role = user_role_load_by_name(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE);
+    $options = &$form['options']['operation']['#options'];
+    if (isset($options[t('Add a role to the selected users')])) {
+      unset($options[t('Add a role to the selected users')]["add_role-{$role->rid}"]);
+    }
+    if (isset($options[t('Remove a role from the selected users')])) {
+      unset($options[t('Remove a role from the selected users')]["remove_role-{$role->rid}"]);
+    }
+  }
 }
 
 /**
