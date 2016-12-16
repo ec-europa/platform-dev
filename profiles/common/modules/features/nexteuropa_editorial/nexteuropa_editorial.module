@@ -99,6 +99,23 @@ function nexteuropa_editorial_form_diff_node_revisions_alter(&$form, $form_state
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function nexteuropa_editorial_form_user_admin_account_alter(&$form, $form_state) {
+
+  if (isset($form['options']['operation']['#options'])) {
+    $role = user_role_load_by_name(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE);
+    $options = &$form['options']['operation']['#options'];
+    if (isset($options[t('Add a role to the selected users')])) {
+      unset($options[t('Add a role to the selected users')]["add_role-{$role->rid}"]);
+    }
+    if (isset($options[t('Remove a role from the selected users')])) {
+      unset($options[t('Remove a role from the selected users')]["remove_role-{$role->rid}"]);
+    }
+  }
+}
+
+/**
  * Submit code for input form to select two revisions.
  */
 function nexteuropa_editorial_diff_node_revisions_submit($form, &$form_state) {
