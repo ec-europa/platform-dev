@@ -2224,7 +2224,8 @@ function cce_basic_config_update_7214(&$sandbox) {
   $sandbox['progress']++;
 
   // Cleaning old parameters.
-  if (empty($sandbox['max'])) {
+  if (empty($sandbox['max']) || ($sandbox['progress'] == $sandbox['max'])) {
+    watchdog('gilles end', $sandbox['full_html_track_used']);
     variable_del('multisite_wysiwyg');
     variable_del('nexteuropa_editorial_tracking_status');
     variable_del('nexteuropa_editorial_tracking_wbm_states');
