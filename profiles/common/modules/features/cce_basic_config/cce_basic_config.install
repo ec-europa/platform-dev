@@ -2144,3 +2144,127 @@ function cce_basic_config_update_7213() {
   // Enable token_filter on full_html text filter.
   multisite_config_service('filter')->setTextFilterWeight('full_html', 'filter_tokens', 20);
 }
+
+/**
+ * NEPT-202: Enable nexteuropa_trackedchanges module.
+ *
+ * Update enables the module only if tracked changes are detected or
+ * if full_html_track text format is already used once and migrate
+ * nexteuropa_editorial settings set here in the module to enable.
+ */
+function cce_basic_config_update_7214(&$sandbox) {
+
+  if (!isset($sandbox['progress'])) {
+    $sandbox['progress'] = 0;
+    $field_types = array(
+      'text_long',
+      'text_with_summary',
+      'text',
+    );
+    $field_info_map = field_info_field_map();
+    $filtered = array_filter($field_info_map, function ($item) use ($field_types) {
+      return in_array($item['type'], $field_types);
+    });
+
+    $sandbox['field_list'] = array_keys($filtered);
+    $sandbox['full_html_track_used'] = FALSE;
+
+    $sandbox['max'] = count($sandbox['field_list']);
+  }
+
+  $field_name = array_shift($sandbox['field_list']);
+
+  // Check if there are tracked changes in any revision of the "text" field.
+  $query = db_select('field_revision_' . $field_name, 'fr');
+  $query->where('fr.' . $field_name . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'')
+    ->condition('fr.deleted', 0);
+  $query->addExpression('1');
+  $query->distinct(TRUE);
+  $scanning_results = $query->execute()->fetchField();
+
+  // Check if full_html_track text format is used in any revision of the
+  // "text" field.
+  if (!$scanning_results) {
+    $query = db_select('field_revision_' . $field_name, 'fr');
+    $query->condition('fr.' . $field_name . '_format', 'full_html_track')
+      ->condition('fr.deleted', 0);
+    $query->addExpression('1');
+    $scanning_results = $query->execute()->fetchField();
+  }
+
+  if ($scanning_results) {
+    // Stop the batch because we have the minimum of info to proceed.
+    $sandbox['field_list'] = array();
+    $sandbox['max'] = 0;
+
+    module_enable(array('nexteuropa_trackedchanges'));
+
+    $ms_wysiwyg = variable_get('multisite_wysiwyg');
+    if ($ms_wysiwyg) {
+      if (isset($ms_wysiwyg['dis_change_track_on_create'])) {
+        variable_set('nexteuropa_trackedchanges_disable_track_on_create', $ms_wysiwyg['dis_change_track_on_create']);
+      }
+      if (isset($ms_wysiwyg['en_change_track_on_edit'])) {
+        variable_set('nexteuropa_trackedchanges_force_track_on_edit', $ms_wysiwyg['en_change_track_on_edit']);
+      }
+    }
+
+    $wbm_state = variable_get('nexteuropa_editorial_tracking_wbm_states');
+    if (!is_null($wbm_state)) {
+      variable_set('nexteuropa_trackedchanges_tracking_wbm_states', $wbm_state);
+    }
+
+    $status_setting = variable_get('nexteuropa_editorial_tracking_status');
+    if (!is_null($status_setting)) {
+      variable_set('nexteuropa_editorial_tracking_status', $status_setting);
+    }
+
+    $sandbox['full_html_track_used'] = TRUE;
+  }
+  $sandbox['progress']++;
+
+  // Cleaning old parameters.
+  if (empty($sandbox['max'])) {
+    variable_del('multisite_wysiwyg');
+    variable_del('nexteuropa_editorial_tracking_status');
+    variable_del('nexteuropa_editorial_tracking_wbm_states');
+
+    if (!$sandbox['full_html_track_used']) {
+      // If full_html_track is not used anywhere, we could delete it too.
+      multisite_config_service('wysiwyg')->deleteProfile('full_html_track');
+      // We only disable it because Drupal does not allow to delete it
+      // see http://tinyurl.com/hx4t2qp
+      $full_html_track = multisite_config_service('filter')->getFullFormat('full_html_track', TRUE);
+      if ($full_html_track) {
+        $full_html_track->name = 'Full HTML (Change tracking feature disabled)';
+        $full_html_track->status = 0;
+        filter_format_save($full_html_track);
+      }
+
+      // If there is no active module dependent on CKEditor Lite,
+      // we deactivate it.
+      $modules_data = system_rebuild_module_data();
+      $ckeditor_lite = $modules_data['ckeditor_lite'];
+      $profile = drupal_get_profile();
+      $uninstall_ok = TRUE;
+      foreach (array_keys($ckeditor_lite->required_by) as $dependent) {
+        if (isset($modules_data[$dependent])
+          && drupal_get_installed_schema_version($dependent) != SCHEMA_UNINSTALLED
+          && $dependent != $profile) {
+          // Only one is enough to block the "ckeditor_lite" uninstall.
+          $uninstall_ok = FALSE;
+          break;
+        }
+      }
+
+      if ($uninstall_ok) {
+        // If nothing prevents it, uninstall 'ckeditor_lite'!
+        module_disable(array('ckeditor_lite'));
+        drupal_uninstall_modules(array('ckeditor_lite'));
+      }
+    }
+  }
+
+  $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
+
+}
