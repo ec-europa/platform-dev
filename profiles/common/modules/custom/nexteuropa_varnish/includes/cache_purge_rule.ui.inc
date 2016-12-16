@@ -4,8 +4,6 @@
  * Definition of CachePurgeRuleEntityUIController.
  */
 
-use Drupal\nexteuropa_varnish\PurgeRuleType;
-
 /**
  * Entity UI controller for cache purge rules.
  */
@@ -30,13 +28,7 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
    * {@inheritdoc}
    */
   protected function overviewTableRow($conditions, $id, $entity, $additional_cols = array()) {
-    $paths_cell_content = '<em>' . t('paths of the node') . '</em>';
-
-    if ($entity->type() == PurgeRuleType::PATHS) {
-      $paths_cell_content = check_plain(implode(', ', $entity->paths()));
-    }
-
-    array_unshift($additional_cols, $paths_cell_content);
+    array_unshift($additional_cols, preg_replace("/[\r\n]+/", ", ", $entity->paths));
 
     $content_type_names = node_type_get_names();
     $content_type_label = $content_type_names[$entity->content_type];

@@ -70,10 +70,6 @@ projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.9
-; Issue #2084823 : Contextual links for entity view
-; https://www.drupal.org/node/2084823
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
-projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.2"
@@ -95,16 +91,19 @@ projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.8"
+projects[chr][version] = "1.7"
+; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
+; https://www.drupal.org/node/2512054
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call-2512054-2.patch
+; Issue #2142949 : Receiving error message - Notice: Undefined offset: 1 in chr_curl_http_request().
+; https://www.drupal.org/node/2142949
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
 ; Issue #2355631 : rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
-; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
-; https://www.drupal.org/node/2816399
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
-
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
@@ -153,7 +152,7 @@ projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload
 projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.11"
+projects[ctools][version] = "1.9"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -173,7 +172,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.14"
+projects[ds][version] = "2.11"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -188,11 +187,11 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
+projects[entity_translation][download][branch] = 7.x-1.x
+projects[entity_translation][download][revision] = 221e302
+projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0-beta5"
-; Issue #1707156 : Workbench Moderation integration
-; https://www.drupal.org/node/1707156
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-47.patch
+projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -242,7 +241,7 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta2"
+projects[feeds][version] = "2.0-beta1"
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
@@ -277,7 +276,7 @@ projects[filefield_sources_plupload][version] = "1.1"
 projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.9"
+projects[flag][version] = "3.7"
 
 projects[flexible_purge][subdir] = "contrib"
 projects[flexible_purge][version] = "1.x-dev"
@@ -335,7 +334,7 @@ projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_def
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
-projects[i18nviews][version] = "3.0-alpha1"
+projects[i18nviews][version] = "3.x-dev"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
@@ -390,10 +389,6 @@ projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
-; Linkchecker PHP 7.0 compatibility.
-; https://www.drupal.org/node/2660694
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
-projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
@@ -579,10 +574,6 @@ projects[select_or_other][version] = 2.22
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
-; #2801239: Issue with Entity cache
-; https://www.drupal.org/node/2801239
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-121
-projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -613,8 +604,10 @@ projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
+projects[title][download][branch] = 7.x-1.x
+projects[title][download][revision] = 1f89073
+projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-projects[title][version] = "1.0-alpha8"
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
@@ -660,7 +653,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0-beta2"
+projects[uuid][version] = "1.0-beta1"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -905,11 +898,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf
+; mpdf 5.7.4a
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v6.1.0.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
@@ -970,7 +963,8 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 ; ======
 
 projects[bootstrap][type] = theme
-projects[bootstrap][version] = 3.8
+projects[bootstrap][download][type] = get
+projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
 
 projects[europa][type] = theme
 projects[europa][download][type] = get

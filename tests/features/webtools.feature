@@ -21,7 +21,6 @@ Feature: Webtools feature
     And I press "Save"
     Then I should see the success message "webtools Block Map Webtools Title has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
-    And the response should contain "contextual-links-wrapper"
     When I go to "admin/content/blocks"
     And I click "delete" in the "Block Map Webtools" row
     Then I should see "Are you sure you want to delete Block Map Webtools Title?"
@@ -43,4 +42,3 @@ Feature: Webtools feature
     And I press "Save"
     Then I should see the success message "Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
-    And the response should contain "contextual-links-wrapper"

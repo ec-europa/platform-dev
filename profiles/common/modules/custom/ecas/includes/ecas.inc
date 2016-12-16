@@ -55,8 +55,8 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
     $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
     $form['account']['ecas_information_label'] = array(
       '#markup' => sprintf(
-        t('This account is managed by EU Login. Its password can be changed using %s.'),
-        l(t('the EU Login change password page'), $ecas_ch_pw_url)
+        t('This account is managed by ECAS. Its password can be changed using %s.'),
+        l(t('the ECAS change password page'), $ecas_ch_pw_url)
       ),
       '#weight' => -10,
     );
@@ -90,7 +90,7 @@ function _ecas_user_pass_validate($form, &$form_state) {
     if (_is_ecas_user($account)) {
       $ecas_ch_pw_url = variable_get('ecas_change_password_url', ECAS_DEFAULT_CHANGE_PASSWORD_URL);
       $ecas_ch_pw_link = l($ecas_ch_pw_url, $ecas_ch_pw_url);
-      $message = t('This user appears to be an EU Login user -- you can not recover his password using this form. Please visit %s instead');
+      $message = t('This user appears to be an ECAS user -- you can not recover his password using this form. Please visit %s instead');
       $displayed_message = sprintf($message, $ecas_ch_pw_link);
       form_set_error('name', $displayed_message);
       return;
@@ -113,20 +113,20 @@ function _ecas_user_pass_validate($form, &$form_state) {
 function _ecas_menu(array &$items) {
   $items['ecas'] = array(
     'path' => 'ecas',
-    'title' => 'EU Login',
+    'title' => 'ECAS Login',
     'page callback' => 'ecas_login_page',
     'access callback' => 'ecas_menu_check',
     'type' => MENU_SUGGESTED_ITEM,
   );
 
   $items['ecaslogout'] = array(
-    'title' => 'EU Login - Logout',
+    'title' => 'ECAS Logout',
     'page callback' => 'ecas_logout',
     'access callback' => 'ecas_menu_logout_check',
     'type' => MENU_SUGGESTED_ITEM,
   );
   $items['ecasfulllogout'] = array(
-    'title' => 'EU Login - Full Logout',
+    'title' => 'ECAS Full Logout',
     'page callback' => 'ecas_logout',
     'page arguments' => array(TRUE),
     'access callback' => 'ecas_menu_logout_check',
@@ -134,14 +134,14 @@ function _ecas_menu(array &$items) {
   );
 
   $items['account_request'] = array(
-    'title' => 'Create an EU Login account',
+    'title' => 'Create an ECAS account',
     'page callback' => 'account_request',
     'access callback' => 'ecas_menu_check',
     'type' => MENU_SUGGESTED_ITEM,
   );
 
   $items['ecas_warning_page'] = array(
-    'title' => 'EU Login warning',
+    'title' => 'Ecas warning',
     'page callback' => 'ecas_warning_page',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
@@ -544,7 +544,7 @@ function ecas_block_view($delta = '') {
  */
 function ecas_block_info() {
   $blocks['ecas'] = array(
-    'info' => t('EU Login'),
+    'info' => t('ECAS User login'),
   );
 
   return $blocks;

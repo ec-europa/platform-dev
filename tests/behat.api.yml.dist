@@ -19,7 +19,6 @@ default:
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_port: {{ varnish.server.port }}
-        - Drupal\nexteuropa\Context\PathautoContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
@@ -59,12 +58,6 @@ default:
         messages: "#console"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
-    Bex\Behat\ScreenshotExtension:
-      screenshot_taking_mode: failed_scenarios
-      active_image_drivers: upload_pie
-      image_drivers:
-        upload_pie:
-          expire: '1d'
   formatters:
     {{ behat.formatter.name }}: ~
 

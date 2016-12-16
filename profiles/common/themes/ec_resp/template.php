@@ -1284,6 +1284,10 @@ function ec_resp_link($variables) {
   $btn_group_before = '';
   $btn_group_after = '';
 
+  if (!isset($variables['options']['attributes']['class'])) {
+    $variables['options']['attributes']['class'] = '';
+  }
+
   if (isset($variables['options']['attributes']['action_bar'])) {
     switch ($variables['options']['attributes']['action_bar']) {
       case 'first':
@@ -1365,11 +1369,11 @@ function ec_resp_link($variables) {
         break;
     }
 
-    if (!empty($classes)) {
-      // Merge in defaults.
-      $variables['options']['attributes'] += array('class' => array());
-
+    if (is_array($variables['options']['attributes']['class'])) {
       $variables['options']['attributes']['class'] = array_merge($variables['options']['attributes']['class'], $classes);
+    }
+    else {
+      $variables['options']['attributes']['class'] = $classes;
     }
   }
   $path = ($variables['path'] == '<nolink>') ? '#' : check_plain(url($variables['path'], $variables['options']));

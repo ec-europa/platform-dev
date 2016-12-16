@@ -31,9 +31,7 @@ function nexteuropa_multilingual_tokens($type, $tokens, array $data = array(), a
         $language_list = language_list();
         $languages = array();
         foreach ($entity_languages as $language) {
-          if (isset($language_list[$language]) && isset($language_list[$language]->name)) {
-            $languages[] = $language_list[$language]->name;
-          }
+          $languages[] = $language_list[$language]->name;
         }
 
         $replacements[$original] = implode(" ", $languages);

@@ -4,10 +4,9 @@ package = Translation Management
 core = 7.x
 configure = admin/config/regional/tmgmt_workbench_settings
 
-dependencies[] = date_popup
-dependencies[] = tmgmt_entity
 dependencies[] = workbench
 dependencies[] = workbench_moderation
+dependencies[] = tmgmt_entity
 
 files[] = includes/tmgmt_workbench.plugin.inc
 files[] = includes/tmgmt_workbench.ui.inc

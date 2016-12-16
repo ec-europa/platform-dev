@@ -1,0 +1,105 @@
+<?php
+
+/**
+ * @file
+ * Main functions and hook implementations of the Multisite Review module.
+ */
+
+/**
+ * The PHP version that should be present in reviewed modules' .info files.
+ */
+const MULTISITE_REVIEW_PHP_VERSION = '5.2.4';
+
+/**
+ * The Features API version that is currently supported.
+ */
+const MULTISITE_REVIEW_FEATURES_API_VERSION = 'api:2';
+
+/**
+ * Implements hook_security_checks().
+ */
+function multisite_review_security_checks() {
+  $checks = array();
+  $checks['multisite_review_qa'] = array(
+    'title' => t('Multisite Review'),
+    'callback' => 'multisite_review_qa',
+    'success' => t('Multisite Review successful.'),
+    'failure' => t('Multisite Review failed.'),
+    'module' => 'multisite_review',
+    // Specify this file because the callback is here.
+    'file' => 'multisite_review',
+  );
+
+  return array('multisite_review' => $checks);
+}
+
+/**
+ * Implements hook_multisite_review_reviews().
+ */
+function multisite_review_multisite_review_reviews() {
+  $path = drupal_get_path('module', 'multisite_review');
+
+  return array(
+    'icon' => array(
+      'name' => t('Icon'),
+      'description' => t('Checks whether features have an icon.'),
+      'callback' => 'multisite_review_check_icon',
+      'file' => $path . '/reviews/icon.inc',
+    ),
+    'exported_fields' => array(
+      'name' => t('Exported fields'),
+      'description' => t('Checks whether exported fields conform to the specifications.'),
+      'callback' => 'multisite_review_check_exported_fields',
+      'file' => $path . '/reviews/exported_fields.inc',
+    ),
+    'features_components' => array(
+      'name' => t('Features components'),
+      'description' => t('Checks whether no blacklisted components of the Features module are exported.'),
+      'callback' => 'multisite_review_check_features_components',
+      'file' => $path . '/reviews/features_components.inc',
+    ),
+    'info_file' => array(
+      'name' => t('Module .info file'),
+      'description' => t('Checks whether the needed information is present in the .info file.'),
+      'callback' => 'multisite_review_check_info_file',
+      'file' => $path . '/reviews/info_file.inc',
+    ),
+    'install_file' => array(
+      'name' => t('Module .install file'),
+      'description' => t('Checks whether the needed information is present in the .install file.'),
+      'callback' => 'multisite_review_check_install_file',
+      'file' => $path . '/reviews/install_file.inc',
+    ),
+    'tests' => array(
+      'name' => t('Tests'),
+      'description' => t('Checks whether there are automated tests.'),
+      'callback' => 'multisite_review_check_tests',
+      'file' => $path . '/reviews/tests.inc',
+    ),
+    'user_permissions' => array(
+      'name' => t('User permissions'),
+      'description' => t('Checks whether no blacklisted permissions are exported.'),
+      'callback' => 'multisite_review_check_exported_user_permissions',
+      'file' => $path . '/reviews/user_permissions.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Add a setting form to perform reviews on a specific feature.
+ */
+function multisite_review_menu_alter(&$items) {
+  // Alter the the security tabs to add the setting form.
+  $items['admin/reports/security-review/multisite-review-settings'] = array(
+    'title' => 'Multisite Review Settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('multisite_review_form'),
+    'access arguments' => array('access security review list'),
+    'file' => 'multisite_review.form.inc',
+    'type' => MENU_LOCAL_TASK,
+    'file path' => drupal_get_path('module', 'multisite_review'),
+    'weight' => 5,
+  );
+}

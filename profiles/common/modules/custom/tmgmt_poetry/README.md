@@ -18,7 +18,6 @@ Table of content:
 
 - [Usage](#usage)
   - [How to request a translation](#how-to-request-a-translation)
-  - [How to update a translation request](#how-to-update-a-translation-request)
 
 - [Interesting information to go further]
 (#interesting-information-regarding-the-dgt-connector)
@@ -146,9 +145,7 @@ or go to:
    have correctly followed the steps above. Otherwise, get back and check what
    you forgot!
    - Counter: The counter always is *NEXT_EUROPA_COUNTER* 
-     [See DGT reference explanation]  
-   - Website identifier: This helps DGT identifying which site requested the 
-     translation.
+   [See DGT reference explanation]  
    - Requester code: always is *WEB* [See DGT reference explanation]
    (#dgt-reference-number).
    - Organization responsible, Author & requester: consult the values examples
@@ -216,21 +213,7 @@ share with DGT.
 
 [Go to top](#table-of-content)
 
-## How to update a translation request
-- After a translation request has been accepted by DGT,
-- Click the "Translation" tab and select the languages you wish to request a translation for,
-- Submit the 'Update Request translation' button,
-
-> Note: This action will cancel all jobs in progress and jobs that need a review.
-
-- By default the 'DGT connector (auto created)' translator will be selected,
-- You can modify the selection of languages you want to be translated,
-- You can select an 'Expected delivery time': Click the field and select a date from the calendar that will pop up. This is an indicative date, DGT
-
-[Go to top](#table-of-content)
-
-# Interesting information regarding the DGT connector
-
+# Interesting information regarding the DGT-Connector
 ## DGT Web app: Checking the translation was received
 
 Once a translation has been requested to DGT, the status is updated on the

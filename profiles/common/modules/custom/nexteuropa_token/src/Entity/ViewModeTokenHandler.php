@@ -131,13 +131,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    */
   public function getEntityViewModes($token_type) {
     $view_modes = array();
-    $token_types = token_get_entity_mapping();
-    if (isset($token_types[$token_type])) {
-      $entity_type = $token_types[$token_type];
-    }
-    else {
-      $entity_type = $token_type;
-    }
+    $entity_type = $token_type == 'term' ? 'taxonomy_term' : $token_type;
     $info = entity_get_info($entity_type);
     foreach ($info['view modes'] as $mode => $mode_info) {
       $view_modes[] = $mode;

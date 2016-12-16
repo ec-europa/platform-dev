@@ -7,7 +7,7 @@ Feature: User authentication
 Scenario: Anonymous user can see the user login page
   Given I am not logged in
   When I visit "user"
-  Then I should see the text "EU Login"
+  Then I should see the text "ECAS Login"
   And I should see the text "Request new password"
   And I should see the text "Username"
   And I should see the text "Password"

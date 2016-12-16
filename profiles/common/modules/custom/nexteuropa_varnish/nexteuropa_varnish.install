@@ -52,18 +52,6 @@ function nexteuropa_varnish_enable() {
 }
 
 /**
- * Implements hook_install().
- */
-function nexteuropa_varnish_install() {
-  // Set the weight to 2. Pathauto has weight 1 and we need to react after it.
-  db_update('system')
-    ->fields(array('weight' => 2))
-    ->condition('type', 'module')
-    ->condition('name', 'nexteuropa_varnish')
-    ->execute();
-}
-
-/**
  * Add the cache purge rules table.
  */
 function nexteuropa_varnish_update_7100() {
@@ -91,15 +79,4 @@ function nexteuropa_varnish_update_7100() {
       'primary key' => array('id'),
     )
   );
-}
-
-/**
- * Alter the module weight so it comes after pathauto.
- */
-function nexteuropa_varnish_update_7101() {
-  db_update('system')
-    ->fields(array('weight' => 2))
-    ->condition('type', 'module')
-    ->condition('name', 'nexteuropa_varnish')
-    ->execute();
 }

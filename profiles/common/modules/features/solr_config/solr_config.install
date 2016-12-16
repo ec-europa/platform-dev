@@ -172,6 +172,4 @@ function solr_config_install() {
     'plid' => $mlid_parent,
   );
   menu_link_save($item);
-
-  variable_set('apachesolr_delay_removals', 1);
 }

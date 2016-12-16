@@ -144,20 +144,14 @@ function _poetry_mock_get_data_row_action_links($data_row) {
       . $data_row['target_lg'] . '/'
       . $data_row['file_id'] . '/'
       . $data_row['tjiid'],
-      'query' => ['destination' => current_path()],
+      'query' => array('destination' => current_path()),
     ],
     'refuse' => [
       'title' => 'Refuse',
       'href' => 'tmgmt_poetry_mock/refuse/'
       . $data_row['file_id'] . '/'
       . $data_row['tjiid'],
-      'query' => ['destination' => current_path()],
-    ],
-    'send_ong_status' => [
-      'title' => "Send 'ONG' status",
-      'href' => 'tmgmt_poetry_mock/send-status/ong/'
-      . $data_row['tjid'],
-      'query' => ['destination' => current_path()],
+      'query' => array('destination' => current_path()),
     ],
   ];
 

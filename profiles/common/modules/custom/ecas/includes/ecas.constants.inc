@@ -33,7 +33,7 @@ define('ECAS_DEFAULT_CHANGE_PASSWORD_URL', 'https://ecas.ec.europa.eu/cas/init/p
 
 define('ECAS_DEFAULT_DEBUG_LOGPATH', 'phpCas.log');
 
-define('ECAS_DEFAULT_LOGIN_MESSAGE', 'Logged in via EU Login as %ecas_username.');
+define('ECAS_DEFAULT_LOGIN_MESSAGE', 'Logged in via ECAS as %ecas_username.');
 define('ECAS_DEFAULT_WARNING_MESSAGE', 'Your account is not yet approved');
 define('ECAS_DEFAULT_MAIL_ADDRESS', 'unknown.mail@nomail.nodomain.tld');
 

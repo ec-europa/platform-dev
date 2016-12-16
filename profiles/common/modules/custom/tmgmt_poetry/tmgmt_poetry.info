@@ -1,6 +1,5 @@
 name = Poetry Translator
 description = TMGMT implementation of Poetry European Service.
-php = 5.4
 package = Translation Management
 core = 7.x
 dependencies[] = date_popup
@@ -20,5 +19,3 @@ files[] = plugins/tmgmt_poetry.ui.inc
 files[] = views/handlers/tmgmt_poetry_handler_field_tmgmt_job_reference.inc
 files[] = views/handlers/tmgmt_poetry_handler_field_tmgmt_job_item_operations.inc
 files[] = views/handlers/tmgmt_poetry_handler_field_progress.inc
-
-configure = admin/config/regional/tmgmt_translator/manage/poetry

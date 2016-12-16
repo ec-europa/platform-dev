@@ -749,7 +749,6 @@ cite
 code
 col
 colgroup
-dt
 dd
 div
 dl
