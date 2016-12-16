@@ -569,7 +569,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     return $node;
 
   }
-  
+
   /**
    * Check if given field is translatable.
    *
