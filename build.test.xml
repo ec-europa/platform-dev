@@ -67,13 +67,15 @@
                 <property name="flickr.secret" value="${env.FLICKR_SECRET}" override="true" />
             </then>
         </if>
-        <copy todir="${behat.dir}">
+        <copy todir="${behat.dir}" overwrite="true">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
             </fileset>
             <filterchain>
                 <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="behat.wd_host.url" value="${behat.wd_host.url}" />
+                    <token key="behat.browser.name" value="${behat.browser.name}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
                     <token key="flickr.key" value="${flickr.key}" />
