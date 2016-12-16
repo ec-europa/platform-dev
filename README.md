@@ -100,10 +100,18 @@ $ ./bin/phing setup-behat
 In order to run JavaScript in your Behat tests, you must launch a PhantomJS
 instance before. Use the `--debug` parameter to get more information. Please
 be sure that the webdriver's port you specify corresponds to the one in your
-Behat configuration (`wd_host: "http://localhost:8643/wd/hub"`).
+Behat configuration (`behat.wd_host.url: "http://localhost:8643/wd/hub"`).
 
 ```
 $ phantomjs --debug=true --webdriver=8643
+```
+
+If you prefer to use an actual browser with Selenium instead of PhantomJS, you
+need to define the Selenium server URL and browser to use, for instance:
+
+```
+behat.wd_host.url = http://localhost:4444/wd/hub
+behat.browser.name = chrome
 ```
 
 The tests can also be run from the root of the repository (or any other folder)
