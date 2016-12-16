@@ -14,6 +14,8 @@ dependencies[] = strongarm
 dependencies[] = token_filter
 dependencies[] = views
 dependencies[] = wysiwyg
+dependencies[] = registry_autoload
+registry_autoload[] = PSR-4
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[filter][] = full_html_track
@@ -21,6 +23,3 @@ features[variable][] = nexteuropa_trackedchanges_disable_track_on_create
 features[variable][] = nexteuropa_trackedchanges_tracking_status
 features[variable][] = nexteuropa_trackedchanges_tracking_wbm_states
 features[wysiwyg][] = full_html_track
-
-files[] = NETCInfo.inc
-files[] = NETCInfoController.inc

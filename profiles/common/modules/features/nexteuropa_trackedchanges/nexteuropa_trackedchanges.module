@@ -100,8 +100,8 @@ function nexteuropa_trackedchanges_entity_info() {
 
   $info['netc_info'] = array(
     'label' => 'Tracked changes info',
-    'entity class' => 'NETCInfo',
-    'controller class' => 'NETCInfoController',
+    'entity class' => 'Drupal\nexteuropa_trackedchanges\Entity\NETCInfo',
+    'controller class' => 'Drupal\nexteuropa_trackedchanges\NETCInfoController',
     'views controller class' => 'EntityDefaultViewsController',
     'base table' => 'netc_info',
     'uri callback' => 'entity_class_uri',

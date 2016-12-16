@@ -1,13 +1,15 @@
 <?php
 /**
  * @file
- * Contains \NextEuropaTrackedChangesInfo.
+ * Contains \Drupal\nexteuropa_trackedchanges\Entity\NETCInfo.
  */
+
+namespace Drupal\nexteuropa_trackedchanges\Entity;
 
 /**
  * Class NETCInfo.
  */
-class NETCInfo extends Entity {
+class NETCInfo extends \Entity {
 
   /**
    * Change the default URI for always pointing to the entities_list page.

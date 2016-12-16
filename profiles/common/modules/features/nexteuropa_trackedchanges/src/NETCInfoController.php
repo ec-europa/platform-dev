@@ -1,13 +1,15 @@
 <?php
 /**
  * @file
- * Contains NextEuropaTrackedChangesInfoController.
+ * Contains Drupal\nexteuropa_trackedchanges\NETCInfoController.
  */
+
+namespace Drupal\nexteuropa_trackedchanges;
 
 /**
  * Class NETCInfoController.
  */
-class NETCInfoController extends EntityAPIController {
+class NETCInfoController extends \EntityAPIController {
 
   /**
    * Override the save method.
