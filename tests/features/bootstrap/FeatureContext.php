@@ -9,6 +9,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\AfterStepScope;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\Element;
 use Behat\Mink\Element\NodeElement;
 use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -30,11 +31,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * Checks that the given select field has the options listed in the table.
-   *
-   * Usage example:
-   *   Then I should have the following options for "edit-operation":
-   *     | options               |
-   *     | editorial team member |
    *
    * @Then I should have the following options for :select:
    */
@@ -71,11 +67,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * Checks that the given select field doesn't have the listed options.
-   *
-   * Usage example:
-   *   Then I should not have the following options for "edit-operation":
-   *     | options               |
-   *     | editorial team member |
    *
    * @Then I should not have the following options for :select:
    */
@@ -208,8 +199,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     foreach ($featureset_table->getHash() as $row) {
       foreach ($featuresets as $featureset_available) {
         if ($featureset_available['title'] == $row['featureSet'] &&
-          feature_set_status($featureset_available) === FEATURE_SET_DISABLED
-        ) {
+        feature_set_status($featureset_available) === FEATURE_SET_DISABLED) {
           if (feature_set_enable_feature_set($featureset_available)) {
             $this->features_set[] = $featureset_available;
             $rebuild = TRUE;
@@ -536,7 +526,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *    Print out descriptive error message by throwing an exception.
    */
   protected function addMembertoGroup($account, $group_role, $group, $group_type = 'node') {
-    list($gid, ,) = entity_extract_ids($group_type, $group);
+    list($gid,,) = entity_extract_ids($group_type, $group);
     $membership = og_group($group_type, $gid, array(
       'entity type' => 'user',
       'entity' => $account,
@@ -568,11 +558,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *   When no node is found.
    */
   protected function getNodeByTitle($type, $title) {
-    if (!($node = node_load_multiple(array(), array(
-      'type' => $type,
-      'title' => $title,
-    ), TRUE))
-    ) {
+    if (!($node = node_load_multiple(array(), array('type' => $type, 'title' => $title), TRUE))) {
       throw new ExpectationException("There's no '$type' node entitled '$title'.", $this->getSession());
     }
     $node = reset($node);
@@ -584,23 +570,20 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *   Text on the table row.
+   *    Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *   Throw exception if class table row was not found.
+   *    Throw exception if class table row was not found.
    *
    * @Given I check the box on the :row_text row
    */
   public function checkCheckboxOnTableRow($row_text) {
     $page = $this->getSession()->getPage();
-    if ($checkbox = $this->getTableRow($page, $row_text)
-      ->find('css', 'input[type=checkbox]')
-    ) {
+    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
       $checkbox->check();
       return;
     }
-    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()
-      ->getCurrentUrl()), $this->getSession());
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
   }
 
   /**
@@ -620,8 +603,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
     if (empty($rows)) {
-      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
-        ->getCurrentUrl()));
+      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
     }
     /** @var NodeElement $row */
     foreach ($rows as $row) {
@@ -629,8 +611,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         return $row;
       }
     }
-    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()
-      ->getCurrentUrl()));
+    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
   }
 
   /**
@@ -672,18 +653,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Assert that the given form element is disabled.
-   *
-   * @Then the :label checkbox should be disabled
-   * @Then the :label form element should be disabled
-   */
-  public function assertDisabledElement($label) {
-    if (!$this->assertSession()->fieldExists($label)->hasAttribute('disabled')) {
-      throw new ExpectationException("Form element '{$label}' is not disabled", $this->getDriver());
-    }
-  }
-
-  /**
    * Reinitialize some Community environment settings.
    *
    * @AfterFeature @cleanCommunityEnvironment
@@ -693,31 +662,32 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     _node_types_build(TRUE);
     node_type_delete('community');
     field_purge_batch(1);
-
+    
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
-    if (isset($feature->info['features']['variable'])) {
-      foreach ($feature->info['features']['variable'] as $varname) {
+    if (isset ($feature->info['features']['variable'])){
+      foreach ($feature->info['features']['variable'] as $varname){
         variable_del($varname);
       }
     }
-
-    // Delete community's menu_links.
-    if (isset($feature->info['features']['menu_links'])) {
-      foreach ($feature->info['features']['menu_links'] as $menulinks) {
+   
+   // Delete community's menu_links.
+    if (isset ($feature->info['features']['menu_links'])){
+      foreach ($feature->info['features']['menu_links'] as $menulinks){
         menu_link_delete(NULL, $menulinks);
       }
     }
-
-    // Delete community's menu_custom.
-    if (isset($feature->info['features']['menu_custom'])) {
-      foreach ($feature->info['features']['menu_custom'] as $menucustom) {
-        $menu = menu_load($menucustom);
+   
+   // Delete community's menu_custom.
+    if (isset ($feature->info['features']['menu_custom'])){
+      foreach ($feature->info['features']['menu_custom'] as $menucustom){
+        $menu = menu_load($menucustom) ;
         menu_delete($menu);
       }
     }
+   
+   drupal_flush_all_caches();
 
-    drupal_flush_all_caches();
   }
 
 }
