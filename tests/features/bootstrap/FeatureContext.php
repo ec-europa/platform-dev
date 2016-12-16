@@ -31,6 +31,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Checks that the given select field has the options listed in the table.
    *
+   * Usage example:
+   *   Then I should have the following options for "edit-operation":
+   *     | options               |
+   *     | editorial team member |
+   *
    * @Then I should have the following options for :select:
    */
   public function assertSelectOptions($select, TableNode $options) {
@@ -66,6 +71,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * Checks that the given select field doesn't have the listed options.
+   *
+   * Usage example:
+   *   Then I should not have the following options for "edit-operation":
+   *     | options               |
+   *     | editorial team member |
    *
    * @Then I should not have the following options for :select:
    */
@@ -609,6 +619,18 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * Assert that the given form element is disabled.
+   *
+   * @Then the :label checkbox should be disabled
+   * @Then the :label form element should be disabled
+   */
+  public function assertDisabledElement($label) {
+    if (!$this->assertSession()->fieldExists($label)->hasAttribute('disabled')) {
+      throw new ExpectationException("Form element '{$label}' is not disabled", $this->getDriver());
+    }
+  }
+
+  /**
    * Reinitialize some Community environment settings.
    *
    * @AfterFeature @cleanCommunityEnvironment
@@ -643,7 +665,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
 
     drupal_flush_all_caches();
-
   }
 
 }
