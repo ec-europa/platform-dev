@@ -32,7 +32,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @var array
    */
-  protected $featureSet = array();
+  protected $featureSets = array();
 
   /**
    * Checks that a 403 Access Denied error occurred.
@@ -138,10 +138,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterScenario
    */
   public function cleanModule() {
-    if (isset($this->modules) && !empty($this->modules)) {
+    if (!empty($this->modules)) {
       // Disable and uninstall any modules that were enabled.
       module_disable($this->modules);
-      $res = drupal_uninstall_modules($this->modules);
+      drupal_uninstall_modules($this->modules);
       $this->modules = array();
     }
   }
@@ -215,7 +215,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         if ($featureset_available['title'] == $row['featureSet'] &&
         feature_set_status($featureset_available) === FEATURE_SET_DISABLED) {
           if (feature_set_enable_feature_set($featureset_available)) {
-            $this->featureSet[] = $featureset_available;
+            $this->featureSets[] = $featureset_available;
             $rebuild = TRUE;
           }
           else {
@@ -243,15 +243,15 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterScenario
    */
   public function cleanFeatureSet() {
-    if (isset($this->featureSet) && !empty($this->featureSet)) {
+    if (!empty($this->featureSets)) {
       // Disable and uninstall any feature set that were enabled.
-      foreach ($this->featureSet as $featureset) {
+      foreach ($this->featureSets as $featureset) {
         if (isset($featureset['disable'])) {
           $featureset['uninstall'] = $featureset['disable'];
           feature_set_disable_feature_set($featureset);
         }
       }
-      $this->featureSet = array();
+      $this->featureSets = array();
     }
   }
 
