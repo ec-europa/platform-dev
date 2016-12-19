@@ -624,9 +624,9 @@ function _nexteuropa_trackedchanges_ckeditor_lite_entity_post_render($output, $e
       // Activate Highlighting - div with node-page class.
       '$1 ICE-Tracking $2',
       // Tracked inserts - spans with "ice-ins" class.
-      '$1 ckeditor-lite-ins ',
+      '$1ckeditor-lite-ins ',
       // Tracked deletes  spans with "ice-del" class.
-      '$1 ckeditor-lite-del-inv ',
+      '$1ckeditor-lite-del-inv ',
     );
     $output = preg_replace($pattern, $replacement, $output);
   }
