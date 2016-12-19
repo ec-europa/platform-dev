@@ -50,6 +50,14 @@ feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
 feature_sets[nexteuropa_integration][enable][] = nexteuropa_integration
 feature_sets[nexteuropa_integration][disable][] = nexteuropa_integration
 
+feature_sets[nexteuropa_varnish][title] = 'Rule-based web frontend cache purging'
+feature_sets[nexteuropa_varnish][description] = 'Define rules to trigger granular purging of the web frontend caches'
+feature_sets[nexteuropa_varnish][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/aJBcCg'
+feature_sets[nexteuropa_varnish][category] = 'Integration'
+feature_sets[nexteuropa_varnish][font] = 'multisite-icon-spinner11'
+feature_sets[nexteuropa_varnish][enable][] = nexteuropa_varnish
+feature_sets[nexteuropa_varnish][disable][] = nexteuropa_varnish
+
 feature_sets[nexteuropa_dgt_connector][title] = 'Nexteuropa DGT Connector'
 feature_sets[nexteuropa_dgt_connector][description] = 'Provides services to send translations to DGT.'
 feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
