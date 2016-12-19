@@ -9,8 +9,8 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Behat\Mink\Element\Element;
 use Behat\Mink\Element\NodeElement;
+use Behat\Mink\Element\Element;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Selector\Xpath\Escaper;
@@ -268,6 +268,26 @@ class MinkContext extends DrupalExtensionMinkContext {
     }
 
     return NULL;
+  }
+
+  /**
+   * Attempts to find and check a checkbox in a table row containing given text.
+   *
+   * @param string $row_text
+   *   Text on the table row.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *   Throw exception if class table row was not found.
+   *
+   * @Given I check the box on the :row_text row
+   */
+  public function checkCheckboxOnTableRow($row_text) {
+    $page = $this->getSession()->getPage();
+    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
+      $checkbox->check();
+      return;
+    }
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
   }
 
   /**
