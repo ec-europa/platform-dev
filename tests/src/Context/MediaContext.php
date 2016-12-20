@@ -34,20 +34,6 @@ class MediaContext implements Context {
   }
 
   /**
-   * Test the content of a unique tag with no css.
-   *
-   * @Then I should see :text in the :tag tag
-   */
-  public function iShouldSeeInTheTag($text, $tag) {
-    $element = $this->mink->getSession()->getPage()->find('xpath', '//' . $tag . '[contains(text(), \'' . $text . '\')]');
-    if (NULL === $element) {
-      throw new \InvalidArgumentException(sprintf('Could not find "%s"', $text));
-    }
-
-  }
-
-
-  /**
    * Switches to the media browser iframe.
    *
    * @Then the media browser opens

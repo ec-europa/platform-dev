@@ -114,7 +114,9 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   protected function findFieldset($legend) {
     $legend = (new Escaper())->escapeLiteral($legend);
-    $legend_element = $this->getSession()->getPage()->find('xpath', '//legend[contains(normalize-space(string(.)), ' . $legend . ')]');
+    $legend_element = $this->getSession()
+      ->getPage()
+      ->find('xpath', '//legend[contains(normalize-space(string(.)), ' . $legend . ')]');
 
     $fieldset = NULL;
     do {
@@ -283,11 +285,29 @@ class MinkContext extends DrupalExtensionMinkContext {
    */
   public function checkCheckboxOnTableRow($row_text) {
     $page = $this->getSession()->getPage();
-    if ($checkbox = $this->getTableRow($page, $row_text)->find('css', 'input[type=checkbox]')) {
+    if ($checkbox = $this->getTableRow($page, $row_text)
+      ->find('css', 'input[type=checkbox]')
+    ) {
       $checkbox->check();
       return;
     }
-    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()->getCurrentUrl()), $this->getSession());
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()
+      ->getCurrentUrl()), $this->getSession());
+  }
+
+  /**
+   * Test the content of a unique tag with no css.
+   *
+   * @Then I should see :text in the :tag tag
+   */
+  public function iShouldSeeInTheTag($text, $tag) {
+    $element = $this->getSession()
+      ->getPage()
+      ->find('xpath', '//' . $tag . '[contains(text(), \'' . $text . '\')]');
+    if (NULL === $element) {
+      throw new \InvalidArgumentException(sprintf('Could not find "%s"', $text));
+    }
+
   }
 
   /**
@@ -343,7 +363,8 @@ class MinkContext extends DrupalExtensionMinkContext {
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
     if (empty($rows)) {
-      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()->getCurrentUrl()));
+      throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
+        ->getCurrentUrl()));
     }
     /** @var NodeElement $row */
     foreach ($rows as $row) {
@@ -351,7 +372,8 @@ class MinkContext extends DrupalExtensionMinkContext {
         return $row;
       }
     }
-    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
+    throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()
+      ->getCurrentUrl()));
   }
 
   /**
