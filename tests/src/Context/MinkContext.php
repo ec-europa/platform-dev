@@ -174,6 +174,52 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
+   * Checks if the box is unchecked.
+   *
+   * @When I should not see the box :arg1 checked
+   */
+  public function assertBoxIsUnChecked($arg1) {
+    $is_checked = $this->getSession()->getPage()->hasCheckedField($arg1);
+
+    if ($is_checked) {
+      throw new ExpectationException("The box '$arg1' is not checked.", $this->getSession());
+    }
+  }
+
+  /**
+   * Set all permissions to admin role.
+   *
+   * @Given I update the administrator role permissions
+   */
+  public function iGiveAllPermToAdminRole() {
+    if ($rid = variable_get('user_admin_role', 0)) {
+      $perms = array();
+
+      foreach (module_implements('permission') as $module) {
+        foreach (module_invoke($module, 'permission') as $key => $perm) {
+          $perms[$key] = $module;
+        }
+      }
+
+      if ($perms) {
+        foreach ($perms as $perm => $module) {
+          $query = db_merge('role_permission');
+          $query->key(array(
+            'rid' => $rid,
+            'permission' => $perm,
+          ));
+          $query->fields(array(
+            'rid' => $rid,
+            'permission' => $perm,
+            'module' => $module,
+          ));
+          $query->execute();
+        }
+      }
+    }
+  }
+
+  /**
    * Assert that a radio button is selected.
    *
    * @Then the radio button :arg1 is selected
@@ -228,10 +274,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I check the box on the :row_text row
    */
@@ -306,6 +352,29 @@ class MinkContext extends DrupalExtensionMinkContext {
       }
     }
     throw new \Exception(sprintf('Failed to find a row containing "%s" on the page %s', $search, $this->getSession()->getCurrentUrl()));
+  }
+
+  /**
+   * Compare the position from top between 2 divs by class.
+   *
+   * @param string $div1
+   *   Class of the first div.
+   * @param string $div2
+   *   Class of the second div.
+   *
+   * @throws \Exception
+   *    Throw exception if the two positions from top are different.
+   *
+   * @Then I check if :div1 and :div2 have the same position from top
+   */
+  public function checkIfTwoDivHaveSamePosition($div1, $div2) {
+    $javascript1 = "return jQuery('." . $div1 . "').offset().top;";
+    $result_div1 = intval($this->getSession()->evaluateScript($javascript1));
+
+    $javascript2 = "return jQuery('." . $div2 . "').offset().top;";
+    $result_div2 = intval($this->getSession()->evaluateScript($javascript2));
+
+    assert($result_div1, equals($result_div2));
   }
 
   /**

@@ -6,13 +6,13 @@
  */
 
 /**
- * Class nexteuropa_webtools_handler_field_selection.
+ * Class nexteuropa_token_ckeditor_bean_handler_field_selection.
  *
  * @see: nexteuropa_ckeditor_form_nexteuropa_webtools_settings_form_alter()
  *
  * @ingroup views_field_handlers
  */
-class nexteuropa_webtools_handler_field_selection extends views_handler_field {
+class nexteuropa_token_ckeditor_bean_handler_field_selection extends views_handler_field {
 
   /**
    * Views options definition.
@@ -67,11 +67,11 @@ class nexteuropa_webtools_handler_field_selection extends views_handler_field {
     $attributes['token-ckeditor-label'] = $entity_label;
     $output = array();
 
-    $attributes['token-ckeditor-token'] = "[bean:$entity_id:view-mode:default]";
+    $attributes['token-ckeditor-token'] = "[bean:" . $entity_id . ":view-mode:" . $values->bean_view_mode . "]";
     $attributes['token-ckeditor-type'] = 'default';
-    $output[] = l(t('Default'), '', array('attributes' => $attributes));
 
-    $output[] = t('Token:') . '<input type="text" onfocus="this.select()" class="token-ckeditor-input" value="[bean:' . $entity_id . ':view-mode:default]" />';
+    $output[] = l(drupal_ucfirst($values->bean_view_mode), '', array('attributes' => $attributes));
+    $output[] = '<input type="text" onfocus="this.select()" class="token-ckeditor-input" value="' . $attributes['token-ckeditor-token'] . '" />';
     return implode($output, ' - ');
   }
 
@@ -82,12 +82,13 @@ class nexteuropa_webtools_handler_field_selection extends views_handler_field {
    *    List of view modes machine names.
    */
   private function get_view_modes_options() {
-
     $view_modes = array();
     $info = entity_get_info($this->table);
+
     foreach ($info['view modes'] as $mode => $mode_info) {
       $view_modes[$mode] = $mode_info['label'];
     }
+
     return $view_modes;
   }
 
@@ -101,8 +102,8 @@ class nexteuropa_webtools_handler_field_selection extends views_handler_field {
    *    View mode options array.
    */
   private function get_view_mode_label($view_mode) {
-
     $view_modes = $this->get_view_modes_options();
+
     return $view_modes[$view_mode];
   }
 

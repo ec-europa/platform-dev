@@ -498,9 +498,9 @@ function _nexteuropa_editorial_ckeditor_lite_view_alter(&$build, $type) {
 
         // Add the ckeditor_lite.js in order to use "highlighting" css classes.
         $path = drupal_get_path('module', 'ckeditor_lite');
-        $build['#attached'] = array(
-          'css' => array('data' => $path . '/css/ckeditor_lite.css', 'type' => 'file'),
-        );
+        isset($build['#attached']) ?: $build['#attached'] = array();
+        isset($build['#attached']['css']) ?: $build['#attached']['css'] = array();
+        $build['#attached']['css'][] = array('data' => $path . '/css/ckeditor_lite.css', 'type' => 'file');
       }
     }
   }
@@ -554,17 +554,17 @@ function _nexteuropa_editorial_ckeditor_lite_entity_post_render($output, $elemen
       // Activate Highlighting - div with node-page class.
       '/( class="[^"]*node) (.+")/',
       // Tracked inserts - spans with "ice-ins" class.
-      '/( class="[^"]*ice-ins) (.+")/',
+      '/( class="[^"]*ice-ins )/',
       // Tracked deletes  spans with "ice-del" class.
-      '/( class="[^"]*ice-del) (.+")/',
+      '/( class="[^"]*ice-del )/',
     );
     $replacement = array(
       // Activate Highlighting - div with node-page class.
       '$1 ICE-Tracking $2',
       // Tracked inserts - spans with "ice-ins" class.
-      '$1 ckeditor-lite-ins $2',
+      '$1ckeditor-lite-ins ',
       // Tracked deletes  spans with "ice-del" class.
-      '$1 ckeditor-lite-del-inv $2',
+      '$1ckeditor-lite-del-inv ',
     );
     $output = preg_replace($pattern, $replacement, $output);
   }

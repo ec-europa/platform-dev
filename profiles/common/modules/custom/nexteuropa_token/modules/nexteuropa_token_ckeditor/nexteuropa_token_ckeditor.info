@@ -8,3 +8,4 @@ dependencies[] = nexteuropa_token
 dependencies[] = wysiwyg
 dependencies[] = views
 files[] = views/nexteuropa_token_ckeditor_handler_field_selection.inc
+files[] = views/nexteuropa_token_ckeditor_bean_handler_field_selection.inc

@@ -46,7 +46,14 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#required' => TRUE,
       '#default_value' => $settings['code'],
     );
-
+    $form['settings']['website_identifier'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Website identifier'),
+      '#maxlength' => 15,
+      '#required' => TRUE,
+      '#default_value' => $settings['website_identifier'],
+      '#description' => t('This value - which is mandatory - will be put in the title of translation requests, in order for DGT to identify which website the request came from.'),
+    );
     $organization = $translator->getSetting('organization');
     $form['organization'] = array(
       '#type' => 'fieldset',
@@ -305,9 +312,11 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     $form['delai'] = array(
       '#type' => 'date_popup',
       '#title' => t('Requested delivery date'),
-      '#default_value' => (!empty($job->settings['delai']) ? $job->settings['delai'] : date('Y-m-d', strtotime('+1 month'))),
+      '#default_value' => '',
       '#date_format' => 'd/m/Y',
-      '#date_year_range' => '-3:+3',
+      '#date_year_range' => '-0:+1',
+      '#required' => TRUE,
+      '#weight' => -10,
 
     );
 

@@ -20,6 +20,20 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * List of modules to enable.
+   *
+   * @var array
+   */
+  protected $modules = array();
+
+  /**
+   * List of feature sets to enable.
+   *
+   * @var array
+   */
+  protected $featureSets = array();
+
+  /**
    * Checks that a 403 Access Denied error occurred.
    *
    * @Then I should get an access denied error
@@ -30,6 +44,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * Checks that the given select field has the options listed in the table.
+   *
+   * Usage example:
+   *   Then I should have the following options for "edit-operation":
+   *     | options               |
+   *     | editorial team member |
    *
    * @Then I should have the following options for :select:
    */
@@ -66,6 +85,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * Checks that the given select field doesn't have the listed options.
+   *
+   * Usage example:
+   *   Then I should not have the following options for "edit-operation":
+   *     | options               |
+   *     | editorial team member |
    *
    * @Then I should not have the following options for :select:
    */
@@ -123,11 +147,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterScenario
    */
   public function cleanModule() {
-    if (isset($this->modules) && !empty($this->modules)) {
+    if (!empty($this->modules)) {
       // Disable and uninstall any modules that were enabled.
       module_disable($this->modules);
-      $res = drupal_uninstall_modules($this->modules);
-      unset($this->modules);
+      drupal_uninstall_modules($this->modules);
+      $this->modules = array();
     }
   }
 
@@ -198,9 +222,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     foreach ($featureset_table->getHash() as $row) {
       foreach ($featuresets as $featureset_available) {
         if ($featureset_available['title'] == $row['featureSet'] &&
-        feature_set_status($featureset_available) === FEATURE_SET_DISABLED) {
+          feature_set_status($featureset_available) === FEATURE_SET_DISABLED
+        ) {
           if (feature_set_enable_feature_set($featureset_available)) {
-            $this->features_set[] = $featureset_available;
+            $this->featureSets[] = $featureset_available;
             $rebuild = TRUE;
           }
           else {
@@ -228,15 +253,15 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterScenario
    */
   public function cleanFeatureSet() {
-    if (isset($this->features_set) && !empty($this->features_set)) {
+    if (!empty($this->featureSets)) {
       // Disable and uninstall any feature set that were enabled.
-      foreach ($this->features_set as $featureset) {
+      foreach ($this->featureSets as $featureset) {
         if (isset($featureset['disable'])) {
           $featureset['uninstall'] = $featureset['disable'];
           feature_set_disable_feature_set($featureset);
         }
       }
-      unset($this->features_set);
+      $this->featureSets = array();
     }
   }
 
@@ -466,6 +491,108 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
+  /**
+   * Make a user with the OG role in the group (create it if it doesn't exist).
+   *
+   * @Given I am a/an :roles user, member of entity :entity_name of type :entity_type as :group_role
+   */
+  public function iAmMemberOfEntityHavingRole($roles, $group_role, $entity_name, $entity_type) {
+    $admin = user_load(1);
+    // Create the user.
+    $account = (object) array(
+      'name' => $this->getRandom()->name(8),
+      'mail' => $this->getRandom()->name(8) . '@example.com',
+      'pass' => $this->getRandom()->name(16),
+      'role' => $roles,
+      'field_terms_and_conditions' => 'Terms and conditions have been accepted',
+    );
+    $this->userCreate($account);
+    $roles = array_map('trim', explode(',', $roles));
+    foreach ($roles as $role) {
+      if (!in_array($role, array('authenticated', 'authenticated user'))) {
+        $this->getDriver()->userAddRole($account, $role);
+      }
+    }
+    // Try to use an existing 'entity' node.
+    try {
+      $entity = $this->getNodeByTitle($entity_type, $entity_name);
+    }
+    catch (ExpectationException $e) {
+      $entity = FALSE;
+    }
+    // Create the group, if doesn't exist.
+    if (!$entity) {
+      $entity = $this->nodeCreate((object) array(
+        'status' => TRUE,
+        'uid' => 1,
+        'type' => $entity_type,
+        'title' => $entity_name,
+      ));
+    }
+    $this->addMembertoGroup($account, $group_role, $entity);
+    // Authenticate.
+    $this->login();
+  }
+
+  /**
+   * Adds a member to an organic group with the specified role.
+   *
+   * @param object $account
+   *   The user to be added in group.
+   * @param string $group_role
+   *   The machine name of the group role.
+   * @param object $group
+   *   The group node.
+   * @param string $group_type
+   *   (optional) The group's entity type.
+   *
+   * @throws \Exception
+   *    Print out descriptive error message by throwing an exception.
+   */
+  protected function addMembertoGroup($account, $group_role, $group, $group_type = 'node') {
+    list($gid, ,) = entity_extract_ids($group_type, $group);
+    $membership = og_group($group_type, $gid, array(
+      'entity type' => 'user',
+      'entity' => $account,
+    ));
+    if (!$membership) {
+      throw new \Exception("The Organic Group membership could not be created.");
+    }
+    // Add role for membership.
+    $roles = og_roles($group_type, $group->type, $gid);
+    $rid = array_search($group_role, $roles);
+    if (!$rid) {
+      throw new \Exception("'$group_role' is not a valid group role.");
+    }
+    og_role_grant($group_type, $gid, $account->uid, $rid);
+  }
+
+  /**
+   * Loads a node by its title.
+   *
+   * @param string $type
+   *   The node type.
+   * @param string $title
+   *   The node title.
+   *
+   * @return \stdClass
+   *   The node object.
+   *
+   * @throws ExpectationException
+   *   When no node is found.
+   */
+  protected function getNodeByTitle($type, $title) {
+    if (!($node = node_load_multiple(array(), array(
+      'type' => $type,
+      'title' => $title,
+    ), TRUE))
+    ) {
+      throw new ExpectationException("There's no '$type' node entitled '$title'.", $this->getSession());
+    }
+    $node = reset($node);
+    return $node;
+
+  }
 
   /**
    * Check if given field is translatable.
@@ -503,6 +630,55 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function iShouldNotSeeHighlightedElements() {
     // div.ICE-Tracking is the css definition that highlights page elements.
     $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
+  }
+
+  /**
+   * Assert that the given form element is disabled.
+   *
+   * @Then the :label checkbox should be disabled
+   * @Then the :label form element should be disabled
+   */
+  public function assertDisabledElement($label) {
+    if (!$this->assertSession()->fieldExists($label)->hasAttribute('disabled')) {
+      throw new ExpectationException("Form element '{$label}' is not disabled", $this->getDriver());
+    }
+  }
+
+  /**
+   * Reinitialize some Community environment settings.
+   *
+   * @AfterFeature @cleanCommunityEnvironment
+   */
+  public static function cleanCommunityEnvironment() {
+    // Delete 'community' node type.
+    _node_types_build(TRUE);
+    node_type_delete('community');
+    field_purge_batch(1);
+
+    // Delete community's variables.
+    $feature = features_load_feature('nexteuropa_communities');
+    if (isset($feature->info['features']['variable'])) {
+      foreach ($feature->info['features']['variable'] as $varname) {
+        variable_del($varname);
+      }
+    }
+
+    // Delete community's menu_links.
+    if (isset($feature->info['features']['menu_links'])) {
+      foreach ($feature->info['features']['menu_links'] as $menulinks) {
+        menu_link_delete(NULL, $menulinks);
+      }
+    }
+
+    // Delete community's menu_custom.
+    if (isset($feature->info['features']['menu_custom'])) {
+      foreach ($feature->info['features']['menu_custom'] as $menucustom) {
+        $menu = menu_load($menucustom);
+        menu_delete($menu);
+      }
+    }
+
+    drupal_flush_all_caches();
   }
 
 }

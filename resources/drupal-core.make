@@ -53,3 +53,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sa
 ; https://www.drupal.org/node/569362
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-64
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-doc-theme-attributes-d7-569362-53.patch
+
+; Fix empty label on validation error message for multiple required textfield.
+; https://www.drupal.org/node/980144#comment-9957753
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12553
+projects[drupal][patch][] = https://www.drupal.org/files/issues/d7-issues_with_required-980144-76.patch

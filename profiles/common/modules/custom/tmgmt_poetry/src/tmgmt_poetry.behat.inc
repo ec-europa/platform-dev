@@ -5,10 +5,12 @@
  * Contains \TmgmtPoetrySubContext.
  */
 
+use Behat\Mink\Exception\ExpectationException;
 use Drupal\DrupalDriverManager;
+use Drupal\DrupalExtension\Context\DrupalContext;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Drupal\DrupalExtension\Context\DrupalContext;
+use Drupal\nexteuropa\Context\VariableContext;
 
 /**
  * Behat step definitions for the TMGMT Poetry module.
@@ -72,6 +74,15 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
+   * Get the Current Node Id in the URL.
+   */
+  private function getCurrentNodeId() {
+    $url = $this->getSession()->getCurrentUrl();
+    preg_match_all('/node\/(\d*)/', $url, $matches);
+    return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
+  }
+
+  /**
    * Storing job id from URL.
    *
    * @Then /^I store job ID of translation request page$/
@@ -118,7 +129,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   /**
    * Stores the job reference of the translation request page.
    *
-   * @When /^I store the job reference of the translation request page$/
+   * @Then /^I store the job reference of the translation request page$/
    */
   public function iStoreJobReferenceOfTranslationRequestPage() {
     $node_id = $this->getCurrentNodeId();
@@ -196,15 +207,6 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   }
 
   /**
-   * Get the Current Node Id in the URL.
-   */
-  private function getCurrentNodeId() {
-    $url = $this->getSession()->getCurrentUrl();
-    preg_match_all('/node\/(\d*)/', $url, $matches);
-    return (isset($matches[1][0]) ? $matches[1][0] : FALSE);
-  }
-
-  /**
    * Find specific date in a table row containing given text.
    *
    * @Then I see the date of the last change in the ":rowText" row
@@ -212,7 +214,8 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   public function assertLastChangeDateInTableRow($row_text) {
     /** @var DrupalContext $drupal_context */
     $drupal_context = $this->getContext(DrupalContext::class);
-    $row = $drupal_context->getTableRow($this->getSession()->getPage(), $row_text);
+    $row = $drupal_context->getTableRow($this->getSession()
+      ->getPage(), $row_text);
     $date_regexp = "/\d{2}\/\d{2}\/\d{4} - \d{2}:\d{2}/";
 
     if (preg_match($date_regexp, $row->getText()) == FALSE) {
@@ -223,6 +226,21 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
         )
       );
     }
+  }
+
+  /**
+   * Generate a relative date for job deadline.
+   *
+   * @When I fill in :arg1 with a relative date of :arg2 days
+   */
+  public function iFillInWithArelativeDateOfDays($field, $number) {
+    // Checking if the given field is available.
+    if (!$this->getSession()->getPage()->findField($field)) {
+      throw new ExpectationException("Field '$field' not found.", $this->getSession());
+    }
+
+    $relative_date = date('d/m/Y', strtotime($number));
+    $this->getSession()->getPage()->fillField($field, $relative_date);
   }
 
   /**
@@ -248,6 +266,20 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     }
 
     return FALSE;
+  }
+
+  /**
+   * Prepares to clean up the website identifier setting.
+   *
+   * We don't need to do anything ourselves after the scenario finishes,
+   * VariableContext will reset to the original value for us.
+   *
+   * @BeforeScenario cleanup-tmgmt-poetry-website-identifier
+   */
+  public function prepareCleanupWebsiteIdentifier() {
+    /** @var VariableContext $variable_context */
+    $variable_context = $this->getContext(VariableContext::class);
+    $variable_context->setVariable('website_identifier', '');
   }
 
   /**
