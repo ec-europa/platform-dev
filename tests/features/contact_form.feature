@@ -22,8 +22,8 @@ Feature: Contact Form
       | Math question field is required. |
 
   @javascript
-  Scenario: Authenticated user can submit the contact page
-    Given I am logged in as a user with the authenticated role
+  Scenario: Administrator user can submit the contact page
+    Given I am logged in as a user with the administrator role
     And the module is enabled
       | modules      |
       | contact_form |
