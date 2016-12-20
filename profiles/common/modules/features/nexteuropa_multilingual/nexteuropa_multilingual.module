@@ -454,12 +454,12 @@ function _nexteuropa_multilingual_path_und_sync($path) {
   // - The menu_get_object function makes a access control and a redirection to
   // the home page if users do not have access permission.
   // (see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-416)
-  // - The logic is only applied to nodes that don't have
-  // a translation mechanism different from entity translation.
+  // - The logic is only applied to nodes that have "entity translation" as
+  // translation mechanism.
   $parsed_source = explode('/', $path['source']);
   if (($parsed_source[0] != 'node')
-    && !isset($parsed_source[1])
-    && !is_numeric($parsed_source[1])) {
+    || !isset($parsed_source[1])
+    || !is_numeric($parsed_source[1])) {
     return;
   }
   $nid = $parsed_source[1];
