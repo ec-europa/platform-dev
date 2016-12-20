@@ -37,7 +37,7 @@ Feature: Content editing as editor
       | <blockquote>Lorem ipsum dolor sit amet.</blockquote>                                                | <blockquote><p>Lorem ipsum dolor sit amet.</p></blockquote>                                         |
       | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   | <p>Lorem ipsum <code>dolor(sit);</code> amet.</p>                                                   |
       | <ul><li>Lorem ipsum</li><li>Dolor sit amet</li></ul>                                                | <ul><li>Lorem ipsum</li>                                                                            |
-      | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | <ol><li>Lorem ipsum</li>
+      | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | <ol><li>Lorem ipsum</li>                                                                            |
 
   @api
   Scenario: User can create an article but he cannot define its path alias, even during an update.

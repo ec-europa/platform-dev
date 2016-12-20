@@ -19,14 +19,18 @@ default:
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_port: {{ varnish.server.port }}
+        - Drupal\nexteuropa\Context\DatabaseLogContext
+        - Drupal\nexteuropa\Context\PathautoContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: '{{ behat.browser.name }}'
       selenium2:
-        wd_host: "http://localhost:8643/wd/hub"
+        browser: '{{ behat.browser.name }}'
+        wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
     Drupal\DrupalExtension:
@@ -54,6 +58,8 @@ default:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_scenarios
       active_image_drivers: upload_pie
@@ -80,8 +86,10 @@ communities:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
+      browser_name: '{{ behat.browser.name }}'
       selenium2:
-        wd_host: "http://localhost:8643/wd/hub"
+        browser: '{{ behat.browser.name }}'
+        wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
     Drupal\DrupalExtension:
       api_driver: 'drupal'
@@ -103,5 +111,7 @@ communities:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
   formatters:
     {{ behat.formatter.name }}: ~

@@ -104,7 +104,10 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewri
 ; https://www.drupal.org/node/2816399
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
-
+; Issue #2825701: allow PURGE requests.
+; https://www.drupal.org/node/2825701
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
@@ -240,6 +243,10 @@ projects[feature_set][version] = "1.3"
 projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
+; Issue #2831766: Feature set does not invoke hook_requirements().
+; https://www.drupal.org/node/2831766
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-79
+projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-2.patch
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta2"
@@ -624,6 +631,10 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
+; #2812863 : Insufficient access check on Views
+; https://www.drupal.org/node/2812863
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -747,6 +758,10 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/1408838
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
+; Node revision in shutdown function causes error in behat tests
+; https://www.drupal.org/node/2645622
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
 
 
 projects[workbench_og][subdir] = "contrib"
