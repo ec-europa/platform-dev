@@ -2,6 +2,8 @@ default:
   suites:
     default:
       contexts:
+        - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_port: {{ integration.server.port }}
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
@@ -18,8 +20,6 @@ default:
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_port: {{ varnish.server.port }}
-        - Drupal\nexteuropa\Context\IntegrationLayerContext:
-            mock_server_port: {{ integration.server.port }}
       filters:
         tags: "~@wip"
   extensions:
@@ -57,6 +57,8 @@ default:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
   formatters:
     {{ behat.formatter.name }}: ~
 
