@@ -171,4 +171,14 @@ remain and could cause bad content display.
 If you use a hook_update to disable it, please integrate in it a process that scans WYSIWYG fields to detect those kind of tags,
 and that implements appropriate actions (Disabling stop or Field value cleaning).
 
+### After disabling the feature
+
+After disabling the feature, you will notice that the "Full HTML + Change tracking" text format is still active but renamed
+"**Full HTML (Change tracking feature disabled)**".
+
+Doing so helps to:
+ - Avoid display problems because of the text format missing 
+ - Leave the time to choose how to deal with fields where 
+this text format was set.
+
 [Go to top](#table-of-content)
