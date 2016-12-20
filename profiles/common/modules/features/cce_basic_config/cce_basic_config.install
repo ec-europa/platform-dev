@@ -2153,7 +2153,6 @@ function cce_basic_config_update_7213() {
  * nexteuropa_editorial settings set here in the module to enable.
  */
 function cce_basic_config_update_7214(&$sandbox) {
-
   if (!isset($sandbox['progress'])) {
     $sandbox['progress'] = 0;
     $field_types = array(
@@ -2267,5 +2266,4 @@ function cce_basic_config_update_7214(&$sandbox) {
   }
 
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
-
 }

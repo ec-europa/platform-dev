@@ -178,7 +178,7 @@ function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
   );
   $info['netc_info']['properties']['rel_entity_bundle_name'] = array(
     'label' => t('Concerned entity bundle human name'),
-    'description' => t('bundle human name of entity related to the info'),
+    'description' => t('Bundle human name of entity related to the info'),
     'type' => 'text',
     'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
     'entity views field' => TRUE,
@@ -212,7 +212,7 @@ function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
   );
   $info['netc_info']['properties']['rel_entity_state_human_name'] = array(
     'label' => t('Concerned entity moderation state human name'),
-    'description' => t('moderation state human name of entity related to the info'),
+    'description' => t('Moderation state human name of entity related to the info'),
     'type' => 'text',
     'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
     'entity views field' => TRUE,
@@ -371,7 +371,7 @@ function nexteuropa_trackedchanges_get_rel_uri($data, array $options, $name, $ty
     $uri = entity_uri($data->rel_entity_type, $rel_entity);
   }
 
-  return $uri ? url($uri['path'], $uri['options'] + $options) : '';
+  return (empty($uri)) ?: url($uri['path'], $uri['options'] + $options);
 }
 
 /**
@@ -392,16 +392,16 @@ function nexteuropa_trackedchanges_get_rel_uri($data, array $options, $name, $ty
  */
 function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
   if (!$entity_type) {
-    throw new EntityMalformedException('No entity type are set for this entity, 
-     the "nexteuropa_trackedchanges_info" cannot be retrieved.');
+    throw new EntityMalformedException(t('No entity type are set for this entity, 
+     the "nexteuropa_trackedchanges_info" cannot be retrieved.'));
   }
 
   if (is_object($entity)) {
     list($entity_id, , $bundle) = entity_extract_ids($entity_type, $entity);
 
     if (!$entity_id) {
-      throw new EntityMalformedException('The entity has no id, the 
-        "nexteuropa_trackedchanges_info" cannot be retrieved.');
+      throw new EntityMalformedException(t('The entity has no id, the 
+        "nexteuropa_trackedchanges_info" cannot be retrieved.'));
     }
 
     $query = new EntityFieldQuery();
@@ -424,8 +424,8 @@ function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
 
   }
   else {
-    throw new EntityMalformedException('The entity passed in paramter is not 
-      an object, the "nexteuropa_trackedchanges_info" cannot be retrieved.');
+    throw new EntityMalformedException(t('The entity passed in paramter is not 
+      an object, the "nexteuropa_trackedchanges_info" cannot be retrieved.'));
   }
 
   return FALSE;
@@ -612,7 +612,7 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
   if ($context['profile']->editor == 'ckeditor') {
     // If ckeditor_lite_istracking is not set, the default value is 1.
     // For feature needs, the logic is inverted.
-    $settings['lite']['isTracking'] = variable_get('ckeditor_lite_istracking') ? TRUE : FALSE;
+    $settings['lite']['isTracking'] = (bool) variable_get('ckeditor_lite_istracking', FALSE);
   }
 
   if ($state == 'create') {
@@ -653,7 +653,6 @@ function nexteuropa_trackedchanges_entity_delete($entity, $type) {
 
     entity_delete('netc_info', $info_id);
   }
-
 }
 
 /**
