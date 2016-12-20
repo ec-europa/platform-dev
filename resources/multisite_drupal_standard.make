@@ -471,7 +471,7 @@ projects[menu_token][download][branch] = 7.x-1.x
 projects[menu_token][download][revision] = 27ab9f244d7813803cfa662d05ffc1747d758956
 projects[menu_token][download][type] = git
 projects[menu_token][subdir] = "contrib"
-projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033.patch
+projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_0.patch
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
