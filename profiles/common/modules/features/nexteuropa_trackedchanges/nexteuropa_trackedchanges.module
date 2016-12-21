@@ -1,0 +1,746 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Tracked Changes feature.
+ */
+
+include_once 'nexteuropa_trackedchanges.features.inc';
+include_once 'nexteuropa_trackedchanges.admin.inc';
+include_once 'nexteuropa_trackedchanges.helper.inc';
+
+define('NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME', 'full_html_track');
+define('NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME', 'Full HTML + Change tracking');
+define('NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE', 'none');
+
+/**
+ * Implements hook_menu().
+ */
+function nexteuropa_trackedchanges_menu() {
+  $items['admin/config/content/wysiwyg/tracked_changes'] = [
+    'title' => 'WYSIWYG tracked changes',
+    'description' => 'Setup pages for "WYSIWYG tracked changes" feature',
+    'position' => 'right',
+    'weight' => -5,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer ckeditor_lite'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  ];
+
+  $items['admin/config/content/wysiwyg/tracked_changes/setup'] = array(
+    'title' => 'Tracked changes buttons settings',
+    'description' => 'Setup page for "WYSIWYG tracked changes" related buttons',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_trackedchanges_settings_form'),
+    'access arguments' => array('administer ckeditor_lite'),
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+    'weight' => 0,
+  );
+
+  $items['admin/config/content/wysiwyg/tracked_changes/%/enable'] = array(
+    'title' => 'Enable tracked changes for profile',
+    'page callback' => '_nexteuropa_trackedchanges_wysiwyg_tracking_settings_enable',
+    'page arguments' => array(5),
+    'access arguments' => array('administer ckeditor_lite'),
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+  );
+
+  $items['admin/config/content/wysiwyg/tracked_changes/%/disable'] = array(
+    'title' => 'Enable tracked changes for profile',
+    'page callback' => '_nexteuropa_trackedchanges_wysiwyg_tracking_settings_disable',
+    'page arguments' => array(5),
+    'access arguments' => array('administer ckeditor_lite'),
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+  );
+
+  $items['admin/config/content/wysiwyg/tracked_changes/workbench'] = array(
+    'title' => 'Tracked changes workflow settings',
+    'description' => 'Setup page for the workflow controls on "WYSIWYG tracked changes" related buttons',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_trackedchanges_wysiwyg_tracking_settings_form'),
+    'access arguments' => array('administer ckeditor_lite'),
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+    'weight' => 1,
+  );
+
+  $items['admin/config/content/wysiwyg/tracked_changes/table_status'] = array(
+    'title' => 'Tracked changes logs status',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_trackedchanges_rebuild_status'),
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+    'weight' => 10,
+  );
+
+  $items['admin/content/tracked_changes'] = array(
+    'title' => 'Content tracked changes',
+    'page callback' => 'nexteuropa_trackedchanges_workbench',
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+    'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
+    'weight' => 10,
+  );
+
+  $items['admin/config/content/wysiwyg/tracked_changes/table_status/init'] = array(
+    'title' => 'Content tracked changes: Table init',
+    'page callback' => 'nexteuropa_trackedchanges_table_init',
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
+    'file' => 'nexteuropa_trackedchanges.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function nexteuropa_trackedchanges_entity_info() {
+  $info = array();
+
+  $info['netc_info'] = array(
+    'label' => 'Tracked changes info',
+    'entity class' => 'Drupal\nexteuropa_trackedchanges\Entity\NETCInfo',
+    'controller class' => 'Drupal\nexteuropa_trackedchanges\NETCInfoController',
+    'views controller class' => 'EntityDefaultViewsController',
+    'base table' => 'netc_info',
+    'uri callback' => 'entity_class_uri',
+    'label callback' => 'entity_class_label',
+    'access callback' => 'nexteuropa_trackedchanges_info_access',
+    'fieldable' => TRUE,
+    'entity keys' => array(
+      'id' => 'info_id',
+    ),
+    'bundle keys' => array(
+      'bundle',
+    ),
+    'module' => 'nexteuropa_trackedchanges',
+    'view modes' => array(
+      'full' => array(
+        'label' => t('Full content'),
+        'custom settings' => FALSE,
+      ),
+      'list-item' => array(
+        'label' => t('List item'),
+        'custom settings' => FALSE,
+      ),
+    ),
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function nexteuropa_trackedchanges_entity_property_info_alter(&$info) {
+  $info['netc_info']['properties']['info_id'] = array(
+    'label' => t('Info id'),
+    'description' => t('Id of nexteuropa_trackedchanges_info entity'),
+    'type' => 'integer',
+    'schema field' => 'info_id',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_type'] = array(
+    'label' => t('Concerned entity type'),
+    'description' => t('Type of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_type',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_type_name'] = array(
+    'label' => t('Concerned entity type human name'),
+    'description' => t('Type human name of entity related to the info'),
+    'type' => 'text',
+    'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_id'] = array(
+    'label' => t('Concerned entity id'),
+    'description' => t('Id of entity related to the info'),
+    'type' => 'integer',
+    'schema field' => 'rel_entity_id',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_bundle'] = array(
+    'label' => t('Concerned entity bundle'),
+    'description' => t('Bundle of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_bundle',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_bundle_name'] = array(
+    'label' => t('Concerned entity bundle human name'),
+    'description' => t('Bundle human name of entity related to the info'),
+    'type' => 'text',
+    'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_uri'] = array(
+    'label' => t('Concerned entity URI'),
+    'description' => t('URI of entity related to the info'),
+    'type' => 'uri',
+    'getter callback' => 'nexteuropa_trackedchanges_get_rel_uri',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_label'] = array(
+    'label' => t('Concerned entity label'),
+    'description' => t('Label of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_label',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_state'] = array(
+    'label' => t('Concerned entity moderation state'),
+    'description' => t('Moderation state of entity related to the info'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_state',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_state_human_name'] = array(
+    'label' => t('Concerned entity moderation state human name'),
+    'description' => t('Moderation state human name of entity related to the info'),
+    'type' => 'text',
+    'getter callback' => 'nexteuropa_trackedchanges_get_human_name',
+    'entity views field' => TRUE,
+    'computed' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_language'] = array(
+    'label' => t('Concerned entity language'),
+    'description' => t('Concerned entity language where tracked changes have been detected.'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_language',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['rel_entity_path'] = array(
+    'label' => t('Concerned entity path'),
+    'description' => t('Concerned entity path where tracked changes have been detected.'),
+    'type' => 'text',
+    'schema field' => 'rel_entity_path',
+    'getter callback' => 'entity_property_verbatim_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+  $info['netc_info']['properties']['scanned'] = array(
+    'label' => t('Scanning date of the info'),
+    'description' => t('Timestamp of the date when the info entity has been created.'),
+    'type' => 'date',
+    'schema field' => 'scanned',
+    'getter callback' => 'entity_property_verbatim_date_get',
+    'setter callback' => 'entity_property_verbatim_set',
+    'entity views field' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_views_api().
+ *
+ * @see nexteuropa_trackedchanges_views_default_views()
+ */
+function nexteuropa_trackedchanges_views_api() {
+  return array(
+    'api' => 3.0,
+    'path' => drupal_get_path('module', 'nexteuropa_trackedchanges') . '/views',
+  );
+}
+/**
+ * Implements hook_views_pre_render().
+ *
+ * @see nexteuropa_trackedchanges_views_default_views()
+ */
+function nexteuropa_trackedchanges_views_pre_render(&$view) {
+  // Alter the display of the language list shown with each row on the
+  // "Content tracked changes" page.
+  $implied_display = array(
+    'default',
+    'page',
+  );
+  if (($view->name == 'content_tracked_changes') && in_array($view->current_display, $implied_display)) {
+    $results = $view->result;
+
+    if ($results) {
+      $language_list = language_list();
+      foreach ($results as $key => $result) {
+        $entity_path = '';
+        $entity_moderation_state = '';
+        if (isset($result->_field_data)) {
+          $nect_info_entity = $result->_field_data['info_id']['entity'];
+          $nect_info_entity_type = $result->_field_data['info_id']['entity_type'];
+          $wrapper = entity_metadata_wrapper($nect_info_entity_type, $nect_info_entity);
+          $entity_path = $wrapper->rel_entity_path->value();
+          $entity_moderation_state = $wrapper->rel_entity_state->value();
+        }
+
+        if ($entity_path) {
+          $languages_field = $result->field_field_netc_info_languages;
+          if ($languages_field) {
+            foreach ($languages_field as $key2 => $lang_value) {
+              $raw = $lang_value['raw']['value'];
+
+              $is_moderated = FALSE;
+              if (module_exists('workbench_moderation')) {
+                $is_moderated = (user_access('view all unpublished content') &&
+                  ($entity_moderation_state != NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE));
+              }
+              $link_options = array();
+              if ($raw != LANGUAGE_NONE) {
+                $link_options += array(
+                  'language' => $language_list[$raw],
+                );
+              }
+              if ($is_moderated) {
+                // Workbench moderation case, we redirect directly to the
+                // current revision view.
+                $entity_path .= '/current-revision';
+                $link = l($raw, $entity_path, $link_options);
+              }
+              else {
+                $link = l($raw, $entity_path, $link_options);
+              }
+              $lang_value['rendered']['#markup'] = $link;
+              $result->field_field_netc_info_languages[$key2] = $lang_value;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Callback for getting netc_info related entity info human name.
+ *
+ * It supports Entity type, Bundle and Moderation state on netc_info data.
+ *
+ * @see nexteuropa_trackedchanges_entity_property_info_alter()
+ * @see hook_entity_property_info()
+ */
+function nexteuropa_trackedchanges_get_human_name($data, array $options, $name, $type, $info) {
+  $human_name = $name;
+  switch ($name) {
+    case 'rel_entity_state_human_name':
+      $human_name = t('N/A');
+      if (module_exists('workbench_moderation')) {
+        $state = $data->rel_entity_state;
+        $human_name = workbench_moderation_state_label($state);
+      }
+      break;
+
+    case 'rel_entity_bundle_name':
+      $type_info = entity_get_info($data->rel_entity_type);
+      $bundle = $data->rel_entity_bundle;
+      $bundle_info = $type_info['bundles'][$bundle];
+      $human_name = (isset($bundle_info['label'])) ? $bundle_info['label'] : $bundle;
+      break;
+
+    case 'rel_entity_type_name':
+      $type_info = entity_get_info($data->rel_entity_type);
+      $human_name = $type_info['label'];
+      break;
+  }
+
+  return $human_name;
+}
+
+/**
+ * Callback for getting netc_info related entity URL.
+ *
+ * @see nexteuropa_trackedchanges_entity_property_info_alter()
+ * @see hook_entity_property_info()
+ */
+function nexteuropa_trackedchanges_get_rel_uri($data, array $options, $name, $type, $info) {
+  $rel_entities = entity_load($data->rel_entity_type, array($data->rel_entity_id));
+  $uri = '';
+  if ($rel_entities) {
+    $rel_entity = reset($rel_entities);
+    $uri = entity_uri($data->rel_entity_type, $rel_entity);
+  }
+
+  return (empty($uri)) ?: url($uri['path'], $uri['options'] + $options);
+}
+
+/**
+ * Get the 'nexteuropa_trackedchanges_info' entities related to an entity.
+ *
+ * @param string $entity_type
+ *   The type of the related entity.
+ * @param object $entity
+ *   The related entity.
+ *
+ * @return bool|array
+ *   An array of netc_info objects indexed by their ids.
+ *   When no results are found, FALSE is returned.
+ *
+ * @throws EntityMalformedException
+ *   The exception is thrown if $entity is malformed or if $entity_type
+ *   is empty.
+ */
+function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
+  if (!$entity_type) {
+    throw new EntityMalformedException(t('No entity type are set for this entity, 
+     the "nexteuropa_trackedchanges_info" cannot be retrieved.'));
+  }
+
+  if (is_object($entity)) {
+    list($entity_id, , $bundle) = entity_extract_ids($entity_type, $entity);
+
+    if (!$entity_id) {
+      throw new EntityMalformedException(t('The entity has no id, the 
+        "nexteuropa_trackedchanges_info" cannot be retrieved.'));
+    }
+
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'netc_info');
+    $query->propertyCondition('rel_entity_id', $entity_id);
+    if ($bundle) {
+      $query->propertyCondition('rel_entity_bundle', $bundle);
+    }
+    $query->propertyCondition('rel_entity_type', $entity_type);
+    $results = $query->execute();
+
+    if (isset($results['netc_info'])) {
+      $info_ids = array_keys($results['netc_info']);
+      $info_entities = entity_load('netc_info', $info_ids);
+
+      if ($info_entities) {
+        return $info_entities;
+      }
+    }
+
+  }
+  else {
+    throw new EntityMalformedException(t('The entity passed in paramter is not 
+      an object, the "nexteuropa_trackedchanges_info" cannot be retrieved.'));
+  }
+
+  return FALSE;
+}
+
+/**
+ * Access callback.
+ *
+ * It determines if users can access the list of entities
+ * with tracking changes.
+ *
+ * @return bool
+ *    It returns true if the user has the following permissions:
+ *    - ckeditor_lite highlight changes (CKEditor LITE)
+ *    - administer nodes (Node)
+ */
+function nexteuropa_trackedchanges_info_access() {
+  return (user_access('ckeditor_lite highlight changes') && user_access('administer nodes'));
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects validate callback in charge of controlling that a content can be
+ * safe with a new moderation state.
+ *
+ * @see workbench_moderation_moderate_form()
+ */
+function nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter(&$form, &$form_state, $form_id) {
+  // If $form['node'] is not set or empty that means the form is not accessible
+  // by the user and then, it is useless to inject the callback in the
+  // form process.
+  if (!empty($form['node'])) {
+    $entity = $form['node']['#value'];
+    $tracking_settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
+    if ($tracking_settings['is_activate']) {
+      $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_wbm_validate';
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects callbacks allowing controlling the feature disabling.
+ */
+function nexteuropa_trackedchanges_form_system_modules_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = '_nexteuropa_trackedchanges_system_disable_check_validate';
+  $form['#submit'][] = '_nexteuropa_trackedchanges_system_disable_check_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects callbacks callback allowing controlling the feature set disabling.
+ */
+function nexteuropa_trackedchanges_form_feature_set_admin_form_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = '_nexteuropa_trackedchanges_disable_check_validate';
+  $form['#submit'][] = '_nexteuropa_trackedchanges_disable_check_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * It injects callbacks allowing controlling the feature disabling.
+ */
+function nexteuropa_trackedchanges_form_features_admin_form_alter(&$form, &$form_state, $form_id) {
+  $form['buttons']['submit']['#validate'][] = '_nexteuropa_trackedchanges_feature_disable_check_validate';
+  $form['buttons']['submit']['#submit'][] = '_nexteuropa_trackedchanges_feature_disable_check_submit';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * It blocks the access to settings related to CKEditor LITE buttons and
+ * displays a warning message about this.
+ */
+function nexteuropa_trackedchanges_form_wysiwyg_profile_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['buttons']['lite'])) {
+    $form['buttons']['lite']['#access'] = FALSE;
+
+    if (user_access('administer ckeditor_lite')) {
+      $message_link = l(t('"Tracked changes buttons settings"'),
+        'admin/config/content/wysiwyg/tracked_changes/setup');
+      $message = t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form, 
+        but from the !link page', array('!link' => $message_link));
+    }
+    else {
+      $message = t('Buttons related to tracking changes (CKEditor LITE) cannot managed through this form. 
+        Please contact the administrator.');
+    }
+    drupal_set_message($message, 'warning');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Put in place the mechanism bypassing the disabling process of Feature set
+ * module to replace it by specific one starting with a tracked changes scan.
+ */
+function nexteuropa_trackedchanges_form_feature_set_disable_url_alter(&$form, &$form_state, $form_id) {
+  if ($form['featureset']['#value'] == 'nexteuropa_trackedchanges') {
+    $form['nexteuropa_trackedchanges_disabling'] = array(
+      '#type' => 'value',
+      '#value' => TRUE,
+    );
+    $feature_set_submit_key = array_search('feature_set_disable_url_submit', $form['#submit']);
+    $form['#submit'][$feature_set_submit_key] = '_nexteuropa_trackedchanges_disable_check_submit';
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area" widget.
+ */
+function nexteuropa_trackedchanges_field_widget_text_textarea_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_trackedchanges_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area with a summary" widget.
+ */
+function nexteuropa_trackedchanges_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_trackedchanges_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text field" widget.
+ */
+function nexteuropa_trackedchanges_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
+  _nexteuropa_trackedchanges_field_widget_tracking_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_attach_form().
+ */
+function nexteuropa_trackedchanges_field_attach_form($entity_type, $entity, &$form, &$form_state, $langcode) {
+  // Only node entities are supported.
+  $tracking_settings = _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity);
+  if (($entity_type == 'node') && $tracking_settings['is_activate']) {
+    if (!isset($form['language'])) {
+      // The form item containing the entity can change from an entity to
+      // another. Then we set it like that to easy future treatment.
+      $form['language'] = array(
+        '#type' => 'value',
+        '#value' => $langcode,
+      );
+    }
+    $form['#validate'][] = '_nexteuropa_trackedchanges_tracking_entity_validate';
+    $form['actions']['submit']['#submit'][] = '_nexteuropa_trackedchanges_tracking_entity_log';
+  }
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function nexteuropa_trackedchanges_entity_view_alter(&$build, $type) {
+  _nexteuropa_trackedchanges_ckeditor_lite_view_alter($build, $type);
+}
+
+/**
+ * Implements hook_tmgmt_dgt_html_filter_formats_containing_html().
+ */
+function nexteuropa_trackedchanges_tmgmt_dgt_html_filter_formats_containing_html() {
+  return array(
+    'full_html_track',
+  );
+}
+
+/**
+ * Implements hook_wysiwyg_editor_settings_alter().
+ *
+ * Alter the display and the status (active/inactive) of CKEditor LITE buttons.
+ */
+function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $context) {
+  $state = multisite_wysiwyg_set_current_entity_object_state();
+
+  if ($context['profile']->editor == 'ckeditor') {
+    // If ckeditor_lite_istracking is not set, the default value is 1.
+    // For feature needs, the logic is inverted.
+    $settings['lite']['isTracking'] = (bool) variable_get('ckeditor_lite_istracking', FALSE);
+  }
+
+  if ($state == 'create') {
+    $is_btn_disabled = variable_get('nexteuropa_trackedchanges_disable_track_on_create');
+    if ($is_btn_disabled) {
+      // Turn CKEditor Lite tracking off by default.
+      $extra_plugins = explode(',', $settings['extraPlugins']);
+      foreach ($extra_plugins as $key => $plugin) {
+        if ($plugin == 'lite') {
+          unset($extra_plugins[$key]);
+        }
+      }
+      $settings['extraPlugins'] = implode(',', $extra_plugins);
+    }
+  }
+  elseif ($state == 'edit') {
+    // Force the enabling of CKEditor Lite change tracking on edit
+    // entity pages.
+    $force_btn_enabled = variable_get('nexteuropa_trackedchanges_force_track_on_edit');
+    if ($force_btn_enabled) {
+      $settings['lite']['isTracking'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * It allows deleting the netc_info object attached to the entity
+ * if it exists.
+ */
+function nexteuropa_trackedchanges_entity_delete($entity, $type) {
+  $netc_infos = nexteuropa_trackedchanges_info_load_by_entity($type, $entity);
+
+  if ($netc_infos) {
+    $netc_info = reset($netc_infos);
+    list($info_id) = entity_extract_ids('netc_info', $netc_info);
+
+    entity_delete('netc_info', $info_id);
+  }
+}
+
+/**
+ * Implements hook_entity_translation_delete().
+ */
+function nexteuropa_trackedchanges_entity_translation_delete($entity_type, $entity, $langcode) {
+  $netc_infos = nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity);
+
+  if ($netc_infos) {
+    $netc_info = reset($netc_infos);
+    $wrapper = entity_metadata_wrapper('netc_info', $netc_info);
+    $persisted_values = $wrapper->field_netc_info_languages->value();
+    if ($key = array_search($langcode, $persisted_values)) {
+      unset($persisted_values[$key]);
+      $wrapper->field_netc_info_languages->set($persisted_values);
+
+      $wrapper->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_cron().
+ */
+function nexteuropa_trackedchanges_cron() {
+  // When required, scan non-node entities after tracked changes.
+  // It is difficult to cover all entities view their edit form.
+  // Doing like that, it is the best way to avoid missing entities in the scan.
+  $is_to_rebuild = _nexteuropa_trackedchanges_table_rebuild();
+  if ($is_to_rebuild) {
+    $fields_to_scan = _nexteuropa_trackedchanges_wysiwyg_fields_info();
+
+    if ($fields_to_scan) {
+      foreach ($fields_to_scan as $field_to_scan) {
+        $query = db_select('field_data_' . $field_to_scan, 'fd');
+        $query->condition('fd.entity_type', 'node', '<>')
+          ->where('fd.' . $field_to_scan . '_value REGEXP \'<span[^>]+class="[^"]*ice-[^>]+>\'');
+        $query->fields('fd', array(
+          'entity_type',
+          'bundle',
+          'entity_id',
+          'language',
+        ));
+        $query->distinct();
+        $entity_scans = $query->execute()->fetchAll();
+        if ($entity_scans) {
+          if (!isset($queue)) {
+            watchdog('nexteuropa_trackedchanges cron', 'Tracked change detected in non-node entities, logging started.', array(), WATCHDOG_INFO);
+            $queue = DrupalQueue::get('netc_scan_queue');
+          }
+
+          foreach ($entity_scans as $entity_scan) {
+            $info = array(
+              'rel_entity_type' => $entity_scan->entity_type,
+              'rel_entity_bundle' => $entity_scan->bundle,
+              'rel_entity_id' => $entity_scan->entity_id,
+              'rel_entity_state' => NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE,
+              'rel_entity_language' => $entity_scan->language,
+            );
+
+            $queue->createItem($info);
+          }
+        }
+      }
+      if (isset($queue)) {
+        variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
+        // Add an empty item to indicate it is the rebuild is done.
+        $info = array();
+        $queue->createItem($info);
+      }
+      else {
+        watchdog('nexteuropa_trackedchanges cron', 'No queue created. Scanning stops.', array(), WATCHDOG_INFO);
+      }
+    }
+    else {
+      watchdog('nexteuropa_trackedchanges cron', 'No tracked change detected in non-node entities.', array(), WATCHDOG_INFO);
+    }
+  }
+}
+
+/**
+ * Implements hook_cron_queue_info().
+ */
+function nexteuropa_trackedchanges_cron_queue_info() {
+  $queues = array();
+  $queues['netc_scan_queue'] = array(
+    'worker callback' => '_nexteuropa_trackedchanges_info_save',
+    'time' => 60,
+  );
+  return $queues;
+}
