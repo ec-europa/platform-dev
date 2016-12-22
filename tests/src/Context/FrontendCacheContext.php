@@ -134,52 +134,20 @@ class FrontendCacheContext implements Context {
    * @Given :arg1 is configured as the purge application tag
    */
   public function valueIsConfiguredAsThePurgeApplicationTag($arg1) {
-    $this->variables->setVariable('fp_tag_for_cache_page', $arg1);
+    $this->variables->setVariable('nexteuropa_varnish_tag', $arg1);
 
     $server = $this->getServer();
 
     // Do not let poor man's cron interfere with our test.
     $this->variables->setVariable('cron_safe_threshold', 0);
 
-    $this->variables->setVariable('page_cache_invoke_hooks', TRUE);
-    $this->variables->setVariable('cache', TRUE);
-    $this->variables->setVariable('cache_lifetime', FALSE);
-    $this->variables->setVariable('page_cache_without_database', FALSE);
-    $cache_handler_file = drupal_get_path('module', 'flexible_purge') . '/flexible_purge.cache.inc';
-    // $cache_backends = variable_get('cache_backends', array());
-    // $cache_backends[] = $cache_handler_file;
-    // $this->variables->setVariable('cache_backends', $cache_backends);
-    // Workaround for cache handler class not getting loaded properly by the
-    // 3 lines above.
-    require_once 'includes/registry.inc';
-    _registry_parse_files([$cache_handler_file => ['module' => 'flexible_purge', 'weight' => 0]]);
-    $this->variables->setVariable('cache_class_cache_page', 'FlexiblePurgeCache');
-    $this->variables->setVariable('fp_keep_caching_for_cache_page', 'DrupalDatabaseCache');
-    $this->variables->setVariable('fp_http_targets_for_cache_page', array($server->getConnectionString()));
-
-    // Act as if the flexible purge page cache just got cleared.
-    $this->variables->setVariable('fp_latest_clear_for_cache_page', time());
-
-    // Set minimum cache lifetime to something high enough so a full
-    // cache clear does not get triggered during 1 scenario. Currently 10
-    // minutes.
-    $this->variables->setVariable('fp_min_cache_lifetime_for_cache_page', 60 * 10);
-
     // The builtin webserver of PHP which is used by our HTTP mock server, does
     // not support the PURGE method which flexible_purge uses by default.
     // Configure it to use POST instead.
-    $this->variables->setVariable(
-      'fp_http_request_for_cache_page', array(
-        'method' => 'POST',
-        'path' => '/invalidate',
-        'headers' => array(
-          'X-Invalidate-Tag' => '@{tag}',
-          'X-Invalidate-Host' => '@{host}',
-          'X-Invalidate-Base-Path' => '@{base_path}',
-          'X-Invalidate-Type' => '@{clear_type}',
-          'X-Invalidate-Regexp' => '@{path_regexp}',
-        ),
-      )
+    $this->variables->setVariable('nexteuropa_varnish_request_method', 'POST');
+
+    $this->variables->setVariable('nexteuropa_varnish_http_targets',
+      array('http://' . $server->getConnectionString())
     );
   }
 
@@ -431,6 +399,57 @@ class FrontendCacheContext implements Context {
       $rows
     );
     return $paths;
+  }
+
+  /**
+   * Configures basic authentication.
+   *
+   * @When nexteuropa_varnish is configured to authenticate with user :arg1 and password :arg2
+   */
+  public function nexteuropaVarnishIsConfiguredToAuthenticateWithUserAndPassword($arg1, $arg2) {
+    $this->variables->setVariable('nexteuropa_varnish_request_user', $arg1);
+    $this->variables->setVariable('nexteuropa_varnish_request_password', $arg2);
+  }
+
+  /**
+   * Assert that the last request was authenticated.
+   *
+   * @Then the web front end cache received a request authenticated with user :arg1 and password :arg2
+   */
+  public function theWebFrontEndCacheReceivedRequestAuthenticatedWithUserAndPassword($arg1, $arg2) {
+    $requests = $this->getRequests();
+    $purge_request = $requests->last();
+
+    $authorization = $purge_request->getHeader('Authorization')->toArray();
+    $authorization = reset($authorization);
+
+    assert($authorization, matches('@Basic [ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=]+@'));
+
+    $base64_user_password = substr($authorization, 5);
+    $decoded_user_password = base64_decode($base64_user_password);
+
+    assert($decoded_user_password, equals("{$arg1}:{$arg2}"));
+  }
+
+  /**
+   * Set up the mock front end cache to refuse the HTTP authentication.
+   *
+   * The mock will return a 401 Unauthorized response.
+   *
+   * @When the web front end cache will refuse the authentication credentials
+   */
+  public function theWebFrontEndCacheWillRefuseTheAuthenticationCredentials() {
+    $server = $this->getServer();
+
+    $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
+    $mock
+      ->when()
+      ->methodIs('POST')
+      ->pathIs('/invalidate')
+      ->then()
+      ->statusCode(401);
+
+    $server->setUp($mock->flushExpectations());
   }
 
 }

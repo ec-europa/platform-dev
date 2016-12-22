@@ -459,3 +459,44 @@ Feature:
       | Path          |
       | /content/frontend-cache-purge-withdraw-editorial-team_en |
 
+  Scenario: Use basic authentication.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge      |
+      | page         | /more-basic-pages   |
+    When nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I fill in "Moderation notes" with "Immediately publishing this"
+    And I press "Save"
+    Then the web front end cache received a request authenticated with user "usr" and password "pass"
+
+  Scenario: Authentication failures are logged.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge    |
+      | page         | /more-basic-pages |
+    When nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
+    And the web front end cache will refuse the authentication credentials
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I fill in "Moderation notes" with "Immediately publishing this"
+    And I press "Save"
+    Then an error is logged with type "nexteuropa_varnish" and a message matching "Clear operation failed for target http://localhost:[0-9]*: 401 Unauthorized"
+
+  Scenario: Paths to purge are logged.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge         |
+      | page         | /more-basic-pages, /   |
+      | page         | /even-more-basic-pages |
+    When nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
+    And the web front end cache will refuse the authentication credentials
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I fill in "Moderation notes" with "Immediately publishing this"
+    And I press "Save"
+    Then an informational message is logged with type "nexteuropa_varnish" and a message matching "Clearing paths: /more-basic-pages, /, /even-more-basic-pages"

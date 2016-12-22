@@ -11,7 +11,6 @@ Feature: Text formats configuration
   Scenario: Text formats should be available
     When I go to "admin/config/content/formats"
     Then I should see "Full HTML"
-    And I should see "Full HTML + Change tracking"
     And I should see "Filtered HTML"
     And I should see "Basic HTML"
     And I should see "Plain text"

@@ -60,9 +60,6 @@ function nexteuropa_core_install() {
 
     // Version Management.
     'version management edits',
-
-    // ckeditor_lite highlight changes.
-    'ckeditor_lite highlight changes',
   );
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 

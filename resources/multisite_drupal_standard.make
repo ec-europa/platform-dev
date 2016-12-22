@@ -104,7 +104,10 @@ projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewri
 ; https://www.drupal.org/node/2816399
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
-
+; Issue #2825701: allow PURGE requests.
+; https://www.drupal.org/node/2825701
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
@@ -240,6 +243,10 @@ projects[feature_set][version] = "1.3"
 projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
+; Issue #2831766: Feature set does not invoke hook_requirements().
+; https://www.drupal.org/node/2831766
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-79
+projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-2.patch
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta2"
@@ -462,9 +469,11 @@ projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
 projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
+projects[menu_token][download][branch] = 7.x-1.x
+projects[menu_token][download][revision] = 27ab9f244d7813803cfa662d05ffc1747d758956
+projects[menu_token][download][type] = git
 projects[menu_token][subdir] = "contrib"
-projects[menu_token][version] = "1.0-beta5"
-projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch
+projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.patch
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"

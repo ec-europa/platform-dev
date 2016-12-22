@@ -4,10 +4,11 @@ default:
       contexts:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
-        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MarkupContext
       filters:
         tags: "~@communities&&~@wip&&~@i18n&&~@api"
   extensions:
