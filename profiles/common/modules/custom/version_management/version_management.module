@@ -104,10 +104,8 @@ function version_management_form_build() {
  * Version_management additional handler for workbench_moderation forms.
  */
 function version_management_handler_submit($form, &$form_state) {
-  if (!empty($form_state['values']['minor_version'])) {
-    $form_state['values']['node']->minor_version = 1;
-    node_save($form_state['values']['node']);
-  }
+  $form_state['values']['node']->minor_version
+    = empty($form_state['values']['minor_version']) ? 0 : 1;
 }
 
 /**
