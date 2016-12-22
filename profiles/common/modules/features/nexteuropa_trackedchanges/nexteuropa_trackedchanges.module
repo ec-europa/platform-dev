@@ -635,6 +635,10 @@ function nexteuropa_trackedchanges_wysiwyg_editor_settings_alter(&$settings, $co
     if ($force_btn_enabled) {
       $settings['lite']['isTracking'] = TRUE;
     }
+    else {
+      $module_path = drupal_get_path('module', 'nexteuropa_trackedchanges');
+      drupal_add_js($module_path . '/js/nexteuropa_trackedchanges.js', 'file');
+    }
   }
 }
 
