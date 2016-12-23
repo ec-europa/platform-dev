@@ -41,10 +41,10 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     );
 
     $all_settings = array();
-    $poetry_credentials_settings = variable_get('poetry_service');
+    $poetry_hard_settings = variable_get('poetry_service');
 
-    // If no credentials set in settings.php don't check further.
-    if (empty($poetry_settings)) {
+    // If the configuration in the settings.php is missing don't check further.
+    if (empty($poetry_hard_settings)) {
       return FALSE;
     }
 
@@ -52,21 +52,24 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     foreach ($poetry_settings as $setting) {
       $all_settings[$setting] = $translator->getSetting($setting);
     }
+
     // If one of the arg is not set, don't check further.
     foreach ($poetry_service as $service_arg) {
-      if (isset($poetry_credentials_settings[$service_arg])) {
-        $all_settings[$service_arg] = $poetry_credentials_settings[$service_arg];
+      if (isset($poetry_hard_settings[$service_arg])) {
+        $all_settings[$service_arg] = $poetry_hard_settings[$service_arg];
       }
       else {
         return FALSE;
       }
     }
-    // If any of these is empty, translator is not properly configured.
-    foreach ($all_settings as $k => $v) {
-      if (empty($v)) {
+
+    // If any of these are empty, the translator is not properly configured.
+    foreach ($all_settings as $key => $value) {
+      if (empty($value)) {
         return FALSE;
       }
     };
+
     return TRUE;
   }
 
@@ -533,7 +536,8 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
       self::COMMUNICATION_SYNCHRONE,
       $job,
       $new_languages,
-      $delivery_date
+      $delivery_date,
+      $settings
     );
 
     $response = $this->sendAddNewTargetLanguagesRequest($poetry_xml, $settings['poetry_user'], $settings['poetry_password']);
@@ -626,8 +630,10 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    *   An array with new target languages.
    * @param int $delivery_date
    *   Delivery date timestamp ('delai').
+   * @param array $settings
+   *   Translator settings.
    */
-  protected function appendRequestXmlElement(SimpleXMLElement $poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, array $new_languages, $delivery_date) {
+  protected function appendRequestXmlElement(SimpleXMLElement $poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, array $new_languages, $delivery_date, $settings) {
     // Add the 'request' XML element to the main XML document.
     $req_id_split = explode('_POETRY_', $job->reference);
     $request_id = end($req_id_split);
@@ -647,7 +653,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     );
 
     // Append the 'attributions' XML elements.
-    $this->appendAttributionsXmlElement($request, $new_languages, $delivery_date);
+    $this->appendAttributionsXmlElement($request, $new_languages, $delivery_date, $settings);
   }
 
   /**
@@ -678,10 +684,11 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    *   An array with new target languages.
    * @param int $delivery_date
    *   Delivery date timestamp ('delai').
+   * @param array $settings
+   *   Translator settings.
    */
-  protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date) {
-    $poetry = variable_get("poetry_service");
-    $callback_username = $poetry['callback_user'];
+  protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date, $settings) {
+    $callback_username = $settings['callback_user'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
