@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c2c34595d8f82c3fe4890ed8bf675c8c",
-    "content-hash": "b612958388179323dd235a3488aae92d",
+    "content-hash": "eca48061e5b72727e21bf2708d62d650",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -192,6 +191,16 @@
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
             "time": "2016-05-05 12:21:03"
+        },
+        {
+            "name": "ec-europa/qa-automation",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ec-europa/qa-automation.git",
+                "reference": "master"
+            },
+            "type": "library"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1117,7 +1126,7 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
         "pear/versioncontrol_git": 20
     },
