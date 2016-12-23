@@ -6,7 +6,6 @@ dependencies[] = better_formats
 dependencies[] = comment
 dependencies[] = contact
 dependencies[] = context
-dependencies[] = ckeditor_lite
 dependencies[] = ctools
 dependencies[] = current_search
 dependencies[] = date

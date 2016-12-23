@@ -467,9 +467,11 @@ projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
 projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
+projects[menu_token][download][branch] = 7.x-1.x
+projects[menu_token][download][revision] = 27ab9f244d7813803cfa662d05ffc1747d758956
+projects[menu_token][download][type] = git
 projects[menu_token][subdir] = "contrib"
-projects[menu_token][version] = "1.0-beta5"
-projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch
+projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.patch
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"

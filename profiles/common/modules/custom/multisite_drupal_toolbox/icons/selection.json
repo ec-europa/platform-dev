@@ -27,7 +27,7 @@
         "name": "reorder",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 0
     },
@@ -56,7 +56,7 @@
         "name": "home",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 1
     },
@@ -88,7 +88,7 @@
         "name": "cogs",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 2
     },
@@ -118,7 +118,7 @@
         "name": "directions",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 3
     },
@@ -146,7 +146,7 @@
         "name": "code",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 4
     },
@@ -177,7 +177,7 @@
         "name": "publish",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 5
     },
@@ -205,7 +205,7 @@
         "name": "language",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 6
     },
@@ -234,7 +234,7 @@
         "name": "pictures",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 7
     },
@@ -265,7 +265,7 @@
         "name": "check",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 8
     },
@@ -296,7 +296,7 @@
         "name": "file",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 9
     },
@@ -325,7 +325,7 @@
         "name": "newspaper",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 10
     },
@@ -355,7 +355,7 @@
         "name": "calendar",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 11
     },
@@ -387,7 +387,7 @@
         "name": "book",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 12
     },
@@ -415,7 +415,7 @@
         "name": "list",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 13
     },
@@ -443,7 +443,7 @@
         "name": "bookmarks",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 14
     },
@@ -474,7 +474,7 @@
         "name": "notification",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 15
     },
@@ -505,7 +505,7 @@
         "name": "bubbles",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 16
     },
@@ -534,7 +534,7 @@
         "name": "edit",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 17
     },
@@ -564,7 +564,7 @@
         "name": "keyboard",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 18
     },
@@ -597,7 +597,7 @@
         "name": "group",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 19
     },
@@ -628,7 +628,7 @@
         "name": "camera",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 20
     },
@@ -658,7 +658,7 @@
         "name": "location",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 21
     },
@@ -686,7 +686,7 @@
         "name": "menu",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 22
     },
@@ -717,7 +717,7 @@
         "name": "pie",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 23
     },
@@ -748,7 +748,7 @@
         "name": "stats",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 24
     },
@@ -779,7 +779,7 @@
         "name": "archive",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 25
     },
@@ -809,7 +809,7 @@
         "name": "comments-alt",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 26
     },
@@ -837,7 +837,7 @@
         "name": "flow-branch",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 27
     },
@@ -867,7 +867,7 @@
         "name": "paperplane",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 28
     },
@@ -895,7 +895,7 @@
         "name": "vcard",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 29
     },
@@ -925,7 +925,7 @@
         "name": "megaphone",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 30
     },
@@ -956,7 +956,7 @@
         "name": "thumbs-up",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 31
     },
@@ -985,7 +985,7 @@
         "name": "feed",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 32
     },
@@ -1013,7 +1013,7 @@
         "name": "share",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 33
     },
@@ -1041,7 +1041,7 @@
         "name": "question",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 34
     },
@@ -1072,7 +1072,7 @@
         "name": "light-bulb",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 35
     },
@@ -1103,7 +1103,7 @@
         "name": "link",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 36
     },
@@ -1132,7 +1132,7 @@
         "name": "earth",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 37
     },
@@ -1164,7 +1164,7 @@
         "name": "mail",
         "ligatures": ""
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 38
     },
@@ -1188,7 +1188,7 @@
         "ligatures": "",
         "code": 58881
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 39
     },
@@ -1212,7 +1212,7 @@
         "ligatures": "",
         "code": 58882
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 40
     },
@@ -1236,7 +1236,7 @@
         "ligatures": "",
         "code": 61440
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 41
     },
@@ -1265,7 +1265,7 @@
         "ligatures": "",
         "code": 57344
       },
-      "setIdx": 2,
+      "setIdx": 0,
       "setId": 5,
       "iconIdx": 42
     },
@@ -1293,7 +1293,7 @@
         "ligatures": "",
         "code": 58880
       },
-      "setIdx": 3,
+      "setIdx": 1,
       "setId": 4,
       "iconIdx": 0
     },
@@ -1322,7 +1322,7 @@
         "name": "music",
         "ligatures": ""
       },
-      "setIdx": 4,
+      "setIdx": 2,
       "setId": 3,
       "iconIdx": 0
     },
@@ -1351,7 +1351,7 @@
         "name": "lock",
         "ligatures": ""
       },
-      "setIdx": 4,
+      "setIdx": 2,
       "setId": 3,
       "iconIdx": 1
     },
@@ -1379,7 +1379,7 @@
         "name": "twitter",
         "ligatures": ""
       },
-      "setIdx": 4,
+      "setIdx": 2,
       "setId": 3,
       "iconIdx": 2
     },
@@ -1407,7 +1407,7 @@
         "ligatures": "",
         "code": 58883
       },
-      "setIdx": 4,
+      "setIdx": 2,
       "setId": 3,
       "iconIdx": 3
     },
@@ -1436,7 +1436,7 @@
         "name": "history",
         "ligatures": ""
       },
-      "setIdx": 4,
+      "setIdx": 2,
       "setId": 3,
       "iconIdx": 4
     },
@@ -1463,7 +1463,7 @@
         "name": "steam",
         "ligatures": ""
       },
-      "setIdx": 4,
+      "setIdx": 2,
       "setId": 3,
       "iconIdx": 5
     },
@@ -1493,9 +1493,231 @@
         "ligatures": "bubble2, comment2",
         "name": "bubble2"
       },
-      "setIdx": 4,
+      "setIdx": 2,
       "setId": 3,
       "iconIdx": 6
+    },
+    {
+      "icon": {
+        "paths": [
+          "M512 32l-512 512 96 96 96-96v416h256v-192h128v192h256v-416l96 96 96-96-512-512zM512 448c-35.346 0-64-28.654-64-64s28.654-64 64-64c35.346 0 64 28.654 64 64s-28.654 64-64 64z"
+        ],
+        "tags": [
+          "home",
+          "house"
+        ],
+        "defaultCode": 59649,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "home2, house2",
+        "name": "home2",
+        "order": 5,
+        "id": 2,
+        "prevSize": 32,
+        "code": 59649
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 1
+    },
+    {
+      "icon": {
+        "paths": [
+          "M0 128v768h1024v-768h-1024zM192 832h-128v-128h128v128zM192 576h-128v-128h128v128zM192 320h-128v-128h128v128zM768 832h-512v-640h512v640zM960 832h-128v-128h128v128zM960 576h-128v-128h128v128zM960 320h-128v-128h128v128zM384 320v384l256-192z"
+        ],
+        "tags": [
+          "film",
+          "video",
+          "movie",
+          "tape",
+          "play"
+        ],
+        "defaultCode": 59667,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "film, video2",
+        "name": "film",
+        "order": 6,
+        "id": 20,
+        "prevSize": 32,
+        "code": 59667
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 19
+    },
+    {
+      "icon": {
+        "paths": [
+          "M917.806 357.076c-22.21-30.292-53.174-65.7-87.178-99.704s-69.412-64.964-99.704-87.178c-51.574-37.82-76.592-42.194-90.924-42.194h-368c-44.114 0-80 35.888-80 80v736c0 44.112 35.886 80 80 80h608c44.112 0 80-35.888 80-80v-496c0-14.332-4.372-39.35-42.194-90.924zM785.374 302.626c30.7 30.7 54.8 58.398 72.58 81.374h-153.954v-153.946c22.982 17.78 50.678 41.878 81.374 72.572v0zM896 944c0 8.672-7.328 16-16 16h-608c-8.672 0-16-7.328-16-16v-736c0-8.672 7.328-16 16-16 0 0 367.956-0.002 368 0v224c0 17.672 14.324 32 32 32h224v496z",
+          "M602.924 42.196c-51.574-37.822-76.592-42.196-90.924-42.196h-368c-44.112 0-80 35.888-80 80v736c0 38.632 27.528 70.958 64 78.39v-814.39c0-8.672 7.328-16 16-16h486.876c-9.646-7.92-19.028-15.26-27.952-21.804z"
+        ],
+        "tags": [
+          "files-empty",
+          "files",
+          "documents",
+          "papers",
+          "pages"
+        ],
+        "defaultCode": 59685,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "files-empty, files",
+        "name": "files-empty",
+        "order": 7,
+        "id": 38,
+        "prevSize": 32,
+        "code": 59685
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 37
+    },
+    {
+      "icon": {
+        "paths": [
+          "M0 128h128v640h-128zM192 128h64v640h-64zM320 128h64v640h-64zM512 128h64v640h-64zM768 128h64v640h-64zM960 128h64v640h-64zM640 128h32v640h-32zM448 128h32v640h-32zM864 128h32v640h-32zM0 832h64v64h-64zM192 832h64v64h-64zM320 832h64v64h-64zM640 832h64v64h-64zM960 832h64v64h-64zM768 832h128v64h-128zM448 832h128v64h-128z"
+        ],
+        "tags": [
+          "barcode"
+        ],
+        "defaultCode": 59703,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "barcode",
+        "name": "barcode",
+        "order": 8,
+        "id": 56,
+        "prevSize": 32,
+        "code": 59703
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 55
+    },
+    {
+      "icon": {
+        "paths": [
+          "M544.010 1024.004c-2.296 0-4.622-0.25-6.94-0.764-14.648-3.25-25.070-16.238-25.070-31.24v-480h-480c-15.002 0-27.992-10.422-31.24-25.070-3.25-14.646 4.114-29.584 17.708-35.928l960-448c12.196-5.688 26.644-3.144 36.16 6.372 9.516 9.514 12.060 23.966 6.372 36.16l-448 960c-5.342 11.44-16.772 18.47-28.99 18.47zM176.242 448h367.758c17.674 0 32 14.328 32 32v367.758l349.79-749.546-749.548 349.788z"
+        ],
+        "tags": [
+          "compass",
+          "direction",
+          "location"
+        ],
+        "defaultCode": 59721,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "compass, direction",
+        "name": "compass",
+        "order": 9,
+        "id": 74,
+        "prevSize": 32,
+        "code": 59721
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 73
+    },
+    {
+      "icon": {
+        "paths": [
+          "M981.188 288.108c-88.808-12.768-183.382-22.016-282.076-27.22l164.888-164.888-64-64-224.558 224.556c-21.006-0.368-42.156-0.556-63.442-0.556v0l-256-256-64 64 194.196 194.196c-120.922 4.242-236.338 14.524-343.386 29.912-27.532 107.726-42.81 226.752-42.81 351.892s15.278 244.166 42.804 351.89c143.642 20.652 302.34 32.11 469.196 32.11s325.55-11.458 469.188-32.11c27.534-107.724 42.812-226.75 42.812-351.89s-15.278-244.166-42.812-351.892zM863.892 874.594c-107.73 13.766-226.75 21.406-351.892 21.406s-244.166-7.64-351.892-21.406c-20.648-71.816-32.108-151.166-32.108-234.594 0-83.43 11.458-162.78 32.108-234.596 107.726-13.766 226.75-21.404 351.892-21.404 125.136 0 244.162 7.638 351.886 21.404 20.656 71.816 32.114 151.166 32.114 234.596 0 83.428-11.458 162.778-32.108 234.594z"
+        ],
+        "tags": [
+          "tv",
+          "television",
+          "show"
+        ],
+        "defaultCode": 59739,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "tv, television",
+        "name": "tv",
+        "order": 10,
+        "id": 92,
+        "prevSize": 32,
+        "code": 59739
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 91
+    },
+    {
+      "icon": {
+        "width": 1152,
+        "paths": [
+          "M480 0v0c265.096 0 480 173.914 480 388.448s-214.904 388.448-480 388.448c-25.458 0-50.446-1.62-74.834-4.71-103.106 102.694-222.172 121.108-341.166 123.814v-25.134c64.252-31.354 116-88.466 116-153.734 0-9.106-0.712-18.048-2.030-26.794-108.558-71.214-177.97-179.988-177.97-301.89 0-214.534 214.904-388.448 480-388.448zM996 870.686c0 55.942 36.314 104.898 92 131.772v21.542c-103.126-2.318-197.786-18.102-287.142-106.126-21.14 2.65-42.794 4.040-64.858 4.040-95.47 0-183.408-25.758-253.614-69.040 144.674-0.506 281.26-46.854 384.834-130.672 52.208-42.252 93.394-91.826 122.414-147.348 30.766-58.866 46.366-121.582 46.366-186.406 0-10.448-0.45-20.836-1.258-31.168 72.57 59.934 117.258 141.622 117.258 231.676 0 104.488-60.158 197.722-154.24 258.764-1.142 7.496-1.76 15.16-1.76 22.966z"
+        ],
+        "tags": [
+          "bubbles",
+          "comments",
+          "chat",
+          "talk"
+        ],
+        "defaultCode": 59757,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "bubbles2, comments2",
+        "name": "bubbles2",
+        "order": 11,
+        "id": 110,
+        "prevSize": 32,
+        "code": 59757
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 109
+    },
+    {
+      "icon": {
+        "paths": [
+          "M384 128c0-70.692 57.308-128 128-128s128 57.308 128 128c0 70.692-57.308 128-128 128s-128-57.308-128-128zM790.994 512c0 0 0 0 0 0 0-57.993 47.013-105.006 105.006-105.006s105.006 47.013 105.006 105.006c0 0 0 0 0 0 0 57.993-47.013 105.006-105.006 105.006s-105.006-47.013-105.006-105.006zM688.424 783.53c0-52.526 42.58-95.106 95.106-95.106s95.106 42.58 95.106 95.106c0 52.526-42.58 95.106-95.106 95.106s-95.106-42.58-95.106-95.106zM425.862 896c0-47.573 38.565-86.138 86.138-86.138s86.138 38.565 86.138 86.138c0 47.573-38.565 86.138-86.138 86.138s-86.138-38.565-86.138-86.138zM162.454 783.53c0-43.088 34.93-78.018 78.018-78.018s78.018 34.93 78.018 78.018c0 43.088-34.93 78.018-78.018 78.018s-78.018-34.93-78.018-78.018zM57.338 512c0-39.026 31.636-70.662 70.662-70.662s70.662 31.636 70.662 70.662c0 39.026-31.636 70.662-70.662 70.662s-70.662-31.636-70.662-70.662zM176.472 240.472c0 0 0 0 0 0 0-35.346 28.654-64 64-64s64 28.654 64 64c0 0 0 0 0 0 0 35.346-28.654 64-64 64s-64-28.654-64-64zM899.464 240.472c0 64.024-51.906 115.934-115.936 115.934-64.024 0-115.936-51.91-115.936-115.934 0-64.032 51.912-115.934 115.936-115.934 64.030 0 115.936 51.902 115.936 115.934z"
+        ],
+        "tags": [
+          "spinner",
+          "loading",
+          "loading-wheel",
+          "busy",
+          "wait"
+        ],
+        "defaultCode": 59775,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "spinner6, loading7",
+        "name": "spinner6",
+        "order": 12,
+        "id": 128,
+        "prevSize": 32,
+        "code": 59775
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 127
     },
     {
       "icon": {
@@ -1520,14 +1742,42 @@
       "properties": {
         "ligatures": "spinner11, loading12",
         "name": "spinner11",
-        "order": 6,
+        "order": 56,
         "id": 133,
         "prevSize": 32,
         "code": 59780
       },
-      "setIdx": 6,
+      "setIdx": 4,
       "setId": 1,
       "iconIdx": 132
+    },
+    {
+      "icon": {
+        "paths": [
+          "M512 192c-223.318 0-416.882 130.042-512 320 95.118 189.958 288.682 320 512 320 223.312 0 416.876-130.042 512-320-95.116-189.958-288.688-320-512-320zM764.45 361.704c60.162 38.374 111.142 89.774 149.434 150.296-38.292 60.522-89.274 111.922-149.436 150.296-75.594 48.218-162.89 73.704-252.448 73.704-89.56 0-176.858-25.486-252.452-73.704-60.158-38.372-111.138-89.772-149.432-150.296 38.292-60.524 89.274-111.924 149.434-150.296 3.918-2.5 7.876-4.922 11.86-7.3-9.96 27.328-15.41 56.822-15.41 87.596 0 141.382 114.616 256 256 256 141.382 0 256-114.618 256-256 0-30.774-5.452-60.268-15.408-87.598 3.978 2.378 7.938 4.802 11.858 7.302v0zM512 416c0 53.020-42.98 96-96 96s-96-42.98-96-96 42.98-96 96-96 96 42.982 96 96z"
+        ],
+        "tags": [
+          "eye",
+          "views",
+          "vision",
+          "visit"
+        ],
+        "defaultCode": 59854,
+        "grid": 16,
+        "attrs": []
+      },
+      "attrs": [],
+      "properties": {
+        "ligatures": "eye, views",
+        "name": "eye",
+        "order": 13,
+        "id": 207,
+        "prevSize": 32,
+        "code": 59854
+      },
+      "setIdx": 4,
+      "setId": 1,
+      "iconIdx": 206
     },
     {
       "icon": {
@@ -1553,7 +1803,7 @@
         "name": "plus-square-o",
         "ligatures": ""
       },
-      "setIdx": 5,
+      "setIdx": 3,
       "setId": 2,
       "iconIdx": 0
     }
