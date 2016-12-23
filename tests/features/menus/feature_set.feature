@@ -2,21 +2,111 @@
 Feature: Feature set menu
   In order to easily enable a feature
   As an administrative user
-  I want to have links to the most important pages in my user menu
+  I want to have a list of features to be enabled
 
   @api
   Scenario Outline: Test feature set screen as administrator
-    Given I am logged in as a user with the "administrator" role and I have the following fields:
-      | first name      | Myrrine |
-      | last name       | Augusta |
-    When I am on the homepage
-    And I click "<link>"
-    Then I should see the heading "<heading>"
+    Given I am logged in as a user with the "administrator" role
+    When I am on "admin/structure/feature-set_en"
+    Then I should see the text "<feature_name>"
 
     Examples:
-      | link                     | heading                  |
-      | My workbench             | My Workbench             |
-      | My account               | Myrrine Augusta          |
-      | Manage translation tasks | Manage Translation Tasks |
-      | Translate                | Translate                |
-      | Log out                  | Welcome to NextEuropa    |
+      | feature_name                          |
+      | Content slider                        |
+      | Events                                |
+      | Links                                 |
+      | Multi-user blog                       |
+      | Meta tags                             |
+      | Registration                          |
+      | Webtools                              |
+      | Text collapse                         |
+      | Wiki                                  |
+      | WYSIWYG Tracked Changes               |
+      | World Countries                       |
+      | F.A.Q                                 |
+      | Press Release                         |
+      | Site activity                         |
+      | Maxlength                             |
+      | News                                  |
+      | Newsletters                           |
+      | GIS field                             |
+      | GeoJson fields                        |
+      | Notices                               |
+      | Integration                           |
+      | Rule-based web frontend cache purging |
+      | E-library                             |
+      | Embedded images                       |
+      | Embedded videos                       |
+      | Audio                                 |
+      | Crop & Resize                         |
+      | Media Gallery                         |
+      | Multilingual tools                    |
+      | Multilingual reference                |
+      | Translation requests                  |
+      | Splash screen                         |
+      | Fat footer                            |
+      | Mega menu                             |
+      | Node pager                            |
+      | Sitemap                               |
+      | Business indicators                   |
+      | Contact form                          |
+      | Ideas                                 |
+      | Surveys                               |
+      | Extend Profiles                       |
+      | Notifications                         |
+
+    And I should not see the text "Nexteuropa DGT Connector"
+
+
+  @api
+  Scenario Outline: Test feature set screen as cem
+    Given I am logged in as a user with the "cem" role
+    When I am on "admin/structure/feature-set_en"
+    Then I should not see the text "<feature_name>"
+
+    Examples:
+      | feature_name                          |
+      | Content slider                        |
+      | Events                                |
+      | Links                                 |
+      | Multi-user blog                       |
+      | Meta tags                             |
+      | Registration                          |
+      | Webtools                              |
+      | Text collapse                         |
+      | Wiki                                  |
+      | WYSIWYG Tracked Changes               |
+      | World Countries                       |
+      | F.A.Q                                 |
+      | Press Release                         |
+      | Site activity                         |
+      | Maxlength                             |
+      | News                                  |
+      | Newsletters                           |
+      | GIS field                             |
+      | GeoJson fields                        |
+      | Notices                               |
+      | Integration                           |
+      | Rule-based web frontend cache purging |
+      | E-library                             |
+      | Embedded images                       |
+      | Embedded videos                       |
+      | Audio                                 |
+      | Crop & Resize                         |
+      | Media Gallery                         |
+      | Multilingual tools                    |
+      | Multilingual reference                |
+      | Translation requests                  |
+      | Splash screen                         |
+      | Fat footer                            |
+      | Mega menu                             |
+      | Node pager                            |
+      | Sitemap                               |
+      | Business indicators                   |
+      | Contact form                          |
+      | Ideas                                 |
+      | Surveys                               |
+      | Extend Profiles                       |
+      | Notifications                         |
+
+    And I should see the text "Nexteuropa DGT Connector"

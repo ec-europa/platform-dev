@@ -379,7 +379,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       $type = 'error';
     }
     if (empty($settings['callback_user']) || empty($settings['callback_password'])) {
-      $messages[] = t('The credentials for your drupal service are not correctly set. Please contact COMM EUROPA MANAGEMENT.');
+      $messages[] = t('The credentials for your Drupal service are not correctly set. Please contact COMM EUROPA MANAGEMENT.');
       $type = 'error';
     }
     if (empty($settings['poetry_user']) || empty($settings['poetry_password'])) {

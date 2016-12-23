@@ -171,7 +171,6 @@ function tmgmt_poetry_uninstall() {
   $translator = tmgmt_translator_load('poetry');
   if (isset($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);
-    variable_del('website_identifier');
   }
 }
 
