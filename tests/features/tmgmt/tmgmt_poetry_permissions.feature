@@ -14,7 +14,7 @@ Feature: TMGMT Poetry permissions features
       | languages |
       | en        |
       | pt-pt     |
-    And I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry"
+    And I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry"
 
   Scenario Outline: Configuration fields are mandatory.
 

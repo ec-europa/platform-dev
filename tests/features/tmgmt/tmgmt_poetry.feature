@@ -22,6 +22,8 @@ Feature: TMGMT Poetry features
   Scenario: Checking a wrong configuration.
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
+    And I fill in "Callback Password" with "MockCallbackPWD"
+    And I fill in "Poetry Password" with "MockPoetryPWD"
     And I press "Save translator"
     Then I should see the success message "The configuration options have been saved."
     When I go to "node/add/page"
