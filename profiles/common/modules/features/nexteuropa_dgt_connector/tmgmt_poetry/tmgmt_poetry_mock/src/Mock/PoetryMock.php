@@ -17,10 +17,10 @@ class PoetryMock {
   const COUNTER_STRING = 'NEXT_EUROPA_COUNTER';
   const COUNTER_VALUE = '1234';
   const COUNTER_VALUE_NOK = '-1';
-  const CALLBACK_USER = 'Callback';
-  const CALLBACK_PASSWORD = 'CallbackPWD';
-  const POETRY_USER = 'Poetry';
-  const POETRY_PASSWORD = 'PoetryPWD';
+  const CALLBACK_USER = 'MockCallback';
+  const CALLBACK_PASSWORD = 'MockCallbackPWD';
+  const POETRY_USER = 'MockPoetry';
+  const POETRY_PASSWORD = 'MockPoetryPWD';
   public $settings;
   private $client;
 

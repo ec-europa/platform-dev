@@ -85,10 +85,10 @@ function _tmgmt_poetry_generate_answer_xml($job = NULL, $message = 'OK', $code =
 /**
  * Helper function to authenticate request made to our service.
  */
-function _tmgmt_poetry_authenticate($user, $password) {
-  // Get Poetry configuration.
-  $poetry = variable_get("poetry_service");
-  return ($poetry['callback_user'] === $user && $poetry['callback_password'] === $password);
+function _tmgmt_poetry_authenticate($user, $password, $translator) {
+  // Get the Poetry translator configuration.
+  $settings = $translator->getSetting('settings');
+  return ($settings['callback_user'] === $user && $settings['callback_password'] === $password);
 }
 
 /**
@@ -102,10 +102,17 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     WATCHDOG_INFO
   );
 
+  $poetry_translator = tmgmt_translator_load('poetry');
+
+  // Use the Poetry Mock translator if the tmgmt_poetry_mock is enabled.
+  if (module_exists('tmgmt_poetry_mock')) {
+    $poetry_translator = tmgmt_translator_load(\Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME);
+  }
+
   // Authenticate the request.
-  if (_tmgmt_poetry_authenticate($user, $password)) {
+  if (_tmgmt_poetry_authenticate($user, $password, $poetry_translator)) {
     $languages = language_list();
-    $poetry_translator = tmgmt_translator_load('poetry');
+
     // Load the received XML and load the referenced Job.
     $xml = simplexml_load_string($msg);
     $request = $xml->request;
