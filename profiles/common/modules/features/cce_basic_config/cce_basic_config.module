@@ -323,6 +323,5 @@ function cce_basic_config_tmgmt_dgt_html_filter_formats_containing_html() {
     'basic_html',
     'filtered_html',
     'full_html',
-    'full_html_track',
   );
 }

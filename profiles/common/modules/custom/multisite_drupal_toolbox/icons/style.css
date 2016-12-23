@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'multisite-icons';
-  src:  url('fonts/multisite-icons.eot?ywbcmt');
-  src:  url('fonts/multisite-icons.eot?ywbcmt#iefix') format('embedded-opentype'),
-    url('fonts/multisite-icons.ttf?ywbcmt') format('truetype'),
-    url('fonts/multisite-icons.woff?ywbcmt') format('woff'),
-    url('fonts/multisite-icons.svg?ywbcmt#multisite-icons') format('svg');
+  src:  url('fonts/multisite-icons.eot?7zsrny');
+  src:  url('fonts/multisite-icons.eot?7zsrny#iefix') format('embedded-opentype'),
+    url('fonts/multisite-icons.ttf?7zsrny') format('truetype'),
+    url('fonts/multisite-icons.woff?7zsrny') format('woff'),
+    url('fonts/multisite-icons.svg?7zsrny#multisite-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -177,8 +177,35 @@
 .multisite-icon-bubble2:before {
   content: "\e96e";
 }
+.multisite-icon-home2:before {
+  content: "\e901";
+}
+.multisite-icon-film:before {
+  content: "\e913";
+}
+.multisite-icon-files-empty:before {
+  content: "\e925";
+}
+.multisite-icon-barcode:before {
+  content: "\e937";
+}
+.multisite-icon-compass:before {
+  content: "\e949";
+}
+.multisite-icon-tv:before {
+  content: "\e95b";
+}
+.multisite-icon-bubbles2:before {
+  content: "\e96d";
+}
+.multisite-icon-spinner6:before {
+  content: "\e97f";
+}
 .multisite-icon-spinner11:before {
   content: "\e984";
+}
+.multisite-icon-eye:before {
+  content: "\e9ce";
 }
 .multisite-icon-plus-square-o:before {
   content: "\f196";

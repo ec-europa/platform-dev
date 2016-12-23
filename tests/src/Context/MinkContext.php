@@ -174,19 +174,6 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-   * Checks if the box is unchecked.
-   *
-   * @When I should not see the box :arg1 checked
-   */
-  public function assertBoxIsUnChecked($arg1) {
-    $is_checked = $this->getSession()->getPage()->hasCheckedField($arg1);
-
-    if ($is_checked) {
-      throw new ExpectationException("The box '$arg1' is not checked.", $this->getSession());
-    }
-  }
-
-  /**
    * Set all permissions to admin role.
    *
    * @Given I update the administrator role permissions
@@ -231,7 +218,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     $item = $this->findElementMatching(
       function (NodeElement $item) {
         return
-          $item->getTagName() === 'input' &&
           $item->getAttribute('type') === 'radio';
       },
       $items
@@ -271,13 +257,26 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
+   * Checks if the box is unchecked.
+   *
+   * @When I should not see the box :arg1 checked
+   */
+  public function assertBoxIsUnChecked($arg1) {
+    $is_checked = $this->getSession()->getPage()->hasCheckedField($arg1);
+
+    if ($is_checked) {
+      throw new ExpectationException(sprintf('The box "%s" is not checked.', $this->getSession()));
+    }
+  }
+
+  /**
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *   Text on the table row.
+   *    Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *   Throw exception if class table row was not found.
+   *    Throw exception if class table row was not found.
    *
    * @Given I check the box on the :row_text row
    */
@@ -398,6 +397,25 @@ class MinkContext extends DrupalExtensionMinkContext {
         throw new \Exception(sprintf('The value "%1$s" for the "%2$s" attribute on the current page is different from the expected "%3$s"', $attrib['Value'], $attrib['Attribute'], $attrib_value));
       }
     }
+  }
+
+  /**
+   * Clicks on a HTML element based on a css selector.
+   *
+   * @param string $selector
+   *   The css selector to use.
+   *
+   * @Given I click the :arg1 element
+   */
+  public function iClickTheElement($selector) {
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', $selector);
+
+    if (empty($element)) {
+      throw new \Exception(sprintf('No html element found for the selector (%s)', $selector));
+    }
+
+    $element->click();
   }
 
 }
