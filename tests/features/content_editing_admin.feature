@@ -7,7 +7,6 @@ Feature: Content editing as administrator
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @api
   Scenario Outline: Test allowed HTML
     # The Wysiwyg does not return the HTML exactly as entered. It will insert
     # whitespace and some additional tags. Hence the expected HTML differs from
@@ -32,20 +31,19 @@ Feature: Content editing as administrator
       | <div class=\"css_class-name\">Applied css class</div>                                        | <div class=\"css_class-name\">Applied css class</div>                                        |
       | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               |
 
-  @api
   Scenario Outline: Test disallowed HTML
     When I go to "node/add/page"
-    And I fill in "Title" with "This is not the right way"
+    And I fill in "Title" with "<title>"
     And I fill in "Body" with "<html>"
     And I press "Save"
-    Then the response should not contain "<expected>"
+    Then the response should not contain "<unexpected>"
 
-  Examples:
-    | html                                                                | expected                      |
-    | <script>alert('xss')</script>                                       | <script>alert('xss')</script> |
-    | <a href=\"javascript:alert('xss')\">xss</a>                         | javascript:alert              |
-    | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p> | javascript:alert              |
-    | <div class=\"2classname\">Applied invalid css class</div>           | classname                     |
-    | <div class=\"classname?&*\">Applied invalid css class</div>         | classname                     |
-    | <div id=\"2invalidid\">A container with an invalid HTML ID</div>    | invalidid                     |
-    | <div id=\"invalidid.\">A container with an invalid HTML ID</div>    | invalidid                     |
+    Examples:
+      | title                                                                 | html                                                                  | unexpected                                                              |
+      | <script>alert('xss');</script>                                        | <script>alert('xss');</script>                                        | <script>alert('xss');</script>                                          |
+      | <a href=\"javascript:alert('xss');\">xss</a>                          | <a href=\"javascript:alert('xss');\">xss</a>                          | <a href=\"javascript:alert('xss');\">xss</a>                            |
+      | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>   | <p style=\"background-image: url(javascript:alert('xss'))\">xss</p>     |
+      | This is not the right way                                             | <div class=\"2classname\">Applied invalid css class</div>             | classname                                                               |
+      | This is not the right way                                             | <div class=\"classname?&*\">Applied invalid css class</div>           | classname                                                               |
+      | This is not the right way                                             | <div id=\"2invalidid\">A container with an invalid HTML ID</div>      | invalidid                                                               |
+      | This is not the right way                                             | <div id=\"invalidid.\">A container with an invalid HTML ID</div>      | invalidid                                                               |

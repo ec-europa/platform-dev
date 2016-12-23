@@ -11,6 +11,7 @@ use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
+use Behat\Mink\Exception\ResponseTextException;
 use Behat\Mink\Selector\Xpath\Escaper;
 use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
@@ -194,6 +195,69 @@ class MinkContext extends DrupalExtensionMinkContext {
         }
       }
     }
+  }
+
+  /**
+   * Waiting for the given text to appear.
+   *
+   * @When I wait for :text to appear
+   */
+  public function iWaitForTextToAppear($text) {
+
+    $this->spin(function(MinkContext $context) use ($text) {
+      try {
+        $context->assertPageContainsText($text);
+        return TRUE;
+      }
+      catch (ResponseTextException $e) {
+        // NOOP.
+      }
+      return FALSE;
+    });
+  }
+
+
+  /**
+   * Waiting for the given text to disappear.
+   *
+   * @When I wait for :text to disappear
+   */
+  public function iWaitForTextToDisappear($text) {
+
+    $this->spin(function(MinkContext $context) use ($text) {
+      try {
+        $context->assertPageContainsText($text);
+      }
+      catch (ResponseTextException $e) {
+        return TRUE;
+      }
+      return FALSE;
+    });
+  }
+
+  /**
+   * Delay function based on Behat's example.
+   *
+   * @see http://docs.behat.org/en/v2.5/cookbook/using_spin_functions.html#adding-a-timeout
+   */
+  public function spin($lambda, $wait = 60) {
+
+    $time = time();
+    $stop_time = $time + $wait;
+    while (time() < $stop_time) {
+      try {
+        if ($lambda($this)) {
+          return;
+        }
+      }
+      catch (\Exception $e) {
+        // Do nothing.
+      }
+
+      usleep(250000);
+    }
+
+    throw new \Exception("Spin function timed out after {$wait} seconds");
   }
 
 }
