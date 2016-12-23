@@ -34,7 +34,7 @@ function _tmgmt_poetry_translator_access($op, $translator, $account) {
       return FALSE;
     }
     elseif ($translator->plugin == 'poetry') {
-      if (user_access('configure dgt connector')) {
+      if (user_access('manage feature dgt connector')) {
         return TRUE;
       }
       else {
@@ -805,7 +805,7 @@ function tmgmt_poetry_menu() {
  */
 function tmgmt_poetry_permission() {
   return array(
-    'configure dgt connector' => array(
+    'manage feature dgt connector' => array(
       'title' => t('Configure DGT connector'),
     ),
   );
