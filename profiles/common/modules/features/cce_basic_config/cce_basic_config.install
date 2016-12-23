@@ -709,6 +709,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'administer modules',
     'administer software updates',
     'manage features',
+    'manage feature dgt connector',
     'use PHP to import nodes',
   ));
 

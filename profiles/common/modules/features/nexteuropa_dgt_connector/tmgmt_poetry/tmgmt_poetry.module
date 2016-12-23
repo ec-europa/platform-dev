@@ -29,22 +29,18 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  *   Boolean
  */
 function _tmgmt_poetry_translator_access($op, $translator, $account) {
-  if (!empty($translator)) {
-    if ($op == 'delete' && $translator->plugin == 'poetry') {
+  if (!empty($translator) && $translator->plugin == 'poetry') {
+    if ($op == 'delete') {
       return FALSE;
     }
-    elseif ($translator->plugin == 'poetry') {
-      if (user_access('manage feature dgt connector')) {
-        return TRUE;
-      }
-      else {
-        return FALSE;
-      }
-    }
     else {
-      tmgmt_translator_access($op, $translator, $account);
+      return user_access('manage feature dgt connector');
     }
   }
+  else {
+    return tmgmt_translator_access($op, $translator, $account);
+  }
+
 }
 
 /**
