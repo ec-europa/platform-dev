@@ -53,7 +53,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#default_value' => $settings['callback_user'],
     );
     $form['settings']['callback_password'] = array(
-      '#type' => 'textfield',
+      '#type' => 'password',
       '#title' => t('Callback Password'),
       '#required' => TRUE,
       '#default_value' => $settings['callback_password'],
@@ -65,7 +65,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#default_value' => $settings['poetry_user'],
     );
     $form['settings']['poetry_password'] = array(
-      '#type' => 'textfield',
+      '#type' => 'password',
       '#title' => t('Poetry Password'),
       '#required' => TRUE,
       '#default_value' => $settings['poetry_password'],
