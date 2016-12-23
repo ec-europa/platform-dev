@@ -35,4 +35,44 @@ function contact_form_disable() {
   menu_link_delete(NULL, 'contact');
   // Activation message.
   drupal_set_message(t('Contact form feature is now disabled on your site.'));
+  module_disable(array('contact'), FALSE);
+}
+
+/**
+ * Implements hook_install().
+ */
+function contact_form_install() {
+
+  // Set "administrator" permissions.
+  $permissions_admin = array(
+    'administer contact forms',
+    'access site-wide contact form',
+    'access user contact forms',
+  );
+  multisite_config_service('user')->grantPermission('administrator',
+    $permissions_admin);
+
+  // Set "authenticated users" permissions.
+  $permissions_au = array(
+    'access site-wide contact form',
+    'access user contact forms',
+  );
+  multisite_config_service('user')->grantPermission('authenticated user',
+    $permissions_au);
+
+  // Set "anonymous users" permissions.
+  $permissions_anu = array(
+    'access site-wide contact form',
+    'access user contact forms',
+  );
+  multisite_config_service('user')->grantPermission('anonymous user',
+    $permissions_anu);
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function contact_form_uninstall() {
+  drupal_uninstall_modules(array('contact'), FALSE);
 }
