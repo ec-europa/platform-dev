@@ -30,7 +30,7 @@ Feature: Feature set menu
       | News                                  |
       | Newsletters                           |
       | GIS field                             |
-      | GeoJson fields                        |
+      | GeoJson feeds                         |
       | Notices                               |
       | Integration                           |
       | Rule-based web frontend cache purging |
@@ -84,7 +84,7 @@ Feature: Feature set menu
       | News                                  |
       | Newsletters                           |
       | GIS field                             |
-      | GeoJson fields                        |
+      | GeoJson feeds                        |
       | Notices                               |
       | Integration                           |
       | Rule-based web frontend cache purging |
