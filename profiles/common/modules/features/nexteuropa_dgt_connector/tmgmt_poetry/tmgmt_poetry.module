@@ -34,7 +34,7 @@ function _tmgmt_poetry_translator_access($op, $translator, $account) {
       return FALSE;
     }
     else {
-      return user_access('manage feature dgt connector');
+      return user_access('manage feature nexteuropa_dgt_connector');
     }
   }
   else {
