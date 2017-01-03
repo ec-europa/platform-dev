@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Code for the DGT connector feature.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_dgt_connector_install() {
+  // Administrator role.
+  $adm_rid = get_rid('administrator');
+  user_role_revoke_permissions($adm_rid, array(
+    'manage feature dgt connector',
+  ));
+}
