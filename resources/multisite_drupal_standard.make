@@ -192,6 +192,8 @@ projects[entity_translation][download][revision] = 221e302
 projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
+; Issue MULTISITE-15175 : Undefined index path wildcard
+projects[entity_translation][patch][] = patches/entity_translation-fix-for-wildcard.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
