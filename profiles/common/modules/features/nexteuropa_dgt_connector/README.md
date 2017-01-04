@@ -64,20 +64,20 @@ must make a formal request to the COMM EUROPA MANAGEMENT (CEM).
 - Once approved by CEM, CEM will enable the feature on your playground 
 environment.
 - Part of the shared configuration has already been set globally on production 
-and playground environments by the DevOps in the common "settings.php" file.
+and playground environments by the DevOps in the settings.common.php file.
 
 [Go to top](#table-of-content)
 
 ## Server configuration (DevOps)
 :construction: DIGIT DevOps are in charge of the endpoint configuration.
 
-The configuration of the endpoint is done once for all in the common 
-settings.php of all the projects.
+The configuration of the endpoint is done once for all in the 
+settings.common.php for all the projects.
 It is filled with appropriate values depending on the environment. 
 
   - On Playground environment:
 
-In order to test against acceptance webservice, *common settings.php* must 
+In order to test against acceptance webservice, *settings.common.php* must 
 contain:
 
 ```php
@@ -88,7 +88,7 @@ contain:
 ```
   - On Production environment:
 
-*common settings.php* must contain:
+*settings.common.php* must contain:
 
 ```php
     $conf['poetry_service'] = array(
@@ -281,7 +281,7 @@ debugging steps:
        - If "The DGT webservice endpoint is not set. Please ask your support 
        team to check the configuration." is shown, the URL of the DGT webservice
         endpoint is not set.  Please contact your support. 
-        The URL should be set in the common settings.php file on the server.
+        The URL should be set in the settings.common.php file on the server.
         
        - If "The local connector credentials are not set.  Please contact CEM 
        support." is shown, the credentials of the Drupal endpoint have not been 
