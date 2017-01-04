@@ -56,5 +56,6 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Email to" with "delphine.lepers@badaboum.com"
       And I fill in "Email CC" with "delphine.lepers@badaboum.com"
       And I fill in "Portuguese, Portugal (pt-pt)" with "pt"
-      Then I press the "Save translator" button
-      Then I should see "The configuration options have been saved."
+      And I press "Save translator"
+      Then I should be on "admin/config/regional/tmgmt_translator_en"
+      And I should see "The configuration options have been saved."
