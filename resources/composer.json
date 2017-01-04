@@ -3,8 +3,8 @@
     "guzzlehttp/guzzle": "^6.2.1"
   },
   "require-dev": {
-    "behat/behat": "~3.1.0@rc",
-    "drupal/drupal-extension": "~3.1.0",
+    "behat/behat": "~3.3",
+    "drupal/drupal-extension": "dev-update-behat",
     "internations/http-mock": "^0.7.4",
     "bovigo/assert": "^1.7",
     "rych/random": "v0.1.0"
@@ -13,5 +13,13 @@
     "psr-4": {
       "Drupal\\nexteuropa\\": "tests/src"
     }
-  }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:pfrenssen/drupalextension"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
