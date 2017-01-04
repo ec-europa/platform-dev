@@ -7,6 +7,18 @@
 
  define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
+ * Implements hook_permission().
+ */
+function multisite_drupal_toolbox_permission() {
+  return array(
+    'view alert message' => array(
+      'title' => t('View Alert message'),
+      'description' => t('View the Alert message'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function multisite_drupal_toolbox_menu() {
@@ -138,8 +150,7 @@ function multisite_drupal_toolbox_init() {
     variable_set("language_count", 2);
   }
 
-  if (variable_get('alert_message_enable', FALSE) &&
-    user_has_role(multisite_drupal_toolbox_get_rid('administrator'))) {
+  if (variable_get('alert_message_enable', FALSE) && user_access('view alert message')) {
     drupal_set_message(variable_get('alert_message_body', ''), 'warning', FALSE);
   }
 }
