@@ -494,26 +494,15 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
 }
 
 /**
- * Implements hook_theme_registry_alter().
+ * Implements hook_page_alter().
+ *
+ * This adds the alert message on all pages for the 'administrator' users.
  */
-function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
-  // Use our own function to display status messages.
-  $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
-}
-
-/**
- * Custom function to override the drupal status message.
- */
-function multisite_drupal_toolbox_messages($variables) {
-  global $user;
-  $message = "";
-  $rid = multisite_drupal_toolbox_get_rid('administrator');
-  if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
-    $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
+function multisite_drupal_toolbox_page_alter(&$page) {
+  if (variable_get('alert_message_enable', FALSE) &&
+    user_has_role(multisite_drupal_toolbox_get_rid('administrator'))) {
+    drupal_set_message(variable_get('alert_message_body', ''), 'warning');
   }
-  $output = theme_status_messages($variables);
-  $output = $message . $output;
-  return $output;
 }
 
 /**
