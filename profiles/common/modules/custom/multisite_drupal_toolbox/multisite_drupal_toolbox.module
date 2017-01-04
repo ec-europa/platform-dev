@@ -137,6 +137,11 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
+
+  if (variable_get('alert_message_enable', FALSE) &&
+    user_has_role(multisite_drupal_toolbox_get_rid('administrator'))) {
+    drupal_set_message(variable_get('alert_message_body', ''), 'warning', FALSE);
+  }
 }
 
 /**
@@ -491,18 +496,6 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
     $content = multisite_drupal_toolbox_filter_xss($content, $filter_options);
   }
   return $content;
-}
-
-/**
- * Implements hook_page_alter().
- *
- * This adds the alert message on all pages for the 'administrator' users.
- */
-function multisite_drupal_toolbox_page_alter(&$page) {
-  if (variable_get('alert_message_enable', FALSE) &&
-    user_has_role(multisite_drupal_toolbox_get_rid('administrator'))) {
-    drupal_set_message(variable_get('alert_message_body', ''), 'warning');
-  }
 }
 
 /**
