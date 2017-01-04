@@ -76,16 +76,16 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
 
     // Get the currently logged in user from DrupalContext.
     /** @var \Drupal\DrupalExtension\Context\DrupalContext $context */
-    $context = $this->getContext('\Drupal\DrupalExtension\Context\DrupalContext');
-    if (empty($context->user)) {
+    $user = $this->getUserManager()->getCurrentUser();
+    if (empty($user)) {
       throw new \Exception('Cannot assign anonymous user to a group.');
     }
 
     // Subscribe the user to the group.
-    og_group($entity_type, $entity_id, array('entity' => $context->user));
+    og_group($entity_type, $entity_id, array('entity' => $user));
 
     // Grant the OG role to the user.
-    og_role_grant($entity_type, $entity_id, $context->user->uid, $rid);
+    og_role_grant($entity_type, $entity_id, $user->uid, $rid);
   }
 
   /**
