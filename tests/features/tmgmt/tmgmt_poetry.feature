@@ -43,6 +43,8 @@ Feature: TMGMT Poetry features
     And I should see "Rejected" in the "Italian" row
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
+    And I fill in "Callback Password" with "MockCallbackPWD"
+    And I fill in "Poetry Password" with "MockPoetryPWD"
     And I press "Save translator"
     Then I should see the success message "The configuration options have been saved."
 
@@ -497,6 +499,8 @@ Feature: TMGMT Poetry features
   characters that have a special meaning in HTML.
     Given I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
+    And I fill in "Callback Password" with "drupal_callback_password"
+    And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
     And I am viewing a multilingual "page" content:
       | language | title   |

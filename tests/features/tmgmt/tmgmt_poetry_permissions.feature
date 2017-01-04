@@ -58,4 +58,3 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Portuguese, Portugal (pt-pt)" with "pt"
       Then I press the "Save translator" button
       Then I should see "The configuration options have been saved."
-      And I should see "Yes" in the "DGT connector" row
