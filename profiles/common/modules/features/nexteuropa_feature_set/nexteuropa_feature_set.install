@@ -18,4 +18,5 @@ function nexteuropa_feature_set_install() {
     'administer feature sets',
   );
   multisite_config_service('user')->grantPermission('cem', $permissions);
+
 }

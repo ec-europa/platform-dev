@@ -710,6 +710,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'administer software updates',
     'manage features',
     'use PHP to import nodes',
+    'manage feature nexteuropa_dgt_connector',
   ));
 
   // Grant permissions for contributors.

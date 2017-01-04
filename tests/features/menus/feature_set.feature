@@ -32,7 +32,7 @@ Feature: Feature set menu
       | GIS field                             |
       | GeoJson feeds                         |
       | Notices                               |
-      | Integration                           |
+      | Integration module                    |
       | Rule-based web frontend cache purging |
       | E-library                             |
       | Embedded images                       |
@@ -84,9 +84,9 @@ Feature: Feature set menu
       | News                                  |
       | Newsletters                           |
       | GIS field                             |
-      | GeoJson feeds                        |
+      | GeoJson feeds                         |
       | Notices                               |
-      | Integration                           |
+      | Integration module                    |
       | Rule-based web frontend cache purging |
       | E-library                             |
       | Embedded images                       |
