@@ -46,7 +46,14 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#required' => TRUE,
       '#default_value' => $settings['code'],
     );
-
+    $form['settings']['website_identifier'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Website identifier'),
+      '#maxlength' => 15,
+      '#required' => TRUE,
+      '#default_value' => $settings['website_identifier'],
+      '#description' => t('This value - which is mandatory - will be put in the title of translation requests, in order for DGT to identify which website the request came from.'),
+    );
     $organization = $translator->getSetting('organization');
     $form['organization'] = array(
       '#type' => 'fieldset',
@@ -384,10 +391,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
   public function reviewFormSubmit($form, &$form_state, TMGMTJobItem $item) {
     // Check if the user clicked on 'Accept', 'Submit' or 'Reject'.
     if (!empty($form['actions']['accept']) && $form_state['triggering_element']['#value'] == $form['actions']['accept']['#value']) {
-      db_update('poetry_status')
-        ->fields(array('status' => 'Translation accepted'))
-        ->condition('tjiid', $item->tjiid, '=')
-        ->execute();
+      _tmgmt_poetry_update_item_status($item->tjiid, "", "Translation accepted", "");
     }
   }
 

@@ -632,31 +632,6 @@ function _cce_basic_config_post_install_default_blocks() {
 }
 
 /**
- * Initialize apachesorl.
- */
-function _cce_basic_config_post_install_apachesolr() {
-  // Disable all Solr environments for the remainder of this request. We are
-  // going to create some files, and need to prevent the apachesolr module from
-  // trying to update the Solr indexes when hook_entity_save() fires.
-  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
-  $environments = &drupal_static('apachesolr_load_all_environments');
-  $environments = array();
-
-  // At the end of the installation cron will be run. During cron an error
-  // might occur in the apachesolr_multisitesearch module when it tries to
-  // update the solr metadata for servers that may not be configured, or may
-  // not be reachable from the environment where the site is being installed.
-  // We can work around it by tricking the module into thinking it has already
-  // performed its updates.
-  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
-  global $conf;
-  $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
-  $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
-
-  variable_set('apachesolr_delay_removals', 1);
-}
-
-/**
  * Initialize content type.
  *
  * Add 'page' and ''article' CT and their body.
@@ -731,24 +706,31 @@ function _cce_basic_config_post_install_user_config() {
  * Initialize default images.
  */
 function _cce_basic_config_post_install_default_images() {
+  // The private stream wrapper is not set during installation
+  // so we must do it manually before creating the default files.
+  drupal_static_reset('file_get_stream_wrappers');
+  file_get_stream_wrappers();
   // Set default images.
-  $theme_path = drupal_get_path('theme', 'ec_resp');
+  $path = drupal_get_path('module', 'cce_basic_config') . '/assets/images/default_images';
+
   $default_images = array(
-    'user_picture_default' => 'user_default.png',
-    'empty_gallery_default' => 'empty_gallery.png',
+    'user_picture_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default_images',
+      'source_path' => $path . '/user_default.png',
+      'filename' => 'user_default.png',
+      'variable' => 'user_picture_default',
+    ),
+    'empty_gallery_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default_images',
+      'source_path' => $path . '/empty_gallery.png',
+      'filename' => 'empty_gallery.png',
+      'variable' => 'empty_gallery_default',
+    ),
   );
 
-  foreach ($default_images as $variable => $default_image) {
-    $file = new stdClass();
-    $file->fid = NULL;
-    $file->uri = "public://default_images/" . $default_image;
-    $file->filename = $default_image;
-    $file->filemime = file_get_mimetype($file->uri);
-    $file->uid = 1;
-    $file->status = FILE_STATUS_PERMANENT;
-    $f = file_save($file);
-    variable_set($variable, $file->uri);
-  }
+  _cce_basic_config_import_images($default_images);
 }
 
 /**
@@ -797,6 +779,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view own unpublished content',
     'view revisions',
     'access media browser',
+    'use media wysiwyg',
   );
   multisite_config_service('user')->grantPermission('contributor', $permissions);
 
@@ -815,6 +798,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view all unpublished content',
     'view own unpublished content',
     'access media browser',
+    'use media wysiwyg',
   );
   multisite_config_service('user')->grantPermission('editor', $permissions);
 
@@ -1016,7 +1000,6 @@ function cce_basic_config_post_install() {
   _cce_basic_config_post_install_default_images();
   _cce_basic_config_post_install_default_menu_items();
   _cce_basic_config_post_install_default_terms();
-  _cce_basic_config_post_install_apachesolr();
 }
 
 /**
@@ -2035,7 +2018,6 @@ function cce_basic_config_update_7203() {
   variable_set('cce_basic_config_admin_pages', $admin_pages);
 }
 
-
 /**
  * Update the location of the Rate attachments.
  */
@@ -2095,7 +2077,6 @@ function cce_basic_config_update_7206() {
   module_disable(array('print_pdf_tcpdf'), FALSE);
   drupal_uninstall_modules(array('print_pdf_tcpdf'), FALSE);
 }
-
 
 /**
  * NEXTEUROPA-4706: Drupal alter makes features stay overriden.
