@@ -45,6 +45,7 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Callback Password" with "drupal_callback_password"
       And I fill in "Poetry User" with "poetry_user"
       And I fill in "Poetry Password" with "poetry_password"
+      And I fill in "Website identifier" with "my-website"
       And I fill in "Responsable " with "DIGIT"
       And I fill in "Author" with "IE/CE/DIGIT"
       And I fill in "Requester" with "IE/CE/DIGIT/A/3"
