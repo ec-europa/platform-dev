@@ -520,5 +520,5 @@ class MinkContext extends DrupalExtensionMinkContext {
       unset($this->createFieldList[$field_name]);
     }
   }
-  
+
 }
