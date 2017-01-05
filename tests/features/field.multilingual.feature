@@ -1,21 +1,18 @@
-@api @i18n
 Feature: Field Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
   I want to be able to read field label in my native language
 
-
   Background:
-
     Given the following languages are available:
       | languages |
       | en        |
       | fr        |
       | de        |
 	And I am viewing a multilingual "page" content:
-      | language | title             |field_selectcolor|
-      | en       | Title in English  | Red             |
-      | fr       | Titre en Français | Red             |
+      | language | title             | field_selectcolor	|
+      | en       | Title in English  | Red					|
+      | fr       | Titre en Français | Red					|
 
   Scenario: Administrator can create and translate field and field group labels
 	Given I am logged in as a user with the 'administrator' role
@@ -67,8 +64,7 @@ Feature: Field Multilingual features
 	And I press the "Save translations" button
 	Then I should see the success message "The string has been saved."
 
-	@api
-	Scenario Outline: Check translation of field and field group labels
+  Scenario Outline: Check translation of field and field group labels
 	# fix missing translation (deleted because languages are deleted at the end of scenario)
 	Given I run drush "sqlq" '"INSERT INTO locales_target SELECT lid , 0x4d6f6e2047726f75706520436f756c657572, \\"fr\\",  0, 0, 0 FROM locales_source WHERE source = \\"My Group Color\\""'
 	Given I am an anonymous user
@@ -86,7 +82,7 @@ Feature: Field Multilingual features
       | content/title-english_en?2nd-language=fr  | Title in English  | My Group Color     | Select a Color           | Red        |
       | content/title-english_de?2nd-language=fr  | Titre en Français | Mon Groupe Couleur | Selectionner une Couleur | Rouge      |
 
-	Scenario: Administrator can delete field group labels
+  Scenario: Administrator can delete field group labels
 	# Finally, delete the added fields
 	Given I am logged in as a user with the 'administrator' role
 	When I go to "admin/structure/types/manage/page/fields/field_selectcolor/delete"

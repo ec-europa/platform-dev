@@ -3,7 +3,6 @@ Feature: Taxonomy
   As an administrator
   I want to be able to create, edit and delete taxonomy
 
-  @api
   Scenario: Administrator user creates a new vocabulary and adds a new group and terms.
     Given I am logged in as a user with the 'administrator' role
     And the vocabulary "Vocabulary Test" exists

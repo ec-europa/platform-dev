@@ -1,4 +1,4 @@
-@api @cleanCommunityEnvironment
+@cleanCommunityEnvironment
 Feature: Nexteuropa Communities
   In order to effectively manage groups of people
   As a site administrator
@@ -31,8 +31,6 @@ Feature: Nexteuropa Communities
     And I should see "Test community" in the "#block-views-community-members-block-1" element
     And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
 
-
-
   Scenario: URL alias for community contents are correctly generated.
     Given these modules are enabled
       | modules                 |
@@ -55,13 +53,12 @@ Feature: Nexteuropa Communities
       | field_ne_body                  | Lorem ipsum dolor sit amet body.     |
       | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
-      When I go to "community/public-community"
-      Then I should see the heading "A public community"
-      When I go to "community/public-community/news/news-public-community"
-      Then I should see the heading "A News in a public community"
-      When I go to "community/public-community/basic-page/page-public-community"
-      Then I should see the heading "A page in a public community"
-
+    When I go to "community/public-community"
+    Then I should see the heading "A public community"
+    When I go to "community/public-community/news/news-public-community"
+    Then I should see the heading "A News in a public community"
+    When I go to "community/public-community/basic-page/page-public-community"
+    Then I should see the heading "A page in a public community"
 
   Scenario: As an anonymous user, I can see content of public community, and community's block
     Given I am not logged in
@@ -82,7 +79,6 @@ Feature: Nexteuropa Communities
     Then I should see the heading "A Page in a public community"
     And I should see "A public community" in the "#block-menu-menu-community-menu" element
 
-
   Scenario: As an anonymous user, I cannot see content of private community
     Given I am not logged in
     When I am viewing a "community" content:
@@ -91,7 +87,7 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
     Then I should get an access denied error
-      When I am viewing a "page" content:
+    When I am viewing a "page" content:
       | title                          | A Page in a private community        |
       | og_group_ref                   | A private community                  |
       | field_ne_body                  | Lorem ipsum dolor sit amet body.     |
@@ -117,7 +113,6 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state_new | published                            |
     Then I should get an access denied error
 
-
   Scenario: As an authenticated user, I can subscribes/un-subscribe on a public community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
@@ -135,8 +130,7 @@ Feature: Nexteuropa Communities
     When I press the "Remove" button
     Then I should see the link "Request group membership"
 
-
-    Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
+  Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
       | title                          | My public Community |
@@ -162,7 +156,6 @@ Feature: Nexteuropa Communities
     Then I should see the heading "Are you sure you want to delete Page 1 in My public Community?"
     When I press the "Delete" button
     Then I should see the success message "Page 1 in My public Community has been deleted."
-
 
   Scenario: As a group member, I can create/edit/delete a group content (page) on my private community
     Given I am logged in as a user with the 'authenticated user' role
@@ -190,7 +183,6 @@ Feature: Nexteuropa Communities
     Then I should see the heading "Are you sure you want to delete Page 1 in My private Community?"
     When I press the "Delete" button
     Then I should see the success message "Page 1 in My private Community has been deleted."
-
 
   Scenario: As a site administrator, I can enable/disable the private area
     When I am logged in as a user with the 'administrator' role

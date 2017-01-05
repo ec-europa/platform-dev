@@ -1,4 +1,4 @@
-@api @integration
+@integration
 Feature: Integration consumer
   In order to use content from other sources
   As a site administrator

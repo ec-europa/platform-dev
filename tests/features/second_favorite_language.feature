@@ -1,4 +1,3 @@
-@api @i18n
 Feature: Second favorite language tests
   In order to be accessible to European citizens,
   Users should be able to switch content to their favorite language.
@@ -47,5 +46,3 @@ Feature: Second favorite language tests
       | content/title-english_de |                  | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français    | Corps de texte français    | Corps du texte  |
       | content/title-english_bg | ?2nd-language=fr | Italiano | content/title-english_bg | ?2nd-language=it | Questo titolo è in italiano | Corpo di testo in italiano | Corpo del testo |
       | content/title-english_de | ?2nd-language=it | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français    | Corps de texte français    | Corps du texte  |
-
-

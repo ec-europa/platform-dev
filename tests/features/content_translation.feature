@@ -7,7 +7,6 @@ Feature: Content translation
   As part of the editorial team
   I want to be able to create, request and edit translations.
 
-  @api
   Scenario Outline: A user with 'contributor' group role can access the "Translate" tab on a content page
     Given the following languages are available:
       | languages |
@@ -26,13 +25,12 @@ Feature: Content translation
     And I should see "German"
     And I should see the link "edit"
 
-  Examples:
-    | role               |
-    | editor             |
-    | contributor        |
-    | authenticated user |
+    Examples:
+      | role               |
+      | editor             |
+      | contributor        |
+      | authenticated user |
 
-  @api
   Scenario Outline: Content is translatable only if its moderation state is "Published" or "Validated"
     Given the following languages are available:
       | languages |
@@ -54,13 +52,12 @@ Feature: Content translation
     And I should see "German"
     And I should see the link "add"
 
-  Examples:
-    | role               | status       |
-    | editor             | Validated    |
-    | contributor        | Published    |
-    | authenticated user | Validated    |
+    Examples:
+      | role               | status       |
+      | editor             | Validated    |
+      | contributor        | Published    |
+      | authenticated user | Validated    |
 
-  @api
   Scenario Outline: User can translate content by accessing the "Translate" tab
     Given the following languages are available:
       | languages |
@@ -84,14 +81,12 @@ Feature: Content translation
     Then I should see "Page title"
     And I should see "Translated page title"
 
-  Examples:
-    | role               | status       |
-    | editor             | Validated    |
-    | contributor        | Published    |
-    | authenticated user | Validated    |
+    Examples:
+      | role               | status       |
+      | editor             | Validated    |
+      | contributor        | Published    |
+      | authenticated user | Validated    |
 
-
-  @api
   Scenario Outline: User can request translation only for content marked as "Published" or "Validated"
     Given the following languages are available:
       | languages |
@@ -115,8 +110,8 @@ Feature: Content translation
     Then I should see the link "Page title"
     And I should not see the link "Page title in draft"
 
-  Examples:
-    | role               | status       |
-    | editor             | Validated    |
-    | contributor        | Published    |
-    | authenticated user | Validated    |
+    Examples:
+      | role               | status       |
+      | editor             | Validated    |
+      | contributor        | Published    |
+      | authenticated user | Validated    |

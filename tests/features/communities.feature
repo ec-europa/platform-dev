@@ -5,7 +5,6 @@ Feature: Communities
   As a site administrator
   I want to be able to add, edit and delete communities
 
-  @api
   Scenario: Groups list
     Given I am logged in as a user with the 'administrator' role
     When I go to "communities_directory"

@@ -1,4 +1,3 @@
-@api
 Feature: Content editing as administrator
   In order to manage the content on the website
   As an administrator
@@ -7,7 +6,6 @@ Feature: Content editing as administrator
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @api
   Scenario Outline: Test allowed HTML
     # The Wysiwyg does not return the HTML exactly as entered. It will insert
     # whitespace and some additional tags. Hence the expected HTML differs from
@@ -32,7 +30,6 @@ Feature: Content editing as administrator
       | <div class=\"css_class-name\">Applied css class</div>                                        | <div class=\"css_class-name\">Applied css class</div>                                        |
       | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               | <div id=\"my-id_123\">A container with a custom HTML ID.</div>                               |
 
-  @api
   Scenario Outline: Test disallowed HTML
     When I go to "node/add/page"
     And I fill in "Title" with "This is not the right way"

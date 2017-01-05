@@ -1,4 +1,3 @@
-@api
 Feature: Images
   In order to make my website more attractive
   As a contributor

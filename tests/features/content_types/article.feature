@@ -1,10 +1,8 @@
-@api
 Feature: Article content type
   In order to manage articles on the website
   As an editor
   I want to be able to create, edit and delete articles
 
-  @api
   Scenario: Create an article
     Given "Tags" terms:
       | name              | weight | description   |

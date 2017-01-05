@@ -1,4 +1,3 @@
-@api
 Feature: Subscription
   In order to be notified on content created or updated on the website
   As an authenticated user
@@ -7,8 +6,8 @@ Feature: Subscription
   Background:
     Given I am logged in as a user with the 'administrator' role
     And the module is enabled
-      |modules                      |
-      |multisite_notifications_core |
+      | modules                      |
+      | multisite_notifications_core |
 
   @javascript
   Scenario: Create a page and have someone subscribe to it
@@ -72,4 +71,3 @@ Feature: Subscription
     And I go to the page of the node I remembered
     Then I should see "A new page title"
     And I should not see "subscribe"
-
