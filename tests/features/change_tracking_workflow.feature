@@ -52,32 +52,44 @@ Feature: Change tracking features
 
   @javascript @maximizedwindow
   Scenario: Checking if WYSIWYG options are applied to CKEditor
+    # Necessary for PhantomJS to set a wider screen resolution.
+    Given I use device with "1920" px and "1080" px resolution
     When I go to "admin/config/content/wysiwyg/tracked_changes/setup"
     And I click "enable tracked changes buttons" in the "Full HTML" row
     Then I should see "Enabled" in the "Full HTML" row
     And I should see the message "Change tracking enabled on full_html WYSIWYG profile"
-    And I check the box "Disable on create content pages."
-    And I check the box "Enable tracking on edit content pages."
-    And I press "Save configuration"
-    And I go to "node/add/page"
+    When I go to "node/add/page"
     And I fill in "Title" with "This is a page I want to reference"
-    And I select "Full HTML" from "Text format"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
-    When I press "Save"
+    And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
+    When  I fill in the rich text editor "Body" with "Text should change because life is always moving."
+    And I press "Save"
     And I click "Edit draft"
+    Then I should see the "Start tracking changes" button in the "Body" WYSIWYG editor
+    # Workaround: we cannot simulate text typing and it is not the real purpose of the current test.
+    When I select "Basic HTML" from "Text format"
+    And I fill in "Body" with "Text should change because life is always moving. <span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> The philosophical time of this test!</span>"
     And I select "Full HTML" from "Text format"
+    # end of the workaround.
+    And I press "Save"
+    And I click "Edit draft"
     Then I should see the "Stop tracking changes" button in the "Body" WYSIWYG editor
+    When I click the "Accept all changes" button in the "Body" WYSIWYG editor
+    And I press "Save"
     And I go to "admin/config/content/wysiwyg/tracked_changes/setup"
-    When I click "disable tracked changes buttons" in the "Full HTML" row
+    And I click "disable tracked changes buttons" in the "Full HTML" row
     And I wait for the end of the batch job
     Then I should see "Disabled" in the "Full HTML" row
     When I go to "node/add/page"
     And I fill in "Title" with "This is a new page I want to reference"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
-    When I press "Save"
+    And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
+    When I fill in the rich text editor "Body" with "Tracking is an old story!"
+    And I press "Save"
     And I click "Edit draft"
     And I select "Full HTML" from "Text format"
     Then I should not see the "Start tracking changes" button in the "Body" WYSIWYG editor
+    And I should not see the "Stop tracking changes" button in the "Body" WYSIWYG editor
 
   Scenario Outline: "Basic page" case: If WYSIWYG workflow settings are correctly
   configured, The change of the content state to "validated" or "published" must
