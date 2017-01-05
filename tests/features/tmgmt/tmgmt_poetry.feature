@@ -5,7 +5,7 @@ Feature: TMGMT Poetry features
   I want to be able to create/manage translation requests.
 
   Background:
-    Given I am logged in as a user with the "administrator" role
+    Given I am logged in as a user with the "cem" role
     And the module is enabled
       |modules                |
       |tmgmt_poetry_mock      |
@@ -20,12 +20,14 @@ Feature: TMGMT Poetry features
 
   @resetPoetryNumero
   Scenario: Checking a wrong configuration.
+    Given I am logged in as a user with the "cem" role
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
     And I fill in "Poetry Password" with "MockPoetryPWD"
     And I press "Save translator"
     Then I should see the success message "The configuration options have been saved."
+    Then I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I fill in "Body" with "Page body content"
@@ -41,6 +43,7 @@ Feature: TMGMT Poetry features
     Then I should see the error message "There was an error with the Poetry request."
     And I should see "Rejected" in the "French" row
     And I should see "Rejected" in the "Italian" row
+    Then I am logged in as a user with the "cem" role
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -48,8 +51,66 @@ Feature: TMGMT Poetry features
     And I press "Save translator"
     Then I should see the success message "The configuration options have been saved."
 
+  # Deliberately not using a JavaScript enabled browser here, as it will probably
+  # respect the maximum length specified on the input field and automatically
+  # trim any value we fill it with.
+  @cleanup-tmgmt-poetry-website-identifier
+  Scenario: A website identifier longer than 15 characters is not accepted.
+    Given I am logged in as a user with the "cem" role
+    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
+    And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
+    And I press the "Save translator" button
+    Then I should see the error message "Website identifier cannot be longer than 15 characters"
+
+  @cleanup-tmgmt-poetry-website-identifier
+  Scenario: The website identifier is mandatory.
+    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
+    And I press the "Save translator" button
+    Then I should see the error message "Website identifier field is required."
+
+  @javascript @cleanup-tmgmt-poetry-website-identifier
+  Scenario: Send translation request including the website identifier.
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And inside fieldset "General settings" I fill in "Website identifier" with "my-website"
+    And I press the "Save translator" button
+    Then I am logged in as a user with the "administrator" role
+    And I am viewing a multilingual "page" content:
+      | language | title   |
+      | en       | My page |
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: my-website - My page"
+
+  @javascript @cleanup-tmgmt-poetry-website-identifier
+  Scenario: Send translation request including a website identifier with
+  characters that have a special meaning in HTML.
+    Given I am logged in as a user with the "cem" role
+    And I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
+    And I fill in "Callback Password" with "drupal_callback_password"
+    And I fill in "Poetry Password" with "poetry_password"
+    And I press the "Save translator" button
+    Then I am logged in as a user with the "administrator" role
+    And I am viewing a multilingual "page" content:
+      | language | title   |
+      | en       | My page |
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: />&mywebsite< - My page"
+
   @resetPoetryNumero
   Scenario: Checking the counter init request.
+    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I fill in "Body" with "Page body content"
@@ -68,7 +129,8 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Create a request translation for Portuguese
-    Given I am viewing a multilingual "page" content:
+    Given I am logged in as a user with the "administrator" role
+    And I am viewing a multilingual "page" content:
       | language | title                                           |
       | en       | This is an english page I want to translate     |
     And I click "Translate" in the "primary_tabs" region
@@ -81,6 +143,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: I can access an overview of recent translation jobs.
+    Given I am logged in as a user with the "administrator" role
     Given local translator "Translator A" is available
     When I create the following multilingual "page" content:
       | language | title              | field_ne_body     |
@@ -124,8 +187,9 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Request main job before other translations + request a new translation.
-    When I go to "node/add/page"
-    And I select "Basic HTML" from "Text format"
+    Given I am logged in as a user with the "administrator" role
+    And I go to "node/add/page"
+    When I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Page for main and sub jobs"
     And I fill in "Body" with "Here is the content of the page for main and sub jobs."
     And I press "Save"
@@ -460,59 +524,6 @@ Feature: TMGMT Poetry features
       And I fill in "Date" with a relative date of "+20" days    
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
-
-  # Deliberately not using a JavaScript enabled browser here, as it will probably
-  # respect the maximum length specified on the input field and automatically
-  # trim any value we fill it with.
-  @cleanup-tmgmt-poetry-website-identifier
-  Scenario: A website identifier longer than 15 characters is not accepted.
-    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
-    And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
-    And I press the "Save translator" button
-    Then I should see the error message "Website identifier cannot be longer than 15 characters"
-
-  @cleanup-tmgmt-poetry-website-identifier
-  Scenario: The website identifier is mandatory.
-    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
-    And I press the "Save translator" button
-    Then I should see the error message "Website identifier field is required."
-
-  @javascript @cleanup-tmgmt-poetry-website-identifier
-  Scenario: Send translation request including the website identifier.
-    Given I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
-    And inside fieldset "General settings" I fill in "Website identifier" with "my-website"
-    And I press the "Save translator" button
-    And I am viewing a multilingual "page" content:
-      | language | title   |
-      | en       | My page |
-    When I click "Translate" in the "primary_tabs" region
-    And I check the box on the "French" row
-    And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days
-    And I press "Submit to translator"
-    And I store the job reference of the translation request page
-    Then the poetry translation service received the translation request
-    And the translation request has titre "NE-CMS: my-website - My page"
-
-  @javascript @cleanup-tmgmt-poetry-website-identifier
-  Scenario: Send translation request including a website identifier with
-  characters that have a special meaning in HTML.
-    Given I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
-    And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
-    And I fill in "Callback Password" with "drupal_callback_password"
-    And I fill in "Poetry Password" with "poetry_password"
-    And I press the "Save translator" button
-    And I am viewing a multilingual "page" content:
-      | language | title   |
-      | en       | My page |
-    When I click "Translate" in the "primary_tabs" region
-    And I check the box on the "French" row
-    And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days
-    And I press "Submit to translator"
-    And I store the job reference of the translation request page
-    Then the poetry translation service received the translation request
-    And the translation request has titre "NE-CMS: />&mywebsite< - My page"
 
   @javascript
   Scenario: Adding new languages to the ongoing translation request
