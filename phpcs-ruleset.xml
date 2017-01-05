@@ -95,10 +95,4 @@
         <exclude-pattern>src/Phing</exclude-pattern>
     </rule>
 
-    <!-- Comments in exported fields are missing a period at the end. -->
-    <!-- Todo: Remove this when https://www.drupal.org/node/2568161 is fixed. -->
-    <rule ref="Drupal.Commenting.InlineComment.InvalidEndChar">
-        <exclude-pattern>sprofiles/*/modules/features/**/*features.field_base.inc</exclude-pattern>
-        <exclude-pattern>sprofiles/*/modules/features/**/*features.field_instance.inc</exclude-pattern>
-    </rule>
 </ruleset>

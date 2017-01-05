@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ec_resp's theme implementation for comments.

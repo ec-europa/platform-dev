@@ -254,12 +254,12 @@ function nexteuropa_token_ckeditor_custom_theme() {
   $path = current_path();
 
   // Clean the paths.
-  $paths = array_map(function($value) {
+  $paths = array_map(function ($value) {
     return str_replace('/%', '', $value);
   }, array_keys(nexteuropa_token_ckeditor_menu()));
 
   // Find is there are any candidates.
-  $candidates = array_filter($paths, function($v) use ($path) {
+  $candidates = array_filter($paths, function ($v) use ($path) {
     return strpos($path, $v) !== FALSE;
   });
 

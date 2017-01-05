@@ -6,6 +6,7 @@
  */
 
  define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+
 /**
  * Implements hook_permission().
  */
@@ -470,7 +471,6 @@ function multisite_drupal_toolbox_filter_info() {
   );
   return $info;
 }
-
 
 /**
  * Alter filter process callback for the token input filter.
@@ -961,7 +961,7 @@ function multisite_cce_theme() {
 /**
  * Custom function : redirects to comments tab in workbench.
  */
-function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state) {
+function multisite_drupal_toolbox_workbench_redirect_submit(array $form, array &$form_state) {
   $form_state['redirect'] = array(
     'admin/workbench/comment',
   );
@@ -973,7 +973,7 @@ function multisite_drupal_toolbox_workbench_redirect_submit($form, &$form_state)
  * @obsolete
  *   Use multisite_drupal_toolbox_workbench_redirect_submit() instead.
  */
-function workbench_redirect_submit($form, &$form_state) {
+function workbench_redirect_submit(array $form, array &$form_state) {
   multisite_drupal_toolbox_workbench_redirect_submit($form, $form_state);
 }
 
@@ -1148,7 +1148,7 @@ function _content_type_linkchecker($type, $op) {
 /**
  * Modifies the security settings.
  */
-function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
+function multisite_drupal_toolbox_form_security_settings(array $form, array &$form_state) {
   $form['security_allowed_tags'] = array(
     '#type' => 'textarea',
     '#title' => t('allowed tags'),
@@ -1172,7 +1172,7 @@ function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
  * @obsolete
  *   Use multisite_drupal_toolbox_form_security_settings() instead.
  */
-function form_security_settings($form, &$form_state) {
+function form_security_settings(array $form, array &$form_state) {
   return multisite_drupal_toolbox_form_security_settings($form, $form_state);
 }
 
@@ -1537,10 +1537,10 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
     if (db_table_exists('field_revision_' . $field['field_name'])) {
       // Clean revision field.
       db_delete('field_revision_' . $field['field_name'])
-          ->condition('entity_type', $target->entity_type)
-          ->condition('entity_id', $target->entity_id)
-          ->condition($field['field_name'] . '_tid', $term->tid)
-          ->execute();
+        ->condition('entity_type', $target->entity_type)
+        ->condition('entity_id', $target->entity_id)
+        ->condition($field['field_name'] . '_tid', $term->tid)
+        ->execute();
     }
   }
 }
@@ -1721,7 +1721,7 @@ function multisite_drupal_toolbox_load_html_file(DOMDocument $dom, $htmlfile) {
  * @param array $errors
  *   Return an array with LibXMLError objects.
  */
-function multisite_drupal_toolbox_filter_errors($errors) {
+function multisite_drupal_toolbox_filter_errors(array $errors) {
   $re = '#Tag (article|aside|audio|bdi|canvas|data|datalist|figcaption|figure|footer|header|keygen|main|mark'
     . '|meter|nav|output|progress|rb|rp|rt|rtc|ruby|section|source|template|time|track|video|wbr) invalid#';
   foreach ($errors as $error) {

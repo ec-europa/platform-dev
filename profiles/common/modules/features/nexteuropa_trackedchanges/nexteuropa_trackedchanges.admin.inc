@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks for nexteuropa_trackedchanges admin interfaces.
@@ -48,7 +49,7 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
  * @return string
  *    Markup with rendered table.
  */
-function _nexteuropa_trackedchanges_render_info_table($info) {
+function _nexteuropa_trackedchanges_render_info_table(array $info) {
   // Setting up table header.
   $header = array(
     array('data' => t('Profile')),
@@ -444,7 +445,6 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
     drupal_set_message($message, 'error');
   }
 }
-
 
 /**
  * Finished callback of the batch field for tracked changes values.

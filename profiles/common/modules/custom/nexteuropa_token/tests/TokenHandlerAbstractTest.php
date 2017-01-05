@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest.
- */
-
 namespace Drupal\nexteuropa_token\Tests;
 
 /**
@@ -16,12 +11,16 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * Test fixtures.
+   *
+   * @var mixed
    */
   protected static $contentType = NULL;
   protected static $vocabulary = NULL;
 
   /**
    * List of entities created during tests, keyed by entity type.
+   *
+   * @var mixed[]
    */
   protected $entities = NULL;
 

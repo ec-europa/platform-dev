@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code specific to customization for the change tracking management.
@@ -123,7 +124,7 @@ function _nexteuropa_trackedchanges_set_tracking_flags($entity, $type = 'node') 
  * @param array $form_state
  *   Form state of the submitted form.
  */
-function _nexteuropa_trackedchanges_tracking_entity_validate($form, &$form_state) {
+function _nexteuropa_trackedchanges_tracking_entity_validate(array $form, array &$form_state) {
   $values = $form_state['values'];
 
   // So far, we only support "node" entity type.
@@ -275,7 +276,7 @@ function _nexteuropa_trackedchanges_tracking_entity_log($form, &$form_state) {
  *
  * @see nexteuropa_trackedchanges_form_workbench_moderation_moderate_form_alter()
  */
-function _nexteuropa_trackedchanges_tracking_wbm_validate($form, &$form_state) {
+function _nexteuropa_trackedchanges_tracking_wbm_validate(array $form, array &$form_state) {
   $values = $form_state['values'];
   $entity = $values['node'];
   $current_wbm_state = $values['state'];
@@ -308,7 +309,7 @@ function _nexteuropa_trackedchanges_tracking_wbm_validate($form, &$form_state) {
  *
  * @see _nexteuropa_trackedchanges_tracking_entity_validate()
  */
-function _nexteuropa_trackedchanges_tracking_field_validate($element, &$form_state, $form) {
+function _nexteuropa_trackedchanges_tracking_field_validate(array $element, array &$form_state, array $form) {
   $entity = $element['#entity'];
   $values = $form_state['values'];
 
@@ -369,7 +370,7 @@ function _nexteuropa_trackedchanges_tracking_field_validate($element, &$form_sta
  *
  * @see _nexteuropa_trackedchanges_tracking_entity_validate()
  */
-function _nexteuropa_trackedchanges_tracking_entity_message($tracking_lang, $entity) {
+function _nexteuropa_trackedchanges_tracking_entity_message(array $tracking_lang, $entity) {
 
   $lang_related = _nexteuropa_trackedchanges_tracking_message_for_languages($tracking_lang);
   $state_related = _nexteuropa_trackedchanges_tracking_message_for_wbm_states($entity);
@@ -391,7 +392,7 @@ function _nexteuropa_trackedchanges_tracking_entity_message($tracking_lang, $ent
  *
  * @see _nexteuropa_trackedchanges_tracking_entity_message()
  */
-function _nexteuropa_trackedchanges_tracking_message_for_languages($tracking_lang) {
+function _nexteuropa_trackedchanges_tracking_message_for_languages(array $tracking_lang) {
   // LANGUAGE_NONE means all languages and then the current one too.
   unset($tracking_lang[LANGUAGE_NONE]);
 
@@ -464,9 +465,9 @@ function _nexteuropa_trackedchanges_tracking_message_for_wbm_states($entity) {
  *
  * @param object $entity
  *   Entity to check.
- * @param bool|FALSE $current_wbm_state
+ * @param bool|false $current_wbm_state
  *   Submitted entity workbench moderation state (node only).
- * @param bool|FALSE $current_status
+ * @param bool|false $current_status
  *   Submitted entity current status (node without workbench moderation only).
  *
  * @return bool
@@ -547,7 +548,7 @@ function _nexteuropa_trackedchanges_wysiwyg_tracking_settings($entity = NULL) {
  *
  * @see nexteuropa_trackedchanges_entity_view_alter()
  */
-function _nexteuropa_trackedchanges_ckeditor_lite_view_alter(&$build, $type) {
+function _nexteuropa_trackedchanges_ckeditor_lite_view_alter(array &$build, $type) {
   if ($type == 'node' &&  user_access('ckeditor_lite highlight changes')) {
     // Only applicable on node., other entity does not have the same workflow.
     // If the user does not have the permission, we leave ckeditor_lite
@@ -1109,7 +1110,7 @@ function _nexteuropa_trackedchanges_clean_db() {
  *
  * @see nexteuropa_trackedchanges_cron()
  */
-function _nexteuropa_trackedchanges_info_save($info_to_save) {
+function _nexteuropa_trackedchanges_info_save(array $info_to_save) {
 
   if (!$info_to_save) {
     // If empty, then, it is the item indicating that the queue is done and

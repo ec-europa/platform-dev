@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides MT@EC Translator ui controller.

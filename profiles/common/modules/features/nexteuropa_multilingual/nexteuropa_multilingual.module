@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NextEuropa Multilingual feature.
@@ -171,7 +172,6 @@ function nexteuropa_multilingual_language_negotiation_info() {
   );
   return $providers;
 }
-
 
 /**
  * Implements hook_menu().
@@ -447,7 +447,7 @@ function nexteuropa_multilingual_path_update($path) {
  *     - pid: Unique path alias identifier.
  *     - language: The language of the alias.
  */
-function _nexteuropa_multilingual_path_und_sync($path) {
+function _nexteuropa_multilingual_path_und_sync(array $path) {
 
   // We must pass through a basic path parsing and a db_select because:
   // - The menu_get_object function makes a access control and a redirection to
@@ -563,7 +563,7 @@ function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) 
  *     - message: the message text.
  *     - message_attributes: The HTML attributes of the message text.
  */
-function template_preprocess_nexteuropa_multilingual_message(&$variables) {
+function template_preprocess_nexteuropa_multilingual_message(array &$variables) {
   $message_attributes = array(
     'class' => array('alert', 'alert-warning'),
     'role'  => array('alert'),

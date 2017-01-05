@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\HashTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token;
 
 /**
@@ -19,14 +14,16 @@ class HashTokenHandler extends TokenAbstractHandler {
 
   /**
    * Character sets used in encoding routine.
+   *
+   * @var string
    */
-  protected $sliceChars   = "5zqcn9l7mg0rskjb621pwtv3xd84fh";
-  protected $typeChars    = "d3gxr6zws4fb2qp8mk9n1vtcj7l5h0";
-  protected $firstChars   = "6svjw1z7dmt9kqgcr405b3nxp82hlf";
-  protected $secondChars  = "fnwjpx30tlr276419qgbc85zmdvksh";
-  protected $thirdChars   = "f6tjlvq5r3n1phdswzbc7xg02k9m48";
-  protected $fourthChars  = "9pvmj1cs5bt763w2frx04qngkdz8hl";
-  protected $allChars     = array();
+  protected $sliceChars  = "5zqcn9l7mg0rskjb621pwtv3xd84fh";
+  protected $typeChars   = "d3gxr6zws4fb2qp8mk9n1vtcj7l5h0";
+  protected $firstChars  = "6svjw1z7dmt9kqgcr405b3nxp82hlf";
+  protected $secondChars = "fnwjpx30tlr276419qgbc85zmdvksh";
+  protected $thirdChars  = "f6tjlvq5r3n1phdswzbc7xg02k9m48";
+  protected $fourthChars = "9pvmj1cs5bt763w2frx04qngkdz8hl";
+  protected $allChars    = array();
 
   /**
    * {@inheritdoc}

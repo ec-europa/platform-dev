@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains classes for Client connections handlers.
@@ -66,7 +67,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
    *
    * @see clients_connection_form_submit()
    */
-  public function connectionSettingsForm_submit($form, &$form_state) {
+  public function connectionSettingsForm_submit(array $form, array &$form_state) {
     // This is here to show an example of how this method works.
     parent::connectionSettingsForm_submit($form, $form_state);
     // Set our variable with Connection machine name.
@@ -189,7 +190,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
     elseif (!$server_info && in_array($response->code, array(200, 201))) {
       $message = t('Remote service is alive! To view the server response please check the "See service response".');
       drupal_set_message(t('%message'), array('%message' => $message));
-      return;
+      return FALSE;
     }
     else {
       return FALSE;
@@ -265,7 +266,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
    * @return mixed
    *   Whatever is returned from the remote site.
    */
-  public function callMethodArray($method, $method_params = array()) {
+  public function callMethodArray($method, array $method_params = array()) {
     $resource_path = $method;
     $http_method = array_shift($method_params);
     // The data array doesn't have to be present, so we have to fiddle about
@@ -299,7 +300,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
    * @return mixed
    *   The data from the request response.
    */
-  public function makeRequest($resource_path, $http_method, $data = array()) {
+  public function makeRequest($resource_path, $http_method, array $data = array()) {
     // Start by assuming we need to log in.
     $login_needed = TRUE;
 
@@ -409,7 +410,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
    * @return mixed
    *   The data from the request response.
    */
-  public function makeCookieRequest($http_method, $data = array()) {
+  public function makeCookieRequest($http_method, array $data = array()) {
     // Adding site_name to $data array.
     $data['sites'] = _multisite_cookie_consent_site_name();
 
@@ -476,7 +477,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
     elseif (in_array($response->code, array(200, 201))) {
       $message = t('Remote service is alive! To view the server response please check the "See service response".');
       drupal_set_message(t('%message'), array('%message' => $message));
-      return;
+      return FALSE;
     }
     else {
       return FALSE;

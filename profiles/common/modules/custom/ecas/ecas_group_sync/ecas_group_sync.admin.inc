@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Admin section for ECAS Group Sync.
@@ -7,7 +8,7 @@
 /**
  * Form constructor for the mapping rules form.
  */
-function ecas_group_sync_mapping_form($form, &$form_state) {
+function ecas_group_sync_mapping_form(array $form, array &$form_state) {
   $form['#attached']['css'] = array(
     drupal_get_path('module', 'ecas_group_sync') . '/css/ecas_group_sync.css',
   );
@@ -102,7 +103,7 @@ function ecas_group_sync_role_mapping_form_callback($form, $form_state) {
  *
  * @see ecas_group_sync_mapping_form()
  */
-function ecas_group_sync_role_mapping_form_submit($form, &$form_state) {
+function ecas_group_sync_role_mapping_form_submit(array $form, array &$form_state) {
   $form_state['extra_row']++;
   $form_state['rebuild'] = TRUE;
 }
@@ -114,7 +115,7 @@ function ecas_group_sync_role_mapping_form_submit($form, &$form_state) {
  *
  * @see ecas_group_sync_mapping_form()
  */
-function ecas_group_sync_mapping_form_submit($form, &$form_state) {
+function ecas_group_sync_mapping_form_submit(array $form, array &$form_state) {
   $values = $form_state['values'];
 
   db_delete('ecas_sync_mapping')

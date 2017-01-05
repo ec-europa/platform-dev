@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature e_library.
@@ -13,7 +14,6 @@ function news_standard_enable() {
   // Add block in context.
   multisite_drupal_toolbox_add_block_context('homepage', 'news-top_news', 'views', 'news-top_news', 'content_top');
 }
-
 
 /**
  * Implements hook_disable().

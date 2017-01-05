@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file for DGT approved HMTL format.
@@ -14,7 +15,6 @@ function tmgmt_dgt_html_tmgmt_file_format_plugin_info() {
 
   return $info;
 }
-
 
 /**
  * Implements hook_theme().
@@ -36,7 +36,7 @@ function tmgmt_dgt_html_theme() {
  * @param array $variables
  *   Variables passed to the template.
  */
-function template_preprocess_tmgmt_dgt_html_template(&$variables) {
+function template_preprocess_tmgmt_dgt_html_template(array &$variables) {
   $html_formats = _tmgmt_dgt_html_filter_formats_containing_html();
 
   foreach (array_keys($variables['items']) as $tjid) {

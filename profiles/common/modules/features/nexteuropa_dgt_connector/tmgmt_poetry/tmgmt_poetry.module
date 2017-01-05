@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file of the translation management Poetry .
@@ -20,9 +21,9 @@ function tmgmt_poetry_entity_info_alter(&$entity_info) {
  *
  * @param string $op
  *   Which operation is performed.
- * @param array $translator
+ * @param object $translator
  *   The translator the operation is performed on.
- * @param array $account
+ * @param object $account
  *   The account which is performing the update.
  *
  * @return bool
@@ -247,7 +248,7 @@ function _tmgmt_poetry_form_load_translator_settings(&$form_state, &$form, $job)
 /**
  * Job Form Callback.
  */
-function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
+function _tmgmt_poetry_form_tmgmt_job_submit(array $form, array &$form_state) {
   // NEXTEUROPA-7719 - Simplifying Poetry UI.
   // Checking if main language has been changed and picking another one if so
   // and saving it in to the job to keep the current implementation way.
@@ -384,7 +385,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
  * @return mixed
  *   mixed.
  */
-function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
+function _tmgmt_poetry_obtain_related_translation_jobs(array $languages, $reference = '', $not_poetry = FALSE) {
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
   $query->fields('job', array('tjid'))
@@ -807,7 +808,6 @@ function tmgmt_poetry_permission() {
     ),
   );
 }
-
 
 /**
  * Provides main TMGMT job based on the given entity id.

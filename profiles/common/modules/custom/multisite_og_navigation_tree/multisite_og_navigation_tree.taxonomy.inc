@@ -303,7 +303,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
 /**
  * Modification of the core taxonomy overview terms form submit.
  */
-function _mont_overview_terms_submit($form, &$form_state) {
+function _mont_overview_terms_submit(array $form, array &$form_state) {
   // Sort term order based on weight.
   uasort($form_state['values'], 'drupal_sort_weight');
 

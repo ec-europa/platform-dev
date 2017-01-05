@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Entity\TokenAbstractHandler.
- */
-
 namespace Drupal\nexteuropa_token\Entity;
 
 use Drupal\nexteuropa_token\TokenAbstractHandler as BaseTokenAbstractHandler;
@@ -76,7 +71,7 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
    * @param string $original
    *    Token Original string.
    */
-  protected function watchdogTokenNotFound($data, $original) {
+  protected function watchdogTokenNotFound(array $data, $original) {
     if (isset($data['node'])) {
       watchdog(
         'Nexteuropa Tokens',

@@ -10,7 +10,7 @@ include_once 'ecas_group_sync.admin.inc';
 /**
  * Form constructor for the mapping rules form.
  */
-function ecas_group_sync_mapping_group_form($form, &$form_state) {
+function ecas_group_sync_mapping_group_form(array $form, array &$form_state) {
   $form['#attached']['css'] = array(
     drupal_get_path('module', 'ecas_group_sync') . '/css/ecas_group_sync.css',
   );
@@ -110,7 +110,7 @@ function ecas_group_sync_mapping_group_form_add_mapping_group_callback($form, $f
  *
  * @see ecas_group_sync_mapping_group_form()
  */
-function ecas_group_sync_mapping_group_form_add_group_mapping_submit($form, &$form_state) {
+function ecas_group_sync_mapping_group_form_add_group_mapping_submit(array $form, array &$form_state) {
   $form_state['extra_row']++;
   $form_state['rebuild'] = TRUE;
 }
@@ -122,7 +122,7 @@ function ecas_group_sync_mapping_group_form_add_group_mapping_submit($form, &$fo
  *
  * @see ecas_group_sync_mapping_group_form()
  */
-function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
+function ecas_group_sync_mapping_group_form_submit(array $form, array &$form_state) {
   $values = $form_state['values'];
 
   db_delete('ecas_sync_mapping')
@@ -232,7 +232,7 @@ function eacs_group_sync_get_row_group($id, $ldap_field, $synctype, $ldap_field_
  *
  * @see eacs_group_sync_get_row_group()
  */
-function ecas_group_sync_update_og_roles($form, &$form_state) {
+function ecas_group_sync_update_og_roles(array $form, array &$form_state) {
   $none_option = array("0" => 'none');
 
   if (count($form_state['triggering_element']['#array_parents']) > 3) {

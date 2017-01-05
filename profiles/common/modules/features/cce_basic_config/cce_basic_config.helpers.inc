@@ -18,7 +18,7 @@
  *     - variable: The variable name containing the file id (fid) of the saved
  *                 file if it has been successfully saved.
  */
-function _cce_basic_config_import_images($images) {
+function _cce_basic_config_import_images(array $images) {
   foreach ($images as $default_image_data) {
     $full_dir = $default_image_data['scheme'] . $default_image_data['dest_directory'];
     $file_uri = $full_dir . '/' . $default_image_data['filename'];

@@ -104,8 +104,11 @@ class TMGMTPoetryJob extends TMGMTJob {
    *
    * @return TMGMTJobItem[]
    *   An array of translation job items.
+   *
+   * @codingStandardsIgnoreStart
    */
   public function getItems($conditions = array()) {
+    // @codingStandardsIgnoreEnd
     $items = parent::getItems($conditions);
 
     if (empty($items)) {

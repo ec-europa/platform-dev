@@ -49,7 +49,6 @@ function tmgmt_workbench_menu() {
   return $items;
 }
 
-
 /**
  * Implements hook_tmgmt_source_plugin_info().
  */
@@ -293,7 +292,7 @@ function _tmgmt_workbench_check_translatability($entity_id) {
  * @return array
  *   An empty array or an array with translatable language codes.
  */
-function _tmgmt_workbench_get_translatable_languages($existing_jobs, &$form, &$form_state) {
+function _tmgmt_workbench_get_translatable_languages(array $existing_jobs, array &$form, array &$form_state) {
   $existing_lg = array_keys($existing_jobs);
   $translatable_lg = [];
   $languages = language_list();
@@ -313,7 +312,7 @@ function _tmgmt_workbench_get_translatable_languages($existing_jobs, &$form, &$f
 /**
  * Validation callback of the addition of languages to the ongoing translation.
  */
-function tmgmt_workbench_add_target_languages_form_validate($form, &$form_state) {
+function tmgmt_workbench_add_target_languages_form_validate(array $form, array &$form_state) {
   if (isset($form_state['input']['translatable_languages'])) {
     foreach ($form_state['input']['translatable_languages'] as $language) {
       if (!is_null($language)) {
@@ -328,7 +327,7 @@ function tmgmt_workbench_add_target_languages_form_validate($form, &$form_state)
 /**
  * Submit callback for the addition of new target languages request.
  */
-function tmgmt_workbench_add_target_languages_form_submit($form, &$form_state) {
+function tmgmt_workbench_add_target_languages_form_submit(array $form, array &$form_state) {
   // Getting main job based on the $entity ID.
   $entity_id = $form_state['tmgmt_cart']['item_id'];
   $main_job = _tmgmt_poetry_get_main_job_by_entity_id($entity_id);
@@ -349,7 +348,7 @@ function tmgmt_workbench_add_target_languages_form_submit($form, &$form_state) {
 /**
  * Validation callback for the entity translation overview form.
  */
-function tmgmt_workbench_translate_form_validate($form, &$form_state) {
+function tmgmt_workbench_translate_form_validate(array $form, array &$form_state) {
   if (!isset($form_state['values']['languages'])) {
     form_set_error('languages', t('You have to select a language for requesting a translation.'));
   }
@@ -369,7 +368,7 @@ function tmgmt_workbench_translate_form_validate($form, &$form_state) {
 /**
  * Submit callback for the entity translation overview form.
  */
-function tmgmt_workbench_translate_form_submit($form, &$form_state) {
+function tmgmt_workbench_translate_form_submit(array $form, array &$form_state) {
   $entity = $form_state['entity'];
 
   // NEXTEUROPA-7719 - Simplifying Poetry UI.
@@ -430,7 +429,7 @@ function _tmgmt_workbench_available_states() {
  *
  * @see TMGMTPoetryTranslatorUIController
  */
-function _tmgmt_workbench_store_request_languages($languages) {
+function _tmgmt_workbench_store_request_languages(array $languages) {
   $_SESSION['tmgmt_workbench']['languages'] = $languages;
 }
 
@@ -466,7 +465,7 @@ function _tmgmt_workbench_clear_request_languages() {
  * @param array $trans_langs
  *   An array with translatable languages.
  */
-function _tmgmt_workbench_inject_add_new_languages_elements(&$form, $trans_langs) {
+function _tmgmt_workbench_inject_add_new_languages_elements(array &$form, array $trans_langs) {
   // Setting up header for the additional languages.
   $trans_lang_header = array(
     'language' => t('Language'),
@@ -493,7 +492,7 @@ function _tmgmt_workbench_inject_add_new_languages_elements(&$form, $trans_langs
     '#header' => $trans_lang_header,
     '#options' => $trans_langs_options,
     '#empty' => t('No content available.'),
-    '#prefix' => '<div class="col-lg-4, col-md-4">',
+    '#prefix' => '<div class="col-lg-4 col-md-4">',
     '#suffix' => '</div>',
   ];
 

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\VariableContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\taxonomy\\Config.
- */
-
 namespace Drupal\taxonomy;
 
 use Drupal\multisite_config\ConfigBase;
@@ -76,7 +71,7 @@ class Config extends ConfigBase {
    * @return object|bool
    *    Return new term object or FALSE.
    */
-  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = array(), $weight = 0) {
+  public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, array $fields = array(), $weight = 0) {
 
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary)) {
 

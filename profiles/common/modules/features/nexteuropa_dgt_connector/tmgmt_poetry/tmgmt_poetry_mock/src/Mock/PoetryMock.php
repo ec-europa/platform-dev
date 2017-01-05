@@ -1,9 +1,6 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\tmgmt_poetry_mock\Mock\PoetryMock.
- */
+use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
 
 namespace Drupal\tmgmt_poetry_mock\Mock;
 
@@ -148,7 +145,7 @@ class PoetryMock {
    */
   public function sendRequestToDrupal($message) {
     $this->instantiateClient($this->settings['drupal_wsdl']);
-    $translator = tmgmt_translator_load(\Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME);
+    $translator = tmgmt_translator_load(PoetryMock::TRANSLATOR_NAME);
     $settings = $translator->getSetting('settings');
     try {
       $response = $this->client->{self::SOAP_METHOD}(
@@ -172,7 +169,7 @@ class PoetryMock {
    * @param string $lg_code
    *    Language code. If ALL then all languages will be processed one by one.
    *
-   * @return array Array with translation response data.
+   * @return array
    *    Array with translation response data.
    */
   public static function prepareTranslationResponseData($message, $lg_code) {
@@ -213,7 +210,7 @@ class PoetryMock {
    * @param string $message
    *    Translation request XML data.
    *
-   * @return array Array with translation response data.
+   * @return array
    *    Array with translation response data.
    */
   public static function prepareRefuseJobResponseData($message) {
@@ -254,7 +251,7 @@ class PoetryMock {
    * @return array
    *   Array with data status request data.
    */
-  public static function prepareSendStatusData($demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code) {
+  public static function prepareSendStatusData(array $demande_id, $status_code, $request_status_msg, $demande_status_msg, $lg_code) {
     return array(
       'demande_id' => $demande_id,
       'format' => 'HTML',
@@ -278,7 +275,7 @@ class PoetryMock {
    * @return array
    *    Array with translation response data.
    */
-  private static function getTranslationResponseData($attribution, $content, $demande_id) {
+  private static function getTranslationResponseData(array $attribution, $content, array $demande_id) {
     return array(
       'language' => $attribution['language'],
       'format' => $attribution['format'],
@@ -387,7 +384,7 @@ class PoetryMock {
    * @return mixed
    *    An array with result.
    */
-  public static function getEntityDetailsByDemandeId($demande_id) {
+  public static function getEntityDetailsByDemandeId(array $demande_id) {
     return db_select('poetry_map', 'pm')
       ->fields('pm', array('entity_type', 'entity_id'))
       ->condition('annee', $demande_id['annee'], '=')
@@ -678,7 +675,7 @@ class PoetryMock {
    * @return string
    *   The string with properly formatted reference number.
    */
-  public static function prepareReferenceNumber($demande_id) {
+  public static function prepareReferenceNumber(array $demande_id) {
     return $demande_id['codeDemandeur']
       . '_' . $demande_id['annee']
       . '_' . $demande_id['numero']

@@ -4,15 +4,15 @@
  */
 
 (function (jQuery) {
-  jQuery(document).ready(function(){
+  jQuery(document).ready(function () {
     show_hide_url_field(jQuery('#edit-url-user-specified-url'));
     show_hide_lan_field(jQuery('#edit-language-language-specified'));
 
-    jQuery('#edit-url').live('change',function(){
+    jQuery('#edit-url').live('change',function () {
       show_hide_url_field(jQuery('#edit-url-user-specified-url'));
     });
 
-    jQuery('#edit-language').live('change',function(){
+    jQuery('#edit-language').live('change',function () {
       show_hide_lan_field(jQuery('#edit-language-language-specified'));
     });
   });

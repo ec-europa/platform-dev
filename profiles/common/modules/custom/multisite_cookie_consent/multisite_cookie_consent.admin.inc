@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Configuration settings for cookie consent module.
@@ -94,7 +95,7 @@ function multisite_cookie_consent_admin_settings() {
  *
  * @see multisite_cookie_consent_admin_settings()
  */
-function multisite_cookie_consent_admin_settings_submit($form, &$form_state) {
+function multisite_cookie_consent_admin_settings_submit(array $form, array &$form_state) {
   // Overwrite the pointer to the EC consent.js file.
   variable_set('eucookie_consent_ec_consent_javascript', $form_state['values']['eucookie_consent_ec_consent_javascript']);
   // Set variable if you want to display banner to logged in users.

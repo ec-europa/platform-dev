@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrupalContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -36,8 +31,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
 
   /**
    * Stores languages modified during test execution.
-   *
-   * @see DrupalContext::setLanguageProperty()
    *
    * @var array
    */

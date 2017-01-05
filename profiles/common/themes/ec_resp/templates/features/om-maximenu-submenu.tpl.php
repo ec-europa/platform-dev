@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default theme implementation of om maximenu with submenu blocks.

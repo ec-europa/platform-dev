@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * EUROPA search module.
@@ -34,7 +35,6 @@ function nexteuropa_europa_search_block_info() {
   );
   return $blocks;
 }
-
 
 /**
  * Implements hook_block_view().

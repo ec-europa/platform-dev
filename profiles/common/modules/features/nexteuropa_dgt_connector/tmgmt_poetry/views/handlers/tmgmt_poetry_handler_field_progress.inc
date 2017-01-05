@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains tmgmt_poetry_handler_field_progress class.
@@ -77,7 +78,7 @@ class tmgmt_poetry_handler_field_progress extends views_handler_field_entity {
    * @return array
    *   Settings array.
    */
-  protected function build_progressbar_settings($id, $counts, $prefix = 'progress') {
+  protected function build_progressbar_settings($id, array $counts, $prefix = 'progress') {
     $settings['chart'][$prefix . $id] = array(
       'header' => array(
         t('Accepted'),

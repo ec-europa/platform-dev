@@ -7,7 +7,6 @@
 
 include_once 'multisite_notifications_core.features.inc';
 
-
 /**
  * Implements hook_subscriptions_queue_alter().
  */

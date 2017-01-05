@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Display Suite NE Bootstrap Three Columns Stacked.

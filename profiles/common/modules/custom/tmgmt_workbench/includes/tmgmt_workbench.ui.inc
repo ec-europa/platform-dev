@@ -71,9 +71,12 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    *
    * @return array
    *   Array of entities.
+   *
+   * @codingStandardsIgnoreStart
    */
   public function getEntitiesTranslationData($type, $property_conditions = array()) {
 
+    // @codingStandardsIgnoreEnd
     $return_value = array();
 
     $entities = tmgmt_entity_get_translatable_entities($type, $property_conditions, TRUE);

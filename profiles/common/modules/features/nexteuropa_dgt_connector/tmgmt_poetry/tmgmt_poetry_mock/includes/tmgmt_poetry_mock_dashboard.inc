@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * tmgmt_poetry_mock_dashboard.inc
@@ -62,7 +63,7 @@ function _poetry_mock_prepare_request_data_set() {
  * @return string
  *    Rendered markup for the table with translation job requests.
  */
-function _poetry_mock_render_table($data_set) {
+function _poetry_mock_render_table(array $data_set) {
   if (count($data_set) > 0) {
     // Setting up table header.
     $header = [
@@ -132,7 +133,7 @@ function _poetry_mock_render_table($data_set) {
  * @return string
  *    Rendered markup with action list links.
  */
-function _poetry_mock_get_data_row_action_links($data_row) {
+function _poetry_mock_get_data_row_action_links(array $data_row) {
   $action_list = [
     'see' => [
       'title' => 'View',

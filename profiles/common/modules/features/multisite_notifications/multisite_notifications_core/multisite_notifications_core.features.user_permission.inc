@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_notifications_core.features.user_permission.inc

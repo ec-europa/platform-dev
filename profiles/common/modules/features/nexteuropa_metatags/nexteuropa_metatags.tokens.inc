@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Tokens for the NextEuropa Metatags feature.

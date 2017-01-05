@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default theme functions.
@@ -1592,7 +1593,7 @@ function ec_resp_preprocess_block(&$variables) {
 
         $items = array();
         $items[] = array(
-          'data' => '<span class="off-screen">' . t("Current language") . ':</span> ' . $language->language,
+          'data' => '<span class="off-screen">' . t('Current language: @language', array('@language' => $language->language)) . '</span>',
           'class' => array('selected'),
           'title' => $language->native,
           'lang' => $language->language,
@@ -1983,7 +1984,7 @@ function ec_resp_nexteuropa_multilingual_language_list(array $variables) {
  * @return string
  *   Formatted HTML column displaying the list of provided languages.
  */
-function _ec_resp_nexteuropa_multilingual_language_list_column($languages, $path, $options) {
+function _ec_resp_nexteuropa_multilingual_language_list_column(array $languages, $path, array $options) {
   $content = '<div class="col-sm-6">';
   foreach ($languages as $language) {
     $options['attributes']['lang'] = $language->language;

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \\Drupal\\block\\Config.
- */
 
 namespace Drupal\wysiwyg;
 
@@ -95,7 +91,7 @@ class Config extends ConfigBase {
    * @return object
    *    WYSIWYG profile object.
    */
-  public function createProfile($format_name, $editor, $settings = array()) {
+  public function createProfile($format_name, $editor, array $settings = array()) {
     $settings += $this->defaultSettings();
 
     // Insert new profile data.

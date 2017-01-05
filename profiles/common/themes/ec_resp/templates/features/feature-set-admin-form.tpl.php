@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Theme implementation to display feature set.

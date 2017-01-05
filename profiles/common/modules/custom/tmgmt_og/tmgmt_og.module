@@ -149,7 +149,7 @@ function tmgmt_og_form_tmgmt_job_form_alter(&$form, $form_state) {
  *
  * @see tmgmt_og_form_tmgmt_job_form_alter()
  */
-function tmgmt_og_tmgmt_job_form_submit($form, &$form_state) {
+function tmgmt_og_tmgmt_job_form_submit(array $form, array &$form_state) {
   // If in a group context then redirect to group overview page.
   if ($form_state['redirect'] == 'admin/tmgmt' && ($group = og_context())) {
     $form_state['redirect'] = 'group/' . $group['group_type'] . '/' . $group['gid'] . '/admin/tmgmt';

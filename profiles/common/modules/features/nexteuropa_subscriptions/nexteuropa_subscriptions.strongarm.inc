@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_subscriptions.strongarm.inc

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default simple view template to display a rows in a grid.

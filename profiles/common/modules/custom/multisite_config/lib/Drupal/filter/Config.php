@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\filter\\Config.
- */
-
 namespace Drupal\filter;
 
 use Drupal\multisite_config\ConfigBase;
@@ -246,7 +241,7 @@ class Config extends ConfigBase {
    * @return bool
    *    TRUE / FALSE when filter name is invalid.
    */
-  public function setFormatRoles($format_name, $roles) {
+  public function setFormatRoles($format_name, array $roles) {
     $format = $this->getFormat($format_name);
     // Save user permissions.
     if ($permission = filter_permission_name($format)) {

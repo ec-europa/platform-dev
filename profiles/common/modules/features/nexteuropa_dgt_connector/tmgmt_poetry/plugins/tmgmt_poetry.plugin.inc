@@ -633,7 +633,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param array $settings
    *   Translator settings.
    */
-  protected function appendRequestXmlElement(SimpleXMLElement $poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, array $new_languages, $delivery_date, $settings) {
+  protected function appendRequestXmlElement(SimpleXMLElement $poetry_xml, $request_type, $comm_type, TMGMTPoetryJob $job, array $new_languages, $delivery_date, array $settings) {
     // Add the 'request' XML element to the main XML document.
     $req_id_split = explode('_POETRY_', $job->reference);
     $request_id = end($req_id_split);
@@ -687,7 +687,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    * @param array $settings
    *   Translator settings.
    */
-  protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date, $settings) {
+  protected function appendAttributionsXmlElement(SimpleXMLElement $request_xml, array $new_languages, $delivery_date, array $settings) {
     $callback_username = $settings['callback_user'];
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
       'absolute' => TRUE,

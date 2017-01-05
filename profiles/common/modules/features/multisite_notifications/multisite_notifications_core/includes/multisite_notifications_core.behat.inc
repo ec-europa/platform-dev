@@ -19,7 +19,7 @@ class MultisiteNotificationsSubContext extends RawDrupalContext implements Drupa
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 

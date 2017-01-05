@@ -10,7 +10,7 @@
  *
  * @see system_settings_form()
  */
-function tmgmt_workbench_settings_form($form, &$form_state) {
+function tmgmt_workbench_settings_form(array $form, array &$form_state) {
 
   $options = array();
   foreach (workbench_moderation_states() as $key => $state) {

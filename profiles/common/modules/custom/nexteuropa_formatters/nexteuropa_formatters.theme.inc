@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Adding BEM related custom theme functions.
@@ -22,7 +23,7 @@
  * @return string
  *   Return $output.
  */
-function theme_nexteuropa_bem_item_list($variables) {
+function theme_nexteuropa_bem_item_list(array $variables) {
   $items = $variables['items'];
   $type = $variables['type'];
   $subtype = in_array($type, array('ul', 'ol')) ? 'li' : 'div';
@@ -93,7 +94,7 @@ function theme_nexteuropa_bem_item_list($variables) {
  * @return string
  *   Markup of transleations.
  */
-function theme_nexteuropa_file_translations($variables) {
+function theme_nexteuropa_file_translations(array $variables) {
   $files_count = isset($variables['node']->field_core_file) ? count($variables['node']->field_core_file) : 0;
 
   if ($files_count > 1) {

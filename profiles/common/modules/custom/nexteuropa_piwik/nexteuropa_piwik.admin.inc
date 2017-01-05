@@ -210,7 +210,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
 /**
  * Implements hook_FORM_ID_form_validate().
  */
-function nexteuropa_piwik_admin_settings_form_validate($form, &$form_state) {
+function nexteuropa_piwik_admin_settings_form_validate(array $form, array &$form_state) {
   // Trim some text area values.
   $form_state['values']['nexteuropa_piwik_site_id'] = trim($form_state['values']['nexteuropa_piwik_site_id']);
   $form_state['values']['nexteuropa_piwik_pages'] = trim($form_state['values']['nexteuropa_piwik_pages']);
