@@ -60,21 +60,17 @@ Feature: TMGMT Poetry features
     And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
     And I press the "Save translator" button
     Then I should see the error message "Website identifier cannot be longer than 15 characters"
-
-  @cleanup-tmgmt-poetry-website-identifier
-  Scenario: The website identifier is mandatory.
-    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
-    And I press the "Save translator" button
-    Then I should see the error message "Website identifier field is required."
-
-  @javascript @cleanup-tmgmt-poetry-website-identifier
-  Scenario: Send translation request including the website identifier.
-    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
-    And inside fieldset "General settings" I fill in "Website identifier" with "my-website"
+    Then inside fieldset "General settings" I fill in "Website identifier" with ""
+    Then I press the "Save translator" button
+    And I should see the error message "Website identifier field is required."
+    Then inside fieldset "General settings" I fill in "Website identifier" with "my-website"
     And I fill in "Callback Password" with "drupal_callback_password"
     And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
-    Then I am logged in as a user with the "administrator" role
+
+  @cleanup-tmgmt-poetry-website-identifier
+  Scenario: Check that sending translation request adds website name in title.
+    Given I am logged in as a user with the "administrator" role
     And I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
@@ -96,8 +92,7 @@ Feature: TMGMT Poetry features
     And I fill in "Callback Password" with "drupal_callback_password"
     And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
-    Then I am not logged in
-    And I am logged in as a user with the "administrator" role
+    Then I am logged in as a user with the "administrator" role
     And I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
@@ -232,6 +227,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test not sending one job and moving to another job.
+    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "Original version"
     And I press "Save"
@@ -261,6 +257,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Request main job before other translations.
+    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "Page for main and subjobs"
     And I press "Save"
@@ -291,6 +288,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test rejection of a translation.
+    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Original version"
@@ -316,6 +314,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
     Given the vocabulary "Vocabulary Test" exists
+    And I am logged in as a user with the "administrator" role
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
     And I select the radio button "Localize. Terms are common for all languages, but their name and description may be localized."
@@ -353,6 +352,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies using TMGMT.
+    Given I am logged in as a user with the "administrator" role
     When I go to "admin/tmgmt/sources/i18n_string_taxonomy_vocabulary"
     And I should see "classification (taxonomy:vocabulary:1)"
     And I check the box on the "classification (taxonomy:vocabulary:1)" row
@@ -366,6 +366,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario Outline: Request translation of a basic page into French.
+    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "<title>"
     And I fill in the rich text editor "Body" with <body>
@@ -395,6 +396,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario Outline: Request translation of a page with HTML5 into French.
+    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "<title>"
@@ -428,6 +430,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
+    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "<title>"
     And I fill in the rich text editor "Body" with <body>
@@ -459,6 +462,7 @@ Feature: TMGMT Poetry features
       | Page title | '<p>Body content</p>' |
 
   Scenario: Poetry replaces all tokens present in the node.
+    Given I am logged in as a user with the "administrator" role
     When I create the following multilingual "page" content:
       | language | title             | field_ne_body                                                                                      |
       | en       | Two tokens please | <p>[node:1:link]{Title in English 1 as Link}.</p><p>[node:2:link]{Title in English 2 as Link}.</p> |
@@ -476,7 +480,8 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Fill in metadata when requesting a translation.
-    Given I go to "node/add/page"
+    Given I am logged in as a user with the "administrator" role
+    And I go to "node/add/page"
     And I fill in "Title" with "Title"
     And I fill in the rich text editor "Body" with "Metadata test"
     And I press "Save"
@@ -698,7 +703,9 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
 
   Scenario: Check the limit 'version' of the request
-    Given I create the following multilingual "page" content:
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I create the following multilingual "page" content:
       | language | title              | field_ne_body |
       | en       | Title last version | Body test     |
     When I visit the "page" content with title "Title last version"
@@ -725,7 +732,9 @@ Feature: TMGMT Poetry features
     And the translation request has version to 0
 
   Scenario: Check the limit 'partie' of the request
-    Given I create the following multilingual "page" content:
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I create the following multilingual "page" content:
       | language | title                | field_ne_body |
       | en       | Title last version 1 | Body test 1   |
     When I visit the "page" content with title "Title last version 1"
