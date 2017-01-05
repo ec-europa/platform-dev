@@ -25,6 +25,20 @@ use function bovigo\assert\assert;
 class MinkContext extends DrupalExtensionMinkContext {
 
   /**
+   * The list of content types created during scenarios.
+   *
+   * @var array
+   */
+  protected $createContentTypeList = array();
+
+  /**
+   * The list of field instances created during scenarios.
+   *
+   * @var array
+   */
+  protected $createFieldList = array();
+
+  /**
    * {@inheritdoc}
    */
   public function iAmOnHomepage() {
@@ -440,4 +454,71 @@ class MinkContext extends DrupalExtensionMinkContext {
     $element->click();
   }
 
+  /**
+   * Presses button with specified id|name|title|alt|value.
+   *
+   * It is to trigger while treating a field because it stores a reference
+   * of the concerned field used during the environment resetting.
+   *
+   * @When I press the :arg1 button for saving the :arg2 content type
+   */
+  public function iPressTheButtonForSavingTheContentType($arg1, $arg2) {
+    $this->createContentTypeList[$arg2] = $arg2;
+    return parent::pressButton($arg1);
+  }
+
+  /**
+   * Presses button with specified id|name|title|alt|value.
+   *
+   * It is to trigger while treating a content type because it stores a
+   * reference of the concerned content type used during the environment
+   * resetting.
+   *
+   * @When I press the :arg1 button for saving the :arg2 field for the :arg3 content type
+   */
+  public function iPressTheButtonForSavingTheFieldForTheContentType($arg1, $arg2, $arg3) {
+    $this->createFieldList[$arg2] = array(
+      'field_name' => $arg2,
+      'entity_type' => 'node',
+      'bundle' => $arg3,
+    );
+    return parent::pressButton($arg1);
+  }
+
+  /**
+   * Removes any content types created by a scenario.
+   *
+   * @AfterScenario
+   */
+  public function resetSavedContentTypes() {
+    if (empty($this->createContentTypeList)) {
+      return;
+    }
+
+    $types_to_reset = $this->createContentTypeList;
+
+    foreach ($types_to_reset as $type_name) {
+      node_type_delete($type_name);
+      unset($this->createContentTypeList[$type_name]);
+    }
+  }
+
+  /**
+   * Removes any fields created after a scenario is executed.
+   *
+   * @AfterScenario
+   */
+  public function resetSavedFields() {
+    if (empty($this->createFieldList)) {
+      return;
+    }
+
+    $fields_to_reset = $this->createFieldList;
+
+    foreach ($fields_to_reset as $field_name => $field_instance) {
+      field_delete_instance($field_instance, TRUE);
+      unset($this->createFieldList[$field_name]);
+    }
+  }
+  
 }
