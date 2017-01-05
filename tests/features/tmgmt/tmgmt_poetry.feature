@@ -96,7 +96,8 @@ Feature: TMGMT Poetry features
     And I fill in "Callback Password" with "drupal_callback_password"
     And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
-    Then I am logged in as a user with the "administrator" role
+    Then I am not logged in
+    And I am logged in as a user with the "administrator" role
     And I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
