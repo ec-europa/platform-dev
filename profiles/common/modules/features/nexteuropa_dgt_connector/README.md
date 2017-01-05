@@ -100,19 +100,19 @@ contain:
 [Go to top](#table-of-content)
 
 ## DGT-Connector configuration (CEM):
-CEM enable the feature "DGT connector" through their feature set access and 
-proceeds with the module's configuration.
+CEM enable the feature "Nexteuropa DGT connector" through their feature set 
+access Then it proceeds with with the module's configuration.
 
-In order to do this, CEM navigate to:
+In order to do this, CEM navigates to:
 
     Configuration > Regional and Language > Translation management Translator
 
-or go to:
+and edits "DGT Connector", or go to:
 
     admin/config/regional/tmgmt_translator/manage/poetry 
 
  - Translator settings: [x] Auto accept finished translations
-   - Check this if the site owser wants to review a translation before 
+   - Check this if the site owner wants to review a translation before 
    publishing it.
 
  - Translator plugin:
@@ -163,7 +163,7 @@ need to access the webservice by using the tmgmt_poetry_mock module.
  information on testing with the mock.
 
 ## Testing in-house (for webmasters)
-When the DGT-Connector will be properly enabled and configured in your 
+When the DGT-Connector is properly enabled and configured in your 
 playground environment, CEM will ask you to perform few tests monitored by DGT.
 
 Go to next section ([Usage](#usage)) on how to complete your test.
