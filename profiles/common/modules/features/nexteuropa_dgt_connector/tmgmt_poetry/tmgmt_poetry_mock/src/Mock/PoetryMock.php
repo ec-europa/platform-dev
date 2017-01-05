@@ -431,6 +431,16 @@ class PoetryMock {
   }
 
   /**
+   * Helper method for removing all job requests.
+   */
+  public static function removeAllRequestJobs() {
+    db_delete('tmgmt_job')
+      ->execute();
+    db_delete('tmgmt_job_item')
+      ->execute();
+  }
+
+  /**
    * Helper method for fetching active translation jobs based on give entity id.
    *
    * @param int $entity_id

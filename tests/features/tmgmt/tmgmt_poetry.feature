@@ -1,6 +1,6 @@
 @api @poetry @i18n
 Feature: TMGMT Poetry features
-  In order request new translations for nodes/taxonomies with Poetry service.
+  In order request new translations for nodes with Poetry service.
   As an Administrator
   I want to be able to create/manage translation requests.
 
@@ -20,8 +20,7 @@ Feature: TMGMT Poetry features
 
   @resetPoetryNumero
   Scenario: Checking a wrong configuration.
-    Given I am logged in as a user with the "administrator" role
-    When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
     And I fill in "Poetry Password" with "MockPoetryPWD"
@@ -72,6 +71,8 @@ Feature: TMGMT Poetry features
   Scenario: Send translation request including the website identifier.
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And inside fieldset "General settings" I fill in "Website identifier" with "my-website"
+    And I fill in "Callback Password" with "drupal_callback_password"
+    And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
     Then I am logged in as a user with the "administrator" role
     And I am viewing a multilingual "page" content:
@@ -218,7 +219,8 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "Italian" row
 
   Scenario: A request for translation that is not submitted won't generate a job item.
-    When I am viewing a multilingual "page" content:
+    Given I am logged in as a user with the "administrator" role
+    And I am viewing a multilingual "page" content:
       | language | title                     |
       | en       | English  Title NoJobItem  |
     And I click "Translate" in the "primary_tabs" region
