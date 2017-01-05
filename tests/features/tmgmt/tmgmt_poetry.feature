@@ -20,7 +20,7 @@ Feature: TMGMT Poetry features
 
   @resetPoetryNumero
   Scenario: Checking a wrong configuration.
-    Given I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "administrator" role
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
