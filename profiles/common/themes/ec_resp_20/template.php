@@ -172,7 +172,6 @@ function ec_resp_20_preprocess_page(&$variables) {
     }
   }
 
-  // Adding pathToTheme for Drupal.settings to be used in js files.
   $base_theme = $theme_key;
   $available_themes = list_themes();
   if (isset($available_themes[$theme_key]->info['base theme'])) {
