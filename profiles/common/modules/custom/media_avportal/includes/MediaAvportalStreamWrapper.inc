@@ -63,7 +63,7 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
       else {
         $url = 'http://ec.europa.eu/avservices/cfc/video.cfc?method=getVideoDetails&ref=' . $video_id . '&format=json';
         $response = drupal_http_request($url);
-        if ($response->code == 200) {
+        if ($response->data == 200) {
           $video_info = drupal_json_decode($response->data);
           cache_set('av_video_' . $video_id, $video_info, 'cache');
         }
