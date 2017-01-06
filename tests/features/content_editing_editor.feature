@@ -1,3 +1,4 @@
+@api
 Feature: Content editing as editor
   In order to manage the content on the website
   As an editor
@@ -6,6 +7,7 @@ Feature: Content editing as editor
   Background:
     Given I am logged in as a user with the 'editor' role
 
+  @api
   Scenario: User can create an article and update it
     When I go to "node/add/article"
     And I fill in "Title" with "Lorem ipsum dolor sit amet"
@@ -18,6 +20,7 @@ Feature: Content editing as editor
     And I press "Save"
     Then the response should contain "<p>Consectetur elit adipiscing.</p>"
 
+  @api
   Scenario Outline: User can create an article with allowed HTML
     When I go to "node/add/article"
     And I fill in "Title" with "This is the title"
@@ -36,6 +39,7 @@ Feature: Content editing as editor
       | <ul><li>Lorem ipsum</li><li>Dolor sit amet</li></ul>                                                | <ul><li>Lorem ipsum</li>                                                                            |
       | <ol><li>Lorem ipsum</li><li>Dolor sit amet</li></ol>                                                | <ol><li>Lorem ipsum</li>                                                                            |
 
+  @api
   Scenario: User can create an article but he cannot define its path alias, even during an update.
     The alias is generated automatically.
     When I go to "node/add/article"

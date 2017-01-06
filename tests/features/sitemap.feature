@@ -3,6 +3,7 @@ Feature: Check the Sitemap
   As an administrator
   I can publish a sitemap
 
+  @api
   Scenario: Administrator user can check the sitemap
     Given the module is enabled
       | modules     |

@@ -1,3 +1,4 @@
+@api
 Feature: Testing settings options for the Multisite WYSIWYG module.
   In order to check if settings for Multisite WYSIWYG are working correctly
   As an administrator

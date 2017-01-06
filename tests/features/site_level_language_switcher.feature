@@ -1,3 +1,4 @@
+@api @i18n
 Feature: Site level language switcher tests
   In order to read a content in different languages
   As an anonymous user
@@ -34,7 +35,7 @@ Feature: Site level language switcher tests
     And I should see the heading "<title>"
 
     Examples:
-      | url                      | favorite         | language | target                   | target_favorite  | title                      |
-      | content/title-english_en |                  | Français | content/title-english_fr |                  | Ce titre est en Français   |
-      | content/title-english_en | ?2nd-language=fr | Italiano | content/title-english_it | ?2nd-language=fr | Questo titolo è in inglese |
-      | content/title-english_en | ?2nd-language=fr | Français | content/title-english_fr |                  | Ce titre est en Français   |
+    | url                      | favorite         | language | target                   | target_favorite  | title                      |
+    | content/title-english_en |                  | Français | content/title-english_fr |                  | Ce titre est en Français   |
+    | content/title-english_en | ?2nd-language=fr | Italiano | content/title-english_it | ?2nd-language=fr | Questo titolo è in inglese |
+    | content/title-english_en | ?2nd-language=fr | Français | content/title-english_fr |                  | Ce titre est en Français   |

@@ -1,3 +1,4 @@
+@api
 Feature: Frontend smoke test
   In order to detect whether the front end has any obvious failures
   As a front end developer
@@ -16,8 +17,8 @@ Feature: Frontend smoke test
   @wip
   Scenario: Check security issue for Drupal Core
     Given the module is enabled
-      | modules  |
-      | update   |
+      |modules  |
+      |update   |
     Given I am logged in as a user with the "administer software updates,view the administration theme" permissions
     And I am on "admin/modules/update"
     Then the response should not contain "<td><a href=\"https://www.drupal.org/project/drupal\">Drupal core</a> (Security update)</td>"
