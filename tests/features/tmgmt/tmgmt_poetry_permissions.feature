@@ -39,7 +39,8 @@ Feature: TMGMT Poetry permissions features
       | Email to           |
       | Email CC           |
 
-    Scenario: I should be able to fill in the configuration form
+    Scenario: I should be able to fill in the configuration form and be notified
+      when server config is missing
       When I fill in "Counter" with "NEXT_EUROPA_COUNTER"
       And I fill in "Requester code" with "WEB"
       And I fill in "Callback User" with "drupal_callback_user"
@@ -57,5 +58,6 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Email to" with "delphine.lepers@badaboum.com"
       And I fill in "Email CC" with "delphine.lepers@badaboum.com"
       And I press "Save translator"
-      Then I should be on "admin/config/regional/tmgmt_translator_en"
-      And I should see "The configuration options have been saved."
+      Then I should see "The DGT webservice address is not set. Please contact your support team."
+      And I should see "The credentials for your Drupal service are not correctly set. Please contact COMM EUROPA MANAGEMENT."
+      And I should see "The credentials for your DGT service are not correctly set. Please contact COMM EUROPA MANAGEMENT."
