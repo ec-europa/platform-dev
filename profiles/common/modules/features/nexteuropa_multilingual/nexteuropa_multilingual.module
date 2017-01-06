@@ -378,14 +378,15 @@ function _nexteuropa_multilingual_warning_message(&$form, $node) {
 function nexteuropa_multilingual_tokens_alter(array &$replacements, array $context) {
   if ($context['type'] == 'node' && !empty($context['data']['node'])) {
     $node = $context['data']['node'];
-    // IPG url rules : only the default language (should be english) title
+    // IPG url rules: only the default language (should be english) title
     // must be used to generate the content url even for non translated content.
     $wrapper = entity_metadata_wrapper('node', $node);
     $original_language = $node->translations->original;
     $entity_properties = $wrapper->getPropertyInfo();
     // Check if the title module is used to manage the title as a field.
     if (isset($entity_properties['title_field'])) {
-      $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->raw();
+      $element = field_view_field('node', $node, 'title_field');
+      $replacements['[node:source:title]'] = drupal_render($element);
     }
     else {
       $replacements['[node:source:title]'] = $wrapper->language($original_language)
