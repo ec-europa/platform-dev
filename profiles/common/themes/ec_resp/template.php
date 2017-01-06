@@ -196,6 +196,8 @@ function ec_resp_preprocess_feature_set_admin_form(&$variables) {
  * Implements template_preprocess_page().
  */
 function ec_resp_preprocess_page(&$variables) {
+  global $theme_key;
+
   $title = drupal_get_title();
   // Format regions.
   $regions = array();
@@ -295,8 +297,14 @@ function ec_resp_preprocess_page(&$variables) {
   }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
-  $base_theme = multisite_drupal_toolbox_get_base_theme();
-  drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . drupal_get_path('theme', $base_theme) . '" });', 'inline');
+  $base_theme = $theme_key;
+  $available_themes = list_themes();
+  if (isset($available_themes[$theme_key]->info['base theme'])) {
+    $base_theme = current(array_keys(drupal_find_base_themes($available_themes, $theme_key)));
+  }
+
+  // Adding pathToTheme for Drupal.settings to be used in js files.
+  drupal_add_js(array('pathToTheme' => drupal_get_path('theme', $base_theme)), 'setting');
 }
 
 /**
