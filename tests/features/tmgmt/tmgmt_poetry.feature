@@ -703,7 +703,9 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
 
   Scenario: Check the limit 'version' of the request
-    Given I create the following multilingual "page" content:
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I create the following multilingual "page" content:
       | language | title              | field_ne_body |
       | en       | Title last version | Body test     |
     When I visit the "page" content with title "Title last version"
@@ -730,7 +732,9 @@ Feature: TMGMT Poetry features
     And the translation request has version to 0
 
   Scenario: Check the limit 'partie' of the request
-    Given I create the following multilingual "page" content:
+    Given I am logged in as a user with the 'editor' role
+    And I have the 'contributor' role in the 'Global editorial team' group
+    And I create the following multilingual "page" content:
       | language | title                | field_ne_body |
       | en       | Title last version 1 | Body test 1   |
     When I visit the "page" content with title "Title last version 1"

@@ -95,7 +95,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     );
     $form['organization']['auteur'] = array(
       '#type' => 'textfield',
-      '#title' => t('Author'),
+      '#title' => t('DG Author'),
       '#required' => TRUE,
       '#default_value' => $organization['auteur'],
       '#description' => t("Eg.: IE/CE/DIGIT"),

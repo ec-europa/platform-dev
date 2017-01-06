@@ -30,10 +30,11 @@ Feature: TMGMT Poetry permissions features
       | Poetry User        |
       | Poetry Password    |
       | Responsable        |
-      | Author             |
+      | DG Author             |
       | Requester          |
       | Secretaire         |
       | Contact            |
+      | Author             |
       | Responsible        |
       | Email to           |
       | Email CC           |
@@ -47,7 +48,7 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Poetry Password" with "poetry_password"
       And I fill in "Website identifier" with "my-website"
       And I fill in "Responsable " with "DIGIT"
-      And I fill in "Author" with "IE/CE/DIGIT"
+      And I fill in "DG Author" with "IE/CE/DIGIT"
       And I fill in "Requester" with "IE/CE/DIGIT/A/3"
       And I fill in "Author" with "leperde"
       And I fill in "Secretaire" with "leperde"
@@ -55,7 +56,6 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Responsible" with "leperde"
       And I fill in "Email to" with "delphine.lepers@badaboum.com"
       And I fill in "Email CC" with "delphine.lepers@badaboum.com"
-      And I fill in "Portuguese, Portugal (pt-pt)" with "pt"
       And I press "Save translator"
       Then I should be on "admin/config/regional/tmgmt_translator_en"
       And I should see "The configuration options have been saved."
