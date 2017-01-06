@@ -120,7 +120,7 @@ behat.browser.name = phantomjs
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
-behat.formatter.name = pretty
+behat.formatter.name = progress
 
 # Enable strict mode in Behat tests. Will only pass if all tests are explicitly
 # passing.
