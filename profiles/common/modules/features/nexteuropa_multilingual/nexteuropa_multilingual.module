@@ -443,11 +443,25 @@ function nexteuropa_multilingual_path_update($path) {
  */
 function _nexteuropa_multilingual_path_und_sync($path) {
 
-  // Only apply this logic to nodes that don't have
-  // a translation mechanism different from entity translation.
-  $node = menu_get_object("node", 1, $path['source']);
-  if (isset($node->type)) {
-    $translation_mechanism = variable_get('language_content_type_' . $node->type, 0);
+  // We must pass through a basic path parsing and a db_select because:
+  // - The menu_get_object function makes a access control and a redirection to
+  // the home page if users do not have access permission.
+  // (see https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-416)
+  // - The logic is only applied to nodes that have "entity translation" as
+  // translation mechanism.
+  $parsed_source = explode('/', $path['source']);
+  if (($parsed_source[0] != 'node')
+    || !isset($parsed_source[1])
+    || !is_numeric($parsed_source[1])) {
+    return;
+  }
+  $nid = $parsed_source[1];
+  $query = db_select('node', 'n')->condition('n.nid', $nid);
+  $query->addField('n', 'type', 'node_type');
+  $node_type = $query->execute()->fetchField();
+
+  if ($node_type) {
+    $translation_mechanism = variable_get('language_content_type_' . $node_type, 0);
   }
   if (!isset($translation_mechanism) || $translation_mechanism != ENTITY_TRANSLATION_ENABLED) {
     return;

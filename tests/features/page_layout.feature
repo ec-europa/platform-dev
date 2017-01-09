@@ -32,7 +32,6 @@ Feature: Page Layout
     Examples:
       | page       | text                                        |
       | /          | Welcome to NextEuropa - European Commission |
-      | contact    | Contact - European Commission               |
       | user       | User account - European Commission          |
 
   @javascript @maximizedwindow @reset-node-types
