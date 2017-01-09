@@ -19,7 +19,7 @@ Feature: Content type administration features
     But I check the box "Create new revision"
     And I check the box "Enable moderation of revisions"
     And I select the radio button "Enabled, with field translation" with the id "edit-language-content-type-4"
-    And I press the "Save and add fields" button for saving the "groovy_type" content type
+    And I press "Save and add fields"
     Then I should be on "admin/structure/types/manage/groovy-type/fields_en"
     And I should see the success message "The content type Groovy type has been added."
     And I should see "Body"
@@ -39,10 +39,10 @@ Feature: Content type administration features
     Then I should see the success message "Saved Select an option configuration."
     When I go to "node/add/groovy-type"
     And I fill in "Title" with "Lorem ipsum dolor sit amet"
-    And I fill in "Body" with "<p>Consectetur adipiscing elit.</p>"
+    And I fill in "Body" with "Consectetur adipiscing elit."
     And I select the radio button "Option 1" with the id "edit-field-select-an-option-und-option-1"
     And I press "Save"
     Then I should see the heading "Lorem ipsum dolor sit amet"
-    And the response should contain "<p>Consectetur adipiscing elit.</p>"
+    And the response should contain "Consectetur adipiscing elit."
     And the response should contain "Option 1"
 
