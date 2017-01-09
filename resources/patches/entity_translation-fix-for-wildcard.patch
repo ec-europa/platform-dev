@@ -1,0 +1,13 @@
+diff --git a/includes/translation.handler.inc b/includes/translation.handler.inc
+index 91dbb4d..16a841a 100644
+--- a/includes/translation.handler.inc
++++ b/includes/translation.handler.inc
+@@ -1659,7 +1659,7 @@ class EntityTranslationDefaultHandler implements EntityTranslationHandlerInterfa
+     }
+ 
+     $path_scheme = $this->entityInfo['translation']['entity_translation']['path schemes'][$this->pathScheme];
+-    $this->pathWildcard = $path_scheme['path wildcard'];
++    $this->pathWildcard = isset($path_scheme['path wildcard']) ? $this->getPathInstance($path_scheme['path wildcard']) : FALSE;
+     $this->basePath = isset($path_scheme['base path']) ? $this->getPathInstance($path_scheme['base path']) : FALSE;
+     $this->editPath = isset($path_scheme['edit path']) ? $this->getPathInstance($path_scheme['edit path']) : FALSE;
+     $this->translatePath = isset($path_scheme['translate path']) ? $this->getPathInstance($path_scheme['translate path']) : FALSE;

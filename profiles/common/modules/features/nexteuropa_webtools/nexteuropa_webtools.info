@@ -25,4 +25,3 @@ features[field_instance][] = bean-webtools-field_custom_js_file
 features[field_instance][] = bean-webtools-field_custom_js_link
 features[field_instance][] = bean-webtools-field_custom_js_status
 features[field_instance][] = bean-webtools-field_json_object
-files[] = views/nexteuropa_webtools_handler_field_selection.inc
