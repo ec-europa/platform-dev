@@ -385,7 +385,7 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     $entity_properties = $wrapper->getPropertyInfo();
     // Check if the title module is used to manage the title as a field.
     if (isset($entity_properties['title_field'])) {
-      $element = field_view_field('node', $node, 'title_field');
+      $element = field_view_field('node', $node, 'title_field', array(), $original_language);
       $replacements['[node:source:title]'] = drupal_render($element);
     }
     else {
