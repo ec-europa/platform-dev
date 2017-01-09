@@ -77,7 +77,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: I can access an overview of recent translation jobs.
-    Given local translator "Translator A" is available
+    Given poetry translator "Translator A" is available
     When I create the following multilingual "page" content:
       | language | title              | field_ne_body     |
       | en       | Title in English 1 | Body in English 1 |
@@ -731,3 +731,20 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
+
+  @javascript
+  Scenario: Check Local translator still works with poetry enabled.
+    Given local translator "Translator A" is available
+    When I go to "node/add/page"
+    And I fill in "Title" with "Test"
+    And I fill in the rich text editor "Body" with "Test."
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I click "Change translator"
+    And I select "Translator A" from "Translator"
+    And I press "Submit to translator"
+    Then I should see "The translation job has been submitted."
