@@ -62,9 +62,6 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
 
-projects[apachesolr_multisitesearch][subdir] = "contrib"
-projects[apachesolr_multisitesearch][version] = "1.1"
-
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 

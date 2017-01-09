@@ -642,17 +642,6 @@ function _cce_basic_config_post_install_apachesolr() {
   $environments = &drupal_static('apachesolr_load_all_environments');
   $environments = array();
 
-  // At the end of the installation cron will be run. During cron an error
-  // might occur in the apachesolr_multisitesearch module when it tries to
-  // update the solr metadata for servers that may not be configured, or may
-  // not be reachable from the environment where the site is being installed.
-  // We can work around it by tricking the module into thinking it has already
-  // performed its updates.
-  // @see https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3659
-  global $conf;
-  $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
-  $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
-
   variable_set('apachesolr_delay_removals', 1);
 }
 
