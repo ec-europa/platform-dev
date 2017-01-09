@@ -61,46 +61,46 @@ Feature: Feature set menu
   Scenario: Test feature set screen as cem
     Given I am logged in as a user with the "cem" role
     When I am on "admin/structure/feature-set_en"
-    Then I should not see "Content slider" in the "name" element
-    Then I should not see "Events" in the "name" element
-    Then I should not see "Links" in the "name" element
-    Then I should not see "Multi-user blog" in the "name" element
-    Then I should not see "Meta tags" in the "name" element
-    Then I should not see "Registration" in the "name" element
-    Then I should not see "Webtools" in the "name" element
-    Then I should not see "Wiki" in the "name" element
-    Then I should not see "WYSIWYG Tracked Changes" in the "name" element
-    Then I should not see "World Countries" in the "name" element
-    Then I should not see "WYSIWYG Tracked Changes" in the "name" element
-    Then I should not see "F.A.Q" in the "name" element
-    Then I should not see "Press Release " in the "name" element
-    Then I should not see "Site activity" in the "name" element
-    Then I should not see "Maxlength" in the "name" element
-    Then I should not see "News" in the "name" element
-    Then I should not see "Newsletters" in the "name" element
-    Then I should not see "GIS field" in the "name" element
-    Then I should not see "GeoJson feeds" in the "name" element
-    Then I should not see "Notices" in the "name" element
-    Then I should not see "Integration" in the "name" element
-    Then I should not see "Rule-based web frontend cache purging" in the "name" element
-    Then I should not see "E-library" in the "name" element
-    Then I should not see "Embedded images " in the "name" element
-    Then I should not see "Embedded videos" in the "name" element
-    Then I should not see "Audio" in the "name" element
-    Then I should not see "Crop & Resize" in the "name" element
-    Then I should not see "Media Gallery" in the "name" element
-    Then I should not see "Multilingual tools" in the "name" element
-    Then I should not see "Multilingual reference" in the "name" element
-    Then I should not see "Translation requests" in the "name" element
-    Then I should not see "Splash screen" in the "name" element
-    Then I should not see "Fat footer" in the "name" element
-    Then I should not see "Mega menu" in the "name" element
-    Then I should not see "Node pager" in the "name" element
-    Then I should not see "Business indicators" in the "name" element
-    Then I should not see "Sitemap" in the "name" element
-    Then I should not see "Contact form" in the "name" element
-    Then I should not see "Ideas" in the "name" element
-    Then I should not see "Surveys" in the "name" element
-    Then I should not see "Extend Profiles" in the "name" element
-    Then I should not see "Notifications" in the "name" element
+    Then I should not see the text "Content slider"
+    Then I should not see the text "Events"
+    Then I should not see the text "Links"
+    Then I should not see the text "Multi-user blog"
+    Then I should not see the text "Meta tags"
+    Then I should not see the text "Registration"
+    Then I should not see the text "Webtools"
+    Then I should not see the text "Wiki"
+    Then I should not see the text "WYSIWYG Tracked Changes"
+    Then I should not see the text "World Countries"
+    Then I should not see the text "WYSIWYG Tracked Changes"
+    Then I should not see the text "F.A.Q"
+    Then I should not see the text "Press Release"
+    Then I should not see the text "Site activity"
+    Then I should not see the text "Maxlength"
+    Then I should not see the text "News"
+    Then I should not see the text "Newsletters"
+    Then I should not see the text "GIS field"
+    Then I should not see the text "GeoJson feeds"
+    Then I should not see the text "Notices"
+    Then I should not see the text "Integration"
+    Then I should not see the text "Rule-based web frontend cache purging"
+    Then I should not see the text "E-library"
+    Then I should not see the text "Embedded images"
+    Then I should not see the text "Embedded videos"
+    Then I should not see the text "Audio"
+    Then I should not see the text "Crop & Resize"
+    Then I should not see the text "Media Gallery"
+    Then I should not see the text "Multilingual tools"
+    Then I should not see the text "Multilingual reference"
+    Then I should not see the text "Translation requests"
+    Then I should not see the text "Splash screen"
+    Then I should not see the text "Fat footer"
+    Then I should not see the text "Mega menu"
+    Then I should not see the text "Node pager"
+    Then I should not see the text "Business indicators"
+    Then I should not see the text "Sitemap"
+    Then I should not see the text "Contact form"
+    Then I should not see the text "Ideas"
+    Then I should not see the text "Surveys"
+    Then I should not see the text "Extend Profiles"
+    Then I should not see the text "Notifications"
     And I should see the text "Nexteuropa DGT Connector"
