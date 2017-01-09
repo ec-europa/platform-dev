@@ -9,6 +9,7 @@ Feature: Feature set menu
     Given I am logged in as a user with the "administrator" role
     When I am on "admin/structure/feature-set_en"
     Then I should see the text "<feature_name>"
+    And I should not see the text "Nexteuropa DGT Connector"
 
     Examples:
       | feature_name                          |
@@ -54,8 +55,6 @@ Feature: Feature set menu
       | Surveys                               |
       | Extend Profiles                       |
       | Notifications                         |
-
-    And I should not see the text "Nexteuropa DGT Connector"
 
 
   @api
@@ -63,6 +62,7 @@ Feature: Feature set menu
     Given I am logged in as a user with the "cem" role
     When I am on "admin/structure/feature-set_en"
     Then I should not see the text "<feature_name>"
+    And I should see the text "Nexteuropa DGT Connector"
 
     Examples:
       | feature_name                          |
@@ -108,5 +108,3 @@ Feature: Feature set menu
       | Surveys                               |
       | Extend Profiles                       |
       | Notifications                         |
-
-    And I should see the text "Nexteuropa DGT Connector"
