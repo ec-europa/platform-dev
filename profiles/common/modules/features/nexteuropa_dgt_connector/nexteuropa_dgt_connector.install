@@ -9,7 +9,7 @@
  */
 function nexteuropa_dgt_connector_install() {
   $translator = tmgmt_translator_load('poetry');
-  if (isset($translator)) {
+  if (!empty($translator)) {
     $settings = $translator->getSetting('settings');
     if (empty($settings['callback_user']) || empty($settings['callback_password'])) {
       $poetry_settings = variable_get('poetry_service');

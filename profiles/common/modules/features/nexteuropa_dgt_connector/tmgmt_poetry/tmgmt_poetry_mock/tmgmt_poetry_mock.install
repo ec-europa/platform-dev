@@ -53,7 +53,7 @@ function tmgmt_poetry_mock_install() {
  */
 function tmgmt_poetry_mock_uninstall() {
   $translator = tmgmt_translator_load('tmgmt_poetry_test_translator');
-  if (isset($translator)) {
+  if (!empty($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);
   }
 }
