@@ -12,7 +12,6 @@ function nexteuropa_dgt_connector_install() {
   if (isset($translator)) {
     $settings = $translator->getSetting('settings');
     if (empty($settings['callback_user']) || empty($settings['callback_password'])) {
-      $translator->settings = $settings;
       $poetry_settings = variable_get('poetry_service');
       $translator->settings['settings'] = array(
         'callback_user' => $poetry_settings['callback_user'],
