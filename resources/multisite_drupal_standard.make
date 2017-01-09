@@ -629,7 +629,7 @@ projects[title][subdir] = "contrib"
 ; #2757739: Token value is not sanitized, when replaced from title field
 ; https://www.drupal.org/node/2757739
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-412
-projects[title][patch][] = https://www.drupal.org/files/issues/2757739.patch
+projects[title][patch][] = https://www.drupal.org/files/issues/2757739_0.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
