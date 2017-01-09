@@ -61,46 +61,46 @@ Feature: Feature set menu
   Scenario: Test feature set screen as cem
     Given I am logged in as a user with the "cem" role
     When I am on "admin/structure/feature-set_en"
-    Then I should see "Content slider" in the "feature-set__name" element
-    Then I should see "Events" in the "feature-set__name" element
-    Then I should see "Links" in the "feature-set__name" element
-    Then I should see "Multi-user blog" in the "feature-set__name" element
-    Then I should see "Meta tags" in the "feature-set__name" element
-    Then I should see "Registration" in the "feature-set__name" element
-    Then I should see "Webtools" in the "feature-set__name" element
-    Then I should see "Wiki" in the "feature-set__name" element
-    Then I should see "WYSIWYG Tracked Changes" in the "feature-set__name" element
-    Then I should see "World Countries" in the "feature-set__name" element
-    Then I should see "WYSIWYG Tracked Changes" in the "feature-set__name" element
-    Then I should see "F.A.Q" in the "feature-set__name" element
-    Then I should see "Press Release " in the "feature-set__name" element
-    Then I should see "Site activity" in the "feature-set__name" element
-    Then I should see "Maxlength" in the "feature-set__name" element
-    Then I should see "News" in the "feature-set__name" element
-    Then I should see "Newsletters" in the "feature-set__name" element
-    Then I should see "GIS field" in the "feature-set__name" element
-    Then I should see "GeoJson feeds" in the "feature-set__name" element
-    Then I should see "Notices" in the "feature-set__name" element
-    Then I should see "Integration" in the "feature-set__name" element
-    Then I should see "Rule-based web frontend cache purging" in the "feature-set__name" element
-    Then I should see "E-library" in the "feature-set__name" element
-    Then I should see "Embedded images " in the "feature-set__name" element
-    Then I should see "Embedded videos" in the "feature-set__name" element
-    Then I should see "Audio" in the "feature-set__name" element
-    Then I should see "Crop & Resize" in the "feature-set__name" element
-    Then I should see "Media Gallery" in the "feature-set__name" element
-    Then I should see "Multilingual tools" in the "feature-set__name" element
-    Then I should see "Multilingual reference" in the "feature-set__name" element
-    Then I should see "Translation requests" in the "feature-set__name" element
-    Then I should see "Splash screen" in the "feature-set__name" element
-    Then I should see "Fat footer" in the "feature-set__name" element
-    Then I should see "Mega menu" in the "feature-set__name" element
-    Then I should see "Node pager" in the "feature-set__name" element
-    Then I should see "Business indicators" in the "feature-set__name" element
-    Then I should see "Sitemap" in the "feature-set__name" element
-    Then I should see "Contact form" in the "feature-set__name" element
-    Then I should see "Ideas" in the "feature-set__name" element
-    Then I should see "Surveys" in the "feature-set__name" element
-    Then I should see "Extend Profiles" in the "feature-set__name" element
-    Then I should see "Notifications" in the "feature-set__name" element
+    Then I should not see "Content slider" in the "name" element
+    Then I should not see "Events" in the "name" element
+    Then I should not see "Links" in the "name" element
+    Then I should not see "Multi-user blog" in the "name" element
+    Then I should not see "Meta tags" in the "name" element
+    Then I should not see "Registration" in the "name" element
+    Then I should not see "Webtools" in the "name" element
+    Then I should not see "Wiki" in the "name" element
+    Then I should not see "WYSIWYG Tracked Changes" in the "name" element
+    Then I should not see "World Countries" in the "name" element
+    Then I should not see "WYSIWYG Tracked Changes" in the "name" element
+    Then I should not see "F.A.Q" in the "name" element
+    Then I should not see "Press Release " in the "name" element
+    Then I should not see "Site activity" in the "name" element
+    Then I should not see "Maxlength" in the "name" element
+    Then I should not see "News" in the "name" element
+    Then I should not see "Newsletters" in the "name" element
+    Then I should not see "GIS field" in the "name" element
+    Then I should not see "GeoJson feeds" in the "name" element
+    Then I should not see "Notices" in the "name" element
+    Then I should not see "Integration" in the "name" element
+    Then I should not see "Rule-based web frontend cache purging" in the "name" element
+    Then I should not see "E-library" in the "name" element
+    Then I should not see "Embedded images " in the "name" element
+    Then I should not see "Embedded videos" in the "name" element
+    Then I should not see "Audio" in the "name" element
+    Then I should not see "Crop & Resize" in the "name" element
+    Then I should not see "Media Gallery" in the "name" element
+    Then I should not see "Multilingual tools" in the "name" element
+    Then I should not see "Multilingual reference" in the "name" element
+    Then I should not see "Translation requests" in the "name" element
+    Then I should not see "Splash screen" in the "name" element
+    Then I should not see "Fat footer" in the "name" element
+    Then I should not see "Mega menu" in the "name" element
+    Then I should not see "Node pager" in the "name" element
+    Then I should not see "Business indicators" in the "name" element
+    Then I should not see "Sitemap" in the "name" element
+    Then I should not see "Contact form" in the "name" element
+    Then I should not see "Ideas" in the "name" element
+    Then I should not see "Surveys" in the "name" element
+    Then I should not see "Extend Profiles" in the "name" element
+    Then I should not see "Notifications" in the "name" element
     And I should see the text "Nexteuropa DGT Connector"
