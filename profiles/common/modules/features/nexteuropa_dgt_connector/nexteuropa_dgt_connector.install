@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ * Code for the DGT connector feature.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_dgt_connector_install() {
+  $translator = tmgmt_translator_load('poetry');
+  if (isset($translator)) {
+    $settings = $translator->getSetting('settings');
+    if (empty($settings['callback_user']) || empty($settings['callback_password'])) {
+      $translator->settings = $settings;
+      $poetry_settings = variable_get('poetry_service');
+      $translator->settings['settings'] = array(
+        'callback_user' => $poetry_settings['callback_user'],
+        'callback_password' => $poetry_settings['callback_password'],
+        'poetry_user' => $poetry_settings['poetry_user'],
+        'poetry_password' => $poetry_settings['poetry_password'],
+      );
+
+      $translator->save();
+    }
+  }
+}
