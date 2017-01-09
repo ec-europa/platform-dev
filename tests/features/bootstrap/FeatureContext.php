@@ -21,6 +21,20 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * List of modules to enable.
+   *
+   * @var array
+   */
+  protected $modules = array();
+
+  /**
+   * List of feature sets to enable.
+   *
+   * @var array
+   */
+  protected $featureSets = array();
+
+  /**
    * Checks that a 403 Access Denied error occurred.
    *
    * @Then I should get an access denied error
@@ -124,11 +138,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterScenario
    */
   public function cleanModule() {
-    if (isset($this->modules) && !empty($this->modules)) {
+    if (!empty($this->modules)) {
       // Disable and uninstall any modules that were enabled.
       module_disable($this->modules);
-      $res = drupal_uninstall_modules($this->modules);
-      unset($this->modules);
+      drupal_uninstall_modules($this->modules);
+      $this->modules = array();
     }
   }
 
@@ -201,7 +215,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
         if ($featureset_available['title'] == $row['featureSet'] &&
         feature_set_status($featureset_available) === FEATURE_SET_DISABLED) {
           if (feature_set_enable_feature_set($featureset_available)) {
-            $this->features_set[] = $featureset_available;
+            $this->featureSets[] = $featureset_available;
             $rebuild = TRUE;
           }
           else {
@@ -229,15 +243,15 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterScenario
    */
   public function cleanFeatureSet() {
-    if (isset($this->features_set) && !empty($this->features_set)) {
+    if (!empty($this->featureSets)) {
       // Disable and uninstall any feature set that were enabled.
-      foreach ($this->features_set as $featureset) {
+      foreach ($this->featureSets as $featureset) {
         if (isset($featureset['disable'])) {
           $featureset['uninstall'] = $featureset['disable'];
           feature_set_disable_feature_set($featureset);
         }
       }
-      unset($this->features_set);
+      $this->featureSets = array();
     }
   }
 
@@ -662,32 +676,32 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     _node_types_build(TRUE);
     node_type_delete('community');
     field_purge_batch(1);
-    
+
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
-    if (isset ($feature->info['features']['variable'])){
-      foreach ($feature->info['features']['variable'] as $varname){
+    if (isset($feature->info['features']['variable'])) {
+      foreach ($feature->info['features']['variable'] as $varname) {
         variable_del($varname);
       }
     }
-   
-   // Delete community's menu_links.
-    if (isset ($feature->info['features']['menu_links'])){
-      foreach ($feature->info['features']['menu_links'] as $menulinks){
+
+    // Delete community's menu_links.
+    if (isset($feature->info['features']['menu_links'])) {
+      foreach ($feature->info['features']['menu_links'] as $menulinks) {
         menu_link_delete(NULL, $menulinks);
       }
     }
-   
-   // Delete community's menu_custom.
-    if (isset ($feature->info['features']['menu_custom'])){
-      foreach ($feature->info['features']['menu_custom'] as $menucustom){
-        $menu = menu_load($menucustom) ;
+
+    // Delete community's menu_custom.
+    if (isset($feature->info['features']['menu_custom'])) {
+      foreach ($feature->info['features']['menu_custom'] as $menucustom) {
+        $menu = menu_load($menucustom);
         menu_delete($menu);
       }
     }
-   
-   drupal_flush_all_caches();
- 
+
+    drupal_flush_all_caches();
+
   }
 
 }
