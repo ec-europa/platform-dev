@@ -463,6 +463,10 @@ projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Fix for an error when the purge limit is set to 0
+; https://www.drupal.org/node/2030101
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-14411
+projects[message][patch][] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.7"
