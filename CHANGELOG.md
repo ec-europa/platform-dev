@@ -31,7 +31,7 @@
   * NEPT-357 - Upgrade -i18n_views to version 7.x-3.0-alpha1 + Patches if necessary
   * NEPT-424 - Include the path "/tests" in the CodeSniffer configuration file
 
-### New features
+### New features (For more details on each feature, see the README.md file at the root of the feature's folder)
   * NEPT-79 - Performance/Varnish -An administrator can enable the web frontend cache control feature through Feature set
   * NEPT-80 - Performance/Varnish -Automatically clear the web frontend cache of particular content when an action is performed on it
   * NEPT-81 - Performance/Varnish -Eliminate automatic full web frontend cache purges
@@ -58,3 +58,6 @@
   * NEPT-291 - Nexteuropa_editorial -Addition of ckeditor_lite css file breaks display suite layout
   * NEPT-325 - mpdf version 7.0 was deleted from github
   * NEPT-412 - Security -XSS issue in node form on title fields
+
+## Version 2.2.0
+The changelog for version 2.2 and older is not available as a list, however the information is availabe on this page https://webgate.ec.europa.eu/fpfis/wikis/pages/viewpage.action?spaceKey=MULTISITE&title=[Archived]+Delivery+notes
