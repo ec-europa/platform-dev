@@ -8,19 +8,26 @@
  * Implements hook_install().
  */
 function nexteuropa_dgt_connector_install() {
+  // Case where 'poetry' translator was available before installing the
+  // nexteuropa_dgt_connector feature. Checks if any of the required credentials
+  // settings are missing and if so replacing them from the 'poetry_service'
+  // variable.
   $translator = tmgmt_translator_load('poetry');
   if (!empty($translator)) {
     $settings = $translator->getSetting('settings');
-    if (empty($settings['callback_user']) || empty($settings['callback_password'])) {
-      $poetry_settings = variable_get('poetry_service');
-      $translator->settings['settings'] = array(
-        'callback_user' => $poetry_settings['callback_user'],
-        'callback_password' => $poetry_settings['callback_password'],
-        'poetry_user' => $poetry_settings['poetry_user'],
-        'poetry_password' => $poetry_settings['poetry_password'],
-      );
-
-      $translator->save();
+    if (empty($settings['callback_user']) ||
+      empty($settings['callback_password']) ||
+      empty($settings['poetry_user']) ||
+      empty($settings['poetry_password']))
+    {
+      $poetry_settings = variable_get('poetry_service', FALSE);
+      if ($poetry_settings) {
+        $translator->settings['settings']['callback_user'] = $poetry_settings['callback_user'];
+        $translator->settings['settings']['callback_password'] = $poetry_settings['callback_password'];
+        $translator->settings['settings']['poetry_user'] = $poetry_settings['poetry_user'];
+        $translator->settings['settings']['poetry_password'] = $poetry_settings['poetry_password'];
+        $translator->save();
+      }
     }
   }
 }
