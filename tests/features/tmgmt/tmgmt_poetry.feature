@@ -733,8 +733,8 @@ Feature: TMGMT Poetry features
     And the translation request has partie to 0
 
   @javascript
-  Scenario: Check Local translator still works with poetry enabled.
-    Given local translator "Translator A" is available
+  Scenario Outline: Check not-poetry translator still works with poetry enabled.
+    Given <translatorType> translator "Translator <translatorType>" is available
     When I go to "node/add/page"
     And I fill in "Title" with "Test"
     And I fill in the rich text editor "Body" with "Test."
@@ -745,6 +745,11 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I click "Change translator"
-    And I select "Translator A" from "Translator"
+    And I select "Translator <translatorType>" from "Translator"
     And I press "Submit to translator"
-    Then I should see "The translation job has been submitted."
+    Then I should see "<message>"
+
+    Examples:
+      | translatorType   | message                                 |
+      | local            | The translation job has been submitted. |
+      | file             | Exported file can be downloaded here.   |
