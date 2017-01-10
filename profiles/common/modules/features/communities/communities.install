@@ -18,11 +18,14 @@ function communities_disable() {
  */
 function communities_enable() {
   // SolR configuration add bundle.
-  db_insert('apachesolr_index_bundles')->fields(array(
-    'env_id' => 'solr',
-    'entity_type' => 'node',
-    'bundle' => 'community',
-  ))->execute();
+  if (module_exists('apachesolr')) {
+    db_insert('apachesolr_index_bundles')->fields(array(
+      'env_id' => 'solr',
+      'entity_type' => 'node',
+      'bundle' => 'community',
+    ))->execute();
+  }
+
   drupal_set_message(t('Communities feature is now active on your site.'));
 }
 
@@ -30,6 +33,19 @@ function communities_enable() {
  * Implements hook_install().
  */
 function communities_install() {
+
+  $path = drupal_get_path('module', 'communities') . '/assets/images/default_images';
+
+  $default_images = array(
+    'user_picture_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default',
+      'source_path' => $path . '/community_default.png',
+      'filename' => 'community_default.png',
+      'variable' => 'default_community_image',
+    ),
+  );
+
   global $_communities_fid_default_community_image;
   // Affect a file image to the default image of the field thumbnail
   // of the content type community.

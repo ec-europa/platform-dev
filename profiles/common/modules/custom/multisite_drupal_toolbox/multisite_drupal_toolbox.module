@@ -7,6 +7,18 @@
 
  define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
+ * Implements hook_permission().
+ */
+function multisite_drupal_toolbox_permission() {
+  return array(
+    'view alert message' => array(
+      'title' => t('View Alert message'),
+      'description' => t('View the Alert message'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function multisite_drupal_toolbox_menu() {
@@ -137,6 +149,10 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
+
+  if (variable_get('alert_message_enable', FALSE) && user_access('view alert message')) {
+    drupal_set_message(variable_get('alert_message_body', ''), 'warning', FALSE);
+  }
 }
 
 /**
@@ -157,15 +173,18 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   $items['node/add/node_export']['access callback'] = FALSE;
   // Hide broken links tab in the my account page.
   $items['user/%user/linkchecker']['access callback'] = FALSE;
-  // Only super admin can configure apache solR.
-  $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/add']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+
+  if (module_exists('apachesolr')) {
+    // Only super admin can configure apache solR.
+    $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/add']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+  }
 
   $items['user/%user/edit']['access callback'] = 'multisite_drupal_toolbox_edit_access';
   $items['user/%user/cancel']['access callback'] = 'multisite_drupal_toolbox_edit_access';
@@ -491,29 +510,6 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
 }
 
 /**
- * Implements hook_theme_registry_alter().
- */
-function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
-  // Use our own function to display status messages.
-  $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
-}
-
-/**
- * Custom function to override the drupal status message.
- */
-function multisite_drupal_toolbox_messages($variables) {
-  global $user;
-  $message = "";
-  $rid = multisite_drupal_toolbox_get_rid('administrator');
-  if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
-    $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
-  }
-  $output = theme_status_messages($variables);
-  $output = $message . $output;
-  return $output;
-}
-
-/**
  * Public function to disable a content type.
  *
  * @obsolete
@@ -796,9 +792,29 @@ function _disable_block($module, $delta) {
 /**
  * Public function to add or delete nodes from the index.
  *
- * You need to add the module apachesolr as a dependancy to your feature.
+ * You need to add the module apachesolr as a dependency to your feature.
+ *
+ * @param string $bundle
+ *   Node type (node entity bundle) to perform the operation with.
+ * @param string $op
+ *   Operation to perform, either 'add' or 'delete.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
+  if (!module_exists('apachesolr')) {
+    watchdog(
+      'multisite_drupal_toolbox',
+      'Function %function was called with bundle %bundle and op %op, but the required apachesolr module is not enabled. You either need to add the module apachesolr as a dependency to the feature you are calling this function from, or prevent the call from happening if apachesolr is not a strict dependency and is disabled.',
+      array(
+        '%function' => __FUNCTION__,
+        '%bundle' => $bundle,
+        '%op' => $op,
+      ),
+      WATCHDOG_ERROR
+    );
+
+    return;
+  }
+
   if ($op != 'delete' && $op != 'add') {
     return;
   }

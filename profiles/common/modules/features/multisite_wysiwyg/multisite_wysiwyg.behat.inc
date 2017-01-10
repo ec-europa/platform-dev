@@ -101,7 +101,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       // Example: cke_editor_edit-field-ne-body-und-0-value_dialog.
       $modal_id = 'cke_editor_' . $field_id . '_dialog';
     }
-    $modal_element = $driver->find("//div[contains(@class, 'cke_1') and contains(@class, '$modal_id')]");
+    $modal_element = $driver->find("//div[contains(@class, 'cke_reset_all') and contains(@class, '$modal_id')]");
     $modal_element = !empty($modal_element) ? $modal_element[0] : NULL;
 
     if (!$modal_element) {
@@ -270,8 +270,8 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       // The catch is nevertheless useful because exceptions could happen if
       // the label value corresponds to the input id.
       // The "echo" is inserted for debug purpose.
-      echo (sprintf('An exception happens because "%s" was not found as Label.
-      that means that could be an id then getFieldIdFromInputLabel is as id.', $label_value));
+      echo (sprintf('NOTICE: An exception has been raised because "%s" was not found as Label.
+      that means that could be an id then getFieldIdFromInputLabel will simply return the submitted label value as id.', $label_value));
     }
     // If the id is not found, the label is considered as input id and the
     // scenario step calling the function must decide what to do with the
