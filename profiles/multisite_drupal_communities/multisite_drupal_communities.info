@@ -123,3 +123,4 @@ dependencies[] = multisite_custom_error
 dependencies[] = multisite_settings_core
 dependencies[] = solr_config
 dependencies[] = multisite_wysiwyg
+dependencies[] = nexteuropa_laco
