@@ -7,7 +7,7 @@ Feature: Content type administration features
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  Scenario: As administrator, I create a custom content type translated through
+  Scenario: I create a custom content type translated through
     entity translation, using workbench moderation and having 2 fields "Body" and
     "Select option". I should be able to create a content with it
     When I go to "admin/structure/types/add"
@@ -27,14 +27,15 @@ Feature: Content type administration features
     And I fill in "edit-fields-add-new-field-field-name" with "select_an_option"
     And I select "list_text" from "edit-fields-add-new-field-type"
     And I select "options_buttons" from "edit-fields-add-new-field-widget-type"
-    And I press the "Save" button for saving the "field_select_an_option" field for the "groovy_type" content type
+    And I press "Save"
     And I fill in "edit-field-settings-allowed-values" with:
     """
     Option 1
     Option 2
     """
     And I press the "Save field settings" button
-    And I check the box "edit-field-translatable"
+    Then I should see the success message "Updated field Select an option field settings."
+    When I check the box "edit-field-translatable"
     And I press the "Save settings" button
     Then I should see the success message "Saved Select an option configuration."
     When I go to "node/add/groovy-type"

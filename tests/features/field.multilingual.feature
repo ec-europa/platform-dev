@@ -17,37 +17,35 @@ Feature: Field Multilingual features
   if translations are not done
     Given I am logged in as a user with the 'administrator' role
     # Add and translate field and field Group
-    And a field with the following settings is added to "page" type:
+    And a field with the following settings is added to the "page" type:
       | Label           | Select a Color  |
-      | Name            | selectcolor     |
+      | Name            | select_color    |
       | Type            | list_text       |
       | Cardinality     | 1               |
       | Widget          | options_buttons |
       | Allowed values  | Red::Blue       |
       | Translatable    | TRUE            |
+    And a field group with the following settings is added to the "page" type view:
+      | Label             | My Group Color     |
+      | Group name        | group_select_color |
+      | Children          | select_color       |
+      | Extra CSS classes | group-group-color  |
+      | Weight            | 10                 |
     And I am viewing a multilingual "page" content:
-      | language | title             | field_selectcolor |
-      | en       | Title in English  | Red               |
-      | fr       | Titre en Français | Red               |
+      | language | title             | field_select_color |
+      | en       | Title in English  | Red                |
+      | fr       | Titre en Français | Red                |
     # Field translation: selectcolor
-    When I go to "admin/structure/types/manage/page/fields/field_selectcolor/translate/fr"
-    And I fill in "edit-strings-fieldfield-selectcolorpagelabel" with "Selectionner une Couleur"
-    And I fill in "edit-strings-fieldfield-selectcolorallowed-valuesred" with "Rouge"
-    And I fill in "edit-strings-fieldfield-selectcolorallowed-valuesblue" with "Bleu"
+    When I go to "admin/structure/types/manage/page/fields/field_select_color/translate/fr"
+    And I fill in "edit-strings-fieldfield-select-colorpagelabel" with "Selectionner une Couleur"
+    And I fill in "edit-strings-fieldfield-select-colorallowed-valuesred" with "Rouge"
+    And I fill in "edit-strings-fieldfield-select-colorallowed-valuesblue" with "Bleu"
     And I press the "Save translation" button
     Then I should see the success message "3 translations were saved successfully."
-    # Field group creation: groupcolor.
-    When I go to "admin/structure/types/manage/page/display"
-    And I fill in "edit-fields-add-new-group-label" with "My Group Color"
-    And I fill in "edit-fields-add-new-group-group-name" with "groupcolor"
-    And I select "_add_new_group" from "edit-fields-field-selectcolor-parent"
-    And I press the "Save" button
-    Then I should see the success message "Your settings have been saved."
-    Then I should see the success message "New group My Group Color successfully created."
     # Field group translation: groupcolor.
     When I go to "content/title-english_en"
     And I click "New draft"
-    And I select the radio button "Red" with the id "edit-field-selectcolor-en-red"
+    And I select the radio button "Red" with the id "edit-field-select-color-en-red"
     And I select "published" from "edit-workbench-moderation-state-new"
     And I press the "Save" button
     Then I should see the success message "Basic page Title in English has been updated."
@@ -63,21 +61,21 @@ Feature: Field Multilingual features
     When I am an anonymous user
     And I go to "content/title-english_en"
     Then I should see "Title in English" in the "#page-title" element
-    And I should see "My Group Color" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Select a Color" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Red" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    And I should see "My Group Color" in the "fieldset.group-group-color span.fieldset-legend" element
+    And I should see "Select a Color" in the "div.field-name-field-select-color div.field-label" element
+    And I should see "Red" in the "div.field-name-field-select-color div.field-items div.field-item" element
     When I go to "content/title-english_fr"
     Then I should see "Titre en Français" in the "#page-title" element
-    And I should see "Mon Groupe Couleur" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Selectionner une Couleur" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Rouge" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    And I should see "Mon Groupe Couleur" in the "fieldset.group-group-color span.fieldset-legend" element
+    And I should see "Selectionner une Couleur" in the "div.field-name-field-select-color div.field-label" element
+    And I should see "Rouge" in the "div.field-name-field-select-color div.field-items div.field-item" element
     When I go to "content/title-english_de"
     Then I should see "Title in English" in the "#page-title" element
-    And I should see "My Group Color" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Select a Color" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Red" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    And I should see "My Group Color" in the "fieldset.group-group-color span.fieldset-legend" element
+    And I should see "Select a Color" in the "div.field-name-field-select-color div.field-label" element
+    And I should see "Red" in the "div.field-name-field-select-color div.field-items div.field-item" element
     When I go to "content/title-english_en?2nd-language=fr"
     Then I should see "Title in English" in the "#page-title" element
-    And I should see "My Group Color" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Select a Color" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Red" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    And I should see "My Group Color" in the "fieldset.group-group-color span.fieldset-legend" element
+    And I should see "Select a Color" in the "div.field-name-field-select-color div.field-label" element
+    And I should see "Red" in the "div.field-name-field-select-color div.field-items div.field-item" element
