@@ -72,6 +72,7 @@ class FieldContext implements Context {
         }
       }
     }
+    $this->defaultFields = array();
     field_purge_batch(100);
   }
 
@@ -95,6 +96,7 @@ class FieldContext implements Context {
     }
     $current_field_groups = field_group_read_groups();
     $this->scanFieldGroupsForResetting($current_field_groups, $this->defaultFieldGroups);
+    $this->defaultFieldGroups = array();
   }
 
   /**
