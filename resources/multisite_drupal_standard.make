@@ -776,6 +776,12 @@ projects[xmlsitemap][patch][] = https://www.drupal.org/files/issues/xmlsitemap-u
 projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch
 
 
+projects[feeds_et][subdir] = "contrib"
+projects[feeds_et][version] = "1.x-dev"
+; Issue #2078069: Support for link fields
+; https://www.drupal.org/node/2078069
+projects[feeds_et][patch][] = https://www.drupal.org/files/feeds_et_link_support-2078069-1.patch
+
 ; =========
 ; Libraries
 ; =========

@@ -1,0 +1,13 @@
+name = Feeds: Entity Translation
+description = Adds support for importing translations via Entity Translation.
+core = 7.x
+dependencies[] = "feeds"
+dependencies[] = "entity_translation"
+package = Feeds
+
+; Information added by Drupal.org packaging script on 2015-10-10
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "feeds_et"
+datestamp = "1444463640"
+

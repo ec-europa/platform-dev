@@ -1741,8 +1741,9 @@ function cce_basic_config_update_7195() {
   db_query('ALTER TABLE `field_data_field_caption` CHANGE `field_caption_value` `field_caption_value` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;');
   db_query('ALTER TABLE `field_revision_field_caption` CHANGE `field_caption_value` `field_caption_value` VARCHAR(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;');
 
-  $qry = "SELECT data FROM 'field_config' WHERE field_name = :field_name";
-  $result = db_query($qry, array(':field_name' => 'field_caption'))->fetchObject();
+  $qry = "SELECT data FROM field_config WHERE field_name = 'field_caption'";
+  $result = db_query($qry)->fetchObject();
+  //$result = db_query($qry, array(':field_name' => 'field_caption'))->fetchObject();
   $data = unserialize($result->data);
   $data['settings']['max_length'] = 512;
   $serialized_data = serialize($data);

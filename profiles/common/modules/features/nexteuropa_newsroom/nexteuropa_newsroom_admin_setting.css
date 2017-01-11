@@ -1,0 +1,27 @@
+.selected {
+  background: #f9f9f9;
+  border: 2px solid green;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.not-selected {
+  border: 2px solid  #8c2e0b;
+  padding: 10px;
+  color: #8c2e0b;
+}
+
+.not-selected input[type="text"] {
+  border: 1px solid #8c2e0b;
+}
+
+.fieldset-description {
+  padding: 10px 0;
+}
+
+#edit-newsroom-paths .form-type-textfield,
+#edit-newsroom-paths--1 .form-type-textfield,
+#edit-newsroom-paths--2 .form-type-textfield {
+	width:50%;
+	float:left;
+}

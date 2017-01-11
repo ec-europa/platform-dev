@@ -1,0 +1,155 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the nexteuropa_newsroom module.
+ *
+ * @see https://webgate.ec.europa.eu
+ * /CITnet/confluence/display/nexteuropa/Custom+features
+ */
+
+include_once 'nexteuropa_newsroom.install.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function nexteuropa_newsroom_enable() {
+  drupal_set_message(t('Newsroom %v feature is now active on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
+  cache_clear_all('plugins:feeds:plugins', 'cache');
+  // Add to solR.
+  multisite_drupal_toolbox_config_solr_bundle('newsroom_item', 'add');
+}
+
+/**
+ * Implements hook_disable().
+ */
+function nexteuropa_newsroom_disable() {
+  drupal_set_message(t('Newsroom %v feature is now inactive on your site.', array('%v' => _nexteuropa_newsroom_get_version())));
+
+  // Delete from solR.
+  multisite_drupal_toolbox_config_solr_bundle('newsroom_item', 'delete');
+}
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_newsroom_install() {
+  variable_set('newsroom_block_by', 'type');
+  variable_set('newsroom_summary_block_num_items', 3);
+  variable_set('newsroom_summary_block_num_highlighted_items', 3);
+  variable_set('newsroom_summary_home_block_num_agenda', 3);
+  variable_set('newsroom_summary_home_block_num_items', 3);
+  variable_set('newsroom_summary_home_block_num_highlighted_items', 3);
+  variable_set('newsroom_universe_root', 'http://ec.europa.eu/information_society/newsroom/cf/dae/');
+  variable_set('newsroom_summary_block_columns', 1);
+  variable_set('newsroom_display_agenda', 1);
+  variable_set('newsroom_url_mode', 'name');
+  variable_set('newsroom_navigation_depth', 1);
+  variable_set('newsroom_agenda_after_highlights', 1);
+  variable_set('newsroom_display_highlights_begin', 1);
+  variable_set('newsroom_multilingual', 1);
+  _nexteuropa_newsroom_enable_translations();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function nexteuropa_newsroom_uninstall() {
+  variable_del('newsroom_block_items_by');
+  variable_del('newsroom_summary_block_num_items');
+  variable_del('newsroom_summary_block_num_highlighted_items');
+  variable_del('newsroom_summary_home_block_num_agenda');
+  variable_del('newsroom_summary_home_block_num_items');
+  variable_del('newsroom_summary_home_block_num_highlighted_items');
+  variable_del('newsroom_universe_root');
+  variable_del('newsroom_summary_block_columns');
+  variable_del('newsroom_display_agenda');
+  variable_del('newsroom_url_mode');
+  variable_del('newsroom_navigation_depth');
+  variable_del('newsroom_agenda_after_highlights');
+  variable_del('newsroom_display_highlights_begin');
+  variable_del('newsroom_universe_id');
+  variable_del('newsroom_default_importers');
+}
+
+/**
+ * Set universe ID from previous variable.
+ */
+function nexteuropa_newsroom_update_7101() {
+  if ($newsroom_universe_root = variable_get('newsroom_universe_root', FALSE)) {
+    $universe_id = array_pop(explode('/', trim($newsroom_universe_root, '/')));
+    variable_set('newsroom_universe_id', $universe_id);
+    variable_del('newsroom_universe_root');
+  }
+}
+
+/**
+ * Remove obsolete importer content types and nodes.
+ */
+function nexteuropa_newsroom_update_7102() {
+  $types = array(
+    'newsroom_type_importer',
+    'newsroom_service_importer',
+    'newsroom_topic_importer',
+    'newsroom_delete_item_importer',
+    'newsroom_delete_item_importer',
+    'newsroom_item_importer',
+  );
+
+  // Delete types.
+  foreach ($types as $type) {
+    // Release content type previously featurized.
+    db_query("UPDATE {node_type} SET `custom` = 1, `locked` = 0 WHERE `type` = :type", array(':type' => $type));
+    // Delete content type.
+    node_type_delete($type);
+  }
+
+  // Update feeds_item table to avoid import of the items again
+  // Drop ID of the importer content types.
+  db_query("UPDATE {feeds_item} SET feed_nid = 0 WHERE id IN ('newsroom_items', 'newsroom_services', 'newsroom_topics', 'newsroom_type')");
+}
+
+/**
+ * Fix imported term GUIDs to avoid "wrong parents".
+ */
+function nexteuropa_newsroom_update_7103() {
+  db_update('feeds_item')
+    ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_topic-'))
+    ->condition('id', 'newsroom_topics')
+    ->execute();
+
+  db_update('feeds_item')
+    ->expression('guid', 'CONCAT(:newstring, guid)', array(':newstring' => 'newsroom_type-'))
+    ->condition('id', 'newsroom_type')
+    ->execute();
+}
+
+/**
+ * Migrate data from shared teaser to newsroom teaser.
+ */
+function nexteuropa_newsroom_update_7104() {
+  $result = db_query("REPLACE INTO field_data_field_teaser
+  SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_data_field_shared_teaser shared_teaser
+  WHERE shared_teaser.bundle = 'newsroom_item';");
+
+  $result = db_query("REPLACE INTO field_revision_field_teaser
+  SELECT `entity_type`, `bundle`, `deleted`, `entity_id`, `revision_id`, `language`, `delta`, `field_shared_teaser_value`, `field_shared_teaser_format` FROM field_revision_field_shared_teaser shared_teaser
+  WHERE shared_teaser.bundle = 'newsroom_item';");
+}
+
+/**
+ * Remove obsolete from newsroom selection content type.
+ */
+function nexteuropa_newsroom_update_7105() {
+  field_delete_field('field_bp_newsroom_country');
+  field_delete_field('field_bp_newsroom_co_operator');
+  field_delete_field('field_bp_newsroom_actions');
+  field_delete_field('field_bp_newsroom_ac_operator');
+  field_purge_batch(1000);
+  return t('The following fields have been deleted from your db:
+      	field_bp_newsroom_country,
+        field_bp_newsroom_co_operator,
+        field_bp_newsroom_actions,
+        field_bp_newsroom_ac_operator
+  ');
+}
