@@ -38,7 +38,7 @@ class ContentTypeContext implements Context {
    * @AfterScenario @reset-node-types
    */
   public function resetNodeTypes() {
-    if (!isset($this->defaultNodeTypes)) {
+    if (empty($this->defaultNodeTypes)) {
       return;
     }
 
