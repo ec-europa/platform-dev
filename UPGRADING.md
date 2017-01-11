@@ -60,7 +60,9 @@ list of pages where you first need to accept/reject changes.
 #### apachesolr_search
 
 If you need to use the module apachesolr_search, you can :
-- Add the module 'apachesolr_search' as a dependency to your code
+- Add the module 'apachesolr_search' as a dependency to your code. 
+ *Please make sure the dependency is added before any dependency that includes 
+ a call to multisite_drupal_toolbox_config_solr_bundle*
 
 If you do not need to use that module, you can:
 - Add a hook_update in your code, where you disable it 
