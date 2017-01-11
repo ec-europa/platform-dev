@@ -55,6 +55,7 @@ Note:
 You won't be able to disable the feature 'Tracked changes' if your have 
 unvalidated tracked changes on your site. Instead you'll be prompted with a 
 list of pages where you first need to accept/reject changes.
+[Before doing anything, pleas consult the README file!](nexteuropa_trackedchanges/README.md)
 
 #### apachesolr_search
 
