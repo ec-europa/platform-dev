@@ -116,28 +116,29 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js',
   );
-  // Setting up default value for the 'Translator' field.
-  $translators = [];
-  if (isset($form['translator_wrapper']['translator']['#options'])) {
-    $translators = $form['translator_wrapper']['translator']['#options'];
-    if (in_array('poetry', array_keys($translators))
-      && !in_array('tmgmt_poetry_test_translator', array_keys($translators))
-    ) {
-      $form['translator_wrapper']['translator']['#default_value'] = 'poetry';
-    }
-  }
-  // Loading settings for a given translator.
-  // If tmgmt_poetry job form was never submitted use the default 'poetry'.
-  if (!isset($form_state['values'])) {
-    $job->translator = 'poetry';
-    _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
-  }
 
-  // If tmgmt_poetry_mock is enabled set up mock translator as a default.
-  if (in_array('tmgmt_poetry_test_translator', array_keys($translators))) {
-    $job->translator = 'tmgmt_poetry_test_translator';
-    $form['translator_wrapper']['translator']['#default_value'] = 'tmgmt_poetry_test_translator';
-    _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
+  // If job form was never submitted load default translator settings.
+  if (!isset($form_state['values'])) {
+
+    // Setting up default value for the 'Translator' field.
+    if (isset($form['translator_wrapper']['translator']['#options'])) {
+      $translators = $form['translator_wrapper']['translator']['#options'];
+
+      // If tmgmt_poetry_mock is enabled set up mock translator as a default.
+      if (in_array('tmgmt_poetry_test_translator', array_keys($translators))) {
+        $job->translator = 'tmgmt_poetry_test_translator';
+        $form['translator_wrapper']['translator']['#default_value'] = 'tmgmt_poetry_test_translator';
+        _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
+      }
+      // Otherwise use the default 'poetry'.
+      elseif (in_array('poetry', array_keys($translators))
+      ) {
+        $form['translator_wrapper']['translator']['#default_value'] = 'poetry';
+        $job->translator = 'poetry';
+        _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
+      }
+
+    }
   }
 
   // If tmgmt_poetry job form was submitted, check translator and load settings.
