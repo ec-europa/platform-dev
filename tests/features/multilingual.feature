@@ -63,7 +63,7 @@ Feature: Multilingual features
     And I fill in "edit-prefix" with "en-prefix"
     And I press the "Save language" button
     And I go to "admin/config/system/site-information"
-    And I fill in "edit-site-frontpage" with "admin/fake-url"
+    And I fill in "Default front page" with "admin/fake-url"
     And I select "01000" from "edit-classification"
     And I press the "Save configuration" button
     Then I should see the success message "The configuration options have been saved."
@@ -71,6 +71,8 @@ Feature: Multilingual features
     When I reload the page
     Then I should be on "admin/config/system/site-information_en-prefix"
     And I should not see "en-prefix" in the ".form-item-site-frontpage span.field-prefix" element
+    When I click "Home"
+    Then I should be on "admin/fake-url_en-prefix"
 
   Scenario: Path aliases are not deleted when translating content via translation management
     Given local translator "Translator A" is available
