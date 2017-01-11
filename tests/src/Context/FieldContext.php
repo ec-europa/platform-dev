@@ -97,6 +97,7 @@ class FieldContext implements Context {
     $current_field_groups = field_group_read_groups();
     $this->scanFieldGroupsForResetting($current_field_groups, $this->defaultFieldGroups);
     $this->defaultFieldGroups = array();
+    drupal_flush_all_caches();
   }
 
   /**
