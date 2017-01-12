@@ -710,6 +710,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'administer software updates',
     'manage features',
     'use PHP to import nodes',
+    'manage feature nexteuropa_dgt_connector',
   ));
 
   // Grant permissions for contributors.
@@ -2261,4 +2262,17 @@ function cce_basic_config_update_7214(&$sandbox) {
   }
 
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
+}
+
+
+/**
+ * NEPT-182: Enable nexteuropa_feature_set and nexteuropa_dgt_connector feature.
+ *
+ * Update enables the feature only if tmgmt_poetry is already installed.
+ */
+function cce_basic_config_update_7215() {
+  module_enable(array('nexteuropa_feature_set'));
+  if (module_exists('tmgmt_poetry')) {
+    module_enable(array('nexteuropa_dgt_connector'));
+  }
 }
