@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the NextEuropa Administration screens config feature.
+ */
+
+include_once 'nexteuropa_admin_screens_config.features.inc';
