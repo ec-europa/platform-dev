@@ -47,9 +47,8 @@ class FieldContext implements Context {
     }
 
     $current_fields = field_info_field_map();
-    $field_names = array_keys($current_fields);
     $purge_field_schema = FALSE;
-    foreach ($field_names as $field_name) {
+    foreach ($current_fields as $field_name => $field_info) {
       if (!isset($this->defaultFields[$field_name])) {
         $field_info = field_info_field($field_name);
         if (!is_null($field_info)
@@ -59,7 +58,27 @@ class FieldContext implements Context {
           $purge_field_schema = TRUE;
         }
       }
+      else {
+        // We check if a test has not created an instance of an existing field.
+        // If it is the case, we delete only this instance.
+        $previous_field_info = $this->defaultFields[$field_name]['bundles'];
+        foreach ($field_info['bundles'] as $entity_type => $bundles) {
+          $default_bundles = $previous_field_info[$entity_type];
+          $created_instances = array_diff($bundles, $default_bundles);
+          if (!empty($created_instances)) {
+            foreach ($created_instances as $created_instance) {
+              $field_instance = array(
+                'field_name' => $field_name,
+                'entity_type' => $entity_type,
+                'bundle' => $created_instance,
+              );
+              field_delete_instance($field_instance);
+            }
+          }
+        }
+      }
     }
+
     if ($purge_field_schema) {
       field_purge_batch(100);
     }
