@@ -46,3 +46,4 @@ features[user_permission][] = manage feature splash_screen
 features[user_permission][] = manage feature survey_standard
 features[user_permission][] = manage feature text_collapse
 features[user_permission][] = manage feature wiki_standard
+features[user_role][] = "cem"
