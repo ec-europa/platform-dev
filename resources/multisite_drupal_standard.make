@@ -12,6 +12,9 @@ includes[] = "drupal-core.make"
 ; Contributed modules
 ; ===================
 
+projects[admin_language][subdir] = "contrib"
+projects[admin_language][version] = "1.0-beta4"
+
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
