@@ -7,8 +7,11 @@
 
 namespace Drupal\nexteuropa\Context;
 
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext;
 use Behat\Gherkin\Node\TableNode;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\hasKey;
 
 /**
  * Provides step definitions for interacting with Drupal.
@@ -29,6 +32,77 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @var array
    */
   protected $nodeTypes;
+
+  /**
+   * The variable context.
+   *
+   * @var VariableContext
+   */
+  protected $variableContext;
+
+  /**
+   * Stores languages modified during test execution.
+   *
+   * @see DrupalContext::setLanguageProperty()
+   *
+   * @var array
+   */
+  protected $modifiedLanguages = [];
+
+  /**
+   * Gathers other contexts we rely on, before the scenario starts.
+   *
+   * @BeforeScenario
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    $environment = $scope->getEnvironment();
+    $this->variableContext = $environment->getContext(VariableContext::class);
+  }
+
+  /**
+   * Temporarily set site frontpage path.
+   *
+   * @Given the site front page is set to :path
+   */
+  public function setFrontpagePath($path) {
+    $this->variableContext->setVariable('site_frontpage', $path);
+  }
+
+  /**
+   * Set language property on given language.
+   *
+   * @Given the :code language :property is set to :value
+   */
+  public function setLanguageProperty($code, $property, $value) {
+    $languages = language_list();
+
+    assert($languages, hasKey($code), "Language {$code} is not enabled.");
+    $language = (array) $languages[$code];
+    assert($language, hasKey($property), "Language property {$property} does not exists.");
+    $this->modifiedLanguages[$code] = $language;
+
+    $language[$property] = $value;
+    db_update('languages')
+      ->fields($language)
+      ->condition('language', $code)
+      ->execute();
+  }
+
+  /**
+   * Reset languages modified during scenario execution.
+   *
+   * @see DrupalContext::setLanguageProperty()
+   *
+   * @afterScenario
+   */
+  public function resetLanguages() {
+    foreach ($this->modifiedLanguages as $code => $language) {
+      db_update('languages')
+        ->fields($language)
+        ->condition('language', $code)
+        ->execute();
+    }
+  }
 
   /**
    * {@inheritdoc}

@@ -56,20 +56,14 @@ Feature: Multilingual features
     And I should see "French"
     And I should see "German"
 
-  @cleanEnvironment
   Scenario: Check the base path doesn't change when changing language prefix
     Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/regional/language/edit/en"
-    And I fill in "edit-prefix" with "en-prefix"
-    And I press the "Save language" button
-    And I go to "admin/config/system/site-information"
-    And I fill in "Default front page" with "admin/fake-url"
-    And I select "01000" from "edit-classification"
-    And I press the "Save configuration" button
-    Then I should see the success message "The configuration options have been saved."
+    And the site front page is set to "admin/fake-url"
+    And the "en" language "prefix" is set to "en-prefix"
     And the cache has been cleared
-    When I reload the page
-    Then I should be on "admin/config/system/site-information_en-prefix"
+    And I go to "admin/config/system/site-information"
+    Then I should be on "admin/config/system/site-information"
+    # We check that path prefix set earlier does not bleeds into the site base path.
     And I should not see "en-prefix" in the ".form-item-site-frontpage span.field-prefix" element
     When I click "Home"
     Then I should be on "admin/fake-url_en-prefix"
