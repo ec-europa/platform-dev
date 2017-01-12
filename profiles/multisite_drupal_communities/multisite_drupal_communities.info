@@ -6,7 +6,6 @@ dependencies[] = admin_menu
 dependencies[] = advanced_help
 dependencies[] = apachesolr
 dependencies[] = apachesolr_attachments
-dependencies[] = apachesolr_multisitesearch
 dependencies[] = apachesolr_search
 dependencies[] = better_formats
 dependencies[] = block
