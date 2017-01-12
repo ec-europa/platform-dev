@@ -18,6 +18,7 @@ dependencies[] = file_entity
 dependencies[] = filter
 dependencies[] = i18n_field
 dependencies[] = i18n_node
+dependencies[] = i18n_string
 dependencies[] = i18n_taxonomy
 dependencies[] = image
 ;dependencies[] = jquery_update
