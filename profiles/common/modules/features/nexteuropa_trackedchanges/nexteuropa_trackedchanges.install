@@ -207,5 +207,4 @@ function nexteuropa_trackedchanges_uninstall() {
     'bundle' => 'netc_info',
   );
   field_delete_instance($instance);
-  field_purge_batch(50);
 }
