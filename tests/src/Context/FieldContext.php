@@ -67,11 +67,7 @@ class FieldContext implements Context {
           $created_instances = array_diff($bundles, $default_bundles);
           if (!empty($created_instances)) {
             foreach ($created_instances as $created_instance) {
-              $field_instance = array(
-                'field_name' => $field_name,
-                'entity_type' => $entity_type,
-                'bundle' => $created_instance,
-              );
+              $field_instance = field_info_instance($entity_type, $field_name, $created_instance);
               field_delete_instance($field_instance);
             }
           }
