@@ -218,35 +218,23 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * @Then the translation request document is valid XHTML
    */
   public function assertTranslationRequestDocumentIsValidXhtml() {
+
+    if (!class_exists('tidy')) {
+      throw new Exception('You need Tidy extension to test if XHTML is valid.');
+    }
+
     $this->assertTranslationRequest();
 
     $document = base64_decode($this->translationRequest['data']['content']);
 
-    $response = drupal_http_request(
-      'https://validator.w3.org/check',
-      [
-        'method' => 'POST',
-        'data' => http_build_query(
-          [
-            'fragment' => $document,
-            'output' => 'json',
-          ]
-        ),
-      ]
-    );
-
-    // Info on output from the validator:
-    // https://github.com/validator/validator/wiki/Output:-JSON.
-    $validation = json_decode($response->data);
-    $errors = $validation->messages;
-
-    if (!empty($errors)) {
-      $first_error = reset($errors);
+    $tidy = new tidy();
+    $tidy->parseString($document);
+    if (!$tidy->diagnose()) {
+      $errors = $tidy->errorBuffer;
       throw new Exception(
         sprintf(
-          'The translation document did not pass the W3C XHTML validation (error count: %d). First error: %s.',
-          count($errors),
-          $first_error->message
+          'The translation document did not pass the tidy XHTML validation: %s.',
+          $errors
         )
       );
     }
