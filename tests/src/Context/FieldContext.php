@@ -47,13 +47,22 @@ class FieldContext implements Context {
     }
 
     $current_fields = field_info_field_map();
-
-    foreach ($current_fields as $field_name => $field_info) {
+    $field_names = array_keys($current_fields);
+    $purge_field_schema = FALSE;
+    foreach ($field_names as $field_name) {
       if (!isset($this->defaultFields[$field_name])) {
-        field_delete_field($field_name);
+        $field_info = field_info_field($field_name);
+        if (!is_null($field_info)
+          && !$field_info['locked']
+          && !$field_info['deleted']) {
+          field_delete_field($field_name);
+          $purge_field_schema = TRUE;
+        }
       }
     }
-    field_purge_batch(100);
+    if ($purge_field_schema) {
+      field_purge_batch(100);
+    }
     $this->defaultFields = array();
   }
 
