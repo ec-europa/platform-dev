@@ -264,6 +264,8 @@ The following module has moved within the file system: tmgmt_poetry.
  
  Once the upgrade is complete, CEM needs to be informed that the 
  "website_identifier" value must be set.
+ In order to communicate this to CEM, please create a ticket in MULTISITE and 
+ assign it to user "Support SMT Jira".
 
 ## Manual check
 
