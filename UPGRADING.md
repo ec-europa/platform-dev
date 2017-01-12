@@ -24,7 +24,11 @@ The following modules have been removed from the stack
 The following modules has been removed from the *hard config*:
   - contact
   - ckeditor_lite
+  - apachesolr
   - apachesolr_search
+  - apachesolr_attachments
+  - apachesolr_multisitesearch
+  - solr_config
 
 This means they are still available but you can now disable them for once if 
 you don't need them.
@@ -57,17 +61,31 @@ unvalidated tracked changes on your site. Instead you'll be prompted with a
 list of pages where you first need to accept/reject changes.
 [Before doing anything, pleas consult the README file!](nexteuropa_trackedchanges/README.md)
 
-#### apachesolr_search
+#### apachesolr
 
-If you need to use the module apachesolr_search, you can :
-- Add the module 'apachesolr_search' as a dependency to your code. 
+If you need to use the functionalities of apachesolr_search, you can :
+- Add the list of apachesolr modules as a dependency to your code. 
  *Please make sure the dependency is added before any dependency that includes 
  a call to multisite_drupal_toolbox_config_solr_bundle*
-
+ 
+ *Please make sure you also call this code from within your code to avoid
+ build issues. See ticket 'NEXTEUROPA-3659'*
+ ```
+  $environments = &drupal_static('apachesolr_load_all_environments');
+  $environments = array();
+  global $conf;
+  $conf['apachesolr_multisitesearch_last_metadata_fetch'] = REQUEST_TIME;
+  $conf['apachesolr_multisitesearch_last_metadata_update'] = REQUEST_TIME;
+ 
+  variable_set('apachesolr_delay_removals', 1);
+ ```
+ 
 If you do not need to use that module, you can:
 - Add a hook_update in your code, where you disable it 
+
   Make sure to also remove all calls to 
-  multisite_drupal_toolbox_config_solr_bundle
+  *multisite_drupal_toolbox_config_solr_bundle* and any dependency in your code 
+  to apachesolr.
 
 Only after processing one of these steps will your site be considered as 
 'upgraded'.
@@ -79,8 +97,9 @@ removed.
 If you were using this feature, please read our upgrade recommendation:
 
 ```
- Move the code added into these module into css or js files.
- Link these files from inside the info file of your theme, or inside your module using one of these notations :
+ - Move the code added into these module into css or js files.
+ - Remove all dependencies to both those modules from your code.
+ - Link these files from inside the info file of your theme, or inside your module using one of these notations :
 ```
 
  For css
