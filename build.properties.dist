@@ -144,7 +144,7 @@ phpcs.config = ${project.basedir}/phpcs.xml
 phpcs.standard = ${project.basedir}/phpcs-ruleset.xml
 
 # Paths to check, delimited by semicolons.
-phpcs.files = ${platform.resources.profiles.dir};${platform.resources.source.dir}
+phpcs.files = ${platform.resources.profiles.dir};${platform.resources.source.dir};${behat.dir};
 
 # Paths to ignore, delimited by semicolons.
 phpcs.ignore =

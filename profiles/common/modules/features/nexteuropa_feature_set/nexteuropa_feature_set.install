@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Implements some specific logic for platform feature sets.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Grant access to features set and admin menu to user role.
+ */
+function nexteuropa_feature_set_install() {
+  multisite_config_service('user')->createRole('cem', 4);
+  // Grant permissions for cem.
+  $permissions = array(
+    'access administration menu',
+    'access administration pages',
+    'administer feature sets',
+  );
+  multisite_config_service('user')->grantPermission('cem', $permissions);
+
+}
