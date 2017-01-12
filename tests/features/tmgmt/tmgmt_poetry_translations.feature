@@ -42,7 +42,7 @@ Feature: TMGMT Poetry features
     Then I should see the error message "There was an error with the Poetry request."
     And I should see "Rejected" in the "French" row
     And I should see "Rejected" in the "Italian" row
-    Then I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "cem" role
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -551,13 +551,17 @@ Feature: TMGMT Poetry features
 
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including the website identifier.
-    Given I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And inside fieldset "General settings" I fill in "Website identifier" with "my-website"
+    And I fill in "Callback Password" with "MockCallbackPWD"
+    And I fill in "Poetry Password" with "MockPoetryPWD"
     And I press the "Save translator" button
-    And I am viewing a multilingual "page" content:
+    Then I should see the success message containing "The configuration options have been saved."
+    Given I am logged in as a user with the "administrator" role
+    When I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
-    When I click "Translate" in the "primary_tabs" region
+    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     And I fill in "Date" with a relative date of "+20" days
@@ -569,13 +573,17 @@ Feature: TMGMT Poetry features
   @javascript @cleanup-tmgmt-poetry-website-identifier
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
-    Given I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
+    And I fill in "Callback Password" with "MockCallbackPWD"
+    And I fill in "Poetry Password" with "MockPoetryPWD"
     And I press the "Save translator" button
-    And I am viewing a multilingual "page" content:
+    Then I should see the success message containing "The configuration options have been saved."
+    Given I am logged in as a user with the "administrator" role
+    When I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
-    When I click "Translate" in the "primary_tabs" region
+    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     And I fill in "Date" with a relative date of "+20" days
@@ -815,6 +823,7 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario Outline: Check not-poetry translator still works with poetry enabled.
     Given <translatorType> translator "Translator <translatorType>" is available
+    And I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
     And I fill in "Title" with "Test"
     And I fill in the rich text editor "Body" with "Test."
