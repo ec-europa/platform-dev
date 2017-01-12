@@ -46,7 +46,6 @@ class ContentTypeContext implements Context {
       if (!in_array($result->type, $this->defaultNodeTypes)) {
         node_type_delete($result->type);
       }
-      unset($this->defaultNodeTypes[$result->type]);
     }
     $this->defaultNodeTypes = array();
   }

@@ -51,29 +51,10 @@ class FieldContext implements Context {
     foreach ($current_fields as $field_name => $field_info) {
       if (!isset($this->defaultFields[$field_name])) {
         field_delete_field($field_name);
-        continue;
-      }
-
-      // We check if a test has not created an instance of an existing field.
-      // If it is the case, we delete only this instance.
-      $previous_field_info = $this->defaultFields[$field_name]['bundles'];
-      foreach ($field_info['bundles'] as $entity_type => $bundles) {
-        $default_bundles = $previous_field_info[$entity_type];
-        $created_instances = array_diff($bundles, $default_bundles);
-        if (!empty($created_instances)) {
-          foreach ($created_instances as $created_instance) {
-            $field_instance = array(
-              'field_name' => $field_name,
-              'entity_type' => $entity_type,
-              'bundle' => $created_instance,
-            );
-            field_delete_instance($field_instance);
-          }
-        }
       }
     }
-    $this->defaultFields = array();
     field_purge_batch(100);
+    $this->defaultFields = array();
   }
 
   /**
@@ -97,7 +78,6 @@ class FieldContext implements Context {
     $current_field_groups = field_group_read_groups();
     $this->scanFieldGroupsForResetting($current_field_groups, $this->defaultFieldGroups);
     $this->defaultFieldGroups = array();
-    drupal_flush_all_caches();
   }
 
   /**
@@ -137,7 +117,7 @@ class FieldContext implements Context {
 
         default:
           if (!$current_default_def_level) {
-            ctools_export_crud_delete('field_group', $item);
+            field_group_group_export_delete($item, FALSE);
           }
           break;
       }

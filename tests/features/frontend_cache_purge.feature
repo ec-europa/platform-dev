@@ -1,4 +1,4 @@
-@wip @api @javascript @maximizedwindow @reset-nodes
+@api @javascript @maximizedwindow @reset-nodes
 Feature:
   In order to make new or updated content quickly available to the public
   Or to urgently hide content again from the public
