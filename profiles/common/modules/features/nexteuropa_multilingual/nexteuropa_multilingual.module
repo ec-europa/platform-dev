@@ -383,9 +383,12 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     $wrapper = entity_metadata_wrapper('node', $node);
     $original_language = $node->translations->original;
     $entity_properties = $wrapper->getPropertyInfo();
+    $options = $context['options'];
+    $sanitize = !empty($options['sanitize']);
     // Check if the title module is used to manage the title as a field.
     if (isset($entity_properties['title_field'])) {
-      $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->raw();
+      $title = $wrapper->language($original_language)->title_field->value();
+      $replacements['[node:source:title]'] = $sanitize ? check_plain($title['value']) : $title['value'];
     }
     else {
       $replacements['[node:source:title]'] = $wrapper->language($original_language)
