@@ -78,13 +78,13 @@
 
     <!-- Callbacks for the SoapServer class (part of the Soap extension) do not follow Drupal function name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidFunctionName.InvalidName">
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/inc/tmgmt_poetry.webservice.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/inc/tmgmt_poetry.webservice.inc</exclude-pattern>
     </rule>
 
     <!-- Tmgmt poetry tests not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/tmgmt_poetry.test</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tests/tmgmt_poetry.test</exclude-pattern>
     </rule>
 
     <!-- Exclude third party code which is not following Drupal coding standards. -->
