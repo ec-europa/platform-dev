@@ -1,4 +1,4 @@
-@api @i18n
+@api
 Feature: Content translation
   In order to translate my content
   As an administrator
