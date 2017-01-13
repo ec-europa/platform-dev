@@ -1,0 +1,503 @@
+/* Teaser view mode for the newsroom_item */
+.newsroomPage-container .views-row {
+  padding: 0 !important;
+  border: none !important;
+  margin: 0;
+}
+
+.newsroomPage-container .views-field {
+  margin: 0.3em 0;
+}
+
+.newsroomPage-container .node-info-submitted,
+.newsroomPage-container h2 {
+  display: none;
+}
+
+.newsroomPage-container .views-field-field-newsroom-item-venue {
+  font-weight: 600;
+}
+
+.newsroomAgenda-container .newsroomAgenda-filterForm,
+.newsroomPage-container .newsroomPage-filterForm {
+  border-top: solid 5px #ced9e4;
+  border-bottom: solid 1px #ced9e4;
+  background: #eff5fa;
+  padding: 10px 15px 12px;
+  margin-bottom: 25px;
+}
+
+.newsroomPage-container .views-field-field-newsroom-item-type a,
+.node-type-newsroom-item .field-name-field-newsroom-item-type a,
+.node-type-newsroom-item .field-label,
+.newsroom_item_container .newsroom_type {
+  display: inline-block;
+  background: #0065a2;
+  padding: 0.2em 1em;
+  margin: 0 1.5em 1em -15px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  position: relative;
+}
+
+.node-type-newsroom-item .field-name-body {
+  border-bottom: none !important;
+}
+
+.views-field-field-newsroom-item-short-title {
+  margin-bottom: 1em !important;
+  line-height: 130%;
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+.newsroomPage-container .views-field-field-newsroom-item-date {
+  background: #ccc;
+  padding: 0 1em;
+  color: #0065a2;
+  display: inline-block;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  position: relative;
+}
+
+.newsroomPage-container .newsroomPage-filterForm {
+  margin: 10px 0;
+}
+
+.newsroomPage-container .container-inline-date {
+  margin: 5px 0;
+}
+
+.newsroomPage-container.node-sticky {
+  padding-bottom: 0.5em;
+}
+
+.newsroomPage-container .newsroom-read-more,
+.newsroom_date {
+  font-style: italic;
+}
+
+.newsroomPage-container .newsroom-read-more {
+  text-align: right;
+  display: block;
+  clear: both;
+}
+
+.newsroomPage-container .newsroom-read-more::after,
+.newsroom_more::after,
+.read-full-text::after {
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid #0065a2;
+  display: inline-block;
+  margin-left: 0.5em;
+}
+
+.read-full-text {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+.newsroomPage-container .newsroom-read-more:hover::after {
+  border-color: transparent transparent transparent #003556;
+}
+
+/* STyling the default view mode */
+
+.node-type-newsroom-item .field-name-field-newsroom-teaser {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C" "\201D" "\2018" "\2019";
+  font-family: monospace;
+}
+
+.node-type-newsroom-item .field-name-field-newsroom-teaser:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+.node-type-newsroom-item .field-name-field-newsroom-teaser p {
+  display: inline;
+}
+
+.node-newsroom-item .field-group-div {
+  padding-bottom: 1em;
+}
+
+.node-newsroom-item .field-name-body {
+  border: none;
+}
+
+.newsroom_item_container.agenda .date-date {
+  background: #f9f9f9;
+  border-bottom: 0.222em solid #fed437;
+  width: 5%;
+  margin-right: 0.75em;
+  min-width: 5.556em;
+  padding: 0.4em 0.7em;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.newsroom_item_container.agenda .date-date::after,
+.newsroom_item_container h3::after {
+  content: " ";
+  position: absolute;
+  top: -0.667em;
+  right: -0.200em;
+  width: 0;
+  height: 0;
+  border-top: 1em solid transparent;
+  border-bottom: 1em solid transparent;
+  border-right: 1em solid #fff;
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.newsroom_item_container {
+  clear: right;
+}
+
+.newsroom_item_container.agenda .date-date .day {
+  font-size: 2em;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.newsroom_item_container.agenda .date-date .month {
+  font-size: 1em;
+  line-height: 1;
+}
+
+.newsroom_item_container.agenda .date-events {
+  display: inline-block;
+  width: 89%;
+}
+
+@media screen and (min-width: 640px) and (max-width: 1000px) {
+  .newsroom_item_container.agenda .date-events {
+    width: 79%;
+  }
+}
+
+@media screen and (min-width: 320px) and (max-width: 640px) {
+  .newsroom_item_container.agenda .date-events {
+    width: 70%;
+  }
+
+  .newsroom_item_container .views-row .newsroom_title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.block-nexteuropa-newsroom .newsroom_rss {
+  text-align: right;
+}
+
+.newsroom_item_container .views-row {
+  margin-bottom: 1em;
+  border-bottom: 2px solid #ececec;
+}
+
+.date-row {
+  margin: 1em 0;
+}
+
+.newsroom_item_container .newsroom_type {
+  margin: 0 0 0.5em;
+  font-size: 0.8em;
+}
+
+.newsroom_item_container .views-row .newsroom_title {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin-bottom: 0.3em;
+  width: 100%;
+}
+
+.newsroom_item_container .newsroom_item_metadata {
+  font-style: italic;
+  margin-bottom: 0.5em;
+}
+
+.newsroom_more {
+  text-align: right;
+  background: #ececec;
+  padding: 0.3em 1em;
+  float: right;
+}
+
+.newsroom_more .placeholder {
+  font-style: normal;
+}
+
+.newsroom_item_container h3 {
+  margin-left: -15px;
+  background: #ececec;
+  padding: 0.2em 1.5em;
+  display: inline-block;
+  font-size: 1.3em;
+  position: relative;
+  color: #0065a2;
+  font-weight: 600;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss {
+  position: relative;
+  top: 4.5em;
+  margin-top: -3em;
+  background: #ececec;
+  float: right;
+  padding: 0.4em 0.5em;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss a.feed-icon {
+  padding: 0 0.5em 0 0;
+}
+
+.block-nexteuropa-newsroom > .newsroom_rss::after {
+  clear: both;
+}
+
+.newsroom-image {
+  float: right;
+  background: #fff;
+  border: solid 1px #e5e5e5;
+  padding: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin: -6px -5px 15px 3%;
+  z-index: 5;
+  min-width: 90px;
+  width: 20%;
+}
+
+.newsroom-image .picContainer {
+  position: relative;
+  border-bottom: 1px solid #f3f3f3;
+  text-align: center;
+  display: block;
+}
+
+.newsroom-image .picContainer img {
+  width: 100%;
+  height: auto;
+}
+
+.newsroom-image .picContainer .zoomIcon {
+  display: none;
+}
+
+.newsroom-image .picContainer.zoomable {
+  cursor: pointer;
+}
+
+.newsroom-image .picContainer.zoomable .zoomIcon {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 27px;
+  background: url(../images/zoom.png) no-repeat 0 0;
+}
+
+.newsroom-image figcaption {
+  margin-top: 5px;
+  padding-bottom: 5px;
+  text-align: center;
+  background: #fff;
+}
+
+.newsroom-image figcaption .legend {
+  font-size: 11px;
+  line-height: 12px;
+  padding: 5px 6px 3px;
+  color: #555;
+  display: inline-block;
+  text-align: left;
+}
+
+.newsroom-image figcaption .copyright {
+  font-size: 10px;
+  line-height: 11px;
+  padding: 3px 6px 0;
+  color: #999;
+  display: block;
+  text-align: right;
+}
+
+.newsroom-image figcaption .copyright a {
+  color: #999;
+}
+
+.no-result {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+  color: #a02622;
+}
+
+/** Agenda presentation **/
+.newsroomAgenda-container .date-row {
+  position: relative;
+  min-height: 80px;
+  border-bottom: solid 1px #ddd;
+  padding-bottom: 0;
+  margin-bottom: 15px;
+}
+
+.newsroomAgenda-container .date-date {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  text-align: center;
+}
+
+.newsroomAgenda-container .date-date .day {
+  display: block;
+  font-size: 250%;
+  line-height: 1.0em;
+}
+
+.newsroomAgenda-container .date-date .month {
+  display: block;
+  font-size: 110%;
+  letter-spacing: 0.15em;
+}
+
+.newsroomAgenda-container .date-date .year {
+  display: block;
+  font-size: 90%;
+}
+
+.newsroomAgenda-container .date-events {
+  margin-left: 80px;
+}
+
+.newsroomAgenda-container .date-events .views-row {
+  border-top: solid 1px #eee;
+  padding-top: 10px;
+  margin-bottom: 15px;
+}
+
+.newsroomAgenda-container .date-events .views-row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.newsroomAgenda-container .furtherDates {
+  margin-top: 3em;
+}
+
+.newsroomAgenda-container .furtherDates .date-date {
+  color: #999;
+}
+
+.block-nexteuropa-newsroom .newsroom_item_container.agenda .newsroom_type,
+.newsroomAgenda-container .newsroom_type {
+  color: #999;
+  font-style: italic;
+  padding-bottom: 3px;
+  display: block;
+  font-size: 85%;
+}
+
+.newsroomAgenda-container .newsroom_title {
+  display: block;
+  padding-bottom: 3px;
+}
+
+.newsroomAgenda-container .newsroom_title a {
+  text-decoration: none;
+}
+
+.newsroomAgenda-container .newsroom_title a:hover {
+  text-decoration: underline;
+}
+
+.newsroomAgenda-container .newsroom_item_metadata {
+  display: block;
+  padding: 0 0 0 2em;
+}
+
+.newsroomAgenda-container h3 {
+  border-color: #ddd;
+}
+
+.agendaPagination {
+  margin: 0 -12px;
+  padding: 20px 12px;
+  box-sizing: content-box;
+  float: left;
+  width: 100%;
+  text-align: center;
+}
+
+.agendaPagination .agenda-next,
+.agendaPagination .agenda-previous {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 10px 0;
+}
+
+.agendaPagination .agenda-next a,
+.agendaPagination .agenda-previous a {
+  display: inline-block;
+  width: 100px;
+  border: solid 1px #eee;
+  border-radius: 20px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.agendaPagination .agenda-previous a {
+  padding: 1px 8px 2px 26px;
+}
+
+.agendaPagination .agenda-next a {
+  padding: 1px 26px 2px 8px;
+}
+
+.agendaPagination .date-form {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px 15px;
+}
+
+.agendaPagination .date-form .form-item-current-date label {
+  display: none;
+}
+
+.agendaPagination .date-form .container-inline-date > .form-item,
+.agendaPagination .date-form .container-inline-date .form-item input {
+  margin: 0;
+  text-align: center;
+}
+
+.agendaPagination .date-form .container-inline-date .form-item input {
+  text-align: center;
+  color: #fff;
+  background: #0065a2;
+  cursor: pointer;
+  border-radius: 10px;
+}
+/** Agenda presentation: end **/
