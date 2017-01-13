@@ -1,4 +1,4 @@
-@api @poetry @i18n
+@api @poetry
 Feature: TMGMT Poetry features
   In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator

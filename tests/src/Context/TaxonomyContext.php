@@ -75,6 +75,7 @@ class TaxonomyContext implements Context {
     foreach ($this->vocabularies as $vocabulary_name) {
       taxonomy_vocabulary_delete($this->getTaxonomyIdByName($vocabulary_name));
     }
+    $this->vocabularies = [];
   }
 
   /**
@@ -206,6 +207,7 @@ class TaxonomyContext implements Context {
     foreach ($this->fields as $field) {
       field_delete_field($field['field_name']);
     }
+    $this->fields = [];
     field_purge_batch(100);
   }
 
