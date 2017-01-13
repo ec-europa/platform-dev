@@ -199,7 +199,7 @@ class NextEuropaMultilingualSubContext extends RawDrupalContext implements Drupa
       'source' => $node->language,
       'uid' => $node->uid,
       'created' => $node->created,
-      'changed' => $node->changed,
+      'changed' => empty($node->changed) ? $node->created : $node->changed,
       'language' => $language,
     ];
 

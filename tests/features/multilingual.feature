@@ -214,3 +214,17 @@ Feature: Multilingual features
     And I press "Apply"
     And I go to "content/new-article-title_it"
     Then I should see "Corpo del testo"
+
+  Scenario: NEPT-495: Reverting from a translated revision to a non translated one will not
+            leave leftovers in the field table.
+    Given "page" content:
+      | title           |
+      | Page in English |
+    And I create a new revision for "page" content with title "Page in English"
+    And I create the following translations for "page" content with title "Page in English":
+      | language | title          |
+      | fr       | Page in French |
+      | de       | Page in German |
+    And I revert the "page" content with title "Page in English" to its first revision
+    Then I should only have "title_field" in "en" for "page" content with title "Page in English"
+
