@@ -2271,8 +2271,11 @@ function cce_basic_config_update_7214(&$sandbox) {
  * Update enables the feature only if tmgmt_poetry is already installed.
  */
 function cce_basic_config_update_7215() {
-  module_enable(array('nexteuropa_feature_set'));
-  if (module_exists('tmgmt_poetry')) {
-    module_enable(array('nexteuropa_dgt_connector'));
+  $profile = variable_get('install_profile');
+  if ($profile != 'multisite_drupal_communities') {
+    module_enable(array('nexteuropa_feature_set'));
+    if (module_exists('tmgmt_poetry')) {
+      module_enable(array('nexteuropa_dgt_connector'));
+    }
   }
 }
