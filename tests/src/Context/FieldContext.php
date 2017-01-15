@@ -141,7 +141,7 @@ class FieldContext implements Context {
 
         default:
           if (!$current_default_def_level) {
-            field_group_group_export_delete($item, FALSE);
+            field_group_group_export_delete($item, TRUE);
           }
           break;
       }
