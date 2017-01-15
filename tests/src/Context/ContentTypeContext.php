@@ -81,7 +81,12 @@ class ContentTypeContext implements Context {
           $field_name = 'field_' . $value;
           $is_field_exiting = field_info_field($field_name);
           if ($is_field_exiting) {
-            throw new \InvalidArgumentException(sprintf('The field "%s" already exists and cannot be used for test purpose.', $setting_name));
+            throw new \InvalidArgumentException(
+              sprintf(
+                'The field "%s" already exists and cannot be used for test purpose.',
+                $setting_name
+              )
+            );
           }
           $field_info['field_name'] = $field_name;
           $field_instance_info['field_name'] = $field_name;
@@ -177,8 +182,19 @@ class ContentTypeContext implements Context {
       }
     }
 
+    $identifier = $group_machine_name . '|node|' . $arg1 . '|' . $mode;
+
+    if (field_group_exists($group_machine_name, 'node', $arg1, $mode)) {
+      throw new \InvalidArgumentException(
+        sprintf(
+          'The field group with the id "%s" already exists and cannot be used for test purpose.',
+          $identifier
+        )
+      );
+    }
+
     $group = (object) array(
-      'identifier' => $group_machine_name . '|node|' . $arg1 . '|' . $mode,
+      'identifier' => $identifier,
       'group_name' => $group_machine_name,
       'entity_type' => 'node',
       'bundle' => $arg1,
