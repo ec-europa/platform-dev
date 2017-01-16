@@ -228,9 +228,8 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    */
   public function assertTranslationRequestDocumentIsValidXhtml() {
 
-    if (!class_exists('tidy')) {
-      throw new Exception('You need Tidy extension to test if XHTML is valid.');
-    }
+    $msg = 'You need Tidy extension to test if XHTML is valid.';
+    assert(class_exists('tidy'), equals(TRUE), $msg);
 
     $this->assertTranslationRequest();
 
@@ -238,15 +237,10 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
 
     $tidy = new tidy();
     $tidy->parseString($document);
-    if (!$tidy->diagnose()) {
-      $errors = $tidy->errorBuffer;
-      throw new Exception(
-        sprintf(
-          'The translation document did not pass the tidy XHTML validation: %s.',
-          $errors
-        )
-      );
-    }
+    assert($tidy->getStatus(), equals(0), sprintf(
+      'The translation document did not pass the tidy XHTML validation: %s.',
+      $tidy->errorBuffer
+    ));
   }
 
   /**
