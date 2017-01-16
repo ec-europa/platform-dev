@@ -520,18 +520,18 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-    Scenario: Inspect the 'Last change' data of a translation request
-      Given I am logged in as a user with the 'administrator' role
-      And I am viewing a multilingual "page" content:
-        | language | title            | body                    |
-        | en       | Title            | Last change column test |
-      When I click "Translate" in the "primary_tabs" region
-      Then I should see "Last change"
-      When I check the box on the "French" row
-      And I press "Request translation"
-      And I fill in "Date" with a relative date of "+20" days    
-      And I press "Submit to translator"
-      Then I see the date of the last change in the "French" row
+  Scenario: Inspect the 'Last change' data of a translation request
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    When I click "Translate" in the "primary_tabs" region
+    Then I should see "Last change"
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    Then I see the date of the last change in the "French" row
 
   @javascript @maximizedwindow
   Scenario: Adding new languages to the ongoing translation request
@@ -652,7 +652,7 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Refuse" in the "en->fr" row
@@ -668,7 +668,7 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
 
   @javascript
   Scenario: Resending translation request while translation process is ongoing
@@ -685,14 +685,14 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->fr" row
     And I click "Send 'ONG' status" in the "en->it" row
     Then I should see the success message "The status request was sent. Check the translation page."
     When I click "Check the translation page"
-    Then I should not see "Please wait the acceptation translation process before update request."
+    Then I should not see "Please wait for the translation request to be accepted before further update options."
     When I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation update"

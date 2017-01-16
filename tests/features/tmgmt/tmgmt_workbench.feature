@@ -158,4 +158,3 @@ Feature: TMGMT Workbench features
     And I select "Translator A" from "Translator"
     And I press "Submit to translator"
     Then I should not see the text "This content cannot be translated."
-    And I should see the text "Please end up the active translation process before creating a new request."
