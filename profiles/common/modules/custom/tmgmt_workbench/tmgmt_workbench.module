@@ -120,13 +120,11 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       $options = $form['languages']['#options'];
 
-      /** @var TMGMTJobItem[] $existing_jobs */
-      $existing_jobs = tmgmt_job_item_load_latest(
-        'workbench_moderation',
-        $entity_type,
-        $node->nid,
-        $node->translations->original
-      );
+      // Getting information about existing job items.
+      if (!isset($form_state['tmgmt_workbench']['existing_jobs'])) {
+        $form_state['tmgmt_workbench']['existing_jobs'] = _tmgmt_workbench_get_existing_jobs($node);
+      }
+      $existing_jobs = $form_state['tmgmt_workbench']['existing_jobs'];
 
       $always_show_direct_translation_links = variable_get('tmgmt_workbench_moderation_always_show_direct_translation_links', FALSE);
 
@@ -224,20 +222,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      // If translatable languages are available add the
-      // button and other elements.
-      if (
-        module_exists('tmgmt_poetry')
-        && $existing_jobs
-        && _tmgmt_workbench_check_translatability($form_state['tmgmt_cart']['item_id'])
-        && !empty(_tmgmt_workbench_get_translatable_languages($existing_jobs, $form, $form_state))
-      ) {
-        // Getting additional translatable languages.
-        $trans_langs = _tmgmt_workbench_get_translatable_languages($existing_jobs, $form, $form_state);
-        // Injecting 'request additional languages' functionality form elements.
-        _tmgmt_workbench_inject_add_new_languages_elements($form, $trans_langs);
-      }
-
       // Remove add to cart button.
       unset($form['top_actions']);
 
@@ -245,69 +229,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
       $form['languages']['#multiple'] = TRUE;
     }
   }
-}
-
-/**
- * Checks if translation request was at least accepted by the Poetry service.
- *
- * @param int $entity_id
- *   Entity id.
- *
- * @return bool
- *   TRUE if sending a request is possible otherwise FALSE.
- */
-function _tmgmt_workbench_check_translatability($entity_id) {
-  // Getting the main TMGMT job based on the given entity id.
-  $query = db_select('tmgmt_job_item', 'tji');
-  $query->join('tmgmt_job', 'tj', 'tji.tjid = tj.tjid');
-  $query->fields('tj', ['tjid']);
-  $query->condition('tji.item_id', $entity_id, '=');
-  $query->condition('reference', "^(MAIN)_", "REGEXP");
-  $result = $query->execute()->fetchAssoc();
-
-  if ($result) {
-    $main_job = tmgmt_job_load($result['tjid']);
-    $translator = $main_job->getTranslator();
-
-    return $translator->canTranslate($main_job);
-  }
-
-  return FALSE;
-}
-
-/**
- * Provides translatable language codes.
- *
- * Function omits languages which are:
- *  - in ongoing translation request (present in $existing_jobs),
- *  - already translated,
- *  - source language.
- *
- * @param array $existing_jobs
- *   An array with existing TMGMT jobs.
- * @param array $form
- *   Reference to the $form variable.
- * @param array $form_state
- *   Reference to the $form_state variable.
- *
- * @return array
- *   An empty array or an array with translatable language codes.
- */
-function _tmgmt_workbench_get_translatable_languages($existing_jobs, &$form, &$form_state) {
-  $existing_lg = array_keys($existing_jobs);
-  $translatable_lg = [];
-  $languages = language_list();
-
-  foreach ($form['languages']['#options'] as $lg_code => $language) {
-    if (!in_array($lg_code, $existing_lg) &&
-      !in_array($lg_code, array_keys($form_state['entity']->translations->data)) &&
-      $language[TMGMT_WORKBENCH_REQUEST_SOURCE_LG_INDEX] != '(original content)'
-    ) {
-      $translatable_lg[$lg_code] = $languages[$lg_code]->name;
-    }
-  }
-
-  return $translatable_lg;
 }
 
 /**
@@ -459,58 +380,19 @@ function _tmgmt_workbench_clear_request_languages() {
 }
 
 /**
- * Injects 'request additional languages' functionality form elements.
+ * Returns existing TMGMT job items for the given node object.
  *
- * @param array $form
- *   Reference to the main form array.
- * @param array $trans_langs
- *   An array with translatable languages.
+ * @param object $node
+ *   A node object.
+ *
+ * @return array
+ *   Returns TMGMTJobItem[] array
  */
-function _tmgmt_workbench_inject_add_new_languages_elements(&$form, $trans_langs) {
-  // Setting up header for the additional languages.
-  $trans_lang_header = array(
-    'language' => t('Language'),
+function _tmgmt_workbench_get_existing_jobs($node) {
+  return tmgmt_job_item_load_latest(
+    'workbench_moderation',
+    'node',
+    $node->nid,
+    $node->translations->original
   );
-
-  // Setting up $options for the additional languages.
-  foreach ($trans_langs as $lg_code => $trans_lang) {
-    $trans_langs_options[$lg_code]['language'] = $trans_lang;
-  }
-
-  $form['add_new_languages'] = [
-    '#type' => 'fieldset',
-    '#title' => t('Request addition of new languages'),
-    '#prefix' => '<div class="tmgmt-poetry-ui-add-new-languages">',
-    '#suffix' => '</div>',
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#tree' => FALSE,
-  ];
-
-  $form['add_new_languages']['translatable_languages'] = [
-    '#title' => t('Additional languages'),
-    '#type' => 'tableselect',
-    '#header' => $trans_lang_header,
-    '#options' => $trans_langs_options,
-    '#empty' => t('No content available.'),
-    '#prefix' => '<div class="col-lg-4, col-md-4">',
-    '#suffix' => '</div>',
-  ];
-
-  $form['add_new_languages']['delai'] = [
-    '#type' => 'date_popup',
-    '#title' => t('Expected delivery time'),
-    '#default_value' => '',
-    '#date_format' => 'd/m/Y',
-    '#date_year_range' => '-0:+1',
-    '#required' => TRUE,
-  ];
-
-  $form['add_new_languages']['actions']['#type'] = 'actions';
-  $form['add_new_languages']['actions']['add_langs'] = [
-    '#type' => 'submit',
-    '#value' => t('Add languages'),
-    '#submit' => ['tmgmt_workbench_add_target_languages_form_submit'],
-    '#validate' => ['tmgmt_workbench_add_target_languages_form_validate'],
-  ];
 }
