@@ -59,7 +59,7 @@ Note:
 You won't be able to disable the feature 'Tracked changes' if your have 
 unvalidated tracked changes on your site. Instead you'll be prompted with a 
 list of pages where you first need to accept/reject changes.
-[Before doing anything, pleas consult the README file!](nexteuropa_trackedchanges/README.md)
+[Before doing anything, please consult the README file!](nexteuropa_trackedchanges/README.md)
 
 #### apachesolr
 
@@ -97,9 +97,9 @@ removed.
 If you were using this feature, please read our upgrade recommendation:
 
 ```
- - Move the code added into these module into css or js files.
- - Remove all dependencies to both those modules from your code.
- - Link these files from inside the info file of your theme, or inside your module using one of these notations :
+ - Move the code added through these modules into separate css or js files.
+ - Remove all dependencies to both of those modules from your code.
+ - Link these files from inside the info file of your theme, or inside your module using one of these methods :
 ```
 
  For css
@@ -111,9 +111,9 @@ If you were using this feature, please read our upgrade recommendation:
    If you are using a theme provided by the core platform, you need to create a subtheme in order to add an extra css file.
    Read https://www.drupal.org/docs/7/theming/creating-a-sub-theme
 
-  B- If the css is used by a module (specific css required by a specific functionality), the css file should be added to the module.
+ B- If the css is used by a module (specific css required by a specific functionality), the css file should be added to the module.
 
-  There are several methods
+   There are several methods
  
     1- To attach css to just a form, use :
 http://api.drupal.org/api/drupal/developer!topics!forms_api_reference.html/7#attached
@@ -161,11 +161,11 @@ A new user role has been added, only this role can enable DGT connector feature.
  
 After upgrading, the feature "nexteuropa_feature_set" will be enabled.
 
-A new set of permission is defined there for CEM user role, that is in charge
+A new set of permissions is defined there for CEM user role, who is in charge
 of enabling the DGT Connector feature.
 
-You cannot disable "nexteuropa_feature_set", an additional QA check will be 
- added to block code that tries to disable it.
+You cannot disable the "nexteuropa_feature_set", an additional QA check will be
+ added to block any code that tries to disable it.
 
 ### New DGT Connector feature
 
@@ -197,16 +197,7 @@ ensure the settings have been correctly migrated.
 
 ### Before upgrading to 2.3.0
 
-*Before moving a subsite to the new code base*, you need to run the following
- drush commands on the site you will upgrade in 2.2 :
- 
- * For ticket NEPT-36
-
-```
-$ drush dis css_injector js_injector -y
-$ drush pm-uninstall css_injector js_injector -y
-
-```
+*Before moving a subsite to the new code base*, you need to perform the following steps:
 
 #### common.settings.php
 
@@ -245,6 +236,18 @@ In relation to ticket MULTISITE-14601, please remove from 2.3.0 the duplicated
 'flexible_purge' module that can be found inside sites/all/modules
 
 
+#### drush commands
+
+*Before upgrading the first site to 2.3.0*, you have to run the following drush commands in the site you are about to update
+
+ * For ticket NEPT-36
+
+```
+$ drush dis css_injector js_injector -y
+$ drush pm-uninstall css_injector js_injector -y
+
+```
+
 ### Once above steps are completed, proceed with the subsite upgrade.
 
 Then run the following commands:
@@ -265,7 +268,7 @@ multisite_drupal_features_set_standard
 The following module has moved within the file system: tmgmt_poetry. 
 ```
 
-## After updb has run edit settings.php of the upgraded site
+### After updb has run edit settings.php of the upgraded site
  
  -For ticket NEPT-182
  
@@ -287,15 +290,15 @@ The following module has moved within the file system: tmgmt_poetry.
  assign it to user "Support SMT Jira", send the ticket number to 
  "COMM EUROPA MANAGEMENT"
 
-## Manual check
+### Manual check
 
 - Check the admin/reports/status_en for red flags, especially on the DGT 
 connector lines.
 
 If you see *"The local connector credentials are not set. Please contact 
 COMM EUROPA MANAGEMENT."* it means there was an issue in the updb. You will 
-need to insert into the connector the credential info that were previously in 
-the settings.php file here 
+need to insert the credential info that were previously set in
+the settings.php 'poetry_service' variable in the following page:
 admin/config/regional/tmgmt_translator/manage/poetry_en .
 
 
