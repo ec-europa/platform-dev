@@ -2,8 +2,10 @@
 
 /**
  * @file
- * Contains \NextEuropaMultilingualSubContext.
+ * Contains \Drupal\nexteuropa\Context\MultilingualContext.
  */
+
+namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
@@ -13,7 +15,7 @@ use Behat\Gherkin\Node\TableNode;
 /**
  * Behat step definitions for the NextEuropa Multilingual module.
  */
-class NextEuropaMultilingualSubContext extends RawDrupalContext implements DrupalSubContextInterface {
+class MultilingualContext extends RawDrupalContext implements DrupalSubContextInterface {
   use \Drupal\nexteuropa\Context\ContextUtil;
   /**
    * Published workbench moderation state.
