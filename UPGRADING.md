@@ -232,15 +232,17 @@ ensure the settings have been correctly migrated.
 ```
 
 #### flexible_purge
-In relation to ticket MULTISITE-14601, please remove from 2.3.0 the duplicated 
-'flexible_purge' module that can be found inside sites/all/modules
+  In relation to ticket MULTISITE-14601, please remove from 2.3.0 the duplicated
+  'flexible_purge' module that can be found inside sites/all/modules
 
+### Upgrading a site from 2.2.x to 2.3.0
 
-#### drush commands
+### Pre-upgrade steps
 
-*Before upgrading the first site to 2.3.0*, you have to run the following drush commands in the site you are about to update
+*Before upgrading a site to 2.3.0*, you have to run the following drush commands
+ in the site you are about to update
 
- * For ticket NEPT-36
+ * From ticket NEPT-36
 
 ```
 $ drush dis css_injector js_injector -y
@@ -248,16 +250,21 @@ $ drush pm-uninstall css_injector js_injector -y
 
 ```
 
-### Once above steps are completed, proceed with the subsite upgrade.
+### After-upgrade steps
 
-Then run the following commands:
+Once the above steps are completed and the site is in the 2.3.0 codebase,
+proceed with the following steps:
+
+#### Update database
+
+  Run the following commands:
 
 ```
 $ drush rr
 $ drush updb
 ```
 
-You will get the following warnings
+  You will get the following warnings
 
 ```
 The following module has moved within the file system: 
@@ -268,15 +275,17 @@ multisite_drupal_features_set_standard
 The following module has moved within the file system: tmgmt_poetry. 
 ```
 
-### After updb has run edit settings.php of the upgraded site
+#### Update settings.php
+
+  After updb has run edit settings.php of the upgraded site.
  
- -For ticket NEPT-182
+  * From ticket NEPT-182
  
- For each subsite upgrade that was already using the DGT connector , you need 
- to remove the  variable array 'poetry_service' from the setttings.php file
+  For each subsite upgrade that was already using the DGT connector , you need
+  to remove the  variable array 'poetry_service' from the setttings.php file
  
- Write down the values of 'callback_user', 'callback_password', 'poetry_user',
-   'poetry_password', you may need them for next step.
+  Write down the values of 'callback_user', 'callback_password', 'poetry_user',
+  'poetry_password', you may need them for next step.
   
  ```
  $conf['poetry_service'] = array(
@@ -284,22 +293,19 @@ The following module has moved within the file system: tmgmt_poetry.
  );
  ```
  
- Once the upgrade is complete, CEM needs to be informed that the 
- "website_identifier" value must be set.
- In order to communicate this to CEM, please create a ticket in MULTISITE and 
- assign it to user "Support SMT Jira", send the ticket number to 
- "COMM EUROPA MANAGEMENT"
+  Once the upgrade is complete, CEM needs to be informed that the
+  "website_identifier" value must be set.
+  In order to communicate this to CEM, please create a ticket in MULTISITE and
+  assign it to user "Support SMT Jira", send the ticket number to
+  "COMM EUROPA MANAGEMENT"
 
-### Manual check
+#### Manual check
 
-- Check the admin/reports/status_en for red flags, especially on the DGT 
-connector lines.
+  * Check the admin/reports/status_en for red flags, especially on the DGT
+  connector lines.
 
-If you see *"The local connector credentials are not set. Please contact 
-COMM EUROPA MANAGEMENT."* it means there was an issue in the updb. You will 
-need to insert the credential info that were previously set in
-the settings.php 'poetry_service' variable in the following page:
-admin/config/regional/tmgmt_translator/manage/poetry_en .
-
-
-
+  If you see *"The local connector credentials are not set. Please contact
+  COMM EUROPA MANAGEMENT."* it means there was an issue in the updb. You will
+  need to insert the credential info that were previously set in
+  the settings.php 'poetry_service' variable in the following page:
+  admin/config/regional/tmgmt_translator/manage/poetry_en .
