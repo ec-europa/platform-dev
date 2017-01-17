@@ -68,6 +68,15 @@ class ContentTypeContext implements Context {
     $field_instance_info = array();
 
     $field_instance_info['entity_type'] = 'node';
+
+    if (!node_type_get_type($arg1)) {
+      throw new \InvalidArgumentException(
+        sprintf(
+          'The "%s" content type does not exist; then cannot be used for test purposes.',
+          $arg1
+        )
+      );
+    }
     $field_instance_info['bundle'] = $arg1;
 
     // Assign fields to user before creation.
@@ -83,7 +92,7 @@ class ContentTypeContext implements Context {
           if ($is_field_exiting) {
             throw new \InvalidArgumentException(
               sprintf(
-                'The field "%s" already exists and cannot be used for test purpose.',
+                'The field "%s" already exists and cannot be used for test purposes.',
                 $setting_name
               )
             );
