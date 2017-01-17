@@ -711,7 +711,7 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Refuse" in the "en->fr" row
@@ -744,7 +744,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->fr" row

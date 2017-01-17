@@ -30,6 +30,7 @@ function tmgmt_workbench_help($path, $arg) {
   if ($path == 'admin/tmgmt/sources') {
     $output = $output . '<div>' . t('This table contains only content with latest revision in the following states: <strong>!states</strong>', array('!states' => implode(', ', $states))) . '</div>';
   }
+
   return $output;
 }
 
@@ -46,6 +47,7 @@ function tmgmt_workbench_menu() {
     'file' => 'includes/tmgmt_workbench.pages.inc',
     'weight' => 11,
   );
+
   return $items;
 }
 
@@ -70,6 +72,7 @@ function tmgmt_workbench_tmgmt_source_plugin_info() {
       ),
     );
   }
+
   return $info;
 }
 
@@ -113,7 +116,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
   if ($entity_type == 'node') {
     $node = $form_state['entity'];
     if (workbench_moderation_node_moderated($node)) {
-
       $states = array_values(_tmgmt_workbench_available_states());
       $state = $node->workbench_moderation['current']->state;
       $translation_possible = in_array($state, $states, 'strict');
@@ -134,10 +136,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       // NEXTEUROPA-12429 - additional header with last change date.
       $form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = t('Last change');
-      foreach ($form['languages']['#options'] as $key => $src_lang) {
-        $form['languages']['#options'][$key][] = '';
-        break;
-      }
 
       foreach ($lang_codes as $lang_code) {
         // NEXTEUROPA-12429 - additional column with last change date.
@@ -232,42 +230,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 }
 
 /**
- * Validation callback of the addition of languages to the ongoing translation.
- */
-function tmgmt_workbench_add_target_languages_form_validate($form, &$form_state) {
-  if (isset($form_state['input']['translatable_languages'])) {
-    foreach ($form_state['input']['translatable_languages'] as $language) {
-      if (!is_null($language)) {
-        return;
-      }
-
-      form_set_error('languages', t('You have to select at least one language to add it to the ongoing translation request.'));
-    }
-  }
-}
-
-/**
- * Submit callback for the addition of new target languages request.
- */
-function tmgmt_workbench_add_target_languages_form_submit($form, &$form_state) {
-  // Getting main job based on the $entity ID.
-  $entity_id = $form_state['tmgmt_cart']['item_id'];
-  $main_job = _tmgmt_poetry_get_main_job_by_entity_id($entity_id);
-
-  // Getting TMGMT Job controller to perform custom request.
-  $ctrl = $main_job->getTranslatorController();
-
-  // Getting selected languages.
-  $selected_languages = array_diff($form_state['values']['translatable_languages'], [0]);
-  $selected_languages = array_keys($selected_languages);
-
-  $delivery_date = strtotime($form_state['values']['delai']);
-  // Performing request for addition of new languages.
-  $ctrl->addNewTargetLanguages($main_job, $selected_languages, $delivery_date);
-
-}
-
-/**
  * Validation callback for the entity translation overview form.
  */
 function tmgmt_workbench_translate_form_validate($form, &$form_state) {
@@ -292,28 +254,15 @@ function tmgmt_workbench_translate_form_validate($form, &$form_state) {
  */
 function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
-
-  // NEXTEUROPA-7719 - Simplifying Poetry UI.
-  $chosen_languages = $form_state['values']['languages'];
-  foreach ($chosen_languages as $key => $language) {
-    if ($language === 0) {
-      unset($chosen_languages[$key]);
-    }
-  }
-  // Pick first language to be a main translation request language.
-  $langcode = reset($chosen_languages);
-  $chosen_languages['main'] = $langcode;
-  // Store chosen languages in session because there is no other more elegant
-  // way to move them between requests (passing data to tmgmt job form).
-  _tmgmt_workbench_store_request_languages($chosen_languages);
-
+  $entity_type = $form_state['entity_type'];
+  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  $langcode = $form_state['input']['languages'];
   $jobs = array();
   // Create the job object.
-  $job = tmgmt_job_create(entity_language('node', $entity), $langcode,
-    $GLOBALS['user']->uid);
+  $job = tmgmt_job_create(entity_language($entity_type, $entity), $langcode, $GLOBALS['user']->uid);
   try {
     // Add the job item.
-    $job->addItem('workbench_moderation', 'node', $entity->nid);
+    $job->addItem('workbench_moderation', $entity_type, $id);
     // Append this job to the array of created jobs so we can redirect the
     // user to a multistep checkout form if necessary.
     $jobs[$job->tjid] = $job;
@@ -341,42 +290,6 @@ function _tmgmt_workbench_available_states() {
     drupal_set_message(t('You have to enable at least one workbench state'));
   }
   return $states;
-}
-
-/**
- * Storing chosen translation request languages for further processing.
- *
- * @param array $languages
- *   An array with languages.
- *
- * @see TMGMTPoetryTranslatorUIController
- */
-function _tmgmt_workbench_store_request_languages($languages) {
-  $_SESSION['tmgmt_workbench']['languages'] = $languages;
-}
-
-/**
- * Get chosen translation request languages from session.
- *
- * @return array
- *   An array with languages.
- */
-function _tmgmt_workbench_get_request_languages() {
-  $languages = [];
-  if (isset($_SESSION['tmgmt_workbench']['languages'])) {
-    $languages = $_SESSION['tmgmt_workbench']['languages'];
-  }
-
-  return $languages;
-}
-
-/**
- * Clearing session for chosen translation request languages.
- */
-function _tmgmt_workbench_clear_request_languages() {
-  if (isset($_SESSION['tmgmt_workbench']['languages'])) {
-    unset($_SESSION['tmgmt_workbench']['languages']);
-  }
 }
 
 /**
