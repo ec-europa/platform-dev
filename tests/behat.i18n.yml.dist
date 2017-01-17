@@ -14,6 +14,7 @@ default:
         - Drupal\nexteuropa\Context\TaxonomyContext
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\ViewsContext
+        - Drupal\nexteuropa\Context\VariableContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:

@@ -1,0 +1,427 @@
+name = Multisite drupal features set standard
+description = settings for the features set for the standard profile
+package = multisite drupal toolbox
+core = 7.x
+dependencies[] = feature_set
+datestamp = "1322093758"
+
+; Communication
+feature_sets[ec_content_slider][title] = 'Content slider'
+feature_sets[ec_content_slider][description] = 'Allows to include content in a slider.'
+feature_sets[ec_content_slider][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/IobhAg'
+feature_sets[ec_content_slider][category] = 'Communication'
+feature_sets[ec_content_slider][icon] = ''
+feature_sets[ec_content_slider][font] = 'multisite-icon-code'
+feature_sets[ec_content_slider][enable][] = ec_content_slider
+feature_sets[ec_content_slider][disable][] = ec_content_slider
+
+feature_sets[events_standard][title] = 'Events'
+feature_sets[events_standard][description] = 'Allows contributors to define an event in the calendar. An event is used to store the information about something happening somewhere at a specific day or period of time. Every visitor can view the content of an event throuht the calendar.'
+feature_sets[events_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/6YbhAg'
+feature_sets[events_standard][category] = 'Communication'
+feature_sets[events_standard][icon] = ''
+feature_sets[events_standard][font] = 'multisite-icon-calendar'
+feature_sets[events_standard][enable][] = events_core
+feature_sets[events_standard][enable][] = events_standard
+feature_sets[events_standard][enable][] = events_resources
+feature_sets[events_standard][disable][] = events_resources
+feature_sets[events_standard][disable][] = events_standard
+feature_sets[events_standard][disable][] = events_core
+
+feature_sets[multisite_registration_standard][title] = 'Registration'
+feature_sets[multisite_registration_standard][description] = 'Allow, manage and track user registrations on any content types. Send mails to the registrants.'
+feature_sets[multisite_registration_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Registration+-+documentation'
+feature_sets[multisite_registration_standard][category] = 'Communication'
+feature_sets[multisite_registration_standard][icon] = ''
+feature_sets[multisite_registration_standard][font] = 'multisite-icon-history'
+feature_sets[multisite_registration_standard][enable][] = registration
+feature_sets[multisite_registration_standard][enable][] = multisite_registration_core
+feature_sets[multisite_registration_standard][enable][] = multisite_registration_standard
+feature_sets[multisite_registration_standard][disable][] = multisite_registration_standard
+feature_sets[multisite_registration_standard][disable][] = multisite_registration_core
+feature_sets[multisite_registration_standard][disable][] = registration
+
+feature_sets[nexteuropa_integration][title] = 'Integration'
+feature_sets[nexteuropa_integration][description] = 'Provides common NextEuropa backend settings and schemas used by the Integration module.'
+feature_sets[nexteuropa_integration][documentation] = 'https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Integration+Layer'
+feature_sets[nexteuropa_integration][category] = 'Integration'
+feature_sets[nexteuropa_integration][icon] = ''
+feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_integration][enable][] = nexteuropa_integration
+feature_sets[nexteuropa_integration][disable][] = nexteuropa_integration
+
+feature_sets[nexteuropa_varnish][title] = 'Rule-based web frontend cache purging'
+feature_sets[nexteuropa_varnish][description] = 'Define rules to trigger granular purging of the web frontend caches'
+feature_sets[nexteuropa_varnish][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/aJBcCg'
+feature_sets[nexteuropa_varnish][category] = 'Integration'
+feature_sets[nexteuropa_varnish][font] = 'multisite-icon-spinner11'
+feature_sets[nexteuropa_varnish][enable][] = nexteuropa_varnish
+feature_sets[nexteuropa_varnish][disable][] = nexteuropa_varnish
+
+feature_sets[nexteuropa_dgt_connector][title] = 'Nexteuropa DGT Connector'
+feature_sets[nexteuropa_dgt_connector][description] = 'Provides services to send translations to DGT.'
+feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
+feature_sets[nexteuropa_dgt_connector][category] = 'Multilingualism'
+feature_sets[nexteuropa_dgt_connector][icon] = ''
+feature_sets[nexteuropa_dgt_connector][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_dgt_connector][enable][] = nexteuropa_dgt_connector
+feature_sets[nexteuropa_dgt_connector][disable][] = nexteuropa_dgt_connector
+
+feature_sets[links_standard][title] = 'Links'
+feature_sets[links_standard][description] = 'Allows contributors to store a bookmark/URL to another website they wish to share with visitors.'
+feature_sets[links_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/64bhAg'
+feature_sets[links_standard][category] = 'Communication'
+feature_sets[links_standard][icon] = ''
+feature_sets[links_standard][font] = 'multisite-icon-link'
+feature_sets[links_standard][enable][] = links_standard
+feature_sets[links_standard][enable][] = links_core
+feature_sets[links_standard][disable][] = links_standard
+feature_sets[links_standard][disable][] = links_core
+
+feature_sets[multi_user_blog][title] = 'Multi-user blog'
+feature_sets[multi_user_blog][description] = 'Allows contributors to create their own blog.'
+feature_sets[multi_user_blog][documentation] = ''
+feature_sets[multi_user_blog][category] = 'Communication'
+feature_sets[multi_user_blog][icon] = ''
+feature_sets[multi_user_blog][font] = 'multisite-icon-book'
+feature_sets[multi_user_blog][enable][] = multi_user_blog
+feature_sets[multi_user_blog][disable][] = multi_user_blog
+
+feature_sets[multisite_metatags][title] = 'Meta tags'
+feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines.'
+feature_sets[multisite_metatags][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/CIbhAg'
+feature_sets[multisite_metatags][category] = 'Communication'
+feature_sets[multisite_metatags][icon] = ''
+feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
+feature_sets[multisite_metatags][enable][] = multisite_metatags
+feature_sets[multisite_metatags][disable][] = multisite_metatags
+
+feature_sets[nexteuropa_webtools][title] = 'Webtools'
+feature_sets[nexteuropa_webtools][description] = 'Provides usefull widgets to webmasters.'
+feature_sets[nexteuropa_webtools][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature'
+feature_sets[nexteuropa_webtools][category] = 'Communication'
+feature_sets[nexteuropa_webtools][icon] = ''
+feature_sets[nexteuropa_webtools][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_webtools][enable][] = nexteuropa_webtools
+feature_sets[nexteuropa_webtools][disable][] = nexteuropa_webtools
+
+feature_sets[wiki_standard][title] = 'Wiki'
+feature_sets[wiki_standard][description] = 'A collaborative content that allows contributors to share information about a specific subject. Every contributor having access to the wiki can modify it and create a new revision. Every visitor, can view the content of the wiki.'
+feature_sets[wiki_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/7IbhAg'
+feature_sets[wiki_standard][category] = 'Communication'
+feature_sets[wiki_standard][icon] = ''
+feature_sets[wiki_standard][font] = 'multisite-icon-edit'
+feature_sets[wiki_standard][enable][] = multisite_drupal_wiki_toc
+feature_sets[wiki_standard][enable][] = wiki_standard
+feature_sets[wiki_standard][enable][] = wiki_core
+feature_sets[wiki_standard][disable][] = multisite_drupal_wiki_toc
+feature_sets[wiki_standard][disable][] = wiki_standard
+feature_sets[wiki_standard][disable][] = wiki_core
+
+feature_sets[text_collapse][title] = 'Text collapse'
+feature_sets[text_collapse][description] = 'Users can create collapsible text blocks in CKEditor'
+feature_sets[text_collapse][documentation] = ''
+feature_sets[text_collapse][category] = 'Communication'
+feature_sets[text_collapse][icon] = ''
+feature_sets[text_collapse][font] = 'multisite-icon-plus-square-o'
+feature_sets[text_collapse][enable][] = text_collapse
+feature_sets[text_collapse][disable][] = text_collapse
+
+; Information to user
+feature_sets[multisite_activity_standard][title] = 'Site activity'
+feature_sets[multisite_activity_standard][description] = 'Display activity of your site.'
+feature_sets[multisite_activity_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/kC7wB'
+feature_sets[multisite_activity_standard][category] = 'Information to users'
+feature_sets[multisite_activity_standard][icon] = ''
+feature_sets[multisite_activity_standard][font] = 'multisite-icon-steam'
+feature_sets[multisite_activity_standard][enable][] = multisite_activity_core
+feature_sets[multisite_activity_standard][enable][] = multisite_activity_standard
+feature_sets[multisite_activity_standard][disable][] = multisite_activity_standard
+feature_sets[multisite_activity_standard][disable][] = multisite_activity_core
+
+feature_sets[feed_rss_core][title] = 'Press Releases'
+feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
+feature_sets[feed_rss_core][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/CYfhAg'
+feature_sets[feed_rss_core][category] = 'Information to users'
+feature_sets[feed_rss_core][icon] = ''
+feature_sets[feed_rss_core][font] = 'multisite-icon-feed'
+feature_sets[feed_rss_core][enable][] = feed_rss_core
+feature_sets[feed_rss_core][enable][] = aggregator
+feature_sets[feed_rss_core][disable][] = feed_rss_core
+feature_sets[feed_rss_core][disable][] = aggregator
+
+feature_sets[ec_world_countries][title] = 'World Countries'
+feature_sets[ec_world_countries][description] = 'A list of World countries valid for EC.'
+feature_sets[ec_world_countries][documentation] = ''
+feature_sets[ec_world_countries][category] = 'Information to users'
+feature_sets[ec_world_countries][icon] = ''
+feature_sets[ec_world_countries][font] = 'multisite-icon-earth'
+feature_sets[ec_world_countries][enable][] = ec_world_countries
+feature_sets[ec_world_countries][disable][] = ec_world_countries
+
+feature_sets[f_a_q][title] = 'F.A.Q'
+feature_sets[f_a_q][description] = 'Allows administrators to post answers to frequently asked questions. This content is available for every visitor on the site, directly from its homepage.'
+feature_sets[f_a_q][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/robhAg'
+feature_sets[f_a_q][category] = 'Information to users'
+feature_sets[f_a_q][icon] = ''
+feature_sets[f_a_q][font] = 'multisite-icon-question'
+feature_sets[f_a_q][enable][] = f_a_q
+feature_sets[f_a_q][disable][] = f_a_q
+
+feature_sets[news_standard][title] = 'News'
+feature_sets[news_standard][description] = 'Allows contributors to publish news article he wishes to share with the other visitors. Every visitor can view the content of the news throught the news slider on homepage.'
+feature_sets[news_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/AYfhAg'
+feature_sets[news_standard][category] = 'Information to users'
+feature_sets[news_standard][icon] = ''
+feature_sets[news_standard][font] = 'multisite-icon-megaphone'
+feature_sets[news_standard][enable][] = news_standard
+feature_sets[news_standard][enable][] = news_core
+feature_sets[news_standard][disable][] = news_standard
+feature_sets[news_standard][disable][] = news_core
+
+feature_sets[newsletters][title] = 'Newsletters'
+feature_sets[newsletters][description] = 'Publish and send newsletters to lists of subscribers.'
+feature_sets[newsletters][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/m4bhAg'
+feature_sets[newsletters][category] = 'Information to users'
+feature_sets[newsletters][icon] = ''
+feature_sets[newsletters][font] = 'multisite-icon-paperplane'
+feature_sets[newsletters][enable][] = newsletters
+feature_sets[newsletters][disable][] = newsletters
+
+feature_sets[multisite_maxlength][title] = 'Maxlength'
+feature_sets[multisite_maxlength][description] = 'Provides a dynamic countdown on text fields.'
+feature_sets[multisite_maxlength][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/iQUJAw'
+feature_sets[multisite_maxlength][category] = 'Information to users'
+feature_sets[multisite_maxlength][icon] = ''
+feature_sets[multisite_maxlength][font] = 'multisite-icon-keyboard'
+feature_sets[multisite_maxlength][enable][] = multisite_maxlength
+feature_sets[multisite_maxlength][disable][] = multisite_maxlength
+
+feature_sets[nexteuropa_notices][title] = 'Notices'
+feature_sets[nexteuropa_notices][description] = 'Allow web masters to create and manage notices on the web site.'
+feature_sets[nexteuropa_notices][documentation] = ''
+feature_sets[nexteuropa_notices][category] = 'Information to users'
+feature_sets[nexteuropa_notices][icon] = ''
+feature_sets[nexteuropa_notices][font] = 'multisite-icon-bubble2'
+feature_sets[nexteuropa_notices][enable][] = nexteuropa_notices
+feature_sets[nexteuropa_notices][disable][] = nexteuropa_notices
+
+feature_sets[nexteuropa_geofield][title] = 'GIS field'
+feature_sets[nexteuropa_geofield][description] = 'Allow web masters to manage geoJSON data in a field with an interactive map as widget.'
+feature_sets[nexteuropa_geofield][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/GIS+field+-+documentation'
+feature_sets[nexteuropa_geofield][category] = 'Information to users'
+feature_sets[nexteuropa_geofield][icon] = ''
+feature_sets[nexteuropa_geofield][font] = 'multisite-icon-location'
+feature_sets[nexteuropa_geofield][enable][] = nexteuropa_geofield
+feature_sets[nexteuropa_geofield][disable][] = nexteuropa_geofield
+
+feature_sets[nexteuropa_geojson_feeds][title] = 'GeoJson Feeds'
+feature_sets[nexteuropa_geojson_feeds][description] = 'Provides GeoJSON data feeds from content.'
+feature_sets[nexteuropa_geojson_feeds][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/J6cRC'
+feature_sets[nexteuropa_geojson_feeds][category] = 'Information to users'
+feature_sets[nexteuropa_geojson_feeds][icon] = ''
+feature_sets[nexteuropa_geojson_feeds][font] = 'multisite-icon-location'
+feature_sets[nexteuropa_geojson_feeds][enable][] = nexteuropa_geojson_feeds
+feature_sets[nexteuropa_geojson_feeds][disable][] = nexteuropa_geojson_feeds
+
+; Media
+feature_sets[e_library_standard][title] = 'E-Library'
+feature_sets[e_library_standard][description] = 'Allows contributors to publish documents represented as uploaded files in various possible formats (pdf, xls, doc...). Documents will be stored in a space named E-Library. Every visitor can have access to the documents in the E-Library.'
+feature_sets[e_library_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/I4fhAg'
+feature_sets[e_library_standard][category] = 'Media'
+feature_sets[e_library_standard][icon] = ''
+feature_sets[e_library_standard][font] = 'multisite-icon-archive'
+feature_sets[e_library_standard][enable][] = e_library_standard
+feature_sets[e_library_standard][enable][] = e_library_core
+feature_sets[e_library_standard][disable][] = e_library_standard
+feature_sets[e_library_standard][disable][] = e_library_core
+
+feature_sets[ec_embedded_video][title] = 'Embedded videos'
+feature_sets[ec_embedded_video][description] = 'Allows to embed videos from Youtube, dailymotion or vimeo.'
+feature_sets[ec_embedded_video][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/ZIXhAg'
+feature_sets[ec_embedded_video][category] = 'Media'
+feature_sets[ec_embedded_video][icon] = ''
+feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'
+feature_sets[ec_embedded_video][enable][] = ec_embedded_video
+feature_sets[ec_embedded_video][disable][] = ec_embedded_video
+
+feature_sets[ec_embedded_image][title] = 'Embedded images'
+feature_sets[ec_embedded_image][description] = 'Allows to embed images from Flickr.'
+feature_sets[ec_embedded_image][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/8a_ZAw'
+feature_sets[ec_embedded_image][category] = 'Media'
+feature_sets[ec_embedded_image][icon] = ''
+feature_sets[ec_embedded_image][font] = 'multisite-icon-embed-image'
+feature_sets[ec_embedded_image][enable][] = ec_embedded_image
+feature_sets[ec_embedded_image][disable][] = ec_embedded_image
+
+feature_sets[multisite_audio][title] = 'Audio'
+feature_sets[multisite_audio][description] = 'Attach audio files to nodes and reproduce playlists.'
+feature_sets[multisite_audio][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/KpSvAw'
+feature_sets[multisite_audio][category] = 'Media'
+feature_sets[multisite_audio][icon] = ''
+feature_sets[multisite_audio][font] = 'multisite-icon-music'
+feature_sets[multisite_audio][enable][] = multisite_audio
+feature_sets[multisite_audio][disable][] = multisite_audio
+
+feature_sets[multisite_mediagallery_standard][title] = 'Media Gallery'
+feature_sets[multisite_mediagallery_standard][description] = 'Contributors can add picture galleries.'
+feature_sets[multisite_mediagallery_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/qIbhAg'
+feature_sets[multisite_mediagallery_standard][category] = 'Media'
+feature_sets[multisite_mediagallery_standard][icon] = ''
+feature_sets[multisite_mediagallery_standard][font] = 'multisite-icon-pictures'
+feature_sets[multisite_mediagallery_standard][enable][] = multisite_mediagallery_standard
+feature_sets[multisite_mediagallery_standard][disable][] = multisite_mediagallery_standard
+
+feature_sets[multisite_crop_and_resize][title] = 'Crop & Resize'
+feature_sets[multisite_crop_and_resize][description] = 'Allows users to crop, resize and rotate images.'
+feature_sets[multisite_crop_and_resize][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/JYVgAw'
+feature_sets[multisite_crop_and_resize][category] = 'Media'
+feature_sets[multisite_crop_and_resize][icon] = ''
+feature_sets[multisite_crop_and_resize][font] = 'multisite-icon-crop'
+feature_sets[multisite_crop_and_resize][enable][] = multisite_crop_and_resize
+feature_sets[multisite_crop_and_resize][disable][] = multisite_crop_and_resize
+
+; Multilingualism
+feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual reference'
+feature_sets[multisite_multilingual_references][description] = 'Replaces link to node with link to translation in the user\'s language, or allows the user to choose from the available translations.'
+feature_sets[multisite_multilingual_references][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/uYbhAg'
+feature_sets[multisite_multilingual_references][category] = 'Multilingualism'
+feature_sets[multisite_multilingual_references][icon] = ''
+feature_sets[multisite_multilingual_references][font] = 'multisite-icon-new-tab'
+feature_sets[multisite_multilingual_references][enable][] = multisite_multilingual_references
+feature_sets[multisite_multilingual_references][disable][] = multisite_multilingual_references
+
+feature_sets[multilingual_tools][title] = 'Multilingual tools'
+feature_sets[multilingual_tools][description] = 'Provide tools to enhance the translation tasks.'
+feature_sets[multilingual_tools][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/WobhAg'
+feature_sets[multilingual_tools][category] = 'Multilingualism'
+feature_sets[multilingual_tools][icon] = ''
+feature_sets[multilingual_tools][font] = 'multisite-icon-language'
+feature_sets[multilingual_tools][enable][] = multilingual_tools
+feature_sets[multilingual_tools][disable][] = multilingual_tools
+
+feature_sets[multisite_translations][title] = 'Translation requests'
+feature_sets[multisite_translations][description] = 'Provide a system for translation requests management.'
+feature_sets[multisite_translations][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/EYbhAg'
+feature_sets[multisite_translations][category] = 'Multilingualism'
+feature_sets[multisite_translations][icon] = ''
+feature_sets[multisite_translations][font] = 'multisite-icon-flag'
+feature_sets[multisite_translations][enable][] = multisite_translations
+feature_sets[multisite_translations][disable][] = multisite_translations
+
+feature_sets[splash_screen][title] = 'Splash screen'
+feature_sets[splash_screen][description] = 'Provide a home page to choose language.'
+feature_sets[splash_screen][documentation] = ''
+feature_sets[splash_screen][category] = 'Multilingualism'
+feature_sets[splash_screen][icon] = ''
+feature_sets[splash_screen][font] = 'multisite-icon-publish'
+feature_sets[splash_screen][enable][] = splash_screen
+feature_sets[splash_screen][disable][] = splash_screen
+
+; Navigation
+feature_sets[fat_footer][title] = 'Fat footer'
+feature_sets[fat_footer][description] = 'Provide a expanded main menu at the bottom of page.'
+feature_sets[fat_footer][documentation] = ''
+feature_sets[fat_footer][category] = 'Navigation'
+feature_sets[fat_footer][icon] = ''
+feature_sets[fat_footer][font] = 'multisite-icon-reorder'
+feature_sets[fat_footer][enable][] = fat_footer
+feature_sets[fat_footer][disable][] = fat_footer
+
+feature_sets[multisite_megamenu][title] = 'Mega menu'
+feature_sets[multisite_megamenu][description] = 'Two-level main menu capable of displaying blocks with links and content (including text and images).'
+feature_sets[multisite_megamenu][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/E4fhAg'
+feature_sets[multisite_megamenu][category] = 'Navigation'
+feature_sets[multisite_megamenu][icon] = ''
+feature_sets[multisite_megamenu][font] = 'multisite-icon-list'
+feature_sets[multisite_megamenu][enable][] = multisite_megamenu
+feature_sets[multisite_megamenu][disable][] = multisite_megamenu
+
+feature_sets[node_pager][title] = 'Node pager'
+feature_sets[node_pager][description] = 'The node pager allows to add a pager to browse between nodes of the same content type based on a predefined field.'
+feature_sets[node_pager][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/zYThAg'
+feature_sets[node_pager][category] = 'Navigation'
+feature_sets[node_pager][icon] = ''
+feature_sets[node_pager][font] = 'multisite-icon-menu'
+feature_sets[node_pager][enable][] = node_pager
+feature_sets[node_pager][disable][] = node_pager
+
+feature_sets[sitemap][title] = 'Sitemap'
+feature_sets[sitemap][description] = 'Helps visitors (mainly new visitors) to have a quick overview of how the site is organized and what the site proposes to visitors.'
+feature_sets[sitemap][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/OobhAg'
+feature_sets[sitemap][category] = 'Navigation'
+feature_sets[sitemap][icon] = ''
+feature_sets[sitemap][font] = 'multisite-icon-directions'
+feature_sets[sitemap][enable][] = sitemap
+feature_sets[sitemap][disable][] = sitemap
+
+; Users feedback
+feature_sets[contact_form][title] = 'Contact form'
+feature_sets[contact_form][description] = 'Allows to contact support by email.'
+feature_sets[contact_form][documentation] = ''
+feature_sets[contact_form][category] = 'Users feedback'
+feature_sets[contact_form][icon] = ''
+feature_sets[contact_form][font] = 'multisite-icon-mail'
+feature_sets[contact_form][enable][] = contact_form
+feature_sets[contact_form][disable][] = contact_form
+
+feature_sets[idea_standard][title] = 'Ideas'
+feature_sets[idea_standard][description] = 'Suggest ideas, vote on and discuss already submitted ideas, surface most important/best ideas.'
+feature_sets[idea_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/mobhAg'
+feature_sets[idea_standard][category] = 'Users feedback'
+feature_sets[idea_standard][icon] = ''
+feature_sets[idea_standard][font] = 'multisite-icon-light-bulb'
+feature_sets[idea_standard][enable][] = idea_standard
+feature_sets[idea_standard][enable][] = idea_core
+feature_sets[idea_standard][disable][] = idea_standard
+feature_sets[idea_standard][disable][] = idea_core
+
+feature_sets[survey_standard][title] = 'Surveys'
+feature_sets[survey_standard][description] = 'Allows administrators to question site visitors. Every visitor concerned by the poll/survey can respond as many times as allowed by the survey initiator. Results are stored and some statistics are generated and can be browsed by visitors.'
+feature_sets[survey_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/7YbhAg'
+feature_sets[survey_standard][category] = 'Users feedback'
+feature_sets[survey_standard][icon] = ''
+feature_sets[survey_standard][font] = 'multisite-icon-check'
+feature_sets[survey_standard][enable][] = survey_standard
+feature_sets[survey_standard][enable][] = survey_core
+feature_sets[survey_standard][disable][] = survey_standard
+feature_sets[survey_standard][disable][] = survey_core
+
+; Users management
+feature_sets[ec_profiles][title] = 'Extend Profiles'
+feature_sets[ec_profiles][description] = 'Gives a possibility for the administrator to manage information about visitor\'s profile on the site. He can add some additional fields and define whether the information must be filled by a new visitor or not, or if visitor can hide the information or not.'
+feature_sets[ec_profiles][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/qYbhAg'
+feature_sets[ec_profiles][category] = 'Users management'
+feature_sets[ec_profiles][icon] = ''
+feature_sets[ec_profiles][font] = 'multisite-icon-vcard'
+feature_sets[ec_profiles][enable][] = ec_profiles
+feature_sets[ec_profiles][disable][] = ec_profiles
+
+feature_sets[multisite_notifications_core][title] = 'Notifications'
+feature_sets[multisite_notifications_core][description] = 'Provide the possibility to subscribe to contents and receive notifications.'
+feature_sets[multisite_notifications_core][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/7IXhAg'
+feature_sets[multisite_notifications_core][category] = 'Users management'
+feature_sets[multisite_notifications_core][icon] = ''
+feature_sets[multisite_notifications_core][font] = 'multisite-icon-notification'
+feature_sets[multisite_notifications_core][enable][] = multisite_notifications_core
+feature_sets[multisite_notifications_core][disable][] = multisite_notifications_core
+
+; Site management
+feature_sets[multisite_business_indicators_standard][title] = 'Business indicators'
+feature_sets[multisite_business_indicators_standard][description] = 'Provides a set of blocks with figures about a Multisite installation\'s user and content.'
+feature_sets[multisite_business_indicators_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/fIlgAw'
+feature_sets[multisite_business_indicators_standard][category] = 'Site management'
+feature_sets[multisite_business_indicators_standard][icon] = ''
+feature_sets[multisite_business_indicators_standard][font] = 'multisite-icon-stats'
+feature_sets[multisite_business_indicators_standard][enable][] = multisite_business_indicators_standard
+feature_sets[multisite_business_indicators_standard][disable][] = multisite_business_indicators_standard
+
+; NextEuropa Tracked Changes
+feature_sets[nexteuropa_trackedchanges][title] = 'WYSIWYG Tracked Changes'
+feature_sets[nexteuropa_trackedchanges][description] = 'Provides editorial teams with change tracking capabilities in WYSIWYG.'
+feature_sets[nexteuropa_trackedchanges][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/ayXFCg'
+feature_sets[nexteuropa_trackedchanges][category] = 'Editorial Management'
+feature_sets[nexteuropa_trackedchanges][icon] = ''
+feature_sets[nexteuropa_trackedchanges][font] = 'multisite-icon-eye'
+feature_sets[nexteuropa_trackedchanges][enable][] = nexteuropa_trackedchanges
+feature_sets[nexteuropa_trackedchanges][disable][] = nexteuropa_trackedchanges
