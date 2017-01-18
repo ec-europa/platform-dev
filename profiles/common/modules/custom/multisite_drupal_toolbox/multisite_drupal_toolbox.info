@@ -6,7 +6,6 @@ core = 7.x
 dependencies[] = libraries
 dependencies[] = multisite_config
 dependencies[] = linkchecker
-dependencies[] = entity
 dependencies[] = features
 dependencies[] = workbench_moderation
 dependencies[] = context
