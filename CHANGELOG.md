@@ -30,6 +30,8 @@
   * NEPT-297 - Upgrade - Security risk: 13/25 Upgrade bootstrap to latest version
   * NEPT-357 - Upgrade - i18n_views to version 7.x-3.0-alpha1 + Patches if necessary
   * NEPT-424 - Include the path "/tests" in the CodeSniffer configuration file
+  * NEPT-525 - Remove apachesolr, css_injector, js_injector and contact from communities profile
+  * NEPT-553 - Nexteuropa_newsroom upgraded
 
 ### New features (For more details on each feature, see the README.md file at the root of the feature's folder)
   * NEPT-79 - Performance/Varnish - An administrator can enable the web frontend cache control feature through Feature set
@@ -58,6 +60,7 @@
   * NEPT-291 - Nexteuropa_editorial - Addition of ckeditor_lite css file breaks display suite layout
   * NEPT-325 - mpdf version 7.0 was deleted from github
   * NEPT-412 - Security - XSS issue in node form on title fields
+  * NEPT-552 - Fix trait not found in nexteuropa_multilingual.behat.inc
 
 ## Previous versions
 Please refer to archived Delivery notes in the FPFIS wiki regarding previous versions.
