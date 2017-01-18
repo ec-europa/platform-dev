@@ -77,5 +77,16 @@ function multisite_notifications_core_user_default_permissions() {
     'module' => 'subscriptions',
   );
 
+  if (!in_array('community', node_type_get_names())) {
+    // Exported permission: og subscribe.
+    $permissions['og subscribe'] = array(
+      'name' => 'og subscribe',
+      'roles' => array(
+        'administrator' => 'administrator',
+        'authenticated user' => 'authenticated user',
+      ),
+      'module' => 'subscriptions_og',
+    );
+  }
   return $permissions;
 }
