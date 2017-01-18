@@ -64,3 +64,13 @@ function multisite_crop_and_resize_install() {
     ->condition('name', 'multisite_crop_and_resize', '=')
     ->execute();
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Uninstall the feature and its submodule.
+ */
+function multisite_crop_and_resize_update_7000() {
+  module_disable(array('media_crop', 'multisite_crop_and_resize'));
+  drupal_uninstall_modules(array('media_crop', 'multisite_crop_and_resize'));
+}
