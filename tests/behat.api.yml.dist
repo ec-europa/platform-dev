@@ -23,6 +23,7 @@ default:
             mock_server_port: {{ varnish.server.port }}
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\PathautoContext
+        - Drupal\nexteuropa\Context\MultilingualContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
