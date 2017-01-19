@@ -17,7 +17,7 @@
   * NEPT-145 - Tracked changes - Icons shoud always be active when tracked changes exist. (code fix & add test)
   * NEPT-161 - Upgrade - menu_token to beta7 d.o/node/2838033
   * NEPT-163 - EU Login - Replace ECAS labels with new labels to align to EU login
-  * NEPT-165 - Ensure PHP 7 compatibility of core platform
+  * NEPT-165 - Ensure PHP 7 compatibility of core platform specific code
   * NEPT-173 - Performance - Do not enable the apachesolr_multisitesearch module by default
   * NEPT-174 - Performance - Make apachesolr optional
   * NEPT-183 - Upgrade - Platform to Drupal 7.51

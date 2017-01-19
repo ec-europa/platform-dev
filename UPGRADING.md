@@ -118,7 +118,7 @@ If you were using this feature, please read our upgrade recommendation:
     1- To attach css to just a form, use :
 http://api.drupal.org/api/drupal/developer!topics!forms_api_reference.html/7#attached
 
-     $form'#attached'['css'] = array(
+     $form['#attached']['css'] = array(
        drupal_get_path('module', 'yourmodulename') . '/css/pathtomyfile.css',
      );
 
@@ -137,12 +137,12 @@ For javascript
   1- To attach js to just a form, use :
 http://api.drupal.org/api/drupal/developer!topics!forms_api_reference.html/7#attached
 
-    $form'#attached'['js'] = array(
+    $form['#attached']['js'] = array(
       drupal_get_path('module', 'yourmodulename') . '/js/pathtomyfile.js',
     );
 
   2- To attach js to the whole website when the module is active, add this to the module info file:
-    
+
     scripts[] = "js/myjavascript.js"
 
   3- To add the file dynamically in a given function call, add this to your code:
