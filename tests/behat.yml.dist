@@ -2,29 +2,30 @@ default:
   suites:
     default:
       contexts:
-        - Drupal\nexteuropa\Context\IntegrationLayerContext:
-            mock_server_port: {{ integration.server.port }}
-        - FeatureContext
-        - Drupal\nexteuropa\Context\AgnosticBatchContext
-        - Drupal\DrupalExtension\Context\DrushContext
-        - Drupal\nexteuropa\Context\MessageContext
-        - Drupal\nexteuropa\Context\BeanContext
-        - Drupal\nexteuropa\Context\DrupalContext
-        - Drupal\nexteuropa\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MarkupContext
-        - Drupal\nexteuropa\Context\VariableContext
-        - Drupal\nexteuropa\Context\MediaContext
-        - Drupal\nexteuropa\Context\TaxonomyContext
-        - Drupal\nexteuropa\Context\WebtoolsContext
-        - Drupal\nexteuropa\Context\CKEditorContext
-        - Drupal\nexteuropa\Context\FlickrContext:
-            key: '{{ flickr.key }}'
-            secret: '{{ flickr.secret }}'
-        - Drupal\nexteuropa\Context\FrontendCacheContext:
-            mock_server_port: {{ varnish.server.port }}
-        - Drupal\nexteuropa\Context\DatabaseLogContext
-        - Drupal\nexteuropa\Context\PathautoContext
-        - Drupal\nexteuropa\Context\MultilingualContext
+      - Drupal\nexteuropa\Context\IntegrationLayerContext:
+          mock_server_port: {{ integration.server.port }}
+      - FeatureContext
+      - Drupal\nexteuropa\Context\AgnosticBatchContext
+      - Drupal\nexteuropa\Context\CKEditorContext
+      - Drupal\DrupalExtension\Context\DrushContext
+      - Drupal\nexteuropa\Context\MessageContext
+      - Drupal\nexteuropa\Context\BeanContext
+      - Drupal\nexteuropa\Context\DrupalContext
+      - Drupal\nexteuropa\Context\CKEditorContext
+      - Drupal\nexteuropa\Context\MinkContext
+      - Drupal\nexteuropa\Context\VariableContext
+      - Drupal\nexteuropa\Context\FlickrContext:
+          key: '{{ flickr.key }}'
+          secret: '{{ flickr.secret }}'
+      - Drupal\nexteuropa\Context\MediaContext
+      - Drupal\nexteuropa\Context\TaxonomyContext
+      - Drupal\nexteuropa\Context\WebtoolsContext
+      - Drupal\nexteuropa\Context\FrontendCacheContext:
+          mock_server_port: {{ varnish.server.port }}
+      - Drupal\nexteuropa\Context\DatabaseLogContext
+      - Drupal\nexteuropa\Context\PathautoContext
+      - Drupal\nexteuropa\Context\MultilingualContext
+      - Drupal\nexteuropa\Context\ViewsContext
       filters:
         tags: "~@wip&&~@communities"
   extensions:
