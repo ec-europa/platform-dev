@@ -296,13 +296,14 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * @AfterScenario
    */
   public function removeTranslators() {
-    if (isset($this->translators)) {
+    if (!empty($this->translators)) {
       /** @var \TMGMTTranslatorController $controller */
       $controller = entity_get_controller('tmgmt_translator');
       /** @var \TMGMTTranslator $translator */
       foreach ($this->translators as $translator) {
         $controller->delete([$translator->identifier()]);
       }
+      $this->translators = [];
     }
   }
 
