@@ -8,7 +8,6 @@ nbproject/
 build.properties.local
 phpcs.xml
 tests/behat*.yml
-tests/*/behat*.yml
 
 # Ignore build folders.
 bin/
