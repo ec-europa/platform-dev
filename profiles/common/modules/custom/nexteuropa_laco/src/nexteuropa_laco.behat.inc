@@ -26,7 +26,7 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
    *
    * @var bool
    */
-  protected $debug;
+  protected $debug = FALSE;
 
   /**
    * Constructs a NextEuropaLacoSubContext object.
@@ -100,7 +100,7 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
   /**
    * Reset debug mode.
    *
-   * @afterScenario
+   * @AfterScenario
    */
   public function resetDebugMode() {
     variable_set('nexteuropa_laco_debug', $this->debug);

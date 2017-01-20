@@ -144,6 +144,7 @@ class TaxonomyContext implements Context {
     foreach ($this->terms as $tid) {
       taxonomy_term_delete($tid);
     }
+    $this->terms = [];
   }
 
   /**

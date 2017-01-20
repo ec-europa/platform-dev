@@ -473,13 +473,14 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * @AfterScenario
    */
   public function removeTranslationJobs() {
-    if (isset($this->jobs)) {
+    if (!empty($this->jobs)) {
       /** @var \TMGMTJobController $controller */
       $controller = entity_get_controller('tmgmt_job');
       /** @var \TMGMTJob $translator */
       foreach ($this->jobs as $job) {
         $controller->delete([$job->identifier()]);
       }
+      $this->jobs = [];
     }
   }
 
@@ -738,6 +739,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
         $this->updateLanguage($lang['field'], $lang['value'], $lang['langcode']);
       }
     }
+    $this->settings = [];
   }
 
 }
