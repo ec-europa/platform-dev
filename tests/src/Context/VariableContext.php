@@ -55,7 +55,6 @@ class VariableContext implements Context {
         variable_set($variable, $value);
       }
     }
-    $this->initialVariables = array();
   }
 
 }
