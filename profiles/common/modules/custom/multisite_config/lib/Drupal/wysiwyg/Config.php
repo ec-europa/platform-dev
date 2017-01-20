@@ -127,7 +127,7 @@ class Config extends ConfigBase {
    * @param string $profile
    *   Text format machine name, for example: "full_html".
    */
-  private function updateProfile($profile) {
+  public function updateProfile($profile) {
     db_merge('wysiwyg')
       ->key(array('format' => $profile->format))
       ->fields(array(

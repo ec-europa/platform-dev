@@ -1,6 +1,6 @@
 name = ECAS
 core = 7.x
 package = "ECAS"
-description = "Provides single sign-on ECAS"
+description = "Provides single sign-on EU Login (former ECAS)"
 
 files[] = ecas.test

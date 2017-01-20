@@ -4,12 +4,15 @@ default:
       contexts:
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
-        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\DatabaseLogContext
+        - Drupal\nexteuropa\Context\ViewsContext
+        - Drupal\nexteuropa\Context\MultilingualContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:
@@ -49,6 +52,12 @@ default:
         messages: "#console"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: upload_pie
+      image_drivers:
+        upload_pie:
+          expire: '1d'
   formatters:
     {{ behat.formatter.name }}: ~
 

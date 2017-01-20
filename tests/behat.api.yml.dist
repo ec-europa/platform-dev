@@ -5,8 +5,10 @@ default:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
         - FeatureContext
+        - Drupal\nexteuropa\Context\AgnosticBatchContext
+        - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\DrupalExtension\Context\DrushContext
-        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
@@ -19,6 +21,9 @@ default:
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_port: {{ varnish.server.port }}
+        - Drupal\nexteuropa\Context\DatabaseLogContext
+        - Drupal\nexteuropa\Context\PathautoContext
+        - Drupal\nexteuropa\Context\MultilingualContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
@@ -58,6 +63,12 @@ default:
         messages: "#console"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: upload_pie
+      image_drivers:
+        upload_pie:
+          expire: '1d'
   formatters:
     {{ behat.formatter.name }}: ~
 

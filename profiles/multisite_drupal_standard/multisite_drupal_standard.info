@@ -26,14 +26,9 @@ dependencies[] = captcha
 dependencies[] = entity
 dependencies[] = ctools
 dependencies[] = token
-dependencies[] = apachesolr
-dependencies[] = apachesolr_search
-dependencies[] = apachesolr_multisitesearch
-dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
 dependencies[] = fast_404
 dependencies[] = current_search
-dependencies[] = contact
 dependencies[] = context
 dependencies[] = context_ui
 dependencies[] = context_layouts
@@ -110,7 +105,7 @@ dependencies[] = filefield_sources_plupload
 
 dependencies[] = multisite_create_button
 dependencies[] = multisite_drupal_toolbox
-dependencies[] = multisite_drupal_features_set_standard
+dependencies[] = nexteuropa_feature_set
 
 ; Features.
 dependencies[] = cce_basic_config
@@ -118,7 +113,6 @@ dependencies[] = multisite_settings_core
 dependencies[] = multisite_settings_standard
 dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
-dependencies[] = solr_config
 dependencies[] = ecas_env
 dependencies[] = multisite_wysiwyg
 
