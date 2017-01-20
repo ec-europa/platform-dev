@@ -38,10 +38,6 @@ class ContentTypeContext implements Context {
    * @AfterScenario
    */
   public function resetNodeTypes() {
-    if (empty($this->defaultNodeTypes)) {
-      return;
-    }
-
     foreach (node_type_get_types() as $result) {
       if (!in_array($result->type, $this->defaultNodeTypes)) {
         node_type_delete($result->type);

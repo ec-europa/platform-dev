@@ -42,10 +42,6 @@ class FieldContext implements Context {
    * @AfterScenario
    */
   public function resetFields() {
-    if (empty($this->defaultFields)) {
-      return;
-    }
-
     $current_fields = field_info_field_map();
     $purge_field_schema = FALSE;
     foreach ($current_fields as $field_name => $field_info) {
@@ -96,9 +92,6 @@ class FieldContext implements Context {
    * @AfterScenario
    */
   public function resetFieldGroups() {
-    if (empty($this->defaultFieldGroups)) {
-      return;
-    }
     $current_field_groups = field_group_read_groups();
     $this->scanFieldGroupsForResetting($current_field_groups, $this->defaultFieldGroups);
     $this->defaultFieldGroups = array();

@@ -90,7 +90,9 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
   }
 
   /**
-   * Removes the test_media_gallery content type and related permissions.
+   * Removes the permissions related to the test_media_gallery content type.
+   *
+   * @see createMediaGalleryContentType()
    *
    * @AfterScenario
    */
