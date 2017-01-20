@@ -15,6 +15,8 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\matches;
 use function bovigo\assert\predicate\not;
+use function bovigo\assert\predicate\isNotNull;
+use function bovigo\assert\predicate\hasKey;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -234,6 +236,7 @@ class FrontendCacheContext implements Context {
    */
   public function iClickLinkNextToTheNthCachePurgeRule($arg1, $nth) {
     $overview = $this->getCachePurgeRulesOverview();
+    assert($overview, isNotNull());
 
     $matched = preg_match('/^[0-9]+/', $nth, $matches);
     assert($matched, equals(1));
@@ -242,7 +245,7 @@ class FrontendCacheContext implements Context {
     $row_number = $matches[0] - 1;
 
     $rows = $overview->findAll('css', 'tr');
-    assert($rows, \bovigo\assert\predicate\hasKey($row_number));
+    assert($rows, hasKey($row_number));
     $row = $rows[$row_number];
 
     $link = $row->findLink($arg1);
