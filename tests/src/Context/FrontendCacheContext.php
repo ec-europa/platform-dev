@@ -308,9 +308,10 @@ class FrontendCacheContext implements Context {
   /**
    * Removes all cache purge rules.
    *
-   * @AfterScenario
+   * @AfterScenario @purge-rule-type-node
    */
   public function purgeAllCacheRules() {
+    module_list(TRUE);
     if (module_exists('nexteuropa_varnish')) {
       $rules = entity_load('nexteuropa_varnish_cache_purge_rule');
       $rule_ids = array_keys($rules);
