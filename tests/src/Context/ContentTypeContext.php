@@ -155,6 +155,16 @@ class ContentTypeContext implements Context {
    * @Given a field group with the following settings is added to the :arg1 type view:
    */
   public function aFieldGroupWithTheFollowingSettingsIsAddedToTheTypeView($arg1, TableNode $settings) {
+
+    if (!node_type_get_type($arg1)) {
+      throw new \InvalidArgumentException(
+        sprintf(
+          'The "%s" content type does not exist; then cannot be used for test purposes.',
+          $arg1
+        )
+      );
+    }
+
     $group_machine_type = 'fieldset';
     $mode = 'default';
     $group_children = array();
@@ -181,7 +191,17 @@ class ContentTypeContext implements Context {
         case 'Children':
           $raw_children = explode(',', $value);
           foreach ($raw_children as $raw_child) {
-            $group_children[] = 'field_' . $raw_child;
+            $field_name = 'field_' . $raw_child;
+            if (empty(field_info_instance('node', $field_name, $arg1))) {
+              throw new \InvalidArgumentException(
+                sprintf(
+                  'The "%s" field does not exist for "%s" content type does not exist; then it cannot be added to the field group.',
+                  $field_name,
+                  $arg1
+                )
+              );
+            }
+            $group_children[] = $field_name;
           }
           break;
       }
