@@ -75,27 +75,6 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'print_mail',
   );
 
-  // Exported permission: 'access site-wide contact form'.
-  $permissions['access site-wide contact form'] = array(
-    'name' => 'access site-wide contact form',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'contact',
-  );
-
-  // Exported permission: 'access user contact forms'.
-  $permissions['access user contact forms'] = array(
-    'name' => 'access user contact forms',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-    ),
-    'module' => 'contact',
-  );
-
   // Exported permission: 'access user profiles'.
   $permissions['access user profiles'] = array(
     'name' => 'access user profiles',

@@ -36,6 +36,39 @@ function nexteuropa_varnish_schema() {
 }
 
 /**
+ * Implements hook_requirements().
+ */
+function nexteuropa_varnish_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+
+  if ($phase == 'install') {
+    global $conf;
+
+    $required_vars = array(
+      'nexteuropa_varnish_http_targets',
+      'nexteuropa_varnish_request_method',
+      'nexteuropa_varnish_request_user',
+      'nexteuropa_varnish_request_password',
+      'nexteuropa_varnish_tag',
+      'nexteuropa_varnish_http_timeout',
+    );
+
+    foreach ($required_vars as $var) {
+      if (!isset($conf[$var])) {
+        $requirements[$var] = array(
+          'description' => $t('Following variable must be set: @var.', array('@var' => $var)),
+          'severity' => REQUIREMENT_ERROR,
+        );
+      }
+    }
+
+  }
+
+  return $requirements;
+}
+
+/**
  * Implements hook_enable().
  */
 function nexteuropa_varnish_enable() {
@@ -48,6 +81,33 @@ function nexteuropa_varnish_enable() {
         'administer frontend cache purge rules',
       )
     );
+  }
+}
+
+/**
+ * Implements hook_install().
+ */
+function nexteuropa_varnish_install() {
+  // Set the weight to 2. Pathauto has weight 1 and we need to react after it.
+  db_update('system')
+    ->fields(array('weight' => 2))
+    ->condition('type', 'module')
+    ->condition('name', 'nexteuropa_varnish')
+    ->execute();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function nexteuropa_varnish_uninstall() {
+  $vars = [
+    'nexteuropa_varnish_http_targets',
+    'nexteuropa_varnish_tag',
+    'nexteuropa_varnish_request_method',
+  ];
+
+  foreach ($vars as $var) {
+    variable_del($var);
   }
 }
 
@@ -79,4 +139,15 @@ function nexteuropa_varnish_update_7100() {
       'primary key' => array('id'),
     )
   );
+}
+
+/**
+ * Alter the module weight so it comes after pathauto.
+ */
+function nexteuropa_varnish_update_7101() {
+  db_update('system')
+    ->fields(array('weight' => 2))
+    ->condition('type', 'module')
+    ->condition('name', 'nexteuropa_varnish')
+    ->execute();
 }

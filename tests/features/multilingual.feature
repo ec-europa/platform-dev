@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
@@ -14,15 +14,15 @@ Feature: Multilingual features
 
   Scenario: Content can be translated in available languages
     Given I am viewing a multilingual "page" content:
-      | language | title                        |
-      | en       | This title is in English     |
-      | fr       | Ce titre est en Français     |
-      | de       | Dieser Titel ist auf Deutsch |
-    Then I should see the heading "This title is in English"
+      | language | title                                    |
+      | en       | Content can be translated in English     |
+      | fr       | Contenu peut être traduit en Français    |
+      | de       | Dieser Titel ist auf Deutsch             |
+    Then I should see the heading "Content can be translated in English"
     And I click "English" in the "header_top" region
     Then I should be on the language selector page
     And I click "Français"
-    Then I should see the heading "Ce titre est en Français"
+    Then I should see the heading "Contenu peut être traduit en Français"
     And I click "Français" in the "header_top" region
     Then I should be on the language selector page
     When I click "Deutsch"
@@ -30,24 +30,24 @@ Feature: Multilingual features
     And I click "Deutsch"
     Then I should be on the language selector page
     And I click "English"
-    Then I should see the heading "This title is in English"
+    Then I should see the heading "Content can be translated in English"
 
   Scenario: Custom URL suffix language negotiation is applied by default on new content.
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:
-      | language | title            |
-      | en       | Title in English |
-      | fr       | Title in French  |
-      | de       | Title in German  |
-    Then I should be on "content/title-english_en"
+      | language | title                                  |
+      | en       | Custom URL suffix language negotiation |
+      | fr       | Suffix de language negotiation French  |
+      | de       | Suffix Sprache Verhandlung German      |
+    Then I should be on "content/custom-url-suffix-language-negotiation_en"
     And I click "English" in the "header_top" region
     Then I should be on the language selector page
     And I click "Français"
-    Then I should be on "content/title-english_fr"
+    Then I should be on "content/custom-url-suffix-language-negotiation_fr"
     And I click "Français" in the "header_top" region
     Then I should be on the language selector page
     And I click "Deutsch"
-    Then I should be on "content/title-english_de"
+    Then I should be on "content/custom-url-suffix-language-negotiation_de"
 
   Scenario: Enable multiple languages
     Given I am logged in as a user with the 'administrator' role

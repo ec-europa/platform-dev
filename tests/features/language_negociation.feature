@@ -1,4 +1,4 @@
-@api
+@api @i18n
 Feature: Second favorite language tests
   In order to be accessible to European citizens,
   Users should be able to switch content to their favorite language.
