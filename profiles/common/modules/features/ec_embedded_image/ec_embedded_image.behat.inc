@@ -12,11 +12,11 @@ use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
 class ECEmbeddedImageSubContext extends DrupalSubContextBase {
 
   /**
-   * Indicates if the custom content type was set up.
+   * Indicates if permissions was set up for test pruposes.
    *
    * @var bool
    */
-  private $permissionWasSetUp = FALSE;
+  private $testPermissionsSetUp = FALSE;
 
   /**
    * Creates a test_media_gallery content type with a test_flickr_set field.
@@ -86,7 +86,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
       ]
     );
 
-    $this->permissionWasSetUp = TRUE;
+    $this->testPermissionsSetUp = TRUE;
   }
 
   /**
@@ -97,7 +97,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
    * @AfterScenario
    */
   public function resetMediaGalleryPermission() {
-    if (!$this->permissionWasSetUp) {
+    if (!$this->testPermissionsSetUp) {
       return;
     }
 
