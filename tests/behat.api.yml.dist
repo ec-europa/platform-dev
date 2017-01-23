@@ -2,14 +2,25 @@ default:
   suites:
     default:
       contexts:
+        - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_port: {{ integration.server.port }}
         - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\VariableContext
+        - Drupal\nexteuropa\Context\FlickrContext:
+            key: '{{ flickr.key }}'
+            secret: '{{ flickr.secret }}'
+        - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\WebtoolsContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_port: {{ varnish.server.port }}
       filters:
-        tags: "~@communities&&~@wip&&~@i18n&&~@api"
+        tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
     Behat\MinkExtension:
       goutte: ~
@@ -45,6 +56,8 @@ default:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -58,6 +71,7 @@ communities:
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
       filters:
         tags: "@communities&&~@wip"
   extensions:
@@ -89,5 +103,7 @@ communities:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
   formatters:
     {{ behat.formatter.name }}: ~
