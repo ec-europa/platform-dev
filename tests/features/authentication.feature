@@ -1,4 +1,4 @@
-@api @wip
+@api
 Feature: User authentication
   In order to protect the integrity of the website
   As a product owner
