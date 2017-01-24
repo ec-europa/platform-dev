@@ -1,4 +1,4 @@
-@api @wip
+@api
 Feature: Content level language switcher tests
   In order to read a content in different languages
   As an anonymous user
