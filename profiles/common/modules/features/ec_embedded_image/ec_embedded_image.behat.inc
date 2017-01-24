@@ -16,7 +16,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
    *
    * @var bool
    */
-  private $testPermissionsSetUp = FALSE;
+  private $areTestPermissionsSet = FALSE;
 
   /**
    * Creates a test_media_gallery content type with a test_flickr_set field.
@@ -86,7 +86,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
       ]
     );
 
-    $this->testPermissionsSetUp = TRUE;
+    $this->areTestPermissionsSet = TRUE;
   }
 
   /**
@@ -97,7 +97,7 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
    * @AfterScenario
    */
   public function resetMediaGalleryPermission() {
-    if (!$this->testPermissionsSetUp) {
+    if (!$this->areTestPermissionsSet) {
       return;
     }
 
