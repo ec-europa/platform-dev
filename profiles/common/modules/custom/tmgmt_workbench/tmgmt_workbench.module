@@ -132,21 +132,8 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
 
       // Setting up an array with language codes based on the available options.
       $lang_codes = array_keys($options);
-      $language_requested = FALSE;
-
-      // NEXTEUROPA-12429 - additional header with last change date.
-      $form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = t('Last change');
 
       foreach ($lang_codes as $lang_code) {
-        // NEXTEUROPA-12429 - additional column with last change date.
-        // By default the last change date column is empty.
-        $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = '';
-
-        // Disable checkbox for languages already translated.
-        if (isset($node->translations->data[$lang_code]) && !empty($existing_jobs)) {
-          $language_requested = TRUE;
-        }
-
         if (isset($options[$lang_code]) && isset($existing_jobs[$lang_code])) {
           $item = $existing_jobs[$lang_code];
           $uri = $item->uri();
@@ -165,10 +152,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
               '#disabled' => TRUE,
             );
           }
-
-          // NEXTEUROPA-12429 - additional column with last change date.
-          $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]
-            = format_date($wrapper->changed->value(), 'short');
         }
 
         // Disable checkbox selection if current node revision is not
@@ -187,44 +170,22 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      if (!isset($form_state['force_actions']) || !$form_state['force_actions']) {
-        // Provide 'Request translation' action or hide actions.
-        // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
-        // there is new #markup element which will be displayed every time when
-        // there is a translation request on going.
-        if ($translation_possible && !$existing_jobs) {
-          $form['actions']['#type'] = 'actions';
-          $form['actions']['request'] = [
-            '#type' => 'submit',
-            '#value' => t('Request translation'),
-            '#submit' => ['tmgmt_workbench_translate_form_submit'],
-            '#validate' => ['tmgmt_workbench_translate_form_validate'],
-          ];
-        }
-        else {
+      if ($translation_possible && !module_exists('tmgmt_poetry')) {
+        $form['actions']['#type'] = 'actions';
+        $form['actions']['request'] = array(
+          '#type' => 'submit',
+          '#value' => t('Request translation'),
+          '#submit' => array('tmgmt_workbench_translate_form_submit'),
+          '#validate' => array('tmgmt_workbench_translate_form_validate'),
+        );
+      }
+      else {
+        if (!module_exists('tmgmt_poetry')) {
           unset($form['actions']);
-          foreach ($lang_codes as $lang_code) {
-            $form['languages'][$lang_code] = [
-              '#type' => 'checkbox',
-              '#disabled' => TRUE,
-            ];
-          }
-          if ($existing_jobs && !isset($form['languages_description'])) {
-            $form['languages_description'] = [
-              '#type' => 'item',
-              '#prefix' => '<div class="messages warning">',
-              '#markup' => t('Please end up the active translation process before creating a new request.'),
-              '#suffix' => '</div>',
-            ];
-          }
         }
       }
-
       // Remove add to cart button.
       unset($form['top_actions']);
-
-      // Allow to select multiple languages.
-      $form['languages']['#multiple'] = TRUE;
     }
   }
 }
@@ -236,17 +197,6 @@ function tmgmt_workbench_translate_form_validate($form, &$form_state) {
   if (!isset($form_state['values']['languages'])) {
     form_set_error('languages', t('You have to select a language for requesting a translation.'));
   }
-  else {
-    $validated = FALSE;
-    foreach ($form_state['values']['languages'] as $language) {
-      if (!empty($language)) {
-        $validated = TRUE;
-      }
-    }
-    if (!$validated) {
-      form_set_error('languages', t('You have to select a language for requesting a translation.'));
-    }
-  }
 }
 
 /**
@@ -254,15 +204,15 @@ function tmgmt_workbench_translate_form_validate($form, &$form_state) {
  */
 function tmgmt_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
-  $entity_type = $form_state['entity_type'];
-  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+
   $langcode = $form_state['input']['languages'];
   $jobs = array();
   // Create the job object.
-  $job = tmgmt_job_create(entity_language($entity_type, $entity), $langcode, $GLOBALS['user']->uid);
+  $job = tmgmt_job_create(entity_language('node', $entity), $langcode,
+    $GLOBALS['user']->uid);
   try {
     // Add the job item.
-    $job->addItem('workbench_moderation', $entity_type, $id);
+    $job->addItem('workbench_moderation', 'node', $entity->nid);
     // Append this job to the array of created jobs so we can redirect the
     // user to a multistep checkout form if necessary.
     $jobs[$job->tjid] = $job;

@@ -708,16 +708,35 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
   if ($entity_type == 'node') {
     $node = $form_state['entity'];
     if (workbench_moderation_node_moderated($node)) {
+
       // Getting information about existing job items.
       if (!isset($form_state['tmgmt_workbench']['existing_jobs'])) {
         $form_state['tmgmt_workbench']['existing_jobs'] = _tmgmt_workbench_get_existing_jobs($node);
       }
       $existing_jobs = $form_state['tmgmt_workbench']['existing_jobs'];
 
-      if (!empty($existing_jobs)) {
-        // Force form to allow user actions.
-        $form_state['force_actions'] = TRUE;
+      $states = array_values(_tmgmt_workbench_available_states());
+      $state = $node->workbench_moderation['current']->state;
+      $translation_possible = in_array($state, $states, 'strict');
+      // The custom header with for the 'last change' column.
+      $form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = t('Last change');
 
+      // Setting up an array with language codes based on the available options.
+      $lang_codes = array_keys($form['languages']['#options']);
+
+      foreach ($lang_codes as $lang_code) {
+        // The 'last change' custom column by default is empty.
+        $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = '';
+        if (isset($existing_jobs[$lang_code])) {
+          $item = $existing_jobs[$lang_code];
+          $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
+
+          $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]
+            = format_date($wrapper->changed->value(), 'short');
+        }
+      }
+
+      if (!empty($existing_jobs)) {
         if (_tmgmt_poetry_check_jobs_translatability($existing_jobs)) {
           _tmgmt_poetry_inject_request_update_elements($form);
         }
@@ -742,7 +761,47 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
           // elements.
           _tmgmt_poetry_inject_add_new_languages_elements($form, $trans_langs);
         }
+
       }
+      else {
+        // Provide 'Request translation' action or hide actions.
+        // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
+        // there is new #markup element which will be displayed every time when
+        // there is a translation request on going.
+        if ($translation_possible && !$existing_jobs) {
+          $form['actions']['#type'] = 'actions';
+          $form['actions']['request'] = [
+            '#type' => 'submit',
+            '#value' => t('Request translation'),
+            '#submit' => ['_tmgmt_poetry_workbench_translate_form_submit'],
+            '#validate' => ['_tmgmt_poetry_workbench_translate_form_validate'],
+          ];
+        }
+        else {
+          unset($form['actions']);
+          foreach ($lang_codes as $lang_code) {
+            $form['languages'][$lang_code] = [
+              '#type' => 'checkbox',
+              '#disabled' => TRUE,
+            ];
+          }
+          if ($existing_jobs && !isset($form['languages_description'])) {
+            $form['languages_description'] = [
+              '#type' => 'item',
+              '#prefix' => '<div class="messages warning">',
+              '#markup' => t('Please end up the active translation process before creating a new request.'),
+              '#suffix' => '</div>',
+            ];
+          }
+        }
+      }
+
+      // Remove add to cart button.
+      unset($form['top_actions']);
+
+      // Allow to select multiple languages.
+      $form['languages']['#multiple'] = TRUE;
+
     }
   }
 }
@@ -775,12 +834,21 @@ function _tmgmt_poetry_check_translatability($entity_id) {
   return FALSE;
 }
 
+/**
+ * Checks if passed job items are in the state which allows translation.
+ *
+ * @param array $existing_jobs
+ *   An array with the TMGMT job items.
+ *
+ * @return bool
+ *   Returns TRUE/FALSE.
+ */
 function _tmgmt_poetry_check_jobs_translatability($existing_jobs) {
   foreach ($existing_jobs as $existing_job) {
     // Check if it's a poetry job.
     $translator = $existing_job->getTranslator();
     if ($translator && $translator->plugin != 'poetry') {
-      return;
+      continue;
     }
 
     // Check the poetry status.
@@ -791,13 +859,20 @@ function _tmgmt_poetry_check_jobs_translatability($existing_jobs) {
       ->fetchAssoc();
 
     if (isset($result['status']) && $result['status'] == POETRY_STATUS_MESSAGE_PEN) {
-      $translation_possible = FALSE;
+
+      return FALSE;
     }
   }
 
   return TRUE;
 }
 
+/**
+ * Injects to the form 'Request translation update' functionality.
+ *
+ * @param array $form
+ *   A form passed as a reference.
+ */
 function _tmgmt_poetry_inject_request_update_elements(&$form) {
   // Add the new submit button.
   $form['actions']['request'] = [
@@ -811,6 +886,9 @@ function _tmgmt_poetry_inject_request_update_elements(&$form) {
   ];
 }
 
+/**
+ * The custom form submit handler.
+ */
 function _tmgmt_poetry_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
   $chosen_languages = $form_state['values']['languages'];
@@ -852,6 +930,26 @@ function _tmgmt_poetry_workbench_translate_form_submit($form, &$form_state) {
 }
 
 /**
+ * Validation callback for the entity translation overview form.
+ */
+function _tmgmt_poetry_workbench_translate_form_validate($form, &$form_state) {
+  if (!isset($form_state['values']['languages'])) {
+    form_set_error('languages', t('You have to select a language for requesting a translation.'));
+  }
+  else {
+    $validated = FALSE;
+    foreach ($form_state['values']['languages'] as $language) {
+      if (!empty($language)) {
+        $validated = TRUE;
+      }
+    }
+    if (!$validated) {
+      form_set_error('languages', t('You have to select a language for requesting a translation.'));
+    }
+  }
+}
+
+/**
  * Storing chosen translation request languages for further processing.
  *
  * @param array $languages
@@ -887,7 +985,9 @@ function _tmgmt_poetry_workbench_clear_request_languages() {
   }
 }
 
-
+/**
+ * Disable form elements.
+ */
 function _tmgmt_poetry_disable_form_elements(&$form) {
   // Disable all actions.
   unset($form['actions']);
