@@ -13,6 +13,7 @@ use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
 use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isTrue;
 
 /**
  * Behat step definitions for the TMGMT Poetry Mock module.
@@ -229,7 +230,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   public function assertTranslationRequestDocumentIsValidXhtml() {
 
     $msg = 'You need Tidy extension to test if XHTML is valid.';
-    assert(class_exists('tidy'), equals(TRUE), $msg);
+    assert(class_exists('tidy'), isTrue(), $msg);
 
     $this->assertTranslationRequest();
 
