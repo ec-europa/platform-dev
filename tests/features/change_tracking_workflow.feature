@@ -1,4 +1,4 @@
-@api
+@api @wip
 Feature: Change tracking features
   In order to ease communications between editors while they manage website
   content, a tracking feature is available with WYSIWYG fields.
