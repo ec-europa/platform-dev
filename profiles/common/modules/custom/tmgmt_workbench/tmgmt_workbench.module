@@ -116,6 +116,12 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
   if ($entity_type == 'node') {
     $node = $form_state['entity'];
     if (workbench_moderation_node_moderated($node)) {
+      // If the tmgmt_poetry module is disabled remove possibility to select
+      // multiple languages and by doing that follow the default tmgmt path.
+      if (!module_exists('tmgmt_poetry')) {
+        $form['languages']['#multiple'] = FALSE;
+      }
+
       $states = array_values(_tmgmt_workbench_available_states());
       $state = $node->workbench_moderation['current']->state;
       $translation_possible = in_array($state, $states, 'strict');
@@ -141,17 +147,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
           $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_STATE_INDEX] = l($wrapper->state->label(),
             $uri['path'],
             array('query' => array('destination' => current_path())));
-
-          if (!isset($form_state['force_actions']) || !$form_state['force_actions']) {
-            // Disable the checkbox for this row since there is already a
-            // translation in progress that has not yet been finished.
-            // This way we make sure that we don't stack multiple active
-            // translations for the same item on top of each other.
-            $form['languages'][$lang_code] = array(
-              '#type' => 'checkbox',
-              '#disabled' => TRUE,
-            );
-          }
         }
 
         // Disable checkbox selection if current node revision is not

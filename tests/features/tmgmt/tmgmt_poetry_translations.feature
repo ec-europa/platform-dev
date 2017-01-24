@@ -727,7 +727,7 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
 
   @javascript
   Scenario: Resending translation request while translation process is ongoing
@@ -751,7 +751,7 @@ Feature: TMGMT Poetry features
     And I click "Send 'ONG' status" in the "en->it" row
     Then I should see the success message "The status request was sent. Check the translation page."
     When I click "Check the translation page"
-    Then I should not see "Please wait the acceptation translation process before update request."
+    Then I should not see "Please wait for the translation request to be accepted before further update options."
     When I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation update"
