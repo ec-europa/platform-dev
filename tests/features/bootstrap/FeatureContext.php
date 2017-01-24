@@ -624,10 +624,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterFeature @cleanCommunityEnvironment
    */
   public static function cleanCommunityEnvironment() {
-    // Delete 'community' node type.
-    _node_types_build(TRUE);
-    node_type_delete('community');
-    field_purge_batch(1);
 
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
