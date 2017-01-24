@@ -13,6 +13,7 @@ default:
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\ViewsContext
         - Drupal\nexteuropa\Context\VariableContext
+        - Drupal\nexteuropa\Context\MultilingualContext
       filters:
         tags: "~@communities&&~@wip&&@i18n"
   extensions:
