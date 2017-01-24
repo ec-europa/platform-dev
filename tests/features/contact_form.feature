@@ -1,4 +1,4 @@
-@api
+@api @wip
 Feature: Contact Form
   In order to allow sending emails to user without knowing their mail address
   As a citizen of the European Union

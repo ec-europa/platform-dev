@@ -1,4 +1,4 @@
-@api @javascript @maximizedwindow
+@api @javascript @maximizedwindow @wip
 Feature: Change tracking features
   We check that a user can enable the "NextEuropa Tracked Changes" set, but he can disable it
   only if no tracked changes are detected in the current values of WYSIWYG fields
