@@ -119,7 +119,7 @@ projects[ckeditor_lite][subdir] = contrib
 projects[ckeditor_lite][version] = 1.0-rc3
 
 projects[coffee][subdir] = "contrib"
-projects[coffee][version] = 2.2
+projects[coffee][version] = 2.3
 
 projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
