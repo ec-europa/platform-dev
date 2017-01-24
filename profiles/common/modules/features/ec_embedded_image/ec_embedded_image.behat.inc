@@ -101,6 +101,8 @@ class ECEmbeddedImageSubContext extends DrupalSubContextBase {
       return;
     }
 
+    $this->areTestPermissionsSet = FALSE;
+
     $contributor_role = user_role_load_by_name('contributor');
     user_role_revoke_permissions(
       $contributor_role->rid,
