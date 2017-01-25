@@ -747,9 +747,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/2645622
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
+; Doesn't handle file attachments
+; We need to merge the changes in the drupal.org ticket with the previous patch because they change the same line
 ; https://www.drupal.org/node/1084436
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-592
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1084436-attachment_fix-55.patch
+projects[workbench_moderation][patch][] = patches/workbench_moderation-002-1084436-2645622-merge.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
