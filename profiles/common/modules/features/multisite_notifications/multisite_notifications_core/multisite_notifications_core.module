@@ -16,7 +16,7 @@ function multisite_notifications_core_subscriptions_queue_alter(&$event) {
   if (isset($event['node']->workbench_moderation)) {
     // Only process events after publishing
     // See multisite_notifications_core_workbench_moderation_transition()
-    if (!isset($event['node']->flag_after_publishing)) {
+    if (!isset($event['node']->is_to_add_to_subscription)) {
       $event = NULL;
     }
   }
@@ -36,7 +36,7 @@ function multisite_notifications_core_workbench_moderation_transition($node, $pr
   // See multisite_notifications_core_subscriptions_queue_alter()
   if ($new_state == workbench_moderation_state_published()) {
     $full_node = node_load($node->nid);
-    $full_node->flag_after_publishing = TRUE;
+    $full_node->is_to_add_to_subscription = TRUE;
     subscriptions_content_node_update($full_node);
   }
 }
