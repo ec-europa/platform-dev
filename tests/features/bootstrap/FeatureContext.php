@@ -287,32 +287,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Reinitialize some environment settings.
-   *
-   * @AfterScenario @cleanEnvironment
-   */
-  public static function cleanEnvironment() {
-    // Restore homepage.
-    variable_set("site_frontpage", "node");
-
-    // Restore default language (en) settings.
-    $languages = language_list('enabled', TRUE);
-    if (isset($languages['1']['en'])) {
-      $language = $languages['1']['en'];
-
-      $language->prefix = '';
-      $properties[] = 'prefix';
-
-      $fields = array_intersect_key((array) $language, array_flip($properties));
-      // Update language fields.
-      db_update('languages')
-        ->fields($fields)
-        ->condition('language', $language->language)
-        ->execute();
-    }
-  }
-
-  /**
    * Creates a file with specified name and context in current workdir.
    *
    * @param string $filename
@@ -650,10 +624,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterFeature @cleanCommunityEnvironment
    */
   public static function cleanCommunityEnvironment() {
-    // Delete 'community' node type.
-    _node_types_build(TRUE);
-    node_type_delete('community');
-    field_purge_batch(1);
 
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');

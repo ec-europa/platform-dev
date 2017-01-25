@@ -378,11 +378,17 @@ function nexteuropa_multilingual_tokens_alter(array &$replacements, array $conte
     $entity_properties = $wrapper->getPropertyInfo();
     // Check if the title module is used to manage the title as a field.
     if (isset($entity_properties['title_field'])) {
-      $replacements['[node:source:title]'] = $wrapper->language($original_language)->title_field->raw();
+      $value = $wrapper->language($original_language)->title_field->value();
+      if (is_string($value)) {
+        $replacements['[node:source:title]'] = filter_xss($value);
+      }
+      elseif (is_array($value) && isset($value['format'])) {
+        $replacements['[node:source:title]'] = check_markup($value['value'], $value['format']);
+      }
     }
     else {
-      $replacements['[node:source:title]'] = $wrapper->language($original_language)
-        ->label();
+      $value = $wrapper->language($original_language)->label();
+      $replacements['[node:source:title]'] = filter_xss($value);
     }
   }
 }
