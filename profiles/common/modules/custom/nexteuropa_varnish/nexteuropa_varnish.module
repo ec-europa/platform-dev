@@ -88,8 +88,8 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
 
   $publishing = $new_state == workbench_moderation_state_published();
 
-  $unpublishing = (($new_state != workbench_moderation_state_published()) &&
-    ($node->workbench_moderation['my_revision']->published == 1));
+  $unpublishing = !$publishing &&
+    ($node->workbench_moderation['my_revision']->published == 1);
 
   if ($publishing || $unpublishing) {
     $paths = _nexteuropa_varnish_get_paths_to_purge($node);
