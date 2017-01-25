@@ -710,9 +710,9 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Assert field language given field name, content type and content title.
    *
-   * @Then I should only have :arg1 in :arg2 for :arg3 content with title :arg4
+   * @Then I should only have :arg1 in :arg2 for :arg3 published content with title :arg4
    */
-  public function assertFieldLanguageForContentWithTitle($field_name, $language, $type, $title) {
+  public function assertFieldLanguageForPublishedContentWithTitle($field_name, $language, $type, $title) {
     $node = $this->getNodeByTitle($type, $title);
 
     $query = db_select("field_data_{$field_name}", 'f')

@@ -226,5 +226,5 @@ Feature: Multilingual features
       | fr       | Page in French |
       | de       | Page in German |
     And I revert the "page" content with title "Page in English" to its first revision
-    Then I should only have "title_field" in "en" for "page" content with title "Page in English"
+    Then I should only have "title_field" in "en" for "page" published content with title "Page in English"
 
