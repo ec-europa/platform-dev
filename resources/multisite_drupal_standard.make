@@ -91,6 +91,9 @@ projects[bounce][version] = "1.7"
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.3"
 
+projects[cdn][subdir] = "contrib"
+projects[cdn][version] = "2.9"
+
 projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
@@ -116,7 +119,7 @@ projects[ckeditor_lite][subdir] = contrib
 projects[ckeditor_lite][version] = 1.0-rc3
 
 projects[coffee][subdir] = "contrib"
-projects[coffee][version] = 2.2
+projects[coffee][version] = 2.3
 
 projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
@@ -245,8 +248,7 @@ projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteu
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 ; Issue #2831766: Feature set does not invoke hook_requirements().
 ; https://www.drupal.org/node/2831766
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-79
-projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-2.patch
+projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta2"
@@ -625,8 +627,17 @@ projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
+projects[title][download][branch] = 7.x-1.x
+projects[title][download][revision] = 1f89073
+projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-projects[title][version] = "1.0-alpha8"
+; #2813673: Tests broken since new permission in drupal core
+; https://www.drupal.org/node/2813673
+projects[title][patch][] = https://www.drupal.org/files/issues/2813673-title-tests-fail.patch
+; #2757739: Token value is not sanitized, when replaced from title field
+; https://www.drupal.org/node/2757739
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-412
+projects[title][patch][] = https://www.drupal.org/files/issues/2757739_1.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d

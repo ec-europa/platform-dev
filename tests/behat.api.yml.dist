@@ -6,11 +6,14 @@ default:
             mock_server_port: {{ integration.server.port }}
         - FeatureContext
         - Drupal\nexteuropa\Context\AgnosticBatchContext
+        - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
-        - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\DrupalContext
+        - Drupal\nexteuropa\Context\FieldContext
+        - Drupal\nexteuropa\Context\ContentTypeContext
         - Drupal\nexteuropa\Context\VariableContext
         - Drupal\nexteuropa\Context\FlickrContext:
             key: '{{ flickr.key }}'
@@ -22,6 +25,7 @@ default:
             mock_server_port: {{ varnish.server.port }}
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\PathautoContext
+        - Drupal\nexteuropa\Context\MultilingualContext
       filters:
         tags: "~@communities&&~@wip&&@api&&~@i18n"
   extensions:
