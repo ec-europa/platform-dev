@@ -71,7 +71,7 @@ default:
       active_image_drivers: upload_pie
       image_drivers:
         upload_pie:
-        expire: '1d'
+          expire: '1d'
   formatters:
     {{ behat.formatter.name }}: ~
 
