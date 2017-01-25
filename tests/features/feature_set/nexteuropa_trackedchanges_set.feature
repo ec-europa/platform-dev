@@ -1,4 +1,4 @@
-@api @javascript @maximizedwindow @wip
+@api @javascript @maximizedwindow
 Feature: Change tracking features
   We check that a user can enable the "NextEuropa Tracked Changes" set, but he can disable it
   only if no tracked changes are detected in the current values of WYSIWYG fields
@@ -44,6 +44,7 @@ Feature: Change tracking features
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
     And the response should contain "Tracked changes logs status"
 
+  @wip
   Scenario: As administrator, I can enable the "NextEuropa Tracked Changes" feature
     When I go to "admin/structure/feature-set"
     And I click "Editorial Management"
