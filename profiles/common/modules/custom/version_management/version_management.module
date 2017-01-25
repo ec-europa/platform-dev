@@ -125,7 +125,7 @@ function version_management_node_presave($node) {
   }
   // Skip nodes declared as major release.
   // Careful with errouneous field name.
-  if (isset($node->minor_version) && $node->minor_version) {
+  if (!empty($node->minor_version)) {
     return;
   }
   // Skip nodes of not selected content types.
