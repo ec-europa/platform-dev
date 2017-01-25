@@ -1,4 +1,4 @@
-@api
+@api @wip
 Feature: Editorial workflow - Admin
   In order to control the editorial's functionality
   As an Administrator
