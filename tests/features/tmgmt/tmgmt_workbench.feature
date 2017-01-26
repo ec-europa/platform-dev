@@ -1,4 +1,4 @@
-@api @i18n
+@api
 Feature: TMGMT Workbench features
   In order to request a new translation for moderated content
   As a Translation manager user
@@ -44,7 +44,6 @@ Feature: TMGMT Workbench features
     And I click "Sources"
     Then I should not see "New Editorial team"
 
-#  @run
   Scenario: NEXTEUROPA-9861: Translations requested from a validated revision should be applied to that revision only.
     Given local translator "Translator A" is available
     And I am logged in as a user with the "administrator" role
@@ -88,7 +87,6 @@ Feature: TMGMT Workbench features
     And I click "Français" in the "content" region
     Then I should see "Title in French 1.1"
 
-#  @run
   Scenario: NEXTEUROPA-9861: Translations requested from a published revision should be applied to that revision only.
     Given local translator "Translator A" is available
     And I am viewing a multilingual "page" content:
@@ -111,7 +109,6 @@ Feature: TMGMT Workbench features
     Then I should see "Title in French 2.0"
     And the url should match "(.)*content/title-english-20_fr"
 
-#  @run
   Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the 'administrator' role
