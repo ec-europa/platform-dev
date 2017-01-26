@@ -68,10 +68,7 @@ default:
         sidebar_right: "#sidebar-right"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_scenarios
-      active_image_drivers: upload_pie
-      image_drivers:
-        upload_pie:
-          expire: '1d'
+      active_image_drivers: img42
   formatters:
     {{ behat.formatter.name }}: ~
 
