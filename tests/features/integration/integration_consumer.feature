@@ -1,3 +1,4 @@
+@wip
 @api @integration
 Feature: Integration consumer
   In order to use content from other sources
