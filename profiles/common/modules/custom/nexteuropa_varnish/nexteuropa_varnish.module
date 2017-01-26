@@ -82,7 +82,8 @@ function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
  * Implements hook_workbench_moderation_transition().
  */
 function nexteuropa_varnish_workbench_moderation_transition($node, $previous_state, $new_state) {
-  if (isset($node->is_draft_revision) ? $node->is_draft_revision : FALSE) {
+  $is_draft_revision = isset($node->is_draft_revision) ? $node->is_draft_revision : FALSE;
+  if ($is_draft_revision) {
     return;
   }
 
