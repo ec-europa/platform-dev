@@ -242,6 +242,10 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta1"
+; Issue #2828605: Feature set does not invoke hook_requirements().
+; https://www.drupal.org/node/2828605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
