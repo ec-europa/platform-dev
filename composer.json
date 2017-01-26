@@ -1,17 +1,17 @@
 {
   "require": {
+    "php": ">=5.4.0",
     "drupal/coder": "8.2.6",
-    "drupal/phing-drush-task": "1.0",
-    "drush/drush": ">=8.0.1",
+    "drupal/phingdrushtask": "^1.1",
+    "drupol/phingbehattask": "^1.0",
+    "drush/drush": "8.0.5",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
     "ext-tidy": "^2.0",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
-    "phing/phing": "~2.10",
-    "php": ">=5.4.0",
-    "typhonius/behattask": "1.0",
+    "phing/phing": "~2",
     "wimg/php-compatibility": "~7.0.7"
   },
   "prefer-stable": true,
@@ -22,32 +22,8 @@
   },
   "repositories": [
     {
-      "type": "package",
-      "package": {
-        "name": "drupal/phing-drush-task",
-        "version": "1.0",
-        "source": {
-          "url": "https://git.drupal.org/project/phingdrushtask.git",
-          "type": "git",
-          "reference": "7.x-1.0"
-        },
-        "autoload": { "classmap": [ "DrushTask.php" ] },
-        "include-path": [ "." ]
-      }
-    },
-    {
-      "type": "package",
-      "package": {
-        "name": "typhonius/behattask",
-        "version": "1.0",
-        "source": {
-          "url": "https://gist.github.com/5719e15be9687ff7c138.git",
-          "type": "git",
-          "reference": "0ea666882cba3099dfa4feeb02e1bb85b2c0bde9"
-        },
-        "autoload": { "classmap": [ "BehatTask.php" ] },
-        "include-path": [ "." ]
-      }
+      "type": "vcs",
+      "url": "https://git.drupal.org/project/phingdrushtask.git"
     },
     {
       "type": "package",
