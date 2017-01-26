@@ -592,7 +592,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: />&mywebsite< - My page"
 
-  @javascript
+  @javascript @maximizedwindow
   Scenario: Adding new languages to the ongoing translation request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
