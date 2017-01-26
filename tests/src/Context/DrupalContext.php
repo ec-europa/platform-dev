@@ -129,6 +129,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $node = array_shift($nodes);
     $path = 'node/' . $node->nid;
     cache_clear_all($path, 'cache_path');
+    drupal_static_reset('drupal_lookup_path');
     $path = url($path, ['base_url' => '', 'absolute' => TRUE]);
     // Visit newly created node page.
     $this->visitPath($path);

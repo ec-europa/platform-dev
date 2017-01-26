@@ -127,6 +127,11 @@ Feature:
       | /                 |
       | /all-basic-pages  |
       | /more-basic-pages |
+    When Execute all purge rules
+    And I click "New draft"
+    And I fill in "Title" with "Page title draft"
+    And I press "Save"
+    Then the web front end cache was not instructed to purge any paths
 
   @moderated-content
   Scenario: Withdraw a published page.
@@ -381,6 +386,11 @@ Feature:
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path                                         |
       | /content/frontend-cache-purge-publication_en |
+    When Execute all purge rules
+    And I click "New draft"
+    And I fill in "Title" with "frontend-cache-purge-publication draft"
+    And I press "Save"
+    Then the web front end cache was not instructed to purge any paths
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.

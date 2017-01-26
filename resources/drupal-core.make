@@ -58,3 +58,8 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-doc-theme
 ; https://www.drupal.org/node/980144#comment-11695545 
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-224
 projects[drupal][patch][] = https://www.drupal.org/files/issues/980144-98_0.patch
+
+; Reverting to revisions prior to addition of field translations is broken.
+; https://www.drupal.org/node/1992010 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-495
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-revision-revert-messes-up-field-translation-1992010-31_D7.patch

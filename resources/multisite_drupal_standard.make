@@ -349,8 +349,10 @@ projects[i18nviews][version] = "3.0-alpha1"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
 
-projects[integration][subdir] = "contrib"
-projects[integration][version] = "1.x-dev"
+projects[integration][download][branch] = 7.x-1.x
+projects[integration][download][revision] = fb3cf87
+projects[integration][download][type] = git
+projects[integration][subdir] = contrib
 
 projects[integration_couchdb][subdir] = "contrib"
 projects[integration_couchdb][version] = "1.x-dev"
@@ -760,28 +762,22 @@ projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workben
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
 projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
+projects[drafty][subdir] = "contrib"
+projects[drafty][version] = "1.0-beta3"
+
 projects[workbench_moderation][subdir] = "contrib"
-projects[workbench_moderation][version] = "1.4"
-projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
-projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
-projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
+projects[workbench_moderation][version] = "3.0"
 ; Issue #2360091 View published tab is visible when a published node has a draft.
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
-; Node revision history optimization on large websites.
-; https://www.drupal.org/node/1408838
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
-; Node revision in shutdown function causes error in behat tests
-; https://www.drupal.org/node/2645622
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
-
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
+; Content not accessible after being published - node_access not updated
+; Issue https://www.drupal.org/node/2835937
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.2"
