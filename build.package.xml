@@ -38,7 +38,6 @@
             root="${platform.build.dir}">
             <param>${drupal.make}</param>
             <param>${platform.build.dir}</param>
-            <option name="no-patch-txt"></option>
         </drush>
     </target>
 
@@ -56,7 +55,6 @@
             <param>${platform.build.dir}</param>
             <!-- Increasing the concurrency improves the build time by a factor of 3. -->
             <option name="concurrency">10</option>
-            <option name="no-patch-txt"></option>
             <!-- This option will allow us to build inside an existing folder. -->
             <option name="no-core"></option>
             <!-- Install all contributed projects inside the chosen profile. -->
@@ -163,7 +161,7 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-php-codesniffer, update-htaccess, setup-files-directory" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-php-codesniffer, update-htaccess, setup-files-directory" />
 
     <target
         name="build-platform-dist"
