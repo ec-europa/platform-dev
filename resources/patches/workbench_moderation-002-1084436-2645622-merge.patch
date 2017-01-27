@@ -1,5 +1,5 @@
 diff --git a/workbench_moderation.module b/workbench_moderation.module
-index d1eb572..baf60f2 100644
+index d1eb572..c3921eb 100644
 --- a/workbench_moderation.module
 +++ b/workbench_moderation.module
 @@ -809,8 +809,6 @@ function workbench_moderation_node_update($node) {
@@ -11,14 +11,12 @@ index d1eb572..baf60f2 100644
      // Moderate the node.
      workbench_moderation_moderate($node, $node->workbench_moderation_state_new);
    }
-@@ -1783,7 +1781,9 @@ function workbench_moderation_store($node) {
-   // make sure that the entry in the {node} table points to the current
-   // revision.
-   if (empty($node->workbench_moderation['current']->unpublishing)) {
--    $live_revision = workbench_moderation_node_live_load($node);
-+    $live_revision_loaded = workbench_moderation_node_live_load($node);
-+    $live_revision = clone($live_revision_loaded);
-+    $live_revision->original = $live_revision_loaded;
-     if (empty($live_revision)) {
-       // If for some reason the node was deleted prior to reaching this
-       // function, we no longer need to be concerned with it, so just log a
+@@ -1791,6 +1789,8 @@ function workbench_moderation_store($node) {
+       watchdog('Workbench moderation', 'Failed to save node revision: node was deleted before shutdown function executed.');
+       return;
+     }
++    $live_revision_original = clone($live_revision);
++    $live_revision->original = $live_revision_original;
+     $live_revision->status = 1;
+   }
+   else {
