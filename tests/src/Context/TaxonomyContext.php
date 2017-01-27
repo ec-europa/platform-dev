@@ -75,6 +75,7 @@ class TaxonomyContext implements Context {
     foreach ($this->vocabularies as $vocabulary_name) {
       taxonomy_vocabulary_delete($this->getTaxonomyIdByName($vocabulary_name));
     }
+    $this->vocabularies = array();
   }
 
   /**
