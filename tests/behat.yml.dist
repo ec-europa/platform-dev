@@ -11,8 +11,6 @@ default:
         - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
-        - Drupal\nexteuropa\Context\FieldContext
-        - Drupal\nexteuropa\Context\ContentTypeContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\VariableContext
         - Drupal\nexteuropa\Context\FlickrContext:
