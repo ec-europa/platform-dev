@@ -44,6 +44,7 @@ Feature: Change tracking features
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
     And the response should contain "Tracked changes logs status"
 
+  @wip
   Scenario: As administrator, I can enable the "NextEuropa Tracked Changes" feature
     When I go to "admin/structure/feature-set"
     And I click "Editorial Management"
