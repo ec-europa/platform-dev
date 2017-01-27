@@ -533,7 +533,7 @@ Feature: TMGMT Poetry features
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
 
-  @javascript
+  @javascript @maximizedwindow
   Scenario: Adding new languages to the ongoing translation request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group

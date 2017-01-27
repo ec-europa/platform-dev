@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c976530ebcf46b5ad1a679cdf1b87b6a",
-    "content-hash": "505ec44e2792a7f6153de7611069b8eb",
+    "hash": "7a0f76e50f60cf33c076abfb2507f00d",
+    "content-hash": "68bcfb5d2eb3e726be35c2398f793d99",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -227,63 +227,6 @@
                 "response"
             ],
             "time": "2016-08-06 14:39:51"
-        },
-        {
-            "name": "rych/random",
-            "version": "v0.1.0",
-            "target-dir": "Rych/Random",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rchouinard/rych-random.git",
-                "reference": "c728202f2ba60cf158a711c751979006944c4ec5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rchouinard/rych-random/zipball/c728202f2ba60cf158a711c751979006944c4ec5",
-                "reference": "c728202f2ba60cf158a711c751979006944c4ec5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.4"
-            },
-            "require-dev": {
-                "fabpot/php-cs-fixer": "0.4.*@dev",
-                "phpunit/phpunit": "3.7.*",
-                "satooshi/php-coveralls": "dev-master"
-            },
-            "suggest": {
-                "ext-mcrypt": "*",
-                "ext-openssl": "*"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Rych\\Random": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ryan Chouinard",
-                    "email": "rchouinard@gmail.com",
-                    "homepage": "http://ryanchouinard.com"
-                }
-            ],
-            "description": "Random data generator for PHP",
-            "homepage": "https://github.com/rchouinard/rych-random",
-            "keywords": [
-                "cryptography",
-                "random"
-            ],
-            "time": "2013-11-12 03:36:50"
         }
     ],
     "packages-dev": [
@@ -871,27 +814,29 @@
             "time": "2016-09-16 12:41:25"
         },
         {
-            "name": "bex/behat-screenshot-image-driver-uploadpie",
-            "version": "1.0.1",
+            "name": "bex/behat-screenshot-image-driver-img42",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tkotosz/behat-screenshot-image-driver-uploadpie.git",
-                "reference": "814c6f833721028b1422f69418071b7ea80722e1"
+                "url": "https://github.com/tkotosz/behat-screenshot-image-driver-img42.git",
+                "reference": "c377f9ee4ea1e3e805ca2d7f0f6600414d06578f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tkotosz/behat-screenshot-image-driver-uploadpie/zipball/814c6f833721028b1422f69418071b7ea80722e1",
-                "reference": "814c6f833721028b1422f69418071b7ea80722e1",
+                "url": "https://api.github.com/repos/tkotosz/behat-screenshot-image-driver-img42/zipball/c377f9ee4ea1e3e805ca2d7f0f6600414d06578f",
+                "reference": "c377f9ee4ea1e3e805ca2d7f0f6600414d06578f",
                 "shasum": ""
             },
             "require": {
-                "bex/behat-screenshot": "^1.0",
+                "behat/behat": "^3.0.0",
                 "kriswallsmith/buzz": "^0.15.0",
                 "php": ">=5.4"
             },
             "require-dev": {
                 "behat/mink-selenium2-driver": "^1.3.0",
-                "bex/behat-test-runner": "^1.1",
+                "bex/behat-extension-driver-locator": "*",
+                "bex/behat-screenshot": "*",
+                "bex/behat-test-runner": "*",
                 "jakoch/phantomjs-installer": "^1.9.8",
                 "phpspec/phpspec": "2.4.0-alpha2"
             },
@@ -907,27 +852,21 @@
             ],
             "authors": [
                 {
-                    "name": "Geza Buza",
-                    "email": "bghome@gmail.com",
-                    "homepage": "https://twitter.com/medve540",
-                    "role": "Developer"
-                },
-                {
                     "name": "Tibor Kotosz",
                     "email": "kotosy@gmail.com",
                     "homepage": "https://github.com/tkotosz",
                     "role": "Developer"
                 }
             ],
-            "description": "uploadpie.com image driver for bex/behat-screenshot extension",
-            "homepage": "https://github.com/tkotosz/behat-screenshot-image-driver-uploadpie",
+            "description": "img42.com image driver for bex/behat-screenshot behat extension",
+            "homepage": "https://github.com/tkotosz/behat-screenshot-image-driver-img42",
             "keywords": [
                 "BDD",
                 "Behat",
                 "TDD",
                 "behat-screenshot"
             ],
-            "time": "2015-11-23 11:00:02"
+            "time": "2015-11-13 21:20:29"
         },
         {
             "name": "bovigo/assert",
@@ -1616,6 +1555,63 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "rych/random",
+            "version": "v0.1.0",
+            "target-dir": "Rych/Random",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rchouinard/rych-random.git",
+                "reference": "c728202f2ba60cf158a711c751979006944c4ec5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rchouinard/rych-random/zipball/c728202f2ba60cf158a711c751979006944c4ec5",
+                "reference": "c728202f2ba60cf158a711c751979006944c4ec5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.4"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "0.4.*@dev",
+                "phpunit/phpunit": "3.7.*",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "suggest": {
+                "ext-mcrypt": "*",
+                "ext-openssl": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Rych\\Random": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Chouinard",
+                    "email": "rchouinard@gmail.com",
+                    "homepage": "http://ryanchouinard.com"
+                }
+            ],
+            "description": "Random data generator for PHP",
+            "homepage": "https://github.com/rchouinard/rych-random",
+            "keywords": [
+                "cryptography",
+                "random"
+            ],
+            "time": "2013-11-12 03:36:50"
         },
         {
             "name": "sebastian/comparator",
