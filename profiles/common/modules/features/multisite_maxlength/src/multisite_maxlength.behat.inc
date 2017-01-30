@@ -88,6 +88,7 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
     foreach ($this->fields as $field) {
       field_delete_field($field['field_name']);
     }
+    $this->fields = [];
     field_purge_batch(100);
   }
 

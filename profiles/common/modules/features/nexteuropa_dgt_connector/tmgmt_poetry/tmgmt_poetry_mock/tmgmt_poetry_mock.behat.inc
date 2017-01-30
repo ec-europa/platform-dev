@@ -111,6 +111,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
         variable_set($variable, $initial_value);
       }
     }
+    $this->variables = array();
   }
 
   /**

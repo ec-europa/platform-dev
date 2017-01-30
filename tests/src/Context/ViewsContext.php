@@ -43,6 +43,7 @@ class ViewsContext extends RawDrupalContext {
     foreach ($this->views as $view) {
       views_delete_view($view);
     }
+    $this->views = [];
   }
 
   /**

@@ -120,7 +120,7 @@ behat.browser.name = phantomjs
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
-behat.formatter.name = pretty
+behat.formatter.name = progress
 
 # Enable strict mode in Behat tests. Will only pass if all tests are explicitly
 # passing.
@@ -130,6 +130,11 @@ behat.options.strict = true
 # shows exception backtraces, 3 shows debugging information.
 behat.options.verbosity = 2
 
+# Load balancer Phing task configuration.
+behat.load_balancer.containers = 5
+behat.load_balancer.root = ${behat.dir}
+behat.load_balancer.destination = ${behat.dir}/balancer
+behat.load_balancer.import = ${behat.yml.path}
 
 # PHP CodeSniffer configuration
 # -----------------------------
