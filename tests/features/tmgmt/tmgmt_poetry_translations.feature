@@ -1,6 +1,6 @@
 @api @poetry_mock @i18n @poetry
 Feature: TMGMT Poetry features
-  In order request new translations for nodes with Poetry service.
+  In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator
   I want to be able to create/manage translation requests.
 
@@ -42,7 +42,7 @@ Feature: TMGMT Poetry features
     Then I should see the error message "There was an error with the Poetry request."
     And I should see "Rejected" in the "French" row
     And I should see "Rejected" in the "Italian" row
-    Then I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "cem" role
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -520,18 +520,77 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-    Scenario: Inspect the 'Last change' data of a translation request
-      Given I am logged in as a user with the 'administrator' role
-      And I am viewing a multilingual "page" content:
-        | language | title            | body                    |
-        | en       | Title            | Last change column test |
-      When I click "Translate" in the "primary_tabs" region
-      Then I should see "Last change"
-      When I check the box on the "French" row
-      And I press "Request translation"
-      And I fill in "Date" with a relative date of "+20" days    
-      And I press "Submit to translator"
-      Then I see the date of the last change in the "French" row
+  Scenario: Inspect the 'Last change' data of a translation request
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title            | Last change column test |
+    When I click "Translate" in the "primary_tabs" region
+    Then I should see "Last change"
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    Then I see the date of the last change in the "French" row
+
+  # Deliberately not using a JavaScript enabled browser here, as it will probably
+  # respect the maximum length specified on the input field and automatically
+  # trim any value we fill it with.
+  @cleanup-tmgmt-poetry-website-identifier
+  Scenario: A website identifier longer than 15 characters is not accepted.
+    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
+    And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
+    And I press the "Save translator" button
+    Then I should see the error message "Website identifier cannot be longer than 15 characters"
+
+  @cleanup-tmgmt-poetry-website-identifier
+  Scenario: The website identifier is mandatory.
+    When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
+    And I press the "Save translator" button
+    Then I should see the error message "Website identifier field is required."
+
+  @javascript @cleanup-tmgmt-poetry-website-identifier
+  Scenario: Send translation request including the website identifier.
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And inside fieldset "General settings" I fill in "Website identifier" with "my-website"
+    And I fill in "Callback Password" with "MockCallbackPWD"
+    And I fill in "Poetry Password" with "MockPoetryPWD"
+    And I press the "Save translator" button
+    Then I should see the success message containing "The configuration options have been saved."
+    Given I am logged in as a user with the "administrator" role
+    When I am viewing a multilingual "page" content:
+      | language | title   |
+      | en       | My page |
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: my-website - My page"
+
+  @javascript @cleanup-tmgmt-poetry-website-identifier
+  Scenario: Send translation request including a website identifier with
+  characters that have a special meaning in HTML.
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
+    And I fill in "Callback Password" with "MockCallbackPWD"
+    And I fill in "Poetry Password" with "MockPoetryPWD"
+    And I press the "Save translator" button
+    Then I should see the success message containing "The configuration options have been saved."
+    Given I am logged in as a user with the "administrator" role
+    When I am viewing a multilingual "page" content:
+      | language | title   |
+      | en       | My page |
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    And I store the job reference of the translation request page
+    Then the poetry translation service received the translation request
+    And the translation request has titre "NE-CMS: />&mywebsite< - My page"
 
   @javascript
   Scenario: Adding new languages to the ongoing translation request
@@ -652,7 +711,7 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Refuse" in the "en->fr" row
@@ -668,7 +727,7 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
 
   @javascript
   Scenario: Resending translation request while translation process is ongoing
@@ -685,14 +744,14 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->fr" row
     And I click "Send 'ONG' status" in the "en->it" row
     Then I should see the success message "The status request was sent. Check the translation page."
     When I click "Check the translation page"
-    Then I should not see "Please wait the acceptation translation process before update request."
+    Then I should not see "Please wait for the translation request to be accepted before further update options."
     When I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation update"
@@ -760,3 +819,26 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
+
+  @javascript
+  Scenario Outline: Check not-poetry translator still works with poetry enabled.
+    Given <translatorType> translator "Translator <translatorType>" is available
+    And I am logged in as a user with the 'administrator' role
+    When I go to "node/add/page"
+    And I fill in "Title" with "Test"
+    And I fill in the rich text editor "Body" with "Test."
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I click "Change translator"
+    And I select "Translator <translatorType>" from "Translator"
+    And I press "Submit to translator"
+    Then I should see "<message>"
+
+    Examples:
+      | translatorType   | message                                 |
+      | local            | The translation job has been submitted. |
+      | file             | Exported file can be downloaded here.   |
