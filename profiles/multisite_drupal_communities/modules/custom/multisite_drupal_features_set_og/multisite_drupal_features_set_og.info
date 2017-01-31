@@ -108,7 +108,7 @@ feature_sets[text_collapse][font] = 'multisite-icon-plus-square-o'
 feature_sets[text_collapse][enable][] = text_collapse
 feature_sets[text_collapse][disable][] = text_collapse
 
-; Information to user
+; Information to users
 feature_sets[feed_rss_core][title] = 'Press Releases'
 feature_sets[feed_rss_core][description] = 'Display a block on your homepage with EU Press Releases Information.'
 feature_sets[feed_rss_core][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/CYfhAg'
@@ -120,7 +120,6 @@ feature_sets[feed_rss_core][enable][] = aggregator
 feature_sets[feed_rss_core][disable][] = feed_rss_core
 feature_sets[feed_rss_core][disable][] = aggregator
 
-; Information to user
 feature_sets[multisite_activity_communities][title] = 'Site activity'
 feature_sets[multisite_activity_communities][description] = 'Display activity of your site.'
 feature_sets[multisite_activity_communities][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/kC7wB'
@@ -187,6 +186,33 @@ feature_sets[nexteuropa_notices][icon] = ''
 feature_sets[nexteuropa_notices][font] = 'multisite-icon-bubble2'
 feature_sets[nexteuropa_notices][enable][] = nexteuropa_notices
 feature_sets[nexteuropa_notices][disable][] = nexteuropa_notices
+
+feature_sets[nexteuropa_geofield][title] = 'GIS field'
+feature_sets[nexteuropa_geofield][description] = 'Allow web masters to manage geoJSON data in a field with an interactive map as widget.'
+feature_sets[nexteuropa_geofield][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/GIS+field+-+documentation'
+feature_sets[nexteuropa_geofield][category] = 'Information to users'
+feature_sets[nexteuropa_geofield][icon] = ''
+feature_sets[nexteuropa_geofield][font] = 'multisite-icon-location'
+feature_sets[nexteuropa_geofield][enable][] = nexteuropa_geofield
+feature_sets[nexteuropa_geofield][disable][] = nexteuropa_geofield
+
+; Integration
+feature_sets[nexteuropa_integration][title] = 'Integration'
+feature_sets[nexteuropa_integration][description] = 'Provides common NextEuropa backend settings and schemas used by the Integration module.'
+feature_sets[nexteuropa_integration][documentation] = 'https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Integration+Layer'
+feature_sets[nexteuropa_integration][category] = 'Integration'
+feature_sets[nexteuropa_integration][icon] = ''
+feature_sets[nexteuropa_integration][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_integration][enable][] = nexteuropa_integration
+feature_sets[nexteuropa_integration][disable][] = nexteuropa_integration
+
+feature_sets[nexteuropa_varnish][title] = 'Rule-based web frontend cache purging'
+feature_sets[nexteuropa_varnish][description] = 'Define rules to trigger granular purging of the web frontend caches'
+feature_sets[nexteuropa_varnish][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/aJBcCg'
+feature_sets[nexteuropa_varnish][category] = 'Integration'
+feature_sets[nexteuropa_varnish][font] = 'multisite-icon-spinner11'
+feature_sets[nexteuropa_varnish][enable][] = nexteuropa_varnish
+feature_sets[nexteuropa_varnish][disable][] = nexteuropa_varnish
 
 ; Media
 feature_sets[e_library_og][title] = 'E-Library'
@@ -281,6 +307,15 @@ feature_sets[splash_screen][icon] = ''
 feature_sets[splash_screen][font] = 'multisite-icon-publish'
 feature_sets[splash_screen][enable][] = splash_screen
 feature_sets[splash_screen][disable][] = splash_screen
+
+feature_sets[nexteuropa_dgt_connector][title] = 'Nexteuropa DGT Connector'
+feature_sets[nexteuropa_dgt_connector][description] = 'Provides services to send translations to DGT.'
+feature_sets[nexteuropa_dgt_connector][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/README.md'
+feature_sets[nexteuropa_dgt_connector][category] = 'Multilingualism'
+feature_sets[nexteuropa_dgt_connector][icon] = ''
+feature_sets[nexteuropa_dgt_connector][font] = 'multisite-icon-share'
+feature_sets[nexteuropa_dgt_connector][enable][] = nexteuropa_dgt_connector
+feature_sets[nexteuropa_dgt_connector][disable][] = nexteuropa_dgt_connector
 
 ; Navigation
 feature_sets[fat_footer][title] = 'Fat footer'
@@ -381,3 +416,13 @@ feature_sets[multisite_business_indicators_community][icon] = ''
 feature_sets[multisite_business_indicators_community][font] = 'multisite-icon-stats'
 feature_sets[multisite_business_indicators_community][enable][] = multisite_business_indicators_community
 feature_sets[multisite_business_indicators_community][disable][] = multisite_business_indicators_community
+
+; NextEuropa Tracked Changes
+feature_sets[nexteuropa_trackedchanges][title] = 'WYSIWYG Tracked Changes'
+feature_sets[nexteuropa_trackedchanges][description] = 'Provides editorial teams with change tracking capabilities in WYSIWYG.'
+feature_sets[nexteuropa_trackedchanges][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/ayXFCg'
+feature_sets[nexteuropa_trackedchanges][category] = 'Editorial Management'
+feature_sets[nexteuropa_trackedchanges][icon] = ''
+feature_sets[nexteuropa_trackedchanges][font] = 'multisite-icon-eye'
+feature_sets[nexteuropa_trackedchanges][enable][] = nexteuropa_trackedchanges
+feature_sets[nexteuropa_trackedchanges][disable][] = nexteuropa_trackedchanges
