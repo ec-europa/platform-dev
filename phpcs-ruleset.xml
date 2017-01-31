@@ -43,8 +43,9 @@
     <exclude-pattern>profiles/common/themes/ec_resp_20/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/</exclude-pattern>
     <exclude-pattern>build/vendor/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/europa</exclude-pattern>
 
-    <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
+<!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_*.inc</exclude-pattern>
