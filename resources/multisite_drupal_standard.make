@@ -760,7 +760,6 @@ projects[workbench_email][patch][] = patches/workbench_email-revert_feature_erro
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
 projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
-projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
 ; Issue #2360091 View published tab is visible when a published node has a draft.
@@ -775,7 +774,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/2645622
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
-
+; Doesn't handle file attachments
+; We need to merge the changes in the drupal.org ticket with the previous patch because they change the same line
+; https://www.drupal.org/node/1084436
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-592
+projects[workbench_moderation][patch][] = patches/workbench_moderation-002-1084436-2645622-merge.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
