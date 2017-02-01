@@ -147,17 +147,6 @@ projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entit
 projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
 
-projects[css_injector][subdir] = "contrib"
-projects[css_injector][version] = "1.10"
-; Allow file upload with css injector
-; https://www.drupal.org/node/2506775
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
-; Unnecessary DB query and cache_set when rules are empty
-; https://www.drupal.org/node/2759319
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12128
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
-
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.11"
 
@@ -369,14 +358,6 @@ projects[jquery_update][version] = "2.7"
 ; Issue #2621436: Allow permissions to granted roles.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7825
 projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
-
-projects[js_injector][subdir] = "contrib"
-projects[js_injector][version] = "2.1"
-; Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
-; https://www.drupal.org/node/1820210
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
-projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
-projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of-js-file.patch
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
