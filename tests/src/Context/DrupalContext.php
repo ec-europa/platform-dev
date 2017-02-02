@@ -111,7 +111,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @BeforeScenario
    */
   public function rememberCurrentModules() {
-    $this->defaultModules = module_list();
+    $this->defaultEnabledModules = module_list();
   }
 
   /**
@@ -133,6 +133,8 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       } while (!empty($keys));
 
       $this->defaultEnabledModules = array();
+      // Clearing the caches to remove mdoules related data from them.
+      drupal_flush_all_caches();
     }
   }
 
@@ -142,42 +144,36 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * @param string $module_name
    *   The module to uninstall.
    *
-   * @return bool
-   *   Returns TRUE if the module and its dependent modules have been
-   *   uninstalled;
-   *
    * @throws \Exception
    *   If the uninstall failed because of problem with a dependency.
    */
   private function uninstallModuleWithDependents($module_name) {
     if (isset($this->defaultEnabledModules[$module_name])) {
       // If the module was already active before the scenario,
-      // The process does not run longer.
-      return FALSE;
+      // The process cannot not run longer because something is abnormal in
+      // the module dependencies.
+      throw new \Exception(sprintf('The "%s" Module uninstall failed because of a dependency problem', $module_name));
     }
 
     if ($module_name && module_exists($module_name)) {
       $module_data = system_rebuild_module_data();
       if (isset($module_data[$module_name])) {
         $module_info = $module_data[$module_name];
+        // First treating dependent modules that have been activated with this
+        // module.
         if (!empty($module_info->required_by)) {
           $dependents = array_keys($module_info->required_by);
           foreach ($dependents as $dependent) {
-            if (!$this->uninstallModuleWithDependents($dependent)) {
-              return FALSE;
-            }
+            $this->uninstallModuleWithDependents($dependent);
           }
         }
+        // Then, Disabling and uninstalling the currently treated module.
         module_disable(array($module_name));
         if (!drupal_uninstall_modules(array($module_name))) {
           throw new \Exception(sprintf('The "%s" Module uninstall failed because of a dependency problem', $module_name));
         }
       }
-      else {
-        return FALSE;
-      }
     }
-    return TRUE;
   }
 
   /**
