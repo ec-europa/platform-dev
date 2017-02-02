@@ -8,11 +8,19 @@
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext;
+use Behat\Gherkin\Node\TableNode;
 
 /**
  * Provides step definitions for interacting with Drupal.
  */
 class DrupalContext extends DrupalExtensionDrupalContext {
+
+  /**
+   * List of modules to enable.
+   *
+   * @var array
+   */
+  protected $modulesForTest = array();
 
   /**
    * The last node id before a scenario starts.
@@ -95,6 +103,66 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       entity_delete_multiple('node', array_keys($all_nodes_after));
     }
     unset($this->maxNodeId);
+  }
+
+  /**
+   * Disabled and uninstall modules.
+   *
+   * @AfterScenario
+   */
+  public function cleanModule() {
+    if (!empty($this->modulesForTest)) {
+      // Disable and uninstall any modules that were enabled.
+      module_disable($this->modulesForTest);
+      drupal_uninstall_modules($this->modulesForTest);
+      $this->modulesForTest = array();
+    }
+  }
+
+  /**
+   * Enables one or more modules.
+   *
+   * Provide modules data in the following format:
+   *
+   * | modules  |
+   * | blog     |
+   * | book     |
+   *
+   * @param TableNode $modules_table
+   *   The table listing modules.
+   *
+   * @return bool
+   *   Always returns TRUE.
+   *
+   * @throws \Exception
+   *   Thrown when a module does not exist.
+   *
+   * @Given the/these module/modules is/are enabled
+   */
+  public function enableModule(TableNode $modules_table) {
+    $rebuild = FALSE;
+    $message = array();
+    foreach ($modules_table->getHash() as $row) {
+      if (!module_exists($row['modules'])) {
+        if (!module_enable($row)) {
+          $message[] = $row['modules'];
+        }
+        else {
+          $this->modulesForTest[] = $row['modules'];
+          $rebuild = TRUE;
+        }
+      }
+    }
+
+    if (!empty($message)) {
+      throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
+    }
+    else {
+      if ($rebuild) {
+        drupal_flush_all_caches();
+      }
+      return TRUE;
+    }
   }
 
 }

@@ -21,13 +21,6 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
-   * List of modules to enable.
-   *
-   * @var array
-   */
-  protected $modules = array();
-
-  /**
    * List of feature sets to enable.
    *
    * @var array
@@ -129,66 +122,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function assertElementType(NodeElement $element, $type) {
     if ($element->getTagName() !== $type) {
       throw new ExpectationException("The element is not a '$type'' field.", $this->getSession());
-    }
-  }
-
-  /**
-   * Disabled and uninstall modules.
-   *
-   * @AfterScenario
-   */
-  public function cleanModule() {
-    if (!empty($this->modules)) {
-      // Disable and uninstall any modules that were enabled.
-      module_disable($this->modules);
-      drupal_uninstall_modules($this->modules);
-      $this->modules = array();
-    }
-  }
-
-  /**
-   * Enables one or more modules.
-   *
-   * Provide modules data in the following format:
-   *
-   * | modules  |
-   * | blog     |
-   * | book     |
-   *
-   * @param TableNode $modules_table
-   *   The table listing modules.
-   *
-   * @return bool
-   *   Always returns TRUE.
-   *
-   * @throws \Exception
-   *   Thrown when a module does not exist.
-   *
-   * @Given the/these module/modules is/are enabled
-   */
-  public function enableModule(TableNode $modules_table) {
-    $rebuild = FALSE;
-    $message = array();
-    foreach ($modules_table->getHash() as $row) {
-      if (!module_exists($row['modules'])) {
-        if (!module_enable($row)) {
-          $message[] = $row['modules'];
-        }
-        else {
-          $this->modules[] = $row['modules'];
-          $rebuild = TRUE;
-        }
-      }
-    }
-
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
-    }
-    else {
-      if ($rebuild) {
-        drupal_flush_all_caches();
-      }
-      return TRUE;
     }
   }
 
