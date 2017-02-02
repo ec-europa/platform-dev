@@ -116,12 +116,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
   if ($entity_type == 'node') {
     $node = $form_state['entity'];
     if (workbench_moderation_node_moderated($node)) {
-      // If the tmgmt_poetry module is disabled remove possibility to select
-      // multiple languages and by doing that follow the default tmgmt path.
-      if (!module_exists('tmgmt_poetry')) {
-        $form['languages']['#multiple'] = FALSE;
-      }
-
       $states = array_values(_tmgmt_workbench_available_states());
       $state = $node->workbench_moderation['current']->state;
       $translation_possible = in_array($state, $states, 'strict');
