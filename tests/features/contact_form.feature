@@ -12,8 +12,6 @@ Feature: Contact Form
       | contact_form |
     When I am on "contact"
     Then I should see "Contact - European Commission" in the "title" tag
-    When I fill in "Your name" with "Chuck"
-    And I fill in "Your e-mail address" with "chuck.norris@improbabledommainname.com"
     And I fill in "Subject" with "Complaint"
     And I fill in "Message" with "I am not happy with this contact page"
     And I press the "Send message" button
@@ -29,8 +27,6 @@ Feature: Contact Form
       | contact_form |
     When I am on "contact"
     Then I should see "Contact - European Commission" in the "title" tag
-    When I fill in "Your name" with "Chuck"
-    And I fill in "Your e-mail address" with "chuck.norris@improbabledommainname.com"
     And I fill in "Subject" with "Complaint"
     And I fill in "Message" with "I am not happy with this contact page"
     And I press the "Send message" button
