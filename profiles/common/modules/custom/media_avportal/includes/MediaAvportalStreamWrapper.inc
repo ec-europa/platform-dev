@@ -49,7 +49,6 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
    * Implements getVideoInformation().
    */
   private function getVideoInformation() {
-
     $parts = $this->get_parameters();
     $video_id = check_plain($parts['v']);
 
@@ -63,15 +62,13 @@ class MediaAvportalStreamWrapper extends MediaReadOnlyStreamWrapper {
       else {
         $url = 'http://ec.europa.eu/avservices/cfc/video.cfc?method=getVideoDetails&ref=' . $video_id . '&format=json';
         $response = drupal_http_request($url);
-        if ($response->data == 200) {
+
+        if (!isset($response->error)) {
           $video_info = drupal_json_decode($response->data);
           cache_set('av_video_' . $video_id, $video_info, 'cache');
         }
         else {
-          $video_info = array(
-            'TITLE' => t('!!! ERROR !!! retrieving the video title'),
-            'THUMB' => t('none'),
-          );
+          throw new Exception("Error Processing Request. (Error: {$response->code}, {$response->error})");
         }
       }
     }
