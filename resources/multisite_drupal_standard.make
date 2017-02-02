@@ -240,7 +240,7 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta2"
+projects[feeds][version] = "2.0-beta3"
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
