@@ -241,6 +241,10 @@ projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-beta2"
+; Issue #2828605: feeds_system_info_alter() can triggers "The following module has moved within the file system".
+; https://www.drupal.org/node/2828605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
