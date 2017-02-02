@@ -20,7 +20,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *
    * @var array
    */
-  protected $defaultModules = array();
+  protected $defaultEnabledModules = array();
 
   /**
    * The last node id before a scenario starts.
@@ -121,7 +121,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    */
   public function cleanModule() {
     $current_enabled_list = module_list(TRUE);
-    $diff_modules_list = array_diff($current_enabled_list, $this->defaultModules);
+    $diff_modules_list = array_diff($current_enabled_list, $this->defaultEnabledModules);
     if (!empty($diff_modules_list)) {
       // Disable and uninstall any modules that were enabled.
       $keys = array_keys($diff_modules_list);
@@ -132,7 +132,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
         unset($diff_modules_list[$key]);
       } while (!empty($keys));
 
-      $this->defaultModules = array();
+      $this->defaultEnabledModules = array();
     }
   }
 
@@ -150,7 +150,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *   If the uninstall failed because of problem with a dependency.
    */
   private function uninstallModuleWithDependents($module_name) {
-    if (isset($this->defaultModules[$module_name])) {
+    if (isset($this->defaultEnabledModules[$module_name])) {
       // If the module was already active before the scenario,
       // The process does not run longer.
       return FALSE;
