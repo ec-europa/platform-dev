@@ -16,11 +16,11 @@ use Behat\Gherkin\Node\TableNode;
 class DrupalContext extends DrupalExtensionDrupalContext {
 
   /**
-   * List of modules to enable.
+   * List of modules enabled before the scenario.
    *
    * @var array
    */
-  protected $modulesForTest = array();
+  protected $defaultModules = array();
 
   /**
    * The last node id before a scenario starts.
@@ -106,17 +106,78 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   }
 
   /**
+   * Remember the list of active modules.
+   *
+   * @BeforeScenario
+   */
+  public function rememberCurrentModules() {
+    $this->defaultModules = module_list();
+  }
+
+  /**
    * Disabled and uninstall modules.
    *
    * @AfterScenario
    */
   public function cleanModule() {
-    if (!empty($this->modulesForTest)) {
+    $current_enabled_list = module_list(TRUE);
+    $diff_modules_list = array_diff($current_enabled_list, $this->defaultModules);
+    if (!empty($diff_modules_list)) {
       // Disable and uninstall any modules that were enabled.
-      module_disable($this->modulesForTest);
-      drupal_uninstall_modules($this->modulesForTest);
-      $this->modulesForTest = array();
+      $keys = array_keys($diff_modules_list);
+      do {
+        $key = array_pop($keys);
+        $module_to_treat = $diff_modules_list[$key];
+        $this->uninstallModuleWithDependents($module_to_treat);
+        unset($diff_modules_list[$key]);
+      } while (!empty($keys));
+
+      $this->defaultModules = array();
     }
+  }
+
+  /**
+   * Uninstall a module by uninstalling first its dependent modules.
+   *
+   * @param string $module_name
+   *   The module to uninstall.
+   *
+   * @return bool
+   *   Returns TRUE if the module and its dependent modules have been
+   *   uninstalled;
+   *
+   * @throws \Exception
+   *   If the uninstall failed because of problem with a dependency.
+   */
+  private function uninstallModuleWithDependents($module_name) {
+    if (isset($this->defaultModules[$module_name])) {
+      // If the module was already active before the scenario,
+      // The process does not run longer.
+      return FALSE;
+    }
+
+    if ($module_name && module_exists($module_name)) {
+      $module_data = system_rebuild_module_data();
+      if (isset($module_data[$module_name])) {
+        $module_info = $module_data[$module_name];
+        if (!empty($module_info->required_by)) {
+          $dependents = array_keys($module_info->required_by);
+          foreach ($dependents as $dependent) {
+            if (!$this->uninstallModuleWithDependents($dependent)) {
+              return FALSE;
+            }
+          }
+        }
+        module_disable(array($module_name));
+        if (!drupal_uninstall_modules(array($module_name))) {
+          throw new \Exception(sprintf('The "%s" Module uninstall failed because of a dependency problem', $module_name));
+        }
+      }
+      else {
+        return FALSE;
+      }
+    }
+    return TRUE;
   }
 
   /**
@@ -148,7 +209,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
           $message[] = $row['modules'];
         }
         else {
-          $this->modulesForTest[] = $row['modules'];
           $rebuild = TRUE;
         }
       }
