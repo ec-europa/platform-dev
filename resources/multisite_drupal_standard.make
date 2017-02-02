@@ -240,7 +240,7 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta2"
+projects[feeds][version] = "2.0-beta3"
 ; Issue #2828605: feeds_system_info_alter() can triggers "The following module has moved within the file system".
 ; https://www.drupal.org/node/2828605
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
