@@ -97,15 +97,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Remove pending translations in a scenario tagged with @poetry.
-   *
-   * @AfterScenario @poetry
-   */
-  public function removePendingTranslations() {
-    PoetryMock::removeAllRequestTranslationFiles();
-  }
-
-  /**
    * Verifies that poetry received the last translation request.
    *
    * @Then the poetry translation service received the translation request

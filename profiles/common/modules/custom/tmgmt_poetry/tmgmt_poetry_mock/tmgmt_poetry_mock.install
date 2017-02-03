@@ -47,4 +47,6 @@ function tmgmt_poetry_mock_uninstall() {
   if (isset($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);
   }
+  // Cleans file table of mock related files.
+  file_unmanaged_delete_recursive(TMGMT_POETRY_MOCK_REQUESTS_PATH);
 }
