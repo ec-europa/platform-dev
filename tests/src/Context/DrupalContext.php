@@ -128,12 +128,17 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       do {
         $key = array_pop($keys);
         $module_to_treat = $diff_modules_list[$key];
+        // Why passing by a custom recursive process instead of just using
+        // "module_disable" and "drupal_uninstall_modules"?
+        // Because of the order of execution of them for each modules;
+        // in some cases, the process ends up with some modules that are still
+        // enabled while they have to.
         $this->uninstallModuleWithDependents($module_to_treat);
         unset($diff_modules_list[$key]);
       } while (!empty($keys));
 
       $this->defaultEnabledModules = array();
-      // Clearing the caches to remove mdoules related data from them.
+      // Clearing the caches to remove modules related data from them.
       drupal_flush_all_caches();
     }
   }
@@ -152,7 +157,12 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       // If the module was already active before the scenario,
       // The process cannot not run longer because something is abnormal in
       // the module dependencies.
-      throw new \Exception(sprintf('The "%s" Module uninstall failed because of a dependency problem', $module_name));
+      throw new \Exception(
+        sprintf(
+          'The "%s" Module uninstall failed because of a potential bidirectional dependency problem. ',
+          $module_name
+        )
+      );
     }
 
     if ($module_name && module_exists($module_name)) {
@@ -168,9 +178,16 @@ class DrupalContext extends DrupalExtensionDrupalContext {
           }
         }
         // Then, Disabling and uninstalling the currently treated module.
-        module_disable(array($module_name));
-        if (!drupal_uninstall_modules(array($module_name))) {
-          throw new \Exception(sprintf('The "%s" Module uninstall failed because of a dependency problem', $module_name));
+        // The 2nd parameter is set to FALSe to avoid making useless treatments
+        // that are already foreseen in this recursive process.
+        module_disable(array($module_name), FALSE);
+        if (!drupal_uninstall_modules(array($module_name), FALSE)) {
+          throw new \Exception(
+            sprintf(
+              'The "%s" Module uninstall failed because of a dependency problem',
+              $module_name
+            )
+          );
         }
       }
     }
