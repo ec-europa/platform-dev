@@ -178,10 +178,8 @@ class DrupalContext extends DrupalExtensionDrupalContext {
           }
         }
         // Then, Disabling and uninstalling the currently treated module.
-        // The 2nd parameter is set to FALSe to avoid making useless treatments
-        // that are already foreseen in this recursive process.
-        module_disable(array($module_name), FALSE);
-        if (!drupal_uninstall_modules(array($module_name), FALSE)) {
+        module_disable(array($module_name));
+        if (!drupal_uninstall_modules(array($module_name))) {
           throw new \Exception(
             sprintf(
               'The "%s" Module uninstall failed because of a dependency problem',

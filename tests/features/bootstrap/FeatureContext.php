@@ -177,12 +177,17 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function cleanFeatureSet() {
     if (!empty($this->featureSets)) {
+      $rebuild = FALSE;
       // Disable and uninstall any feature set that were enabled.
       foreach ($this->featureSets as $featureset) {
         if (isset($featureset['disable'])) {
           $featureset['uninstall'] = $featureset['disable'];
           feature_set_disable_feature_set($featureset);
+          $rebuild = TRUE;
         }
+      }
+      if ($rebuild) {
+        drupal_flush_all_caches();
       }
       $this->featureSets = array();
     }
