@@ -165,28 +165,27 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       );
     }
 
-    if ($module_name && module_exists($module_name)) {
-      $module_data = system_rebuild_module_data();
-      if (isset($module_data[$module_name])) {
-        $module_info = $module_data[$module_name];
-        // First treating dependent modules that have been activated with this
-        // module.
-        if (!empty($module_info->required_by)) {
-          $dependents = array_keys($module_info->required_by);
-          foreach ($dependents as $dependent) {
-            $this->uninstallModuleWithDependents($dependent);
-          }
+    $module_data = system_rebuild_module_data();
+    if (isset($module_data[$module_name])) {
+      $module_info = $module_data[$module_name];
+      // First treating dependent modules that have been activated with this
+      // module.
+      if (!empty($module_info->required_by)) {
+        $dependents = array_keys($module_info->required_by);
+        foreach ($dependents as $dependent) {
+          $this->uninstallModuleWithDependents($dependent);
         }
-        // Then, Disabling and uninstalling the currently treated module.
-        module_disable(array($module_name));
-        if (!drupal_uninstall_modules(array($module_name))) {
-          throw new \Exception(
-            sprintf(
-              'The "%s" Module uninstall failed because of a dependency problem',
-              $module_name
-            )
-          );
-        }
+
+      }
+      // Then, Disabling and uninstalling the currently treated module.
+      module_disable(array($module_name));
+      if (!drupal_uninstall_modules(array($module_name))) {
+        throw new \Exception(
+          sprintf(
+            'The "%s" Module uninstall failed because of a dependency problem',
+            $module_name
+          )
+        );
       }
     }
   }
