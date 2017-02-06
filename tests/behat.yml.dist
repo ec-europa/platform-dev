@@ -5,6 +5,7 @@ default:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
         - FeatureContext
+        - Drupal\nexteuropa\Context\ModuleContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
@@ -20,7 +21,6 @@ default:
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_port: {{ varnish.server.port }}
-        - Drupal\nexteuropa\Context\ModuleContext
       filters:
         tags: "~@wip&&~@communities"
   extensions:

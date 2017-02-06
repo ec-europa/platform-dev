@@ -147,7 +147,7 @@ class ModuleContext extends RawDrupalContext {
    * @AfterScenario
    */
   public function cleanModule() {
-    $current_enabled_list = module_list(TRUE);
+    $current_enabled_list = module_list();
     $diff_modules_list = array_diff($current_enabled_list, $this->defaultEnabledModules);
     if (!empty($diff_modules_list)) {
       // Disable and uninstall any modules that were enabled.
@@ -155,13 +155,17 @@ class ModuleContext extends RawDrupalContext {
       do {
         $key = array_pop($keys);
         $module_to_treat = $diff_modules_list[$key];
-        print_r('Treated diff item: ' . $module_to_treat);
         // Why passing by a custom recursive process instead of just using
         // "module_disable" and "drupal_uninstall_modules"?
         // Because of the order of execution of them for each modules;
         // in some cases, the process ends up with some modules that are still
         // enabled while they have to.
-        $this->uninstallModuleWithDependents($module_to_treat);
+        if (
+          module_exists($module_to_treat)
+          && (drupal_get_installed_schema_version($module_to_treat) != SCHEMA_UNINSTALLED)
+        ) {
+          $this->uninstallModuleWithDependents($module_to_treat);
+        }
         unset($diff_modules_list[$key]);
       } while (!empty($keys));
 
@@ -195,26 +199,22 @@ class ModuleContext extends RawDrupalContext {
 
     $module_data = system_rebuild_module_data();
     if (isset($module_data[$module_name])) {
-      $module_info = $module_data[$module_name];
-      // First treating dependent modules that have been activated with this
-      // module.
-      if (!empty($module_info->required_by)) {
-        $dependents = array_keys($module_info->required_by);
-        foreach ($dependents as $dependent) {
-          $this->uninstallModuleWithDependents($dependent);
-        }
+      if (module_exists($module_name)) {
+        $module_info = $module_data[$module_name];
+        // First treating dependent modules that have been activated with this
+        // module.
+        if (!empty($module_info->required_by)) {
+          $dependents = array_keys($module_info->required_by);
+          foreach ($dependents as $dependent) {
+            $this->uninstallModuleWithDependents($dependent);
+          }
 
+        }
+        // Then, Disabling the module.
+        module_disable(array($module_name));
       }
-      // Then, Disabling and uninstalling the currently treated module.
-      module_disable(array($module_name));
-      if (!drupal_uninstall_modules(array($module_name))) {
-        throw new \Exception(
-          sprintf(
-            'The "%s" Module uninstall failed because of a dependency problem',
-            $module_name
-          )
-        );
-      }
+      // Ensure that it is correctly uninstalled.
+      drupal_uninstall_modules(array($module_name));
     }
   }
 
