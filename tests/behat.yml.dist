@@ -4,8 +4,8 @@ default:
       contexts:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
-        - FeatureContext
         - Drupal\nexteuropa\Context\ModuleContext
+        - FeatureContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
