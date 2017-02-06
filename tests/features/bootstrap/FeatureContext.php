@@ -21,13 +21,6 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
-   * List of feature sets to enable.
-   *
-   * @var array
-   */
-  protected $featureSets = array();
-
-  /**
    * Checks that a 403 Access Denied error occurred.
    *
    * @Then I should get an access denied error
@@ -122,74 +115,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   public function assertElementType(NodeElement $element, $type) {
     if ($element->getTagName() !== $type) {
       throw new ExpectationException("The element is not a '$type'' field.", $this->getSession());
-    }
-  }
-
-  /**
-   * Enables one or more Feature Set(s).
-   *
-   * Provide feature set names in the following format:
-   *
-   * | featureSet  |
-   * | Events      |
-   * | Links       |
-   *
-   * @param TableNode $featureset_table
-   *   The table listing feature set titles.
-   *
-   * @Given the/these featureSet/FeatureSets is/are enabled
-   */
-  public function enableFeatureSet(TableNode $featureset_table) {
-    $rebuild = FALSE;
-    $message = array();
-    $featuresets = feature_set_get_featuresets();
-    foreach ($featureset_table->getHash() as $row) {
-      foreach ($featuresets as $featureset_available) {
-        if ($featureset_available['title'] == $row['featureSet'] &&
-        feature_set_status($featureset_available) === FEATURE_SET_DISABLED) {
-          if (feature_set_enable_feature_set($featureset_available)) {
-            $this->featureSets[] = $featureset_available;
-            $rebuild = TRUE;
-          }
-          else {
-            $message[] = $row['featureSet'];
-          }
-        }
-      }
-    }
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
-    }
-    else {
-      if ($rebuild) {
-        drupal_flush_all_caches();
-      }
-      return TRUE;
-    }
-  }
-
-  /**
-   * Disables one or more Feature Set(s).
-   *
-   * Disable any Feature Set that were enabled during Feature test.
-   *
-   * @AfterScenario
-   */
-  public function cleanFeatureSet() {
-    if (!empty($this->featureSets)) {
-      $rebuild = FALSE;
-      // Disable and uninstall any feature set that were enabled.
-      foreach ($this->featureSets as $featureset) {
-        if (isset($featureset['disable'])) {
-          $featureset['uninstall'] = $featureset['disable'];
-          feature_set_disable_feature_set($featureset);
-          $rebuild = TRUE;
-        }
-      }
-      if ($rebuild) {
-        drupal_flush_all_caches();
-      }
-      $this->featureSets = array();
     }
   }
 
