@@ -75,7 +75,7 @@ Feature: Multilingual features
       | language | title                                       |
       | en       | Path aliases are not deleted in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-de"
+    And I check the box on the "German" row
     And I press the "Request translation" button
     And I select "Translator A" from "Translator"
     And I press the "Submit to translator" button
@@ -103,7 +103,7 @@ Feature: Multilingual features
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-de"
+    And I check the box on the "German" row
     And I press the "Request translation" button
     And I select "Translator A" from "Translator"
     And I press the "Submit to translator" button

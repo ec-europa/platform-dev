@@ -144,7 +144,7 @@ Feature: TMGMT Workbench features
     And I press "Save"
     And I click "Translate" in the "primary_tabs" region
     Then I should see the text "The current piece of content's moderation state is: draft"
-    And I should see the text "This content cannot be translated."
+    And I should see the text "Current moderation state does not allow to request a translation for this content."
     And I should not see the text "Please end up the active translation process before creating a new request."
     When I click "Moderate" in the "primary_tabs" region
     And I select "Validated" from "state"
