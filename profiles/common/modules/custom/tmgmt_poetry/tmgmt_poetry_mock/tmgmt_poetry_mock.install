@@ -43,10 +43,18 @@ function tmgmt_poetry_mock_install() {
  * Implements hook_uninstall().
  */
 function tmgmt_poetry_mock_uninstall() {
-  $translator = tmgmt_translator_load('tmgmt_poetry_test_translator');
-
-  if (isset($translator)) {
-    entity_delete('tmgmt_translator', $translator->tid);
+  // Delete the tmgmt_poetry_test_translator.
+  // Note tmgmt_translator_load is not stable in uninstall cases.
+  // That is why we pass by EntityFieldQuery.
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'tmgmt_translator')
+    ->propertyCondition('name', 'tmgmt_poetry_test_translator')
+    ->execute();
+  if (!empty($result['tmgmt_translator'])) {
+    $controller = entity_get_controller('tmgmt_translator');
+    // Since the entity controller handles the deletion of the attached
+    // entities (messages, job items) we just need to invoke it directly.
+    $controller->delete(array_keys($result['tmgmt_translator']));
   }
 
   // Clean translation jobs related to the tmgmt_poetry_test_translator.
@@ -75,6 +83,5 @@ function tmgmt_poetry_mock_uninstall() {
       file_delete($file);
     }
   }
-  drupal_rmdir(TMGMT_POETRY_MOCK_REQUESTS_PATH);
 
 }
