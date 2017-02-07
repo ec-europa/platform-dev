@@ -35,7 +35,7 @@ Feature: Contact Form
       | Your message has been sent. |
 
   @javascript
-  Scenario: Administrator user can submit the contact page
+  Scenario: Logged in users are not able to edit their name and email.
     Given I am logged in as a user with the administrator role
     And the module is enabled
       | modules      |
