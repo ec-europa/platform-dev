@@ -63,11 +63,18 @@ function tmgmt_poetry_mock_uninstall() {
   }
 
   // Cleans Mock files.
-  file_unmanaged_delete_recursive(TMGMT_POETRY_MOCK_REQUESTS_PATH);
-
-  // Cleans file table of mock related files.
-  db_delete('file_managed')
-    ->condition('filemime', 'application/xml', '=')
-    ->condition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
+  $field_query = new EntityFieldQuery();
+  $file_fids = $field_query->entityCondition('entity_type', 'file')
+    ->propertyCondition('filemime', 'application/xml', '=')
+    ->propertyCondition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
     ->execute();
+  if (isset($file_fids['file'])) {
+    $fids = array_keys($file_fids['file']);
+    $files = file_load_multiple($fids);
+    foreach ($files as $file) {
+      file_delete($file);
+    }
+  }
+  drupal_rmdir(TMGMT_POETRY_MOCK_REQUESTS_PATH);
+
 }
