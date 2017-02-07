@@ -34,4 +34,12 @@ Feature: Contact Form
       | success messages              |
       | Your message has been sent. |
 
-
+  @javascript
+  Scenario: Administrator user can submit the contact page
+    Given I am logged in as a user with the administrator role
+    And the module is enabled
+      | modules      |
+      | contact_form |
+    When I am on "contact"
+    Then I should not see an "Your e-mail address" text form element
+    Then I should not see an "Your name" text form element
