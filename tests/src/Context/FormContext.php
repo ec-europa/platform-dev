@@ -7,11 +7,12 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Mink\Exception\ElementNotFoundException;
+use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
  * Form context.
  */
-class FormContext extends DrupalContext {
+class FormContext extends RawDrupalContext {
 
   /**
    * Checks, that form element with specified label is visible on page.
