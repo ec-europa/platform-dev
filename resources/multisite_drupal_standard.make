@@ -192,7 +192,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.8"
 
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][version] = "1.0-beta5"
