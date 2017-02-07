@@ -70,6 +70,9 @@ class ModuleContext extends RawDrupalContext {
    * @param TableNode $modules_table
    *   The table listing modules.
    *
+   * @return bool
+   *   It always returns true; otherwise it throws an exception.
+   *
    * @throws \Exception
    *   Thrown when a module does not exist.
    *
@@ -77,10 +80,14 @@ class ModuleContext extends RawDrupalContext {
    */
   public function enableModule(TableNode $modules_table) {
     $message = array();
+    $rebuild = FALSE;
     foreach ($modules_table->getHash() as $row) {
       if (!module_exists($row['modules'])) {
         if (!module_enable($row)) {
           $message[] = $row['modules'];
+        }
+        else {
+          $rebuild = TRUE;
         }
       }
     }
@@ -89,8 +96,10 @@ class ModuleContext extends RawDrupalContext {
       throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
     }
 
-    drupal_flush_all_caches();
-
+    if ($rebuild) {
+      drupal_flush_all_caches();
+    }
+    return TRUE;
   }
 
   /**
@@ -104,6 +113,9 @@ class ModuleContext extends RawDrupalContext {
    *
    * @param TableNode $featureset_table
    *   The table listing feature set titles.
+   *
+   * @return bool
+   *   It always returns true; otherwise it throws an exception.
    *
    * @throws \Exception
    *   It is thrown if one of the modules of the featureset is not enabled.
@@ -136,6 +148,7 @@ class ModuleContext extends RawDrupalContext {
     if ($rebuild) {
       drupal_flush_all_caches();
     }
+    return TRUE;
   }
 
   /**
