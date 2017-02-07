@@ -34,6 +34,8 @@ function news_og_views_default_views_alter(&$views) {
     );
 
     $handler = $view->display['page']->handler;
+
+    $handler->display->display_options['path'] = 'news';
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
     $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
