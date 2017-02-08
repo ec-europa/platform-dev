@@ -18,6 +18,6 @@ Feature: Drupal Mail features
     Then I should see the success message "Further instructions have been sent to your e-mail address."
     And the e-mail has been sent
     And the sent e-mail has the following properties:
-      | from        | admin@example.com                                     |
-      | to          | foo@bar.com                                           |
+      | from        | admin@example.com                                   |
+      | to          | foo@bar.com                                         |
       | subject     | Replacement login information for foo at NextEuropa |
