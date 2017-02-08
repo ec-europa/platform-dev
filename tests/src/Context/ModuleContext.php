@@ -28,8 +28,7 @@ class ModuleContext extends RawDrupalContext {
    * @BeforeScenario
    */
   public function rememberDefaultEnabledModules() {
-    registry_rebuild();
-    drupal_theme_rebuild();
+    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
     $this->defaultEnabledModules = module_list(TRUE);
   }
 
