@@ -35,10 +35,9 @@ class ModuleContext extends RawDrupalContext {
    * @BeforeScenario
    */
   public function rememberDefaultEnabledModules() {
-    drupal_flush_all_caches();
     registry_rebuild();
     drupal_theme_rebuild();
-    $this->defaultEnabledModules = module_list();
+    $this->defaultEnabledModules = module_list(TRUE);
   }
 
   /**
@@ -80,17 +79,25 @@ class ModuleContext extends RawDrupalContext {
    * @Given the/these module/modules is/are enabled
    */
   public function enableModule(TableNode $modules_table) {
+    $cache_flushing = FALSE;
     $message = array();
     foreach ($modules_table->getHash() as $row) {
       if (!module_exists($row['modules'])) {
         if (!module_enable($row)) {
           $message[] = $row['modules'];
         }
+        else {
+          $cache_flushing = TRUE;
+        }
       }
     }
 
     if (!empty($message)) {
       throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
+    }
+
+    if ($cache_flushing) {
+      drupal_flush_all_caches();
     }
 
     return TRUE;
@@ -118,6 +125,7 @@ class ModuleContext extends RawDrupalContext {
    * @Given the/these featureSet/FeatureSets is/are enabled
    */
   public function enableFeatureSet(TableNode $featureset_table) {
+    $cache_flushing = FALSE;
     $message = array();
     $featuresets = feature_set_get_featuresets();
     foreach ($featureset_table->getHash() as $row) {
@@ -127,6 +135,7 @@ class ModuleContext extends RawDrupalContext {
         ) {
           if (feature_set_enable_feature_set($featureset_available)) {
             $this->testActivatedFeatureSets[] = $featureset_available;
+            $cache_flushing = TRUE;
           }
           else {
             $message[] = $row['featureSet'];
@@ -136,6 +145,10 @@ class ModuleContext extends RawDrupalContext {
     }
     if (!empty($message)) {
       throw new \Exception(sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
+    }
+
+    if ($cache_flushing) {
+      drupal_flush_all_caches();
     }
 
     return TRUE;
