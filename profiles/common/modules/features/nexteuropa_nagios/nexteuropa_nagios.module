@@ -96,7 +96,7 @@ function _nexteuropa_nagios_check_performance_variable($arguments) {
     'text' => t('@variable_name variable is set to @state', array(
       '@variable_name' => $arguments['title'],
       '@state' => intval($state),
-      )
+    )
     ),
   );
 
