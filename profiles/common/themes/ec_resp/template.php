@@ -1996,3 +1996,31 @@ function _ec_resp_nexteuropa_multilingual_language_list_column($languages, $path
 
   return $content;
 }
+
+/**
+ * Implements hook_preprocess_container().
+ *
+ * It preprocesses the container thme in order to inject
+ * theme_hook_suggestions.
+ */
+function ec_resp_preprocess_container(&$variables) {
+  $element = $variables['element'];
+  $suggestion = 'container';
+  $variables['theme_hook_suggestions'][] = $suggestion;
+  if (!empty($element['#entity_type'])) {
+    $suggestion .= '__' . $element['#entity_type'];
+    $variables['theme_hook_suggestions'][] = $suggestion;
+  }
+  if (!empty($element['#bundle'])) {
+    $suggestion .= '__' . $element['#bundle'];
+    $variables['theme_hook_suggestions'][] = $suggestion;
+  }
+  if (!empty($element['#view_mode'])) {
+    $hook_suggestions = $variables['theme_hook_suggestions'];
+    $suffix = '__' . $element['#view_mode'];
+    foreach ($hook_suggestions as $hook_suggestion) {
+      $variables['theme_hook_suggestions'][] = $hook_suggestion . $suffix;
+    }
+  }
+
+}
