@@ -21,13 +21,6 @@ class ModuleContext extends RawDrupalContext {
    */
   protected $defaultEnabledModules = array();
 
-  /**
-   * List of feature sets to enable during the scenario.
-   *
-   * @var array
-   */
-  protected $testActivatedFeatureSets = array();
-
 
   /**
    * Remember the list of enabled module before executing a scenario.
@@ -135,7 +128,6 @@ class ModuleContext extends RawDrupalContext {
           feature_set_status($featureset_available) === FEATURE_SET_DISABLED
         ) {
           if (feature_set_enable_feature_set($featureset_available)) {
-            $this->testActivatedFeatureSets[] = $featureset_available;
             $cache_flushing = TRUE;
           }
           else {
@@ -153,32 +145,6 @@ class ModuleContext extends RawDrupalContext {
     }
 
     return TRUE;
-  }
-
-  /**
-   * Disables one or more Feature Set(s).
-   *
-   * Disable any Feature Set that were enabled during Feature test.
-   *
-   * @AfterScenario
-   */
-  public function cleanFeatureSet() {
-    if (!empty($this->testActivatedFeatureSets)) {
-      $cache_flushing = FALSE;
-      // Disable and uninstall any feature set that were enabled.
-      foreach ($this->testActivatedFeatureSets as $featureset) {
-        if (isset($featureset['disable'])) {
-          $featureset['uninstall'] = $featureset['disable'];
-          feature_set_disable_feature_set($featureset);
-          $cache_flushing = TRUE;
-        }
-      }
-
-      if ($cache_flushing) {
-        drupal_flush_all_caches();
-      }
-      $this->testActivatedFeatureSets = array();
-    }
   }
 
 }
