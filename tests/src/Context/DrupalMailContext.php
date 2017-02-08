@@ -94,10 +94,10 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
   /**
    * Verifies that Drupal internal mail handler received the mail.
    *
-   * @Then the internal mail handler received the mail
+   * @Then the e-mail has been sent
    */
   public function assertInternalMailHandlerReceivedTheMail() {
-    $captured_mail = self::getCapturedMail();
+    $captured_mail = $this->getCapturedMail();
 
     if (empty($captured_mail)) {
       throw new \Exception('The Drupal internal mail handler did not receive any mail.');
@@ -109,7 +109,7 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
   /**
    * Assert the properties in the captured mail.
    *
-   * @Then the captured mail has the following properties:
+   * @Then the sent e-mail has the following properties:
    */
   public function assertCapturedMailHasTheFollowingProperties(TableNode $table) {
     $this->assertCapturedMail();
