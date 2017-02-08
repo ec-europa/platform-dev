@@ -1,4 +1,4 @@
-@api @wip
+@api
 Feature: Event features
   In order programm events
   As a citizen of the European Union
