@@ -1,0 +1,313 @@
+<?php
+/**
+ * @file
+ * Code for the Nexteuropa Nagios feature.
+ */
+
+include_once 'nexteuropa_nagios.features.inc';
+
+/**
+ * @file
+ * Code for the NextEuropa Nagios integration module.
+ */
+
+/**
+ * Implements hook_nagios_info().
+ */
+function nexteuropa_nagios_nagios_info() {
+  return array(
+    'name'   => 'NextEuropa',
+    'id'     => 'NECMS',
+  );
+}
+
+/**
+ * Implements hook_nagios_settings().
+ */
+function nexteuropa_nagios_nagios_settings() {
+  foreach (_nexteuropa_nagios_checks() as $check => $arguments) {
+    $var = 'nexteuropa_nagios_check_' . $check;
+    $form[$var] = array(
+      '#type'          => 'checkbox',
+      '#title'         => $arguments['title'],
+      '#default_value' => variable_get($var, TRUE),
+      '#description' => $arguments['description'],
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_nagios().
+ */
+function nexteuropa_nagios_nagios() {
+  $status = array();
+  foreach (_nexteuropa_nagios_checks() as $check => $arguments) {
+    if (variable_get('nexteuropa_nagios_check_' . $check, TRUE)) {
+      $result = _nexteuropa_nagios_check_performance_variable($arguments);
+      $status[$result['key']] = $result['data'];
+    }
+  }
+  return $status;
+}
+
+/**
+ * Checks available in the NextEuropa Nagios module.
+ */
+function _nexteuropa_nagios_checks() {
+  return array(
+    'page_cache' => array(
+      'title' => t('Page caching'),
+      'description' => t('Check if the site caches pages for anonymous users'),
+      'variable_name' => 'cache',
+      'nagios_key' => 'PCACHE',
+    ),
+    'block_cache' => array(
+      'title' => t('Block cache'),
+      'description' => t('Check if the site caches blocks'),
+      'variable_name' => 'block_cache',
+      'nagios_key' => 'BCACHE',
+    ),
+    'css_aggregation' => array(
+      'title' => t('Optimize CSS files'),
+      'description' => t('Check if the site aggregates and compresses CSS files'),
+      'variable_name' => 'preprocess_css',
+      'nagios_key' => 'CSSCOMP',
+    ),
+    'js_aggregation' => array(
+      'title' => t('Optimize JavaScript files'),
+      'description' => t('Check if the site aggregates JS files'),
+      'variable_name' => 'preprocess_js',
+      'nagios_key' => 'JSCOMP',
+    ),
+  );
+}
+
+/**
+ * Checks for the value of a performance variable in the site.
+ */
+function _nexteuropa_nagios_check_performance_variable($arguments) {
+  // Check status of the css compression setting.
+  $state = variable_get($arguments['variable_name'], 0);
+
+  $data = array(
+    'status' => ($state ? NAGIOS_STATUS_OK : NAGIOS_STATUS_WARNING),
+    'type' => 'state',
+    'text' => t('@variable_name variable is set to @state', array(
+      '@variable_name' => $arguments['title'],
+      '@state' => intval($state),
+      )
+    ),
+  );
+
+  return array(
+    'key' => $arguments['nagios_key'],
+    'data' => $data,
+  );
+}
+
+
+/**
+ * Callback for the nagios status page.
+ */
+function _nexteuropa_nagios_status_page() {
+
+  // Make sure this page is not cached.
+  drupal_page_is_cacheable(FALSE);
+
+  $args = func_get_args();
+  // Module to run checks for.
+  $module = array_shift($args);
+  // ID to run checks for.
+  $id = array_shift($args);
+
+  header("Pragma: no-cache");
+  header("Expires: 0");
+
+  $codes = nagios_status();
+
+  // Check the unique ID string and access permissions first.
+  $ua = variable_get('nagios_ua', '');
+  $request_code = $_SERVER['HTTP_USER_AGENT'];
+
+  // Check if HTTP GET variable "unique_id" is used and the usage is allowed.
+  if (isset($_GET['unique_id'])) {
+    if (variable_get('nagios_enable_status_page_get', FALSE) == TRUE) {
+      $request_code = $_GET['unique_id'];
+    }
+  }
+
+  // Check if Nagios is requesting a single module.
+  if (isset($_GET['module'])) {
+    $module = $_GET['module'];
+  }
+
+  // Check if Nagios is requesting a single variable.
+  if (isset($_GET['variable'])) {
+    $requested_variable = $_GET['variable'];
+  }
+
+  if (user_access('administer site configuration') || ($request_code == $ua)) {
+    // Authorized so calling other modules.
+    if (!empty($module)) {
+      // A specific module has been requested.
+      $nagios_data = array();
+      $nagios_data[$module] = module_invoke($module, 'nagios', $id);
+    }
+    else {
+      $nagios_data = nagios_invoke_all('nagios');
+    }
+  }
+  else {
+    // This is not an authorized unique id or uer
+    // so just return this default status.
+    $output = "\n" . 'nagios=' . $codes[NAGIOS_STATUS_UNKNOWN] . ':Unauthorized';
+    echo $output;
+    exit();
+  }
+
+  // Initiate output.
+  $output = "\n";
+
+  // If no specific variable is requested, find the global status.
+  if (empty($requested_variable)) {
+    // Find the highest level to be the overall status.
+    $severity = NAGIOS_STATUS_OK;
+    $min_severity = variable_get('nagios_min_report_severity', NAGIOS_STATUS_WARNING);
+
+    foreach ($nagios_data as $module_name => $module_data) {
+      foreach ($module_data as $key => $value) {
+        if (is_array($value) && array_key_exists('status', $value) && $value['status'] >= $min_severity) {
+          $severity = max($severity, $value['status']);
+        }
+      }
+    }
+
+    // Identifier that we check on the other side.
+    $output = $output . 'nagios=' . $codes[$severity];
+  }
+
+  // If Nagios is requesting a variable from a module
+  // get the variable directly.
+  if (!empty($module) && !empty($requested_variable)) {
+    if (isset($nagios_data[$module][$requested_variable])) {
+      $requested_data = $nagios_data[$module][$requested_variable];
+    }
+    else {
+      $requested_data = array(
+        'status' => NAGIOS_STATUS_UNKNOWN,
+        'type'   => 'state',
+        'text'   => t('Unknown variable'),
+      );
+    }
+    $output .= 'nagios=' . $codes[$requested_data['status']] . ',' . _nexteuropa_nagios_format_state_result($requested_variable, $requested_data) . "\n";
+  }
+  else {
+    foreach ($nagios_data as $module_name => $module_data) {
+      $output_state = array();
+      $output_perf  = array();
+      if (!empty($requested_variable)) {
+        if (isset($module_data[$requested_variable])) {
+          $requested_data = $module_data[$requested_variable];
+          switch ($requested_data['type']) {
+            case 'state':
+              $output .= 'nagios=' . $codes[$requested_data['status']] . ',' . _nexteuropa_nagios_format_state_result($requested_variable, $requested_data) . "\n";
+              break;
+
+            case 'perf':
+              $output .= 'nagios=' . $codes[NAGIOS_STATUS_OK] . ',' . $requested_variable . '=' . $requested_data['text'] . "\n";
+              break;
+          }
+        }
+      }
+      else {
+        foreach ($module_data as $key => $value) {
+          switch ($value['type']) {
+            case 'state':
+              $output_state[] = _nexteuropa_nagios_format_state_result($key, $value);
+              break;
+
+            case 'perf':
+              $output_perf[]  = $key . '=' . $value['text'];
+              break;
+          }
+        }
+        if (!empty($output_state)) {
+          $output .= ' , ' . implode(', ', $output_state);
+        }
+        if (!empty($output_perf)) {
+          $output .= ' , ' . implode(', ', $output_perf);
+        }
+      }
+    }
+  }
+
+  $output .= "\n";
+  echo $output;
+
+  // Exit early so we do not cache the data
+  // nor do we wrap the result in a theme.
+  exit();
+}
+
+
+/**
+ * Function to format Nagios checks of state type.
+ */
+function _nexteuropa_nagios_format_state_result($key, $value) {
+  $codes = nagios_status();
+  $min_severity = variable_get('nagios_min_report_severity', NAGIOS_STATUS_WARNING);
+  // If status is larger then minimum severity.
+  if ($value['status'] >= $min_severity) {
+    $formated_result = $key . ':' . $codes[$value['status']];
+  }
+  else {
+    $formated_result = $key . ':' . $codes[NAGIOS_STATUS_OK];
+  }
+  if (!empty($value['text'])) {
+    $formated_result .= '=' . $value['text'];
+  }
+
+  if (
+    variable_get('nagios_show_outdated_names', TRUE) &&
+    $key == 'ADMIN' &&
+    $value['text'] == 'Module and theme update status'
+    ) {
+    $tmp_projects = update_calculate_project_data(update_get_projects());
+    $nagios_ignored_modules = variable_get('nagios_ignored_modules', array());
+    $outdated_count = 0;
+    foreach ($tmp_projects as $projkey => $projval) {
+      if (!isset($nagios_ignored_modules[$projkey])) {
+        if ($projval['status'] < UPDATE_CURRENT && $projval['status'] >= UPDATE_NOT_SECURE) {
+          switch ($projval['status']) {
+            case UPDATE_NOT_SECURE:
+              $tmp_projstatus = t('NOT SECURE');
+              break;
+
+            case UPDATE_REVOKED:
+              $tmp_projstatus = t('REVOKED');
+              break;
+
+            case UPDATE_NOT_SUPPORTED:
+              $tmp_projstatus = t('NOT SUPPORTED');
+              break;
+
+            case UPDATE_NOT_CURRENT:
+              $tmp_projstatus = t('NOT CURRENT');
+              break;
+
+            default:
+              $tmp_projstatus = $projval['status'];
+          }
+          $tmp_modules .= ' ' . $projkey . ':' . $tmp_projstatus;
+          $outdated_count++;
+        }
+      }
+    }
+    if ($outdated_count > 0) {
+      $tmp_modules = trim($tmp_modules);
+      $formated_result .= " ($tmp_modules)";
+    }
+  }
+  return $formated_result;
+}

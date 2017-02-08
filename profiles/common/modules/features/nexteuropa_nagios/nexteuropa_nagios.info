@@ -1,0 +1,12 @@
+name = Nexteuropa Nagios
+description = Integration with the Nagios monitoring tool.
+core = 7.x
+package = NextEuropa
+dependencies[] = ctools
+dependencies[] = nagios
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = nagios_enable_status_page
+features[variable][] = nagios_page_callback
+features[variable][] = nagios_page_path
