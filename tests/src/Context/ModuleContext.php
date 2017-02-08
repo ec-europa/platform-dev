@@ -37,7 +37,8 @@ class ModuleContext extends RawDrupalContext {
   public function rememberDefaultEnabledModules() {
     drupal_flush_all_caches();
     registry_rebuild();
-    $this->defaultEnabledModules = module_list(TRUE);
+    drupal_theme_rebuild();
+    $this->defaultEnabledModules = module_list();
   }
 
   /**
@@ -79,25 +80,17 @@ class ModuleContext extends RawDrupalContext {
    * @Given the/these module/modules is/are enabled
    */
   public function enableModule(TableNode $modules_table) {
-    $rebuild = FALSE;
     $message = array();
     foreach ($modules_table->getHash() as $row) {
       if (!module_exists($row['modules'])) {
         if (!module_enable($row)) {
           $message[] = $row['modules'];
         }
-        else {
-          $rebuild = TRUE;
-        }
       }
     }
 
     if (!empty($message)) {
       throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
-    }
-
-    if ($rebuild) {
-      drupal_flush_all_caches();
     }
 
     return TRUE;
@@ -125,7 +118,6 @@ class ModuleContext extends RawDrupalContext {
    * @Given the/these featureSet/FeatureSets is/are enabled
    */
   public function enableFeatureSet(TableNode $featureset_table) {
-    $rebuild = FALSE;
     $message = array();
     $featuresets = feature_set_get_featuresets();
     foreach ($featureset_table->getHash() as $row) {
@@ -135,7 +127,6 @@ class ModuleContext extends RawDrupalContext {
         ) {
           if (feature_set_enable_feature_set($featureset_available)) {
             $this->testActivatedFeatureSets[] = $featureset_available;
-            $rebuild = TRUE;
           }
           else {
             $message[] = $row['featureSet'];
@@ -145,10 +136,6 @@ class ModuleContext extends RawDrupalContext {
     }
     if (!empty($message)) {
       throw new \Exception(sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
-    }
-
-    if ($rebuild) {
-      drupal_flush_all_caches();
     }
 
     return TRUE;
