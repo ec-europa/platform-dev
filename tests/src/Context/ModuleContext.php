@@ -53,6 +53,7 @@ class ModuleContext extends RawDrupalContext {
     if ($modules_diff) {
       module_disable($modules_diff);
       drupal_uninstall_modules($modules_diff);
+      drupal_flush_all_caches();
     }
 
     $this->defaultEnabledModules = array();
@@ -163,12 +164,18 @@ class ModuleContext extends RawDrupalContext {
    */
   public function cleanFeatureSet() {
     if (!empty($this->testActivatedFeatureSets)) {
+      $cache_flushing = FALSE;
       // Disable and uninstall any feature set that were enabled.
       foreach ($this->testActivatedFeatureSets as $featureset) {
         if (isset($featureset['disable'])) {
           $featureset['uninstall'] = $featureset['disable'];
           feature_set_disable_feature_set($featureset);
+          $cache_flushing = TRUE;
         }
+      }
+
+      if ($cache_flushing) {
+        drupal_flush_all_caches();
       }
       $this->testActivatedFeatureSets = array();
     }
