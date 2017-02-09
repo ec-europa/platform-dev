@@ -9,7 +9,7 @@ namespace Drupal\nexteuropa\Context;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
-use function bovigo\assert\predicate\isTrue;
+use function bovigo\assert\predicate\isFalse;
 use function bovigo\assert\predicate\isEmpty;
 
 /**
@@ -57,18 +57,14 @@ class ModuleContext extends RawDrupalContext {
   public function restoreInitialState() {
     if (!empty($this->initialModuleList)) {
       $list_after = module_list(TRUE);
-      $lists_diff = array_values(
-        array_merge(
-          array_diff($this->initialModuleList, $list_after),
-          array_diff($list_after, $this->initialModuleList)
-        )
-      );
+      $lists_diff = array_diff($list_after, $this->initialModuleList);
       if (!empty($lists_diff)) {
         module_disable($lists_diff);
+        drupal_uninstall_modules($lists_diff);
         drupal_flush_all_caches();
         module_list(TRUE);
         foreach ($lists_diff as $module) {
-          assert(module_exists($module), isTrue(), "Module {$module} could not be uninstalled.");
+          assert(module_exists($module), isFalse(), "Module {$module} could not be uninstalled.");
         }
       }
       $this->initialModuleList = array();
@@ -96,6 +92,7 @@ class ModuleContext extends RawDrupalContext {
    * @Given the/these featureSet/FeatureSets is/are enabled
    */
   public function enableFeatureSet(TableNode $table) {
+    $this->initialModuleList = module_list(TRUE);
     $cache_flushing = FALSE;
     $message = array();
     $sets = feature_set_get_featuresets();
