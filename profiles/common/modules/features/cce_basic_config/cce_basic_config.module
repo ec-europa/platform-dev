@@ -9,6 +9,8 @@ include_once 'cce_basic_config.helpers.inc';
 include_once 'cce_basic_config.features.inc';
 include_once 'cce_basic_config.file_default_displays.inc';
 include_once 'cce_basic_config.default_password_policy.inc';
+include_once dirname(__FILE__) . '/includes/cce_basic_config.formatters.inc';
+include_once dirname(__FILE__) . '/themes/cce_basic_config.theme.inc';
 
 /**
  * Implements hook_menu_alter().
@@ -324,4 +326,57 @@ function cce_basic_config_tmgmt_dgt_html_filter_formats_containing_html() {
     'filtered_html',
     'full_html',
   );
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * It defines a new variable to the video media theme managing the
+ * video player.
+ */
+function cce_basic_config_theme_registry_alter(&$theme_registry) {
+  // Add Cookie Consent support theming and preprocess for supported filetypes.
+  foreach (array(
+    'media_youtube',
+    'media_vimeo',
+    'media_dailymotion',
+    'media_avportal',
+  ) as $module) {
+    if (module_exists($module)) {
+      // Override the location of supported Media providers template files.
+      $theme_registry[$module . '_video']['variables']['no_wrapper'] = FALSE;
+
+      // Add our preprocess function to the bottom.
+      $theme_registry[$module . '_video']['preprocess functions'][] = 'cce_basic_preprocess_common_file_video';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_container().
+ *
+ * It preprocesses the container theme in order to inject
+ * theme_hook_suggestions.
+ */
+function cce_basic_config_preprocess_container(&$variables) {
+  $element = $variables['element'];
+  $suggestion = 'container';
+
+  if (!empty($element['#entity_type'])) {
+    $suggestion .= '__' . $element['#entity_type'];
+    $variables['theme_hook_suggestions'][] = $suggestion;
+  }
+
+  if (!empty($element['#bundle'])) {
+    $suggestion .= '__' . $element['#bundle'];
+    $variables['theme_hook_suggestions'][] = $suggestion;
+  }
+
+  if (!empty($element['#view_mode'])) {
+    $hook_suggestions = $variables['theme_hook_suggestions'];
+    $suffix = '__' . $element['#view_mode'];
+    foreach ($hook_suggestions as $hook_suggestion) {
+      $variables['theme_hook_suggestions'][] = $hook_suggestion . $suffix;
+    }
+  }
 }

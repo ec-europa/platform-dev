@@ -1,10 +1,11 @@
 <?php
 /**
  * @file
- * Template file for theme('media_dailymotion_video').
+ * Alter template file for theme('media_dailymotion_video').
  *
  * Variables available:
- *  $uri - The uri to the Dailymotion video i.e dailymotion://video_id/xsy7x8c9.
+ *  $uri - The uri to the Dailymotion video, such as
+ *  dailymotion://video_id/xsy7x8c9.
  *  $video_id - The unique identifier of the Dailymotion video.
  *  $width - The width to render.
  *  $height - The height to render.
@@ -20,9 +21,9 @@
 ?>
 <?php if (!$no_wrapper): ?>
   <div class="media-dailymotion-outer-wrapper" id="media-dailymotion-<?php print $id; ?>" style="width: <?php print $width; ?>px; height: <?php print $height; ?>px;">
-  <div class="media-dailymotion-preview-wrapper" id="<?php print $wrapper_id; ?>">
+    <div class="media-dailymotion-preview-wrapper" id="<?php print $wrapper_id; ?>">
 <?php endif; ?>
-    <iframe frameborder="0" width="<?php print $width; ?>" height="<?php print $height; ?>" src="<?php print $ec_embedded_video_url; ?>"></iframe>
+    <?php print $output; ?>
 <?php if (!$no_wrapper): ?>
     </div>
   </div>

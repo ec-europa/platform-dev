@@ -1,13 +1,10 @@
 <?php
-
 /**
  * @file
- * Media_avportal/includes/themes/media-avportal-video.tpl.php.
- *
- * Template file for theme('media_avportal_video').
+ * Alter template file for theme('media_youtube_video').
  *
  * Variables available:
- *  $uri - The media uri for the YouTube video (e.g., avportal://v/xsy7x8c9).
+ *  $uri - The media uri for the YouTube video (e.g., youtube://v/xsy7x8c9).
  *  $video_id - The unique identifier of the YouTube video (e.g., xsy7x8c9).
  *  $id - The file entity ID (fid).
  *  $url - The full url including query options for the Youtube iframe.
@@ -19,19 +16,14 @@
  *  $title - The Media: YouTube file's title.
  *  $alternative_content - Text to display for browsers that don't support
  *  iframes.
- *  $no_wrapper - Flag determining if the video related tags must be embedded in
+ *  $no_wrapper - Flag deterining if the video related tags must be embedded in
  *  the container.
  */
 ?>
-<iframe 
-    width="<?php print $width; ?>" 
-    height="<?php print $height; ?>" frameborder="0" allowfullscreen="" mozallowfullscreen="" webkitallowfullscreen="" 
-    id="videoplayer<?php print $video_id; ?>" scrolling="no" 
-    src="<?php print $ec_embedded_video_url ?>">
-</iframe>
-
-<?php if(!empty($language_switcher)) : ?>
-<div class="language-switcher">
-<?php print $language_switcher; ?>
-</div>
-<?php endif; ?>
+<?php if (!$no_wrapper): ?>
+  <div class="<?php print $classes; ?> media-youtube-<?php print $id; ?>">
+<?php endif ?>
+  <iframe class="media-youtube-player" <?php print $api_id_attribute; ?>width="<?php print $width; ?>" height="<?php print $height; ?>" title="<?php print $title; ?>" src="<?php print $url; ?>" frameborder="0" allowfullscreen><?php print $alternative_content; ?></iframe>
+<?php if (!$no_wrapper): ?>
+  </div>
+<?php endif ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Template to display an document field value inside a WYSIWYG field.
+ * Template to display an document file value inside a WYSIWYG field.
  *
  * It diverts from the file_entity one by displaying the value without any
  * additional DIV container.
