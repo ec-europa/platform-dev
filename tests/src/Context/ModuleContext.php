@@ -83,9 +83,6 @@ class ModuleContext extends RawDrupalContext {
    * @param TableNode $table
    *   The table listing feature set titles.
    *
-   * @return bool
-   *   It always returns true; otherwise it throws an exception.
-   *
    * @throws \Exception
    *   It is thrown if one of the modules of the feature set is not enabled.
    *
@@ -93,28 +90,19 @@ class ModuleContext extends RawDrupalContext {
    */
   public function enableFeatureSet(TableNode $table) {
     $this->initialModuleList = module_list(TRUE);
-    $cache_flushing = FALSE;
     $message = array();
     $sets = feature_set_get_featuresets();
     foreach ($table->getHash() as $row) {
       foreach ($sets as $set) {
         if ($set['title'] == $row['featureSet'] && feature_set_status($set) === FEATURE_SET_DISABLED) {
-          if (feature_set_enable_feature_set($set)) {
-            $cache_flushing = TRUE;
-          }
-          else {
+          if (!feature_set_enable_feature_set($set)) {
             $message[] = $row['featureSet'];
           }
         }
       }
     }
     assert($message, isEmpty(), sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
-
-    if ($cache_flushing) {
-      drupal_flush_all_caches();
-    }
-
-    return TRUE;
+    drupal_flush_all_caches();
   }
 
 }
