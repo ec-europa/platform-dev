@@ -28,6 +28,9 @@ class ModuleContext extends RawDrupalContext {
    * @BeforeScenario
    */
   public function rememberDefaultEnabledModules() {
+    drupal_flush_all_caches();
+    drupal_flush_all_caches();
+    drupal_flush_all_caches();
     $this->defaultEnabledModules = module_list();
   }
 
