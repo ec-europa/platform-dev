@@ -8,6 +8,9 @@ namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\isTrue;
+use function bovigo\assert\predicate\isEmpty;
 
 /**
  * Context with module, feature and feature_set management.
@@ -15,61 +18,23 @@ use Behat\Gherkin\Node\TableNode;
 class ModuleContext extends RawDrupalContext {
 
   /**
-   * List of modules enabled before the scenario.
+   * Initial module list to restore at the end of the test.
    *
    * @var array
    */
-  protected $defaultEnabledModules = array();
-
-
-  /**
-   * Remember the list of enabled module before executing a scenario.
-   *
-   * @BeforeScenario
-   */
-  public function rememberDefaultEnabledModules() {
-    drupal_flush_all_caches();
-    drupal_flush_all_caches();
-    drupal_flush_all_caches();
-    $this->defaultEnabledModules = module_list();
-  }
-
-  /**
-   * Disabled and uninstall modules.
-   *
-   * @AfterScenario
-   */
-  public function cleanModule() {
-    $after_scenario_modules = module_list(TRUE);
-
-    $modules_diff = array_diff($after_scenario_modules, $this->defaultEnabledModules);
-
-    if ($modules_diff) {
-      module_disable($modules_diff, FALSE);
-      if (!drupal_uninstall_modules($modules_diff, FALSE)) {
-        throw new \Exception(sprintf('The following modules has not been correctly uninstalled: %s.', implode(', ', $modules_diff)));
-      }
-      drupal_flush_all_caches();
-
-    }
-
-    $this->defaultEnabledModules = array();
-  }
+  protected $initialModuleList = array();
 
   /**
    * Enables one or more modules.
    *
    * Provide modules data in the following format:
    *
-   * | modules  |
-   * | blog     |
-   * | book     |
+   * | modules |
+   * | blog    |
+   * | book    |
    *
    * @param TableNode $modules_table
    *   The table listing modules.
-   *
-   * @return bool
-   *   It always returns true; otherwise it throws an exception.
    *
    * @throws \Exception
    *   Thrown when a module does not exist.
@@ -77,28 +42,37 @@ class ModuleContext extends RawDrupalContext {
    * @Given the/these module/modules is/are enabled
    */
   public function enableModule(TableNode $modules_table) {
-    $cache_flushing = FALSE;
-    $message = array();
+    $this->initialModuleList = module_list(TRUE);
     foreach ($modules_table->getHash() as $row) {
-      if (!module_exists($row['modules'])) {
-        if (!module_enable($row)) {
-          $message[] = $row['modules'];
-        }
-        else {
-          $cache_flushing = TRUE;
+      module_enable([$row['modules']]);
+    }
+    drupal_flush_all_caches();
+  }
+
+  /**
+   * Restores the initial values of the Drupal variables.
+   *
+   * @AfterScenario
+   */
+  public function restoreInitialState() {
+    if (!empty($this->initialModuleList)) {
+      $list_after = module_list(TRUE);
+      $lists_diff = array_values(
+        array_merge(
+          array_diff($this->initialModuleList, $list_after),
+          array_diff($list_after, $this->initialModuleList)
+        )
+      );
+      if (!empty($lists_diff)) {
+        module_disable($lists_diff);
+        drupal_flush_all_caches();
+        module_list(TRUE);
+        foreach ($lists_diff as $module) {
+          assert(module_exists($module), isTrue(), "Module {$module} could not be uninstalled.");
         }
       }
+      $this->initialModuleList = array();
     }
-
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
-    }
-
-    if ($cache_flushing) {
-      drupal_flush_all_caches();
-    }
-
-    return TRUE;
   }
 
   /**
@@ -106,31 +80,29 @@ class ModuleContext extends RawDrupalContext {
    *
    * Provide feature set names in the following format:
    *
-   * | featureSet  |
-   * | Events      |
-   * | Links       |
+   * | featureSet |
+   * | Events     |
+   * | Links      |
    *
-   * @param TableNode $featureset_table
+   * @param TableNode $table
    *   The table listing feature set titles.
    *
    * @return bool
    *   It always returns true; otherwise it throws an exception.
    *
    * @throws \Exception
-   *   It is thrown if one of the modules of the featureset is not enabled.
+   *   It is thrown if one of the modules of the feature set is not enabled.
    *
    * @Given the/these featureSet/FeatureSets is/are enabled
    */
-  public function enableFeatureSet(TableNode $featureset_table) {
+  public function enableFeatureSet(TableNode $table) {
     $cache_flushing = FALSE;
     $message = array();
-    $featuresets = feature_set_get_featuresets();
-    foreach ($featureset_table->getHash() as $row) {
-      foreach ($featuresets as $featureset_available) {
-        if ($featureset_available['title'] == $row['featureSet'] &&
-          feature_set_status($featureset_available) === FEATURE_SET_DISABLED
-        ) {
-          if (feature_set_enable_feature_set($featureset_available)) {
+    $sets = feature_set_get_featuresets();
+    foreach ($table->getHash() as $row) {
+      foreach ($sets as $set) {
+        if ($set['title'] == $row['featureSet'] && feature_set_status($set) === FEATURE_SET_DISABLED) {
+          if (feature_set_enable_feature_set($set)) {
             $cache_flushing = TRUE;
           }
           else {
@@ -139,9 +111,7 @@ class ModuleContext extends RawDrupalContext {
         }
       }
     }
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
-    }
+    assert($message, isEmpty(), sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
 
     if ($cache_flushing) {
       drupal_flush_all_caches();
