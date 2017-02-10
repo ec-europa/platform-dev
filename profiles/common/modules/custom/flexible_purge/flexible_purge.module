@@ -1,0 +1,164 @@
+<?php
+/**
+ * @file
+ * Main file for the "Flexible Purge" module.
+ *
+ * Features:
+ *   tell users when exactly the frontend cache was and will be invalidated
+ *   let them force that invalidation through a "big red button"
+ *   the big red button may be disabled (e.g., for crawl operations)
+ *   warn users in case the usual invalidation mechanism is disabled.
+ */
+
+// Rules module integration.
+module_load_include('inc', 'flexible_purge', 'rules/flexible_purge_rules_actions');
+
+/**
+ * Implements hook_form_alter().
+ */
+function flexible_purge_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'system_performance_settings') {
+    $warning = _flexible_purge_warn_if_necessary();
+    if (!is_null($warning)) {
+      drupal_set_message(filter_xss($warning), 'warning');
+    }
+    _flexible_purge_alter_cache_form($form);
+  }
+}
+
+/**
+ * Implements hook_expire_cache().
+ */
+function flexible_purge_expire_cache($urls, $wildcards, $object_type, $object) {
+  $cache = new FlexiblePurgeCache('cache_page');
+  $cache->emitRequests($urls, $wildcards);
+}
+
+/**
+ * Emit a warning if the flexible purge invalidation is disabled.
+ *
+ * @return string
+ *   A message if something looks wrong or NULL if everything looks fine.
+ */
+function _flexible_purge_warn_if_necessary() {
+  if (variable_get('cache_class_cache_page', '') !== 'FlexiblePurgeCache') {
+    return t('It seems the Flexible Purge invalidation mechanism is not enabled on this site; it may have been explicitly disabled in order to crawl your site before an upgrade operation; if you are not aware of such an operation, feel free to report that issue to your system administrator.');
+  }
+  return NULL;
+}
+
+/**
+ * Alter the form shown by admin/config/development/performance.
+ *
+ * The form is modified so that administrators know when the frontend cache was
+ * invalidated and when it may be invalidated again.
+ */
+function _flexible_purge_alter_cache_form(&$form) {
+  $cache_description = _flexible_purge_generate_description();
+  $button_description = t('When really needed, you may also enforce the invalidation of the frontend cache for this site (and only this site) by clicking the button below; use it carefully as it will impact the performance of your site:');
+
+  $form['clear_cache']['#weight'] = -4;
+  $form['flexible_purge'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Frontend cache'),
+    '#description' => filter_xss($cache_description),
+    '#weight' => -3,
+  );
+  if (!variable_get('fp_disable_big_red_button', FALSE)) {
+    $form['flexible_purge']['big_red_button_label'] = array(
+      '#markup' => filter_xss($button_description) . '<br />',
+    );
+    $form['flexible_purge']['big_red_button'] = array(
+      '#type' => 'submit',
+      '#value' => t('Force frontend cache invalidation'),
+      '#submit' => array('_flexible_purge_force_invalidation'),
+    );
+  }
+}
+
+/**
+ * Describe the situation of the frontend cache.
+ *
+ * @return string
+ *   a sentence (localized by t()) describing the situation of the
+ *   frontend cache.
+ */
+function _flexible_purge_generate_description() {
+  $now = time();
+  $cache = new FlexiblePurgeCache('cache_page');
+  $last_inv_date = $cache->latestEffectiveClear();
+  $cache_lifetime = $cache->minimumCacheLifetime(NULL, FALSE);
+
+  $date_format = 'd/M/Y';
+  $time_format = 'H:i:s T (\G\M\T P)';
+
+  // Last invalidation date.
+  if ($last_inv_date > 0) {
+    $description = t(
+      'This site has invalidated the frontend cache for the last time on @last_invalidation_date at @last_invalidation_time.',
+      array(
+        '@last_invalidation_date' => format_date($last_inv_date, 'custom', $date_format),
+        '@last_invalidation_time' => format_date($last_inv_date, 'custom', $time_format),
+      )
+    );
+  }
+  else {
+    $description = t('This site has never invalidated the frontend cache.');
+  }
+
+  // Frontend cache lifetime (duration).
+  if ($cache_lifetime > 0) {
+    $description .= ' ';
+    $description .= t(
+      'The frontend minimum cache lifetime is set to @fp_cache_lifetime seconds.',
+      array(
+        '@fp_cache_lifetime' => $cache_lifetime,
+      )
+    );
+
+    // End of the frontend cache lifetime (as an actual, computed date).
+    $lifetime_end = $last_inv_date + $cache_lifetime;
+    $description .= ' ';
+    if ($lifetime_end < $now) {
+      $description .= t(
+        'As this is being generated, i.e. on @now_date at @now_time, editing content should invalidate the frontend cache.',
+        array(
+          '@now_date' => format_date($now, 'custom', $date_format),
+          '@now_time' => format_date($now, 'custom', $time_format),
+        )
+      );
+    }
+    else {
+      $description .= t(
+        'Editing content will <strong>not</strong> invalidate the frontend cache unless it takes place <strong>after</strong> @lifetime_end_date at @lifetime_end_time.',
+        array(
+          '@lifetime_end_date' => format_date($lifetime_end, 'custom', $date_format),
+          '@lifetime_end_time' => format_date($lifetime_end, 'custom', $time_format),
+        )
+      );
+    }
+  }
+
+  return $description;
+}
+
+/**
+ * Force the invalidation of the frontend cache.
+ */
+function _flexible_purge_force_invalidation() {
+  if (!class_exists('FlexiblePurgeCache')) {
+    drupal_set_message(t('Unable to invalidate the frontend cache -- is the Flexible Purge module properly integrated?'), 'error');
+    return;
+  }
+
+  $cache = new FlexiblePurgeCache('cache_page');
+
+  // First trigger a clear operation on the actual backend cache, if any.
+  $backend = $cache->keepCachingObject();
+  if (!is_null($backend)) {
+    $backend->clear(NULL, FALSE);
+  }
+
+  $cache->emitRequests(NULL, FALSE);
+  drupal_set_message(t('Triggered frontend cache invalidation.'));
+}

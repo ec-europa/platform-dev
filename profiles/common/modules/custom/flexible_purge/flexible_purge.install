@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Implements specific Drupal functions.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function flexible_purge_requirements($phase) {
+  $requirements = array();
+  if ($phase == 'runtime') {
+    $warning = _flexible_purge_warn_if_necessary();
+    if (!is_null($warning)) {
+      $requirements['flexible_purge_warning']['title'] = 'Flexible Purge';
+      $requirements['flexible_purge_warning']['value'] = $warning;
+      $requirements['flexible_purge_warning']['severity'] = REQUIREMENT_WARNING;
+    }
+
+    $requirements['flexible_purge']['title'] = 'Flexible Purge';
+    $requirements['flexible_purge']['value'] = _flexible_purge_generate_description();
+    $requirements['flexible_purge']['severity'] = REQUIREMENT_INFO;
+  }
+  return $requirements;
+}

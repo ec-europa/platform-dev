@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * @file
+ * selfish_varnish.module
+ *
+ * Administration form to invalidate specific Varnish cached entries.
+ *
+ * This module relies on the "varnish" module, i.e. it connects to Varnish's
+ * administration socket and issues a purge/ban command.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function selfish_varnish_menu() {
+  $items = array(
+    'admin/config/fpfiscms/varnish' => array(
+      'title' => 'Varnish invalidation',
+      'description' => 'Invalidate specific URLs from Varnish',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('selfish_varnish_invalidate_form'),
+      'access arguments' => array('invalidate varnish entries'),
+      'file' => 'selfish_varnish.admin.inc',
+    ),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permisson().
+ *
+ * Adds "Invalidate Varnish Entries" permission.
+ */
+function selfish_varnish_permission() {
+  return array(
+    'invalidate varnish entries' => array(
+      'title' => t('Invalidate Varnish Entries'),
+      'description' => t('Manually invalidate specific cached entries from Varnish'),
+    ),
+  );
+}
+
+/**
+ * Check whether it is possible to actually trigger a purge.
+ *
+ * @param bool $set_message
+ *   TRUE for this function to warn users through drupal_set_message(), FALSE
+ *   otherwise.
+ *
+ * @return bool
+ *   true if the varnish_purge() function is available or could be made
+ *   available, FALSE otherwise.
+ */
+function _selfish_varnish_check_purge_function($set_message = TRUE) {
+  if (!class_exists('FlexiblePurgeCache')) {
+    if ($set_message) {
+      drupal_set_message(t('Unable to invalidate the frontend cache -- is the Flexible Purge module properly integrated?'), 'error');
+    }
+
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
+ * Return the current base_path.
+ *
+ * @return string
+ *   The base path this Drupal site is available on.
+ */
+function _selfish_varnish_base_path() {
+  global $base_url;
+
+  // Enable other modules to fix our way to detect the base path.
+  drupal_alter('selfish_varnish_base_path', $base_url);
+
+  return $base_url;
+}
+
+/**
+ * Force the invalidation of the frontend cache.
+ *
+ * @param bool $check_set_message
+ *   TRUE for this function to warn users through drupal_set_message() in case
+ *   it is impossible to actually trigger a purge, FALSE otherwise.
+ */
+function _selfish_varnish_force_invalidation($check_set_message = TRUE) {
+  if (!_selfish_varnish_check_purge_function($check_set_message)) {
+    return;
+  }
+
+  $cache = new FlexiblePurgeCache('cache_page');
+
+  // First trigger a clear operation on the actual backend cache, if any.
+  $backend = $cache->keepCachingObject();
+  if (!is_null($backend)) {
+    $backend->clear(NULL, FALSE);
+  }
+
+  $cache->emitRequests(NULL, FALSE);
+  drupal_set_message(t('Triggered total frontend cache invalidation.'));
+}

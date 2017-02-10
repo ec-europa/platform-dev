@@ -1,0 +1,51 @@
+This file contains extra technical explanations that interest nobody but their
+short-memory author.
+
+Q: In flexible_purge.example.inc.vcl, handle_extended_purge_requests states that:
+  # Ban statements generated from VCL code do not need to have their arguments
+  # surrounded with double quotes (this makes sense only when working with CLI
+  # tools such as varnishadm).
+Where does that statement comes from?
+
+A: This statement is the conclusion of a dive into the C source code of Varnish
+3.0.6. The idea was to check whether one needs to use double quotes when
+generating bans from VCL code. Here is what happens when one writes ban("...")
+in their VCL code.
+
+1. According to parse_ban() in lib/libvcl/vcc_action.c, the string composed
+  through VCL code ends up as VRT_ban_string(sp, "da string"); in C.
+2. VRT_ban_string is defined in bin/varnishd/cache_vrt.c and starts by:
+  av = VAV_Parse(str, NULL, ARGV_NOESC);
+  ... which is in charge of splitting the string into distinct arguments.
+3. VAV_Parse is defined in lib/libvarnish/argv.c, which states this function...
+  <copy-paste>
+    Parse a command like line into an argv[]
+    Index zero contains NULL or an error message
+    "double quotes" and backslash substitution is handled.
+  </copy-paste>
+  But as ARGV_NOESC is passed, handling of " and \ is skipped; arguments are
+  simply delimited by spaces (with handling of \0 of course).
+4. The resulting arguments are then grouped to form conditions:
+  a1 -> HTTP header
+  a2 -> operator
+  a3 -> value
+  ... with multiple conditions being separated by "&&".
+5. The resulting groups are passed to BAN_AddTest() and if everything went well,
+  the ban is applied through BAN_Insert().
+6. BAN_AddTest(struct cli *cli, struct ban *b, const char *a1, const char *a2, const char *a3)
+  is defined in bin/varnishd/cache_ban.c; a3 (the value) is always given to
+  ban_add_lump(), which does not seem to interpret what it stores.
+  Additionnally, if a2 is the ~ (or !~) operator, a3 is checked by
+  ban_parse_regexp, which is mainly a wrapper for pcre_compile().
+7. Bans are later evaluated by ban_evaluate() in the same file:
+  the == and != operators are treated using strcmp();
+  the ~ and !~ operators are treated using pcre_exec().
+
+Conclusions:
+* One should *not* use double quotes when writing a ban statement from VCL.
+* The quotes we see in various examples on the Internet are due to their author
+  having CLI tools in mind, where double quotes and backslashes are indeed taken
+  into account.
+* One should take care of spaces and ampersands instead of double quotes:
+  otherwise it should be possible to inject the following pattern:
+    original_value && header operator other_value

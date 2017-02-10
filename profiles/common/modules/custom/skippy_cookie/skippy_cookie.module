@@ -1,0 +1,54 @@
+<?php
+/**
+ * @file
+ * Sets a dummy, non-secure cookie when the user logs in through HTTPS.
+ *
+ * It also removes that same cookie when the user logs out, whatever the
+ * protocol.
+ *
+ * The protocol is tested by checking the global variable $is_https; in case
+ * you have weird ways to detect you are accessed through HTTPS, you must
+ * ensure $is_https reflects it.
+ * The same principle applies to $base_path and $_SERVER['HTTP_HOST'].
+ *
+ * It does not do anything else. Really. Especially, it does not:
+ *  * force the user to log in through HTTP;
+ *  * ensure session cookies are set with the secure attribute;
+ *  * redirect HTTP requests having the cookie to HTTPS; you have to take care
+ *    of it by yourself, and not necessarily within Drupal;
+ *  * provide any shiny configuration interface.
+ *
+ * Set skippy_cookie_name to an empty string to make this module inoperant
+ * without disabling it.
+ */
+
+// Default cookie name.
+define('SKIPPY_COOKIE_DEFAULT_NAME', 'drupal_stick_to_https');
+// Default cookie value.
+define('SKIPPY_COOKIE_DEFAULT_VALUE', 'y');
+
+/**
+ * Implements hook_user_login().
+ */
+function skippy_cookie_user_login(&$edit, $account) {
+  $http_cookie_name = variable_get('skippy_cookie_name', constant('SKIPPY_COOKIE_DEFAULT_NAME'));
+  $http_cookie_value = variable_get('skippy_cookie_value', constant('SKIPPY_COOKIE_DEFAULT_VALUE'));
+  if (drupal_strlen($http_cookie_name) && drupal_strlen($http_cookie_value)) {
+    global $base_path, $is_https;
+    // Ensure the login was done using HTTPS.
+    if ($is_https) {
+      setcookie($http_cookie_name, $http_cookie_value /* dummy value */, 0 /* disappear when the browser closes */, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
+    }
+  }
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function skippy_cookie_user_logout($account) {
+  $http_cookie_name = variable_get('skippy_cookie_name', constant('SKIPPY_COOKIE_DEFAULT_NAME'));
+  if (drupal_strlen($http_cookie_name)) {
+    global $base_path;
+    setcookie($http_cookie_name, 'deleted', time() - 86400, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
+  }
+}

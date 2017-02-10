@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Contains Flexible Purge custom rule: invalidate Varnish cache.
+ *
+ * Invalidation after create and update of published nodes.
+ */
+
+$rule = '
+  { "rules_fp_invalidate_cache_after_create_update" : {
+      "LABEL" : "NE Flexible Purge: Invalidate cache after create or update published content",
+      "PLUGIN" : "reaction rule",
+      "WEIGHT" : "10",
+      "ACTIVE" : false,
+      "OWNER" : "rules",
+      "TAGS" : [ "NE Flexible Purge" ],
+      "REQUIRES" : [ "workbench_moderation", "flexible_purge", "rules" ],
+      "ON" : { "node_insert" : [], "node_update" : [] },
+      "IF" : [
+        { "contents_current_state" : { "node" : [ "node" ], "moderation_state" : "published" } }
+      ],
+      "DO" : [ { "flexible_purge_invalidate_website_cache" : [] } ]
+    }
+  }
+';

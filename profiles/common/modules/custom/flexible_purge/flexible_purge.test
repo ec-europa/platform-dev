@@ -1,0 +1,100 @@
+<?php
+/**
+ * @file
+ * Tests for the Flexible Purge module.
+ */
+
+/**
+ * Unit tests.
+ */
+class FlexiblePurgeUnitTestCase extends DrupalWebTestCase {
+  /**
+   * Setup method.
+   */
+  public function setUp() {
+    parent::setUp();
+    module_load_include('inc', 'flexible_purge', 'flexible_purge.cache');
+    variable_set('fp_fix_cids_for_cache_page', TRUE);
+    variable_set('fp_strip_base_path_for_cache_page', TRUE);
+  }
+
+  /**
+   * Setup method.
+   */
+  public function testgenerateRegexp() {
+    $this->assertTrue(class_exists('FlexiblePurgeCache'), 'Class FlexiblePurgeCache is present.');
+    $cache_obj = new FlexiblePurgeCache('cache_page');
+    $this->assertFalse(is_null($cache_obj), 'FlexiblePurgeCache can be instantiated.');
+
+    // Tests with weird arguments.
+    $this->assertTrue(
+      @$cache_obj->generateRegexp() === '',
+      'generateRegexp() returns an empty string when passed no arguments.'
+    );
+    $this->assertTrue(
+      $cache_obj->generateRegexp(NULL, FALSE) === '',
+      'generateRegexp() returns an empty string when passed a NULL cid.'
+    );
+
+    /* Does not make a lot of sense to test right now.
+    $this->assertTrue(
+    $cache_obj->generateRegexp('*', TRUE) === '^(\*)',
+    generateRegexp() returns an empty string when passed "*" as wildcard.'
+    );
+     */
+
+    // Tests with a single cid.
+    $this->assertTrue(
+      $cache_obj->generateRegexp('node/34', FALSE) === '^(node/34$)',
+      'generateRegexp() returns the expected regexp for a single non-wildcard cid.'
+    );
+    $this->assertTrue(
+      $cache_obj->generateRegexp('node/34', TRUE) === '^(node/34)',
+      'generateRegexp() returns the expected regexp for a single wildcard cid.'
+    );
+
+    // Tests with multiple cids and a boolean as $wildcard.
+    $this->assertTrue(
+      $cache_obj->generateRegexp(array('node/34', 'node/36'), FALSE) === '^(node/34$|node/36$)',
+      'generateRegexp() returns the expected regexp for multiple cids and FALSE as $wildcard.'
+    );
+    $this->assertTrue(
+      $cache_obj->generateRegexp(array('node/34', 'node/36'), TRUE) === '^(node/34|node/36)',
+      'generateRegexp() returns the expected regexp for multiple cids and TRUE as $wildcard.'
+    );
+
+    // Tests with multiple cids and an array of wilcard booleans.
+    $this->assertTrue(
+      $cache_obj->generateRegexp(array('node/34', 'node/36'), array(TRUE, FALSE)) === '^(node/34|node/36$)',
+      'generateRegexp() returns the expected regexp for multiple cids and an array of wilcard booleans.'
+    );
+
+    // Tests with multiple cids and an array of wilcard booleans.
+    $this->assertTrue(
+      $cache_obj->generateRegexp(array('node/36', $GLOBALS['base_url'] . '/node/36'), array(TRUE, FALSE)) === '^(node/36)',
+      'generateRegexp() returns the expected regexp for multiple conflicting cids.'
+    );
+
+    // Tests when not stripping the base path.
+    variable_set('fp_strip_base_path_for_cache_page', FALSE);
+    $this->assertTrue(
+      $cache_obj->generateRegexp(
+        array($GLOBALS['base_url'] . '/node/34', $GLOBALS['base_url'] . '/node/36'),
+        array(FALSE, FALSE)
+      ) === '^(' . preg_quote($GLOBALS['base_path']) . 'node/34$|' . preg_quote($GLOBALS['base_path']) . 'node/36$)',
+      'generateRegexp() returns the expected regexp when we do not strip the base path.'
+    );
+  }
+
+  /**
+   * Provide information about this test case.
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Flexible Purge',
+      'description' => 'Tests for Flexible Purge.',
+      'group' => 'Performance',
+    );
+  }
+
+}

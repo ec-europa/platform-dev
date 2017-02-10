@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Contains Flexible Purge custom rule: invalidate Varnish cache after deleting.
+ */
+
+$rule = '
+  { "rules_fp_invalidate_cache_after_deleting" : {
+      "LABEL" : "NE Flexible Purge: Invalidate cache after deleting content",
+      "PLUGIN" : "reaction rule",
+      "WEIGHT" : "10",
+      "ACTIVE" : false,
+      "OWNER" : "rules",
+      "TAGS" : [ "NE Flexible Purge" ],
+      "REQUIRES" : [ "flexible_purge", "rules" ],
+      "ON" : { "node_delete" : [] },
+      "DO" : [ { "flexible_purge_invalidate_website_cache" : [] } ]
+    }
+  }
+';
