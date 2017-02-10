@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.52"
+projects[drupal][version] = "7.54"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -38,11 +38,6 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-
 ; The hook_update_N() has been removed from the patch, it needs to be added somewhere else to be consistent.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641
 projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-306_0.patch
-
-; A validation error occurs for anonymous users when $form['#token'] == FALSE.
-; https://www.drupal.org/node/1617918
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4863
-projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do-not-test.patch
 
 ; Make sure drupal_add_js marks files as external when no type is specified and is_external is true:
 ; https://www.drupal.org/node/2697611
