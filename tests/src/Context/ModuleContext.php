@@ -15,11 +15,11 @@ use Behat\Gherkin\Node\TableNode;
 class ModuleContext extends RawDrupalContext {
 
   /**
-   * List of modules enabled before the scenario.
+   * Initial module list to restore at the end of the test.
    *
    * @var array
    */
-  protected $defaultEnabledModules = array();
+  protected $initialModuleList = array();
 
 
   /**
@@ -28,27 +28,34 @@ class ModuleContext extends RawDrupalContext {
    * @BeforeScenario
    */
   public function rememberDefaultEnabledModules() {
-    drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
-    $this->defaultEnabledModules = module_list(TRUE);
+    $this->initialModuleList = module_list(TRUE);
   }
 
   /**
-   * Disabled and uninstall modules.
+   * Restores the initial values of the Drupal variables.
    *
    * @AfterScenario
    */
-  public function cleanModule() {
+  public function restoreInitialState() {
     $after_scenario_modules = module_list(TRUE);
 
-    $modules_diff = array_diff($after_scenario_modules, $this->defaultEnabledModules);
+    $lists_diff = array_diff($after_scenario_modules, $this->initialModuleList);
 
-    if ($modules_diff) {
-      module_disable($modules_diff);
-      drupal_uninstall_modules($modules_diff);
+    if ($lists_diff) {
+      module_disable($lists_diff);
+      drupal_uninstall_modules($lists_diff);
       drupal_flush_all_caches();
+
+      // Check if modules are really uninstalled.
+      module_list(TRUE);
+      foreach ($lists_diff as $module) {
+        if (module_exists($module)) {
+          throw new \Exception(sprintf('Module "%s" could not be uninstalled', implode(', ', $module)));
+        }
+      }
     }
 
-    $this->defaultEnabledModules = array();
+    $this->initialModuleList = array();
   }
 
   /**
@@ -56,15 +63,12 @@ class ModuleContext extends RawDrupalContext {
    *
    * Provide modules data in the following format:
    *
-   * | modules  |
-   * | blog     |
-   * | book     |
+   * | modules |
+   * | blog    |
+   * | book    |
    *
    * @param TableNode $modules_table
    *   The table listing modules.
-   *
-   * @return bool
-   *   It always returns TRUE; otherwise it throws an exceptions.
    *
    * @throws \Exception
    *   Thrown when a module does not exist.
@@ -85,15 +89,13 @@ class ModuleContext extends RawDrupalContext {
       }
     }
 
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
-    }
+    assert(empty($message), isFalse(), "Module {$message} could not be found.");
 
     if ($cache_flushing) {
+      // Necessary for rebuilding the menu after enabling some specific
+      // features.
       drupal_flush_all_caches();
     }
-
-    return TRUE;
 
   }
 
@@ -108,9 +110,6 @@ class ModuleContext extends RawDrupalContext {
    *
    * @param TableNode $featureset_table
    *   The table listing feature set titles.
-   *
-   * @return bool
-   *   It always returns TRUE; otherwise it throws an exceptions.
    *
    * @throws \Exception
    *   It is thrown if one of the modules of the featureset is not enabled.
@@ -135,15 +134,14 @@ class ModuleContext extends RawDrupalContext {
         }
       }
     }
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
-    }
+
+    assert($message, isEmpty(), sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
 
     if ($cache_flushing) {
+      // Necessary for rebuilding the menu after enabling some specific
+      // features.
       drupal_flush_all_caches();
     }
-
-    return TRUE;
   }
 
 }
