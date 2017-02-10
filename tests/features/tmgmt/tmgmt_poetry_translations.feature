@@ -385,18 +385,17 @@ Feature: TMGMT Poetry features
     And the translation request document is valid XHTML
 
     Examples:
-      | title                | body                                                                                                                                                                                                                                                |
-      | Simple text          | 'Some simple text.'                                                                                                                                                                                                                                 |
-      | Paragraph            | '<p>A paragraph</p>'                                                                                                                                                                                                                                |
-      | Abbreviation         | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>'                                                                                                                                                                |
-      | Unclosed break       | '<p>This paragraph contains <br> a not properly closed line break.</p>'                                                                                                                                                                             |
-      | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                                                                                                                                                                                         |
-      | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                                                                                                                                                                                   |
-      | YouTube Video        | <iframe class=\"media-youtube-player\" width=\"640\" height=\"390\" title=\"Los Muppets - Mahna Mahna\" src=\"//www.youtube.com/embed/9ezRFBnWBKg?wmode=opaque\" frameborder=\"0\" allowfullscreen=\"\">Video of Los Muppets - Mahna Mahna</iframe> |
-      | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                                                                                                                                                                                 |
+      | title                | body                                                                                 |
+      | Simple text          | 'Some simple text.'                                                                  |
+      | Paragraph            | '<p>A paragraph</p>'                                                                 |
+      | Abbreviation         | '<p>Drupal is mainly written in <abbr title="PHP: Hypertext Preprocessor">PHP</abr>' |
+      | Unclosed break       | '<p>This paragraph contains <br> a not properly closed line break.</p>'              |
+      | Ampersand &, < and > | 'Title contains characters with a special meaning in HTML.'                          |
+      | Entities in body     | 'Some text with &amp;, &lt; and &gt;. And do not forget &acute;!'                    |
+      | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
 
   @javascript
-  Scenario Outline: Request translation of a page with HTML5 into French.
+  Scenario Outline: Request translation of a page with HTML5 or a Youtube video into French.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -422,12 +421,13 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
 
     Examples:
-      | title                | body                                                                                               |
-      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                    |
-      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                          |
-      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video> |
-      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                      |
-      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                          |
+      | title                | body                                                                                                                                                                                                                                                |
+      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                                                                                                                                                                     |
+      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                                                                                                                                                           |
+      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>                                                                                                                                                  |
+      | YouTube Video        | <iframe class=\"media-youtube-player\" width=\"640\" height=\"390\" title=\"Los Muppets - Mahna Mahna\" src=\"//www.youtube.com/embed/9ezRFBnWBKg?wmode=opaque\" frameborder=\"0\" allowfullscreen=\"\">Video of Los Muppets - Mahna Mahna</iframe> |
+      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                                                                                                                                                                       |
+      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                                                                                                                                                           |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
