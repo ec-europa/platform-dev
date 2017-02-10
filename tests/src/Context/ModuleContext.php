@@ -9,7 +9,6 @@ namespace Drupal\nexteuropa\Context;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
-use function bovigo\assert\predicate\isFalse;
 use function bovigo\assert\predicate\isEmpty;
 
 /**
