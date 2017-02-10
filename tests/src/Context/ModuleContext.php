@@ -92,7 +92,7 @@ class ModuleContext extends RawDrupalContext {
       }
     }
 
-    assert(empty($message), isFalse(), "Module {$message} could not be found.");
+    assert(empty($message), isFalse(), sprintf('Module "%s" not correctly enabled', implode(', ', $message)));
 
     if ($cache_flushing) {
       // Necessary for rebuilding the menu after enabling some specific
