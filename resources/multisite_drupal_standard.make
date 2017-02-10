@@ -133,8 +133,8 @@ projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.6"
-projects[context][patch][] = patches/context-slow_menu_items-873936-20.patch
+projects[context][version] = "3.7"
+projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
