@@ -422,12 +422,12 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
 
     Examples:
-      | title                | body                                                                                                                                                                                                                                                |
-      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                                                                                                                                                                     |
-      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                                                                                                                                                           |
-      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>                                                                                                                                                  |
-      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                                                                                                                                                                       |
-      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                                                                                                                                             |
+      | title                | body                                                                                               |
+      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                    |
+      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                          |
+      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video> |
+      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                      |
+      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                          |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
