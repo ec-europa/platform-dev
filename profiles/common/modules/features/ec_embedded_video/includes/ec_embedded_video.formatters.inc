@@ -11,7 +11,7 @@
  * different Video-sharing services (YouTube, Vimeo, Dailymotion and
  * AV portal).
  */
-function cce_basic_config_file_formatter_info_alter(&$info) {
+function ec_embedded_video_file_formatter_info_alter(&$info) {
   if (module_exists('media_youtube')) {
     $formatter = $info['media_youtube_video'];
     $formatter['label'] = t('YouTube Video Wrapper Free');
