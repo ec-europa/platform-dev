@@ -34,7 +34,6 @@ dependencies[] = multisite_wysiwyg
 dependencies[] = multisite_config
 dependencies[] = nexteuropa_token_ckeditor
 dependencies[] = node
-dependencies[] = node_export
 dependencies[] = options
 dependencies[] = password_policy
 dependencies[] = print
