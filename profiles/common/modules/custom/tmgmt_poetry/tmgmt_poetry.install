@@ -88,9 +88,32 @@ function tmgmt_poetry_schema() {
  * Implements hook_uninstall().
  */
 function tmgmt_poetry_uninstall() {
-  $translator = tmgmt_translator_load('poetry');
-  if (!empty($translator)) {
-    entity_delete('tmgmt_translator', $translator->tid);
+  // Delete the poetry.
+  // Note tmgmt_translator_load is not stable in uninstall cases; it returns
+  // FALSE while the translator exists in the DB.
+  // That is why we pass by EntityFieldQuery.
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'tmgmt_translator')
+    ->propertyCondition('name', 'poetry')
+    ->execute();
+  if (!empty($result['tmgmt_translator'])) {
+    $controller = entity_get_controller('tmgmt_translator');
+    // Since the entity controller handles the deletion of the attached
+    // entities (messages, job items) we just need to invoke it directly.
+    $controller->delete(array_keys($result['tmgmt_translator']));
+  }
+
+  // Clean translation jobs related to the poetry.
+  // Code is inspired by tmgmt_cron().
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'tmgmt_job')
+    ->propertyCondition('translator', 'poetry')
+    ->execute();
+  if (!empty($result['tmgmt_job'])) {
+    $controller = entity_get_controller('tmgmt_job');
+    // Since the entity controller handles the deletion of the attached
+    // entities (messages, job items) we just need to invoke it directly.
+    $controller->delete(array_keys($result['tmgmt_job']));
   }
 }
 
