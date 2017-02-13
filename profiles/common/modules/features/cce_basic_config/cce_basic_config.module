@@ -325,3 +325,32 @@ function cce_basic_config_tmgmt_dgt_html_filter_formats_containing_html() {
     'full_html',
   );
 }
+
+/**
+ * Implements hook_preprocess_container().
+ *
+ * It preprocesses the container theme in order to inject
+ * theme_hook_suggestions.
+ */
+function cce_basic_config_preprocess_container(&$variables) {
+  $element = $variables['element'];
+  $suggestion = 'container';
+
+  if (!empty($element['#entity_type'])) {
+    $suggestion .= '__' . $element['#entity_type'];
+    $variables['theme_hook_suggestions'][] = $suggestion;
+  }
+
+  if (!empty($element['#bundle'])) {
+    $suggestion .= '__' . $element['#bundle'];
+    $variables['theme_hook_suggestions'][] = $suggestion;
+  }
+
+  if (!empty($element['#view_mode'])) {
+    $hook_suggestions = $variables['theme_hook_suggestions'];
+    $suffix = '__' . $element['#view_mode'];
+    foreach ($hook_suggestions as $hook_suggestion) {
+      $variables['theme_hook_suggestions'][] = $hook_suggestion . $suffix;
+    }
+  }
+}
