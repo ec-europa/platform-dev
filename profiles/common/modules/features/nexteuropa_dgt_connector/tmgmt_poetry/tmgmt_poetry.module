@@ -700,47 +700,65 @@ function tmgmt_poetry_page_alter(&$page) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Change tmgmt_entity_ui_translate_form form to
- * allow user to request a translation update.
+ * Change the form on the 'Translate' tab to provide the tmgmt_poetry module
+ * functionalities.
  */
 function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
   $entity_type = $form_state['entity_type'];
+  // Current tmgmt_poetry implementation for the 'Translate' tab form works
+  // only with the nodes.
   if ($entity_type == 'node') {
     $node = $form_state['entity'];
+    // Current tmgmt_poetry implementation works only for the content types
+    // which are moderated via the workbench moderation module functionality.
     if (workbench_moderation_node_moderated($node)) {
-
-      // Getting information about existing job items.
+      // Getting information about existing job items. This part is duplicated
+      // in the tmgmt_workbench to avoid the second call to the helper function
+      // which returns existing_jobs variable.
       if (!isset($form_state['tmgmt_workbench']['existing_jobs'])) {
         $form_state['tmgmt_workbench']['existing_jobs'] = _tmgmt_workbench_get_existing_jobs($node);
       }
       $existing_jobs = $form_state['tmgmt_workbench']['existing_jobs'];
 
+      // Getting the moderation states which allows to request the translation.
       $states = array_values(_tmgmt_workbench_available_states());
       $state = $node->workbench_moderation['current']->state;
+
+      // Checking if the 'request translation' is possible for given moderation
+      // state.
       $translation_possible = in_array($state, $states, 'strict');
-      // The custom header with for the 'last change' column.
+
+      // Custom header for the 'last change' column.
       $form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = t('Last change');
 
       // Setting up an array with language codes based on the available options.
       $lang_codes = array_keys($form['languages']['#options']);
 
+      // Iterating through the languages to generate content of the custom
+      // 'Last change' column.
       foreach ($lang_codes as $lang_code) {
         // The 'last change' custom column by default is empty.
         $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = '';
         if (isset($existing_jobs[$lang_code])) {
           $item = $existing_jobs[$lang_code];
           $wrapper = entity_metadata_wrapper('tmgmt_job_item', $item);
-
+          // Getting and putting in the column the 'changed' property value
+          // from the job item.
           $form['languages']['#options'][$lang_code][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX]
             = format_date($wrapper->changed->value(), 'short');
         }
       }
 
+      // Checking if there are existing jobs.
       if (!empty($existing_jobs)) {
+        // Checking if you can request translation for the existing jobs.
         if (_tmgmt_poetry_check_jobs_translatability($existing_jobs)) {
+          // If yes, inject form elements which are allowing to sent an update
+          // translation request.
           _tmgmt_poetry_inject_request_update_elements($form);
         }
         else {
+          // If no, disable action elements and provide the message box.
           _tmgmt_poetry_disable_form_elements($form);
           $form['languages_description'] = [
             '#type' => 'item',
@@ -750,8 +768,8 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
           ];
         }
 
-        // If translatable languages are available add the button and other
-        // elements for the additional languages requests functionality.
+        // If there are languages for which translations were not requested
+        // inject elements of the 'additional languages requests' functionality.
         if (_tmgmt_poetry_check_translatability($form_state['tmgmt_cart']['item_id'])) {
           // Checking and getting additional translatable languages.
           if (!empty($trans_langs = _tmgmt_poetry_get_translatable_languages($existing_jobs, $form, $form_state))) {
@@ -761,12 +779,10 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
           }
         }
       }
+      // Case if there aren't any of the existing jobs.
       else {
-        // Provide 'Request translation' action or hide actions.
-        // NEXTEUROPA-7719 - Simplifying Poetry UI - as a part of this ticket
-        // there is new #markup element which will be displayed every time when
-        // there is a translation request on going.
-        if ($translation_possible && !$existing_jobs) {
+        // Checking if we have a node with the appropriate moderation state.
+        if ($translation_possible) {
           $form['actions']['#type'] = 'actions';
           $form['actions']['request'] = [
             '#type' => 'submit',
@@ -775,6 +791,7 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
             '#validate' => ['_tmgmt_poetry_workbench_translate_form_validate'],
           ];
         }
+        // If not, unset actions and disable checkboxes for available languages.
         else {
           unset($form['actions']);
           foreach ($lang_codes as $lang_code) {
@@ -783,23 +800,14 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
               '#disabled' => TRUE,
             ];
           }
-          if ($existing_jobs && !isset($form['languages_description'])) {
-            $form['languages_description'] = [
-              '#type' => 'item',
-              '#prefix' => '<div class="messages warning">',
-              '#markup' => t('Please end up the active translation process before creating a new request.'),
-              '#suffix' => '</div>',
-            ];
-          }
         }
       }
 
-      // Remove add to cart button.
+      // Remove the 'Add to cart' button.
       unset($form['top_actions']);
 
       // Allow to select multiple languages.
       $form['languages']['#multiple'] = TRUE;
-
     }
   }
 }
