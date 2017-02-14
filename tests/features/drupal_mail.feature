@@ -10,7 +10,7 @@ Feature: Drupal Mail features
       | name  | mail         | roles        |
       | foo   | foo@bar.com  | contributor  |
 
-  Scenario: Checking mail action for requesting new password by using the username as identifier.
+  Scenario: Checking the basic mail functionality for requesting new password by using the username as identifier.
     When I go to "/user"
     And I click "Request new password" in the "primary_tabs" region
     And I fill in "Username or e-mail address" with "foo"
