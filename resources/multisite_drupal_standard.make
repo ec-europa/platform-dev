@@ -61,7 +61,7 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 ; Issue #1854088 : Cannot install on mysql >= 5.6
 ; https://www.drupal.org/node/2677866
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-326
-projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/mysql-56-compatibility-2677866-1.patch
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/mysql-56-compatibility-2677866-10.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
