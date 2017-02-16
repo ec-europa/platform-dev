@@ -24,10 +24,7 @@ function nexteuropa_metatags_metatag_export_default() {
         'value' => '',
       ),
       'keywords' => array(
-        'value' => 'European Comission, European Union, EU',
-      ),
-      'viewport' => array(
-        'value' => 'width=device-width, initial-scale=1.0',
+        'value' => 'European Commission, European Union, EU',
       ),
       'robots' => array(
         'value' => array(
@@ -56,7 +53,7 @@ function nexteuropa_metatags_metatag_export_default() {
         'value' => '',
       ),
       'generator' => array(
-        'value' => 'Drupal 7 (http://drupal.org)',
+        'value' => 'Drupal 7 (https://drupal.org)',
       ),
       'rights' => array(
         'value' => '',
@@ -334,9 +331,6 @@ function nexteuropa_metatags_metatag_export_default() {
       ),
       'reference' => array(
         'value' => '[site:name]',
-      ),
-      'X-UA-Compatible' => array(
-        'value' => 'IE=edge',
       ),
       'date' => array(
         'value' => '[current-date:short]',

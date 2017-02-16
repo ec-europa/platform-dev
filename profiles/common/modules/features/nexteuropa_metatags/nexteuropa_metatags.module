@@ -7,6 +7,21 @@
 include_once 'nexteuropa_metatags.tokens.inc';
 
 /**
+ * Implements hook_init().
+ */
+function nexteuropa_metatags_init() {
+  if ($config = metatag_config_load('global')) {
+    $meta_to_check = array('X-UA-Compatible', 'viewport');
+
+    foreach ($meta_to_check as $meta) {
+      if (!isset($config->config[$meta]) || (isset($config->config[$meta]) && empty($config->config[$meta]['value']))) {
+        drupal_set_message(t('The <em>@meta</em> global meta is empty, please <a href="@link">configure it</a> properly.', array('@meta' => $meta, '@link' => url('admin/config/search/metatags/config/global'))), 'warning');
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_metatag_info().
  */
 function nexteuropa_metatags_metatag_info() {
