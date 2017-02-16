@@ -1,13 +1,5 @@
 # NextEuropa Platform change log
 
-## Version 2.4.0
-
-### Improvements
-
-### New features (For more details on each feature, see the README.md file at the root of the feature's folder)
-  * NEPT-451 - Add Nagios and nexteuropa_nagios module to the Core stack
-### Bug fixes
-
 ## Version 2.3.0
 
 ### Improvements
@@ -49,6 +41,7 @@
   * NEPT-202 - Tracked changes - Create a feature for the functionality provided in ckeditor_lite
   * NEPT-403 - Contact module should be optional, create a feature that can be enabled/disabled
   * NEPT-444 - Add CDN module to the Core stack
+  * NEPT-451 - Add Nagios and nexteuropa_nagios module to the Core stack
 
 ### Bug fixes
   * NEPT-41 - Users are no longer gaining Editorial Team Member role. Fix issue & add a regression test
