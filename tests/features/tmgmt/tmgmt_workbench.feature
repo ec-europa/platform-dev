@@ -144,15 +144,15 @@ Feature: TMGMT Workbench features
     And I press "Save"
     And I click "Translate" in the "primary_tabs" region
     Then I should see the text "The current piece of content's moderation state is: draft"
-    And I should see the text "This content cannot be translated."
+    And I should see the text "Current moderation state does not allow to request a translation for this content."
     When I click "Moderate" in the "primary_tabs" region
     And I select "Validated" from "state"
     And I press the "Apply" button
     And I click "Translate" in the "primary_tabs" region
     Then I should see the text "The current piece of content's moderation state is: validated"
-    And I should not see the text "This content cannot be translated."
+    And I should not see the text "Current moderation state does not allow to request a translation for this content."
     When I check the box on the "French" row
     And I press "Request translation"
     And I select "Translator A" from "Translator"
     And I press "Submit to translator"
-    Then I should not see the text "This content cannot be translated."
+    Then I should not see the text "Current moderation state does not allow to request a translation for this content."
