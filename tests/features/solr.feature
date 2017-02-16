@@ -12,9 +12,6 @@ Feature:
     And the apachesolr integration is configured
     And I am logged in as a user with the "administrator" role
 
-  Scenario: Access apachesolr configuration.
-    When I go to "/admin/config/search/apachesolr"
-
   @moderated-content
   Scenario: Create a draft.
     When I go to "node/add/page"
@@ -44,11 +41,6 @@ Feature:
 
   @moderated-content
   Scenario: Publish a page with moderation.
-    Given the following cache purge rules:
-      | Content Type | Paths to Purge      |
-      | page         | /, /all-basic-pages |
-      | page         | /more-basic-pages   |
-      | article      | /all-articles       |
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -120,4 +112,4 @@ Feature:
     And I click "Publishing options"
     And I uncheck the box "Published"
     And I press "Save"
-    Then the apachesolr server was instructed to remove a page node with title "Test apachesolr" from the index
+    Then the apachesolr server was instructed to remove a editorial_team node with title "Test apachesolr" from the index

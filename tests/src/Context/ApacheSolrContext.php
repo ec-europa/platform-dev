@@ -22,9 +22,9 @@ use InterNations\Component\HttpMock\RequestCollectionFacade;
 use InterNations\Component\HttpMock\Server;
 
 /**
- * Context for steps and assertions related to web frontend caching (Varnish).
+ * Context for steps and assertions related to ApacheSolr.
  */
-class FrontendCacheContext implements Context {
+class ApacheSolrContext implements Context {
 
   /**
    * The Mink context.
@@ -98,7 +98,6 @@ class FrontendCacheContext implements Context {
 
       $this->server->setUp($mock->flushExpectations());
     }
-
     return $this->server;
   }
 
@@ -134,15 +133,16 @@ class FrontendCacheContext implements Context {
    * @Given the apachesolr integration is configured
    */
   public function apacheSolrIntegrationIsConfigured() {
-
+    $server = $this->getServer();
   }
 
   /**
    * Asserts that the web front end cache received certain purge requests.
    *
-   * @Then the apachesolr server was instructed to index a :arg1: node with title :arg2:
+   * @Then the apachesolr server was instructed to index a :arg1 node with title :arg2
    */
   public function theApacheSolrServerWasInstructedToIndexANodeWithTitle($arg1, $arg2) {
+
     $requests = $this->getRequests();
     assert($requests, isOfSize(1));
 
@@ -170,3 +170,4 @@ class FrontendCacheContext implements Context {
       $this->server->stop();
     }
   }
+}
