@@ -3,6 +3,15 @@
 ## Version 2.3.0
 
 ### Improvements
+
+### New features (For more details on each feature, see the README.md file at the root of the feature's folder)
+
+### Bug fixes
+  * NEPT-497 - News - Removed definition of unused field_news_picture field.
+
+## Version 2.3.0
+
+### Improvements
   * NEPT-4 - Upgrade - chr module to version 7.x-1.8 (2015-Dec-04)
   * NEPT-36 - Performance - Remove css and js injectors from the platform codebase
   * NEPT-61 - DGT connector - Add website identifier in the title of the job sent via poetry
