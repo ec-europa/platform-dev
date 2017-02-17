@@ -25,16 +25,16 @@ class ModuleContext extends RawDrupalContext {
 
 
   /**
-   * Remember the list of enabled module before executing a scenario.
+   * Stores the list of enabled modules before executing a scenario.
    *
    * @BeforeScenario
    */
-  public function rememberDefaultEnabledModules() {
+  public function storeDefaultEnabledModules() {
     $this->initialModuleList = module_list(TRUE);
   }
 
   /**
-   * Restores the initial values of the Drupal variables.
+   * Restores the initial values of the Drupal Modules.
    *
    * @AfterScenario
    */

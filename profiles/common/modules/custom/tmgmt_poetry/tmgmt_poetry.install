@@ -88,7 +88,7 @@ function tmgmt_poetry_schema() {
  * Implements hook_uninstall().
  */
 function tmgmt_poetry_uninstall() {
-  // Delete the poetry.
+  // Delete the 'poetry' TMGMT translator entity.
   // Note tmgmt_translator_load is not stable in uninstall cases; it returns
   // FALSE while the translator exists in the DB.
   // That is why we pass by EntityFieldQuery.
@@ -103,7 +103,7 @@ function tmgmt_poetry_uninstall() {
     $controller->delete(array_keys($result['tmgmt_translator']));
   }
 
-  // Clean translation jobs related to the poetry.
+  // Delete translation jobs related to the poetry.
   // Code is inspired by tmgmt_cron().
   $query = new EntityFieldQuery();
   $result = $query->entityCondition('entity_type', 'tmgmt_job')

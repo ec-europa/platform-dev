@@ -1,6 +1,6 @@
 @api @wip
 Feature: Event features
-  In order organize events
+  In order to organize events
   As a citizen of the European Union
   I want to be able to see a calendar with events
   
