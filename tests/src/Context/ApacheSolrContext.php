@@ -91,8 +91,14 @@ class ApacheSolrContext implements Context {
       $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
       $mock
         ->when()
-        ->pathIs('/solr')
+        ->pathIs('/solr/update')
         ->methodIs('POST')
+        ->then()
+        ->statusCode(200);
+      $mock
+        ->when()
+        ->pathIs('/solr/admin/ping')
+        ->methodIs('HEAD')
         ->then()
         ->statusCode(200);
 
@@ -157,6 +163,9 @@ class ApacheSolrContext implements Context {
    */
   public function theApacheSolrServerWasNotInstructedToIndexAnyNode() {
     $requests = $this->getRequests();
+    $index_request = $requests->last();
+    print_r($index_request);
+    die();
     assert($requests, isOfSize(0));
   }
 
