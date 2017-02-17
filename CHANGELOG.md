@@ -1,14 +1,5 @@
 # NextEuropa Platform change log
 
-## Version 2.4.0
-
-### Improvements
-
-### New features (For more details on each feature, see the README.md file at the root of the feature's folder)
-
-### Bug fixes
-  * NEPT-497 - News - Removed definition of unused field_news_picture field.
-
 ## Version 2.3.0
 
 ### Improvements
