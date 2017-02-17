@@ -67,7 +67,7 @@ function tmgmt_poetry_mock_uninstall() {
     $controller->delete(array_keys($result['tmgmt_translator']));
   }
 
-  // Clean translation jobs related to the tmgmt_poetry_test_translator.
+  // Delete translation jobs related to the tmgmt_poetry_test_translator.
   // Code is inspired by tmgmt_cron().
   $query = new EntityFieldQuery();
   $result = $query->entityCondition('entity_type', 'tmgmt_job')
