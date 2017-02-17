@@ -52,6 +52,9 @@ function cce_basic_config_requirements($phase) {
 function cce_basic_config_install() {
   $t = get_t();
 
+  // Body field base creation.
+  _cce_basic_config_body_field_base_add();
+
   // Create contributor editor roles.
   multisite_config_service('user')->createRole('contributor', 3);
   multisite_config_service('user')->createRole('editor', 4);
@@ -1056,6 +1059,44 @@ function cce_basic_config_disable() {
   variable_del('user_myaccount_data_image');
   // Log out.
   variable_del('user_logout_data_image');
+}
+
+/**
+ * Set the field base settings for the "body" field.
+ *
+ * It allows "soft" configuring the default settings of the field in order to
+ * avoid conflicts with existing sites that have different settings (NEPT-640).
+ */
+function _cce_basic_config_body_field_base_add() {
+  $body = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'node',
+    ),
+    'field_name' => 'body',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(),
+    'translatable' => 1,
+    'type' => 'text_with_summary',
+  );
+
+  field_create_field($body);
 }
 
 /**
