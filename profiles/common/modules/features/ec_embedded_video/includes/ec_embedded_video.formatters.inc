@@ -14,7 +14,7 @@
 function ec_embedded_video_file_formatter_info_alter(&$info) {
   if (module_exists('media_youtube')) {
     $formatter = $info['media_youtube_video'];
-    $formatter['label'] = t('YouTube Video Wrapper Free');
+    $formatter['label'] = t('YouTube Video Without Wrapper');
     $formatter['description'] = t(
       'It works like the "YouTube Video" formatter but it does not wrap the 
       video tags by HTML containers like "div"'
@@ -25,7 +25,7 @@ function ec_embedded_video_file_formatter_info_alter(&$info) {
 
   if (module_exists('media_vimeo')) {
     $formatter = $info['media_vimeo_video'];
-    $formatter['label'] = t('Vimeo Video Wrapper Free');
+    $formatter['label'] = t('Vimeo Video Without Wrapper');
     $formatter['description'] = t(
       'It works like the "Vimeo Video" Wrapper but it does not wrap the 
       video tags by HTML containers like "div"'
@@ -36,7 +36,7 @@ function ec_embedded_video_file_formatter_info_alter(&$info) {
 
   if (module_exists('media_dailymotion')) {
     $formatter = $info['media_dailymotion_video'];
-    $formatter['label'] = t('Dailymotion Video Wrapper Free');
+    $formatter['label'] = t('Dailymotion Video Without Wrapper');
     $formatter['description'] = t(
       'It works like the "Dailymotion Video" Wrapper but it does not wrap the 
       video tags by HTML containers like "div"'
@@ -47,7 +47,7 @@ function ec_embedded_video_file_formatter_info_alter(&$info) {
 
   if (module_exists('media_avportal')) {
     $formatter = $info['media_avportal_video'];
-    $formatter['label'] = t('AV Portal Video Wrapper Free');
+    $formatter['label'] = t('AV Portal Video Without Wrapper');
     $formatter['description'] = t(
       'It works like the "AV Portal Video" Wrapper but it does not wrap the 
       video tags by HTML containers like "div"'

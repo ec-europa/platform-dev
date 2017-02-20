@@ -19,8 +19,7 @@
  *  $title - The Media: YouTube file's title.
  *  $alternative_content - Text to display for browsers that don't support
  *  iframes.
- *  $no_wrapper - Flag determining if the video related tags must be embedded in
- *  the container.
+ *  $no_wrapper - If TRUE, video's wrappers are not displayed.
  */
 ?>
 <iframe 

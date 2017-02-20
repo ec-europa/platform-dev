@@ -11,8 +11,7 @@
  *  $autoplay - If TRUE, then start the player automatically when displaying.
  *  $fullscreen - Whether to allow fullscreen playback.
  *  $output - The object/embed code.
- *  $no_wrapper - Flag deterining if the video related tags must be embedded in
- *  the container.
+ *  $no_wrapper - If TRUE, video's wrappers are not displayed.
  *
  * Note that we set the width & height of the outer wrapper manually so that
  * the JS will respect that when resizing later.
