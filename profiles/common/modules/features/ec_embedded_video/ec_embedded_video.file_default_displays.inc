@@ -130,30 +130,6 @@ function ec_embedded_video_file_default_displays() {
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
-  $file_display->name = 'video__default__no_wrapper_media_avportal_video';
-  $file_display->weight = -45;
-  $file_display->status = FALSE;
-  $file_display->settings = array(
-    'width' => '520',
-    'height' => '315',
-  );
-  $export['video__default__no_wrapper_media_avportal_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
-  $file_display->name = 'video__default__no_wrapper_media_dailymotion_video';
-  $file_display->weight = -50;
-  $file_display->status = FALSE;
-  $file_display->settings = array(
-    'width' => '520',
-    'height' => '315',
-    'autoplay' => 0,
-    'iframe' => 1,
-  );
-  $export['video__default__no_wrapper_media_dailymotion_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
   $file_display->name = 'video__preview__file_field_file_download_link';
   $file_display->weight = -40;
   $file_display->status = FALSE;
@@ -482,17 +458,6 @@ function ec_embedded_video_file_default_displays() {
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__media_avportal_video';
-  $file_display->weight = -41;
-  $file_display->status = FALSE;
-  $file_display->settings = array(
-    'width' => '640',
-    'height' => '390',
-  );
-  $export['video__wysiwyg__media_avportal_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
   $file_display->name = 'video__wysiwyg__media_dailymotion_image';
   $file_display->weight = -42;
   $file_display->status = TRUE;
@@ -502,19 +467,6 @@ function ec_embedded_video_file_default_displays() {
     'height' => '',
   );
   $export['video__wysiwyg__media_dailymotion_image'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__media_dailymotion_video';
-  $file_display->weight = -40;
-  $file_display->status = FALSE;
-  $file_display->settings = array(
-    'width' => '560',
-    'height' => '340',
-    'autoplay' => 0,
-    'iframe' => 1,
-  );
-  $export['video__wysiwyg__media_dailymotion_video'] = $file_display;
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
@@ -538,26 +490,6 @@ function ec_embedded_video_file_default_displays() {
 
   $file_display = new stdClass();
   $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__media_vimeo_video';
-  $file_display->weight = -47;
-  $file_display->status = FALSE;
-  $file_display->settings = array(
-    'width' => '640',
-    'height' => '360',
-    'color' => '',
-    'protocol_specify' => 0,
-    'protocol' => 'https://',
-    'autoplay' => 0,
-    'loop' => 0,
-    'title' => 1,
-    'byline' => 1,
-    'portrait' => 1,
-    'api' => 0,
-  );
-  $export['video__wysiwyg__media_vimeo_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
   $file_display->name = 'video__wysiwyg__media_youtube_image';
   $file_display->weight = -45;
   $file_display->status = TRUE;
@@ -565,98 +497,6 @@ function ec_embedded_video_file_default_displays() {
     'image_style' => 'medium',
   );
   $export['video__wysiwyg__media_youtube_image'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__media_youtube_video';
-  $file_display->weight = -46;
-  $file_display->status = FALSE;
-  $file_display->settings = array(
-    'width' => '640',
-    'height' => '390',
-    'theme' => 'dark',
-    'color' => 'red',
-    'autohide' => '2',
-    'autoplay' => 0,
-    'loop' => 0,
-    'showinfo' => 1,
-    'modestbranding' => 0,
-    'rel' => 1,
-    'nocookie' => 0,
-    'protocol_specify' => 0,
-    'protocol' => 'https:',
-    'enablejsapi' => 0,
-    'origin' => '',
-  );
-  $export['video__wysiwyg__media_youtube_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__no_wrapper_media_avportal_video';
-  $file_display->weight = -39;
-  $file_display->status = TRUE;
-  $file_display->settings = array(
-    'width' => '640',
-    'height' => '390',
-  );
-  $export['video__wysiwyg__no_wrapper_media_avportal_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__no_wrapper_media_dailymotion_video';
-  $file_display->weight = -43;
-  $file_display->status = TRUE;
-  $file_display->settings = array(
-    'width' => '560',
-    'height' => '340',
-    'autoplay' => 0,
-    'iframe' => 1,
-  );
-  $export['video__wysiwyg__no_wrapper_media_dailymotion_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__no_wrapper_media_vimeo_video';
-  $file_display->weight = -49;
-  $file_display->status = TRUE;
-  $file_display->settings = array(
-    'width' => '640',
-    'height' => '360',
-    'color' => '',
-    'protocol_specify' => 0,
-    'protocol' => 'https://',
-    'autoplay' => 0,
-    'loop' => 0,
-    'title' => 1,
-    'byline' => 1,
-    'portrait' => 1,
-    'api' => 0,
-  );
-  $export['video__wysiwyg__no_wrapper_media_vimeo_video'] = $file_display;
-
-  $file_display = new stdClass();
-  $file_display->api_version = 1;
-  $file_display->name = 'video__wysiwyg__no_wrapper_media_youtube_video';
-  $file_display->weight = -46;
-  $file_display->status = TRUE;
-  $file_display->settings = array(
-    'width' => '640',
-    'height' => '390',
-    'theme' => 'dark',
-    'color' => 'red',
-    'autohide' => '2',
-    'autoplay' => 0,
-    'loop' => 0,
-    'showinfo' => 1,
-    'modestbranding' => 0,
-    'rel' => 1,
-    'nocookie' => 0,
-    'protocol_specify' => 0,
-    'protocol' => 'https:',
-    'enablejsapi' => 0,
-    'origin' => '',
-  );
-  $export['video__wysiwyg__no_wrapper_media_youtube_video'] = $file_display;
 
   return $export;
 }
