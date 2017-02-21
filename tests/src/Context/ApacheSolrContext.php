@@ -8,13 +8,11 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\Element;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
-use function bovigo\assert\predicate\isOfSize;
-use function bovigo\assert\predicate\matches;
-use function bovigo\assert\predicate\not;
+use function bovigo\assert\predicate\isNotEqualTo;
+use function bovigo\assert\predicate\hasKey;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -25,20 +23,6 @@ use InterNations\Component\HttpMock\Server;
  * Context for steps and assertions related to ApacheSolr.
  */
 class ApacheSolrContext implements Context {
-
-  /**
-   * The Mink context.
-   *
-   * @var MinkContext
-   */
-  protected $mink;
-
-  /**
-   * The variable context.
-   *
-   * @var VariableContext
-   */
-  protected $variables;
 
   /**
    * The port the mocked HTTP server should listen on.
@@ -75,8 +59,6 @@ class ApacheSolrContext implements Context {
    * Gets the mocked HTTP server.
    *
    * Initializes the server if it was not used before.
-   * By default it responds to any POST requests to /solr with 200 OK,
-   * additional behavior can be added in further steps.
    *
    * @return Server
    *   The mocked HTTP server.
@@ -90,8 +72,15 @@ class ApacheSolrContext implements Context {
       // Accept any POSTS.
       $mock = new MockBuilder(new MatcherFactory(), new ExtractorFactory());
       $mock
+        ->once()
         ->when()
-        ->pathIs('/solr/update')
+        ->pathIs('/solr/update?wt=json')
+        ->methodIs('POST')
+        ->then()
+        ->statusCode(100);
+      $mock
+        ->when()
+        ->pathIs('/solr/update?wt=json')
         ->methodIs('POST')
         ->then()
         ->statusCode(200);
@@ -99,6 +88,12 @@ class ApacheSolrContext implements Context {
         ->when()
         ->pathIs('/solr/admin/ping')
         ->methodIs('HEAD')
+        ->then()
+        ->statusCode(200);
+      $mock
+        ->when()
+        ->pathIs('/solr/admin/system')
+        ->methodIs('GET')
         ->then()
         ->statusCode(200);
 
@@ -134,6 +129,15 @@ class ApacheSolrContext implements Context {
   }
 
   /**
+   * Reset the nodes to be indexed before the scenario starts.
+   *
+   * @BeforeScenario
+   */
+  public function resetIndex(BeforeScenarioScope $scope) {
+    
+  }
+
+  /**
    * Configures the ApacheSolr integration for testing purposes.
    *
    * @Given the apachesolr integration is configured
@@ -143,30 +147,83 @@ class ApacheSolrContext implements Context {
   }
 
   /**
-   * Asserts that the web front end cache received certain purge requests.
+   * Index any remaining nodes in the site.
+   *
+   * @Given there are no nodes to index in apachesolr
+   */
+  public function thereAreNoNodesToIndexInApachesolr() {
+    module_load_include('inc', 'apachesolr', 'apachesolr.index');
+    apachesolr_index_entities('solr', 50);
+    $requests = $this->getRequests();
+    while ($requests->count() > 0) {
+      $requests->pop();
+    }
+  }
+
+  /**
+   * Asserts that apachesolr received a request to index a node.
    *
    * @Then the apachesolr server was instructed to index a :arg1 node with title :arg2
    */
   public function theApacheSolrServerWasInstructedToIndexANodeWithTitle($arg1, $arg2) {
 
     $requests = $this->getRequests();
-    assert($requests, isOfSize(1));
-
     $index_request = $requests->last();
-    // TODO: Assert index
+    $solr_request = (string) $index_request->getBody();
+
+    // Assert the last request is a POST.
+    assert($index_request->getMethod(), equals('POST'));
+
+    // Assert there is only one document in the request.
+    assert(substr_count($solr_request, '<doc>'), equals(1));
+
+    // Get the node title from the request.
+    preg_match('~<field name="label">([^>]*)<\/field>~', $solr_request, $match);
+    assert(sizeof($match), equals(2));
+    $node_title = $match[1];
+    assert($node_title, equals($arg2));
+    // Get the node type from the request.
+    preg_match('~<field name="bundle">([^>]*)<\/field>~', $solr_request, $match);
+    assert(sizeof($match), equals(2));
+    $node_type = $match[1];
+    assert($node_type, equals($arg1));
   }
 
   /**
-   * Asserts that the web front end cache did not receive any purge requests.
+   * Asserts that apachesolr did not receive any index requests.
    *
    * @Then the apachesolr server was not instructed to index any node
    */
   public function theApacheSolrServerWasNotInstructedToIndexAnyNode() {
     $requests = $this->getRequests();
     $index_request = $requests->last();
-    print_r($index_request);
-    die();
-    assert($requests, isOfSize(0));
+    assert($index_request->getMethod(), isNotEqualTo('POST'));
+  }
+
+  /**
+   * Asserts that apachesolr received a request to remove a node from the index.
+   *
+   * @Then the apachesolr server was instructed to remove a node from the index
+   */
+  public function theApacheSolrServerWasInstructedToRemoveNodeFromIndex() {
+    $requests = $this->getRequests();
+    $index_request = $requests->last();
+    // Assert the last request is a POST.
+    assert($index_request->getMethod(), equals('POST'));
+
+    $solr_request = (string) $index_request->getBody();
+    // Assert the request is for deleting a node.
+    assert(substr_count($solr_request, '<delete>'), equals(1));
+  }
+
+   /**
+   * Asserts that a facet is enabled for a searcher.
+   *
+   * @Then the facet :arg1 should be enabled for the searcher :arg2
+   */
+  public function theFacetShouldBeEnabledForTheSearcher($arg1, $arg2) {
+    $enabled_facets = facetapi_get_enabled_facets($arg2);
+    assert($enabled_facets, hasKey($arg1));
   }
 
   /**
