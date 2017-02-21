@@ -26,6 +26,9 @@ function nexteuropa_metatags_metatag_export_default() {
       'keywords' => array(
         'value' => 'European Commission, European Union, EU',
       ),
+      'viewport' => array(
+        'value' => 'width=device-width, initial-scale=1.0',
+      ),
       'robots' => array(
         'value' => array(
           'index' => 'index',
@@ -331,6 +334,9 @@ function nexteuropa_metatags_metatag_export_default() {
       ),
       'reference' => array(
         'value' => '[site:name]',
+      ),
+      'X-UA-Compatible' => array(
+        'value' => 'IE=edge',
       ),
       'date' => array(
         'value' => '[current-date:short]',
