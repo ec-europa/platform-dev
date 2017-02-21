@@ -8,7 +8,6 @@ namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
-use Behat\Mink\Element\Element;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEqualTo;
@@ -129,15 +128,6 @@ class ApacheSolrContext implements Context {
   }
 
   /**
-   * Reset the nodes to be indexed before the scenario starts.
-   *
-   * @BeforeScenario
-   */
-  public function resetIndex(BeforeScenarioScope $scope) {
-    
-  }
-
-  /**
    * Configures the ApacheSolr integration for testing purposes.
    *
    * @Given the apachesolr integration is configured
@@ -165,7 +155,7 @@ class ApacheSolrContext implements Context {
    *
    * @Then the apachesolr server was instructed to index a :arg1 node with title :arg2
    */
-  public function theApacheSolrServerWasInstructedToIndexANodeWithTitle($arg1, $arg2) {
+  public function theApacheSolrServerWasInstructedToIndexNodeWithTitle($arg1, $arg2) {
 
     $requests = $this->getRequests();
     $index_request = $requests->last();
@@ -179,12 +169,12 @@ class ApacheSolrContext implements Context {
 
     // Get the node title from the request.
     preg_match('~<field name="label">([^>]*)<\/field>~', $solr_request, $match);
-    assert(sizeof($match), equals(2));
+    assert(count($match), equals(2));
     $node_title = $match[1];
     assert($node_title, equals($arg2));
     // Get the node type from the request.
     preg_match('~<field name="bundle">([^>]*)<\/field>~', $solr_request, $match);
-    assert(sizeof($match), equals(2));
+    assert(count($match), equals(2));
     $node_type = $match[1];
     assert($node_type, equals($arg1));
   }
@@ -216,7 +206,7 @@ class ApacheSolrContext implements Context {
     assert(substr_count($solr_request, '<delete>'), equals(1));
   }
 
-   /**
+  /**
    * Asserts that a facet is enabled for a searcher.
    *
    * @Then the facet :arg1 should be enabled for the searcher :arg2
@@ -236,4 +226,5 @@ class ApacheSolrContext implements Context {
       $this->server->stop();
     }
   }
+
 }
