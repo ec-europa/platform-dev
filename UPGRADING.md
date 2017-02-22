@@ -16,7 +16,7 @@ The following modules have been moved
   - media_avportal
 
 The following modules have been removed from the stack
-  - TODO: add list of removed modules
+  - node_export
 
 The following modules has been removed from the *hard config*:
   - TODO: add list of removed modules
