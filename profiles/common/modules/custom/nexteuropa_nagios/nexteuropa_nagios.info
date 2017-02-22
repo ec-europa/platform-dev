@@ -1,0 +1,5 @@
+name = Nexteuropa Nagios
+description = Integration with the Nagios monitoring tool.
+core = 7.x
+package = NextEuropa
+dependencies[] = nagios

@@ -495,7 +495,7 @@ projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
 projects[nagios][download][type] = git
 projects[nagios][subdir] = "contrib"
-projects[nagios][version] = "1.3"
+projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-2.patch
 
 projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
