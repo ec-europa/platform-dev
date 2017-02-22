@@ -800,27 +800,12 @@ function _disable_block($module, $delta) {
  *   Operation to perform, either 'add' or 'delete.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
+  if (!in_array($op, array('delete', 'add'))) {
+    return;
+  }
+
   if (!module_exists('apachesolr')) {
-    watchdog(
-      'multisite_drupal_toolbox',
-      'Function %function was called with bundle %bundle and op %op, but the required apachesolr module is not enabled. You either need to add the module apachesolr as a dependency to the feature you are calling this function from, or prevent the call from happening if apachesolr is not a strict dependency and is disabled.',
-      array(
-        '%function' => __FUNCTION__,
-        '%bundle' => $bundle,
-        '%op' => $op,
-      ),
-      WATCHDOG_ERROR
-    );
-
     return;
-  }
-
-  if ($op != 'delete' && $op != 'add') {
-    return;
-  }
-  else {
-    $info = new stdClass();
-    $info->type = $bundle;
   }
 
   // Update hook cache to find new hooks (see module_implements()).
@@ -831,6 +816,9 @@ function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
 
   // We ensures that all node type are created.
   node_types_rebuild();
+
+  $info = new stdClass();
+  $info->type = $bundle;
 
   switch ($op) {
     case 'add':
