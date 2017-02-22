@@ -147,17 +147,6 @@ projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entit
 projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
 
-projects[css_injector][subdir] = "contrib"
-projects[css_injector][version] = "1.10"
-; Allow file upload with css injector
-; https://www.drupal.org/node/2506775
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
-; Unnecessary DB query and cache_set when rules are empty
-; https://www.drupal.org/node/2759319
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12128
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
-
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.11"
 
@@ -247,7 +236,11 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta2"
+projects[feeds][version] = "2.0-beta3"
+; Issue #2828605: feeds_system_info_alter() can triggers "The following module has moved within the file system".
+; https://www.drupal.org/node/2828605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
@@ -367,14 +360,6 @@ projects[jquery_update][version] = "2.7"
 ; Issue #2621436: Allow permissions to granted roles.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7825
 projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
-
-projects[js_injector][subdir] = "contrib"
-projects[js_injector][version] = "2.1"
-; Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
-; https://www.drupal.org/node/1820210
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
-projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
-projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of-js-file.patch
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
@@ -763,10 +748,6 @@ projects[drafty][version] = "1.0-beta3"
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "3.0"
-; Issue #2360091 View published tab is visible when a published node has a draft.
-; https://www.drupal.org/node/2360091
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
