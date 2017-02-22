@@ -1,5 +1,5 @@
-Splash screen Feature
-======================
+NextEuropa Nagios Feature
+=========================
 
 This module adds extra variables available for the Nagios monitoring tool.
 
