@@ -36,7 +36,7 @@ function nexteuropa_nagios_nagios_settings() {
 function nexteuropa_nagios_nagios($id) {
   $status = array();
   $available_checks = _nexteuropa_nagios_checks();
-  if (isset($available_checks[$id]) && variable_get('nexteuropa_nagios_check_' . $id, TRUE)){
+  if (isset($available_checks[$id]) && variable_get('nexteuropa_nagios_check_' . $id, TRUE)) {
     $result = _nexteuropa_nagios_check_performance_variable($available_checks[$id]);
     $status[$result['key']] = $result['data'];
   }
