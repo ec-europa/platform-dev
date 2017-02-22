@@ -96,7 +96,7 @@ function nexteuropa_trackedchanges_install() {
   // Default behavior for CKEditor LITE buttons.
   variable_set('ckeditor_lite_istracking', 0);
   variable_set('nexteuropa_trackedchanges_disable_track_on_create', 1);
-  variable_set('nexteuropa_trackedchanges_force_track_on_edit', 1);
+  variable_set('nexteuropa_trackedchanges_force_track_on_edit', 0);
   variable_set('nexteuropa_trackedchanges_rebuild_elapse_time', 3600);
 
   // Soft configuration of Feature related permission.

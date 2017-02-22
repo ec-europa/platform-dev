@@ -1,4 +1,4 @@
-@api @i18n
+@api
 Feature: Content translation
   In order to translate my content
   As an administrator
@@ -27,7 +27,7 @@ Feature: Content translation
     And I click "English" in the "content" region
     Then I should not see the text "Deutsch Body not for English version."
 
-   @javascript @maximizedwindow
+   @javascript @maximizedwindow @wip
   Scenario: Make sure that I can add "title_field" fields to a view when the Estonian language is enabled.
     Given the following languages are available:
       | languages |
