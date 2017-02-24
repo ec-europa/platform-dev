@@ -11,6 +11,7 @@ Feature:
       | solr_config |
     And the apachesolr integration is configured
     And I am logged in as a user with the "administrator" role
+    And there are no nodes to index in apachesolr
 
   Scenario: Administrators cannot access the solr configuration.
     When I go to "admin/config/search/apachesolr/settings/solr/edit"
@@ -22,7 +23,6 @@ Feature:
 
   @moderated-content
   Scenario: Create a draft.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -32,7 +32,6 @@ Feature:
 
   @moderated-content
   Scenario: Immediately publish a new page.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I click "Publishing options"
@@ -44,7 +43,6 @@ Feature:
 
   @moderated-content
   Scenario: Moderate a page.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -57,7 +55,6 @@ Feature:
 
   @moderated-content
   Scenario: Publish a page with moderation.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -70,7 +67,6 @@ Feature:
 
   @moderated-content
   Scenario: Withdraw a published page.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I click "Publishing options"
@@ -84,7 +80,6 @@ Feature:
 
   @non-moderated-content
   Scenario: Create draft of a an editorial team.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I click "Publishing options"
@@ -96,7 +91,6 @@ Feature:
 
   @non-moderated-content
   Scenario: Immediately publish a new editorial team.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I press "Save"
@@ -106,7 +100,6 @@ Feature:
 
   @non-moderated-content
   Scenario: Publish an existing draft of an editorial team.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I click "Publishing options"
@@ -122,7 +115,6 @@ Feature:
 
   @non-moderated-content
   Scenario: Edit an existing draft of an editorial team.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I click "Publishing options"
@@ -137,7 +129,6 @@ Feature:
 
   @non-moderated-content
   Scenario: Withdraw a published editorial team.
-    Given there are no nodes to index in apachesolr
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I press "Save"
