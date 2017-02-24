@@ -115,6 +115,7 @@ dependencies[] = ecas_env
 dependencies[] = multisite_wysiwyg
 
 ; NextEuropa features.
+dependencies[] = nexteuropa_admin_screens_config
 dependencies[] = nexteuropa_core
 dependencies[] = nexteuropa_editorial
 dependencies[] = nexteuropa_multilingual
