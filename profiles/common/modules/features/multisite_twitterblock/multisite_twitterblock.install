@@ -103,7 +103,7 @@ function multisite_twitterblock_schema() {
 /**
  * Updates the variables values.
  */
-function digital_agenda_general_update_7100() {
+function multisite_twitterblock_update_7100() {
   $fpfis_twitter_types = array(
     'user' => 'User feed',
     'list' => 'List members feed',
