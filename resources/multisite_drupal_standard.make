@@ -402,6 +402,9 @@ projects[media][version] = 2.0-rc5
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.1"
 
+projects[media_avportal][subdir] = "contrib"
+projects[media_avportal][version] = "1.1"
+
 projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
 
