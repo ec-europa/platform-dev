@@ -395,7 +395,7 @@ example.org';
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'multisite_version';
-  $strongarm->value = '2.2';
+  $strongarm->value = '2.3';
   $export['multisite_version'] = $strongarm;
 
   $strongarm = new stdClass();
