@@ -24,6 +24,13 @@ use InterNations\Component\HttpMock\Server;
 class ApacheSolrContext implements Context {
 
   /**
+   * The variable context.
+   *
+   * @var VariableContext
+   */
+  protected $variables;
+
+  /**
    * The port the mocked HTTP server should listen on.
    *
    * @var int
@@ -123,7 +130,6 @@ class ApacheSolrContext implements Context {
   public function gatherContexts(BeforeScenarioScope $scope) {
     $environment = $scope->getEnvironment();
 
-    $this->mink = $environment->getContext(MinkContext::class);
     $this->variables = $environment->getContext(VariableContext::class);
   }
 
@@ -133,7 +139,10 @@ class ApacheSolrContext implements Context {
    * @Given the apachesolr integration is configured
    */
   public function apacheSolrIntegrationIsConfigured() {
-    $server = $this->getServer();
+    $this->getServer();
+
+    // Do not let poor man's cron interfere with our test.
+    $this->variables->setVariable('cron_safe_threshold', 0);
   }
 
   /**
