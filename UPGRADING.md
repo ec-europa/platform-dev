@@ -250,6 +250,14 @@ $ drush pm-uninstall css_injector js_injector -y
 
 ```
 
+ * From ticket NEPT-391
+
+```
+$ drush dis flexible_purge  -y
+$ drush pm-uninstall flexible_purge  -y
+
+```
+
 ### After-upgrade steps
 
 Once the above steps are completed and the site is in the 2.3.0 codebase,

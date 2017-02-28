@@ -281,9 +281,6 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
 
-projects[flexible_purge][subdir] = "contrib"
-projects[flexible_purge][version] = "1.x-dev"
-
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
 
