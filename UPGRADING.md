@@ -253,7 +253,7 @@ $ drush pm-uninstall css_injector js_injector -y
  * From ticket NEPT-391
 
 ```
-$ drush dis flexible_purge  -y
+$ drush dis nexteuropa_varnish flexible_purge  -y
 $ drush pm-uninstall flexible_purge  -y
 
 ```
