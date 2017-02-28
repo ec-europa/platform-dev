@@ -2329,3 +2329,10 @@ function cce_basic_config_update_7215() {
     }
   }
 }
+
+/**
+ * Update platform version to 2.3.
+ */
+function cce_basic_config_update_7216() {
+  variable_set('multisite_version', '2.3');
+}
