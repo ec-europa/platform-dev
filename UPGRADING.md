@@ -254,6 +254,7 @@ $ drush pm-uninstall css_injector js_injector -y
 
 ```
 $ drush dis nexteuropa_varnish flexible_purge  -y
+$ drush pm-uninstall nexteuropa_varnish  -y
 $ drush pm-uninstall flexible_purge  -y
 
 ```
