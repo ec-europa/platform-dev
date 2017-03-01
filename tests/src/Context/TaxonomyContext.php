@@ -7,6 +7,7 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
+use Drupal\nexteuropa\Component\Utility\Transliterate;
 
 /**
  * Context with Taxonomy functionality.
@@ -28,6 +29,27 @@ class TaxonomyContext implements Context {
   protected $fields = [];
 
   /**
+   * List of Terms created during test execution.
+   *
+   * @var \Fields[]
+   */
+  protected $terms = [];
+
+  /**
+   * The transliterate utility object.
+   *
+   * @var \Drupal\nexteuropa\Component\Utility\Transliterate
+   */
+  protected $transliterate;
+
+  /**
+   * TaxonomyContext constructor.
+   */
+  public function __construct() {
+    $this->transliterate = new Transliterate();
+  }
+
+  /**
    * Create vocabulary.
    *
    * @param string $name
@@ -40,7 +62,7 @@ class TaxonomyContext implements Context {
   public function iCreateNewVocabulary($name) {
     $vocabulary = array(
       'name' => $name,
-      'machine_name' => $this->getMachineName($name),
+      'machine_name' => $this->transliterate->getMachineName($name),
       'description' => '',
       'module' => 'taxonomy',
     );
@@ -60,6 +82,7 @@ class TaxonomyContext implements Context {
     foreach ($this->vocabularies as $vocabulary_name) {
       taxonomy_vocabulary_delete($this->getTaxonomyIdByName($vocabulary_name));
     }
+    $this->vocabularies = array();
   }
 
   /**
@@ -80,6 +103,47 @@ class TaxonomyContext implements Context {
     $term->vid = $this->getTaxonomyIdByName($vocabulary_name);
     $term->parent = 0;
     taxonomy_term_save($term);
+    $this->terms[] = $term->tid;
+  }
+
+  /**
+   * Create term with a parent in a vocabulary.
+   *
+   * @param string $term_name
+   *    Name of the term.
+   * @param string $vocabulary_name
+   *    Name of the vocabulary.
+   *
+   * @Given the term :term_name with the parent term :parent_term in the vocabulary :vocabulary_name exists
+   *
+   * @Then I create a new term :term_name with a parent term :parent_term in the vocabulary :vocabulary_name
+   */
+  public function iCreateNewTermWithParentInTheVocabulary($term_name, $parent_name, $vocabulary_name) {
+    $parent_terms = taxonomy_get_term_by_name($parent_name, $vocabulary_name);
+    if (!empty($parent_terms)) {
+      $parent_term = array_shift($parent_terms);
+      $term = new \stdClass();
+      $term->name = $term_name;
+      $term->vid = $this->getTaxonomyIdByName($vocabulary_name);
+      $term->parent = $parent_term->tid;
+      taxonomy_term_save($term);
+      $this->terms[] = $term->tid;
+    }
+    else {
+      throw new \InvalidArgumentException("The parent term '{$parent_name}' doesn't exist.");
+    }
+  }
+
+  /**
+   * Revert to previous settings after scenario execution.
+   *
+   * @AfterScenario
+   */
+  public function removeTerms() {
+    // Remove the vocabularies.
+    foreach ($this->terms as $tid) {
+      taxonomy_term_delete($tid);
+    }
   }
 
   /**
@@ -99,8 +163,8 @@ class TaxonomyContext implements Context {
   public function iCreateNewGroupNamedInTheVocabulary($group_name, $group_type, $vocabulary_name) {
 
     $group_machine_type = $this->getGroupTypeFormatByName($group_type);
-    $group_machine_name = 'group_' . $this->getMachineName($group_name);
-    $vocabulary_machine_name = $this->getMachineName($vocabulary_name);
+    $group_machine_name = $this->transliterate->getMachineName('group_' . $group_name);
+    $vocabulary_machine_name = $this->transliterate->getMachineName($vocabulary_name);
 
     $group = (object) array(
       'identifier' => $group_machine_name . '|taxonomy_term|' . $vocabulary_machine_name . '|form',
@@ -140,10 +204,10 @@ class TaxonomyContext implements Context {
    * @Then I create a new field :field_type named :field_name grouped in :group_name in the vocabulary :vocabulary_name
    */
   public function iCreateNewFieldNamedGroupedInInTheVocabulary($field_name, $field_type, $group_name, $vocabulary_name) {
-    $field_machine_name = "field_" . $this->getMachineName($field_name);
+    $field_machine_name = $this->transliterate->getMachineName('field_' . $field_name);
     $field_machine_type = $this->getFieldTypeFormatByName($field_type);
-    $group_machine_name = "group_" . $this->getMachineName($group_name);
-    $vocabulary_machine_name = $this->getMachineName($vocabulary_name);
+    $group_machine_name = $this->transliterate->getMachineName('group_' . $group_name);
+    $vocabulary_machine_name = $this->transliterate->getMachineName($vocabulary_name);
 
     // Make sure the field doesn't already exist.
     if (!field_info_field($field_machine_name)) {
@@ -191,23 +255,8 @@ class TaxonomyContext implements Context {
     foreach ($this->fields as $field) {
       field_delete_field($field['field_name']);
     }
+    $this->fields = array();
     field_purge_batch(100);
-  }
-
-  /**
-   * Create a machine name.
-   *
-   * @param string $name
-   *    Name.
-   *
-   * @return string
-   *    Machine name.
-   */
-  private function getMachineName($name) {
-    $a = explode(",", " ,&,à,á,â,ã,ä,å,æ,ç,è,é,ê,ë,ì,í,î,ï,ñ,ò,ó,ô,õ,ö,ø,ù,ú,û,ü,ý,ÿ,ā,ă,ą,ć,ĉ,ċ,č,ď,đ,ē,ĕ,ė,ę,ě,ĝ,ğ,ġ,ģ,ĥ,ħ,ĩ,ī,ĭ,į,ı,ĳ,ĵ,ķ,ĺ,ļ,ľ,ŀ,ł,ń,ņ,ň,ŉ,ō,ŏ,ő,œ,ŕ,ŗ,ř,ś,ŝ,ş,š,ţ,ť,ŧ,ũ,ū,ŭ,ů,ű,ų,ŵ,ŷ,ź,ż,ž,ƒ,ơ,ư,ǎ,ǐ,ǒ,ǔ,ǖ,ǘ,ǚ,ǜ,ǻ,ǽ,ǿ,ά,έ,ό,Ώ,ώ,ί,ϊ,ΐ,ύ,ϋ,ΰ,ή");
-    $b = explode(",", "_,_,a,a,a,a,a,a,ae,c,e,e,e,e,i,i,i,i,n,o,o,o,o,o,o,u,u,u,u,y,y,a,a,a,c,c,c,c,d,d,e,e,e,e,e,g,g,g,g,h,h,i,i,i,i,i,ij,j,k,l,l,l,l,l,l,n,n,n,n,o,o,o,oe,r,r,r,s,s,s,s,t,t,t,u,u,u,u,u,u,w,y,z,z,z,s,f,o,u,a,i,o,u,u,u,u,u,a,ae,o,α,ε,ο,Ω,ω,ι,ι,ι,υ,υ,υ,η");
-    $machine_name = str_replace($a, $b, strtolower($name));
-    return $machine_name;
   }
 
   /**
@@ -268,7 +317,7 @@ class TaxonomyContext implements Context {
    *    Id of the taxonomy.
    */
   private function getTaxonomyIdByName($name) {
-    $vocabulary = taxonomy_vocabulary_machine_name_load($this->getMachineName($name));
+    $vocabulary = taxonomy_vocabulary_machine_name_load($this->transliterate->getMachineName($name));
     if (empty($vocabulary)) {
       throw new \InvalidArgumentException("The vocabulary '{$name}' doesn't exist.");
     }

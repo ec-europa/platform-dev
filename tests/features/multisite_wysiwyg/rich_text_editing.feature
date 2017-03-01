@@ -5,7 +5,7 @@ Feature: Testing the rich text options available with the toolbar present on WYS
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @javascript @wip
+  @javascript
   Scenario: I create a content that contains a link with the following tag attributes: id, class and hreflang
     # Necessary for PhantomJS to set a wider screen resolution.
     Given I use device with "1920" px and "1080" px resolution
@@ -20,4 +20,8 @@ Feature: Testing the rich text options available with the toolbar present on WYS
     And I fill in "Language code (hreflang)" with "ga"
     And I click the "OK" link in the "CKEditor" modal dialog from the "Body" WYSIWYG editor
     And I press "Save"
-    Then the response should contain "<a class=\"css-behat-test\" href=\"http://europa.eu/european-union/index_ga\" hreflang=\"ga\" id=\"id-behat-987456\">http://europa.eu/european-union/index_ga</a>"
+    Then the page should contain the element with following id "id-behat-987456" and given attributes:
+      | Attribute | Value                                     |
+      | class     | css-behat-test                            |
+      | href      | http://europa.eu/european-union/index_ga  |
+      | hreflang  | ga                                        |

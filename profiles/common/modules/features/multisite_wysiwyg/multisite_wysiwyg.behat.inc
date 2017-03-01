@@ -8,6 +8,7 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+
 /**
  * Behat step definitions for the NextEuropa Editorial module.
  */
@@ -19,13 +20,6 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
    * @var \Drupal\DrupalDriverManager;
    */
   protected $drupal;
-
-  /**
-   * Contains the name of the currently selected iframe.
-   *
-   * @var string
-   */
-  private $iframe = NULL;
 
   /**
    * Constructs a NextEuropaTokenSubContext object.
@@ -107,7 +101,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       // Example: cke_editor_edit-field-ne-body-und-0-value_dialog.
       $modal_id = 'cke_editor_' . $field_id . '_dialog';
     }
-    $modal_element = $driver->find("//div[contains(@class, 'cke_1') and contains(@class, '$modal_id')]");
+    $modal_element = $driver->find("//div[contains(@class, 'cke_reset_all') and contains(@class, '$modal_id')]");
     $modal_element = !empty($modal_element) ? $modal_element[0] : NULL;
 
     if (!$modal_element) {
@@ -276,94 +270,13 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
       // The catch is nevertheless useful because exceptions could happen if
       // the label value corresponds to the input id.
       // The "echo" is inserted for debug purpose.
-      echo (sprintf('An exception happens because "%s" was not found as Label.
-      that means that could be an id then getFieldIdFromInputLabel is as id.', $label_value));
+      echo (sprintf('NOTICE: An exception has been raised because "%s" was not found as Label.
+      that means that could be an id then getFieldIdFromInputLabel will simply return the submitted label value as id.', $label_value));
     }
     // If the id is not found, the label is considered as input id and the
     // scenario step calling the function must decide what to do with the
     // returned value.
     return $label_value;
-  }
-
-  /**
-   * Switch frames inside the media dialogs.
-   *
-   * @When I switch to the frame :frame
-   */
-  public function iSwitchToTheFrame($frame) {
-    $this->getSession()->switchToIFrame($frame);
-    $this->iframe = $frame;
-    $this->getSession()->wait(5000);
-
-  }
-
-  /**
-   * Click some text in the page.
-   *
-   * @When /^I click on the text "([^"]*)"$/
-   */
-  public function iClickOnTheText($text) {
-    $session = $this->getSession();
-    $element = $session->getPage()->find(
-      'xpath',
-      $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[text()="' . $text . '"]')
-    );
-    if (NULL === $element) {
-      throw new \InvalidArgumentException(sprintf('Cannot find text: "%s"', $text));
-    }
-
-    $element->click();
-  }
-
-  /**
-   * Close all dialog boxes and return to the node.
-   *
-   * @When I switch out of all frames
-   */
-  public function iSwitchOutOfAllFrames() {
-    $this->getSession()->switchToIFrame();
-    $this->iframe = NULL;
-  }
-
-  /**
-   * Check that a given text exists in a given tag in a given region.
-   *
-   * @Then I should see :text in the :tag element in the :region region
-   */
-  public function assertRegionElementText($text, $tag, $region) {
-    $region_obj = $this->getRegion($region);
-    $elements = $region_obj->findAll('css', $tag);
-    if (empty($elements)) {
-      throw new \Exception(sprintf('The element "%s" was not found in the "%s" region on the page %s', $tag, $region, $this->getSession()->getCurrentUrl()));
-    }
-
-    $found = FALSE;
-    foreach ($elements as $element) {
-      if ($element->getText() == $text) {
-        $found = TRUE;
-        break;
-      }
-    }
-    if (!$found) {
-      throw new \Exception(sprintf('The text "%s" was not found in the "%s" element in the "%s" region on the page %s', $text, $tag, $region, $this->getSession()->getCurrentUrl()));
-    }
-  }
-
-  /**
-   * Click on a button which is in fact a link with CSS.
-   *
-   * @When I click the fake :text button
-   */
-  public function iClickTheFakeButton($text) {
-    // Media style selector "buttons" are A tags with no href, so not findable
-    // by normal steps.
-    $this->getSession()->getDriver()->resizeWindow(1440, 900, 'current');
-    $this->getSession()
-      ->wait(5000, "typeof jQuery !== 'undefined' && jQuery('a').filter(function(index) { return jQuery(this).text() === \"Submit\"; })");
-    $element = $this->getSession()
-      ->getPage()
-      ->find('xpath', '//a[text() = "' . $text . '"]');
-    $element->click();
   }
 
 }

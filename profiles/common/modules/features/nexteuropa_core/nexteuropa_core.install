@@ -60,9 +60,6 @@ function nexteuropa_core_install() {
 
     // Version Management.
     'version management edits',
-
-    // ckeditor_lite highlight changes.
-    'ckeditor_lite highlight changes',
   );
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
@@ -84,6 +81,8 @@ function nexteuropa_core_install() {
   multisite_config_service('version_management')->enableVersionManagement('article');
   multisite_config_service('version_management')->enableVersionManagement('page');
 
+  // Enable translation of 'body' field by default.
+  multisite_config_service('field')->enableFieldTranslation('body');
 }
 
 /**
@@ -122,4 +121,8 @@ function nexteuropa_core_update_7004() {
     // ckeditor_lite highlight changes.
     'ckeditor_lite highlight changes',
   );
+  // Set permissions for "contributor" role.
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
+  // Set permissions for "editor" role.
+  multisite_config_service('user')->grantPermission('editor', $permissions);
 }

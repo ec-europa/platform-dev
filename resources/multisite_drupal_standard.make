@@ -70,6 +70,10 @@ projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.9
+; Issue #2084823 : Contextual links for entity view
+; https://www.drupal.org/node/2084823
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
+projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.2"
@@ -87,23 +91,26 @@ projects[bounce][version] = "1.7"
 projects[captcha][subdir] = "contrib"
 projects[captcha][version] = "1.3"
 
+projects[cdn][subdir] = "contrib"
+projects[cdn][version] = "2.9"
+
 projects[chosen][subdir] = "contrib"
 projects[chosen][version] = 2.0-beta4
 
 projects[chr][subdir] = "contrib"
-projects[chr][version] = "1.7"
-; Issue #2512054 : Call to legacy function curl_http_request. Please use chr_curl_http_request instead.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5588
-; https://www.drupal.org/node/2512054
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-deprecated_call-2512054-2.patch
-; Issue #2142949 : Receiving error message - Notice: Undefined offset: 1 in chr_curl_http_request().
-; https://www.drupal.org/node/2142949
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1944
-projects[chr][patch][] = https://www.drupal.org/files/issues/chr-undefined-index-1-due-response-without-payload.patch
+projects[chr][version] = "1.8"
 ; Issue #2355631 : rewrite header host without port number.
 ; https://www.drupal.org/node/2355631
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6231
 projects[chr][patch][] = https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch
+; Issue #2816399: the module trims spaces from the response received and might cause corrupted binary files
+; https://www.drupal.org/node/2816399
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-185
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch
+; Issue #2825701: allow PURGE requests.
+; https://www.drupal.org/node/2825701
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-81
+projects[chr][patch][] = https://www.drupal.org/files/issues/chr-purge-2825701-2.patch
 
 projects[ckeditor_link][subdir] = "contrib"
 projects[ckeditor_link][version] = "2.3"
@@ -112,7 +119,7 @@ projects[ckeditor_lite][subdir] = contrib
 projects[ckeditor_lite][version] = 1.0-rc3
 
 projects[coffee][subdir] = "contrib"
-projects[coffee][version] = 2.2
+projects[coffee][version] = 2.3
 
 projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
@@ -140,19 +147,8 @@ projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entit
 projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
 
-projects[css_injector][subdir] = "contrib"
-projects[css_injector][version] = "1.10"
-; Allow file upload with css injector
-; https://www.drupal.org/node/2506775
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
-; Unnecessary DB query and cache_set when rules are empty
-; https://www.drupal.org/node/2759319
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12128
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
-
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.9"
+projects[ctools][version] = "1.11"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -172,7 +168,7 @@ projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
 projects[ds][subdir] = "contrib"
-projects[ds][version] = "2.11"
+projects[ds][version] = "2.14"
 
 projects[easy_breadcrumb][subdir] = "contrib"
 projects[easy_breadcrumb][version] = "2.12"
@@ -187,11 +183,11 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
-projects[entity_translation][download][branch] = 7.x-1.x
-projects[entity_translation][download][revision] = 221e302
-projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
+projects[entity_translation][version] = "1.0-beta5"
+; Issue #1707156 : Workbench Moderation integration
+; https://www.drupal.org/node/1707156
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-47.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -239,9 +235,16 @@ projects[feature_set][version] = "1.3"
 projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
+; Issue #2831766: Feature set does not invoke hook_requirements().
+; https://www.drupal.org/node/2831766
+projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta1"
+projects[feeds][version] = "2.0-beta3"
+; Issue #2828605: feeds_system_info_alter() can triggers "The following module has moved within the file system".
+; https://www.drupal.org/node/2828605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
@@ -276,7 +279,7 @@ projects[filefield_sources_plupload][version] = "1.1"
 projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch
 
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "3.7"
+projects[flag][version] = "3.9"
 
 projects[flexible_purge][subdir] = "contrib"
 projects[flexible_purge][version] = "1.x-dev"
@@ -334,7 +337,7 @@ projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_def
 projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
-projects[i18nviews][version] = "3.x-dev"
+projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
@@ -360,14 +363,6 @@ projects[jquery_update][version] = "2.7"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7825
 projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
 
-projects[js_injector][subdir] = "contrib"
-projects[js_injector][version] = "2.1"
-; Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
-; https://www.drupal.org/node/1820210
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
-projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
-projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of-js-file.patch
-
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
 ; Allow to override the http client code, to support proxying secure
@@ -389,6 +384,10 @@ projects[linkchecker][subdir] = "contrib"
 projects[linkchecker][version] = "1.2"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
+; Linkchecker PHP 7.0 compatibility.
+; https://www.drupal.org/node/2660694
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
@@ -455,15 +454,17 @@ projects[menu_block][subdir] = "contrib"
 projects[menu_block][version] = "2.7"
 projects[menu_block][patch][] = patches/menu_block-jqueryUI_issue-5211.patch
 
+projects[menu_token][download][branch] = 7.x-1.x
+projects[menu_token][download][revision] = 27ab9f244d7813803cfa662d05ffc1747d758956
+projects[menu_token][download][type] = git
 projects[menu_token][subdir] = "contrib"
-projects[menu_token][version] = "1.0-beta5"
-projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_be_edited-2005556-2.patch
+projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.patch
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.7"
+projects[metatag][version] = "1.21"
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
@@ -529,8 +530,17 @@ projects[pathauto_persist][version] = "1.4"
 projects[piwik][subdir] = "contrib"
 projects[piwik][version] = "2.9"
 
+; Instead of using a stable version of the plupload module, we stick here to a
+; more recent git revision in order to solve unexpected failures with a
+; plupload JS library patch included in the default Drush make file of the
+; module. In the scope of https://www.drupal.org/node/2088143, this default make
+; file got reduced to an example make file which is not executed any longer by
+; default, so we can download and patch the plupload JS library ourselves (see
+; further on in the libraries section of this make file).
 projects[plupload][subdir] = "contrib"
-projects[plupload][version] = "1.7"
+projects[plupload][download][branch] = 7.x-1.x
+projects[plupload][download][revision] = bba974c6f3224346a1acae4181a700b55129e6e1
+projects[plupload][download][type] = git
 
 projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
@@ -569,6 +579,10 @@ projects[select_or_other][version] = 2.22
 projects[simplenews][subdir] = "contrib"
 projects[simplenews][version] = "1.1"
 projects[simplenews][patch][] = patches/simplenews-fieldset-weight-4330.patch
+; #2801239: Issue with Entity cache
+; https://www.drupal.org/node/2801239
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-121
+projects[simplenews][patch][] = https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch
 
 projects[simplenews_statistics][subdir] = "contrib"
 projects[simplenews_statistics][version] = "1.0-alpha1"
@@ -603,6 +617,13 @@ projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 1f89073
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+; #2813673: Tests broken since new permission in drupal core
+; https://www.drupal.org/node/2813673
+projects[title][patch][] = https://www.drupal.org/files/issues/2813673-title-tests-fail.patch
+; #2757739: Token value is not sanitized, when replaced from title field
+; https://www.drupal.org/node/2757739
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-412
+projects[title][patch][] = https://www.drupal.org/files/issues/2757739_1.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
@@ -612,6 +633,10 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
+; #2812863 : Insufficient access check on Views
+; https://www.drupal.org/node/2812863
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"
@@ -644,7 +669,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0-beta1"
+projects[uuid][version] = "1.0-beta2"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -655,7 +680,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.14
+projects[views][version] = 3.15
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
@@ -724,7 +749,6 @@ projects[workbench_email][patch][] = patches/workbench_email-revert_feature_erro
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
 projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
-projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
 ; Issue #2360091 View published tab is visible when a published node has a draft.
@@ -735,7 +759,15 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/1408838
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
-
+; Node revision in shutdown function causes error in behat tests
+; https://www.drupal.org/node/2645622
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
+; Doesn't handle file attachments
+; We need to merge the changes in the drupal.org ticket with the previous patch because they change the same line
+; https://www.drupal.org/node/1084436
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-592
+projects[workbench_moderation][patch][] = patches/workbench_moderation-002-1084436-2645622-merge.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
@@ -807,7 +839,7 @@ libraries[ckeditor_moono][directory_name] = "moonocolor"
 libraries[cycle][download][type] = "git"
 libraries[cycle][destination] = "libraries"
 libraries[cycle][download][url] = https://github.com/malsup/cycle.git
-libraries[cycle][tag] = "3.0.3"
+libraries[cycle][download][tag] = "3.0.3"
 
 ; fancybox 2.1.5
 libraries[fancybox][download][type]= "file"
@@ -876,7 +908,7 @@ libraries[jquery][directory_name] = "jquery"
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
 libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
-libraries[Leaflet.draw][tag] = "v0.2.4"
+libraries[Leaflet.draw][download][tag] = "v0.3.0"
 
 ; modernizr 2.8.3
 libraries[modernizr][download][url] = https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip
@@ -885,11 +917,11 @@ libraries[modernizr][download][request_type]= "get"
 libraries[modernizr][download][file_type] = "zip"
 libraries[modernizr][destination] = "../common/libraries"
 
-; mpdf 5.7.4a
+; mpdf
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v5.7.4a.zip"
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v6.1.0.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
@@ -897,6 +929,17 @@ libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
 libraries[leaflet][directory_name] = "leaflet"
+
+; Plupload
+libraries[plupload][destination] = "libraries"
+libraries[plupload][download][type] = "file"
+libraries[plupload][download][request_type]= "get"
+libraries[plupload][download][file_type] = "zip"
+libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v1.5.8.zip"
+libraries[plupload][directory_name] = "plupload"
+; Remove the examples directory.
+; See https://www.drupal.org/node/1903850#comment-11676067.
+libraries[plupload][patch][1903850] = "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
 
 ; ===========================
 ; Libraries for Ec_resp Theme
@@ -939,8 +982,7 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 ; ======
 
 projects[bootstrap][type] = theme
-projects[bootstrap][download][type] = get
-projects[bootstrap][download][url] = http://ftp.drupal.org/files/projects/bootstrap-7.x-3.5.zip
+projects[bootstrap][version] = 3.8
 
 projects[europa][type] = theme
 projects[europa][download][type] = get

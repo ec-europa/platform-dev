@@ -5,7 +5,7 @@
  * Multisite Toolbox definition module.
  */
 
-define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+ define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
  * Implements hook_menu().
  */
@@ -157,15 +157,18 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   $items['node/add/node_export']['access callback'] = FALSE;
   // Hide broken links tab in the my account page.
   $items['user/%user/linkchecker']['access callback'] = FALSE;
-  // Only super admin can configure apache solR.
-  $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/%/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/settings/add']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-  $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+
+  if (module_exists('apachesolr')) {
+    // Only super admin can configure apache solR.
+    $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/add']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+  }
 
   $items['user/%user/edit']['access callback'] = 'multisite_drupal_toolbox_edit_access';
   $items['user/%user/cancel']['access callback'] = 'multisite_drupal_toolbox_edit_access';
@@ -206,13 +209,11 @@ function multisite_drupal_toolbox_media_wysiwyg_token_to_markup_alter(&$element,
 
   // Add the media img css styles to the containing div.
   if (isset($element['content']['#bundle'])
-    && ($element['content']['#bundle'] == 'image')
-  ) {
+    && ($element['content']['#bundle'] == 'image')) {
 
     // Wrap element in a fancybox hyperlink.
     if (isset($element['content']['file']['#theme'])
-      && ($element['content']['file']['#theme']) == 'image_style'
-    ) {
+      && ($element['content']['file']['#theme']) == 'image_style') {
       $element['content']['file']['#prefix'] = '<div><a href="' . file_create_url($element['content']['file']['#file']->uri) . '" class="fancybox">';
       $element['content']['file']['#suffix'] = '</a></div>';
     };
@@ -549,21 +550,17 @@ function _disable_content_type($type) {
 function multisite_drupal_toolbox_add_block_context($context_name, $block_title, $module, $delta, $region, $weight = '-10') {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  if (!isset($context->reactions['block']['blocks'][$block_title])) {
-    // Make some modifications.
-    $block_to_add = array(
-      'module' => $module,
-      'delta' => $delta,
-      'region' => $region,
-      'weight' => $weight,
-    );
-
-    // Add modification to the context.
-    $context->reactions['block']['blocks'][$block_title] = $block_to_add;
-    // Update the context.
-    module_invoke('context', 'save', $context);
-
-  }
+  // Make some modifications.
+  $block_to_add = array(
+    'module' => $module,
+    'delta' => $delta,
+    'region' => $region,
+    'weight' => $weight,
+  );
+  // Add modification to the context.
+  $context->reactions['block']['blocks'][$block_title] = $block_to_add;
+  // Update the context.
+  module_invoke('context', 'save', $context);
 }
 
 /**
@@ -584,11 +581,10 @@ function _add_block_context($context_name, $block_title, $module, $delta, $regio
 function multisite_drupal_toolbox_remove_block_context($context_name, $block_title) {
   // Load context.
   $context = module_invoke('context', 'load', $context_name);
-  if (is_object($context)) {
-    unset($context->reactions['block']['blocks'][$block_title]);
-    // Update the context.
-    module_invoke('context', 'save', $context);
-  }
+  // Remove element from the context.
+  unset($context->reactions['block']['blocks'][$block_title]);
+  // Update the context.
+  module_invoke('context', 'save', $context);
 }
 
 /**
@@ -803,15 +799,20 @@ function _disable_block($module, $delta) {
 /**
  * Public function to add or delete nodes from the index.
  *
- * You need to add the module apachesolr as a dependancy to your feature.
+ * You need to add the module apachesolr as a dependency to your feature.
+ *
+ * @param string $bundle
+ *   Node type (node entity bundle) to perform the operation with.
+ * @param string $op
+ *   Operation to perform, either 'add' or 'delete.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
-  if ($op != 'delete' && $op != 'add') {
+  if (!in_array($op, array('delete', 'add'))) {
     return;
   }
-  else {
-    $info = new stdClass();
-    $info->type = $bundle;
+
+  if (!module_exists('apachesolr')) {
+    return;
   }
 
   // Update hook cache to find new hooks (see module_implements()).
@@ -822,6 +823,9 @@ function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
 
   // We ensures that all node type are created.
   node_types_rebuild();
+
+  $info = new stdClass();
+  $info->type = $bundle;
 
   switch ($op) {
     case 'add':
@@ -1540,10 +1544,10 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
     if (db_table_exists('field_revision_' . $field['field_name'])) {
       // Clean revision field.
       db_delete('field_revision_' . $field['field_name'])
-        ->condition('entity_type', $target->entity_type)
-        ->condition('entity_id', $target->entity_id)
-        ->condition($field['field_name'] . '_tid', $term->tid)
-        ->execute();
+          ->condition('entity_type', $target->entity_type)
+          ->condition('entity_id', $target->entity_id)
+          ->condition($field['field_name'] . '_tid', $term->tid)
+          ->execute();
     }
   }
 }

@@ -100,21 +100,28 @@ $ ./bin/phing setup-behat
 In order to run JavaScript in your Behat tests, you must launch a PhantomJS
 instance before. Use the `--debug` parameter to get more information. Please
 be sure that the webdriver's port you specify corresponds to the one in your
-Behat configuration (`wd_host: "http://localhost:8643/wd/hub"`).
+Behat configuration (`behat.wd_host.url: "http://localhost:8643/wd/hub"`).
 
 ```
 $ phantomjs --debug=true --webdriver=8643
 ```
 
-The tests can also be run from the root of the repository (or any other folder)
-by calling the behat executable directly and specifying the location of the
-`behat*.yml` configuration file.
-
-The tests can be executed from the root folder of the build:
+If you prefer to use an actual browser with Selenium instead of PhantomJS, you
+need to define the Selenium server URL and browser to use, for instance:
 
 ```
-$ cd build/
-$ ../bin/behat -c tests/behat.yml
+behat.wd_host.url = http://localhost:4444/wd/hub
+behat.browser.name = chrome
+```
+
+The tests can also be run from the root of the repository (or any other folder)
+by calling the behat executable directly and specifying the location of the
+`behat.yml` configuration file.
+
+Behat tests can be executed from the repository root by running:
+
+```
+$ ./bin/behat -c tests/behat.yml
 ```
 
 With a single Phing task, you can run every tests suites:
@@ -123,19 +130,11 @@ With a single Phing task, you can run every tests suites:
 ./bin/phing behat
 ```
 
-If you want to run only one specific tests suite (defined in its own
-configuration file), you can specifiy it as a parameter:
-
-```
-# Running the tests from the repository root folder.
-$ ./bin/behat -c tests/behat.yml
-```
-
 If you want to execute a single test, just provide the path to the test as an
 argument. The tests are located in `tests/features/`. For example:
 
 ```
-$ ./bin/behat -c tests/behat.api.yml tests/features/content_editing.feature
+$ ./bin/behat -c tests/behat.yml tests/features/content_editing.feature
 ```
 
 Some tests need to mimic external services that listen on particular ports, e.g.

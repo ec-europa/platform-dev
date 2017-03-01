@@ -31,9 +31,6 @@ function nexteuropa_editorial_install() {
     // Contextual.
     'access contextual links',
 
-    // Ckedtior lite.
-    'ckeditor_lite highlight changes',
-
     // Entity Translation.
     'translate any entity',
 
@@ -79,10 +76,13 @@ function nexteuropa_editorial_install() {
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
 
+    // WYSIWYG Editor.
+    'use media wysiwyg',
+
     // System.
     'access administration pages',
   );
-  multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions);
+  multisite_config_service('user')->grantPermission(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $permissions, 'nexteuropa_editorial');
 
   // Set "administrator" permissions.
   multisite_config_service('user')->grantPermission('administrator', $permissions);
@@ -141,15 +141,6 @@ function nexteuropa_editorial_install() {
 
   // Linkchecker: checks for both internal and external links.
   multisite_config_service('system')->setVariable('linkchecker_check_links_types', 0);
-
-  // Workbench moderation state for WYSIWYG tracking settings.
-  $wbm_state = array(
-    'validated' => 'validated',
-    'published' => 'published',
-  );
-  variable_set('nexteuropa_editorial_tracking_wbm_states', $wbm_state);
-  // WYSIWYG tracking settings for "Published" status case.
-  variable_set('nexteuropa_editorial_tracking_status', 1);
 }
 
 /**

@@ -64,7 +64,7 @@ class HashTokenHandler extends TokenAbstractHandler {
     foreach ($this->getEntityTokenTypes() as $token_type => $entity_info) {
       $data['tokens'][$token_type][self::TOKEN_NAME] = array(
         'name' => t("!entity Hash", array('!entity' => $entity_info['label'])),
-        'description' => t("Unique hash derived from a site specific prefix, the entity tye and the entity ID."),
+        'description' => t("Unique hash derived from a site specific prefix, the entity type and the entity ID."),
       );
     }
   }

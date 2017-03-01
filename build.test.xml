@@ -55,13 +55,27 @@
 
     <!-- Set up Behat. -->
     <target name="setup-behat">
-        <copy todir="${behat.dir}">
+        <if>
+            <isset property="env.FLICKR_KEY" />
+            <then>
+                <property name="flickr.key" value="${env.FLICKR_KEY}" override="true" />
+            </then>
+        </if>
+        <if>
+            <isset property="env.FLICKR_SECRET" />
+            <then>
+                <property name="flickr.secret" value="${env.FLICKR_SECRET}" override="true" />
+            </then>
+        </if>
+        <copy todir="${behat.dir}" overwrite="true">
             <fileset dir="${behat.dir}" casesensitive="yes">
                 <include name="*.yml.dist"/>
             </fileset>
             <filterchain>
                 <replacetokens begintoken="{{ " endtoken=" }}">
                     <token key="behat.base_url" value="${behat.base_url}" />
+                    <token key="behat.wd_host.url" value="${behat.wd_host.url}" />
+                    <token key="behat.browser.name" value="${behat.browser.name}" />
                     <token key="platform.build.dir" value="${platform.build.dir}" />
                     <token key="behat.subcontexts.path" value="${behat.subcontexts.path}" />
                     <token key="flickr.key" value="${flickr.key}" />
@@ -82,6 +96,16 @@
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
         <symlink link="${phing.project.build.dir}/tests" target="../tests" />
         <symlink link="bin/behat" target="../${phing.project.build.dir}/vendor/bin/behat" overwrite="true"/>
+    </target>
+
+    <!-- Set up Behat balancer. -->
+    <target name="setup-behat-balancer">
+        <behat:balancer
+            containers="${behat.load_balancer.containers}"
+            root="${behat.load_balancer.root}"
+            destination="${behat.load_balancer.destination}"
+            import="${behat.load_balancer.import}"
+        />
     </target>
 
     <!-- Run Behat tests. -->

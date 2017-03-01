@@ -2,9 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.50"
-projects[drupal][download][type] = get
-projects[drupal][download][url] = https://ftp.drupal.org/files/projects/drupal-7.50.tar.gz
+projects[drupal][version] = "7.54"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -26,7 +24,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupa
 
 ; Move local configuration directives out of the Git repository.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
-projects[drupal][patch][] = patches/default-settings-php-include-local-settings-3154.patch
+projects[drupal][patch][] = patches/default-settings-php-include-local-settings.patch
 
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368
@@ -36,16 +34,22 @@ projects[drupal][patch][] = patches/default-settings-php-include-local-settings-
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-91.patch
 
 ; Allow DRUPAL_MAXIMUM_TEMP_FILE_AGE to be overridden.
-; https://www.drupal.org/node/1399846
+; Please read carefully: https://www.drupal.org/node/1399846?page=1#comment-11718181
+; The hook_update_N() has been removed from the patch, it needs to be added somewhere else to be consistent.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641
-projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-291.patch
-
-; A validation error occurs for anonymous users when $form['#token'] == FALSE.
-; https://www.drupal.org/node/1617918
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4863
-projects[drupal][patch][] = https://www.drupal.org/files/issues/1617918-33-d7-do-not-test.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-306_0.patch
 
 ; Make sure drupal_add_js marks files as external when no type is specified and is_external is true:
 ; https://www.drupal.org/node/2697611
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch
+
+; Document $attributes, $title_attributes, and $content_attributes template variables
+; https://www.drupal.org/node/569362
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-64
+projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-doc-theme-attributes-d7-569362-53.patch
+
+; Fix empty label on validation error message for multiple required textfield.
+; https://www.drupal.org/node/980144#comment-11695545 
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-224
+projects[drupal][patch][] = https://www.drupal.org/files/issues/980144-98_0.patch
