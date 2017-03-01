@@ -4,7 +4,7 @@ fields.
 Table of content:
 =================
 - [Installation](#installation)
-- [Proposed features](#features)
+- [Proposed features](#proposed-features)
 
 # Installation
 
