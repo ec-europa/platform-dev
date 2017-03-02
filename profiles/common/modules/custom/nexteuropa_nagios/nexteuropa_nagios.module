@@ -33,7 +33,7 @@ function nexteuropa_nagios_nagios_settings() {
 /**
  * Implements hook_nagios().
  */
-function nexteuropa_nagios_nagios($id) {
+function nexteuropa_nagios_nagios($id = NULL) {
   $status = array();
   $available_checks = _nexteuropa_nagios_checks();
   if (isset($available_checks[$id]) && variable_get('nexteuropa_nagios_check_' . $id, TRUE)) {
