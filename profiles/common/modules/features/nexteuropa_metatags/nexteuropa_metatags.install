@@ -19,7 +19,7 @@ function nexteuropa_metatags_install() {
   $permissions = array(
     'edit meta tags',
   );
-  multisite_config_service('user')->grantPermission('contibutor', $permissions);
+  multisite_config_service('user')->grantPermission('contributor', $permissions);
 
   // Set permissions to the editor role.
   multisite_config_service('user')->grantPermission('editor', $permissions);
