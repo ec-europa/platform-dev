@@ -13,12 +13,12 @@ node('linux') {
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
     if (!env.PLATFORM_PROFILE) {
-        env.PLATFORM_PROFILE="multisite_drupal_standard"
+        env.PLATFORM_PROFILE = "multisite_drupal_standard"
     }
 
-    env.BEHAT_PROFILE="default"
+    env.BEHAT_PROFILE = "default"
     if (env.PLATFORM_PROFILE == 'multisite_drupal_communities') {
-        env.BEHAT_PROFILE="communities"
+        env.BEHAT_PROFILE = "communities"
     }
 
     stage('Init') {
@@ -36,7 +36,7 @@ node('linux') {
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
             ]) {
                 sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE'"
-                sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS'"
+                sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE'"
             }
         }
 
