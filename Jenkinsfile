@@ -12,7 +12,7 @@ node('linux') {
     }
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
-    if (env.PLATFORM_PROFILE == '') {
+    if (!env.PLATFORM_PROFILE) {
         env.PLATFORM_PROFILE="multisite_drupal_standard"
     }
 
@@ -50,7 +50,7 @@ node('linux') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
                         sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
                     }
-                    sh './bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors --strict'
+                    sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors --strict"
                 }
             }
         }
