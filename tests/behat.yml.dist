@@ -66,4 +66,4 @@ communities:
   suites:
     default:
       filters:
-        tags: "~@wip"
+        tags: "@communities&&~@wip"
