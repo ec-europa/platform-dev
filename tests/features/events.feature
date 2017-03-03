@@ -1,8 +1,8 @@
 @api
 Feature: Event features
-  In order programm events
+  In order to schedule events
   As a citizen of the European Union
-  I want to be able to see a callendar with events
+  I want to be able to see a calendar with events
 
   Background:
     Given I am an anonymous user
@@ -20,6 +20,7 @@ Feature: Event features
     And "Resources" terms:
       | name          |
       | Term resource |
+    And the cache has been cleared
     When I go to "calendar"
     Then I should see the text "Consult planned events"
     And I should see an "div.fullcalendar" element
