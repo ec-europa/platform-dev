@@ -100,3 +100,10 @@ function multisite_settings_core_update_7123() {
   include_once DRUPAL_ROOT . '/includes/language.inc';
   language_types_set();
 }
+
+/**
+ * Enable english administration display.
+ */
+function multisite_settings_core_update_7124() {
+  module_enable('administration_language_negotiation');
+}
