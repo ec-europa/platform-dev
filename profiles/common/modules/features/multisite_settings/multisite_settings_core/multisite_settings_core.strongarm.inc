@@ -78,6 +78,7 @@ function multisite_settings_core_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'locale_language_providers_weight_language';
   $strongarm->value = array(
+    'language-administration' => '-10',
     'locale-url' => '-8',
     'locale-session' => '-6',
     'language_cookie' => '-5',
