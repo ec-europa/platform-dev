@@ -704,13 +704,4 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   }
 
-  /**
-   * Reinitialize after a feature.
-   *
-   * @AfterFeature
-   */
-  public static function resetAfterFeature() {
-    drupal_flush_all_caches();
-  }
-
 }
