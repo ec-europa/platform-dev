@@ -206,6 +206,8 @@ function multisite_twitterblock_theme() {
  *   Twitter output config.
  */
 function theme_fpfis_twitter(array $variables) {
+  global $is_https;
+  drupal_add_js(($is_https ? 'https' : 'http') . '://europa.eu/webtools/load.js', 'external');
   $type = $variables['type'];
   unset($variables['title']);
   switch ($type) {
