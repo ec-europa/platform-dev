@@ -14,6 +14,10 @@ use Behat\Mink\Exception\ExpectationException;
 use Behat\Mink\Selector\Xpath\Escaper;
 use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
+use function bovigo\assert\predicate\isNotEqualTo;
+use function bovigo\assert\predicate\isTrue;
+use function bovigo\assert\predicate\isFalse;
+use function bovigo\assert\assert;
 
 /**
  * Provides step definitions for interacting with Mink.
@@ -194,6 +198,38 @@ class MinkContext extends DrupalExtensionMinkContext {
         }
       }
     }
+  }
+
+  /**
+   * Check that the user have permission for.
+   *
+   * @Given I check that :arg1 have the permission for :arg2
+   */
+  public function assertPermission($arg1, $arg2) {
+    $account = user_load_by_name($arg1);
+    assert($account, isNotEqualTo(FALSE), "The user $arg1 doesn't exist.");
+
+    assert(
+      user_access($arg2, $account),
+      isTrue(),
+      "The user $arg2 doesn't have the permission for '$arg1'."
+    );
+  }
+
+  /**
+   * Check that the user have permission for.
+   *
+   * @Given I check that :arg1 have not the permission for :arg2
+   */
+  public function assertNotPermission($arg1, $arg2) {
+    $account = user_load_by_name($arg1);
+    assert($account, isNotEqualTo(FALSE), "The user $arg1 doesn't exist.");
+
+    assert(
+      user_access($arg2, $account),
+      isFalse(),
+      "The user $arg2 have the permission for '$arg1'."
+    );
   }
 
 }
