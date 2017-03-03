@@ -263,7 +263,7 @@ function theme_fpfis_twitter(array $variables) {
     }
   }
   $variables['service'] = 'twitter';
-  return '<script type="application/json">' . json_encode($variables) . '</script>';
+  return '<script type="application/json">' . drupal_json_encode($variables) . '</script>';
 }
 
 /**
