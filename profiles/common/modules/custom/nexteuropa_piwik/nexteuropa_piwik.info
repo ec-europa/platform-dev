@@ -3,3 +3,8 @@ description = Adds Piwik Webtools widget to all your site's pages.
 core = 7.x
 package = NextEuropa
 configure = admin/config/system/webtools/piwik
+
+dependencies[] = entity
+dependencies[] = registry_autoload
+
+registry_autoload[] = PSR-4

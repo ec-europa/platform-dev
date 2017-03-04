@@ -81,6 +81,22 @@ function nexteuropa_piwik_requirements($phase) {
 }
 
 /**
+ * Grants permission for the admin role to manage and configure the module.
+ */
+function _nexteuropa_piwik_grant_permission_for_admin() {
+  $administrator = user_role_load_by_name('administrator');
+
+  if ($administrator) {
+    user_role_grant_permissions(
+      $administrator->rid,
+      array(
+        'administer nexteuropa_piwik',
+      )
+    );
+  }
+}
+
+/**
  * Implements hook_enable().
  */
 function nexteuropa_piwik_enable() {
@@ -91,4 +107,67 @@ function nexteuropa_piwik_enable() {
   );
   // Grant the permissions to PIWIK administrator role.
   user_role_change_permissions($piwik_admin_role->rid, $piwik_admin_permissions);
+
+  _nexteuropa_piwik_grant_permission_for_admin();
+}
+
+/**
+ * Returns the schema array.
+ */
+function _nexteuropa_piwik_get_schema_array() {
+  return array(
+    'description' => 'Next Europa PIWIK rules',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique PIWIK rule ID.',
+      ),
+      'rule_language' => array(
+        'type' => 'varchar',
+        'length' => 12,
+        'not null' => TRUE,
+        'description' => 'The language for which a given rule applies.',
+      ),
+      'rule_path' => array(
+        'type' => 'text',
+        'description' => 'Path where a given rule applies.',
+      ),
+      'rule_path_type' => array(
+        'type' => 'varchar',
+        'length' => 16,
+        'not null' => TRUE,
+        'description' => 'The rule path type.',
+      ),
+      'rule_section' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => 'The name of the site section where a given rule applies.',
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+}
+
+/**
+ * Implements hook_schema().
+ */
+function nexteuropa_piwik_schema() {
+  $schema = array();
+  $schema['nexteuropa_piwik_rule'] = _nexteuropa_piwik_get_schema_array();
+
+  return $schema;
+}
+
+/**
+ * Add the PIWIK rules table.
+ */
+function nexteuropa__update_7100() {
+  db_create_table(
+    'nexteuropa_piwik_rule',
+    _nexteuropa_piwik_get_schema_array()
+  );
+
+  _nexteuropa_piwik_grant_permission_for_admin();
 }

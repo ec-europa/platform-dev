@@ -28,6 +28,7 @@ default:
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\PathautoContext
         - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\nexteuropa\Context\PiwikRulesContext
       filters:
         tags: "~@wip&&~@communities"
   extensions:
