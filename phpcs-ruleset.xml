@@ -88,6 +88,16 @@
         <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/tmgmt_poetry.test</exclude-pattern>
     </rule>
 
+    <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
+    </rule>
+
+    <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
+    </rule>
+
     <!-- Exclude third party code which is not following Drupal coding standards. -->
     <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/icons</exclude-pattern>
 
