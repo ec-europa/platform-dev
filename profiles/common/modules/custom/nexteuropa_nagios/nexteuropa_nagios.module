@@ -118,11 +118,8 @@ function nexteuropa_nagios_nagios_checks() {
  * Implements hook_nagios_check().
  */
 function nexteuropa_nagios_nagios_check($function) {
-
   $checks = _nexteuropa_nagios_checks();
-
   $result = _nexteuropa_nagios_check_performance_variable($checks[$function]);
-
   $status[$result['key']] = $result['data'];
   return $status;
 }
