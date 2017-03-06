@@ -53,4 +53,5 @@ index b044be3..16ab6b2 100644
 +if (file_exists($local_settings)) {
 +  include $local_settings;
 +}
+$conf['features_feature_locked']['cce_basic_config']['_all'] = TRUE;
 \ No newline at end of file
