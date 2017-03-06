@@ -395,7 +395,7 @@ Feature: TMGMT Poetry features
       | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
 
   @javascript
-  Scenario Outline: Request translation of a page with HTML5 into French.
+  Scenario Outline: Request translation of a page with HTML5 or IFRAME video into French.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -421,12 +421,16 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
 
     Examples:
-      | title                | body                                                                                                       |
-      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                            |
-      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
-      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
-      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
-      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
+      | title                | body                                                                                                                                                                                                                              |
+      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                                                                                                                                                   |
+      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                                                                                                                                         |
+      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>                                                                                                                                |
+      | YouTube Video        | <iframe class=\"media-youtube-player\" width=\"640\" height=\"390\" title=\"Los Muppets - Mahna Mahna\" src=\"//www.youtube.com/embed/9ezRFBnWBKg\" frameborder=\"0\" allowfullscreen>Video of Los Muppets - Mahna Mahna</iframe> |
+      | Vimeo Video          | <iframe class=\"media-vimeo-player\" width=\"640\" height=\"390\" title=\"EARTH\" src=\"//player.vimeo.com/video/32001208\" frameborder=\"0\" allowfullscreen>Video of EARTH</iframe>                                                         |
+      | Dailymotion Video    | <iframe frameborder=\"0\" width=\"640\" height=\"390\" src=\"//www.dailymotion.com/embed/video/x4e66jg\"></iframe>                                                                                                                        |
+      | AV Portal Video      | <iframe width=\"640\" height=\"390\" frameborder=\"0\" allowfullscreen=\"\" mozallowfullscreen=\"\" webkitallowfullscreen=\"\" id=\"videoplayer15672\" scrolling=\"no\" src=\"//av.tib.eu/player/15672\"></iframe>                                  |
+      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                                                                                                                                                     |
+      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                                                                                                                                         |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
