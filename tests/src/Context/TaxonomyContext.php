@@ -51,9 +51,7 @@ class TaxonomyContext implements Context {
    * @Given the vocabulary :name exists
    */
   public function assertVocabulary($name) {
-    if (!taxonomy_vocabulary_machine_name_load($name)) {
-      $this->iCreateNewVocabulary($name);
-    }
+    $this->getTaxonomyIdByName($name);
   }
 
   /**
