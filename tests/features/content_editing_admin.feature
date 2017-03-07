@@ -48,3 +48,40 @@ Feature: Content editing as administrator
       | This is not the right way                                             | <div class=\"classname?&*\">Applied invalid css class</div>           | classname                                                               |
       | This is not the right way                                             | <div id=\"2invalidid\">A container with an invalid HTML ID</div>      | invalidid                                                               |
       | This is not the right way                                             | <div id=\"invalidid.\">A container with an invalid HTML ID</div>      | invalidid                                                               |
+
+
+  Background:
+    Given I am logged in as a user with the 'administrator' role
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+      | it        |
+
+  Scenario Outline: Check admin UI always shows english
+    When I go to "admin/config/regional/translate/translate"
+    And I fill in "String contains" with "Body"
+    And I press "Filter"
+    And I click "edit" in the "field_ne_body:page:label" row
+    And I fill in "French" with "Corps du texte"
+    And I fill in "Italian" with "Corpo del testo"
+    And I press "Save translations"
+    Then I should see the following success messages:
+      | success messages           |
+      | The string has been saved. |
+    When I create the following multilingual "page" content:
+      | language | title                       | field_ne_body              |
+      | en       | This title is in English    | English body               |
+      | fr       | Ce titre est en Français    | Corps de texte français    |
+      | it       | Questo titolo è in italiano | Corpo di testo in italiano |
+    And I go to "<url>"
+    And I click "New draft"
+    Then I should see "Body"
+    And I should see "<field_ne_body>"
+    And I should not see "<body_label>"
+
+    Examples:
+      | url                      | field_ne_body              | body_label      |
+      | content/title-english_en | English body               | Corps du texte  |
+      | content/title-english_fr | Corps de texte français    | Corpo del testo |
+      | content/title-english_it | Corpo di testo in italiano | Corps du texte  |
