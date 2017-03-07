@@ -694,9 +694,9 @@ function nexteuropa_multilingual_entity_info_alter(&$entity_info) {
   if (module_exists('file_entity')) {
     if (!isset($entity_info['file']['translation']['entity_translation'])) {
       $entity_info['file']['translation']['entity_translation'] = array(
-          'class' => 'EntityTranslationFileHandler',
-          'edit form' => 'file',
-        );
+        'class' => 'EntityTranslationFileHandler',
+        'edit form' => 'file',
+      );
     }
     else {
       $entity_info['file']['translation']['entity_translation']['class'] = 'EntityTranslationFileHandler';

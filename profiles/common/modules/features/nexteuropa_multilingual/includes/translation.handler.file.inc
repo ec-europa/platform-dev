@@ -18,7 +18,9 @@ class EntityTranslationFileHandler extends EntityTranslationDefaultHandler {
   }
 
   /**
-   * @see EntityTranslationHandlerInterface::getCurrentEntityRevision()
+   * Override of EntityTranslationDefaultHandler::getCurrentEntityRevision.
+   *
+   * @see EntityTranslationDefaultHandler::getCurrentEntityRevision()
    */
   public function getCurrentEntityRevision() {
     return $this->getEntity();
