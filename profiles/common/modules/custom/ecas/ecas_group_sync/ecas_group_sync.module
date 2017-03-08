@@ -145,8 +145,11 @@ function ecas_group_sync_get_ecas_sync_rules($dg_id, $sync_type = 'role') {
 
 /**
  * Get the list of DG from the LDAP.
+ *
+ * @return array
+ *   The list of DGs to use.
  */
-function get_dg() {
+function ecas_group_sync_get_dg() {
   if (($cache = cache_get('list_dg', 'cache')) && !empty($cache->data)) {
     $list_dg = $cache->data;
   }

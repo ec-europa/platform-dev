@@ -186,7 +186,7 @@ function eacs_group_sync_get_row_group($id, $ldap_field, $synctype, $ldap_field_
   $none_option = array("0" => "none");
   $form['LDAPfield_value_' . $id] = array(
     '#type' => 'select',
-    '#options' => $none_option + get_dg(),
+    '#options' => $none_option + ecas_group_sync_get_dg(),
     '#default_value' => $ldap_field_value,
     '#prefix' => '<div class = "row_mapping">',
     '#title' => $ldap_field,
