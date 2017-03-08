@@ -64,4 +64,15 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
     return $render;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function hook_menu() {
+    $items = parent::hook_menu();
+    $items[$this->path]['title'] = t('Purge rules');
+    $items[$this->path]['type'] = MENU_LOCAL_TASK;
+
+    return $items;
+  }
+
 }

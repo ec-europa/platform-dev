@@ -180,6 +180,15 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Disables the default purge rule for content type modifications.
+   *
+   * @Given the default purge rule is disabled
+   */
+  public function theDefaultPurgeRuleIsDisabled() {
+    $this->variables->setVariable('nexteuropa_varnish_default_purge_rule', FALSE);
+  }
+
+  /**
    * Asserts the cache purge rules displayed in the overview.
    *
    * @Then I see an overview with the following cache purge rules:
