@@ -56,4 +56,31 @@ function tmgmt_poetry_mock_uninstall() {
   if (!empty($translator)) {
     entity_delete('tmgmt_translator', $translator->tid);
   }
+
+  // Clean translation jobs related to the tmgmt_poetry_test_translator.
+  // Code is inspired by tmgmt_cron().
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'tmgmt_job')
+    ->propertyCondition('translator', 'tmgmt_poetry_test_translator')
+    ->execute();
+  if (!empty($result['tmgmt_job'])) {
+    $controller = entity_get_controller('tmgmt_job');
+    // Since the entity controller handles the deletion of the attached
+    // entities (messages, job items) we just need to invoke it directly.
+    $controller->delete(array_keys($result['tmgmt_job']));
+  }
+
+  // Cleans Mock files.
+  $field_query = new EntityFieldQuery();
+  $file_fids = $field_query->entityCondition('entity_type', 'file')
+    ->propertyCondition('filemime', 'application/xml', '=')
+    ->propertyCondition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
+    ->execute();
+  if (isset($file_fids['file'])) {
+    $fids = array_keys($file_fids['file']);
+    $files = file_load_multiple($fids);
+    foreach ($files as $file) {
+      file_delete($file);
+    }
+  }
 }
