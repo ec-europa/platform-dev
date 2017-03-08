@@ -55,7 +55,7 @@ function ecas_group_sync_mapping_group_form($form, &$form_state) {
   for ($i = 0; $i < $form_state['extra_row']; $i++) {
     // Add the form elements for the new mapping rules added via ajax.
     if (isset($form_state['values']['LDAPfield_value_extra_' . $i])) {
-      $row_to_add = eacs_group_sync_get_row_group("extra_" . $i, 'dg', 'group', $form_state['values']['LDAPfield_value_extra_' . $i], $form_state['values']['synctype_value_extra_' . $i], $form_state['values']['LDAPfield_extra_' . $i], $form_state['values']['synctype_extra_' . $i], $form_state['values']['synctype_extra_value_wrapper_extra_' . $i]);
+      $row_to_add = eacs_group_sync_get_row_group("extra_" . $i, 'dg', 'group', $form_state['values']['LDAPfield_value_extra_' . $i], $form_state['values']['synctype_value_extra_' . $i], $form_state['values']['synctype_extra_' . $i]);
     }
     else {
       $row_to_add = eacs_group_sync_get_row_group("extra_" . $i, 'dg', 'group');
@@ -159,6 +159,9 @@ function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
     }
   }
 
+  // Clearing the cache.
+  cache_clear_all('ecas_group_sync_rules', 'cache');
+
   drupal_set_message(t('The mapping rules have been saved.'));
 }
 
@@ -211,9 +214,15 @@ function eacs_group_sync_get_row_group($id, $ldap_field, $synctype, $ldap_field_
     '#prefix' => '<div id="synctype_extra_value_' . $id . '">',
     '#suffix' => '</div></div>',
   );
+
+  $select_options = $none_option;
+  $synctype_node = node_load($synctype_value);
+  if ($synctype_node) {
+    $select_options += ecas_group_sync_get_og_roles($synctype_node->nid, $synctype_node->type);
+  }
   $form['synctype_extra_value_wrapper_' . $id]['synctype_extra_value_' . $id] = array(
     '#type' => 'select',
-    '#options' => $none_option + ecas_group_sync_get_og_roles($synctype_value),
+    '#options' => $select_options,
     '#title' => 'group role',
     '#default_value' => $synctype_value_extra,
     // Disable the form element when no group is selected.
@@ -235,18 +244,27 @@ function eacs_group_sync_get_row_group($id, $ldap_field, $synctype, $ldap_field_
 function ecas_group_sync_update_og_roles($form, &$form_state) {
   $none_option = array("0" => 'none');
 
+  // Get og roles corresponding to the DG.
+  $group_id = $form_state['triggering_element']['#value'];
+  $corresponding_og_roles = array();
+  $group_node = node_load($group_id);
+  if ($group_node) {
+    $corresponding_og_roles = ecas_group_sync_get_og_roles($group_node->nid, $group_node->type);
+  }
+  $select_options = $none_option + $corresponding_og_roles;
+
   if (count($form_state['triggering_element']['#array_parents']) > 3) {
     // Check if the callback comes from the extra fields or from the existing
     // fields.
     $id = $form_state['triggering_element']['#array_parents'][2];
     // Update the OG roles select list.
-    $form['group_mapping']['group_mapping_add_wrapper'][$id]['synctype_extra_value_wrapper_extra_' . $id]['synctype_extra_value_extra_' . $id]['#options'] = $none_option + ecas_group_sync_get_og_roles($form_state['triggering_element']['#value']);
+    $form['group_mapping']['group_mapping_add_wrapper'][$id]['synctype_extra_value_wrapper_extra_' . $id]['synctype_extra_value_extra_' . $id]['#options'] = $select_options;
     return $form['group_mapping']['group_mapping_add_wrapper'][$id]['synctype_extra_value_wrapper_extra_' . $id];
   }
   else {
     $id = $form_state['triggering_element']['#array_parents'][1];
     // Update the OG roles select list.
-    $form['group_mapping'][$id]['synctype_extra_value_wrapper_' . $id]['synctype_extra_value_' . $id]['#options'] = $none_option + ecas_group_sync_get_og_roles($form_state['triggering_element']['#value']);
+    $form['group_mapping'][$id]['synctype_extra_value_wrapper_' . $id]['synctype_extra_value_' . $id]['#options'] = $select_options;
     return $form['group_mapping'][$id]['synctype_extra_value_wrapper_' . $id];
   }
 }
@@ -274,6 +292,6 @@ function ecas_group_sync_get_groups() {
  *   value. The anonymous and authenticated default roles are on the top of the
  *   array.
  */
-function ecas_group_sync_get_og_roles($gid = 0) {
-  return og_roles('node', 'community', $gid);
+function ecas_group_sync_get_og_roles($gid = 0, $bundle = 'community') {
+  return og_roles('node', $bundle, $gid);
 }

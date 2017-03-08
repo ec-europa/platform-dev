@@ -50,44 +50,97 @@ function ecas_group_sync_menu() {
  * Implement mapping between LDAP data and user accounts.
  */
 function ecas_group_sync_info_ecas_update($user, $user_info, $args) {
-  // Mapping between DG and drupal roles.
-  if (isset($user_info['dg'])) {
-    // The user is affected to a DG.
-    $query = db_select('ecas_sync_mapping', 'esm');
-    // Get mapping rules.
-    $query->condition('synctype', 'role', '=');
-    $query->condition('LDAPfield', 'dg', '=');
-    $query->condition('LDAPfield_value', $user_info['dg'], '=');
-    $query->fields('esm');
-    $query->join('role', 'r', 'esm.synctype_value = r.rid');
-    $query->fields('r', array('name'));
-    $results = $query->execute();
+  $user_department = ecas_get_user_department($user_info);
 
+  if (empty($user_department['dg'])) {
+    return;
+  }
+
+  $dg_id = $user_department['dg'];
+
+  // Mapping between DG and drupal roles.
+  $rules = ecas_group_sync_get_ecas_sync_rules($dg_id, 'role');
+  if ($rules) {
     $roles = $user->roles;
-    while ($row = $results->fetchAssoc()) {
-      $roles[$row['synctype_value']] = $row['name'];
+    foreach ($rules as $rule) {
+      $roles[$rule->synctype_value] = $rule->name;
     }
+
     $user->roles = $roles;
     user_save($user, array('roles' => $roles));
   }
 
-  // Mapping between DG and og roles.
-  if (module_exists('og')) {
-    if (isset($user_info['dg'])) {
-      // The user is affected to a DG.
-      $query = db_select('ecas_sync_mapping', 'esm');
-      // Get mapping rules.
-      $query->condition('synctype', 'group', '=');
-      $query->condition('LDAPfield', 'dg', '=');
-      $query->condition('LDAPfield_value', $user_info['dg'], '=');
-      $query->fields('esm');
-      $results = $query->execute();
+  if (!module_exists('og')) {
+    // If OG is disable, we can stop the process here.
+    return;
+  }
 
-      while ($row = $results->fetchAssoc()) {
-        og_role_grant('node', $row['synctype_value'], $user->uid, $row['synctype_value_extra']);
-      }
+  // Attaching the user to the OG groups
+  // and mapping between DG and og roles.
+  $rules = ecas_group_sync_get_ecas_sync_rules($dg_id, 'group');
+  if ($rules) {
+    foreach ($rules as $rule) {
+      og_group('node', $rule->synctype_value, array(
+        "entity type" => "user",
+        "entity" => $user,
+        "field_name" => 'og_user_node',
+      ));
+      og_role_grant('node', $rule->synctype_value, $user->uid, $rule->synctype_value_extra);
     }
   }
+}
+
+/**
+ * Gets rules to map user's dg to Drupal or OG roles.
+ *
+ * @param string $dg_id
+ *   The user's DG identifier; e.g. DIGIT.
+ * @param string $sync_type
+ *   The type of roles implied in the mappung; 'role' for DG/Drupal roles
+ *   mapping, 'group' for for DG/OG roles.
+ *
+ * @return array|bool
+ *    An array of objects containing rules data; otherwise FALSE.
+ */
+function ecas_group_sync_get_ecas_sync_rules($dg_id, $sync_type = 'role') {
+  $sync_rules = &drupal_static(__FUNCTION__);
+
+  // Static cache.
+  if (!empty($sync_rules[$sync_type . '_' . $dg_id])) {
+    return $sync_rules[$sync_type . '_' . $dg_id];
+  }
+
+  // Drupal cache.
+  if ($cache = cache_get('ecas_group_sync_rules')) {
+    $sync_rules = $cache->data;
+  }
+
+  if (empty($sync_rules[$sync_type . '_' . $dg_id])) {
+    // Initializing the array if not in the static yet.
+    if (!$sync_rules) {
+      $sync_rules = array();
+    }
+
+    $query = db_select('ecas_sync_mapping', 'esm');
+    // Get mapping rules.
+    $query->condition('synctype', $sync_type, '=');
+    $query->condition('LDAPfield', 'dg', '=');
+    $query->condition('LDAPfield_value', $dg_id, '=');
+    $query->fields('esm');
+    if ($sync_type == 'role') {
+      $query->join('role', 'r', 'esm.synctype_value = r.rid');
+      $query->fields('r', array('name'));
+    }
+    else {
+      $query->join('og_role', 'ogr', 'esm.synctype_value_extra = ogr.rid');
+      $query->fields('ogr', array('name'));
+    }
+    $sync_rules[$sync_type . '_' . $dg_id] = $query->execute()->fetchAll();
+
+    cache_set('ecas_group_sync_rules', $sync_rules, 'cache', CACHE_TEMPORARY);
+  }
+
+  return $sync_rules[$sync_type . '_' . $dg_id];
 }
 
 /**

@@ -732,3 +732,37 @@ function ecas_create_user($ecas_name, $defaults = array()) {
 
   return $account;
 }
+
+/**
+ * Gets the user's department structure.
+ *
+ * @param array $user_info
+ *   The user's attributes retrieved from the LDAP.
+ *
+ * @return array
+ *   The service to which the user belongs:
+ *    - 'dg': User's DG Acronym or FALSE if not given;
+ *    - 'directorate': User's directorate name or FALSE if not given;
+ *    - 'unit': User's unit name or FALSE if not given;
+ *    - 'sub_unit': User's sub-unit name or FALSE if not given;
+ *    - 'full_name": The full name of the user's department.
+ *
+ * @see phpCAS::getAttributes()
+ */
+function ecas_get_user_department($user_info) {
+  if (!empty($user_info['cas:departmentNumber'])) {
+    $department = array('full_name' => $user_info['cas:departmentNumber']);
+    $organizations = explode('.', $user_info['cas:departmentNumber']);
+
+    $department += array(
+      'dg' => $organizations[0],
+      'directorate' => (isset($organizations[1])) ?: FALSE,
+      'unit' => (isset($organizations[2])) ?: FALSE,
+      'sub_unit' => (isset($organizations[3])) ?: FALSE,
+    );
+
+    return $department;
+  }
+
+  return array();
+}
