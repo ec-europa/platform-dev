@@ -222,7 +222,7 @@ function eacs_group_sync_get_row_group($id, $ldap_field, $synctype, $ldap_field_
   }
   $form['synctype_extra_value_wrapper_' . $id]['synctype_extra_value_' . $id] = array(
     '#type' => 'select',
-    '#options' => $select_options ,
+    '#options' => $select_options,
     '#title' => 'group role',
     '#default_value' => $synctype_value_extra,
     // Disable the form element when no group is selected.
@@ -246,8 +246,11 @@ function ecas_group_sync_update_og_roles($form, &$form_state) {
 
   // Get og roles corresponding to the DG.
   $group_id = $form_state['triggering_element']['#value'];
+  $corresponding_og_roles = array();
   $group_node = node_load($group_id);
-  $corresponding_og_roles = ecas_group_sync_get_og_roles($group_node->nid, $group_node->type);
+  if ($group_node) {
+    $corresponding_og_roles = ecas_group_sync_get_og_roles($group_node->nid, $group_node->type);
+  }
   $select_options = $none_option + $corresponding_og_roles;
 
   if (count($form_state['triggering_element']['#array_parents']) > 3) {
