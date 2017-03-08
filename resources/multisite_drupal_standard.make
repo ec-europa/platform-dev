@@ -478,6 +478,14 @@ projects[migrate][subdir] = contrib
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
 
+projects[nagios][download][branch] = 7.x-1.x
+projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
+projects[nagios][download][type] = git
+projects[nagios][subdir] = "contrib"
+; NEPT-451 Add possibility to report on individual variables
+; https://www.drupal.org/node/2854854
+projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
+
 projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
