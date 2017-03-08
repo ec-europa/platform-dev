@@ -313,7 +313,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
-    Given the vocabulary "Vocabulary Test" exists
+    Given the vocabulary "Vocabulary Test" is created
     And I am logged in as a user with the "administrator" role
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
