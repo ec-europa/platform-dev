@@ -60,9 +60,15 @@ class TaxonomyContext implements Context {
    * @param string $name
    *    Name of the taxonomy.
    *
+   * @Given the vocabulary :name is created
+   *
    * @When I create a new vocabulary :name
    */
   public function iCreateNewVocabulary($name) {
+    if (taxonomy_vocabulary_machine_name_load($this->transliterate->getMachineName($name))) {
+      return;
+    }
+
     $vocabulary = array(
       'name' => $name,
       'machine_name' => $this->transliterate->getMachineName($name),

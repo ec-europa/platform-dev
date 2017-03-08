@@ -217,7 +217,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
-    Given the vocabulary "Vocabulary Test" exists
+    Given the vocabulary "Vocabulary Test" is created
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
     And I select the radio button "Localize. Terms are common for all languages, but their name and description may be localized."
