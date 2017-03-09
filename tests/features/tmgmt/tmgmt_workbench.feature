@@ -28,7 +28,6 @@ Feature: TMGMT Workbench features
     And I press the "Request translation" button
     Then I am on a translation job page with "workbench_moderation" job items
 
-  @wip
   Scenario: NEXTEUROPA-10448: When viewing translation overview page I only see moderated nodes.
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:

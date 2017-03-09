@@ -212,7 +212,7 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
 
   $form['tracking']['advanced_rules']['nexteuropa_piwik_rules_state'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable advanced PIWIK rules.'),
+    '#title' => t('Enable advanced PIWIK rules'),
     '#description' => t('Activates the "Advanced PIWIK rules" configuration tab.'),
     '#default_value' => variable_get('nexteuropa_piwik_rules_state', FALSE),
   );
@@ -362,7 +362,9 @@ function _nexteuropa_piwik_rules_state_check($form, &$form_state) {
       $rule_state = t('on');
       break;
   }
-  // Presenting the message and rebuilding menu.
+
+  // Presenting the message resetting the entity cache info and rebuilding menu.
   drupal_set_message(t('The PIWIK advanced rules are turned @rule_state.', array('@rule_state' => $rule_state)));
+  entity_info_cache_clear();
   menu_rebuild();
 }
