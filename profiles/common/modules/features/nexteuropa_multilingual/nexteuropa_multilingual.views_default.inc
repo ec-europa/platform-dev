@@ -135,6 +135,12 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['relationships']['tmgmt_message']['table'] = 'tmgmt_job_item';
   $handler->display->display_options['relationships']['tmgmt_message']['field'] = 'tmgmt_message';
   $handler->display->display_options['relationships']['tmgmt_message']['relationship'] = 'job_item';
+  /* Relationship: Content by NID */
+  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['id'] = 'job_item_to_node_by_nid';
+  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['table'] = 'tmgmt_job_item';
+  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['field'] = 'job_item_to_node_by_nid';
+  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['relationship'] = 'job_item';
+  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['ui_name'] = 'Content by NID';
   /* Field: Translation Management Job: Translation management job ID */
   $handler->display->display_options['fields']['tjid']['id'] = 'tjid';
   $handler->display->display_options['fields']['tjid']['table'] = 'tmgmt_job';
@@ -155,6 +161,11 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['fields']['label']['table'] = 'tmgmt_job';
   $handler->display->display_options['fields']['label']['field'] = 'label';
   $handler->display->display_options['fields']['label']['ui_name'] = 'Label';
+  /* Field: Content: Type */
+  $handler->display->display_options['fields']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['fields']['type_1']['table'] = 'node';
+  $handler->display->display_options['fields']['type_1']['field'] = 'type';
+  $handler->display->display_options['fields']['type_1']['relationship'] = 'job_item_to_node_by_nid';
   /* Field: From */
   $handler->display->display_options['fields']['source_language']['id'] = 'source_language';
   $handler->display->display_options['fields']['source_language']['table'] = 'tmgmt_job';
