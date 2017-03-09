@@ -734,9 +734,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view revisions',
     'access media browser',
     'use media wysiwyg',
-    'use text format full_html',
-    'use text format basic_html',
-    'use text format filtered_html',
   );
   multisite_config_service('user')->grantPermission('contributor', $permissions);
 
@@ -756,9 +753,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view own unpublished content',
     'access media browser',
     'use media wysiwyg',
-    'use text format full_html',
-    'use text format basic_html',
-    'use text format filtered_html',
   );
   multisite_config_service('user')->grantPermission('editor', $permissions);
 
@@ -768,8 +762,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access print',
     'access user profiles',
     'access workbench',
-    'use text format basic_html',
-    'use text format filtered_html',
+    'use text format full_html',
     'view moderation history',
     'view moderation messages',
     'view own unpublished content',
@@ -783,8 +776,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'post comments',
     'search content',
     'use advanced search',
-    'use text format basic_html',
-    'use text format filtered_html',
   ));
 }
 
@@ -2328,11 +2319,4 @@ function cce_basic_config_update_7215() {
       module_enable(array('nexteuropa_dgt_connector'));
     }
   }
-}
-
-/**
- * Update platform version to 2.3.
- */
-function cce_basic_config_update_7216() {
-  variable_set('multisite_version', '2.3');
 }
