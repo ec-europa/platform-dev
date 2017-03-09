@@ -6,13 +6,11 @@
 
 /**
  * Implements hook_views_data_alter().
- *
- * Allow relationship with node based in nid,
- * TMGMTNodeSourceViewsController only gives this relationship based in vid.
  */
 function tmgmt_workbench_views_data_alter(&$data) {
 
-  // Relationship between job items and nodes.
+  // Add relationship between job items and nodes based in nid
+  // (TMGMTNodeSourceViewsController only gives this relationship based in vid).
   $data['tmgmt_job_item']['job_item_to_node_by_nid'] = array(
     'title' => t('Content'),
     'help' => t('Content that is associated with this job item by NID.'),
