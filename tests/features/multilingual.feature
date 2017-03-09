@@ -32,6 +32,22 @@ Feature: Multilingual features
     And I click "English"
     Then I should see the heading "Content can be translated in English"
 
+  Scenario: Files can be translated in available languages
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "file/add"
+    And I attach the file "/tests/files/logo.png" to "edit-upload-upload"
+    And I press "Next"
+    And I press "Next"
+    And I fill in "File name" with "English file"
+    And I press "Save"
+    And I click "English file"
+    Then I should see the heading "English file"
+    And I click "Translate" in the "primary_tabs" region
+    And I click "add" in the "French" row
+    And I fill in "File name" with "French file"
+    And I press "Save"
+    Then I should see the heading "French file"
+
   Scenario: Custom URL suffix language negotiation is applied by default on new content.
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:
