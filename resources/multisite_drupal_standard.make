@@ -281,6 +281,9 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
 
+projects[flexible_purge][subdir] = "contrib"
+projects[flexible_purge][version] = "1.x-dev"
+
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
 
@@ -458,7 +461,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.21"
+projects[metatag][version] = "1.7"
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
@@ -471,14 +474,6 @@ projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
-
-projects[nagios][download][branch] = 7.x-1.x
-projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
-projects[nagios][download][type] = git
-projects[nagios][subdir] = "contrib"
-; NEPT-451 Add possibility to report on individual variables
-; https://www.drupal.org/node/2854854
-projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
 
 projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
@@ -678,7 +673,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.15
+projects[views][version] = 3.14
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176

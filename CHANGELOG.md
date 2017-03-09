@@ -32,7 +32,6 @@
   * NEPT-424 - Include the path "/tests" in the CodeSniffer configuration file
   * NEPT-525 - Remove apachesolr, css_injector, js_injector and contact from communities profile
   * NEPT-553 - Nexteuropa_newsroom upgraded
-  * NEPT-391 - Remove Flexible Purge module
 
 ### New features (For more details on each feature, see the README.md file at the root of the feature's folder)
   * NEPT-79 - Performance/Varnish - An administrator can enable the web frontend cache control feature through Feature set
@@ -42,7 +41,6 @@
   * NEPT-202 - Tracked changes - Create a feature for the functionality provided in ckeditor_lite
   * NEPT-403 - Contact module should be optional, create a feature that can be enabled/disabled
   * NEPT-444 - Add CDN module to the Core stack
-  * NEPT-451 - Add Nagios and nexteuropa_nagios module to the Core stack
 
 ### Bug fixes
   * NEPT-41 - Users are no longer gaining Editorial Team Member role. Fix issue & add a regression test

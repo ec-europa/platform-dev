@@ -528,27 +528,3 @@ function nexteuropa_metatags_install() {
     }
   }
 }
-
-/**
- * Implements hook_requirements().
- */
-function nexteuropa_metatags_requirements($phase) {
-  // Do not run during the installation of the module.
-  if ('runtime' != $phase) {
-    return array();
-  }
-
-  $requirements = array();
-  module_load_include('inc', 'nexteuropa_metatags', 'nexteuropa_metatags.helpers');
-
-  if ($messages = _nexteuropa_metatags_check_metatag_config()) {
-    $requirements['nexteuropa_metatags'] = array(
-      'title' => 'Nexteuropa Metatags',
-      'value' => implode('<br/>', $messages),
-      'severity' => REQUIREMENT_WARNING,
-      'description' => t('Check against empty meta tags.'),
-    );
-  }
-
-  return $requirements;
-}
