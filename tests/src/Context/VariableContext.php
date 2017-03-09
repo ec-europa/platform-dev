@@ -28,12 +28,12 @@ class VariableContext implements Context {
    *
    * The initial value of the value is remembered for later restore.
    *
-   * @When I change the variable :name to :value
-   *
    * @param string $name
    *   Name of the variable.
    * @param mixed $value
    *   New value for the variable.
+   *
+   * @When I change the variable :name to :value
    */
   public function setVariable($name, $value) {
     if (!array_key_exists($name, $this->initialVariables)) {
