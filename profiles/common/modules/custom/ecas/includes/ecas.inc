@@ -210,7 +210,7 @@ function ecas_login_page() {
  * @param bool $full_logout
  *   TRUE to also log out from ECAS itself, FALSE to log out only from Drupal.
  */
-function ecas_logout($full_logout = FALSE) {
+function ecas_logout($full_logout = TRUE) {
   global $user;
 
   watchdog('user', 'Session closed for %name.', array('%name' => theme('placeholder', $user->name)));
