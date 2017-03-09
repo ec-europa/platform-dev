@@ -14,11 +14,11 @@ function nexteuropa_piwik_rule_form($form, &$form_state, $piwik_rule, $op = 'edi
   drupal_set_title(t("@operation the Next Europa PIWIK rule", array('@operation' => ucfirst($op))));
 
   $form['rule_section'] = array(
-    '#title' => t('Section name'),
+    '#title' => t('Site section'),
     '#type' => 'textfield',
     '#default_value' => isset($piwik_rule->rule_section) ? $piwik_rule->rule_section : '',
     '#required' => TRUE,
-    '#description' => t('Enter the name of the section.'),
+    '#description' => t('Enter the name of the site section.'),
   );
 
   // Preparing the PIWIK rule language options.
@@ -79,8 +79,15 @@ function nexteuropa_piwik_rule_form($form, &$form_state, $piwik_rule, $op = 'edi
       break;
 
     case 'edit':
-      $rule_path_type = $piwik_rule->rule_path_type;
-      $rule_path_desc = _nexteuropa_piwik_rule_path_description($rule_path_type);
+      if (isset($form_state['values'])) {
+        $rule_path_type = $form_state['values']['rule_type'];
+        $rule_path_desc = _nexteuropa_piwik_rule_path_description($rule_path_type);
+      }
+      else {
+        $rule_path_type = $piwik_rule->rule_path_type;
+        $rule_path_desc = _nexteuropa_piwik_rule_path_description($rule_path_type);
+      }
+
       break;
   }
 
@@ -140,7 +147,7 @@ function _nexteuropa_piwik_rule_path_description($rule_path_type) {
   $description = '';
   switch ($rule_path_type) {
     case PiwikRule::DIRECT_PATH:
-      $description = t('Enter the direct path for the rule. The path should be relative to the base URL. Use / for the front page.');
+      $description = t('Enter the direct path for the rule. The path should be relative to the base URL. <br/> Example: "content/test-page"');
       break;
 
     case PiwikRule::REGEXP_PATH:

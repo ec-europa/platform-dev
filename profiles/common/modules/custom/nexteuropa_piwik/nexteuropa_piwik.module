@@ -268,26 +268,28 @@ function nexteuropa_piwik_search_get_keys() {
  * Implements hook_entity_info().
  */
 function nexteuropa_piwik_entity_info() {
-  return array(
-    'nexteuropa_piwik_rule' => array(
-      'module' => 'nexteuropa_piwik',
-      'label' => t('PIWIK rule'),
-      'fieldable' => FALSE,
-      'entity keys' => array(
-        'id' => 'id',
+  if (variable_get('nexteuropa_piwik_rules_state', FALSE)) {
+    return array(
+      'nexteuropa_piwik_rule' => array(
+        'module' => 'nexteuropa_piwik',
+        'label' => t('PIWIK rule'),
+        'fieldable' => FALSE,
+        'entity keys' => array(
+          'id' => 'id',
+        ),
+        'label callback' => 'nexteuropa_piwik_rule_label',
+        'base table' => 'nexteuropa_piwik_rule',
+        'entity class' => 'Drupal\\nexteuropa_piwik\\Entity\\PiwikRule',
+        'controller class' => 'EntityAPIController',
+        'access callback' => 'nexteuropa_piwik_rule_access',
+        'admin ui' => array(
+          'path' => 'admin/config/system/webtools/piwik/advanced_rules',
+          'controller class' => 'Drupal\\nexteuropa_piwik\\EntityDefaultUIController\\PiwikRuleEntityUIController',
+          'file' => 'nexteuropa_piwik.rule.admin.inc',
+        ),
       ),
-      'label callback' => 'nexteuropa_piwik_rule_label',
-      'base table' => 'nexteuropa_piwik_rule',
-      'entity class' => 'Drupal\\nexteuropa_piwik\\Entity\\PiwikRule',
-      'controller class' => 'EntityAPIController',
-      'access callback' => 'nexteuropa_piwik_rule_access',
-      'admin ui' => array(
-        'path' => 'admin/config/system/webtools/piwik/advanced_rules',
-        'controller class' => 'Drupal\\nexteuropa_piwik\\EntityDefaultUIController\\PiwikRuleEntityUIController',
-        'file' => 'nexteuropa_piwik.rule.admin.inc',
-      ),
-    ),
-  );
+    );
+  }
 }
 
 /**
@@ -346,15 +348,18 @@ function _nexteuropa_piwik_get_piwik_rule() {
   // Get the current language.
   $lang_code = $language->language;
 
+  // Overwrite path value for the front page.
+  if (drupal_is_front_page()) {
+    $path = '<front>';
+  }
+
   // Get the advanced PIWIK rule based on the direct path.
   if ($piwik_rule = _nexteuropa_piwik_get_direct_path_rule($path, $lang_code)) {
-
     return $piwik_rule;
   }
 
   // Get the advanced PIWIK rule based on the regular expression rule.
   if ($piwik_rule = _nexteuropa_piwik_get_regexp_path_rule($path, $lang_code)) {
-
     return $piwik_rule;
   }
 
@@ -421,7 +426,6 @@ function _nexteuropa_piwik_get_regexp_path_rule($path, $lang_code) {
   $results = $query->fetchAllAssoc('id');
 
   if ($results) {
-
     return _nexteuropa_piwik_filter_results($results, $path, $lang_code);
   }
 

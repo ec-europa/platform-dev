@@ -212,13 +212,13 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
 
   $form['tracking']['advanced_rules']['nexteuropa_piwik_rules_state'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable advanced PIWIK rules.'),
+    '#title' => t('Enable advanced PIWIK rules'),
     '#description' => t('Activates the "Advanced PIWIK rules" configuration tab.'),
     '#default_value' => variable_get('nexteuropa_piwik_rules_state', FALSE),
   );
 
   $form = system_settings_form($form);
-  $form['#submit'][] = '_nexteuropa_piwik_rules_state_check';
+  array_unshift($form['#submit'], '_nexteuropa_piwik_rules_state_check');
 
   return $form;
 }
@@ -351,18 +351,25 @@ function _nexteuropa_piwik_contains_forbidden_token($token_string) {
  */
 function _nexteuropa_piwik_rules_state_check($form, &$form_state) {
   // Checking the state of the advanced rules checkbox.
-  $rule_state = variable_get('nexteuropa_piwik_rules_state', FALSE);
+  $rule_state = $form_state['values']['nexteuropa_piwik_rules_state'];
+  $rule_state_var = variable_get('nexteuropa_piwik_rules_state', FALSE);
 
   switch ($rule_state) {
     case 0:
-      $rule_state = t('off');
+      $state = t('off');
       break;
 
     case 1:
-      $rule_state = t('on');
+      $state = t('on');
       break;
   }
-  // Presenting the message and rebuilding menu.
-  drupal_set_message(t('The PIWIK advanced rules are turned @rule_state.', array('@rule_state' => $rule_state)));
-  menu_rebuild();
+
+  // Presenting the message resetting the entity cache info and rebuilding menu.
+  // Runs only if the advanced PIWIK rules state has changed.
+  if ($rule_state != $rule_state_var) {
+    variable_set('nexteuropa_piwik_rules_state', $rule_state);
+    drupal_set_message(t('The PIWIK advanced rules are turned @state.', array('@state' => $state)));
+    entity_info_cache_clear();
+    menu_rebuild();
+  }
 }

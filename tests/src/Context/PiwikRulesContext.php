@@ -53,6 +53,8 @@ class PiwikRulesContext implements Context {
    */
   public function nexteuropaPiwikIsConfiguredToUseAdvancedPiwikRules() {
     $this->variables->setVariable('nexteuropa_piwik_rules_state', TRUE);
+    entity_info_cache_clear();
+    menu_rebuild();
   }
 
   /**
