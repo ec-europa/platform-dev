@@ -28,6 +28,8 @@ class VariableContext implements Context {
    *
    * The initial value of the value is remembered for later restore.
    *
+   * @When I change the variable :name to :value
+   *
    * @param string $name
    *   Name of the variable.
    * @param mixed $value
