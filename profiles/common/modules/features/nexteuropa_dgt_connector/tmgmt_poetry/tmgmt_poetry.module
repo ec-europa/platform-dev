@@ -230,7 +230,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
  */
 function _tmgmt_poetry_validate($form, &$form_state) {
   $date = strtotime($form_state['values']['settings']['delai']);
-  $today = strtotime();
+  $today = strtotime(now());
   if ($date < $today) {
     form_set_error('delai', t('The date you selected is incorrect!'));
   }
