@@ -1,0 +1,125 @@
+<?php
+/**
+ * @file
+ * Code for the Nexteuropa Nagios module.
+ */
+
+/**
+ * Implements hook_nagios_info().
+ */
+function nexteuropa_nagios_nagios_info() {
+  return array(
+    'name'   => 'NextEuropa',
+    'id'     => 'NECMS',
+  );
+}
+
+/**
+ * Implements hook_nagios_settings().
+ */
+function nexteuropa_nagios_nagios_settings() {
+  foreach (_nexteuropa_nagios_checks() as $check => $arguments) {
+    $var = 'nexteuropa_nagios_check_' . $check;
+    $form[$var] = array(
+      '#type'          => 'checkbox',
+      '#title'         => $check,
+      '#default_value' => variable_get($var, TRUE),
+      '#description' => $arguments['description'],
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_nagios().
+ */
+function nexteuropa_nagios_nagios($id = NULL) {
+  $status = array();
+  $available_checks = _nexteuropa_nagios_checks();
+  if (isset($available_checks[$id]) && variable_get('nexteuropa_nagios_check_' . $id, TRUE)) {
+    $result = _nexteuropa_nagios_check_performance_variable($available_checks[$id]);
+    $status[$result['key']] = $result['data'];
+  }
+  else {
+    foreach (_nexteuropa_nagios_checks() as $check => $arguments) {
+      if (variable_get('nexteuropa_nagios_check_' . $check, TRUE)) {
+        $result = _nexteuropa_nagios_check_performance_variable($arguments);
+        $status[$result['key']] = $result['data'];
+      }
+    }
+  }
+  return $status;
+}
+
+/**
+ * Checks available in the NextEuropa Nagios module.
+ */
+function _nexteuropa_nagios_checks() {
+  return array(
+    'page_cache' => array(
+      'description' => t('Check if the site caches pages for anonymous users'),
+      'variable_name' => 'cache',
+      'nagios_key' => 'PCACHE',
+    ),
+    'block_cache' => array(
+      'description' => t('Check if the site caches blocks'),
+      'variable_name' => 'block_cache',
+      'nagios_key' => 'BCACHE',
+    ),
+    'css_aggregation' => array(
+      'title' => t('Optimize CSS files'),
+      'description' => t('Check if the site aggregates and compresses CSS files'),
+      'variable_name' => 'preprocess_css',
+      'nagios_key' => 'CSSAGG',
+    ),
+    'js_aggregation' => array(
+      'description' => t('Check if the site aggregates JS files'),
+      'variable_name' => 'preprocess_js',
+      'nagios_key' => 'JSAGG',
+    ),
+  );
+}
+
+/**
+ * Checks for the value of a performance variable in the site.
+ */
+function _nexteuropa_nagios_check_performance_variable($arguments) {
+  // Check status of the css compression setting.
+  $state = variable_get($arguments['variable_name'], 0);
+
+  $data = array(
+    'status' => ($state ? NAGIOS_STATUS_OK : NAGIOS_STATUS_WARNING),
+    'type' => 'state',
+    'text' => t('@variable_name variable is set to @state', array(
+      '@variable_name' => $arguments['title'],
+      '@state' => intval($state),
+    )
+    ),
+  );
+
+  return array(
+    'key' => $arguments['nagios_key'],
+    'data' => $data,
+  );
+}
+
+/**
+ * Implements hook_nagios_checks().
+ */
+function nexteuropa_nagios_nagios_checks() {
+  $checks = array();
+  foreach (_nexteuropa_nagios_checks() as $check => $arguments) {
+    $checks[$check] = $arguments['description'];
+  }
+  return $checks;
+}
+
+/**
+ * Implements hook_nagios_check().
+ */
+function nexteuropa_nagios_nagios_check($function) {
+  $checks = _nexteuropa_nagios_checks();
+  $result = _nexteuropa_nagios_check_performance_variable($checks[$function]);
+  $status[$result['key']] = $result['data'];
+  return $status;
+}

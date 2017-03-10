@@ -1,8 +1,8 @@
-@api
+@api @wip
 Feature: Event features
-  In order programm events
+  In order to organize events
   As a citizen of the European Union
-  I want to be able to see a callendar with events
+  I want to be able to see a calendar with events
   
   @api
   Scenario: Users can see the calendar

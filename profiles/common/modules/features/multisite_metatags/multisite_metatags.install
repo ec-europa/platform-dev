@@ -22,5 +22,5 @@ function multisite_metatags_disable() {
   variable_del('meta_reference');
 
   // Deactivation message.
-  drupal_set_message(t('Multisite Metagas feature is now inactive on your site.'));
+  drupal_set_message(t('Multisite Metatags feature is now inactive on your site.'));
 }
