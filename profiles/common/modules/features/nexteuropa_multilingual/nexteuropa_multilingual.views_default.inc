@@ -41,12 +41,14 @@ function nexteuropa_multilingual_views_default_views() {
     'tjid' => 'tjid',
     'reference' => 'reference',
     'label' => 'label',
+    'type_1' => 'type_1',
     'source_language' => 'source_language',
     'target_language' => 'target_language',
     'state' => 'state',
-    'changed' => 'changed',
+    'progress' => 'progress',
     'message' => 'message',
     'type' => 'type',
+    'changed' => 'changed',
   );
   $handler->display->display_options['style_options']['default'] = 'changed';
   $handler->display->display_options['style_options']['info'] = array(
@@ -65,6 +67,13 @@ function nexteuropa_multilingual_views_default_views() {
       'empty_column' => 0,
     ),
     'label' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'type_1' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -92,9 +101,7 @@ function nexteuropa_multilingual_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'changed' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'desc',
+    'progress' => array(
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -109,6 +116,13 @@ function nexteuropa_multilingual_views_default_views() {
     'type' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'changed' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
