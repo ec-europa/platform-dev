@@ -307,6 +307,9 @@ class FrontendCacheContext implements Context {
    */
   public function stopMockServer() {
     if ($this->server && $this->server->isStarted()) {
+      // Cleaning the mock server state.
+      $this->server->clean();
+      // Stopping the mock server.
       $this->server->stop();
     }
   }
