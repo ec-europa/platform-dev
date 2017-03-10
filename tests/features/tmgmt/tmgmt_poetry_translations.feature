@@ -170,12 +170,12 @@ Feature: TMGMT Poetry features
       | title_field     | Title in French 2                       |
       | reference       | SUB_4_POETRY_WEB/2016/63904/0/0/TRA     |
     And I am on "admin/tmgmt/recent-changes"
-    Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 English French" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
-    And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 English Italian" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English Italian" row
-    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 English French" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
+    Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 Basic page English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English French" row
+    And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 Basic page English Italian" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English Italian" row
+    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 Basic page English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English French" row
     And I should not see "_POETRY_"
     Given the translation job with label "Title in English 1" and target language "fr" is accepted
     And I am on "admin/tmgmt/recent-changes"
