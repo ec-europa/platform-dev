@@ -281,9 +281,6 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
 
-projects[flexible_purge][subdir] = "contrib"
-projects[flexible_purge][version] = "1.x-dev"
-
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
 
@@ -477,6 +474,14 @@ projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
+
+projects[nagios][download][branch] = 7.x-1.x
+projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
+projects[nagios][download][type] = git
+projects[nagios][subdir] = "contrib"
+; NEPT-451 Add possibility to report on individual variables
+; https://www.drupal.org/node/2854854
+projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
 
 projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
