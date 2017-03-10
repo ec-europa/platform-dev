@@ -82,7 +82,7 @@ function nexteuropa_multilingual_install() {
   }
 
   // Add files as translatable entities.
-  $translatable_entities = variable_get('entity_translation_entity_types', array('node'=>'node'));
+  $translatable_entities = variable_get('entity_translation_entity_types', array('node' => 'node'));
   $translatable_entities['file'] = 'file';
   variable_set('entity_translation_entity_types', $translatable_entities);
 
@@ -92,10 +92,10 @@ function nexteuropa_multilingual_install() {
     'document',
     'image',
     'video',
-    );
+  );
   foreach ($default_file_types as $default_file_type) {
     $file_type_configuration = variable_get('entity_translation_settings_file__' . $default_file_type, array());
-    $file_type_configuration['hide_language_selector'] = 0; 
+    $file_type_configuration['hide_language_selector'] = 0;
     variable_set('entity_translation_settings_file__' . $default_file_type, $file_type_configuration);
   }
 }
