@@ -45,3 +45,4 @@ features[field_instance][] = file-image-filename_field
 features[field_instance][] = file-video-filename_field
 features[views_view][] = multilingual_recent_translation_job_overview
 registry_autoload[] = PSR-4
+files[] = includes/translation.handler.file.inc

@@ -4,6 +4,7 @@ default:
       contexts:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
+        - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\ApacheSolrContext
