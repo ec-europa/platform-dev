@@ -40,3 +40,4 @@ features[features_api][] = api:2
 features[field_base][] = title_field
 features[views_view][] = multilingual_recent_translation_job_overview
 registry_autoload[] = PSR-4
+files[] = includes/translation.handler.file.inc
