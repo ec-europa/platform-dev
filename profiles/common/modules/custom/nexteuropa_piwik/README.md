@@ -8,7 +8,7 @@ Usage
 On the settings page you need to enter the Piwik website ID and define
 other properties like what user roles should be tracked.
 
-After configuration all pages that follows the settings scope will have
+After configuration all pages that follow the settings scope will have
 the required JavaScript added to the HTML footer. You can check this by
 viewing the page source from your browser.
 
@@ -23,9 +23,8 @@ by default.
 ### Table of Contents
 1. [How to enable Advanced PIWIK rules](#how-to-enable)
 2. [Custom PIWIK rule types](#rule-types)
-3. [Overlaping rules](#overlapping-rules)
-3. [How to add a new custom PIWIK rule](#how-to-add-rule)
-4. [Third Example](#third-example)
+3. [Overlapping rules](#overlapping-rules)
+4. [How to add a new custom PIWIK rule](#how-to-add-rule)
 
 #### How to enable Advanced PIWIK rules <a name="how-to-enable"></a>
 Feature can be enabled on the PIWIK configuration page which is available

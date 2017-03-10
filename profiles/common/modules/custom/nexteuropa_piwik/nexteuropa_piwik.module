@@ -414,7 +414,7 @@ function _nexteuropa_piwik_get_regexp_path_rule($path, $lang_code) {
   // The db_query function is used to perform query with the REGEXP comparison
   // option.
   $query = db_query("
-      SELECT n.id, n.rule_path_type FROM {nexteuropa_piwik_rule} n
+      SELECT n.id FROM {nexteuropa_piwik_rule} n
       WHERE n.rule_path_type = :regexp_path
       AND :path REGEXP `rule_path`
     ",
