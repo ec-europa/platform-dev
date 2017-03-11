@@ -22,6 +22,9 @@
 
 		<!-- Rebuild node access after site installation -->
         <phingcall target="rebuild-node-access" />
+
+        <!-- Creating the initial database dump -->
+        <phingcall target="create-db-dump" />
     </target>
 
     <!-- Set up PHP CodeSniffer. -->
@@ -136,5 +139,24 @@
             verbose="${drush.verbose}">
             <param>"node_access_rebuild()"</param>
         </drush>
+    </target>
+
+    <!-- Create the database dump. -->
+    <target name="create-db-dump">
+        <drush command="sql-dump" root="${platform.build.dir}">
+            <option name="result-file">dbdump.sql</option>
+        </drush>
+    </target>
+
+    <!-- Import the database dump. -->
+    <target name="import-db-dump">
+        <drush command="sql-query" root="${platform.build.dir}">
+            <option name="file">dbdump.sql</option>
+        </drush>
+    </target>
+
+    <!-- Drop the database. -->
+    <target name="drop-db">
+        <drush command="sql-drop" root="${platform.build.dir}" assume="yes" />
     </target>
 </project>
