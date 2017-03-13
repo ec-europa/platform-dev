@@ -159,7 +159,8 @@ function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
     }
   }
 
-  // Clearing the cache.
+  // Clearing the rules of synchronisation cached during
+  // the "ecas_group_sync_get_ecas_sync_rules" function process.
   cache_clear_all('ecas_group_sync_rules', 'cache');
 
   drupal_set_message(t('The mapping rules have been saved.'));
