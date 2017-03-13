@@ -149,6 +149,9 @@ class FrontendCacheContext implements Context {
     $this->variables->setVariable('nexteuropa_varnish_http_targets',
       array('http://' . $server->getConnectionString())
     );
+    $this->variables->setVariable('nexteuropa_varnish_request_user', 'usr');
+    $this->variables->setVariable('nexteuropa_varnish_request_password', 'pass');
+    $this->variables->setVariable('nexteuropa_varnish_http_timeout', '2.0');
   }
 
   /**
