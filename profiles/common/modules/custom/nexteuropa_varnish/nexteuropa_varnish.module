@@ -182,8 +182,10 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
 
   // Default purge rule integration point.
   if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
-    $entity_uri = entity_uri('node', $node);
-    $paths[] = url($entity_uri['path'], $entity_uri['options']);
+    if (!empty($purge_rules) && $node->is_new) {
+      $entity_uri = entity_uri('node', $node);
+      $paths[] = url($entity_uri['path'], $entity_uri['options']);
+    }
   }
 
   // Removing duplicates and all entries of the array equal to FALSE.
