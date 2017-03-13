@@ -755,10 +755,10 @@ function ecas_get_user_department($user_info) {
     $organizations = explode('.', $user_info['cas:departmentNumber']);
 
     $department += array(
-      'dg' => $organizations[0],
-      'directorate' => (isset($organizations[1])) ?: FALSE,
-      'unit' => (isset($organizations[2])) ?: FALSE,
-      'sub_unit' => (isset($organizations[3])) ?: FALSE,
+      'dg' => (!empty($organizations[0])) ? $organizations[0] : FALSE,
+      'directorate' => (!empty($organizations[1])) ? $organizations[1] : FALSE,
+      'unit' => (!empty($organizations[2])) ? $organizations[2] : FALSE,
+      'sub_unit' => (!empty($organizations[3])) ? $organizations[3] : FALSE,
     );
 
     return $department;
