@@ -1,5 +1,17 @@
-node('linux') {
+parallel (
+    'standard' : {
+        node('standard') {
+            executeStages('standard')
+        }
+    },
+    'communities' : {
+        node('communities') {
+            executeStages('communities')
+        }
+    }
+)
 
+void executeStages(String label) {
     Random random = new Random()
     env.PROJECT = 'platform-dev'
     tokens = "${env.WORKSPACE}".tokenize('/')
@@ -12,24 +24,15 @@ node('linux') {
     }
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
-    if (!env.PLATFORM_PROFILE) {
-        env.PLATFORM_PROFILE = "multisite_drupal_standard"
-    }
-
-    env.BEHAT_PROFILE = "default"
-    if (env.PLATFORM_PROFILE == 'multisite_drupal_communities') {
-        env.BEHAT_PROFILE = "communities"
-    }
-
-    stage('Init') {
+    stage('Init ' + label) {
         deleteDir()
         checkout scm
         setBuildStatus("Build started.", "PENDING");
-        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> started."
+        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} ${label} build ${env.BUILD_NUMBER}> started."
     }
 
     try {
-        stage('Build') {
+        stage('Build ' + label) {
             sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
@@ -40,11 +43,11 @@ node('linux') {
             }
         }
 
-        stage('Check') {
+        stage('Check ' + label) {
             sh './bin/phpcs'
         }
 
-        stage('Test') {
+        stage('Test ' + label) {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
@@ -55,16 +58,19 @@ node('linux') {
             }
         }
 
-        stage('Package') {
-            sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
-            sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
-            setBuildStatus("Build complete.", "SUCCESS");
-            slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> complete."
+        if (env.PLATFORM_PROFILE == 'multisite_drupal_standard') {
+            stage('Package ' + label) {
+                sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
+                sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
+            }
         }
+
+        setBuildStatus("Build complete: ${PLATFORM_PROFILE}", "SUCCESS")
+        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} ${label} build ${env.BUILD_NUMBER}> complete."
 
     } catch(err) {
         setBuildStatus("Build failed.", "FAILURE");
-        slackSend color: "danger", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> failed."
+        slackSend color: "danger", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} ${label} build ${env.BUILD_NUMBER}> failed."
         throw(err)
     } finally {
         withCredentials([
