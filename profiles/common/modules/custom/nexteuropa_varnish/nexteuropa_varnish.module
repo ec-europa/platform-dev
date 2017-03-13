@@ -227,6 +227,25 @@ function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
  * Purges certain paths on the web frontend cache.
  */
 function _nexteuropa_varnish_purge_paths($paths) {
+  try {
+    $settings = _nexteuropa_varnish_get_varnish_settings();
+  }
+  catch (InvalidArgumentException $iae) {
+    $end_sentence = t('Please ask your support team to check the server configuration.');
+    $log_link = '';
+    if (user_access('administer site configuration')) {
+      $log_link = l(t('status report page'), 'admin/reports/status_en');
+      $end_sentence = t('See the status report page for seeing what is missing');
+    }
+    watchdog(
+      'nexteuropa_varnish',
+      'No path has been sent for clearing because all module settings are not set. !message_end',
+      array('!message_end' => $end_sentence),
+      WATCHDOG_CRITICAL,
+      $log_link
+    );
+    return;
+  }
   // First clear the actual backend page cache (usually DrupalDatabaseCache).
   // Otherwise the web frontend cache will receive again
   // outdated cached versions of pages.
@@ -270,17 +289,16 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $escaped_paths
   );
 
-  $request_method = variable_get('nexteuropa_varnish_request_method', 'PURGE');
   $request_path = '/invalidate';
 
   $base_request_headers = _nexteuropa_varnish_base_request_headers();
   $request_headers = $base_request_headers + array(
-    'X-Invalidate-Tag' => variable_get('nexteuropa_varnish_tag'),
+    'X-Invalidate-Tag' => $settings['varnish_tag'],
     'X-Invalidate-Type' => 'regexp-multiple',
     'X-Invalidate-Regexp' => '^(' . implode('|', $escaped_paths) . ')$',
   );
 
-  $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
+  $http_targets = $settings['varnish_http_targets'];
 
   foreach ($http_targets as $target) {
     $url = sprintf('%s%s', $target, $request_path);
@@ -289,8 +307,8 @@ function _nexteuropa_varnish_purge_paths($paths) {
       $url,
       array(
         'headers' => $request_headers,
-        'method' => $request_method,
-        'timeout' => variable_get('nexteuropa_varnish_http_timeout', 2.0),
+        'method' => $settings['varnish_request_method'],
+        'timeout' => $settings['varnish_http_timeout'],
       )
     );
 
@@ -317,9 +335,28 @@ function _nexteuropa_varnish_purge_paths($paths) {
  */
 function _nexteuropa_varnish_base_request_headers() {
   $headers = array();
+  try {
+    $settings = _nexteuropa_varnish_get_varnish_settings();
+  }
+  catch (InvalidArgumentException $iae) {
+    $end_sentence = t('Please ask your support team to check the server configuration.');
+    $log_link = '';
+    if (user_access('administer site configuration')) {
+      $log_link = l(t('status report page'), 'admin/reports/status_en');
+      $end_sentence = t('See the status report page for seeing what is missing');
+    }
+    watchdog(
+      'nexteuropa_varnish',
+      'The HTTP request header is not correctly set because all module settings are not set. !message_end',
+      array('!message_end' => $end_sentence),
+      WATCHDOG_CRITICAL,
+      $log_link
+    );
+    return $headers;
+  }
 
-  $request_user = variable_get('nexteuropa_varnish_request_user');
-  $request_password = variable_get('nexteuropa_varnish_request_password');
+  $request_user = $settings['varnish_request_user'];
+  $request_password = $settings['varnish_request_password'];
 
   if ($request_user && $request_password) {
     $basic_auth = base64_encode("{$request_user}:{$request_password}");
@@ -328,4 +365,63 @@ function _nexteuropa_varnish_base_request_headers() {
   }
 
   return $headers;
+}
+
+/**
+ * Gets Varnish settings to use in the purge process.
+ *
+ * @return array
+ *   The Varnish settings:
+ *    - 'varnish_request_method': HTTP request method use for Varnish requests;
+ *    - 'varnish_http_targets': URLs of Varnish servers;
+ *    - 'varnish_tag': Tag helping to identify site URLs in the Varnish index;
+ *    - 'varnish_request_user': HTTP request user name for Varnish requests;
+ *    - 'varnish_request_password': HTTP request password for Varnish requests;
+ *    - 'varnish_http_timeout': HTTP request time out.
+ *
+ * @throws \InvalidArgumentException
+ *   If one of the parameters is not set; I.E. all parameters must be set in
+ *   order that the feature work correctly.
+ */
+function _nexteuropa_varnish_get_varnish_settings() {
+  $settings = &drupal_static(__FUNCTION__);
+
+  if (!$settings) {
+    $request_method = variable_get('nexteuropa_varnish_request_method');
+    if (!$request_method) {
+      throw new InvalidArgumentException(t('The "nexteuropa_varnish_request_method" is not correctly set.'));
+    }
+    $settings['varnish_request_method'] = $request_method;
+
+    $http_targets = variable_get('nexteuropa_varnish_http_targets');
+    if (!$http_targets) {
+      throw new InvalidArgumentException(t('The "nexteuropa_varnish_http_targets" is not correctly set.'));
+    }
+    $settings['varnish_http_targets'] = $http_targets;
+
+    $varnish_tag = variable_get('nexteuropa_varnish_tag');
+    if (!$varnish_tag) {
+      throw new InvalidArgumentException(t('The "nexteuropa_varnish_tag" is not correctly set.'));
+    }
+    $settings['varnish_tag'] = $varnish_tag;
+
+    $request_user = variable_get('nexteuropa_varnish_request_user');
+    if (!$request_user) {
+      throw new InvalidArgumentException(t('The "nexteuropa_varnish_request_user" is not correctly set.'));
+    }
+    $settings['varnish_request_user'] = $request_user;
+
+    $request_password = variable_get('nexteuropa_varnish_request_password');
+    if (!$request_password) {
+      throw new InvalidArgumentException(t('The "nexteuropa_varnish_request_password" is not correctly set.'));
+    }
+    $settings['varnish_request_password'] = $request_password;
+
+    $http_timeout = variable_get('nexteuropa_varnish_http_timeout');
+    if (!$http_timeout) {
+      throw new InvalidArgumentException(t('The "nexteuropa_varnish_http_timeout" is not correctly set.'));
+    }
+    $settings['varnish_http_timeout'] = $http_timeout;
+  }
+  return $settings;
 }

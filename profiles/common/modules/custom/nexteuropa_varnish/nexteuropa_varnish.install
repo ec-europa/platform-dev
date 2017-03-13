@@ -37,12 +37,21 @@ function nexteuropa_varnish_schema() {
 
 /**
  * Implements hook_requirements().
+ *
+ * At installation and run time phase, All Varnish feature settings' parameters
+ * must be set.
+ * The control status returns which parameters are missing.
  */
 function nexteuropa_varnish_requirements($phase) {
   $requirements = array();
   $t = get_t();
 
-  if ($phase == 'install') {
+  $control_phase = array(
+    'install',
+    'runtime',
+  );
+
+  if (in_array($phase, $control_phase)) {
     global $conf;
 
     $required_vars = array(
@@ -56,8 +65,10 @@ function nexteuropa_varnish_requirements($phase) {
 
     foreach ($required_vars as $var) {
       if (!isset($conf[$var])) {
+        $t_var = array('@var' => $var);
         $requirements[$var] = array(
-          'description' => $t('Following variable must be set: @var.', array('@var' => $var)),
+          'title' => $t('NextEuropa Varnish: "@var" is missing', $t_var),
+          'description' => $t('Following variable must be set: @var. Please ask your support team to check the server configuration.', $t_var),
           'severity' => REQUIREMENT_ERROR,
         );
       }
