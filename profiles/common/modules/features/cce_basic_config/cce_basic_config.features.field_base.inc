@@ -152,7 +152,7 @@ function cce_basic_config_field_default_field_bases() {
     'settings' => array(
       'max_length' => 255,
     ),
-    'translatable' => 1,
+    'translatable' => 0,
     'type' => 'text',
   );
 
