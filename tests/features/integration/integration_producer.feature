@@ -35,6 +35,7 @@ Feature: Integration producer
       | en       | Title in English    |
       | pt       | Título em Português |
 
+  @wip
   Scenario: content in main language pt-pt will be pushed to the central Integration server as pt
     Given the following Integration Layer node producer is created:
     """
