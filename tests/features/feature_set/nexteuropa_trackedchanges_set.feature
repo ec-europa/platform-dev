@@ -6,6 +6,7 @@ Feature: Change tracking features
   Background:
     Given I am logged in as a user with the 'administrator' role
 
+  @wip
   Scenario: As administrator, I can disable the "NextEuropa Tracked Changes" feature if tracked changes are not detected
   on fields that use this profile
     Given the module is enabled
@@ -20,6 +21,7 @@ Feature: Change tracking features
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
     And the response should not contain "Tracked changes logs status"
 
+  @wip
   Scenario: As administrator, I could not disable the "NextEuropa Tracked Changes" feature if tracked changes are detected
   on fields that use this profile
     Given the module is enabled
