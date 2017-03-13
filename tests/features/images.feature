@@ -4,6 +4,7 @@ Feature: Images
   As a contributor
   I can attach images to content
 
+  @wip
   Scenario: Add a caption to an Article image
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/article"
