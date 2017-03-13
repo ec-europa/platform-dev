@@ -15,6 +15,7 @@ Feature: Integration producer
       | pt-pt     |
     And I am logged in as a user with the 'administrator' role
 
+  @wip
   Scenario: pt-pt translation will be pushed to the central Integration server as pt
     Given the following Integration Layer node producer is created:
     """
