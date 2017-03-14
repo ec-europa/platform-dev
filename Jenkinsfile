@@ -5,18 +5,19 @@ try {
                 try {
                     env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
                     setBuildStatus("Build started.", "PENDING");
-                    slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> started."
+                    slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
+                    slackSend color: "good", message: "${slackMessage} started."
                     executeStages('standard')
                     stage('Package') {
                         sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
                         sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
                     }
                     setBuildStatus("Build complete.", "SUCCESS")
-                    slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> complete."
+                    slackSend color: "good", message: "${slackMessage} complete."
                 }
                 catch(err) {
                     setBuildStatus("Build failed.", "FAILURE");
-                    slackSend color: "danger", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> failed."
+                    slackSend color: "danger", message: "${slackMessage} failed."
                 }
             }
         },
