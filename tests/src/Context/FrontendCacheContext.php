@@ -131,10 +131,10 @@ class FrontendCacheContext implements Context {
   /**
    * Configures the frontend cache integration for testing purposes.
    *
-   * @Given :arg1 is configured as the purge application tag
+   * @Given :tag is :correctly configured as the purge application tag
    */
-  public function valueIsConfiguredAsThePurgeApplicationTag($arg1) {
-    $this->variables->setVariable('nexteuropa_varnish_tag', $arg1);
+  public function valueIsConfiguredAsThePurgeApplicationTag($tag, $correctly) {
+    $this->variables->setVariable('nexteuropa_varnish_tag', $tag);
 
     $server = $this->getServer();
 
@@ -149,9 +149,16 @@ class FrontendCacheContext implements Context {
     $this->variables->setVariable('nexteuropa_varnish_http_targets',
       array('http://' . $server->getConnectionString())
     );
-    $this->variables->setVariable('nexteuropa_varnish_request_user', 'usr');
-    $this->variables->setVariable('nexteuropa_varnish_request_password', 'pass');
-    $this->variables->setVariable('nexteuropa_varnish_http_timeout', '2.0');
+    if ($correctly == 'correctly') {
+      $this->variables->setVariable('nexteuropa_varnish_request_user', 'usr');
+      $this->variables->setVariable('nexteuropa_varnish_request_password', 'pass');
+      $this->variables->setVariable('nexteuropa_varnish_http_timeout', '2.0');
+    }
+    else {
+      $this->variables->deleteVariable('nexteuropa_varnish_request_user');
+      $this->variables->deleteVariable('nexteuropa_varnish_request_password');
+      $this->variables->deleteVariable('nexteuropa_varnish_http_timeout');
+    }
   }
 
   /**
@@ -282,6 +289,16 @@ class FrontendCacheContext implements Context {
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
     assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
     assert($purge_request_paths, equals([$path_string]));
+  }
+
+  /**
+   * Asserts that the web front end cache received certain purge requests.
+   *
+   * @Then the web front end cache was not instructed to purge the following paths for the application tag :arg1:
+   */
+  public function theWebFrontEndCacheWasNotInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(0));
   }
 
   /**
