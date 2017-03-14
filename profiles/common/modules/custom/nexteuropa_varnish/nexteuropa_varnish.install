@@ -4,6 +4,8 @@
  * Contains install and update functions for nexteuropa_varnish.
  */
 
+include_once 'nexteuropa_varnish.helper.inc';
+
 /**
  * Implements hook_schema().
  */
@@ -52,19 +54,18 @@ function nexteuropa_varnish_requirements($phase) {
   );
 
   if (in_array($phase, $control_phase)) {
-    global $conf;
-
     $required_vars = array(
-      'nexteuropa_varnish_http_targets',
-      'nexteuropa_varnish_request_method',
-      'nexteuropa_varnish_request_user',
-      'nexteuropa_varnish_request_password',
-      'nexteuropa_varnish_tag',
-      'nexteuropa_varnish_http_timeout',
+      'varnish_http_targets',
+      'varnish_request_method',
+      'varnish_request_user',
+      'varnish_request_password',
+      'varnish_tag',
+      'varnish_http_timeout',
     );
+    $settings = _nexteuropa_varnish_get_varnish_settings(FALSE);
 
     foreach ($required_vars as $var) {
-      if (!isset($conf[$var])) {
+      if (!isset($settings[$var])) {
         $t_var = array('@var' => $var);
         $requirements[$var] = array(
           'title' => $t('NextEuropa Varnish: "@var" is missing', $t_var),
