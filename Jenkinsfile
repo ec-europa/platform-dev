@@ -1,6 +1,7 @@
 try {
     parallel (
         'standard' : {
+            // Build, test and package the standard profile
             node('standard') {
                 try {
                     env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
@@ -22,6 +23,7 @@ try {
             }
         },
         'communities' : {
+            // Build and test the communities profile
             node('communities') {
                 executeStages('communities')
             }
@@ -32,7 +34,13 @@ catch(err) {
     throw(err)
 }
 
+/**
+ * Execute profile stages.
+ *
+ * @param label The text that will be displayed as stage label.
+ */
 void executeStages(String label) {
+    // Use random ports for the HTTP mock and PhantomJS, compute paths, use random DB name
     Random random = new Random()
     env.PROJECT = 'platform-dev'
     tokens = "${env.WORKSPACE}".tokenize('/')
@@ -80,6 +88,12 @@ void executeStages(String label) {
     }
 }
 
+/**
+ * Send build status notification to GitHub.
+ *
+ * @param message The notification message.
+ * @param state The notification state.
+ */
 void setBuildStatus(String message, String state) {
     step([
         $class: "GitHubCommitStatusSetter",
