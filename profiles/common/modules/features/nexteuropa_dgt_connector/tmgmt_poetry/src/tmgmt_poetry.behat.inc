@@ -238,8 +238,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
     if (!$this->getSession()->getPage()->findField($field)) {
       throw new ExpectationException("Field '$field' not found.", $this->getSession());
     }
-
-    $relative_date = date('d/m/Y', strtotime($number));
+    $relative_date = date('d/m/Y', strtotime("{$number} day"));
     $this->getSession()->getPage()->fillField($field, $relative_date);
   }
 

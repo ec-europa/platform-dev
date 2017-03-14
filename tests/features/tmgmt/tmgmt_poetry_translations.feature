@@ -37,7 +37,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see the error message "There was an error with the Poetry request."
     And I should see "Rejected" in the "French" row
@@ -117,7 +117,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -197,7 +197,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I check the box on the "Italian" row
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -245,7 +245,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     When I go to "admin/poetry_mock/dashboard"
@@ -269,7 +269,7 @@ Feature: TMGMT Poetry features
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -301,7 +301,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I store job ID of translation request page
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     When I go to "admin/poetry_mock/dashboard"
@@ -377,7 +377,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -408,7 +408,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -451,7 +451,7 @@ Feature: TMGMT Poetry features
     And the "edit-settings-languages-fr" field should contain "fr"
     And the "edit-settings-languages-it" field should contain "it"
     And the "edit-settings-languages-pt-pt" field should contain "pt-pt"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -529,7 +529,7 @@ Feature: TMGMT Poetry features
       Then I should see "Last change"
       When I check the box on the "French" row
       And I press "Request translation"
-      And I fill in "Date" with a relative date of "+20" days    
+      And I fill in "Date" with a relative date of "+20" days
       And I press "Submit to translator"
       Then I see the date of the last change in the "French" row
 
@@ -760,3 +760,28 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
+
+  Scenario: Request translation of a page with date in the past no javascript
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title date test  | Test delai conditions   |
+    When I click "Translate" in the "primary_tabs" region
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with "01/01/1970"
+    And I press "Submit to translator"
+    Then I should see the error message "The date you selected is incorrect!"
+
+  @javascript
+  Scenario: Request translation of a page with date in the past using javascript
+    Given I am logged in as a user with the 'administrator' role
+    And I am viewing a multilingual "page" content:
+      | language | title            | body                    |
+      | en       | Title date test  | Test delai conditions   |
+    When I click "Translate" in the "primary_tabs" region
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I fill in "Date" with "01/01/1970"
+    And I press "Submit to translator"
+    Then I should see the error message "The date you selected is incorrect!"
