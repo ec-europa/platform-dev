@@ -182,9 +182,9 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
 
   // Default purge rule integration point.
   if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
-    if (!empty($purge_rules) && empty($node->nid)) {
-      $entity_uri = entity_uri('node', $node);
-      $paths[] = url($entity_uri['path'], $entity_uri['options']);
+    if (empty($paths) && empty($node->is_new)) {
+      $paths = _nexteuropa_varnish_get_node_paths($node);
+
     }
   }
 
@@ -215,33 +215,7 @@ function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
       $purge_paths = $purge_rule->paths();
     }
     else {
-      $purge_paths = array();
-
-      $entity_uri = entity_uri('node', $node);
-
-      if ($entity_uri) {
-        // Get the languages the node is translated into (entity translation).
-        if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
-          $handler = entity_translation_get_handler('node', $node);
-
-          $translations = $handler->getTranslations();
-
-          $lang_codes = array_keys($translations->data);
-          $all_languages = entity_translation_languages('node', $node);
-
-          foreach ($lang_codes as $lang_code) {
-            if (isset($all_languages[$lang_code])) {
-              $purge_paths[] = url(
-                $entity_uri['path'],
-                $entity_uri['options'] + array('language' => $all_languages[$lang_code])
-              );
-            }
-          }
-        }
-        else {
-          $purge_paths[] = url($entity_uri['path'], $entity_uri['options']);
-        }
-      }
+      $purge_paths = _nexteuropa_varnish_get_node_paths($node);
     }
 
     $paths = array_merge($paths, $purge_paths);
@@ -355,4 +329,43 @@ function _nexteuropa_varnish_base_request_headers() {
   }
 
   return $headers;
+}
+
+/**
+ * Returns paths for the node including translations.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @return array
+ *   An array with the paths of the node.
+ */
+function _nexteuropa_varnish_get_node_paths($node) {
+  $paths = array();
+  $entity_uri = entity_uri('node', $node);
+  if ($entity_uri) {
+    // Get the languages the node is translated into (entity translation).
+    if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
+      $handler = entity_translation_get_handler('node', $node);
+
+      $translations = $handler->getTranslations();
+
+      $lang_codes = array_keys($translations->data);
+      $all_languages = entity_translation_languages('node', $node);
+
+      foreach ($lang_codes as $lang_code) {
+        if (isset($all_languages[$lang_code])) {
+          $paths[] = url(
+            $entity_uri['path'],
+            $entity_uri['options'] + array('language' => $all_languages[$lang_code])
+          );
+        }
+      }
+    }
+    else {
+      $paths[] = url($entity_uri['path'], $entity_uri['options']);
+    }
+  }
+
+  return $paths;
 }

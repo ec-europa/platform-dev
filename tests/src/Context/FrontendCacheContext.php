@@ -265,7 +265,13 @@ class FrontendCacheContext implements Context {
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
     $requests = $this->getRequests();
-    assert($requests, isOfSize(1));
+
+    // Default purge rule will always send requests whenever publication change
+    // will occur. Because of that requests array will have additional entries.
+    // The following statement omits the assert check for the count of requests.
+    if (!variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
+      assert($requests, isOfSize(1));
+    }
 
     $purge_request = $requests->last();
 

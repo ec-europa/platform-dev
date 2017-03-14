@@ -554,9 +554,6 @@ Feature:
       | en       | frontend-cache-purge-withdrawal           | Page to test withdrawal |
       | fr       | frontend-cache-purge-withdrawal-in-french | Page to test withdrawal |
       | nl       | frontend-cache-purge-withdrawal-in-dutch  | Page to test withdrawal |
-    And the following cache purge rules:
-      | Content Type | Paths to Purge |
-      | page         |                |
     When I click "Unpublish this revision"
     And I press the "Unpublish" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
