@@ -5,7 +5,6 @@ try {
             node('standard') {
                 try {
                     env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
-                    setBuildStatus("Build started.", "PENDING");
                     slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
                     slackSend color: "good", message: "${slackMessage} started."
                     executeStages('standard')
@@ -56,6 +55,7 @@ void executeStages(String label) {
         stage('Init & Build ' + label) {
             deleteDir()
             checkout scm
+            setBuildStatus("Build of ${label} profile started.", "PENDING");
             sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
