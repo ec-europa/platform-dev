@@ -41,14 +41,12 @@ function nexteuropa_multilingual_views_default_views() {
     'tjid' => 'tjid',
     'reference' => 'reference',
     'label' => 'label',
-    'type_1' => 'type_1',
     'source_language' => 'source_language',
     'target_language' => 'target_language',
     'state' => 'state',
-    'progress' => 'progress',
+    'changed' => 'changed',
     'message' => 'message',
     'type' => 'type',
-    'changed' => 'changed',
   );
   $handler->display->display_options['style_options']['default'] = 'changed';
   $handler->display->display_options['style_options']['info'] = array(
@@ -67,13 +65,6 @@ function nexteuropa_multilingual_views_default_views() {
       'empty_column' => 0,
     ),
     'label' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'type_1' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -101,7 +92,9 @@ function nexteuropa_multilingual_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'progress' => array(
+    'changed' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -116,13 +109,6 @@ function nexteuropa_multilingual_views_default_views() {
     'type' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
-      'align' => '',
-      'separator' => '',
-      'empty_column' => 0,
-    ),
-    'changed' => array(
-      'sortable' => 1,
-      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -149,12 +135,6 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['relationships']['tmgmt_message']['table'] = 'tmgmt_job_item';
   $handler->display->display_options['relationships']['tmgmt_message']['field'] = 'tmgmt_message';
   $handler->display->display_options['relationships']['tmgmt_message']['relationship'] = 'job_item';
-  /* Relationship: Content by NID */
-  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['id'] = 'job_item_to_node_by_nid';
-  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['table'] = 'tmgmt_job_item';
-  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['field'] = 'job_item_to_node_by_nid';
-  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['relationship'] = 'job_item';
-  $handler->display->display_options['relationships']['job_item_to_node_by_nid']['ui_name'] = 'Content by NID';
   /* Field: Translation Management Job: Translation management job ID */
   $handler->display->display_options['fields']['tjid']['id'] = 'tjid';
   $handler->display->display_options['fields']['tjid']['table'] = 'tmgmt_job';
@@ -175,11 +155,6 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['fields']['label']['table'] = 'tmgmt_job';
   $handler->display->display_options['fields']['label']['field'] = 'label';
   $handler->display->display_options['fields']['label']['ui_name'] = 'Label';
-  /* Field: Content: Type */
-  $handler->display->display_options['fields']['type_1']['id'] = 'type_1';
-  $handler->display->display_options['fields']['type_1']['table'] = 'node';
-  $handler->display->display_options['fields']['type_1']['field'] = 'type';
-  $handler->display->display_options['fields']['type_1']['relationship'] = 'job_item_to_node_by_nid';
   /* Field: From */
   $handler->display->display_options['fields']['source_language']['id'] = 'source_language';
   $handler->display->display_options['fields']['source_language']['table'] = 'tmgmt_job';
@@ -264,26 +239,6 @@ function nexteuropa_multilingual_views_default_views() {
     3 => 0,
     4 => 0,
   );
-  /* Filter criterion: Content: Type */
-  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
-  $handler->display->display_options['filters']['type_1']['table'] = 'node';
-  $handler->display->display_options['filters']['type_1']['field'] = 'type';
-  $handler->display->display_options['filters']['type_1']['relationship'] = 'job_item_to_node_by_nid';
-  $handler->display->display_options['filters']['type_1']['group'] = 1;
-  $handler->display->display_options['filters']['type_1']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['type_1']['expose']['operator_id'] = 'type_1_op';
-  $handler->display->display_options['filters']['type_1']['expose']['label'] = 'Type';
-  $handler->display->display_options['filters']['type_1']['expose']['operator'] = 'type_1_op';
-  $handler->display->display_options['filters']['type_1']['expose']['identifier'] = 'type_1';
-  $handler->display->display_options['filters']['type_1']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    7 => 0,
-    6 => 0,
-    3 => 0,
-    4 => 0,
-    5 => 0,
-  );
   /* Filter criterion: From */
   $handler->display->display_options['filters']['source_language']['id'] = 'source_language';
   $handler->display->display_options['filters']['source_language']['table'] = 'tmgmt_job';
@@ -343,7 +298,6 @@ function nexteuropa_multilingual_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['relationship'] = 'tmgmt_message';
   $handler->display->display_options['filters']['type']['operator'] = 'contains';
-  $handler->display->display_options['filters']['type']['group'] = 1;
   $handler->display->display_options['filters']['type']['exposed'] = TRUE;
   $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Message type';
