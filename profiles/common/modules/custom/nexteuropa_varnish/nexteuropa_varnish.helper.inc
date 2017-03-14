@@ -40,7 +40,7 @@ function _nexteuropa_varnish_get_varnish_settings($validity_control = TRUE) {
     $settings['varnish_http_timeout'] = variable_get('nexteuropa_varnish_http_timeout');
 
     if ($validity_control && !(_nexteuropa_varnish_check_configuration($settings))) {
-      throw new InvalidArgumentException(t('The module  is not correctly set.'));
+      throw new InvalidArgumentException(t('The module is not correctly set.'));
     }
   }
   return $settings;
@@ -57,27 +57,27 @@ function _nexteuropa_varnish_get_varnish_settings($validity_control = TRUE) {
  *   otherwise TRUE.
  */
 function _nexteuropa_varnish_check_configuration($settings) {
-  if (!empty($settings['varnish_request_method'])) {
+  if (empty($settings['varnish_request_method'])) {
     return FALSE;
   }
 
-  if (!empty($settings['varnish_http_targets'])) {
+  if (empty($settings['varnish_http_targets'])) {
     return FALSE;
   }
 
-  if (!empty($settings['varnish_tag'])) {
+  if (empty($settings['varnish_tag'])) {
     return FALSE;
   }
 
-  if (!empty($settings['varnish_request_user'])) {
+  if (empty($settings['varnish_request_user'])) {
     return FALSE;
   }
 
-  if (!empty($settings['varnish_request_password'])) {
+  if (empty($settings['varnish_request_password'])) {
     return FALSE;
   }
 
-  if (!empty($settings['varnish_http_timeout'])) {
+  if (empty($settings['varnish_http_timeout'])) {
     return FALSE;
   }
 

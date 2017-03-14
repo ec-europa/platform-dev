@@ -6,10 +6,12 @@ Feature:
   I can define rules to flush the web front end cache (e.g. Varnish)
 
   Background:
-    Given these modules are enabled
+    # We start by settings parameters that are required by the
+    # nexteuropa_varnish modules.
+    Given "my-website" is "correctly" configured as the purge application tag
+    And these modules are enabled
       | modules            |
       | nexteuropa_varnish |
-    And "my-website" is "correctly" configured as the purge application tag
     And I am logged in as a user with the "administrator" role
 
   Scenario: View purge rules.
