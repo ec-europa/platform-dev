@@ -109,16 +109,6 @@ function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(Quer
 }
 
 /**
- * Implements hook_views_api().
- */
-function tmgmt_workbench_views_api() {
-  return array(
-    'api' => 3,
-    'path' => drupal_get_path('module', 'tmgmt_workbench') . '/includes',
-  );
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Alter function for the form on the 'Translate' tab.
