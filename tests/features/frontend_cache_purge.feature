@@ -530,18 +530,6 @@ Feature:
   # Scenarios for checking the default purge rule functionality
 
   @moderated-content @purge-rule-type-node
-  Scenario: Immediately publish a new page and purge its paths using the default purge rule.
-    When I go to "node/add/page"
-    And I fill in "Title" with "frontend-cache-purge-publish-immediately"
-    And I click "Publishing options"
-    And I select "Published" from "Moderation state"
-    And I fill in "Moderation notes" with "Immediately publishing this"
-    And I press "Save"
-    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                 |
-      | /content/frontend-cache-purge-publish-immediately_en |
-
-  @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is withdrawn using the default purge rule.
     Given the following languages are available:
       | languages |
