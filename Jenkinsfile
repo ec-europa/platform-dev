@@ -1,15 +1,35 @@
-parallel (
-    'standard' : {
-        node('standard') {
-            executeStages('standard')
+try {
+    parallel (
+        'standard' : {
+            node('standard') {
+                try {
+                    env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
+                    setBuildStatus("Build started.", "PENDING");
+                    slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> started."
+                    executeStages('standard')
+                    stage('Package') {
+                        sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
+                        sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
+                    }
+                    setBuildStatus("Build complete.", "SUCCESS")
+                    slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> complete."
+                }
+                catch(err) {
+                    setBuildStatus("Build failed.", "FAILURE");
+                    slackSend color: "danger", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}> failed."
+                }
+            }
+        },
+        'communities' : {
+            node('communities') {
+                executeStages('communities')
+            }
         }
-    },
-    'communities' : {
-        node('communities') {
-            executeStages('communities')
-        }
-    }
-)
+    )
+}
+catch(err) {
+    throw(err)
+}
 
 void executeStages(String label) {
     Random random = new Random()
@@ -17,22 +37,16 @@ void executeStages(String label) {
     tokens = "${env.WORKSPACE}".tokenize('/')
     env.SITE_PATH = tokens[tokens.size()-1]
     env.DB_NAME = "${env.PROJECT}".replaceAll('-','_').trim() + '_' + sh(returnStdout: true, script: 'date | md5sum | head -c 4').trim()
-    env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
     env.HTTP_MOCK_PORT = random.nextInt(50000) + 10000
     if (env.WD_PORT == '0') {
         env.WD_PORT = env.HTTP_MOCK_PORT.toInteger() + 1
     }
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
-    stage('Init ' + label) {
-        deleteDir()
-        checkout scm
-        setBuildStatus("Build started.", "PENDING");
-        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} ${label} build ${env.BUILD_NUMBER}> started."
-    }
-
     try {
-        stage('Build ' + label) {
+        stage('Init & Build ' + label) {
+            deleteDir()
+            checkout scm
             sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
@@ -43,34 +57,18 @@ void executeStages(String label) {
             }
         }
 
-        stage('Check ' + label) {
+        stage('Check & Test ' + label) {
             sh './bin/phpcs'
-        }
-
-        stage('Test ' + label) {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
                         sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
                     }
-                    sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors --strict"
+                    sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors -f pretty --strict"
                 }
             }
         }
-
-        if (env.PLATFORM_PROFILE == 'multisite_drupal_standard') {
-            stage('Package ' + label) {
-                sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
-                sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
-            }
-        }
-
-        setBuildStatus("Build complete: ${PLATFORM_PROFILE}", "SUCCESS")
-        slackSend color: "good", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} ${label} build ${env.BUILD_NUMBER}> complete."
-
     } catch(err) {
-        setBuildStatus("Build failed.", "FAILURE");
-        slackSend color: "danger", message: "<${env.BUILD_URL}|${env.RELEASE_NAME} ${label} build ${env.BUILD_NUMBER}> failed."
         throw(err)
     } finally {
         withCredentials([
