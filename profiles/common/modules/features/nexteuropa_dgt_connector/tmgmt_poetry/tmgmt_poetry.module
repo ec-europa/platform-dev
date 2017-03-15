@@ -217,7 +217,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
       $form['translator_wrapper']['#collapsed'] = TRUE;
     }
   }
-  $form['#validate'][] = '_tmgmt_poetry_validate';
+  $form['#validate'][] = '_tmgmt_poetry_validate_job_requested_date';
 
   // User should not cancel neither save the job,
   // it should only send translation request or delete the job.
@@ -228,13 +228,13 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
 /**
  * Custom validator to add a server validation step for dates in the past.
  */
-function _tmgmt_poetry_validate($form, &$form_state) {
+function _tmgmt_poetry_validate_job_requested_date($form, &$form_state) {
   $delai = $form_state['values']['settings']['delai'];
   if (is_string($delai)) {
     $date = strtotime($delai);
     $today = time();
     if ($date < $today) {
-      form_set_error('delai', t('The date you selected is incorrect!'));
+      form_set_error('delai', t('The expected requested delivery date cannot be in the past.'));
     }
   }
 }
