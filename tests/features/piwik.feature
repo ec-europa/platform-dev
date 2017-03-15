@@ -12,7 +12,7 @@ Feature: Check Piwik
     Given these modules are enabled
       | modules            |
       | nexteuropa_piwik   |
-    And I am logged in as a user with the "administrator" role
+    And I am logged in as a user with the "PIWIK administrator" role
 
   @wip
   Scenario: Administrator user can check Piwik Script with the theme Bootstrap

@@ -443,7 +443,7 @@ function _nexteuropa_piwik_get_regexp_path_rule($path, $lang_code) {
  *   Current language.
  *
  * @return mixed
- *   PIWIK rule entity
+ *   PiwikRule entity
  *   FALSE if there is no rule for the currently processed path.
  */
 function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
@@ -460,16 +460,41 @@ function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
     );
   }
   // Return PIWIK rule.
+  $lang_code_rules = array();
+  $lang_all_rules = array();
   $piwik_rules = entity_load('nexteuropa_piwik_rule', array_keys($results));
   foreach ($piwik_rules as $piwik_rule) {
     if ($lang_code === $piwik_rule->rule_language) {
-      return $piwik_rule;
+      $lang_code_rules[$piwik_rule->id] = $piwik_rule;
     }
 
     if ($piwik_rule->rule_language === 'all') {
-      return $piwik_rule;
+      $lang_all_rules[$piwik_rule->id] = $piwik_rule;
     }
+  }
+  // Return latest rule for the defined language.
+  if (!empty($lang_code_rules)) {
+    return _nexteuropa_piwik_get_latest_rule($lang_code_rules);
+  }
+
+  // Return latest rule defined for all languages.
+  if (!empty($lang_all_rules)) {
+    return _nexteuropa_piwik_get_latest_rule($lang_code_rules);
   }
 
   return FALSE;
+}
+
+/**
+ * Returns the latest rule object from the array.
+ *
+ * @param array $rules_array
+ *   An array with the PiwikRule objects keyed by the id.
+ *
+ * @return PiwikRule
+ *   PiwikRule entity.
+ */
+function _nexteuropa_piwik_get_latest_rule($rules_array) {
+  ksort($rules_array, SORT_DESC);
+  return array_pop($rules_array);
 }
