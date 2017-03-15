@@ -292,16 +292,6 @@ class FrontendCacheContext implements Context {
   }
 
   /**
-   * Asserts that the web front end cache received certain purge requests.
-   *
-   * @Then the web front end cache was not instructed to purge the following paths for the application tag :arg1:
-   */
-  public function theWebFrontEndCacheWasNotInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
-    $requests = $this->getRequests();
-    assert($requests, isOfSize(0));
-  }
-
-  /**
    * Asserts that the web front end cache did not receive any purge requests.
    *
    * @Then the web front end cache was not instructed to purge any paths
