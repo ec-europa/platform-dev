@@ -5,4 +5,3 @@
  */
 
 include_once 'multisite_settings_core.features.inc';
-

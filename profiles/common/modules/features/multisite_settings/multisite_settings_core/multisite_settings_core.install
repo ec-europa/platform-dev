@@ -32,8 +32,9 @@ function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
  * Enable administration language module. NEPT-8.
  */
 function multisite_settings_core_install() {
-  module_enable(array('administration_language_negotiation'));
+  include_once DRUPAL_ROOT . '/includes/language.inc';
   language_types_set();
+  language_negotiation_purge();
   $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
   $enabled_providers['language-administration']['callbacks'] = array('language' => 'administration_language_negotiation_admin_language');
   language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers);
@@ -118,6 +119,7 @@ function multisite_settings_core_update_7123() {
  * Enable english administration display. NEPT-8.
  */
 function multisite_settings_core_update_7124() {
+  // Enable the module as this feature is never reverted.
   module_enable(array('administration_language_negotiation'));
   $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
   $enabled_providers['language-administration']['callbacks'] = array('language' => 'administration_language_negotiation_admin_language');

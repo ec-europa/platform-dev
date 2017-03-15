@@ -6,6 +6,11 @@ Feature: Content editing as administrator
 
   Background:
     Given I am logged in as a user with the 'administrator' role
+    And the following languages are available:
+       | languages |
+       | en        |
+       | fr        |
+       | it        |
 
   Scenario Outline: Test allowed HTML
     # The Wysiwyg does not return the HTML exactly as entered. It will insert
@@ -49,14 +54,6 @@ Feature: Content editing as administrator
       | This is not the right way                                             | <div id=\"2invalidid\">A container with an invalid HTML ID</div>      | invalidid                                                               |
       | This is not the right way                                             | <div id=\"invalidid.\">A container with an invalid HTML ID</div>      | invalidid                                                               |
 
-
-  Background:
-    Given I am logged in as a user with the 'administrator' role
-    Given the following languages are available:
-      | languages |
-      | en        |
-      | fr        |
-      | it        |
 
   Scenario Outline: Check admin UI always shows english
     When I go to "admin/config/regional/translate/translate"
