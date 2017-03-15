@@ -13,6 +13,24 @@ function multisite_settings_core_install() {
 }
 
 /**
+ * Enable administration language module. NEPT-8.
+ */
+function multisite_settings_core_install() {
+  module_enable(array('administration_language_negotiation'));
+}
+
+/**
+ * Enable administration language module. NEPT-8.
+ */
+function multisite_settings_core_enable() {
+  require_once DRUPAL_ROOT . '/includes/language.inc';
+  require_once DRUPAL_ROOT . '/includes/locale.inc';
+  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $enabled_providers['language-administration']['callbacks'] = array('language' => 'administration_language_negotiation_admin_language');
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers);
+}
+
+/**
  * Add and configure the context workbench.
  */
 function multisite_settings_core_update_7121() {
