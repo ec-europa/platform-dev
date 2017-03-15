@@ -31,7 +31,7 @@ class DatabaseLogContext implements Context {
    *
    * @Then a critical error message is logged with type :arg1 and a message matching :arg2
    */
-  public function anCriticalErrorMessageIsLogged($arg1, $arg2) {
+  public function aCriticalErrorMessageIsLogged($arg1, $arg2) {
     $this->assertMessageLogged(WATCHDOG_CRITICAL, $arg1, $arg2);
   }
 
