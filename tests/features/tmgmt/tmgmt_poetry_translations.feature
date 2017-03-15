@@ -632,6 +632,9 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I press "Submit to translator"
     Then I should see the error message "A valid date is required for Requested delivery date."
+    When I fill in "Date" with "01/01/1970"
+    And I press "Submit to translator"
+    Then I should see the error message "The expected requested delivery date cannot be in the past."
     When I fill in "Date" with a relative date of "+5" days
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
@@ -760,15 +763,3 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
-
-  Scenario: Request translation of a page with date in the past no javascript
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title            | body                    |
-      | en       | Title date test  | Test delai conditions   |
-    When I click "Translate" in the "primary_tabs" region
-    When I check the box on the "French" row
-    And I press "Request translation"
-    And I fill in "Date" with "01/01/1970"
-    And I press "Submit to translator"
-    Then I should see the error message "The date you selected is incorrect!"
