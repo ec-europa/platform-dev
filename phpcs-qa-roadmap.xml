@@ -134,7 +134,8 @@
         <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/news/news_og/tests/news_og.test</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.install</exclude-pattern>
+        <exclude-pattern>tests/src/Context/MinkContext.php</exclude-pattern>
+        <exclude-pattern>tests/features/bootstrap/FeatureContext.php</exclude-pattern>
     </rule>
 
     <!-- Check if variable is actually used. -->
@@ -437,6 +438,14 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_html/templates/tmgmt_dgt_html_template.tpl.php</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/multisite_twitterblock.module</exclude-pattern>
         <exclude-pattern>profiles/common/themes/ec_resp/template.php</exclude-pattern>
+        <exclude-pattern>tests/src/Context/BeanContext.php</exclude-pattern>
+        <exclude-pattern>tests/src/Context/MultilingualContext.php</exclude-pattern>
+        <exclude-pattern>tests/src/Context/TaxonomyContext.php</exclude-pattern>
+        <exclude-pattern>tests/src/Context/CKEditorContext.php</exclude-pattern>
+        <exclude-pattern>tests/src/Context/IntegrationLayerContext.php</exclude-pattern>
+        <exclude-pattern>tests/src/Context/FrontendCacheContext.php</exclude-pattern>
+        <exclude-pattern>tests/src/Component/Utility/Transliterate.php</exclude-pattern>
+        <exclude-pattern>tests/src/Component/PyStringYamlParser.php</exclude-pattern>
     </rule>
 
     <!-- Make paths dynamic -->
