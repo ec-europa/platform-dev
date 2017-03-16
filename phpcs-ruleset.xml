@@ -4,6 +4,9 @@
 <ruleset name="NextEuropa">
     <description>Drupal coding standard for NextEuropa</description>
 
+    <!-- Plan with exceptions for modules that need to be fixed gradually -->
+    <rule ref="./phpcs-qa-roadmap.xml"/>
+
     <!-- Exclude unsupported file types. -->
     <exclude-pattern>*\.gif</exclude-pattern>
     <exclude-pattern>*\.less</exclude-pattern>

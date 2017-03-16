@@ -5,6 +5,7 @@
     "drupal/phingdrushtask": "^1.1",
     "drupol/phingbehattask": "^1.0",
     "drush/drush": "8.0.5",
+    "ec-europa/qa-automation": "dev-bug/MULTISITE-15888",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
