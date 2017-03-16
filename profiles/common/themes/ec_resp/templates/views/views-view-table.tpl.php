@@ -4,6 +4,8 @@
  * Template to display a view as a table.
  *
  * Available variables:
+ * - $attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
  * - $title : The title of this group of rows. May be empty.
  * - $header: An array of header labels keyed by field id.
  * - $header_classes: An array of header classes keyed by field id.

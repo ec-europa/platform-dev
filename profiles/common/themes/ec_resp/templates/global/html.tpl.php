@@ -2,6 +2,10 @@
 /**
  * @file
  * Default theme implementation of main page.
+ *
+ * Available variables:
+ * - $attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
  */
 ?>
 <!DOCTYPE html>
