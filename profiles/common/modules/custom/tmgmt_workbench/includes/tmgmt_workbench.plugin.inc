@@ -44,7 +44,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
   public function saveTranslation(TMGMTJobItem $job_item) {
     $job = tmgmt_job_load($job_item->tjid);
     $node = node_load($job_item->item_id);
-    $vid = $node->vid;
 
     // Get current node revision.
     $current_revision = $this->getModerationRevision($node);
@@ -67,10 +66,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     );
     $handler->setTranslation($translation);
     $handler->saveTranslations();
-
-    // Make sure we restore the original node revision.
-    $node = node_load($node->nid, $vid);
-    node_save($node);
 
     // Accept the translation job.
     $job_item->accepted();

@@ -149,32 +149,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Reinitialize some environment settings.
-   *
-   * @AfterScenario @cleanEnvironment
-   */
-  public static function cleanEnvironment() {
-    // Restore homepage.
-    variable_set("site_frontpage", "node");
-
-    // Restore default language (en) settings.
-    $languages = language_list('enabled', TRUE);
-    if (isset($languages['1']['en'])) {
-      $language = $languages['1']['en'];
-
-      $language->prefix = '';
-      $properties[] = 'prefix';
-
-      $fields = array_intersect_key((array) $language, array_flip($properties));
-      // Update language fields.
-      db_update('languages')
-        ->fields($fields)
-        ->condition('language', $language->language)
-        ->execute();
-    }
-  }
-
-  /**
    * Creates a file with specified name and context in current workdir.
    *
    * @param string $filename
@@ -512,10 +486,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterFeature @cleanCommunityEnvironment
    */
   public static function cleanCommunityEnvironment() {
-    // Delete 'community' node type.
-    _node_types_build(TRUE);
-    node_type_delete('community');
-    field_purge_batch(1);
 
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
@@ -541,6 +511,54 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
 
     drupal_flush_all_caches();
+  }
+
+  /**
+   * Create a new revision for content of given type and title.
+   *
+   * @Given I create a new revision for :arg1 content with title :arg2
+   */
+  public function createNewRevision($type, $title) {
+    $node = $this->getNodeByTitle($type, $title);
+    $node->revision = TRUE;
+    node_save($node);
+  }
+
+  /**
+   * Revert given content to its first revision.
+   *
+   * @Given I revert the :arg1 content with title :arg2 to its first revision
+   */
+  public function revertContentToFirstRevision($type, $title) {
+    $node = $this->getNodeByTitle($type, $title);
+    $revisions = node_revision_list($node);
+    ksort($revisions);
+    $node_revision = array_shift($revisions);
+    $node_revision = node_load($node->nid, $node_revision->vid);
+    $node_revision->revision = TRUE;
+    node_save($node_revision);
+  }
+
+  /**
+   * Assert field language given field name, content type and content title.
+   *
+   * @Then I should only have :arg1 in :arg2 for :arg3 published content with title :arg4
+   */
+  public function assertFieldLanguageForPublishedContentWithTitle($field_name, $language, $type, $title) {
+    $node = $this->getNodeByTitle($type, $title);
+
+    $query = db_select("field_data_{$field_name}", 'f')
+      ->fields('f', ['language', 'entity_id'])
+      ->condition('entity_type', 'node')
+      ->condition('language', $language, '!=')
+      ->condition('bundle', $type)
+      ->condition('entity_id', $node->nid)
+      ->countQuery();
+
+    $results = $query->execute()->fetchField();
+    if ($results > 0) {
+      throw new ExpectationException("Other languages than '{$language}' have been found for '{$field_name}' field.", $this->getSession());
+    }
   }
 
 }
