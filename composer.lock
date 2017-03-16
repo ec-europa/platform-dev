@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0bd92d5422ab3f96fd236f5366baee88",
-    "content-hash": "0a1818587c82b5304ad71f18a7df019d",
+    "hash": "a0d9e6adddb8b5bd7b19a8d23222f9ec",
+    "content-hash": "8029dbc11318e5867ab672e161381993",
     "packages": [
         {
             "name": "cpliakas/git-wrapper",
@@ -377,16 +377,16 @@
         },
         {
             "name": "ec-europa/qa-automation",
-            "version": "dev-bug/MULTISITE-15888",
+            "version": "2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/qa-automation.git",
-                "reference": "d369852541819b66844dc0f1cd2b07bb9ca62ad1"
+                "reference": "028b0d2815b56f55aa18db4126bd9ebb1935dda3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/qa-automation/zipball/d369852541819b66844dc0f1cd2b07bb9ca62ad1",
-                "reference": "d369852541819b66844dc0f1cd2b07bb9ca62ad1",
+                "url": "https://api.github.com/repos/ec-europa/qa-automation/zipball/028b0d2815b56f55aa18db4126bd9ebb1935dda3",
+                "reference": "028b0d2815b56f55aa18db4126bd9ebb1935dda3",
                 "shasum": ""
             },
             "require": {
@@ -414,7 +414,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Performs automated QA checks and extra php codesniffs for the subsite starterkit.",
-            "time": "2017-03-10 13:10:55"
+            "time": "2017-03-16 05:43:17"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1610,7 +1610,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ec-europa/qa-automation": 20,
         "pear/versioncontrol_git": 20
     },
     "prefer-stable": true,
