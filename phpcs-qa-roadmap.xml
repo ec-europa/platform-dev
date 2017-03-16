@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 
 <ruleset name="QA">
+
     <description>QA Roadmap</description>
+    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-804 -->
 
     <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
     <rule ref="./vendor/drupal/coder/coder_sniffer/DrupalPractice" />
