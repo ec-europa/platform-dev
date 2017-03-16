@@ -131,8 +131,7 @@ class PhpCodeSnifferConfigurationTask extends \Task {
     );
 
     $options = array_filter($shorthand_options, function ($value) {
-      // @codingStandardsIgnoreLine: NEPT-804 - False positive caused by
-      // function declaration.
+      // @codingStandardsIgnoreLine: NEPT-804 - False positive.
       return $this->$value;
     });
 
