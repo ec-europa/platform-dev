@@ -33,9 +33,9 @@ function multisite_twitterblock_disable() {
 function multisite_twitterblock_install() {
   // Install scripts here.
   $fpfis_twitter_types = array(
-    'smk-twitter_user_timeline' => 'User feed',
-    'smk-twitter_list_timeline' => 'List members feed',
-    'smk-twitter_search' => 'Search feed',
+    'user' => 'User feed',
+    'list' => 'List members feed',
+    'search' => 'Search feed',
   );
   variable_set('fpfis_twitter_types', $fpfis_twitter_types);
 }
@@ -75,7 +75,7 @@ function multisite_twitterblock_schema() {
   $schema['multisite_twitterblock_twitter_overrides'] = array(
     'description' => 'The base table for Twitter overrides',
     'fields' => array(
-      'entity_id'    => array(
+      'entity_id' => array(
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
@@ -98,4 +98,17 @@ function multisite_twitterblock_schema() {
     'primary key' => array('entity_id'),
   );
   return $schema;
+}
+
+/**
+ * Updates the variables values.
+ */
+function multisite_twitterblock_update_7100() {
+  $fpfis_twitter_types = array(
+    'user' => 'User feed',
+    'list' => 'List members feed',
+    'search' => 'Search feed',
+  );
+  variable_set('fpfis_twitter_types', $fpfis_twitter_types);
+  variable_set('fpfis_twitter_type', 'user');
 }

@@ -5,7 +5,7 @@
  * Multisite_twitterblock definition module.
  */
 
-define('MULTISITE_TWITTERBLOCK_DEFAULT_TYPE', 'smk-twitter_user_timeline');
+define('MULTISITE_TWITTERBLOCK_DEFAULT_TYPE', 'user');
 define('MULTISITE_TWITTERBLOCK_DEFAULT_SCREEN_NAME', '');
 define('MULTISITE_TWITTERBLOCK_DEFAULT_OWNER_SCREEN_NAME', '');
 define('MULTISITE_TWITTERBLOCK_DEFAULT_SLUG', '');
@@ -145,7 +145,7 @@ function multisite_twitterblock_block_view($delta = '') {
 function _multisite_twitterblock_load_twitter_config(array $override = NULL) {
   $config = array(
     'title' => variable_get('fpfis_twitter_title', '<none>'),
-    'type' => variable_get('fpfis_twitter_type', 'smk-twitter_user_timeline'),
+    'type' => variable_get('fpfis_twitter_type', MULTISITE_TWITTERBLOCK_DEFAULT_TYPE),
     'screen_name' => variable_get('fpfis_twitter_screen_name', MULTISITE_TWITTERBLOCK_DEFAULT_SCREEN_NAME),
     'owner_screen_name' => variable_get('fpfis_twitter_owner_screen_name', MULTISITE_TWITTERBLOCK_DEFAULT_OWNER_SCREEN_NAME),
     'slug' => variable_get('fpfis_twitter_slug', MULTISITE_TWITTERBLOCK_DEFAULT_SLUG),
@@ -207,12 +207,11 @@ function multisite_twitterblock_theme() {
  */
 function theme_fpfis_twitter(array $variables) {
   global $is_https;
-  drupal_add_js(($is_https ? 'https' : 'http') . '://ec.europa.eu/wel/social-media-kit/social-media-kit.js', 'external');
+  drupal_add_js(($is_https ? 'https' : 'http') . '://europa.eu/webtools/load.js', 'external');
   $type = $variables['type'];
   unset($variables['title']);
-  unset($variables['type']);
   switch ($type) {
-    case 'smk-twitter_user_timeline':
+    case 'user':
       // Remove List member feed specific settings.
       unset($variables['owner_screen_name']);
       unset($variables['slug']);
@@ -226,7 +225,7 @@ function theme_fpfis_twitter(array $variables) {
       unset($variables['result_type']);
       break;
 
-    case 'smk-twitter_list_timeline':
+    case 'list':
       // Remove User feed specific settings.
       unset($variables['screen_name']);
       // Remove Search feed specific settings.
@@ -239,7 +238,7 @@ function theme_fpfis_twitter(array $variables) {
       unset($variables['result_type']);
       break;
 
-    case 'smk-twitter_search':
+    case 'search':
       // Remove User feed specific settings.
       unset($variables['screen_name']);
       // Remove List member feed specific settings.
@@ -263,8 +262,9 @@ function theme_fpfis_twitter(array $variables) {
       $variables[$key] = (boolean) $variables[$key];
     }
   }
-  $config = json_encode($variables);
-  return '<div id="' . $type . '"><!--' . $config . '//--></div>';
+  $variables['service'] = 'twitter';
+  return '<script type="application/json">' . drupal_json_encode($variables) . '</script>';
+
 }
 
 /**
@@ -643,7 +643,7 @@ function _multisite_twitterblock_settings_form(array $default_values = array(), 
     '#collapsed' => FALSE,
     '#states' => array(
       'visible' => array(
-        ':input[name="' . $visibility_selector . '"]' => array('value' => 'smk-twitter_user_timeline'),
+        ':input[name="' . $visibility_selector . '"]' => array('value' => 'user'),
       ),
     ),
   );
@@ -655,7 +655,7 @@ function _multisite_twitterblock_settings_form(array $default_values = array(), 
     '#collapsed' => FALSE,
     '#states' => array(
       'visible' => array(
-        ':input[name="' . $visibility_selector . '"]' => array('value' => 'smk-twitter_list_timeline'),
+        ':input[name="' . $visibility_selector . '"]' => array('value' => 'list'),
       ),
     ),
   );
@@ -667,7 +667,7 @@ function _multisite_twitterblock_settings_form(array $default_values = array(), 
     '#collapsed' => FALSE,
     '#states' => array(
       'visible' => array(
-        ':input[name="' . $visibility_selector . '"]' => array('value' => 'smk-twitter_search'),
+        ':input[name="' . $visibility_selector . '"]' => array('value' => 'search'),
       ),
     ),
   );
