@@ -14,6 +14,7 @@ Feature: Site level language switcher tests
     And these modules are enabled
       |splash_screen|
 
+  @wip
   Scenario: Anonymous user can see the site level language selector
     Given I am viewing a multilingual "page" content:
       | language | title                      |
@@ -22,6 +23,7 @@ Feature: Site level language switcher tests
       | it       | Questo titolo è in inglese |
     Then I should see an "#block-language-selector-site-language-selector-site" element
 
+  @wip
   Scenario Outline: Check site level language switcher behaviour
     Given I am viewing a multilingual "page" content:
       | language | title                      |

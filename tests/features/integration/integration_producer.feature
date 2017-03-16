@@ -1,4 +1,4 @@
-@api @integration
+@wip @api @integration
 Feature: Integration producer
   In order to share my content with other websites
   As a site administrator
@@ -15,6 +15,7 @@ Feature: Integration producer
       | pt-pt     |
     And I am logged in as a user with the 'administrator' role
 
+  @wip
   Scenario: pt-pt translation will be pushed to the central Integration server as pt
     Given the following Integration Layer node producer is created:
     """
@@ -35,6 +36,7 @@ Feature: Integration producer
       | en       | Title in English    |
       | pt       | Título em Português |
 
+  @wip
   Scenario: content in main language pt-pt will be pushed to the central Integration server as pt
     Given the following Integration Layer node producer is created:
     """

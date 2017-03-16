@@ -6,7 +6,8 @@
 
 namespace Drupal\nexteuropa\Context;
 
-use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Behat\Context\Context;
+use Behat\Behat\Hook\Scope\BeforeFeatureScope;
 use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\isEmpty;
@@ -14,53 +15,16 @@ use function bovigo\assert\predicate\isEmpty;
 /**
  * Context with module, feature and feature_set management.
  */
-class ModuleContext extends RawDrupalContext {
+class ModuleContext implements Context {
 
   /**
-   * List of modules enabled before the scenario.
+   * Importing the initial database dump.
    *
-   * @var array
+   * @BeforeFeature
    */
-  protected $initialModuleList  = array();
-
-
-  /**
-   * Stores the list of enabled modules before executing a scenario.
-   *
-   * @BeforeScenario
-   */
-  public function storeDefaultEnabledModules() {
-    $this->initialModuleList  = module_list(TRUE);
-  }
-
-  /**
-   * Restores the initial values of the Drupal modules.
-   *
-   * @AfterScenario
-   *
-   * @throws \Exception
-   *   It throws an exception if modules activated by the scenario are not
-   *   correctly uninstalled.
-   */
-  public function restoreInitialState() {
-    $after_scenario_modules = module_list(TRUE);
-
-    $lists_diff = array_diff($after_scenario_modules, $this->initialModuleList);
-
-    if ($lists_diff) {
-      module_disable($lists_diff, FALSE);
-      drupal_uninstall_modules($lists_diff);
-      drupal_flush_all_caches();
-      // Check if modules are really uninstalled.
-      module_list(TRUE);
-      foreach ($lists_diff as $module) {
-        if (module_exists($module)) {
-          throw new \Exception(sprintf('Module "%s" could not be uninstalled', implode(', ', $module)));
-
-        }
-      }
-    }
-    $this->initialModuleList  = array();
+  public static function dropAndImportInitialDatabase(BeforeFeatureScope $scope) {
+    shell_exec("../bin/phing drop-db -f ../build.xml");
+    shell_exec("../bin/phing import-db-dump -f ../build.xml");
   }
 
   /**
