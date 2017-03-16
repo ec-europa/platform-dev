@@ -11,6 +11,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isNotEmpty;
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -98,11 +99,7 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
    */
   public function assertInternalMailHandlerReceivedTheMail() {
     $captured_mail = $this->getCapturedMail();
-
-    if (empty($captured_mail)) {
-      throw new \Exception('The Drupal internal mail handler did not receive any mail.');
-    }
-
+    assert($captured_mail, isNotEmpty());
     $this->capturedMail = $captured_mail;
   }
 
@@ -114,9 +111,8 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
   public function assertCapturedMailHasTheFollowingProperties(TableNode $table) {
     $this->assertCapturedMail();
     $expected_properties = $table->getRowsHash();
-
     foreach ($expected_properties as $key => $value) {
-      assert($this->capturedMail[$key], equals($value));
+      assert($this->capturedMail[$key], equals($value), "Value of '{$key}' is not equal.");
     }
   }
 
