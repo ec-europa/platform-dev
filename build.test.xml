@@ -87,6 +87,7 @@
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
                     <token key="integration.server.port" value="${integration.server.port}" />
                     <token key="varnish.server.port" value="${varnish.server.port}" />
+                    <token key="dump.location" value="${dump.location}" />
                 </replacetokens>
             </filterchain>
             <mapper type="glob" from="*.yml.dist" to="*.yml" />
@@ -144,14 +145,14 @@
     <!-- Create the database dump. -->
     <target name="create-db-dump">
         <drush command="sql-dump" root="${platform.build.dir}">
-            <option name="result-file">dbdump.sql</option>
+            <option name="result-file">${dump.location}</option>
         </drush>
     </target>
 
     <!-- Import the database dump. -->
     <target name="import-db-dump">
         <drush command="sql-query" root="${platform.build.dir}">
-            <option name="file">dbdump.sql</option>
+            <option name="file">${dump.location}</option>
         </drush>
     </target>
 

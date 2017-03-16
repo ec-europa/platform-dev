@@ -4,7 +4,9 @@ default:
       contexts:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
-        - Drupal\nexteuropa\Context\ModuleContext
+        - Drupal\nexteuropa\Context\ModuleContext:
+              drush: "{{ drush.bin }}"
+              dump_location: '{{ dump.location }}'
         - FeatureContext
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\CKEditorContext

@@ -200,3 +200,8 @@ integration.server.port = 8888
 
 # Port on which the mocked Varnish server used by the behat tests will listen.
 varnish.server.port = 8888
+
+# Database dump configuration
+# ---------------------------
+
+dump.location = ${platform.build.dir}/dump.sql

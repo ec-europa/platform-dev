@@ -6,16 +6,45 @@
 
 namespace Drupal\nexteuropa\Context;
 
-use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeFeatureScope;
 use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\isEmpty;
+use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 /**
  * Context with module, feature and feature_set management.
  */
-class ModuleContext implements Context {
+class ModuleContext extends RawDrupalContext {
+
+  /**
+   * Drush binary location.
+   *
+   * @var string
+   */
+  private $drush;
+
+  /**
+   * Database dump location.
+   *
+   * @var string
+   */
+  private $dumpLocation;
+
+  /**
+   * ModuleContext constructor.
+   *
+   * @param string $drush
+   *   Drush binary location.
+   * @param string $dump_location
+   *   Database dump location.
+   */
+  public function __construct($drush, $dump_location) {
+    $this->drush = $drush;
+    $this->dumpLocation = $dump_location;
+  }
 
   /**
    * Importing the initial database dump.
@@ -23,8 +52,26 @@ class ModuleContext implements Context {
    * @BeforeFeature
    */
   public static function dropAndImportInitialDatabase(BeforeFeatureScope $scope) {
-    shell_exec("../bin/phing drop-db -f ../build.xml");
-    shell_exec("../bin/phing import-db-dump -f ../build.xml");
+    /** @var \Behat\Behat\Context\Environment\UninitializedContextEnvironment $env */
+    $env = $scope->getEnvironment();
+    $contexts = $env->getContextClassesWithArguments();
+
+    // We need to access this directly since the class here is not instantiated.
+    $drush = $contexts[ModuleContext::class]['drush'];
+    $dump_location = $contexts[ModuleContext::class]['dump_location'];
+
+    $commands = [
+      "{$drush} sql-drop -y",
+      "{$drush} sqlc < {$dump_location}",
+    ];
+
+    foreach ($commands as $command) {
+      $process = new Process($command);
+      $process->run();
+      if (!$process->isSuccessful()) {
+        throw new ProcessFailedException($process);
+      }
+    }
   }
 
   /**
