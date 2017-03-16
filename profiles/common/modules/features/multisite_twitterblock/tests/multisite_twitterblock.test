@@ -15,7 +15,7 @@ class MultisiteTwitterblockDevelopmentQA extends DrupalWebTestCase {
   protected $adminUser = NULL;
   protected $basicUser = NULL;
   protected $configuration = array(
-    'fpfis_twitter_type' => 'smk-twitter_search',
+    'fpfis_twitter_type' => 'search',
     'fpfis_twitter_title' => 'Some twitter widget',
     'fpfis_twitter_slug' => 'cloud-influencers',
     'fpfis_twitter_screen_name' => 'DigitalAgendaEU',
