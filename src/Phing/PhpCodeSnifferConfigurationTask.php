@@ -121,6 +121,7 @@ class PhpCodeSnifferConfigurationTask extends \Task {
 
     // Add the report type.
     if (!empty($this->report)) {
+      // @codingStandardsIgnoreLine: NEPT-804 - False positive caused by condition.
       $this->appendArgument($document, $root_element, $this->report, 'report');
     }
 
