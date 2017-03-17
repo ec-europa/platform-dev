@@ -1,4 +1,3 @@
-try {
     parallel (
         'standard' : {
             // Build, test and package the standard profile
@@ -7,7 +6,7 @@ try {
                     env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
                     slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
                     slackSend color: "good", message: "${slackMessage} started."
-                    throw new Exception("I am one with the test!")
+                    throw new Exception("I am one with the test")
                     executeStages('standard')
                     stage('Package') {
                         sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
@@ -18,8 +17,7 @@ try {
                 }
                 catch(err) {
                     setBuildStatus("Build failed.", "FAILURE");
-                    errMessage = err.getMessage()
-                    slackSend color: "danger", message: "${slackMessage} failed: ${errMessage}"
+                    slackSend color: "danger", message: "${slackMessage} failed"
                 }
             }
         },
@@ -30,10 +28,6 @@ try {
             }
         }
     )
-}
-catch(err) {
-    throw(err)
-}
 
 /**
  * Execute profile stages.
