@@ -1,4 +1,3 @@
-try {
     parallel (
         'standard' : {
             // Build, test and package the standard profile
@@ -29,10 +28,6 @@ try {
             }
         }
     )
-}
-catch(err) {
-    throw(err)
-}
 
 /**
  * Execute profile stages.
