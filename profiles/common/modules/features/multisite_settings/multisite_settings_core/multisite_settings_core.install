@@ -6,6 +6,46 @@
  */
 
 /**
+ * Implements hook_install().
+ *
+ * Enable the language negotiation methods. Moving to soft config.
+ */
+function multisite_settings_core_install() {
+  $enabled_providers = array(
+    'locale-url' => array(
+      'callbacks' => array(
+        'language' => 'locale_language_from_url',
+        'switcher' => 'locale_language_switcher_url',
+        'url_rewrite' => 'locale_language_url_rewrite_url',
+      ),
+      'file' => 'includes/locale.inc',
+    ),
+    'language-administration' => array(
+      'callbacks' => array(
+        'language' => 'administration_language_negotiation_admin_language',
+      ),
+      'file' => 'profiles/multisite_drupal_standard/modules/contrib/administration_language_negotiation/administration_language_negotiation.module',
+    ),
+    'language-default' => array(
+      'callbacks' => array(
+        'language' => 'language_from_default',
+      ),
+    ),
+  );
+  $providers_weights = array(
+    'language-administration' => '-10',
+    'locale-url' => '-8',
+    'locale-session' => '-6',
+    'language_cookie' => '-5',
+    'locale-user' => '-4',
+    'locale-browser' => '-2',
+    'language-default' => '10',
+  );
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers);
+  variable_set('locale_language_providers_weight_language_interface', $providers_weights);
+}
+
+/**
  * Implements hook_taxonomy_vocabulary_insert().
  */
 function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
