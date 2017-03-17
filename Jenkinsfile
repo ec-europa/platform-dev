@@ -18,7 +18,8 @@ try {
                 }
                 catch(err) {
                     setBuildStatus("Build failed.", "FAILURE");
-                    slackSend color: "danger", message: "${slackMessage} failed."
+                    errMessage = err.getMessage()
+                    slackSend color: "danger", message: "${slackMessage} failed: ${errMessage}"
                 }
             }
         },
