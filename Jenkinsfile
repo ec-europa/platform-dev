@@ -28,9 +28,9 @@
                     executeStages('communities')
                 }
                 catch(err) {
-                    setBuildStatus("Build failed.", "FAILURE");
+                    setBuildStatus("Communities Build failed.", "UNSTABLE");
                     slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER} - Communities>"
-                    slackSend color: "warning", message: "${slackMessage} failed}"
+                    slackSend color: "warning", message: "${slackMessage} failed"
                     throw(err)
                 }
 
