@@ -56,6 +56,11 @@ function multisite_settings_core_strongarm() {
         'language' => 'language_from_default',
       ),
     ),
+    'language-administration' => array(
+      'callbacks' => array(
+        'language' => 'administration_language_negotiation_admin_language',
+      ),
+    ),
   );
   $export['language_negotiation_language'] = $strongarm;
 
