@@ -5,8 +5,9 @@ This feature provides the Piwik web statistics tracking system integration.
 
 Usage
 =====
-On the settings page you need to enter the Piwik website ID and define
-other properties like what user roles should be tracked.
+On the settings page `admin/config/system/webtools/piwik` you need to
+enter the Piwik website ID and define other properties like what user
+roles should be tracked.
 
 After configuration all pages that follow the settings scope will have
 the required JavaScript added to the HTML footer. You can check this by
@@ -28,7 +29,7 @@ by default.
 
 #### How to enable Advanced PIWIK rules <a name="how-to-enable"></a>
 Feature can be enabled on the PIWIK configuration page which is available
-on the following path `admin/config/system/webtools/piwik`. 
+on the following path `admin/config/system/webtools/piwik`.
 
 On the configuration page click on the "Advanced PIWIK rules" tab which is located
 at the bottom of the page. 
@@ -37,6 +38,8 @@ after that click on the "Save configuration" button.
 The notification with the following message should be displayed:
 "The PIWIK advanced rules are turned on."
 A new configuration tab "Advanced PIWIK rules" should become visible.
+Enabling the "Advanced PIWIK rules" process performs resetting the
+entity cache info and rebuilding the menu.
 
 #### Custom PIWIK rule types <a name="rule-types"></a>
 There are two types of PIWIK rules:
@@ -56,6 +59,9 @@ instead of the one with an 'all' languages option.
 
 Function which is filtering rules will return the first result from
 the stack. It means that rules will be applied in the IDs ascending order.
+
+If there are no rules for a given path the default settings from the
+"General settings" section will be applied.
 
 #### How to add a new custom PIWIK rule <a name="how-to-add-rule"></a>
 To add the custom rule click on the "Advanced PIWIK rules" tab or go to 
