@@ -63,7 +63,7 @@ void executeStages(String label) {
         }
 
         stage('Check & Test ' + label) {
-           if (label == "standard") {
+           if (label == "communities") {
              throw new Exception("This is the end!") 
            }
             sh './bin/phpcs'
