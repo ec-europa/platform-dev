@@ -7,6 +7,7 @@ try {
                     env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
                     slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
                     slackSend color: "good", message: "${slackMessage} started."
+                    throw new Exception('I ma one with the test!")
                     executeStages('standard')
                     stage('Package') {
                         sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
