@@ -161,9 +161,9 @@ function nexteuropa_piwik_schema() {
 }
 
 /**
- * Add the PIWIK rules table.
+ * Add the table required for the "Advanced PIWIK rules".
  */
-function nexteuropa__update_7100() {
+function nexteuropa_piwik_update_7101() {
   db_create_table(
     'nexteuropa_piwik_rule',
     _nexteuropa_piwik_get_schema_array()

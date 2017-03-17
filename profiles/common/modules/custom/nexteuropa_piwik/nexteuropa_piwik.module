@@ -479,7 +479,7 @@ function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
 
   // Return latest rule defined for all languages.
   if (!empty($lang_all_rules)) {
-    return _nexteuropa_piwik_get_latest_rule($lang_code_rules);
+    return _nexteuropa_piwik_get_latest_rule($lang_all_rules);
   }
 
   return FALSE;
