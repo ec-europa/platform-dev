@@ -24,7 +24,16 @@
         'communities' : {
             // Build and test the communities profile
             node('communities') {
-                executeStages('communities')
+                try {
+                    executeStages('communities')
+                }
+                catch(err) {
+                    setBuildStatus("Build failed.", "FAILURE");
+                    slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER} - Communities>"
+                    slackSend color: "warning", message: "${slackMessage} failed}"
+                    throw(err)
+                }
+
             }
         }
     )
@@ -63,9 +72,6 @@ void executeStages(String label) {
         }
 
         stage('Check & Test ' + label) {
-           if (label == "communities") {
-             throw new Exception("This is the end!") 
-           }
             sh './bin/phpcs'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
