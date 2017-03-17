@@ -1,3 +1,4 @@
+try {
     parallel (
         'standard' : {
             // Build, test and package the standard profile
@@ -6,7 +7,6 @@
                     env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
                     slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
                     slackSend color: "good", message: "${slackMessage} started."
-                    throw new Exception("I am one with the test")
                     executeStages('standard')
                     stage('Package') {
                         sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
@@ -17,7 +17,7 @@
                 }
                 catch(err) {
                     setBuildStatus("Build failed.", "FAILURE");
-                    slackSend color: "danger", message: "${slackMessage} failed"
+                    slackSend color: "danger", message: "${slackMessage} failed}"
                     throw(err)
                 }
             }
@@ -29,6 +29,10 @@
             }
         }
     )
+}
+catch(err) {
+    throw(err)
+}
 
 /**
  * Execute profile stages.
@@ -64,6 +68,9 @@ void executeStages(String label) {
         }
 
         stage('Check & Test ' + label) {
+           if (label == "standard") {
+             throw new Exception("This is the end!") 
+           }
             sh './bin/phpcs'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
