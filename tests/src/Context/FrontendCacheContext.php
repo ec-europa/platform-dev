@@ -261,17 +261,24 @@ class FrontendCacheContext implements Context {
   /**
    * Asserts that the web front end cache received certain purge requests.
    *
+   * @Then the web front end cache is ready to receive requests.
+   */
+  public function theWebFrontEndCacheIsReadyToReceiveRequests() {
+    if ($this->server && $this->server->isStarted()) {
+      // Cleaning the requests recorder during creation of the content.
+      // Useful for testing with the default purge rule enabled.
+      $this->server->clean();
+    }
+  }
+
+  /**
+   * Asserts that the web front end cache received certain purge requests.
+   *
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
     $requests = $this->getRequests();
-
-    // Default purge rule will always send requests whenever publication change
-    // will occur. Because of that requests array will have additional entries.
-    // The following statement omits the assert check for the count of requests.
-    if (!variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
-      assert($requests, isOfSize(1));
-    }
+    assert($requests, isOfSize(1));
 
     $purge_request = $requests->last();
 

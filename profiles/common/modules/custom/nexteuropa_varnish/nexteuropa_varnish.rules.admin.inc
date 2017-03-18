@@ -60,6 +60,11 @@ function nexteuropa_varnish_cache_purge_rule_form($form, &$form_state, $purge_ru
     '#value' => t('Save'),
     '#weight' => 40,
   );
+  $form['actions']['cancel'] = array(
+    '#type' => 'item',
+    '#markup' => l(t('Cancel'), 'admin/config/system/nexteuropa-varnish/purge_rules'),
+    '#weight' => 41,
+  );
 
   return $form;
 }
