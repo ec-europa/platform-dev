@@ -12,11 +12,11 @@
                         sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
                     }
                     setBuildStatus("Build complete.", "SUCCESS")
-                    slackSend color: "good", message: "${slackMessage} complete."
+                    slackSend color: "good", message: "${slackMessage} - Standard complete."
                 }
                 catch(err) {
                     setBuildStatus("Build failed.", "FAILURE");
-                    slackSend color: "danger", message: "${slackMessage} failed}"
+                    slackSend color: "danger", message: "${slackMessage} - Standard failed"
                     throw(err)
                 }
             }
@@ -26,10 +26,10 @@
             node('communities') {
                 try {
                     executeStages('communities')
+                    slackSend color: "good", message: "${slackMessage} - Communities complete."
                 }
                 catch(err) {
-                    slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER} - Communities>"
-                    slackSend color: "warning", message: "${slackMessage} failed"
+                    slackSend color: "warning", message: "${slackMessage} - Communities failed"
                 }
 
             }
