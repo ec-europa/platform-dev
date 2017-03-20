@@ -11,7 +11,8 @@
  * Enable the language negotiation methods. Moving to soft config.
  */
 function multisite_settings_core_install() {
-  $enabled_providers = array(
+  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $extra_providers = array(
     'locale-url' => array(
       'callbacks' => array(
         'language' => 'locale_language_from_url',
@@ -24,7 +25,7 @@ function multisite_settings_core_install() {
       'callbacks' => array(
         'language' => 'administration_language_negotiation_admin_language',
       ),
-      'file' => 'profiles/multisite_drupal_standard/modules/contrib/administration_language_negotiation/administration_language_negotiation.module',
+      'file' => drupal_get_path('module', 'administration_language_negotiation') . '/administration_language_negotiation.module',
     ),
     'language-default' => array(
       'callbacks' => array(
@@ -41,7 +42,7 @@ function multisite_settings_core_install() {
     'locale-browser' => '-2',
     'language-default' => '10',
   );
-  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers);
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers + $extra_providers);
   variable_set('locale_language_providers_weight_language_interface', $providers_weights);
 }
 
