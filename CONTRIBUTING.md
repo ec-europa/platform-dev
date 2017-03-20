@@ -17,7 +17,7 @@ The description contains succinct description of the change and should follow
 the following rules:
 
 * Use the imperative, present tense: "change" not "changed" nor "changes"
-* Don't capitalize first letter
+* Capitalise first letter
 * No dot (.) at the end of the sentence
 
 ### Branch Name Format
