@@ -137,11 +137,12 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
    *   An empty or a mail data array
    */
   private function getCapturedMail() {
-    // During the first run with the clean state the variable_get function
-    // doesn't return value for the 'drupal_test_email_collector'. You can
-    // check that by looking on the global variable $conf values.
-    // That is the main reason for using the db_select instead of variable_get
-    // function.
+    // We can't use variable_get() here because $conf is loaded when the
+    // Drupal driver is first bootstrapped. Any subsequent changes to variables
+    // done through the UI
+    // (ie with step definitions that use the built-in Mink/Behat functionality)
+    // won't be reflected in $conf, so we need to fetch the variable directly
+    // from the database.
     $mail_from_db = db_select('variable', 'var')
       ->fields('var', ['value'])
       ->condition('var.name', 'drupal_test_email_collector')
