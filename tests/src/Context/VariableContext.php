@@ -33,6 +33,8 @@ class VariableContext implements Context {
    * @param mixed $value
    *   New value for the variable.
    *
+   * @Given I request to change the variable :name to :value
+   *
    * @When I change the variable :name to :value
    */
   public function setVariable($name, $value) {
