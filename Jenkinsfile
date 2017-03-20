@@ -1,40 +1,41 @@
-    parallel (
-        'standard' : {
-            // Build, test and package the standard profile
-            node('standard') {
-                try {
-                    env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
-                    slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
-                    slackSend color: "good", message: "${slackMessage} started."
-                    executeStages('standard')
-                    stage('Package') {
-                        sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
-                        sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
-                    }
-                    setBuildStatus("Build complete.", "SUCCESS")
-                    slackSend color: "good", message: "${slackMessage} - Standard complete."
+parallel (
+    'standard' : {
+        // Build, test and package the standard profile
+        node('standard') {
+            try {
+                env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
+                slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
+                slackSend color: "good", message: "${slackMessage} started."
+                executeStages('standard')
+                stage('Package') {
+                    sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
+                    sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
                 }
-                catch(err) {
-                    setBuildStatus("Build failed.", "FAILURE");
-                    slackSend color: "danger", message: "${slackMessage} - Standard failed"
-                    throw(err)
-                }
+                setBuildStatus("Build complete.", "SUCCESS")
+                slackSend color: "good", message: "${slackMessage} - Standard complete."
             }
-        },
-        'communities' : {
-            // Build and test the communities profile
-            node('communities') {
-                try {
-                    executeStages('communities')
-                    slackSend color: "good", message: "${slackMessage} - Communities complete."
-                }
-                catch(err) {
-                    slackSend color: "warning", message: "${slackMessage} - Communities failed"
-                }
-
+            catch(err) {
+                setBuildStatus("Build failed.", "FAILURE");
+                slackSend color: "danger", message: "${slackMessage} - Standard failed"
+                throw(err)
             }
         }
-    )
+    },
+    'communities' : {
+        // Build and test the communities profile
+        node('communities') {
+            try {
+                executeStages('communities')
+                slackSend color: "good", message: "${slackMessage} - Communities complete."
+            }
+            catch(err) {
+                setBuildStatus("Communities build failed.", "ERROR");
+                slackSend color: "warning", message: "${slackMessage} - Communities failed"
+            }
+
+        }
+    }
+)
 
 /**
  * Execute profile stages.
