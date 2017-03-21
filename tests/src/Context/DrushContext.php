@@ -69,12 +69,14 @@ class DrushContext extends DrupalExtensionDrushContext {
 
     if (!self::checkIfDbDumpFileExist()) {
       self::createDbDump();
+      self::clearAllCaches();
 
       return;
     }
 
     self::dropDataBase();
     self::importDataBase();
+    self::clearAllCaches();
   }
 
 
@@ -113,6 +115,15 @@ class DrushContext extends DrupalExtensionDrushContext {
   private static function importDataBase() {
     print('Importing the database dump.' . PHP_EOL);
     $command = "sqlc < " . self::$configuration['db_dump_location'];
+    self::runStaticDrushCommand($command);
+  }
+
+  /**
+   * Clears all of the Drupal caches.
+   */
+  private static function clearAllCaches() {
+    print('Clearing all caches.' . PHP_EOL);
+    $command = "cc all -y";
     self::runStaticDrushCommand($command);
   }
 
