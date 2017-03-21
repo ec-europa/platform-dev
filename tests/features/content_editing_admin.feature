@@ -6,12 +6,6 @@ Feature: Content editing as administrator
 
   Background:
     Given I am logged in as a user with the 'administrator' role
-    And the following languages are available:
-       | languages |
-       | en        |
-       | fr        |
-       | it        |
-
   Scenario Outline: Test allowed HTML
     # The Wysiwyg does not return the HTML exactly as entered. It will insert
     # whitespace and some additional tags. Hence the expected HTML differs from
@@ -56,6 +50,11 @@ Feature: Content editing as administrator
 
 
   Scenario Outline: Check admin UI always shows english
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+      | it        |
     When I go to "admin/config/regional/translate/translate"
     And I fill in "String contains" with "Body"
     And I press "Filter"
@@ -63,10 +62,8 @@ Feature: Content editing as administrator
     And I fill in "French" with "Corps du texte"
     And I fill in "Italian" with "Corpo del testo"
     And I press "Save translations"
-    Then I should see the following success messages:
-      | success messages           |
-      | The string has been saved. |
-    When I create the following multilingual "page" content:
+    Then I should see the success message "The string has been saved."
+    Given I create the following multilingual "page" content:
       | language | title                       | field_ne_body              |
       | en       | This title is in English    | English body               |
       | fr       | Ce titre est en Français    | Corps de texte français    |
@@ -79,6 +76,5 @@ Feature: Content editing as administrator
 
     Examples:
       | url                      | field_ne_body              | body_label      |
-      | content/title-english_en | English body               | Corps du texte  |
-      | content/title-english_fr | Corps de texte français    | Corpo del testo |
-      | content/title-english_it | Corpo di testo in italiano | Corps du texte  |
+      | content/title-english_fr | English body               | Corps du texte  |
+      | content/title-english_it | Corps de texte français    | Corpo del testo |
