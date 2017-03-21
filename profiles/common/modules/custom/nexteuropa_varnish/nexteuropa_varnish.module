@@ -233,16 +233,11 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $settings = _nexteuropa_varnish_get_varnish_settings();
   }
   catch (InvalidArgumentException $iae) {
-    $end_sentence = t('Please ask your support team to check the server configuration.');
-    $log_link = '';
-    if (user_access('administer site configuration')) {
-      $log_link = l(t('status report page'), 'admin/reports/status_en');
-      $end_sentence = t('See the status report page for seeing what is missing');
-    }
+    $log_link = l(t('status report page'), 'admin/reports/status_en');
     watchdog(
       'nexteuropa_varnish',
-      'No path has been sent for clearing because all module settings are not set. !message_end',
-      array('!message_end' => $end_sentence),
+      'No path has been sent for clearing because all module settings are not set.',
+      array(),
       WATCHDOG_CRITICAL,
       $log_link
     );
@@ -341,16 +336,11 @@ function _nexteuropa_varnish_base_request_headers() {
     $settings = _nexteuropa_varnish_get_varnish_settings();
   }
   catch (InvalidArgumentException $iae) {
-    $end_sentence = t('Please ask your support team to check the server configuration.');
-    $log_link = '';
-    if (user_access('administer site configuration')) {
-      $log_link = l(t('status report page'), 'admin/reports/status_en');
-      $end_sentence = t('See the status report page for seeing what is missing');
-    }
+    $log_link = l(t('status report page'), 'admin/reports/status_en');
     watchdog(
       'nexteuropa_varnish',
-      'The HTTP request header is not correctly set because all module settings are not set. !message_end',
-      array('!message_end' => $end_sentence),
+      'The HTTP request header is not correctly set because all module settings are not set.',
+      array(),
       WATCHDOG_CRITICAL,
       $log_link
     );

@@ -66,16 +66,7 @@ class DatabaseLogContext implements Context {
    * @see watchdog()
    */
   protected function assertMessageLogged($severity, $type, $message) {
-    $query = db_select('watchdog', 'w');
-    $query
-      ->fields('w', array('message', 'variables'))
-      ->condition('severity', $severity)
-      ->condition('type', $type);
-
-    $query->orderBy('timestamp', 'DESC');
-
-    $result = $query->execute();
-    $log = $result->fetchObject();
+    $log = $this->getLogMessages($severity, $type);
 
     assert($log, isOfType('object'));
 
@@ -97,6 +88,23 @@ class DatabaseLogContext implements Context {
    * @see watchdog()
    */
   protected function assertMessageNotLogged($severity, $type, $message) {
+    $log = $this->getLogMessages($severity, $type);
+
+    assert($log, isNotOfType('object'));
+  }
+
+  /**
+   * Gets the latest watchdog message of a specific severity and type.
+   *
+   * @param int $severity
+   *   The severity level of the message to retrieve.
+   * @param string $type
+   *   The type (category) of the message to retrieve.
+   *
+   * @return \stdClass|bool
+   *   The object containing log message attributes; otherwise FALSE.
+   */
+  private function getLogMessages($severity, $type) {
     $query = db_select('watchdog', 'w');
     $query
       ->fields('w', array('message', 'variables'))
@@ -106,9 +114,7 @@ class DatabaseLogContext implements Context {
     $query->orderBy('timestamp', 'DESC');
 
     $result = $query->execute();
-    $log = $result->fetchObject();
-
-    assert($log, isNotOfType('object'));
+    return $result->fetchObject();
   }
 
 }

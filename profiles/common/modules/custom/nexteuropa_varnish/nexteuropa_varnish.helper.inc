@@ -57,28 +57,18 @@ function _nexteuropa_varnish_get_varnish_settings($validity_control = TRUE) {
  *   otherwise TRUE.
  */
 function _nexteuropa_varnish_check_configuration($settings) {
-  if (empty($settings['varnish_request_method'])) {
-    return FALSE;
-  }
-
-  if (empty($settings['varnish_http_targets'])) {
-    return FALSE;
-  }
-
-  if (empty($settings['varnish_tag'])) {
-    return FALSE;
-  }
-
-  if (empty($settings['varnish_request_user'])) {
-    return FALSE;
-  }
-
-  if (empty($settings['varnish_request_password'])) {
-    return FALSE;
-  }
-
-  if (empty($settings['varnish_http_timeout'])) {
-    return FALSE;
+  $all_configurations = array(
+    'varnish_request_method',
+    'varnish_http_targets',
+    'varnish_tag',
+    'varnish_request_user',
+    'varnish_request_password',
+    'varnish_http_timeout',
+  );
+  foreach ($all_configurations as $configuration) {
+    if (empty($settings[$configuration])) {
+      return FALSE;
+    }
   }
 
   return TRUE;
