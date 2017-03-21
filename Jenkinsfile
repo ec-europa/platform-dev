@@ -9,13 +9,13 @@ try {
             node('standard') {
                 try {
                     executeStages('standard')
-                    setBuildStatus("Build complete.", "SUCCESS", "Standard profile")
                     stage('Package') {
                         sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
                         sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
                     }
+                    setBuildStatus("Build complete.", "SUCCESS", "standard")
                 } catch(err) {
-                    setBuildStatus("Build failed.", "FAILURE", "Standard profile");
+                    setBuildStatus("Build failed.", "FAILURE", "standard");
                     throw(err)
                 }
             }
@@ -25,9 +25,9 @@ try {
             node('communities') {
                 try {
                     executeStages('communities')
-                    setBuildStatus("Build complete.", "SUCCESS", "Communities profile")
+                    setBuildStatus("Build complete.", "SUCCESS", "communities")
                 } catch(err) {
-                    setBuildStatus("Build failed.", "FAILURE", "Communities profile");
+                    setBuildStatus("Build failed.", "FAILURE", "communities");
                     throw(err)
                 }
             }
@@ -61,7 +61,7 @@ void executeStages(String label) {
         stage('Init & Build ' + label) {
             deleteDir()
             checkout scm
-            setBuildStatus("Build of ${label} profile started.", "PENDING");
+            setBuildStatus("Build of ${label} profile started.", "PENDING", label);
             sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
