@@ -69,14 +69,11 @@ class DrushContext extends DrupalExtensionDrushContext {
 
     if (!self::checkIfDbDumpFileExist()) {
       self::createDbDump();
-      self::clearAllCaches();
-
       return;
     }
 
     self::dropDataBase();
     self::importDataBase();
-    self::clearAllCaches();
   }
 
 
