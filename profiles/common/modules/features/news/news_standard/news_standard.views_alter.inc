@@ -15,7 +15,6 @@ function news_standard_views_default_views_alter(&$views) {
 
     /* Display: News list page */
     $handler = $view->display['page']->handler;
-    $handler->display->display_options['path'] = 'news';
     $handler->display->display_options['menu']['type'] = 'normal';
     $handler->display->display_options['menu']['title'] = 'News';
     $handler->display->display_options['menu']['weight'] = '0';

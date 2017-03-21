@@ -249,7 +249,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     // This should work only for new translation requests to prevent an impact
     // off stored in session language array.
     if (is_null($job->settings)) {
-      $chosen_languages = _tmgmt_workbench_get_request_languages();
+      $chosen_languages = _tmgmt_poetry_workbench_get_request_languages();
       foreach ($chosen_languages as $lg_code => $language) {
         if ($lg_code !== 'main') {
           $default_value[$language] = $language;

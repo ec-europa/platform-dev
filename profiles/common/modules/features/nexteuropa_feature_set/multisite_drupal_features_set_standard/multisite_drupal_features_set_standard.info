@@ -238,7 +238,7 @@ feature_sets[e_library_standard][disable][] = e_library_core
 
 feature_sets[ec_embedded_video][title] = 'Embedded videos'
 feature_sets[ec_embedded_video][description] = 'Allows to embed videos from Youtube, dailymotion or vimeo.'
-feature_sets[ec_embedded_video][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/ZIXhAg'
+feature_sets[ec_embedded_video][documentation] = 'https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/ec_embedded_video/README.md'
 feature_sets[ec_embedded_video][category] = 'Media'
 feature_sets[ec_embedded_video][icon] = ''
 feature_sets[ec_embedded_video][font] = 'multisite-icon-camera'

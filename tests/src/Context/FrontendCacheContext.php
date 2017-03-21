@@ -292,6 +292,19 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Clean all requests created by rules on the server.
+   *
+   * @Then Execute all purge rules
+   */
+  public function executeAllRulePurge() {
+    $requests = $this->getRequests();
+
+    while ($requests->count() > 0) {
+      $requests->pop();
+    }
+  }
+
+  /**
    * Stops the mock HTTP server if it was started.
    *
    * @AfterScenario

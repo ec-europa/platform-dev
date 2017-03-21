@@ -148,7 +148,6 @@ features[user_permission][] = edit own article content
 features[user_permission][] = edit own image files
 features[user_permission][] = export nodes
 features[user_permission][] = export own nodes
-features[user_permission][] = import media
 features[user_permission][] = moderate content from draft to needs_review
 features[user_permission][] = moderate content from needs_review to draft
 features[user_permission][] = moderate content from needs_review to published

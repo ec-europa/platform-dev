@@ -197,7 +197,7 @@ global $base_url;
       </div>
       <?php endif; ?>
 
-      <div id="content-wrapper" class="col-lg-<?php print $cols['content_main']['lg']; ?> col-md-<?php print $cols['content_main']['md']; ?> col-sm-<?php print $cols['content_main']['sm']; ?> col-md-<?php print $cols['content_main']['xs']; ?>">
+      <div id="content-wrapper" class="col-lg-<?php print $cols['content_main']['lg']; ?> col-md-<?php print $cols['content_main']['md']; ?> col-sm-<?php print $cols['content_main']['sm']; ?> col-xs-<?php print $cols['content_main']['xs']; ?>">
 
         <a id="content"></a>
 

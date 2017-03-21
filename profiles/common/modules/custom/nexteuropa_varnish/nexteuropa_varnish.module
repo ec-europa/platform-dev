@@ -82,12 +82,16 @@ function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
  * Implements hook_workbench_moderation_transition().
  */
 function nexteuropa_varnish_workbench_moderation_transition($node, $previous_state, $new_state) {
-  $purge
-    = ($new_state == workbench_moderation_state_published()) ||
-      (property_exists($node->workbench_moderation['my_revision'], 'unpublishing')
-        && $node->workbench_moderation['my_revision']->unpublishing);
+  if (isset($node->is_draft_revision) && $node->is_draft_revision) {
+    return;
+  }
 
-  if ($purge) {
+  $publishing = $new_state == workbench_moderation_state_published();
+
+  $unpublishing = !$publishing &&
+    ($node->workbench_moderation['my_revision']->published == 1);
+
+  if ($publishing || $unpublishing) {
     $paths = _nexteuropa_varnish_get_paths_to_purge($node);
 
     if (!empty($paths)) {

@@ -201,7 +201,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
       'source' => $node->language,
       'uid' => $node->uid,
       'created' => $node->created,
-      'changed' => $node->changed,
+      'changed' => empty($node->changed) ? $node->created : $node->changed,
       'language' => $language,
     ];
 
