@@ -34,36 +34,6 @@ class ModuleContext extends RawDrupalContext {
   }
 
   /**
-   * Restores the initial values of the Drupal modules.
-   *
-   * @AfterScenario
-   *
-   * @throws \Exception
-   *   It throws an exception if modules activated by the scenario are not
-   *   correctly uninstalled.
-   */
-  public function restoreInitialState() {
-    $after_scenario_modules = module_list(TRUE);
-
-    $lists_diff = array_diff($after_scenario_modules, $this->initialModuleList);
-
-    if ($lists_diff) {
-      module_disable($lists_diff, FALSE);
-      drupal_uninstall_modules($lists_diff);
-      drupal_flush_all_caches();
-      // Check if modules are really uninstalled.
-      module_list(TRUE);
-      foreach ($lists_diff as $module) {
-        if (module_exists($module)) {
-          throw new \Exception(sprintf('Module "%s" could not be uninstalled', implode(', ', $module)));
-
-        }
-      }
-    }
-    $this->initialModuleList  = array();
-  }
-
-  /**
    * Enables one or more modules.
    *
    * Provide modules data in the following format:
