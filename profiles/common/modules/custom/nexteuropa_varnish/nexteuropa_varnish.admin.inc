@@ -33,7 +33,7 @@ function nexteuropa_varnish_admin_settings_form_validate($form, &$form_state) {
   if ($rule_state && _nexteuropa_varnish_check_node_rules()) {
     form_set_error(
       'settings',
-      t('You can not enable the default purge rule while "Purge rules" type of node exist.')
+      t('You can not enable the default purge rule while "Purge rules" of type "node" exist.')
     );
   }
 }

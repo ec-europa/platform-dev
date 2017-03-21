@@ -34,9 +34,9 @@ Nexteuropa Varnish provides a 'Administer frontend cache purge rules'
 permission which allows to create and maintain 'purge rules'.
 
 ## Default content purge rule
-Nexteuropa Varnish by default provides the default content type purge rule.
-The rule will send request to invalidate the Varnish cache every time after
-the change of the content publication status (published/unpublished).
+Nexteuropa Varnish provides the default content type purge rule.
+The rule will send a request to invalidate the Varnish cache every time
+the content publication status changes (published/unpublished).
 
 The configuration page path:
 
