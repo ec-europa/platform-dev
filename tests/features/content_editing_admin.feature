@@ -76,5 +76,5 @@ Feature: Content editing as administrator
 
     Examples:
       | url                      | field_ne_body              | body_label      |
-      | content/title-english_fr | English body               | Corps du texte  |
-      | content/title-english_it | Corps de texte français    | Corpo del testo |
+      | content/title-english_fr | Corps de texte français    | Corps du texte  |
+      | content/title-english_it | Corpo di testo in italiano | Corpo del testo |
