@@ -10,7 +10,7 @@
    */
   Drupal.behaviors.tmgmtPoetryDisableTranslator = {
     attach: function (context, settings) {
-      if ($("#edit-translator").val() === "poetry") {
+      if ($("#edit-translator").val() === "poetry" || $("#edit-translator").val() === "tmgmt_poetry_test_translator") {
         $("#edit-translator").attr('disabled', 'disabled');
         $("#edit-translator").parent().addClass("form-disabled");
 
