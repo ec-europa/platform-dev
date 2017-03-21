@@ -135,23 +135,3 @@ Feature: TMGMT Workbench features
     And I press "Apply"
     And I click "View published" in the "primary_tabs" region
     Then the url should match "(.)*content/original-version_en"
-
-  Scenario: Check the default message in workbench moderation
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title            |
-      | en       | Title in English |
-      | fr       | Title in French  |
-    When I click "New draft" in the "primary_tabs" region
-    Then I should see the text "The state of the content Title in English and all its validated translations English French will be updated!"
-
-  Scenario: Check the customizable message in workbench moderation
-    Given I am logged in as a user with the 'administrator' role
-    And I request to change the variable nexteuropa_multilingual_warning_message_languages to "New Message!"
-    And the cache has been cleared
-    And I am viewing a multilingual "page" content:
-      | language | title            |
-      | en       | Title in English |
-      | fr       | Title in French  |
-    When I click "New draft" in the "primary_tabs" region
-    Then I should see the text "New Message!"
