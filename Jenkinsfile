@@ -29,13 +29,12 @@ try {
             }
         }
     )
-    setBuildStatus("Build complete.", "SUCCESS")
-    slackSend color: "good", message: "${env.slackMessage} complete."
 } catch(err) {
-    setBuildStatus("Build failed.", "FAILURE");
     slackSend color: "danger", message: "${env.slackMessage} failed."
     throw(err)
 }
+
+slackSend color: "good", message: "${env.slackMessage} complete."
 
 /**
  * Execute profile stages.
@@ -89,19 +88,4 @@ void executeStages(String label) {
             sh 'mysql -u $DB_USER --password=$DB_PASS -e "DROP DATABASE IF EXISTS $DB_NAME;"'
         }
     }
-}
-
-/**
- * Send build status notification to GitHub.
- *
- * @param message The notification message.
- * @param state The notification state.
- */
-void setBuildStatus(String message, String state) {
-    step([
-        $class: "GitHubCommitStatusSetter",
-        contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "${env.BUILD_CONTEXT}"],
-        errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-        statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]
-    ]);
 }
