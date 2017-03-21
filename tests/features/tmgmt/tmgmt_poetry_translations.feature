@@ -5,8 +5,7 @@ Feature: TMGMT Poetry features
   I want to be able to create/manage translation requests.
 
   Background:
-    Given I am logged in as a user with the "cem" role
-    And the module is enabled
+    Given the module is enabled
       |modules                |
       |tmgmt_poetry_mock      |
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
@@ -17,6 +16,7 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
+    And I am logged in as a user with the "cem" role
 
   @resetPoetryNumero
   Scenario: Checking a wrong configuration.

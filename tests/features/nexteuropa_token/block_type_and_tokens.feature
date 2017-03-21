@@ -2,10 +2,10 @@
 Feature: Test the creation of new block type (bean) and the display of them in a page using tokens.
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
     Given the module is enabled
       | modules                  |
       | nexteuropa_webtools      |
+    And I am logged in as a user with the 'administrator' role
 
   Scenario: Add a new block type
     Given the cache has been cleared
