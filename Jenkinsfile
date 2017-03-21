@@ -1,6 +1,5 @@
 env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
 env.slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
-setBuildStatus("Build started.", "PENDING");
 slackSend color: "good", message: "${env.slackMessage} started."
 
 try {
