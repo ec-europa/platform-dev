@@ -363,7 +363,7 @@ function cce_basic_config_preprocess_container(&$variables) {
   }
 }
 
-/*
+/**
  * Implements hook_modules_enabled().
  */
 function cce_basic_config_modules_enabled($modules) {
