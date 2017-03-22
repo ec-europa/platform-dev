@@ -478,7 +478,7 @@ Feature: TMGMT Poetry features
     Then I should see the text '<tmgmt_poetry_ignore value="[node:1:link]{Title in English 1 as Link}"/>'
     And I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'
 
-  @javascript
+  @javascript @poetry_mock_init_translator
   Scenario: Fill in metadata when requesting a translation.
     Given I am logged in as a user with the "administrator" role
     And I go to "node/add/page"
