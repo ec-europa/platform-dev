@@ -405,6 +405,11 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-ove
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
 projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
+; Issue #2028231: Embedded documents in the WYSIWYG can be very hard to delete
+; https://www.drupal.org/node/2028231
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
+; Media markup navigation causes duplicated links
+projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
 
 projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
