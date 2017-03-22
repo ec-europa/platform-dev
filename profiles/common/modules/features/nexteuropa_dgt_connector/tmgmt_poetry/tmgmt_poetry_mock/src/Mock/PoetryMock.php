@@ -730,4 +730,68 @@ class PoetryMock {
     return $demande_id;
   }
 
+  /**
+   * Imports the mock TMGMT translator.
+   */
+  public static function importMockTranslator() {
+    /** @var \EntityDrupalWrapper $translator */
+    $translator = entity_import('tmgmt_translator', '{
+    "name" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME . '",
+    "label" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_LABEL . '",
+    "description" : "",
+    "weight" : "-999",
+    "plugin" : "poetry",
+    "settings" : {
+      "auto_accept" : 0,
+      "settings" : {
+        "counter" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::COUNTER_STRING . '",
+        "code" : "WEB",
+        "website_identifier" : "my-website",
+        "callback_user" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::CALLBACK_USER . '",
+        "callback_password" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::CALLBACK_PASSWORD . '",
+        "poetry_user" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::POETRY_USER . '",
+        "poetry_password" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::POETRY_PASSWORD . '"
+      },
+      "organization" : {
+        "responsable" : "DIGIT",
+        "auteur" : "IE/CE/DIGIT",
+        "demandeur" : "IE/CE/DIGIT/A/3"
+      },
+      "contacts" : {
+        "auteur" : "ecusername",
+        "secretaire" : "ecusername",
+        "contact" : "ecusername",
+        "responsable" : "ecusername"
+      },
+      "feedback_contacts" : {
+        "to" : "email@email.eu",
+        "cc" : "email@email.eu"
+      },
+      "remote_languages_mappings" : { "en" : "en" }
+    },
+    "rdf_mapping" : []
+  }');
+    $translator->save();
+  }
+
+  /**
+   * Removes the mock TMGMT translator.
+   */
+  public static function removeMockTranslator() {
+    // Delete the tmgmt_poetry_test_translator.
+    // Note tmgmt_translator_load is not stable in uninstall cases; it returns
+    // FALSE while the translator exists in the DB.
+    // That is why we pass by EntityFieldQuery.
+    $query = new \EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', 'tmgmt_translator')
+      ->propertyCondition('name', self::TRANSLATOR_NAME)
+      ->execute();
+    if (!empty($result['tmgmt_translator'])) {
+      $controller = entity_get_controller('tmgmt_translator');
+      // Since the entity controller handles the deletion of the attached
+      // entities (messages, job items) we just need to invoke it directly.
+      $controller->delete(array_keys($result['tmgmt_translator']));
+    }
+  }
+
 }
