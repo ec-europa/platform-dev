@@ -55,6 +55,9 @@ Feature: Check Piwik
 
   Scenario: Remove a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
+    And I create the following multilingual "page" content:
+      | language | title  | field_ne_body         |
+      | en       | Test   | The test body content |
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
@@ -65,6 +68,8 @@ Feature: Check Piwik
     Then I see an overview with the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
+    When I go to "content/test"
+    Then the response should not contain "\"siteSection\":\"Direct path section\""
 
   Scenario: Assert that the direct path PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
