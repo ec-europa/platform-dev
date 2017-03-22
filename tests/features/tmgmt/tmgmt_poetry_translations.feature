@@ -83,7 +83,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: my-website - My page"
 
-  @javascript @cleanup-tmgmt-poetry-website-identifier
+  @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
     Given I am logged in as a user with the "cem" role
@@ -478,7 +478,7 @@ Feature: TMGMT Poetry features
     Then I should see the text '<tmgmt_poetry_ignore value="[node:1:link]{Title in English 1 as Link}"/>'
     And I should see the text '<tmgmt_poetry_ignore value="[node:2:link]{Title in English 2 as Link}"/>'
 
-  @javascript @poetry_mock_init_translator
+  @javascript
   Scenario: Fill in metadata when requesting a translation.
     Given I am logged in as a user with the "administrator" role
     And I go to "node/add/page"
