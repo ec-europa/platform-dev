@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Subscription
   In order to be notified on content created or updated on the website
   As an authenticated user
@@ -6,9 +6,9 @@ Feature: Subscription
 
   Background:
     Given I am logged in as a user with the 'administrator' role
-    And the module is enabled
-      |modules                      |
-      |multisite_notifications_core |
+    And these featureSet are enabled
+      | featureSet |
+      | Notifications     |
 
   @javascript
   Scenario: Create a page and have someone subscribe to it
