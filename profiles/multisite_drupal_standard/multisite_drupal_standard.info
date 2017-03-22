@@ -73,7 +73,6 @@ dependencies[] = i18n_variable
 dependencies[] = easy_breadcrumb
 dependencies[] = libraries
 dependencies[] = quicktabs
-dependencies[] = node_export
 dependencies[] = field_group
 dependencies[] = better_formats
 dependencies[] = entityreference
