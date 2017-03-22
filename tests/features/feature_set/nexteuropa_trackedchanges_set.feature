@@ -6,6 +6,7 @@ Feature: Change tracking features
   Background:
     Given I am logged in as a user with the 'administrator' role
 
+  @wip
   Scenario: As administrator, I can disable the "NextEuropa Tracked Changes" feature if tracked changes are not detected
   on fields that use this profile
     Given the module is enabled
