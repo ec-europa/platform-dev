@@ -425,8 +425,7 @@ class PoetryMock {
    */
   public static function removeAllRequestTranslationFiles() {
     db_delete('file_managed')
-      ->condition('filemime', 'application/xml', '=')
-      ->condition('uri', db_like(TMGMT_POETRY_MOCK_REQUESTS_PATH) . '%', 'LIKE')
+      ->condition('uri', db_like("public://tmgmt_file") . '%', 'LIKE')
       ->execute();
   }
 
@@ -434,9 +433,26 @@ class PoetryMock {
    * Helper method for removing all job requests.
    */
   public static function removeAllRequestJobs() {
-    db_delete('tmgmt_job')
+    // Delete translation jobs related to the tmgmt_poetry_test_translator.
+    // Code is inspired by tmgmt_cron().
+    $query = new \EntityFieldQuery();
+    $result = $query->entityCondition('entity_type', 'tmgmt_job')
+      ->propertyCondition('translator', 'tmgmt_poetry_test_translator')
       ->execute();
-    db_delete('tmgmt_job_item')
+    if (!empty($result['tmgmt_job'])) {
+      $controller = entity_get_controller('tmgmt_job');
+      // Since the entity controller handles the deletion of the attached
+      // entities (messages, job items) we just need to invoke it directly.
+      $controller->delete(array_keys($result['tmgmt_job']));
+    }
+
+    db_truncate('poetry_map')
+      ->execute();
+    db_truncate('poetry_status')
+      ->execute();
+    db_truncate('tmgmt_job')
+      ->execute();
+    db_truncate('tmgmt_job_item')
       ->execute();
   }
 
