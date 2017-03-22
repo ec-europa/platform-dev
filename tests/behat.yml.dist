@@ -39,9 +39,7 @@ default:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
-      browser_name: '{{ behat.browser.name }}'
       selenium2:
-        browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
