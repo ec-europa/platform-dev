@@ -63,6 +63,7 @@ function nexteuropa_multilingual_install() {
   // Suffix is not compatible with prefix. Remove that negotiation mechanism.
   unset($enabled_providers['locale-url']);
   drupal_static_reset("language_negotiation_info");
+  variable_set('administration_language_negotiation_default', 'en');
   language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers + $extra_provider);
 
   // Set translatable states for TMGMT Workbench module.

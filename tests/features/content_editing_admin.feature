@@ -48,14 +48,15 @@ Feature: Content editing as administrator
       | This is not the right way                                             | <div id=\"2invalidid\">A container with an invalid HTML ID</div>      | invalidid                                                               |
       | This is not the right way                                             | <div id=\"invalidid.\">A container with an invalid HTML ID</div>      | invalidid                                                               |
 
-
   Scenario Outline: Check admin UI always shows english
     Given the following languages are available:
       | languages |
       | en        |
       | fr        |
       | it        |
-    When I go to "admin/config/regional/translate/translate"
+    When I go to "admin/config/regional/language/configure"
+    And I press "Save settings"
+    Then I go to "admin/config/regional/translate/translate"
     And I fill in "String contains" with "Body"
     And I press "Filter"
     And I click "edit" in the "field_ne_body:page:label" row
@@ -64,10 +65,10 @@ Feature: Content editing as administrator
     And I press "Save translations"
     Then I should see the success message "The string has been saved."
     Given I create the following multilingual "page" content:
-      | language | title                       | field_ne_body              |
-      | en       | This title is in English    | English body               |
-      | fr       | Ce titre est en Français    | Corps de texte français    |
-      | it       | Questo titolo è in italiano | Corpo di testo in italiano |
+      | language | title                       | field_ne_body     |
+      | en       | This title is in English    | English body      |
+      | fr       | Ce titre est en Français    | Corps en français |
+      | it       | Questo titolo è in italiano | Corpo in italiano |
     And I go to "<url>"
     And I click "New draft"
     Then I should see "Body"
@@ -75,6 +76,6 @@ Feature: Content editing as administrator
     And I should not see "<body_label>"
 
     Examples:
-      | url                      | field_ne_body              | body_label      |
-      | content/title-english_fr | Corps de texte français    | Corps du texte  |
-      | content/title-english_it | Corpo di testo in italiano | Corpo del testo |
+      | url                      | field_ne_body        | body_label      |
+      | content/title-english_fr | Corps en français    | Corps du texte  |
+      | content/title-english_it | Corpo in italiano    | Corpo del testo |
