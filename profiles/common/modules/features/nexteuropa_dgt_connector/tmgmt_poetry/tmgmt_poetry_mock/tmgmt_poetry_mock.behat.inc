@@ -160,10 +160,11 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   /**
    * Removes the mock TMGMT translator.
    *
-   * @BeforeScenario @poetry_mock_init_translator
+   * @AfterScenario @poetry_mock_cleanup_translator
    */
   public function removeMockTranslator() {
     PoetryMock::removeMockTranslator();
+    PoetryMock::importMockTranslator();
   }
 
   /**
