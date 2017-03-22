@@ -43,16 +43,32 @@ class TaxonomyContext implements Context {
   }
 
   /**
-   * Create vocabulary.
+   * Check vocabulary.
    *
    * @param string $name
    *    Name of the taxonomy.
    *
    * @Given the vocabulary :name exists
+   */
+  public function assertVocabulary($name) {
+    $this->getTaxonomyIdByName($name);
+  }
+
+  /**
+   * Create vocabulary.
+   *
+   * @param string $name
+   *    Name of the taxonomy.
+   *
+   * @Given the vocabulary :name is created
    *
    * @When I create a new vocabulary :name
    */
   public function iCreateNewVocabulary($name) {
+    if (taxonomy_vocabulary_machine_name_load($this->transliterate->getMachineName($name))) {
+      return;
+    }
+
     $vocabulary = array(
       'name' => $name,
       'machine_name' => $this->transliterate->getMachineName($name),

@@ -58,6 +58,10 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 ; https://www.drupal.org/node/1854088
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3744
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch
+; Issue #1854088 : Cannot install on mysql >= 5.6
+; https://www.drupal.org/node/2677866
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-326
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/mysql-56-compatibility-2677866-12.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
@@ -133,8 +137,8 @@ projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.6"
-projects[context][patch][] = patches/context-slow_menu_items-873936-20.patch
+projects[context][version] = "3.7"
+projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
@@ -146,17 +150,6 @@ projects[context_entity_field][patch][] = https://www.drupal.org/files/add-entit
 
 projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
-
-projects[css_injector][subdir] = "contrib"
-projects[css_injector][version] = "1.10"
-; Allow file upload with css injector
-; https://www.drupal.org/node/2506775
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-6580
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/add_upload_files_v4.patch
-; Unnecessary DB query and cache_set when rules are empty
-; https://www.drupal.org/node/2759319
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12128
-projects[css_injector][patch][] = https://www.drupal.org/files/issues/css_injector_load_rule_cache_empty-2759319-4.patch
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.11"
@@ -231,7 +224,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.9"
+projects[features][version] = "2.10"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -247,7 +240,11 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta2"
+projects[feeds][version] = "2.0-beta3"
+; Issue #2828605: feeds_system_info_alter() can triggers "The following module has moved within the file system".
+; https://www.drupal.org/node/2828605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
@@ -283,9 +280,6 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
-
-projects[flexible_purge][subdir] = "contrib"
-projects[flexible_purge][version] = "1.x-dev"
 
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
@@ -368,14 +362,6 @@ projects[jquery_update][version] = "2.7"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7825
 projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
 
-projects[js_injector][subdir] = "contrib"
-projects[js_injector][version] = "2.1"
-; Issue #1820210: After packing a JS Injector Rule into a feature, Notice: Undefined property: stdClass::$crid in js_injector_init() .
-; https://www.drupal.org/node/1820210
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8855
-projects[js_injector][patch][] = https://www.drupal.org/files/issues/change-js_filename-1820210-2.patch
-projects[js_injector][patch][] = patches/js_injector-delete-space-in-the-name-of-js-file.patch
-
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.0"
 ; Allow to override the http client code, to support proxying secure
@@ -388,7 +374,7 @@ projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "2.2"
+projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
@@ -412,15 +398,10 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.0-beta1
-; Issue #2062721: Add a white list of file fields that can be overwritten when the file is added in the wysiwyg
-; https://www.drupal.org/node/2062721
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2607
-projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-override-white-list-2062721-86.patch
-; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
-; https://www.drupal.org/node/2401811
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
-projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
+projects[media][version] = 2.0-rc5
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
+; Media markup navigation causes duplicated links
+projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.1"
@@ -480,7 +461,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.7"
+projects[metatag][version] = "1.21"
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
@@ -493,6 +474,14 @@ projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
+
+projects[nagios][download][branch] = 7.x-1.x
+projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
+projects[nagios][download][type] = git
+projects[nagios][subdir] = "contrib"
+; NEPT-451 Add possibility to report on individual variables
+; https://www.drupal.org/node/2854854
+projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
 
 projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
@@ -689,7 +678,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.14
+projects[views][version] = 3.15
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176

@@ -175,10 +175,10 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
   if (module_exists('apachesolr')) {
     // Only super admin can configure apache solR.
     $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
     $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
     $items['admin/config/search/apachesolr/settings/add']['access callback'] = 'multisite_drupal_toolbox_is_admin';
     $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
@@ -796,27 +796,12 @@ function _disable_block($module, $delta) {
  *   Operation to perform, either 'add' or 'delete.
  */
 function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
+  if (!in_array($op, array('delete', 'add'))) {
+    return;
+  }
+
   if (!module_exists('apachesolr')) {
-    watchdog(
-      'multisite_drupal_toolbox',
-      'Function %function was called with bundle %bundle and op %op, but the required apachesolr module is not enabled. You either need to add the module apachesolr as a dependency to the feature you are calling this function from, or prevent the call from happening if apachesolr is not a strict dependency and is disabled.',
-      array(
-        '%function' => __FUNCTION__,
-        '%bundle' => $bundle,
-        '%op' => $op,
-      ),
-      WATCHDOG_ERROR
-    );
-
     return;
-  }
-
-  if ($op != 'delete' && $op != 'add') {
-    return;
-  }
-  else {
-    $info = new stdClass();
-    $info->type = $bundle;
   }
 
   // Update hook cache to find new hooks (see module_implements()).
@@ -827,6 +812,9 @@ function multisite_drupal_toolbox_config_solr_bundle($bundle, $op) {
 
   // We ensures that all node type are created.
   node_types_rebuild();
+
+  $info = new stdClass();
+  $info->type = $bundle;
 
   switch ($op) {
     case 'add':

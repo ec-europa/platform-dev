@@ -56,6 +56,9 @@ function cce_basic_config_install() {
   multisite_config_service('user')->createRole('contributor', 3);
   multisite_config_service('user')->createRole('editor', 4);
 
+  // Body field base creation.
+  _cce_basic_config_body_field_base_add();
+
   // Create a vocabulary dedicated to the classification.
   $vocabulary = (object) array(
     'name' => $t('classification'),
@@ -730,6 +733,9 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view revisions',
     'access media browser',
     'use media wysiwyg',
+    'use text format full_html',
+    'use text format basic_html',
+    'use text format filtered_html',
   );
   multisite_config_service('user')->grantPermission('contributor', $permissions);
 
@@ -748,6 +754,9 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view own unpublished content',
     'access media browser',
     'use media wysiwyg',
+    'use text format full_html',
+    'use text format basic_html',
+    'use text format filtered_html',
   );
   multisite_config_service('user')->grantPermission('editor', $permissions);
 
@@ -757,7 +766,8 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access print',
     'access user profiles',
     'access workbench',
-    'use text format full_html',
+    'use text format basic_html',
+    'use text format filtered_html',
     'view moderation history',
     'view moderation messages',
     'view own unpublished content',
@@ -771,6 +781,8 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'post comments',
     'search content',
     'use advanced search',
+    'use text format basic_html',
+    'use text format filtered_html',
   ));
 }
 
@@ -979,6 +991,44 @@ function cce_basic_config_disable() {
   variable_del('user_myaccount_data_image');
   // Log out.
   variable_del('user_logout_data_image');
+}
+
+/**
+ * Set the field base settings for the "body" field.
+ *
+ * It allows "soft" configuring the default settings of the field in order to
+ * avoid conflicts with existing sites that have different settings (NEPT-640).
+ */
+function _cce_basic_config_body_field_base_add() {
+  $body = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'node',
+    ),
+    'field_name' => 'body',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 1,
+    'module' => 'text',
+    'settings' => array(),
+    'translatable' => 1,
+    'type' => 'text_with_summary',
+  );
+
+  field_create_field($body);
 }
 
 /**
@@ -2276,4 +2326,11 @@ function cce_basic_config_update_7215() {
       module_enable(array('nexteuropa_dgt_connector'));
     }
   }
+}
+
+/**
+ * Update platform version to 2.3.
+ */
+function cce_basic_config_update_7216() {
+  variable_set('multisite_version', '2.3');
 }

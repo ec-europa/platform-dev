@@ -36,6 +36,15 @@ you don't need them.
 
   TODO: Add step descriptions
 
+ * From ticket NEPT-391
+
+```
+$ drush dis nexteuropa_varnish flexible_purge  -y
+$ drush pm-uninstall nexteuropa_varnish  -y
+$ drush pm-uninstall flexible_purge  -y
+
+```
+
 ### After-upgrade steps
 
 Once the above steps are completed and the site is in the 2.4.0 codebase,

@@ -149,6 +149,10 @@ function ecas_group_sync_mapping_form_submit($form, &$form_state) {
     }
   }
 
+  // Clearing the rules of synchronisation cached during
+  // the "ecas_group_sync_get_ecas_sync_rules" function process.
+  cache_clear_all('ecas_group_sync_rules', 'cache');
+
   drupal_set_message(t('The mapping rules have been saved.'));
 }
 
@@ -173,7 +177,7 @@ function ecas_group_sync_get_row($id, $ldap_field, $synctype, $ldap_field_value 
   $none_option = array("0" => "none");
   $form['LDAPfield_value_' . $id] = array(
     '#type' => 'select',
-    '#options' => $none_option + get_dg(),
+    '#options' => $none_option + ecas_group_sync_get_dg(),
     '#default_value' => $ldap_field_value,
     '#prefix' => '<div class = "row_mapping">',
     '#title' => $ldap_field,

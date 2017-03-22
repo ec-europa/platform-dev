@@ -4,6 +4,8 @@
  * Ec_resp's theme implementation to display a node.
  *
  * Available variables:
+ * - $attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
  * - $title: the (sanitized) title of the node.
  * - $content: An array of node items. Use render($content) to print them all,
  *   or print a subset such as render($content['field_example']). Use
