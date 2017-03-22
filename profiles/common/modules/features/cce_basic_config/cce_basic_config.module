@@ -16,6 +16,10 @@ include_once 'cce_basic_config.default_password_policy.inc';
 function cce_basic_config_menu_alter(&$items) {
   // Hide default search tab.
   $items['search/node']['access callback'] = FALSE;
+  // Block node import with node_export module.
+  if (module_exists('node_export')) {
+    $items['node/add/node_export']['access callback'] = FALSE;
+  }
 }
 
 /**
@@ -356,5 +360,17 @@ function cce_basic_config_preprocess_container(&$variables) {
       $variables['theme_hook_suggestions'][] = $hook_suggestion . $suffix;
     }
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
+  }
+}
+
+/*
+ * Implements hook_modules_enabled().
+ */
+function cce_basic_config_modules_enabled($modules) {
+  if (in_array('node_export', $modules)) {
+    // If the node_export module is enabled, revoke import permissions.
+    user_role_revoke_permissions(variable_get('user_admin_role', 7), array('use PHP to import nodes'));
+    // Give editors permission to export nodes.
+    multisite_config_service('user')->grantPermission('editor', array('export nodes'));
   }
 }
