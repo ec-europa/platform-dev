@@ -4,13 +4,14 @@ Feature: Change tracking features
   only if no tracked changes are detected in the current values of WYSIWYG fields
 
   Background:
+    Given I am logged in as a user with the 'administrator' role
+
+  @wip
+  Scenario: As administrator, I can disable the "NextEuropa Tracked Changes" feature if tracked changes are not detected
+  on fields that use this profile
     Given the module is enabled
       | modules                   |
       | nexteuropa_trackedchanges |
-    And I am logged in as a user with the 'administrator' role
-
-  Scenario: As administrator, I can disable the "NextEuropa Tracked Changes" feature if tracked changes are not detected
-  on fields that use this profile
     When I go to "admin/structure/feature-set"
     And I click "Editorial Management"
     And I click the ".form-item-featureset-nexteuropa-trackedchanges" element
@@ -22,7 +23,10 @@ Feature: Change tracking features
 
   Scenario: As administrator, I could not disable the "NextEuropa Tracked Changes" feature if tracked changes are detected
   on fields that use this profile
-    Given the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
+    Given the module is enabled
+      | modules                   |
+      | nexteuropa_trackedchanges |
+    And the following contents using "Full HTML + Change tracking" for WYSIWYG fields:
       | language | title                                                 | Body                                                                                                                                                                                                  | moderation state | type          |
       | und      | Article without tracked changes                       | No tracked change                                                                                                                                                                                     | validated        | article       |
       | und      | Article with tracked changes                          | There are <span class="ice-del ice-cts-1" data-changedata="" data-cid="2" data-last-change-time="1470931683200" data-time="1470931683200" data-userid="1" data-username="admin">tracked change</span> | draft            | article       |
