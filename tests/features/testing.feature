@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Testing
   In order to run simpletests
   As an administrator

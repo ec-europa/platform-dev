@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Webtools feature
   In order to use widgets (charts, maps, social tools and more) on the website with the Webtools service
   As an administrator

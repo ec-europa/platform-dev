@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Test the creation of new block type (bean) and the display of them in a page using tokens.
 
   Background:

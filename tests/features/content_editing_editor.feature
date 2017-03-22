@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Content editing as editor
   In order to manage the content on the website
   As an editor

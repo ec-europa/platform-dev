@@ -1,4 +1,4 @@
-@api
+@api  @communitites
 Feature: Pathauto
   In order to manage automatic aliases on the website
   As an administrator

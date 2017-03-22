@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Splash Screen features
   In order navigate on the site in my language of preference
   As a citizen of the European Union

@@ -1,4 +1,4 @@
-@api @wip
+@api @wip @communitites
 Feature: Event features
   In order to schedule events
   As a citizen of the European Union

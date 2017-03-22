@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Testing the rich text options available with the toolbar present on WYSIWYG fields like "Body".
   I want to be able to format my content with rich text options supplied by the displayed toolbar
 

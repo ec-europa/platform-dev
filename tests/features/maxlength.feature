@@ -1,3 +1,4 @@
+@communitites
 Feature: Check the feature Maxlength
   In order to provides to fields of a content type the functionality of limiting and validating their maximum length in the edit form, before submission.
   As an administrator, Contributor and Editor User

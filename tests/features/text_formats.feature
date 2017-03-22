@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Text formats configuration
   In order to input text in the website
   As a user

@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union

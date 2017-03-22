@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Administrators can check information on status page
   In order to know site status
   As an administrator

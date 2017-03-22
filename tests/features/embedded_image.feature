@@ -1,4 +1,4 @@
-@api @javascript @wip
+@api @javascript @wip @communitites
 Feature: Embedded images
   In order to make my website more attractive
   As a contributor

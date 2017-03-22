@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: Testing wrong token association for Next Europa token module
   In order to check if invalid token is not causing fatal error
   As an administrator

@@ -1,4 +1,4 @@
-@api
+@api @communitites
 Feature: User menu
   In order to easily access the important functionality
   As an administrative user
