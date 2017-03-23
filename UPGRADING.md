@@ -34,14 +34,11 @@ you don't need them.
 
 #### Step 1
 
-  TODO: Add step descriptions
-
- * From ticket NEPT-391
+ * From ticket NEPT-591
 
 ```
-$ drush dis nexteuropa_varnish flexible_purge  -y
-$ drush pm-uninstall nexteuropa_varnish  -y
-$ drush pm-uninstall flexible_purge  -y
+$ drush dis node_export -y
+$ drush pmu node_export -y
 
 ```
 
