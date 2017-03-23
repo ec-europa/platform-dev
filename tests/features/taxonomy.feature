@@ -1,12 +1,12 @@
+@api
 Feature: Taxonomy
   In order to manage the taxonomy on the website
   As an administrator
   I want to be able to create, edit and delete taxonomy
 
-  @api
   Scenario: Administrator user creates a new vocabulary and adds a new group and terms.
     Given I am logged in as a user with the 'administrator' role
-    And the vocabulary "Vocabulary Test" exists
+    And the vocabulary "Vocabulary Test" is created
     And the group "Vertical tab" named "Group Test" in the vocabulary "Vocabulary Test" exists
     And the field "Long text" named "Field Test" grouped in "Group Test" in the vocabulary "Vocabulary Test" exists
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists

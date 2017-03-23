@@ -24,7 +24,9 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/2385069-19-drupa
 
 ; Move local configuration directives out of the Git repository.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3154
-projects[drupal][patch][] = patches/default-settings-php-include-local-settings.patch
+; Improve logout functionality by updating cookie settings
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-440
+projects[drupal][patch][] = patches/default-settings-updates.patch
 
 ; Allow management of visibility for pseudo-fields.
 ; https://www.drupal.org/node/1256368

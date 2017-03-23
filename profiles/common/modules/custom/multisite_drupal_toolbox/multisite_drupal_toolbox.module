@@ -169,8 +169,6 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
     }
   }
 
-  // Block node import with node_export module.
-  $items['node/add/node_export']['access callback'] = FALSE;
   // Hide broken links tab in the my account page.
   $items['user/%user/linkchecker']['access callback'] = FALSE;
 

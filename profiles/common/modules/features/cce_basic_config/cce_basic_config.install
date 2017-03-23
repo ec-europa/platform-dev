@@ -712,7 +712,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'administer modules',
     'administer software updates',
     'manage features',
-    'use PHP to import nodes',
     'manage feature nexteuropa_dgt_connector',
   ));
 
@@ -748,7 +747,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'delete revisions',
     'edit any article content',
     'edit own article content',
-    'export nodes',
     'revert revisions',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',

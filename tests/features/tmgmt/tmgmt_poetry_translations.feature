@@ -170,12 +170,12 @@ Feature: TMGMT Poetry features
       | title_field     | Title in French 2                       |
       | reference       | SUB_4_POETRY_WEB/2016/63904/0/0/TRA     |
     And I am on "admin/tmgmt/recent-changes"
-    Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 English French" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
-    And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 English Italian" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English Italian" row
-    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 English French" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
+    Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 Basic page English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English French" row
+    And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 Basic page English Italian" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English Italian" row
+    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 Basic page English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English French" row
     And I should not see "_POETRY_"
     Given the translation job with label "Title in English 1" and target language "fr" is accepted
     And I am on "admin/tmgmt/recent-changes"
@@ -313,7 +313,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
-    Given the vocabulary "Vocabulary Test" exists
+    Given the vocabulary "Vocabulary Test" is created
     And I am logged in as a user with the "administrator" role
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
@@ -636,6 +636,9 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I press "Submit to translator"
     Then I should see the error message "A valid date is required for Requested delivery date."
+    When I fill in "Date" with "01/01/1970"
+    And I press "Submit to translator"
+    Then I should see the error message "The expected requested delivery date cannot be in the past."
     When I fill in "Date" with a relative date of "+5" days
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
@@ -716,7 +719,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     And the poetry translation service received the translation request
