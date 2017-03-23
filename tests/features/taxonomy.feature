@@ -1,6 +1,4 @@
-@api     And the module is enabled
-      |modules                      |
-      |multisite_notifications_core |
+@api @communitites
 Feature: Taxonomy
   In order to manage the taxonomy on the website
   As an administrator
