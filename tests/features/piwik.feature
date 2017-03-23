@@ -68,6 +68,7 @@ Feature: Check Piwik
     Then I see an overview with the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
+    And I should not see the text "content/test"
     When I go to "content/test"
     Then the response should not contain "\"siteSection\":\"Direct path section\""
 
