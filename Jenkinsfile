@@ -1,22 +1,19 @@
+env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
+env.slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
+slackSend color: "good", message: "${env.slackMessage} started."
+
+try {
     parallel (
         'standard' : {
             // Build, test and package the standard profile
             node('standard') {
                 try {
-                    env.RELEASE_NAME = "${env.JOB_NAME}".replaceAll('%2F','-').replaceAll('/','-').trim()
-                    slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMBER}>"
-                    slackSend color: "good", message: "${slackMessage} started."
                     executeStages('standard')
                     stage('Package') {
                         sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
                         sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
                     }
-                    setBuildStatus("Build complete.", "SUCCESS")
-                    slackSend color: "good", message: "${slackMessage} - Standard complete."
-                }
-                catch(err) {
-                    setBuildStatus("Build failed.", "FAILURE");
-                    slackSend color: "danger", message: "${slackMessage} - Standard failed"
+                } catch(err) {
                     throw(err)
                 }
             }
@@ -26,15 +23,18 @@
             node('communities') {
                 try {
                     executeStages('communities')
-                    slackSend color: "good", message: "${slackMessage} - Communities complete."
+                } catch(err) {
+                    throw(err)
                 }
-                catch(err) {
-                    slackSend color: "warning", message: "${slackMessage} - Communities failed"
-                }
-
             }
         }
     )
+} catch(err) {
+    slackSend color: "danger", message: "${env.slackMessage} failed."
+    throw(err)
+}
+
+slackSend color: "good", message: "${env.slackMessage} complete."
 
 /**
  * Execute profile stages.
@@ -58,7 +58,6 @@ void executeStages(String label) {
         stage('Init & Build ' + label) {
             deleteDir()
             checkout scm
-            setBuildStatus("Build of ${label} profile started.", "PENDING");
             sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
             withCredentials([
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
@@ -89,19 +88,4 @@ void executeStages(String label) {
             sh 'mysql -u $DB_USER --password=$DB_PASS -e "DROP DATABASE IF EXISTS $DB_NAME;"'
         }
     }
-}
-
-/**
- * Send build status notification to GitHub.
- *
- * @param message The notification message.
- * @param state The notification state.
- */
-void setBuildStatus(String message, String state) {
-    step([
-        $class: "GitHubCommitStatusSetter",
-        contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "${env.BUILD_CONTEXT}"],
-        errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-        statusResultSource: [$class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]]]
-    ]);
 }

@@ -8,6 +8,21 @@ include_once 'nexteuropa_trackedchanges.features.inc';
 include_once 'nexteuropa_trackedchanges.admin.inc';
 include_once 'nexteuropa_trackedchanges.helper.inc';
 
+// NEPT-627: The class autoload done by registry_autoload module works perfectly
+// BUT not during a registry rebuild (drush rr) because the autoload is executed
+// later than checks done by the "Entity" module on the controller class.
+// The consequence of that is these check fail:
+// "class_implements(): Class Drupal\nexteuropa_trackedchanges
+// \NETCInfoController does not exist and could not be loaded entity.module:
+// 1474  [warning]
+// in_array() expects parameter 2 to be array, boolean given entity.module:
+// 1474".
+// For solving the problem, the class file is loaded manually in order to ensure
+// the class is available for the "entity" module's checks.
+// This problem only concerns the controller classes; the other can be managed
+// via the autoload.
+include_once 'src/NETCInfoController.php';
+
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_MACHINE_NAME', 'full_html_track');
 define('NEXTEUROPA_TRACKEDCHANGES_FHT_HUMAN_NAME', 'Full HTML + Change tracking');
 define('NEXTEUROPA_TRACKEDCHANGES_ENTITY_NO_STATE', 'none');

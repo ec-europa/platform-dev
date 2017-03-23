@@ -32,7 +32,7 @@ function events_resources_requirements($phase) {
     $req = array('title' => 'FullCalendar plugin fork that supports resources');
 
     // Plugin files.
-    $files = glob(_events_resources_get_library_path() . '/fullcalendar/*.js');
+    $files = glob(_events_resources_get_library_path() . '/*.js');
     if (!empty($files)) {
       $req['severity'] = REQUIREMENT_OK;
       $req['value'] = $t('Plugin fork found.');
