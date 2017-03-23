@@ -65,17 +65,19 @@ Feature: Content editing as administrator
     And I press "Save translations"
     Then I should see the success message "The string has been saved."
     Given I create the following multilingual "page" content:
-      | language | title                       | field_ne_body     |
-      | en       | This title is in English    | English body      |
-      | fr       | Ce titre est en Français    | Corps en français |
-      | it       | Questo titolo è in italiano | Corpo in italiano |
+      | language      | title                       | field_ne_body     |
+      | en            | This title is in English    | English body      |
+      | fr            | Ce titre est en Français    | Corps en français |
+      | it            | Questo titolo è in italiano | Corpo in italiano |
     And I go to "<url>"
     And I click "New draft"
+    And I click "<language_name>"
+    And I select "Basic HTML" from "Text format"
     Then I should see "Body"
     And I should see "<field_ne_body>"
     And I should not see "<body_label>"
 
     Examples:
-      | url                      | field_ne_body        | body_label      |
-      | content/title-english_fr | Corps en français    | Corps du texte  |
-      | content/title-english_it | Corpo in italiano    | Corpo del testo |
+      | url                      | language_name  | field_ne_body        | body_label      |
+      | content/title-english_fr | French         | Corps en français    | Corps du texte  |
+      | content/title-english_it | Italian        | Corpo in italiano    | Corpo del testo |
