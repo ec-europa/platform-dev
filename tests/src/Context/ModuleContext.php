@@ -17,12 +17,19 @@ use function bovigo\assert\predicate\isEmpty;
 class ModuleContext extends RawDrupalContext {
 
   /**
-   * Reset static Drupal.
+   * List of modules enabled before the scenario.
+   *
+   * @var array
+   */
+  protected $initialModuleList  = array();
+
+  /**
+   * Stores the list of enabled modules before executing a scenario.
    *
    * @BeforeScenario
    */
-  public function drupalStaticReset() {
-    drupal_static_reset('system_list');
+  public function storeDefaultEnabledModules() {
+    $this->initialModuleList  = module_list(TRUE);
   }
 
   /**
