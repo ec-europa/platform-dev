@@ -17,6 +17,15 @@ use function bovigo\assert\predicate\isEmpty;
 class ModuleContext extends RawDrupalContext {
 
   /**
+   * Reset static Drupal.
+   *
+   * @BeforeScenario
+   */
+  public function drupalStaticReset() {
+    drupal_static_reset();
+  }
+
+  /**
    * Enables one or more modules.
    *
    * Provide modules data in the following format:
