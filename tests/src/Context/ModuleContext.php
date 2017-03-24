@@ -22,7 +22,7 @@ class ModuleContext extends RawDrupalContext {
    * @BeforeScenario
    */
   public function drupalStaticReset() {
-    drupal_static_reset();
+    drupal_static_reset('system_list');
   }
 
   /**
