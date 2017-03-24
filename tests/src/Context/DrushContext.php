@@ -76,11 +76,11 @@ class DrushContext extends DrupalExtensionDrushContext {
 
     if (!self::checkIfDbDumpFileExist()) {
       self::createDbDump();
-      return;
     }
-
-    self::dropDataBase();
-    self::importDataBase();
+    else {
+      self::dropDataBase();
+      self::importDataBase();
+    }
 
     self::$startFeature = microtime(TRUE);
   }
