@@ -19,6 +19,8 @@ class ModuleContext extends RawDrupalContext {
   /**
    * Refresh the list of module.
    *
+   * Before all scenario, we need to run module_list to refresh system_list.
+   *
    * @BeforeScenario
    */
   public function refreshDefaultEnabledModules() {
