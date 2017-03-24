@@ -17,23 +17,6 @@ use function bovigo\assert\predicate\isEmpty;
 class ModuleContext extends RawDrupalContext {
 
   /**
-   * List of modules enabled before the scenario.
-   *
-   * @var array
-   */
-  protected $initialModuleList  = array();
-
-
-  /**
-   * Stores the list of enabled modules before executing a scenario.
-   *
-   * @BeforeScenario
-   */
-  public function storeDefaultEnabledModules() {
-    $this->initialModuleList  = module_list(TRUE);
-  }
-
-  /**
    * Enables one or more modules.
    *
    * Provide modules data in the following format:
