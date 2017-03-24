@@ -1,6 +1,6 @@
-@wip @api @reset-nodes
+@api @reset-nodes
 Feature: Check Piwik
-  In order to check if the the type attribute is set for the Piwik element.
+  In order to check if the type attribute is set for the Piwik element.
   As an administrator
   I want to check Piwik is available.
   # Advanced PIWIK rules functionality
@@ -14,7 +14,6 @@ Feature: Check Piwik
       | nexteuropa_piwik   |
     And I am logged in as a user with the "PIWIK administrator" role
 
-  @wip
   Scenario: Administrator user can check Piwik Script with the theme Bootstrap
     When I run drush "pm-enable bootstrap -y"
     And I run drush "vset theme_default bootstrap"
