@@ -40,6 +40,13 @@ class DrushContext extends DrupalExtensionDrushContext {
   private $dumpLocation;
 
   /**
+   * Start Time Feature.
+   *
+   * @var mixed
+   */
+  private static $startFeature;
+
+  /**
    * DrushContext constructor.
    *
    * Existence of the constructor is needed in order to extend a base class.
@@ -74,9 +81,19 @@ class DrushContext extends DrupalExtensionDrushContext {
 
     self::dropDataBase();
     self::importDataBase();
-    drupal_static_reset('system_list');
+
+    self::$startFeature = microtime(TRUE);
   }
 
+  /**
+   * Show performance stats.
+   *
+   * @AfterFeature
+   */
+  public static function showStatForFeatureTest() {
+    $time_elapsed = microtime(TRUE) - self::$startFeature;
+    print ('Feature is done in ' . round($time_elapsed, 2) . ' sec.' . PHP_EOL);
+  }
 
   /**
    * Checks if the database dump file exist.
