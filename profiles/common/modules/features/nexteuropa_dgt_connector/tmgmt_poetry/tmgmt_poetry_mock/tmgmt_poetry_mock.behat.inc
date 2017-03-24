@@ -116,21 +116,6 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Remove all created nodes.
-   *
-   * @AfterScenario @poetry_mock
-   */
-  public function removeAllNodes(AfterScenarioScope $scope) {
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', array('article', 'page'), 'IN');
-    $result = $query->execute();
-    if (isset($result['node'])) {
-      node_delete_multiple($result['node']);
-    }
-  }
-
-  /**
    * Remove all translation files in a scenario tagged with @poetry_mock.
    *
    * @AfterScenario @poetry_mock
