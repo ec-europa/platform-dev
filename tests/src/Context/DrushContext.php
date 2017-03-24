@@ -74,7 +74,7 @@ class DrushContext extends DrupalExtensionDrushContext {
 
     self::dropDataBase();
     self::importDataBase();
-    self::clearAllCaches();
+    drupal_static_reset('system_list');
   }
 
 
