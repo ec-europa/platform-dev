@@ -159,7 +159,7 @@ class DrushContext extends DrupalExtensionDrushContext {
     }
 
     $time_elapsed = microtime(TRUE) - $start;
-    print ('Operation done in: ' . round($time_elapsed, 2) . ' sec.' . PHP_EOL . PHP_EOL);
+    print ('Operation done in ' . round($time_elapsed, 2) . ' sec.' . PHP_EOL . PHP_EOL);
   }
 
 }
