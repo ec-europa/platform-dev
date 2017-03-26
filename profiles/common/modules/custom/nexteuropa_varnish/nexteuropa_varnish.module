@@ -4,7 +4,7 @@
  * Module file.
  */
 
-include_once 'nexteuropa_varnish.helper.inc';
+module_load_include('inc', 'nexteuropa_varnish', 'nexteuropa_varnish.helper');
 
 use Drupal\nexteuropa_varnish\PurgeRuleType;
 

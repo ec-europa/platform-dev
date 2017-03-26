@@ -54,22 +54,15 @@ function nexteuropa_varnish_requirements($phase) {
   );
 
   if (in_array($phase, $control_phase)) {
-    $required_vars = array(
-      'varnish_http_targets',
-      'varnish_request_method',
-      'varnish_request_user',
-      'varnish_request_password',
-      'varnish_tag',
-      'varnish_http_timeout',
-    );
+    $required_vars = _nexteuropa_varnish_get_settings_item_names();
     $settings = _nexteuropa_varnish_get_varnish_settings(FALSE);
 
-    foreach ($required_vars as $var) {
-      if (!isset($settings[$var])) {
-        $t_var = array('@var' => $var);
-        $requirements[$var] = array(
-          'title' => $t('NextEuropa Varnish: "nexteuropa_@var" is missing', $t_var),
-          'description' => $t('Following variable must be set: nexteuropa_@var. Please ask your support team to check the server configuration.', $t_var),
+    foreach ($required_vars as $param_name => $var_item) {
+      if (empty($settings[$var_item])) {
+        $t_var = array('@var' => $param_name);
+        $requirements[$var_item] = array(
+          'title' => $t('NextEuropa Varnish: "@var" is missing', $t_var),
+          'description' => $t('"@var" must be set. Please ask your support team to check the server configuration.', $t_var),
           'severity' => REQUIREMENT_ERROR,
         );
       }

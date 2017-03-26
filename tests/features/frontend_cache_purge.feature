@@ -515,9 +515,9 @@ Feature:
 
   Scenario: No purge are instructed if a part of the configuration has disappeared.
     Given the following cache purge rules:
-      | Content Type | Paths to Purge         |
-      | page         | /more-basic-pages, /   |
-      | page         | /even-more-basic-pages |
+      | Content Type | Paths to Purge       |
+      | page         | /more-basic-pages, / |
+      | page         |                      |
     And "my-website" is "not correctly" configured as the purge application tag
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-publish-immediately"
