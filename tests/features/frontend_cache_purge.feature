@@ -6,10 +6,12 @@ Feature:
   I can define rules to flush the web front end cache (e.g. Varnish)
 
   Background:
-    Given these modules are enabled
+    # We start by settings parameters that are required by the
+    # nexteuropa_varnish modules.
+    Given "my-website" is "correctly" configured as the purge application tag
+    And these modules are enabled
       | modules            |
       | nexteuropa_varnish |
-    And "my-website" is configured as the purge application tag
     And I am logged in as a user with the "administrator" role
 
   Scenario: View purge rules.
@@ -510,3 +512,19 @@ Feature:
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
     Then an informational message is logged with type "nexteuropa_varnish" and a message matching "Clearing paths: /more-basic-pages, /, /even-more-basic-pages"
+
+  Scenario: No purge are instructed if a part of the configuration has disappeared.
+    Given the following cache purge rules:
+      | Content Type | Paths to Purge       |
+      | page         | /more-basic-pages, / |
+      | page         |                      |
+    And "my-website" is "not correctly" configured as the purge application tag
+    When I go to "node/add/page"
+    And I fill in "Title" with "frontend-cache-purge-publish-immediately"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I fill in "Moderation notes" with "Immediately publishing this"
+    And I press "Save"
+    Then the web front end cache was not instructed to purge any paths
+    And a critical error message is logged with type "nexteuropa_varnish" and a message matching "No path has been sent for clearing because all module settings are not set."
+    And no informational message is logged with type "nexteuropa_varnish" and a message matching "Clearing paths: /more-basic-pages, /, /even-more-basic-pages"
