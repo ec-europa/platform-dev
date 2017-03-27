@@ -92,7 +92,7 @@ class DrushContext extends DrupalExtensionDrushContext {
    */
   public static function showStatForFeatureTest() {
     $time_elapsed = microtime(TRUE) - self::$startFeature;
-    print ('Feature is done in ' . round($time_elapsed, 2) . ' sec.' . PHP_EOL);
+    print ('Feature tests completed in ' . round($time_elapsed, 2) . ' sec.' . PHP_EOL);
   }
 
   /**
