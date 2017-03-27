@@ -7,6 +7,28 @@
 use Drupal\nexteuropa_varnish\PurgeRuleType;
 
 /**
+ * Implements hook_menu().
+ */
+function nexteuropa_varnish_menu() {
+  $items['admin/config/system/nexteuropa-varnish'] = array(
+    'title' => 'Next Europa Varnish - Configuration',
+    'description' => 'Configuration of the Varnish cache invalidation mechanism.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_varnish_admin_settings_form'),
+    'access arguments' => array('administer frontend cache purge rules'),
+    'file' => 'nexteuropa_varnish.admin.inc',
+  );
+
+  $items['admin/config/system/nexteuropa-varnish/general'] = array(
+    'title' => 'General settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_entity_info().
  */
 function nexteuropa_varnish_entity_info() {
@@ -24,9 +46,9 @@ function nexteuropa_varnish_entity_info() {
       'controller class' => 'EntityAPIController',
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
-        'path' => 'admin/config/frontend_cache_purge_rules',
+        'path' => 'admin/config/system/nexteuropa-varnish/purge_rules',
         'controller class' => 'CachePurgeRuleEntityUIController',
-        'file' => 'nexteuropa_varnish.admin.inc',
+        'file' => 'nexteuropa_varnish.rules.admin.inc',
       ),
     ),
   );
@@ -158,6 +180,18 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
     $paths = _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node);
   }
 
+  // Default purge rule integration point.
+  if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
+    if (empty($paths) && empty($node->is_new)) {
+      $paths = _nexteuropa_varnish_get_node_paths($node);
+
+    }
+  }
+
+  // Removing duplicates and all entries of the array equal to FALSE.
+  $paths = array_unique($paths);
+  $paths = array_filter($paths);
+
   return $paths;
 }
 
@@ -181,40 +215,11 @@ function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
       $purge_paths = $purge_rule->paths();
     }
     else {
-      $purge_paths = array();
-
-      $entity_uri = entity_uri('node', $node);
-
-      if ($entity_uri) {
-        // Get the languages the node is translated into (entity translation).
-        if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
-          $handler = entity_translation_get_handler('node', $node);
-
-          $translations = $handler->getTranslations();
-
-          $lang_codes = array_keys($translations->data);
-          $all_languages = entity_translation_languages('node', $node);
-
-          foreach ($lang_codes as $lang_code) {
-            if (isset($all_languages[$lang_code])) {
-              $purge_paths[] = url(
-                $entity_uri['path'],
-                $entity_uri['options'] + array('language' => $all_languages[$lang_code])
-              );
-            }
-          }
-        }
-        else {
-          $purge_paths[] = url($entity_uri['path'], $entity_uri['options']);
-        }
-      }
+      $purge_paths = _nexteuropa_varnish_get_node_paths($node);
     }
 
     $paths = array_merge($paths, $purge_paths);
   }
-
-  $paths = array_unique($paths);
-  $paths = array_filter($paths);
 
   return $paths;
 }
@@ -324,4 +329,43 @@ function _nexteuropa_varnish_base_request_headers() {
   }
 
   return $headers;
+}
+
+/**
+ * Returns paths for the node including translations.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @return array
+ *   An array with the paths of the node.
+ */
+function _nexteuropa_varnish_get_node_paths($node) {
+  $paths = array();
+  $entity_uri = entity_uri('node', $node);
+  if ($entity_uri) {
+    // Get the languages the node is translated into (entity translation).
+    if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
+      $handler = entity_translation_get_handler('node', $node);
+
+      $translations = $handler->getTranslations();
+
+      $lang_codes = array_keys($translations->data);
+      $all_languages = entity_translation_languages('node', $node);
+
+      foreach ($lang_codes as $lang_code) {
+        if (isset($all_languages[$lang_code])) {
+          $paths[] = url(
+            $entity_uri['path'],
+            $entity_uri['options'] + array('language' => $all_languages[$lang_code])
+          );
+        }
+      }
+    }
+    else {
+      $paths[] = url($entity_uri['path'], $entity_uri['options']);
+    }
+  }
+
+  return $paths;
 }
