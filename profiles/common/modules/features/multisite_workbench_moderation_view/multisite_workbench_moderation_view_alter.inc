@@ -7,6 +7,10 @@
 
 /**
  * Implements hook_views_default_views_alter().
+ *
+ * Change views settings defined in Workbench and Workbench Moderation.
+ * To have these settings applied you can run:
+ * $ drush views-revert [view_machine_name] .
  */
 function multisite_workbench_moderation_view_views_default_views_alter(&$views) {
 
