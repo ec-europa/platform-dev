@@ -51,7 +51,20 @@ function nexteuropa_multilingual_install() {
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
   // Set nexteuropa_multilingual_url_suffix as default language negotiation.
-  multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix');
+  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $extra_provider = array(
+    'nexteuropa_multilingual_url_suffix' => array(
+      'callbacks' => array(
+        'language' => 'nexteuropa_multilingual_language_negotiation_provider_callback',
+      ),
+      'file' => drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.callbacks.inc',
+    ),
+  );
+  // Suffix is not compatible with prefix. Remove that negotiation mechanism.
+  unset($enabled_providers['locale-url']);
+  drupal_static_reset("language_negotiation_info");
+  variable_set('administration_language_negotiation_default', 'en');
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers + $extra_provider);
 
   // Set translatable states for TMGMT Workbench module.
   multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
