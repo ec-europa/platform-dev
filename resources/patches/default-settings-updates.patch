@@ -1,10 +1,8 @@
-diff --git a/sites/default/default.settings.php b/sites/default/default.settings.php
-index b044be3..16ab6b2 100644
---- a/sites/default/default.settings.php
-+++ b/sites/default/default.settings.php
+--- sites/default/default.settings-ini.php	2017-03-09 17:31:07.000000000 +0100
++++ sites/default/default.settings.php	2017-03-09 19:06:49.000000000 +0100
 @@ -1,6 +1,22 @@
  <?php
- 
+
  /**
 + * Load local development override configuration, if available.
 + *
@@ -25,10 +23,16 @@ index b044be3..16ab6b2 100644
   * @file
   * Drupal site-specific configuration file.
   *
-@@ -628,3 +644,27 @@ $conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN"
+@@ -628,3 +644,33 @@
   * @see drupal_clean_css_identifier()
   */
  # $conf['allow_css_double_underscores'] = TRUE;
++
++/**
++ * Override session cookie lifetime defined above.
++ * Set value to zero for session cookies to be deleted when browser is closed.
++ */
++ini_set('session.cookie_lifetime', 0);
 +
 +/**
 + * Load local development override configuration, if available.
@@ -53,4 +57,3 @@ index b044be3..16ab6b2 100644
 +if (file_exists($local_settings)) {
 +  include $local_settings;
 +}
-\ No newline at end of file

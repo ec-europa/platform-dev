@@ -218,25 +218,6 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: 'export nodes'.
-  $permissions['export nodes'] = array(
-    'name' => 'export nodes',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'editor' => 'editor',
-    ),
-    'module' => 'node_export',
-  );
-
-  // Exported permission: 'export own nodes'.
-  $permissions['export own nodes'] = array(
-    'name' => 'export own nodes',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node_export',
-  );
-
   // Exported permission: 'import media'.
   $permissions['import media'] = array(
     'name' => 'import media',

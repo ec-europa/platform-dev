@@ -4,6 +4,7 @@ default:
       contexts:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
+        - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\CKEditorContext
@@ -33,9 +34,7 @@ default:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
-      browser_name: '{{ behat.browser.name }}'
       selenium2:
-        browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'

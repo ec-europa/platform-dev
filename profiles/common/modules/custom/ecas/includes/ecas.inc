@@ -210,7 +210,7 @@ function ecas_login_page() {
  * @param bool $full_logout
  *   TRUE to also log out from ECAS itself, FALSE to log out only from Drupal.
  */
-function ecas_logout($full_logout = FALSE) {
+function ecas_logout($full_logout = TRUE) {
   global $user;
 
   watchdog('user', 'Session closed for %name.', array('%name' => theme('placeholder', $user->name)));
@@ -731,4 +731,38 @@ function ecas_create_user($ecas_name, $defaults = array()) {
   }
 
   return $account;
+}
+
+/**
+ * Gets the user's department structure.
+ *
+ * @param array $user_info
+ *   The user's attributes retrieved from the LDAP.
+ *
+ * @return array
+ *   The service to which the user belongs:
+ *    - 'dg': User's DG Acronym or FALSE if not given;
+ *    - 'directorate': User's directorate name or FALSE if not given;
+ *    - 'unit': User's unit name or FALSE if not given;
+ *    - 'sub_unit': User's sub-unit name or FALSE if not given;
+ *    - 'full_name": The full name of the user's department.
+ *
+ * @see phpCAS::getAttributes()
+ */
+function ecas_get_user_department($user_info) {
+  if (!empty($user_info['cas:departmentNumber'])) {
+    $department = array('full_name' => $user_info['cas:departmentNumber']);
+    $organizations = explode('.', $user_info['cas:departmentNumber']);
+
+    $department += array(
+      'dg' => (!empty($organizations[0])) ? $organizations[0] : FALSE,
+      'directorate' => (!empty($organizations[1])) ? $organizations[1] : FALSE,
+      'unit' => (!empty($organizations[2])) ? $organizations[2] : FALSE,
+      'sub_unit' => (!empty($organizations[3])) ? $organizations[3] : FALSE,
+    );
+
+    return $department;
+  }
+
+  return array();
 }

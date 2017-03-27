@@ -284,9 +284,6 @@ projects[filefield_sources_plupload][patch][] = https://www.drupal.org/files/iss
 projects[flag][subdir] = "contrib"
 projects[flag][version] = "3.9"
 
-projects[flexible_purge][subdir] = "contrib"
-projects[flexible_purge][version] = "1.x-dev"
-
 projects[flexslider][subdir] = "contrib"
 projects[flexslider][version] = "2.0-rc1"
 
@@ -411,6 +408,11 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-ove
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
 projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
+; Issue #2028231: Embedded documents in the WYSIWYG can be very hard to delete
+; https://www.drupal.org/node/2028231
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
+; Media markup navigation causes duplicated links
+projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
 
 projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
@@ -480,6 +482,14 @@ projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
+
+projects[nagios][download][branch] = 7.x-1.x
+projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
+projects[nagios][download][type] = git
+projects[nagios][subdir] = "contrib"
+; NEPT-451 Add possibility to report on individual variables
+; https://www.drupal.org/node/2854854
+projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
 
 projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
