@@ -190,6 +190,15 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Disables the default purge rule for content type modifications.
+   *
+   * @Given the default purge rule is disabled
+   */
+  public function theDefaultPurgeRuleIsDisabled() {
+    $this->variables->setVariable('nexteuropa_varnish_default_purge_rule', FALSE);
+  }
+
+  /**
    * Asserts the cache purge rules displayed in the overview.
    *
    * @Then I see an overview with the following cache purge rules:
@@ -262,6 +271,19 @@ class FrontendCacheContext implements Context {
   /**
    * Asserts that the web front end cache received certain purge requests.
    *
+   * @Then the web front end cache is ready to receive requests.
+   */
+  public function theWebFrontEndCacheIsReadyToReceiveRequests() {
+    if ($this->server && $this->server->isStarted()) {
+      // Cleaning the requests recorder during creation of the content.
+      // Useful for testing with the default purge rule enabled.
+      $this->server->clean();
+    }
+  }
+
+  /**
+   * Asserts that the web front end cache received certain purge requests.
+   *
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
@@ -321,6 +343,9 @@ class FrontendCacheContext implements Context {
    */
   public function stopMockServer() {
     if ($this->server && $this->server->isStarted()) {
+      // Cleaning the mock server state.
+      $this->server->clean();
+      // Stopping the mock server.
       $this->server->stop();
     }
   }
