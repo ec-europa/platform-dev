@@ -4,6 +4,8 @@
  * Default theme implementation to display a block.
  *
  * Available variables:
+ * - $attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
  * - $block->subject: Block title.
  * - $content: Block content.
  * - $block->module: Module that generated the block.

@@ -4,6 +4,8 @@
  * Ec_resp's theme implementation to provide an HTML container for comments.
  *
  * Available variables:
+ * - $attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
  * - $content: The array of content-related elements for the node. Use
  *   render($content) to print them all, or
  *   print a subset such as render($content['comment_form']).

@@ -4,6 +4,8 @@
  * Default simple view template to display a rows in a grid.
  *
  * Available variables:
+ * - $attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
  * - $rows contains a nested array of rows. Each row contains an array of
  *   columns.
  *

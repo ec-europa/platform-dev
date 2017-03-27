@@ -342,6 +342,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#date_year_range' => '-0:+1',
       '#required' => TRUE,
       '#weight' => -10,
+      '#datepicker_options' => array('minDate' => 0),
 
     );
 

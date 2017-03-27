@@ -313,7 +313,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
-    Given the vocabulary "Vocabulary Test" exists
+    Given the vocabulary "Vocabulary Test" is created
     And I am logged in as a user with the "administrator" role
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
@@ -636,6 +636,9 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I press "Submit to translator"
     Then I should see the error message "A valid date is required for Requested delivery date."
+    When I fill in "Date" with "01/01/1970"
+    And I press "Submit to translator"
+    Then I should see the error message "The expected requested delivery date cannot be in the past."
     When I fill in "Date" with a relative date of "+5" days
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
@@ -716,7 +719,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     And the poetry translation service received the translation request

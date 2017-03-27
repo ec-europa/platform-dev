@@ -32,6 +32,10 @@ class VariableContext implements Context {
    *   Name of the variable.
    * @param mixed $value
    *   New value for the variable.
+   *
+   * @Given I request to change the variable :name to :value
+   *
+   * @When I change the variable :name to :value
    */
   public function setVariable($name, $value) {
     if (!array_key_exists($name, $this->initialVariables)) {
