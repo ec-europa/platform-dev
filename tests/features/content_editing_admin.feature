@@ -54,8 +54,6 @@ Feature: Content editing as administrator
       | en        |
       | fr        |
       | it        |
-    When I go to "admin/config/regional/language/configure"
-    And I press "Save settings"
     Then I go to "admin/config/regional/translate/translate"
     And I fill in "String contains" with "Body"
     And I press "Filter"
