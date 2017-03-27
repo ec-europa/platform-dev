@@ -186,7 +186,6 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
 
     if ($job->state > TMGMT_JOB_STATE_UNPROCESSED) {
       $header['state'] = t('State');
-      $header['request_date'] = t('Requested date');
       $header['delai'] = t('Delivery date');
       $header['operations'] = t('Operations');
     }
@@ -220,7 +219,6 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
           $options[$language->language]['operations']  = l(t('View'), 'admin/tmgmt/items/' . $language_job_item->tjiid, array('query' => array('destination' => 'admin/tmgmt/jobs/' . $job->tjid)));
         }
       }
-      $options[$language->language]['request_date'] = !empty($job->settings['delai']) ? date('d/m/Y', strtotime($job->settings['delai'])) : '';
 
       if (!isset($options[$language->language]['state'])) {
         $options[$language->language]['state'] = t('Not sent');
