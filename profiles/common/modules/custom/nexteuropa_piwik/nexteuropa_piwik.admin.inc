@@ -204,7 +204,23 @@ function nexteuropa_piwik_admin_settings_form($form_state) {
     '#description' => t('If none of the roles are selected, all users will be tracked. If a user has any of the roles checked, that user will be tracked (or excluded, depending on the setting above).'),
   );
 
-  return system_settings_form($form);
+  // Render the advanced PIWIK rules.
+  $form['tracking']['advanced_rules'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Advanced PIWIK rules'),
+  );
+
+  $form['tracking']['advanced_rules']['nexteuropa_piwik_rules_state'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable advanced PIWIK rules'),
+    '#description' => t('Activates the "Advanced PIWIK rules" configuration tab.'),
+    '#default_value' => variable_get('nexteuropa_piwik_rules_state', FALSE),
+  );
+
+  $form = system_settings_form($form);
+  $form['#submit'][] = '_nexteuropa_piwik_rules_state_check';
+
+  return $form;
 }
 
 /**
@@ -328,4 +344,27 @@ function _nexteuropa_piwik_contains_forbidden_token($token_string) {
   );
 
   return preg_match('/' . implode('|', array_map('preg_quote', $token_blacklist)) . '/i', $token_string);
+}
+
+/**
+ * Helper submit function for checking the PIWIK advanced rules state.
+ */
+function _nexteuropa_piwik_rules_state_check($form, &$form_state) {
+  // Checking the state of the advanced rules checkbox.
+  $rule_state = variable_get('nexteuropa_piwik_rules_state', FALSE);
+
+  switch ($rule_state) {
+    case 0:
+      $rule_state = t('off');
+      break;
+
+    case 1:
+      $rule_state = t('on');
+      break;
+  }
+
+  // Presenting the message resetting the entity cache info and rebuilding menu.
+  drupal_set_message(t('The PIWIK advanced rules are turned @rule_state.', array('@rule_state' => $rule_state)));
+  entity_info_cache_clear();
+  menu_rebuild();
 }

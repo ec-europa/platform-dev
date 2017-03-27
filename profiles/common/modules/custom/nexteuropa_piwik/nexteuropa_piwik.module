@@ -10,6 +10,8 @@
  * @author: Original Piwik module: Alexander Hass <http://drupal.org/user/85918>
  */
 
+use Drupal\nexteuropa_piwik\Entity\PiwikRule;
+
 /**
  * Define default path exclusion list to remove tracking from admin pages.
  */
@@ -53,14 +55,21 @@ function nexteuropa_piwik_permission() {
  */
 function nexteuropa_piwik_menu() {
   $items['admin/config/system/webtools/piwik'] = array(
-    'title' => 'Piwik',
+    'title' => 'Next Europa Piwik',
     'description' => 'Configure the settings used to generate your NextEuropa Piwik tracking code.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('nexteuropa_piwik_admin_settings_form'),
     'access arguments' => array('administer nexteuropa_piwik'),
-    'type' => MENU_NORMAL_ITEM,
     'file' => 'nexteuropa_piwik.admin.inc',
   );
+
+  if (variable_get('nexteuropa_piwik_rules_state', FALSE)) {
+    $items['admin/config/system/webtools/piwik/general'] = array(
+      'title' => 'General settings',
+      'type' => MENU_DEFAULT_LOCAL_TASK,
+      'weight' => -10,
+    );
+  }
 
   return $items;
 }
@@ -146,6 +155,13 @@ function nexteuropa_piwik_process_html(&$vars) {
     $webtools_piwik_settings['siteSection'] = $site_section;
   }
 
+  // Advanced PIWIK rules integration point.
+  if (variable_get('nexteuropa_piwik_rules_state', FALSE)) {
+    if ($piwik_rule = _nexteuropa_piwik_get_piwik_rule()) {
+      $webtools_piwik_settings['siteSection'] = $piwik_rule->rule_section;
+    }
+  }
+
   $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
   // Add application/json tag to the header.
   $element = array(
@@ -157,6 +173,7 @@ function nexteuropa_piwik_process_html(&$vars) {
     '#weight' => '99999',
     '#value' => $webtools_piwik_settings,
   );
+
   $vars['page_bottom'] .= drupal_render($element);
 }
 
@@ -245,4 +262,214 @@ function nexteuropa_piwik_search_get_keys() {
     $return = count($path) == 3 ? $path[2] : $keys;
   }
   return $return;
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function nexteuropa_piwik_entity_info() {
+  if (variable_get('nexteuropa_piwik_rules_state', FALSE)) {
+    return array(
+      'nexteuropa_piwik_rule' => array(
+        'module' => 'nexteuropa_piwik',
+        'label' => t('PIWIK rule'),
+        'fieldable' => FALSE,
+        'entity keys' => array(
+          'id' => 'id',
+        ),
+        'label callback' => 'nexteuropa_piwik_rule_label',
+        'base table' => 'nexteuropa_piwik_rule',
+        'entity class' => 'Drupal\\nexteuropa_piwik\\Entity\\PiwikRule',
+        'controller class' => 'EntityAPIController',
+        'access callback' => 'nexteuropa_piwik_rule_access',
+        'admin ui' => array(
+          'path' => 'admin/config/system/webtools/piwik/advanced_rules',
+          'controller class' => 'Drupal\\nexteuropa_piwik\\EntityDefaultUIController\\PiwikRuleEntityUIController',
+          'file' => 'nexteuropa_piwik.rule.admin.inc',
+        ),
+      ),
+    );
+  }
+}
+
+/**
+ * Label callback for the Next Europa PIWIK rule entity.
+ *
+ * @param object $piwik_rule
+ *   The Next Europa PIWIK rule.
+ *
+ * @return null|string
+ *   The Next Europa PIWIK rule label.
+ */
+function nexteuropa_piwik_rule_label($piwik_rule) {
+  if (isset($piwik_rule->id)) {
+    return t('Rule ID: [!id]',
+      array(
+        '!id' => $piwik_rule->id,
+        '@rule_language' => $piwik_rule->rule_language,
+        '@rule_section' => $piwik_rule->rule_section,
+      )
+    );
+  }
+
+  return t('Rule ID: [NEW]');
+}
+/**
+ * Access callback for the  rule entity..
+ *
+ * @param string $op
+ *   The operation being performed. One of 'view', 'update', 'create', 'delete'
+ *   or just 'edit' (being the same as 'create' or 'update').
+ * @param object $nexteuropa_piwik_rule
+ *   (optional) A PIWIK rule to check access for. If nothing is given,
+ *   access for all cache purge rules is determined.
+ * @param object $account
+ *   (optional) The user to check for. Leave it to NULL to check for the
+ *   global user.
+ *
+ * @return bool
+ *   Whether access is allowed or not.
+ */
+function nexteuropa_piwik_rule_access($op, $nexteuropa_piwik_rule = NULL, $account = NULL) {
+  return user_access('administer nexteuropa_piwik', $account);
+}
+
+/**
+ * Returns the site section name based on the advanced PIWIK rules.
+ *
+ * @return mixed
+ *   PIWIK rule entity
+ *   FALSE if there is no rule for the currently processed path.
+ */
+function _nexteuropa_piwik_get_piwik_rule() {
+  global $language;
+  // Get the current path and convert to lowercase.
+  $path = drupal_strtolower(drupal_get_path_alias());
+  // Get the current language.
+  $lang_code = $language->language;
+
+  // Overwrite path value for the front page.
+  if (drupal_is_front_page()) {
+    $path = '<front>';
+  }
+
+  // Get the advanced PIWIK rule based on the direct path.
+  if ($piwik_rule = _nexteuropa_piwik_get_direct_path_rule($path, $lang_code)) {
+    return $piwik_rule;
+  }
+
+  // Get the advanced PIWIK rule based on the regular expression rule.
+  if ($piwik_rule = _nexteuropa_piwik_get_regexp_path_rule($path, $lang_code)) {
+    return $piwik_rule;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Returns the PIWIK rule for the direct rule path type.
+ *
+ * @param string $path
+ *   Current path.
+ * @param string $lang_code
+ *   Current language.
+ *
+ * @return mixed
+ *   PIWIK rule entity
+ *   FALSE if there is no rule for the currently processed path.
+ */
+function _nexteuropa_piwik_get_direct_path_rule($path, $lang_code) {
+  $query = db_query("
+      SELECT n.id FROM {nexteuropa_piwik_rule} n
+      WHERE n.rule_path = :path
+      AND n.rule_path_type = :direct_path
+    ",
+    array(
+      ':path' => $path,
+      ':direct_path' => PiwikRule::DIRECT_PATH,
+    )
+  );
+  $results = $query->fetchAllAssoc('id');
+
+  if ($results) {
+    return _nexteuropa_piwik_filter_results($results, $path, $lang_code);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Returns the PIWIK rule for the regular expression rule path type.
+ *
+ * @param string $path
+ *   Current path.
+ * @param string $lang_code
+ *   Current language.
+ *
+ * @return mixed
+ *   PIWIK rule entity
+ *   FALSE if there is no rule for the currently processed path.
+ */
+function _nexteuropa_piwik_get_regexp_path_rule($path, $lang_code) {
+  // The db_query function is used to perform query with the REGEXP comparison
+  // option.
+  $query = db_query("
+      SELECT n.id, n.rule_path_type FROM {nexteuropa_piwik_rule} n
+      WHERE n.rule_path_type = :regexp_path
+      AND :path REGEXP `rule_path`
+    ",
+    array(
+      ':path' => $path,
+      ':regexp_path' => PiwikRule::REGEXP_PATH,
+    )
+  );
+  $results = $query->fetchAllAssoc('id');
+
+  if ($results) {
+    return _nexteuropa_piwik_filter_results($results, $path, $lang_code);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Filters results and returns the PIWIK rule.
+ *
+ * @param array $results
+ *   An array with the PIWIK rules IDs.
+ * @param string $path
+ *   Current path.
+ * @param string $lang_code
+ *   Current language.
+ *
+ * @return mixed
+ *   PIWIK rule entity
+ *   FALSE if there is no rule for the currently processed path.
+ */
+function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
+  // Log the overlapping rules case.
+  if (count($results) > 1) {
+    watchdog(
+      'nexteuropa_piwik',
+      'Overlapping PIWIK rules for the following path detected: @path. Overlapping rules IDs: @rules_ids',
+      array(
+        '@path' => $path,
+        '@rules_ids' => implode(', ', array_keys($results)),
+      ),
+      WATCHDOG_WARNING
+    );
+  }
+  // Return PIWIK rule.
+  $piwik_rules = entity_load('nexteuropa_piwik_rule', array_keys($results));
+  foreach ($piwik_rules as $piwik_rule) {
+    if ($lang_code === $piwik_rule->rule_language) {
+      return $piwik_rule;
+    }
+
+    if ($piwik_rule->rule_language === 'all') {
+      return $piwik_rule;
+    }
+  }
+
+  return FALSE;
 }

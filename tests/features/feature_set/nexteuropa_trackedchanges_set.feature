@@ -54,4 +54,3 @@ Feature: Change tracking features
     Then I should see the success message "NextEuropa Tracked Changes feature is now active on your site."
     When I go to "admin/config/content/wysiwyg/tracked_changes/table_status"
     And the response should contain "Tracked changes logs status"
-
