@@ -75,15 +75,21 @@ function multisite_settings_core_update_7121() {
  */
 function multisite_settings_core_language_negotiation_task() {
   $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
-  $extra_providers = array(
-    'locale-url' => array(
-      'callbacks' => array(
-        'language' => 'locale_language_from_url',
-        'switcher' => 'locale_language_switcher_url',
-        'url_rewrite' => 'locale_language_url_rewrite_url',
+  $extra = NULL;
+  if (in_array('nexteuropa_multilingual_url_suffix', $enabled_providers)) {
+    array(
+      'locale-url' => array(
+        'callbacks' => array(
+          'language' => 'locale_language_from_url',
+          'switcher' => 'locale_language_switcher_url',
+          'url_rewrite' => 'locale_language_url_rewrite_url',
+        ),
+        'file' => 'includes/locale.inc',
       ),
-      'file' => 'includes/locale.inc',
-    ),
+    );
+  }
+  $extra_providers = array(
+
     'language-administration' => array(
       'callbacks' => array(
         'language' => 'administration_language_negotiation_admin_language',
