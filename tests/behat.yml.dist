@@ -16,6 +16,7 @@ default:
         - Drupal\nexteuropa\Context\TaxonomyContext
         - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\PiwikRulesContext
         - Drupal\nexteuropa\Context\FlickrContext:
             key: '{{ flickr.key }}'
             secret: '{{ flickr.secret }}'
