@@ -81,22 +81,6 @@ function nexteuropa_piwik_requirements($phase) {
 }
 
 /**
- * Grants permission for the admin role to manage and configure the module.
- */
-function _nexteuropa_piwik_grant_permission_for_admin() {
-  $administrator = user_role_load_by_name('administrator');
-
-  if ($administrator) {
-    user_role_grant_permissions(
-      $administrator->rid,
-      array(
-        'administer nexteuropa_piwik',
-      )
-    );
-  }
-}
-
-/**
  * Implements hook_enable().
  */
 function nexteuropa_piwik_enable() {
@@ -107,8 +91,6 @@ function nexteuropa_piwik_enable() {
   );
   // Grant the permissions to PIWIK administrator role.
   user_role_change_permissions($piwik_admin_role->rid, $piwik_admin_permissions);
-
-  _nexteuropa_piwik_grant_permission_for_admin();
 }
 
 /**
@@ -168,6 +150,4 @@ function nexteuropa_piwik_update_7101() {
     'nexteuropa_piwik_rule',
     _nexteuropa_piwik_get_schema_array()
   );
-
-  _nexteuropa_piwik_grant_permission_for_admin();
 }
