@@ -99,17 +99,21 @@ function nexteuropa_varnish_install() {
     ->condition('type', 'module')
     ->condition('name', 'nexteuropa_varnish')
     ->execute();
+
+  // Enabling the default purge rule.
+  variable_set('nexteuropa_varnish_default_purge_rule', TRUE);
 }
 
 /**
  * Implements hook_uninstall().
  */
 function nexteuropa_varnish_uninstall() {
-  $vars = [
+  $vars = array(
+    'nexteuropa_varnish_default_purge_rule',
     'nexteuropa_varnish_http_targets',
     'nexteuropa_varnish_tag',
     'nexteuropa_varnish_request_method',
-  ];
+  );
 
   foreach ($vars as $var) {
     variable_del($var);
