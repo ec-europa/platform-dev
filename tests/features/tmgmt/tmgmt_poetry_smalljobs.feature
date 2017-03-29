@@ -15,8 +15,13 @@ Feature: TMGMT Poetry features
       | en        |
       | pt-pt     |
       | fr        |
-    And I am logged in as a user with the "cem" role
 
-  @resetPoetryNumero
-  Scenario: Checking a wrong configuration.
-    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+  @javascript
+  Scenario: I can translate deveral entities with Small Jobs.
+    Given I am logged in as a user with the "administrator" role
+    And I am viewing a multilingual "page" content:
+      | language | title   |
+      | en       | My page |
+    When I click "Translate" in the "primary_tabs" region
+    And I press "Add to cart"
+    Then I should see the success message "1 content source was added into the cart."
