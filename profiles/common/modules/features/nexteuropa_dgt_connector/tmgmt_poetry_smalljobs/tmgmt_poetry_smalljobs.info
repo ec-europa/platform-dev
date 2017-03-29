@@ -1,0 +1,8 @@
+name = DGT connector for Small Jobs
+description = TMGMT implementation of Poetry European Service for Small Jobs.
+php = 5.4
+package = Translation Management
+core = 7.x
+dependencies[] = tmgmt
+dependencies[] = tmgmt_dgt_html
+dependencies[] = tmgmt_poetry
