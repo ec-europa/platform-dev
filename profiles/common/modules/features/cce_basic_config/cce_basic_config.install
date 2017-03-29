@@ -2334,3 +2334,18 @@ function cce_basic_config_update_7215() {
 function cce_basic_config_update_7216() {
   variable_set('multisite_version', '2.3');
 }
+
+/**
+ * NEPT-7: Make files translatable.
+ */
+function cce_basic_config_update_7217() {
+  // Make default image title and alt fields translatable.
+  $translatable_file_fields = array('field_caption', 'field_video_description');
+  foreach ($translatable_file_fields as $translatable_file_field) {
+    $file_field = field_info_field($translatable_file_field);
+    if (isset($file_field['translatable'])) {
+      $file_field['translatable'] = TRUE;
+      field_update_field($file_field);
+    }
+  }
+}

@@ -32,42 +32,6 @@ Feature: Multilingual features
     And I click "English"
     Then I should see the heading "Content can be translated in English"
 
-  Scenario: Custom URL suffix language negotiation is applied by default on new content.
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title                                  |
-      | en       | Custom URL suffix language negotiation |
-      | fr       | Suffix de language negotiation French  |
-      | de       | Suffix Sprache Verhandlung German      |
-    Then I should be on "content/custom-url-suffix-language-negotiation_en"
-    And I click "English" in the "header_top" region
-    Then I should be on the language selector page
-    And I click "Français"
-    Then I should be on "content/custom-url-suffix-language-negotiation_fr"
-    And I click "Français" in the "header_top" region
-    Then I should be on the language selector page
-    And I click "Deutsch"
-    Then I should be on "content/custom-url-suffix-language-negotiation_de"
-
-  Scenario: Enable multiple languages
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/regional/language"
-    Then I should see "English"
-    And I should see "French"
-    And I should see "German"
-
-  Scenario: Check the base path doesn't change when changing language prefix
-    Given I am logged in as a user with the 'administrator' role
-    And the site front page is set to "admin/fake-url"
-    And the "en" language "prefix" is set to "en-prefix"
-    And the cache has been cleared
-    And I go to "admin/config/system/site-information"
-    Then I should be on "admin/config/system/site-information"
-    # We check that path prefix set earlier does not bleeds into the site base path.
-    And I should not see "en-prefix" in the ".form-item-site-frontpage span.field-prefix" element
-    When I click "Home"
-    Then I should be on "admin/fake-url_en-prefix"
-
   Scenario: Path aliases are not deleted when translating content via translation management
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -147,34 +111,6 @@ Feature: Multilingual features
     Then I should see the link "Français" in the "content" region
     And I click "Français" in the "content" region
     Then I should see "Ce titre est en Français"
-
-  Scenario: Path alias must be synchronized through all translations of
-  content when it is manually defined and the configuration is maintained
-  when I come back on the content edit form
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title            |
-      | en       | Title in English |
-      | fr       | Title in French  |
-    And I click "English" in the "header_top" region
-    And I click "Français"
-    Then I should be on "content/title-english_fr"
-    And I click "New draft"
-    # And I click "URL path settings"
-    And I uncheck the box "edit-path-pathauto"
-    And I fill in "URL alias" with "page-alias-for-all-languages"
-    # And I click "Publishing options"
-    And I select "published" from "Moderation state"
-    When I press "Save"
-    Then I should be on "page-alias-for-all-languages_fr"
-    And I click "Français" in the "header_top" region
-    When I click "English"
-    Then I should be on "page-alias-for-all-languages_en"
-    When I click "New draft"
-    # And I click "URL path settings"
-    Then I should not see the box "edit-path-pathauto" checked
-    And the "URL alias" field should contain "page-alias-for-all-languages"
-
 
   Scenario: Multilingual view on language neutral content
     Given I am logged in as a user with the "administrator" role
