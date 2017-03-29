@@ -33,21 +33,6 @@ and click on the 'Validate' button.
 Nexteuropa Varnish provides a 'Administer frontend cache purge rules'
 permission which allows to create and maintain 'purge rules'.
 
-## Default content purge rule
-Nexteuropa Varnish provides the default content type purge rule.
-The rule will send a request to invalidate the Varnish cache every time
-the content publication status changes (published/unpublished).
-
-The configuration page path:
-
-You can disable the default rule on the configuration page
-`admin/config/system/nexteuropa-varnish`.
-To do that uncheck the **"Enable the default purge rule"** checkbox and
-hit the **"Save configuration"** button.
-
-When the default rule is disabled you can add a custom rule for a given
-content type path in the 'Purge rules' configuration.
-
 ## Custom entity - 'Purge rule'
 Nexteuropa Varnish provides an additional custom entity type:
 - Purge rule - machine name: `nexteuropa_varnish_cache_purge_rule`
@@ -57,7 +42,7 @@ for sending customized HTTP requests to the Varnish server in order to
 invalidate specific frontend cache items.
 
 To add and maintain purge rules go to the following url:
-`admin/config/system/nexteuropa-varnish/purge_rules`.
+`admin/config/frontend_cache_purge_rules`
 
 ## How to add and maintain 'Purge rule'
 To add new cache purge rule you can expand the **Configuration -> Cache purge rules** menu
@@ -68,8 +53,7 @@ In the first step you need to choose a content type for which the new rule will 
 After picking the content type the next step is to choose the purge target.
 
 The 'Paths of the node the action is performed on' option will perform a purge
-on any path that belongs to the specific content type.
-This option is not available while the default purge rule is enabled.
+on any path that belongs to the specifiec content type.
 
 The 'A specific list of paths' option allows to define a set of paths
 that are going to be purged.

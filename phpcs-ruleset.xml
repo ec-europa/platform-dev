@@ -96,11 +96,6 @@
         <exclude-pattern>src/Phing</exclude-pattern>
     </rule>
 
-    <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
-    </rule>
-
     <!-- Comments in exported fields are missing a period at the end. -->
     <!-- Todo: Remove this when https://www.drupal.org/node/2568161 is fixed. -->
     <rule ref="Drupal.Commenting.InlineComment.InvalidEndChar">
