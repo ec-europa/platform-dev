@@ -13,6 +13,7 @@ Feature: Check Piwik
       | modules            |
       | nexteuropa_piwik   |
 
+  @wip
   Scenario: Administrator user can check Piwik Script with the theme Bootstrap
     Given I am logged in as a user with the 'administrator' role
     When I run drush "pm-enable bootstrap -y"
