@@ -23,7 +23,7 @@ the following rules:
 ### Branch Name Format
 
 ```
-nept-[ticket_name]-[base_branch]-[additional_information]
+nept-[ticket_number]-[base_branch]-[additional_information]
 ```
 
 ### Base Branch and Additional Information
