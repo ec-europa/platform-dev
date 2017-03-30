@@ -8,14 +8,11 @@ Feature: Check Piwik
   As a site administrator
   I can define advanced PIWIK rules to define the site section based on path or regular expression
 
-  Background:
-    Given these modules are enabled
+  Scenario: Administrator user can check Piwik Script with the theme Bootstrap
+    Given the module is enabled
       | modules            |
       | nexteuropa_piwik   |
-
-  @wip
-  Scenario: Administrator user can check Piwik Script with the theme Bootstrap
-    Given I am logged in as a user with the 'administrator' role
+    And I am logged in as a user with the 'administrator' role
     When I run drush "pm-enable bootstrap -y"
     And I run drush "vset theme_default bootstrap"
     And the cache has been cleared
