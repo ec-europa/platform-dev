@@ -12,9 +12,9 @@ Feature: Check Piwik
     Given these modules are enabled
       | modules            |
       | nexteuropa_piwik   |
-    And I am logged in as a user with the "PIWIK administrator" role
 
   Scenario: Administrator user can check Piwik Script with the theme Bootstrap
+    Given I am logged in as a user with the 'administrator' role
     When I run drush "pm-enable bootstrap -y"
     And I run drush "vset theme_default bootstrap"
     And the cache has been cleared
@@ -27,6 +27,7 @@ Feature: Check Piwik
 
   Scenario: View advanced PIWIK rules.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
+    And I am logged in as a user with the "PIWIK administrator" role
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^admin/*        | regexp         | Regexp based section |
@@ -40,6 +41,7 @@ Feature: Check Piwik
   @javascript
   Scenario: Add a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
+    And I am logged in as a user with the "PIWIK administrator" role
     When I go to "/admin/config/system/webtools/piwik/advanced_rules"
     And I click "Add piwik rule"
     And I fill in "Site section" with "Regexp based section"
@@ -54,6 +56,7 @@ Feature: Check Piwik
 
   Scenario: Remove a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
+    And I am logged in as a user with the "PIWIK administrator" role
     And I create the following multilingual "page" content:
       | language | title  | field_ne_body         |
       | en       | Test   | The test body content |
@@ -73,6 +76,7 @@ Feature: Check Piwik
 
   Scenario: Assert that the direct path PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
+    And I am logged in as a user with the "PIWIK administrator" role
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | en            | content/test    | direct         | Direct path section  |
@@ -84,6 +88,7 @@ Feature: Check Piwik
 
   Scenario: Assert that the regular expression based PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
+    And I am logged in as a user with the "PIWIK administrator" role
     And the following PIWIK rules:
       | Rule language | Rule path       | Rule path type | Rule section         |
       | all           | ^content/*      | regexp         | Regexp based section |
