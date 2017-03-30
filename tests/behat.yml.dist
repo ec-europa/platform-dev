@@ -8,6 +8,7 @@ default:
         - FeatureContext
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\ApacheSolrContext
+        - Drupal\nexteuropa\Context\BlockContext
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\nexteuropa\Context\MessageContext

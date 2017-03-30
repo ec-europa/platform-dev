@@ -17,4 +17,4 @@
 
 <div class="last-update">
   <?php print $label; ?> : <?php print $date; ?>
-</nav>
+</div>
