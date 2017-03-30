@@ -488,9 +488,6 @@ projects[nexteuropa_newsroom][download][file_type] = "zip"
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
 projects[nexteuropa_newsroom][subdir] = custom
 
-projects[node_export][subdir] = "contrib"
-projects[node_export][version] = "3.0"
-
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
 ; VBO and OG

@@ -1590,9 +1590,9 @@ function cce_basic_config_update_7192() {
       ->execute();
   }
 
-  // Revoke 'use PHP to import nodes' 'administer varnish' permissions.
+  // Revoke 'administer varnish' permissions.
   foreach (array_keys(user_roles()) as $rid) {
-    user_role_revoke_permissions($rid, array('use PHP to import nodes', 'administer varnish'));
+    user_role_revoke_permissions($rid, array('administer varnish'));
   }
 }
 
