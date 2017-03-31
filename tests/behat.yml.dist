@@ -73,9 +73,11 @@ default:
         primary_tabs: ".tabs-primary"
         content: "#layout-body"
         footer: "#layout-footer"
-        messages: "#console"
+        messages: "#messages"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
+        admin_vertical_tabs: ".vertical-tabs"
+        admin_messages: "#console"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_scenarios
       active_image_drivers: img42
