@@ -304,6 +304,29 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Asserts that the web front end cache received a full purge request.
+   *
+   * @Then the web front end cache was instructed to purge completely its index for the application tag :arg1
+   */
+  public function theWebFrontEndCacheWasInstructedToPurgeCompletelyItsIndexForTheApplicationTag($arg1) {
+    $requests = $this->getRequests();
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+
+    $regexp_string = '';
+
+    // Some of environments returns different paths. To pass the test given
+    // environment path is removed from the assertion process.
+    $content_url = preg_quote(ltrim(url(), '/'));
+    $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
+
+    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
+    assert($purge_request_paths, equals([$regexp_string]));
+  }
+
+  /**
    * Asserts that the web front end cache did not receive any purge requests.
    *
    * @Then the web front end cache was not instructed to purge any paths

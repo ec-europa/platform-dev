@@ -577,3 +577,14 @@ Feature:
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
       | /content/frontend-cache-purge-editorial-team-publish-draft_en |
+
+  # Scenario testing the "Full all caches" feature
+
+  Scenario: As administrator, I want to flush all Drupal caches and Varnish through the purge admin interface
+    When I go to "admin/config/system/nexteuropa-varnish/general"
+    And I press "Purge all caches"
+    Then I should see "Are you sure you want to purge all site's caches (Varnish included)?"
+    And I should see "The action you are about to perform has deep impacts on site's performances!"
+    When I press "Continue"
+    Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
+    And I should see the success message "The Drupal and Varnish caches have been fully flushed."
