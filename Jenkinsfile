@@ -70,10 +70,7 @@ void executeStages(String label) {
 
         stage('Check & Test ' + label) {
             sh './bin/phpcs'
-            sh './bin/drush -r build sql-dump --result-file=dump.sql'
             sh './bin/phpunit -c tests/phpunit.xml'
-            sh './bin/drush -r build sql-drop -y'
-            sh './bin/drush -r build sqlc < dump.sql'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
