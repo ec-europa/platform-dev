@@ -307,7 +307,6 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
   $requests_ok = TRUE;
   foreach ($http_targets as $target) {
     $url = sprintf('%s%s', $target, $request_path);
-    watchdog('GILLES', 'options' . print_r($request_options, TRUE));
     $response = drupal_http_request(
       $url,
       $request_options
