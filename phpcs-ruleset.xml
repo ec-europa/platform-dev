@@ -13,8 +13,6 @@
     <exclude-pattern>*\.min\.css</exclude-pattern>
     <exclude-pattern>*\.min\.js</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/js/ReadSpeaker/</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp/css/ec_resp.css</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp/css/eu_resp.css</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
          being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
@@ -29,21 +27,19 @@
     <!-- Exclude third party code. -->
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp/bootstrap/</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp/scripts/html5shiv.min.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp/scripts/jquery.mousewheel.min.js</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp/scripts/respond.min.js</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/modules/custom/nexteuropa_newsroom/</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp/scripts/ec.js</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/ec_resp_20/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/</exclude-pattern>
     <exclude-pattern>build/vendor/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/europa</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/scripts</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_resp/scripts</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/bootstrap</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_resp/bootstrap</exclude-pattern>
 
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
