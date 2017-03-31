@@ -15,6 +15,7 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\matches;
 use function bovigo\assert\predicate\not;
+use function bovigo\assert\predicate\isEmpty;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -310,20 +311,16 @@ class FrontendCacheContext implements Context {
    */
   public function theWebFrontEndCacheWasInstructedToPurgeCompletelyItsIndexForTheApplicationTag($arg1) {
     $requests = $this->getRequests();
+
     assert($requests, isOfSize(1));
 
     $purge_request = $requests->last();
-
-    $regexp_string = '';
-
-    // Some of environments returns different paths. To pass the test given
-    // environment path is removed from the assertion process.
-    $content_url = preg_quote(ltrim(url(), '/'));
-    $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
+    $purge_request_paths = $purge_request->getHeader('X-Invalidate-Regexp');
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
     assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
-    assert($purge_request_paths, equals([$regexp_string]));
+    assert($purge_request_paths, isEmpty());
+
   }
 
   /**
