@@ -307,7 +307,7 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
   $requests_ok = TRUE;
   foreach ($http_targets as $target) {
     $url = sprintf('%s%s', $target, $request_path);
-
+    watchdog('GILLES', 'options' . print_r($request_options, TRUE));
     $response = drupal_http_request(
       $url,
       $request_options
@@ -352,21 +352,11 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
 function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array()) {
   // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
   // basis of $path_regexp_rules.
-  switch (count($path_regexp_rules)) {
-    case 0:
-      $invalidate_type = 'full';
-      $sent_regexp = '';
-      break;
-
-    case 1:
-      $invalidate_type = 'regexp-single';
-      $sent_regexp = '^(' . reset($path_regexp_rules) . ')$';
-      break;
-
-    default:
-      $invalidate_type = 'regexp-multiple';
-      $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
-      break;
+  $invalidate_type = 'full';
+  $sent_regexp = '';
+  if (!empty($path_regexp_rules)) {
+    $invalidate_type = 'regexp-multiple';
+    $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
   }
 
   // Preparing the requests for Varnish server(s).
