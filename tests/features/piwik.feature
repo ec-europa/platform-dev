@@ -1,4 +1,4 @@
-@api @reset-nodes
+@api
 Feature: Check Piwik
   In order to check if the type attribute is set for the Piwik element.
   As an administrator
@@ -18,6 +18,7 @@ Feature: Check Piwik
     Given I am on the homepage
     Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"instance\":\"\"}"
 
+  @delete_piwik_rules
   Scenario: View advanced PIWIK rules.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     And the following PIWIK rules:
@@ -30,7 +31,7 @@ Feature: Check Piwik
       | all           | ^admin/*        | regexp         | Regexp based section |
       | en            | content/test    | direct         | Direct path section  |
 
-  @javascript
+  @javascript @delete_piwik_rules
   Scenario: Add a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     When I go to "/admin/config/system/webtools/piwik/advanced_rules"
@@ -45,6 +46,7 @@ Feature: Check Piwik
       | Rule language | Rule path       | Rule path type | Rule section         |
       | en            | ^admin/*        | regexp         | Regexp based section |
 
+  @delete_piwik_rules
   Scenario: Remove a PIWIK rule.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     And I create the following multilingual "page" content:
@@ -64,6 +66,7 @@ Feature: Check Piwik
     When I go to "content/test"
     Then the response should not contain "\"siteSection\":\"Direct path section\""
 
+  @delete_piwik_rules
   Scenario: Assert that the direct path PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     And the following PIWIK rules:
@@ -75,6 +78,7 @@ Feature: Check Piwik
     And I go to "content/test_en"
     Then the response should contain "\"siteSection\":\"Direct path section\""
 
+  @delete_piwik_rules
   Scenario: Assert that the regular expression based PIWIK rule is triggered and embedded correctly.
     Given the nexteuropa_piwik module is configured to use advanced PIWIK rules
     And the following PIWIK rules:
