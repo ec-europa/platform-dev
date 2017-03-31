@@ -154,12 +154,12 @@ class PiwikRulesContext implements Context {
   }
 
   /**
-   * Removes all PIWIK rules.
+   * Removes all advanced PIWIK rules.
    *
    * @AfterScenario
    */
   public function purgeAllCacheRules() {
-    if (module_exists('nexteuropa_piwik')) {
+    if (module_exists('nexteuropa_piwik') && variable_get('nexteuropa_piwik_rules_state', FALSE)) {
       $rules = entity_load('nexteuropa_piwik_rule');
       $rule_ids = array_keys($rules);
       entity_delete_multiple('nexteuropa_piwik_rule', $rule_ids);
