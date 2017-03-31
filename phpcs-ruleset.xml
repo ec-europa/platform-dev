@@ -38,6 +38,8 @@
     <exclude-pattern>profiles/multisite_drupal_communities/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/scripts</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_resp/scripts</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/css</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_resp/css</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_resp/bootstrap</exclude-pattern>
 
