@@ -8,18 +8,20 @@ Feature: Check Piwik
   As a site administrator
   I can define advanced PIWIK rules to define the site section based on path or regular expression
 
-  Scenario: Administrator user can check Piwik Script with the theme Bootstrap
-    Given the module is enabled
+  Background:
+    Given these modules are enabled
       | modules            |
       | nexteuropa_piwik   |
-    And I am logged in as a user with the 'administrator' role
+
+  Scenario: Administrator user can check Piwik Script with the theme Bootstrap
+    Given I am logged in as a user with the 'administrator' role
     When I run drush "pm-enable bootstrap -y"
     And I run drush "vset theme_default bootstrap"
-    And the cache has been cleared
+    And I run drush "cc all -y"
     Then I am on the homepage
     And the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"instance\":\"\"}"
     When I run drush "vset theme_default ec_resp"
-    And the cache has been cleared
+    And I run drush "cc all -y"
     Then I am on the homepage
     And the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"instance\":\"\"}"
 
