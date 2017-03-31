@@ -292,6 +292,8 @@ class FrontendCacheContext implements Context {
       $rows
     );
 
+    $invalidate_type = (count($paths) > 1) ? ['regexp-multiple'] : ['regexp-single'];
+
     $path_string = '^(' . implode('|', $paths) . ')$';
 
     // Some of environments returns different paths. To pass the test given
@@ -300,7 +302,7 @@ class FrontendCacheContext implements Context {
     $purge_request_paths = str_replace($content_url, '', $purge_request->getHeader('X-Invalidate-Regexp')->toArray());
 
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
-    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals($invalidate_type));
     assert($purge_request_paths, equals([$path_string]));
   }
 
