@@ -74,6 +74,7 @@ default:
         messages: "#messages"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
+        admin_vertical_tabs: ".vertical-tabs"
         admin_messages: "#console"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_scenarios
