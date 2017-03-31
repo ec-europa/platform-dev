@@ -298,6 +298,58 @@ function _nexteuropa_varnish_purge_paths($paths) {
  *   TRUE if all requests have been sent successfully; otherwise FALSE.
  */
 function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array()) {
+
+  $request_options = _nexteuropa_varnish_prepare_request_options($path_regexp_rules);
+
+  // Sending the HTTP requests to the Varnish server(s)
+  $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
+  $request_path = '/invalidate';
+  $requests_ok = TRUE;
+  foreach ($http_targets as $target) {
+    $url = sprintf('%s%s', $target, $request_path);
+
+    $response = drupal_http_request(
+      $url,
+      $request_options
+    );
+
+    if (isset($response->error)) {
+      watchdog(
+        'nexteuropa_varnish',
+        'Clear operation failed for target %target: %code %error',
+        array(
+          '%target' => $target,
+          '%error' => $response->error,
+          '%code' => $response->code,
+        ),
+        WATCHDOG_ERROR
+      );
+      $requests_ok = FALSE;
+    }
+  }
+
+  return $requests_ok;
+}
+
+/**
+ * Prepares Options use of the HTTP requests sent to the  Varnish servers.
+ *
+ * @param array $path_regexp_rules
+ *   The purge URL purge rule(s) (X-Invalidate-Regexp) sent to Varnish.
+ *     Rules must contain escaped paths.
+ *
+ * @return array
+ *   The HTTP request options have the following elements:
+ *   - headers: An array containing request headers with the Varnish
+ *     "X-Invalidate" parameters.
+ *   - method: A string containing the request method as define in the module
+ *     configuration.
+ *   - timeout: A float representing the request time out expressed in seconds,
+ *     as define in the module configuration.
+ *
+ * @see drupal_http_request()
+ */
+function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array()) {
   // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
   // basis of $path_regexp_rules.
   switch (count($path_regexp_rules)) {
@@ -326,40 +378,12 @@ function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array())
   );
 
   $request_method = variable_get('nexteuropa_varnish_request_method', 'PURGE');
-  $request_path = '/invalidate';
 
-  $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
-
-  // Sending the HTTP requests to the Varnish server(s)
-  $requests_ok = TRUE;
-  foreach ($http_targets as $target) {
-    $url = sprintf('%s%s', $target, $request_path);
-
-    $response = drupal_http_request(
-      $url,
-      array(
-        'headers' => $request_headers,
-        'method' => $request_method,
-        'timeout' => variable_get('nexteuropa_varnish_http_timeout', 2.0),
-      )
-    );
-
-    if (isset($response->error)) {
-      watchdog(
-        'nexteuropa_varnish',
-        'Clear operation failed for target %target: %code %error',
-        array(
-          '%target' => $target,
-          '%error' => $response->error,
-          '%code' => $response->code,
-        ),
-        WATCHDOG_ERROR
-      );
-      $requests_ok = FALSE;
-    }
-  }
-
-  return $requests_ok;
+  return array(
+    'headers' => $request_headers,
+    'method' => $request_method,
+    'timeout' => variable_get('nexteuropa_varnish_http_timeout', 2.0),
+  );
 }
 
 
