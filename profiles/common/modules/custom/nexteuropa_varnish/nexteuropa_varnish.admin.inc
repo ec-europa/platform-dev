@@ -8,6 +8,23 @@
  * Generates the cache purge rule editing form.
  */
 function nexteuropa_varnish_admin_settings_form($form, $form_state) {
+
+  if (!empty($form_state['value'])) {
+    nexteuropa_varnish_purge_all_form($form, $form_state);
+  }
+
+  $form['purge_cache'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Purge caches'),
+    '#description' => t('Flush all caches (Drupal & Varnish)'),
+  );
+
+  $form['purge_cache']['purge'] = array(
+    '#type' => 'submit',
+    '#value' => t('Purge all caches'),
+    '#submit' => array('nexteuropa_varnish_purge_all_confirm'),
+  );
+
   $form['settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Settings'),
@@ -23,6 +40,52 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
   );
 
   return system_settings_form($form);
+}
+
+/**
+ * Redirect the user from "General" page to the "purge all" confirmation form.
+ */
+function nexteuropa_varnish_purge_all_confirm($form, &$form_state) {
+  $form_state['redirect'] = 'admin/config/system/nexteuropa-varnish/purge_all';
+}
+
+/**
+ * Generates the form allowing triggering the full cache purge.
+ */
+function nexteuropa_varnish_purge_all_form($form, &$form_state) {
+  $description = t("The action you are about to perform has deep impacts on site's performances!");
+  $confirm_message = t("Are you sure you want to purge all site's caches (Varnish included)?");
+  return confirm_form($form,
+    $confirm_message,
+    'admin/config/system/nexteuropa-varnish/general',
+    $description,
+    t('Continue'),
+    t('Cancel')
+  );
+}
+
+/**
+ * Processes the full flush cache triggered by the "Purge all caches" button.
+ *
+ * @see nexteuropa_varnish_admin_settings_form()
+ */
+function nexteuropa_varnish_purge_all_form_submit($form, &$form_state) {
+  $confirm_message = t('The Drupal and Varnish caches have been fully flushed.');
+  $message_level = 'status';
+  // First clear the actual backend cache (usually DrupalDatabaseCache).
+  // Otherwise the web frontend cache will receive again outdated cached
+  // versions of pages.
+  drupal_flush_all_caches();
+
+  // Treating Varnish flushing (inspired by "flexibe_purge" contrib module).
+  $send_success = _nexteuropa_varnish_varnish_requests_send();
+  if (!$send_success) {
+    $confirm_message = t('The Drupal and Varnish caches have not been flushed correctly. Please consult logs for more information.');
+    $message_level = 'error';
+  }
+
+  drupal_set_message($confirm_message, $message_level);
+  $form_state['redirect'] = 'admin/config/system/nexteuropa-varnish/general';
 }
 
 /**
