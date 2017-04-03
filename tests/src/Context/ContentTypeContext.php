@@ -24,7 +24,7 @@ class ContentTypeContext implements Context {
   /**
    * Remember the list of node type.
    *
-   * @BeforeScenario
+   * BeforeScenario.
    */
   public function rememberCurrentNodeTypes() {
     foreach (node_type_get_types() as $result) {
@@ -35,7 +35,7 @@ class ContentTypeContext implements Context {
   /**
    * Removes any node types created after the last list node type remembered.
    *
-   * @AfterScenario
+   * AfterScenario.
    */
   public function resetNodeTypes() {
     foreach (node_type_get_types() as $result) {

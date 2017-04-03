@@ -1,4 +1,4 @@
-@api @cleanCommunityEnvironment
+@api @reset-nodes
 Feature: Nexteuropa Communities
   In order to effectively manage groups of people
   As a site administrator
@@ -9,14 +9,9 @@ Feature: Nexteuropa Communities
       | modules                 |
       | nexteuropa_communities  |
     # We need to rewrite value of 'group_access', because the dash in the input table does not work
-    And I am logged in as a user with the 'administrator' role
-    And I go to "admin/structure/types/manage/community/fields/group_access/field-settings_en"
-    And I fill in "edit-on" with "Private"
-    And I fill in "edit-off" with "Public"
-    And I press the "Save field settings" button
-    Then I should be on "admin/structure/types/manage/community/fields_en"
-    And I should see "Updated field Group visibility field setting"
-    
+    Given I am logged in as a user with the 'administrator' role
+    And the group access field is configured for test
+
   Scenario: As a group admin, all community's block are present.
     Given "community" content:
       | title          | workbench_moderation_state_new | status | language |
@@ -55,13 +50,12 @@ Feature: Nexteuropa Communities
       | field_ne_body                  | Lorem ipsum dolor sit amet body.     |
       | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
-      When I go to "community/public-community"
-      Then I should see the heading "A public community"
-      When I go to "community/public-community/news/news-public-community"
-      Then I should see the heading "A News in a public community"
-      When I go to "community/public-community/basic-page/page-public-community"
-      Then I should see the heading "A page in a public community"
-
+    When I go to "community/public-community"
+    Then I should see the heading "A public community"
+    When I go to "community/public-community/news/news-public-community"
+    Then I should see the heading "A News in a public community"
+    When I go to "community/public-community/basic-page/page-public-community"
+    Then I should see the heading "A page in a public community"
 
   Scenario: As an anonymous user, I can see content of public community, and community's block
     Given I am not logged in
@@ -81,7 +75,6 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state_new | published                            |
     Then I should see the heading "A Page in a public community"
     And I should see "A public community" in the "#block-menu-menu-community-menu" element
-
 
   Scenario: As an anonymous user, I cannot see content of private community
     Given I am not logged in
@@ -136,7 +129,7 @@ Feature: Nexteuropa Communities
     Then I should see the link "Request group membership"
 
 
-    Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
+  Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
       | title                          | My public Community |
