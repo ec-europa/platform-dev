@@ -14,6 +14,8 @@ Feature: Nexteuropa Communities
     And I fill in "edit-on" with "Private"
     And I fill in "edit-off" with "Public"
     And I press the "Save field settings" button
+    Then I should be on "admin/structure/types/manage/community/fields_en"
+    And I should see "Updated field Group visibility field setting"
     
   Scenario: As a group admin, all community's block are present.
     Given "community" content:
@@ -30,8 +32,6 @@ Feature: Nexteuropa Communities
     And I should see "Test community" in the "#block-menu-menu-community-menu" element
     And I should see "Test community" in the "#block-views-community-members-block-1" element
     And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
-
-
 
   Scenario: URL alias for community contents are correctly generated.
     Given these modules are enabled
