@@ -15,6 +15,8 @@
  * is available for showing the account picture.
  *
  * Available variables:
+ *   - $attributes: array of HTML attributes populated by modules, intended to
+ *     be added to the main container tag of this template.
  *   - $user_profile: An array of profile items. Use render() to print them.
  *   - Field variables: for each field instance attached to the user a
  *     corresponding variable is defined; e.g., $account->field_example has a

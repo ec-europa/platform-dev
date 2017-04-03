@@ -712,7 +712,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'administer modules',
     'administer software updates',
     'manage features',
-    'use PHP to import nodes',
     'manage feature nexteuropa_dgt_connector',
   ));
 
@@ -748,7 +747,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'delete revisions',
     'edit any article content',
     'edit own article content',
-    'export nodes',
     'revert revisions',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
@@ -1592,9 +1590,9 @@ function cce_basic_config_update_7192() {
       ->execute();
   }
 
-  // Revoke 'use PHP to import nodes' 'administer varnish' permissions.
+  // Revoke 'administer varnish' permissions.
   foreach (array_keys(user_roles()) as $rid) {
-    user_role_revoke_permissions($rid, array('use PHP to import nodes', 'administer varnish'));
+    user_role_revoke_permissions($rid, array('administer varnish'));
   }
 }
 
@@ -2335,4 +2333,19 @@ function cce_basic_config_update_7215() {
  */
 function cce_basic_config_update_7216() {
   variable_set('multisite_version', '2.3');
+}
+
+/**
+ * NEPT-7: Make files translatable.
+ */
+function cce_basic_config_update_7217() {
+  // Make default image title and alt fields translatable.
+  $translatable_file_fields = array('field_caption', 'field_video_description');
+  foreach ($translatable_file_fields as $translatable_file_field) {
+    $file_field = field_info_field($translatable_file_field);
+    if (isset($file_field['translatable'])) {
+      $file_field['translatable'] = TRUE;
+      field_update_field($file_field);
+    }
+  }
 }

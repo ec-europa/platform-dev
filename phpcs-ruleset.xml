@@ -88,12 +88,22 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tests/tmgmt_poetry.test</exclude-pattern>
     </rule>
 
+    <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
+    </rule>
+
     <!-- Exclude third party code which is not following Drupal coding standards. -->
     <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/icons</exclude-pattern>
 
     <!-- Phing tasks require to use CamelCaps for argument names. -->
     <rule ref="Drupal.NamingConventions.ValidVariableName">
         <exclude-pattern>src/Phing</exclude-pattern>
+    </rule>
+
+    <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
     </rule>
 
     <!-- Comments in exported fields are missing a period at the end. -->

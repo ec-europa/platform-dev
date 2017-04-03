@@ -32,6 +32,10 @@ class VariableContext implements Context {
    *   Name of the variable.
    * @param mixed $value
    *   New value for the variable.
+   *
+   * @Given I request to change the variable :name to :value
+   *
+   * @When I change the variable :name to :value
    */
   public function setVariable($name, $value) {
     if (!array_key_exists($name, $this->initialVariables)) {
@@ -39,6 +43,22 @@ class VariableContext implements Context {
     }
 
     variable_set($name, $value);
+  }
+
+  /**
+   * Deletes the value of a Drupal variable.
+   *
+   * The initial value of the value is remembered for later restore.
+   *
+   * @param string $name
+   *   Name of the variable.
+   */
+  public function deleteVariable($name) {
+    if (!array_key_exists($name, $this->initialVariables)) {
+      $this->initialVariables[$name] = variable_get($name);
+    }
+
+    variable_del($name);
   }
 
   /**

@@ -123,7 +123,7 @@ function cce_basic_config_field_default_field_bases() {
     'settings' => array(
       'max_length' => 512,
     ),
-    'translatable' => 0,
+    'translatable' => 1,
     'type' => 'text',
   );
 
@@ -299,10 +299,10 @@ function cce_basic_config_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'text',
     'settings' => array(),
-    'translatable' => 0,
+    'translatable' => 1,
     'type' => 'text_long',
   );
 

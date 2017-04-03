@@ -399,6 +399,9 @@ projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
 projects[media][version] = 2.0-rc5
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
+; Media markup navigation causes duplicated links
+projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.1"
@@ -484,9 +487,6 @@ projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
 projects[nexteuropa_newsroom][subdir] = custom
-
-projects[node_export][subdir] = "contrib"
-projects[node_export][version] = "3.0"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"

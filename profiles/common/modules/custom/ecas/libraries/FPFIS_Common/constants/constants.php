@@ -55,5 +55,3 @@ Other generic vars
 */
 if ( !defined('FPFIS_OVERWRITE_REMOTE_ADDR') ) define('FPFIS_OVERWRITE_REMOTE_ADDR', true);
 if ( !defined('FPFIS_OVERWRITE_USER_AGENT') )  define('FPFIS_OVERWRITE_USER_AGENT', 'PHP');
-
-?>
