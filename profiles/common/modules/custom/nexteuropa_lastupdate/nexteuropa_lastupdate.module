@@ -135,10 +135,7 @@ function _nexteuropa_lastupdate_menu_get_any_entity() {
  */
 function _nexteuropa_lastupdate_node_callback($node) {
   if ($node->status) {
-    return array(
-      'label' => t('Last published'),
-      'date' => date('d/m/Y', $node->changed),
-    );
+    return _nexteuropa_lastupdate_default_callback(t('Last published'), $node->changed);
   }
   return FALSE;
 }
@@ -153,10 +150,7 @@ function _nexteuropa_lastupdate_node_callback($node) {
  *   An array containing the label and date to be rendered.
  */
 function _nexteuropa_lastupdate_user_callback($user) {
-  return array(
-    'label' => t('Last accessed'),
-    'date' => date('d/m/Y', $user->access),
-  );
+  return _nexteuropa_lastupdate_default_callback(t('Last accessed'), $user->access);
 }
 
 /**
@@ -169,10 +163,7 @@ function _nexteuropa_lastupdate_user_callback($user) {
  *   An array containing the label and date to be rendered.
  */
 function _nexteuropa_lastupdate_comment_callback($comment) {
-  return array(
-    'label' => t('Last published'),
-    'date' => date('d/m/Y', $comment->changed),
-  );
+  return _nexteuropa_lastupdate_default_callback(t('Last published'), $comment->changed);
 }
 
 /**
@@ -185,8 +176,23 @@ function _nexteuropa_lastupdate_comment_callback($comment) {
  *   An array containing the label and date to be rendered.
  */
 function _nexteuropa_lastupdate_file_callback($file) {
+  return _nexteuropa_lastupdate_default_callback(t('Last uploaded'), $file->timestamp);
+}
+
+/**
+ * Callback to return the last uploaded date of a file.
+ *
+ * @param string $label
+ *   The label of the last update block.
+ * @param int $timestamp
+ *   The date of the last update block.
+ *
+ * @return array
+ *   An array containing the label and date to be rendered.
+ */
+function _nexteuropa_lastupdate_default_callback($label, $timestamp) {
   return array(
-    'label' => t('Last uploaded'),
-    'date' => date('d/m/Y', $file->timestamp),
+    'label' => $label,
+    'date' => format_date($timestamp, 'short'),
   );
 }

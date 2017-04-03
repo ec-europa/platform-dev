@@ -92,7 +92,7 @@ class BlockContext implements Context {
           'region' => $block['region'],
           'status' => $block['status'],
         ))
-        ->condition('bid', $block->bid, '=')
+        ->condition('bid', $block['bid'], '=')
         ->execute();
     }
   }
