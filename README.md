@@ -180,7 +180,7 @@ The following is a good example of a valid unit test class:
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_core\Tests\SmokeTest.
+ * Contains \Drupal\nexteuropa_core\Tests\EntityTest.
  */
 
 namespace Drupal\nexteuropa_core\Tests;
@@ -188,11 +188,11 @@ namespace Drupal\nexteuropa_core\Tests;
 use Drupal\nexteuropa\Unit\AbstractUnitTest;
 
 /**
- * Class SmokeTest.
+ * Class EntityTest.
  *
  * @package Drupal\nexteuropa_core\Tests
  */
-class SmokeTest extends AbstractUnitTest {
+class EntityTest extends AbstractUnitTest {
   ...
 }
 ```
