@@ -192,6 +192,8 @@ projects[entity_translation][download][revision] = 221e302
 projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][patch][] = patches/entity_translation-001-et-forward_revisions-1707156-23.patch
+; Issue MULTISITE-15175 : Undefined index path wildcard
+projects[entity_translation][patch][] = patches/entity_translation-fix-for-wildcard.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -337,7 +339,7 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.x-dev"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][subdir] = "contrib"
 projects[integration][version] = "1.x-dev"
@@ -461,6 +463,10 @@ projects[menu_token][patch][] = patches/menu_token-link_uuid_menu_items_can_not_
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Fix for an error when the purge limit is set to 0
+; https://www.drupal.org/node/2030101
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-14411
+projects[message][patch][] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.7"
@@ -621,6 +627,10 @@ projects[tmgmt][subdir] = contrib
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
 ; @see https://www.drupal.org/node/272245
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
+; #2812863 : Insufficient access check on Views
+; https://www.drupal.org/node/2812863
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-60
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.6"

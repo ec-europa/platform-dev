@@ -33,6 +33,7 @@ dependencies[] = apachesolr_attachments
 dependencies[] = facetapi
 dependencies[] = fast_404
 dependencies[] = current_search
+dependencies[] = contact
 dependencies[] = context
 dependencies[] = context_ui
 dependencies[] = context_layouts
