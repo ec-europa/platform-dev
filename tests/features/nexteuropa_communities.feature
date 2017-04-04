@@ -32,7 +32,7 @@ Feature: Nexteuropa Communities
     And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
 
 
-
+@wip
   Scenario: URL alias for community contents are correctly generated.
     Given these modules are enabled
       | modules                 |
