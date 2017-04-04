@@ -31,7 +31,7 @@ class FieldContext implements Context {
   /**
    * Remember the list of fields existing by default in the site.
    *
-   * BeforeScenario.
+   * @BeforeScenario @resetFields
    */
   public function rememberCurrentFields() {
     $this->defaultFields = field_info_field_map();
@@ -40,7 +40,7 @@ class FieldContext implements Context {
   /**
    * Removes any fields created by a scenario.
    *
-   * AfterScenario.
+   * @AfterScenario @resetFields
    */
   public function resetFields() {
     $current_fields = field_info_field_map();
@@ -81,7 +81,7 @@ class FieldContext implements Context {
   /**
    * Remember the list of field groups existing by default in the site.
    *
-   * BeforeScenario.
+   * @BeforeScenario @resetFieldGroups
    */
   public function rememberCurrentFieldGroups() {
     $this->defaultFieldGroups = field_group_read_groups();
@@ -90,7 +90,7 @@ class FieldContext implements Context {
   /**
    * Removes any fields group created by a scenario.
    *
-   * AfterScenario.
+   * @AfterScenario @resetFieldGroups
    */
   public function resetFieldGroups() {
     $current_field_groups = field_group_read_groups();
