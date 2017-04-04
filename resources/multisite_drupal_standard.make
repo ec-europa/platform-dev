@@ -973,6 +973,10 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 projects[bootstrap][type] = theme
 projects[bootstrap][version] = 3.8
 
+projects[ec_resp][type] = theme
+projects[ec_resp][download][type] = get
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.1/ec_resp-2.1.tar.gz
+
 projects[europa][type] = theme
 projects[europa][download][type] = get
 projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz
