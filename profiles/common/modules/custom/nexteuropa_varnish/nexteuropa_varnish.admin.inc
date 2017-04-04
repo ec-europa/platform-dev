@@ -53,7 +53,7 @@ function nexteuropa_varnish_purge_all_confirm($form, &$form_state) {
  * Generates the form allowing triggering the full cache purge.
  */
 function nexteuropa_varnish_purge_all_form($form, &$form_state) {
-  $description = t("The action you are about to perform has deep impacts on site's performances!");
+  $description = t("The action you are about to perform has a deep impact on the site's performance!");
   $confirm_message = t("Are you sure you want to purge all site's caches (Varnish included)?");
   return confirm_form($form,
     $confirm_message,
@@ -80,7 +80,7 @@ function nexteuropa_varnish_purge_all_form_submit($form, &$form_state) {
   // Treating Varnish flushing (inspired by "flexibe_purge" contrib module).
   $send_success = _nexteuropa_varnish_varnish_requests_send();
   if (!$send_success) {
-    $confirm_message = t('The Drupal and Varnish caches have not been flushed correctly. Please consult logs for more information.');
+    $confirm_message = t('The Varnish caches have not been purged correctly. Please consult logs for more information.');
     $message_level = 'error';
   }
 
