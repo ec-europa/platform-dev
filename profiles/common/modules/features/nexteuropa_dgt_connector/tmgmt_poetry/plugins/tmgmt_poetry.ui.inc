@@ -211,8 +211,9 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
           ->execute()
           ->fetchAssoc();
         if (!empty($result)) {
-          $options[$language->language]['state'] = $result['status'];
-          $options[$language->language]['delai'] = $result['delai'];
+          $options[$language->language]['state'] = empty($result['status']) ? t('Not sent') : $result['status'];
+          $options[$language->language]['delai'] = empty($result['delai']) ? '' : $result['delai'];
+
         }
         if (in_array($language_job_item->state, array(TMGMT_JOB_ITEM_STATE_REVIEW, TMGMT_JOB_ITEM_STATE_ACCEPTED))) {
           $options[$language->language]['operations']  = l(t('View'), 'admin/tmgmt/items/' . $language_job_item->tjiid, array('query' => array('destination' => 'admin/tmgmt/jobs/' . $job->tjid)));
@@ -336,7 +337,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     $form['delai'] = array(
       '#type' => 'date_popup',
       '#title' => t('Requested delivery date'),
-      '#default_value' => '',
+      '#default_value' => !empty($job->settings['delai']) ? $job->settings['delai'] : '',
       '#date_format' => 'd/m/Y',
       '#date_year_range' => '-0:+1',
       '#required' => TRUE,
