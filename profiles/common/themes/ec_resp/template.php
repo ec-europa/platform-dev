@@ -196,6 +196,8 @@ function ec_resp_preprocess_feature_set_admin_form(&$variables) {
  * Implements template_preprocess_page().
  */
 function ec_resp_preprocess_page(&$variables) {
+  global $theme_key;
+
   $title = drupal_get_title();
   // Format regions.
   $regions = array();
@@ -295,8 +297,14 @@ function ec_resp_preprocess_page(&$variables) {
   }
 
   // Adding pathToTheme for Drupal.settings to be used in js files.
-  $base_theme = multisite_drupal_toolbox_get_base_theme();
-  drupal_add_js('jQuery.extend(Drupal.settings, { "pathToTheme": "' . drupal_get_path('theme', $base_theme) . '" });', 'inline');
+  $base_theme = $theme_key;
+  $available_themes = list_themes();
+  if (isset($available_themes[$theme_key]->info['base theme'])) {
+    $base_theme = current(array_keys(drupal_find_base_themes($available_themes, $theme_key)));
+  }
+
+  // Adding pathToTheme for Drupal.settings to be used in js files.
+  drupal_add_js(array('pathToTheme' => drupal_get_path('theme', $base_theme)), 'setting');
 }
 
 /**
@@ -1284,10 +1292,6 @@ function ec_resp_link($variables) {
   $btn_group_before = '';
   $btn_group_after = '';
 
-  if (!isset($variables['options']['attributes']['class'])) {
-    $variables['options']['attributes']['class'] = '';
-  }
-
   if (isset($variables['options']['attributes']['action_bar'])) {
     switch ($variables['options']['attributes']['action_bar']) {
       case 'first':
@@ -1369,11 +1373,11 @@ function ec_resp_link($variables) {
         break;
     }
 
-    if (is_array($variables['options']['attributes']['class'])) {
+    if (!empty($classes)) {
+      // Merge in defaults.
+      $variables['options']['attributes'] += array('class' => array());
+
       $variables['options']['attributes']['class'] = array_merge($variables['options']['attributes']['class'], $classes);
-    }
-    else {
-      $variables['options']['attributes']['class'] = $classes;
     }
   }
   $path = ($variables['path'] == '<nolink>') ? '#' : check_plain(url($variables['path'], $variables['options']));

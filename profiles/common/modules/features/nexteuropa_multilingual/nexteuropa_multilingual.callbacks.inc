@@ -86,6 +86,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
     $options['alias'] = TRUE;
   }
+
 }
 
 
@@ -97,6 +98,18 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
 
   if (_nexteuropa_multilingual_get_source_path($path) != $path) {
     return array(FALSE, $path);
+  }
+
+  // Handle adding an Entity Translation field to a view with Estonian enabled.
+  // @link https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-107
+  if (preg_match("/^admin\/structure\/views\/.+\/field\/\w+\_et$/", $path, $matches)) {
+    // Still related to the ticket NEPT-107.
+    // If the Views interface is accessed in Estonian ("_et_et" suffix exist),
+    // then the function process must go on, otherwise we stop here and
+    // it returns FALSE for the path.
+    if (strrpos($path, '_et_et', -6) === FALSE) {
+      return array(FALSE, $path);
+    }
   }
 
   // Forcing to use the prefix at the end of the path with the delimiter '_'.

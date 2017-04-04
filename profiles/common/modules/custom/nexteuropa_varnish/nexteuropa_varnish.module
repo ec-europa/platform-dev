@@ -1,9 +1,10 @@
 <?php
-
 /**
  * @file
  * Module file.
  */
+
+use Drupal\nexteuropa_varnish\PurgeRuleType;
 
 /**
  * Implements hook_entity_info().
@@ -19,6 +20,7 @@ function nexteuropa_varnish_entity_info() {
       ),
       'label callback' => 'nexteuropa_varnish_cache_purge_rule_label',
       'base table' => 'nexteuropa_varnish_cache_purge_rule',
+      'entity class' => 'Drupal\\nexteuropa_varnish\\Entity\\PurgeRule',
       'controller class' => 'EntityAPIController',
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
@@ -82,10 +84,11 @@ function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
 function nexteuropa_varnish_workbench_moderation_transition($node, $previous_state, $new_state) {
   $purge
     = ($new_state == workbench_moderation_state_published()) ||
-      ($previous_state == workbench_moderation_state_published() && $new_state !== $previous_state);
+      (property_exists($node->workbench_moderation['my_revision'], 'unpublishing')
+        && $node->workbench_moderation['my_revision']->unpublishing);
 
   if ($purge) {
-    $paths = _nexteuropa_varnish_get_paths_to_purge($node->type);
+    $paths = _nexteuropa_varnish_get_paths_to_purge($node);
 
     if (!empty($paths)) {
       _nexteuropa_varnish_purge_paths($paths);
@@ -120,7 +123,7 @@ function nexteuropa_varnish_node_update($node) {
     return;
   }
 
-  $paths = _nexteuropa_varnish_get_paths_to_purge($node->type);
+  $paths = _nexteuropa_varnish_get_paths_to_purge($node);
 
   if (!empty($paths)) {
     _nexteuropa_varnish_purge_paths($paths);
@@ -128,19 +131,19 @@ function nexteuropa_varnish_node_update($node) {
 }
 
 /**
- * Get the paths to purge for a specific content type.
+ * Get the paths to purge for a specific node.
  *
- * @param string $content_type
- *   The content type to filter on.
+ * @param object $node
+ *   The node.
  *
  * @return string[]
- *   The paths to purge.
+ *   The paths to purge for this node.
  */
-function _nexteuropa_varnish_get_paths_to_purge($content_type) {
+function _nexteuropa_varnish_get_paths_to_purge($node) {
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
-    ->propertyCondition('content_type', $content_type);
+    ->propertyCondition('content_type', $node->type);
 
   $result = $query->execute();
 
@@ -151,11 +154,63 @@ function _nexteuropa_varnish_get_paths_to_purge($content_type) {
       'nexteuropa_varnish_cache_purge_rule',
       array_keys($result['nexteuropa_varnish_cache_purge_rule'])
     );
-    foreach ($purge_rules as $purge_rule) {
-      $purge_paths = preg_split("/[\r\n]+/", $purge_rule->paths);
 
-      $paths = array_merge($paths, $purge_paths);
+    $paths = _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node);
+  }
+
+  return $paths;
+}
+
+/**
+ * Merge the paths of a list of purge rules.
+ *
+ * @var \Drupal\nexteuropa_varnish\Entity\PurgeRule[] $purge_rules
+ *   Purge rules to merge the paths from.
+ *
+ * @var object $node
+ *   The node object that triggered the purging mechanism.
+ *
+ * @return array
+ *   The paths to purge.
+ */
+function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
+  $paths = array();
+
+  foreach ($purge_rules as $purge_rule) {
+    if ($purge_rule->type() == PurgeRuleType::PATHS) {
+      $purge_paths = $purge_rule->paths();
     }
+    else {
+      $purge_paths = array();
+
+      $entity_uri = entity_uri('node', $node);
+
+      if ($entity_uri) {
+        // Get the languages the node is translated into (entity translation).
+        if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
+          $handler = entity_translation_get_handler('node', $node);
+
+          $translations = $handler->getTranslations();
+
+          $lang_codes = array_keys($translations->data);
+          $all_languages = entity_translation_languages('node', $node);
+
+          foreach ($lang_codes as $lang_code) {
+            if (isset($all_languages[$lang_code])) {
+              $purge_paths[] = url(
+                $entity_uri['path'],
+                $entity_uri['options'] + array('language' => $all_languages[$lang_code])
+              );
+            }
+          }
+        }
+        else {
+          $purge_paths[] = url($entity_uri['path'], $entity_uri['options']);
+        }
+      }
+    }
+
+    $paths = array_merge($paths, $purge_paths);
   }
 
   $paths = array_unique($paths);
@@ -166,32 +221,24 @@ function _nexteuropa_varnish_get_paths_to_purge($content_type) {
 
 /**
  * Purges certain paths on the web frontend cache.
- *
- * Based on FlexiblePurgeCache::emitRequests(), but takes a more
- * straightforward approach to pass through the necessary HTTP headers
- * suitable for the NextEuropa platform.
  */
 function _nexteuropa_varnish_purge_paths($paths) {
-  $cache = _cache_get_object('cache_page');
-  if (!$cache instanceof FlexiblePurgeCache) {
-    watchdog(
-      'nexteuropa_varnish',
-      'FlexiblePurgeCache is not set as the handler for the page cache bin.',
-      WATCHDOG_WARNING
-    );
-    return;
-  }
-
-  // First clear the actual backend page cache (usually DrupalDatabaseCache),
-  // if there is any. Otherwise the web frontend cache will receive again
+  // First clear the actual backend page cache (usually DrupalDatabaseCache).
+  // Otherwise the web frontend cache will receive again
   // outdated cached versions of pages.
   // Be aware that this clears the full page cache instead of clearing only
   // certain pages. To make it more precise, we need to have full knowledge of
   // all possible base URLs. This can be improved later on.
-  $backend = $cache->keepCachingObject();
-  if (!is_null($backend)) {
-    $backend->clear(NULL, FALSE);
-  }
+  cache_clear_all('*', 'cache_page', TRUE);
+
+  watchdog(
+    'nexteuropa_varnish',
+    'Clearing paths: @paths',
+    array(
+      '@paths' => implode(', ', $paths),
+    ),
+    WATCHDOG_INFO
+  );
 
   // Escape the paths for usage in a regular expression. Also remove leading
   // slashes.
@@ -219,83 +266,62 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $escaped_paths
   );
 
-  // Fill in placeholders in the request skeleton.
-  $values = array(
-    'host' => '',
-    'base_path' => '',
-    'clear_type' => 'regexp-multiple',
-    'path_regexp' => '^(' . implode('|', $escaped_paths) . ')$',
-    'tag' => $cache->vget('tag', ''),
+  $request_method = variable_get('nexteuropa_varnish_request_method', 'PURGE');
+  $request_path = '/invalidate';
+
+  $base_request_headers = _nexteuropa_varnish_base_request_headers();
+  $request_headers = $base_request_headers + array(
+    'X-Invalidate-Tag' => variable_get('nexteuropa_varnish_tag'),
+    'X-Invalidate-Type' => 'regexp-multiple',
+    'X-Invalidate-Regexp' => '^(' . implode('|', $escaped_paths) . ')$',
   );
 
-  $request = $cache->defaultRequestSkeleton();
-  array_walk_recursive(
-    $request,
-    function (&$item, $key, $values) {
-      foreach ($values as $token => $value) {
-        $item = str_replace('@{' . $token . '}', $value, $item);
-      }
-    },
-    $values
-  );
-
-  $http_targets = $cache->vget('http_targets', array());
-  $method = $request['method'];
-
-  // Remove empty headers.
-  $request['headers'] = array_filter(
-    $request['headers'],
-    function ($value) {
-      return drupal_strlen(trim($value)) > 0;
-    }
-  );
+  $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
 
   foreach ($http_targets as $target) {
-    // First chance to customize the request.
-    if (function_exists('fp_alter_request_for_cache_page')) {
-      $request = fp_alter_request_for_cache_page(NULL, NULL, $target, $request);
-    }
+    $url = sprintf('%s%s', $target, $request_path);
 
-    // Format headers.
-    $formatted_headers = array_map(
-      function ($name, $value) {
-        return sprintf('%s: %s', $name, trim($value));
-      },
-      array_keys($request['headers']),
-      $request['headers']
+    $response = drupal_http_request(
+      $url,
+      array(
+        'headers' => $request_headers,
+        'method' => $request_method,
+        'timeout' => variable_get('nexteuropa_varnish_http_timeout', 2.0),
+      )
     );
 
-    $url = sprintf('http://%s%s', $target, $request['path']);
-
-    $curl_res = curl_init();
-    curl_setopt($curl_res, CURLOPT_CUSTOMREQUEST, $method);
-    curl_setopt($curl_res, CURLOPT_URL, $url);
-    curl_setopt($curl_res, CURLOPT_HTTPHEADER, $formatted_headers);
-    curl_setopt($curl_res, CURLOPT_FOLLOWLOCATION, FALSE);
-    curl_setopt($curl_res, CURLOPT_RETURNTRANSFER, TRUE);
-
-    // Second chance to customize the request.
-    if (function_exists('fp_alter_curl_for_cache_page')) {
-      $send_request = fp_alter_curl_for_cache_page(NULL, NULL, $target, $request, $curl_res);
-
-      if ($send_request === FALSE) {
-        continue;
-      }
-    }
-
-    // Send the HTTP request.
-    $exec = curl_exec($curl_res);
-
-    if ($exec === FALSE || curl_errno($curl_res)) {
+    if (isset($response->error)) {
       watchdog(
         'nexteuropa_varnish',
-        'Clear operation failed for target :target: :curl_error',
+        'Clear operation failed for target %target: %code %error',
         array(
-          ':target' => $target,
-          ':curl_error' => curl_error($curl_res),
+          '%target' => $target,
+          '%error' => $response->error,
+          '%code' => $response->code,
         ),
         WATCHDOG_ERROR
       );
     }
   }
+}
+
+/**
+ * Get the base headers for the web frontend cache purge requests.
+ *
+ * @return array
+ *   Key value pairs of request headers.
+ */
+function _nexteuropa_varnish_base_request_headers() {
+  $headers = array();
+
+  $request_user = variable_get('nexteuropa_varnish_request_user');
+  $request_password = variable_get('nexteuropa_varnish_request_password');
+
+  if ($request_user && $request_password) {
+    $basic_auth = base64_encode("{$request_user}:{$request_password}");
+
+    $headers['Authorization'] = 'Basic ' . $basic_auth;
+  }
+
+  return $headers;
 }

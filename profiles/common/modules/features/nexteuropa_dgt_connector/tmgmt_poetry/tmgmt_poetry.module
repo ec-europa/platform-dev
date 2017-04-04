@@ -1,0 +1,865 @@
+<?php
+/**
+ * @file
+ * Module file of the translation management Poetry .
+ */
+
+module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function tmgmt_poetry_entity_info_alter(&$entity_info) {
+  $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
+  $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
+  $entity_info['tmgmt_translator']['access callback'] = '_tmgmt_poetry_translator_access';
+}
+
+/**
+ * Custom function to manage permissions of the poetry translator.
+ *
+ * @param string $op
+ *   Which operation is performed.
+ * @param array $translator
+ *   The translator the operation is performed on.
+ * @param array $account
+ *   The account which is performing the update.
+ *
+ * @return bool
+ *   Boolean
+ */
+function _tmgmt_poetry_translator_access($op, $translator, $account) {
+  if (!empty($translator) && $translator->plugin == 'poetry') {
+    if ($op == 'delete') {
+      return FALSE;
+    }
+    else {
+      return user_access('manage feature nexteuropa_dgt_connector');
+    }
+  }
+  else {
+    return tmgmt_translator_access($op, $translator, $account);
+  }
+
+}
+
+/**
+ * Implements hook_tmgmt_translator_plugin_info().
+ */
+function tmgmt_poetry_tmgmt_translator_plugin_info() {
+  return array(
+    'poetry' => array(
+      'label' => t('DGT Connector'),
+      'description' => t('DGT Translation service.'),
+      'plugin controller class' => 'TMGMTPoetryTranslatorPluginController',
+      'ui controller class' => 'TMGMTPoetryTranslatorUIController',
+    ),
+  );
+}
+
+/**
+ * Implements hook_entity_type_delete().
+ *
+ * When main translation job is removed,
+ * delete also the sub translation if the translator is poetry.
+ *
+ * @TODO remove this deletion.
+ */
+function tmgmt_poetry_tmgmt_job_delete($job) {
+  $translator = $job->getTranslator();
+  if (!empty($translator) && $translator->plugin == 'poetry' && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
+    $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+    foreach ($related_jobs as $related_job) {
+      entity_get_controller('tmgmt_job')->delete(array($related_job->tjid));
+      entity_get_controller('tmgmt_job_item')->delete(array($related_job->tjiid));
+    }
+  }
+}
+
+/**
+ * Helper function to retrive a Job based on its reference.
+ */
+function _tmgmt_poetry_load_job_by_reference($reference) {
+  $job = NULL;
+  $result = db_select('tmgmt_job', 'job')
+    ->fields('job', array('tjid'))
+    ->condition('reference', $reference, '=')
+    ->execute()
+    ->fetchAssoc();
+  if (isset($result['tjid']) && !empty($result['tjid'])) {
+    $job = tmgmt_job_load($result['tjid']);
+  }
+  return $job;
+}
+
+/**
+ * Add a button to send a feedback to DGT.
+ *
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_poetry_form_tmgmt_ui_workbench_moderation_translation_review_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form_state['item'])) {
+    $job = $form_state['item'];
+    if ($job->state == 2) {
+      $translator_feedback_contacts = $job->getTranslator()
+        ->getSetting('feedback_contacts');
+      $mailto = format_string('mailto:@mail?subject=@subject&cc=@cc',
+        array(
+          '@mail' => $translator_feedback_contacts['to'],
+          '@subject' => 'Issue with ' . $job->tjid,
+          '@cc' => $translator_feedback_contacts['cc'],
+        ));
+      $form['actions']['feedback'] = array(
+        '#type' => 'link',
+        '#title' => 'Feedback to DGT',
+        '#href' => $mailto,
+        '#weight' => -1,
+        '#attributes' => array('class' => array('button')),
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) {
+  $translator = FALSE;
+  // Reference to the translation job object.
+  $job = &$form_state['tmgmt_job'];
+
+  // NEXTEUROPA-7719 - Simplifying Poetry UI.
+  drupal_set_title(t("Translation Request - Job ID: @id", ['@id' => $form_state['tmgmt_job']->tjid]));
+
+  // Hiding some parts of the 'info' fieldset.
+  $form['info']['source_language']['#access'] = FALSE;
+  $form['info']['target_language']['#access'] = FALSE;
+  $form['info']['word_count']['#access'] = FALSE;
+  // Setting up the 'translator_wrapper' fieldset properties.
+  $form['translator_wrapper']['settings']['#collapsible'] = TRUE;
+  $form['translator_wrapper']['settings']['#collapsed'] = FALSE;
+  // Changing fieldsets labels.
+  $form['translator_wrapper']['#title'] = t('Translation request details');
+
+  // Attaching the custom script for the 'Translator' select field.
+  $form['#attached']['js'] = array(
+    drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js',
+  );
+  // Setting up default value for the 'Translator' field.
+  $translators = [];
+  if (isset($form['translator_wrapper']['translator']['#options'])) {
+    $translators = $form['translator_wrapper']['translator']['#options'];
+    if (in_array('poetry', array_keys($translators))
+      && !in_array('tmgmt_poetry_test_translator', array_keys($translators))
+    ) {
+      $form['translator_wrapper']['translator']['#default_value'] = 'poetry';
+    }
+  }
+  // Loading settings for a given translator.
+  // If tmgmt_poetry job form was never submitted use the default 'poetry'.
+  if (!isset($form_state['values'])) {
+    $job->translator = 'poetry';
+    _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
+  }
+
+  // If tmgmt_poetry_mock is enabled set up mock translator as a default.
+  if (in_array('tmgmt_poetry_test_translator', array_keys($translators))) {
+    $job->translator = 'tmgmt_poetry_test_translator';
+    $form['translator_wrapper']['translator']['#default_value'] = 'tmgmt_poetry_test_translator';
+    _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
+  }
+
+  // If tmgmt_poetry job form was submitted, check translator and load settings.
+  if (isset($form_state['values']['translator'])) {
+    $job->translator = $form_state['values']['translator'];
+    _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
+  }
+
+  // If job is submittable to the translator then don't show job items fieldset.
+  if ($job->isSubmittable()) {
+    $form['job_items_wrapper']['#access'] = FALSE;
+  }
+
+  // Overwriting details which are coming from tmgmt_ui.pages.inc.
+  // Details about job items for give job and sub jobs related to that job.
+  unset($form['job_items_wrapper']['items']);
+  // Inject details only when job was submitted.
+  if (($view = views_get_view('tmgmt_poetry_translation_job_items')) && !$job->isSubmittable()) {
+    $form['job_items_wrapper']['items'] = array(
+      '#type' => 'markup',
+      '#markup' => $view->preview('block', array($job->tjid)),
+      '#prefix' => '<div class="tmgmt-ui-job-items tmgmt-ui-job-manage">',
+      '#suffix' => '</div>',
+    );
+  }
+
+  // If translator values has been changed.
+  if (isset($form_state['values']['translator'])) {
+    $translator_name = $form_state['values']['translator'];
+    // Obtain current translation job translator.
+    $translator = tmgmt_translator_load($translator_name);
+  }
+  elseif (isset($job->translator)) {
+    $translator = $job->getTranslator();
+  }
+  $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
+  if ($translator && ($translator->plugin == 'poetry' || $job->getTranslator()->plugin == 'poetry')) {
+    // Putting custom form submit as a first one on the list.
+    array_unshift($form['#submit'], '_tmgmt_poetry_form_tmgmt_job_submit');
+    if (strpos($job->reference, 'SUB_') !== FALSE) {
+      $form['actions']['abort_job']['#access'] = FALSE;
+      $form['actions']['submit']['#access'] = FALSE;
+      $form['actions']['delete']['#access'] = FALSE;
+      $form['translator_wrapper']['#access'] = FALSE;
+    }
+
+    if ($job->state != TMGMT_JOB_STATE_UNPROCESSED) {
+      $form['translator_wrapper']['#collapsed'] = TRUE;
+    }
+  }
+
+  // User should not cancel neither save the job,
+  // it should only send translation request or delete the job.
+  unset($form['actions']['submit']);
+  unset($form['actions']['cancel']);
+}
+
+/**
+ * Sets up TMGMT translator settings for given parameters.
+ */
+function _tmgmt_poetry_form_load_translator_settings(&$form_state, &$form, $job) {
+  $settings = tmgmt_ui_checkout_settings_form($form_state, $job);
+
+  if (!is_array($settings)) {
+    $settings = [];
+  }
+
+  $form['translator_wrapper']['settings'] = [
+    '#type' => 'fieldset',
+    '#title' => t('Configure translation request'),
+    '#prefix' => '<div id="tmgmt-ui-translator-settings">',
+    '#suffix' => '</div>',
+    '#tree' => TRUE,
+  ] + $settings;
+}
+
+/**
+ * Job Form Callback.
+ */
+function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
+  // NEXTEUROPA-7719 - Simplifying Poetry UI.
+  // Checking if main language has been changed and picking another one if so
+  // and saving it in to the job to keep the current implementation way.
+  $target_lg = $form_state['values']['target_language'];
+  if (isset($form_state['values']['settings']['languages'])) {
+    if ($form_state['values']['settings']['languages'][$target_lg] === 0) {
+      $chosen_lg = [];
+      foreach ($form_state['values']['settings']['languages'] as $language) {
+        if ($language !== 0) {
+          $chosen_lg[] = $language;
+        }
+      }
+      $new_main_lg = reset($chosen_lg);
+      // There are other submit callbacks after this, that's why changes of
+      // $form_state variable are needed.
+      $form_state['values']['target_language'] = $new_main_lg;
+      $form_state['tmgmt_job']->target_language = $new_main_lg;
+      $form_state['tmgmt_job']->save();
+    }
+    // Clearing chosen request languages from the session.
+    _tmgmt_workbench_clear_request_languages();
+  }
+
+  // Current implementation part.
+  $origin_job = $form_state['tmgmt_job'];
+  $translator = $origin_job->getTranslator();
+  $requested_languages = array();
+
+  // Checking translator plugin type.
+  if ($translator->plugin != 'poetry') {
+    // The translator has benn changed,
+    // proceed to clear the settings of origin job and the main reference.
+    if (isset($origin_job->settings['languages'])) {
+      $origin_job->settings = NULL;
+      $origin_job->reference = NULL;
+      $origin_job->save();
+    }
+  }
+  // Getting requested languages from the $form_state submitted values.
+  if (isset($form_state['values']['settings']['languages'])) {
+    $requested_languages = $form_state['values']['settings']['languages'];
+  }
+  // Checking if job already has been submit to translator at least once.
+  if (!is_null($origin_job->settings) && isset($origin_job->settings['languages'])) {
+    $requested_languages = $origin_job->settings['languages'];
+  }
+
+  $languages = language_list('language');
+  // Remove old translations in case that they are not available
+  // in the settings of the main translation.
+  $language_targets_to_remove = array();
+  foreach ($languages as $language) {
+    // If a language is not in the requested translation.
+    if (!in_array($language->language, array_merge(array($origin_job->source_language), $requested_languages), TRUE)) {
+      $language_targets_to_remove[] = $language->language;
+    }
+  }
+
+  $origin_job_items = $origin_job->getItems();
+  if ($origin_job_items === NULL) {
+    return;
+  }
+
+  $origin_job_item = array_shift($origin_job_items);
+
+  // In case if a translation request is already sent,
+  // check if there was added or removed additionnal languages.
+  if (($form_state['triggering_element']['#value'] != $form['actions']['checkout']['#value']) && $origin_job->state == TMGMT_JOB_STATE_ACTIVE && $origin_job_item->state < TMGMT_JOB_ITEM_STATE_REVIEW) {
+    if ($form_state['values']['languages'] !== $origin_job->settings['languages']) {
+      unset($origin_job->settings['translations']);
+      foreach ($form_state['values']['languages'] as $key_lang => $value_lang) {
+        // A LANGUAGE IS ADDED TO ALREADY SENT TRANSLATION REQUEST.
+        if (empty($origin_job->settings['languages'][$key_lang]) && !empty($value_lang)) {
+          $origin_job->settings['translations']['added'][] = $key_lang;
+          // A LANGUAGE IS REMOVED FROM ALREADY SENT TRANSLATION REQUEST.
+        }
+        elseif (!empty($origin_job->settings['languages'][$key_lang]) && empty($value_lang)) {
+          $origin_job->settings['translations']['removed'][] = $key_lang;
+        }
+      }
+      $origin_job_languages = $origin_job->settings['languages'];
+      $origin_job->settings['languages'] = $form_state['values']['languages'];
+      $origin_job->save();
+      // If new request is failed,
+      // reset the main job translation languages to old value and save.
+      if (!tmgmt_ui_job_request_translation($origin_job)) {
+        $origin_job->settings['languages'] = $origin_job_languages;
+        $origin_job->state = TMGMT_JOB_STATE_ACTIVE;
+        $origin_job->save();
+        return;
+      }
+    }
+    else {
+      drupal_set_message(t('No changes was detected to resubmit the request'));
+    }
+  }
+
+  // Find unchecked translations to be removed.
+  $result = _tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
+  // If any, removed found translations.
+  if ($result) {
+    foreach ($result as $row) {
+      // Remove if the target language is the same as the main translation.
+      if ($origin_job->tjid !== $row->tjid && $origin_job_item->tjiid !== $row->tjiid) {
+        entity_get_controller('tmgmt_job')->delete(array($row->tjid));
+        entity_get_controller('tmgmt_job_item')->delete(array($row->tjiid));
+      }
+    }
+  }
+
+  // Cancel all old activate jobs associated to this entity.
+  $jobs_canceled = _tmgmt_poetry_get_active_translation_jobs_by_entity_id($origin_job_item->item_id);
+  $jobs_canceled_id = array();
+  foreach ($jobs_canceled as $job_item) {
+    $jobs_canceled_id[] = $job_item->tjid;
+  }
+  foreach (tmgmt_job_load_multiple($jobs_canceled_id, array()) as $job_canceled) {
+    if (!empty($job_canceled)) {
+      $job_canceled->aborted();
+    }
+  }
+}
+
+/**
+ * Return related translations by the translated entity id.
+ *
+ * @param array $languages
+ *   Target languages.
+ * @param string $reference
+ *   Reference to look for.
+ * @param bool $not_poetry
+ *   Job does not belong to poetry.
+ *
+ * @return mixed
+ *   mixed.
+ */
+function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
+  $query = db_select('tmgmt_job', 'job');
+  $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
+  $query->fields('job', array('tjid'))
+    ->fields('job_item', array('tjiid'));
+  if (count($languages) > 0) {
+    $query->condition('job.target_language', $languages, 'IN');
+  }
+  $query->condition('job.reference', '%' . $reference . '%', 'LIKE');
+  if ($not_poetry) {
+    $query->condition('job.reference', $reference . '_POETRY_%', 'NOT LIKE');
+  }
+
+  return $query->execute();
+}
+
+/**
+ * Helper function to reject a TMGMT job and its related sub jobs.
+ */
+function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message, $message) {
+
+  // Reject the main Job.
+  $job->rejected(
+    $internal_message . " Message error: @error",
+    ['@error' => $message],
+    'error'
+  );
+
+  $results = db_select('tmgmt_job_item', 'job_item')
+    ->fields('job_item', array('tjiid'))
+    ->condition('tjid', $job->tjid, '=')
+    ->execute();
+  if ($results) {
+    foreach ($results as $result) {
+      _tmgmt_poetry_update_item_status($result->tjiid, "", $status_message, "");
+    }
+  }
+
+  // Reject the related sub Job.
+  $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+  foreach ($related_jobs as $related_job) {
+    $job_rejected = tmgmt_job_load($related_job->tjid);
+    $job_rejected->rejected(
+      $internal_message . " Message error: @error",
+      ['@error' => $message],
+      'error');
+    _tmgmt_poetry_update_item_status($related_job->tjiid, "", $status_message, "");
+  }
+}
+
+/**
+ * Fetches active translation jobs based on a given entity id.
+ *
+ * @param int $entity_id
+ *    Entity id.
+ *
+ * @return mixed
+ *    An array of results with active translation jobs for given entity id.
+ */
+function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
+  $query = db_select('tmgmt_job_item', 'item');
+  $query->join('tmgmt_job', 'job', 'item.tjid = job.tjid');
+  $query->groupBy('job.tjid');
+  $query->condition('item.item_id', $entity_id, '=');
+  $query->condition('job.state', TMGMT_JOB_STATE_ACTIVE, '=');
+  // List of available fields form tmgmt_job_item column.
+  $query->fields('item', [
+    'tjiid',
+    'item_type',
+    'item_id',
+    'state',
+  ]);
+  // List of available fields form tmgmt_job column.
+  $query->fields('job', [
+    'tjid',
+    'reference',
+    'source_language',
+    'target_language',
+    'state',
+    'changed',
+  ]);
+
+  $result = $query->execute()->fetchAllAssoc('tjid');
+  return $result;
+}
+
+/**
+ * Insert a row on the item status table.
+ *
+ * @param int $tjiid
+ *   Job item identifier.
+ * @param string $target_language
+ *   Target language.
+ * @param string $status
+ *   Item status.
+ * @param string $delai
+ *   Item delay.
+ */
+function _tmgmt_poetry_insert_item_status($tjiid, $target_language, $status, $delai) {
+  // Converting date format.
+  if (strtotime($delai)) {
+    $delai = format_date(strtotime($delai), 'custom', 'd/m/Y');
+  }
+
+  db_insert('poetry_status')
+    ->fields(array(
+      'tjiid' => $tjiid,
+      'target_language' => $target_language,
+      'status' => $status,
+      'delai' => $delai,
+    ))
+    ->execute();
+}
+
+/**
+ * Update a row on the item status table.
+ *
+ * @param int $tjiid
+ *   Job item identifier.
+ * @param string $target_language
+ *   Target language.
+ * @param string $status
+ *   Item status.
+ * @param string $delai
+ *   Item delay.
+ */
+function _tmgmt_poetry_update_item_status($tjiid, $target_language, $status, $delai) {
+  if (empty($target_language) && empty($status) && empty($delai)) {
+    return;
+  }
+
+  $query = db_update('poetry_status');
+  if (!empty($target_language)) {
+    $query->fields(array('target_language' => $target_language));
+  }
+  if (!empty($status)) {
+    $query->fields(array('status' => $status));
+  }
+  if (!empty($delai)) {
+    $query->fields(array('delai' => $delai));
+  }
+  $query->condition('tjiid', $tjiid, '=');
+  $query->execute();
+}
+
+/**
+ * Implements hook_views_default_views_alter().
+ */
+function tmgmt_poetry_views_default_views_alter(&$views) {
+
+  if (isset($views['tmgmt_ui_job_overview'])) {
+
+    $handler =& $views['tmgmt_ui_job_overview']->display['default']->handler;
+    /* Filter criterion: Translation Management Job: Reference. */
+    $handler->display->display_options['filters']['reference']['id'] = 'reference';
+    $handler->display->display_options['filters']['reference']['table'] = 'tmgmt_job';
+    $handler->display->display_options['filters']['reference']['field'] = 'reference';
+    $handler->display->display_options['filters']['reference']['operator'] = 'contains';
+    $handler->display->display_options['filters']['reference']['group'] = 1;
+    $handler->display->display_options['filters']['reference']['exposed'] = TRUE;
+    $handler->display->display_options['filters']['reference']['expose']['operator_id'] = 'reference_op';
+    $handler->display->display_options['filters']['reference']['expose']['label'] = 'Reference';
+    $handler->display->display_options['filters']['reference']['expose']['operator'] = 'reference_op';
+    $handler->display->display_options['filters']['reference']['expose']['identifier'] = 'reference';
+    $handler->display->display_options['filters']['reference']['expose']['remember_roles'] = array(
+      2 => '2',
+      1 => 0,
+      4 => 0,
+      3 => 0,
+      5 => 0,
+      6 => 0,
+      7 => 0,
+    );
+
+    /* Place reference filter & bulk op in first position. */
+    $filter_ref = $handler->display->display_options['filters']['reference'];
+    unset($handler->display->display_options['filters']['reference']);
+    array_unshift($handler->display->display_options['filters'], $filter_ref);
+
+    /* Group filters */
+    $handler->display->display_options['filters']['state']['group'] = 1;
+    $handler->display->display_options['filters']['source_language']['group'] = 1;
+    $handler->display->display_options['filters']['target_language']['group'] = 1;
+    $handler->display->display_options['filters']['translator']['group'] = 1;
+
+    /* Field: Translation Management Job: Reference */
+    $handler->display->display_options['fields']['reference']['id'] = 'reference';
+    $handler->display->display_options['fields']['reference']['table'] = 'tmgmt_job';
+    $handler->display->display_options['fields']['reference']['field'] = 'reference';
+
+    /* Place reference field in first position */
+    $ref = $handler->display->display_options['fields']['reference'];
+    unset($handler->display->display_options['fields']['reference'], $handler->display->display_options['fields']['views_bulk_operations']);
+    array_unshift($handler->display->display_options['fields'], $ref);
+  }
+}
+
+/**
+ * Loads an array with the word and status statistics of a job.
+ *
+ * @param array $tjids
+ *   An array of job ids.
+ *
+ * @return array
+ *   An array of objects with the keys word_count, count_pending,
+ *   count_accepted, count_reviewed and count_translated.
+ */
+function tmgmt_poetry_job_statistics_load(array $tjids) {
+  $statistics = &drupal_static(__FUNCTION__, array());
+
+  // First try to get the values from the cache.
+  $return = array();
+  $tjids_to_load = array();
+  foreach ($tjids as $tjid) {
+    if (isset($statistics[$tjid])) {
+      // Info exists in cache, get it from there.
+      $return[$tjid] = $statistics[$tjid];
+    }
+    else {
+      // Info doesn't exist in cache, add job to the list that needs to be
+      // fetched.
+      $tjids_to_load[] = $tjid;
+    }
+  }
+
+  // If there are remaining jobs, build a query to fetch them.
+  if (!empty($tjids_to_load)) {
+    foreach ($tjids_to_load as $tjid_to_load) {
+      // Build the query to fetch the statistics.
+      $query = db_select('tmgmt_job_item', 'tji_item');
+      $query->join('tmgmt_job', 'tji_job', 'tji_item.tjid = tji_job.tjid');
+      $query->addExpression($tjid_to_load, 'tjid');
+      $query->addExpression('SUM(word_count)', 'word_count');
+      $query->addExpression('SUM(count_accepted)', 'count_accepted');
+      $query->addExpression('SUM(count_reviewed)', 'count_reviewed');
+      $query->addExpression('SUM(count_pending)', 'count_pending');
+      $query->addExpression('SUM(count_translated)', 'count_translated');
+      $result = $query->condition('reference', "^(MAIN|SUB)_" . $tjid_to_load . "_", "REGEXP")
+        ->execute();
+
+      foreach ($result as $row) {
+        $return[$row->tjid] = $statistics[$row->tjid] = $row;
+      }
+    }
+  }
+  return $return;
+}
+
+/**
+ * Returns a specific statistic of a task.
+ *
+ * @param TMGMTJob $job
+ *   The translation task entity.
+ * @param string $key
+ *   One of word_count, loop_count, count_pending, count_accepted and
+ *   count_translated.
+ *
+ * @return int
+ *   The requested information as an integer.
+ */
+function tmgmt_poetry_job_statistics(TMGMTJob $job, $key) {
+  $statistics = tmgmt_poetry_job_statistics_load(array($job->tjid));
+  if (isset($statistics[$job->tjid]->$key)) {
+    return $statistics[$job->tjid]->$key;
+  }
+  return 0;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function tmgmt_poetry_theme($existing, $type, $theme, $path) {
+  // Setting up templates path.
+  $templates_path = drupal_get_path('module', 'tmgmt_poetry') . '/templates';
+  return [
+    'tmgmt_poetry_progress_field' => [
+      'variables' => [
+        'stats' => NULL,
+        'title' => NULL,
+      ],
+      'template' => 'tmgmt-poetry-progress-field',
+      'path' => $templates_path,
+    ],
+  ];
+}
+
+/**
+ * Preprocess theme function for the progress field.
+ *
+ * It adds specific CSS styles for the progress field.
+ */
+function tmgmt_poetry_preprocess_tmgmt_poetry_progress_field(&$variables) {
+  drupal_add_css(drupal_get_path('module', 'tmgmt_poetry') . '/css/tmgmt_poetry.css');
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function tmgmt_poetry_views_api() {
+  return [
+    'api' => 3,
+    'path' => drupal_get_path('module', 'tmgmt_poetry') . '/views',
+  ];
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function tmgmt_poetry_page_alter(&$page) {
+  // Removing empty workbench block from request translation page.
+  if (in_array('node', arg()) && in_array('translate', arg())) {
+    unset($page['content']['workbench_block']);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Change tmgmt_entity_ui_translate_form form to
+ * allow user to request a translation update.
+ */
+function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+  $entity_type = $form_state['entity_type'];
+  if ($entity_type == 'node') {
+    $node = $form_state['entity'];
+    if (workbench_moderation_node_moderated($node)) {
+
+      $existing_jobs = tmgmt_job_item_load_latest(
+        'workbench_moderation',
+        $entity_type,
+        $node->nid,
+        $node->translations->original
+      );
+
+      if (!empty($existing_jobs)) {
+
+        $translation_possible = TRUE;
+
+        // Check the poetry status of subjobs.
+        foreach ($existing_jobs as $existing_job) {
+          // Check if it's a poetry job.
+          $translator = $existing_job->getTranslator();
+          if ($translator && $translator->plugin != 'poetry') {
+            return;
+          }
+
+          // Check the poetry status.
+          $result = db_select('poetry_status', 'ps')
+            ->fields('ps')
+            ->condition('tjiid', $existing_job->tjiid, '=')
+            ->execute()
+            ->fetchAssoc();
+
+          if (isset($result['status']) && $result['status'] == POETRY_STATUS_MESSAGE_PEN) {
+            $translation_possible = FALSE;
+          }
+        }
+
+        // Force form to allow user actions.
+        $form_state['force_actions'] = TRUE;
+
+        if ($translation_possible) {
+          // Add the new submit button.
+          $form['actions']['request'] = [
+            '#type' => 'submit',
+            '#value' => t('Request translation update'),
+            '#submit' => ['tmgmt_workbench_translate_form_submit'],
+            '#validate' => ['tmgmt_workbench_translate_form_validate'],
+            '#limit_validation_errors' => array(
+              array('languages'),
+            ),
+          ];
+        }
+        else {
+          // Disable all actions.
+          unset($form['actions']);
+          $lang_codes = array_keys($form['languages']['#options']);
+          foreach ($lang_codes as $lang_code) {
+            $form['languages'][$lang_code] = [
+              '#type' => 'checkbox',
+              '#disabled' => TRUE,
+            ];
+          }
+          $form['languages_description'] = [
+            '#type' => 'item',
+            '#prefix' => '<div class="messages warning">',
+            '#markup' => t('Please wait the acceptation translation process before update request.'),
+            '#suffix' => '</div>',
+          ];
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_poetry_menu() {
+  $items = array();
+  $items['tmgmt_poetry/service_callback'] = array(
+    'page callback' => '_tmgmt_poetry_service_callback',
+    'access callback' => TRUE,
+  );
+
+  $items[drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl"] = array(
+    'page callback' => '_tmgmt_poetry_wsdl',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function tmgmt_poetry_permission() {
+  return array(
+    'manage feature dgt connector' => array(
+      'title' => t('Configure DGT connector'),
+    ),
+  );
+}
+
+
+/**
+ * Provides main TMGMT job based on the given entity id.
+ *
+ * @param int $entity_id
+ *   Entity id.
+ *
+ * @return \TMGMTJob|bool
+ *   TMGMT Job object or FALSE.
+ */
+function _tmgmt_poetry_get_main_job_by_entity_id($entity_id) {
+  $query = db_select('tmgmt_job_item', 'tji');
+  $query->join('tmgmt_job', 'tj', 'tji.tjid = tj.tjid');
+  $query->fields('tj', ['tjid', 'reference']);
+  $query->condition('tji.item_id', $entity_id, '=');
+  $query->condition('reference', "^(MAIN)_", "REGEXP");
+  $result = $query->execute()->fetchAssoc();
+
+  if ($result) {
+    return tmgmt_job_load($result['tjid']);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Creates 'sub' job and related job item based on the 'main' job and language.
+ *
+ * @param string $lg_code
+ *   Language code.
+ * @param \TMGMTPoetryJob $main_job
+ *   Main TMGMT Poetry job.
+ */
+function _tmgmt_poetry_create_job_and_item($lg_code, TMGMTPoetryJob $main_job) {
+  $languages = language_list('language');
+  $job = tmgmt_job_create($main_job->source_language, $lg_code, $main_job->uid);
+  $main_job_items = $main_job->getItems();
+  $main_job_item = array_shift($main_job_items);
+
+  $job->translator = $main_job->translator;
+  $job->reference = str_replace(
+    'MAIN_' . $main_job->tjid . '_POETRY_',
+    'SUB_' . $main_job->tjid . '_POETRY_',
+    $main_job->reference
+  );
+  $job->label = $main_job->label . ' ' . $languages[$lg_code]->name;
+  $job->save();
+  $job->submitted();
+
+  $job_item = tmgmt_job_item_create($main_job_item->plugin, $main_job_item->item_type, $main_job_item->item_id);
+  $job_item->tjid = $job->tjid;
+
+  $job->state = TMGMT_JOB_STATE_ACTIVE;
+  $job_item->save();
+  _tmgmt_poetry_insert_item_status($job_item->tjiid, $job->target_language, "Pending", date('Y-m-d', strtotime('+1 month')));
+}

@@ -5,7 +5,7 @@
  * Code to manage events triggered on the version management checkbox.
  */
 
-$.noConflict();
+jQuery.noConflict();
 
 (function ($) {
   Drupal.behaviors.myBehavior = {
