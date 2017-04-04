@@ -339,7 +339,7 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.x-dev"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][subdir] = "contrib"
 projects[integration][version] = "1.x-dev"
