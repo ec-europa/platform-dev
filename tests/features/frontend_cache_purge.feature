@@ -584,7 +584,7 @@ Feature:
     When I go to "admin/config/system/nexteuropa-varnish/general"
     And I press "Purge all caches"
     Then I should see "Are you sure you want to purge all site's caches (Varnish included)?"
-    And I should see "The action you are about to perform has deep impacts on site's performances!"
+    And I should see "The action you are about to perform has a deep impact on the site's performance!"
     When I press "Continue"
     Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
     And I should see the success message "The Drupal and Varnish caches have been fully flushed."
