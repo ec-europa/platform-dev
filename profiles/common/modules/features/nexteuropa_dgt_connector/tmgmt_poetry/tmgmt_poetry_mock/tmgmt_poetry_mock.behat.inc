@@ -11,6 +11,8 @@ use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
 use Behat\Gherkin\Node\TableNode;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isTrue;
@@ -115,21 +117,40 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Remove pending translations in a scenario tagged with @poetry_mock.
+   * Remove all translation files in a scenario tagged with @poetry_mock.
    *
-   * @poetry_mock
+   * @AfterScenario @poetry_mock
    */
-  public function removePendingTranslations() {
+  public function removeAllRequestTranslationFiles() {
     PoetryMock::removeAllRequestTranslationFiles();
+
+    // Delete the tmgmt_file directory.
+    $tmgmt_poetry_dir = drupal_realpath('public://') . '/tmgmt_file';
+    $process = new Process('rm -rf ' . $tmgmt_poetry_dir);
+    $process->run();
+
+    if (!$process->isSuccessful()) {
+      throw new ProcessFailedException($process);
+    }
   }
 
   /**
    * Remove pending jobs in a scenario tagged with @poetry_mock.
    *
-   * @poetry_mock
+   * @AfterScenario @poetry_mock
    */
-  public function removePendingJobss() {
+  public function removePendingJobs() {
     PoetryMock::removeAllRequestJobs();
+  }
+
+  /**
+   * Removes the mock TMGMT translator.
+   *
+   * @AfterScenario @poetry_mock_cleanup_translator
+   */
+  public function cleanupMockTranslator() {
+    PoetryMock::removeMockTranslator();
+    PoetryMock::importMockTranslator();
   }
 
   /**
