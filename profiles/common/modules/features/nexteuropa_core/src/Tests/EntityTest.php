@@ -17,6 +17,15 @@ use Drupal\nexteuropa\Unit\AbstractUnitTest;
 class EntityTest extends AbstractUnitTest {
 
   /**
+   * EntityTest constructor.
+   */
+  public function __construct($name = NULL, array $data = [], $data_name = '') {
+    parent::__construct($name, $data, $data_name);
+
+    module_enable(['nexteuropa_core']);
+  }
+
+  /**
    * Test Entities.
    *
    * Test existence of entity_type property,
