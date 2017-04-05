@@ -17,12 +17,12 @@ Table of content:
 
 2 milestones are foreseen during the module development.
 
-# Milestone 1: Small jobs (Target end of June)
+## Milestone 1: Small jobs (Target end of June)
 
 To reach this milestone, the following development tasks will be executed:
 
 1. Adapting the TMGMT's "Add to card" feature for allowing users selecting elements to translate and
- for each of them attaching an URL that will be communicated to DGT as reference for helping the content translators 
+ for each of them, attaching an URL that will be communicated to DGT as reference for helping the content translators 
  (NEPT-869).
 2. Tailoring the TMGMT's "Add to card" checkout page to business requirements like the possibility to edit the URL
  for a card's element (NEPT-870, NEPT-871, NEPT-872 and NEPT-873).
@@ -31,17 +31,19 @@ To reach this milestone, the following development tasks will be executed:
 This translator will consume services supplied by a dedicated PHP component for communicating with the 
 Poetry European Service (coming soon, see NEPT-27).
 
-# Milestone 2: Merging of the TMGMT Poetry module (Big jobs, unplanned yet)
+## Milestone 2: Merging of the TMGMT Poetry module (Big jobs, unplanned yet)
 
 It is foreseen to abandon eventually the "TMGMT Poetry" module and to integrate its features in this module.
-Until then, the "TMGMT Poetry" module and its features will be kept for managing the translation requests for big contents.
+
+Until then, the "TMGMT Poetry" module and its features will be kept for managing the translation requests for 
+big contents.
 
 # Installation
 
-The installation has the same perquisites as "NextEuropa DGT Connector" feature. 
+The installation has the same perquisites as the "NextEuropa DGT Connector" feature. 
 
 So, please follow the instructions of the "[installation section](../README.md#a-installation)" of the "NextEuropa 
-DGT Connector" README in order in order to install it.
+DGT Connector" README in order to install it.
 
 # Configuration
 
