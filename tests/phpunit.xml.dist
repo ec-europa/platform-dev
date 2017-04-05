@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<phpunit bootstrap="{{ phpunit.dir }}/bootstrap.php">
+<phpunit bootstrap="{{ phpunit.dir }}/bootstrap.php"
+         backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="false">
     <testsuites>
         <testsuite>
             <directory>{{ platform.build.dir }}/profiles/common/modules/custom/*/src/Tests</directory>

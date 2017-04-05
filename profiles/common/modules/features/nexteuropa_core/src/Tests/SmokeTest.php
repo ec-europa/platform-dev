@@ -2,25 +2,31 @@
 
 /**
  * @file
- * Contains \Drupal\nexteuropa_core\Tests\SmokeTest.
+ * Contains \Drupal\nexteuropa_core\Tests\HookAlterTest.
  */
 
 namespace Drupal\nexteuropa_core\Tests;
 
 use Drupal\nexteuropa\Unit\AbstractUnitTest;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\hasKey;
 
 /**
- * Class SmokeTest.
+ * Class HookAlterTest.
  *
  * @package Drupal\nexteuropa_core\Tests
  */
-class SmokeTest extends AbstractUnitTest {
+class HookAlterTest extends AbstractUnitTest {
 
   /**
-   * Smoke test.
+   * Test nexteuropa_core_token_info_alter().
    */
-  public function testSmoke() {
-    $this->assertTrue(TRUE);
+  public function testTokenInfoAlterSmoke() {
+    $data = [];
+    nexteuropa_core_token_info_alter($data);
+    assert($data, hasKey('tokens'));
+    assert($data['tokens'], hasKey('term'));
+    assert($data['tokens']['term'], hasKey('parents-uri'));
   }
 
 }
