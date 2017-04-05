@@ -1,6 +1,0 @@
-name = Nexteuropa Display Suite layouts
-description  = "Display Suite layouts using BEM methodology provided for next europa sites"
-package = "Nexteuropa Digital Transformation"
-core = 7.x
-
-dependencies[] = ds
