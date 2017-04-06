@@ -11,19 +11,10 @@
 ## Install build system
 
 Before we can build the NextEuropa platform we need to install the build system
-itself. This can be done using composer:
+itself. This can be done using [composer](https://getcomposer.org/):
 
 ```
 $ composer install
-```
-
-### Tips
-
-If you have a global install of composer already, this may cause conflict.
-Try the command below.
-
-```
-$ curl -sS https://getcomposer.org/installer | php
 ```
 
 ## Customize build properties
