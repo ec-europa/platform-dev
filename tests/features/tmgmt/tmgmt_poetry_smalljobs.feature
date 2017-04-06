@@ -8,7 +8,7 @@ Feature: TMGMT Poetry features
     Given the module is enabled
       |modules                |
       |tmgmt_poetry_mock      |
-      |tmgmt_poetry_smalljobs |
+      |tmgmt_dgt_connector    |
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
