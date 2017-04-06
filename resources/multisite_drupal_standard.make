@@ -76,7 +76,7 @@ projects[bean][version] = 1.9
 projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.2"
+projects[better_exposed_filters][version] = "3.4"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
