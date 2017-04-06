@@ -252,15 +252,6 @@ function _nexteuropa_varnish_purge_paths($paths) {
   // all possible base URLs. This can be improved later on.
   cache_clear_all('*', 'cache_page', TRUE);
 
-  watchdog(
-    'nexteuropa_varnish',
-    'Clearing paths: @paths',
-    array(
-      '@paths' => implode(', ', $paths),
-    ),
-    WATCHDOG_INFO
-  );
-
   // Escape the paths for usage in a regular expression. Also remove leading
   // slashes.
   $escaped_paths = array_map(
@@ -287,7 +278,16 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $escaped_paths
   );
 
-  _nexteuropa_varnish_varnish_requests_send($escaped_paths);
+  if (_nexteuropa_varnish_varnish_requests_send($escaped_paths)) {
+    watchdog(
+      'nexteuropa_varnish',
+      'Clearing paths: @paths',
+      array(
+        '@paths' => implode(', ', $paths),
+      ),
+      WATCHDOG_INFO
+    );
+  }
 }
 
 /**
