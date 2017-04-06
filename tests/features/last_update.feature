@@ -5,10 +5,10 @@ Feature: Last Update
   I want to be able to add a block that shows the last update date of any given entity
 
 Background:
-  Given I am logged in as a user with the 'administrator' role
-  And the module is enabled
-    | modules                   |
+  Given the module is enabled
+    | modules               |
     | nexteuropa_lastupdate |
+  And I am logged in as a user with the 'administrator' role
 
 Scenario: Administrators can add the last update block in a region
   When I visit "admin/structure/block"
