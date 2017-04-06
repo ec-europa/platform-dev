@@ -175,7 +175,7 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
         }
       }
 
-      if (!module_exists('tmgmt_poetry_smalljobs')) {
+      if (!module_exists('tmgmt_dgt_connector')) {
         // Remove add to cart button.
         unset($form['top_actions']);
       }
