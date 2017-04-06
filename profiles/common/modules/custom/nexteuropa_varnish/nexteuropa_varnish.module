@@ -21,6 +21,16 @@ function nexteuropa_varnish_menu() {
     'file' => 'nexteuropa_varnish.admin.inc',
   );
 
+  $items['admin/config/system/nexteuropa-varnish/purge_all'] = array(
+    'title' => 'Next Europa Varnish - Purge confirmation',
+    'description' => 'Confirmation form for the varnish purge flush.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_varnish_purge_all_form'),
+    'access arguments' => array('administer frontend cache purge rules'),
+    'file' => 'nexteuropa_varnish.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
   $items['admin/config/system/nexteuropa-varnish/general'] = array(
     'title' => 'General settings',
     'type' => MENU_DEFAULT_LOCAL_TASK,
@@ -234,20 +244,6 @@ function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
  * Purges certain paths on the web frontend cache.
  */
 function _nexteuropa_varnish_purge_paths($paths) {
-  try {
-    $settings = _nexteuropa_varnish_get_varnish_settings();
-  }
-  catch (InvalidArgumentException $iae) {
-    $log_link = l(t('status report page'), 'admin/reports/status_en');
-    watchdog(
-      'nexteuropa_varnish',
-      'No path has been sent for clearing because all module settings are not set.',
-      array(),
-      WATCHDOG_CRITICAL,
-      $log_link
-    );
-    return;
-  }
   // First clear the actual backend page cache (usually DrupalDatabaseCache).
   // Otherwise the web frontend cache will receive again
   // outdated cached versions of pages.
@@ -291,65 +287,150 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $escaped_paths
   );
 
-  $request_path = '/invalidate';
-
-  $base_request_headers = _nexteuropa_varnish_base_request_headers();
-  $request_headers = $base_request_headers + array(
-    'X-Invalidate-Tag' => $settings['varnish_tag'],
-    'X-Invalidate-Type' => 'regexp-multiple',
-    'X-Invalidate-Regexp' => '^(' . implode('|', $escaped_paths) . ')$',
-  );
-
-  $http_targets = $settings['varnish_http_targets'];
-
-  foreach ($http_targets as $target) {
-    $url = sprintf('%s%s', $target, $request_path);
-
-    $response = drupal_http_request(
-      $url,
-      array(
-        'headers' => $request_headers,
-        'method' => $settings['varnish_request_method'],
-        'timeout' => $settings['varnish_http_timeout'],
-      )
-    );
-
-    if (isset($response->error)) {
-      watchdog(
-        'nexteuropa_varnish',
-        'Clear operation failed for target %target: %code %error',
-        array(
-          '%target' => $target,
-          '%error' => $response->error,
-          '%code' => $response->code,
-        ),
-        WATCHDOG_ERROR
-      );
-    }
-  }
+  _nexteuropa_varnish_varnish_requests_send($escaped_paths);
 }
 
 /**
- * Get the base headers for the web frontend cache purge requests.
+ * Sends the purge HTTP requests to the different Varnish servers.
  *
- * @return array
- *   Key value pairs of request headers.
+ * The servers that must receive purging request are defined in the module's
+ * settings.
+ *
+ * @param array $path_regexp_rules
+ *   The purge URL purge rule(s) (X-Invalidate-Regexp) sent to Varnish.
+ *     Rules must contain escaped paths.
+ *
+ * @return bool
+ *   TRUE if all requests have been sent successfully; otherwise FALSE.
  */
-function _nexteuropa_varnish_base_request_headers() {
-  $headers = array();
+function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array()) {
   try {
     $settings = _nexteuropa_varnish_get_varnish_settings();
+
+    $request_options = _nexteuropa_varnish_prepare_request_options($path_regexp_rules, $settings);
+
+    // Sending the HTTP requests to the Varnish server(s)
+    $http_targets = $settings['varnish_http_targets'];
+    $request_path = '/invalidate';
+    $requests_ok = TRUE;
+    foreach ($http_targets as $target) {
+      $url = sprintf('%s%s', $target, $request_path);
+      $response = drupal_http_request(
+        $url,
+        $request_options
+      );
+
+      if (isset($response->error)) {
+        watchdog(
+          'nexteuropa_varnish',
+          'Clear operation failed for target %target: %code %error',
+          array(
+            '%target' => $target,
+            '%error' => $response->error,
+            '%code' => $response->code,
+          ),
+          WATCHDOG_ERROR
+        );
+        $requests_ok = FALSE;
+      }
+    }
+
+    return $requests_ok;
   }
   catch (InvalidArgumentException $iae) {
     $log_link = l(t('status report page'), 'admin/reports/status_en');
     watchdog(
       'nexteuropa_varnish',
-      'The HTTP request header is not correctly set because all module settings are not set.',
+      'No path has been sent for clearing because all module settings are not set.',
       array(),
       WATCHDOG_CRITICAL,
       $log_link
     );
-    return $headers;
+    return FALSE;
+  }
+}
+
+/**
+ * Prepares Options use of the HTTP requests sent to the  Varnish servers.
+ *
+ * @param array $path_regexp_rules
+ *   The purge URL purge rule(s) (X-Invalidate-Regexp) sent to Varnish.
+ *     Rules must contain escaped paths.
+ * @param array $settings
+ *   The authentication attributes to inject in the request header; I.E.:
+ *   - varnish_request_user: the Varnish authentication user;
+ *   - varnish_request_password:the Varnish authentication password;
+ *   - varnish_tag: Site's Varnish tag;
+ *   - varnish_request_method: The HTTP method to use with the request;
+ *   - varnish_http_timeout: The timeout to set for the request.
+ *   If empty, the values set in the module configuration are used.
+ *
+ * @return array
+ *   The HTTP request options have the following elements:
+ *   - headers: An array containing request headers with the Varnish
+ *     "X-Invalidate" parameters.
+ *   - method: A string containing the request method as define in the module
+ *     configuration.
+ *   - timeout: A float representing the request time out expressed in seconds,
+ *     as define in the module configuration.
+ *
+ * @throws \InvalidArgumentException
+ *   If the settings are incomplete.
+ *
+ * @see drupal_http_request()
+ */
+function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(), $settings = array()) {
+  if (!$settings) {
+    $settings = _nexteuropa_varnish_get_varnish_settings();
+  }
+
+  // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
+  // basis of $path_regexp_rules.
+  $invalidate_type = 'full';
+  $sent_regexp = '';
+  if (!empty($path_regexp_rules)) {
+    $invalidate_type = 'regexp-multiple';
+    $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
+  }
+
+  // Preparing the requests for Varnish server(s).
+  $base_request_headers = _nexteuropa_varnish_base_request_headers($settings);
+  $request_headers = $base_request_headers + array(
+    'X-Invalidate-Tag' => $settings['varnish_tag'],
+    'X-Invalidate-Type' => $invalidate_type,
+    'X-Invalidate-Regexp' => $sent_regexp,
+  );
+
+  $request_method = $settings['varnish_request_method'];
+
+  return array(
+    'headers' => $request_headers,
+    'method' => $request_method,
+    'timeout' => $settings['varnish_http_timeout'],
+  );
+}
+
+
+/**
+ * Get the base headers for the web frontend cache purge requests.
+ *
+ * @param array $settings
+ *   The authentication attributes to inject in the request header; I.E.:
+ *   - varnish_request_user: the Varnish authentication user;
+ *   - varnish_request_password:the Varnish authentication password;
+ *   If empty, the values set in the module configuration are used.
+ *
+ * @return array
+ *   Key value pairs of request headers.
+ *
+ * @throws \InvalidArgumentException
+ *   If the settings are incomplete.
+ */
+function _nexteuropa_varnish_base_request_headers($settings = array()) {
+  $headers = array();
+
+  if (!$settings) {
+    $settings = _nexteuropa_varnish_get_varnish_settings();
   }
 
   $request_user = $settings['varnish_request_user'];
