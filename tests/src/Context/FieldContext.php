@@ -7,6 +7,7 @@
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
+use Exception;
 
 /**
  * Context with field management.
@@ -30,7 +31,7 @@ class FieldContext implements Context {
   /**
    * Remember the list of fields existing by default in the site.
    *
-   * @BeforeScenario
+   * @BeforeScenario @resetFields
    */
   public function rememberCurrentFields() {
     $this->defaultFields = field_info_field_map();
@@ -39,7 +40,7 @@ class FieldContext implements Context {
   /**
    * Removes any fields created by a scenario.
    *
-   * @AfterScenario
+   * @AfterScenario @resetFields
    */
   public function resetFields() {
     $current_fields = field_info_field_map();
@@ -80,7 +81,7 @@ class FieldContext implements Context {
   /**
    * Remember the list of field groups existing by default in the site.
    *
-   * @BeforeScenario
+   * @BeforeScenario @resetFieldGroups
    */
   public function rememberCurrentFieldGroups() {
     $this->defaultFieldGroups = field_group_read_groups();
@@ -89,7 +90,7 @@ class FieldContext implements Context {
   /**
    * Removes any fields group created by a scenario.
    *
-   * @AfterScenario
+   * @AfterScenario @resetFieldGroups
    */
   public function resetFieldGroups() {
     $current_field_groups = field_group_read_groups();
@@ -139,6 +140,24 @@ class FieldContext implements Context {
           break;
       }
     }
+  }
+
+  /**
+   * Configures the group access field for testing purposes.
+   *
+   * @Given the group access field is configured for test
+   */
+  public function groupAccessFieldIsConfiguredForTest() {
+    $info = field_info_field('group_access');
+    if (is_null($info)) {
+      throw new Exception(
+        sprintf('The group access field not found.')
+      );
+    }
+    $values = &$info['settings']['allowed_values'];
+    $values[0] = 'Public';
+    $values[1] = 'Private';
+    field_update_field($info);
   }
 
 }

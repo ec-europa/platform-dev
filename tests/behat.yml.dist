@@ -9,7 +9,6 @@ default:
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\ApacheSolrContext
         - Drupal\nexteuropa\Context\CKEditorContext
-        - Drupal\DrupalExtension\Context\DrushContext
         - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
@@ -34,6 +33,9 @@ default:
         - Drupal\nexteuropa\Context\MultilingualContext
         - Drupal\nexteuropa\Context\DrupalMailContext
         - Drupal\nexteuropa\Context\PiwikRulesContext
+        - Drupal\nexteuropa\Context\DrushContext:
+            drush_bin: "{{ drush.bin }}"
+            db_dump_location: '{{ drush.db.dump }}'
       filters:
         tags: "~@wip&&~@communities"
   extensions:
