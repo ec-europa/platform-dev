@@ -21,5 +21,6 @@
         <const name="DRUPAL_ROOT" value="{{ platform.build.dir }}"/>
         <const name="BASE_URL" value="{{ phpunit.base_url }}"/>
         <server name="REMOTE_ADDR" value="127.0.0.1"/>
+        <server name="REQUEST_METHOD" value="GET"/>
     </php>
 </phpunit>
