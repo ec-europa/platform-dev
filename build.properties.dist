@@ -133,6 +133,24 @@ behat.load_balancer.root = ${behat.dir}
 behat.load_balancer.destination = ${behat.dir}/balancer
 behat.load_balancer.import = ${behat.yml.path}
 
+# PHPUnit configuration
+# -------------------
+
+# The location of the PHPUnit executable.
+phpunit.bin = ${project.basedir}/bin/phpunit
+
+# The location of the PHPUnit configuration files.
+phpunit.dir = ${project.basedir}/tests
+
+# The location of the PHPUnit configuration template.
+phpunit.xml.template = ${phpunit.dir}/phpunit.xml.dist
+
+# The location of the generated Behat configuration file.
+phpunit.xml.path = ${phpunit.dir}/phpunit.xml
+
+# The base URL to use in PHPUnit tests.
+phpunit.base_url = ${behat.base_url}
+
 # PHP CodeSniffer configuration
 # -----------------------------
 
