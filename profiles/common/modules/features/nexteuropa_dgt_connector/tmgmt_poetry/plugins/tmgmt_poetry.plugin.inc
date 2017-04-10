@@ -139,10 +139,23 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   public function requestTranslation(TMGMTJob $job) {
 
-    // Pull the source data array through the job and flatten it.
-    $xml = $this->prepareDataForSending($job);
-    // Request translation from MT@EC service.
-    $response = $this->doRequest(array('xml' => $xml), $job);
+    // Load translator settings.
+    $translator = $job->getTranslator();
+    // Load data exporter.
+    $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
+
+    // Encode the data to be translated.
+    $content = base64_encode($controller->export($job));
+
+    // Generate the ID for the request.
+    $items = $job->getItems();
+    $item = array_shift($items);
+    $settings = $translator->getSetting('settings');
+    $id_data = $this->generateRequestId($item, $settings);
+
+    $dgt_connector = new DGTConnector($settings);
+    $response = $dgt_connector->doRequest($id_data, $job, $content);
+
     // Handling response.
     $response_xml = simplexml_load_string($response);
     // If it is not an xml response, the SOAP request failed.
@@ -222,161 +235,6 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   }
 
   /**
-   * Prepares data to be send to Poetry service.
-   *
-   * @param TMGMTJob $job
-   *   Job object.
-   *
-   * @return string
-   *   Data for sending to the translator service.
-   */
-  protected function prepareDataForSending(TMGMTJob $job) {
-    $xml = $this->generateRequestXml($job);
-    return $xml;
-  }
-
-  /**
-   * Helper function to create the XML to send to Poetry.
-   */
-  protected function generateRequestXml($job) {
-
-    // Load translator settings.
-    $translator = $job->getTranslator();
-    // Load data exporter.
-    $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
-
-    // Encode the data to be translated.
-    $content = base64_encode($controller->export($job));
-
-    // Generate the ID for the request.
-    $items = $job->getItems();
-    $item = array_shift($items);
-    $settings = $translator->getSetting('settings');
-    $id_data = $this->generateRequestId($item, $settings);
-
-    // Generate the callback parameters.
-    $callback_username = $settings['callback_user'];
-    $callback_password = $settings['callback_password'];
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
-      'absolute' => TRUE,
-      'language' => (object) array('language' => FALSE),
-    ));
-    $callback_path = 'FPFISPoetryIntegrationRequest';
-    $callback_remark = '';
-
-    // Create initial XML element using POETRY headers.
-    $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding=\"utf-8\" ?>
-<POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_services/poetry.xsd\">
-</POETRY>");
-
-    // Add main request element.
-    $request = $xml->addChild('request');
-    $request->addAttribute('communication', 'asynchrone');
-    $request->addAttribute('id', implode("/", $id_data));
-    $request->addAttribute('type', 'newPost');
-
-    // Add the ID to the request.
-    $demande_id = $request->addChild('demandeId');
-    foreach ($id_data as $key => $value) {
-      $demande_id->addChild($key, $value);
-    }
-
-    // Add request information.
-    $organization = $job->settings['organization'];
-    $demande = $request->addChild('demande');
-    $demande->addChild('userReference', 'Job ID ' . $job->tjid);
-
-    $website_identifier = $settings['website_identifier'];
-    if (isset($website_identifier)) {
-      $request_title = "NE-CMS: {$website_identifier} - {$job->label}";
-    }
-    else {
-      $request_title = 'NE-CMS: ' . $job->label;
-    }
-
-    $demande->titre = $request_title;
-    $demande->organisationResponsable = $organization['responsable'];
-    $demande->organisationAuteur = $organization['auteur'];
-    $demande->serviceDemandeur = $organization['demandeur'];
-    $demande->addChild('applicationReference', 'FPFIS');
-    $demande->addChild('delai', date('d/m/Y', strtotime($job->settings['delai'])));
-    $demande->remarque = $job->settings['remark'];
-
-    // Add the source url as a reference.
-    $item_type = $item->item_type;
-    $item_id = $item->item_id;
-    $source_url = url($item_type . "/" . $item_id, array('absolute' => TRUE));
-    $demande->addChild('referenceFilesNote', $source_url);
-
-    $procedure = $demande->addChild('procedure');
-    $procedure->addAttribute('id', 'NEANT');
-
-    $destination = $demande->addChild('destination');
-    $destination->addAttribute('id', 'PUBLIC');
-
-    $type = $demande->addChild('type');
-    $type->addAttribute('id', 'INTER');
-
-    // Get contact information from translator and add it to the request.
-    foreach ($job->settings['contacts'] as $contact_type => $contact_nickname) {
-      $contacts = $request->addChild('contacts');
-      $contacts->addAttribute('type', $contact_type);
-      $contacts->contactNickname = $contact_nickname;
-    }
-
-    // Add callback information to the request.
-    $retour = $request->addChild('retour');
-    $retour->addAttribute('type', 'webService');
-    $retour->addAttribute('action', 'UPDATE');
-    $retour->addChild('retourUser', $callback_username);
-    $retour->addChild('retourPassword', $callback_password);
-    $retour->addChild('retourAddress', $callback_address);
-    $retour->addChild('retourPath', $callback_path);
-    $retour->addChild('retourRemark', $callback_remark);
-
-    // Add the content to be translated.
-    $filename = 'content.html';
-    $document_source = $request->addChild('documentSource');
-    $document_source->addAttribute('format', 'HTML');
-    $document_source->addChild('documentSourceName', $filename);
-    $language = $document_source->addChild('documentSourceLang');
-    $language->addAttribute('lgCode', drupal_strtoupper($job->getTranslator()
-      ->mapToRemoteLanguage($job->source_language)));
-    $language->addChild('documentSourceLangPages', '1');
-    $document_source->addChild('documentSourceFile', $content);
-
-    $languages_to_request = array_merge(
-      array($job->target_language => $job->target_language),
-      $job->settings['languages']
-    );
-
-    foreach ($languages_to_request as $job_additional_lang_key => $job_additional_lang_value) {
-      $attribute_action = NULL;
-      if (isset($job->settings['translations']['removed']) && in_array($job_additional_lang_key, $job->settings['translations']['removed'])) {
-        $attribute_action = 'DELETE';
-      }
-      elseif (!empty($job_additional_lang_value)) {
-        if ((isset($job->settings['translations']['added']) && in_array($job_additional_lang_key, $job->settings['translations']['added']))
-          || !isset($job->settings['translations'])
-        ) {
-          $attribute_action = 'INSERT';
-        }
-      }
-      if (!empty($attribute_action)) {
-        $attribution = $request->addChild('attributions');
-        $attribution->addAttribute('format', 'HTML');
-        $attribution->addAttribute('lgCode', drupal_strtoupper($job->getTranslator()
-          ->mapToRemoteLanguage($job_additional_lang_key)));
-        $attribution->addAttribute('action', $attribute_action);
-        $attribution_delai = $attribution->addChild('attributionsDelai', date('d/m/Y', strtotime($job->settings['delai'])));
-        $attribution_delai->addAttribute('format', 'DD/MM/YYYY ');
-      }
-    }
-    return $xml;
-  }
-
-  /**
    * Helper method to generate a request id.
    *
    * @param TMGMTJobItem $item
@@ -445,59 +303,6 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
 
     );
     return $id_data;
-  }
-
-  /**
-   * Execute a request against the Poetry API.
-   */
-  protected function doRequest(array $query, TMGMTJob $job) {
-    return $this->sendSoapRequest($query['xml'], $job);
-  }
-
-  /**
-   * Helper method to send a soap request.
-   *
-   * @param SimpleXMLElement $xml
-   *   XML to send.
-   * @param TMGMTJob $job
-   *   Job we are processing.
-   */
-  protected function sendSoapRequest(SimpleXMLElement $xml, TMGMTJob $job) {
-    $msg = $xml->asXML();
-
-    $translator = $job->getTranslator();
-    $settings = $translator->getSetting('settings');
-    $msg_watchdog = htmlentities("Send request: " . $msg);
-    watchdog('tmgmt_poetry', $msg_watchdog, array(), WATCHDOG_DEBUG);
-
-    // Get Poetry configuration.
-    $poetry = variable_get("poetry_service");
-
-    // Create soap client.
-    try {
-      $client = new SoapClient($poetry['address'], array(
-        'cache_wsdl' => WSDL_CACHE_NONE,
-      ));
-    }
-    catch (Exception $e) {
-      watchdog_exception('tmgmt_poetry', $e);
-    }
-
-    if ($client) {
-      // Send the SOAP request and handle possible errors.
-      try {
-        $method = $poetry['method'];
-        $response = $client->$method($settings['poetry_user'],
-          $settings['poetry_password'], $msg);
-      }
-      catch (Exception $e) {
-        watchdog_exception('tmgmt_poetry', $e);
-        $response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"\">
-                     <request communication=\"asynchrone\" type=\"status\"><status code=\"-1\" type=\"request\">
-                     <statusMessage>" . $e->getMessage() . "</statusMessage></status></request></POETRY>";
-      }
-      return $response;
-    }
   }
 
   /**
