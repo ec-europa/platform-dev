@@ -645,8 +645,10 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.6"
-projects[token][patch][] = patches/token-1058912-88-limit-token-depth.patch
+projects[token][version] = "1.7"
+; #1058912: Prevent recursive tokens
+; https://www.drupal.org/node/1058912          
+projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
 
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
