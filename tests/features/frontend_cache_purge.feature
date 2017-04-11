@@ -553,7 +553,6 @@ Feature:
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
     And a critical error message is logged with type "nexteuropa_varnish" and a message matching "No path has been sent for clearing because all module settings are not set."
-    And no informational message is logged with type "nexteuropa_varnish" and a message matching "Clearing paths: /more-basic-pages, /, /even-more-basic-pages"
 
   # Scenarios for checking the default purge rule functionality
 
@@ -605,3 +604,14 @@ Feature:
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
       | Path          |
       | /content/frontend-cache-purge-editorial-team-publish-draft_en |
+
+  # Scenario testing the "Full all caches" feature
+
+  Scenario: As administrator, I want to flush all Drupal caches and Varnish through the purge admin interface
+    When I go to "admin/config/system/nexteuropa-varnish/general"
+    And I press "Purge all caches"
+    Then I should see "Are you sure you want to purge all site's caches (Varnish included)?"
+    And I should see "The action you are about to perform has a deep impact on the site's performance!"
+    When I press "Continue"
+    Then the web front end cache was instructed to purge completely its index for the application tag "my-website"
+    And I should see the success message "The Drupal and Varnish caches have been fully flushed."

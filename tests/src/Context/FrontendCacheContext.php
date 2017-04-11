@@ -15,6 +15,7 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\matches;
 use function bovigo\assert\predicate\not;
+use function bovigo\assert\predicate\isEmpty;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -311,6 +312,25 @@ class FrontendCacheContext implements Context {
     assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
     assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['regexp-multiple']));
     assert($purge_request_paths, equals([$path_string]));
+  }
+
+  /**
+   * Asserts that the web front end cache received a full purge request.
+   *
+   * @Then the web front end cache was instructed to purge completely its index for the application tag :arg1
+   */
+  public function theWebFrontEndCacheWasInstructedToPurgeCompletelyItsIndexForTheApplicationTag($arg1) {
+    $requests = $this->getRequests();
+
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+    $purge_request_paths = $purge_request->getHeader('X-Invalidate-Regexp');
+
+    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
+    assert($purge_request_paths, isEmpty());
+
   }
 
   /**

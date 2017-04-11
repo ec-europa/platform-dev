@@ -80,7 +80,7 @@ projects[bean][version] = 1.9
 projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.2"
+projects[better_exposed_filters][version] = "3.4"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
@@ -637,8 +637,10 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.6"
-projects[token][patch][] = patches/token-1058912-88-limit-token-depth.patch
+projects[token][version] = "1.7"
+; #1058912: Prevent recursive tokens
+; https://www.drupal.org/node/1058912          
+projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
 
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1

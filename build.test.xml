@@ -127,6 +127,30 @@
         />
     </target>
 
+    <!-- Set up PHPUnit. -->
+    <target name="setup-phpunit">
+        <copy todir="${phpunit.dir}" overwrite="true">
+            <fileset dir="${phpunit.dir}" casesensitive="yes">
+                <include name="*.xml.dist"/>
+            </fileset>
+            <filterchain>
+                <replacetokens begintoken="{{ " endtoken=" }}">
+                    <token key="phpunit.base_url" value="${phpunit.base_url}" />
+                    <token key="platform.build.dir" value="${platform.build.dir}" />
+                    <token key="phpunit.dir" value="${phpunit.dir}" />
+                </replacetokens>
+            </filterchain>
+            <mapper type="glob" from="*.xml.dist" to="*.xml" />
+        </copy>
+        <symlink link="${phing.project.build.dir}" overwrite="true">
+            <fileset dir="${phpunit.dir}" casesensitive="yes">
+                <include name="*.yml"/>
+            </fileset>
+        </symlink>
+        <symlink link="${phing.project.build.dir}/tests" target="../tests" />
+        <symlink link="bin/phpunit" target="../${phing.project.build.dir}/vendor/bin/phpunit" overwrite="true"/>
+    </target>
+
     <!-- Rebuild node access. -->
     <target name="rebuild-node-access">
         <drush
