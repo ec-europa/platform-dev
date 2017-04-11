@@ -45,9 +45,6 @@ class DGTConnector {
    */
   public function doRequest($id_data, TMGMTPoetryJob $job, $content) {
 
-    $items = $job->getItems();
-    $item = array_shift($items);
-
     $translator = $job->getTranslator();
 
     // Create initial XML element using POETRY headers.
@@ -90,9 +87,7 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     $demande->remarque = $job->settings['remark'];
 
     // Add the source url as a reference.
-    $item_type = $item->item_type;
-    $item_id = $item->item_id;
-    $source_url = url($item_type . "/" . $item_id, array('absolute' => TRUE));
+    $source_url = url('<front>', array('absolute' => TRUE));
     $demande->addChild('referenceFilesNote', $source_url);
 
     $procedure = $demande->addChild('procedure');
