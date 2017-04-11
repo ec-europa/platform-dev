@@ -3,6 +3,7 @@ description = Alters wysiwyg settings for CKEditor.
 core = 7.x
 package = Multisite Core Features
 dependencies[] = cce_basic_config
+dependencies[] = features
 dependencies[] = media_internet
 dependencies[] = wysiwyg
 dependencies[] = media
