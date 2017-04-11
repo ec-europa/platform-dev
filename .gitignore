@@ -9,6 +9,7 @@ build.properties.local
 phpcs.xml
 tests/behat*.yml
 tests/*/behat*.yml
+phpunit.xml
 
 # Ignore build folders.
 bin/
