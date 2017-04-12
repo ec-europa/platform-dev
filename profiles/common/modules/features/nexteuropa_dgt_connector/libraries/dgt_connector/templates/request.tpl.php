@@ -11,9 +11,9 @@
         xsi:noNamespaceSchemaLocation="http://intragate.ec.europa.eu/DGT/poetry_services/poetry.xsd">
     <request communication="asynchrone" id="<?php echo $request_id; ?>" type="newPost">
         <demandeId>
-          <?php foreach ($id_data as $item_key => $item): ?>
-            <<?php echo $item_key; ?>><?php echo $item; ?></<?php echo $item_key; ?>>
-      <?php endforeach; ?>
+        <?php foreach ($id_data as $item_key => $item): ?>
+          <<?php echo $item_key; ?>><?php echo $item; ?></<?php echo $item_key; ?>>
+        <?php endforeach; ?>
         </demandeId>
         <demande>
             <userReference>Job ID <?php echo $job->tjid; ?></userReference>
@@ -29,11 +29,11 @@
             <destination id="PUBLIC"/>
             <type id="INTER"/>
         </demande>
-      <?php foreach ($job->settings['contacts'] as $contact_type => $contact_nickname): ?>
+        <?php foreach ($job->settings['contacts'] as $contact_type => $contact_nickname): ?>
           <contacts type="<?php echo $contact_type; ?>">
-              <contactNickname><?php echo $contact_nickname; ?></contactNickname>
+            <contactNickname><?php echo $contact_nickname; ?></contactNickname>
           </contacts>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
         <retour type="webService" action="UPDATE">
             <retourUser><?php echo $settings['callback_user']; ?></retourUser>
             <retourPassword><?php echo $settings['callback_password']; ?></retourPassword>
@@ -50,10 +50,10 @@
               <?php echo $content; ?>
             </documentSourceFile>
         </documentSource>
-      <?php foreach ($request_languages as $item): ?>
+        <?php foreach ($request_languages as $item): ?>
           <attributions format="HTML" lgCode="<?php echo $item['lgCode']; ?>" action="<?php echo $item['action']; ?>">
-              <attributionsDelai format="DD/MM/YYYY "><?php echo $item['delai']; ?></attributionsDelai>
+            <attributionsDelai format="DD/MM/YYYY "><?php echo $item['delai']; ?></attributionsDelai>
           </attributions>
-      <?php endforeach; ?>
+        <?php endforeach; ?>
     </request>
 </POETRY>
