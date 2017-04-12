@@ -28,7 +28,7 @@ function nexteuropa_subscriptions_subscriptions_queue_alter(&$event) {
   }
   else {
     // No workbench moderation workflow.
-    if ($event['node']->status != 1) {
+    if (isset($event['node']) && $event['node']->status != 1) {
       $event = NULL;
     }
   }
