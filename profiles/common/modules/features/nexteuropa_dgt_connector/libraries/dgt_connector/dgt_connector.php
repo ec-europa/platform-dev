@@ -57,6 +57,7 @@ class DGTConnector {
     else {
       $request_title = 'NE-CMS: ' . $job->label;
     }
+    $request_title = htmlentities($request_title, ENT_QUOTES, 'UTF-8');
 
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
