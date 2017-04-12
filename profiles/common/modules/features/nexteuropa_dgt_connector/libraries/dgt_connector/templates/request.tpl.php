@@ -1,3 +1,11 @@
+<?php
+/**
+ * @file
+ * Template file for the POETRY translation request.
+ *
+ * @todo add available custom variables
+ */
+?>
 <?xml version="1.0" encoding="utf-8"?>
 <POETRY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://intragate.ec.europa.eu/DGT/poetry_services/poetry.xsd">
