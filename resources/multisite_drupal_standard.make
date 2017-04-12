@@ -992,12 +992,12 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 projects[bootstrap][type] = theme
 projects[bootstrap][version] = 3.8
 
-project[europa][type] = theme
+projects[europa][type] = theme
 projects[europa][download][type] = git
 projects[europa][download][url] = https://github.com/ec-europa/ec-europa-theme.git
-projects[europa][download][commit] = 7ae8ec0babca40b793a9e6d4299dc5ac77da6170
+projects[europa][download][commit] = 886c41a
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][commit] = 8a30375652a1c3e791ad7fff7d3a65d7c6cf4f3f
+projects[atomium][download][commit] = ee85813
