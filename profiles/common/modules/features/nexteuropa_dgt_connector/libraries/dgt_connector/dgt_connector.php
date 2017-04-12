@@ -60,7 +60,8 @@ class DGTConnector {
 
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
-    // Add the source url as a reference.
+    // Add the source url as a reference, this used to be the url for content,
+    // now for small jobs it's just the site url.
     $source_url = url('<front>', array('absolute' => TRUE));
 
     $settings = $this->settings;
@@ -100,7 +101,7 @@ class DGTConnector {
     $request_id = implode("/", $id_data);
 
     ob_start();
-    include(drupal_get_path("module", "nexteuropa_dgt_connector") . '/libraries/dgt_connector/templates/request.tpl.php');
+    include drupal_get_path("module", "nexteuropa_dgt_connector") . '/libraries/dgt_connector/templates/request.tpl.php';
     $msg = ob_get_clean();
 
     $settings = $translator->getSetting('settings');
