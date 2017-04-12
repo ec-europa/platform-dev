@@ -479,7 +479,7 @@ function cce_basic_config_install() {
 function _cce_basic_config_post_install_theme() {
   // Define themes.
   $themes = array(
-    'theme_default' => 'ec_resp',
+    'theme_default' => 'europa',
     'admin_theme' => 'seven',
   );
   theme_enable($themes);
