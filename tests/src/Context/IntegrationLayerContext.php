@@ -139,9 +139,11 @@ class IntegrationLayerContext implements Context {
       }
       $configuration->delete();
     }
+    $this->configurationEntities = array();
 
     if ($this->backendWasConfigured) {
       entity_delete('integration_backend', 'http_mock');
+      $this->backendWasConfigured = FALSE;
     }
 
     if ($this->server && $this->server->isStarted()) {

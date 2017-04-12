@@ -7,6 +7,38 @@
 use Drupal\nexteuropa_varnish\PurgeRuleType;
 
 /**
+ * Implements hook_menu().
+ */
+function nexteuropa_varnish_menu() {
+  $items['admin/config/system/nexteuropa-varnish'] = array(
+    'title' => 'Next Europa Varnish - Configuration',
+    'description' => 'Configuration of the Varnish cache invalidation mechanism.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_varnish_admin_settings_form'),
+    'access arguments' => array('administer frontend cache purge rules'),
+    'file' => 'nexteuropa_varnish.admin.inc',
+  );
+
+  $items['admin/config/system/nexteuropa-varnish/purge_all'] = array(
+    'title' => 'Next Europa Varnish - Purge confirmation',
+    'description' => 'Confirmation form for the varnish purge flush.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('nexteuropa_varnish_purge_all_form'),
+    'access arguments' => array('administer frontend cache purge rules'),
+    'file' => 'nexteuropa_varnish.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/system/nexteuropa-varnish/general'] = array(
+    'title' => 'General settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_entity_info().
  */
 function nexteuropa_varnish_entity_info() {
@@ -24,9 +56,9 @@ function nexteuropa_varnish_entity_info() {
       'controller class' => 'EntityAPIController',
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
-        'path' => 'admin/config/frontend_cache_purge_rules',
+        'path' => 'admin/config/system/nexteuropa-varnish/purge_rules',
         'controller class' => 'CachePurgeRuleEntityUIController',
-        'file' => 'nexteuropa_varnish.admin.inc',
+        'file' => 'nexteuropa_varnish.rules.admin.inc',
       ),
     ),
   );
@@ -158,6 +190,18 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
     $paths = _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node);
   }
 
+  // Default purge rule integration point.
+  if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
+    if (empty($paths) && empty($node->is_new)) {
+      $paths = _nexteuropa_varnish_get_node_paths($node);
+
+    }
+  }
+
+  // Removing duplicates and all entries of the array equal to FALSE.
+  $paths = array_unique($paths);
+  $paths = array_filter($paths);
+
   return $paths;
 }
 
@@ -181,40 +225,11 @@ function _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node) {
       $purge_paths = $purge_rule->paths();
     }
     else {
-      $purge_paths = array();
-
-      $entity_uri = entity_uri('node', $node);
-
-      if ($entity_uri) {
-        // Get the languages the node is translated into (entity translation).
-        if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
-          $handler = entity_translation_get_handler('node', $node);
-
-          $translations = $handler->getTranslations();
-
-          $lang_codes = array_keys($translations->data);
-          $all_languages = entity_translation_languages('node', $node);
-
-          foreach ($lang_codes as $lang_code) {
-            if (isset($all_languages[$lang_code])) {
-              $purge_paths[] = url(
-                $entity_uri['path'],
-                $entity_uri['options'] + array('language' => $all_languages[$lang_code])
-              );
-            }
-          }
-        }
-        else {
-          $purge_paths[] = url($entity_uri['path'], $entity_uri['options']);
-        }
-      }
+      $purge_paths = _nexteuropa_varnish_get_node_paths($node);
     }
 
     $paths = array_merge($paths, $purge_paths);
   }
-
-  $paths = array_unique($paths);
-  $paths = array_filter($paths);
 
   return $paths;
 }
@@ -266,28 +281,35 @@ function _nexteuropa_varnish_purge_paths($paths) {
     $escaped_paths
   );
 
-  $request_method = variable_get('nexteuropa_varnish_request_method', 'PURGE');
-  $request_path = '/invalidate';
+  _nexteuropa_varnish_varnish_requests_send($escaped_paths);
+}
 
-  $base_request_headers = _nexteuropa_varnish_base_request_headers();
-  $request_headers = $base_request_headers + array(
-    'X-Invalidate-Tag' => variable_get('nexteuropa_varnish_tag'),
-    'X-Invalidate-Type' => 'regexp-multiple',
-    'X-Invalidate-Regexp' => '^(' . implode('|', $escaped_paths) . ')$',
-  );
+/**
+ * Sends the purge HTTP requests to the different Varnish servers.
+ *
+ * The servers that must receive purging request are defined in the module's
+ * settings.
+ *
+ * @param array $path_regexp_rules
+ *   The purge URL purge rule(s) (X-Invalidate-Regexp) sent to Varnish.
+ *     Rules must contain escaped paths.
+ *
+ * @return bool
+ *   TRUE if all requests have been sent successfully; otherwise FALSE.
+ */
+function _nexteuropa_varnish_varnish_requests_send($path_regexp_rules = array()) {
 
+  $request_options = _nexteuropa_varnish_prepare_request_options($path_regexp_rules);
+
+  // Sending the HTTP requests to the Varnish server(s)
   $http_targets = variable_get('nexteuropa_varnish_http_targets', array());
-
+  $request_path = '/invalidate';
+  $requests_ok = TRUE;
   foreach ($http_targets as $target) {
     $url = sprintf('%s%s', $target, $request_path);
-
     $response = drupal_http_request(
       $url,
-      array(
-        'headers' => $request_headers,
-        'method' => $request_method,
-        'timeout' => variable_get('nexteuropa_varnish_http_timeout', 2.0),
-      )
+      $request_options
     );
 
     if (isset($response->error)) {
@@ -301,9 +323,58 @@ function _nexteuropa_varnish_purge_paths($paths) {
         ),
         WATCHDOG_ERROR
       );
+      $requests_ok = FALSE;
     }
   }
+
+  return $requests_ok;
 }
+
+/**
+ * Prepares Options use of the HTTP requests sent to the  Varnish servers.
+ *
+ * @param array $path_regexp_rules
+ *   The purge URL purge rule(s) (X-Invalidate-Regexp) sent to Varnish.
+ *     Rules must contain escaped paths.
+ *
+ * @return array
+ *   The HTTP request options have the following elements:
+ *   - headers: An array containing request headers with the Varnish
+ *     "X-Invalidate" parameters.
+ *   - method: A string containing the request method as define in the module
+ *     configuration.
+ *   - timeout: A float representing the request time out expressed in seconds,
+ *     as define in the module configuration.
+ *
+ * @see drupal_http_request()
+ */
+function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array()) {
+  // Prepare values for 'X-Invalidate-Type' and 'X-Invalidate-Regexp' on the
+  // basis of $path_regexp_rules.
+  $invalidate_type = 'full';
+  $sent_regexp = '';
+  if (!empty($path_regexp_rules)) {
+    $invalidate_type = 'regexp-multiple';
+    $sent_regexp = '^(' . implode('|', $path_regexp_rules) . ')$';
+  }
+
+  // Preparing the requests for Varnish server(s).
+  $base_request_headers = _nexteuropa_varnish_base_request_headers();
+  $request_headers = $base_request_headers + array(
+    'X-Invalidate-Tag' => variable_get('nexteuropa_varnish_tag'),
+    'X-Invalidate-Type' => $invalidate_type,
+    'X-Invalidate-Regexp' => $sent_regexp,
+  );
+
+  $request_method = variable_get('nexteuropa_varnish_request_method', 'PURGE');
+
+  return array(
+    'headers' => $request_headers,
+    'method' => $request_method,
+    'timeout' => variable_get('nexteuropa_varnish_http_timeout', 2.0),
+  );
+}
+
 
 /**
  * Get the base headers for the web frontend cache purge requests.
@@ -324,4 +395,43 @@ function _nexteuropa_varnish_base_request_headers() {
   }
 
   return $headers;
+}
+
+/**
+ * Returns paths for the node including translations.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @return array
+ *   An array with the paths of the node.
+ */
+function _nexteuropa_varnish_get_node_paths($node) {
+  $paths = array();
+  $entity_uri = entity_uri('node', $node);
+  if ($entity_uri) {
+    // Get the languages the node is translated into (entity translation).
+    if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
+      $handler = entity_translation_get_handler('node', $node);
+
+      $translations = $handler->getTranslations();
+
+      $lang_codes = array_keys($translations->data);
+      $all_languages = entity_translation_languages('node', $node);
+
+      foreach ($lang_codes as $lang_code) {
+        if (isset($all_languages[$lang_code])) {
+          $paths[] = url(
+            $entity_uri['path'],
+            $entity_uri['options'] + array('language' => $all_languages[$lang_code])
+          );
+        }
+      }
+    }
+    else {
+      $paths[] = url($entity_uri['path'], $entity_uri['options']);
+    }
+  }
+
+  return $paths;
 }

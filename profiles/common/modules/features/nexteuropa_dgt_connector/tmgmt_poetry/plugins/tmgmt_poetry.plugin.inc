@@ -477,7 +477,6 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     try {
       $client = new SoapClient($poetry['address'], array(
         'cache_wsdl' => WSDL_CACHE_NONE,
-        'trace' => 1,
       ));
     }
     catch (Exception $e) {

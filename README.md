@@ -116,13 +116,12 @@ behat.browser.name = chrome
 
 The tests can also be run from the root of the repository (or any other folder)
 by calling the behat executable directly and specifying the location of the
-`behat*.yml` configuration file.
+`behat.yml` configuration file.
 
-The tests can be executed from the root folder of the build:
+Behat tests can be executed from the repository root by running:
 
 ```
-$ cd build/
-$ ../bin/behat -c tests/behat.yml
+$ ./bin/behat -c tests/behat.yml
 ```
 
 With a single Phing task, you can run every tests suites:
@@ -131,19 +130,11 @@ With a single Phing task, you can run every tests suites:
 ./bin/phing behat
 ```
 
-If you want to run only one specific tests suite (defined in its own
-configuration file), you can specifiy it as a parameter:
-
-```
-# Running the tests from the repository root folder.
-$ ./bin/behat -c tests/behat.yml
-```
-
 If you want to execute a single test, just provide the path to the test as an
 argument. The tests are located in `tests/features/`. For example:
 
 ```
-$ ./bin/behat -c tests/behat.api.yml tests/features/content_editing.feature
+$ ./bin/behat -c tests/behat.yml tests/features/content_editing.feature
 ```
 
 Some tests need to mimic external services that listen on particular ports, e.g.
@@ -152,6 +143,66 @@ on the same ports, they will conflict. You will need to change the ports used in
 build.properties.local.
 
 Remember to specify the right configuration file before running the tests.
+
+## Running PHPUnit tests
+
+Custom modules and features can be tested against a running platform installation
+by using PHPUnit. When the development version is installed (by running
+`./bin/phing build-platform-dev`) the PHPUnit configuration file `phpunit.xml`
+will be generated automatically using configuration properties defined in
+`build.properties.local`.
+
+If you are not using the development build but one of the other builds
+(`build-platform-dist` or `build-multisite-dist`) and you want to run PHPUnit tests
+then you'll need to set up the PHPUnit configuration manually by running:
+
+```
+$ ./bin/phing setup-phpunit
+```
+
+Each custom module or feature can expose unit tests by executing the following steps:
+
+- Add `registry_autoload[] = PSR-4` to `YOUR_MODULE.info`
+- Create the following directory: `YOUR_MODULE/src/Tests`
+- Add your test classes in the directory above
+
+In order for test classes to be autoloaded they must follow the naming convention below:
+
+- File name must end with `Test.php`
+- Class name and file name must be identical
+- Class namespace must be set to `namespace Drupal\YOUR_MODULE\Tests;`
+- Class must extend `Drupal\nexteuropa\Unit\AbstractUnitTest`
+
+The following is a good example of a valid unit test class:
+
+```php
+<?php
+
+/**
+ * @file
+ * Contains \Drupal\nexteuropa_core\Tests\ExampleTest.
+ */
+
+namespace Drupal\nexteuropa_core\Tests;
+
+use Drupal\nexteuropa\Unit\AbstractUnitTest;
+
+/**
+ * Class ExampleTest.
+ *
+ * @package Drupal\nexteuropa_core\Tests
+ */
+class ExampleTest extends AbstractUnitTest {
+  ...
+}
+```
+
+PHPUnit tests can be executed from the repository root by running:
+
+```
+$ ./bin/phpunit -c tests/phpunit.xml
+```
+
 
 ## Checking for coding standards violations
 

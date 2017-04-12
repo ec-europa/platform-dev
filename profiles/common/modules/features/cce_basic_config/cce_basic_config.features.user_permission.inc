@@ -218,25 +218,6 @@ function cce_basic_config_user_default_permissions() {
     'module' => 'file_entity',
   );
 
-  // Exported permission: 'export nodes'.
-  $permissions['export nodes'] = array(
-    'name' => 'export nodes',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'editor' => 'editor',
-    ),
-    'module' => 'node_export',
-  );
-
-  // Exported permission: 'export own nodes'.
-  $permissions['export own nodes'] = array(
-    'name' => 'export own nodes',
-    'roles' => array(
-      'administrator' => 'administrator',
-    ),
-    'module' => 'node_export',
-  );
-
   // Exported permission: 'import media'.
   $permissions['import media'] = array(
     'name' => 'import media',
@@ -437,44 +418,6 @@ function cce_basic_config_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'video',
-  );
-
-  // Exported permission: 'use text format basic_html'.
-  $permissions['use text format basic_html'] = array(
-    'name' => 'use text format basic_html',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-      'contributor' => 'contributor',
-      'editor' => 'editor',
-    ),
-    'module' => 'filter',
-  );
-
-  // Exported permission: 'use text format filtered_html'.
-  $permissions['use text format filtered_html'] = array(
-    'name' => 'use text format filtered_html',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'anonymous user' => 'anonymous user',
-      'authenticated user' => 'authenticated user',
-      'contributor' => 'contributor',
-      'editor' => 'editor',
-    ),
-    'module' => 'filter',
-  );
-
-  // Exported permission: 'use text format full_html'.
-  $permissions['use text format full_html'] = array(
-    'name' => 'use text format full_html',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
-      'contributor' => 'contributor',
-      'editor' => 'editor',
-    ),
-    'module' => 'filter',
   );
 
   // Exported permission: 'use workbench_moderation my drafts tab'.

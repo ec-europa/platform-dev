@@ -50,16 +50,32 @@ class TaxonomyContext implements Context {
   }
 
   /**
-   * Create vocabulary.
+   * Check vocabulary.
    *
    * @param string $name
    *    Name of the taxonomy.
    *
    * @Given the vocabulary :name exists
+   */
+  public function assertVocabulary($name) {
+    $this->getTaxonomyIdByName($name);
+  }
+
+  /**
+   * Create vocabulary.
+   *
+   * @param string $name
+   *    Name of the taxonomy.
+   *
+   * @Given the vocabulary :name is created
    *
    * @When I create a new vocabulary :name
    */
   public function iCreateNewVocabulary($name) {
+    if (taxonomy_vocabulary_machine_name_load($this->transliterate->getMachineName($name))) {
+      return;
+    }
+
     $vocabulary = array(
       'name' => $name,
       'machine_name' => $this->transliterate->getMachineName($name),
@@ -82,6 +98,7 @@ class TaxonomyContext implements Context {
     foreach ($this->vocabularies as $vocabulary_name) {
       taxonomy_vocabulary_delete($this->getTaxonomyIdByName($vocabulary_name));
     }
+    $this->vocabularies = array();
   }
 
   /**
@@ -254,6 +271,7 @@ class TaxonomyContext implements Context {
     foreach ($this->fields as $field) {
       field_delete_field($field['field_name']);
     }
+    $this->fields = array();
     field_purge_batch(100);
   }
 

@@ -1,4 +1,4 @@
-@api @i18n
+@api
 Feature: Content translation
   In order to translate my content
   As an administrator
@@ -27,7 +27,7 @@ Feature: Content translation
     And I click "English" in the "content" region
     Then I should not see the text "Deutsch Body not for English version."
 
-   @javascript @maximizedwindow
+  @javascript @maximizedwindow
   Scenario: Make sure that I can add "title_field" fields to a view when the Estonian language is enabled.
     Given the following languages are available:
       | languages |
@@ -45,3 +45,29 @@ Feature: Content translation
     And I press the "Save" button
     Then I should see "The view testing_view has been saved."
     And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/field_ne_body_et_en"
+
+  Scenario: Check the default message in workbench moderation
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+    When I click "New draft" in the "primary_tabs" region
+    Then I should see the text "The state of the content Title in English and all its validated translations English French will be updated!"
+
+  Scenario: Check the customizable message in workbench moderation
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+    And I request to change the variable nexteuropa_multilingual_warning_message_languages to "New Message!"
+    And the cache has been cleared
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+    When I click "New draft" in the "primary_tabs" region
+    Then I should see the text "New Message!"

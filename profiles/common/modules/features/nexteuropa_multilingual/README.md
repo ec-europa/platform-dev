@@ -27,7 +27,7 @@ multilingual features.
 It comes also with the default definition of the sentence set below the
 content edit form and the workbench moderation state form. It is stored in the
 Drupal variable "nexteuropa_multilingual_warning_message_languages".
+The value can contain tokens and HTML tags and by default, the message is:
 
-It can be modified on this administration page:
-Configuration > Content authoring > MULTISITE WYSIWYG > settings (path: "admin/config/content/multisite_wysiwyg/setup_en");
-The value can contain tokens and HTML tags.
+"The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!"
+
