@@ -993,8 +993,9 @@ projects[bootstrap][type] = theme
 projects[bootstrap][version] = 3.8
 
 projects[ec_resp][type] = theme
-projects[ec_resp][download][type] = get
-projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.1/ec_resp-2.1.tar.gz
+projects[ec_resp][download][type] = git
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
+projects[ec_resp][download][revision] = c15d2403e0b1a0fb5d637564fa14ea51adc36475
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
