@@ -578,6 +578,7 @@ projects[scheduler][version] = 1.3
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.2
+projects[scheduler_workbench][patch][] = patches/scheduler_workbench--NEPT-950.patch
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.22

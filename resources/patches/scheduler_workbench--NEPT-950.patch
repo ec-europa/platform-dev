@@ -1,0 +1,21 @@
+diff --git a/scheduler_workbench.module b/scheduler_workbench.module
+index eb57202..8d7e3ec 100644
+--- a/scheduler_workbench.module
++++ b/scheduler_workbench.module
+@@ -158,9 +158,13 @@ function scheduler_workbench_scheduler_api(&$node, $action) {
+     return;
+   }
+ 
+-  $func = "_scheduler_workbench_scheduler_{$action}";
+-  if (function_exists($func)) {
+-    $func($node);
++  switch ($action) {
++    case 'unpublish':
++      _scheduler_workbench_scheduler_unpublish($node);
++      break;
++    case 'pre_publish':
++      _scheduler_workbench_scheduler_pre_publish($node);
++      break;
+   }
+ }
+ 
