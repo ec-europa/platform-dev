@@ -619,8 +619,10 @@ projects[term_reference_tree][version] = "1.10"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
+projects[title][download][branch] = 7.x-1.x
+projects[title][download][revision] = 8119fa2
+projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-projects[title][download][version] = "1.0-alpha9"
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
