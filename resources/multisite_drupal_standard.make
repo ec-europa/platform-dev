@@ -995,9 +995,9 @@ projects[bootstrap][version] = 3.8
 projects[europa][type] = theme
 projects[europa][download][type] = git
 projects[europa][download][url] = https://github.com/ec-europa/ec-europa-theme.git
-projects[europa][download][commit] = 886c41a
+projects[europa][download][revision] = e52020c
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][commit] = ee85813
+projects[atomium][download][revision] = ee85813
