@@ -1,0 +1,4 @@
+name = Nexteuropa Fields Formatters
+description  = "Nexteuropa field formatters"
+package = "Nexteuropa"
+core = 7.x
