@@ -23,7 +23,7 @@ Feature: Contact Form
 
   @javascript
   Scenario: Administrator user can submit the contact page
-    Given I am logged in as a user with the administrator role
+    Given I am logged in as a user with the editor role
     And the module is enabled
       | modules      |
       | contact_form |
