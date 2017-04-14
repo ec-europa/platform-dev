@@ -64,10 +64,6 @@ function nexteuropa_multilingual_install() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
 
-  // Add new language switcher block.
-  multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_site', 'language_selector_site', 'language_selector_site', "header_top", -10);
-  multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_page', 'language_selector_page', 'language_selector_page', "content_top", -10);
-
   // Set the warning message when changing node state.
   variable_set('nexteuropa_multilingual_warning_message_languages', "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!");
 }
