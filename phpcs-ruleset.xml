@@ -35,6 +35,8 @@
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/</exclude-pattern>
     <exclude-pattern>build/vendor/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/themes/atomium</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/atomium</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/scripts</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_resp/scripts</exclude-pattern>
