@@ -82,13 +82,13 @@ function multisite_drupal_toolbox_preprocess_html(&$variables) {
   // Add Fancybox.
   $path = libraries_get_path('fancybox');
   if ($path) {
-    drupal_add_css($path . '/jquery.fancybox.css');
-    drupal_add_js($path . '/jquery.fancybox.pack.js');
-    drupal_add_css($path . '/helpers/jquery.fancybox-buttons.css');
-    drupal_add_js($path . '/helpers/jquery.fancybox-buttons.js');
-    drupal_add_js($path . '/helpers/jquery.fancybox-media.js');
-    drupal_add_css($path . '/helpers/jquery.fancybox-thumbs.css');
-    drupal_add_js($path . '/helpers/jquery.fancybox-thumbs.js');
+    drupal_add_css($path . '/source/jquery.fancybox.css');
+    drupal_add_js($path . '/source/jquery.fancybox.pack.js');
+    drupal_add_css($path . '/source/helpers/jquery.fancybox-buttons.css');
+    drupal_add_js($path . '/source/helpers/jquery.fancybox-buttons.js');
+    drupal_add_js($path . '/source/helpers/jquery.fancybox-media.js');
+    drupal_add_css($path . '/source/helpers/jquery.fancybox-thumbs.css');
+    drupal_add_js($path . '/source/helpers/jquery.fancybox-thumbs.js');
   }
 
   // Add survey JS on all site in the white list.
