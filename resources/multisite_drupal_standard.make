@@ -235,6 +235,9 @@ projects[feature_set][version] = "1.3"
 projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
+; NEPT-930 - Feature set page should use admin theme - moving custom .tpl.php from the
+; feature_set-add_categories_management-nexteuropa_4459 to the new one.
+projects[feature_set][patch][] = patches/feature_set-new_admin_theme_nept_930.patch
 ; Issue #2831766: Feature set does not invoke hook_requirements().
 ; https://www.drupal.org/node/2831766
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
