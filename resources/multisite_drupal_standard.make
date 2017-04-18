@@ -232,6 +232,7 @@ projects[features][patch][] = https://www.drupal.org/files/issues/features-var-e
 
 projects[feature_set][subdir] = "contrib"
 projects[feature_set][version] = "1.3"
+; NEPT-930 - Feature set page should use admin theme - adding css and js for collapsible fieldsets to the patch
 projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
