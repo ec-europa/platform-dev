@@ -80,6 +80,21 @@ function multisite_wysiwyg_set_current_entity_object_state($state = NULL) {
 }
 
 /**
+ * Implements hook_ckeditor_plugin().
+ *
+ * Implements CKEditor module hook to provide support for subsites.
+ */
+function multisite_wysiwyg_ckeditor_plugin() {
+  return array(
+    'multisite_wysiwyg_link_hreflang' => array(
+      'name' => 'multisite_wysiwyg_link_hreflang',
+      'desc' => t('CKEditor Link hreflang - A plugin to replace the "lang" attribute setting field by a "hreflang" attribute setting field'),
+      'path' => drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/plugins/link_hreflang/',
+    ),
+  );
+}
+
+/**
  * Implements hook_wysiwyg_plugin().
  */
 function multisite_wysiwyg_wysiwyg_plugin($editor, $version) {
