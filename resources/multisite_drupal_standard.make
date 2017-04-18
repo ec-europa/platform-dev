@@ -784,6 +784,9 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][branch] = 7.x-1.x
 projects[wysiwyg][download][revision] = c55e14e
 projects[wysiwyg][download][type] = git
+; Various core/platform modules loading remote content trough _locale_parse_js_file
+; https://www.drupal.org/node/1802394
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
 
 projects[xml_field][subdir] = "contrib"
