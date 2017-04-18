@@ -295,6 +295,29 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
+   * Attempts to find and uncheck a checkbox in a table row containing given text.
+   *
+   * @param string $row_text
+   *    Text on the table row.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *    Throw exception if class table row was not found.
+   *
+   * @Given I uncheck the box on the :row_text row
+   */
+  public function uncheckCheckboxOnTableRow($row_text) {
+    $page = $this->getSession()->getPage();
+    if ($checkbox = $this->getTableRow($page, $row_text)
+      ->find('css', 'input[type=checkbox]')
+    ) {
+      $checkbox->uncheck();
+      return;
+    }
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()
+      ->getCurrentUrl()), $this->getSession());
+  }
+
+  /**
    * Test the content of a unique tag with no css.
    *
    * @Then I should see :text in the :tag tag
