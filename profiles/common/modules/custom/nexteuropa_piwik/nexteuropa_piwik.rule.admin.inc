@@ -11,7 +11,7 @@ use Drupal\nexteuropa_piwik\Entity\PiwikRule;
  */
 function nexteuropa_piwik_rule_form($form, &$form_state, $piwik_rule, $op = 'edit', $entity_type = NULL) {
   // Adjusting the form page title.
-  drupal_set_title(t("@operation the Next Europa PIWIK rule", array('@operation' => ucfirst($op))));
+  drupal_set_title(t("@operation the Next Europa PIWIK rule", array('@operation' => drupal_ucfirst($op))));
 
   $form['rule_section'] = array(
     '#title' => t('Site section'),
