@@ -295,7 +295,7 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-   * Attempts to find and uncheck a checkbox in a table row containing given text.
+   * Attempts to find and uncheck a checkbox in a table row with a given text.
    *
    * @param string $row_text
    *    Text on the table row.
