@@ -554,7 +554,7 @@ projects[rate][version] = "1.7"
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.2"
+projects[realname][version] = "1.3"
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
@@ -612,16 +612,9 @@ projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.p
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
 projects[title][download][branch] = 7.x-1.x
-projects[title][download][revision] = 1f89073
+projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-; #2813673: Tests broken since new permission in drupal core
-; https://www.drupal.org/node/2813673
-projects[title][patch][] = https://www.drupal.org/files/issues/2813673-title-tests-fail.patch
-; #2757739: Token value is not sanitized, when replaced from title field
-; https://www.drupal.org/node/2757739
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-412
-projects[title][patch][] = https://www.drupal.org/files/issues/2757739_1.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
