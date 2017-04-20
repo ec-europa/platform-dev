@@ -57,7 +57,7 @@
 
 --- feature-set-admin-form.tpl.php	1970-01-01 01:00:00.000000000 +0100
 +++ feature-set-admin-form.tpl.php	2017-04-18 13:02:39.374697383 +0200
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,50 @@
 +<?php
 +/**
 + * @file
@@ -72,13 +72,7 @@
 +<?php foreach ($feature_set_category['category'] as $category => $features) : ?>
 +<fieldset class="collapsible form-wrapper collapsed">
 +  <legend>
-+    <span class="fieldset-legend">
-+      <a class="fieldset-title" href="#">
-+        <span class="fieldset-legend-prefix element-invisible">Hide</span>
-+        <?php print $category; ?>
-+      </a>
-+      <span class="summary"></span>
-+    </span>
++    <span class="fieldset-legend"><?php print $category; ?></span>
 +  </legend>
 +  <div class="fieldset-wrapper">
 +  <table>
