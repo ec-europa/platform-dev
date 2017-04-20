@@ -9,50 +9,80 @@
  * Implements hook_field_formatter_info().
  */
 function nexteuropa_fields_formatters_field_formatter_info() {
-  return array(
-    'ne_bs_button' => array(
+  return [
+    'ne_bs_button' => [
       'label' => t('NE Bootstrap button'),
       'description' => t('Displays as a button.'),
-      'field types' => array(
+      'field types' => [
         'link_field',
         'list_text',
         'taxonomy_term_reference',
         'text',
         'text_long',
-      ),
-      'settings' => array(
+      ],
+      'settings' => [
         'variation' => 'default',
-      ),
-    ),
-    'ne_button' => array(
+        'link_title' => '',
+        'force_language_default' => 0,
+        'align_right' => 0,
+      ],
+    ],
+    'ne_button' => [
       'label' => t('NE button'),
       'description' => t('Displays as a button.'),
-      'field types' => array(
+      'field types' => [
         'list_text',
         'taxonomy_term_reference',
         'link_field',
-      ),
-      'settings' => array(
+      ],
+      'settings' => [
         'variation' => 'default',
-      ),
-    ),
-    'ne_listing' => array(
+        'link_title' => '',
+        'force_language_default' => 0,
+        'align_right' => 0,
+      ],
+    ],
+    'ne_date' => [
+      'label' => t('NE date display'),
+      'description' => t('Displays a date.'),
+      'field types' => [
+        'date',
+        'datestamp',
+        'datetime',
+      ],
+      'settings' => [
+        'variation' => 'default',
+      ],
+    ],
+    'ne_listing' => [
       'label' => t('NE Listing'),
       'description' => t('Renders line items as listing component'),
-      'field types' => array('link_field'),
-      'settings' => array(
+      'field types' => ['link_field'],
+      'settings' => [
         'class' => '',
-      ),
-    ),
-    'ne_download_button' => array(
+      ],
+    ],
+    'ne_download_button' => [
       'label' => t('NE Download button'),
       'description' => t('Button to download file'),
-      'field types' => array('file'),
-      'settings' => array(
+      'field types' => [
+        'link_field',
+        'file',
+      ],
+      'settings' => [
         'label' => 'Download',
-      ),
-    ),
-  );
+        'show_translations' => TRUE,
+      ],
+    ],
+    'nexteuropa_tags' => [
+      'label' => t('NE Tags'),
+      'field types' => [
+        'taxonomy_term_reference',
+        'entityreference',
+        'link_field',
+      ],
+    ],
+  ];
 }
 
 /**
@@ -66,10 +96,10 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_bs_button':
-      $element['variation'] = array(
+      $element['variation'] = [
         '#type' => 'select',
         '#title' => t('Variation'),
-        '#options' => array(
+        '#options' => [
           'default' => 'Default',
           'ctn' => 'Call to action',
           'ctn--border' => 'Call to action with border',
@@ -77,17 +107,17 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
           'menu' => 'Menu',
           'primary' => 'Primary',
           'secondary' => 'Secondary',
-        ),
+        ],
         '#default_value' => $settings['variation'],
         '#description' => t('Please select the button variation you need.'),
-      );
+      ];
       break;
 
     case 'ne_button':
-      $element['variation'] = array(
+      $element['variation'] = [
         '#type' => 'select',
         '#title' => t('Variation'),
-        '#options' => array(
+        '#options' => [
           'ecl-default' => 'Default',
           'ecl-ctn' => 'Call to action',
           'ecl-ctn--border' => 'Highlighted',
@@ -95,19 +125,33 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
           'ecl-menu' => 'Menu',
           'ecl-primary' => 'Primary',
           'ecl-secondary' => 'Secondary',
-        ),
+        ],
         '#default_value' => $settings['variation'],
         '#description' => t('Please select the button variation you need.'),
-      );
+      ];
+      break;
+
+    case 'ne_date':
+      $element['variation'] = [
+        '#type' => 'select',
+        '#title' => t('Variation'),
+        '#options' => [
+          ' ' => 'Default',
+          'live-streaming' => 'Events',
+          'past' => 'Past events',
+        ],
+        '#default_value' => $settings['variation'],
+        '#description' => t('Please select the date type you need.'),
+      ];
       break;
 
     case 'ne_listing':
-      $element['class'] = array(
+      $element['class'] = [
         '#type' => 'textfield',
         '#title' => t('Classes'),
         '#default_value' => $settings['class'],
         '#description' => t('You can add additional listing modifiers here.'),
-      );
+      ];
       break;
 
     case 'ne_download_button':
@@ -129,60 +173,47 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
 function nexteuropa_fields_formatters_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
-  $summary = '';
+  $summary = 'none';
 
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_download_button':
       if (isset($settings['label'])) {
-        $summary[] = t('Button label: @label', array(
+        $summary[] = t('Button label: @label', [
           '@label' => $settings['label'],
-        ));
+        ]);
       }
       break;
 
     case 'ne_bs_button':
     case 'ne_button':
+    case 'ne_date':
       if (isset($settings['variation'])) {
-        $summary[] = t('Variation: @variation', array(
+        $summary[] = t('Variation: @variation', [
           '@variation' => $settings['variation'],
-        ));
+        ]);
       }
       break;
 
     case 'ne_listing':
       if (isset($settings['class'])) {
-        $summary[] = t('Class: @class', array('@class' => $settings['class']));
+        $summary[] = t('Class: @class', ['@class' => $settings['class']]);
       }
       break;
-  }
 
+  }
   $summary = implode('<br />', $summary);
+
   return $summary;
 }
 
-/**
- * Custom function to modify the formatter's variation of the field_link.
- */
-function _nexteuropa_fields_formatters_field_link_modifyier($title, $modifier, $path, $variation) {
-  return l($title, $path, array(
-    'html' => TRUE,
-    'attributes' => array(
-      'class' => array(
-        $modifier,
-        $modifier . '-' . $variation,
-      ),
-    ),
-  ));
-}
 
 /**
  * Implements hook_field_formatter_view().
  */
 function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $elements = array();
+  $elements = [];
   $settings = $display['settings'];
-
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_bs_button':
@@ -193,21 +224,32 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
           case 'taxonomy_term_reference':
             $term = taxonomy_term_load($item['tid']);
             $uri = taxonomy_term_uri($term);
-            $markup = _nexteuropa_fields_formatters_field_link_modifyier(
-              $term->name,
-              $modifier,
-              $uri['path'],
-              $settings['variation']
-              );
+            $markup = [
+              '#theme' => 'link',
+              '#text' => $term->name,
+              '#path' => $uri['path'],
+              '#options' => [
+                'class' => [
+                  $modifier,
+                  $modifier . '-' . $settings['variation'],
+                ],
+              ],
+            ];
             break;
 
           case 'link_field':
-            $markup = _nexteuropa_fields_formatters_field_link_modifyier(
-              $item['title'],
-              $modifier,
-              $item['url'],
-              $settings['variation']
-              );
+            $markup = [
+              '#theme' => 'link',
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => [
+                'class' => [
+                  $modifier,
+                  $modifier . '-' . $settings['variation'],
+                ],
+              ],
+            ];
+
             break;
 
           default:
@@ -215,26 +257,47 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
               $settings['variation'] . '">' . $item['value'] . '</span>&nbsp;';
             break;
         }
-        $elements[$delta] = array(
+        $elements[$delta] = [
           '#markup' => $markup,
-        );
+        ];
       }
       break;
 
     // @TODO update this once the styleguide is finally upgraded.
     case 'ne_button':
-
       $modifier = 'ecl';
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
             $term = taxonomy_term_load($item['tid']);
             $uri = taxonomy_term_uri($term);
-            $markup = _nexteuropa_fields_formatters_field_link_modifyier($term->name, $modifier, $uri['path'], $settings['variation']);
+            $markup = [
+              '#theme' => 'link',
+              '#text' => $term->name,
+              '#path' => $uri['path'],
+              '#options' => [
+                'class' => [
+                  $modifier,
+                  $modifier . '-' . $settings['variation'],
+                ],
+              ],
+            ];
+
             break;
 
           case 'link_field':
-            $markup = _nexteuropa_fields_formatters_field_link_modifyier($item['title'], $modifier, $item['url'], $settings['variation']);
+            $markup = [
+              '#theme' => 'link',
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => [
+                'class' => [
+                  $modifier,
+                  $modifier . '-' . $settings['variation'],
+                ],
+              ],
+            ];
+
             break;
 
           default:
@@ -248,13 +311,31 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
       }
       break;
 
+    case 'ne_date':
+      foreach ($items as $delta => $item) {
+        $markup = '<div class="date-block event ' . $settings['variation'] . '">' . $item['value'] . '</div>&nbsp;';
+        $elements[$delta] = array(
+          '#markup' => $markup,
+        );
+      }
+      break;
+
     case 'ne_listing':
       $markup = '<div class="listing ' . $settings['class'] . '">';
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
 
           case 'link_field':
-            $link = l($item['title'], $item['url'], array('attributes' => $item['attributes']));
+            $link = [
+              '#theme' => 'link',
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => [
+                'attributes' => [
+                  $item['attributes'],
+                ],
+              ],
+            ];
             $markup .= '
               <div class="listing__item">
                 <h3 class="listing__item-title">
@@ -279,7 +360,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
         $url = file_create_url($item['uri']);
         $size = _nexteuropa_fields_formatters_format_size($item->filesize);
         $title = '<span class="sr-only">('.$size.' kB - PDF - 4 pages)</span>';
-        $markup_file = _nexteuropa_fields_formatters_field_link_modifyier(
+        $markup_file = l(
         $settings['label'], 'btn' , $url, '-default file__btn');
         $markup = '<div class="file ">
         <span class="icon icon--file file__icon"></span>
