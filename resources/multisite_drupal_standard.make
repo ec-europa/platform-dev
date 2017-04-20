@@ -232,13 +232,10 @@ projects[features][patch][] = https://www.drupal.org/files/issues/features-var-e
 
 projects[feature_set][subdir] = "contrib"
 projects[feature_set][version] = "1.3"
-; NEPT-930 - Feature set page should use admin theme - adding css and js for collapsible fieldsets to the patch
-projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
+; NEPT-930 - Feature set page should use admin theme - adding new markup, css and js to the patch
+projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459-nept_930.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
-; NEPT-930 - Feature set page should use admin theme - moving custom .tpl.php from the
-; feature_set-add_categories_management-nexteuropa_4459 to the new one.
-projects[feature_set][patch][] = patches/feature_set-new_admin_theme_nept_930.patch
 ; Issue #2831766: Feature set does not invoke hook_requirements().
 ; https://www.drupal.org/node/2831766
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
@@ -997,9 +994,8 @@ projects[bootstrap][type] = theme
 projects[bootstrap][version] = 3.8
 
 projects[ec_resp][type] = theme
-projects[ec_resp][download][type] = git
-projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][revision] = c15d2403e0b1a0fb5d637564fa14ea51adc36475
+projects[ec_resp][download][type] = get
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.2/ec_resp-2.2.tar.gz
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
