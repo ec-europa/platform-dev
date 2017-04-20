@@ -120,7 +120,7 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
   // node URLs are not valid anymore, and their references in the Varnish index
   // must be purged.
   $updated_node_paths = array();
-  if (empty($node->is_new) && ($node->status == NODE_PUBLISHED)) {
+  if (empty($node->is_new) && (isset($node->workbench_moderation['published']))) {
     $updated_node_paths = _nexteuropa_varnish_get_updated_node_paths($node);
   }
 
@@ -223,7 +223,7 @@ function nexteuropa_varnish_get_node_purge_rules($node) {
  */
 function _nexteuropa_varnish_get_paths_to_purge($node) {
   $paths = array();
-  $purge_rules = nexteuropa_varnish_node_type_get_purge_rules($node);
+  $purge_rules = nexteuropa_varnish_get_node_purge_rules($node);
   if ($purge_rules) {
     $paths = _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node);
   }
