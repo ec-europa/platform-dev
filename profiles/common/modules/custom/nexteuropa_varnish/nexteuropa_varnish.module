@@ -114,17 +114,23 @@ function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
  * Implements hook_workbench_moderation_transition().
  */
 function nexteuropa_varnish_workbench_moderation_transition($node, $previous_state, $new_state) {
+  // Paths of the previous node revision are retrieved to control if they have
+  // changed.
+  // If it is the case and the node is already published, that means some
+  // node URLs are not valid anymore, and their references in the Varnish index
+  // must be purged.
+  $updated_node_paths = array();
+  if (empty($node->is_new) && ($node->status == NODE_PUBLISHED)) {
+    $updated_node_paths = _nexteuropa_varnish_get_updated_node_paths($node);
+  }
+
   $purge
     = ($new_state == workbench_moderation_state_published()) ||
       (property_exists($node->workbench_moderation['my_revision'], 'unpublishing')
         && $node->workbench_moderation['my_revision']->unpublishing);
 
-  if ($purge) {
-    $paths = _nexteuropa_varnish_get_paths_to_purge($node);
-
-    if (!empty($paths)) {
-      _nexteuropa_varnish_purge_paths($paths);
-    }
+  if ($purge || !empty($updated_node_paths)) {
+    _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths);
   }
 }
 
@@ -149,17 +155,61 @@ function nexteuropa_varnish_node_update($node) {
 
   // Ignore updates on existing, unpublished content that remains unpublished.
   if (isset($node->original) &&
-      $node->original->status == NODE_NOT_PUBLISHED &&
-      $node->status == NODE_NOT_PUBLISHED
+    $node->original->status == NODE_NOT_PUBLISHED &&
+    $node->status == NODE_NOT_PUBLISHED
   ) {
     return;
   }
 
-  $paths = _nexteuropa_varnish_get_paths_to_purge($node);
+  // Paths of the previous node revision are retrieved to control if they have
+  // changed.
+  // If it is the case and the node is already published, that means some
+  // node URLs are not valid anymore, and their references in the Varnish index
+  // must be purged.
+  $updated_node_paths = _nexteuropa_varnish_get_updated_node_paths($node);
 
-  if (!empty($paths)) {
-    _nexteuropa_varnish_purge_paths($paths);
+  _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths);
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * It adds the node old paths (I.E. aliases) in the node object in order to
+ * make further control later in the node saving process.
+ *
+ * @see nexteuropa_varnish_workbench_moderation_transition()
+ * @see nexteuropa_varnish_node_update()
+ */
+function nexteuropa_varnish_node_presave($node) {
+  $node->old_paths = _nexteuropa_varnish_get_node_paths($node);
+}
+
+/**
+ * Gets purge rules to apply for a specific node.
+ *
+ * @param object $node
+ *   The node for which the rules are to be retrieved.
+ *
+ * @return array|bool
+ *   An array of nexteuropa_varnish_cache_purge_rule objects indexed by their
+ *   ids. When no results are found, an empty array is returned.
+ */
+function nexteuropa_varnish_get_node_purge_rules($node) {
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
+    ->propertyCondition('content_type', $node->type);
+
+  $result = $query->execute();
+
+  if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
+    return entity_load(
+      'nexteuropa_varnish_cache_purge_rule',
+      array_keys($result['nexteuropa_varnish_cache_purge_rule'])
+    );
   }
+
+  return array();
 }
 
 /**
@@ -172,21 +222,9 @@ function nexteuropa_varnish_node_update($node) {
  *   The paths to purge for this node.
  */
 function _nexteuropa_varnish_get_paths_to_purge($node) {
-  $query = new EntityFieldQuery();
-  $query
-    ->entityCondition('entity_type', 'nexteuropa_varnish_cache_purge_rule')
-    ->propertyCondition('content_type', $node->type);
-
-  $result = $query->execute();
-
   $paths = array();
-
-  if (isset($result['nexteuropa_varnish_cache_purge_rule'])) {
-    $purge_rules = entity_load(
-      'nexteuropa_varnish_cache_purge_rule',
-      array_keys($result['nexteuropa_varnish_cache_purge_rule'])
-    );
-
+  $purge_rules = nexteuropa_varnish_node_type_get_purge_rules($node);
+  if ($purge_rules) {
     $paths = _nexteuropa_varnish_merge_paths_from_purge_rules($purge_rules, $node);
   }
 
@@ -194,13 +232,8 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
   if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
     if (empty($paths) && empty($node->is_new)) {
       $paths = _nexteuropa_varnish_get_node_paths($node);
-
     }
   }
-
-  // Removing duplicates and all entries of the array equal to FALSE.
-  $paths = array_unique($paths);
-  $paths = array_filter($paths);
 
   return $paths;
 }
@@ -402,36 +435,109 @@ function _nexteuropa_varnish_base_request_headers() {
  *
  * @param object $node
  *   Node object.
+ * @param bool $reset
+ *   Determines if the static cache must be cleared (TRUE) or not (FALSE).
  *
  * @return array
  *   An array with the paths of the node.
  */
-function _nexteuropa_varnish_get_node_paths($node) {
-  $paths = array();
-  $entity_uri = entity_uri('node', $node);
-  if ($entity_uri) {
-    // Get the languages the node is translated into (entity translation).
-    if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
-      $handler = entity_translation_get_handler('node', $node);
+function _nexteuropa_varnish_get_node_paths($node, $reset = FALSE) {
+  $paths = &drupal_static(__FUNCTION__ . '_' . $node->nid, array());
 
-      $translations = $handler->getTranslations();
+  if (empty($paths) || $reset) {
+    $entity_uri = entity_uri('node', $node);
 
-      $lang_codes = array_keys($translations->data);
-      $all_languages = entity_translation_languages('node', $node);
+    if ($entity_uri) {
+      // Get the languages the node is translated into (entity translation).
+      if (module_exists('entity_translation') && entity_translation_enabled('node', $node)) {
+        $handler = entity_translation_get_handler('node', $node);
 
-      foreach ($lang_codes as $lang_code) {
-        if (isset($all_languages[$lang_code])) {
-          $paths[] = url(
-            $entity_uri['path'],
-            $entity_uri['options'] + array('language' => $all_languages[$lang_code])
-          );
+        $translations = $handler->getTranslations();
+
+        $lang_codes = array_keys($translations->data);
+        $all_languages = entity_translation_languages('node', $node);
+
+        foreach ($lang_codes as $lang_code) {
+          if (isset($all_languages[$lang_code])) {
+            $paths[$lang_code] = url(
+              $entity_uri['path'],
+              $entity_uri['options'] + array('language' => $all_languages[$lang_code])
+            );
+          }
         }
       }
-    }
-    else {
-      $paths[] = url($entity_uri['path'], $entity_uri['options']);
+      else {
+        $lang_code = entity_language('node', $node);
+        $paths[$lang_code] = url($entity_uri['path'], $entity_uri['options']);
+      }
     }
   }
 
   return $paths;
+}
+
+/**
+ * Gets node's paths that have changed since last time.
+ *
+ * @param object $node
+ *   The node object.
+ *
+ * @return array
+ *   The list of changed paths.
+ */
+function _nexteuropa_varnish_get_updated_node_paths($node) {
+  $old_paths = (isset($node->old_paths)) ? $node->old_paths : array();
+  $new_paths = _nexteuropa_varnish_get_node_paths($node, TRUE);
+  return _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths);
+}
+
+/**
+ * Compare the node old paths with the new ones.
+ *
+ * @param array $old_paths
+ *   The list of node paths previously set.
+ * @param array $new_paths
+ *   The list of node paths newly set.
+ *
+ * @return array
+ *   The list of old paths that have been changed; otherwise, it returns an
+ *   empty array.
+ */
+function _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths) {
+  if (empty($old_paths)) {
+    return array();
+  }
+  $diff_paths = array();
+  foreach ($old_paths as $lang => $old_path) {
+    if (!isset($new_paths[$lang])) {
+      $diff_paths[] = $old_path;
+      continue;
+    }
+
+    if ($old_path !== $new_paths[$lang]) {
+      $diff_paths[] = $old_path;
+    }
+  }
+
+  return $diff_paths;
+}
+
+/**
+ * Prepares the list of paths and send it to Varnish.
+ *
+ * @param object $node
+ *   The node object for which paths are processed.
+ * @param array $updated_node_paths
+ *   The list of node's paths set in the previous revision.
+ */
+function _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths = array()) {
+  $updated_node_paths += _nexteuropa_varnish_get_paths_to_purge($node);
+
+  if (!empty($updated_node_paths)) {
+    // Removing duplicates and all entries of the array equal to FALSE.
+    $updated_node_paths = array_unique($updated_node_paths);
+    $updated_node_paths = array_filter($updated_node_paths);
+
+    _nexteuropa_varnish_purge_paths($updated_node_paths);
+  }
 }
