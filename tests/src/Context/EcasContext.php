@@ -10,18 +10,18 @@ namespace Drupal\nexteuropa\Context;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 
 /**
- * Provides step definitions for interacting with Ecas.
+ * Provides step definitions for interacting with ECAS.
  */
 class EcasContext extends RawDrupalContext {
   /**
-   * Creates and authenticates an Ecas user with the given role(s).
+   * Creates and authenticates an ECAS user with the given role(s).
    *
-   * @Given I am logged in as an Ecas user with the :role role(s)
+   * @Given I am logged in as an ECAS user with the :role role(s)
    */
   public function assertAuthenticatedEcasByRole($role) {
     // Check if a user with this role is already logged in.
     if (!$this->ecasLoggedInWithRole($role)) {
-      // Create user (and project)
+      // Create user (and project).
       $user = (object) array(
         'name' => $this->getRandom()->name(8),
         'pass' => $this->getRandom()->name(16),
@@ -46,13 +46,14 @@ class EcasContext extends RawDrupalContext {
   }
 
   /**
-   * Ecas user with a given role is already logged in.
+   * ECAS user with a given role is already logged in.
    *
    * @param string $role
    *   A single role, or multiple comma-separated roles in a single string.
    *
-   * @return boolean
-   *   Returns TRUE if the current logged in user comes from Ecas and has this role (or roles).
+   * @return bool
+   *   Returns TRUE if the current logged in user comes from
+   *   Ecas and has this role (or roles).
    */
   public function ecasLoggedInWithRole($role) {
     return $this->loggedIn() && $this->user && $this->user->ecas && isset($this->user->role) && $this->user->role == $role;
@@ -60,7 +61,7 @@ class EcasContext extends RawDrupalContext {
 
 
   /**
-   * Create a user.
+   * Create an ECAS user.
    *
    * @return object
    *   The created user.
@@ -85,7 +86,7 @@ class EcasContext extends RawDrupalContext {
   }
 
   /**
-   * Remove any created Ecas users.
+   * Remove any created ECAS users.
    *
    * @AfterScenario @Ecas
    */
@@ -102,4 +103,5 @@ class EcasContext extends RawDrupalContext {
       $this->users = array();
     }
   }
+
 }
