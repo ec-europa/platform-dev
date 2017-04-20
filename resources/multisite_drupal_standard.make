@@ -616,13 +616,11 @@ projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 
-projects[tmgmt][download][branch] = 7.x-1.x
-projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
-projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
+projects[tmgmt][version] = 1.0-rc2
 ; @see https://www.drupal.org/node/2489134
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
-; @see https://www.drupal.org/node/272245
+; @see https://www.drupal.org/node/2722455
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
 ; #2812863 : Insufficient access check on Views
 ; https://www.drupal.org/node/2812863
