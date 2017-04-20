@@ -10,6 +10,7 @@ default:
         - Drupal\nexteuropa\Context\ApacheSolrContext
         - Drupal\nexteuropa\Context\BlockContext
         - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\EcasContext
         - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
