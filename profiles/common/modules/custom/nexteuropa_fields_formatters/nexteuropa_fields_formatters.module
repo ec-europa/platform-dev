@@ -48,7 +48,7 @@ function nexteuropa_fields_formatters_field_formatter_info() {
       'field types' => [
         'date',
         'datestamp',
-        'datetime,'
+        'datetime',
       ],
       'settings' => [
         'variation' => 'default',
@@ -139,7 +139,7 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
           ' ' => 'Default',
           'live-streaming' => 'Events',
           'past' => 'Past events',
-         ],
+        ],
         '#default_value' => $settings['variation'],
         '#description' => t('Please select the date type you need.'),
       ];
@@ -224,14 +224,14 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
           case 'taxonomy_term_reference':
             $term = taxonomy_term_load($item['tid']);
             $uri = taxonomy_term_uri($term);
-            $markup =  [
+            $markup = [
               '#theme' => 'link',
               '#text' => $term->name,
               '#path' => $uri['path'],
               '#options' => [
                 'class' => [
                   $modifier,
-                  $modifier . '-' .  $settings['variation'],
+                  $modifier . '-' . $settings['variation'],
                 ],
               ],
             ];
@@ -239,16 +239,16 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
 
           case 'link_field':
             $markup = [
-                '#theme' => 'link',
-                '#text' => $item['title'],
-                '#path' => $item['url'],
-                '#options' => [
-                  'class' => [
-                    $modifier,
-                    $modifier . '-' .  $settings['variation'],
-                  ],
+              '#theme' => 'link',
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => [
+                'class' => [
+                  $modifier,
+                  $modifier . '-' . $settings['variation'],
                 ],
-              ];
+              ],
+            ];
 
             break;
 
@@ -271,14 +271,14 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
           case 'taxonomy_term_reference':
             $term = taxonomy_term_load($item['tid']);
             $uri = taxonomy_term_uri($term);
-            $markup =  [
+            $markup = [
               '#theme' => 'link',
               '#text' => $term->name,
               '#path' => $uri['path'],
               '#options' => [
                 'class' => [
                   $modifier,
-                  $modifier . '-' .  $settings['variation'],
+                  $modifier . '-' . $settings['variation'],
                 ],
               ],
             ];
@@ -286,14 +286,14 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             break;
 
           case 'link_field':
-            $markup =  [
+            $markup = [
               '#theme' => 'link',
               '#text' => $item['title'],
               '#path' => $item['url'],
               '#options' => [
                 'class' => [
                   $modifier,
-                  $modifier . '-' .  $settings['variation'],
+                  $modifier . '-' . $settings['variation'],
                 ],
               ],
             ];
@@ -313,11 +313,11 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
 
     case 'ne_date':
       foreach ($items as $delta => $item) {
-         $markup = '<div class="date-block event ' . $settings['variation'] . '">' . $item['value'] . '</div>&nbsp;';
+        $markup = '<div class="date-block event ' . $settings['variation'] . '">' . $item['value'] . '</div>&nbsp;';
         $elements[$delta] = array(
           '#markup' => $markup,
         );
-     }
+      }
       break;
 
     case 'ne_listing':
@@ -327,15 +327,15 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
 
           case 'link_field':
             $link = [
-                '#theme' => 'link',
-                '#text' => $item['title'],
-                '#path' => $item['url'],
-                '#options' => [
-                  'attributes' => [
-                    $item['attributes']
-                  ],
+              '#theme' => 'link',
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => [
+                'attributes' => [
+                  $item['attributes'],
                 ],
-              ];
+              ],
+            ];
             $markup .= '
               <div class="listing__item">
                 <h3 class="listing__item-title">
