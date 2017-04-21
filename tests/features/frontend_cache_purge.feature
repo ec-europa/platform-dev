@@ -410,14 +410,14 @@ Feature:
     And I select "Published" from "Moderation state"
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
-    When I click "Edit draft"
+    When I click "New draft"
     And I uncheck the box "Generate automatic URL alias"
     And I fill in "frontend-cache-purge-published-page-custom-alias" for "URL alias"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                      |
-      | /content/frontend-cache-purge-published-page              |
-      | /content/frontend-cache-purge-published-page-custom-alias |
+      | Path                                                         |
+      | /content/frontend-cache-purge-published-page_en              |
+      | /content/frontend-cache-purge-published-page-custom-alias_en |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
@@ -465,8 +465,8 @@ Feature:
     And I fill in "frontend-cache-purge-editorial-team-custom-alias" for "URL alias"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                |
-      | /content/frontend-cache-purge-editorial-team-change-alias    |
+      | Path                                                         |
+      | /content/frontend-cache-purge-editorial-team-change-alias_en |
       | /content/frontend-cache-purge-editorial-team-custom-alias_en |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
