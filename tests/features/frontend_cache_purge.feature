@@ -411,6 +411,7 @@ Feature:
     And I fill in "Moderation notes" with "Immediately publishing this"
     And I press "Save"
     When I click "New draft"
+    And I click "URL path settings"
     And I uncheck the box "Generate automatic URL alias"
     And I fill in "URL alias" with "frontend-cache-purge-published-page-custom-alias"
     And I press "Save"
