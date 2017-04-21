@@ -28,13 +28,6 @@ This feature provides the default permissions sets. The list below presents the 
 The permissions are setup and bound with the user roles during the platform installation process.
 Site owners can configure permissions for a give role and adapt them to the current need.
 
-## administrator
-    'administer features',
-    'administer modules',
-    'administer software updates',
-    'manage features',
-    'manage feature nexteuropa_dgt_connector'
-
 ## contributor
     'access media browser',
     'access own broken links report',

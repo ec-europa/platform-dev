@@ -706,7 +706,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
     ->execute();
 
-  // Grant permissions for administrators.
+  // Revoke permissions for administrators.
   user_role_revoke_permissions($admin_role->rid, array(
     'administer features',
     'administer modules',
