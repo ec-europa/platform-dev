@@ -1004,4 +1004,4 @@ projects[europa][download][revision] = 057cf5d
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][revision] = ff19566 
+projects[atomium][download][revision] = 46d0604 
