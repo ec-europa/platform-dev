@@ -181,7 +181,13 @@ function nexteuropa_varnish_node_update($node) {
  * @see nexteuropa_varnish_node_update()
  */
 function nexteuropa_varnish_node_presave($node) {
-  $node->old_paths = _nexteuropa_varnish_get_node_paths($node);
+  $node->old_paths = array();
+  // When the node is just created, it receives nevertheless a "old" path that
+  // corresponds to the creation form path.
+  // Then, old_paths must be set with values.
+  if (empty($node->is_new)) {
+    $node->old_paths = _nexteuropa_varnish_get_node_paths($node, TRUE);
+  }
 }
 
 /**
@@ -442,7 +448,7 @@ function _nexteuropa_varnish_base_request_headers() {
  *   An array with the paths of the node.
  */
 function _nexteuropa_varnish_get_node_paths($node, $reset = FALSE) {
-  $paths = &drupal_static(__FUNCTION__ . '_' . $node->nid, array());
+  $paths = &drupal_static(__FUNCTION__, array());
 
   if (empty($paths) || $reset) {
     $entity_uri = entity_uri('node', $node);
@@ -486,6 +492,7 @@ function _nexteuropa_varnish_get_node_paths($node, $reset = FALSE) {
  *   The list of changed paths.
  */
 function _nexteuropa_varnish_get_updated_node_paths($node) {
+  // Node old_paths are injected in nexteuropa_varnish_node_presave().
   $old_paths = (isset($node->old_paths)) ? $node->old_paths : array();
   $new_paths = _nexteuropa_varnish_get_node_paths($node, TRUE);
   return _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths);
