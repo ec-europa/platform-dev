@@ -401,6 +401,25 @@ Feature:
       | /content/frontend-cache-purge-publication_en |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: As any alias has revisions, the purge request must be sent directly for a published basic page when
+    its URL is changed, whatever its moderation state
+    Given the default purge rule is disabled
+    When I go to "node/add/page"
+    And I fill in "Title" with "frontend-cache-purge-published-page"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I fill in "Moderation notes" with "Immediately publishing this"
+    And I press "Save"
+    When I click "Edit"
+    And I uncheck the box "Generate automatic URL alias"
+    And I fill in "frontend-cache-purge-published-page-custom-alias" for "URL alias"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                             |
+      | frontend-cache-purge-published-page              |
+      | frontend-cache-purge-published-page-custom-alias |
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
@@ -446,8 +465,9 @@ Feature:
     And I fill in "frontend-cache-purge-editorial-team-custom-alias" for "URL alias"
     And I press "Save"
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                 |
-      | /frontend-cache-purge-editorial-team-custom-alias_en |
+      | Path                                                |
+      | frontend-cache-purge-editorial-team-change-alias    |
+      | frontend-cache-purge-editorial-team-custom-alias_en |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Edit an existing draft of an editorial team.
