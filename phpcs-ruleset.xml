@@ -43,6 +43,7 @@
     <exclude-pattern>profiles/common/themes/ec_resp_20/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/</exclude-pattern>
     <exclude-pattern>build/vendor/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/europa</exclude-pattern>
 
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
@@ -85,6 +86,11 @@
     <!-- Tmgmt poetry tests not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tests/tmgmt_poetry.test</exclude-pattern>
+    </rule>
+
+    <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
     </rule>
 
     <!-- Exclude third party code which is not following Drupal coding standards. -->

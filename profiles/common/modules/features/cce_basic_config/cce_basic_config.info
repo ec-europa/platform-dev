@@ -67,7 +67,6 @@ features[ctools][] = password_policy:default_password_policy:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
-features[field_base][] = body
 features[field_base][] = comment_body
 features[field_base][] = field_article_publication_date
 features[field_base][] = field_article_unpublish_on
