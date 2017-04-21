@@ -9,6 +9,7 @@ Feature: TMGMT Poetry permissions features
     And the module is enabled
       |modules                       |
       |nexteuropa_dgt_connector      |
+      |tmgmt_dgt_connector           |
 
     And the following languages are available:
       | languages |

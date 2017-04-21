@@ -6,8 +6,6 @@
 
 module_load_include('inc', 'tmgmt_poetry', 'inc/tmgmt_poetry.webservice');
 
-require_once drupal_get_path('module', 'nexteuropa_dgt_connector') . '/libraries/dgt_connector/dgt_connector.php';
-
 /**
  * Implements hook_entity_info_alter().
  */

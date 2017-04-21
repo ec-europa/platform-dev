@@ -5,3 +5,5 @@ package = Translation Management
 core = 7.x
 
 dependencies[] = tmgmt_poetry
+dependencies[] = registry_autoload
+registry_autoload[] = PSR-4

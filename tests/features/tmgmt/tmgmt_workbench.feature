@@ -109,6 +109,7 @@ Feature: TMGMT Workbench features
     Then I should see "Title in French 2.0"
     And the url should match "(.)*content/title-english-20_fr"
 
+  @javascript
   Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the 'administrator' role

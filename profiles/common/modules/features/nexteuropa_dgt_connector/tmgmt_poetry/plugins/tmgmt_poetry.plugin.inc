@@ -5,6 +5,8 @@
  * Provides Poetry translation plugin controller.
  */
 
+use Drupal\tmgmt_dgt_connector\DgtConnector;
+
 /**
  * DGT Connector translation plugin controller.
  */
@@ -153,7 +155,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $settings = $translator->getSetting('settings');
     $id_data = $this->generateRequestId($item, $settings);
 
-    $dgt_connector = new DGTConnector($settings);
+    $dgt_connector = new DgtConnector($settings);
     $response = $dgt_connector->doRequest($id_data, $job, $content);
 
     // Handling response.

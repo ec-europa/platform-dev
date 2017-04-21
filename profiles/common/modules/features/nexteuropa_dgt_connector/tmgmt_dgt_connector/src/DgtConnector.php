@@ -5,10 +5,12 @@
  * Module file of the Poetry DGT Connector.
  */
 
+namespace Drupal\tmgmt_dgt_connector;
+
 /**
  * Class DGTConnector.
  */
-class DGTConnector {
+class DgtConnector {
 
   private $settings;
 
@@ -43,7 +45,7 @@ class DGTConnector {
    * @return string
    *    Response.
    */
-  public function doRequest($id_data, TMGMTPoetryJob $job, $content) {
+  public function doRequest($id_data, \TMGMTPoetryJob $job, $content) {
 
     $translator = $job->getTranslator();
 
@@ -102,7 +104,7 @@ class DGTConnector {
     $request_id = implode("/", $id_data);
 
     ob_start();
-    include drupal_get_path("module", "nexteuropa_dgt_connector") . '/libraries/dgt_connector/templates/request.tpl.php';
+    include drupal_get_path("module", "nexteuropa_dgt_connector") . '/tmgmt_dgt_connector/templates/dgt-connector-request.tpl.php';
     $msg = ob_get_clean();
 
     $settings = $translator->getSetting('settings');
@@ -114,11 +116,11 @@ class DGTConnector {
 
     // Create soap client.
     try {
-      $client = new SoapClient($poetry['address'], array(
+      $client = new \SoapClient($poetry['address'], array(
         'cache_wsdl' => WSDL_CACHE_NONE,
       ));
     }
-    catch (Exception $e) {
+    catch (\Exception $e) {
       watchdog_exception('tmgmt_poetry', $e);
     }
 
@@ -129,7 +131,7 @@ class DGTConnector {
         $response = $client->$method($settings['poetry_user'],
           $settings['poetry_password'], $msg);
       }
-      catch (Exception $e) {
+      catch (\Exception $e) {
         watchdog_exception('tmgmt_poetry', $e);
         $response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><POETRY xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:noNamespaceSchemaLocation=\"\">
                      <request communication=\"asynchrone\" type=\"status\"><status code=\"-1\" type=\"request\">
