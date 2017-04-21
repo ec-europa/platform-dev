@@ -612,7 +612,7 @@ projects[subscriptions][subdir] = "contrib"
 projects[subscriptions][version] = "1.1"
 
 projects[tagclouds][subdir] = "contrib"
-projects[tagclouds][version] = "1.10"
+projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
