@@ -4,7 +4,6 @@ Feature: Page content type
   As an editor
   I want to be able to create, edit and delete articles
 
-  @api
   Scenario: Create a page
     Given "Tags" terms:
       | name              | weight | description   |
@@ -22,7 +21,6 @@ Feature: Page content type
     And I should see the heading "EC decides tax advantages for Fiat are illegal"
     And I should see the text "Commissioner states tax rulings are not in line with state aid rules."
 
-  @api
   Scenario: Edit a page
     Given I am logged in as a user with the 'contributor' role
     And I go to "node/add/page"
@@ -35,7 +33,6 @@ Feature: Page content type
     And I press the "Save" button
     Then I should see the success message "Basic page EC decides tax advantages for Fiat are now legal again has been updated."
 
-  @api
   Scenario: Delete a page
     Given I am logged in as a user with the 'contributor' role
     And I go to "node/add/page"
