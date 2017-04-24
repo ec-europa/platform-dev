@@ -3,7 +3,7 @@ Feature: Testing the rich text options available with the toolbar present on WYS
   I want to be able to format my content with rich text options supplied by the displayed toolbar
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
+    Given I am logged in as a user with the 'editor' role
 
   @javascript
   Scenario: I create a content that contains a link with the following tag attributes: id, class and hreflang

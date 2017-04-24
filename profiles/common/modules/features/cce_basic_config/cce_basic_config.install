@@ -713,7 +713,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
     ->execute();
 
-  // Grant permissions for administrators.
+  // Revoke permissions for administrators.
   user_role_revoke_permissions($admin_role->rid, array(
     'administer features',
     'administer modules',
@@ -723,66 +723,94 @@ function _cce_basic_config_post_install_user_roles_perms() {
   ));
 
   // Grant permissions for contributors.
-  $permissions = array(
-    'access workbench',
+  $contributor_permissions = array(
+    'access media browser',
+    'access own broken links report',
     'create article content',
+    'create files',
     'delete own article content',
+    'delete own image files',
     'edit own article content',
+    'edit own image files',
     'moderate content from draft to needs_review',
     'moderate content from needs_review to draft',
+    're convert video',
     'revert revisions',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for taxonomy_term',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
-    'view moderation history',
-    'view moderation messages',
-    'view own unpublished content',
-    'view revisions',
-    'access media browser',
+    'view own files',
+    'view own private files',
     'use media wysiwyg',
     'use text format full_html',
-    'use text format basic_html',
-    'use text format filtered_html',
   );
-  multisite_config_service('user')->grantPermission('contributor', $permissions);
+  multisite_config_service('user')->grantPermission('contributor', $contributor_permissions);
 
   // Grant permissions for editors.
-  $permissions = array(
+  $editor_permissions = array(
+    'access broken links report',
+    'access media browser',
+    'access own broken links report',
     'create article content',
+    'create files',
     'delete any article content',
     'delete own article content',
+    'delete own image files',
     'delete revisions',
     'edit any article content',
     'edit own article content',
+    'edit own image files',
+    'moderate content from draft to needs_review',
+    'moderate content from needs_review to draft',
+    'moderate content from needs_review to published',
     'revert revisions',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for taxonomy_term',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
+    'use media wysiwyg',
+    'use text format full_html',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
-    'view own unpublished content',
-    'access media browser',
-    'use media wysiwyg',
-    'use text format full_html',
-    'use text format basic_html',
-    'use text format filtered_html',
+    'view own files',
+    'view own private files',
   );
-  multisite_config_service('user')->grantPermission('editor', $permissions);
+  multisite_config_service('user')->grantPermission('editor', $editor_permissions);
 
   // Grant permissions for authenticated users.
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
+  $authenticated_permissions = array(
+    'access comments',
     'access PDF version',
     'access print',
+    'access send by email',
     'access user profiles',
     'access workbench',
+    'post comments',
+    'search content',
+    'show format selection for node',
+    'use advanced search',
     'use text format basic_html',
     'use text format filtered_html',
+    'view files',
     'view moderation history',
     'view moderation messages',
     'view own unpublished content',
     'view revisions',
-  ));
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $authenticated_permissions);
 
   // Grant permissions for anonymous users.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
+  $anonymous_permissions = array(
+    'access comments',
     'access PDF version',
     'access print',
     'post comments',
@@ -790,7 +818,8 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use advanced search',
     'use text format basic_html',
     'use text format filtered_html',
-  ));
+  );
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $anonymous_permissions);
 }
 
 /**
