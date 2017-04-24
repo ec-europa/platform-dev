@@ -232,7 +232,8 @@ projects[features][patch][] = https://www.drupal.org/files/issues/features-var-e
 
 projects[feature_set][subdir] = "contrib"
 projects[feature_set][version] = "1.3"
-projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
+; NEPT-930 - Feature set page should use admin theme - adding new markup, css and js to the patch
+projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459-nept_930.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 ; Issue #2831766: Feature set does not invoke hook_requirements().
@@ -569,7 +570,7 @@ projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
 
 projects[scheduler_workbench][subdir] = "contrib"
-projects[scheduler_workbench][version] = 1.2
+projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.22
@@ -970,7 +971,7 @@ projects[bootstrap][version] = 3.8
 
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = get
-projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.1/ec_resp-2.1.tar.gz
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.2/ec_resp-2.2.tar.gz
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
