@@ -69,7 +69,7 @@ projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
-projects[bean][version] = 1.9
+projects[bean][version] = 1.11
 ; Issue #2084823 : Contextual links for entity view
 ; https://www.drupal.org/node/2084823
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
