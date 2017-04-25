@@ -130,7 +130,6 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
   if (empty($node->is_new) && (isset($node->workbench_moderation['published']))) {
     $updated_node_paths = _nexteuropa_varnish_get_updated_node_paths($node);
   }
-
   // Something must be sent to Varnish is when a new content
   // revision is published.
   $publishing = ($new_state == workbench_moderation_state_published());
@@ -138,7 +137,7 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
   // Something must be sent to Varnish is when the content
   // is unpublished.
   $unpublishing = !$publishing &&
-    ($node->status === NODE_NOT_PUBLISHED);
+    ($node->workbench_moderation['my_revision']->published == 1);
 
   if ($publishing || $unpublishing || !empty($updated_node_paths)) {
     _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths);
