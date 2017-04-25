@@ -75,4 +75,14 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
     return $items;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function entityFormSubmitBuildEntity($form, &$form_state) {
+    // We clear the purge rules cache entries related to the content type.
+    $content_type = $form_state['values']['content_type'];
+    cache_clear_all('nexteuropa_varnish_get_node_purge_rules_' . $content_type, 'cache_nexteuropa_varnish');
+    return parent::entityFormSubmitBuildEntity($form, $form_state);
+  }
+
 }
