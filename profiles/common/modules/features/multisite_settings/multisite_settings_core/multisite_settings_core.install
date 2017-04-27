@@ -74,45 +74,55 @@ function multisite_settings_core_update_7121() {
  * @see multisite_drupal_standard_install_tasks()
  */
 function multisite_settings_core_language_negotiation_task() {
-  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
-  $extra = NULL;
-  if (in_array('nexteuropa_multilingual_url_suffix', $enabled_providers)) {
-    array(
-      'locale-url' => array(
-        'callbacks' => array(
-          'language' => 'locale_language_from_url',
-          'switcher' => 'locale_language_switcher_url',
-          'url_rewrite' => 'locale_language_url_rewrite_url',
-        ),
-        'file' => 'includes/locale.inc',
+  $form_state = array();
+  $form_state['values'] = array(
+    'language' => array(
+      'weight' => array(
+        'language-administration' => '-10',
+        'nexteuropa_multilingual_url_suffix' => '-8',
+        'locale-url' => '-8',
+        'locale-session' => '-6',
+        'language_cookie' => '-5',
+        'locale-user' => '-4',
+        'locale-browser' => '-2',
+        'language-default' => '10',
       ),
-    );
-  }
-  $extra_providers = array(
-
-    'language-administration' => array(
-      'callbacks' => array(
-        'language' => 'administration_language_negotiation_admin_language',
-      ),
-      'file' => drupal_get_path('module', 'administration_language_negotiation') . '/administration_language_negotiation.module',
-    ),
-    'language-default' => array(
-      'callbacks' => array(
-        'language' => 'language_from_default',
+      'enabled' => array(
+        'language-administration' => 1,
+        'nexteuropa_multilingual_url_suffix' => 1,
+        'locale-url' => FALSE,
+        'locale-session' => 0,
+        'language_cookie' => 0,
+        'locale-user' => 0,
+        'locale-browser' => 0,
+        'language-default' => 0,
       ),
     ),
+    'language_content' => array(
+      'weight' => array(
+        'nexteuropa_multilingual_url_suffix' => '-8',
+        'locale-url' => '-8',
+        'locale-session' => '-6',
+        'language_cookie' => '-5',
+        'locale-user' => '-4',
+        'locale-browser' => '-2',
+        'locale-interface' => '8',
+        'language-default' => '10',
+      ),
+      'enabled' => array(
+        'nexteuropa_multilingual_url_suffix' => 0,
+        'locale-url' => FALSE,
+        'locale-session' => 0,
+        'language_cookie' => 0,
+        'locale-user' => 0,
+        'locale-browser' => 0,
+        'locale-interface' => 1,
+        'language-default' => 0,
+      ),
+    ),
+    'op' => 'Save settings',
   );
-  $providers_weights = array(
-    'language-administration' => '-10',
-    'locale-url' => '-8',
-    'locale-session' => '-6',
-    'language_cookie' => '-5',
-    'locale-user' => '-4',
-    'locale-browser' => '-2',
-    'language-default' => '10',
-  );
-  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers + $extra_providers);
-  variable_set('locale_language_providers_weight_language_interface', $providers_weights);
+  drupal_form_submit('locale_languages_configure_form', $form_state);
 }
 
 /**

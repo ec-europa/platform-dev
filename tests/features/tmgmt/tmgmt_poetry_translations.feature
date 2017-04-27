@@ -5,8 +5,7 @@ Feature: TMGMT Poetry features
   I want to be able to create/manage translation requests.
 
   Background:
-    Given I am logged in as a user with the "cem" role
-    And the module is enabled
+    Given the module is enabled
       |modules                |
       |tmgmt_poetry_mock      |
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
@@ -17,6 +16,7 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
+    And I am logged in as a user with the "cem" role
 
   @resetPoetryNumero
   Scenario: Checking a wrong configuration.
@@ -83,7 +83,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: my-website - My page"
 
-  @javascript @cleanup-tmgmt-poetry-website-identifier
+  @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
     Given I am logged in as a user with the "cem" role
