@@ -41,9 +41,8 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     return;
   }
 
-  // Don't add the language suffix for sitemap.*** .
-  // @todo We should use $options['absolute'] (if true) or a variable with exceptions
-  if (strpos($path, 'sitemap.') === 0) {
+  // Don't add the language suffix for sitemap.*** and ecas.
+  if (strpos($path, 'sitemap.') === 0 || strpos($path, 'ecas') === 0) {
     return;
   }
 
