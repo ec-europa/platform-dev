@@ -10,6 +10,7 @@ that the neutral language is set for all defined aliases;
 * The "Drupal core" language negotiation system in order to
  implement the platform specific process;
 * The display of the language switcher.
+* The default language for administration pages
 
 # Important
 
@@ -31,3 +32,21 @@ The value can contain tokens and HTML tags and by default, the message is:
 
 "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!"
 
+# Administration language
+
+For multilingual sites, the site owners have the option to choose on which
+'admin' pages they want to display a fixed language (typically english), for 
+all users.
+The configuration is based on *paths* not on user type, or user preferences.
+Configuration is explained in the [documentation page of drupal.org](https://www.drupal.org/project/administration_language_negotiation) 
+Please also review [the readme file](http://cgit.drupalcode.org/administration_language_negotiation/tree/README.md?h=7.x-1.2)
+By default, the English "Administration language negotiation" is active on edit 
+pages, and admin/* pages. 
+In the event that you uploaded .po file and want to see english on a non admin
+page you should to delete the translation from your imported strings.
+
+To delete translations, go to "admin/config/regional/translate/translate_en",
+select "Built-in interface" from the "Limit search to ", then click "delete" 
+in the operation column facing the string you do not want to see translated.
+
+An example is visible on the [feature wiki page](https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Administration+language+negotiation)
