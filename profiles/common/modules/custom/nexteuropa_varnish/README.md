@@ -48,6 +48,17 @@ hit the **"Save configuration"** button.
 When the default rule is disabled you can add a custom rule for a given
 content type path in the 'Purge rules' configuration.
 
+### "Purge all caches" Button
+
+The default configuration page proposes a "Purge all caches" button too.
+
+Once it is clicked, this button will trigger:
+- The cleaning of the Drupal cache;
+- The purging of **ALL** site's entries indexed in the Varnish cache.
+
+Clicking on it has impact on the site's performance as it forces Drupal to rebuild all requested pages.
+Then, it is should be used cautiously. 
+
 ## Custom entity - 'Purge rule'
 Nexteuropa Varnish provides an additional custom entity type:
 - Purge rule - machine name: `nexteuropa_varnish_cache_purge_rule`

@@ -9,7 +9,8 @@
     "internations/http-mock": "^0.7.4",
     "bovigo/assert": "^1.7",
     "rych/random": "v0.1.0",
-    "bex/behat-screenshot-image-driver-img42": "^1.0"
+    "bex/behat-screenshot-image-driver-img42": "^1.0",
+    "phpunit/phpunit": "^5.0"
   },
   "autoload": {
     "psr-4": {

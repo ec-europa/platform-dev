@@ -653,6 +653,13 @@ function _cce_basic_config_post_install_user_config() {
   variable_set('user_picture_style', 'thumbnail');
   // Allow visitor account creation with administrative approval.
   variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+  // Remove the realname extra field from the display.
+  $profile_settings = field_bundle_settings('user', 'user');
+  $profile_settings['extra_fields']['display']['realname']['default'] = array(
+    'visible' => 0,
+    'weight' => -1,
+  );
+  field_bundle_settings('user', 'user', $profile_settings);
 }
 
 /**

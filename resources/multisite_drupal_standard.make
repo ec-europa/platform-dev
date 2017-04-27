@@ -72,14 +72,14 @@ projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
 projects[bean][subdir] = "contrib"
-projects[bean][version] = 1.9
+projects[bean][version] = 1.11
 ; Issue #2084823 : Contextual links for entity view
 ; https://www.drupal.org/node/2084823
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
 projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.2"
+projects[better_exposed_filters][version] = "3.4"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
@@ -235,7 +235,8 @@ projects[features][patch][] = https://www.drupal.org/files/issues/features-var-e
 
 projects[feature_set][subdir] = "contrib"
 projects[feature_set][version] = "1.3"
-projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459.patch
+; NEPT-930 - Feature set page should use admin theme - adding new markup, css and js to the patch
+projects[feature_set][patch][] = patches/feature_set-add_categories_management-nexteuropa_4459-nept_930.patch
 projects[feature_set][patch][] = patches/feature_set-check_disable_enable-nexteuropa_4459.patch
 projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 ; Issue #2831766: Feature set does not invoke hook_requirements().
@@ -565,7 +566,7 @@ projects[rate][version] = "1.7"
 projects[rate][patch][] = patches/rate-translate_description-1178.patch
 
 projects[realname][subdir] = "contrib"
-projects[realname][version] = "1.2"
+projects[realname][version] = "1.3"
 
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
@@ -580,7 +581,7 @@ projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
 
 projects[scheduler_workbench][subdir] = "contrib"
-projects[scheduler_workbench][version] = 1.2
+projects[scheduler_workbench][version] = 1.3
 
 projects[select_or_other][subdir] = "contrib"
 projects[select_or_other][version] = 2.22
@@ -615,7 +616,7 @@ projects[subscriptions][subdir] = "contrib"
 projects[subscriptions][version] = "1.1"
 
 projects[tagclouds][subdir] = "contrib"
-projects[tagclouds][version] = "1.10"
+projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
 projects[term_reference_tree][version] = "1.10"
@@ -623,16 +624,9 @@ projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.p
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
 projects[title][download][branch] = 7.x-1.x
-projects[title][download][revision] = 1f89073
+projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-; #2813673: Tests broken since new permission in drupal core
-; https://www.drupal.org/node/2813673
-projects[title][patch][] = https://www.drupal.org/files/issues/2813673-title-tests-fail.patch
-; #2757739: Token value is not sanitized, when replaced from title field
-; https://www.drupal.org/node/2757739
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-412
-projects[title][patch][] = https://www.drupal.org/files/issues/2757739_1.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
@@ -648,8 +642,10 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_transl
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 
 projects[token][subdir] = "contrib"
-projects[token][version] = "1.6"
-projects[token][patch][] = patches/token-1058912-88-limit-token-depth.patch
+projects[token][version] = "1.7"
+; #1058912: Prevent recursive tokens
+; https://www.drupal.org/node/1058912          
+projects[token][patch][] = https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch
 
 projects[token_filter][subdir] = "contrib"
 projects[token_filter][version] = 1.1
@@ -995,7 +991,7 @@ projects[bootstrap][version] = 3.8
 
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = get
-projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.1/ec_resp-2.1.tar.gz
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.2/ec_resp-2.2.tar.gz
 
 projects[europa][type] = theme
 projects[europa][download][type] = get
