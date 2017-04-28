@@ -26,15 +26,20 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
    */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
-
+    $components = array();
     $hooks_theme = variable_get('nexteuropa_core_views_hooks', array());
+    foreach ($hooks_theme as $k =>$v) {
+      if(strpos($v['theme path'], 'themes/europa')!== FALSE) {
+        $components[$k] = $k;
+      }
+    }
     $form['theme'] = array(
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Theme hook'),
       '#description' => t('Select the theme hook to use to render your fields.'),
       '#empty_option' => t('<none>'),
-      '#options' => array_combine(array_keys($hooks_theme), array_keys($hooks_theme)),
+      '#options' => $components,
       '#default_value' => $this->options['theme'],
       '#ajax' => array(
         'path' => views_ui_build_form_url($form_state),
