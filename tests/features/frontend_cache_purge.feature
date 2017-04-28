@@ -86,6 +86,7 @@ Feature:
       | page         | /, /all-basic-pages |
       | page         | /more-basic-pages   |
       | article      | /all-articles       |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I click "Publishing options"
@@ -106,6 +107,7 @@ Feature:
       | page         | /, /all-basic-pages |
       | page         | /more-basic-pages   |
       | article      | /all-articles       |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -122,6 +124,7 @@ Feature:
       | page         | /, /all-basic-pages |
       | page         | /more-basic-pages   |
       | article      | /all-articles       |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -151,6 +154,7 @@ Feature:
       | page         | /, /all-basic-pages |
       | page         | /more-basic-pages   |
       | article      | /all-articles       |
+    And the web front end cache is ready to receive requests.
     When I click "Unpublish this revision"
     And I press the "Unpublish" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
@@ -167,6 +171,7 @@ Feature:
       | page           | /, /all-basic-pages |
       | page           | /more-basic-pages   |
       | editorial_team | /all-articles       |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I click "Publishing options"
@@ -182,6 +187,7 @@ Feature:
       | page           | /, /all-basic-pages |
       | page           | /more-basic-pages   |
       | editorial_team | /all-articles       |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I press "Save"
@@ -197,6 +203,7 @@ Feature:
       | page           | /, /all-basic-pages |
       | page           | /more-basic-pages   |
       | editorial_team | /all-articles       |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I click "Publishing options"
@@ -213,6 +220,7 @@ Feature:
   @non-moderated-content
   Scenario: Edit an existing draft of an editorial team.
     Given the default purge rule is disabled
+    And the web front end cache is ready to receive requests.
     And I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I click "Publishing options"
@@ -226,6 +234,7 @@ Feature:
   @non-moderated-content
   Scenario: Withdraw a published editorial team.
     Given the default purge rule is disabled
+    And the web front end cache is ready to receive requests.
     And I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I press "Save"
@@ -247,6 +256,7 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge |
       | page         | /all-pages/*   |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -282,6 +292,7 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge |
       | page         | /all-pages/*/* |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -306,6 +317,7 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge |
       | page         | /all-pages_??  |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I press "Save"
@@ -357,6 +369,7 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge |
       | page         |                |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-publish-immediately"
     And I click "Publishing options"
@@ -384,6 +397,7 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge |
       | page         |                |
+    And the web front end cache is ready to receive requests.
     When I click "Unpublish this revision"
     And I press the "Unpublish" button
     Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
@@ -398,6 +412,7 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge |
       | page         |                |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-publication"
     And I press "Save"
@@ -435,11 +450,33 @@ Feature:
       | /frontend-cache-purge-published-page-custom-alias_en         |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: As any alias has revisions, the purge request must be sent directly for a published basic page when
+    its URL is changed, whatever its moderation state
+    Given the default purge rule is disabled
+    And the web front end cache is ready to receive requests.
+    When I go to "node/add/page"
+    And I fill in "Title" with "frontend-cache-purge-published-page"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I fill in "Moderation notes" with "Immediately publishing this"
+    And I press "Save"
+    When I click "New draft"
+    And I click "URL path settings"
+    And I uncheck the box "Generate automatic URL alias"
+    And I fill in "URL alias" with "frontend-cache-purge-published-page-custom-alias"
+    And I press "Save"
+    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
+      | Path                                                         |
+      | /content/frontend-cache-purge-published-page_en              |
+      | /frontend-cache-purge-published-page-custom-alias_en         |
+
+  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
       | Content Type   | Paths to Purge      |
       | editorial_team |                     |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publication"
     And I press "Save"
@@ -453,6 +490,7 @@ Feature:
     And the following cache purge rules:
       | Content Type   | Paths to Purge |
       | editorial_team |                |
+    And the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
     And I click "Publishing options"
@@ -475,6 +513,7 @@ Feature:
     And the following cache purge rules:
       | Content Type   | Paths to Purge |
       | editorial_team |                |
+    And the web front end cache is ready to receive requests.
     When I click "Edit"
     And I uncheck the box "Generate automatic URL alias"
     And I fill in "frontend-cache-purge-editorial-team-custom-alias" for "URL alias"
@@ -490,6 +529,7 @@ Feature:
     And the following cache purge rules:
       | Content Type   | Paths to Purge |
       | editorial_team |                |
+    And the web front end cache is ready to receive requests.
     And I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"
     And I click "Publishing options"
@@ -509,6 +549,7 @@ Feature:
     And the following cache purge rules:
       | Content Type   | Paths to Purge |
       | editorial_team |                |
+    And the web front end cache is ready to receive requests.
     When I click "Edit"
     And I click "Publishing options"
     And I uncheck the box "Published"
@@ -522,7 +563,8 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge      |
       | page         | /more-basic-pages   |
-    When nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
+    And the web front end cache is ready to receive requests.
+    And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
     And I click "Publishing options"
@@ -536,7 +578,8 @@ Feature:
     And the following cache purge rules:
       | Content Type | Paths to Purge    |
       | page         | /more-basic-pages |
-    When nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
+    And the web front end cache is ready to receive requests.
+    And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     And the web front end cache will refuse the authentication credentials
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
@@ -552,7 +595,8 @@ Feature:
       | Content Type | Paths to Purge         |
       | page         | /more-basic-pages, /   |
       | page         | /even-more-basic-pages |
-    When nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
+    And the web front end cache is ready to receive requests.
+    And nexteuropa_varnish is configured to authenticate with user "usr" and password "pass"
     And the web front end cache will refuse the authentication credentials
     When I go to "node/add/page"
     And I fill in "Title" with "Page title"
@@ -603,6 +647,7 @@ Feature:
 
   @moderated-content @purge-rule-type-node
   Scenario: Purge the paths of a basic page when it is published via moderation using the default purge rule.
+    Given the web front end cache is ready to receive requests.
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-publication"
     And I press "Save"
@@ -614,7 +659,8 @@ Feature:
       | /content/frontend-cache-purge-publication_en |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
-  Scenario: Publish an existing draft of an editorial team using the default purge rule..
+  Scenario: Publish an existing draft of an editorial team using the default purge rule.
+    Given the web front end cache is ready to receive requests.
     When I go to "node/add/editorial-team"
     And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
     And I click "Publishing options"
