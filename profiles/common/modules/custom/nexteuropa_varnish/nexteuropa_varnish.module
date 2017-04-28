@@ -234,7 +234,7 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
 
   $is_default_rule = variable_get('nexteuropa_varnish_default_purge_rule', FALSE);
 
-  if (($exist_node_path_rule || $is_default_rule) && empty($node->is_new)) {
+  if (($exist_node_path_rule || $is_default_rule)) {
     $node_paths = _nexteuropa_varnish_get_node_paths($node);
     $paths = array_merge($paths, $node_paths);
   }
