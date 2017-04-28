@@ -14,25 +14,41 @@ function nexteuropa_core_views_views_api() {
 
 /**
  * Implements hook_clear_caches().
+ *
+ * AFAIK, there is no other way to do this horrendous hack to retrieve ALL the
+ * themes hooks available.
+ * We could use the regular way to do it with module_invoke_all('theme') and it
+ * works properly. The only issue is that theme hooks defined in the theme are
+ * not detected because we are using an admin theme.
+ *
+ * Any alternative way is very welcome.
  */
 function nexteuropa_core_views_flush_caches() {
   $hooks = array();
+  // Retrieve all the hooks declared by modules AND themes.
   foreach (theme_get_registry() as $hook => $data) {
-    echo print_r($hook, 1 ) . "\n";
+    // Filter out theme hooks that we do not want.
     if (isset($data['variables']) && is_array($data['variables']) && !isset($data['render element'])) {
-
       $data['variables'] = array_filter($data['variables'], function($value) {
-        return !is_array($value);
+        return !is_array($value) ||
+          !in_array(
+            $value,
+              array(
+                'content_attributes',
+                'wrapper_attributes',
+                'title_attributes',
+              )
+          );
       });
-      $data['variables'] = array_diff(array_keys($data['variables']), array('content_attributes', 'wrapper_attributes', 'title_attributes'));
-
+      // Filter out theme hooks with no variables.
       if (count($data['variables']) >= 1) {
         $hooks[$hook] = $data;
       }
     }
   }
 
+  // Sort hooks alphabetically.
   ksort($hooks);
-
+  // Store hooks in a variable, once again, not the best way.
   variable_set('nexteuropa_core_views_hooks', $hooks);
 }
