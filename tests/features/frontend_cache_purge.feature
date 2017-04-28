@@ -424,7 +424,8 @@ Feature:
       | /content/frontend-cache-purge-publication_en |
     When Execute all purge rules
     And I click "New draft"
-    And I fill in "Title" with "frontend-cache-purge-publication draft"
+    And I select "Basic HTML" from "Text format"
+    And I fill in "Body" with "Body: frontend-cache-purge-publication draft"
     And I press "Save"
     Then the web front end cache was not instructed to purge any paths
 
