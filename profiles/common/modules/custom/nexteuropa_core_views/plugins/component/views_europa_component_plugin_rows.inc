@@ -32,7 +32,7 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Theme hook'),
-      '#description' => t('TODO'),
+      '#description' => t('Select the theme hook to use to render your fields.'),
       '#empty_option' => t('<none>'),
       '#options' => array_combine(array_keys($hooks_theme), array_keys($hooks_theme)),
       '#default_value' => $this->options['theme'],
@@ -81,6 +81,13 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
    * @inheritDoc
    */
   function render($row) {
+    // This part shouldn't be moved to the pre_render method.
+    // The pre_render method is called only once and there is no way to get
+    // the values of fields in each rows, individually.
+    // This is the reason why we are using the render method with the custom
+    // method get_field.
+    // See the similar plugin views_plugin_row_rss_fields() which is also using
+    // the render() method to render.
     static $row_index;
     if (!isset($row_index)) {
       $row_index = 0;
