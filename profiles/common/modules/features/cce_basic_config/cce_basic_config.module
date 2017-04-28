@@ -11,6 +11,25 @@ include_once 'cce_basic_config.file_default_displays.inc';
 include_once 'cce_basic_config.default_password_policy.inc';
 
 /**
+ * Implements hook_file_validate().
+ */
+function cce_basic_config_file_validate($file) {
+  global $user;
+  drupal_set_message('<pre>' . print_r($file, 1) . print_r($user, 1) . '</pre>');
+  $errors = array();
+
+  // Validate the mimetype based on the file contents.
+  _cce_basic_config_validate_real_mimetype($errors, $file);
+
+  // Check if the mimetype is allowed.
+  _cce_basic_config_validate_allowed_mimetype($errors, $file);
+
+  // Check if the user can upload to the destination file system.
+  _cce_basic_config_validate_file_destination($errors, $file);
+  return $errors;
+}
+
+/**
  * Implements hook_menu_alter().
  */
 function cce_basic_config_menu_alter(&$items) {
@@ -340,4 +359,55 @@ function cce_basic_config_modules_enabled($modules) {
     // Give editors permission to export nodes.
     multisite_config_service('user')->grantPermission('editor', array('export nodes'));
   }
+}
+
+/**
+ * Helper function to validate a file's mime type.
+ */
+function _cce_basic_config_validate_real_mimetype(&$errors, $file) {
+  if (variable_get("ec_enable_real_mimetype_validation", TRUE) && !_cce_basic_config_is_cron_run()) {
+    // Get mime type from filename.
+    $mime_by_filename = file_get_mimetype($file->filename);
+    // Get mime type from file contents.
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    // Drupal will in some specific cases append a .txt extension to a file
+    // which will mess with the temporary PHP uri.
+    $temporary_uri = explode(".", $file->uri);
+    $real_mime = finfo_file($finfo, $temporary_uri[0]);
+    if ($mime_by_filename !== $real_mime) {
+      $errors[] = "The file's content type doesn't match the extension.";
+    }
+  }
+}
+
+/**
+ * Helper function to check a mimetype against a whitelist.
+ */
+function _cce_basic_config_validate_allowed_mimetype(&$errors, $file) {
+  $allowed_mimetypes = variable_get("ec_mimetype_whitelist", array());
+  if (!empty($allowed_mimetypes)) {
+    $mimetype = file_get_mimetype($file->filename);
+    if (!in_array($mimetype, $allowed_mimetypes)) {
+      $errors[] = "The file type is not allowed.";
+    }
+  }
+}
+
+/**
+ * Helper function to check if a user has access to the destination file system.
+ */
+function _cce_basic_config_validate_file_destination(&$errors, $file) {
+  if (variable_get("ec_enable_file_destination_validation", TRUE)) {
+    $destination_file_scheme = file_uri_scheme($file->destination);
+    if ($destination_file_scheme !== "private" && user_is_anonymous()) {
+      $errors[] = "You don't have permissions to upload files to this folder.";
+    }
+  }
+}
+
+/**
+ * Helper function to determine if we are currently in a cron run.
+ */
+function _cce_basic_config_is_cron_run() {
+  return strpos($_SERVER['REQUEST_URI'], 'cron.php') !== 0;
 }
