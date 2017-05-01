@@ -146,7 +146,7 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
   // is unpublished (no published revision anymore).
   $unpublishing = !$publishing &&
     ($node->workbench_moderation['my_revision']->published == 1)&&
-    ($node->status === NODE_NOT_PUBLISHED);
+    ($node->status == NODE_NOT_PUBLISHED);
 
   if ($publishing || $unpublishing || !empty($updated_node_paths)) {
     _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths);
@@ -178,9 +178,8 @@ function nexteuropa_varnish_node_update($node) {
   }
 
   // Ignore updates on existing, unpublished content that remains unpublished.
-  if (isset($node->original) &&
-    $node->original->status === NODE_NOT_PUBLISHED &&
-    $node->status === NODE_NOT_PUBLISHED
+  if (($node->status == NODE_NOT_PUBLISHED) &&
+    (isset($node->original) && ($node->original->status == NODE_NOT_PUBLISHED))
   ) {
     return;
   }
