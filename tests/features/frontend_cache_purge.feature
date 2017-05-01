@@ -433,6 +433,9 @@ Feature:
   Scenario: As any alias has revisions, the purge request must be sent directly for a published basic page when
   its URL is changed, whatever its moderation state
     Given the default purge rule is disabled
+    And the following cache purge rules:
+      | Content Type | Paths to Purge |
+      | page         |                |
     When I go to "node/add/page"
     And I fill in "Title" with "frontend-cache-purge-published-page"
     And I click "Publishing options"
