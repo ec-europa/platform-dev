@@ -451,27 +451,6 @@ Feature:
       | /frontend-cache-purge-published-page-custom-alias_en         |
 
   @non-moderated-content @unilingual-content @purge-rule-type-node
-  Scenario: As any alias has revisions, the purge request must be sent directly for a published basic page when
-    its URL is changed, whatever its moderation state
-    Given the default purge rule is disabled
-    And the web front end cache is ready to receive requests.
-    When I go to "node/add/page"
-    And I fill in "Title" with "frontend-cache-purge-published-page"
-    And I click "Publishing options"
-    And I select "Published" from "Moderation state"
-    And I fill in "Moderation notes" with "Immediately publishing this"
-    And I press "Save"
-    When I click "New draft"
-    And I click "URL path settings"
-    And I uncheck the box "Generate automatic URL alias"
-    And I fill in "URL alias" with "frontend-cache-purge-published-page-custom-alias"
-    And I press "Save"
-    Then the web front end cache was instructed to purge the following paths for the application tag "my-website":
-      | Path                                                         |
-      | /content/frontend-cache-purge-published-page_en              |
-      | /frontend-cache-purge-published-page-custom-alias_en         |
-
-  @non-moderated-content @unilingual-content @purge-rule-type-node
   Scenario: Publish an editorial team.
     Given the default purge rule is disabled
     And the following cache purge rules:
