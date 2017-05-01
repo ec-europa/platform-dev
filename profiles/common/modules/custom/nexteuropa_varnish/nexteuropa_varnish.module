@@ -7,6 +7,7 @@
 module_load_include('inc', 'nexteuropa_varnish', 'nexteuropa_varnish.helper');
 
 use Drupal\nexteuropa_varnish\PurgeRuleType;
+define('NEXTEUROPA_VARNISH_CACHE_TABLE', 'cache_nexteuropa_varnish');
 
 /**
  * Implements hook_menu().
@@ -55,7 +56,7 @@ function nexteuropa_varnish_entity_info() {
       'label callback' => 'nexteuropa_varnish_cache_purge_rule_label',
       'base table' => 'nexteuropa_varnish_cache_purge_rule',
       'entity class' => 'Drupal\\nexteuropa_varnish\\Entity\\PurgeRule',
-      'controller class' => 'EntityAPIController',
+      'controller class' => 'Drupal\\nexteuropa_varnish\\PurgeRuleController',
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
         'path' => 'admin/config/system/nexteuropa-varnish/purge_rules',
@@ -64,6 +65,13 @@ function nexteuropa_varnish_entity_info() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function nexteuropa_varnish_flush_caches() {
+  return array(NEXTEUROPA_VARNISH_CACHE_TABLE);
 }
 
 /**
@@ -259,7 +267,7 @@ function nexteuropa_varnish_get_node_purge_rules($node) {
     return $rules;
   }
 
-  if ($cache = cache_get($cache_id, 'cache_nexteuropa_varnish')) {
+  if ($cache = cache_get($cache_id, NEXTEUROPA_VARNISH_CACHE_TABLE)) {
     $rules = $cache->data;
     return $rules;
   }
@@ -276,7 +284,7 @@ function nexteuropa_varnish_get_node_purge_rules($node) {
       array_keys($result['nexteuropa_varnish_cache_purge_rule'])
     );
 
-    cache_set($cache_id, $rules, 'cache_nexteuropa_varnish', CACHE_TEMPORARY);
+    cache_set($cache_id, $rules, NEXTEUROPA_VARNISH_CACHE_TABLE, CACHE_TEMPORARY);
   }
 
   return $rules;

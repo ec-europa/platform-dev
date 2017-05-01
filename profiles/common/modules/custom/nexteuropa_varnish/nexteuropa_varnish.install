@@ -34,8 +34,8 @@ function nexteuropa_varnish_schema() {
     'primary key' => array('id'),
   );
 
-  $schema['cache_nexteuropa_varnish'] = drupal_get_schema_unprocessed('system', 'cache');
-  $schema['cache_nexteuropa_varnish']['description'] = 'Cache table for the nexteuropa_varnish purge rules.';
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE]['description'] = 'Cache table for the nexteuropa_varnish purge rules.';
 
   return $schema;
 }
@@ -168,7 +168,7 @@ function nexteuropa_varnish_update_7101() {
  * Add cache table for the purge rules.
  */
 function nexteuropa_varnish_update_7102() {
-  $schema['cache_nexteuropa_varnish'] = drupal_get_schema_unprocessed('system', 'cache');
-  $schema['cache_nexteuropa_varnish']['description'] = 'Cache table for the purge rules of nexteuropa_varnish.';
-  db_create_table('cache_nexteuropa_varnish', $schema['cache_nexteuropa_varnish']);
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE]['description'] = 'Cache table for the purge rules of nexteuropa_varnish.';
+  db_create_table(NEXTEUROPA_VARNISH_CACHE_TABLE, $schema[NEXTEUROPA_VARNISH_CACHE_TABLE]);
 }

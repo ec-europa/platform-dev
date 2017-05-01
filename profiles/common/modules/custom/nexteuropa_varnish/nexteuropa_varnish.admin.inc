@@ -50,7 +50,7 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
  * @see nexteuropa_varnish_admin_settings_form()
  */
 function nexteuropa_varnish_admin_settings_cache_clear_submit($form, &$form_state) {
-  cache_clear_all('*', 'cache_nexteuropa_varnish', TRUE);
+  cache_clear_all('*', NEXTEUROPA_VARNISH_CACHE_TABLE, TRUE);
 }
 
 /**
