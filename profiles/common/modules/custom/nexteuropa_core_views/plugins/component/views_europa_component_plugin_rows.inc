@@ -52,21 +52,14 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
       }
     }
 
-    $hook = $this->options['theme'];
-    if (isset($form_state['values']['row_options']['theme'])) {
-      $hook = $form_state['values']['row_options']['theme'];
-    }
-
-    if (!$hook) {
-      return;
-    }
+    $hook = isset($form_state['values']['row_options']['theme']) ? $form_state['values']['row_options']['theme'] : $this->options['theme'];
 
     $form['variables'] = array(
       '#type' => 'fieldset',
       '#title' => 'Theme hook variables mapping'
     );
 
-    foreach ($hook_definitions[$hook]['variables'] as $variable) {
+    foreach (array_keys($hook_definitions[$hook]['variables']) as $variable) {
       $form['variables'][$variable] = array(
         '#type' => 'select',
         '#empty_option' => t('<none>'),
