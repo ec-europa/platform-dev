@@ -59,21 +59,24 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
       '#title' => 'Theme hook variables mapping'
     );
 
-    foreach (array_keys($hook_definitions[$hook]['variables']) as $variable) {
-      $form['variables'][$variable] = array(
-        '#type' => 'select',
-        '#empty_option' => t('<none>'),
-        '#title' => t('Theme variable: @variable', array('@variable' => $variable)),
-        '#options' => $fields,
-        '#default_value' => $this->options['variables'][$variable],
-      );
+    $variables = $hook_definitions[$hook]['variables'];
+    foreach ($variables as $var => $val) {
+      if ($val === NULL) {
+        $form['variables'][$var] = array(
+          '#type' => 'select',
+          '#empty_option' => t('<none>'),
+          '#title' => t('Theme variable: @variable', array('@variable' => $var)),
+          '#options' => $fields,
+          '#default_value' => $this->options['variables'][$var],
+        );
+      };
     }
   }
 
   /**
    * @inheritDoc
    */
-  public function options_submit(&$form, &$form_state){
+  public function options_submit(&$form, &$form_state) {
     // In order to make AJAX working fine, we need this line.
     $form_state['values']['row_options']['variables'] = $form_state['input']['row_options']['variables'];
   }
