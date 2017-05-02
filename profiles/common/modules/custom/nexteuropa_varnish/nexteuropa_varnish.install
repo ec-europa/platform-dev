@@ -165,7 +165,7 @@ function nexteuropa_varnish_update_7101() {
 }
 
 /**
- * Add cache table for the purge rules.
+ * NEPT-799: Add cache table for the purge rules.
  */
 function nexteuropa_varnish_update_7102() {
   $schema[NEXTEUROPA_VARNISH_CACHE_TABLE] = drupal_get_schema_unprocessed('system', 'cache');

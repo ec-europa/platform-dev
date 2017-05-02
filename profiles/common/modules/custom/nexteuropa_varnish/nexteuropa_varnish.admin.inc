@@ -45,7 +45,7 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
 }
 
 /**
- * Submit callback for clearing the purge rules' cache table.
+ * Submit callback for clearing the purge rules cache table.
  *
  * @see nexteuropa_varnish_admin_settings_form()
  */

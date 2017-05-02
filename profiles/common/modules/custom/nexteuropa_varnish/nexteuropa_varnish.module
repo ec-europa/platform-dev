@@ -138,11 +138,11 @@ function nexteuropa_varnish_workbench_moderation_transition($node, $previous_sta
   if (empty($node->is_new) && (isset($node->workbench_moderation['published']))) {
     $updated_node_paths = _nexteuropa_varnish_get_updated_node_paths($node);
   }
-  // Something must be sent to Varnish is when a new content
+  // Something must be sent to Varnish when a new content
   // revision is published.
   $publishing = ($new_state == workbench_moderation_state_published());
 
-  // Something must be sent to Varnish is when the content
+  // Something must be sent to Varnish when the content
   // is unpublished (no published revision anymore).
   $unpublishing = !$publishing &&
     ($node->workbench_moderation['my_revision']->published == 1)&&
@@ -197,7 +197,7 @@ function nexteuropa_varnish_node_update($node) {
 /**
  * Implements hook_node_presave().
  *
- * It adds the node old paths (I.E. aliases) in the node object in order to
+ * It adds the old node paths (I.E. aliases) in the node object in order to
  * make further control later in the node saving process.
  *
  * @see nexteuropa_varnish_workbench_moderation_transition()
@@ -205,9 +205,9 @@ function nexteuropa_varnish_node_update($node) {
  */
 function nexteuropa_varnish_node_presave($node) {
   $node->nexteuropa_varnish_old_paths = array();
-  // When the node is just created, it receives nevertheless a "old" path that
+  // Even if the node has just been created it will receive an "old" path that
   // corresponds to the creation form path.
-  // Then, old_paths must be set with values.
+  // With this, old_paths must be set with values.
   if (empty($node->is_new)) {
     $node->nexteuropa_varnish_old_paths = _nexteuropa_varnish_get_node_paths($node);
   }
@@ -558,12 +558,12 @@ function _nexteuropa_varnish_get_updated_node_paths($node) {
 }
 
 /**
- * Compare the node old paths with the new ones.
+ * Compare the old node paths with the new ones.
  *
  * @param array $old_paths
- *   The list of node paths previously set.
+ *   The list of previous node paths.
  * @param array $new_paths
- *   The list of node paths newly set.
+ *   The list of new node paths.
  *
  * @return array
  *   The list of old paths that have been changed; otherwise, it returns an
@@ -589,7 +589,7 @@ function _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths)
 }
 
 /**
- * Prepares the list of paths and send it to Varnish.
+ * Prepares the list of paths and sends them to Varnish.
  *
  * @param object $node
  *   The node object for which paths are processed.
