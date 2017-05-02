@@ -85,6 +85,13 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
   /**
    * @inheritDoc
    */
+  public function options_submit(&$form, &$form_state){
+    $form_state['values']['row_options']['variables'] = $form_state['input']['row_options']['variables'];
+  }
+
+  /**
+   * @inheritDoc
+   */
   function render($row) {
     // This part shouldn't be moved to the pre_render method.
     // The pre_render method is called only once and there is no way to get
