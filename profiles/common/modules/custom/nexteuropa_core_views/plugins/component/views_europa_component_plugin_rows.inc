@@ -26,20 +26,15 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
    */
   public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
-    $components = array();
-    $hooks_theme = variable_get('nexteuropa_core_views_hooks', array());
-    foreach ($hooks_theme as $k =>$v) {
-      if(strpos($v['theme path'], 'themes/europa')!== FALSE) {
-        $components[$k] = $k;
-      }
-    }
+    $hook_definitions = variable_get('nexteuropa_core_views_hooks', array());
+
     $form['theme'] = array(
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Theme hook'),
       '#description' => t('Select the theme hook to use to render your fields.'),
       '#empty_option' => t('<none>'),
-      '#options' => $components,
+      '#options' => array_combine(array_keys($hook_definitions), array_keys($hook_definitions)),
       '#default_value' => $this->options['theme'],
       '#ajax' => array(
         'path' => views_ui_build_form_url($form_state),
@@ -71,7 +66,7 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
       '#title' => 'Theme hook variables mapping'
     );
 
-    foreach ($hooks_theme[$hook]['variables'] as $variable) {
+    foreach ($hook_definitions[$hook]['variables'] as $variable) {
       $form['variables'][$variable] = array(
         '#type' => 'select',
         '#empty_option' => t('<none>'),
@@ -86,6 +81,7 @@ class ViewsEuropaComponentPluginRows extends views_plugin_row {
    * @inheritDoc
    */
   public function options_submit(&$form, &$form_state){
+    // In order to make AJAX working fine, we need this line.
     $form_state['values']['row_options']['variables'] = $form_state['input']['row_options']['variables'];
   }
 

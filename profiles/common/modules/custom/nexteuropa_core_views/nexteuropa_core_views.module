@@ -12,7 +12,7 @@ function nexteuropa_core_views_views_api() {
 }
 
 /**
- * Implements hook_clear_caches().
+ * Implements hook_theme_registry_alter().
  *
  * AFAIK, there is no other way to do this horrendous hack to retrieve ALL the
  * themes hooks available.
@@ -22,26 +22,45 @@ function nexteuropa_core_views_views_api() {
  *
  * Any alternative way is very welcome.
  */
-function nexteuropa_core_views_flush_caches() {
+function nexteuropa_core_views_theme_registry_alter(&$hook_definitions){
+  global $theme;
+
+  // Bails out if we are not in the default theme context.
+  if ($theme != variable_get('default_theme')) {
+    return;
+  }
+
   $hooks = array();
-  // Retrieve all the hooks declared by modules AND themes.
-  foreach (theme_get_registry() as $hook => $data) {
-    // Filter out theme hooks that we do not want.
-    if (isset($data['variables']) && is_array($data['variables']) && !isset($data['render element'])) {
-      $data['variables'] = array_filter($data['variables'], function($value) {
-        return !is_array($value) ||
-          !in_array(
-            $value,
-              array(
-                'content_attributes',
-                'wrapper_attributes',
-                'title_attributes',
-              )
-          );
-      });
-      // Filter out theme hooks with no variables.
-      if (count($data['variables']) >= 1) {
-        $hooks[$hook] = $data;
+
+  // Reset the variable.
+  variable_set('nexteuropa_core_views_hooks', $hooks);
+
+  // Get the path to the europa theme.
+  // Should we allow users to change that theme ?
+  // Ex: when they will create a subtheme? What will be the behavior of this?
+  $path = drupal_get_path('theme', 'europa');
+
+  foreach ($hook_definitions as $hook => $data) {
+    if (isset($data['path']) && (strpos($data['path'],
+          $path) !== FALSE || $data['path'] == $path)
+    ) {
+      if (isset($data['variables']) && is_array($data['variables']) && !isset($data['render element'])) {
+        $data['variables'] = array_filter($data['variables'],
+          function ($value) {
+            return !is_array($value) ||
+              !in_array(
+                $value,
+                array(
+                  'content_attributes',
+                  'wrapper_attributes',
+                  'title_attributes',
+                )
+              );
+          });
+        // Filter out theme hooks with no variables.
+        if (count($data['variables']) >= 1) {
+          $hooks[$hook] = $data;
+        }
       }
     }
   }
