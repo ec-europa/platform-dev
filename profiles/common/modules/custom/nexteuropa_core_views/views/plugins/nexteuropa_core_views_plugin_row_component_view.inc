@@ -9,7 +9,7 @@
  *
  * @codingStandardsIgnoreFile
  */
-class ViewsEuropaComponentPluginRows extends views_plugin_row {
+class nexteuropa_core_views_plugin_row_component_view extends views_plugin_row {
 
   /**
    * @inheritDoc
