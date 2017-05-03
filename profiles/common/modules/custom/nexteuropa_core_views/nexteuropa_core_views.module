@@ -26,7 +26,7 @@ function nexteuropa_core_views_theme_registry_alter(&$hook_definitions) {
   global $theme;
 
   // Bails out if we are not in the default theme context.
-  if ($theme != variable_get('default_theme')) {
+  if ($theme != variable_get('theme_default')) {
     return;
   }
 
