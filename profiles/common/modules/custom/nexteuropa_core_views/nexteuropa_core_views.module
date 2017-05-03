@@ -44,26 +44,35 @@ function nexteuropa_core_views_theme_registry_alter(&$hook_definitions) {
     if (isset($data['path']) && (strpos($data['path'],
           $path) !== FALSE || $data['path'] == $path)
     ) {
-      if (isset($data['variables']) && is_array($data['variables']) && !isset($data['render element'])) {
-        $data['variables'] = array_filter($data['variables'],
-          function ($value) {
-            return !is_array($value) ||
-              !in_array(
-                $value,
-                array(
-                  'content_attributes',
-                  'wrapper_attributes',
-                  'title_attributes',
-                )
-              );
-          });
-        // Filter out theme hooks with no variables.
-        if (count($data['variables']) >= 1) {
-          $hooks[$hook] = $data;
+      // Include a file if the theme function or variable processor is held
+      // elsewhere.
+      if (!empty($data['includes'])) {
+        foreach ($data['includes'] as $include_file) {
+          include_once DRUPAL_ROOT . '/' . $include_file;
         }
+      }
+
+      $function_name = $theme . '_atomium_theme_' . $hook;
+      if (function_exists($function_name)) {
+        $hooks = drupal_array_merge_deep(
+          (array) call_user_func_array(
+            $function_name, array()
+          ),
+          $hooks
+        );
       }
     }
   }
+
+  // Copy hooks data just in case if we need them later in Views.
+  foreach ($hooks as $hook_name => $hook_definition) {
+    $hooks[$hook_name] += $hook_definitions[$hook_name];
+  }
+
+  // Removes hooks with no or empty 'variables' key.
+  array_filter($hooks, function ($item) {
+    return isset($item['variables']) && empty($item['variables']);
+  });
 
   // Sort hooks alphabetically.
   ksort($hooks);
