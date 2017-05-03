@@ -1061,7 +1061,6 @@ video
   $strongarm->api_version = 1;
   $strongarm->name = 'cce_basic_config_admin_pages';
   $strongarm->value = array(
-    'admin/structure/feature-set',
     'admin/workbench',
     'admin/content/comment',
     'admin/content/media',

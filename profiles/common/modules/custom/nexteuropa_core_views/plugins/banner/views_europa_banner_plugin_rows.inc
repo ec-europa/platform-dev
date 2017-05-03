@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Definition of views_bootstrap_plugin_rows.
+ * Definition of views_europa_banner_plugin_rows.
  */
 
 /**
@@ -54,4 +54,41 @@ class ViewsEuropaBannerPluginRows extends views_plugin_row {
 
   }
 
+  /**
+   * Render a row object. This usually passes through to a theme template
+   * of some form, but not always.
+   *
+   * @param stdClass $row
+   *   A single row of the query result, so an element of $view->result.
+   *
+   * @return string
+   *   The rendered output of a single row, used by the style plugin.
+   */
+  function render($row) {
+    static $row_index;
+    if (!isset($row_index)) {
+      $row_index = 0;
+    }
+
+    return theme($this->theme_functions(),
+      array(
+        'quote' => $this->get_field($row_index, $this->options['quote']),
+        'author' => $this->get_field($row_index, $this->options['author']),
+      ));
+  }
+
+  /**
+   * Retrieves a views field value from the style plugin.
+   *
+   * @param $index
+   *   The index count of the row as expected by views_plugin_style::get_field().
+   * @param $field_id
+   *   The ID assigned to the required field in the display.
+   */
+  function get_field($index, $field_id) {
+    if (empty($this->view->style_plugin) || !is_object($this->view->style_plugin) || empty($field_id)) {
+      return '';
+    }
+    return $this->view->style_plugin->get_field($index, $field_id);
+  }
 }

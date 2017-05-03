@@ -16,7 +16,15 @@ Feature: Check Piwik
 
   Scenario: Check if the PIWIK script is embedded into the page correctly
     Given I am on the homepage
-    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"instance\":\"\"}"
+    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":false,\"instance\":\"\"}"
+
+  Scenario: Check if the PIWIK script flags non existing pages
+    Given I go to "falsepage"
+    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":true,\"is403\":false,\"instance\":\"\"}"
+
+  Scenario: Check if the PIWIK script flags forbidden pages
+    Given I go to "ecaslogout"
+    Then the response should contain "{\"utility\":\"piwik\",\"siteID\":\"\",\"sitePath\":[\"\"],\"is404\":false,\"is403\":true,\"instance\":\"\"}"
 
   @delete_piwik_rules
   Scenario: View advanced PIWIK rules.

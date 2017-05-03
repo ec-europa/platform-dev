@@ -68,6 +68,9 @@ default:
         messages: "#console"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
+      text:
+        log_out: "Log out"
+        log_in: "Log in"
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_scenarios
       active_image_drivers: img42
