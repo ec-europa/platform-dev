@@ -54,14 +54,13 @@ class nexteuropa_core_views_plugin_row_component_view extends views_plugin_row {
 
     $hook = isset($form_state['values']['row_options']['theme']) ? $form_state['values']['row_options']['theme'] : $this->options['theme'];
 
-    $form['variables'] = array(
-      '#type' => 'fieldset',
-      '#title' => 'Theme hook variables mapping'
-    );
+    if (isset($hook_definitions[$hook]['variables'])) {
+      $form['variables'] = array(
+        '#type' => 'fieldset',
+        '#title' => 'Theme hook variables mapping'
+      );
 
-    $variables = $hook_definitions[$hook]['variables'];
-    foreach ($variables as $var => $val) {
-      if ($val === NULL) {
+      foreach ($hook_definitions[$hook]['variables'] as $var => $val) {
         $form['variables'][$var] = array(
           '#type' => 'select',
           '#empty_option' => t('<none>'),
@@ -71,6 +70,7 @@ class nexteuropa_core_views_plugin_row_component_view extends views_plugin_row {
         );
       };
     }
+
   }
 
   /**
