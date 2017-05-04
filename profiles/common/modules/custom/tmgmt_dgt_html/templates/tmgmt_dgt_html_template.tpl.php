@@ -8,7 +8,7 @@
 // NEPT-862: Add XML declaration above the HTML structure to force the
 // UTF-8 encoding.
 $xml = <<<XML
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>\n
 XML;
 print $xml;
 ?>
