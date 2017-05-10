@@ -225,8 +225,9 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Load data exporter.
     $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
 
-    // Encode the data to be translated.
-    $content = base64_encode($controller->export($job));
+    // Generate the data into a XML format and encode it to be translated.
+    $export = $controller->export($job);
+    $content = base64_encode($export);
 
     // Generate the ID for the request.
     $items = $job->getItems();
