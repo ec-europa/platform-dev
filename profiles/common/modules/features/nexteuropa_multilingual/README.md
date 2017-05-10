@@ -15,7 +15,7 @@ that the neutral language is set for all defined aliases;
 # Important
 
  Concerning content, this module is designed for supporting the
- "Entity translation" module but not the "Content translation" one.
+ "Entity translation" module but not the "Content translation" module.
 
 # Installation
 
@@ -38,6 +38,8 @@ For multilingual sites, the site owners have the option to choose on which
 'admin' pages they want to display a fixed language (typically english), for 
 all users.
 The configuration is based on *paths* not on user type, or user preferences.
+To enable the feature, reach *admin/config/regional/language/configure* and 
+check 'Administration path' detection method.
 Configuration is explained in the [documentation page of drupal.org](https://www.drupal.org/project/administration_language_negotiation) 
 Please also review [the readme file](http://cgit.drupalcode.org/administration_language_negotiation/tree/README.md?h=7.x-1.2)
 By default, the English "Administration language negotiation" is active on edit 
