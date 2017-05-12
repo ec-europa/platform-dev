@@ -214,7 +214,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *
    * @When I make dates from :field in db table :table to be in past
    */
-  public function iMakeDateInDbTableToBeInPast($field, $table) {
+  public function iMakeDatesFromFieldInDbTableToBeInPast($field, $table) {
     db_update($table)
       ->fields(array($field => '1494521081'))
       ->execute();
