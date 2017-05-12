@@ -74,6 +74,10 @@ function multisite_settings_core_update_7121() {
  * @see multisite_drupal_standard_install_tasks()
  */
 function multisite_settings_core_language_negotiation_task() {
+  // Load locale libraries.
+  include_once DRUPAL_ROOT . '/includes/locale.inc';
+  include_once drupal_get_path('module', 'locale') . '/locale.admin.inc';
+
   $form_state = array();
   $form_state['values'] = array(
     'language' => array(
