@@ -39,7 +39,18 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
     '#default_value' => variable_get('nexteuropa_varnish_default_purge_rule', FALSE),
   );
 
+  $form['#submit'][] = 'nexteuropa_varnish_admin_settings_cache_clear_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ * Submit callback for clearing the purge rules cache table.
+ *
+ * @see nexteuropa_varnish_admin_settings_form()
+ */
+function nexteuropa_varnish_admin_settings_cache_clear_submit($form, &$form_state) {
+  cache_clear_all('*', NEXTEUROPA_VARNISH_CACHE_TABLE, TRUE);
 }
 
 /**
