@@ -15,7 +15,6 @@ include_once 'cce_basic_config.default_password_policy.inc';
  */
 function cce_basic_config_file_validate($file) {
   global $user;
-  drupal_set_message('<pre>' . print_r($file, 1) . print_r($user, 1) . '</pre>');
   $errors = array();
 
   // Validate the mimetype based on the file contents.
@@ -427,7 +426,7 @@ function _cce_basic_config_validate_file_destination(&$errors, $file) {
 function _cce_basic_config_is_cron_run() {
   $backtrace = debug_backtrace();
   foreach ($backtrace as $trace) {
-    if (isset($trace['function']) && $trace[] == 'system_run_cron') {
+    if (isset($trace['function']) && $trace['function'] == 'system_run_cron') {
       return TRUE;
     }
   }
