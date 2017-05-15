@@ -1,6 +1,6 @@
 @api @poetry_mock @i18n @poetry
 Feature: TMGMT Poetry features
-  In order request new translations for nodes/taxonomies with Poetry service.
+  In order request new translations for nodes with Poetry service.
   As an Administrator
   I want to be able to create/manage translation requests.
 
@@ -42,7 +42,7 @@ Feature: TMGMT Poetry features
     Then I should see the error message "There was an error with the Poetry request."
     And I should see "Rejected" in the "French" row
     And I should see "Rejected" in the "Italian" row
-    Given I am logged in as a user with the "cem" role
+    Then I am logged in as a user with the "cem" role
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -395,7 +395,7 @@ Feature: TMGMT Poetry features
       | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
 
   @javascript
-  Scenario Outline: Request translation of a page with HTML5 or IFRAME video into French.
+  Scenario Outline: Request translation of a page with HTML5 into French.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -421,16 +421,12 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
 
     Examples:
-      | title                | body                                                                                                                                                                                                                              |
-      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                                                                                                                                                   |
-      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                                                                                                                                         |
-      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>                                                                                                                                |
-      | YouTube Video        | <iframe class=\"media-youtube-player\" width=\"640\" height=\"390\" title=\"Los Muppets - Mahna Mahna\" src=\"//www.youtube.com/embed/9ezRFBnWBKg\" frameborder=\"0\" allowfullscreen>Video of Los Muppets - Mahna Mahna</iframe> |
-      | Vimeo Video          | <iframe class=\"media-vimeo-player\" width=\"640\" height=\"390\" title=\"EARTH\" src=\"//player.vimeo.com/video/32001208\" frameborder=\"0\" allowfullscreen>Video of EARTH</iframe>                                                         |
-      | Dailymotion Video    | <iframe frameborder=\"0\" width=\"640\" height=\"390\" src=\"//www.dailymotion.com/embed/video/x4e66jg\"></iframe>                                                                                                                        |
-      | AV Portal Video      | <iframe width=\"640\" height=\"390\" frameborder=\"0\" allowfullscreen=\"\" mozallowfullscreen=\"\" webkitallowfullscreen=\"\" id=\"videoplayer15672\" scrolling=\"no\" src=\"//av.tib.eu/player/15672\"></iframe>                                  |
-      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                                                                                                                                                     |
-      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                                                                                                                                         |
+      | title                | body                                                                                                       |
+      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                            |
+      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
+      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
+      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
+      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
@@ -523,19 +519,6 @@ Feature: TMGMT Poetry features
     And the translation request has organisationAuteur "& DG/directorate/unit from which the document comes"
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
-
-  Scenario: Inspect the 'Last change' data of a translation request
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title            | body                    |
-      | en       | Title            | Last change column test |
-    When I click "Translate" in the "primary_tabs" region
-    Then I should see "Last change"
-    When I check the box on the "French" row
-    And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days
-    And I press "Submit to translator"
-    Then I see the date of the last change in the "French" row
 
   @javascript @maximizedwindow
   Scenario: Adding new languages to the ongoing translation request
@@ -659,7 +642,7 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait for the translation request to be accepted before further update options."
+    And I should see "Please wait the acceptation translation process before update request."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Refuse" in the "en->fr" row
@@ -675,7 +658,7 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
-    And I should see "Please wait for the translation request to be accepted before further update options."
+    And I should see "Please wait the acceptation translation process before update request."
 
   @javascript
   Scenario: Resending translation request while translation process is ongoing
@@ -692,14 +675,14 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait for the translation request to be accepted before further update options."
+    And I should see "Please wait the acceptation translation process before update request."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->fr" row
     And I click "Send 'ONG' status" in the "en->it" row
     Then I should see the success message "The status request was sent. Check the translation page."
     When I click "Check the translation page"
-    Then I should not see "Please wait for the translation request to be accepted before further update options."
+    Then I should not see "Please wait the acceptation translation process before update request."
     When I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation update"
@@ -767,26 +750,3 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
-
-  @javascript
-  Scenario Outline: Check not-poetry translator still works with poetry enabled.
-    Given <translatorType> translator "Translator <translatorType>" is available
-    And I am logged in as a user with the 'administrator' role
-    When I go to "node/add/page"
-    And I fill in "Title" with "Test"
-    And I fill in the rich text editor "Body" with "Test."
-    And I press "Save"
-    And I select "Published" from "state"
-    And I press "Apply"
-    And I click "Translate" in the "primary_tabs" region
-    And I check the box on the "French" row
-    And I press "Request translation"
-    And I click "Change translator"
-    And I select "Translator <translatorType>" from "Translator"
-    And I press "Submit to translator"
-    Then I should see "<message>"
-
-    Examples:
-      | translatorType   | message                                 |
-      | local            | The translation job has been submitted. |
-      | file             | Exported file can be downloaded here.   |
