@@ -609,12 +609,14 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I see the date of the last change in the "French" row
 
-  Scenario: Inspect if the 'Requested delivery date' field is mandatory
+  Scenario: Inspect mandatory fields (date and languages)
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:
       | language | title            | body                    |
       | en       | Title            | Last change column test |
     When I click "Translate" in the "primary_tabs" region
+    And I press "Request translation"
+    Then I should see the error message "You have to select a language for requesting a translation."
     When I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
@@ -622,7 +624,11 @@ Feature: TMGMT Poetry features
     When I fill in "Date" with "01/01/1970"
     And I press "Submit to translator"
     Then I should see the error message "The expected requested delivery date cannot be in the past."
+    When I uncheck the box on the "French" row
+    And I press "Submit to translator"
+    Then I should see the error message "You have to select a language for requesting a translation."
     When I fill in "Date" with a relative date of "+5" days
+    When I check the box on the "French" row
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
