@@ -206,7 +206,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   if ($translator && ($translator->plugin == 'poetry' || $job->getTranslator()->plugin == 'poetry')) {
     // Putting custom form submit as a first one on the list.
     array_unshift($form['#submit'], '_tmgmt_poetry_form_tmgmt_job_submit');
-    array_unshift($form['#validate'], '_tmgmt_poetry_validate_job_requested_date');
+    array_unshift($form['#validate'], '_tmgmt_poetry_validate_job_mandatory_fields');
     if (strpos($job->reference, 'SUB_') !== FALSE) {
       $form['actions']['abort_job']['#access'] = FALSE;
       $form['actions']['submit']['#access'] = FALSE;
@@ -228,12 +228,15 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
 /**
  * Custom validator to add a server validation step for dates in the past.
  */
-function _tmgmt_poetry_validate_job_requested_date($form, &$form_state) {
+function _tmgmt_poetry_validate_job_mandatory_fields($form, &$form_state) {
+
   // This function also runs when changing the Translator Combo box,
   // we need to check if the form was really submitted.
   if (empty($form_state['submitted'])) {
     return;
   }
+
+  // Delivery date is mandatory.
   $delai = $form_state['values']['settings']['delai'];
   if (is_string($delai)) {
     $date = strtotime($delai);
@@ -241,6 +244,20 @@ function _tmgmt_poetry_validate_job_requested_date($form, &$form_state) {
     if ($date < $today) {
       form_set_error('delai', t('The expected requested delivery date cannot be in the past.'));
     }
+  }
+
+  // At least one language is mandatory.
+  $languages_empty = TRUE;
+  $languages = $form_state['values']['settings']['languages'];
+  if (!empty($languages)) {
+    foreach ($languages as $language) {
+      if ($language) {
+        $languages_empty = FALSE;
+      }
+    }
+  }
+  if ($languages_empty) {
+    form_set_error('languages', t('You have to select a language for requesting a translation.'));
   }
 }
 
