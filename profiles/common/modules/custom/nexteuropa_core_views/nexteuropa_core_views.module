@@ -24,26 +24,18 @@ function nexteuropa_core_views_views_api() {
  */
 function nexteuropa_core_views_theme_registry_alter(&$hook_definitions) {
   global $theme;
-
   // Bails out if we are not in the default theme context.
   if ($theme != variable_get('theme_default')) {
     return;
   }
 
   $hooks = array();
-
+  $rows_styles = _nexteuropa_core_views_row_styles();
   // Reset the variable.
   variable_set('nexteuropa_core_views_hooks', $hooks);
 
-  // Get the path to the europa theme.
-  // Should we allow users to change that theme ?
-  // Ex: when they will create a subtheme? What will be the behavior of this?
-  $path = drupal_get_path('theme', 'europa');
-
   foreach ($hook_definitions as $hook => $data) {
-    if (isset($data['path']) && (strpos($data['path'],
-          $path) !== FALSE || $data['path'] == $path)
-    ) {
+    if (in_array($hook, $rows_styles)) {
       // Include a file if the theme function or variable processor is held
       // elsewhere.
       if (!empty($data['includes'])) {
@@ -78,4 +70,21 @@ function nexteuropa_core_views_theme_registry_alter(&$hook_definitions) {
   ksort($hooks);
   // Store hooks in a variable, once again, not the best way.
   variable_set('nexteuropa_core_views_hooks', $hooks);
+}
+
+/**
+ * Build the list of row style plugins.
+ */
+function _nexteuropa_core_views_row_styles() {
+  $ne_core_views_row_styles = [
+    'banner',
+    'card',
+    'blockquote',
+    'timelines',
+  ];
+  // Calling all modules implementing hook_my_data_alter():
+  drupal_alter('ne_core_views_row_styles', $ne_core_views_row_styles);
+  // Websites that wish to add more row styles may implement
+  // hook_ne_core_views_row_styles_alter() in their module to alter the array.
+  return $ne_core_views_row_styles;
 }

@@ -4,3 +4,4 @@ package = NextEuropa
 core = 7.x
 
 registry_autoload[] = PSR-4
+dependencies[] = drupal:views
