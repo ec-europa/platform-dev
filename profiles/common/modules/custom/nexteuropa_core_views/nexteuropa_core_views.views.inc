@@ -22,7 +22,7 @@ function nexteuropa_core_views_views_plugins() {
     'style' => array(
       'nexteuropa_core_views_plugin_style_component_grid_view' => array(
         'title' => t('Europa Grid style component'),
-        'help' => t('Choose the style component.'),
+        'help' => t('Allows to display a ECL grid.'),
         'handler' => 'nexteuropa_core_views_plugin_style_component_grid_view',
         'uses fields' => FALSE,
         'uses row plugin' => TRUE,

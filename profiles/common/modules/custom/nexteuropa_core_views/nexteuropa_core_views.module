@@ -81,6 +81,7 @@ function _nexteuropa_core_views_row_styles() {
     'card',
     'blockquote',
     'timelines',
+    'expandable',
   ];
   // Calling all modules implementing hook_my_data_alter():
   drupal_alter('ne_core_views_row_styles', $ne_core_views_row_styles);
