@@ -74,56 +74,29 @@ function multisite_settings_core_update_7121() {
  * @see multisite_drupal_standard_install_tasks()
  */
 function multisite_settings_core_language_negotiation_task() {
-  module_load_include('inc', 'locale', 'locale.admin');
-  $form_state = array();
-  $form_state['values'] = array(
-    'language' => array(
-      'weight' => array(
-        'language-administration' => '-10',
-        'nexteuropa_multilingual_url_suffix' => '-8',
-        'locale-url' => '-8',
-        'locale-session' => '-6',
-        'language_cookie' => '-5',
-        'locale-user' => '-4',
-        'locale-browser' => '-2',
-        'language-default' => '10',
+  // Setting up the administration_language_negotiation_admin_language to be
+  // enabled by default.
+  // Loading existing the language negotiation providers.
+  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  // Setting up an array with the language administration provider properties.
+  $language_admin_provider = array(
+    'language-administration' => array(
+      'callbacks' => array(
+        'language' => 'administration_language_negotiation_admin_language',
       ),
-      'enabled' => array(
-        'language-administration' => 1,
-        'nexteuropa_multilingual_url_suffix' => 1,
-        'locale-url' => FALSE,
-        'locale-session' => 0,
-        'language_cookie' => 0,
-        'locale-user' => 0,
-        'locale-browser' => 0,
-        'language-default' => 0,
-      ),
+      'file' => drupal_get_path('module', 'administration_language_negotiation') . '/administration_language_negotiation.module',
+      'cache' => 0,
     ),
-    'language_content' => array(
-      'weight' => array(
-        'nexteuropa_multilingual_url_suffix' => '-8',
-        'locale-url' => '-8',
-        'locale-session' => '-6',
-        'language_cookie' => '-5',
-        'locale-user' => '-4',
-        'locale-browser' => '-2',
-        'locale-interface' => '8',
-        'language-default' => '10',
-      ),
-      'enabled' => array(
-        'nexteuropa_multilingual_url_suffix' => 0,
-        'locale-url' => FALSE,
-        'locale-session' => 0,
-        'language_cookie' => 0,
-        'locale-user' => 0,
-        'locale-browser' => 0,
-        'locale-interface' => 1,
-        'language-default' => 0,
-      ),
-    ),
-    'op' => 'Save settings',
   );
-  drupal_form_submit('locale_languages_configure_form', $form_state);
+
+  // Reseting static cache for the language negotiation functionality.
+  drupal_static_reset("language_negotiation_info");
+  // Adding the language administration provider to the language negotiation
+  // list.
+  language_negotiation_set(
+    LANGUAGE_TYPE_INTERFACE,
+    $enabled_providers + $language_admin_provider
+  );
 }
 
 /**
