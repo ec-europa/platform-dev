@@ -2,7 +2,7 @@
 Feature: File Vulnerability
   In order to control the file uploads
   As an Administrator
-  I need to test if file are secure
+  I need to test if uploaded files are secure
 
   Background:
     Given I am logged in as a user with the 'administrator' role
