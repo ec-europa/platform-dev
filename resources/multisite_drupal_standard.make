@@ -763,9 +763,9 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/no
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-592
 projects[workbench_moderation][patch][] = patches/workbench_moderation-002-1084436-2645622-merge.patch
 ; Allow cron to run workbench_moderation_set_state_action
-; https://www.drupal.org/node/2476489
+; https://www.drupal.org/node/2476489 (patch #12)
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-968
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-reimplement-force_transaction-247648907.patch
+projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/force_transition-2476489-12.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
