@@ -630,9 +630,9 @@ projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-; Issue #2267251: Do not rely on "content language" in hook_entity_presave()
-; https://www.drupal.org/node/2267251
-projects[title][patch][] = patches/title-language-2267251-67.patch
+; Issue #2542826: Language synchronization logic breaks term title translation
+; https://www.drupal.org/node/2542826
+; projects[title][patch][] = https://www.drupal.org/files/issues/title-unnecessary_sync-2542826-01.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
