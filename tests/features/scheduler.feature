@@ -9,6 +9,7 @@ Feature: Scheduler features
     And I change the variable "scheduler_publish_enable_page" to 1
     And I change the variable "scheduler_unpublish_enable_page" to 1
     And I change the variable "scheduler_use_vertical_tabs_page" to 1
+    And I change the variable "scheduler_unpublish_revision_page" to 0
 
   Scenario: User can schedule a date to publish a content
     When I go to "node/add/page"
@@ -26,7 +27,6 @@ Feature: Scheduler features
     And I visit the "page" content with title "Next content"
     Then I should see the text "Revision state: Published"
 
-  @wip
   Scenario: User can schedule a date to unpublish a content
     When I go to "node/add/page"
     And I fill in "Title" with "Old content"
