@@ -632,7 +632,7 @@ projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 ; Issue #2267251: Do not rely on "content language" in hook_entity_presave()
 ; https://www.drupal.org/node/2267251
-projects[title][patch][] = https://www.drupal.org/files/issues/title-language-2267251-65.patch
+projects[title][patch][] = patches/title-language-2267251-67.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
