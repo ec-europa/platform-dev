@@ -20,9 +20,6 @@ function cce_basic_config_file_validate($file) {
   // Validate the mimetype based on the file contents.
   _cce_basic_config_validate_real_mimetype($errors, $file);
 
-  // Check if the mimetype is allowed.
-  _cce_basic_config_validate_allowed_mimetype($errors, $file);
-
   // Check if the user can upload to the destination file system.
   _cce_basic_config_validate_file_destination($errors, $file);
   return $errors;
@@ -376,7 +373,7 @@ function _cce_basic_config_validate_real_mimetype(&$errors, $file) {
     if ($mime_by_filename !== $real_mime) {
       $extension = explode(".", $file->filename);
       $extension = end($extension);
-      $errors[] = t("The file extension '@extension' does not match the file mime type '@real_mime'.Contact the site administrator for more information.", array("@extension" => $extension, "@real_mime" => $real_mime));
+      $errors[] = t("The file extension '@extension' does not match the file mime type '@real_mime'. Contact the site administrator for more information.", array("@extension" => $extension, "@real_mime" => $real_mime));
       watchdog("cce_basic_config", "The user with uid @uid tried to upload a file with a mismatching mime type: the file @filename has a real mime type of @real_mime ", array(
         '@uid' => $file->uid,
         '@filename' => $file->filename,
@@ -387,48 +384,17 @@ function _cce_basic_config_validate_real_mimetype(&$errors, $file) {
 }
 
 /**
- * Helper function to check a mimetype against a whitelist.
- */
-function _cce_basic_config_validate_allowed_mimetype(&$errors, $file) {
-  $allowed_mimetypes = variable_get("ec_mimetype_whitelist", array());
-  if (!empty($allowed_mimetypes)) {
-    $mimetype = file_get_mimetype($file->filename);
-    if (!in_array($mimetype, $allowed_mimetypes)) {
-      $errors[] = t("The file type '@mimetype' is not allowed in the server. Contact the site administrator for more information.", array("@mimetype" => $mimetype));
-      watchdog("cce_basic_config", "The user with uid @uid tried to upload a file with a forbidden type: @filename has a mime type of @mimetype ", array(
-        '@uid' => $file->uid,
-        '@filename' => $file->filename,
-        '@mimetype' => $mimetype,
-      ), WATCHDOG_WARNING);
-    }
-  }
-}
-
-/**
  * Helper function to check if a user has access to the destination file system.
  */
 function _cce_basic_config_validate_file_destination(&$errors, $file) {
-  if (variable_get("ec_enable_file_destination_validation", TRUE) && !_cce_basic_config_is_cron_run()) {
+  if (variable_get("ec_enable_file_destination_validation", TRUE)) {
     $destination_file_scheme = file_uri_scheme($file->destination);
     if ($destination_file_scheme !== "private" && user_is_anonymous()) {
-      $errors[] = t("You don't have permissions to upload files to this folder.Contact the site administrator for more information.");
+      $errors[] = t("You don't have permissions to upload files to this folder. Contact the site administrator for more information.");
       watchdog("cce_basic_config", "An anonymous user tried to upload a file to a forbidden folder: @filename had a destination of @destination", array(
         '@filename' => $file->filename,
         '@destination' => $destination_file_scheme,
       ), WATCHDOG_WARNING);
     }
   }
-}
-
-/**
- * Helper function to determine if we are currently in a cron run.
- */
-function _cce_basic_config_is_cron_run() {
-  $backtrace = debug_backtrace();
-  foreach ($backtrace as $trace) {
-    if (isset($trace['function']) && $trace['function'] == 'system_run_cron') {
-      return TRUE;
-    }
-  }
-  return FALSE;
 }
