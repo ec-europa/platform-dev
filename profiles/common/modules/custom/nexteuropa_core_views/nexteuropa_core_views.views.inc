@@ -19,18 +19,5 @@ function nexteuropa_core_views_views_plugins() {
         'type' => 'normal',
       ),
     ),
-    'style' => array(
-      'nexteuropa_core_views_plugin_style_component_grid_view' => array(
-        'title' => t('Europa Grid style component'),
-        'help' => t('Allows to display a ECL grid.'),
-        'handler' => 'nexteuropa_core_views_plugin_style_component_grid_view',
-        'uses fields' => FALSE,
-        'uses row plugin' => TRUE,
-        'uses row class' => TRUE,
-        'uses options' => TRUE,
-        'type' => 'normal',
-        'theme' => 'grid',
-      ),
-    ),
   );
 }
