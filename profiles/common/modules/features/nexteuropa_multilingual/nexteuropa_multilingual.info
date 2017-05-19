@@ -20,6 +20,7 @@ dependencies[] = language_selector_page
 dependencies[] = language_selector_site
 dependencies[] = multisite_config
 dependencies[] = nexteuropa_core
+dependencies[] = nexteuropa_laco
 dependencies[] = text
 dependencies[] = title
 dependencies[] = tmgmt
