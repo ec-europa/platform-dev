@@ -197,6 +197,10 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       if (workbench_moderation_node_moderated($node)) {
         $node->workbench_moderation_state_new = $state;
       }
+
+      $handler = entity_translation_get_handler('node', $node);
+      $handler->setActiveLanguage($node->language);
+
       $node = $this->nodeCreate($node);
       $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
 

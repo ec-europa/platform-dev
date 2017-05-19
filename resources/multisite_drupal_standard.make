@@ -191,9 +191,6 @@ projects[entity_translation][version] = "1.0-beta6"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
-; Issue #2856927 : getActiveLanguage() should delegate its logic elsewhere
-; https://www.drupal.org/node/2856927
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -632,7 +629,7 @@ projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 ; Issue #2542826: Language synchronization logic breaks term title translation
 ; https://www.drupal.org/node/2542826
-; projects[title][patch][] = https://www.drupal.org/files/issues/title-unnecessary_sync-2542826-01.patch
+projects[title][patch][] = https://www.drupal.org/files/issues/title-unnecessary_sync-2542826-01.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
