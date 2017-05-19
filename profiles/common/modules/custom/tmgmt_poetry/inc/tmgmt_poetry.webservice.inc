@@ -247,9 +247,23 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       $language_job = array($language_code);
 
       $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)->fetchAll();
+      if (empty($ids)) {
+        $message_job->addMessage('WARNING: Job records not found for received language @language.', array('@language' => $language));
+        continue;
+      }
       $ids = array_shift($ids);
+
       $job = tmgmt_job_load($ids->tjid);
+      if (empty($job)) {
+        $message_job->addMessage('WARNING: Job not found for received language @language.', array('@language' => $language));
+        continue;
+      }
+
       $job_item = tmgmt_job_item_load($ids->tjiid);
+      if (empty($job_item)) {
+        $message_job->addMessage('WARNING: § item not found for received language @language.', array('@language' => $language));
+        continue;
+      }
 
       if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), strtolower((string) $attributions['format'])) === FALSE))) {
         $message_job->addMessage('Received format "@format" is not compatible, translation job format "@job_format" should be used instead', array(
