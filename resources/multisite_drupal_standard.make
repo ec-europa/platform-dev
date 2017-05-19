@@ -627,9 +627,9 @@ projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-; Issue #2542826: Language synchronization logic breaks term title translation
-; https://www.drupal.org/node/2542826
-projects[title][patch][] = https://www.drupal.org/files/issues/title-unnecessary_sync-2542826-01.patch
+; Issue #2856927: getActiveLanguage() should delegate its logic elsewhere.
+; https://www.drupal.org/node/2856927
+projects[title][patch][] = https://www.drupal.org/files/issues/2856927.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
