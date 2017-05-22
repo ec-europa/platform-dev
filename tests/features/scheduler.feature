@@ -6,8 +6,6 @@ Feature: Scheduler features
 
   Background:
     Given I am logged in as a user with the 'administrator' role
-    And I change the variable "scheduler_publish_enable_page" to 1
-    And I change the variable "scheduler_unpublish_enable_page" to 1
     And I change the variable "scheduler_use_vertical_tabs_page" to 1
     And I change the variable "scheduler_unpublish_revision_page" to 0
 
@@ -22,8 +20,7 @@ Feature: Scheduler features
     And I press the "Save" button
     Then I should see the message "This post is unpublished and will be published 2000-12-31 23:59:59."
     And I should see the text "Revision state: Draft"
-    And I am on "admin/config/system/cron"
-    And I press "Run cron"
+    And I run cron
     And I visit the "page" content with title "Next content"
     Then I should see the text "Revision state: Published"
 
@@ -41,7 +38,6 @@ Feature: Scheduler features
     And I press the "Save" button
     Then I should see the text "Revision state: Published"
     When I make dates from "unpublish_on" in db table "scheduler" to be in past
-    And I am on "admin/config/system/cron_en"
-    And I press "Run cron"
+    And I run cron
     And I visit the "page" content with title "Old content"
     Then I should see the text "Revision state: Expired"
