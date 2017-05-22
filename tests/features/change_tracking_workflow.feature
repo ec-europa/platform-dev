@@ -222,7 +222,7 @@ Feature: Change tracking features
     And I select "Full HTML + Change tracking" from "field_ne_body[fr][0][format]"
     And I fill in "Body" with "<blocked>"
     And I press "Save"
-    Then I should see the success message "Basic page Titre en Français has been updated."
+    Then I should see the success message "Basic page Title in English has been updated."
     When I click "Français" in the "header_top" region
     And I click "English"
     When I select "Published" from "state"
