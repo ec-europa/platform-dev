@@ -209,20 +209,4 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     return $nodes;
   }
 
-  /**
-   * Update dates in db table field to be in the past.
-   *
-   * @When I make dates from :field in db table :table to be in past
-   */
-  public function iMakeDatesFromFieldInDbTableToBeInPast($field, $table) {
-    if (db_field_exists($table, $field)) {
-      db_update($table)
-        ->fields(array($field => time() - 86400))
-        ->execute();
-    }
-    else {
-      throw new \InvalidArgumentException("Column '{$field}' not found in the table '{$table}'.");
-    }
-  }
-
 }

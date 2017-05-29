@@ -37,7 +37,7 @@ Feature: Scheduler features
     When I fill in "unpublish_on[date]" with "2100-12-31"
     And I press the "Save" button
     Then I should see the text "Revision state: Published"
-    When I make dates from "unpublish_on" in db table "scheduler" to be in past
+    When I change the unpublishing date of the "page" node with title "Old content" to "-1 day"
     And I run cron
     And I visit the "page" content with title "Old content"
     Then I should see the text "Revision state: Expired"
