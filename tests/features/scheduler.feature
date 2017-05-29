@@ -1,4 +1,4 @@
-@api @run
+@api
 Feature: Scheduler features
   In order to moderate contents
   As an administrator
