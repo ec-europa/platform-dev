@@ -30,12 +30,15 @@ function nexteuropa_core_views_theme_registry_alter(&$hook_definitions) {
   }
 
   $hooks = array();
-  $rows_styles = _nexteuropa_core_views_row_styles();
+
+  $row_styles = module_invoke_all('nexteuropa_core_views_row_styles_info');
+  // Allow modules to alter row style list.
+  drupal_alter('nexteuropa_core_views_row_styles', $row_styles);
   // Reset the variable.
   variable_set('nexteuropa_core_views_hooks', $hooks);
 
   foreach ($hook_definitions as $hook => $data) {
-    if (in_array($hook, $rows_styles)) {
+    if (in_array($hook, $row_styles)) {
       // Include a file if the theme function or variable processor is held
       // elsewhere.
       if (!empty($data['includes'])) {
@@ -73,19 +76,14 @@ function nexteuropa_core_views_theme_registry_alter(&$hook_definitions) {
 }
 
 /**
- * Build the list of row style plugins.
+ * Implements hook_nexteuropa_core_views_row_styles_info().
  */
-function _nexteuropa_core_views_row_styles() {
-  $ne_core_views_row_styles = [
+function nexteuropa_core_views_nexteuropa_core_views_row_styles_info() {
+  return array(
     'banner',
     'card',
     'blockquote',
     'timelines',
     'expandable',
-  ];
-  // Calling all modules implementing hook_my_data_alter():
-  drupal_alter('ne_core_views_row_styles', $ne_core_views_row_styles);
-  // Websites that wish to add more row styles may implement
-  // hook_ne_core_views_row_styles_alter() in their module to alter the array.
-  return $ne_core_views_row_styles;
+  );
 }
