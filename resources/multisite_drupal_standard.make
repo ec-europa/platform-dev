@@ -466,10 +466,8 @@ projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.pa
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
-projects[metatag][download][branch] = 7.x-1.x
-projects[metatag][download][revision] = 4ad67f6e26426527a54334185e37a34f9a6b606e
-projects[metatag][download][type] = git
 projects[metatag][subdir] = "contrib"
+projects[metatag][version] = "1.21"
 ; Notice : Undefined index: group in metatag_views_i18n_object_info()
 ; https://www.drupal.org/node/2882048
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1039
