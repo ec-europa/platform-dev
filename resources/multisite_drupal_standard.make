@@ -187,11 +187,19 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"
 
-projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0-beta6"
+projects[entity_translation][download][branch] = 7.x-1.x
+projects[entity_translation][download][revision] = edd540b2e1180db45ad1cea14843daa19e13878a
+projects[entity_translation][download][type] = git
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
+; Update to entity_translation beta6
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-539
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
