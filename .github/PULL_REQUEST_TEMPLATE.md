@@ -1,12 +1,12 @@
-NEPT-9999
+## NEPT-[Insert the number ticket here]
 
-## Description
+### Description
 
-...
+ [Insert description here]
 
-## Additional commands
+### Additional commands
 
 ```sh
-no additional command needed
+[Insert commands here]
 
 ```
