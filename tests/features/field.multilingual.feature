@@ -1,9 +1,8 @@
-@api
+@javascript @maximizedwindow @api
 Feature: Field Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
   I want to be able to read field label in my native language
-
 
   Background:
     Given the following languages are available:
