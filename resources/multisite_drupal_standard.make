@@ -190,6 +190,7 @@ projects[entity][version] = "1.8"
 projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][download][revision] = edd540b2e1180db45ad1cea14843daa19e13878a
 projects[entity_translation][download][type] = git
+projects[entity_translation][subdir] = "contrib"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
