@@ -208,10 +208,10 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
     $node_wrapper = entity_metadata_wrapper('node', $node);
     $node_wrapper->language($language)->title_field = $fields['title'];
     if (!empty($fields['field_ne_body'])) {
-      $node_wrapper->language($language)->field_ne_body = $fields['field_ne_body'];
+      $node_wrapper->language($language)->field_ne_body->set(array('value' => $fields['field_ne_body']));
     }
     elseif (!empty($fields['body'])) {
-      $node_wrapper->language($language)->body = $fields['body'];
+      $node_wrapper->language($language)->body->set(array('value' => $fields['body']));
     }
 
     // Assign translated body field, if any.
