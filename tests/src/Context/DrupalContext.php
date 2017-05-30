@@ -213,4 +213,23 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     return $nodes;
   }
 
+  /**
+   * Puts field inside the specific field group for a given parameters.
+   *
+   * @When I put the field :field_name inside the field group :group_name of an entity :entity_type type of :bundle using the view mode :view_mode
+   */
+  public function iPutFieldInToFieldGroup($field_name, $group_name, $entity_type, $bundle, $view_mode) {
+    $groups = field_group_read_groups(array(
+      'entity_type' => $entity_type,
+      'bundle'      => $bundle,
+      'mode'   => $view_mode,
+    ));
+
+    if (isset($groups[$entity_type][$bundle][$view_mode][$group_name])) {
+      $group = $groups[$entity_type][$bundle][$view_mode][$group_name];
+      $group->children[] = $field_name;
+      field_group_group_save($group);
+    }
+  }
+
 }
