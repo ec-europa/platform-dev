@@ -10,8 +10,8 @@
  */
 function nexteuropa_fields_formatters_field_formatter_info() {
   return [
-    'ne_bs_button' => [
-      'label' => t('NE Bootstrap button'),
+    'ne_button' => [
+      'label' => t('NE ECL button'),
       'description' => t('Displays as a button.'),
       'field types' => [
         'link_field',
@@ -79,21 +79,27 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
 
   // Switch for the different formatters.
   switch ($display['type']) {
-    case 'ne_bs_button':
+    case 'ne_button':
       $element['variation'] = [
         '#type' => 'select',
         '#title' => t('Variation'),
         '#options' => [
-          'default' => 'Default',
-          'ctn' => 'Call to action',
-          'ctn--border' => 'Call to action with border',
+          'block' => 'Default',
+          'call' => 'Call to action',
           'info' => 'Info',
-          'menu' => 'Menu',
           'primary' => 'Primary',
           'secondary' => 'Secondary',
+          'form' => 'Form',
+          'light' => 'Light',
+          'arrow-up' => 'Arrow Up',
+          'arrow-down' => 'Arrow Down',
+          'carret-up' => 'Carret Up',
+          'carret-down' => 'Carret Down',
+          'carret-left' => 'Carret Left',
+          'carret-right' => 'Carret Right',
         ],
         '#default_value' => $settings['variation'],
-        '#description' => t('Please select the button variation you need.'),
+        '#description' => t('Please select the button variation you need. Each variation is illustrated on the <a href="!url">ECL Library</a>', array('!url' => 'https://ec-europa.github.io/europa-component-library/components/detail/ecl-buttons')),
       ];
       break;
 
@@ -151,7 +157,7 @@ function nexteuropa_fields_formatters_field_formatter_settings_summary($field, $
       }
       break;
 
-    case 'ne_bs_button':
+    case 'ne_button':
     case 'ne_date':
       if (isset($settings['variation'])) {
         $summary[] = t('Variation: @variation', [
@@ -227,8 +233,8 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
       }
       break;
 
-    case 'ne_bs_button':
-      $modifier = 'btn';
+    case 'ne_button':
+      $modifier = 'ecl-button';
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
@@ -242,7 +248,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
                 'attributes' => [
                   'class' => [
                     $modifier,
-                    $modifier . '-' . $settings['variation'],
+                    $modifier . '--' . $settings['variation'],
                   ],
                 ],
               ],
@@ -259,7 +265,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
                 'attributes' => [
                   'class' => [
                     $modifier,
-                    $modifier . '-' . $settings['variation'],
+                    $modifier . '--' . $settings['variation'],
                   ],
                 ],
               ],
@@ -268,7 +274,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             break;
 
           default:
-            $markup = '<span class="btn btn-' .
+            $markup = '<span class="ecl-button ecl-button--' .
               $settings['variation'] . '">' . $item['value'] . '</span>&nbsp;';
             break;
         }
