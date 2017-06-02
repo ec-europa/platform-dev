@@ -308,6 +308,19 @@ The following module has moved within the file system: tmgmt_poetry.
   assign it to user "Support SMT Jira", send the ticket number to
   "COMM EUROPA MANAGEMENT"
 
+ * From ticket NEPT-391
+
+```
+$ drush en nexteuropa_varnish  -y
+
+```
+
+For each subsite upgrade that was already using the Nexteuropa Varnish , you need
+  to configure it.
+
+More informations:
+https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/custom/nexteuropa_varnish
+
 #### Manual check
 
   * Check the admin/reports/status_en for red flags, especially on the DGT
