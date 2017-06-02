@@ -993,7 +993,7 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases
 projects[europa][type] = theme
 projects[europa][download][type] = git
 projects[europa][download][url] = https://github.com/ec-europa/ec-europa-theme.git
-projects[europa][download][revision] = a96e5c5
+projects[europa][download][revision] = 97bd7b1
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git

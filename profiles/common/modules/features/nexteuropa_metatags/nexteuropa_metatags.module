@@ -10,6 +10,13 @@ include_once 'nexteuropa_metatags.tokens.inc';
  * Implements hook_metatag_info().
  */
 function nexteuropa_metatags_metatag_info() {
+  $info['group']['tags'] = array(
+    'label' => t('Tags'),
+    'description' => t("Meta tags used to integrate with Facebook's APIs. Most sites do not need to use these, they are primarily of benefit for sites using either the Facebook widgets, the Facebook Connect single-signon system, or are using Facebook's APIs in a custom way. Sites that do need these meta tags usually will only need to set them globally."),
+    'form' => array(
+      '#weight' => 55,
+    ),
+  );
   $info['tags']['creator'] = array(
     'label' => t('Creator'),
     'class' => 'DrupalTextMetaTag',
