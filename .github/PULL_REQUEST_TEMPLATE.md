@@ -1,12 +1,22 @@
-## NEPT-[Insert the number ticket here]
+NEPT-[Insert the number ticket here]
 
-### Description
+## Description
 
- [Insert description here]
+[Insert description here]
 
-### Additional commands
+## Change log
+
+- Added:
+- Changed:
+- Deprecated:
+- Removed:
+- Fixed:
+- Security:
+
+## Commands
 
 ```sh
 [Insert commands here]
 
 ```
+
