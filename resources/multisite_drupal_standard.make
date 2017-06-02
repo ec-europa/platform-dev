@@ -751,7 +751,10 @@ projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workben
 projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[drafty][subdir] = "contrib"
-projects[drafty][version] = "1.0-beta3"
+projects[drafty][version] = "1.0-beta4"
+; Issue #2487013: Make Drafty work with the Title module patch.
+; https://www.drupal.org/node/2487013
+projects[drafty][patch][] =https://www.drupal.org/files/issues/2487013.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "3.0"
