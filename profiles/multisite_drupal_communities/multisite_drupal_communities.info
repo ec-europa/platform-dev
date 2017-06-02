@@ -114,6 +114,3 @@ dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_wysiwyg
-
-; NextEuropa features.
-dependencies[] = nexteuropa_laco
