@@ -418,6 +418,11 @@ projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
+; Advisory ID: DRUPAL-SA-CONTRIB-2017-044: Information Disclosure, Arbitrary PHP code execution, Multiple vulnerabilities
+; This patch should be kept in place until the Media module is upgraded to the version 2.2+
+; https://www.drupal.org/node/2877316
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1026
+projects[media][patch][] = patches/media-inputs_whitelist_vunerabilities-1026.patch
 
 
 projects[media_crop][subdir] = "contrib"
