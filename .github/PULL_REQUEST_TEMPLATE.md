@@ -1,10 +1,10 @@
-NEPT-[Insert the number ticket here]
+## NEPT-[Insert the number ticket here]
 
-## Description
+### Description
 
 [Insert description here]
 
-## Change log
+### Change log
 
 - Added:
 - Changed:
@@ -13,7 +13,7 @@ NEPT-[Insert the number ticket here]
 - Fixed:
 - Security:
 
-## Commands
+### Commands
 
 ```sh
 [Insert commands here]
