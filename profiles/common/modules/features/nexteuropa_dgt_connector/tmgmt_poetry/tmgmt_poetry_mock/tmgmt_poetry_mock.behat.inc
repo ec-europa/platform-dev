@@ -15,6 +15,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isTrue;
 
 /**
  * Behat step definitions for the TMGMT Poetry Mock module.
@@ -248,38 +249,20 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * @Then the translation request document is valid XHTML
    */
   public function assertTranslationRequestDocumentIsValidXhtml() {
+
+    $msg = 'You need Tidy extension to test if XHTML is valid.';
+    assert(class_exists('tidy'), isTrue(), $msg);
+
     $this->assertTranslationRequest();
 
     $document = base64_decode($this->translationRequest['data']['content']);
 
-    $response = drupal_http_request(
-      'https://validator.w3.org/check',
-      [
-        'method' => 'POST',
-        'data' => http_build_query(
-          [
-            'fragment' => $document,
-            'output' => 'json',
-          ]
-        ),
-      ]
-    );
-
-    // Info on output from the validator:
-    // https://github.com/validator/validator/wiki/Output:-JSON.
-    $validation = json_decode($response->data);
-    $errors = $validation->messages;
-
-    if (!empty($errors)) {
-      $first_error = reset($errors);
-      throw new Exception(
-        sprintf(
-          'The translation document did not pass the W3C XHTML validation (error count: %d). First error: %s.',
-          count($errors),
-          $first_error->message
-        )
-      );
-    }
+    $tidy = new tidy();
+    $tidy->parseString($document);
+    assert($tidy->getStatus(), equals(0), sprintf(
+      'The translation document did not pass the tidy XHTML validation: %s.',
+      $tidy->errorBuffer
+    ));
   }
 
   /**
