@@ -136,3 +136,14 @@ certain paths.
 
 All of HTTP requests are send by the `_nexteuropa_varnish_purge_paths()`
 function.
+
+## Blocking temporary the purge mechanism
+
+It is always possible to block temporary the purge mechanism (via rules or via the "full" button).
+
+To do so, the following line must be added to the settings file:
+`$conf['nexteuropa_varnish_prevent_purge'] = TRUE;`
+
+Once it is added, no purge request will be sent to Varnish and the "Purge all caches" Button will be disabled.
+
+Nevertheless, it is still possible to manage the purge rules during the blocking period.
