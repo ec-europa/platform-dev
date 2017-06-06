@@ -611,7 +611,11 @@ function _cce_basic_config_post_install_default_content_type() {
     node_type_save($type);
     node_add_body_field($type);
   }
-
+  // Set up scheduler configuration for articles
+  // Enable Workbench Moderation.
+  multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+  variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+  variable_set('scheduler_unpublish_revision_article', 0);
   // Insert default pre-defined RDF mapping into the database.
   $rdf_mappings = array(
     array(
