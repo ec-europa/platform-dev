@@ -1,0 +1,69 @@
+diff --git a/media.module b/media.module
+index 1f97bcb..1f4e995 100644
+--- a/media.module
++++ b/media.module
+@@ -818,6 +818,13 @@ function media_element_process($element, &$form_state, $form) {
+   // Media browser attach code.
+   $element['#attached']['js'][] = drupal_get_path('module', 'media') . '/js/media.js';
+ 
++  // Caching field settings ofr security reason.
++  $cid = drupal_get_token(drupal_random_bytes(32));
++  cache_set('media_options:' . $cid, $element['#media_options']['global'], 'cache_form', REQUEST_TIME + 21600);
++
++  // Add the security token to the media options sent with the upload form..
++  $element['#media_options']['global']['sec_token'] = $cid;
++
+   // Add the media options to the page as JavaScript settings.
+   $element['browse_button']['#attached']['js'] = array(
+     array(
+@@ -1196,11 +1203,32 @@ function media_set_browser_params() {
+   if (empty($params)) {
+     // Build out browser settings. Permissions- and security-related behaviors
+     // should not rely on these parameters, since they come from the HTTP query.
+-    // @TODO make sure we treat parameters as user input.
+-    $params = drupal_get_query_parameters() + array(
+-        'types' => array(),
+-        'multiselect' => FALSE,
+-      );
++    // There are two ways of passing secure data:
++    // - Store the options in the 'cache_form' cache bin, using a random key
++    //   prefixed with 'media_options:'. Pass the random key in the 'options'
++    //   query argument.
++    // - Inject the options by altering the browser parameters.
++    //   @see hook_media_browser_params_alter()
++    $params = drupal_get_query_parameters();
++
++    // Filter out everything except a whitelist of known safe options.
++    $safe_options = array(
++      'activePlugins',
++      'fid',
++      'id',
++      'multiselect',
++      'options',
++      'plugins',
++      'render',
++      'types',
++      'sec_token',
++    );
++    $params = array_intersect_key($params, array_flip($safe_options));
++
++    // Retrieve the security sensitive options from the cache.
++    if (!empty($params['sec_token']) && is_string($params['sec_token']) && $options = cache_get('media_options:' . $params['sec_token'], 'cache_form')) {
++      $params = array_merge($options->data, $params);
++    }
+ 
+     // Transform text 'true' and 'false' to actual booleans.
+     foreach ($params as $k => $v) {
+@@ -1214,6 +1242,12 @@ function media_set_browser_params() {
+ 
+     array_walk_recursive($params, 'media_recursive_check_plain');
+ 
++    // Provide some default parameters.
++    $params += array(
++      'types' => array(),
++      'multiselect' => FALSE,
++    );
++    
+     // Allow modules to alter the parameters.
+     drupal_alter('media_browser_params', $params);
+   }
