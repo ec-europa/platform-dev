@@ -611,8 +611,7 @@ function _cce_basic_config_post_install_default_content_type() {
     node_type_save($type);
     node_add_body_field($type);
   }
-  // Set up scheduler configuration for articles
-  // Enable Workbench Moderation.
+  // Set up scheduler configuration for articles.
   multisite_config_service('scheduler')->enableSchedulerForContentType('article');
   variable_set('scheduler_unpublish_moderation_state_article', 'expired');
   variable_set('scheduler_unpublish_revision_article', 0);
@@ -643,6 +642,8 @@ function _cce_basic_config_post_install_default_content_type() {
   foreach ($rdf_mappings as $rdf_mapping) {
     rdf_mapping_save($rdf_mapping);
   }
+  // Prevent creating new revisions when unpublishing a page.
+  variable_set('scheduler_unpublish_revision_page', 0);
 }
 
 /**
@@ -2344,4 +2345,20 @@ function cce_basic_config_update_7215() {
  */
 function cce_basic_config_update_7216() {
   variable_set('multisite_version', '2.3');
+}
+
+/**
+ * NEPT-1025: Consolidate scheduler settings for Pages and Articles.
+ */
+function cce_basic_config_update_7217() {
+  // Set up scheduler configuration for articles.
+  multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+  variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+  variable_set('scheduler_unpublish_revision_article', 0);
+  // Prevent creating new revisions when unpublishing a page.
+  variable_set('scheduler_unpublish_revision_page', 0);
+  // Remove old article fields.
+  field_delete_field('field_article_publication_date');
+  field_delete_field('field_article_unpublish_on');
+  field_purge_batch(1);
 }
