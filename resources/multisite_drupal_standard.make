@@ -625,9 +625,6 @@ projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
-; Issue #2856927: getActiveLanguage() should delegate its logic elsewhere.
-; https://www.drupal.org/node/2856927
-projects[title][patch][] = https://www.drupal.org/files/issues/2856927.patch
 
 projects[tmgmt][subdir] = contrib
 projects[tmgmt][version] = 1.0-rc2
