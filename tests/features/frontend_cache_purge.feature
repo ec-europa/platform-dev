@@ -609,7 +609,7 @@ Feature:
     Then I see an overview with the following cache purge rules:
       | Content Type | Paths to Purge                         |
       | Basic page   | /, /all-basic-pages, /yet-another-page |
-    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules still can be created but they will not be executed until it is enabled again."
+    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules can still be created but they will not be executed until it is enabled again."
 
   # Scenario testing the "Full all caches" feature
 
