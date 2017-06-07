@@ -6,11 +6,11 @@ index 1f97bcb..1f4e995 100644
    // Media browser attach code.
    $element['#attached']['js'][] = drupal_get_path('module', 'media') . '/js/media.js';
  
-+  // Caching field settings ofr security reason.
++  // Caching field settings for security reason.
 +  $cid = drupal_get_token(drupal_random_bytes(32));
 +  cache_set('media_options:' . $cid, $element['#media_options']['global'], 'cache_form', REQUEST_TIME + 21600);
 +
-+  // Add the security token to the media options sent with the upload form..
++  // Add the security token to the media options sent with the upload form.
 +  $element['#media_options']['global']['sec_token'] = $cid;
 +
    // Add the media options to the page as JavaScript settings.
