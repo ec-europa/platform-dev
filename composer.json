@@ -10,7 +10,8 @@
     "ext-xml": "*",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
-    "phing/phing": "~2"
+    "phing/phing": "~2",
+    "ext-tidy": "^2.0"
   },
   "prefer-stable": true,
   "autoload": {
