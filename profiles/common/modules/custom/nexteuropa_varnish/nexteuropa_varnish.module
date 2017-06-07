@@ -445,7 +445,7 @@ function _nexteuropa_varnish_get_node_paths($node) {
 }
 
 /**
- * Determines if the purge mechanism disabling must be forced temporary.
+ * Determines if the purge mechanism disabling must be forced temporarily.
  *
  * It is based on the "nexteuropa_varnish_prevent_purge" variable.
  * If it is set and equals to TRUE, the mechanism is disabled.
@@ -477,7 +477,7 @@ function _nexteuropa_varnish_purge_all_access() {
 function _nexteuropa_varnish_temporary_message() {
   if (_nexteuropa_varnish_prevent_purge()) {
     drupal_set_message(
-      t('The purge mechanism is temporary disabled.<br /> Purge rules still can be created but they will not be executed until it is enabled again.'),
+      t('The purge mechanism is temporary disabled.<br /> Purge rules can still be created but they will not be executed until it is enabled again.'),
       'warning',
       FALSE
     );
