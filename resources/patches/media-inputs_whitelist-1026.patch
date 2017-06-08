@@ -1,5 +1,5 @@
 diff --git a/media.module b/media.module
-index 1f97bcb..1f4e995 100644
+index 1f97bcb..9b7f53b 100644
 --- a/media.module
 +++ b/media.module
 @@ -818,6 +818,13 @@ function media_element_process($element, &$form_state, $form) {
@@ -49,7 +49,7 @@ index 1f97bcb..1f4e995 100644
 +
 +    // Retrieve the security sensitive options from the cache.
 +    if (!empty($params['sec_token']) && is_string($params['sec_token']) && $options = cache_get('media_options:' . $params['sec_token'], 'cache_form')) {
-+      $params = array_merge($options->data, $params);
++      $params = $options->data;
 +    }
  
      // Transform text 'true' and 'false' to actual booleans.
@@ -63,7 +63,44 @@ index 1f97bcb..1f4e995 100644
 +      'types' => array(),
 +      'multiselect' => FALSE,
 +    );
-+    
++
      // Allow modules to alter the parameters.
      drupal_alter('media_browser_params', $params);
    }
+diff --git a/modules/media_wysiwyg/media_wysiwyg.module b/modules/media_wysiwyg/media_wysiwyg.module
+index 162e60b..3d9460b 100644
+--- a/modules/media_wysiwyg/media_wysiwyg.module
++++ b/modules/media_wysiwyg/media_wysiwyg.module
+@@ -369,3 +369,18 @@ function media_wysiwyg_filter_fields_with_text_filtering($entity_type, $entity)
+ 
+   return $fields_with_text_filtering;
+ }
++
++/**
++ * Implements hook_media_browser_params_alter().
++ */
++function media_wysiwyg_media_browser_params_alter(&$params) {
++  // Set the media browser options as defined in the interface.
++  if (!empty($params['id']) && $params['id'] === 'media_wysiwyg') {
++    $params = array(
++        'enabledPlugins' => variable_get('media_wysiwyg_wysiwyg_browser_plugins', array()),
++        'file_directory' => variable_get('media_wysiwyg_wysiwyg_upload_directory', ''),
++        'types' => variable_get('media_wysiwyg_wysiwyg_allowed_types', array('audio', 'image', 'video', 'document')),
++        'id' => 'media_wysiwyg',
++      ) + $params;
++  }
++}
+diff --git a/modules/media_wysiwyg/wysiwyg_plugins/media.inc b/modules/media_wysiwyg/wysiwyg_plugins/media.inc
+index 9cd03bb..fc67d6b 100644
+--- a/modules/media_wysiwyg/wysiwyg_plugins/media.inc
++++ b/modules/media_wysiwyg/wysiwyg_plugins/media.inc
+@@ -22,9 +22,6 @@ function media_wysiwyg_media_plugin() {
+     'css file' => 'media_wysiwyg.css',
+     'settings' => array(
+       'global' => array(
+-        'enabledPlugins' => variable_get('media_wysiwyg_wysiwyg_browser_plugins', array()),
+-        'file_directory' => variable_get('media_wysiwyg_wysiwyg_upload_directory', ''),
+-        'types' => variable_get('media_wysiwyg_wysiwyg_allowed_types', array('audio', 'image', 'video', 'document')),
+         'id' => 'media_wysiwyg',
+       ),
+     ),
