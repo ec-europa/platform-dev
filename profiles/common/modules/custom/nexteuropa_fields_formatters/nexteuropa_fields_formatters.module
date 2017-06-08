@@ -235,7 +235,17 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
 
     case 'ne_button':
       $modifier = 'ecl-button';
+      $additional_classes = ['arrow-up',
+        'arrow-down',
+        'caret-up',
+        'caret-right',
+      ];
+      $additional = '';
       foreach ($items as $delta => $item) {
+
+        if (in_array($display['settings']['variation'], $additional_classes)) {
+          $additional = 'ecl-button--default';
+        }
         switch ($field['type']) {
           case 'taxonomy_term_reference':
             $term = taxonomy_term_load($item['tid']);
@@ -248,6 +258,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
                 'attributes' => [
                   'class' => [
                     $modifier,
+                    $additional,
                     $modifier . '--' . $settings['variation'],
                   ],
                 ],
@@ -265,6 +276,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
                 'attributes' => [
                   'class' => [
                     $modifier,
+                    $additional,
                     $modifier . '--' . $settings['variation'],
                   ],
                 ],
@@ -274,8 +286,19 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             break;
 
           default:
-            $markup = '<span class="ecl-button ecl-button--' .
-              $settings['variation'] . '">' . $item['value'] . '</span>&nbsp;';
+            $span = [
+              '#theme' => 'html_tag',
+              '#value' => $item['value'],
+              '#tag' => 'span',
+              '#attributes' => [
+                'class' => [
+                  $modifier,
+                  $additional,
+                  $modifier . '--' . $settings['variation'],
+                ],
+              ],
+            ];
+            $markup = render($span);
             break;
         }
         $elements[$delta] = [
