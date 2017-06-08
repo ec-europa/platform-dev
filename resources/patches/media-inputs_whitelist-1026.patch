@@ -11,7 +11,7 @@ index 1f97bcb..9b7f53b 100644
 +  cache_set('media_options:' . $cid, $element['#media_options']['global'], 'cache_form', REQUEST_TIME + 21600);
 +
 +  // Add the security token to the media options sent with the upload form.
-+  $element['#media_options']['global']['sec_token'] = $cid;
++  $element['#media_options']['global']['media_token'] = $cid;
 +
    // Add the media options to the page as JavaScript settings.
    $element['browse_button']['#attached']['js'] = array(
@@ -43,12 +43,12 @@ index 1f97bcb..9b7f53b 100644
 +      'plugins',
 +      'render',
 +      'types',
-+      'sec_token',
++      'media_token',
 +    );
 +    $params = array_intersect_key($params, array_flip($safe_options));
 +
 +    // Retrieve the security sensitive options from the cache.
-+    if (!empty($params['sec_token']) && is_string($params['sec_token']) && $options = cache_get('media_options:' . $params['sec_token'], 'cache_form')) {
++    if (!empty($params['media_token']) && is_string($params['media_token']) && $options = cache_get('media_options:' . $params['media_token'], 'cache_form')) {
 +      $params = $options->data;
 +    }
  
