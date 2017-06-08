@@ -23,6 +23,7 @@ function nexteuropa_core_views_views_api() {
  * Any alternative way is very welcome.
  */
 function nexteuropa_core_views_theme_registry_alter(&$hook_definitions) {
+
   global $theme;
   // Bails out if we are not in the default theme context.
   if ($theme != variable_get('theme_default')) {

@@ -1,0 +1,31 @@
+<?php
+/**
+ * @file
+ * Install, uninstall, update and schema hooks.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function nexteuropa_core_views_requirements($phase) {
+  $requirements = array();
+  $theme = variable_get('theme_default');
+  if ($theme != 'atomium') {
+    $theme_info = db_select('system', 's')
+      ->fields('s')
+      ->condition('name', $theme, '=')
+      ->condition('type', 'theme', '=')
+      ->execute()
+      ->fetchAssoc();
+    $theme_info['info'] = unserialize($theme_info['info']);
+    if (empty($theme_info['info']['base theme']) || $theme_info['info']['base theme'] != 'atomium') {
+      $t = get_t();
+      $requirements['nexteuropa_core_views_conflict'] = array(
+        'title' => 'Nexteuropa core views',
+        'description' => $t('This module requires the default theme to be a subtheme of Atomium.'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+  return $requirements;
+}
