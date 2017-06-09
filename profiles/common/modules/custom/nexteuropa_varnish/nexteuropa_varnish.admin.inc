@@ -19,10 +19,15 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
     '#description' => t('Flush all caches (Drupal & Varnish)'),
   );
 
+  // If the purge mechanism is prevented to work, then the button must be
+  // disabled and a warning message must be displayed.
+  $disabled = _nexteuropa_varnish_temporary_message();
+
   $form['purge_cache']['purge'] = array(
     '#type' => 'submit',
     '#value' => t('Purge all caches'),
     '#submit' => array('nexteuropa_varnish_purge_all_confirm'),
+    '#disabled' => $disabled,
   );
 
   $form['settings'] = array(
