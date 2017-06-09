@@ -594,9 +594,9 @@ Feature:
     Then the web front end cache was not instructed to purge any paths
     When I go to "admin/config/system/nexteuropa-varnish/general"
     Then the "Purge all caches" button is disabled
-    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules can still be created but they will not be executed until it is enabled again."
+    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
     When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
-    Then I should see the warning message "The purge mechanism is temporary disabled. Purge rules can still be created but they will not be executed until it is enabled again."
+    Then I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
     When I click "Add cache purge rule"
     And I select "Basic page" from "Content Type"
     And I fill "Paths" with:
@@ -609,7 +609,7 @@ Feature:
     Then I see an overview with the following cache purge rules:
       | Content Type | Paths to Purge                         |
       | Basic page   | /, /all-basic-pages, /yet-another-page |
-    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules can still be created but they will not be executed until it is enabled again."
+    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
 
   # Scenario testing the "Full all caches" feature
 

@@ -477,7 +477,7 @@ function _nexteuropa_varnish_purge_all_access() {
 function _nexteuropa_varnish_temporary_message() {
   if (_nexteuropa_varnish_prevent_purge()) {
     drupal_set_message(
-      t('The purge mechanism is temporary disabled.<br /> Purge rules can still be created but they will not be executed until it is enabled again.'),
+      t('The purge mechanism is temporary disabled.<br /> Purge rules are still manageable but they will not be executed until it is enabled again.'),
       'warning',
       FALSE
     );
