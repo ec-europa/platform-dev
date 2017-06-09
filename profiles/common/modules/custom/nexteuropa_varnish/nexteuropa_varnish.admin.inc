@@ -12,6 +12,7 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
   if (!empty($form_state['value'])) {
     nexteuropa_varnish_purge_all_form($form, $form_state);
   }
+
   $form['purge_cache'] = array(
     '#type' => 'fieldset',
     '#title' => t('Purge caches'),
