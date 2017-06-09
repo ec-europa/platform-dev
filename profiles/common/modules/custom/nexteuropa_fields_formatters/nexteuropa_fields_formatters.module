@@ -235,12 +235,16 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
 
     case 'ne_button':
       $modifier = 'ecl-button';
-      $additional_classes = ['arrow-up',
+      $additional_classes = [
+        'arrow-up',
         'arrow-down',
         'caret-up',
         'caret-right',
+        'caret-down',
+        'caret-left',
       ];
       $additional = '';
+
       foreach ($items as $delta => $item) {
 
         if (in_array($display['settings']['variation'], $additional_classes)) {
@@ -299,6 +303,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
               ],
             ];
             $markup = render($span);
+
             break;
         }
         $elements[$delta] = [
