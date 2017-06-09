@@ -578,6 +578,39 @@ Feature:
       | Path          |
       | /content/frontend-cache-purge-editorial-team-publish-draft_en |
 
+  @non-moderated-content @unilingual-content @purge-rule-type-node
+  Scenario: Set the 'nexteuropa_varnish_prevent_purge' variable in the setting file prevents any purge requests to be sent
+    and the "Purge all caches" button is disabled
+    Given I request to change the variable nexteuropa_varnish_prevent_purge to "TRUE"
+    When I go to "node/add/editorial-team"
+    And I fill in "Name" with "frontend-cache-purge-editorial-team-publish-draft"
+    And I click "Publishing options"
+    And I uncheck the box "Published"
+    And I press "Save"
+    And I click "Edit"
+    And I click "Publishing options"
+    And I check the box "Published"
+    And I press "Save"
+    Then the web front end cache was not instructed to purge any paths
+    When I go to "admin/config/system/nexteuropa-varnish/general"
+    Then the "Purge all caches" button is disabled
+    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
+    When I go to "/admin/config/system/nexteuropa-varnish/purge_rules"
+    Then I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
+    When I click "Add cache purge rule"
+    And I select "Basic page" from "Content Type"
+    And I fill "Paths" with:
+      """
+      /
+      /all-basic-pages
+      /yet-another-page
+      """
+    And I press the "Save" button
+    Then I see an overview with the following cache purge rules:
+      | Content Type | Paths to Purge                         |
+      | Basic page   | /, /all-basic-pages, /yet-another-page |
+    And I should see the warning message "The purge mechanism is temporary disabled. Purge rules are still manageable but they will not be executed until it is enabled again."
+
   # Scenario testing the "Full all caches" feature
 
   Scenario: As administrator, I want to flush all Drupal caches and Varnish through the purge admin interface

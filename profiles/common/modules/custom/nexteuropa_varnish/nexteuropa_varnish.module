@@ -24,7 +24,7 @@ function nexteuropa_varnish_menu() {
     'description' => 'Confirmation form for the varnish purge flush.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('nexteuropa_varnish_purge_all_form'),
-    'access arguments' => array('administer frontend cache purge rules'),
+    'access callback' => '_nexteuropa_varnish_purge_all_access',
     'file' => 'nexteuropa_varnish.admin.inc',
     'type' => MENU_CALLBACK,
   );
@@ -114,6 +114,10 @@ function nexteuropa_varnish_cache_purge_rule_label($purge_rule) {
  * Implements hook_workbench_moderation_transition().
  */
 function nexteuropa_varnish_workbench_moderation_transition($node, $previous_state, $new_state) {
+  if (_nexteuropa_varnish_prevent_purge()) {
+    return;
+  }
+
   $purge
     = ($new_state == workbench_moderation_state_published()) ||
       (property_exists($node->workbench_moderation['my_revision'], 'unpublishing')
@@ -144,6 +148,10 @@ function nexteuropa_varnish_node_update($node) {
   // Ignore moderated nodes, they are handled by the workbench moderation hooks
   // implemented in this module.
   if (workbench_moderation_node_moderated($node)) {
+    return;
+  }
+
+  if (_nexteuropa_varnish_prevent_purge()) {
     return;
   }
 
@@ -434,4 +442,47 @@ function _nexteuropa_varnish_get_node_paths($node) {
   }
 
   return $paths;
+}
+
+/**
+ * Determines if the purge mechanism disabling must be forced temporarily.
+ *
+ * It is based on the "nexteuropa_varnish_prevent_purge" variable.
+ * If it is set and equals to TRUE, the mechanism is disabled.
+ *
+ * @return bool
+ *   TRUE if the mechanism must be disabled; ortherwise FALSE.
+ */
+function _nexteuropa_varnish_prevent_purge() {
+  return variable_get('nexteuropa_varnish_prevent_purge', FALSE);
+}
+
+/**
+ * Determine if the full varnish purge flush can be accessible or not by a user.
+ *
+ * @return bool
+ *   TRUE, the user can access; otherwise FALSE.
+ */
+function _nexteuropa_varnish_purge_all_access() {
+  return (!(_nexteuropa_varnish_prevent_purge()) && user_access('administer frontend cache purge rules'));
+}
+
+/**
+ * Sets the temporary message when the purge mechanism is disabled by force.
+ *
+ * @return bool
+ *   TRUE if the message is set and then that means the mechanism is disabled by
+ *   force; otherwise FALSE.
+ */
+function _nexteuropa_varnish_temporary_message() {
+  if (_nexteuropa_varnish_prevent_purge()) {
+    drupal_set_message(
+      t('The purge mechanism is temporary disabled.<br /> Purge rules are still manageable but they will not be executed until it is enabled again.'),
+      'warning',
+      FALSE
+    );
+    return TRUE;
+  }
+
+  return FALSE;
 }
