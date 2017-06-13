@@ -1,4 +1,4 @@
-## NEPT-[Insert the number ticket here]
+## NEPT-[Insert ticket number here]
 
 ### Description
 
