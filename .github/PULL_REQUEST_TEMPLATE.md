@@ -4,7 +4,7 @@
 
 [Insert description here]
 
-### Changelog
+### Change log
 
 - Added:
 - Changed:
