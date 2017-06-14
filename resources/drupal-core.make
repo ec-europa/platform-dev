@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.54"
+projects[drupal][version] = "7.55"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
