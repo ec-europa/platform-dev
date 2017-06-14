@@ -506,18 +506,7 @@ function _nexteuropa_varnish_trim_base_path($path) {
   $base_path_position = strpos($path, $base_path);
 
   if ($base_path_position !== FALSE) {
-    $trimmed_path = substr_replace($path, '', $base_path_position, strlen($base_path));
-
-    // Getting the first character of the path. Function mb_substr is used
-    // because of the UTF-8 multibyte encoding.
-    $first_char = mb_substr($trimmed_path, 0, 1, 'utf-8');
-
-    // Checking if the first character of the path is not a '/'.
-    if ($first_char != "/") {
-      $trimmed_path = "/" . $trimmed_path;
-    }
-
-    return $trimmed_path;
+    return substr_replace($path, '', $base_path_position, strlen($base_path));
   }
 
   return $path;
