@@ -1,0 +1,406 @@
+<?php
+
+/**
+ * @file
+ * Defines custom Nexteuropa components field formatters.
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function nexteuropa_fields_formatters_field_formatter_info() {
+  return [
+    'ne_button' => [
+      'label' => t('NE ECL button'),
+      'description' => t('Displays as a button.'),
+      'field types' => [
+        'link_field',
+        'list_text',
+        'taxonomy_term_reference',
+        'text',
+        'text_long',
+      ],
+      'settings' => [
+        'variation' => 'default',
+        'link_title' => '',
+        'force_language_default' => 0,
+        'align_right' => 0,
+      ],
+    ],
+    'ne_date' => [
+      'label' => t('NE date display'),
+      'description' => t('Displays a date.'),
+      'field types' => [
+        'date',
+        'datestamp',
+        'datetime',
+      ],
+      'settings' => [
+        'variation' => 'default',
+      ],
+    ],
+    'ne_listing' => [
+      'label' => t('NE Listing'),
+      'description' => t('Renders line items as listing component'),
+      'field types' => ['link_field'],
+      'settings' => [
+        'class' => '',
+      ],
+    ],
+    'ne_download_button' => [
+      'label' => t('NE Download button'),
+      'description' => t('Button to download file'),
+      'field types' => [
+        'link_field',
+        'file',
+      ],
+      'settings' => [
+        'label' => 'Download',
+        'show_translations' => TRUE,
+      ],
+    ],
+    'ne_tags' => [
+      'label' => t('NE Tags'),
+      'field types' => [
+        'taxonomy_term_reference',
+        'link_field',
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function nexteuropa_fields_formatters_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+
+  // Switch for the different formatters.
+  switch ($display['type']) {
+    case 'ne_button':
+      $element['variation'] = [
+        '#type' => 'select',
+        '#title' => t('Variation'),
+        '#options' => [
+          'block' => 'Default',
+          'call' => 'Call to action',
+          'info' => 'Info',
+          'primary' => 'Primary',
+          'secondary' => 'Secondary',
+          'form' => 'Form',
+          'light' => 'Light',
+          'arrow-up' => 'Arrow Up',
+          'arrow-down' => 'Arrow Down',
+          'carret-up' => 'Carret Up',
+          'carret-down' => 'Carret Down',
+          'carret-left' => 'Carret Left',
+          'carret-right' => 'Carret Right',
+        ],
+        '#default_value' => $settings['variation'],
+        '#description' => t('Please select the button variation you need. Each variation is illustrated on the <a href="!url">ECL Library</a>', array('!url' => 'https://ec-europa.github.io/europa-component-library/components/detail/ecl-buttons')),
+      ];
+      break;
+
+    case 'ne_date':
+      $element['variation'] = [
+        '#type' => 'select',
+        '#title' => t('Variation'),
+        '#options' => [
+          ' ' => 'Default',
+          'live-streaming' => 'Events',
+          'past' => 'Past events',
+        ],
+        '#default_value' => $settings['variation'],
+        '#description' => t('Please select the date type you need.'),
+      ];
+      break;
+
+    case 'ne_listing':
+      $element['class'] = [
+        '#type' => 'textfield',
+        '#title' => t('Classes'),
+        '#default_value' => $settings['class'],
+        '#description' => t('You can add additional listing modifiers here.'),
+      ];
+      break;
+
+    case 'ne_download_button':
+      $element['label'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Button label'),
+        '#default_value' => $settings['label'],
+        '#description' => t('Text to be displayed inside the button.'),
+      );
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function nexteuropa_fields_formatters_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = [];
+
+  // Switch for the different formatters.
+  switch ($display['type']) {
+    case 'ne_download_button':
+      if (isset($settings['label'])) {
+        $summary[] = t('Button label: @label', [
+          '@label' => $settings['label'],
+        ]);
+      }
+      break;
+
+    case 'ne_button':
+    case 'ne_date':
+      if (isset($settings['variation'])) {
+        $summary[] = t('Variation: @variation', [
+          '@variation' => $settings['variation'],
+        ]);
+      }
+      break;
+
+    case 'ne_listing':
+      if (isset($settings['class'])) {
+        $summary[] = t('Class: @class', ['@class' => $settings['class']]);
+      }
+      break;
+
+  }
+  $summary = implode('<br />', $summary);
+
+  return $summary;
+}
+
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $elements = [];
+  $settings = $display['settings'];
+  // Switch for the different formatters.
+  switch ($display['type']) {
+    case 'ne_tags':
+      foreach ($items as $delta => $item) {
+        switch ($field['type']) {
+          case 'taxonomy_term_reference':
+            $term = taxonomy_term_load($item['tid']);
+            $uri = taxonomy_term_uri($term);
+            $link = [
+              '#theme' => 'link',
+              '#text' => $term->name,
+              '#path' => $uri['path'],
+              '#options' => [
+                'attributes' => [
+                  'class' => [
+                    'tags__item',
+                  ],
+                ],
+              ],
+            ];
+            $markup = render($link);
+            break;
+
+          case 'link_field':
+            $term = taxonomy_term_load($item['tid']);
+            $uri = taxonomy_term_uri($term);
+            $link = [
+              '#theme' => 'link',
+              '#text' => $term->name,
+              '#path' => $uri['path'],
+              '#options' => [
+                'attributes' => [
+                  'class' => [
+                    'tags__item',
+                  ],
+                ],
+              ],
+            ];
+            $markup = render($link);
+            break;
+
+        }
+        $elements[$delta] = [
+          '#markup' => $markup,
+        ];
+      }
+      break;
+
+    case 'ne_button':
+      $modifier = 'ecl-button';
+      foreach ($items as $delta => $item) {
+        switch ($field['type']) {
+          case 'taxonomy_term_reference':
+            $term = taxonomy_term_load($item['tid']);
+            $uri = taxonomy_term_uri($term);
+            $link = [
+              '#theme' => 'link',
+              '#text' => $term->name,
+              '#path' => $uri['path'],
+              '#options' => [
+                'attributes' => [
+                  'class' => [
+                    $modifier,
+                    $modifier . '--' . $settings['variation'],
+                  ],
+                ],
+              ],
+            ];
+            $markup = render($link);
+            break;
+
+          case 'link_field':
+            $link = [
+              '#theme' => 'link',
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => [
+                'attributes' => [
+                  'class' => [
+                    $modifier,
+                    $modifier . '--' . $settings['variation'],
+                  ],
+                ],
+              ],
+            ];
+            $markup = render($link);
+            break;
+
+          default:
+            $markup = '<span class="ecl-button ecl-button--' .
+              $settings['variation'] . '">' . $item['value'] . '</span>&nbsp;';
+            break;
+        }
+        $elements[$delta] = [
+          '#markup' => $markup,
+        ];
+      }
+      break;
+
+    case 'ne_date':
+      foreach ($items as $delta => $item) {
+        $markup = '<div class="date-block event ' . $settings['variation'] . '">' . $item['value'] . '</div>&nbsp;';
+        $elements[$delta] = array(
+          '#markup' => $markup,
+        );
+      }
+      break;
+
+    case 'ne_listing':
+      $markup = '<div class="listing ' . $settings['class'] . '">';
+      foreach ($items as $delta => $item) {
+        switch ($field['type']) {
+
+          case 'link_field':
+            $link = [
+              '#theme' => 'link',
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => [
+                'attributes' => [
+                  $item['attributes'],
+                ],
+              ],
+            ];
+            $markup .= '
+              <div class="listing__item">
+                <h3 class="listing__item-title">
+                  <span class="icon icon--link"></span>' . $link . '
+                </h3>
+              </div>';
+            break;
+        }
+        $markup .= '</div>';
+
+        $elements[$delta] = [
+          '#markup' => $markup,
+        ];
+      }
+      break;
+
+    // @TODO improve and Fix this by using a template.
+    case 'ne_download_button':
+
+      if ($field['type'] == 'link_field') {
+        foreach ($items as $delta => $item) {
+          $link = [
+            '#theme' => 'link',
+            '#text' => $item['title'],
+            '#path' => $item['url'],
+            '#options' => [
+              'attributes' => [
+                'class'  => [
+                  'btn-download',
+                ],
+              ],
+            ],
+          ];
+
+          $markup = render($link);
+
+          $elements[$delta] = array(
+            '#markup' => $markup,
+          );
+        }
+      }
+
+      break;
+  }
+  return $elements;
+}
+
+
+/**
+ * Custom function to generates string representation for the given byte count.
+ *
+ * @param float $size
+ *   A size in bytes.
+ * @param int $decimal_places
+ *   Number of decimal places.
+ * @param string $langcode
+ *   Optional language code to translate to a language other than what is used
+ *   to display the page.
+ *
+ * @return string
+ *   A translated string representation of the size.
+ */
+function _nexteuropa_fields_formatters_format_size($size, $decimal_places = 1, $langcode = NULL) {
+  $units = array();
+  if ($size < DRUPAL_KILOBYTE) {
+    return format_plural($size,
+      '1 byte',
+      '@count bytes',
+      [],
+      ['langcode' => $langcode]);
+  }
+  else {
+    // Convert bytes to kilobytes.
+    $size = $size / DRUPAL_KILOBYTE;
+    $units = [
+      t('@size KB', [], ['langcode' => $langcode]),
+      t('@size MB', [], ['langcode' => $langcode]),
+      t('@size GB', [], ['langcode' => $langcode]),
+      t('@size TB', [], ['langcode' => $langcode]),
+      t('@size PB', [], ['langcode' => $langcode]),
+      t('@size EB', [], ['langcode' => $langcode]),
+      t('@size ZB', [], ['langcode' => $langcode]),
+      t('@size YB', [], ['langcode' => $langcode]),
+    ];
+    foreach ($units as $unit) {
+      if (round($size, $decimal_places) >= DRUPAL_KILOBYTE) {
+        $size = $size / DRUPAL_KILOBYTE;
+      }
+      else {
+        break;
+      }
+    }
+    return str_replace('@size', round($size, $decimal_places), $unit);
+  }
+}

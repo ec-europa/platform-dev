@@ -1,0 +1,8 @@
+name = NextEuropa Core views
+description = This modules provides views plugins to implement ECL components.
+package = NextEuropa
+core = 7.x
+
+files[] = plugins/card/views_europa_card_plugin_rows.inc
+files[] = plugins/banner/views_europa_banner_plugin_rows.inc
+files[] = plugins/timelines/views_europa_timelines_plugin_rows.inc

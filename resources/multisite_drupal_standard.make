@@ -970,13 +970,16 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 ; Themes
 ; ======
 
-projects[bootstrap][type] = theme
-projects[bootstrap][version] = 3.8
-
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = get
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.2/ec_resp-2.2.tar.gz
 
 projects[europa][type] = theme
-projects[europa][download][type] = get
-projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz
+projects[europa][download][type] = git
+projects[europa][download][url] = https://github.com/ec-europa/ec-europa-theme.git
+projects[europa][download][revision] =  e3e5df0
+
+projects[atomium][type] = theme
+projects[atomium][download][type] = git
+projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
+projects[atomium][download][revision] = 8c55cf6 
