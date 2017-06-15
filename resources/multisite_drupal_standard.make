@@ -410,7 +410,7 @@ projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove
 ; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; Media markup navigation causes duplicated links
-projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
+projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1026
 projects[media][patch][] = patches/media-inputs_whitelist-1026.patch
 
