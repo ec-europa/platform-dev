@@ -7,10 +7,16 @@ default:
         - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext
         - Drupal\nexteuropa\Context\AgnosticBatchContext
+        - Drupal\nexteuropa\Context\ApacheSolrContext
+        - Drupal\nexteuropa\Context\BlockContext
         - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\EcasContext
         - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
+        - Drupal\nexteuropa\Context\FieldContext
+        - Drupal\nexteuropa\Context\FormContext
+        - Drupal\nexteuropa\Context\ContentTypeContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\VariableContext
         - Drupal\nexteuropa\Context\FlickrContext:
@@ -27,6 +33,7 @@ default:
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\PathautoContext
         - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\nexteuropa\Context\DrupalMailContext
         - Drupal\nexteuropa\Context\PiwikRulesContext
         - Drupal\nexteuropa\Context\DrushContext:
             drush_bin: "{{ drush.bin }}"

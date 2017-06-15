@@ -58,6 +58,10 @@ projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/
 ; https://www.drupal.org/node/1854088
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3744
 projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch
+; Issue #1854088 : Cannot install on mysql >= 5.6
+; https://www.drupal.org/node/2677866
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-326
+projects[apachesolr_attachments][patch][] = https://www.drupal.org/files/issues/mysql-56-compatibility-2677866-12.patch
 
 projects[apachesolr_multilingual][subdir] = "contrib"
 projects[apachesolr_multilingual][version] = "1.3"
@@ -133,8 +137,8 @@ projects[colors][subdir] = "contrib"
 projects[colors][version] = "1.0-rc1"
 
 projects[context][subdir] = "contrib"
-projects[context][version] = "3.6"
-projects[context][patch][] = patches/context-slow_menu_items-873936-20.patch
+projects[context][version] = "3.7"
+projects[context][patch][] = https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch
 
 projects[context_entity_field][subdir] = "contrib"
 projects[context_entity_field][version] = "1.1"
@@ -181,7 +185,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.8"
 
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][version] = "1.0-beta5"
@@ -193,13 +197,9 @@ projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
 projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = b5009cd1406f72a4
+projects[entityreference][download][revision] = 599b07585d37101bc7b38c9df5b2ef196a7416b2
 projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
-; Issue #2401811: Rendered entity is not language aware
-; https://www.drupal.org/node/1674792
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6056
-projects[entityreference][patch][] = https://www.drupal.org/files/issues/entityreference-rendered-entity-is-not-language-aware-1674792-85.patch
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
@@ -224,7 +224,7 @@ projects[fblikebutton][subdir] = "contrib"
 projects[fblikebutton][version] = "2.3"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.9"
+projects[features][version] = "2.10"
 ; Issue #1437264: features_var_export is converting custom class objects to arrays if don't have export method
 ; https://www.drupal.org/node/1437264
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4759
@@ -340,8 +340,10 @@ projects[i18nviews][version] = "3.0-alpha1"
 projects[inline_entity_form][subdir] = "contrib"
 projects[inline_entity_form][version] = "1.6"
 
-projects[integration][subdir] = "contrib"
-projects[integration][version] = "1.x-dev"
+projects[integration][download][branch] = 7.x-1.x
+projects[integration][download][revision] = fb3cf87
+projects[integration][download][type] = git
+projects[integration][subdir] = contrib
 
 projects[integration_couchdb][subdir] = "contrib"
 projects[integration_couchdb][version] = "1.x-dev"
@@ -373,7 +375,7 @@ projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "2.2"
+projects[libraries][version] = "2.3"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
@@ -397,20 +399,15 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.0-beta1
-; Issue #2062721: Add a white list of file fields that can be overwritten when the file is added in the wysiwyg
-; https://www.drupal.org/node/2062721
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2607
-projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-override-white-list-2062721-86.patch
-; Issue #2401811: With Media WYSIWYG enabled - "Contextual links" are shown for anonymous users.
-; https://www.drupal.org/node/2401811
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
-projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
-; Issue #2028231: Embedded documents in the WYSIWYG can be very hard to delete
-; https://www.drupal.org/node/2028231
+projects[media][version] = 2.0-rc5
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1026
+projects[media][patch][] = patches/media-inputs_whitelist-1026.patch
+
+projects[media_avportal][subdir] = "contrib"
+projects[media_avportal][version] = "1.2"
 
 projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
@@ -468,6 +465,10 @@ projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
+; Notice : Undefined index: group in metatag_views_i18n_object_info()
+; https://www.drupal.org/node/2882048
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1039
+projects[metatag][patch][] = https://www.drupal.org/files/issues/undefined_group_in_i18n-2882048-5.patch 
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
@@ -493,9 +494,6 @@ projects[nexteuropa_newsroom][download][type] = get
 projects[nexteuropa_newsroom][download][file_type] = "zip"
 projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
 projects[nexteuropa_newsroom][subdir] = custom
-
-projects[node_export][subdir] = "contrib"
-projects[node_export][version] = "3.0"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
@@ -625,13 +623,11 @@ projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
 
-projects[tmgmt][download][branch] = 7.x-1.x
-projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d
-projects[tmgmt][download][type] = git
 projects[tmgmt][subdir] = contrib
+projects[tmgmt][version] = 1.0-rc2
 ; @see https://www.drupal.org/node/2489134
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch
-; @see https://www.drupal.org/node/272245
+; @see https://www.drupal.org/node/2722455
 projects[tmgmt][patch][] = https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch
 ; #2812863 : Insufficient access check on Views
 ; https://www.drupal.org/node/2812863
@@ -748,31 +744,22 @@ projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workben
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-7225
 projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
+projects[drafty][subdir] = "contrib"
+projects[drafty][version] = "1.0-beta3"
+
 projects[workbench_moderation][subdir] = "contrib"
-projects[workbench_moderation][version] = "1.4"
-projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
-projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
+projects[workbench_moderation][version] = "3.0"
 ; Issue #2360091 View published tab is visible when a published node has a draft.
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
-; Node revision history optimization on large websites.
-; https://www.drupal.org/node/1408838
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12122
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-optimize_node_revision_history-1408838-67.patch
-; Node revision in shutdown function causes error in behat tests
-; https://www.drupal.org/node/2645622
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
-projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
-; Doesn't handle file attachments
-; We need to merge the changes in the drupal.org ticket with the previous patch because they change the same line
-; https://www.drupal.org/node/1084436
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-592
-projects[workbench_moderation][patch][] = patches/workbench_moderation-002-1084436-2645622-merge.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
+; Content not accessible after being published - node_access not updated
+; Issue https://www.drupal.org/node/2835937
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-296
+projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][version] = "2.2"

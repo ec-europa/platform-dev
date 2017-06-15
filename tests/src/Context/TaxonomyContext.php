@@ -22,13 +22,6 @@ class TaxonomyContext implements Context {
   protected $vocabularies = [];
 
   /**
-   * List of Fields created during test execution.
-   *
-   * @var \Fields[]
-   */
-  protected $fields = [];
-
-  /**
    * List of Terms created during test execution.
    *
    * @var \Fields[]
@@ -244,9 +237,6 @@ class TaxonomyContext implements Context {
       );
       field_create_instance($instance);
 
-      // Backup fields created.
-      $this->fields[] = $field;
-
       $groups = field_group_read_groups(array(
         'name' => 'taxonomy_term',
         'bundle' => $vocabulary_machine_name,
@@ -259,20 +249,6 @@ class TaxonomyContext implements Context {
     else {
       throw new \InvalidArgumentException("The field '{$field_name}' already exists.");
     }
-  }
-
-  /**
-   * Revert to previous settings after scenario execution.
-   *
-   * @AfterScenario
-   */
-  public function removeFields() {
-    // Remove the fields.
-    foreach ($this->fields as $field) {
-      field_delete_field($field['field_name']);
-    }
-    $this->fields = array();
-    field_purge_batch(100);
   }
 
   /**
