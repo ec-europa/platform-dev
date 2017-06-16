@@ -290,7 +290,7 @@ The following module has moved within the file system: tmgmt_poetry.
  
   * From ticket NEPT-182
  
-  For each subsite upgrade that was already using the DGT connector , you need
+  For each upgraded subsite that was already using the DGT connector , you need
   to remove the  variable array 'poetry_service' from the setttings.php file
  
   Write down the values of 'callback_user', 'callback_password', 'poetry_user',
@@ -307,6 +307,19 @@ The following module has moved within the file system: tmgmt_poetry.
   In order to communicate this to CEM, please create a ticket in MULTISITE and
   assign it to user "Support SMT Jira", send the ticket number to
   "COMM EUROPA MANAGEMENT"
+
+ * From ticket NEPT-391
+
+```
+$ drush en nexteuropa_varnish  -y
+
+```
+
+For each upgraded subsite that was already using the Nexteuropa Varnish , you need
+  to configure it.
+
+More information here:
+https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/custom/nexteuropa_varnish
 
 #### Manual check
 
