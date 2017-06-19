@@ -26,6 +26,7 @@ default:
             mock_server_port: {{ varnish.server.port }}
         - Drupal\nexteuropa\Context\DatabaseLogContext
         - Drupal\nexteuropa\Context\PathautoContext
+        - Drupal\nexteuropa\Context\SchedulerContext
         - Drupal\nexteuropa\Context\MultilingualContext
         - Drupal\nexteuropa\Context\PiwikRulesContext
         - Drupal\nexteuropa\Context\DrushContext:
