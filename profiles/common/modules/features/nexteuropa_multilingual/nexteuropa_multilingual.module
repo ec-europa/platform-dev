@@ -540,22 +540,6 @@ function nexteuropa_multilingual_path_delete($path) {
 }
 
 /**
- * Implements hook_pathauto_alias_alter().
- *
- * If entity has entity translation enabled,
- * force all aliases to be saved as language neutral.
- * All content translations will have a unique alias.
- */
-function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
-
-  $translation_mechanism = variable_get('language_content_type_' . $context['type'], 0);
-
-  if ($translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
-    $context['language'] = LANGUAGE_NONE;
-  }
-}
-
-/**
  * Process variables for nexteuropa-multilingual-message.tpl.php.
  *
  * @param array $variables
