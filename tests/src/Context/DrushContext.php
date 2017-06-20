@@ -111,7 +111,7 @@ class DrushContext extends DrupalExtensionDrushContext {
    */
   private static function createDbDump() {
     print('Creating the database dump.' . PHP_EOL);
-    $command = "sql-dump --structure-tables-list=cache,cache_* --result-file=" . self::$configuration['db_dump_location'];
+    $command = "sql-dump --result-file=" . self::$configuration['db_dump_location'];
     self::runStaticDrushCommand($command);
   }
 
