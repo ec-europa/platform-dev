@@ -41,7 +41,7 @@ Feature: Content type administration features
     When I go to "node/add/groovy-type"
     And I fill in "Title" with "Lorem ipsum dolor sit amet"
     And I fill in "Body" with "Consectetur adipiscing elit."
-    And I select the radio button "Option 1" with the id "edit-field-select-an-option-und-option-1"
+    And I select the radio button "Option 1" with the id "edit-field-select-an-option-en-option-1"
     And I press "Save"
     Then I should see the heading "Lorem ipsum dolor sit amet"
     And the response should contain "Consectetur adipiscing elit."

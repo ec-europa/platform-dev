@@ -25,6 +25,11 @@ This means they are still available but you can now disable them for once if
 you don't need them.
   
 
+The following modules have been upgraded and bring significant changes:
+
+ - entity_translation
+   The module updates include a new translation option for vocabularies and a change in the active language api.
+
 ***
 ## Devops : How to upgrade
 
