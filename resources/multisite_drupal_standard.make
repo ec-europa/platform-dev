@@ -196,10 +196,15 @@ projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
 ; Update to entity_translation beta6
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-539
+; https://www.drupal.org/node/2859223
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch
+; https://www.drupal.org/node/2856927
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
+; https://www.drupal.org/node/2741407
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
+; https://www.drupal.org/node/2743685
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
+; https://www.drupal.org/node/2877074
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
