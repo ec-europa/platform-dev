@@ -190,17 +190,25 @@ projects[email][version] = "1.3"
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"
 
+projects[entity_translation][download][branch] = 7.x-1.x
+projects[entity_translation][download][revision] = edd540b2e1180db45ad1cea14843daa19e13878a
+projects[entity_translation][download][type] = git
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0-beta6"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
-; Issue #2856927 : getActiveLanguage() should delegate its logic elsewhere.
-; https://www.drupal.org/node/2856927
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
-; Issue #2859223 : Strict warning: Only variables should be passed by reference
+; Update to entity_translation beta6
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-539
 ; https://www.drupal.org/node/2859223
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch
+; https://www.drupal.org/node/2856927
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
+; https://www.drupal.org/node/2741407
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch
+; https://www.drupal.org/node/2743685
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
+; https://www.drupal.org/node/2877074
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -411,7 +419,9 @@ projects[media][subdir] = contrib
 projects[media][version] = 2.0-rc5
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; Media markup navigation causes duplicated links
-projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
+projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1026
+projects[media][patch][] = patches/media-inputs_whitelist-1026.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.2"

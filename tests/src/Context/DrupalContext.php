@@ -239,7 +239,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
 
       $handler = entity_translation_get_handler('node', $node);
       $handler->setActiveLanguage($node->language);
-
       $node = $this->nodeCreate($node);
       $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
 
