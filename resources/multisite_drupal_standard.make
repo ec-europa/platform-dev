@@ -277,7 +277,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.1"
+projects[file_entity][version] = "2.2"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -409,7 +409,8 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.4
+projects[media][version] = 2.8
+projects[media][version] = 2.8
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
