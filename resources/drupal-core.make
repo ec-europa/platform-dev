@@ -2,13 +2,13 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.55"
+projects[drupal][version] = "7.56"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11656
 ; https://www.drupal.org/node/565808
-projects[drupal][patch][] = patches/ajax-js_url_suffix.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/565808-ajax-replace-comments-65.patch
 
 ; node_access filters out accessible nodes when node is left joined.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2689
@@ -49,9 +49,9 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal_add_js_sa
 ; Document $attributes, $title_attributes, and $content_attributes template variables
 ; https://www.drupal.org/node/569362
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-64
-projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-doc-theme-attributes-d7-569362-53.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/569362_0.patch
 
 ; Fix empty label on validation error message for multiple required textfield.
 ; https://www.drupal.org/node/980144#comment-11695545 
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-224
-projects[drupal][patch][] = https://www.drupal.org/files/issues/980144-98_0.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/980144-114.patch
