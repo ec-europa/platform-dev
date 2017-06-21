@@ -3,5 +3,7 @@ description = This modules provides views plugins to implement ECL components.
 package = NextEuropa
 core = 7.x
 
-registry_autoload[] = PSR-4
 dependencies[] = views
+dependencies[] = registry_autoload
+
+registry_autoload[] = PSR-4
