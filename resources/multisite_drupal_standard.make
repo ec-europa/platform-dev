@@ -182,6 +182,10 @@ projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
+; Invalid argument supplied for foreach() in entity_metadata_convert_schema()
+; https://www.drupal.org/node/2564119
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
+projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][subdir] = "contrib"
 projects[entity_translation][version] = "1.0-beta5"
