@@ -24,7 +24,8 @@ function news_core_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'News';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'access content';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['query_comment'] = FALSE;
@@ -102,6 +103,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['header'] = FALSE;
+  $handler->display->display_options['path'] = 'news';
   /* Header: Global: Text area */
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
@@ -251,21 +253,11 @@ function news_core_views_default_views() {
   $handler->display->display_options['fields']['title']['element_type'] = 'h4';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['field_news_picture']['id'] = 'field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['table'] = 'field_data_field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['field'] = 'field_news_picture';
-  $handler->display->display_options['fields']['field_news_picture']['label'] = '';
-  $handler->display->display_options['fields']['field_news_picture']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_news_picture']['element_default_classes'] = FALSE;
   /* Field: Content: Body */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';
   $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['alter']['text'] = '[field_news_picture] 
-[body]
-';
   $handler->display->display_options['fields']['body']['alter']['max_length'] = '500';
   $handler->display->display_options['fields']['body']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
@@ -409,9 +401,6 @@ function news_core_views_default_views() {
     t('Top News'),
     t('<div class="news" id="news[nid]">'),
     t('<h3>[title]</h3>'),
-    t('[field_news_picture] 
-[body]
-'),
     t('</div>'),
     t('Top news Attachment'),
   );

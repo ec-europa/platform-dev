@@ -333,13 +333,6 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
   $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_path, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
   $pathauto = ($language_none_alias != $entity_path && $language_none_alias == $pathauto_alias);
 
-  // Reimplementation of the Workbench moderation fix (see
-  // https://www.drupal.org/node/2308095 and see "workbench_moderation_store"
-  // callback in workbench_moderation.module.
-  if (isset($entity->workbench_moderation) && isset($entity->workbench_moderation['published'])) {
-    $pathauto = FALSE;
-  }
-
   return array(
     'pid' => $language_none_path['pid'],
     'alias' => $language_none_alias,

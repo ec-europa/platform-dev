@@ -1,0 +1,4 @@
+name = NextEuropa Last Update
+description = Provides a common point to retrieve the last update date for a page.
+core = 7.x
+package = NextEuropa
