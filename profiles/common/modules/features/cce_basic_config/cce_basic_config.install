@@ -2398,7 +2398,7 @@ function cce_basic_config_update_7217() {
 /**
  * NEPT-1025: Consolidate scheduler settings for Pages and Articles.
  */
-function cce_basic_config_update_7217() {
+function cce_basic_config_update_7218() {
   if (module_exists('scheduler')) {
     // Set up scheduler configuration for articles.
     multisite_config_service('scheduler')->enableSchedulerForContentType('article');
