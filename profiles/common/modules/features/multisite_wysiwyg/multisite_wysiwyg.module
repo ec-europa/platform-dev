@@ -17,6 +17,23 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
 
     // Provide additional custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
+
+    // When the europa theme is the site default theme, the WYSIWYG field must
+    // receive a class that acts as namespace.
+    // This namespace must be applied even if the node edit forms are displayed
+    // with the admin theme.
+    if (variable_get('theme_default', '') == 'europa') {
+      $settings['bodyClass'] = 'ecl-editor';
+      // Cover the case where the node edit form is displayed with the admin
+      // theme.
+      // Then, test if the form is in an admin page; which means it use the
+      // admin theme).
+      // If yes, we inject the europa css file.
+      if (path_is_admin(current_path())) {
+        $settings['contentsCss'][] = $base_url . '/' . drupal_get_path('theme', 'europa') . '/assets/css/europa.css';
+      }
+    }
+
   }
 
 }
