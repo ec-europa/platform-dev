@@ -62,8 +62,10 @@ class Config extends ConfigBase {
     // Enable Linkchecker control for "Page" content type.
     multisite_config_service('linkchecker')->enableLinkcheckerForContentType($type);
 
-    // Enable default scheduling options for a specific content type.
-    multisite_config_service('scheduler')->enableSchedulerForContentType($type);
+    if (module_exists('scheduler')) {
+      // Enable default scheduling options for a specific content type.
+      multisite_config_service('scheduler')->enableSchedulerForContentType($type);
+    }
 
     // Set unpublish moderation state to "expired".
     // This call cannot be included in the API method above since it is

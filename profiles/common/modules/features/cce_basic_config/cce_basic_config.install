@@ -612,6 +612,15 @@ function _cce_basic_config_post_install_default_content_type() {
     node_add_body_field($type);
   }
 
+  if (module_exists('scheduler')) {
+    // Set up scheduler configuration for articles.
+    multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+    // Set unpublish moderation state to "expired".
+    // This call cannot be included in the API method above since it is
+    // a configuration specific to NextEuropa .
+    variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+  }
+
   // Insert default pre-defined RDF mapping into the database.
   $rdf_mappings = array(
     array(
@@ -2383,5 +2392,23 @@ function cce_basic_config_update_7217() {
       $file_field['translatable'] = TRUE;
       field_update_field($file_field);
     }
+  }
+}
+
+/**
+ * NEPT-1025: Consolidate scheduler settings for Pages and Articles.
+ */
+function cce_basic_config_update_7217() {
+  if (module_exists('scheduler')) {
+    // Set up scheduler configuration for articles.
+    multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+    variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+    variable_set('scheduler_unpublish_revision_article', 0);
+    // Prevent creating new revisions when unpublishing a page.
+    variable_set('scheduler_unpublish_revision_page', 0);
+    // Remove old article fields.
+    field_delete_field('field_article_publication_date');
+    field_delete_field('field_article_unpublish_on');
+    field_purge_batch(1);
   }
 }
