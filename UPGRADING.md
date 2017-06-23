@@ -37,7 +37,7 @@ The following modules have been upgraded and bring significant changes:
 
 *Before moving a subsite to the new code base*, you need to perform the following steps:
 
-#### Uninstall node_export module
+#### Step 1
 
  * From ticket NEPT-591
 
@@ -46,14 +46,6 @@ $ drush dis node_export -y
 $ drush pmu node_export -y
 
 ```
-
-#### Handle schedulled dates for articles
-
- * From ticket NEPT-1025
-
-Check if there are articles having scheduled publish or unpublish dates.
-If so, take note of the dates as it will be necessary to manually set them again.
-
 
 ### After-upgrade steps
 
@@ -78,10 +70,3 @@ The following module has moved within the file system: media_avportal.
 #### Manual check
 
   * Check the admin/reports/status_en for red flags.
-
-#### Handle schedulled dates for articles
-
- * From ticket NEPT-1025
-
-See related step in Before upgrade steps.
-If there were articles having scheduled publish or unpublish dates, set them again.
