@@ -15,10 +15,7 @@ function nexteuropa_fields_formatters_field_formatter_info() {
       'description' => t('Displays as a button.'),
       'field types' => [
         'link_field',
-        'list_text',
         'taxonomy_term_reference',
-        'text',
-        'text_long',
       ],
       'settings' => [
         'variation' => 'default',
@@ -287,23 +284,6 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
               ],
             ];
             $markup = render($link);
-            break;
-
-          default:
-            $span = [
-              '#theme' => 'html_tag',
-              '#value' => $item['value'],
-              '#tag' => 'span',
-              '#attributes' => [
-                'class' => [
-                  $modifier,
-                  $additional,
-                  $modifier . '--' . $settings['variation'],
-                ],
-              ],
-            ];
-            $markup = render($span);
-
             break;
         }
         $elements[$delta] = [
