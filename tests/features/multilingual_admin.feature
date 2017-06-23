@@ -26,7 +26,7 @@ Feature: Content translation
     And I press "Save"
     Then I should see the text "Deutsch title"
     And I should see the text "Deutsch Body not for English version."
-    Then I click "English" in the "content" region
+    When I click "English" in the "content" region
     Then I should not see the text "Deutsch title"
     And I should not see the text "Deutsch Body not for English version."
     But I should see the text "English title"
