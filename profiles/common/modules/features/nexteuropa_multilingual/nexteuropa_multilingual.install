@@ -51,7 +51,8 @@ function nexteuropa_multilingual_install() {
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
   // Set nexteuropa_multilingual_url_suffix as default language negotiation.
-  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $enabled_providers_interface = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $enabled_providers_content = variable_get('language_negotiation_' . LANGUAGE_TYPE_CONTENT);
   $extra_provider = array(
     'nexteuropa_multilingual_url_suffix' => array(
       'callbacks' => array(
@@ -61,10 +62,15 @@ function nexteuropa_multilingual_install() {
     ),
   );
   // Suffix is not compatible with prefix. Remove that negotiation mechanism.
-  unset($enabled_providers['locale-url']);
+  unset($enabled_providers_interface[LOCALE_LANGUAGE_NEGOTIATION_URL]);
+
+  // NEPT-8: Don't use interface language as admin interface is always EN.
+  unset($enabled_providers_content[LOCALE_LANGUAGE_NEGOTIATION_INTERFACE]);
+
   drupal_static_reset("language_negotiation_info");
   variable_set('administration_language_negotiation_default', 'en');
-  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers + $extra_provider);
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers_interface + $extra_provider);
+  language_negotiation_set(LANGUAGE_TYPE_CONTENT, $enabled_providers_content + $extra_provider);
 
   // Set translatable states for TMGMT Workbench module.
   multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
