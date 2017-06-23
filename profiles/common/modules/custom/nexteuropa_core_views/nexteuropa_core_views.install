@@ -9,16 +9,11 @@
  */
 function nexteuropa_core_views_requirements($phase) {
   $requirements = array();
-  $theme = variable_get('theme_default');
-  if ($theme != 'atomium') {
-    $theme_info = db_select('system', 's')
-      ->fields('s')
-      ->condition('name', $theme, '=')
-      ->condition('type', 'theme', '=')
-      ->execute()
-      ->fetchAssoc();
-    $theme_info['info'] = unserialize($theme_info['info']);
-    if (empty($theme_info['info']['base theme']) || $theme_info['info']['base theme'] != 'atomium') {
+  $theme_key = variable_get('theme_default');
+  if ($theme_key != 'atomium') {
+    $themes = list_themes();
+    $theme = $themes[$theme_key];
+    if (empty($theme->base_themes) || !array_key_exists('atomium', $theme->base_themes)) {
       $t = get_t();
       $requirements['nexteuropa_core_views_conflict'] = array(
         'title' => 'Nexteuropa core views',
