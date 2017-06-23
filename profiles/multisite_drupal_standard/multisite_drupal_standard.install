@@ -55,21 +55,6 @@ function multisite_drupal_standard_update_7100() {
 }
 
 /**
- * Implements hook_install_tasks().
- */
-function multisite_drupal_standard_install_tasks($install_state) {
-  $tasks = array(
-    'multisite_settings_core_language_negotiation_task' => array(
-      'display_name' => t('Setting up the Multisite language negotiation'),
-      'display' => FALSE,
-      'type' => 'normal',
-    ),
-  );
-
-  return $tasks;
-}
-
-/**
  * NEXTEUROPA-3298: Disable ckeditor_link module.
  */
 function multisite_drupal_standard_update_7200() {
