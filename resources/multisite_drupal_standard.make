@@ -271,6 +271,10 @@ projects[file_entity][patch][] = https://www.drupal.org/files/issues/2537982-fix
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
+; Update custom version of file_save_upload() to match Drupal 7.56
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1185
+; https://www.drupal.org/node/2888308
+projects[filefield_sources][patch][] = https://www.drupal.org/files/issues/filefield-sources-2888308-2.patch
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
