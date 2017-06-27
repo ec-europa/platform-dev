@@ -198,6 +198,13 @@ function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Returns HTML for a dropdown.
+ */
+function theme_dropdown(array $variables) {
+  return(theme("item_list", $variables));
+}
+
+/**
  * Implements hook_media_wysiwyg_token_to_markup_alter().
  */
 function multisite_drupal_toolbox_media_wysiwyg_token_to_markup_alter(&$element, &$tag_info, &$settings) {
