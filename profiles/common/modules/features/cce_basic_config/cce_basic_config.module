@@ -358,3 +358,37 @@ function cce_basic_config_preprocess_container(&$variables) {
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
   }
 }
+
+/**
+ * Implements hook_themes_enabled().
+ */
+function cce_basic_config_themes_enabled($theme_list) {
+  foreach ($theme_list as $themename) {
+    if ($themename == 'europa') {
+      _cce_basic_config_europa_blocks();
+    }
+  }
+}
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _cce_basic_config_europa_blocks() {
+  _cce_basic_config_europa_breadcrumbs();
+}
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _cce_basic_config_europa_breadcrumbs() {
+  // Add block in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+  $context->reactions['block']['blocks']['easy_breadcrumb'] = [
+    'module' => 'easy_breadcrumb',
+    'delta' => 'easy_breadcrumb',
+    'region' => 'header_bottom',
+    'weight' => -10,
+  ];
+
+  module_invoke('context', 'save', $context);
+}
