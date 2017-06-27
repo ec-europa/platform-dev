@@ -990,9 +990,9 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases
 projects[europa][type] = theme
 projects[europa][download][type] = git
 projects[europa][download][url] = https://github.com/ec-europa/ec-europa-theme.git
-projects[europa][download][revision] =  7cc1605
+projects[europa][download][branch] = europa-atomium
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][revision] = b5f78738bf95cb84702a77d88eba7124d95a8629
+projects[atomium][download][branch] = 7.x-1.x
