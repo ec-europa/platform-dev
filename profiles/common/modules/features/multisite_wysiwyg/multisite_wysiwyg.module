@@ -18,20 +18,22 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Provide additional custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
 
+    $default_theme = variable_get('theme_default', '');
+    // If a specific css file has been created for CKEditor in the default
+    // theme, we add it to the editor settings; even if it is displayed in
+    // the admin theme.
+    // This approach allows a "soft" configuration of the platform.
+    $css_file_path = _multisite_wysiwyg_get_ckeditor_css_path($default_theme);
+    if ($css_file_path) {
+      $settings['contentsCss'][] = $base_url . '/' . $css_file_path;
+    }
+
     // When the europa theme is the site default theme, the WYSIWYG field must
     // receive a class that acts as namespace.
     // This namespace must be applied even if the node edit forms are displayed
     // with the admin theme.
     if (variable_get('theme_default', '') == 'europa') {
       $settings['bodyClass'] = 'ecl-editor';
-      // Cover the case where the node edit form is displayed with the admin
-      // theme.
-      // Then, test if the form is in an admin page; which means it use the
-      // admin theme).
-      // If yes, we inject the europa css file.
-      if (path_is_admin(current_path())) {
-        $settings['contentsCss'][] = $base_url . '/' . drupal_get_path('theme', 'europa') . '/assets/css/europa.css';
-      }
     }
 
   }
@@ -122,4 +124,26 @@ function multisite_wysiwyg_wysiwyg_plugin($editor, $version) {
       ),
     );
   }
+}
+
+/**
+ * Gets the css file to use specifically with CKEditor.
+ *
+ * @param string $default_theme
+ *   The site's default theme.
+ *
+ * @return bool|string
+ *   The css file path or FALSE if not found.
+ */
+function _multisite_wysiwyg_get_ckeditor_css_path($default_theme = NULL) {
+  if (!$default_theme) {
+    $default_theme = variable_get('theme_default', '');
+  }
+  $css_file_path = drupal_get_path('theme', $default_theme) . '/wysiwyg/editor.css';
+
+  if (file_exists($css_file_path)) {
+    return $css_file_path;
+  }
+
+  return FALSE;
 }
