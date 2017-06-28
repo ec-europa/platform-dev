@@ -430,7 +430,7 @@ projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
-projects[media_flickr][version] = "1.0-alpha4"
+projects[media_flickr][version] = "2.0-alpha4"
 projects[media_flickr][patch][] = patches/media_flickr-Media_v2_removed_XML_APIs-2089665-1.patch
 projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-2183.patch
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
@@ -448,7 +448,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "3.3"
+projects[media_youtube][version] = "3.4"
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
