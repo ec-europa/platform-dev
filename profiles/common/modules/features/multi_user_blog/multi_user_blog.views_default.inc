@@ -38,7 +38,7 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Post from the editorial team</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Post from the editorial team</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -223,7 +223,7 @@ function multi_user_blog_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('<h2>Post from the editorial team</h2>'),
+    t('<h2 class="ecl-heading ecl-heading--h2">Post from the editorial team</h2>'),
     t('author'),
     t('Vote results'),
     t('.'),
