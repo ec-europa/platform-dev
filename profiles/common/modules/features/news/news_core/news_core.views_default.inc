@@ -408,7 +408,7 @@ function news_core_views_default_views() {
     t('Community Top news'),
     t('Top News'),
     t('<div class="news" id="news[nid]">'),
-    t('<h3>[title]</h3>'),
+    t('<h3 class="ecl-heading ecl-heading--h3">[title]</h3>'),
     t('[field_news_picture] 
 [body]
 '),

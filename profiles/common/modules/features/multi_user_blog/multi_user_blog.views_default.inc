@@ -128,7 +128,7 @@ function multi_user_blog_views_default_views() {
   </div>
   <div class="media-body">
     <div class="pull-right">[value]</div>
-    <h3 class="media-heading">[title]</h3>
+    <h3 class="ecl-heading ecl-heading--h3 media-heading">[title]</h3>
     <div>
       [body]
       <div><a href="[path]">Read more</a></div>
@@ -239,7 +239,7 @@ function multi_user_blog_views_default_views() {
   </div>
   <div class="media-body">
     <div class="pull-right">[value]</div>
-    <h3 class="media-heading">[title]</h3>
+    <h3 class="ecl-heading ecl-heading--h3 media-heading">[title]</h3>
     <div class="fieldset t_left">
       [body]
       <div class="t_right c_left c_right"><a href="[path]">Read more</a></div>
