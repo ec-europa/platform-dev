@@ -277,11 +277,7 @@ projects[field_group][version] = "1.5"
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-beta2"
-; Fix error when switching from Public to Private destination
-; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-8239
-; https://www.drupal.org/node/2537982
-projects[file_entity][patch][] = https://www.drupal.org/files/issues/2537982-fix-changing-file-scheme.patch
+projects[file_entity][version] = "2.2"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -413,12 +409,11 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.0-rc5
+projects[media][version] = 2.8
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
 projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1026
-projects[media][patch][] = patches/media-inputs_whitelist-1026.patch
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.2"
@@ -435,15 +430,9 @@ projects[media_dailymotion][patch][] = https://www.drupal.org/files/issues/media
 projects[media_dailymotion][patch][] = patches/media_dailymotion-handle_protocol-4103.patch
 
 projects[media_flickr][subdir] = "contrib"
-projects[media_flickr][version] = "1.0-alpha4"
-projects[media_flickr][patch][] = patches/media_flickr-Media_v2_removed_XML_APIs-2089665-1.patch
-projects[media_flickr][patch][] = patches/media_flickr-fix_photoset_url_issue-2183.patch
+projects[media_flickr][version] = "2.0-alpha4"
 projects[media_flickr][patch][] = patches/media_flickr-missing_thumbnail-2494.patch
 projects[media_flickr][patch][] = patches/media_flickr-undefined_index-2183.patch
-; Support for newer Flickr album urls.
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12401
-; https://www.drupal.org/node/2602558
-projects[media_flickr][patch][] = https://www.drupal.org/files/issues/import_albums_error-7.x-1.x-2602558-5.patch
 
 projects[media_node][subdir] = "contrib"
 projects[media_node][version] = "1.0-rc2"
@@ -453,7 +442,7 @@ projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.1"
 
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "3.0"
+projects[media_youtube][version] = "3.4"
 
 projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
