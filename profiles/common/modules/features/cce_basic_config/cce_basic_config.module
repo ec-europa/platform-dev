@@ -383,12 +383,12 @@ function _cce_basic_config_europa_blocks() {
 function _cce_basic_config_europa_breadcrumbs() {
   // Add block in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
-  $context->reactions['block']['blocks']['easy_breadcrumb'] = [
+  $context->reactions['block']['blocks']['easy_breadcrumb'] = array(
     'module' => 'easy_breadcrumb',
     'delta' => 'easy_breadcrumb',
     'region' => 'header_bottom',
     'weight' => -10,
-  ];
+  );
 
   module_invoke('context', 'save', $context);
 }
