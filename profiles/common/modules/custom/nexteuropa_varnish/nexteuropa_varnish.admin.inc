@@ -19,10 +19,15 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
     '#description' => t('Flush all caches (Drupal & Varnish)'),
   );
 
+  // If the purge mechanism is prevented to work, then the button must be
+  // disabled and a warning message must be displayed.
+  $disabled = _nexteuropa_varnish_temporary_message();
+
   $form['purge_cache']['purge'] = array(
     '#type' => 'submit',
     '#value' => t('Purge all caches'),
     '#submit' => array('nexteuropa_varnish_purge_all_confirm'),
+    '#disabled' => $disabled,
   );
 
   $form['settings'] = array(
@@ -39,7 +44,18 @@ function nexteuropa_varnish_admin_settings_form($form, $form_state) {
     '#default_value' => variable_get('nexteuropa_varnish_default_purge_rule', FALSE),
   );
 
+  $form['#submit'][] = 'nexteuropa_varnish_admin_settings_cache_clear_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ * Submit callback for clearing the purge rules cache table.
+ *
+ * @see nexteuropa_varnish_admin_settings_form()
+ */
+function nexteuropa_varnish_admin_settings_cache_clear_submit($form, &$form_state) {
+  cache_clear_all('*', NEXTEUROPA_VARNISH_CACHE_TABLE, TRUE);
 }
 
 /**

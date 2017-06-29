@@ -16,10 +16,6 @@ include_once 'cce_basic_config.default_password_policy.inc';
 function cce_basic_config_menu_alter(&$items) {
   // Hide default search tab.
   $items['search/node']['access callback'] = FALSE;
-  // Block node import with node_export module.
-  if (module_exists('node_export')) {
-    $items['node/add/node_export']['access callback'] = FALSE;
-  }
 }
 
 /**
@@ -331,13 +327,34 @@ function cce_basic_config_tmgmt_dgt_html_filter_formats_containing_html() {
 }
 
 /**
- * Implements hook_modules_enabled().
+ * Implements hook_preprocess_container().
+ *
+ * It preprocesses the container theme in order to inject
+ * theme_hook_suggestions.
  */
-function cce_basic_config_modules_enabled($modules) {
-  if (in_array('node_export', $modules)) {
-    // If the node_export module is enabled, revoke import permissions.
-    user_role_revoke_permissions(variable_get('user_admin_role', 7), array('use PHP to import nodes'));
-    // Give editors permission to export nodes.
-    multisite_config_service('user')->grantPermission('editor', array('export nodes'));
+function cce_basic_config_preprocess_container(&$variables) {
+  $element = $variables['element'];
+  $prefix = 'container';
+  $suggestion = $prefix;
+
+  if (!empty($element['#entity_type'])) {
+    $suggestion .= '__' . $element['#entity_type'];
+    $variables['theme_hook_suggestions'][] = $suggestion;
+  }
+
+  if (!empty($element['#bundle'])) {
+    $suffix = '__' . $element['#bundle'];
+    $suggestion .= $suffix;
+    $variables['theme_hook_suggestions'][] = $suggestion;
+    $variables['theme_hook_suggestions'][] = $prefix . $suffix;
+  }
+
+  if (!empty($element['#view_mode'])) {
+    $hook_suggestions = $variables['theme_hook_suggestions'];
+    $suffix = '__' . $element['#view_mode'];
+    foreach ($hook_suggestions as $hook_suggestion) {
+      $variables['theme_hook_suggestions'][] = $hook_suggestion . $suffix;
+    }
+    $variables['theme_hook_suggestions'][] = $prefix . $suffix;
   }
 }

@@ -213,7 +213,7 @@ function ecas_login_page() {
 function ecas_logout($full_logout = TRUE) {
   global $user;
 
-  watchdog('user', 'Session closed for %name.', array('%name' => theme('placeholder', $user->name)));
+  watchdog('user', 'Session closed for %name.', array('%name' => format_username($user)));
 
   // Destroy the current session.
   session_destroy();

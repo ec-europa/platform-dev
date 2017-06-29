@@ -6,26 +6,10 @@
  */
 
 /**
- * Implements hook_taxonomy_vocabulary_insert().
+ * Implements hook_install().
  */
-function multisite_settings_core_taxonomy_vocabulary_insert($vocabulary) {
-  if ($vocabulary->machine_name == 'tags') {
-    // Add the vocabulary tags to the taxonomy browser settings.
-    $vids = variable_get('taxonomy_browser_vocabulary', array(2 => 2));
-    $vids[$vocabulary->vid] = $vocabulary->vid;
-    variable_set('taxonomy_browser_vocabulary', $vids);
-
-    // Add the block to the workbench context.
-    $context = module_invoke('context', 'load', 'workbench_moderate_all');
-    $block_to_add = array(
-      'module' => 'taxonomy_browser',
-      'delta' => 'taxonomy_browser_vocabulary_' . $vocabulary->vid,
-      'region' => 'sidebar_left',
-      'weight' => '-10',
-    );
-    $context->reactions['block']['blocks']['taxonomy_browser-taxonomy_browser_vocabulary_' . $vocabulary->vid] = $block_to_add;
-    module_invoke('context', 'save', $context);
-  }
+function multisite_settings_core_install() {
+  variable_set('theme_default', 'ec_resp');
 }
 
 /**
