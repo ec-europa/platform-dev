@@ -33,6 +33,7 @@
   * NEPT-525 - Remove apachesolr, css_injector, js_injector and contact from communities profile
   * NEPT-553 - Nexteuropa_newsroom upgraded
   * NEPT-391 - Remove Flexible Purge module
+  * NEPT-1071 - Implement the new header search bars component &  Force the activation of the 'nexteuropa_europa_search' feature
 
 ### New features (For more details on each feature, see the README.md file at the root of the feature's folder)
   * NEPT-79 - Performance/Varnish - An administrator can enable the web frontend cache control feature through Feature set
