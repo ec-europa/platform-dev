@@ -28,13 +28,9 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
       $settings['contentsCss'][] = $base_url . '/' . $css_file_path;
     }
 
-    // When the europa theme is the site default theme, the WYSIWYG field must
-    // receive a class that acts as namespace.
     // This namespace must be applied even if the node edit forms are displayed
     // with the admin theme.
-    if (variable_get('theme_default', '') == 'europa') {
-      $settings['bodyClass'] = 'ecl-editor';
-    }
+    $settings['bodyClass'] = 'ecl-editor';
 
   }
 
