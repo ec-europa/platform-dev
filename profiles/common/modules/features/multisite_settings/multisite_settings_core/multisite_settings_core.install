@@ -69,6 +69,37 @@ function multisite_settings_core_update_7121() {
 }
 
 /**
+ * Custom profile task to setup the language negotiation settings.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ */
+function multisite_settings_core_language_negotiation_task() {
+  // Setting up the administration_language_negotiation_admin_language to be
+  // enabled by default.
+  // Loading existing the language negotiation providers.
+  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  // Setting up an array with the language administration provider properties.
+  $language_admin_provider = array(
+    'language-administration' => array(
+      'callbacks' => array(
+        'language' => 'administration_language_negotiation_admin_language',
+      ),
+      'file' => drupal_get_path('module', 'administration_language_negotiation') . '/administration_language_negotiation.module',
+      'cache' => 0,
+    ),
+  );
+
+  // Reseting static cache for the language negotiation functionality.
+  drupal_static_reset("language_negotiation_info");
+  // Adding the language administration provider to the language negotiation
+  // list.
+  language_negotiation_set(
+    LANGUAGE_TYPE_INTERFACE,
+    $enabled_providers + $language_admin_provider
+  );
+}
+
+/**
  * Disable cookie language.
  */
 function multisite_settings_core_update_7122() {
@@ -99,4 +130,15 @@ function multisite_settings_core_update_7123() {
   // @endcode
   include_once DRUPAL_ROOT . '/includes/language.inc';
   language_types_set();
+}
+
+/**
+ * Enable english administration display. NEPT-8.
+ */
+function multisite_settings_core_update_7124() {
+  // Enable the module as this feature is never reverted.
+  module_enable(array('administration_language_negotiation'));
+  $enabled_providers = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $enabled_providers['language-administration']['callbacks'] = array('language' => 'administration_language_negotiation_admin_language');
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers);
 }

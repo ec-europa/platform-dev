@@ -15,6 +15,9 @@ includes[] = "drupal-core.make"
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
+projects[administration_language_negotiation][subdir] = "contrib"
+projects[administration_language_negotiation][version] = "1.2"
+
 projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.16"
 
@@ -184,10 +187,16 @@ projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.6"
 
 projects[entity_translation][subdir] = "contrib"
-projects[entity_translation][version] = "1.0-beta5"
+projects[entity_translation][version] = "1.0-beta6"
 ; Issue #1707156 : Workbench Moderation integration
 ; https://www.drupal.org/node/1707156
-projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-47.patch
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch
+; Issue #2856927 : getActiveLanguage() should delegate its logic elsewhere.
+; https://www.drupal.org/node/2856927
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch
+; Issue #2859223 : Strict warning: Only variables should be passed by reference
+; https://www.drupal.org/node/2859223
+projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -634,6 +643,9 @@ projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
 projects[title][download][type] = git
 projects[title][subdir] = "contrib"
+; Issue #2856927: getActiveLanguage() should delegate its logic elsewhere.
+; https://www.drupal.org/node/2856927
+projects[title][patch][] = https://www.drupal.org/files/issues/2856927.patch
 
 projects[tmgmt][download][branch] = 7.x-1.x
 projects[tmgmt][download][revision] = bd307cb0cdf55a20092f616aeb0c39bd918aef5d

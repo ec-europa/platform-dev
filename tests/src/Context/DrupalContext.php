@@ -197,6 +197,10 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       if (workbench_moderation_node_moderated($node)) {
         $node->workbench_moderation_state_new = $state;
       }
+
+      $handler = entity_translation_get_handler('node', $node);
+      $handler->setActiveLanguage($node->language);
+
       $node = $this->nodeCreate($node);
       $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
 
@@ -207,6 +211,25 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       $nodes[] = $node;
     }
     return $nodes;
+  }
+
+  /**
+   * Puts field inside the specific field group for a given parameters.
+   *
+   * @When I put the field :field_name inside the field group :group_name of an entity :entity_type type of :bundle using the view mode :view_mode
+   */
+  public function iPutFieldInToFieldGroup($field_name, $group_name, $entity_type, $bundle, $view_mode) {
+    $groups = field_group_read_groups(array(
+      'entity_type' => $entity_type,
+      'bundle'      => $bundle,
+      'mode'   => $view_mode,
+    ));
+
+    if (isset($groups[$entity_type][$bundle][$view_mode][$group_name])) {
+      $group = $groups[$entity_type][$bundle][$view_mode][$group_name];
+      $group->children[] = $field_name;
+      field_group_group_save($group);
+    }
   }
 
 }

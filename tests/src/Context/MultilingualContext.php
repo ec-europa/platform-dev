@@ -205,19 +205,18 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
       'language' => $language,
     ];
 
-    $values = [];
-    // Assign translated title field.
-    $values['title_field'][$language][0]['value'] = $fields['title'];
-    // Assign translated body field, if any.
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper->language($language)->title_field = $fields['title'];
     if (!empty($fields['field_ne_body'])) {
-      $values['field_ne_body'][$language][0]['value'] = $fields['field_ne_body'];
+      $node_wrapper->language($language)->field_ne_body->set(array('value' => $fields['field_ne_body']));
     }
     elseif (!empty($fields['body'])) {
-      $values['body'][$language][0]['value'] = $fields['body'];
+      $node_wrapper->language($language)->body->set(array('value' => $fields['body']));
     }
-    $handler->setTranslation($translation, $values);
-    // Set translation language.
-    $handler->setFormLanguage($language);
+
+    // Assign translated body field, if any.
+    $handler->setTranslation($translation, $node_wrapper->value());
+    $node_wrapper->save();
 
     // Workbench Moderation disables pathauto after node has been published.
     // Enforcing it here will ensure a consistent behavior.
