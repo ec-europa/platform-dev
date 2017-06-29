@@ -42,11 +42,14 @@ To enable the feature, reach *admin/config/regional/language/configure* and
 check 'Administration path' detection method.
 Configuration is explained in the [documentation page of drupal.org](https://www.drupal.org/project/administration_language_negotiation) 
 Please also review [the readme file](http://cgit.drupalcode.org/administration_language_negotiation/tree/README.md?h=7.x-1.2)
+
 By default, the English "Administration language negotiation" is active on edit 
 pages, and admin/* pages. 
+
+In "Language detection" definitions, "Content language detection" should not be "Interface", as the language for interface can be changed by this module.
+
 In the event that you uploaded .po file and want to see english on a non admin
 page you should to delete the translation from your imported strings.
-
 To delete translations, go to "admin/config/regional/translate/translate_en",
 select "Built-in interface" from the "Limit search to ", then click "delete" 
 in the operation column facing the string you do not want to see translated.
