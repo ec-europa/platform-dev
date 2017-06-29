@@ -1,4 +1,4 @@
-@api @cleanCommunityEnvironment
+@api @reset-nodes
 Feature: Nexteuropa Communities
   In order to effectively manage groups of people
   As a site administrator
@@ -9,12 +9,9 @@ Feature: Nexteuropa Communities
       | modules                 |
       | nexteuropa_communities  |
     # We need to rewrite value of 'group_access', because the dash in the input table does not work
-    And I am logged in as a user with the 'administrator' role
-    And I go to "admin/structure/types/manage/community/fields/group_access/field-settings_en"
-    And I fill in "edit-on" with "Private"
-    And I fill in "edit-off" with "Public"
-    And I press the "Save field settings" button
-    
+    Given I am logged in as a user with the 'administrator' role
+    And the group access field is configured for test
+
   Scenario: As a group admin, all community's block are present.
     Given "community" content:
       | title          | workbench_moderation_state_new | status | language |
@@ -30,8 +27,6 @@ Feature: Nexteuropa Communities
     And I should see "Test community" in the "#block-menu-menu-community-menu" element
     And I should see "Test community" in the "#block-views-community-members-block-1" element
     And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
-
-
 
   Scenario: URL alias for community contents are correctly generated.
     Given these modules are enabled
@@ -55,13 +50,12 @@ Feature: Nexteuropa Communities
       | field_ne_body                  | Lorem ipsum dolor sit amet body.     |
       | workbench_moderation_state     | published                            |
       | workbench_moderation_state_new | published                            |
-      When I go to "community/public-community"
-      Then I should see the heading "A public community"
-      When I go to "community/public-community/news/news-public-community"
-      Then I should see the heading "A News in a public community"
-      When I go to "community/public-community/basic-page/page-public-community"
-      Then I should see the heading "A page in a public community"
-
+    When I go to "community/public-community"
+    Then I should see the heading "A public community"
+    When I go to "community/public-community/news/news-public-community"
+    Then I should see the heading "A News in a public community"
+    When I go to "community/public-community/basic-page/page-public-community"
+    Then I should see the heading "A page in a public community"
 
   Scenario: As an anonymous user, I can see content of public community, and community's block
     Given I am not logged in
@@ -81,7 +75,6 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state_new | published                            |
     Then I should see the heading "A Page in a public community"
     And I should see "A public community" in the "#block-menu-menu-community-menu" element
-
 
   Scenario: As an anonymous user, I cannot see content of private community
     Given I am not logged in
@@ -136,7 +129,7 @@ Feature: Nexteuropa Communities
     Then I should see the link "Request group membership"
 
 
-    Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
+  Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
       | title                          | My public Community |
@@ -146,8 +139,8 @@ Feature: Nexteuropa Communities
     And I have the "member" role in the "My public Community" group
     When I reload the page
     And I click "Basic page" in the sidebar_left
-    And I fill in "title_field[und][0][value]" with "Page in My public Community"
-    And I fill in "field_ne_body[und][0][value]" with "Lorem ipsum dolor sit amet"
+    And I fill in "title_field[en][0][value]" with "Page in My public Community"
+    And I fill in "field_ne_body[en][0][value]" with "Lorem ipsum dolor sit amet"
     And I press the "Save" button
     Then I should see the success message "Basic page Page in My public Community has been created."
     When I go to "community/my-public-community/basic-page/page-my-public-community"
@@ -174,8 +167,8 @@ Feature: Nexteuropa Communities
     And I have the "member" role in the "My private Community" group
     When I reload the page
     And I click "Basic page" in the sidebar_left
-    And I fill in "title_field[und][0][value]" with "Page in My private Community"
-    And I fill in "field_ne_body[und][0][value]" with "Lorem ipsum dolor sit amet"
+    And I fill in "title_field[en][0][value]" with "Page in My private Community"
+    And I fill in "field_ne_body[en][0][value]" with "Lorem ipsum dolor sit amet"
     And I press the "Save" button
     Then I should see the success message "Basic page Page in My private Community has been created."
     When I go to "community/my-private-community/basic-page/page-my-private-community"

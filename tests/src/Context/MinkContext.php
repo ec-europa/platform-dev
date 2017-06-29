@@ -17,6 +17,7 @@ use Behat\Mink\Selector\Xpath\Escaper;
 use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isNotEmpty;
 use function bovigo\assert\assert;
 
 /**
@@ -461,6 +462,20 @@ class MinkContext extends DrupalExtensionMinkContext {
     }
 
     $element->click();
+  }
+
+  /**
+   * Checks if a specified button is disabled.
+   *
+   * @Then the :button button is disabled
+   */
+  public function theButtonIsDisabled($button) {
+    $element = $this->getSession()->getPage();
+    $button_obj = $element->findButton($button);
+    assert($button_obj, isNotEmpty(), sprintf('The button "%s" has not been found', $button));
+
+    $disabled_attr = $button_obj->getAttribute('disabled');
+    assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
 }

@@ -7,8 +7,11 @@
 
 namespace Drupal\nexteuropa\Context;
 
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext;
 use Behat\Gherkin\Node\TableNode;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\hasKey;
 
 /**
  * Provides step definitions for interacting with Drupal.
@@ -23,12 +26,77 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    */
   protected $maxNodeId;
 
+
   /**
-   * The list of node type before a scenario starts.
+   * The variable context.
+   *
+   * @var VariableContext
+   */
+  protected $variableContext;
+
+  /**
+   * Stores languages modified during test execution.
+   *
+   * @see DrupalContext::setLanguageProperty()
    *
    * @var array
    */
-  protected $nodeTypes;
+  protected $modifiedLanguages = [];
+
+  /**
+   * Gathers other contexts we rely on, before the scenario starts.
+   *
+   * @BeforeScenario
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    $environment = $scope->getEnvironment();
+    $this->variableContext = $environment->getContext(VariableContext::class);
+  }
+
+  /**
+   * Temporarily set site frontpage path.
+   *
+   * @Given the site front page is set to :path
+   */
+  public function setFrontpagePath($path) {
+    $this->variableContext->setVariable('site_frontpage', $path);
+  }
+
+  /**
+   * Set language property on given language.
+   *
+   * @Given the :code language :property is set to :value
+   */
+  public function setLanguageProperty($code, $property, $value) {
+    $languages = language_list();
+
+    assert($languages, hasKey($code), "Language {$code} is not enabled.");
+    $language = (array) $languages[$code];
+    assert($language, hasKey($property), "Language property {$property} does not exists.");
+    $this->modifiedLanguages[$code] = $language;
+
+    $language[$property] = $value;
+    db_update('languages')
+      ->fields($language)
+      ->condition('language', $code)
+      ->execute();
+  }
+
+  /**
+   * Reset languages modified during scenario execution.
+   *
+   * @see DrupalContext::setLanguageProperty()
+   *
+   * @afterScenario
+   */
+  public function resetLanguages() {
+    foreach ($this->modifiedLanguages as $code => $language) {
+      db_update('languages')
+        ->fields($language)
+        ->condition('language', $code)
+        ->execute();
+    }
+  }
 
   /**
    * {@inheritdoc}
@@ -61,6 +129,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     $node = array_shift($nodes);
     $path = 'node/' . $node->nid;
     cache_clear_all($path, 'cache_path');
+    drupal_static_reset('drupal_lookup_path');
     $path = url($path, ['base_url' => '', 'absolute' => TRUE]);
     // Visit newly created node page.
     $this->visitPath($path);
@@ -104,36 +173,6 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       entity_delete_multiple('node', array_keys($all_nodes_after));
     }
     unset($this->maxNodeId);
-  }
-
-  /**
-   * Remember the list of node type.
-   *
-   * @BeforeScenario @reset-node-types
-   */
-  public function rememberCurrentNodeTypes() {
-    foreach (node_type_get_types() as $result) {
-      $this->nodeTypes[] = $result->type;
-    }
-  }
-
-  /**
-   * Removes any node types created after the last list node type remembered.
-   *
-   * @AfterScenario @reset-node-types
-   */
-  public function resetNodeTypes() {
-    if (!isset($this->nodeTypes)) {
-      return;
-    }
-
-    foreach (node_type_get_types() as $result) {
-      if (!in_array($result->type, $this->nodeTypes)) {
-        node_type_delete($result->type);
-      }
-    }
-
-    unset($this->nodeTypes);
   }
 
   /**
@@ -197,6 +236,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       if (workbench_moderation_node_moderated($node)) {
         $node->workbench_moderation_state_new = $state;
       }
+
+      $handler = entity_translation_get_handler('node', $node);
+      $handler->setActiveLanguage($node->language);
       $node = $this->nodeCreate($node);
       $node->path['pathauto'] = $this->isPathautoEnabled('node', $node, $node->language);
 
