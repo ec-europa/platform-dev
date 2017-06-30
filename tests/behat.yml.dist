@@ -11,7 +11,7 @@ default:
         - Drupal\nexteuropa\Context\BlockContext
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\nexteuropa\Context\EcasContext
-        - Drupal\nexteuropa\Context\MessageContext
+        - Drupal\nexteuropa\Context\EuropaTheme\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\FieldContext
