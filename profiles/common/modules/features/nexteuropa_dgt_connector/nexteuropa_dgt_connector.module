@@ -3,3 +3,39 @@
  * @file
  * Code for the DGT connector feature.
  */
+
+
+define('NEXTEUROPA_MAX_SMALLJOB_LENGTH', 300);
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Change the form on the 'Translate' tab to provide the tmgmt_poetry module
+ * functionalities.
+ */
+function nexteuropa_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+
+  $entity = $form_state['entity'];
+  $length = _nexteuropa_dgt_connector_get_content_length($entity);
+
+  if ($length > NEXTEUROPA_MAX_SMALLJOB_LENGTH) {
+    // Remove add to cart button.
+    unset($form['top_actions']);
+  }
+}
+
+/**
+ * Calculate the total length of the translatable strings of a content.
+ *
+ * @wip.
+ */
+function _nexteuropa_dgt_connector_get_content_length($entity) {
+
+  $values = [];
+  $length = 0;
+  $values['field_ne_body'] = strip_tags($entity->field_ne_body['en'][0]['value']);
+  foreach($values as $value) {
+    $length += strlen($value);
+  }
+  return $length;
+}
