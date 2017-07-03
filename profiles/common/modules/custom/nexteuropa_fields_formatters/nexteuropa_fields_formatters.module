@@ -82,18 +82,16 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
         '#title' => t('Variation'),
         '#options' => [
           'block' => 'Default',
-          'call' => 'Call to action',
-          'info' => 'Info',
           'primary' => 'Primary',
           'secondary' => 'Secondary',
+          'call' => 'Call to action',
+          'timeline' => 'Timeline',
           'form' => 'Form',
-          'light' => 'Light',
-          'arrow-up' => 'Arrow Up',
-          'arrow-down' => 'Arrow Down',
           'caret-up' => 'Caret Up',
           'caret-down' => 'Caret Down',
           'caret-left' => 'Caret Left',
           'caret-right' => 'Caret Right',
+          'primary-block' => 'Primary block wide',
         ],
         '#default_value' => $settings['variation'],
         '#description' => t('Please select the button variation you need. Each variation is illustrated on the <a href="!url">ECL Library</a>', array('!url' => 'https://ec-europa.github.io/europa-component-library/components/detail/ecl-buttons')),
@@ -232,21 +230,34 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
 
     case 'ne_button':
       $modifier = 'ecl-button';
-      $additional_classes = [
-        'arrow-up',
-        'arrow-down',
-        'caret-up',
-        'caret-right',
-        'caret-down',
-        'caret-left',
-      ];
-      $additional = '';
+      $additional_classes = array();
 
       foreach ($items as $delta => $item) {
+        switch ($settings['variation']) {
+          case 'caret-up':
+          case 'caret-right':
+          case 'caret-down':
+          case 'caret-left':
+            $additional_classes[] = 'ecl-button--default';
+          case 'call':
+            $additional_classes[] = 'ecl-button--caret-right';
+            $settings['variation'] = 'call';
+          case 'timeline':
+            $additional_classes[] = 'ecl-button--caret-down';
+            $settings['variation'] = 'call';
+          case 'primary-block':
+            $additional_classes = array(
+              'ecl-button--block',
+              'ecl-button--caret-down',
+            );
+            $settings['variation'] = 'primary';
 
-        if (in_array($display['settings']['variation'], $additional_classes)) {
-          $additional = 'ecl-button--default';
         }
+        $classes = array(
+          $modifier,
+          $modifier . '--' . $settings['variation'],
+        );
+        $classes = array_merge($classes, $additional_classes);
         switch ($field['type']) {
           case 'taxonomy_term_reference':
             $term = taxonomy_term_load($item['tid']);
@@ -257,11 +268,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
               '#path' => $uri['path'],
               '#options' => [
                 'attributes' => [
-                  'class' => [
-                    $modifier,
-                    $additional,
-                    $modifier . '--' . $settings['variation'],
-                  ],
+                  'class' => $classes,
                 ],
               ],
             ];
@@ -275,11 +282,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
               '#path' => $item['url'],
               '#options' => [
                 'attributes' => [
-                  'class' => [
-                    $modifier,
-                    $additional,
-                    $modifier . '--' . $settings['variation'],
-                  ],
+                  'class' => $classes,
                 ],
               ],
             ];
