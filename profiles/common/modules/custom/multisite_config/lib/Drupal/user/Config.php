@@ -17,50 +17,70 @@ use Drupal\multisite_config\ConfigBase;
 class Config extends ConfigBase {
 
   /**
-   * Assign a specific role to an user, give its UID.
+   * Assign a specific role to a user.
    *
    * @param string $role_name
    *    Role machine name.
-   * @param string $uid
-   *    User UID.
+   * @param mixed $account
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function assignRoleToUser($role_name, $uid) {
-    $account = user_load($uid);
+  public function assignRoleToUser($role_name, $account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
+    }
+
+    $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
-    if ($role && $account) {
-      $account->roles[$role->rid] = $role->name;
-      user_save($account);
+    if ($uid && $role) {
+      db_merge('users_roles')
+        ->key(array('uid' => $uid, 'rid' => $role->rid))
+        ->execute();
+
+      // Clear the static loading cache.
+      entity_get_controller('user')->resetCache(array($uid));
       return TRUE;
     }
+
     return FALSE;
   }
 
   /**
-   * Revoke a specific role from an user, give its UID.
+   * Revoke a specific role from a user.
    *
    * @param string $role_name
    *    Role machine name.
-   * @param string $uid
-   *    User UID.
+   * @param mixed $account
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function revokeRoleFromUser($role_name, $uid) {
-    $account = user_load($uid);
+  public function revokeRoleFromUser($role_name, $account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
+    }
+
+    $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
-    if ($role && $account) {
+    if ($uid && $role) {
       db_delete('users_roles')
         ->condition('rid', $role->rid)
-        ->condition('uid', $account->uid)
+        ->condition('uid', $uid)
         ->execute();
+
+      // Clear the static loading cache.
+      entity_get_controller('user')->resetCache(array($uid));
       return TRUE;
     }
+
     return FALSE;
   }
+
   /**
    * Grant permissions to a specific role, if it exists.
    *
