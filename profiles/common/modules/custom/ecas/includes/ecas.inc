@@ -213,7 +213,7 @@ function ecas_login_page() {
 function ecas_logout($full_logout = TRUE) {
   global $user;
 
-  watchdog('user', 'Session closed for %name.', array('%name' => theme('placeholder', $user->name)));
+  watchdog('user', 'Session closed for %name.', array('%name' => format_username($user)));
 
   // Destroy the current session.
   session_destroy();
@@ -645,7 +645,7 @@ function _ecas_force_login() {
 function ecas_warning_page() {
   $output = '';
 
-  $output .= '<h2>' . t('Account blocked') . '</h2>';
+  $output .= '<h2 class="ecl-heading ecl-heading--h2">' . t('Account blocked') . '</h2>';
   $output .= '<p>' . variable_get('ecas_warning_message', t('Your account is not yet approved')) . '</p>';
 
   return $output;

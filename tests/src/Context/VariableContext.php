@@ -46,6 +46,22 @@ class VariableContext implements Context {
   }
 
   /**
+   * Deletes the value of a Drupal variable.
+   *
+   * The initial value of the value is remembered for later restore.
+   *
+   * @param string $name
+   *   Name of the variable.
+   */
+  public function deleteVariable($name) {
+    if (!array_key_exists($name, $this->initialVariables)) {
+      $this->initialVariables[$name] = variable_get($name);
+    }
+
+    variable_del($name);
+  }
+
+  /**
    * Restores the initial values of the Drupal variables.
    *
    * @AfterScenario
