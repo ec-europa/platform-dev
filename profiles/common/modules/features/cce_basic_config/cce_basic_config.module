@@ -401,6 +401,12 @@ function _cce_basic_config_europa_dt_menus() {
       'description' => 'DT menu',
       'region' => 'footer_right',
     ),
+    array(
+      'menu_name' => 'menu-nexteuropa-service-links',
+      'title' => '',
+      'description' => 'DT links to be put in the bottom footer',
+      'region' => 'footer_bottom',
+    ),
   );
 
   $dt_links = array(
@@ -438,6 +444,43 @@ function _cce_basic_config_europa_dt_menus() {
     ),
     array(
       array(
+        'link_title' => 'About the Commission\'s new web presence',
+        'link_path' => 'https://ec.europa.eu/info/about-commissions-new-web-presence',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -50,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Resources for partners',
+        'link_path' => 'http://ec.europa.eu/info/resources-partners',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -49,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Cookies',
+        'link_path' => 'https://ec.europa.eu/info/cookies',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -48,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Legal notice',
+        'link_path' => 'https://ec.europa.eu/info/legal-notice',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -34,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Contact',
+        'link_path' => 'https://ec.europa.eu/info/contact',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -21,
+        'expanded' => 0,
+      ),
+    ),
+    array(
+      array(
         'link_title' => 'Facebook',
         'link_path' => 'https://www.facebook.com/EuropeanCommission',
         'menu_name' => 'menu-nexteuropa-social-media',
@@ -461,20 +504,19 @@ function _cce_basic_config_europa_dt_menus() {
     ),
   );
 
-  // Save menu group into menu_custom table
+  // Save menu group into menu_custom table.
   foreach ($dt_menus as $menu) {
-    // Look the table first if the data does exist
+    // Look the table first if the data does exist.
     $exists = db_query("SELECT title FROM {menu_custom} WHERE menu_name=:menu_name", array(':menu_name' => $menu['menu_name']))->fetchField();
-    // Save the record if the data does not exist
+    // Save the record if the data does not exist.
     if (!$exists) {
       menu_save($menu);
     }
   }
 
-  $item = '';
   foreach ($dt_links as $layer1) {
     foreach ($layer1 as $link) {
-      // Build an array of menu link
+      // Build an array of menu link.
       $item = array(
         'link_path' => $link['link_path'],
         'link_title' => $link['link_title'],
@@ -482,9 +524,9 @@ function _cce_basic_config_europa_dt_menus() {
         'weight' => $link['weight'],
         'expanded' => $link['expanded'],
       );
-      // Look the table first if the data does exist
-      $exists = db_query("SELECT mlid from {menu_links} WHERE link_title=:link_title AND link_path=:link_path", array(':link_title' =>  $link['link_title'], ':link_path' => $link['link_path']))->fetchField();
-      // Save the record if the data does not exist
+      // Look the table first if the data does exist.
+      $exists = db_query("SELECT mlid from {menu_links} WHERE link_title=:link_title AND link_path=:link_path", array(':link_title' => $link['link_title'], ':link_path' => $link['link_path']))->fetchField();
+      // Save the record if the data does not exist.
       if (!$exists) {
         menu_link_save($item);
       }
@@ -494,7 +536,7 @@ function _cce_basic_config_europa_dt_menus() {
   // Add block in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
   foreach ($dt_menus as $menu_to_add) {
-    $context->reactions['block']['blocks']['easy_breadcrumb'] = array(
+    $context->reactions['block']['blocks'][$menu_to_add['menu_name']] = array(
       'module' => 'menu',
       'delta' => $menu_to_add['menu_name'],
       'region' => $menu_to_add['region'],
