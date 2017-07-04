@@ -23,15 +23,15 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // theme, we add it to the editor settings; even if it is displayed in
     // the admin theme.
     // This approach allows a "soft" configuration of the platform.
-    $css_file_path = _multisite_wysiwyg_get_ckeditor_css_path($default_theme);
-    if ($css_file_path) {
-      $settings['contentsCss'][] = $base_url . '/' . $css_file_path;
+    $css_file_paths = _multisite_wysiwyg_get_ckeditor_css_paths($default_theme);
+    if ($css_file_paths) {
+      foreach ($css_file_paths as $css_file_path) {
+        $settings['contentsCss'][] = $base_url . '/' . $css_file_path;
+      }
     }
-
     // This namespace must be applied even if the node edit forms are displayed
     // with the admin theme.
     $settings['bodyClass'] = 'ecl-editor';
-
   }
 
 }
@@ -123,23 +123,47 @@ function multisite_wysiwyg_wysiwyg_plugin($editor, $version) {
 }
 
 /**
- * Gets the css file to use specifically with CKEditor.
+ * Gets the css files paths to use specifically with CKEditor.
  *
  * @param string $default_theme
  *   The site's default theme.
  *
- * @return bool|string
- *   The css file path or FALSE if not found.
+ * @return array
+ *   The css file paths or empty.
  */
-function _multisite_wysiwyg_get_ckeditor_css_path($default_theme = NULL) {
+function _multisite_wysiwyg_get_ckeditor_css_paths($default_theme = NULL) {
+  $cache_id = 'multisite_wysiwyg_css_paths';
+
+  if ($cache = cache_get($cache_id)) {
+    $css_file_paths = $cache->data;
+    return $css_file_paths;
+  }
+
   if (!$default_theme) {
     $default_theme = variable_get('theme_default', '');
   }
-  $css_file_path = drupal_get_path('theme', $default_theme) . '/wysiwyg/editor.css';
+  $css_file_paths = array();
+  $list_theme = list_themes();
 
-  if (file_exists($css_file_path)) {
-    return $css_file_path;
+  $implied_themes = drupal_find_base_themes($list_theme, $default_theme);
+  // If drupal_find_base_themes can return an array with only one NULL item.
+  if (empty(current($implied_themes))) {
+    $implied_themes = array();
+  }
+  // Add the active theme to the list in order to retrieve its css file
+  // reference, if exists.
+  $implied_themes[] = $default_theme;
+
+  // Build the css file paths list.
+  foreach ($implied_themes as $implied_theme) {
+    $css_file_path = drupal_get_path('theme', $implied_theme) . '/wysiwyg/editor.css';
+    if (file_exists($css_file_path)) {
+      $css_file_paths[] = $css_file_path;
+    }
   }
 
-  return FALSE;
+  // Save in the Drupal cache.
+  cache_set($cache_id, $css_file_paths, 'cache', CACHE_TEMPORARY);
+
+  return $css_file_paths;
 }

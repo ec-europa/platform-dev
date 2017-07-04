@@ -19,9 +19,9 @@ The feature is enabled by default in the NextEuropa platform.
 
 # Proposed features
 
-Beside the default settings definition, it contains a mechanism that allows inserting a CSS file specific to the widget 
-of WYSIWYG fields.
+Beside the default settings definition, it contains a mechanism that allows inserting a CSS file specific to the widget of WYSIWYG fields.
 This CSS file can style the field widget content and allows contributors to see what they are typing like it will be displayed in the front-end.
+If the base theme of the current one contains a similar file, it will be taken into account too.
 
 The difference between this mechanism and what the "WYSIWYG" module proposes is that it is based on the automatic detection of the CSS file 
 (see the [next section](#configuration)).
