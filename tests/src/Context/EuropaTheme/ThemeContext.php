@@ -13,24 +13,23 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
  */
 class ThemeContext extends RawDrupalContext {
 
-   /**
-    * Ensure that europa theme is actually used.
-    *
-    * It is a "BeforeScenario" instead of a "BeforeFeature" or a "BeforeSuite"
-    * because the variable setting is not taken into account at these levels.
-    *
-    * @BeforeScenario
-    */
+  /**
+   * Ensure that europa theme is actually used.
+   *
+   * It is a "BeforeScenario" instead of a "BeforeFeature" or a "BeforeSuite"
+   * because the variable setting is not taken into account at these levels.
+   *
+   * @BeforeScenario
+   */
   public function enableEuropaTheme() {
-    echo 'EUROPA';
-     $theme = variable_get('theme_default', '');
+    $theme = variable_get('theme_default', '');
 
-     if ($theme != 'europa') {
-       echo 'FORCE EUROPA';
-       // This set variable is not tracked through VariableContext process
-       // because it must not be reset after each scenario of the feature.
-       variable_set('theme_default', 'europa');
-       drupal_flush_all_caches();
-     }
+    if ($theme != 'europa') {
+      // This set variable is not tracked through VariableContext process
+      // because it must not be reset after each scenario of the feature.
+      variable_set('theme_default', 'europa');
+      drupal_flush_all_caches();
+    }
   }
+
 }

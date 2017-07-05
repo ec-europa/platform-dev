@@ -13,26 +13,38 @@ use Drupal\nexteuropa\Context\MessageContext as NextEuropaMessageContext;
  */
 class MessageContext extends NextEuropaMessageContext {
 
-  protected $front_message_selector = 'div.ecl-messages > div.item-list > ul.ecl-message--body > li';
-  protected $front_error_message_selector = 'div.ecl-messages.error.alert > div.item-list > ul.ecl-message--body > li';
-  protected $front_success_message_selector = 'div.ecl-messages.status.alert > div.item-list > ul.ecl-message--body > li';
-  protected $front_warning_message_selector = 'div.ecl-messages.warning.alert > div.item-list > ul.ecl-message--body > li';
+  protected $frontMessageSelector = 'div.ecl-messages > div.item-list > ul.ecl-message--body > li';
+  protected $frontErrorMessageSelector = 'div.ecl-messages.error.alert > div.item-list > ul.ecl-message--body > li';
+  protected $frontSuccessMessageSelector = 'div.ecl-messages.status.alert > div.item-list > ul.ecl-message--body > li';
+  protected $frontWarningMessageSelector = 'div.ecl-messages.warning.alert > div.item-list > ul.ecl-message--body > li';
 
+  /**
+   * MessageContext constructor.
+   *
+   * @param string $front_message_selector
+   *    The message css selector.
+   * @param string $front_error_message_selector
+   *    The error message css selector.
+   * @param string $front_success_message_selector
+   *    The success message css selector.
+   * @param string $front_warning_message_selector
+   *    The warning message css selector.
+   */
   public function __construct($front_message_selector, $front_error_message_selector, $front_success_message_selector, $front_warning_message_selector) {
     if (!empty($front_message_selector)) {
-      $this->front_message_selector = $front_message_selector;
+      $this->frontMessageSelector = $front_message_selector;
     }
 
     if (!empty($front_error_message_selector)) {
-      $this->front_error_message_selector = $front_error_message_selector;
+      $this->frontErrorMessageSelector = $front_error_message_selector;
     }
 
     if (!empty($front_success_message_selector)) {
-      $this->front_success_message_selector = $front_success_message_selector;
+      $this->frontSuccessMessageSelector = $front_success_message_selector;
     }
 
     if (!empty($front_warning_message_selector)) {
-      $this->front_warning_message_selector = $front_warning_message_selector;
+      $this->frontWarningMessageSelector = $front_warning_message_selector;
     }
   }
 
@@ -50,7 +62,7 @@ class MessageContext extends NextEuropaMessageContext {
     else {
       $this->assert(
         $message,
-        $this->front_error_message_selector,
+        $this->frontErrorMessageSelector,
         "The page '%s' does not contain any error messages",
         "The page '%s' does not contain the error message '%s'"
       );
@@ -71,7 +83,7 @@ class MessageContext extends NextEuropaMessageContext {
     else {
       $this->assertNot(
         $message,
-        $this->front_error_message_selector,
+        $this->frontErrorMessageSelector,
         "The page '%s' contains the error message '%s'"
       );
     }
@@ -91,7 +103,7 @@ class MessageContext extends NextEuropaMessageContext {
     else {
       $this->assert(
         $message,
-        $this->front_success_message_selector,
+        $this->frontSuccessMessageSelector,
         "The page '%s' does not contain any success messages",
         "The page '%s' does not contain the success message '%s'"
       );
@@ -112,7 +124,7 @@ class MessageContext extends NextEuropaMessageContext {
     else {
       $this->assertNot(
         $message,
-        $this->front_success_message_selector,
+        $this->frontSuccessMessageSelector,
         "The page '%s' contains the success message '%s'"
       );
     }
@@ -132,7 +144,7 @@ class MessageContext extends NextEuropaMessageContext {
     else {
       $this->assert(
         $message,
-        $this->front_warning_message_selector,
+        $this->frontWarningMessageSelector,
         "The page '%s' does not contain any warning messages",
         "The page '%s' does not contain the warning message '%s'"
       );
@@ -153,7 +165,7 @@ class MessageContext extends NextEuropaMessageContext {
     else {
       $this->assertNot(
         $message,
-        $this->front_warning_message_selector,
+        $this->frontWarningMessageSelector,
         "The page '%s' contains the warning message '%s'"
       );
     }
@@ -218,7 +230,7 @@ class MessageContext extends NextEuropaMessageContext {
   /**
    * Helps to determine if the current page is an admin page.
    *
-   * @return boolean
+   * @return bool
    *    TRUE if it is an admin page
    */
   private function isCurrentPageAdmin() {
@@ -228,7 +240,7 @@ class MessageContext extends NextEuropaMessageContext {
     // Retrieve the page path from the URL.
     $path = str_replace($base_url . '/', '', $url);
 
-    return  path_is_admin($path);
+    return path_is_admin($path);
   }
 
 }
