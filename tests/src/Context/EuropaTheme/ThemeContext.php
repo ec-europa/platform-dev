@@ -25,6 +25,7 @@ class ThemeContext extends RawDrupalContext {
     $theme = variable_get('theme_default', '');
 
     if ($theme != 'europa') {
+      print('FORCE EUROPA AS DEFAULT' . PHP_EOL);
       // This set variable is not tracked through VariableContext process
       // because it must not be reset after each scenario of the feature.
       variable_set('theme_default', 'europa');
