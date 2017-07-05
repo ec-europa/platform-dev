@@ -518,7 +518,7 @@ function ecas_block_view($delta = '') {
 
         // NOTE: special care needs to be taken because on pages with forms,
         // such as node and comment submission pages, the $edit variable might
-        // already be set.
+        // already be set. @todo remove this comment or explain better please.
         $output .= l(t('Login'), 'ecas');
         $output .= '</div>' . "\n";
         $block['subject'] = t('User Login');
@@ -529,7 +529,7 @@ function ecas_block_view($delta = '') {
 
         // NOTE: special care needs to be taken because on pages with forms,
         // such as node and comment submission pages, the $edit variable might
-        // already be set.
+        // already be set. @todo remove this comment or explain better please.
         $output .= l(t('Logout'), 'ecaslogout');
         $output .= '</div>' . "\n";
         $block['subject'] = t('User Login');
@@ -765,4 +765,17 @@ function ecas_get_user_department($user_info) {
   }
 
   return array();
+}
+
+/**
+ * Implements hook_user_logout().
+ *
+ * Apply ECAS logout logic when logging out because of autologout rules.
+ */
+function ecas_user_logout($account) {
+
+  $autologout = isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout';
+  if ($autologout && ecas_menu_logout_check()) {
+    ecas_logout();
+  }
 }
