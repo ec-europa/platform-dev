@@ -1,17 +1,18 @@
 default:
   suites:
-    default:
+    ec_resp_theme:
       contexts:
         - Drupal\nexteuropa\Context\IntegrationLayerContext:
             mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
+        - Drupal\nexteuropa\Context\EcRespTheme\ThemeContext
         - FeatureContext
         - Drupal\nexteuropa\Context\AgnosticBatchContext
         - Drupal\nexteuropa\Context\ApacheSolrContext
         - Drupal\nexteuropa\Context\BlockContext
         - Drupal\nexteuropa\Context\CKEditorContext
         - Drupal\nexteuropa\Context\EcasContext
-        - Drupal\nexteuropa\Context\EuropaTheme\MessageContext
+        - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
         - Drupal\nexteuropa\Context\FieldContext
@@ -40,7 +41,53 @@ default:
             drush_bin: "{{ drush.bin }}"
             db_dump_location: '{{ drush.db.dump }}'
       filters:
-        tags: "~@wip&&~@communities"
+        tags: "~@wip&&~@communities&&~@europa_theme"
+    europa_theme:
+      contexts:
+        - Drupal\nexteuropa\Context\IntegrationLayerContext:
+            mock_server_port: {{ integration.server.port }}
+        - Drupal\nexteuropa\Context\ModuleContext
+        - Drupal\nexteuropa\Context\EuropaTheme\ThemeContext
+        - FeatureContext
+        - Drupal\nexteuropa\Context\AgnosticBatchContext
+        - Drupal\nexteuropa\Context\ApacheSolrContext
+        - Drupal\nexteuropa\Context\BlockContext
+        - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\EcasContext
+        - Drupal\nexteuropa\Context\EuropaTheme\MessageContext:
+            front_message_selector: "div.ecl-messages > div.item-list > ul.ecl-message--body > li"
+            front_error_message_selector: "div.ecl-messages.error.alert > div.item-list > ul.ecl-message--body > li"
+            front_success_message_selector: "div.ecl-messages.status.alert > div.item-list > ul.ecl-message--body > li"
+            front_warning_message_selector: "div.ecl-messages.warning.alert > div.item-list > ul.ecl-message--body > li"
+        - Drupal\nexteuropa\Context\BeanContext
+        - Drupal\nexteuropa\Context\DrupalContext
+        - Drupal\nexteuropa\Context\FieldContext
+        - Drupal\nexteuropa\Context\FormContext
+        - Drupal\nexteuropa\Context\ContentTypeContext
+        - Drupal\nexteuropa\Context\MinkContext
+        - Drupal\nexteuropa\Context\VariableContext
+        - Drupal\nexteuropa\Context\FlickrContext:
+            key: '{{ flickr.key }}'
+            secret: '{{ flickr.secret }}'
+        - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\ViewsContext
+        - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\nexteuropa\Context\WebtoolsContext
+        - Drupal\nexteuropa\Context\FrontendCacheContext:
+            mock_server_port: {{ varnish.server.port }}
+        - Drupal\nexteuropa\Context\DatabaseLogContext
+        - Drupal\nexteuropa\Context\PathautoContext
+        - Drupal\nexteuropa\Context\SchedulerContext
+        - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\nexteuropa\Context\DrupalMailContext
+        - Drupal\nexteuropa\Context\PiwikRulesContext
+        - Drupal\nexteuropa\Context\DrushContext:
+            drush_bin: "{{ drush.bin }}"
+            db_dump_location: '{{ drush.db.dump }}'
+      filters:
+        tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
   extensions:
     Behat\MinkExtension:
       goutte: ~
@@ -87,6 +134,9 @@ default:
 
 communities:
   suites:
-    default:
+    ec_resp_theme:
       filters:
-        tags: "@communities&&~@wip"
+        tags: "~@wip&&~@europa_theme&&@communities"
+    europa_theme:
+      filters:
+        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
