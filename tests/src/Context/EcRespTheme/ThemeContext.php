@@ -21,16 +21,12 @@ class ThemeContext extends RawDrupalContext {
    *
    * @BeforeScenario
    */
-  public function enableEuropaTheme() {
-    $theme = variable_get('theme_default', '');
-
-    if ($theme != 'ec_resp') {
-      print('FORCE EC_RESP AS DEFAULT' . PHP_EOL);
-      // This set variable is not tracked through VariableContext process
-      // because it must not be reset after each scenario of the feature.
-      variable_set('theme_default', 'ec_resp');
-      drupal_flush_all_caches();
-    }
+  public function enableEcRespTheme() {
+    print('FORCE EC_RESP AS DEFAULT' . PHP_EOL);
+    // This set variable is not tracked through VariableContext process
+    // because it must not be reset after each scenario of the feature.
+    variable_set('theme_default', 'ec_resp');
+    drupal_flush_all_caches();
   }
 
 }
