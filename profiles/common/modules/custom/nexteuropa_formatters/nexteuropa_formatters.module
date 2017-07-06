@@ -1,0 +1,51 @@
+<?php
+/**
+ * @file
+ * Views implementing europa components.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function nexteuropa_formatters_theme() {
+  return array(
+    'banner' => array(
+      'variables' => array(
+        'quote' => NULL,
+        'author' => NULL,
+      ),
+      'template' => 'templates/banner',
+    ),
+    'card' => array(
+      'variables' => array(
+        'url' => NULL,
+        'image' => NULL,
+        'label' => NULL,
+      ),
+      'template' => 'templates/card',
+    ),
+    'blockquote' => array(
+      'variables' => array(
+        '$quote' => NULL,
+      ),
+      'template' => 'templates/blockquote',
+    ),
+    'expandable' => array(
+      'variables' => array(
+        'id' => NULL,
+        'icon' => NULL,
+        'title' => NULL,
+        'body' => NULL,
+      ),
+      'template' => 'templates/expandable',
+    ),
+    'timelines' => array(
+      'variables' => array(
+        'title' => NULL,
+        'text' => NULL,
+        'footer' => NULL,
+      ),
+      'template' => 'templates/timelines',
+    ),
+  );
+}

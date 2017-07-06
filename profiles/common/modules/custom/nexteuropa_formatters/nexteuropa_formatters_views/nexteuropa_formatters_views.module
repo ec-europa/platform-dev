@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Views implementing europa components.
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function nexteuropa_formatters_views_views_api() {
+  return ['api' => 3.0];
+}

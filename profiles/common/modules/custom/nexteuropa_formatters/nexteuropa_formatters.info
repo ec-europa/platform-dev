@@ -1,0 +1,4 @@
+name = NextEuropa Core formatters
+description = This modules provides default formatters for NextEuropa components.
+package = NextEuropa
+core = 7.x
