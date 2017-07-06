@@ -151,6 +151,19 @@ function _ecas_menu(array &$items) {
 }
 
 /**
+ * Implements hook_user_logout().
+ *
+ * Apply ECAS logout logic when logging out because of autologout rules.
+ */
+function ecas_user_logout($account) {
+
+  $autologout = isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout';
+  if ($autologout && ecas_menu_logout_check()) {
+    ecas_logout();
+  }
+}
+
+/**
  * Checks the menu.
  *
  * @return bool
@@ -765,17 +778,4 @@ function ecas_get_user_department($user_info) {
   }
 
   return array();
-}
-
-/**
- * Implements hook_user_logout().
- *
- * Apply ECAS logout logic when logging out because of autologout rules.
- */
-function ecas_user_logout($account) {
-
-  $autologout = isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout';
-  if ($autologout && ecas_menu_logout_check()) {
-    ecas_logout();
-  }
 }
