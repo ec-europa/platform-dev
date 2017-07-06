@@ -10,7 +10,7 @@ Feature: Subscription
       |modules                      |
       |multisite_notifications_core |
 
-  @javascript
+  @javascript @theme_wip
   Scenario: Create a page and have someone subscribe to it
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"

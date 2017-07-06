@@ -16,12 +16,14 @@ Scenario: Administrators can add the last update block in a region
   When I visit "admin/structure/block"
   Then I should see the text "EU Login"
 
+@theme_wip
 Scenario: Logged in users can logout with the EU Login block
   Given I am logged in as a user with the "administrator" role
   And that the block "ecas" from module "ecas" is assigned to the region "sidebar_right"
   When I am on the homepage
   Then I should see the link "Logout" in the "sidebar_right" region
 
+@theme_wip
 Scenario: Anonymous users can login with the EU Login block
   Given I am an anonymous user
   And that the block "ecas" from module "ecas" is assigned to the region "sidebar_right"
