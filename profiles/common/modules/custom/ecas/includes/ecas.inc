@@ -246,12 +246,8 @@ function ecas_logout($full_logout = TRUE) {
 
   if ($full_logout) {
     _ecas_init_phpcas_client();
-    $params = array(
-      'service' => variable_get('site_name', 'ecas'),
-      'url' => url('front', array('absolute' => TRUE)),
-    );
     drupal_alter('ecas_full_logout_parameters', $params);
-    phpCAS::logout($params);
+    phpCAS::logoutWithUrl(_ecas_get_url_site_frontpage());
   }
 
   // Go to the constructed logout destination.
@@ -367,100 +363,106 @@ function ecas_sync_user_info(&$user, array $user_info, array $args) {
 function ecas_login_check() {
   global $user;
 
-  $force_login = _ecas_force_login();
   if ($user->uid) {
     // The user has an uid, and it is > 0 (which is anonymous user's uid) do
     // nothing because user is already logged into Drupal.
+    return;
   }
-  elseif ($force_login != ECAS_NO_LOGIN) {
-    $ecas_sync_user_info_args = array();
 
-    // Start a new Drupal session.
-    drupal_session_start();
+  $force_login = _ecas_force_login();
+  if ($force_login == ECAS_NO_LOGIN) {
+    return;
+  }
 
-    ecas_save_page();
+  $ecas_sync_user_info_args = array();
 
-    _ecas_init_phpcas_client();
+  // Start a new Drupal session.
+  drupal_session_start();
 
-    // Adds an optional "domain" parameter to the login URL - this allows Drupal
-    // admins to specify the default ecas domain to be displayed on the login
-    // page when none could be found in the cookies sent by the browser.
-    $ecas_domain = (string) variable_get('ecas_domain', '');
-    if (drupal_strlen($ecas_domain)) {
-      $initial_server_login_url = phpCAS::getServerLoginURL();
-      $custom_server_login_url = sprintf('%s&domain=%s', $initial_server_login_url, urlencode($ecas_domain));
-      phpCAS::setServerLoginURL($custom_server_login_url);
+  ecas_save_page();
+
+  _ecas_init_phpcas_client();
+
+  // Adds an optional "domain" parameter to the login URL - this allows Drupal
+  // admins to specify the default ecas domain to be displayed on the login
+  // page when none could be found in the cookies sent by the browser.
+  $ecas_domain = (string) variable_get('ecas_domain', '');
+  if (drupal_strlen($ecas_domain)) {
+    $initial_server_login_url = phpCAS::getServerLoginURL();
+    $custom_server_login_url = sprintf('%s&domain=%s', $initial_server_login_url, urlencode($ecas_domain));
+    phpCAS::setServerLoginURL($custom_server_login_url);
+  }
+
+  // Preparing validation URL to retrieve attributes as well :
+  $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
+  $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
+  $validate_server_url .= FPFIS_ECAS_URI . '/TicketValidationService?assuranceLevel=' . $assurance_level . '&ticketTypes=SERVICE,PROXY&userDetails=true&groups=*';
+  phpCAS::setServerServiceValidateURL($validate_server_url);
+
+  if ($force_login === ECAS_LOGIN) {
+    phpCAS::forceAuthentication();
+  }
+
+  if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
+    $ecas_name = phpCAS::getUser();
+    $ecas_attributes = phpCAS::getAttributes();
+    $ecas_groups = $ecas_attributes['cas:groups'];
+    $ecas_email = $ecas_attributes['cas:email'];
+
+    // Try to log into Drupal.
+    $account = user_load_by_name($ecas_name);
+
+    // Extra process to filter ECAS user.
+    drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
+  }
+  else {
+    // These variables will be checked by later conditions.
+    $account = FALSE;
+    $ecas_name = NULL;
+  }
+
+  // If we don't have a user register them.
+  if (!$account && !empty($ecas_name)) {
+
+    $account = ecas_create_user($ecas_name);
+
+    if ($account && $account->uid > 0) {
+      $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $account->uid);
     }
 
-    // Preparing validation URL to retrieve attributes as well :
-    $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
-    $validate_server_url = 'https://' . FPFIS_ECAS_URL . ':' . FPFIS_ECAS_PORT;
-    $validate_server_url .= FPFIS_ECAS_URI . '/TicketValidationService?assuranceLevel=' . $assurance_level . '&ticketTypes=SERVICE,PROXY&userDetails=true&groups=*';
-    phpCAS::setServerServiceValidateURL($validate_server_url);
+    // Set a session variable to denote this the initial login.
+    $_SESSION['ecas_first_login'] = TRUE;
 
-    if ($force_login === ECAS_LOGIN) {
-      phpCAS::forceAuthentication();
-    }
+    // Also set an extra parameter for ecas_sync_user_info() -- this allows
+    // other modules to detect a user creation.
+    $ecas_sync_user_info_args['ecas_user_creation'] = TRUE;
+  }
 
-    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
-      $ecas_name = phpCAS::getUser();
-      $ecas_attributes = phpCAS::getAttributes();
-      $ecas_groups = $ecas_attributes['cas:groups'];
-      $ecas_email = $ecas_attributes['cas:email'];
+  // Final check to make sure we have a good user.
+  if ($account && $account->uid > 0) {
+    // Retrieve information about the user from ECAS attributes.
+    $user_info = phpCAS::getAttributes();
 
-      // Try to log into Drupal.
-      $account = user_load_by_name($ecas_name);
-
-      // Extra process to filter ECAS user.
-      drupal_alter('ecas_extra_filter', $ecas_name, $account, $_SESSION['ecas_goto']);
+    // Update her information.
+    if (!empty($user_info)) {
+      ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
     }
     else {
-      // These variables will be checked by later conditions.
-      $account = FALSE;
-      $ecas_name = NULL;
+      $args = array(':username' => $account->name);
+      drupal_set_message(t('Warning: no information could be found for username :username', $args));
     }
 
-    // If we don't have a user register them.
-    if (!$account && !empty($ecas_name)) {
-
-      $account = ecas_create_user($ecas_name);
-
-      if ($account && $account->uid > 0) {
-        $_SESSION['ecas_goto'] = sprintf('user/%d/edit', $account->uid);
-      }
-
-      // Set a session variable to denote this the initial login.
-      $_SESSION['ecas_first_login'] = TRUE;
-
-      // Also set an extra parameter for ecas_sync_user_info() -- this allows
-      // other modules to detect a user creation.
-      $ecas_sync_user_info_args['ecas_user_creation'] = TRUE;
+    // Case when account is blocked.
+    if ($account->status == 0) {
+      _ecas_session_end();
+      drupal_goto('ecas_warning_page');
     }
-
-    // Final check to make sure we have a good user.
-    if ($account && $account->uid > 0) {
-      // Retrieve information about the user from ECAS attributes.
-      $user_info = phpCAS::getAttributes();
-
-      // Update her information.
-      if (!empty($user_info)) {
-        ecas_sync_user_info($account, $user_info, $ecas_sync_user_info_args);
-      }
-      else {
-        $args = array(':username' => $account->name);
-        drupal_set_message(t('Warning: no information could be found for username :username', $args));
-      }
-
-      // Case when account is blocked.
-      if ($account->status == 0) {
-        _ecas_session_end();
-        drupal_goto('ecas_warning_page');
-      }
-      // Case when returning with same ECAS login as before closing Drupal session.
-      else if (
+    // Case when returning with same ECAS login as before closing Drupal session.
+    else {
+      if (
         isset($account->data['ecas_login_date']) &&
         $account->data['ecas_login_date'] == $user_info['cas:loginDate']
-        ) {
+      ) {
 
         $msg = 'Rejected ECAS reused login: %n (ECAS)';
         watchdog('user', $msg, array('%n' => $account->name), WATCHDOG_NOTICE);
@@ -502,12 +504,13 @@ function ecas_login_check() {
         ecas_login_page();
       }
     }
-    // If we have a good user.
-    else {
-      unset($_SESSION['phpCAS']);
-      $user = drupal_anonymous_user();
-    }
   }
+  // If we have a good user.
+  else {
+    unset($_SESSION['phpCAS']);
+    $user = drupal_anonymous_user();
+  }
+
 }
 
 /**
