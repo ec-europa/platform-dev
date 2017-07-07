@@ -474,12 +474,13 @@ function cce_basic_config_install() {
 }
 
 /**
- * "Choose theme" installation task form.
+ * Form for the installation profile task "Choose theme".
  *
  * This form is shared by both standard and communities profile, hence it is
  * exposed by the 'cce_basic_config' module.
  *
  * @see multisite_drupal_standard_install_tasks()
+ * @see multisite_drupal_communities_install_tasks()
  */
 function cce_basic_config_profile_theme_default_form() {
   $form = array();
