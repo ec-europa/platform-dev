@@ -131,5 +131,6 @@ function nexteuropa_core_update_7004() {
  * Implements hook_update_N().
  */
 function ecas_update_7005() {
+  module_enable('autologout');
   vset('autologout_use_alt_logout_method', 1);
 }
