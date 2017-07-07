@@ -15,7 +15,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
   /**
    * {@inheritdoc}
    */
-  public function save(TMGMTJob $origin_job, DatabaseTransaction $transaction = NULL) {
+  public function save($origin_job, DatabaseTransaction $transaction = NULL) {
 
     $translator = $origin_job->getTranslator();
     $origin_job_items = $origin_job->getItems();
