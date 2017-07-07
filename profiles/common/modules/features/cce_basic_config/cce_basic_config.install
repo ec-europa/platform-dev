@@ -494,10 +494,10 @@ function cce_basic_config_profile_theme_default_form() {
     '#type' => 'radios',
     '#required' => TRUE,
     '#options' => array(
-      'europa' => st('Europa'),
       'ec_resp' => st('EC Resp'),
+      'europa' => st('Europa'),
     ),
-    '#default_value' => 'europa',
+    '#default_value' => 'ec_resp',
   );
   $form['container']['submit'] = array(
     '#type' => 'submit',

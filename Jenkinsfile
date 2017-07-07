@@ -8,14 +8,8 @@ try {
             // Build, test and package the standard profile
             node('standard') {
                 try {
-                    executeStages('Standard EC Resp', 'ec_resp')
-                } catch(err) {
-                    throw(err)
-                }
-            }
-            node('standard') {
-                try {
                     executeStages('Standard Europa', 'europa')
+                    executeStages('Standard EC Resp', 'ec_resp')
                 } catch(err) {
                     throw(err)
                 }
@@ -25,14 +19,8 @@ try {
             // Build and test the communities profile
             node('communities') {
                 try {
-                    executeStages('Communities EC Resp', 'ec_resp')
-                } catch(err) {
-                    throw(err)
-                }
-            }
-            node('communities') {
-                try {
                     executeStages('Communities Europa', 'europa')
+                    executeStages('Communities EC Resp', 'ec_resp')
                 } catch(err) {
                     throw(err)
                 }
