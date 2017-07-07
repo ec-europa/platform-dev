@@ -451,26 +451,38 @@ function ecas_login_check() {
         drupal_set_message(t('Warning: no information could be found for username :username', $args));
       }
 
+      // Case when account is blocked.
       if ($account->status == 0) {
-        // Case when account is blocked.
-        session_destroy();
-
-        $user = drupal_anonymous_user();
-
-        // Since the user is blocked, we absolutely want to redirect the user
-        // to the ECAS warning page - thus, we unset any previously set
-        // destination.
-        if (isset($_REQUEST['destination'])) {
-          unset($_REQUEST['destination']);
-        }
-        if (isset($_REQUEST['edit']['destination'])) {
-          unset($_REQUEST['edit']['destination']);
-        }
+        _ecas_session_end();
         drupal_goto('ecas_warning_page');
       }
+      // Case when returning with same ECAS login as before closing Drupal session.
+      else if (
+        isset($account->data['ecas_login_date']) &&
+        $account->data['ecas_login_date'] == $user_info['cas:loginDate']
+        ) {
+
+        $msg = 'Rejected ECAS reused login: %n (ECAS)';
+        watchdog('user', $msg, array('%n' => $account->name), WATCHDOG_NOTICE);
+
+        _ecas_session_end();
+
+        $msg = 'Your EU Login session needs to be renewed. For security reasons,';
+        $msg .= ' please <a href="@url">logout and login again</a>.';
+        drupal_set_message(
+          t($msg, ['@url' => phpCAS::getServerLogoutURL() . '?url=' . _ecas_get_url_site_frontpage()]),
+          'error'
+        );
+        drupal_goto(_ecas_get_url_site_frontpage());
+      }
       else {
+
         $user = $account;
         user_login_finalize();
+
+        $edit = ['data' => []];
+        $edit['data']['ecas_login_date'] = $user_info['cas:loginDate'];
+        user_save($user, $edit);
 
         // Optionally set a non-secure cookie meaning "the user has logged in
         // using HTTPS and should not use HTTP for the duration of this
@@ -778,4 +790,34 @@ function ecas_get_user_department($user_info) {
   }
 
   return array();
+}
+
+/**
+ * End session and set global variable $user to anonymous.
+ */
+function _ecas_session_end() {
+  global $user;
+
+  session_destroy();
+
+  $user = drupal_anonymous_user();
+
+  // Since the user is blocked, we absolutely want to redirect the user
+  // to the ECAS warning page - thus, we unset any previously set
+  // destination.
+  if (isset($_REQUEST['destination'])) {
+    unset($_REQUEST['destination']);
+  }
+  if (isset($_REQUEST['edit']['destination'])) {
+    unset($_REQUEST['edit']['destination']);
+  }
+}
+
+/**
+ * Get the full URL for the homepage of the site.
+ *
+ * @return string
+ */
+function _ecas_get_url_site_frontpage() {
+  return url(variable_get('site_frontpage', 'node'), ['absolute' => TRUE]);
 }
