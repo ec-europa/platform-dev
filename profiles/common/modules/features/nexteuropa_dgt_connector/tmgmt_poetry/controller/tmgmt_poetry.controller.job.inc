@@ -15,10 +15,10 @@ class TMGMTPoetryJobController extends TMGMTJobController {
   /**
    * {@inheritdoc}
    */
-  public function save($origin_job, DatabaseTransaction $transaction = NULL) {
+  public function save(TMGMTJob $origin_job, DatabaseTransaction $transaction = NULL) {
 
     $translator = $origin_job->getTranslator();
-    $origin_job_items = $origin_job->jobItemSessionGetSaveAndUnset();
+    $origin_job_items = $origin_job->getItems();
 
     if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
@@ -98,14 +98,6 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     return parent::save($origin_job, $transaction);
-  }
-
-  /**
-   * Remove unused Jobs.
-   */
-  public function removeUnusedJobs() {
-    // Remove Jobs that don't have an associated Job Item.
-    db_query('DELETE {tmgmt_job}.* FROM {tmgmt_job} LEFT JOIN {tmgmt_job_item} ON {tmgmt_job}.tjid={tmgmt_job_item}.tjid WHERE {tmgmt_job_item}.tjid IS NULL');
   }
 
 }
