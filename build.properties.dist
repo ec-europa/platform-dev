@@ -7,6 +7,9 @@ platform.profile.name = multisite_drupal_standard
 # The site name.
 platform.site.name = NextEuropa
 
+# The default theme to enable, set to either "europa" or "ec_resp".
+platform.site.theme_default = europa
+
 # The Drupal core make file.
 drupal.make = ${platform.resources.dir}/drupal-core.make
 

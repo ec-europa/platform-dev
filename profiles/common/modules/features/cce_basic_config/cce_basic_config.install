@@ -474,21 +474,60 @@ function cce_basic_config_install() {
 }
 
 /**
- * Initialize 'theme default' and 'admin theme'.
+ * "Choose theme" installation task form.
+ *
+ * This form is shared by both standard and communities profile, hence it is
+ * exposed by the 'cce_basic_config' module.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ */
+function cce_basic_config_profile_theme_default_form() {
+  $form = array();
+  $form['container'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Choose theme'),
+    '#collapsible' => FALSE,
+    '#tree' => FALSE,
+  );
+  $form['container']['theme_default'] = array(
+    '#type' => 'radios',
+    '#required' => TRUE,
+    '#options' => array(
+      'europa' => st('Europa'),
+      'ec_resp' => st('EC Resp'),
+    ),
+    '#default_value' => 'europa',
+  );
+  $form['container']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => st('Continue'),
+  );
+  return $form;
+}
+
+/**
+ * Form submit.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ */
+function cce_basic_config_profile_theme_default_form_submit($form, &$form_state) {
+  $theme_default = $form_state['values']['theme_default'];
+  $theme_list = array($theme_default);
+  if ($theme_default == 'europa') {
+    $theme_list[] = 'atomium';
+  }
+  theme_enable($theme_list);
+  variable_set('theme_default', $theme_default);
+  $theme_name = $form['container']['theme_default']['#options'][$theme_default];
+  drupal_set_message(st("'@name' has been set as default theme.", array('@name' => $theme_name)));
+}
+
+/**
+ * Initialize 'admin theme'.
  */
 function _cce_basic_config_post_install_theme() {
-  // Define themes.
-  $themes = array(
-    'theme_default' => 'europa',
-    'admin_theme' => 'seven',
-  );
-  theme_enable($themes);
-  $themes[] = array('dependency' => 'atomium');
-  foreach ($themes as $var => $theme) {
-    if (!is_numeric($var)) {
-      variable_set($var, $theme);
-    }
-  }
+  theme_enable(array('seven'));
+  variable_set('admin_theme', 'seven');
 }
 
 /**
