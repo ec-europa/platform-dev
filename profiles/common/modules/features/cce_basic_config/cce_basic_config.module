@@ -358,3 +358,27 @@ function cce_basic_config_preprocess_container(&$variables) {
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
   }
 }
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _cce_basic_config_europa_blocks() {
+  _cce_basic_config_europa_main_menu();
+}
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _cce_basic_config_europa_main_menu() {
+  // Add block in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+
+  $context->reactions['block']['blocks']['main-menu'] = array(
+    'module' => 'system',
+    'delta' => 'main-menu',
+    'region' => 'navigation',
+    'weight' => '0',
+  );
+  
+  module_invoke('context', 'save', $context);
+}
