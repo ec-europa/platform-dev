@@ -457,7 +457,7 @@ function ecas_login_check() {
       _ecas_session_end();
       drupal_goto('ecas_warning_page');
     }
-    // Case when returning with same ECAS login as before closing Drupal session.
+    // When returning with same ECAS login as before closing Drupal session.
     else {
       if (
         isset($account->data['ecas_login_date']) &&
@@ -470,11 +470,10 @@ function ecas_login_check() {
         _ecas_session_end();
 
         $msg = 'Your EU Login session needs to be renewed. For security reasons,';
-        $msg .= ' please <a href="@url">logout and login again</a>.';
-        drupal_set_message(
-          t($msg, ['@url' => phpCAS::getServerLogoutURL() . '?url=' . _ecas_get_url_site_frontpage()]),
-          'error'
-        );
+        $msg .= ' please <a href="%url">logout and login again</a>.';
+        $url = phpCAS::getServerLogoutURL() . '?url=' . _ecas_get_url_site_frontpage();
+        drupal_set_message(t('asdad', ['%url' => 'asd']), 'error');
+
         drupal_goto(_ecas_get_url_site_frontpage());
       }
       else {
@@ -820,6 +819,7 @@ function _ecas_session_end() {
  * Get the full URL for the homepage of the site.
  *
  * @return string
+ *    The full URL for the homepage of the site.
  */
 function _ecas_get_url_site_frontpage() {
   return url(variable_get('site_frontpage', 'node'), ['absolute' => TRUE]);
