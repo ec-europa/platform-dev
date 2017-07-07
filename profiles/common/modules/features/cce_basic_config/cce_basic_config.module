@@ -358,3 +358,18 @@ function cce_basic_config_preprocess_container(&$variables) {
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
   }
 }
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _cce_basic_config_theme_blocks() {
+  _cce_basic_config_europa_utility_region();
+}
+
+/**
+ * Custom function that moves the proper blocks in the utility area.
+ */
+function _cce_basic_config_europa_utility_region() {
+  multisite_drupal_toolbox_add_block_context('site_wide', 'user-menu', 'system', 'user-menu', 'utility', 1);
+  multisite_drupal_toolbox_add_block_context('site_wide', 'create-content-button', 'multisite_create_button', 'create-content-button', 'utility', 2);
+}
