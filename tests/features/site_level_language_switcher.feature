@@ -20,7 +20,7 @@ Feature: Site level language switcher tests
       | en       | This title is in English   |
       | fr       | Ce titre est en Français   |
       | it       | Questo titolo è in inglese |
-    Then I should see an "#block-language-selector-site-language-selector-site" element
+    Then I should see an "nept_element:site-language-switcher" element
 
   Scenario Outline: Check site level language switcher behaviour
     Given I am viewing a multilingual "page" content:
