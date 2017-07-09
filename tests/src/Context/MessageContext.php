@@ -16,6 +16,7 @@ use Drupal\DrupalExtension\Context\MessageContext as DrupalExtensionMessageConte
  * @package Drupal\nexteuropa\Context
  */
 class MessageContext extends DrupalExtensionMessageContext {
+
   /**
    * Checks if the current page contains the given error message.
    *
@@ -28,7 +29,313 @@ class MessageContext extends DrupalExtensionMessageContext {
     // Implode PyStringNode item because assertErrorVisible make its test
     // on the text cleaned of its HTML tags.
     $message_to_test = implode(' ', $message->getStrings());
-    parent::assertErrorVisible($message_to_test);
+    $this->assertErrorVisible($message_to_test);
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertMessage($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertMessage($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector();
+      $this->assert(
+        $message,
+        $selector,
+        "The page '%s' does not contain any messages",
+        "The page '%s' does not contain the message '%s'"
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertNotMessage($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertNotMessage($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector();
+      $this->assertNot(
+        $message,
+        $selector,
+        "The page '%s' contains the message '%s'"
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertErrorVisible($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertErrorVisible($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector('error');
+      $this->assert(
+        $message,
+        $selector,
+        "The page '%s' does not contain any error messages",
+        "The page '%s' does not contain the error message '%s'"
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertNotErrorVisible($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertNotErrorVisible($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector('error');
+      $this->assertNot(
+        $message,
+        $selector,
+        "The page '%s' contains the error message '%s'"
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertSuccessMessage($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertSuccessMessage($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector('success');
+      $this->assert(
+        $message,
+        $selector,
+        "The page '%s' does not contain any success messages",
+        "The page '%s' does not contain the success message '%s'"
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertNotSuccessMessage($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertNotSuccessMessage($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector('success');
+      $this->assertNot(
+        $message,
+        $selector,
+        "The page '%s' contains the success message '%s'"
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertWarningMessage($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertWarningMessage($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector('warning');
+      $this->assert(
+        $message,
+        $selector,
+        "The page '%s' does not contain any warning messages",
+        "The page '%s' does not contain the warning message '%s'"
+      );
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   *
+   * @override
+   */
+  public function assertNotWarningMessage($message) {
+    if ($this->isCurrentPageAdmin()) {
+      // If it is an admin page, then the admin theme is used and the default
+      // display of messages is applied.
+      parent::assertNotWarningMessage($message);
+    }
+    else {
+      $selector = $this->getAppliedDrupalSelector('warning');
+      $this->assertNot(
+        $message,
+        $selector,
+        "The page '%s' contains the warning message '%s'"
+      );
+    }
+  }
+
+
+  /**
+   * Internal callback to check for a specific message in a given context.
+   *
+   * @param string $message
+   *    The message to be checked.
+   * @param string $selector
+   *    The css selector.
+   * @param string $exception_msg_none
+   *    The message being thrown when no message is contained, string
+   *    should contain one '%s' as a placeholder for the current URL.
+   * @param string $exception_msg_missing
+   *    The message being thrown when the message is not contained, string
+   *    should contain two '%s' as placeholders for the current URL and the
+   *    message.
+   *
+   * @throws \Exception
+   */
+  private function assert($message, $selector, $exception_msg_none, $exception_msg_missing) {
+    $selector_objects = $this->getSession()->getPage()->findAll("css", $selector);
+    if (empty($selector_objects)) {
+      throw new \Exception(sprintf($exception_msg_none, $this->getSession()->getCurrentUrl()));
+    }
+    foreach ($selector_objects as $selector_object) {
+      if (strpos(trim($selector_object->getText()), $message) !== FALSE) {
+        return;
+      }
+    }
+    throw new \Exception(sprintf($exception_msg_missing, $this->getSession()->getCurrentUrl(), $message));
+  }
+
+  /**
+   * Gets the right CSS selector for a message testing in the Drupal front-end.
+   *
+   * For message testing in the front-end, there are 2 possibilities:
+   * - It is the same selector as for admin page.
+   *   Then the valid selectors are defined by these parameters only:
+   *   - 'error_message_selector';
+   *   - 'success_message_selector';
+   *   - 'warning_message_selector';
+   *   - 'message_selector';
+   * - Selector for the front-end are different from the admin pages ones.
+   *   Then the valid selectors are defined by these parameters only:
+   *   - 'front_error_message_selector';
+   *   - 'front_success_message_selector';
+   *   - 'front_warning_message_selector';
+   *   - 'front_message_selector';
+   *
+   * @param string $message_type
+   *    The message type; I.E.:
+   *    - 'error';
+   *    - 'success';
+   *    - 'warning';
+   *    - 'deault'.
+   *
+   * @return string
+   *    The css selector to use.
+   */
+  protected function getAppliedDrupalSelector($message_type = '') {
+    switch ($message_type) {
+      case 'error':
+        $selector = $this->getDrupalSelector('front_error_message_selector');
+        if (empty($selector)) {
+          $selector = $this->getDrupalSelector('error_message_selector');
+        }
+        break;
+
+      case 'success':
+        $selector = $this->getDrupalSelector('front_success_message_selector');
+        if (empty($selector)) {
+          $selector = $this->getDrupalSelector('success_message_selector');
+        }
+        break;
+
+      case 'warning':
+        $selector = $this->getDrupalSelector('front_warning_message_selector');
+        if (empty($selector)) {
+          $selector = $this->getDrupalSelector('warning_message_selector');
+        }
+        break;
+
+      case 'default':
+        $selector = $this->getDrupalSelector('front_message_selector');
+        if (empty($selector)) {
+          $selector = $this->getDrupalSelector('message_selector');
+        }
+        break;
+    }
+
+    return $selector;
+  }
+
+  /**
+   * Checks if the current page does not contain the given message.
+   *
+   * @param string $message
+   *    The message to be checked.
+   * @param string $selector
+   *    The css selector.
+   * @param string $exception_msg
+   *    The message being thrown when the message is contained, string
+   *    should contain two '%s' as placeholders for the current URL and the
+   *    message.
+   *
+   * @throws \Exception
+   */
+  private function assertNot($message, $selector, $exception_msg) {
+    $selector_objects = $this->getSession()->getPage()->findAll("css", $selector);
+    if (!empty($selector_objects)) {
+      foreach ($selector_objects as $selector_object) {
+        if (strpos(trim($selector_object->getText()), $message) !== FALSE) {
+          throw new \Exception(sprintf($exception_msg, $this->getSession()->getCurrentUrl(), $message));
+        }
+      }
+    }
+  }
+
+
+  /**
+   * Helps to determine if the current page is an admin page.
+   *
+   * @return bool
+   *    TRUE if it is an admin page
+   */
+  private function isCurrentPageAdmin() {
+    $base_url = $this->getMinkParameter('base_url');
+    $url = $this->getSession()->getCurrentUrl();
+
+    // Retrieve the page path from the URL.
+    $path = str_replace($base_url . '/', '', $url);
+
+    return path_is_admin($path);
   }
 
 }
