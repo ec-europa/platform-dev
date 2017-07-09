@@ -36,7 +36,7 @@ class ArgumentTransformer implements ArgumentTransformerInterface {
    */
   public function supportsDefinitionAndArgument(DefinitionCall $definition_call, $argument_index, $argument_value) {
     if (is_object($argument_value) || is_array($argument_value)) {
-      return false;
+      return FALSE;
     }
 
     return ((!empty($this->config['transform_tokens'])) && (isset($this->config['transform_tokens'][$argument_value])));
@@ -44,7 +44,7 @@ class ArgumentTransformer implements ArgumentTransformerInterface {
 
   /**
    * Implements transformArgument().
-   * 
+   *
    * @inheritDoc
    */
   public function transformArgument(DefinitionCall $definition_call, $argument_index, $argument_value) {
