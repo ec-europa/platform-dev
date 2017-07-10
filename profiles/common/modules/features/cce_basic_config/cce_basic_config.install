@@ -2385,3 +2385,12 @@ function cce_basic_config_update_7217() {
     }
   }
 }
+
+/**
+ * Force the activation of nexteuropa_europa_search.
+ */
+function cce_basic_config_update_7218() {
+  if (!module_exists('nexteuropa_europa_search')) {
+    module_enable(array('nexteuropa_europa_search'));
+  }
+}
