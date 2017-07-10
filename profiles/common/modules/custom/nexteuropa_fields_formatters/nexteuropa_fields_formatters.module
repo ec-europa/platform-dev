@@ -87,14 +87,15 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
           'call' => 'Call to action',
           'timeline' => 'Timeline',
           'form' => 'Form',
-          'caret-up' => 'Caret Up',
-          'caret-down' => 'Caret Down',
-          'caret-left' => 'Caret Left',
-          'caret-right' => 'Caret Right',
-          'primary-block' => 'Primary block wide',
+          'form_primary' => 'Form primary',
+          'caret_up' => 'Caret Up',
+          'caret_down' => 'Caret Down',
+          'caret_left' => 'Caret Left',
+          'caret_right' => 'Caret Right',
+          'primary_block' => 'Primary block wide',
         ],
         '#default_value' => $settings['variation'],
-        '#description' => t('Please select the button variation you need. Each variation is illustrated on the <a href="!url">ECL Library</a>', array('!url' => 'https://ec-europa.github.io/europa-component-library/components/detail/ecl-buttons')),
+        '#description' => t('Please select the button variation you need. Examples for each variations are illustrated on the <a href="!url">ECL Library</a>', array('!url' => 'https://ec-europa.github.io/europa-component-library/components/detail/ecl-buttons')),
       ];
       break;
 
@@ -104,7 +105,7 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
         '#title' => t('Variation'),
         '#options' => [
           ' ' => 'Default',
-          'live-streaming' => 'Events',
+          'live_streaming' => 'Events',
           'past' => 'Past events',
         ],
         '#default_value' => $settings['variation'],
@@ -204,12 +205,10 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             break;
 
           case 'link_field':
-            $term = taxonomy_term_load($item['tid']);
-            $uri = taxonomy_term_uri($term);
             $link = [
               '#theme' => 'link',
-              '#text' => $term->name,
-              '#path' => $uri['path'],
+              '#text' => $item['title'],
+              '#path' => $item['url'],
               '#options' => [
                 'attributes' => [
                   'class' => [
@@ -229,66 +228,31 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
       break;
 
     case 'ne_button':
-      $modifier = 'ecl-button';
-      $additional_classes = array();
-
       foreach ($items as $delta => $item) {
-        switch ($settings['variation']) {
-          case 'caret-up':
-          case 'caret-right':
-          case 'caret-down':
-          case 'caret-left':
-            $additional_classes[] = 'ecl-button--default';
-          case 'call':
-            $additional_classes[] = 'ecl-button--caret-right';
-            $settings['variation'] = 'call';
-          case 'timeline':
-            $additional_classes[] = 'ecl-button--caret-down';
-            $settings['variation'] = 'call';
-          case 'primary-block':
-            $additional_classes = array(
-              'ecl-button--block',
-              'ecl-button--caret-down',
-            );
-            $settings['variation'] = 'primary';
-
-        }
-        $classes = array(
-          $modifier,
-          $modifier . '--' . $settings['variation'],
-        );
-        $classes = array_merge($classes, $additional_classes);
         switch ($field['type']) {
           case 'taxonomy_term_reference':
             $term = taxonomy_term_load($item['tid']);
             $uri = taxonomy_term_uri($term);
-            $link = [
-              '#theme' => 'link',
-              '#text' => $term->name,
-              '#path' => $uri['path'],
-              '#options' => [
-                'attributes' => [
-                  'class' => $classes,
-                ],
-              ],
-            ];
-            $markup = render($link);
+            $path = $uri['path'];
+            $title = $term->name;
             break;
 
           case 'link_field':
-            $link = [
-              '#theme' => 'link',
-              '#text' => $item['title'],
-              '#path' => $item['url'],
-              '#options' => [
-                'attributes' => [
-                  'class' => $classes,
-                ],
-              ],
-            ];
-            $markup = render($link);
+            $title = $item['title'];
+            $path = $item['url'];
             break;
         }
+        $link = [
+          '#theme' => 'link__' . $settings['variation'],
+          '#text' => $title,
+          '#path' => $path,
+          '#options' => [
+            'attributes' => [
+              'class' => $settings['variation'],
+            ],
+          ],
+        ];
+        $markup = render($link);
         $elements[$delta] = [
           '#markup' => $markup,
         ];
