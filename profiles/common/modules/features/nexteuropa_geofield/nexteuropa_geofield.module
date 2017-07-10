@@ -113,7 +113,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
     $element['fs_default_map_center']['lat'] = array(
       '#type' => 'textfield',
       '#title' => t('Latitude'),
-      '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : 0,
+      '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : 50.85,
       '#size' => 8,
       '#element_validate' => array('_decimal_check'),
       '#description' => t('Number with 5 decimals maximum : 53.45435'),
@@ -121,7 +121,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
     $element['fs_default_map_center']['lng'] = array(
       '#type' => 'textfield',
       '#title' => t('Longitude'),
-      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 0,
+      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 4.35,
       '#size' => 8,
       '#element_validate' => array('_decimal_check'),
       '#description' => t('Number with 5 decimals maximum : 53.45435'),
