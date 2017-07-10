@@ -4,7 +4,9 @@ Feature: Page Layout
   As a citizen of the European Union
   I want to be able to see components in the right regions
 
-  @theme_wip
+  @ec_resp_theme @theme_wip
+  # THEME WIP because it needs to be duplicated for Europa theme and cannot be done
+  # while all implied components are not achieved.
   Scenario Outline: Anonymous user can see the links in header and footer
     Given I am not logged in
     When I am on the homepage
