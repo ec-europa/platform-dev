@@ -112,7 +112,7 @@ standard_ec_resp:
   suites:
     default:
       filters:
-        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&~@communities"
+        tags: "~@wip&&~@europa_theme&&~@theme_wip&&~@communities"
   extensions:
     Drupal\nexteuropa\Extensions\TransformExtension:
       transform_tokens:
@@ -153,7 +153,7 @@ communities_ec_resp:
   suites:
     default:
       filters:
-        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
+        tags: "~@wip&&~@europa_theme&&~@theme_wip&&@communities"
   extensions:
     Drupal\nexteuropa\Extensions\TransformExtension:
       transform_tokens:
