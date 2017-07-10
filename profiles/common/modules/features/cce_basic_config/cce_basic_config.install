@@ -988,7 +988,6 @@ function cce_basic_config_post_install() {
   _cce_basic_config_post_install_default_images();
   _cce_basic_config_post_install_default_menu_items();
   _cce_basic_config_post_install_default_terms();
-  _cce_basic_config_europa_blocks();
 }
 
 /**

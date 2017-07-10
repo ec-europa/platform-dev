@@ -358,17 +358,3 @@ function cce_basic_config_preprocess_container(&$variables) {
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
   }
 }
-
-/**
- * Custom function that moves the proper blocks in the right areas.
- */
-function _cce_basic_config_europa_blocks() {
-  _cce_basic_config_europa_main_menu();
-}
-
-/**
- * Custom function that moves the proper blocks in the right areas.
- */
-function _cce_basic_config_europa_main_menu() {
-  multisite_drupal_toolbox_add_block_context('site_wide', 'main-menu', 'system', 'main-menu', 'navigation');
-}
