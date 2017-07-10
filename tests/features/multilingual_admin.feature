@@ -7,6 +7,7 @@ Feature: Content translation
   Background:
     Given I am logged in as a user with the 'administrator' role
 
+  @theme_wip
   Scenario: Content page does not show mixed content language
     Given the following languages are available:
       | languages |
@@ -50,6 +51,7 @@ Feature: Content translation
     Then I should see "The view testing_view has been saved."
     And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/field_ne_body_et_en"
 
+  @theme_wip
   Scenario: Check the default message in workbench moderation
     Given the following languages are available:
       | languages |
@@ -62,6 +64,7 @@ Feature: Content translation
     When I click "New draft" in the "primary_tabs" region
     Then I should see the text "The state of the content Title in English and all its validated translations English French will be updated!"
 
+  @theme_wip
   Scenario: Check the customizable message in workbench moderation
     Given the following languages are available:
       | languages |
@@ -76,6 +79,7 @@ Feature: Content translation
     When I click "New draft" in the "primary_tabs" region
     Then I should see the text "New Message!"
 
+  @theme_wip
   Scenario: Files can be translated in available languages
     Given the following languages are available:
       | languages |
@@ -107,6 +111,7 @@ Feature: Content translation
     And the response should contain "title=\"French Title Text\""
     And I should see "French Caption"
 
+  @theme_wip
   Scenario: Custom URL suffix language negotiation is applied by default on new content.
     Given the following languages are available:
       | languages |
@@ -150,6 +155,7 @@ Feature: Content translation
     When I click "Home"
     Then I should be on "admin/fake-url_en-prefix"
 
+  @theme_wip
   Scenario: Path alias must be synchronized through all translations of
   content when it is manually defined and the configuration is maintained
   when I come back on the content edit form

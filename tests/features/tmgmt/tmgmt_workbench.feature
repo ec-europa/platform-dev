@@ -1,4 +1,4 @@
-@api
+@api @theme_wip
 Feature: TMGMT Workbench features
   In order to request a new translation for moderated content
   As a Translation manager user

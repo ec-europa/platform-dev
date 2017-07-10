@@ -18,7 +18,7 @@ Feature: Splash Screen features
   Scenario: Users can access to splash screen pages
     Given I am an anonymous user
     When I go to "/"
-    Then I should see an "body.not-front.page-splash" element
+    Then I should see an "nept_element:splash-page-language-selection-block" element
     And I should see the link "English"
     And I should see the link "Deutsch"
     And I should see the link "Français"
@@ -44,7 +44,7 @@ Feature: Splash Screen features
     And I press the "Save" button
     Then I should see the success message "The configuration options have been saved."
     When I go to "/"
-    Then I should see an "body.not-front.page-splash" element
+    Then I should see an "nept_element:splash-page-language-selection-block" element
     And I should see the link "English"
     And I should see the link "Deutsch"
     And I should not see "Български"
@@ -53,14 +53,14 @@ Feature: Splash Screen features
   Scenario: Being able to change the splash screen title
     Given I am logged in as a user with the 'administrator' role
     When I go to "/"
-    Then I should see "NextEuropa" in the "html head title" element
+    Then I should see "NextEuropa" in the "nept_element:title-metatag" element
     When I go to "admin/config/regional/splash_screen_settings"
     And I fill in "edit-splash-screen-title-value" with "Splash screen testing title"
     And I press the "Save" button
     Then I should see the success message "The configuration options have been saved."
     When I go to "/"
-    Then I should see "Splash screen testing title" in the "html head title" element
+    Then I should see "Splash screen testing title" in the "nept_element:title-metatag" element
     # Also test as an anonymous user
     Given I am not logged in
     And I go to "/"
-    Then I should see "Splash screen testing title" in the "html head title" element
+    Then I should see "Splash screen testing title" in the "nept_element:title-metatag" element

@@ -14,21 +14,21 @@ Scenario: Administrators can add the last update block in a region
   When I visit "admin/structure/block"
   Then I should see the text "Last update date"
 
-@RevertBlockConfiguration
+@RevertBlockConfiguration @theme_wip
 Scenario: The last update doesn't show if a node is not published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
   And I fill in "Title" with "Page title"
   And I press "Save"
-  Then I should not see an ".last-update" element
+  Then I should not see an "nept_element:last-update-block" element
 
-@RevertBlockConfiguration
+@RevertBlockConfiguration @theme_wip
 Scenario: The last update shows if a node is published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
   And I fill in "Title" with "Page title"
   And I select "Published" from "Moderation state"
   And I press "Save"
-  Then I should see "Last published" in the ".last-update" element
+  Then I should see "Last published" in the "nept_element:last-update-block" element
 
 

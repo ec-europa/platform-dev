@@ -12,6 +12,7 @@ Feature: Multilingual features
       | de        |
       | it        |
 
+  @theme_wip
   Scenario: Content can be translated in available languages
     Given I am viewing a multilingual "page" content:
       | language | title                                    |
@@ -32,6 +33,7 @@ Feature: Multilingual features
     And I click "English"
     Then I should see the heading "Content can be translated in English"
 
+  @theme_wip
   Scenario: Path aliases are not deleted when translating content via translation management
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -60,6 +62,7 @@ Feature: Multilingual features
     And I visit "content/path-aliases-are-not-deleted-english_de"
     And I should see the heading "Dieser Titel ist auf Deutsch"
 
+  @theme_wip
   Scenario: I can re-import a translation by re-submitting the translation job.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -92,6 +95,7 @@ Feature: Multilingual features
     Then I should see "Published" in the "German" row
     And I should see "Dieser Titel ist auf Deutsch" in the "German" row
 
+  @theme_wip
   Scenario: I can create a translation job via a Behat step.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role

@@ -1,4 +1,4 @@
-@api @poetry_mock @i18n @poetry
+@api @poetry_mock @i18n @poetry @theme_wip
 Feature: TMGMT Poetry features
   In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator

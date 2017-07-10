@@ -10,6 +10,7 @@ Feature: Drupal Mail features
       | name  | mail         | roles        |
       | foo   | foo@bar.com  | contributor  |
 
+  @theme_wip
   Scenario: Checking the basic mail functionality for requesting new password by using the username as identifier.
     When I go to "/user"
     And I click "Request new password" in the "primary_tabs" region
