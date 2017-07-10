@@ -47,6 +47,7 @@ class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
 
     $form['author'] = array(
       '#type' => 'select',
+      '#required' => TRUE,
       '#title' => t('Author'),
       '#options' => $fields,
       '#default_value' => $this->options['author'],

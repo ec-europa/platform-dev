@@ -9,7 +9,7 @@
  *
  * @codingStandardsIgnoreFile
  */
-class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
+class nexteuropa_formatters_views_timelines_rows extends views_plugin_row {
   /**
    * Definition.
    */
@@ -43,21 +43,23 @@ class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
       '#required' => TRUE,
       '#title' => t('Title'),
       '#options' => $fields,
-      '#default_value' => $this->options['quote'],
+      '#default_value' => $this->options['title'],
     );
 
     $form['text'] = array(
       '#type' => 'select',
+      '#required' => TRUE,
       '#title' => t('Text'),
       '#options' => $fields,
-      '#default_value' => $this->options['author'],
+      '#default_value' => $this->options['text'],
     );
 
     $form['footer'] = array(
       '#type' => 'select',
+      '#required' => TRUE,
       '#title' => t('Footer'),
       '#options' => $fields,
-      '#default_value' => $this->options['author'],
+      '#default_value' => $this->options['footer'],
     );
   }
 
@@ -78,7 +80,7 @@ class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
     }
 
     // In order to have automatic theme hooks suggestions.
-    $theme = sprintf('%s__%s__%s', 'banner', $this->view->name, $this->view->current_display);
+    $theme = sprintf('%s__%s__%s', 'timelines', $this->view->name, $this->view->current_display);
 
     $output = theme(array($theme),
       array(

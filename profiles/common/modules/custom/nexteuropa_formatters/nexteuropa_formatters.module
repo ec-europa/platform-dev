@@ -26,7 +26,7 @@ function nexteuropa_formatters_theme() {
     ),
     'blockquote' => array(
       'variables' => array(
-        '$quote' => NULL,
+        '$markup' => NULL,
       ),
       'template' => 'templates/blockquote',
     ),

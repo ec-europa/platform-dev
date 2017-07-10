@@ -15,7 +15,7 @@ class nexteuropa_formatters_views_blockquote_rows extends views_plugin_row {
    */
   public function option_definition() {
     $options = parent::option_definition();
-    $options['blockquote'] = array('default' => '');
+    $options['markup'] = array('default' => '');
     return $options;
   }
 
@@ -36,12 +36,12 @@ class nexteuropa_formatters_views_blockquote_rows extends views_plugin_row {
       }
     }
 
-    $form['blockquote'] = array(
+    $form['markup'] = array(
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Quote'),
       '#options' => $fields,
-      '#default_value' => $this->options['quote'],
+      '#default_value' => $this->options['markup'],
     );
 
   }
@@ -67,7 +67,7 @@ class nexteuropa_formatters_views_blockquote_rows extends views_plugin_row {
 
     $output = theme(array($theme),
       array(
-        'blockquote' => $this->get_field($row_index, $this->options['blockquote']),
+        'markup' => $this->get_field($row_index, $this->options['markup']),
       ));
     $row_index++;
     return $output;

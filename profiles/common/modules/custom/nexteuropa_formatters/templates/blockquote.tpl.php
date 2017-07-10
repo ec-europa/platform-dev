@@ -6,5 +6,5 @@
  */
 ?>
 <blockquote class="blockquote"<?php print $attributes; ?>>
-  <p><?php print render($blockquote);?></p>
+  <p><?php print render($markup);?></p>
 </blockquote>

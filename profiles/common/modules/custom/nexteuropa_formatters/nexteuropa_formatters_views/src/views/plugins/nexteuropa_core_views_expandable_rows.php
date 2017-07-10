@@ -9,7 +9,7 @@
  *
  * @codingStandardsIgnoreFile
  */
-class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
+class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
   /**
    * Definition.
    */
@@ -44,28 +44,31 @@ class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
       '#required' => TRUE,
       '#title' => t('ID'),
       '#options' => $fields,
-      '#default_value' => $this->options['quote'],
+      '#default_value' => $this->options['id'],
     );
 
     $form['icon'] = array(
       '#type' => 'select',
+      '#required' => TRUE,
       '#title' => t('Icon'),
       '#options' => $fields,
-      '#default_value' => $this->options['author'],
+      '#default_value' => $this->options['icon'],
     );
 
     $form['title'] = array(
       '#type' => 'select',
+      '#required' => TRUE,
       '#title' => t('Title'),
       '#options' => $fields,
-      '#default_value' => $this->options['author'],
+      '#default_value' => $this->options['title'],
     );
 
-    $form['Body'] = array(
+    $form['body'] = array(
       '#type' => 'select',
+      '#required' => TRUE,
       '#title' => t('Body'),
       '#options' => $fields,
-      '#default_value' => $this->options['author'],
+      '#default_value' => $this->options['body'],
     );
   }
 
