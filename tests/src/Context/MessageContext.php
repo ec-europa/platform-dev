@@ -285,7 +285,7 @@ class MessageContext extends DrupalExtensionMessageContext {
         }
         break;
 
-      case 'default':
+      default:
         $selector = $this->getDrupalSelector('front_message_selector');
         if (empty($selector)) {
           $selector = $this->getDrupalSelector('message_selector');
