@@ -1,0 +1,182 @@
+<?php
+
+/**
+ * @file
+ * Code to migrate blocks from ec_resp to europa theme.
+ */
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _nexteuropa_ecl_migrate_blocks() {
+  _nexteuropa_ecl_migrate_dt_menus();
+}
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _nexteuropa_ecl_migrate_dt_menus() {
+  $dt_menus = array(
+    array(
+      'menu_name' => 'menu-nexteuropa-site-links',
+      'title' => 'European Commission',
+      'description' => 'DT menu European Commission',
+      'region' => 'footer_left',
+    ),
+    array(
+      'menu_name' => 'menu-nexteuropa-social-media',
+      'title' => 'Follow the European Commission',
+      'description' => 'List of social networks links for the European Commission',
+      'region' => 'footer_middle',
+    ),
+    array(
+      'menu_name' => 'menu-nexteuropa-inst-links',
+      'title' => 'European Union',
+      'description' => 'DT menu',
+      'region' => 'footer_right',
+    ),
+    array(
+      'menu_name' => 'menu-nexteuropa-service-links',
+      'title' => '',
+      'description' => 'DT links to be put in the bottom footer',
+      'region' => 'footer_bottom',
+    ),
+  );
+
+  $dt_links = array(
+    array(
+      array(
+        'link_title' => 'Commission and its priorities',
+        'link_path' => 'https://ec.europa.eu/commission/index',
+        'menu_name' => 'menu-nexteuropa-site-links',
+        'weight' => 0,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Policies, information and services',
+        'link_path' => 'https://ec.europa.eu/info/index',
+        'menu_name' => 'menu-nexteuropa-site-links',
+        'weight' => 1,
+        'expanded' => 0,
+      ),
+    ),
+    array(
+      array(
+        'link_title' => 'EU institutions',
+        'link_path' => 'https://europa.eu/european-union/about-eu/institutions-bodies',
+        'menu_name' => 'menu-nexteuropa-inst-links',
+        'weight' => 0,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'European Union',
+        'link_path' => 'https://europa.eu/european-union/index',
+        'menu_name' => 'menu-nexteuropa-inst-links',
+        'weight' => 1,
+        'expanded' => 0,
+      ),
+    ),
+    array(
+      array(
+        'link_title' => 'About the Commission\'s new web presence',
+        'link_path' => 'https://ec.europa.eu/info/about-commissions-new-web-presence',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -50,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Resources for partners',
+        'link_path' => 'http://ec.europa.eu/info/resources-partners',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -49,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Cookies',
+        'link_path' => 'https://ec.europa.eu/info/cookies',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -48,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Legal notice',
+        'link_path' => 'https://ec.europa.eu/info/legal-notice',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -34,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Contact',
+        'link_path' => 'https://ec.europa.eu/info/contact',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -21,
+        'expanded' => 0,
+      ),
+    ),
+    array(
+      array(
+        'link_title' => 'Facebook',
+        'link_path' => 'https://www.facebook.com/EuropeanCommission',
+        'menu_name' => 'menu-nexteuropa-social-media',
+        'weight' => 0,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Twitter',
+        'link_path' => 'https://twitter.com/eu_commission',
+        'menu_name' => 'menu-nexteuropa-social-media',
+        'weight' => 1,
+        'expanded' => 0,
+      ),
+      array(
+        'link_title' => 'Other social media',
+        'link_path' => 'http://ec.europa.eu/dgs/communication/services/journalist/social-media_en.htm',
+        'menu_name' => 'menu-nexteuropa-social-media',
+        'weight' => 2,
+        'expanded' => 0,
+      ),
+    ),
+  );
+
+  // Save menu group into menu_custom table.
+  foreach ($dt_menus as $menu) {
+    // Look the table first if the data does exist.
+    $exists = db_query("SELECT title FROM {menu_custom} WHERE menu_name=:menu_name", array(':menu_name' => $menu['menu_name']))->fetchField();
+    // Save the record if the data does not exist.
+    if (!$exists) {
+      menu_save($menu);
+    }
+  }
+
+  foreach ($dt_links as $layer1) {
+    foreach ($layer1 as $link) {
+      // Build an array of menu link.
+      $item = array(
+        'link_path' => $link['link_path'],
+        'link_title' => $link['link_title'],
+        'menu_name' => $link['menu_name'],
+        'weight' => $link['weight'],
+        'expanded' => $link['expanded'],
+      );
+      // Look the table first if the data does exist.
+      $exists = db_query("SELECT mlid from {menu_links} WHERE link_title=:link_title AND link_path=:link_path", array(':link_title' => $link['link_title'], ':link_path' => $link['link_path']))->fetchField();
+      // Save the record if the data does not exist.
+      if (!$exists) {
+        menu_link_save($item);
+      }
+    }
+  }
+
+  // Add block in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+  foreach ($dt_menus as $menu_to_add) {
+    $context->reactions['block']['blocks'][$menu_to_add['menu_name']] = array(
+      'module' => 'menu',
+      'delta' => $menu_to_add['menu_name'],
+      'region' => $menu_to_add['region'],
+      'weight' => '0',
+    );
+  }
+
+  module_invoke('context', 'save', $context);
+}
