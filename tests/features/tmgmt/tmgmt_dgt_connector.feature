@@ -20,8 +20,8 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: I can translate contents with Small Jobs.
     Given I am viewing a multilingual "page" content:
-      | language | title   |
-      | en       | My page |
+      | language | title   | field_ne_body |
+      | en       | My page | Short body    |
     When I click "Translate" in the "primary_tabs" region
     And I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
