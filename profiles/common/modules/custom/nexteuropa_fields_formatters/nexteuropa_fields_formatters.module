@@ -86,8 +86,6 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
           'secondary' => 'Secondary',
           'call' => 'Call to action',
           'timeline' => 'Timeline',
-          'form' => 'Form',
-          'form_primary' => 'Form primary',
           'caret_up' => 'Caret Up',
           'caret_right' => 'Caret Right',
           'caret_down' => 'Caret Down',
