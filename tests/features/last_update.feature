@@ -20,7 +20,7 @@ Scenario: The last update doesn't show if a node is not published
   When I go to "node/add/page"
   And I fill in "Title" with "Page title"
   And I press "Save"
-  Then I should not see an ".last-update" element
+  Then I should not see an "nept_element:last-update-block" element
 
 @RevertBlockConfiguration @theme_wip
 Scenario: The last update shows if a node is published
@@ -29,6 +29,6 @@ Scenario: The last update shows if a node is published
   And I fill in "Title" with "Page title"
   And I select "Published" from "Moderation state"
   And I press "Save"
-  Then I should see "Last published" in the ".last-update" element
+  Then I should see "Last published" in the "nept_element:last-update-block" element
 
 

@@ -200,7 +200,7 @@ Feature: Change tracking features
       | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> | <p>No ice-ins or ice-del tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p> |
       | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    | <p>No tracking change <a href=\"http://www.europa.eu/newsroom\">The latest news</a></p>                    |
 
-  @theme_wip
+  @theme_wip @javascript
   Scenario Outline: The change of the content state to "validated" or "published" must be blocked if
   CKEditor Lite tracked changes exist in WYSIWYG fields of a translation
     Given the following languages are available:
