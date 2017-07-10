@@ -96,6 +96,9 @@ default:
       text:
         log_out: "Log out"
         log_in: "Log in"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: img42
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -109,8 +112,8 @@ standard_ec_resp:
   suites:
     default:
       filters:
-        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
-    extensions:
+        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&~@communities"
+  extensions:
     Drupal\nexteuropa\Extensions\TransformExtension:
       transform_tokens:
         nept_element:page-language-switcher: '.block-language-selector-page'
@@ -124,30 +127,34 @@ standard_ec_resp:
         nept_element:field-group:color-selection-legend: 'fieldset.group-group-color span.fieldset-legend'
         nept_element:field:color-selection-label: 'div.field-name-field-select-color div.field-label'
         nept_element:field:color-selection-value: 'div.field-name-field-select-color div.field-items div.field-item'
-      Drupal\nexteuropa\Extensions\DrupalExtension:
-        selectors:
-          message_selector: '.messages'
-          error_message_selector: '.messages.error'
-          success_message_selector: '.messages.status'
-          warning_message_selector: '.messages.warning'
-        region_map:
-          admin_menu: "#admin-menu-menu"
-          content_top: ".region-content-top"
-          header_top: ".region-header-top"
-          header: "#layout-header"
-          primary_tabs: ".tabs-primary"
-          content: "#layout-body"
-          footer: "#layout-footer"
-          messages: "#console"
-          sidebar_left: "#sidebar-left"
-          sidebar_right: "#sidebar-right"
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+        warning_message_selector: '.messages.warning'
+        front_message_selector: '.messages'
+        front_error_message_selector: '.messages.error'
+        front_success_message_selector: '.messages.status'
+        front_warning_message_selector: '.messages.warning'
+      region_map:
+        admin_menu: "#admin-menu-menu"
+        content_top: ".region-content-top"
+        header_top: ".region-header-top"
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
+        messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"
 
 communities_ec_resp:
   suites:
     default:
       filters:
         tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
-    extensions:
+  extensions:
     Drupal\nexteuropa\Extensions\TransformExtension:
       transform_tokens:
         nept_element:page-language-switcher: '.block-language-selector-page'
@@ -161,20 +168,24 @@ communities_ec_resp:
         nept_element:field-group:color-selection-legend: 'fieldset.group-group-color span.fieldset-legend'
         nept_element:field:color-selection-label: 'div.field-name-field-select-color div.field-label'
         nept_element:field:color-selection-value: 'div.field-name-field-select-color div.field-items div.field-item'
-      Drupal\nexteuropa\Extensions\DrupalExtension:
-        selectors:
-          message_selector: '.messages'
-          error_message_selector: '.messages.error'
-          success_message_selector: '.messages.status'
-          warning_message_selector: '.messages.warning'
-        region_map:
-          admin_menu: "#admin-menu-menu"
-          content_top: ".region-content-top"
-          header_top: ".region-header-top"
-          header: "#layout-header"
-          primary_tabs: ".tabs-primary"
-          content: "#layout-body"
-          footer: "#layout-footer"
-          messages: "#console"
-          sidebar_left: "#sidebar-left"
-          sidebar_right: "#sidebar-right"
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+        warning_message_selector: '.messages.warning'
+        front_message_selector: '.messages'
+        front_error_message_selector: '.messages.error'
+        front_success_message_selector: '.messages.status'
+        front_warning_message_selector: '.messages.warning'
+      region_map:
+        admin_menu: "#admin-menu-menu"
+        content_top: ".region-content-top"
+        header_top: ".region-header-top"
+        header: "#layout-header"
+        primary_tabs: ".tabs-primary"
+        content: "#layout-body"
+        footer: "#layout-footer"
+        messages: "#console"
+        sidebar_left: "#sidebar-left"
+        sidebar_right: "#sidebar-right"

@@ -44,7 +44,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertMessage($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector();
+      $selector = $this->getDrupalSelector('front_message_selector');
       $this->assert(
         $message,
         $selector,
@@ -66,7 +66,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertNotMessage($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector();
+      $selector = $this->getDrupalSelector('front_message_selector');
       $this->assertNot(
         $message,
         $selector,
@@ -87,7 +87,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertErrorVisible($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector('error');
+      $selector = $this->getDrupalSelector('front_error_message_selector');
       $this->assert(
         $message,
         $selector,
@@ -109,7 +109,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertNotErrorVisible($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector('error');
+      $selector = $this->getDrupalSelector('front_error_message_selector');
       $this->assertNot(
         $message,
         $selector,
@@ -130,7 +130,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertSuccessMessage($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector('success');
+      $selector = $this->getDrupalSelector('front_success_message_selector');
       $this->assert(
         $message,
         $selector,
@@ -152,7 +152,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertNotSuccessMessage($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector('success');
+      $selector = $this->getDrupalSelector('front_success_message_selector');
       $this->assertNot(
         $message,
         $selector,
@@ -173,7 +173,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertWarningMessage($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector('warning');
+      $selector = $this->getDrupalSelector('front_warning_message_selector');
       $this->assert(
         $message,
         $selector,
@@ -195,7 +195,7 @@ class MessageContext extends DrupalExtensionMessageContext {
       parent::assertNotWarningMessage($message);
     }
     else {
-      $selector = $this->getAppliedDrupalSelector('warning');
+      $selector = $this->getDrupalSelector('front_warning_message_selector');
       $this->assertNot(
         $message,
         $selector,
@@ -233,67 +233,6 @@ class MessageContext extends DrupalExtensionMessageContext {
       }
     }
     throw new \Exception(sprintf($exception_msg_missing, $this->getSession()->getCurrentUrl(), $message));
-  }
-
-  /**
-   * Gets the right CSS selector for a message testing in the Drupal front-end.
-   *
-   * For message testing in the front-end, there are 2 possibilities:
-   * - It is the same selector as for admin page.
-   *   Then the valid selectors are defined by these parameters only:
-   *   - 'error_message_selector';
-   *   - 'success_message_selector';
-   *   - 'warning_message_selector';
-   *   - 'message_selector';
-   * - Selector for the front-end are different from the admin pages ones.
-   *   Then the valid selectors are defined by these parameters only:
-   *   - 'front_error_message_selector';
-   *   - 'front_success_message_selector';
-   *   - 'front_warning_message_selector';
-   *   - 'front_message_selector';
-   *
-   * @param string $message_type
-   *    The message type; I.E.:
-   *    - 'error';
-   *    - 'success';
-   *    - 'warning';
-   *    - 'deault'.
-   *
-   * @return string
-   *    The css selector to use.
-   */
-  protected function getAppliedDrupalSelector($message_type = '') {
-    switch ($message_type) {
-      case 'error':
-        $selector = $this->getDrupalSelector('front_error_message_selector');
-        if (empty($selector)) {
-          $selector = $this->getDrupalSelector('error_message_selector');
-        }
-        break;
-
-      case 'success':
-        $selector = $this->getDrupalSelector('front_success_message_selector');
-        if (empty($selector)) {
-          $selector = $this->getDrupalSelector('success_message_selector');
-        }
-        break;
-
-      case 'warning':
-        $selector = $this->getDrupalSelector('front_warning_message_selector');
-        if (empty($selector)) {
-          $selector = $this->getDrupalSelector('warning_message_selector');
-        }
-        break;
-
-      default:
-        $selector = $this->getDrupalSelector('front_message_selector');
-        if (empty($selector)) {
-          $selector = $this->getDrupalSelector('message_selector');
-        }
-        break;
-    }
-
-    return $selector;
   }
 
   /**
