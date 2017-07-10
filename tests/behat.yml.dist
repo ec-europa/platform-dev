@@ -96,9 +96,6 @@ default:
       text:
         log_out: "Log out"
         log_in: "Log in"
-    Bex\Behat\ScreenshotExtension:
-      screenshot_taking_mode: failed_scenarios
-      active_image_drivers: img42
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -112,7 +109,7 @@ standard_ec_resp:
   suites:
     default:
       filters:
-        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&~@communities"
+        tags: "~@wip&&~@europa_theme&&~@theme_wip&&~@communities"
   extensions:
     Drupal\nexteuropa\Extensions\TransformExtension:
       transform_tokens:
@@ -153,7 +150,7 @@ communities_ec_resp:
   suites:
     default:
       filters:
-        tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
+        tags: "~@wip&&~@europa_theme&&~@theme_wip&&@communities"
   extensions:
     Drupal\nexteuropa\Extensions\TransformExtension:
       transform_tokens:
