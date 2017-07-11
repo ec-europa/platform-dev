@@ -58,24 +58,35 @@ Feature: Field Multilingual features
     And I press the "Save translations" button
     Then I should see the success message "The string has been saved."
     # Check that anonymous user sees labels in the expected language.
-    When I am an anonymous user
-    And I go to "content/title-english_en"
+
+     # Checking given translations for different variants
+    Given I am an anonymous user
+    When I go to "content/title-english_en"
     Then I should see "Title in English" in the "nept_element:page-title" element
     And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
     And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
     And I should see "Red" in the "nept_element:field:color-selection-value" element
-    When I go to "content/title-english_fr"
-    Then I should see "Titre en Français" in the "nept_element:page-title" element
-    And I should see "Mon Groupe Couleur" in the "nept_element:field-group:color-selection-legend" element
-    And I should see "Selectionner une Couleur" in the "nept_element:field:color-selection-label" element
-    And I should see "Rouge" in the "nept_element:field:color-selection-value" element
+
     When I go to "content/title-english_de"
     Then I should see "Title in English" in the "nept_element:page-title" element
     And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
     And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
     And I should see "Red" in the "nept_element:field:color-selection-value" element
+
     When I go to "content/title-english_en?2nd-language=fr"
     Then I should see "Title in English" in the "nept_element:page-title" element
     And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
     And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
     And I should see "Red" in the "nept_element:field:color-selection-value" element
+
+    When I go to "content/title-english_fr"
+    Then I should see "Titre en Français" in the "nept_element:page-title" element
+    And I should see "Mon Groupe Couleur" in the "nept_element:field-group:color-selection-legend" element
+    And I should see "Selectionner une Couleur" in the "nept_element:field:color-selection-label" element
+    And I should see "Rouge" in the "nept_element:field:color-selection-value" element
+
+    When I go to "content/title-english_de?2nd-language=fr"
+    Then I should see "Titre en Français" in the "nept_element:page-title" element
+    And I should see "Mon Groupe Couleur" in the "nept_element:field-group:color-selection-legend" element
+    And I should see "Selectionner une Couleur" in the "nept_element:field:color-selection-label" element
+    And I should see "Rouge" in the "nept_element:field:color-selection-value" element

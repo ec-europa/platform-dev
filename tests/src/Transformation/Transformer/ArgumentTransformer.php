@@ -49,7 +49,6 @@ class ArgumentTransformer implements ArgumentTransformerInterface {
    */
   public function transformArgument(DefinitionCall $definition_call, $argument_index, $argument_value) {
     $available_tokens = $this->config['transform_tokens'];
-
     return $available_tokens[$argument_value];
   }
 

@@ -56,12 +56,12 @@ default:
         nept_element:page-title: '#page-title'
         nept_element:system-status-report: 'table.system-status-report'
         nept_element:title-metatag: 'html head title'
-        nept_element:splatch-page-language-selection-block: 'body.not-front.page-splash'
+        nept_element:splash-page-language-selection-block: 'body.not-front.page-splash'
         nept_element:last-update-block: '.last-update'
         nept_element:event-full-calendar: 'div.fullcalendar'
-        nept_element:field-group:color-selection-legend: 'fieldset.group-group-color span.fieldset-legend'
-        nept_element:field:color-selection-label: 'div.field-name-field-select-color div.field-label'
-        nept_element:field:color-selection-value: 'div.field-name-field-select-color div.field-items div.field-item'
+        nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
+        nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
+        nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
     Drupal\nexteuropa\Extensions\DrupalExtension:
       api_driver: 'drupal'
       blackbox: ~
@@ -96,9 +96,6 @@ default:
       text:
         log_out: "Log out"
         log_in: "Log in"
-    Bex\Behat\ScreenshotExtension:
-      screenshot_taking_mode: failed_scenarios
-      active_image_drivers: img42
   formatters:
     {{ behat.formatter.name }}: ~
 
@@ -121,12 +118,12 @@ standard_ec_resp:
         nept_element:page-title: '#page-title'
         nept_element:system-status-report: 'table.system-status-report'
         nept_element:title-metatag: 'html head title'
-        nept_element:splatch-page-language-selection-block: 'body.not-front.page-splash'
+        nept_element:splash-page-language-selection-block: 'body.not-front.page-splash'
         nept_element:last-update-block: '.last-update'
         nept_element:event-full-calendar: 'div.fullcalendar'
-        nept_element:field-group:color-selection-legend: 'fieldset.group-group-color span.fieldset-legend'
-        nept_element:field:color-selection-label: 'div.field-name-field-select-color div.field-label'
-        nept_element:field:color-selection-value: 'div.field-name-field-select-color div.field-items div.field-item'
+        nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
+        nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
+        nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
         message_selector: '.messages'
@@ -162,12 +159,12 @@ communities_ec_resp:
         nept_element:page-title: '#page-title'
         nept_element:system-status-report: 'table.system-status-report'
         nept_element:title-metatag: 'html head title'
-        nept_element:splatch-page-language-selection-block: 'body.not-front.page-splash'
+        nept_element:splash-page-language-selection-block: 'body.not-front.page-splash'
         nept_element:last-update-block: '.last-update'
         nept_element:event-full-calendar: 'div.fullcalendar'
-        nept_element:field-group:color-selection-legend: 'fieldset.group-group-color span.fieldset-legend'
-        nept_element:field:color-selection-label: 'div.field-name-field-select-color div.field-label'
-        nept_element:field:color-selection-value: 'div.field-name-field-select-color div.field-items div.field-item'
+        nept_element:field-group:color-selection-legend: 'fieldset.group-groupcolor span.fieldset-legend'
+        nept_element:field:color-selection-label: 'div.field-name-field-selectcolor div.field-label'
+        nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
         message_selector: '.messages'
