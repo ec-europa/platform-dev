@@ -171,19 +171,19 @@ function multisite_cookie_consent_getcookie($language = 'en') {
           // default.
           foreach ($cookie_info['translation'] as $languages => $lang) {
             if ($lang['default']) {
-              $output .= '<h3>' . $lang['name'] . '</h3>';
+              $output .= '<h3 class="ecl-heading ecl-heading--h3">' . $lang['name'] . '</h3>';
               $output .= '<p>' . $lang['description'] . '</p>';
             }
           }
 
         }
         else {
-          $output .= '<h3>' . $cookie_info['translation'][$language]['name'] . '</h3>';
+          $output .= '<h3 class="ecl-heading ecl-heading--h3">' . $cookie_info['translation'][$language]['name'] . '</h3>';
           $output .= '<p>' . $cookie_info['translation'][$language]['description'] . '</p>';
         }
       }
       else {
-        $output .= '<h3>' . $cookie_info['_id'] . '</h3>';
+        $output .= '<h3 class="ecl-heading ecl-heading--h3">' . $cookie_info['_id'] . '</h3>';
         $output .= '<p>' . t('No description provided for this cookie yet.') . '</p>';
       }
     }
