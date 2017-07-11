@@ -18,7 +18,7 @@ Feature: Splash Screen features
   Scenario: Users can access to splash screen pages
     Given I am an anonymous user
     When I go to "/"
-    Then I should see an "nept_element:splash-page-language-selection-block" element
+    Then I should see an "nept_element:block:splash-page-language-selection" element
     And I should see the link "English"
     And I should see the link "Deutsch"
     And I should see the link "Français"
@@ -44,7 +44,7 @@ Feature: Splash Screen features
     And I press the "Save" button
     Then I should see the success message "The configuration options have been saved."
     When I go to "/"
-    Then I should see an "nept_element:splash-page-language-selection-block" element
+    Then I should see an "nept_element:block:splash-page-language-selection" element
     And I should see the link "English"
     And I should see the link "Deutsch"
     And I should not see "Български"

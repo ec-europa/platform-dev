@@ -57,7 +57,7 @@ class TransformExtension implements ExtensionInterface {
           info('Tokens that will be used by Behat transformation process (see Drupal\nexteuropa\Transformation\Transformer\ArgumentTransformer)' . PHP_EOL
             . 'Defined tokens must be prefixed by "nept_element:" and their value defines the CSS selector for element that cannot be identified by a label' . PHP_EOL
             . 'Example: The language selector block of Drupal:' . PHP_EOL
-            . '  nept_element:page-language-switcher: ".block-language-selector-page"' . PHP_EOL
+            . '  nept_element:block:page-language-switcher: ".block-language-selector-page"' . PHP_EOL
           )->
           useAttributeAsKey('key')->
           prototype('variable')->

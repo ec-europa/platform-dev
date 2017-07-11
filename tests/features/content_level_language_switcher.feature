@@ -27,13 +27,13 @@ Feature: Content level language switcher tests
       | fr       | Ce titre est en Français     |
       | de       | Dieser Titel ist auf Deutsch |
     When I go to "content/title-english_en"
-    Then I should not see an "nept_element:page-language-switcher" element
+    Then I should not see an "nept_element:block:page-language-switcher" element
     When I go to "content/title-english_fr"
-    Then I should not see an "nept_element:page-language-switcher" element
+    Then I should not see an "nept_element:block:page-language-switcher" element
     When I go to "content/title-english_de"
-    Then I should not see an "nept_element:page-language-switcher" element
+    Then I should not see an "nept_element:block:page-language-switcher" element
     When I go to "content/title-english_it"
-    Then I should see an "nept_element:page-language-switcher" element
+    Then I should see an "nept_element:block:page-language-switcher" element
 
   Scenario Outline: Anonymous user can see the available translations of a content
     Given I am viewing a multilingual "page" content:
