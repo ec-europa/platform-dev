@@ -162,7 +162,7 @@ function ecas_user_logout($account) {
       ecas_logout(TRUE, FALSE);
     }
     elseif (variable_get('autologout_use_alt_logout_method', TRUE)) {
-      // we are taking over the default logout process from autologout,
+      // We are taking over the default logout process from autologout,
       // so we need to take full control here.
       session_destroy();
       $user = drupal_anonymous_user();
@@ -231,7 +231,6 @@ function ecas_login_page() {
  *
  * @param bool $full_logout
  *   TRUE to also log out from ECAS itself, FALSE to log out only from Drupal.
- *
  * @param bool $call_hook_user_logout
  *   TRUE to call the hook_user_logout.
  */
