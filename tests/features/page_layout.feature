@@ -26,6 +26,8 @@ Feature: Page Layout
       | Contact on Europa        | .region-footer           |
       | Search on Europa         | .region-footer           |
 
+  @theme_wip
+  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
     When I am on "<page>"
@@ -38,6 +40,9 @@ Feature: Page Layout
       | user       | User account - European Commission          |
 
   @javascript @maximizedwindow
+
+  @theme_wip
+  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1218.
   Scenario: Logged user can see the content in the column right and left
     Given I am logged in as a user with the 'administrator' role
     When I visit "admin/structure/types/add"

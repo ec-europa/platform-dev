@@ -76,6 +76,7 @@ Feature: Content translation
     Then I should see the text "New Message!"
 
   @theme_wip
+ # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1217.
   Scenario: Files can be translated in available languages
     Given the following languages are available:
       | languages |
