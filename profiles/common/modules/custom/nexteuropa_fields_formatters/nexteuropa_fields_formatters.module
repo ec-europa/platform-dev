@@ -311,7 +311,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             ];
             $markup .= '
               <div class="listing__item">
-                <h3 class="listing__item-title">
+                <h3 class="ecl-heading ecl-heading--h3 listing__item-title">
                   <span class="icon icon--link"></span>' . $link . '
                 </h3>
               </div>';

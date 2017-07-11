@@ -1055,6 +1055,13 @@ video
   $export['easy_breadcrumb-segments_separator'] = $strongarm;
 
   $strongarm = new stdClass();
+  $strongarm->disabled = FALSE;
+  $strongarm->api_version = 1;
+  $strongarm->name = 'easy_breadcrumb-include_title_segment';
+  $strongarm->value = 0;
+  $export['easy_breadcrumb-include_title_segment'] = $strongarm;
+
+  $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */
 
   $strongarm->disabled = FALSE;
