@@ -157,9 +157,18 @@ function _ecas_menu(array &$items) {
  */
 function ecas_user_logout($account) {
 
-  $autologout = isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout';
-  if ($autologout && ecas_menu_logout_check()) {
-    ecas_logout();
+  if (isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout') {
+    if (ecas_menu_logout_check()) {
+      ecas_logout(TRUE, FALSE);
+    }
+    elseif (variable_get('autologout_use_alt_logout_method', TRUE)) {
+      // we are taking over the default logout process from autologout,
+      // so we need to take full control here.
+      session_destroy();
+      $user = drupal_anonymous_user();
+      _autologout_inactivity_message();
+      drupal_goto(variable_get('site_frontpage', 'node'));
+    }
   }
 }
 
@@ -222,8 +231,11 @@ function ecas_login_page() {
  *
  * @param bool $full_logout
  *   TRUE to also log out from ECAS itself, FALSE to log out only from Drupal.
+ *
+ * @param bool $call_hook_user_logout
+ *   TRUE to call the hook_user_logout.
  */
-function ecas_logout($full_logout = TRUE) {
+function ecas_logout($full_logout = TRUE, $call_hook_user_logout = TRUE) {
   global $user;
 
   watchdog('user', 'Session closed for %name.', array('%name' => format_username($user)));
@@ -231,7 +243,10 @@ function ecas_logout($full_logout = TRUE) {
   // Destroy the current session.
   session_destroy();
   $user = drupal_anonymous_user();
-  module_invoke_all('user_logout', $user);
+
+  if ($call_hook_user_logout) {
+    module_invoke_all('user_logout', $user);
+  }
 
   // We have to use $GLOBALS to unset a global variable.
   $user = user_load(0);

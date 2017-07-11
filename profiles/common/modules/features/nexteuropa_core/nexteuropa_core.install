@@ -133,4 +133,6 @@ function nexteuropa_core_update_7004() {
 function nexteuropa_core_update_7005() {
   module_enable(['autologout']);
   variable_set('autologout_use_alt_logout_method', 1);
+  variable_set('autologout_use_watchdog', 1);
+  variable_set('autologout_enforce_admin', 1);
 }
