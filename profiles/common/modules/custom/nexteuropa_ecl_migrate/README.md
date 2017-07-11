@@ -9,6 +9,7 @@ Details
 This module includes:
 - Footer DT menus
 - Europa main menu
+- Europa 'utility' region (previously 'tools' region)
 
 Notes
 -----
