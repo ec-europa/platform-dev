@@ -1,0 +1,4 @@
+name = NextEuropa ECL Migrate
+description = Migrate blocks of content from ec_resp to Europa.
+package = NextEuropa
+core = 7.x
