@@ -986,7 +986,8 @@ libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl
 
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = get
-projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.2/ec_resp-2.2.tar.gz
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
+projects[ec_resp][download][tag] = 2.3
 
 projects[europa][type] = theme
 projects[europa][download][type] = git
