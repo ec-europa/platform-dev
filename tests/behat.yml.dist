@@ -53,7 +53,7 @@ default:
       transform_tokens:
         nept_element:page-language-switcher: '.block-language-selector-page'
         nept_element:site-language-switcher: '#block-language-selector-site-language-selector-site'
-        nept_element:page-title: '#page-title'
+        nept_element:page-title: 'h1.ecl-heading.ecl-heading--h1'
         nept_element:system-status-report: 'table.system-status-report'
         nept_element:title-metatag: 'html head title'
         nept_element:splash-page-language-selection-block: 'body.not-front.page-splash'
