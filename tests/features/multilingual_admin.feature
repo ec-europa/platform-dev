@@ -8,6 +8,8 @@ Feature: Content translation
     Given I am logged in as a user with the 'administrator' role
 
   @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Content page does not show mixed content language
     Given the following languages are available:
       | languages |
@@ -48,6 +50,8 @@ Feature: Content translation
     And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/field_ne_body_et_en"
 
   @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Check the default message in workbench moderation
     Given the following languages are available:
       | languages |
@@ -61,6 +65,8 @@ Feature: Content translation
     Then I should see the text "The state of the content Title in English and all its validated translations English French will be updated!"
 
   @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Check the customizable message in workbench moderation
     Given the following languages are available:
       | languages |
@@ -76,6 +82,8 @@ Feature: Content translation
     Then I should see the text "New Message!"
 
   @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1217.
   Scenario: Files can be translated in available languages
     Given the following languages are available:
@@ -109,6 +117,8 @@ Feature: Content translation
     And I should see "French Caption"
 
   @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Custom URL suffix language negotiation is applied by default on new content.
     Given the following languages are available:
       | languages |
@@ -153,6 +163,8 @@ Feature: Content translation
     Then I should be on "admin/fake-url_en-prefix"
 
   @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Path alias must be synchronized through all translations of
   content when it is manually defined and the configuration is maintained
   when I come back on the content edit form

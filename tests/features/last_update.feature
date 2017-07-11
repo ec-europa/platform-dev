@@ -15,6 +15,8 @@ Scenario: Administrators can add the last update block in a region
   Then I should see the text "Last update date"
 
 @RevertBlockConfiguration @theme_wip
+# It is in wip for the europa theme because it implies a step referring a
+# region. This must be evaluate deeper before being able to know how to deal with.
 Scenario: The last update doesn't show if a node is not published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
@@ -23,6 +25,8 @@ Scenario: The last update doesn't show if a node is not published
   Then I should not see an "nept_element:last-update-block" element
 
 @RevertBlockConfiguration @theme_wip
+# It is in wip for the europa theme because it implies a step referring a
+# region. This must be evaluate deeper before being able to know how to deal with.
 Scenario: The last update shows if a node is published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
