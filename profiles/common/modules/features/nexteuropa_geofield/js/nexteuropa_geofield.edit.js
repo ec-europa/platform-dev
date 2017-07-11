@@ -145,36 +145,27 @@
 
       map.addControl(drawControl);
 
+      // Bind address click event. Add marker to the map.
+      $(document).on("click", ".geofield-search-item", function() {
+
+        var lat = $(this).attr("lat");
+        var lng = $(this).attr("lng");
+
+        if (addNewLayerValidate()) {
+          var marker = new L.marker([lat, lng]).addTo(map);
+
+          addNewLayer(marker);
+
+          map.setView([lat, lng], 13);
+        }
+      });
+
       // Manage the event : when a new object is put on the map.
       map.on(
         'draw:created', function(e) {
-          if (objects_count < settings.nexteuropa_geojson.settings.fs_objects.objects_amount) {
-            var type = e.layerType,
-            layer = e.layer;
-
-            var geoJSON = layer.toGeoJSON();
-            feature = layer.feature;
-
-            objects_count++;
-
-            // Add the layer object to the map.
-            drawnItems.addLayer(layer);
-
-            // Only add inputs elements if the popups are not pre-populated.
-            if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
-              createLabel(layer._leaflet_id, "", "");
-            }
-            else {
-              // Prepopulate the popups with the title and body content.
-              name = getFieldValue(name_field);
-              description = getFieldValue(description_field);
-              createPopup(layer._leaflet_id, name, description);
-            }
-            // Update GeoJSON field.
-            updateGeoJsonField();
-          }
-          else {
-            alert("The Maximum number of items on the map is limited to " + settings.nexteuropa_geojson.settings.fs_objects.objects_amount);
+          if (addNewLayerValidate()) {
+            var layer = e.layer;
+            addNewLayer(layer);
           }
         }
       );
@@ -189,6 +180,44 @@
           updateGeoJsonField();
         }
       );
+
+      /**
+       *
+       * @param layer
+       */
+      function addNewLayer(layer) {
+
+        feature = layer.feature;
+
+        objects_count++;
+
+        // Add the layer object to the map.
+        drawnItems.addLayer(layer);
+
+        // Only add inputs elements if the popups are not pre-populated.
+        if (settings.nexteuropa_geojson.settings.fs_objects.objects_amount > 1) {
+          createLabel(layer._leaflet_id, "", "");
+        }
+        else {
+          // Prepopulate the popups with the title and body content.
+          name = getFieldValue(name_field);
+          description = getFieldValue(description_field);
+          createPopup(layer._leaflet_id, name, description);
+        }
+        // Update GeoJSON field.
+        updateGeoJsonField();
+
+      }
+
+      function addNewLayerValidate() {
+        if (objects_count < settings.nexteuropa_geojson.settings.fs_objects.objects_amount) {
+          return true;
+        }
+        else {
+          alert("The Maximum number of items on the map is limited to " + settings.nexteuropa_geojson.settings.fs_objects.objects_amount);
+          return false;
+        }
+      }
 
       /**
        * Create 2 inputs (and their related events) to manage popups contents.
