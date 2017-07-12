@@ -213,6 +213,8 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
 ; https://www.drupal.org/node/2877074
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
+; Issue MULTISITE-15175 : Undefined index path wildcard
+projects[entity_translation][patch][] = patches/entity_translation-fix-for-wildcard.patch
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
@@ -359,7 +361,7 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][download][branch] = 7.x-1.x
 projects[integration][download][revision] = fb3cf87
@@ -476,6 +478,10 @@ projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.pa
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Fix for an error when the purge limit is set to 0
+; https://www.drupal.org/node/2030101
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-14411
+projects[message][patch][] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.21"
@@ -519,6 +525,10 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; NEXTEUROPA-11789 Issue in Bean reference to OG
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
+
+; NEXTEUROPA-13743 Issue with og_field_access hiding all content fields on creation
+; https://www.drupal.org/node/1743332
+projects[og][patch][] = https://www.drupal.org/files/issues/og-hidden-body-field-1743332-2_0.patch
 
 ; NEXTEUROPA-14012 Adding membership from user profile is in pending status
 ; https://www.drupal.org/node/2744405

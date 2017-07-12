@@ -6,6 +6,23 @@
  */
 
 /**
+ * Implements hook_requirements().
+ */
+function nexteuropa_communities_requirements() {
+  $requirements = [];
+  if (module_exists('communities')) {
+    $t = get_t();
+    $args = array('%module' => 'Communities');
+    $requirements['nexteuropa_communities_module_conflict'] = [
+      'title' => 'NextEuropa Communities',
+      'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
+      'severity' => REQUIREMENT_ERROR,
+    ];
+  }
+  return $requirements;
+}
+
+/**
  * Implements hook_enable().
  */
 function nexteuropa_communities_enable() {
