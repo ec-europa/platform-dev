@@ -10,6 +10,8 @@
  */
 function _nexteuropa_ecl_migrate_blocks() {
   _nexteuropa_ecl_migrate_dt_menus();
+  _nexteuropa_ecl_migrate_europa_main_menu();
+  _nexteuropa_ecl_migrate_europa_utility_region();
 }
 
 /**
@@ -179,4 +181,19 @@ function _nexteuropa_ecl_migrate_dt_menus() {
   }
 
   module_invoke('context', 'save', $context);
+}
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _nexteuropa_ecl_migrate_europa_main_menu() {
+  multisite_drupal_toolbox_add_block_context('site_wide', 'main-menu', 'system', 'main-menu', 'navigation');
+}
+
+/**
+ * Custom function that moves the proper blocks in the utility area.
+ */
+function _nexteuropa_ecl_migrate_europa_utility_region() {
+  multisite_drupal_toolbox_add_block_context('site_wide', 'user-menu', 'system', 'user-menu', 'utility', 1);
+  multisite_drupal_toolbox_add_block_context('site_wide', 'create-content-button', 'multisite_create_button', 'create-content-button', 'utility', 2);
 }
