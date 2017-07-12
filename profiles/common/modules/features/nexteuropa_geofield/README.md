@@ -11,7 +11,6 @@ The libraries leaflet and leaflet.draw are required.
 Those libraries are part of the platform core.
 Also read [WCM requirements](https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/WCM+-+GIS+fields)
 
-
 CONFIGURATION
 -------------
 To get started add a new field of type geofield geoJSON to your content type.
@@ -35,6 +34,10 @@ popup label of the map object.
 `Polygon`
 Click the polygone icon, move your mouse on the map and click to mark each
 side of the polygon.
+
+`Rectangle`
+Click the marker icon, move your mouse on the map, click to mark each corner of 
+the rectangle.
 
 `Marker`
 Click the marker icon, move your mouse on the map, and click to drop the marker
