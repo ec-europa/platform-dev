@@ -76,7 +76,7 @@ projects[bean][version] = 1.9
 projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.2"
+projects[better_exposed_filters][version] = "3.4"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
@@ -119,7 +119,7 @@ projects[ckeditor_lite][subdir] = contrib
 projects[ckeditor_lite][version] = 1.0-rc3
 
 projects[coffee][subdir] = "contrib"
-projects[coffee][version] = 2.2
+projects[coffee][version] = 2.3
 
 projects[collapse_text][subdir] = "contrib"
 projects[collapse_text][version] = "2.4"
@@ -254,7 +254,11 @@ projects[feature_set][patch][] = patches/feature_set-misc-nexteuropa_4459.patch
 projects[feature_set][patch][] = https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch
 
 projects[feeds][subdir] = "contrib"
-projects[feeds][version] = "2.0-beta2"
+projects[feeds][version] = "2.0-beta1"
+; Issue #2828605: feeds_system_info_alter() can triggers "The following module has moved within the file system".
+; https://www.drupal.org/node/2828605
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-567
+projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
 projects[feeds_tamper][version] = "1.1"
@@ -426,6 +430,12 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-wysiwyg-ove
 ; https://www.drupal.org/node/2401811
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3650
 projects[media][patch][] = http://www.drupal.org/files/issues/file_entity-remove-contextual-links-2401811-11.patch
+; Issue #2028231: Embedded documents in the WYSIWYG can be very hard to delete
+; https://www.drupal.org/node/2028231
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
+; Media markup navigation causes duplicated links
+projects[media][patch][] = https://www.drupal.org/files/issues/media-embeddd_documents-2028231-15.patch
+
 
 projects[media_crop][subdir] = "contrib"
 projects[media_crop][version] = "1.4"
@@ -702,7 +712,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.14
+projects[views][version] = 3.15
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
@@ -771,7 +781,6 @@ projects[workbench_email][patch][] = patches/workbench_email-revert_feature_erro
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "1.4"
 projects[workbench_moderation][patch][] = patches/workbench_moderation-001-wm-field_translations-2285931-1.patch
-projects[workbench_moderation][patch][] = patches/workbench_moderation-002-attachment_fix-1084436-47.patch
 projects[workbench_moderation][patch][] = patches/workbench_moderation-005-workbench_moderation.rules-5054.patch
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/support_for_migrate-1445824-35.patch
 ; Issue #2360091 View published tab is visible when a published node has a draft.
@@ -786,7 +795,11 @@ projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/wo
 ; https://www.drupal.org/node/2645622
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-13039
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/node-deleted-before-shutdown-function-2645622-4.patch
-
+; Doesn't handle file attachments
+; We need to merge the changes in the drupal.org ticket with the previous patch because they change the same line
+; https://www.drupal.org/node/1084436
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-592
+projects[workbench_moderation][patch][] = patches/workbench_moderation-002-1084436-2645622-merge.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"

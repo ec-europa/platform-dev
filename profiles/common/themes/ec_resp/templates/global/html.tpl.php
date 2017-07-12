@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="<?php print (isset($language) ? $language->language : '') ?>">
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>
   <?php print $styles; ?>
@@ -17,7 +17,6 @@
     <script src="<?php print url(drupal_get_path('theme', 'ec_resp') . '/scripts/respond.min.js', array('language' => (object) array('language' => FALSE))); ?>"></script>
   <![endif]--> 
   <?php print $scripts; ?>
-
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
   <div id="skip-link">

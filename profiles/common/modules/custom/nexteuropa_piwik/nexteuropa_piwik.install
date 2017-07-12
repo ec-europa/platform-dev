@@ -1,9 +1,10 @@
 <?php
-
 /**
  * @file
  * Installation file for Piwik - Web analytics module.
  */
+
+module_load_include('inc', 'nexteuropa_piwik', 'nexteuropa_piwik.install');
 
 /**
  * Implements hook_install().
@@ -91,4 +92,24 @@ function nexteuropa_piwik_enable() {
   );
   // Grant the permissions to PIWIK administrator role.
   user_role_change_permissions($piwik_admin_role->rid, $piwik_admin_permissions);
+}
+
+/**
+ * Implements hook_schema().
+ */
+function nexteuropa_piwik_schema() {
+  $schema = array();
+  $schema['nexteuropa_piwik_rule'] = _nexteuropa_piwik_get_schema_array();
+
+  return $schema;
+}
+
+/**
+ * Add the table required for the "Advanced PIWIK rules".
+ */
+function nexteuropa_piwik_update_7101() {
+  db_create_table(
+    'nexteuropa_piwik_rule',
+    _nexteuropa_piwik_get_schema_array()
+  );
 }
