@@ -34,7 +34,6 @@ function multisite_drupal_standard_update_7100() {
     'delete revisions',
     'edit any article content',
     'edit own article content',
-    'export nodes',
     'moderate content from needs_review to draft',
     'moderate content from needs_review to published',
     'moderate content from needs_review to validated',

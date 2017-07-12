@@ -34,7 +34,7 @@ Feature: Page Layout
       | /          | Welcome to NextEuropa - European Commission |
       | user       | User account - European Commission          |
 
-  @javascript @maximizedwindow @reset-node-types
+  @javascript @maximizedwindow
   Scenario: Logged user can see the content in the column right and left
     Given I am logged in as a user with the 'administrator' role
     When I visit "admin/structure/types/add"

@@ -34,6 +34,7 @@ function news_og_views_default_views_alter(&$views) {
     );
 
     $handler = $view->display['page']->handler;
+
     /* Contextual filter: OG membership: Group ID */
     $handler->display->display_options['arguments']['gid']['id'] = 'gid';
     $handler->display->display_options['arguments']['gid']['table'] = 'og_membership';
@@ -90,9 +91,6 @@ function news_og_views_default_views_alter(&$views) {
     $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
     $handler->display->display_options['fields']['body']['field'] = 'body';
     $handler->display->display_options['fields']['body']['label'] = '';
-    $handler->display->display_options['fields']['body']['alter']['text'] = '[field_news_picture] 
-    [body]
-    ';
     $handler->display->display_options['fields']['body']['alter']['max_length'] = '500';
     $handler->display->display_options['fields']['body']['alter']['strip_tags'] = TRUE;
     $handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;

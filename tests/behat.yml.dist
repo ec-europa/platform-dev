@@ -6,31 +6,46 @@ default:
             mock_server_port: {{ integration.server.port }}
         - Drupal\nexteuropa\Context\ModuleContext
         - FeatureContext
-        - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\nexteuropa\Context\AgnosticBatchContext
+        - Drupal\nexteuropa\Context\ApacheSolrContext
+        - Drupal\nexteuropa\Context\BlockContext
+        - Drupal\nexteuropa\Context\CKEditorContext
+        - Drupal\nexteuropa\Context\EcasContext
         - Drupal\nexteuropa\Context\MessageContext
         - Drupal\nexteuropa\Context\BeanContext
         - Drupal\nexteuropa\Context\DrupalContext
+        - Drupal\nexteuropa\Context\FieldContext
+        - Drupal\nexteuropa\Context\FormContext
+        - Drupal\nexteuropa\Context\ContentTypeContext
         - Drupal\nexteuropa\Context\MinkContext
         - Drupal\nexteuropa\Context\VariableContext
-        - Drupal\nexteuropa\Context\MediaContext
-        - Drupal\nexteuropa\Context\TaxonomyContext
-        - Drupal\nexteuropa\Context\WebtoolsContext
-        - Drupal\nexteuropa\Context\CKEditorContext
-        - Drupal\nexteuropa\Context\PiwikRulesContext
         - Drupal\nexteuropa\Context\FlickrContext:
             key: '{{ flickr.key }}'
             secret: '{{ flickr.secret }}'
+        - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\TaxonomyContext
+        - Drupal\nexteuropa\Context\ViewsContext
+        - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\DrupalExtension\Context\MarkupContext
+        - Drupal\nexteuropa\Context\WebtoolsContext
         - Drupal\nexteuropa\Context\FrontendCacheContext:
             mock_server_port: {{ varnish.server.port }}
+        - Drupal\nexteuropa\Context\DatabaseLogContext
+        - Drupal\nexteuropa\Context\PathautoContext
+        - Drupal\nexteuropa\Context\SchedulerContext
+        - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\nexteuropa\Context\DrupalMailContext
+        - Drupal\nexteuropa\Context\PiwikRulesContext
+        - Drupal\nexteuropa\Context\DrushContext:
+            drush_bin: "{{ drush.bin }}"
+            db_dump_location: '{{ drush.db.dump }}'
       filters:
         tags: "~@wip&&~@communities"
   extensions:
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'
-      browser_name: '{{ behat.browser.name }}'
       selenium2:
-        browser: '{{ behat.browser.name }}'
         wd_host: '{{ behat.wd_host.url }}'
       base-url: '{{ behat.base_url }}'
       files_path: '{{ platform.build.dir }}'
@@ -61,6 +76,9 @@ default:
         messages: "#console"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_scenarios
+      active_image_drivers: img42
   formatters:
     {{ behat.formatter.name }}: ~
 

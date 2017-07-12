@@ -7,10 +7,23 @@ Feature: Text formats configuration
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @api
   Scenario: Text formats should be available
     When I go to "admin/config/content/formats"
     Then I should see "Full HTML"
     And I should see "Filtered HTML"
     And I should see "Basic HTML"
     And I should see "Plain text"
+
+  Scenario Outline: Text formats should have correct permission
+    When I go to "admin/config/content/formats/<format>"
+    Then the "administrator" checkbox should <administrator>
+    And the "contributor" checkbox should <contributor>
+    And the "editor" checkbox should <editor>
+    And the "authenticated user" checkbox should <authenticated_user>
+    And the "anonymous user" checkbox should <anonymous user>
+
+    Examples:
+      | format        | anonymous user | authenticated_user | administrator | contributor    | editor    |
+      | full_html     | not be checked | not be checked     | be checked    | be checked     | be checked     |
+      | filtered_html | be checked     | be checked         | be checked    | not be checked | not be checked     |
+      | basic_html    | be checked     | be checked         | be checked    | not be checked | not be checked |

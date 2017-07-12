@@ -1,12 +1,11 @@
 @api @poetry_mock @i18n @poetry
 Feature: TMGMT Poetry features
-  In order request new translations for nodes with Poetry service.
+  In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator
   I want to be able to create/manage translation requests.
 
   Background:
-    Given I am logged in as a user with the "cem" role
-    And the module is enabled
+    Given the module is enabled
       |modules                |
       |tmgmt_poetry_mock      |
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
@@ -17,6 +16,7 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
+    And I am logged in as a user with the "cem" role
 
   @resetPoetryNumero
   Scenario: Checking a wrong configuration.
@@ -42,7 +42,7 @@ Feature: TMGMT Poetry features
     Then I should see the error message "There was an error with the Poetry request."
     And I should see "Rejected" in the "French" row
     And I should see "Rejected" in the "Italian" row
-    Then I am logged in as a user with the "cem" role
+    Given I am logged in as a user with the "cem" role
     When I go to "/admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -83,7 +83,7 @@ Feature: TMGMT Poetry features
     Then the poetry translation service received the translation request
     And the translation request has titre "NE-CMS: my-website - My page"
 
-  @javascript @cleanup-tmgmt-poetry-website-identifier
+  @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator
   Scenario: Send translation request including a website identifier with
   characters that have a special meaning in HTML.
     Given I am logged in as a user with the "cem" role
@@ -170,12 +170,12 @@ Feature: TMGMT Poetry features
       | title_field     | Title in French 2                       |
       | reference       | SUB_4_POETRY_WEB/2016/63904/0/0/TRA     |
     And I am on "admin/tmgmt/recent-changes"
-    Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 English French" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
-    And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 English Italian" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English Italian" row
-    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 English French" row
-    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 English French" row
+    Then I should see "The translation of Title in English 1 to French is finished and can now be reviewed." in the "Title in English 1 Basic page English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English French" row
+    And I should see "The translation of Title in English 1 to Italian is finished and can now be reviewed." in the "Title in English 1 Basic page English Italian" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English Italian" row
+    And I should see "The translation of Title in English 2 to French is finished and can now be reviewed." in the "Title in English 2 Basic page English French" row
+    And I should see "WEB/2016/63904/0/0/TRA" in the "Title in English 1 Basic page English French" row
     And I should not see "_POETRY_"
     Given the translation job with label "Title in English 1" and target language "fr" is accepted
     And I am on "admin/tmgmt/recent-changes"
@@ -313,7 +313,7 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
-    Given the vocabulary "Vocabulary Test" exists
+    Given the vocabulary "Vocabulary Test" is created
     And I am logged in as a user with the "administrator" role
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
@@ -395,7 +395,7 @@ Feature: TMGMT Poetry features
       | Unclosed hr          | 'Let us add a thematic <hr> break.'                                                  |
 
   @javascript
-  Scenario Outline: Request translation of a page with HTML5 into French.
+  Scenario Outline: Request translation of a page with HTML5 or IFRAME video into French.
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
@@ -421,12 +421,16 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "French" row
 
     Examples:
-      | title                | body                                                                                                       |
-      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                            |
-      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                  |
-      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>         |
-      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                              |
-      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                  |
+      | title                | body                                                                                                                                                                                                                              |
+      | HTML5 Section        | <section><h1>WWW</h1><p>The World Wide Web is ...</p></section>                                                                                                                                                                   |
+      | HTML5 Audio          | <audio controls=''><source src='horse.ogg' type='audio/ogg' />...</audio>                                                                                                                                                         |
+      | HTML5 Video          | <video controls='' height='240' width='320'><source src='movie.mp4' type='video/mp4' />...</video>                                                                                                                                |
+      | YouTube Video        | <iframe class=\"media-youtube-player\" width=\"640\" height=\"390\" title=\"Los Muppets - Mahna Mahna\" src=\"//www.youtube.com/embed/9ezRFBnWBKg\" frameborder=\"0\" allowfullscreen>Video of Los Muppets - Mahna Mahna</iframe> |
+      | Vimeo Video          | <iframe class=\"media-vimeo-player\" width=\"640\" height=\"390\" title=\"EARTH\" src=\"//player.vimeo.com/video/32001208\" frameborder=\"0\" allowfullscreen>Video of EARTH</iframe>                                                         |
+      | Dailymotion Video    | <iframe frameborder=\"0\" width=\"640\" height=\"390\" src=\"//www.dailymotion.com/embed/video/x4e66jg\"></iframe>                                                                                                                        |
+      | AV Portal Video      | <iframe width=\"640\" height=\"390\" frameborder=\"0\" allowfullscreen=\"\" mozallowfullscreen=\"\" webkitallowfullscreen=\"\" id=\"videoplayer15672\" scrolling=\"no\" src=\"//av.tib.eu/player/15672\"></iframe>                                  |
+      | HTML5 Figure         | <figure><figcaption>...</figcaption></figure>                                                                                                                                                                                     |
+      | HTML5 Figure         | <source src='horse.ogg' type='audio/ogg'>                                                                                                                                                                                         |
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
@@ -520,20 +524,7 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-    Scenario: Inspect the 'Last change' data of a translation request
-      Given I am logged in as a user with the 'administrator' role
-      And I am viewing a multilingual "page" content:
-        | language | title            | body                    |
-        | en       | Title            | Last change column test |
-      When I click "Translate" in the "primary_tabs" region
-      Then I should see "Last change"
-      When I check the box on the "French" row
-      And I press "Request translation"
-      And I fill in "Date" with a relative date of "+20" days    
-      And I press "Submit to translator"
-      Then I see the date of the last change in the "French" row
-
-  @javascript
+  @javascript @maximizedwindow
   Scenario: Adding new languages to the ongoing translation request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -622,17 +613,26 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I see the date of the last change in the "French" row
 
-  Scenario: Inspect if the 'Requested delivery date' field is mandatory
+  Scenario: Inspect mandatory fields (date and languages)
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:
       | language | title            | body                    |
       | en       | Title            | Last change column test |
     When I click "Translate" in the "primary_tabs" region
+    And I press "Request translation"
+    Then I should see the error message "You have to select a language for requesting a translation."
     When I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
     Then I should see the error message "A valid date is required for Requested delivery date."
+    When I fill in "Date" with "01/01/1970"
+    And I press "Submit to translator"
+    Then I should see the error message "The expected requested delivery date cannot be in the past."
+    When I uncheck the box on the "French" row
+    And I press "Submit to translator"
+    Then I should see the error message "You have to select a language for requesting a translation."
     When I fill in "Date" with a relative date of "+5" days
+    When I check the box on the "French" row
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 
@@ -652,7 +652,7 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Refuse" in the "en->fr" row
@@ -668,7 +668,7 @@ Feature: TMGMT Poetry features
     And the translation request has version to 1
     And I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
 
   @javascript
   Scenario: Resending translation request while translation process is ongoing
@@ -685,14 +685,14 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
-    And I should see "Please wait the acceptation translation process before update request."
+    And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
     And I click "Send 'ONG' status" in the "en->fr" row
     And I click "Send 'ONG' status" in the "en->it" row
     Then I should see the success message "The status request was sent. Check the translation page."
     When I click "Check the translation page"
-    Then I should not see "Please wait the acceptation translation process before update request."
+    Then I should not see "Please wait for the translation request to be accepted before further update options."
     When I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation update"
@@ -712,7 +712,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with "01/12/2016"
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     And the poetry translation service received the translation request
@@ -760,3 +760,26 @@ Feature: TMGMT Poetry features
     And the poetry translation service received the translation request
     And the translation request has version to 0
     And the translation request has partie to 0
+
+  @javascript
+  Scenario Outline: Check not-poetry translator still works with poetry enabled.
+    Given <translatorType> translator "Translator <translatorType>" is available
+    And I am logged in as a user with the 'administrator' role
+    When I go to "node/add/page"
+    And I fill in "Title" with "Test"
+    And I fill in the rich text editor "Body" with "Test."
+    And I press "Save"
+    And I select "Published" from "state"
+    And I press "Apply"
+    And I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I press "Request translation"
+    And I click "Change translator"
+    And I select "Translator <translatorType>" from "Translator"
+    And I press "Submit to translator"
+    Then I should see "<message>"
+
+    Examples:
+      | translatorType   | message                                 |
+      | local            | The translation job has been submitted. |
+      | file             | Exported file can be downloaded here.   |
