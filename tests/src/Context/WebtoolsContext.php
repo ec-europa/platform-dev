@@ -117,7 +117,7 @@ class WebtoolsContext implements Context {
     foreach ($this->beans as $bean) {
       bean_delete(bean_load_delta($bean));
     }
-    $this->beans = [];
+    $this->beans = array();
   }
 
 }

@@ -17,51 +17,15 @@ use function bovigo\assert\predicate\isEmpty;
 class ModuleContext extends RawDrupalContext {
 
   /**
-   * Initial module list to restore at the end of the test.
+   * Refresh the list of module.
    *
-   * @var array
-   */
-  protected $initialModuleList = array();
-
-
-  /**
-   * Stores the list of enabled modules before executing a scenario.
+   * Before all scenario, we need to run module_list to refresh system_list,
+   * which is needed because of memory issues.
    *
    * @BeforeScenario
    */
-  public function storeDefaultEnabledModules() {
-    $this->initialModuleList = module_list(TRUE);
-  }
-
-  /**
-   * Restores the initial values of the Drupal Modules.
-   *
-   * @AfterScenario
-   *
-   * @throws \Exception
-   *   It throws an exception if modules activated by the scenario are not
-   *   correctly uninstalled.
-   */
-  public function restoreInitialState() {
-    $after_scenario_modules = module_list(TRUE);
-
-    $lists_diff = array_diff($after_scenario_modules, $this->initialModuleList);
-
-    if ($lists_diff) {
-      module_disable($lists_diff);
-      drupal_uninstall_modules($lists_diff);
-      drupal_flush_all_caches();
-
-      // Check if modules are really uninstalled.
-      module_list(TRUE);
-      foreach ($lists_diff as $module) {
-        if (module_exists($module)) {
-          throw new \Exception(sprintf('Module "%s" could not be uninstalled', implode(', ', $module)));
-        }
-      }
-    }
-
-    $this->initialModuleList = array();
+  public function refreshDefaultEnabledModules() {
+    module_list(TRUE);
   }
 
   /**
@@ -69,15 +33,12 @@ class ModuleContext extends RawDrupalContext {
    *
    * Provide modules data in the following format:
    *
-   * | modules |
-   * | blog    |
-   * | book    |
+   * | modules  |
+   * | blog     |
+   * | book     |
    *
    * @param TableNode $modules_table
    *   The table listing modules.
-   *
-   * @throws \Exception
-   *   Thrown when a module does not exist.
    *
    * @Given the/these module/modules is/are enabled
    */
@@ -98,11 +59,8 @@ class ModuleContext extends RawDrupalContext {
     assert($message, isEmpty(), sprintf('Module "%s" not correctly enabled', implode(', ', $message)));
 
     if ($cache_flushing) {
-      // Necessary for rebuilding the menu after enabling some specific
-      // features.
       drupal_flush_all_caches();
     }
-
   }
 
   /**
@@ -116,9 +74,6 @@ class ModuleContext extends RawDrupalContext {
    *
    * @param TableNode $featureset_table
    *   The table listing feature set titles.
-   *
-   * @throws \Exception
-   *   It is thrown if one of the modules of the featureset is not enabled.
    *
    * @Given the/these featureSet/FeatureSets is/are enabled
    */

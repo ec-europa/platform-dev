@@ -52,12 +52,12 @@ function cce_basic_config_requirements($phase) {
 function cce_basic_config_install() {
   $t = get_t();
 
-  // Body field base creation.
-  _cce_basic_config_body_field_base_add();
-
   // Create contributor editor roles.
   multisite_config_service('user')->createRole('contributor', 3);
   multisite_config_service('user')->createRole('editor', 4);
+
+  // Body field base creation.
+  _cce_basic_config_body_field_base_add();
 
   // Create a vocabulary dedicated to the classification.
   $vocabulary = (object) array(
@@ -612,6 +612,15 @@ function _cce_basic_config_post_install_default_content_type() {
     node_add_body_field($type);
   }
 
+  if (module_exists('scheduler')) {
+    // Set up scheduler configuration for articles.
+    multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+    // Set unpublish moderation state to "expired".
+    // This call cannot be included in the API method above since it is
+    // a configuration specific to NextEuropa .
+    variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+  }
+
   // Insert default pre-defined RDF mapping into the database.
   $rdf_mappings = array(
     array(
@@ -653,6 +662,13 @@ function _cce_basic_config_post_install_user_config() {
   variable_set('user_picture_style', 'thumbnail');
   // Allow visitor account creation with administrative approval.
   variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+  // Remove the realname extra field from the display.
+  $profile_settings = field_bundle_settings('user', 'user');
+  $profile_settings['extra_fields']['display']['realname']['default'] = array(
+    'visible' => 0,
+    'weight' => -1,
+  );
+  field_bundle_settings('user', 'user', $profile_settings);
 }
 
 /**
@@ -706,77 +722,113 @@ function _cce_basic_config_post_install_user_roles_perms() {
     ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
     ->execute();
 
-  // Grant permissions for administrators.
+  // Revoke permissions for administrators.
   user_role_revoke_permissions($admin_role->rid, array(
     'administer features',
     'administer modules',
     'administer software updates',
     'manage features',
-    'use PHP to import nodes',
     'manage feature nexteuropa_dgt_connector',
   ));
 
   // Grant permissions for contributors.
-  $permissions = array(
-    'access workbench',
+  $contributor_permissions = array(
+    'access media browser',
+    'access own broken links report',
     'create article content',
+    'create files',
     'delete own article content',
+    'delete own image files',
     'edit own article content',
+    'edit own image files',
     'moderate content from draft to needs_review',
     'moderate content from needs_review to draft',
+    're convert video',
     'revert revisions',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for taxonomy_term',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
-    'view moderation history',
-    'view moderation messages',
-    'view own unpublished content',
-    'view revisions',
-    'access media browser',
+    'view own files',
+    'view own private files',
     'use media wysiwyg',
+    'use text format full_html',
   );
-  multisite_config_service('user')->grantPermission('contributor', $permissions);
+  multisite_config_service('user')->grantPermission('contributor', $contributor_permissions);
 
   // Grant permissions for editors.
-  $permissions = array(
+  $editor_permissions = array(
+    'access broken links report',
+    'access media browser',
+    'access own broken links report',
     'create article content',
+    'create files',
     'delete any article content',
     'delete own article content',
+    'delete own image files',
     'delete revisions',
     'edit any article content',
     'edit own article content',
-    'export nodes',
+    'edit own image files',
+    'moderate content from draft to needs_review',
+    'moderate content from needs_review to draft',
+    'moderate content from needs_review to published',
     'revert revisions',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for taxonomy_term',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
+    'use media wysiwyg',
+    'use text format full_html',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
-    'view own unpublished content',
-    'access media browser',
-    'use media wysiwyg',
+    'view own files',
+    'view own private files',
   );
-  multisite_config_service('user')->grantPermission('editor', $permissions);
+  multisite_config_service('user')->grantPermission('editor', $editor_permissions);
 
   // Grant permissions for authenticated users.
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
+  $authenticated_permissions = array(
+    'access comments',
     'access PDF version',
     'access print',
+    'access send by email',
     'access user profiles',
     'access workbench',
-    'use text format full_html',
+    'post comments',
+    'search content',
+    'show format selection for node',
+    'use advanced search',
+    'use text format basic_html',
+    'use text format filtered_html',
+    'view files',
     'view moderation history',
     'view moderation messages',
     'view own unpublished content',
     'view revisions',
-  ));
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $authenticated_permissions);
 
   // Grant permissions for anonymous users.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
+  $anonymous_permissions = array(
+    'access comments',
     'access PDF version',
     'access print',
     'post comments',
     'search content',
     'use advanced search',
-  ));
+    'use text format basic_html',
+    'use text format filtered_html',
+  );
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $anonymous_permissions);
 }
 
 /**
@@ -1583,9 +1635,9 @@ function cce_basic_config_update_7192() {
       ->execute();
   }
 
-  // Revoke 'use PHP to import nodes' 'administer varnish' permissions.
+  // Revoke 'administer varnish' permissions.
   foreach (array_keys(user_roles()) as $rid) {
-    user_role_revoke_permissions($rid, array('use PHP to import nodes', 'administer varnish'));
+    user_role_revoke_permissions($rid, array('administer varnish'));
   }
 }
 
@@ -2318,5 +2370,45 @@ function cce_basic_config_update_7215() {
     if (module_exists('tmgmt_poetry')) {
       module_enable(array('nexteuropa_dgt_connector'));
     }
+  }
+}
+
+/**
+ * Update platform version to 2.3.
+ */
+function cce_basic_config_update_7216() {
+  variable_set('multisite_version', '2.3');
+}
+
+/**
+ * NEPT-7: Make files translatable.
+ */
+function cce_basic_config_update_7217() {
+  // Make default image title and alt fields translatable.
+  $translatable_file_fields = array('field_caption', 'field_video_description');
+  foreach ($translatable_file_fields as $translatable_file_field) {
+    $file_field = field_info_field($translatable_file_field);
+    if (isset($file_field['translatable'])) {
+      $file_field['translatable'] = TRUE;
+      field_update_field($file_field);
+    }
+  }
+}
+
+/**
+ * NEPT-1025: Consolidate scheduler settings for Pages and Articles.
+ */
+function cce_basic_config_update_7218() {
+  if (module_exists('scheduler')) {
+    // Set up scheduler configuration for articles.
+    multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+    variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+    variable_set('scheduler_unpublish_revision_article', 0);
+    // Prevent creating new revisions when unpublishing a page.
+    variable_set('scheduler_unpublish_revision_page', 0);
+    // Remove old article fields.
+    field_delete_field('field_article_publication_date');
+    field_delete_field('field_article_unpublish_on');
+    field_purge_batch(1);
   }
 }

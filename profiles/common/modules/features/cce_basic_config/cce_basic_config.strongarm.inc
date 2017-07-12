@@ -395,7 +395,7 @@ example.org';
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'multisite_version';
-  $strongarm->value = '2.2';
+  $strongarm->value = '2.3';
   $export['multisite_version'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -1061,7 +1061,6 @@ video
   $strongarm->api_version = 1;
   $strongarm->name = 'cce_basic_config_admin_pages';
   $strongarm->value = array(
-    'admin/structure/feature-set',
     'admin/workbench',
     'admin/content/comment',
     'admin/content/media',

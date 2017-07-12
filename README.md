@@ -11,19 +11,10 @@
 ## Install build system
 
 Before we can build the NextEuropa platform we need to install the build system
-itself. This can be done using composer:
+itself. This can be done using [composer](https://getcomposer.org/):
 
 ```
 $ composer install
-```
-
-### Tips
-
-If you have a global install of composer already, this may cause conflict.
-Try the command below.
-
-```
-$ curl -sS https://getcomposer.org/installer | php
 ```
 
 ## Customize build properties
@@ -161,7 +152,7 @@ $ ./bin/phing setup-phpunit
 ```
 
 Each custom module or feature can expose unit tests by executing the following steps:
-  
+
 - Add `registry_autoload[] = PSR-4` to `YOUR_MODULE.info`
 - Create the following directory: `YOUR_MODULE/src/Tests`
 - Add your test classes in the directory above
