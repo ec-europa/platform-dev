@@ -16,6 +16,7 @@ function nexteuropa_fields_formatters_field_formatter_info() {
       'field types' => [
         'link_field',
         'taxonomy_term_reference',
+        'entityreference',
       ],
       'settings' => [
         'variation' => 'default',
@@ -179,6 +180,7 @@ function nexteuropa_fields_formatters_field_formatter_settings_summary($field, $
 function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $elements = [];
   $settings = $display['settings'];
+
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_tags':
@@ -233,6 +235,12 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             $uri = taxonomy_term_uri($term);
             $path = $uri['path'];
             $title = $term->name;
+            break;
+
+          case 'entityreference':
+            $entity = node_load($item['target_id']);
+            $title = $entity->title;
+            $path = url($entity->path['source']);
             break;
 
           case 'link_field':
