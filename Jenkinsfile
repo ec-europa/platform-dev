@@ -9,10 +9,6 @@ try {
             node('standard') {
                 try {
                     executeStages('standard')
-                    stage('Package') {
-                        sh "./bin/phing build-multisite-dist -Dcomposer.bin=`which composer`"
-                        sh "cd build && tar -czf ${env.RELEASE_PATH}/${env.RELEASE_NAME}.tar.gz ."
-                    }
                 } catch(err) {
                     throw(err)
                 }
@@ -22,7 +18,12 @@ try {
             // Build and test the communities profile
             node('communities') {
                 try {
-                    executeStages('communities')
+                    withEnv([
+                        "BEHAT_PROFILE=communities",
+                        "PLATFORM_PROFILE=multisite_drupal_communities"
+                    ]) {
+                        executeStages('communities')
+                    }
                 } catch(err) {
                     throw(err)
                 }

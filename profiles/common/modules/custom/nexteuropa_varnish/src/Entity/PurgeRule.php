@@ -49,4 +49,13 @@ class PurgeRule extends Entity {
     return preg_split("/[\r\n]+/", $this->paths);
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function save() {
+    $content_type = $this->content_type;
+    cache_clear_all('nexteuropa_varnish_get_node_purge_rules_' . $content_type, 'cache_nexteuropa_varnish');
+    return parent::save();
+  }
+
 }

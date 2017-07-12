@@ -38,6 +38,44 @@ function multisite_workbench_moderation_view_views_pre_view(&$views) {
 }
 
 /**
+ * Implements hook_views_post_render().
+ */
+function multisite_workbench_moderation_view_views_post_render(&$view, &$output, &$cache) {
+
+  // NEPT-485: For following views we need to process this logic:
+  // If content was never published, we don't show "Last Published" date.
+  // We need to query workbench moderation history,
+  // if we don't find a state published we override the view field.
+  if ($view->name === 'workbench_edited') {
+    $field_nid = 'node_node_revision_nid';
+    $field_status = 'node_node_revision_status';
+    $field_status_ok = 1;
+  }
+  elseif ($view->name === 'workbench_moderation') {
+    $field_nid = 'node_workbench_moderation_node_history_nid';
+    $field_status = 'workbench_moderation_node_history_state';
+    $field_status_ok = 'published';
+  }
+  else {
+    return;
+  }
+
+  foreach ($view->result as &$row) {
+    if ($row->$field_status != $field_status_ok) {
+      $query = db_select('workbench_moderation_node_history', 'history')
+        ->fields('history', ['nid'])
+        ->condition('history.state', 'published')
+        ->condition('nid', $row->$field_nid);
+      $found = $query->execute()->fetchField();
+      if (!$found) {
+        $string = '<span id="last_published_' . $row->$field_nid . '">';
+        $output = preg_replace('#(' . $string . ').*?(</span>)#', 'No', $output);
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_workbench_moderation_view_form_views_form_workbench_moderation_moderate_all_page_alter(&$form, &$form_state, $form_id) {

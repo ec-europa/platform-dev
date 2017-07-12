@@ -12,13 +12,6 @@ use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
 class NexteuropaCoreSubContext extends DrupalSubContextBase {
 
   /**
-   * Indicates if the custom single value term reference field was set up.
-   *
-   * @var bool
-   */
-  private $termFieldWasSetup = FALSE;
-
-  /**
    * Creates a single value term_reference field in the article content type.
    *
    * @Given there is a single tag field in the article content type
@@ -100,30 +93,6 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
     );
 
     field_create_instance($article_single_tag_set_field);
-
-    $this->termFieldWasSetup = TRUE;
-  }
-
-  /**
-   * Removes the field_tag field.
-   *
-   * @AfterScenario
-   */
-  public function deleteSingleTermReferenceField() {
-    if (!$this->termFieldWasSetup) {
-      return;
-    }
-
-    $this->termFieldWasSetup = FALSE;
-
-    $instance = field_info_instance('node', 'field_tag', 'article');
-
-    if ($instance) {
-      field_delete_instance($instance);
-    }
-
-    field_delete_field('field_tag');
-    field_purge_batch(10);
   }
 
 }
