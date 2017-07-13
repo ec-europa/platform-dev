@@ -266,7 +266,7 @@ function nexteuropa_token_ckeditor_custom_theme() {
   if ($candidates) {
     $theme = variable_get('node_admin_theme', '0') ?
       variable_get('admin_theme_default', 'seven') :
-      variable_get('theme_default', 'ec_resp');
+      variable_get('theme_default', '');
     return $theme;
   }
 }

@@ -22,13 +22,6 @@ class TaxonomyContext implements Context {
   protected $vocabularies = [];
 
   /**
-   * List of Fields created during test execution.
-   *
-   * @var \Fields[]
-   */
-  protected $fields = [];
-
-  /**
    * List of Terms created during test execution.
    *
    * @var \Fields[]
@@ -50,16 +43,32 @@ class TaxonomyContext implements Context {
   }
 
   /**
-   * Create vocabulary.
+   * Check vocabulary.
    *
    * @param string $name
    *    Name of the taxonomy.
    *
    * @Given the vocabulary :name exists
+   */
+  public function assertVocabulary($name) {
+    $this->getTaxonomyIdByName($name);
+  }
+
+  /**
+   * Create vocabulary.
+   *
+   * @param string $name
+   *    Name of the taxonomy.
+   *
+   * @Given the vocabulary :name is created
    *
    * @When I create a new vocabulary :name
    */
   public function iCreateNewVocabulary($name) {
+    if (taxonomy_vocabulary_machine_name_load($this->transliterate->getMachineName($name))) {
+      return;
+    }
+
     $vocabulary = array(
       'name' => $name,
       'machine_name' => $this->transliterate->getMachineName($name),
@@ -82,6 +91,7 @@ class TaxonomyContext implements Context {
     foreach ($this->vocabularies as $vocabulary_name) {
       taxonomy_vocabulary_delete($this->getTaxonomyIdByName($vocabulary_name));
     }
+    $this->vocabularies = array();
   }
 
   /**
@@ -227,9 +237,6 @@ class TaxonomyContext implements Context {
       );
       field_create_instance($instance);
 
-      // Backup fields created.
-      $this->fields[] = $field;
-
       $groups = field_group_read_groups(array(
         'name' => 'taxonomy_term',
         'bundle' => $vocabulary_machine_name,
@@ -242,19 +249,6 @@ class TaxonomyContext implements Context {
     else {
       throw new \InvalidArgumentException("The field '{$field_name}' already exists.");
     }
-  }
-
-  /**
-   * Revert to previous settings after scenario execution.
-   *
-   * @AfterScenario
-   */
-  public function removeFields() {
-    // Remove the fields.
-    foreach ($this->fields as $field) {
-      field_delete_field($field['field_name']);
-    }
-    field_purge_batch(100);
   }
 
   /**

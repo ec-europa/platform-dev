@@ -71,6 +71,24 @@ function nexteuropa_pages_install() {
     ->setInstanceSetting('classes', 'group-page-metadata field-group-tab')
     ->setInstanceSetting('required_fields', TRUE)
     ->save();
+
+  // Grant permissions for contributors.
+  $contributor_permissions = array(
+    'create page content',
+    'delete own page content',
+    'edit own page content',
+  );
+  multisite_config_service('user')->grantPermission('contributor', $contributor_permissions, 'node');
+
+  // Grant permissions for editors.
+  $editor_permissions = array(
+    'create page content',
+    'delete any page content',
+    'delete own page content',
+    'edit any page content',
+    'edit own page content',
+  );
+  multisite_config_service('user')->grantPermission('editor', $editor_permissions, 'node');
 }
 
 /**

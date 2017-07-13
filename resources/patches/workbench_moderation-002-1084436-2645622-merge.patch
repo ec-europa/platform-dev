@@ -1,0 +1,22 @@
+diff --git a/workbench_moderation.module b/workbench_moderation.module
+index d1eb572..c3921eb 100644
+--- a/workbench_moderation.module
++++ b/workbench_moderation.module
+@@ -809,8 +809,6 @@ function workbench_moderation_node_update($node) {
+   // Apply moderation changes if this is a new revision or if the moderation
+   // state has changed.
+   if (!empty($node->revision) || $node->workbench_moderation_state_current != $node->workbench_moderation_state_new) {
+-    // Update attached fields.
+-    field_attach_update('node', $node);
+     // Moderate the node.
+     workbench_moderation_moderate($node, $node->workbench_moderation_state_new);
+   }
+@@ -1791,6 +1789,8 @@ function workbench_moderation_store($node) {
+       watchdog('Workbench moderation', 'Failed to save node revision: node was deleted before shutdown function executed.');
+       return;
+     }
++    $live_revision_original = clone($live_revision);
++    $live_revision->original = $live_revision_original;
+     $live_revision->status = 1;
+   }
+   else {
