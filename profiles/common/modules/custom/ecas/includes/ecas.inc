@@ -560,9 +560,6 @@ function ecas_block_view($delta = '') {
       if (!$user->uid) {
         $output = '<div class="user-login-block">' . "\n";
 
-        // NOTE: special care needs to be taken because on pages with forms,
-        // such as node and comment submission pages, the $edit variable might
-        // already be set. @todo remove this comment or explain better please.
         $output .= l(t('Login'), 'ecas');
         $output .= '</div>' . "\n";
         $block['subject'] = t('User Login');
@@ -571,9 +568,6 @@ function ecas_block_view($delta = '') {
       else {
         $output = '<div class="user-login-block">' . "\n";
 
-        // NOTE: special care needs to be taken because on pages with forms,
-        // such as node and comment submission pages, the $edit variable might
-        // already be set. @todo remove this comment or explain better please.
         $output .= l(t('Logout'), 'ecaslogout');
         $output .= '</div>' . "\n";
         $block['subject'] = t('User Login');
