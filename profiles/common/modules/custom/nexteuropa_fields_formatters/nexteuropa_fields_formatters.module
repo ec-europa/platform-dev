@@ -164,7 +164,7 @@ function nexteuropa_fields_formatters_field_formatter_settings_summary($field, $
 
     case 'ne_listing':
       if (isset($settings['class'])) {
-        $summary[] = t('Class: @class', ['@class' => $settings['class']]);
+        $summary[] = t('Class: @class', array('@class' => $settings['class']));
       }
       break;
 
@@ -240,7 +240,7 @@ function nexteuropa_fields_formatters_field_formatter_prepare_view($entity_type,
  * Implements hook_field_formatter_view().
  */
 function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $elements = [];
+  $elements = array();
   $settings = $display['settings'];
 
   // Switch for the different formatters.
@@ -295,18 +295,18 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             $label = entity_label($target_type, $item['entity']);
             $uri = entity_uri($target_type, $item['entity']);
 
-            $link = [
+            $link = array(
               '#theme' => 'link',
               '#text' => $label,
               '#path' => $uri['path'],
-              '#options' => [
-                'attributes' => [
-                  'class' => [
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
                     'ecl-tag__item',
-                  ],
-                ],
-              ],
-            ];
+                  ),
+                ),
+              ),
+            );
             $markup = render($link);
             break;
 
@@ -362,16 +362,16 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             break;
         }
 
-        $link = [
+        $link = array(
           '#theme' => 'link__' . $settings['variation'],
           '#text' => $title,
           '#path' => $path,
-          '#options' => [
-            'attributes' => [
+          '#options' => array(
+            'attributes' => array(
               'class' => $settings['variation'],
-            ],
-          ],
-        ];
+            ),
+          ),
+        );
         $markup = render($link);
         $elements[$delta] = array(
           '#markup' => $markup,
@@ -394,16 +394,16 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
         switch ($field['type']) {
 
           case 'link_field':
-            $link = [
+            $link = array(
               '#theme' => 'link',
               '#text' => $item['title'],
               '#path' => $item['url'],
-              '#options' => [
-                'attributes' => [
+              '#options' => array(
+                'attributes' => array(
                   $item['attributes'],
-                ],
-              ],
-            ];
+                ),
+              ),
+            );
             $markup .= '
               <div class="listing__item">
                 <h3 class="ecl-heading ecl-heading--h3 listing__item-title">
@@ -451,7 +451,6 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
   return $elements;
 }
 
-
 /**
  * Custom function to generates string representation for the given byte count.
  *
@@ -472,22 +471,22 @@ function _nexteuropa_fields_formatters_format_size($size, $decimal_places = 1, $
     return format_plural($size,
       '1 byte',
       '@count bytes',
-      [],
-      ['langcode' => $langcode]);
+      array(),
+      array('langcode' => $langcode));
   }
   else {
     // Convert bytes to kilobytes.
     $size = $size / DRUPAL_KILOBYTE;
-    $units = [
-      t('@size KB', [], ['langcode' => $langcode]),
-      t('@size MB', [], ['langcode' => $langcode]),
-      t('@size GB', [], ['langcode' => $langcode]),
-      t('@size TB', [], ['langcode' => $langcode]),
-      t('@size PB', [], ['langcode' => $langcode]),
-      t('@size EB', [], ['langcode' => $langcode]),
-      t('@size ZB', [], ['langcode' => $langcode]),
-      t('@size YB', [], ['langcode' => $langcode]),
-    ];
+    $units = array(
+      t('@size KB', array(), array('langcode' => $langcode)),
+      t('@size MB', array(), array('langcode' => $langcode)),
+      t('@size GB', array(), array('langcode' => $langcode)),
+      t('@size TB', array(), array('langcode' => $langcode)),
+      t('@size PB', array(), array('langcode' => $langcode)),
+      t('@size EB', array(), array('langcode' => $langcode)),
+      t('@size ZB', array(), array('langcode' => $langcode)),
+      t('@size YB', array(), array('langcode' => $langcode)),
+    );
     foreach ($units as $unit) {
       if (round($size, $decimal_places) >= DRUPAL_KILOBYTE) {
         $size = $size / DRUPAL_KILOBYTE;
