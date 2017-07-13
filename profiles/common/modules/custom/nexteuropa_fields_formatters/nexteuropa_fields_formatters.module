@@ -276,7 +276,6 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
                 ),
               ),
             );
-            $markup = render($link);
             break;
 
           case 'entityreference':
@@ -307,7 +306,6 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
                 ),
               ),
             );
-            $markup = render($link);
             break;
 
           case 'link_field':
@@ -323,12 +321,9 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
                 ),
               ),
             );
-            $markup = render($link);
             break;
         }
-        $elements[$delta] = array(
-          '#markup' => $markup,
-        );
+        $elements[$delta] = $link;
       }
       break;
 
@@ -372,10 +367,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
             ),
           ),
         );
-        $markup = render($link);
-        $elements[$delta] = array(
-          '#markup' => $markup,
-        );
+        $elements[$delta] = $link;
       }
       break;
 
@@ -437,12 +429,7 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
               ),
             ),
           );
-
-          $markup = render($link);
-
-          $elements[$delta] = array(
-            '#markup' => $markup,
-          );
+          $elements[$delta] = $link;
         }
       }
 
