@@ -333,13 +333,6 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
   $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_path, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
   $pathauto = ($language_none_alias != $entity_path && $language_none_alias == $pathauto_alias);
 
-  // Reimplementation of the Workbench moderation fix (see
-  // https://www.drupal.org/node/2308095 and see "workbench_moderation_store"
-  // callback in workbench_moderation.module.
-  if (isset($entity->workbench_moderation) && isset($entity->workbench_moderation['published'])) {
-    $pathauto = FALSE;
-  }
-
   return array(
     'pid' => $language_none_path['pid'],
     'alias' => $language_none_alias,
@@ -547,22 +540,6 @@ function nexteuropa_multilingual_path_delete($path) {
 }
 
 /**
- * Implements hook_pathauto_alias_alter().
- *
- * If entity has entity translation enabled,
- * force all aliases to be saved as language neutral.
- * All content translations will have a unique alias.
- */
-function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
-
-  $translation_mechanism = variable_get('language_content_type_' . $context['type'], 0);
-
-  if ($translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
-    $context['language'] = LANGUAGE_NONE;
-  }
-}
-
-/**
  * Process variables for nexteuropa-multilingual-message.tpl.php.
  *
  * @param array $variables
@@ -683,6 +660,23 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
       if (!in_array($language, $allowed_languages)) {
         $language = LANGUAGE_NONE;
       }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function nexteuropa_multilingual_entity_info_alter(&$entity_info) {
+  if (module_exists('file_entity')) {
+    if (!isset($entity_info['file']['translation']['entity_translation'])) {
+      $entity_info['file']['translation']['entity_translation'] = array(
+        'class' => 'EntityTranslationFileHandler',
+        'edit form' => 'file',
+      );
+    }
+    else {
+      $entity_info['file']['translation']['entity_translation']['class'] = 'EntityTranslationFileHandler';
     }
   }
 }

@@ -11,8 +11,11 @@ use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
 use Behat\Gherkin\Node\TableNode;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isTrue;
 
 /**
  * Behat step definitions for the TMGMT Poetry Mock module.
@@ -114,12 +117,21 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   }
 
   /**
-   * Remove pending translations in a scenario tagged with @poetry_mock.
+   * Remove all translation files in a scenario tagged with @poetry_mock.
    *
    * @poetry
    */
-  public function removePendingTranslations() {
+  public function removeAllRequestTranslationFiles() {
     PoetryMock::removeAllRequestTranslationFiles();
+
+    // Delete the tmgmt_file directory.
+    $tmgmt_poetry_dir = drupal_realpath('public://') . '/tmgmt_file';
+    $process = new Process('rm -rf ' . $tmgmt_poetry_dir);
+    $process->run();
+
+    if (!$process->isSuccessful()) {
+      throw new ProcessFailedException($process);
+    }
   }
 
   /**
@@ -127,8 +139,18 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    *
    * @AfterScenario @poetry_mock
    */
-  public function removePendingJobss() {
+  public function removePendingJobs() {
     PoetryMock::removeAllRequestJobs();
+  }
+
+  /**
+   * Removes the mock TMGMT translator.
+   *
+   * @AfterScenario @poetry_mock_cleanup_translator
+   */
+  public function cleanupMockTranslator() {
+    PoetryMock::removeMockTranslator();
+    PoetryMock::importMockTranslator();
   }
 
   /**
@@ -227,38 +249,20 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
    * @Then the translation request document is valid XHTML
    */
   public function assertTranslationRequestDocumentIsValidXhtml() {
+
+    $msg = 'You need Tidy extension to test if XHTML is valid.';
+    assert(class_exists('tidy'), isTrue(), $msg);
+
     $this->assertTranslationRequest();
 
     $document = base64_decode($this->translationRequest['data']['content']);
 
-    $response = drupal_http_request(
-      'https://validator.w3.org/check',
-      [
-        'method' => 'POST',
-        'data' => http_build_query(
-          [
-            'fragment' => $document,
-            'output' => 'json',
-          ]
-        ),
-      ]
-    );
-
-    // Info on output from the validator:
-    // https://github.com/validator/validator/wiki/Output:-JSON.
-    $validation = json_decode($response->data);
-    $errors = $validation->messages;
-
-    if (!empty($errors)) {
-      $first_error = reset($errors);
-      throw new Exception(
-        sprintf(
-          'The translation document did not pass the W3C XHTML validation (error count: %d). First error: %s.',
-          count($errors),
-          $first_error->message
-        )
-      );
-    }
+    $tidy = new tidy();
+    $tidy->parseString($document);
+    assert($tidy->getStatus(), equals(0), sprintf(
+      'The translation document did not pass the tidy XHTML validation: %s.',
+      $tidy->errorBuffer
+    ));
   }
 
   /**

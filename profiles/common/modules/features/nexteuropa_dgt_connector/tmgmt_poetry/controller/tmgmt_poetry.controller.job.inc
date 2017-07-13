@@ -72,17 +72,28 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     // If a poetry translation has accepted a translation request
     // we should update the related additional sub translation jobs
     // with a reference returned by poetry.
-    if ($origin_job->state == TMGMT_JOB_STATE_ACTIVE && (strpos($origin_job->reference, 'MAIN_' . $origin_job->tjid . '_POETRY') !== FALSE)) {
+    if ($origin_job->state !== TMGMT_JOB_STATE_UNPROCESSED && (strpos($origin_job->reference, 'MAIN_' . $origin_job->tjid . '_POETRY') !== FALSE)) {
       $jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $origin_job->tjid, TRUE);
       foreach ($jobs as $ids) {
         $job = tmgmt_job_load($ids->tjid);
-        $job->reference = str_replace(
+        $initial_reference = $job->reference;
+        $final_reference = str_replace(
           'MAIN_' . $origin_job->tjid . '_POETRY_',
           'SUB_' . $origin_job->tjid . '_POETRY_',
           $origin_job->reference
         );
-        $job->state = TMGMT_JOB_STATE_ACTIVE;
-        $job->save();
+
+        if ($final_reference != $initial_reference) {
+          // Usually only jobs in TMGMT_JOB_STATE_ACTIVE state
+          // should need update.
+          if ($origin_job->state !== TMGMT_JOB_STATE_ACTIVE) {
+            $msg_watchdog = 'Updating sub translation, with reference !ref, of non active job';
+            watchdog('tmgmt_poetry', $msg_watchdog, array('!ref' => $final_reference), WATCHDOG_NOTICE);
+          }
+          $job->reference = $final_reference;
+          $job->state = TMGMT_JOB_STATE_ACTIVE;
+          $job->save();
+        }
       }
     }
 

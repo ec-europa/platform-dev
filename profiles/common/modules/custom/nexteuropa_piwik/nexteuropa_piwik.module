@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Drupal Module: NextEuropa Piwik.
@@ -129,6 +130,7 @@ function nexteuropa_piwik_process_html(&$vars) {
     'siteID' => $id,
     'sitePath' => $site_path,
     'is404' => FALSE,
+    'is403' => FALSE,
     'instance' => $instance,
   );
 
@@ -148,6 +150,11 @@ function nexteuropa_piwik_process_html(&$vars) {
   // Track file not found (404) pages.
   if ($status == '404 Not Found') {
     $webtools_piwik_settings['is404'] = TRUE;
+  }
+
+  // Track forbidden (403) accesses.
+  if ($status == '403 Forbidden') {
+    $webtools_piwik_settings['is403'] = TRUE;
   }
 
   if (!empty($site_section)) {

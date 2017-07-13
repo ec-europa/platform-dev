@@ -4,6 +4,8 @@
  * Contains install and update functions for nexteuropa_varnish.
  */
 
+include_once 'nexteuropa_varnish.helper.inc';
+
 /**
  * Implements hook_schema().
  */
@@ -32,32 +34,38 @@ function nexteuropa_varnish_schema() {
     'primary key' => array('id'),
   );
 
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE]['description'] = 'Cache table for the nexteuropa_varnish purge rules.';
+
   return $schema;
 }
 
 /**
  * Implements hook_requirements().
+ *
+ * At installation and run time phase, All Varnish feature settings' parameters
+ * must be set.
+ * The control status returns which parameters are missing.
  */
 function nexteuropa_varnish_requirements($phase) {
   $requirements = array();
   $t = get_t();
 
-  if ($phase == 'install') {
-    global $conf;
+  $control_phase = array(
+    'install',
+    'runtime',
+  );
 
-    $required_vars = array(
-      'nexteuropa_varnish_http_targets',
-      'nexteuropa_varnish_request_method',
-      'nexteuropa_varnish_request_user',
-      'nexteuropa_varnish_request_password',
-      'nexteuropa_varnish_tag',
-      'nexteuropa_varnish_http_timeout',
-    );
+  if (in_array($phase, $control_phase)) {
+    $required_vars = _nexteuropa_varnish_get_settings_item_names();
+    $settings = _nexteuropa_varnish_get_varnish_settings(FALSE);
 
-    foreach ($required_vars as $var) {
-      if (!isset($conf[$var])) {
-        $requirements[$var] = array(
-          'description' => $t('Following variable must be set: @var.', array('@var' => $var)),
+    foreach ($required_vars as $param_name => $var_item) {
+      if (empty($settings[$var_item])) {
+        $t_var = array('@var' => $param_name);
+        $requirements[$var_item] = array(
+          'title' => $t('NextEuropa Varnish: "@var" is missing', $t_var),
+          'description' => $t('"@var" must be set. Please ask your support team to check the server configuration.', $t_var),
           'severity' => REQUIREMENT_ERROR,
         );
       }
@@ -94,17 +102,21 @@ function nexteuropa_varnish_install() {
     ->condition('type', 'module')
     ->condition('name', 'nexteuropa_varnish')
     ->execute();
+
+  // Enabling the default purge rule.
+  variable_set('nexteuropa_varnish_default_purge_rule', TRUE);
 }
 
 /**
  * Implements hook_uninstall().
  */
 function nexteuropa_varnish_uninstall() {
-  $vars = [
+  $vars = array(
+    'nexteuropa_varnish_default_purge_rule',
     'nexteuropa_varnish_http_targets',
     'nexteuropa_varnish_tag',
     'nexteuropa_varnish_request_method',
-  ];
+  );
 
   foreach ($vars as $var) {
     variable_del($var);
@@ -150,4 +162,13 @@ function nexteuropa_varnish_update_7101() {
     ->condition('type', 'module')
     ->condition('name', 'nexteuropa_varnish')
     ->execute();
+}
+
+/**
+ * NEPT-799: Add cache table for the purge rules.
+ */
+function nexteuropa_varnish_update_7102() {
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema[NEXTEUROPA_VARNISH_CACHE_TABLE]['description'] = 'Cache table for the purge rules of nexteuropa_varnish.';
+  db_create_table(NEXTEUROPA_VARNISH_CACHE_TABLE, $schema[NEXTEUROPA_VARNISH_CACHE_TABLE]);
 }
