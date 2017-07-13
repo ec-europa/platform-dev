@@ -74,6 +74,7 @@ projects[apachesolr_multisitesearch][version] = "1.1"
 
 projects[autologout][subdir] = "contrib"
 projects[autologout][version] = "4.4"
+; Issue #2739114 : Change warning message to be more user friendly
 ; https://www.drupal.org/node/2739114
 projects[autologout][patch][] = https://www.drupal.org/files/issues/change-warning-message-2739114-15.patch
 
