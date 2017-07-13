@@ -8,6 +8,8 @@ nbproject/
 build.properties.local
 phpcs.xml
 tests/behat*.yml
+tests/*/behat*.yml
+phpunit.xml
 
 # Ignore build folders.
 bin/
@@ -35,3 +37,5 @@ profiles/common/libraries/jquery.imgareaselect/
 profiles/common/libraries/jquery/
 profiles/common/libraries/modernizr/
 profiles/common/libraries/plupload/
+profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins/
+profiles/*/modules/custom/nexteuropa_newsroom/

@@ -245,8 +245,9 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Load data exporter.
     $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
 
-    // Encode the data to be translated.
-    $content = base64_encode($controller->export($job));
+    // Generate the data into a XML format and encode it to be translated.
+    $export = $controller->export($job);
+    $content = base64_encode($export);
 
     // Generate the ID for the request.
     $items = $job->getItems();
@@ -477,7 +478,6 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     try {
       $client = new SoapClient($poetry['address'], array(
         'cache_wsdl' => WSDL_CACHE_NONE,
-        'trace' => 1,
       ));
     }
     catch (Exception $e) {

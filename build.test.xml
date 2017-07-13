@@ -81,6 +81,7 @@
                     <token key="flickr.key" value="${flickr.key}" />
                     <token key="flickr.secret" value="${flickr.secret}" />
                     <token key="drush.bin" value="${drush.bin}" />
+                    <token key="drush.db.dump" value="${drush.db.dump}" />
                     <token key="behat.formatter.name" value="${behat.formatter.name}" />
                     <token key="integration.server.port" value="${integration.server.port}" />
                     <token key="varnish.server.port" value="${varnish.server.port}" />
@@ -96,6 +97,16 @@
         <symlink link="${phing.project.build.dir}/features" target="../tests/features" />
         <symlink link="${phing.project.build.dir}/tests" target="../tests" />
         <symlink link="bin/behat" target="../${phing.project.build.dir}/vendor/bin/behat" overwrite="true"/>
+    </target>
+
+    <!-- Set up Behat balancer. -->
+    <target name="setup-behat-balancer">
+        <behat:balancer
+            containers="${behat.load_balancer.containers}"
+            root="${behat.load_balancer.root}"
+            destination="${behat.load_balancer.destination}"
+            import="${behat.load_balancer.import}"
+        />
     </target>
 
     <!-- Run Behat tests. -->
@@ -114,6 +125,30 @@
             strict="${behat.options.strict}"
             verbose="${behat.options.verbosity}"
         />
+    </target>
+
+    <!-- Set up PHPUnit. -->
+    <target name="setup-phpunit">
+        <copy todir="${phpunit.dir}" overwrite="true">
+            <fileset dir="${phpunit.dir}" casesensitive="yes">
+                <include name="*.xml.dist"/>
+            </fileset>
+            <filterchain>
+                <replacetokens begintoken="{{ " endtoken=" }}">
+                    <token key="phpunit.base_url" value="${phpunit.base_url}" />
+                    <token key="platform.build.dir" value="${platform.build.dir}" />
+                    <token key="phpunit.dir" value="${phpunit.dir}" />
+                </replacetokens>
+            </filterchain>
+            <mapper type="glob" from="*.xml.dist" to="*.xml" />
+        </copy>
+        <symlink link="${phing.project.build.dir}" overwrite="true">
+            <fileset dir="${phpunit.dir}" casesensitive="yes">
+                <include name="*.yml"/>
+            </fileset>
+        </symlink>
+        <symlink link="${phing.project.build.dir}/tests" target="../tests" />
+        <symlink link="bin/phpunit" target="../${phing.project.build.dir}/vendor/bin/phpunit" overwrite="true"/>
     </target>
 
     <!-- Rebuild node access. -->

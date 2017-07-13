@@ -29,10 +29,10 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
   /**
    * {@inheritdoc}
    */
-  public function export(TMGMTJob $job) {
+  public function export(TMGMTJob $job, $conditions = array()) {
 
     $items = array();
-    foreach ($job->getItems() as $item) {
+    foreach ($job->getItems($conditions) as $item) {
       $data = array_filter(tmgmt_flatten_data($item->getData()), '_tmgmt_filter_data');
       foreach ($data as $key => $value) {
         $items[$item->tjiid][$this->encodeIdSafeBase64($item->tjiid . '][' . $key)] = $value;
@@ -50,7 +50,7 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
   /**
    * {@inheritdoc}
    */
-  public function import($imported_file) {
+  public function import($imported_file, $is_file = TRUE) {
     $xml = $this->getXml($imported_file);
     // Extract the translation data from the imported file.
     $data = array();

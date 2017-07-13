@@ -11,35 +11,6 @@
 function cce_basic_config_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'.
-  $field_bases['body'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(
-      0 => 'node',
-    ),
-    'field_name' => 'body',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 1,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_with_summary',
-  );
-
   // Exported field_base: 'comment_body'.
   $field_bases['comment_body'] = array(
     'active' => 1,
@@ -69,64 +40,6 @@ function cce_basic_config_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_article_publication_date'.
-  $field_bases['field_article_publication_date'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_article_publication_date',
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'date',
-    'settings' => array(
-      'granularity' => array(
-        'day' => 'day',
-        'hour' => 'hour',
-        'minute' => 'minute',
-        'month' => 'month',
-        'second' => 0,
-        'year' => 'year',
-      ),
-      'repeat' => 0,
-      'timezone_db' => 'UTC',
-      'todate' => '',
-      'tz_handling' => 'site',
-    ),
-    'translatable' => 0,
-    'type' => 'datestamp',
-  );
-
-  // Exported field_base: 'field_article_unpublish_on'.
-  $field_bases['field_article_unpublish_on'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_article_unpublish_on',
-    'foreign keys' => array(),
-    'indexes' => array(),
-    'locked' => 1,
-    'module' => 'date',
-    'settings' => array(
-      'granularity' => array(
-        'day' => 'day',
-        'hour' => 'hour',
-        'minute' => 'minute',
-        'month' => 'month',
-        'second' => 0,
-        'year' => 'year',
-      ),
-      'repeat' => 0,
-      'timezone_db' => 'UTC',
-      'todate' => '',
-      'tz_handling' => 'site',
-    ),
-    'translatable' => 0,
-    'type' => 'datestamp',
-  );
-
   // Exported field_base: 'field_caption'.
   $field_bases['field_caption'] = array(
     'active' => 1,
@@ -152,7 +65,7 @@ function cce_basic_config_field_default_field_bases() {
     'settings' => array(
       'max_length' => 512,
     ),
-    'translatable' => 0,
+    'translatable' => 1,
     'type' => 'text',
   );
 
@@ -328,10 +241,10 @@ function cce_basic_config_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'text',
     'settings' => array(),
-    'translatable' => 0,
+    'translatable' => 1,
     'type' => 'text_long',
   );
 
