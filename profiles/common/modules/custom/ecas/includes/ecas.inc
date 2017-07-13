@@ -156,17 +156,12 @@ function _ecas_menu(array &$items) {
  * Apply ECAS logout logic when logging out because of autologout rules.
  */
 function ecas_user_logout($account) {
-
   if (isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout') {
     if (ecas_menu_logout_check()) {
       ecas_logout(TRUE, FALSE);
     }
     elseif (variable_get('autologout_use_alt_logout_method', TRUE)) {
-      // We are taking over the default logout process from autologout,
-      // so we need to take full control here.
-      session_destroy();
-      $user = drupal_anonymous_user();
-      _autologout_inactivity_message();
+      _ecas_session_end();
       drupal_goto(variable_get('site_frontpage', 'node'));
     }
   }
