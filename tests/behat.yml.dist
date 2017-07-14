@@ -52,7 +52,7 @@ default:
     Drupal\nexteuropa\Extensions\TransformExtension:
       transform_tokens:
         nept_element:block:page-language-switcher: '.block-language-selector-page'
-        nept_element:block:site-language-switcher: '#block-language-selector-site-language-selector-site'
+        nept_element:block:site-language-switcher: 'div.ecl-lang-select-sites a.ecl-lang-select-sites__link'
         nept_element:page-title: 'h1.ecl-heading.ecl-heading--h1'
         nept_element:system-status-report: 'table.system-status-report'
         nept_element:title-metatag: 'html head title'
