@@ -12,6 +12,13 @@ Feature: Field Multilingual features
       | fr        |
       | de        |
 
+  @theme_wip
+  # It is in wip because of the steps:
+  # - And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
+  # - And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
+  # - And I should see "Red" in the "nept_element:field:color-selection-value" element
+  # The reason is the field component is not implemented yet.
+  # It will be done with the ticket NEPT-1066
   Scenario: Administrator can translate field and field group labels. Once it is done,
   users see field and field group labels translated in interface language or in the source language
   if translations are not done
