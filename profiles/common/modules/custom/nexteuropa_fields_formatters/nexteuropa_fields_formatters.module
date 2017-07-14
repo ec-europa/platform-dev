@@ -9,64 +9,63 @@
  * Implements hook_field_formatter_info().
  */
 function nexteuropa_fields_formatters_field_formatter_info() {
-  return [
-    'ne_button' => [
+  return array(
+    'ne_button' => array(
       'label' => t('NE ECL button'),
       'description' => t('Displays as a button.'),
-      'field types' => [
+      'field types' => array(
         'link_field',
-        'list_text',
         'taxonomy_term_reference',
-        'text',
-        'text_long',
-      ],
-      'settings' => [
+        'entityreference',
+      ),
+      'settings' => array(
         'variation' => 'default',
         'link_title' => '',
         'force_language_default' => 0,
         'align_right' => 0,
-      ],
-    ],
-    'ne_date' => [
+      ),
+    ),
+    'ne_date' => array(
       'label' => t('NE date display'),
       'description' => t('Displays a date.'),
-      'field types' => [
+      'field types' => array(
         'date',
         'datestamp',
         'datetime',
-      ],
-      'settings' => [
+      ),
+      'settings' => array(
         'variation' => 'default',
-      ],
-    ],
-    'ne_listing' => [
+      ),
+    ),
+    'ne_listing' => array(
       'label' => t('NE Listing'),
       'description' => t('Renders line items as listing component'),
-      'field types' => ['link_field'],
-      'settings' => [
+      'field types' => array('link_field'),
+      'settings' => array(
         'class' => '',
-      ],
-    ],
-    'ne_download_button' => [
+      ),
+    ),
+    'ne_download_button' => array(
       'label' => t('NE Download button'),
       'description' => t('Button to download file'),
-      'field types' => [
+      'field types' => array(
         'link_field',
         'file',
-      ],
-      'settings' => [
+      ),
+      'settings' => array(
         'label' => 'Download',
         'show_translations' => TRUE,
-      ],
-    ],
-    'ne_tags' => [
+      ),
+    ),
+    'ne_tags' => array(
       'label' => t('NE Tags'),
-      'field types' => [
+      'field types' => array(
         'taxonomy_term_reference',
         'link_field',
-      ],
-    ],
-  ];
+        'entityreference',
+      ),
+    ),
+  );
 }
 
 /**
@@ -80,50 +79,47 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_button':
-      $element['variation'] = [
+      $element['variation'] = array(
         '#type' => 'select',
         '#title' => t('Variation'),
-        '#options' => [
+        '#options' => array(
           'block' => 'Default',
-          'call' => 'Call to action',
-          'info' => 'Info',
           'primary' => 'Primary',
           'secondary' => 'Secondary',
-          'form' => 'Form',
-          'light' => 'Light',
-          'arrow-up' => 'Arrow Up',
-          'arrow-down' => 'Arrow Down',
-          'carret-up' => 'Carret Up',
-          'carret-down' => 'Carret Down',
-          'carret-left' => 'Carret Left',
-          'carret-right' => 'Carret Right',
-        ],
+          'call' => 'Call to action',
+          'timeline' => 'Timeline',
+          'caret_up' => 'Caret Up',
+          'caret_right' => 'Caret Right',
+          'caret_down' => 'Caret Down',
+          'caret_left' => 'Caret Left',
+          'primary_block' => 'Primary block wide',
+        ),
         '#default_value' => $settings['variation'],
-        '#description' => t('Please select the button variation you need. Each variation is illustrated on the <a href="!url">ECL Library</a>', array('!url' => 'https://ec-europa.github.io/europa-component-library/components/detail/ecl-buttons')),
-      ];
+        '#description' => t('Please select the button variation you need. Examples for each variations are illustrated on the <a href="!url">ECL Library</a>', array('!url' => 'https://ec-europa.github.io/europa-component-library/components/detail/ecl-buttons')),
+      );
       break;
 
     case 'ne_date':
-      $element['variation'] = [
+      $element['variation'] = array(
         '#type' => 'select',
         '#title' => t('Variation'),
-        '#options' => [
+        '#options' => array(
           ' ' => 'Default',
-          'live-streaming' => 'Events',
+          'live_streaming' => 'Events',
           'past' => 'Past events',
-        ],
+        ),
         '#default_value' => $settings['variation'],
         '#description' => t('Please select the date type you need.'),
-      ];
+      );
       break;
 
     case 'ne_listing':
-      $element['class'] = [
+      $element['class'] = array(
         '#type' => 'textfield',
         '#title' => t('Classes'),
         '#default_value' => $settings['class'],
         '#description' => t('You can add additional listing modifiers here.'),
-      ];
+      );
       break;
 
     case 'ne_download_button':
@@ -145,30 +141,30 @@ function nexteuropa_fields_formatters_field_formatter_settings_form($field, $ins
 function nexteuropa_fields_formatters_field_formatter_settings_summary($field, $instance, $view_mode) {
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
-  $summary = [];
+  $summary = array();
 
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_download_button':
       if (isset($settings['label'])) {
-        $summary[] = t('Button label: @label', [
+        $summary[] = t('Button label: @label', array(
           '@label' => $settings['label'],
-        ]);
+        ));
       }
       break;
 
     case 'ne_button':
     case 'ne_date':
       if (isset($settings['variation'])) {
-        $summary[] = t('Variation: @variation', [
+        $summary[] = t('Variation: @variation', array(
           '@variation' => $settings['variation'],
-        ]);
+        ));
       }
       break;
 
     case 'ne_listing':
       if (isset($settings['class'])) {
-        $summary[] = t('Class: @class', ['@class' => $settings['class']]);
+        $summary[] = t('Class: @class', array('@class' => $settings['class']));
       }
       break;
 
@@ -178,109 +174,200 @@ function nexteuropa_fields_formatters_field_formatter_settings_summary($field, $
   return $summary;
 }
 
+/**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function nexteuropa_fields_formatters_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  $display_modes = array('ne_button', 'ne_tags');
+  $target_ids = array();
+  $target_type = FALSE;
+
+  // Collect every possible entity attached to any of the entities.
+  foreach ($entities as $id => $entity) {
+    if (in_array($displays[$id]['type'], $display_modes)) {
+      if (!isset($column)) {
+        $field_type_settings = entityreference_field_type_settings($field);
+        $target_type = $field_type_settings['entity_type'];
+        $column = $field_type_settings['column'];
+      }
+
+      foreach ($items[$id] as $delta => $item) {
+        if (isset($item[$column])) {
+          $target_ids[] = $item[$column];
+        }
+      }
+    }
+  }
+
+  // If not target ids, no need to continue the process.
+  if (empty($target_ids)) {
+    return;
+  }
+
+  $target_entities = array();
+  if ($target_ids) {
+    $target_entities = entity_load($target_type, $target_ids);
+  }
+
+  // Iterate through the fieldable entities again to attach the loaded data.
+  foreach ($entities as $id => $entity) {
+    $rekey = FALSE;
+
+    foreach ($items[$id] as $delta => $item) {
+      // Check whether the referenced entity could be loaded.
+      if (isset($target_entities[$item[$column]])) {
+        // Replace the instance value with the term data.
+        $items[$id][$delta]['entity'] = $target_entities[$item[$column]];
+        // Check whether the user has access to the referenced entity.
+        $has_view_access = (entity_access('view', $target_type, $target_entities[$item[$column]]) !== FALSE);
+        $has_update_access = (entity_access('update', $target_type, $target_entities[$item[$column]]) !== FALSE);
+        $items[$id][$delta]['access'] = ($has_view_access || $has_update_access);
+      }
+      // Otherwise, unset the instance value, since the entity does not exist.
+      else {
+        unset($items[$id][$delta]);
+        $rekey = TRUE;
+      }
+    }
+    if ($rekey) {
+      // Rekey the items array.
+      $items[$id] = array_values($items[$id]);
+    }
+  }
+}
 
 /**
  * Implements hook_field_formatter_view().
  */
 function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $elements = [];
+  $elements = array();
   $settings = $display['settings'];
+
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_tags':
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
-            $term = taxonomy_term_load($item['tid']);
-            $uri = taxonomy_term_uri($term);
-            $link = [
+            // If the access is denied to the term, we do not display it.
+            if (empty($item['access'])) {
+              continue;
+            }
+
+            if (!isset($target_type)) {
+              $field_type_settings = entityreference_field_type_settings($field);
+              $target_type = $field_type_settings['entity_type'];
+            }
+
+            // Calling EntityReferenceHandler::getLabel() would make a repeated,
+            // wasteful call to entity_access().
+            $label = entity_label($target_type, $item['entity']);
+            $uri = entity_uri($target_type, $item['entity']);
+
+            $link = array(
               '#theme' => 'link',
-              '#text' => $term->name,
+              '#text' => $label,
               '#path' => $uri['path'],
-              '#options' => [
-                'attributes' => [
-                  'class' => [
-                    'tags__item',
-                  ],
-                ],
-              ],
-            ];
-            $markup = render($link);
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'ecl-tag__item',
+                  ),
+                ),
+              ),
+            );
+            break;
+
+          case 'entityreference':
+            // If the access is denied to the term, we do not display it.
+            if (empty($item['access'])) {
+              continue;
+            }
+
+            if (!isset($target_type)) {
+              $field_type_settings = entityreference_field_type_settings($field);
+              $target_type = $field_type_settings['entity_type'];
+            }
+
+            // Calling EntityReferenceHandler::getLabel() would make a repeated,
+            // wasteful call to entity_access().
+            $label = entity_label($target_type, $item['entity']);
+            $uri = entity_uri($target_type, $item['entity']);
+
+            $link = array(
+              '#theme' => 'link',
+              '#text' => $label,
+              '#path' => $uri['path'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'ecl-tag__item',
+                  ),
+                ),
+              ),
+            );
             break;
 
           case 'link_field':
-            $term = taxonomy_term_load($item['tid']);
-            $uri = taxonomy_term_uri($term);
-            $link = [
+            $link = array(
               '#theme' => 'link',
-              '#text' => $term->name,
-              '#path' => $uri['path'],
-              '#options' => [
-                'attributes' => [
-                  'class' => [
-                    'tags__item',
-                  ],
-                ],
-              ],
-            ];
-            $markup = render($link);
+              '#text' => $item['title'],
+              '#path' => $item['url'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'ecl-tag__item',
+                  ),
+                ),
+              ),
+            );
             break;
-
         }
-        $elements[$delta] = [
-          '#markup' => $markup,
-        ];
+        $elements[$delta] = $link;
       }
       break;
 
     case 'ne_button':
-      $modifier = 'ecl-button';
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
-            $term = taxonomy_term_load($item['tid']);
-            $uri = taxonomy_term_uri($term);
-            $link = [
-              '#theme' => 'link',
-              '#text' => $term->name,
-              '#path' => $uri['path'],
-              '#options' => [
-                'attributes' => [
-                  'class' => [
-                    $modifier,
-                    $modifier . '--' . $settings['variation'],
-                  ],
-                ],
-              ],
-            ];
-            $markup = render($link);
+
+          case 'entityreference':
+            // If the access is denied to the term, we do not display it.
+            if (empty($item['access'])) {
+              continue;
+            }
+
+            if (!isset($target_type)) {
+              $field_type_settings = entityreference_field_type_settings($field);
+              $target_type = $field_type_settings['entity_type'];
+            }
+
+            // Calling EntityReferenceHandler::getLabel() would make a repeated,
+            // wasteful call to entity_access().
+            $label = entity_label($target_type, $item['entity']);
+            $uri = entity_uri($target_type, $item['entity']);
+            $path = $uri['path'];
+            $title = $label;
             break;
 
           case 'link_field':
-            $link = [
-              '#theme' => 'link',
-              '#text' => $item['title'],
-              '#path' => $item['url'],
-              '#options' => [
-                'attributes' => [
-                  'class' => [
-                    $modifier,
-                    $modifier . '--' . $settings['variation'],
-                  ],
-                ],
-              ],
-            ];
-            $markup = render($link);
-            break;
-
-          default:
-            $markup = '<span class="ecl-button ecl-button--' .
-              $settings['variation'] . '">' . $item['value'] . '</span>&nbsp;';
+            $title = $item['title'];
+            $path = $item['url'];
             break;
         }
-        $elements[$delta] = [
-          '#markup' => $markup,
-        ];
+
+        $link = array(
+          '#theme' => 'link__' . $settings['variation'],
+          '#text' => $title,
+          '#path' => $path,
+          '#options' => array(
+            'attributes' => array(
+              'class' => $settings['variation'],
+            ),
+          ),
+        );
+        $elements[$delta] = $link;
       }
       break;
 
@@ -299,16 +386,16 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
         switch ($field['type']) {
 
           case 'link_field':
-            $link = [
+            $link = array(
               '#theme' => 'link',
               '#text' => $item['title'],
               '#path' => $item['url'],
-              '#options' => [
-                'attributes' => [
+              '#options' => array(
+                'attributes' => array(
                   $item['attributes'],
-                ],
-              ],
-            ];
+                ),
+              ),
+            );
             $markup .= '
               <div class="listing__item">
                 <h3 class="ecl-heading ecl-heading--h3 listing__item-title">
@@ -319,9 +406,9 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
         }
         $markup .= '</div>';
 
-        $elements[$delta] = [
+        $elements[$delta] = array(
           '#markup' => $markup,
-        ];
+        );
       }
       break;
 
@@ -330,24 +417,19 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
 
       if ($field['type'] == 'link_field') {
         foreach ($items as $delta => $item) {
-          $link = [
+          $link = array(
             '#theme' => 'link',
             '#text' => $item['title'],
             '#path' => $item['url'],
-            '#options' => [
-              'attributes' => [
-                'class'  => [
+            '#options' => array(
+              'attributes' => array(
+                'class'  => array(
                   'btn-download',
-                ],
-              ],
-            ],
-          ];
-
-          $markup = render($link);
-
-          $elements[$delta] = array(
-            '#markup' => $markup,
+                ),
+              ),
+            ),
           );
+          $elements[$delta] = $link;
         }
       }
 
@@ -355,7 +437,6 @@ function nexteuropa_fields_formatters_field_formatter_view($entity_type, $entity
   }
   return $elements;
 }
-
 
 /**
  * Custom function to generates string representation for the given byte count.
@@ -377,22 +458,22 @@ function _nexteuropa_fields_formatters_format_size($size, $decimal_places = 1, $
     return format_plural($size,
       '1 byte',
       '@count bytes',
-      [],
-      ['langcode' => $langcode]);
+      array(),
+      array('langcode' => $langcode));
   }
   else {
     // Convert bytes to kilobytes.
     $size = $size / DRUPAL_KILOBYTE;
-    $units = [
-      t('@size KB', [], ['langcode' => $langcode]),
-      t('@size MB', [], ['langcode' => $langcode]),
-      t('@size GB', [], ['langcode' => $langcode]),
-      t('@size TB', [], ['langcode' => $langcode]),
-      t('@size PB', [], ['langcode' => $langcode]),
-      t('@size EB', [], ['langcode' => $langcode]),
-      t('@size ZB', [], ['langcode' => $langcode]),
-      t('@size YB', [], ['langcode' => $langcode]),
-    ];
+    $units = array(
+      t('@size KB', array(), array('langcode' => $langcode)),
+      t('@size MB', array(), array('langcode' => $langcode)),
+      t('@size GB', array(), array('langcode' => $langcode)),
+      t('@size TB', array(), array('langcode' => $langcode)),
+      t('@size PB', array(), array('langcode' => $langcode)),
+      t('@size EB', array(), array('langcode' => $langcode)),
+      t('@size ZB', array(), array('langcode' => $langcode)),
+      t('@size YB', array(), array('langcode' => $langcode)),
+    );
     foreach ($units as $unit) {
       if (round($size, $decimal_places) >= DRUPAL_KILOBYTE) {
         $size = $size / DRUPAL_KILOBYTE;
