@@ -75,10 +75,10 @@ default:
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
         warning_message_selector: '.messages.warning'
-        front_message_selector: "div.ecl-messages > div.item-list > ul.ecl-message--body > li"
-        front_error_message_selector: "div.ecl-messages.error.alert > div.item-list > ul.ecl-message--body > li"
-        front_success_message_selector: "div.ecl-messages.status.alert > div.item-list > ul.ecl-message--body > li"
-        front_warning_message_selector: "div.ecl-messages.warning.alert > div.item-list > ul.ecl-message--body > li"
+        front_message_selector: "div.ecl-message > ul.ecl-message--body > li"
+        front_error_message_selector: "div.ecl-message.ecl-message--error > ul.ecl-list.ecl-message__body > li"
+        front_success_message_selector: "div.ecl-message.ecl-message--success > ul.ecl-list.ecl-message__body > li"
+        front_warning_message_selector: "div.ecl-message.ecl-message--warning > ul.ecl-list.ecl-message__body > li"
       drush:
         root: '{{ platform.build.dir }}'
         binary: '{{ drush.bin }}'
