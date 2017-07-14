@@ -76,6 +76,30 @@ class MessageContext extends DrupalExtensionMessageContext {
   }
 
   /**
+   * Checks if the current page contains the given error message
+   *
+   * @param $message
+   *   string The text to be checked
+   *
+   * @Then I should see the error message( containing) :message in the Media modal
+   */
+  public function assertMediaErrorVisible($message) {
+      parent::assertErrorVisible($message);
+  }
+
+  /**
+   * Checks if the current page does not contain the given error message
+   *
+   * @param $message
+   *   string The text to be checked
+   *
+   * @Given I should not see the error message( containing) :message in the Media modal
+   */
+  public function assertMediaNotErrorVisible($message) {
+      parent::assertNotErrorVisible($message);
+  }
+
+  /**
    * {@inheritdoc}
    *
    * @override

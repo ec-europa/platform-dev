@@ -37,7 +37,7 @@ Feature: Embedded images
     Then the media browser opens
     When I fill in "File URL or media resource" with "<url>"
     And I press "Next"
-    Then I should see the error message "Unable to handle the provided embed string or URL."
+    Then I should see the error message "Unable to handle the provided embed string or URL." in the Media modal
 
     Examples:
       | title              | url                                       |
