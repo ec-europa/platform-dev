@@ -10,7 +10,6 @@
  */
 function multisite_create_button_enable() {
   multisite_drupal_toolbox_add_block_context('site_wide', 'create-content-button', 'multisite_create_button', 'create-content-button', 'tools', 2);
-
   drupal_set_message(t("Content creation button installed"));
 }
 
@@ -19,6 +18,5 @@ function multisite_create_button_enable() {
  */
 function multisite_create_button_disable() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'create-content-button');
-
   drupal_set_message(t("Content creation button uninstalled"));
 }

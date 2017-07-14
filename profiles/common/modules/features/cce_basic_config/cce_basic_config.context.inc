@@ -29,7 +29,7 @@ function cce_basic_config_context_default_contexts() {
         'user-menu' => array(
           'module' => 'system',
           'delta' => 'user-menu',
-          'region' => 'utility',
+          'region' => 'tools',
           'weight' => 1,
         ),
         'create-content-button' => array(
