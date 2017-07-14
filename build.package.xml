@@ -188,4 +188,58 @@
         <phingcall target="install-platform-dependencies" />
     </target>
 
+    <target
+        name="build-europa-dev"
+        description="Build a local development version of the platform based on the Europa theme."
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory, europa-theme-repo-clone, europa-theme-build" />
+
+    <!-- Clonning and checking out the branch of the Atomium and Europa theme repositories. -->
+    <target name="europa-theme-repo-clone">
+        <!-- Deleting theme directories before clonning -->
+        <delete dir="${platform.resources.profiles.common.themes.dir}/atomium" quiet="true"/>
+        <delete dir="${platform.resources.profiles.common.themes.dir}/europa" quiet="true"/>
+
+        <!-- Clonning the Atomium theme repo into the common profiles directory -->
+        <echo msg = "Clonning the Atomium theme repository."/>
+        <gitclone
+            repository="${platform.theme.atomium.repo.url}"
+            targetPath="${platform.resources.profiles.common.themes.dir}/atomium"/>
+        <!-- Checking out the configured branch in the cloned repo -->
+        <gitcheckout
+            repository="${platform.resources.profiles.common.themes.dir}/atomium"
+            branchname="${platform.theme.atomium.repo.branch}"/>
+
+        <!-- Clonning the Europa theme repo into the common profiles directory -->
+        <echo msg = "Clonning the Europa theme repository."/>
+        <gitclone
+            repository="${platform.theme.europa.repo.url}"
+            targetPath="${platform.resources.profiles.common.themes.dir}/europa"/>
+        <!-- Checking out the configured branch in the cloned repo -->
+        <gitcheckout
+            repository="${platform.resources.profiles.common.themes.dir}/europa"
+            branchname="${platform.theme.europa.repo.branch}"/>
+    </target>
+
+    <!-- Generating assets -->
+    <target name="europa-theme-build">
+        <exec
+            command="npm install"
+            passthru="true"
+            dir="${platform.resources.profiles.common.themes.dir}/europa"
+        />
+        <exec
+            command="npm run build"
+            passthru="true"
+            dir="${platform.resources.profiles.common.themes.dir}/europa"
+        />
+        <!-- Deleting *.map files (currently there is a bug in the ecl-builder) -->
+        <delete>
+            <fileset dir="${platform.resources.profiles.common.themes.dir}/europa/assets/css">
+                <include name="*.map" />
+            </fileset>
+            <fileset dir="${platform.resources.profiles.common.themes.dir}/europa/wysiwyg">
+                <include name="*.map" />
+            </fileset>
+        </delete>
+    </target>
 </project>
