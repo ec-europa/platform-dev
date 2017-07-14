@@ -10,6 +10,13 @@ platform.site.name = NextEuropa
 # The default theme to enable, set to either "europa" or "ec_resp".
 platform.site.theme_default = europa
 
+# The default Atomium and Europa theme build properties.
+# Used only if default theme is set to "europa".
+platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
+platform.theme.atomium.repo.branch = 7.x-1.x
+platform.theme.europa.repo.url = https://github.com/ec-europa/ec-europa-theme.git
+platform.theme.europa.repo.branch = nept-1191
+
 # The Drupal core make file.
 drupal.make = ${platform.resources.dir}/drupal-core.make
 
@@ -67,6 +74,7 @@ platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 # Local resources
 platform.resources.dir = ${platform.basedir}/resources
 platform.resources.profiles.dir = ${platform.basedir}/profiles
+platform.resources.profiles.common.themes.dir = ${platform.basedir}/profiles/common/themes
 platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.profile.name}
 
 platform.resources.composer.json = ${platform.resources.dir}/composer.json
