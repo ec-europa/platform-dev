@@ -1,4 +1,6 @@
 @api @poetry_mock @i18n @poetry @theme_wip
+# They are all in wip for the europa theme because it implies a step referring a
+# region. This must be evaluate deeper before being able to know how to deal with.
 Feature: TMGMT Poetry features
   In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator
