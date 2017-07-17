@@ -39,6 +39,8 @@ Feature: TMGMT Poetry permissions features
       | Email to           |
       | Email CC           |
 
+    @theme_wip
+    # This scenario is in THEME WIP until the NEPT-1242 is fixed
     Scenario: I should be able to fill in the configuration form and be notified
       when server config is missing
       When I fill in "Counter" with "NEXT_EUROPA_COUNTER"
