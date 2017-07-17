@@ -40,7 +40,8 @@ Scenario: Anonymous users can login with ECAS
   And I go to "ecas"
   Then I should be on the ecas page
 
-@Ecas
+@Ecas @theme_wip
+# Test is in THEME WIP until the NEPT-1241 is fixed.
 Scenario: ECAS users can't edit their information
   Given I am logged in as an Ecas user with the "authenticated" role
   When I click "My account"
