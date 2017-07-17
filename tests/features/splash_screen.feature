@@ -1,4 +1,5 @@
-@api
+@api @theme_wip
+# The feature is in THEMLE WIP because of the NEPT-1240
 Feature: Splash Screen features
   In order navigate on the site in my language of preference
   As a citizen of the European Union
