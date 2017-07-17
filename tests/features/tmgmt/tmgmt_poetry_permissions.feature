@@ -40,7 +40,7 @@ Feature: TMGMT Poetry permissions features
       | Email CC           |
 
     Scenario: I should be able to fill in the configuration form and be notified
-      when server config is missing
+      When server config is missing
       When I fill in "Counter" with "NEXT_EUROPA_COUNTER"
       And I fill in "Requester code" with "WEB"
       And I fill in "Callback User" with "drupal_callback_user"
