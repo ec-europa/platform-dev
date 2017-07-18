@@ -18,7 +18,12 @@ try {
             // Build and test the communities profile
             node('communities') {
                 try {
-                    executeStages('communities')
+                    withEnv([
+                        "BEHAT_PROFILE=communities",
+                        "PLATFORM_PROFILE=multisite_drupal_communities"
+                    ]) {
+                        executeStages('communities')
+                    }
                 } catch(err) {
                     throw(err)
                 }
