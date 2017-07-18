@@ -150,14 +150,8 @@
 
         var lat = $(this).attr("lat");
         var lng = $(this).attr("lng");
+        map.setView([lat, lng], 13);
 
-        if (addNewLayerValidate()) {
-          var marker = new L.marker([lat, lng]).addTo(map);
-
-          addNewLayer(marker);
-
-          map.setView([lat, lng], 13);
-        }
       });
 
       // Manage the event : when a new object is put on the map.
