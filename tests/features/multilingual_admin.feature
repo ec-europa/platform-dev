@@ -27,8 +27,12 @@ Feature: Content translation
     And I fill in "Title" with "Deutsch title"
     And I fill in "Body" with "Deutsch Body not for English version."
     And I press "Save"
-    And I click "English" in the "content" region
-    Then I should not see the text "Deutsch Body not for English version."
+    Then I should see the text "Deutsch title"
+    And I should see the text "Deutsch Body not for English version."
+    When I click "English" in the "content" region
+    Then I should not see the text "Deutsch title"
+    And I should not see the text "Deutsch Body not for English version."
+    But I should see the text "English title"
 
   @javascript @maximizedwindow
   Scenario: Make sure that I can add "title_field" fields to a view when the Estonian language is enabled.

@@ -223,6 +223,7 @@ Feature: Change tracking features
     And I click "English" in the "header_top" region
     And I click "Français"
     And I click "New draft"
+    And I click "French"
     And I select "Full HTML + Change tracking" from "field_ne_body[fr][0][format]"
     And I fill in "Body" with "<blocked>"
     And I press "Save"
