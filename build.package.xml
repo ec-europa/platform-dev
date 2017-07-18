@@ -163,7 +163,7 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory, build-europa-theme" />
 
     <target
         name="build-platform-dist"
@@ -186,6 +186,62 @@
         <!-- Call the remaining build targets. -->
         <phingcall target="copy-platform-resources" />
         <phingcall target="install-platform-dependencies" />
+    </target>
+
+    <target
+        name="build-europa-theme"
+        description="Downloads Atomium and Europa themes with embedded ECL artifacts.">
+        <if>
+            <equals arg1="${platform.site.theme_default}" arg2="europa" />
+            <then>
+                <phingcall target="process-atomium-theme" />
+                <phingcall target="process-europa-theme" />
+            </then>
+        </if>
+    </target>
+
+    <!-- Download and extract the Atomium theme. -->
+    <target name="process-atomium-theme">
+        <!-- Download the Atomium theme archive for a given branch. -->
+        <exec
+            command="curl -L https://api.github.com/repos/ec-europa/atomium/tarball/${platform.theme.atomium.repo.branch} > profiles/common/themes/atomium.tar.gz"
+            passthru="true" />
+        <!-- Extract the archive -->
+        <mkdir dir="profiles/common/themes/atomium" />
+        <exec
+            dir="profiles/common/themes"
+            command="tar xvf atomium.tar.gz --strip=1 -C atomium"
+            passthru="true" />
+        <delete file="profiles/common/themes/atomium.tar.gz" quiet="true" />
+    </target>
+
+    <!-- This step in future will become a part of a build on the new Europa theme repository. -->
+    <target name="process-europa-theme">
+        <!-- Download the Europa theme archive for a given branch. -->
+        <exec
+            command="curl -L https://api.github.com/repos/ec-europa/ec-europa-theme/tarball/${platform.theme.europa.repo.branch} > profiles/common/themes/europa.tar.gz"
+            passthru="true" />
+        <!-- Extract the archive -->
+        <mkdir dir="profiles/common/themes/europa" />
+        <exec
+            dir="profiles/common/themes"
+            command="tar xvf europa.tar.gz --strip=1 -C europa"
+            passthru="true" />
+        <delete file="profiles/common/themes/europa.tar.gz" quiet="true" />
+        <phingcall target="embed-ecl-assets" />
+    </target>
+
+    <target name="embed-ecl-assets">
+        <!-- Download the ECL release package. -->
+        <exec
+            command="curl -L https://github.com/ec-europa/europa-component-library/releases/download/${ecl.version}/framework.tar.gz > profiles/common/themes/europa/framework.tar.gz"
+            passthru="true" />
+        <!-- Extract and embed the ECL artifacts into the Europa theme. -->
+        <exec
+            dir="profiles/common/themes/europa"
+            command="tar xvf framework.tar.gz --strip=1 -C assets"
+            passthru="true" />
+        <delete file="profiles/common/themes/europa/framework.tar.gz" quiet="true" />
     </target>
 
     <target

@@ -10,6 +10,9 @@ platform.site.name = NextEuropa
 # The default theme to enable, set to either "europa" or "ec_resp".
 platform.site.theme_default = europa
 
+# The default Europa Component Library release
+ecl.version = v0.10.0
+
 # The default Atomium and Europa theme build properties.
 # Used only if default theme is set to "europa".
 platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
