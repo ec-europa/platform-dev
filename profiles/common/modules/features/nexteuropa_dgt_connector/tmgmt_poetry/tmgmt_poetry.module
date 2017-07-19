@@ -302,6 +302,10 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
       $form_state['values']['target_language'] = $new_main_lg;
       $form_state['tmgmt_job']->target_language = $new_main_lg;
       $form_state['tmgmt_job']->save();
+
+      dpm('RESUMO (_tmgmt_poetry_form_tmgmt_job_submit)');
+      dpm('TJID: ' . $form_state['tmgmt_job']->tjid);
+      dpm('TARGET: ' . $form_state['tmgmt_job']->target_language);
     }
     // Clearing chosen request languages from the session.
     _tmgmt_poetry_workbench_clear_request_languages();
@@ -738,6 +742,25 @@ function tmgmt_poetry_page_alter(&$page) {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
+ * Change the Cart form to provide the tmgmt_poetry module functionalities.
+ */
+function tmgmt_poetry_form_tmgmt_ui_cart_content_alter(&$form, &$form_state) {
+
+  $form['request_translation']['#submit'][] = '_tmgmt_poetry_workbench_store_request_languages_callback';
+}
+
+
+/**
+ * Change the Cart form to provide the tmgmt_poetry module functionalities.
+ */
+function _tmgmt_poetry_workbench_store_request_languages_callback(&$form, &$form_state) {
+  _tmgmt_poetry_workbench_store_request_languages($form_state['values']['target_language']);
+  tmgmt_ui_redirect_queue_set(array());
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
  * Change the form on the 'Translate' tab to provide the tmgmt_poetry module
  * functionalities.
  */
@@ -937,18 +960,10 @@ function _tmgmt_poetry_inject_request_update_elements(&$form) {
  */
 function _tmgmt_poetry_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
-  $chosen_languages = $form_state['values']['languages'];
-  foreach ($chosen_languages as $key => $language) {
-    if ($language === 0) {
-      unset($chosen_languages[$key]);
-    }
-  }
-  // Pick first language to be a main translation request language.
-  $langcode = reset($chosen_languages);
-  $chosen_languages['main'] = $langcode;
+
   // Store chosen languages in session because there is no other more elegant
   // way to move them between requests (passing data to tmgmt job form).
-  _tmgmt_poetry_workbench_store_request_languages($chosen_languages);
+  $langcode = _tmgmt_poetry_workbench_store_request_languages($form_state['values']['languages']);
 
   $jobs = array();
   // Create the job object.
@@ -1003,8 +1018,19 @@ function _tmgmt_poetry_workbench_translate_form_validate($form, &$form_state) {
  *
  * @see TMGMTPoetryTranslatorUIController
  */
-function _tmgmt_poetry_workbench_store_request_languages($languages) {
-  $_SESSION['tmgmt_workbench']['languages'] = $languages;
+function _tmgmt_poetry_workbench_store_request_languages($chosen_languages) {
+  foreach ($chosen_languages as $key => $language) {
+    if ($language === 0) {
+      unset($chosen_languages[$key]);
+    }
+  }
+  // Pick first language to be a main translation request language.
+  $langcode = reset($chosen_languages);
+  $chosen_languages['main'] = $langcode;
+
+  $_SESSION['tmgmt_workbench']['languages'] = $chosen_languages;
+
+  return $langcode;
 }
 
 /**
