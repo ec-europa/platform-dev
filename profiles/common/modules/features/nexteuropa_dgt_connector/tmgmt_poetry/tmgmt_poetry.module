@@ -302,10 +302,6 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
       $form_state['values']['target_language'] = $new_main_lg;
       $form_state['tmgmt_job']->target_language = $new_main_lg;
       $form_state['tmgmt_job']->save();
-
-      dpm('RESUMO (_tmgmt_poetry_form_tmgmt_job_submit)');
-      dpm('TJID: ' . $form_state['tmgmt_job']->tjid);
-      dpm('TARGET: ' . $form_state['tmgmt_job']->target_language);
     }
     // Clearing chosen request languages from the session.
     _tmgmt_poetry_workbench_clear_request_languages();
