@@ -1014,17 +1014,17 @@ function _tmgmt_poetry_workbench_translate_form_validate($form, &$form_state) {
  *
  * @see TMGMTPoetryTranslatorUIController
  */
-function _tmgmt_poetry_workbench_store_request_languages($chosen_languages) {
-  foreach ($chosen_languages as $key => $language) {
+function _tmgmt_poetry_workbench_store_request_languages($languages) {
+  foreach ($languages as $key => $language) {
     if ($language === 0) {
-      unset($chosen_languages[$key]);
+      unset($languages[$key]);
     }
   }
   // Pick first language to be a main translation request language.
-  $langcode = reset($chosen_languages);
-  $chosen_languages['main'] = $langcode;
+  $langcode = reset($languages);
+  $languages['main'] = $langcode;
 
-  $_SESSION['tmgmt_workbench']['languages'] = $chosen_languages;
+  $_SESSION['tmgmt_workbench']['languages'] = $languages;
 
   return $langcode;
 }
