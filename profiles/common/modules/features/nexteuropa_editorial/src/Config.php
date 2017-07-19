@@ -19,43 +19,31 @@ class Config extends ConfigBase {
   /**
    * Return whereas a user is an editorial team member or not.
    *
-   * @param int $uid
-   *    User UID.
+   * @param mixed $account
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
-   *    TRUE if the user is a team member, FALSE otherwise.
+   *    TRUE if the user is an editorial team member, FALSE otherwise.
    */
-  public function isEditoralTeamMember($uid = 0) {
-    $is_team_member = FALSE;
-    $account = user_load($uid);
-    $groups = og_get_groups_by_user($account, 'node');
-    if ($groups) {
-      $is_team_member = (bool) db_select('node', 'n')
-        ->fields('n', array('nid'))
-        ->condition('n.type', 'editorial_team')
-        ->condition('n.nid', $groups)
-        ->execute()
-        ->fetchAll(\PDO::FETCH_COLUMN);
+  public function isEditorialTeamMember($account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
     }
-    return $is_team_member;
-  }
 
-  /**
-   * Return whereas a group is an editorial team group or not.
-   *
-   * @param int $nid
-   *    Node NID.
-   *
-   * @return bool
-   *    TRUE if the node is a team group, FALSE otherwise.
-   */
-  public function isEditoralTeamGroup($nid = 0) {
-    $is_team_group = FALSE;
-    $node = node_load($nid);
-    if ($node && ($node->type == "editorial_team")) {
-      $is_team_group = TRUE;
-    }
-    return $is_team_group;
+    $uid = is_object($account) ? $account->uid : $account;
+    $query = db_select('og_membership', 'ogm')
+      ->fields('ogm')
+      ->condition('ogm.group_type', 'node')
+      ->condition('ogm.state', OG_STATE_ACTIVE)
+      ->condition('entity_type', 'user')
+      ->condition('etid', $uid);
+
+    // Filter on the editorial_team group bundle.
+    $query->join('node', 'group_node', 'ogm.gid = group_node.nid');
+    $query->condition('group_node.type', 'editorial_team');
+
+    return (bool) $query->execute()->rowCount();
   }
 
   /**

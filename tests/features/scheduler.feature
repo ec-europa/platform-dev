@@ -6,8 +6,6 @@ Feature: Scheduler features
 
   Background:
     Given I am logged in as a user with the 'administrator' role
-    And I change the variable "scheduler_use_vertical_tabs_page" to 1
-    And I change the variable "scheduler_unpublish_revision_page" to 0
 
   Scenario: User can schedule a date to publish a content
     When I go to "node/add/page"

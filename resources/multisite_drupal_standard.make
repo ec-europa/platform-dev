@@ -15,6 +15,9 @@ includes[] = "drupal-core.make"
 projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
+projects[administration_language_negotiation][subdir] = "contrib"
+projects[administration_language_negotiation][version] = "1.2"
+
 projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.16"
 
@@ -186,6 +189,10 @@ projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.8"
+; Invalid argument supplied for foreach() in entity_metadata_convert_schema()
+; https://www.drupal.org/node/2564119
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
+projects[entity][patch][] = https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch
 
 projects[entity_translation][download][branch] = 7.x-1.x
 projects[entity_translation][download][revision] = edd540b2e1180db45ad1cea14843daa19e13878a
@@ -513,6 +520,10 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
+; NEXTEUROPA-14012 Adding membership from user profile is in pending status
+; https://www.drupal.org/node/2744405
+projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
+
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
@@ -752,7 +763,10 @@ projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workben
 projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[drafty][subdir] = "contrib"
-projects[drafty][version] = "1.0-beta3"
+projects[drafty][version] = "1.0-beta4"
+; Issue #2487013: Make Drafty work with the Title module patch.
+; https://www.drupal.org/node/2487013
+projects[drafty][patch][] =https://www.drupal.org/files/issues/2487013.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "3.0"
