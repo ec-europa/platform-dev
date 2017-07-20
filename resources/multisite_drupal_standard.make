@@ -288,7 +288,7 @@ projects[flag][version] = "3.7"
 
 projects[flexible_purge][download][revision] = "d7cfc7d98dbffb3d9439da25c3398a46056e4086"
 projects[flexible_purge][download][type] = "git"
-projects[flexible_purge][download][url] = "http://git.drupal.org/project/flexible_purge.git"
+projects[flexible_purge][download][url] = http://git.drupal.org/project/flexible_purge.git
 projects[flexible_purge][subdir] = "contrib"
 
 
@@ -297,7 +297,7 @@ projects[flexslider][version] = "2.0-rc1"
 
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 projects[flexslider_views_slideshow][download][type] = "git"
-projects[flexslider_views_slideshow][download][url] = "http://git.drupal.org/project/flexslider_views_slideshow.git"
+projects[flexslider_views_slideshow][download][url] = http://git.drupal.org/project/flexslider_views_slideshow.git
 projects[flexslider_views_slideshow][subdir] = "contrib"
 
 projects[fpa][subdir] = "contrib"
@@ -305,7 +305,7 @@ projects[fpa][version] = "2.6"
 
 projects[freepager][download][revision] = "c11c40f6e3e54ff728515589600a0d8e26d831f1"
 projects[freepager][download][type] = "git"
-projects[freepager][download][url] = "http://git.drupal.org/project/freepager.git"
+projects[freepager][download][url] = http://git.drupal.org/project/freepager.git
 projects[freepager][subdir] = "contrib"
 
 projects[fullcalendar][subdir] = "contrib"
@@ -349,7 +349,7 @@ projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-ter
 
 projects[i18nviews][download][revision] = "dae921bd53cd321f5f0addaa06402018b0abbfb6"
 projects[i18nviews][download][type] = "git"
-projects[i18nviews][download][url] = "http://git.drupal.org/project/i18nviews.git"
+projects[i18nviews][download][url] = http://git.drupal.org/project/i18nviews.git
 projects[i18nviews][subdir] = "contrib"
 
 projects[inline_entity_form][subdir] = "contrib"
@@ -357,12 +357,12 @@ projects[inline_entity_form][version] = "1.6"
 
 projects[integration][download][revision] = "2b29abc8a34f051fbb82c47deeb02e4456faf995"
 projects[integration][download][type] = "git"
-projects[integration][download][url] = "http://git.drupal.org/project/integration.git"
+projects[integration][download][url] = http://git.drupal.org/project/integration.git
 projects[integration][subdir] = "contrib"
 
 projects[integration_couchdb][download][revision] = "dcadb1ea483cbdaa7f476f7e0e8530873f484616"
 projects[integration_couchdb][download][type] = "git"
-projects[integration_couchdb][download][url] = "http://git.drupal.org/project/integration_couchdb.git"
+projects[integration_couchdb][download][url] = http://git.drupal.org/project/integration_couchdb.git
 projects[integration_couchdb][subdir] = "contrib"
 
 projects[job_scheduler][subdir] = "contrib"
@@ -980,19 +980,19 @@ libraries[ec_resp_bootstrap_less][directory_name] = less
 libraries[html5shiv][destination] = "themes/ec_resp"
 libraries[html5shiv][directory_name] = "scripts"
 libraries[html5shiv][download][type] = "get"
-libraries[html5shiv][download][url] = "https://raw.githubusercontent.com/aFarkas/html5shiv/master/dist/html5shiv.min.js"
+libraries[html5shiv][download][url] = https://raw.githubusercontent.com/aFarkas/html5shiv/a3c7567c5f7055f9b76230bbbc79967d0b9f7003/dist/html5shiv.min.js
 
 ; Ec_resp theme: jQuery Mousewheel
 libraries[mousewheel][destination] = "themes/ec_resp"
 libraries[mousewheel][directory_name] = "scripts"
 libraries[mousewheel][download][type] = "get"
-libraries[mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
+libraries[mousewheel][download][url] = https://raw.githubusercontent.com/jquery/jquery-mousewheel/33dc8f1090da2eaadbca8e782965d7fd6c28db42/jquery.mousewheel.min.js
 
 ; Ec_resp theme: Respond JS
 libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
-libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/Respond/9d91fd47eb59c11a80d570d4ea0beaa59cfc71bf/dest/respond.min.js
 
 ; ======
 ; Themes
