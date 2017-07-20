@@ -53,6 +53,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-site-links',
         'weight' => 0,
         'expanded' => 0,
+        'options' => array(),
       ),
       array(
         'link_title' => 'Policies, information and services',
@@ -60,6 +61,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-site-links',
         'weight' => 1,
         'expanded' => 0,
+        'options' => array(),
       ),
     ),
     array(
@@ -69,6 +71,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-inst-links',
         'weight' => 0,
         'expanded' => 0,
+        'options' => array(),
       ),
       array(
         'link_title' => 'European Union',
@@ -76,6 +79,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-inst-links',
         'weight' => 1,
         'expanded' => 0,
+        'options' => array(),
       ),
     ),
     array(
@@ -85,6 +89,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-service-links',
         'weight' => -50,
         'expanded' => 0,
+        'options' => array(),
       ),
       array(
         'link_title' => 'Resources for partners',
@@ -92,6 +97,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-service-links',
         'weight' => -49,
         'expanded' => 0,
+        'options' => array(),
       ),
       array(
         'link_title' => 'Cookies',
@@ -99,6 +105,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-service-links',
         'weight' => -48,
         'expanded' => 0,
+        'options' => array(),
       ),
       array(
         'link_title' => 'Legal notice',
@@ -106,6 +113,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-service-links',
         'weight' => -34,
         'expanded' => 0,
+        'options' => array(),
       ),
       array(
         'link_title' => 'Contact',
@@ -113,6 +121,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-service-links',
         'weight' => -21,
         'expanded' => 0,
+        'options' => array(),
       ),
     ),
     array(
@@ -146,6 +155,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'menu_name' => 'menu-nexteuropa-social-media',
         'weight' => 2,
         'expanded' => 0,
+        'options' => array(),
       ),
     ),
   );
@@ -162,23 +172,11 @@ function _nexteuropa_ecl_migrate_dt_menus() {
 
   foreach ($dt_links as $layer1) {
     foreach ($layer1 as $link) {
-      // Build an array of menu link.
-      if (!isset($link['options'])) {
-        $link['options'] = array();
-      }
-      $item = array(
-        'link_path' => $link['link_path'],
-        'link_title' => $link['link_title'],
-        'menu_name' => $link['menu_name'],
-        'weight' => $link['weight'],
-        'expanded' => $link['expanded'],
-        'options' => $link['options'],
-      );
       // Look the table first if the data does exist.
       $exists = db_query("SELECT mlid from {menu_links} WHERE link_title=:link_title AND link_path=:link_path", array(':link_title' => $link['link_title'], ':link_path' => $link['link_path']))->fetchField();
       // Save the record if the data does not exist.
       if (!$exists) {
-        menu_link_save($item);
+        menu_link_save($link);
       }
     }
   }
