@@ -985,19 +985,19 @@ libraries[ec_resp_bootstrap_less][directory_name] = less
 libraries[html5shiv][destination] = "themes/ec_resp"
 libraries[html5shiv][directory_name] = "scripts"
 libraries[html5shiv][download][type] = "get"
-libraries[html5shiv][download][url] = https://raw.githubusercontent.com/aFarkas/html5shiv/master/dist/html5shiv.min.js
+libraries[html5shiv][download][url] = https://raw.githubusercontent.com/aFarkas/html5shiv/a3c7567c5f7055f9b76230bbbc79967d0b9f7003/dist/html5shiv.min.js
 
 ; Ec_resp theme: jQuery Mousewheel
 libraries[mousewheel][destination] = "themes/ec_resp"
 libraries[mousewheel][directory_name] = "scripts"
 libraries[mousewheel][download][type] = "get"
-libraries[mousewheel][download][url] = https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js
+libraries[mousewheel][download][url] = https://raw.githubusercontent.com/jquery/jquery-mousewheel/33dc8f1090da2eaadbca8e782965d7fd6c28db42/jquery.mousewheel.min.js
 
 ; Ec_resp theme: Respond JS
 libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
-libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js
+libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/Respond/9d91fd47eb59c11a80d570d4ea0beaa59cfc71bf/dest/respond.min.js
 
 ; ======
 ; Themes
