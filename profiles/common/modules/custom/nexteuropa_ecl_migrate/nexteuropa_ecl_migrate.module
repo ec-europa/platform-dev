@@ -163,7 +163,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
   foreach ($dt_links as $layer1) {
     foreach ($layer1 as $link) {
       // Build an array of menu link.
-      if(!isset($link['options'])){
+      if (!isset($link['options'])) {
         $link['options'] = array();
       }
       $item = array(
