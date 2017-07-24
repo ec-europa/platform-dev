@@ -154,12 +154,11 @@
 
       });
 
-      // Manage the event : when a new object is put on the map.
+      // Manage the event : when a new object is added on the map.
       map.on(
         'draw:created', function(e) {
           if (addNewLayerValidate()) {
-            var layer = e.layer;
-            addNewLayer(layer);
+            addNewLayer(e.layer);
           }
         }
       );
@@ -180,9 +179,6 @@
        * @param layer
        */
       function addNewLayer(layer) {
-
-        feature = layer.feature;
-
         objects_count++;
 
         // Add the layer object to the map.
@@ -193,14 +189,13 @@
           createLabel(layer._leaflet_id, "", "");
         }
         else {
-          // Prepopulate the popups with the title and body content.
-          name = getFieldValue(name_field);
-          description = getFieldValue(description_field);
+          // Pre-populate the popups with the title and body content.
+          var name = getFieldValue(name_field);
+          var description = getFieldValue(description_field);
           createPopup(layer._leaflet_id, name, description);
         }
         // Update GeoJSON field.
         updateGeoJsonField();
-
       }
 
       function addNewLayerValidate() {

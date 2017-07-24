@@ -16,7 +16,7 @@ CONFIGURATION
 To get started add a new field of type geofield geoJSON to your content type.
 In the field settings, you can : 
 
-- Provide a default map center (longitude, latitude). If you don't Brussels will
+- Provide a default map center (longitude, latitude), if you don't Brussels will
 show.
 
 - Define the map objects allowed on the map. There are 4 types of objects:
@@ -53,7 +53,7 @@ Finally, click on 'save' to confirm the removal, or on cancel.
 
 `Popup window`
 When you define a new object, a field is available under the map and allows
- you to enter the title and text to use as the object's popup window.
+you to enter the title and text to use as the object's popup window.
 
 RESTRICTIONS
 ------------

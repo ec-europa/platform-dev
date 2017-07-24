@@ -8,7 +8,6 @@
  * Implements hook_field_schema().
  */
 function nexteuropa_geofield_field_schema($field) {
-
   $schema = array();
 
   switch ($field['type']) {
@@ -27,7 +26,6 @@ function nexteuropa_geofield_field_schema($field) {
  * Implements hook_field_info().
  */
 function nexteuropa_geofield_field_info() {
-
   return array(
     'geofield_geojson' => array(
       'label' => t('Geofield geoJSON'),
@@ -42,7 +40,6 @@ function nexteuropa_geofield_field_info() {
  * Implements hook_field_widget_info().
  */
 function nexteuropa_geofield_field_widget_info() {
-
   return array(
     'geofield_widget_map' => array(
       'label' => t('Interactive map'),
@@ -55,7 +52,6 @@ function nexteuropa_geofield_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-
   $widget = $element;
   $widget['#delta'] = $delta;
   $value = isset($items[$delta]) ? $items[$delta] : '';
@@ -63,7 +59,6 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
 
   switch ($instance['widget']['type']) {
     case 'geofield_widget_map':
-
       if (!isset($element['#title'])) {
         $element['#title'] = t('Map');
       }
@@ -134,6 +129,10 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
  * Implements hook_field_widget_settings_form().
  */
 function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
+  $default_map_center = array(
+    'lat' => 50.85,
+    'lng' => 4.35,
+  );
   $widget = $instance['widget'];
   $value = $widget['settings'];
 
@@ -146,7 +145,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
     $element['fs_default_map_center']['lat'] = array(
       '#type' => 'textfield',
       '#title' => t('Latitude'),
-      '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : 50.85,
+      '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : $default_map_center['lat'],
       '#size' => 8,
       '#element_validate' => array('_decimal_check'),
       '#description' => t('Number with 5 decimals maximum : 53.45435'),
@@ -154,7 +153,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
     $element['fs_default_map_center']['lng'] = array(
       '#type' => 'textfield',
       '#title' => t('Longitude'),
-      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 4.35,
+      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : $default_map_center['lng'],
       '#size' => 8,
       '#element_validate' => array('_decimal_check'),
       '#description' => t('Number with 5 decimals maximum : 53.45435'),
@@ -232,12 +231,10 @@ function _decimal_check($element, &$form_state) {
   }
 }
 
-
 /**
  * Implements hook_form_ID_alter().
  */
 function nexteuropa_geofield_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
-
   if ($form_state['build_info']['args'][0]['widget']['type'] == 'geofield_widget_map') {
     $form['field']['cardinality']['#default_value'] = 1;
     $form['field']['cardinality']['#disabled'] = TRUE;
@@ -251,7 +248,6 @@ function nexteuropa_geofield_form_field_ui_field_edit_form_alter(&$form, &$form_
  * Implements hook_field_formatter_info().
  */
 function nexteuropa_geofield_field_formatter_info() {
-
   return array(
     'geofield_geojson_map_format' => array(
       'label' => t('Interactive map'),
@@ -268,7 +264,6 @@ function nexteuropa_geofield_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-
   $element = array();
   $settings = $instance['widget']['settings'];
 
@@ -314,7 +309,6 @@ function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field,
  * Implements hook_field_is_empty().
  */
 function nexteuropa_geofield_field_is_empty($item, $field) {
-
   return empty($item['geofield_geojson']);
 }
 
@@ -322,7 +316,6 @@ function nexteuropa_geofield_field_is_empty($item, $field) {
  * Implements hook_menu().
  */
 function nexteuropa_geofield_menu() {
-
   $items = array();
   $items['node/%node/geojson'] = array(
     'title' => 'GeoJson data',
@@ -330,7 +323,6 @@ function nexteuropa_geofield_menu() {
     'page arguments' => array(1),
     'access arguments' => array('access content'),
   );
-
   return $items;
 }
 
@@ -367,7 +359,6 @@ function _nexteuropa_geofield_get_geojson($node) {
  *   Return the Ajax response to be rendered in the form.
  */
 function _nexteuropa_geofield_geocode($form, $form_state) {
-
   $error = NULL;
   $response = '';
 
@@ -395,22 +386,17 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
         $error = t('No address found.');
       }
       else {
-        $added_items = array();
         $items = array();
         foreach ($geocode_decoded->geocodingRequestsCollection[0]->result->features as $key => $address) {
           $geometry = $address->geometry->coordinates;
-          $geometry_string = $geo_field_name[0] . ',' . $geometry[1];
           // Don't add address if already added. Prevent duplicates.
-          if (array_search($geometry_string, $added_items) === FALSE) {
-            $items[] = array(
-              'data' => '<strong>' . $address->properties->formattedAddress . '</strong> [' . round($geometry[0], 4) . ', ' . round($geometry[1], 4) . ']',
-              'id' => 'geofield-search-item-' . $key,
-              'class' => array('geofield-search-item'),
-              'lat' => array($geometry[1]),
-              'lng' => array($geometry[0]),
-            );
-            $added_items[] = $geometry_string;
-          }
+          $items[sha1($geo_field_name[0] . ',' . $geometry[1])] = array(
+            'data' => '<strong>' . $address->properties->formattedAddress . '</strong> [' . round($geometry[0], 4) . ', ' . round($geometry[1], 4) . ']',
+            'id' => 'geofield-search-item-' . $key,
+            'class' => array('geofield-search-item'),
+            'lat' => array($geometry[1]),
+            'lng' => array($geometry[0]),
+          );
         }
 
         $attributes = array(
@@ -418,7 +404,7 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
           'class' => 'geofield-search-results',
         );
         $response = theme_item_list(array(
-          'items' => $items,
+          'items' => array_values($items),
           'title' => '',
           'type' => 'ul',
           'attributes' => $attributes,
