@@ -403,7 +403,7 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
           'id' => 'geofield-search-results',
           'class' => 'geofield-search-results',
         );
-        $response = theme_item_list(array(
+        $response = theme('item_list', array(
           'items' => array_values($items),
           'title' => '',
           'type' => 'ul',
