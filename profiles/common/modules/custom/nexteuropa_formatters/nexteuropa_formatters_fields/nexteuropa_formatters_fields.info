@@ -1,4 +1,4 @@
-name = Nexteuropa Fields Formatters
-description  = "Nexteuropa field formatters"
-package = "Nexteuropa"
+name = NextEuropa Formatters - Fields
+description = This module provides default fields formatters to implement ECL components.
+package = NextEuropa
 core = 7.x

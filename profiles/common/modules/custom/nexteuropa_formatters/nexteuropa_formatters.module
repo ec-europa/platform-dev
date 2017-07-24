@@ -1,20 +1,23 @@
 <?php
 /**
  * @file
- * Views implementing europa components.
+ * Module file.
  */
 
 /**
  * Implements hook_theme().
  */
-function nexteuropa_formatters_theme() {
+function nexteuropa_formatters_theme($existing, $type, $theme, $path) {
+  $templates_path = sprintf('%s/templates', $path);
+
   return array(
     'banner' => array(
       'variables' => array(
         'quote' => NULL,
         'author' => NULL,
       ),
-      'template' => 'templates/banner',
+      'template' => 'banner',
+      'path' => $templates_path,
     ),
     'card' => array(
       'variables' => array(
@@ -22,13 +25,15 @@ function nexteuropa_formatters_theme() {
         'image' => NULL,
         'label' => NULL,
       ),
-      'template' => 'templates/card',
+      'template' => 'card',
+      'path' => $templates_path,
     ),
     'blockquote' => array(
       'variables' => array(
         '$markup' => NULL,
       ),
-      'template' => 'templates/blockquote',
+      'template' => 'blockquote',
+      'path' => $templates_path,
     ),
     'expandable' => array(
       'variables' => array(
@@ -37,7 +42,8 @@ function nexteuropa_formatters_theme() {
         'title' => NULL,
         'body' => NULL,
       ),
-      'template' => 'templates/expandable',
+      'template' => 'expandable',
+      'path' => $templates_path,
     ),
     'timelines' => array(
       'variables' => array(
@@ -45,7 +51,8 @@ function nexteuropa_formatters_theme() {
         'text' => NULL,
         'footer' => NULL,
       ),
-      'template' => 'templates/timelines',
+      'template' => 'timelines',
+      'path' => $templates_path,
     ),
   );
 }

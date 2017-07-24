@@ -1,4 +1,4 @@
-name = NextEuropa Core views
+name = NextEuropa Formatters - Views
 description = This modules provides views plugins to implement ECL components.
 package = NextEuropa
 core = 7.x

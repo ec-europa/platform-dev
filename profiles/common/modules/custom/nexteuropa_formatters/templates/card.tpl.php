@@ -2,13 +2,15 @@
 
 /**
  * @file
- * Default theme implementation to display a card component.
+ * Contains the template file of the card component.
  *
- * @todo Fill out list of available variables.
- *
- * @ingroup templates
+ * Available variables:
+ * - $url: string which contains an url.
+ * - $image: string which contains an image source.
+ * - $label: string which contains a label.
  */
 ?>
+
 <a href="<?php print $url; ?>" class="card">
   <img class="card__image" src="<?php print $image; ?>" alt="cards image" />
   <div class="card__body"><?php print $label; ?></div>
