@@ -39,7 +39,7 @@ function _nexteuropa_ecl_migrate_dt_menus() {
     ),
     array(
       'menu_name' => 'menu-nexteuropa-service-links',
-      'title' => '',
+      'title' => 'Nexteuropa service links',
       'description' => 'DT links to be put in the bottom footer',
       'region' => 'footer_bottom',
     ),
