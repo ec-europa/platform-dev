@@ -41,6 +41,7 @@ class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Quote'),
+      '#description' => t('Body of the quote, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['quote'],
     );
@@ -49,6 +50,7 @@ class nexteuropa_formatters_views_banner_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Author'),
+      '#description' => t('Author of the quote, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['author'],
     );

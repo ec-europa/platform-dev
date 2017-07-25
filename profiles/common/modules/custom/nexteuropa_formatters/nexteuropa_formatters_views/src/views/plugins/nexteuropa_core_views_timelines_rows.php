@@ -42,6 +42,7 @@ class nexteuropa_formatters_views_timelines_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Title'),
+      '#description' => t('Timeline item title, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['title'],
     );
@@ -50,6 +51,7 @@ class nexteuropa_formatters_views_timelines_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Text'),
+      '#description' => t('Timeline item text, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['text'],
     );
@@ -58,6 +60,7 @@ class nexteuropa_formatters_views_timelines_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Footer'),
+      '#description' => t('Timeline footer, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['footer'],
     );

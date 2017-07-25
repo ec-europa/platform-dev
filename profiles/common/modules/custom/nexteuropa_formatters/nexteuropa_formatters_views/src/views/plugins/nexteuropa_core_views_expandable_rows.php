@@ -43,6 +43,7 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('ID'),
+      '#description' => t('Identifier for the row, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['id'],
     );
@@ -51,6 +52,7 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Icon'),
+      '#description' => t('Icon for the expandable button, needs to be an image field.'),
       '#options' => $fields,
       '#default_value' => $this->options['icon'],
     );
@@ -59,6 +61,7 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Title'),
+      '#description' => t('Title for the expandable item, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['title'],
     );
@@ -67,6 +70,7 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Body'),
+      '#description' => t('Body for the expandable item, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['body'],
     );

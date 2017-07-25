@@ -40,6 +40,7 @@ class nexteuropa_formatters_views_blockquote_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Quote'),
+      '#description' => t('Body of the quote, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['markup'],
     );

@@ -42,6 +42,7 @@ class nexteuropa_formatters_views_card_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('URL'),
+      '#description' => t('Target URL of the card, needs to be a url or text field. '),
       '#options' => $fields,
       '#default_value' => $this->options['url'],
     );
@@ -50,6 +51,7 @@ class nexteuropa_formatters_views_card_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Image'),
+      '#description' => t('Image of the card, needs to be an image field.'),
       '#options' => $fields,
       '#default_value' => $this->options['image'],
     );
@@ -57,6 +59,7 @@ class nexteuropa_formatters_views_card_rows extends views_plugin_row {
       '#type' => 'select',
       '#required' => TRUE,
       '#title' => t('Label'),
+      '#description' => t('Label of the card, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['label'],
     );
