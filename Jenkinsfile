@@ -8,8 +8,8 @@ try {
             // Build, test and package the standard profile
             node('standard') {
                 try {
-                    executeStages('Standard Europa', 'europa')
                     executeStages('Standard EC Resp', 'ec_resp')
+                    executeStages('Standard Europa', 'europa')
                 } catch(err) {
                     throw(err)
                 }
@@ -19,8 +19,13 @@ try {
             // Build and test the communities profile
             node('communities') {
                 try {
-                    executeStages('Communities Europa', 'europa')
-                    executeStages('Communities EC Resp', 'ec_resp')
+                    withEnv([
+                        "BEHAT_PROFILE=communities",
+                        "PLATFORM_PROFILE=multisite_drupal_communities"
+                    ]) {
+                        executeStages('Communities EC Resp', 'ec_resp')
+                        executeStages('Communities Europa', 'europa')
+                    }
                 } catch(err) {
                     throw(err)
                 }
