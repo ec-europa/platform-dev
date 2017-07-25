@@ -191,14 +191,10 @@
     <target
         name="build-europa-theme"
         description="Downloads Atomium and Europa themes with embedded ECL artifacts.">
-        <if>
-            <equals arg1="${platform.site.theme_default}" arg2="europa" />
-            <then>
-                <phingcall target="process-atomium-theme" />
-                <phingcall target="process-europa-theme" />
-                <phingcall target="create-europa-theme-symlinks" />
-            </then>
-        </if>
+
+        <phingcall target="process-atomium-theme" />
+        <phingcall target="process-europa-theme" />
+        <phingcall target="create-europa-theme-symlinks" />
     </target>
 
     <!-- Download and extract the Atomium theme. -->
