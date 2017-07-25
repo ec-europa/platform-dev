@@ -8,7 +8,11 @@ try {
             // Build, test and package the standard profile
             node('standard') {
                 try {
-                    executeStages('standard')
+                    withEnv([
+                        "BEHAT_PROFILE=standard_ec_resp",
+                    ]) {
+                       executeStages('standard')
+                    }
                 } catch(err) {
                     throw(err)
                 }
@@ -19,7 +23,7 @@ try {
             node('communities') {
                 try {
                     withEnv([
-                        "BEHAT_PROFILE=communities",
+                        "BEHAT_PROFILE=communities_ec_resp",
                         "PLATFORM_PROFILE=multisite_drupal_communities"
                     ]) {
                         executeStages('communities')

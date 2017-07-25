@@ -28,6 +28,7 @@ Feature: Second favorite language tests
     | content/title-english_bg | ?2nd-language=pt-pt | Este titulo e Portugues  |
     | content/title-english_bg | ?2nd-language=de    | This title is in English |
 
+  @theme_wip
   Scenario: Check that a user can view a page even if the language prefix was changed
     Given "prefix" for language "pt-pt" is set to "pt"
     And I am viewing a multilingual "page" content:
