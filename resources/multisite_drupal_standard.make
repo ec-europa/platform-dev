@@ -996,3 +996,7 @@ projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3
 
+projects[atomium][type] = theme
+projects[atomium][download][type] = git
+projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
+projects[atomium][download][branch] = 7.x-1.x
