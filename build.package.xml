@@ -196,6 +196,7 @@
             <then>
                 <phingcall target="process-atomium-theme" />
                 <phingcall target="process-europa-theme" />
+                <phingcall target="create-europa-theme-symlinks" />
             </then>
         </if>
     </target>
@@ -242,6 +243,16 @@
             command="tar xvf framework.tar.gz --strip=1 -C assets"
             passthru="true" />
         <delete file="profiles/common/themes/europa/framework.tar.gz" quiet="true" />
+    </target>
+
+    <!-- Creates symlinks for the atomium and europa themes. -->
+    <target name="create-europa-theme-symlinks" >
+        <symlink link="profiles/${platform.profile.name}/themes">
+            <fileset dir="${platform.resources.profiles.common.themes.dir}">
+                <include name="atomium" />
+                <include name="europa" />
+            </fileset>
+        </symlink>
     </target>
 
     <target
