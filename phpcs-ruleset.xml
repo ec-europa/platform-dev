@@ -27,7 +27,6 @@
     <!-- Exclude third party code. -->
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/atomium</exclude-pattern>
     <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>

@@ -190,26 +190,10 @@
 
     <target
         name="build-europa-theme"
-        description="Downloads Atomium and Europa themes with embedded ECL artifacts.">
+        description="Downloads Europa theme and creates symlink.">
 
-        <phingcall target="process-atomium-theme" />
         <phingcall target="process-europa-theme" />
         <phingcall target="create-europa-theme-symlinks" />
-    </target>
-
-    <!-- Download and extract the Atomium theme. -->
-    <target name="process-atomium-theme">
-        <!-- Download the Atomium theme archive for a given branch. -->
-        <exec
-            command="curl -L https://api.github.com/repos/ec-europa/atomium/tarball/${platform.theme.atomium.repo.branch} > profiles/common/themes/atomium.tar.gz"
-            passthru="true" />
-        <!-- Extract the archive -->
-        <mkdir dir="profiles/common/themes/atomium" />
-        <exec
-            dir="profiles/common/themes"
-            command="tar xvf atomium.tar.gz --strip=1 -C atomium"
-            passthru="true" />
-        <delete file="profiles/common/themes/atomium.tar.gz" quiet="true" />
     </target>
 
     <!-- This step in future will become a part of a build on the new Europa theme repository. -->
@@ -245,7 +229,6 @@
     <target name="create-europa-theme-symlinks" >
         <symlink link="profiles/${platform.profile.name}/themes">
             <fileset dir="${platform.resources.profiles.common.themes.dir}">
-                <include name="atomium" />
                 <include name="europa" />
             </fileset>
         </symlink>
