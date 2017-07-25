@@ -8,7 +8,7 @@ platform.profile.name = multisite_drupal_standard
 platform.site.name = NextEuropa
 
 # The default theme to enable, set to either "europa" or "ec_resp".
-platform.site.theme_default = europa
+platform.site.theme_default = ec_resp
 
 # The default Europa Component Library release
 ecl.version = v0.10.0
