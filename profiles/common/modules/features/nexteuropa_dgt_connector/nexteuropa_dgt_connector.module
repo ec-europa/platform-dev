@@ -21,6 +21,11 @@ function nexteuropa_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$fo
     // Remove add to cart button.
     unset($form['top_actions']);
   }
+
+  // Set plugin for #cart .
+  if (isset($form_state['tmgmt_cart'])) {
+    $form_state['tmgmt_cart']['plugin'] = 'workbench_moderation';
+  }
 }
 
 /**
