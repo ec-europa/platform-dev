@@ -80,11 +80,9 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * and the number of items.
    */
   public function canTranslate(TMGMTTranslator $translator, TMGMTJob $job) {
-    // Check that only one item is being requested.
+    // Check that the item does not have pending requests.
     $items = $job->getItems();
     $item = array_shift($items);
-
-    // Check that the item does not have pending requests.
     if (!empty($item)) {
       $results = db_select('tmgmt_job_item', 'tji')
         ->fields('tji', array('tjid', 'tjiid'))
