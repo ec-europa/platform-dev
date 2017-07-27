@@ -132,10 +132,10 @@ class FrontendCacheContext implements Context {
   /**
    * Configures the frontend cache integration for testing purposes.
    *
-   * @Given :arg1 is configured as the purge application tag
+   * @Given :tag is :correctly configured as the purge application tag
    */
-  public function valueIsConfiguredAsThePurgeApplicationTag($arg1) {
-    $this->variables->setVariable('nexteuropa_varnish_tag', $arg1);
+  public function valueIsConfiguredAsThePurgeApplicationTag($tag, $correctly) {
+    $this->variables->setVariable('nexteuropa_varnish_tag', $tag);
 
     $server = $this->getServer();
 
@@ -150,6 +150,16 @@ class FrontendCacheContext implements Context {
     $this->variables->setVariable('nexteuropa_varnish_http_targets',
       array('http://' . $server->getConnectionString())
     );
+    if ($correctly == 'correctly') {
+      $this->variables->setVariable('nexteuropa_varnish_request_user', 'usr');
+      $this->variables->setVariable('nexteuropa_varnish_request_password', 'pass');
+      $this->variables->setVariable('nexteuropa_varnish_http_timeout', '2.0');
+    }
+    else {
+      $this->variables->deleteVariable('nexteuropa_varnish_request_user');
+      $this->variables->deleteVariable('nexteuropa_varnish_request_password');
+      $this->variables->deleteVariable('nexteuropa_varnish_http_timeout');
+    }
   }
 
   /**
@@ -331,6 +341,19 @@ class FrontendCacheContext implements Context {
   public function theWebFrontEndCacheWasNotInstructedToPurgeAnyPaths() {
     $requests = $this->getRequests();
     assert($requests, isOfSize(0));
+  }
+
+  /**
+   * Clean all requests created by rules on the server.
+   *
+   * @Then Execute all purge rules
+   */
+  public function executeAllRulePurge() {
+    $requests = $this->getRequests();
+
+    while ($requests->count() > 0) {
+      $requests->pop();
+    }
   }
 
   /**

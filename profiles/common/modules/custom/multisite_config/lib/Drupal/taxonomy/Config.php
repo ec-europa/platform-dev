@@ -52,7 +52,13 @@ class Config extends ConfigBase {
   public function deleteVocabulary($machine_name) {
 
     if ($vocabulary = taxonomy_vocabulary_machine_name_load($machine_name)) {
-      return taxonomy_vocabulary_delete($vocabulary->vid);
+      $return = taxonomy_vocabulary_delete($vocabulary->vid);
+      // The vocabulary is correctly deleted but it only clears the page and
+      // block caches; the menu one is untouched.
+      // The consequence is that the admin menu is still showing the
+      // vocabulary's menu items.
+      menu_cache_clear_all();
+      return $return;
     }
     else {
       return FALSE;

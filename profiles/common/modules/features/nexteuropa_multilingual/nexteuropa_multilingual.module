@@ -333,13 +333,6 @@ function _nexteuropa_multilingual_get_und_entity_alias_info($entity_type, $entit
   $pathauto_alias = pathauto_create_alias($entity_type, 'return', $entity_path, array($entity_type => $entity), $bundle, LANGUAGE_NONE);
   $pathauto = ($language_none_alias != $entity_path && $language_none_alias == $pathauto_alias);
 
-  // Reimplementation of the Workbench moderation fix (see
-  // https://www.drupal.org/node/2308095 and see "workbench_moderation_store"
-  // callback in workbench_moderation.module.
-  if (isset($entity->workbench_moderation) && isset($entity->workbench_moderation['published'])) {
-    $pathauto = FALSE;
-  }
-
   return array(
     'pid' => $language_none_path['pid'],
     'alias' => $language_none_alias,
@@ -544,22 +537,6 @@ function nexteuropa_multilingual_path_delete($path) {
   // Force to delete all aliases related to this path.
   // Need to do so because of Path module implementation.
   db_delete('url_alias')->condition('source', $path['source'])->execute();
-}
-
-/**
- * Implements hook_pathauto_alias_alter().
- *
- * If entity has entity translation enabled,
- * force all aliases to be saved as language neutral.
- * All content translations will have a unique alias.
- */
-function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
-
-  $translation_mechanism = variable_get('language_content_type_' . $context['type'], 0);
-
-  if ($translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
-    $context['language'] = LANGUAGE_NONE;
-  }
 }
 
 /**

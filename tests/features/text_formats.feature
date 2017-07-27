@@ -23,7 +23,7 @@ Feature: Text formats configuration
     And the "anonymous user" checkbox should <anonymous user>
 
     Examples:
-      | format        | administrator | contributor   | editor      | authenticated_user  | anonymous user  |
-      | full_html     | be checked    | be checked    | be checked  | not be checked      | not be checked  |
-      | filtered_html | be checked    | be checked    | be checked  | be checked          | be checked      |
-      | basic_html    | be checked    | be checked    | be checked  | be checked          | be checked      |
+      | format        | anonymous user | authenticated_user | administrator | contributor    | editor    |
+      | full_html     | not be checked | not be checked     | be checked    | be checked     | be checked     |
+      | filtered_html | be checked     | be checked         | be checked    | not be checked | not be checked     |
+      | basic_html    | be checked     | be checked         | be checked    | not be checked | not be checked |

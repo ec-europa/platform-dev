@@ -8,7 +8,7 @@ Feature: Check the feature Maxlength
       | modules                 |
       | multisite_maxlength     |
 
-  @api
+  @api @resetFields
   Scenario: Contributor User can check the maxlength counts (without the tags and specific characters).
     Given I am logged in as a user with the 'administrator' role
     When I create a new "text_long" field named "test_maxlength" on "article"

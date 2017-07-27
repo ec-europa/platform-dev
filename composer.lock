@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "14ebaba1c84e0f18081368cf711bbf75",
-    "content-hash": "b3740dcea1f2a94c300f1ec77a0bd6e6",
+    "content-hash": "cca1b5c3190e51d5a2b8057c0f1db633",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -38,7 +37,7 @@
                 "MIT"
             ],
             "description": "implementation of xdg base directory specification for php",
-            "time": "2014-10-24 07:27:01"
+            "time": "2014-10-24T07:27:01+00:00"
         },
         {
             "name": "drupal/coder",
@@ -74,7 +73,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-02-07 12:15:20"
+            "time": "2016-02-07T12:15:20+00:00"
         },
         {
             "name": "drupal/phingdrushtask",
@@ -160,7 +159,7 @@
                 "issues": "https://www.drupal.org/project/issues/phingdrushtask",
                 "source": "http://cgit.drupalcode.org/phingdrushtask"
             },
-            "time": "2016-12-02 20:39:55"
+            "time": "2016-12-02T20:39:55+00:00"
         },
         {
             "name": "drupol/phingbehattask",
@@ -220,7 +219,7 @@
                 "phing",
                 "test"
             ],
-            "time": "2016-11-24 09:43:44"
+            "time": "2016-11-24T09:43:44+00:00"
         },
         {
             "name": "drush/drush",
@@ -318,7 +317,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2016-03-08 21:00:41"
+            "time": "2016-03-08T21:00:41+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -361,7 +360,7 @@
                     "homepage": "http://www.acci.cz"
                 }
             ],
-            "time": "2014-04-08 15:00:19"
+            "time": "2014-04-08T15:00:19+00:00"
         },
         {
             "name": "jakub-onderka/php-console-highlighter",
@@ -405,7 +404,7 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
-            "time": "2015-04-20 18:58:01"
+            "time": "2015-04-20T18:58:01+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -456,7 +455,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2016-12-06 11:30:35"
+            "time": "2016-12-06T11:30:35+00:00"
         },
         {
             "name": "pear/console_getopt",
@@ -503,7 +502,7 @@
                 }
             ],
             "description": "More info available on: http://pear.php.net/package/Console_Getopt",
-            "time": "2015-07-20 20:28:12"
+            "time": "2015-07-20T20:28:12+00:00"
         },
         {
             "name": "pear/console_table",
@@ -558,7 +557,7 @@
             "keywords": [
                 "console"
             ],
-            "time": "2016-01-21 16:14:31"
+            "time": "2016-01-21T16:14:31+00:00"
         },
         {
             "name": "pear/pear-core-minimal",
@@ -602,7 +601,7 @@
                 }
             ],
             "description": "Minimal set of PEAR core files to be used as composer dependency",
-            "time": "2015-10-17 11:41:19"
+            "time": "2015-10-17T11:41:19+00:00"
         },
         {
             "name": "pear/pear_exception",
@@ -657,7 +656,7 @@
             "keywords": [
                 "exception"
             ],
-            "time": "2015-02-10 20:07:52"
+            "time": "2015-02-10T20:07:52+00:00"
         },
         {
             "name": "pear/versioncontrol_git",
@@ -804,7 +803,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2016-12-22 20:16:33"
+            "time": "2016-12-22T20:16:33+00:00"
         },
         {
             "name": "psr/log",
@@ -851,7 +850,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "psy/psysh",
@@ -924,7 +923,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-01-15 17:54:13"
+            "time": "2017-01-15T17:54:13+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -1002,7 +1001,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-11-30 04:02:31"
+            "time": "2016-11-30T04:02:31+00:00"
         },
         {
             "name": "symfony/console",
@@ -1065,7 +1064,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-08 20:47:33"
+            "time": "2017-01-08T20:47:33+00:00"
         },
         {
             "name": "symfony/debug",
@@ -1122,7 +1121,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-02 20:32:22"
+            "time": "2017-01-02T20:32:22+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1181,7 +1180,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14 01:06:16"
+            "time": "2016-11-14T01:06:16+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -1244,7 +1243,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-01-03 08:53:57"
+            "time": "2017-01-03T08:53:57+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -1299,7 +1298,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-01-03 13:51:32"
+            "time": "2017-01-03T13:51:32+00:00"
         },
         {
             "name": "wimg/php-compatibility",
@@ -1346,7 +1345,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-10-30 14:34:26"
+            "time": "2016-10-30T14:34:26+00:00"
         }
     ],
     "packages-dev": [],
@@ -1361,7 +1360,8 @@
         "php": ">=5.4.0",
         "ext-json": "*",
         "ext-phar": "*",
-        "ext-xml": "*"
+        "ext-xml": "*",
+        "ext-tidy": "^2.0"
     },
     "platform-dev": []
 }

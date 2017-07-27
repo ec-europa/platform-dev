@@ -44,7 +44,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
   public function saveTranslation(TMGMTJobItem $job_item) {
     $job = tmgmt_job_load($job_item->tjid);
     $node = node_load($job_item->item_id);
-    $vid = $node->vid;
 
     // Get current node revision.
     $current_revision = $this->getModerationRevision($node);
@@ -52,7 +51,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
 
     // Change the active language of the entity to the target language.
     $handler = entity_translation_get_handler($job_item->item_type, $current_revision);
-    $handler->setFormLanguage($job_item->getJob()->target_language);
+    $handler->setActiveLanguage($job_item->getJob()->target_language);
 
     // Save current node revision.
     node_save($current_revision);
@@ -67,10 +66,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     );
     $handler->setTranslation($translation);
     $handler->saveTranslations();
-
-    // Make sure we restore the original node revision.
-    $node = node_load($node->nid, $vid);
-    node_save($node);
 
     // Accept the translation job.
     $job_item->accepted();
