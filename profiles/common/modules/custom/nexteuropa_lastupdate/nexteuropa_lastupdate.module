@@ -23,22 +23,28 @@ function nexteuropa_lastupdate_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'last_update':
-      if ($entity = _nexteuropa_lastupdate_menu_get_any_entity()) {
-        $info = entity_get_info($entity->entity_type);
-        if (isset($info['last update callback']) && function_exists($info['last update callback'])) {
-          $last_update_variables = $info['last update callback']($entity);
-          if (!empty($last_update_variables)) {
-            $block_content = theme('nexteuropa_last_update_block', $last_update_variables);
-          }
-        }
-      }
-      if (!isset($block_content)) {
-        $block_content = '';
-      }
-      $block['content'] = $block_content;
+      $block['content'] = array(
+        '#theme' => 'nexteuropa_last_update_block'
+      );
       break;
   }
   return $block;
+}
+
+/**
+ * Implements hook_preprocess_hook().
+ */
+function nexteuropa_lastupdate_preprocess_nexteuropa_last_update_block(&$variables, $hook) {
+  if ($entity = _nexteuropa_lastupdate_menu_get_any_entity()) {
+    $info = entity_get_info($entity->entity_type);
+    if (isset($info['last update callback']) && function_exists($info['last update callback'])) {
+      $last_update_variables = $info['last update callback']($entity);
+      if (!empty($last_update_variables)) {
+        $variables['label'] = $last_update_variables['label'];
+        $variables['date'] = $last_update_variables['date'];
+      }
+    }
+  }
 }
 
 /**
@@ -58,6 +64,10 @@ function nexteuropa_lastupdate_theme($existing, $type, $theme, $path) {
     'nexteuropa_last_update_block' => array(
       'template' => 'nexteuropa-last-update-block',
       'path' => $path . '/theme',
+      'variables' => array(
+          'label' => NULL,
+          'date' => NULL,
+      )
     ),
   );
 }
