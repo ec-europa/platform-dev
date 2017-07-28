@@ -96,6 +96,9 @@ function _nexteuropa_lastupdate_menu_get_any_entity() {
   // Non-entities may not have load functions.
   if (is_array($item['load_functions'])) {
     $vals = array_values($item['load_functions']);
+
+    // @todo We only load the first load function, we should analyze the case
+    // @todo where we have multiple load_functions in this array().
     $load_function = $vals[0];
     $arg_position = array_search($load_function, $item['load_functions']);
 
