@@ -403,7 +403,7 @@ function _cce_basic_config_validate_real_mimetype(&$errors, $file) {
   }
 }
 
-/**		  /**
+/**
  * Helper function to check a mimetype against a whitelist.
  */
 function _cce_basic_config_validate_allowed_mimetype(&$errors, $file) {
