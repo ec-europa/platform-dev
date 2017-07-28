@@ -73,6 +73,43 @@ $ ./bin/phing build-platform-dev
 $ ./bin/phing install-platform
 ```
 
+### From the release 2.4.x following configuration variables are available:
+
+  - The default theme to enable, set to either "ec_resp" (default) or "europa".
+
+> platform.site.theme_default = ec_resp
+
+  - The default Europa Component Library release which is used to build the EC Europa theme.
+
+> ecl.version = v0.10.0
+  
+  - The default Atomium and Europa theme build properties. Used only if default theme is set to "europa".
+  You can find default values of those variables below. 
+  
+>platform.theme.atomium.repo.url = https://github. com/ec-europa/atomium.git
+>platform.theme.atomium.repo.branch = 7.x-1.x
+>platform.theme.europa.repo.url = https://github.com/ec-europa/ec-europa-theme.git
+>platform.theme.europa.repo.branch = europa-atomium
+
+## Building a local development environment for the EC Europa theme
+
+There is a specific Phing target which is setting up the development environment
+for the EC Europa theme needs. It helps developers to perform code reviews and
+contribute code to the repositories.
+It clones the repository of the Atomium and EC Europa themes. It will also
+fetch the release package of the Europa Components Library and regenerate theme assets.
+
+**To run this target you must have node.js and npm installed on your local machine.**
+You need also configure additional configuration variables which are described in the
+section above. The most important is to set the `platform.site.theme_default` variable
+to `europa`.
+
+You can use this Phing target in the following way:
+```
+$ ./bin/phing build-europa-dev
+```
+This Phing target is meant to be used only for the local development purposes.
+
 ## Running Behat tests
 
 The Behat test suite is located in the `tests/` folder. When the development
