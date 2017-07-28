@@ -59,7 +59,7 @@ function _nexteuropa_metatags_create_metatag_config() {
         0 => 'format',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'text',
     'settings' => array(
       'entity_translation_sync' => FALSE,
@@ -89,7 +89,7 @@ function _nexteuropa_metatags_create_metatag_config() {
         0 => 'format',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'text',
     'settings' => array(
       'entity_translation_sync' => FALSE,
