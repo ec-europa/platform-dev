@@ -49,7 +49,7 @@ function _tmgmt_poetry_translator_access($op, $translator, $account) {
 function tmgmt_poetry_tmgmt_translator_plugin_info() {
   return array(
     'poetry' => array(
-      'label' => t('DGT Connector'),
+      'label' => t('Poetry Connector'),
       'description' => t('DGT Translation service.'),
       'plugin controller class' => 'TMGMTPoetryTranslatorPluginController',
       'ui controller class' => 'TMGMTPoetryTranslatorUIController',

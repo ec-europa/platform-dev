@@ -4,3 +4,26 @@
  * @file
  * Module file of the TMGMT DGT connector.
  */
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function tmgmt_dgt_connector_entity_info_alter(&$entity_info) {
+  $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
+  $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
+  $entity_info['tmgmt_translator']['access callback'] = '_tmgmt_poetry_translator_access';
+}
+
+/**
+ * Implements hook_tmgmt_translator_plugin_info().
+ */
+function tmgmt_dgt_connector_tmgmt_translator_plugin_info() {
+  return array(
+    'tmgmt_dgt_connector' => array(
+      'label' => t('TMGMT DGT Connector'),
+      'description' => t('TMGMT DGT Connector Translation service.'),
+      'plugin controller class' => 'TmgmtDgtConnectorTranslatorPluginController',
+      'ui controller class' => 'TmgmtDgtConnectorTranslatorUIController',
+    ),
+  );
+}
