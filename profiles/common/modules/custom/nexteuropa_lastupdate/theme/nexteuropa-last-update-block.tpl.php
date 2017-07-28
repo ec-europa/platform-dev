@@ -7,14 +7,14 @@
  * Available variables:
  * - $label: the language list.
  * - $date: optional language icon.
- * - $close_button: optional close button.
  *
  * @see template_preprocess()
- * @see template_preprocess_splash()
+ * @see template_preprocess_block()
  * @see template_process()
  */
 ?>
-
-<div class="last-update">
-  <?php print $label; ?> : <?php print $date; ?>
-</div>
+<?php if (!empty($label) && !empty($date)) : ?>
+  <div class="last-update">
+    <?php print $label; ?> : <?php print $date; ?>
+  </div>
+<?php endif; ?>
