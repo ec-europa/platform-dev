@@ -7,10 +7,9 @@
  * Available variables:
  * - $label: the language list.
  * - $date: optional language icon.
- * - $close_button: optional close button.
  *
  * @see template_preprocess()
- * @see template_preprocess_splash()
+ * @see template_preprocess_block()
  * @see template_process()
  */
 ?>
