@@ -24,7 +24,7 @@ function nexteuropa_lastupdate_block_view($delta = '') {
   switch ($delta) {
     case 'last_update':
       $block['content'] = array(
-        '#theme' => 'nexteuropa_last_update_block'
+        '#theme' => 'nexteuropa_last_update_block',
       );
       break;
   }
@@ -65,9 +65,9 @@ function nexteuropa_lastupdate_theme($existing, $type, $theme, $path) {
       'template' => 'nexteuropa-last-update-block',
       'path' => $path . '/theme',
       'variables' => array(
-          'label' => NULL,
-          'date' => NULL,
-      )
+        'label' => NULL,
+        'date' => NULL,
+      ),
     ),
   );
 }
