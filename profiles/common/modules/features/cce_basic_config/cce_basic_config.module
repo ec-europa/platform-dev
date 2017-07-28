@@ -20,6 +20,9 @@ function cce_basic_config_file_validate($file) {
   // Validate the mimetype based on the file contents.
   _cce_basic_config_validate_real_mimetype($errors, $file);
 
+  // Check if the mimetype is allowed.
+  _cce_basic_config_validate_allowed_mimetype($errors, $file);
+
   // Check if the user can upload to the destination file system.
   _cce_basic_config_validate_file_destination($errors, $file);
   return $errors;
@@ -395,6 +398,24 @@ function _cce_basic_config_validate_real_mimetype(&$errors, $file) {
         '@uid' => $file->uid,
         '@filename' => $file->filename,
         '@real_mime' => $real_mime,
+      ), WATCHDOG_WARNING);
+    }
+  }
+}
+
+/**		  /**
+ * Helper function to check a mimetype against a whitelist.
+ */
+function _cce_basic_config_validate_allowed_mimetype(&$errors, $file) {
+  $allowed_mimetypes = variable_get("ec_mimetype_whitelist", array());
+  if (!empty($allowed_mimetypes)) {
+    $mimetype = file_get_mimetype($file->filename);
+    if (!in_array($mimetype, $allowed_mimetypes)) {
+      $errors[] = t("The file type '@mimetype' is not allowed in the server. Contact the site administrator for more information.", array("@mimetype" => $mimetype));
+      watchdog("cce_basic_config", "The user with uid @uid tried to upload a file with a forbidden type: @filename has a mime type of @mimetype ", array(
+        '@uid' => $file->uid,
+        '@filename' => $file->filename,
+        '@mimetype' => $mimetype,
       ), WATCHDOG_WARNING);
     }
   }
