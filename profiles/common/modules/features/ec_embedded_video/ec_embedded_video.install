@@ -4,7 +4,7 @@
  * Install, update and uninstall functions for the ec_embedded_video module.
  */
 
-module_load_include('inc', 'ec_embedded_video', 'includes/ec_embedded_video.helpers');
+module_load_include('inc', 'ec_embedded_video', 'ec_embedded_video.install');
 
 /**
  * Implements hook_install().
