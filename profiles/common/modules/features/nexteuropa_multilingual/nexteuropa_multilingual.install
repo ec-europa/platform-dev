@@ -4,7 +4,7 @@
  * Nexteuropa_multilingual install file.
  */
 
-module_load_include('inc', 'nexteuropa_multilingual', 'includes/nexteuropa_multilingual.helpers');
+module_load_include('inc', 'nexteuropa_multilingual', 'nexteuropa_multilingual.install');
 
 /**
  * Implements hook_requirements().
