@@ -33,8 +33,8 @@ function nexteuropa_webtools_permission() {
       'title' => t('Administer webtools'),
       'description' => t('Administer nexteuropa_webbools feature.'),
     ),
-    'upload webtools custom js' => array(
-      'title' => t('Upload webtools custom js'),
+    'webtools custom js' => array(
+      'title' => t('Webtools custom js'),
       'description' => t('Allows users to upload a custom js in webtools bean.'),
     ),
   );
@@ -57,65 +57,14 @@ function nexteuropa_webtools_form_bean_form_alter(&$form, &$form_state) {
     }
   }
 
-  $access = user_access('upload webtools custom js');
+  $access = user_access('webtools custom js');
   // Following fields are only visible when above mentioned permission is
   // granted to the user using the bean form.
   // This because we don't want the field values to be changed when resubmitting
   // the form with a role not granted with above mentoined permission.
-  $form['field_custom_js_file']['#access'] = $access;
   $form['field_custom_js_link']['#access'] = $access;
   // No need to add a custom submit handler, the handling of the fields and json
   // object will be done in hook_bean_submit().
-}
-
-/**
- * Implements hook_file_insert().
- *
- * Allow the upload of js files to the field_custom_js_file.
- *
- * @see file_save_upload()
- */
-function nexteuropa_webtools_file_insert($file) {
-  // This only works/tested for the field_custom_js_file field on webtools bean.
-  if (!isset($file->source) || strpos($file->source, 'field_custom_js_file') !== 0) {
-    return;
-  }
-  // Drupal Core will not allow users to upload js files.
-  // To bypass this with Core, a variable needs to be set to allow ALL
-  // insecure uploads. This is not something we want to do.
-  // So we are going to rename the file uploaded to this field back to *.js.
-  // First of all, we construct the file destination based on the field.
-  $field = field_info_field('field_custom_js_file');
-  $instance = field_info_instance('bean', 'field_custom_js_file', 'webtools');
-  $destination = file_field_widget_uri($field, $instance);
-  // Stole following lines from file_save_upload().
-  // A URI may already have a trailing slash or look like "public://".
-  if (substr($destination, -1) != '/') {
-    $destination .= '/';
-  }
-  // Rename and move the file.
-  $original_file_name = $file->filename;
-  $destination .= str_replace('.txt', '', $file->filename);
-  // The mimetype will be updated automatically.
-  // This will save and return the file when successfull.
-  file_move($file, $destination);
-
-  // As Core sets a message warning the user of the renaming and as we undo it,
-  // we want to remove that message.
-  // This will prevent confusion and bug logging.
-  // This is removed from $_SESSION directly, so we don't have to get and set
-  // other existing messages.
-  $messages = $_SESSION['messages'];
-  // Copy from the original drupal_set_message() in file_save_upload().
-  $message_to_suppress = t('For security reasons, your upload has been renamed to %filename.', array('%filename' => $original_file_name));
-  $index = array_search($message_to_suppress, $messages['status']);
-  if ($index !== FALSE) {
-    unset($_SESSION['messages']['status'][$index]);
-  }
-  // Prevent from showing an empty status box to the user.
-  if (empty($_SESSION['messages']['status'])) {
-    unset($_SESSION['messages']['status']);
-  }
 }
 
 /**
@@ -162,30 +111,16 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     return;
   }
 
-  $url = '';
-  // Set the "custom" attribute when either field values are provided.
-  // We prefer the uploaded file above the external link field.
-  $field_custom_js_file = field_get_items('bean', $bean, 'field_custom_js_file');
-  if (!empty($field_custom_js_file)) {
-    $js_file = file_load($field_custom_js_file[0]['fid']);
-    // Get url from the file to insert into the json object.
-    if ($js_file !== FALSE) {
-      $url = file_create_url($js_file->uri);
-    }
-  }
-
-  // When no file was uploaded, get the value from field_custom_js_external.
-  if (empty($url)) {
-    $field_custom_js_link = field_get_items('bean', $bean, 'field_custom_js_link');
-    if (!empty($field_custom_js_link)) {
-      $url = $field_custom_js_link[0]['url'];
-    }
-  }
-
+  $field_custom_js_link = field_get_items('bean', $bean, 'field_custom_js_link');
   // Add the absolute url as "custom" attribute.
-  if (!empty($url)) {
-    // Do some magic to get the absolute url without protocol.
-    $url = '//' . file_uri_target($url);
+  if (!empty($field_custom_js_link)) {
+    $url = $field_custom_js_link[0]['url'];
+    if (url_is_external($url)) {
+      $url = '//' . file_uri_target($url);
+    } else {
+      $url = base_path() . $url;
+    }
+
     $json_object->custom = $url;
     // Add the JSON_UNESCAPED_SLASHES option to json_encode because we need the
     // full url in the json_object.

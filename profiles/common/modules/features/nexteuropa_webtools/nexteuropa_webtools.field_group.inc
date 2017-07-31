@@ -23,9 +23,8 @@ function nexteuropa_webtools_field_group_info() {
     'label' => 'Custom js',
     'weight' => '8',
     'children' => array(
-      0 => 'field_custom_js_file',
-      1 => 'field_custom_js_link',
-      2 => 'field_custom_js_status',
+      'field_custom_js_link',
+      'field_custom_js_status',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

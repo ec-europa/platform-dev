@@ -14,7 +14,7 @@ function nexteuropa_webtools_settings_form() {
     '#type' => 'textfield',
     '#title' => t('Smarloader Protocol-Relative URL'),
     '#default_value' => variable_get('nexteuropa_webtools_smartloader_prurl', ''),
-    '#description' => t("The URL of the webtools smartloader script. e.g. '//example.com/load.js'"),
+    '#description' => t("The URL of the webtools smartloader script. e.g. '//europa.eu/webtools/load.js'"),
     '#required' => TRUE,
   );
 

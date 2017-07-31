@@ -10,73 +10,6 @@
 function nexteuropa_webtools_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'bean-webtools-field_custom_js_file'.
-  $field_instances['bean-webtools-field_custom_js_file'] = array(
-    'bundle' => 'webtools',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 2,
-      ),
-    ),
-    'entity_type' => 'bean',
-    'field_name' => 'field_custom_js_file',
-    'label' => 'File',
-    'required' => 0,
-    'settings' => array(
-      'description_field' => 0,
-      'entity_translation_sync' => FALSE,
-      'file_directory' => '',
-      'file_extensions' => 'js',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'file',
-      'settings' => array(
-        'allowed_schemes' => array(
-          'node' => 0,
-          'private' => 'private',
-          'public' => 0,
-        ),
-        'allowed_types' => array(
-          'audio' => 0,
-          'document' => 0,
-          'image' => 0,
-          'video' => 0,
-        ),
-        'browser_plugins' => array(
-          'media_default--media_browser_1' => 0,
-          'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
-          'upload' => 0,
-        ),
-        'filefield_sources' => array(
-          'filefield_sources' => array(),
-          'source_attach' => array(
-            'absolute' => 0,
-            'attach_mode' => 'move',
-            'path' => 'file_attach',
-          ),
-          'source_imce' => array(
-            'imce_mode' => 0,
-          ),
-          'source_reference' => array(
-            'autocomplete' => 0,
-          ),
-        ),
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'file_generic',
-      'weight' => 7,
-    ),
-  );
-
   // Exported field_instance: 'bean-webtools-field_custom_js_link'.
   $field_instances['bean-webtools-field_custom_js_link'] = array(
     'bundle' => 'webtools',
@@ -96,7 +29,7 @@ function nexteuropa_webtools_field_default_field_instances() {
     'label' => 'External link',
     'required' => 0,
     'settings' => array(
-      'absolute_url' => 1,
+      'absolute_url' => 0,
       'attributes' => array(
         'class' => '',
         'configurable_class' => 0,
@@ -117,7 +50,7 @@ function nexteuropa_webtools_field_default_field_instances() {
       'title_value' => '',
       'url' => 0,
       'user_register_form' => FALSE,
-      'validate_url' => 1,
+      'validate_url' => 0,
     ),
     'widget' => array(
       'active' => 0,

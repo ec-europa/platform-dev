@@ -30,7 +30,7 @@ Table of contents:
 
 To activate the feature, an administrator user needs to:
 - Go on the feature set page "admin/structure/feature-set"
-- Enable the "Webtools" feature
+- Enable the "Communication > Webtools" feature
 
 [Go to top](#table-of-content)
 
@@ -50,10 +50,10 @@ Or set the variable "nexteuropa_webtools_smartloader_prurl"
 ## Set up permissions
 
 To allow users to change the "custom" parameter in the JSON Object field,
-the permission "Upload webtools custom js" needs to be granted.
+the permission "Webtools custom js" needs to be granted.
 - As an administrator user, go to Permissions form "/admin/people/permissions".
 - Filter the form with the keyword "Webtools" or select "NextEuropa webtools" in the module list on the left-hand side.
-- Grant the permission "Upload webtools custom js" to the required roles.
+- Grant the permission "Webtools custom js" to the required roles.
 - Save the form by clicking "Save permission" below.
 
 By default, only users with the "Administrator" role are allowed to change
