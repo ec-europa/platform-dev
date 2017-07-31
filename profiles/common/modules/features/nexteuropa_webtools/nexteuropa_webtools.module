@@ -117,7 +117,8 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     $url = $field_custom_js_link[0]['url'];
     if (url_is_external($url)) {
       $url = '//' . file_uri_target($url);
-    } else {
+    }
+    else {
       $url = base_path() . $url;
     }
 
