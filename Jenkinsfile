@@ -8,7 +8,11 @@ try {
             // Build and test the standard profile with ec_resp theme
             node('php5') {
                 try {
-                    executeStages('standard ec_resp')
+                    withEnv([
+                        "BEHAT_PROFILE=standard_ec_resp"
+                    ]) {
+                        executeStages('standard ec_resp')
+                    }
                 } catch(err) {
                     throw(err)
                 }
@@ -33,7 +37,7 @@ try {
             node('php5') {
                 try {
                     withEnv([
-                        "BEHAT_PROFILE=communities",
+                        "BEHAT_PROFILE=communities_ec_resp",
                         "PLATFORM_PROFILE=multisite_drupal_communities"
                     ]) {
                         executeStages('communities ec_resp')
