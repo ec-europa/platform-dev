@@ -4,27 +4,56 @@ slackSend color: "good", message: "${env.slackMessage} started."
 
 try {
     parallel (
-        'standard' : {
-            // Build, test and package the standard profile
+        'standard-ec-resp' : {
+            // Build and test the standard profile with ec_resp theme
             node('standard') {
                 try {
-                    executeStages('Standard EC Resp', 'ec_resp')
-                    executeStages('Standard Europa', 'europa')
+                    executeStages('standard ec_resp')
                 } catch(err) {
                     throw(err)
                 }
             }
         },
-        'communities' : {
-            // Build and test the communities profile
+        'standard-europa' : {
+            // Build and test the standard profile with europa theme
+            node('standard') {
+                try {
+                    withEnv([
+                        "THEME_DEFAULT=europa"
+                    ]) {
+                        executeStages('standard europa')
+                    }
+                } catch(err) {
+                    throw(err)
+                }
+            }
+        },
+        'communities-ec-resp' : {
+            // Build and test the communities profile with ec_resp theme
             node('communities') {
                 try {
                     withEnv([
                         "BEHAT_PROFILE=communities",
-                        "PLATFORM_PROFILE=multisite_drupal_communities"
+                        "PLATFORM_PROFILE=multisite_drupal_communities",
+                        "THEME_DEFAULT=ec_resp"
                     ]) {
-                        executeStages('Communities EC Resp', 'ec_resp')
-                        executeStages('Communities Europa', 'europa')
+                        executeStages('communities ec_resp')
+                    }
+                } catch(err) {
+                    throw(err)
+                }
+            }
+        },
+        'communities-europa' : {
+            // Build and test the communities profile with europa theme
+            node('communities') {
+                try {
+                    withEnv([
+                        "BEHAT_PROFILE=communities",
+                        "PLATFORM_PROFILE=multisite_drupal_communities",
+                        "THEME_DEFAULT=europa"
+                    ]) {
+                        executeStages('communities europa')
                     }
                 } catch(err) {
                     throw(err)
@@ -44,11 +73,10 @@ slackSend color: "good", message: "${env.slackMessage} complete."
  *
  * @param label The text that will be displayed as stage label.
  */
-void executeStages(String label, String theme) {
+void executeStages(String label) {
     // Use random ports for the HTTP mock and PhantomJS, compute paths, use random DB name
     Random random = new Random()
     env.PROJECT = 'platform-dev'
-    env.DEFAULT_THEME = theme
     tokens = "${env.WORKSPACE}".tokenize('/')
     env.SITE_PATH = tokens[tokens.size()-1]
     env.DB_NAME = "${env.PROJECT}".replaceAll('-','_').trim() + '_' + sh(returnStdout: true, script: 'date | md5sum | head -c 4').trim()
@@ -67,8 +95,8 @@ void executeStages(String label, String theme) {
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
             ]) {
-                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$DEFAULT_THEME'"
-                sh "./bin/phing install-platform -D'platform.site.theme_default'='"  + theme + "' -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE'"
+                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
+                sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
             }
         }
 
