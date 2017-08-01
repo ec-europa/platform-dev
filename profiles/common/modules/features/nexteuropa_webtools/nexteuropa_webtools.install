@@ -61,3 +61,43 @@ function nexteuropa_webtools_requirements($phase) {
   }
   return $requirements;
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * NEPT-1234: Handle webtools javascript files upload.
+ */
+function nexteuropa_webtools_update_7100() {
+  if (field_info_field('field_custom_js_file')) {
+    // Move the url 'custom_js_file' of the link into 'custom_js_link'.
+    $result = db_query('select cf.*, f.uri from {field_data_field_custom_js_file} cf, {file_managed} f 
+      where cf.field_custom_js_file_fid = f.fid'
+    );
+    foreach ($result as $item) {
+      db_query('REPLACE INTO {field_data_field_custom_js_link} 
+        (entity_type, bundle, entity_id, revision_id, language, delta, field_custom_js_link_url) 
+        VALUES ( :entity_type, :bundle, :entity_id, :revision_id, :language, :delta, :field_custom_js_link_url)',
+        array(
+          'entity_type' => $item->entity_type,
+          'bundle' => $item->bundle,
+          'entity_id' => $item->entity_id,
+          'revision_id' => $item->revision_id,
+          'language' => $item->language,
+          'delta' => 0,
+          'field_custom_js_link_url' => $item->uri,
+        )
+      );
+    }
+
+    // Delete the field_custom_js_file.
+    field_delete_field("field_custom_js_file");
+    field_purge_batch(1);
+  }
+
+  // Update field_custom_js_link.
+  if ($field_instance = field_info_instance('bean', 'field_custom_js_link', 'webtools')) {
+    $field_instance['settings']['absolute_url'] = 0;
+    $field_instance['settings']['validate_url'] = 0;
+    field_update_instance($field_instance);
+  }
+}
