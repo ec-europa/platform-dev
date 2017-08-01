@@ -215,7 +215,9 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
-projects[entitycache][version] = 1.2
+projects[entitycache][download][revision] = f82940e20a76414ca353ed17fe15ae5f2dbc4bb8
+projects[entitycache][download][type] = git
+projects[entitycache][download][branch] = 7.x-1.x
 
 projects[entityreference][download][branch] = 7.x-1.x
 projects[entityreference][download][revision] = 599b07585d37101bc7b38c9df5b2ef196a7416b2
