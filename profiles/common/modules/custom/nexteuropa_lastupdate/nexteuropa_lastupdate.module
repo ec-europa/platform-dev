@@ -84,6 +84,11 @@ function _nexteuropa_lastupdate_supported_core_entities() {
 /**
  * Return the entity that is being loaded in the page (if any).
  *
+ * This function comes from _datalayer_menu_get_any_object(),
+ * but I would replace that function with:
+ * https://api.drupal.org/comment/63163#comment-63163
+ * which seems more advanced.
+ *
  * @return mixed
  *   On failure false.
  *   On success the loaded entity object.
