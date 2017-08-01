@@ -6,7 +6,7 @@ try {
     parallel (
         'standard-ec-resp' : {
             // Build and test the standard profile with ec_resp theme
-            node('standard') {
+            node('php5') {
                 try {
                     executeStages('standard ec_resp')
                 } catch(err) {
@@ -16,13 +16,12 @@ try {
         },
         'standard-europa' : {
             // Build and test the standard profile with europa theme
-            node('standard') {
+            node('php5') {
                 try {
                     withEnv([
                         "THEME_DEFAULT=europa"
                     ]) {
-                        // TODO: tests to be fixed, see NEPT-1172
-                        // executeStages('standard europa')
+                        executeStages('standard europa')
                     }
                 } catch(err) {
                     throw(err)
@@ -31,12 +30,11 @@ try {
         },
         'communities-ec-resp' : {
             // Build and test the communities profile with ec_resp theme
-            node('communities') {
+            node('php5') {
                 try {
                     withEnv([
                         "BEHAT_PROFILE=communities",
-                        "PLATFORM_PROFILE=multisite_drupal_communities",
-                        "THEME_DEFAULT=ec_resp"
+                        "PLATFORM_PROFILE=multisite_drupal_communities"
                     ]) {
                         executeStages('communities ec_resp')
                     }
@@ -47,15 +45,14 @@ try {
         },
         'communities-europa' : {
             // Build and test the communities profile with europa theme
-            node('communities') {
+            node('php5') {
                 try {
                     withEnv([
                         "BEHAT_PROFILE=communities",
                         "PLATFORM_PROFILE=multisite_drupal_communities",
                         "THEME_DEFAULT=europa"
                     ]) {
-                        // TODO: tests to be fixed, see NEPT-1172
-                        // executeStages('communities europa')
+                        executeStages('communities europa')
                     }
                 } catch(err) {
                     throw(err)
