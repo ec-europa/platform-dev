@@ -12,6 +12,9 @@ Feature: Second favorite language tests
       | it        |
       | bg        |
 
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario Outline: Check consistency of second favorite language fallback
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/translate/translate"
