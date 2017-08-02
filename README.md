@@ -86,7 +86,7 @@ $ ./bin/phing install-platform
   - The default Atomium and Europa theme build properties. Used only if default theme is set to "europa".
   You can find default values of those variables below. 
   
->platform.theme.atomium.repo.url = https://github. com/ec-europa/atomium.git
+>platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
 >platform.theme.atomium.repo.branch = 7.x-1.x
 >platform.theme.europa.repo.url = https://github.com/ec-europa/ec-europa-theme.git
 >platform.theme.europa.repo.branch = europa-atomium
