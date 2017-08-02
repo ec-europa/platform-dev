@@ -14,14 +14,14 @@ Scenario: Administrators can add the last update block in a region
   When I visit "admin/structure/block"
   Then I should see the text "Last update date"
 
-Scenario: Check that the last update block is not showed if a node is not published
+Scenario: Check that the last update block is not shown if a node is not published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
   And I fill in "Title" with "Page title"
   And I press "Save"
   Then I should not see an ".last-update" element
 
-Scenario: Check that the last update block is showed if a node is published
+Scenario: Check that the last update block is shown if a node is published
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "node/add/page"
   And I fill in "Title" with "Page title"
@@ -29,7 +29,7 @@ Scenario: Check that the last update block is showed if a node is published
   And I press "Save"
   Then I should see "Last published" in the ".last-update" element
 
-Scenario Outline: Check that the last update block is showed in other cases (user/file)
+Scenario Outline: Check that the last update block is shown in other cases (user/file)
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "<url>"
   Then I should see "<sentence>" in the ".last-update" element
