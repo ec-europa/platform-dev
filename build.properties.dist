@@ -145,8 +145,14 @@ phpcs.extensions = php inc module install info test profile theme css js
 # The default configuration file to generate.
 phpcs.config = ${project.basedir}/phpcs.xml
 
-# The coding standard to use.
-phpcs.standard = ${project.basedir}/phpcs-ruleset.xml
+# The locations for installed standards, delimited by comma.
+phpcs.installed.paths = ${project.basedir}/vendor/ec-europa/qa-automation/phpcs/SubStandards
+
+# The coding standards to use, delimited by semicolons.
+phpcs.standards = Platform;${project.basedir}/phpcs-ruleset.xml
+
+# Returns a 0 error code when only warnings are found if enabled. Ment for CI.
+phpcs.passwarnings = 0
 
 # Paths to check, delimited by semicolons.
 phpcs.files = ${platform.resources.profiles.dir};${platform.resources.source.dir};${behat.dir};
