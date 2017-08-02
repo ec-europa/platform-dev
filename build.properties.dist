@@ -18,7 +18,7 @@ ecl.version = v0.10.0
 platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
 platform.theme.atomium.repo.branch = 7.x-1.x
 platform.theme.europa.repo.url = https://github.com/ec-europa/ec_europa.git
-platform.theme.europa.repo.tag = 0.0.1
+platform.theme.europa.repo.tag = 0.0.2
 
 # The Drupal core make file.
 drupal.make = ${platform.resources.dir}/drupal-core.make
