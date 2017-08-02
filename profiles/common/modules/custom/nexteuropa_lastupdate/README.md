@@ -16,3 +16,9 @@ configure and place as they see fit in their site.
 
 This block will show the last modification date of an entity if that entity
 provides a callback in the "last update callback" property.
+
+This block works with these following entities:
+- node
+- comment (if the module comments is enabled)
+- user
+- file

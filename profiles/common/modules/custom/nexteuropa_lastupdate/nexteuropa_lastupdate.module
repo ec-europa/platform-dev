@@ -94,6 +94,11 @@ function _nexteuropa_lastupdate_supported_core_entities() {
 /**
  * Return the entity that is being loaded in the page (if any).
  *
+ * This function comes from _datalayer_menu_get_any_object(),
+ * but I would replace that function with:
+ * https://api.drupal.org/comment/63163#comment-63163
+ * which seems more advanced.
+ *
  * @return mixed
  *   On failure false.
  *   On success the loaded entity object.
@@ -106,6 +111,9 @@ function _nexteuropa_lastupdate_menu_get_any_entity() {
   // Non-entities may not have load functions.
   if (is_array($item['load_functions'])) {
     $vals = array_values($item['load_functions']);
+
+    // @todo We only load the first load function, we should analyze the case
+    // @todo where we have multiple load_functions in this array().
     $load_function = $vals[0];
     $arg_position = array_search($load_function, $item['load_functions']);
 
