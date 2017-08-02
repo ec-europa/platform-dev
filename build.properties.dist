@@ -113,14 +113,11 @@ behat.base_url = http://localhost
 # The URL of the Behat webdriver host.
 behat.wd_host.url = http://localhost:8643/wd/hub
 
-# The browser to use for javascript testing.
-behat.browser.name = phantomjs
-
 # The location to search for Behat subcontexts.
 behat.subcontexts.path = ${platform.build.profiles.dir}/common/modules
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
-behat.formatter.name = progress
+behat.formatter.name = pretty
 
 # Enable strict mode in Behat tests. Will only pass if all tests are explicitly
 # passing.
@@ -135,6 +132,24 @@ behat.load_balancer.containers = 5
 behat.load_balancer.root = ${behat.dir}
 behat.load_balancer.destination = ${behat.dir}/balancer
 behat.load_balancer.import = ${behat.yml.path}
+
+# PHPUnit configuration
+# -------------------
+
+# The location of the PHPUnit executable.
+phpunit.bin = ${project.basedir}/bin/phpunit
+
+# The location of the PHPUnit configuration files.
+phpunit.dir = ${project.basedir}/tests
+
+# The location of the PHPUnit configuration template.
+phpunit.xml.template = ${phpunit.dir}/phpunit.xml.dist
+
+# The location of the generated Behat configuration file.
+phpunit.xml.path = ${phpunit.dir}/phpunit.xml
+
+# The base URL to use in PHPUnit tests.
+phpunit.base_url = ${behat.base_url}
 
 # PHP CodeSniffer configuration
 # -----------------------------
@@ -206,3 +221,7 @@ integration.server.port = 8888
 
 # Port on which the mocked Varnish server used by the behat tests will listen.
 varnish.server.port = 8888
+
+# Drush Context configuration
+# ---------------------------
+drush.db.dump = ${platform.build.dir}/dump.sql

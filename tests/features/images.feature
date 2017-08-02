@@ -14,7 +14,7 @@ Feature: Images
     When I go to "/admin/content/file"
     And I click "logo.png"
     And I click "Edit"
-    And I fill in "Name" with "Image name"
+    And I fill in "File name" with "Image name"
     And I fill in "Caption" with "Image caption"
     And I press "Save"
     Then the response should contain "has been updated."

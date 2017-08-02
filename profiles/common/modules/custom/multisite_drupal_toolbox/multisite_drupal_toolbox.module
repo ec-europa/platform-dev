@@ -7,6 +7,18 @@
 
  define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
 /**
+ * Implements hook_permission().
+ */
+function multisite_drupal_toolbox_permission() {
+  return array(
+    'view alert message' => array(
+      'title' => t('View Alert message'),
+      'description' => t('View the Alert message'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function multisite_drupal_toolbox_menu() {
@@ -137,6 +149,10 @@ function multisite_drupal_toolbox_init() {
   if (variable_get("language_count", 1) == 1) {
     variable_set("language_count", 2);
   }
+
+  if (variable_get('alert_message_enable', FALSE) && user_access('view alert message')) {
+    drupal_set_message(variable_get('alert_message_body', ''), 'warning', FALSE);
+  }
 }
 
 /**
@@ -153,18 +169,16 @@ function multisite_drupal_toolbox_menu_alter(&$items) {
     }
   }
 
-  // Block node import with node_export module.
-  $items['node/add/node_export']['access callback'] = FALSE;
   // Hide broken links tab in the my account page.
   $items['user/%user/linkchecker']['access callback'] = FALSE;
 
   if (module_exists('apachesolr')) {
     // Only super admin can configure apache solR.
     $items['admin/config/search/apachesolr/multisite-filters']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
-    $items['admin/config/search/apachesolr/settings/%/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/index']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/edit']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/delete']['access callback'] = 'multisite_drupal_toolbox_is_admin';
+    $items['admin/config/search/apachesolr/settings/%apachesolr_environment/clone']['access callback'] = 'multisite_drupal_toolbox_is_admin';
     $items['admin/config/search/apachesolr/settings']['access callback'] = 'multisite_drupal_toolbox_is_admin';
     $items['admin/config/search/apachesolr/settings/add']['access callback'] = 'multisite_drupal_toolbox_is_admin';
     $items['admin/config/search/apachesolr/attachments']['access callback'] = 'multisite_drupal_toolbox_is_admin';
@@ -270,7 +284,6 @@ function multisite_drupal_toolbox_form_user_admin_permissions_alter(&$form, &$fo
     unset($form['permission']['administer features']);
     unset($form['permission']['manage features']);
     unset($form['permission']['administer software updates']);
-    unset($form['permission']['use PHP to import nodes']);
 
     if (isset($form['permission']['administer varnish'])) {
       unset($form['permission']['administer varnish']);
@@ -287,7 +300,6 @@ function multisite_drupal_toolbox_form_user_admin_permissions_alter(&$form, &$fo
       unset($form['checkboxes'][$rid]['#options']['administer features']);
       unset($form['checkboxes'][$rid]['#options']['manage features']);
       unset($form['checkboxes'][$rid]['#options']['administer software updates']);
-      unset($form['checkboxes'][$rid]['#options']['use PHP to import nodes']);
       if (isset($form['checkboxes'][$rid]['#options']['use PHP for title patterns'])) {
         unset($form['checkboxes'][$rid]['#options']['use PHP for title patterns']);
       }
@@ -491,29 +503,6 @@ function multisite_drupal_toolbox_sanitize($content, $nid) {
     $content = multisite_drupal_toolbox_filter_xss($content, $filter_options);
   }
   return $content;
-}
-
-/**
- * Implements hook_theme_registry_alter().
- */
-function multisite_drupal_toolbox_theme_registry_alter(&$theme_registry) {
-  // Use our own function to display status messages.
-  $theme_registry['status_messages']['function'] = "multisite_drupal_toolbox_messages";
-}
-
-/**
- * Custom function to override the drupal status message.
- */
-function multisite_drupal_toolbox_messages($variables) {
-  global $user;
-  $message = "";
-  $rid = multisite_drupal_toolbox_get_rid('administrator');
-  if (variable_get('alert_message_enable', FALSE) && isset($user->roles[$rid])) {
-    $message = '<div id="alter_message" class="messages warning">' . variable_get('alert_message_body', "") . '</div>';
-  }
-  $output = theme_status_messages($variables);
-  $output = $message . $output;
-  return $output;
 }
 
 /**
@@ -1288,18 +1277,6 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
   }
 
   return $path_info;
-}
-
-/**
- * Implements hook_i18n_sync_translation().
- *
- * Fix bug: synchronise translations causes an infinite loop.
- *
- * @see https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-1636
- * @see http://drupal.org/node/1372500
- */
-function multisite_drupal_toolbox_i18n_sync_translation($entity_type, $translation, $translation_language, $source, $source_language, $field_names) {
-  $translation->workbench_moderation['updating_live_revision'] = TRUE;
 }
 
 /**

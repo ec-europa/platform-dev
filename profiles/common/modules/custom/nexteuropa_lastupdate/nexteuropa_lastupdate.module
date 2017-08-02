@@ -1,0 +1,216 @@
+<?php
+
+/**
+ * @file
+ * Code for the NextEuropa Last Updated feature.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function nexteuropa_lastupdate_block_info() {
+  $blocks = array();
+  $blocks['last_update'] = array(
+    'info' => t('Last update date'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function nexteuropa_lastupdate_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'last_update':
+      $block['content'] = array(
+        '#theme' => 'nexteuropa_last_update_block',
+      );
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_preprocess_hook().
+ */
+function nexteuropa_lastupdate_preprocess_nexteuropa_last_update_block(&$variables, $hook) {
+  if ($entity = _nexteuropa_lastupdate_menu_get_any_entity()) {
+    $info = entity_get_info($entity->entity_type);
+    if (isset($info['last update callback']) && function_exists($info['last update callback'])) {
+      $last_update_variables = call_user_func($info['last update callback'], $entity);
+      if (!empty($last_update_variables)) {
+        $variables['label'] = $last_update_variables['label'];
+        $variables['date'] = $last_update_variables['date'];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function nexteuropa_lastupdate_entity_info_alter(&$entity_info) {
+  foreach (_nexteuropa_lastupdate_supported_core_entities() as $type => $callback) {
+    $entity_info[$type]['last update callback'] = $callback;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function nexteuropa_lastupdate_theme($existing, $type, $theme, $path) {
+  return array(
+    'nexteuropa_last_update_block' => array(
+      'template' => 'nexteuropa-last-update-block',
+      'path' => $path . '/theme',
+      'variables' => array(
+        'label' => NULL,
+        'date' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Define last update callbacks for default entities.
+ *
+ * @return array $last_update_callbacks.
+ *   Array of callbacks keyed by entity name.
+ */
+function _nexteuropa_lastupdate_supported_core_entities() {
+  $last_update_callbacks = array();
+  // Core entity types.
+  if (module_exists('comment')) {
+    $last_update_callbacks['comment'] = '_nexteuropa_lastupdate_comment_callback';
+  }
+  $last_update_callbacks['user'] = '_nexteuropa_lastupdate_user_callback';
+  $last_update_callbacks['node'] = '_nexteuropa_lastupdate_node_callback';
+  $last_update_callbacks['file'] = '_nexteuropa_lastupdate_file_callback';
+
+  return $last_update_callbacks;
+}
+
+/**
+ * Return the entity that is being loaded in the page (if any).
+ *
+ * This function comes from _datalayer_menu_get_any_object(),
+ * but I would replace that function with:
+ * https://api.drupal.org/comment/63163#comment-63163
+ * which seems more advanced.
+ *
+ * @return mixed
+ *   On failure false.
+ *   On success the loaded entity object.
+ */
+function _nexteuropa_lastupdate_menu_get_any_entity() {
+  // Figure out how this entity is loaded.
+  $entity_type = FALSE;
+  $item = menu_get_item();
+
+  // Non-entities may not have load functions.
+  if (is_array($item['load_functions'])) {
+    $vals = array_values($item['load_functions']);
+
+    // @todo We only load the first load function, we should analyze the case
+    // @todo where we have multiple load_functions in this array().
+    $load_function = $vals[0];
+    $arg_position = array_search($load_function, $item['load_functions']);
+
+    // Compare to entity types.
+    $entity_info = entity_get_info();
+    foreach ($entity_info as $type => $info) {
+      if ($info['load hook'] == $load_function) {
+        $entity_type = $type;
+      }
+    }
+  }
+
+  // Return the entity.
+  if ($entity_type && $entity = menu_get_object($entity_type, $arg_position)) {
+    if (is_object($entity)) {
+      $entity->entity_type = $entity_type;
+      return $entity;
+    }
+    else {
+      return FALSE;
+    }
+  }
+  else {
+    return FALSE;
+  }
+}
+
+
+/**
+ * Callback to return the last published date of a node.
+ *
+ * @param object $node
+ *   The node to get the last published date from.
+ *
+ * @return array
+ *   An array containing the label and date to be rendered.
+ */
+function _nexteuropa_lastupdate_node_callback($node) {
+  if ($node->status) {
+    return _nexteuropa_lastupdate_default_callback(t('Last published'), $node->changed);
+  }
+  return FALSE;
+}
+
+/**
+ * Callback to return the last accessed date of a user.
+ *
+ * @param object $user
+ *   The user to get the last accessed date from.
+ *
+ * @return array
+ *   An array containing the label and date to be rendered.
+ */
+function _nexteuropa_lastupdate_user_callback($user) {
+  return _nexteuropa_lastupdate_default_callback(t('Last accessed'), $user->access);
+}
+
+/**
+ * Callback to return the last published date of a comment.
+ *
+ * @param object $comment
+ *   The comment to get the last published date from.
+ *
+ * @return array
+ *   An array containing the label and date to be rendered.
+ */
+function _nexteuropa_lastupdate_comment_callback($comment) {
+  return _nexteuropa_lastupdate_default_callback(t('Last published'), $comment->changed);
+}
+
+/**
+ * Callback to return the last uploaded date of a file.
+ *
+ * @param object $file
+ *   The file to get the last uploaded date from.
+ *
+ * @return array
+ *   An array containing the label and date to be rendered.
+ */
+function _nexteuropa_lastupdate_file_callback($file) {
+  return _nexteuropa_lastupdate_default_callback(t('Last uploaded'), $file->timestamp);
+}
+
+/**
+ * Callback to return the last uploaded date of a file.
+ *
+ * @param string $label
+ *   The label of the last update block.
+ * @param int $timestamp
+ *   The date of the last update block.
+ *
+ * @return array
+ *   An array containing the label and date to be rendered.
+ */
+function _nexteuropa_lastupdate_default_callback($label, $timestamp) {
+  return array(
+    'label' => $label,
+    'date' => format_date($timestamp, 'short'),
+  );
+}

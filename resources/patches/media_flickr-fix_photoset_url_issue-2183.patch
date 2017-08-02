@@ -1,9 +1,0 @@
---- includes/media_flickr.admin.inc	2013-10-10 14:33:16.475263521 +0200
-+++ includes/media_flickr.admin.inc	2013-10-10 15:09:21.000000000 +0200
-@@ -139,5 +139,5 @@
-     drupal_set_message(t('An error occurred and no file was saved.'), 'error');
-   }
- 
--  $form_state['redirect'] = !empty($form_state['values']['redirect']) ? $form_state['values']['redirect'] : 'media/' . $file->fid . '/edit';
-+  $form_state['redirect'] = !empty($form_state['values']['redirect']) ? $form_state['values']['redirect'] : 'file/' . $file->fid . '/edit';
- }

@@ -55,6 +55,10 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
    */
   public function overviewTable($conditions = array()) {
 
+    // If the purge mechanism is prevented to work, then a warning message must
+    // be displayed.
+    _nexteuropa_varnish_temporary_message();
+
     $render = parent::overviewTable($conditions);
 
     // Add a unique id to the table. This will make it easier to target it
@@ -62,6 +66,17 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
     $render['#attributes']['id'] = 'frontend-cache-purge-rules';
 
     return $render;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hook_menu() {
+    $items = parent::hook_menu();
+    $items[$this->path]['title'] = t('Purge rules');
+    $items[$this->path]['type'] = MENU_LOCAL_TASK;
+
+    return $items;
   }
 
 }

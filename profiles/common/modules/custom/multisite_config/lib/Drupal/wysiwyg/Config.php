@@ -165,7 +165,7 @@ class Config extends ConfigBase {
       'preformatted' => FALSE,
       'convert_fonts_to_spans' => TRUE,
       'remove_linebreaks' => TRUE,
-      'apply_source_formatting' => FALSE,
+      'apply_source_formatting' => TRUE,
       'paste_auto_cleanup_on_paste' => FALSE,
       'css_setting' => 'theme',
       'css_path' => NULL,

@@ -3,6 +3,5 @@ description = Integration with Webtools Language Coverage (LACO) service.
 core = 7.x
 package = NextEuropa
 
-dependencies[] = nexteuropa_multilingual
 dependencies[] = registry_autoload
 registry_autoload[] = PSR-4

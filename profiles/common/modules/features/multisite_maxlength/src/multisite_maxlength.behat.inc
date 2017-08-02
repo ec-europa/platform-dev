@@ -20,13 +20,6 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
   protected $drupal;
 
   /**
-   * List of Fields created during test execution.
-   *
-   * @var \Fields[]
-   */
-  protected $fields = [];
-
-  /**
    * Constructs a MultisiteMaxlengthSubContext object.
    *
    * @param DrupalDriverManager $drupal
@@ -69,26 +62,10 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
         'required' => FALSE,
       );
       field_create_instance($instance);
-
-      // Backup fields created.
-      $this->fields[] = $field;
     }
     else {
       throw new \InvalidArgumentException("The field '{$field_name}' already exists.");
     }
-  }
-
-  /**
-   * Revert to previous settings after scenario execution.
-   *
-   * @AfterScenario
-   */
-  public function removeFields() {
-    // Remove the fields.
-    foreach ($this->fields as $field) {
-      field_delete_field($field['field_name']);
-    }
-    field_purge_batch(100);
   }
 
 }

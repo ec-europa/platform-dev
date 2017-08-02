@@ -4,6 +4,8 @@
  * Install, update and uninstall functions for the ec_embedded_video module.
  */
 
+module_load_include('inc', 'ec_embedded_video', 'ec_embedded_video.install');
+
 /**
  * Implements hook_install().
  */
@@ -13,6 +15,7 @@ function ec_embedded_video_install() {
     array_push($plugins, 'media_internet');
     variable_set('media__wysiwyg_browser_plugins', $plugins);
   }
+  _ec_embedded_video_install_soft_configured_file_display();
 }
 
 /**
@@ -30,4 +33,11 @@ function ec_embedded_video_enable() {
 function ec_embedded_video_disable() {
   // Desactivation message.
   drupal_set_message(t('EC embedded videos feature is now disabled on your site.'));
+}
+
+/**
+ * NEPT-639: Update media assets video display for the WYSIWYG view mode.
+ */
+function ec_embedded_video_update_7001() {
+  _ec_embedded_video_install_soft_configured_file_display();
 }
