@@ -18,6 +18,8 @@
             <param>${platform.profile.name}</param>
             <!-- Prevent e-mails from being sent during the installation. -->
             <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
+            <!-- Setup default theme. -->
+            <param>cce_basic_config_profile_theme_default_form.theme_default=${platform.site.theme_default}</param>
         </drush>
 
 		<!-- Rebuild node access after site installation -->

@@ -9,6 +9,7 @@
  * Custom function that moves the proper blocks in the right areas.
  */
 function _nexteuropa_ecl_migrate_blocks() {
+  _nexteuropa_ecl_migrate_remove_blocks_header_top();
   _nexteuropa_ecl_migrate_dt_menus();
   _nexteuropa_ecl_migrate_europa_main_menu();
   _nexteuropa_ecl_migrate_europa_utility_region();
@@ -208,4 +209,12 @@ function _nexteuropa_ecl_migrate_europa_main_menu() {
 function _nexteuropa_ecl_migrate_europa_utility_region() {
   multisite_drupal_toolbox_add_block_context('site_wide', 'user-menu', 'system', 'user-menu', 'utility', 1);
   multisite_drupal_toolbox_add_block_context('site_wide', 'create-content-button', 'multisite_create_button', 'create-content-button', 'utility', 2);
+}
+
+/**
+ * Custom function that deletes blocks in the header_top region.
+ */
+function _nexteuropa_ecl_migrate_remove_blocks_header_top() {
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'menu-service-tools');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
 }

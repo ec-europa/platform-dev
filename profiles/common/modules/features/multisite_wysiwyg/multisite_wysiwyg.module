@@ -144,8 +144,7 @@ function _multisite_wysiwyg_get_ckeditor_css_paths($default_theme = NULL) {
   }
   $css_file_paths = array();
   $list_theme = list_themes();
-
-  $implied_themes = drupal_find_base_themes($list_theme, $default_theme);
+  $implied_themes = !empty($list_theme[$default_theme]->info['base theme']) ? drupal_find_base_themes($list_theme, $default_theme) : array();
   // If drupal_find_base_themes can return an array with only one NULL item.
   if (empty(current($implied_themes))) {
     $implied_themes = array();
