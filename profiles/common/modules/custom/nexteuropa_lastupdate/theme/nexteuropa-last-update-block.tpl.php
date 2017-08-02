@@ -5,8 +5,8 @@
  * Default implementation of the last update block.
  *
  * Available variables:
- * - $label: the language list.
- * - $date: optional language icon.
+ * - $label: the language label.
+ * - $date: the date.
  *
  * @see template_preprocess()
  * @see template_preprocess_block()
