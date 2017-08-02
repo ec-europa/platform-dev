@@ -63,7 +63,7 @@ class nexteuropa_token_ckeditor_bean_handler_field_selection extends views_handl
       $entity_label = $values->$field_alias;
     }
 
-    $attributes = array('class' => 'token-ckeditor-selection');
+    $attributes = array('class' => array('token-ckeditor-selection'));
     $attributes['token-ckeditor-label'] = $entity_label;
     $output = array();
 
