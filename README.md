@@ -83,13 +83,16 @@ $ ./bin/phing install-platform
 
 > ecl.version = v0.10.0
   
-  - The default Atomium and Europa theme build properties. Used only if default theme is set to "europa".
+  - The default EC Europa theme release version.
+
+> ec_europa.version = 0.0.2
+
+  - The default Atomium theme build properties. Used only if default theme is set to "europa".
   You can find default values of those variables below. 
   
->platform.theme.atomium.repo.url = https://github. com/ec-europa/atomium.git
+>platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
 >platform.theme.atomium.repo.branch = 7.x-1.x
->platform.theme.europa.repo.url = https://github.com/ec-europa/ec-europa-theme.git
->platform.theme.europa.repo.branch = europa-atomium
+
 
 ## Building a local development environment for the EC Europa theme
 
