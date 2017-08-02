@@ -200,7 +200,7 @@
     <target name="process-europa-theme">
         <!-- Download the Europa theme archive for a given branch. -->
         <exec
-            command="curl -L https://api.github.com/repos/ec-europa/ec-europa-theme/tarball/${platform.theme.europa.repo.branch} > profiles/common/themes/europa.tar.gz"
+            command="curl -L https://api.github.com/repos/ec-europa/ec_europa/tarball/${platform.theme.europa.repo.tag} > profiles/common/themes/europa.tar.gz"
             passthru="true" />
         <!-- Extract the archive -->
         <mkdir dir="profiles/common/themes/europa" />
