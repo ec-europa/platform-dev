@@ -115,14 +115,29 @@ Behat tests can be executed from the repository root by running:
 $ ./bin/behat -c tests/behat.yml
 ```
 
-With a single Phing task, you can run every tests suites:
+The platform can run 4 different behat profiles:
+* default: it runs behat tests against a multisite_drupal_standard build using 
+the "Europa" theme;
+* communities: it runs behat tests against a multisite_drupal_communities build 
+using the "Europa" theme;
+* standard_ec_resp: it runs behat tests against a multisite_drupal_standard build using
+the "ec_resp" theme;
+* communities_ec_resp: it runs behat tests against a multisite_drupal_communities build
+using the "ec_resp" theme;
+
+The command to execute the tests mentioned above, runs only the default profile. <br />
+The tests will fail with it if the platform is build with the "ec_resp" theme.
+
+To run the profiles other than the default, the following command must be exeuted:
 
 ```
-./bin/phing behat
+$ ./bin/behat -c tests/behat.yml -p [profile]
 ```
+[profile] stands for the profile name as written in the list above; I.E: communities,
+standard_ec_resp, communities_ec_resp.
 
-If you want to execute a single test, just provide the path to the test as an
-argument. The tests are located in `tests/features/`. For example:
+If you want to execute a single test, just provide the path to the test as an argument. 
+ The tests are located in `tests/features/`. For example:
 
 ```
 $ ./bin/behat -c tests/behat.yml tests/features/content_editing.feature

@@ -27,7 +27,7 @@ class TransformExtension implements ExtensionInterface {
   const NEPT_TRANSFORM_ID = 'nept_transform';
 
   /**
-   * Implement getConfigKey() method.
+   * Returns the specific extension key.
    *
    * @inheritDoc
    */
@@ -36,7 +36,7 @@ class TransformExtension implements ExtensionInterface {
   }
 
   /**
-   * Implement initialize() method.
+   * Empty implementation as it is not necessary for platform purposes.
    *
    * @inheritDoc
    */
@@ -45,7 +45,7 @@ class TransformExtension implements ExtensionInterface {
   }
 
   /**
-   * Implement configure() method.
+   * Declares the transform_tokens node.
    *
    * @inheritDoc
    */
@@ -69,7 +69,7 @@ class TransformExtension implements ExtensionInterface {
   }
 
   /**
-   * Loads the ArgumentTransformer and passes the settings to it.
+   * Adds the Nexteuropa token logic in the "Transformer" mechanism definition.
    *
    * @inheritDoc
    */
@@ -81,7 +81,7 @@ class TransformExtension implements ExtensionInterface {
   }
 
   /**
-   * Implement process() method.
+   * Empty implementation as it is not necessary for platform purposes.
    *
    * @inheritDoc
    */

@@ -30,7 +30,7 @@ class ArgumentTransformer implements ArgumentTransformerInterface {
   }
 
   /**
-   * Implements supportsDefinitionAndArgument().
+   * Defines conditions the current transformation process must be triggered.
    *
    * @inheritDoc
    */
@@ -43,7 +43,7 @@ class ArgumentTransformer implements ArgumentTransformerInterface {
   }
 
   /**
-   * Implements transformArgument().
+   * Implements the transformation based on the 'transform_tokens' parameter.
    *
    * @inheritDoc
    */

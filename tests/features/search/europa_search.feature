@@ -1,4 +1,4 @@
-@api @javascript
+@api @javascript @ec_resp_theme
 Feature: Europa Search features
   In order to find rapidly contents across the site and Europa
   As a anonymous user

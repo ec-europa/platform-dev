@@ -18,7 +18,7 @@ use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 class DrupalExtension extends OriginalDrupalExtension {
 
   /**
-   * Define extension definition.
+   * Adds "front_" selectors to "selector" declaration.
    *
    * @inheritDoc
    */

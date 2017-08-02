@@ -34,8 +34,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertMessage($message) {
     if ($this->isCurrentPageAdmin()) {
@@ -56,8 +54,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertNotMessage($message) {
     if ($this->isCurrentPageAdmin()) {
@@ -101,8 +97,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertErrorVisible($message) {
     if ($this->isCurrentPageAdmin()) {
@@ -123,8 +117,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertNotErrorVisible($message) {
     if ($this->isCurrentPageAdmin()) {
@@ -144,8 +136,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertSuccessMessage($message) {
     if ($this->isCurrentPageAdmin()) {
@@ -166,8 +156,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertNotSuccessMessage($message) {
     if ($this->isCurrentPageAdmin()) {
@@ -187,8 +175,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertWarningMessage($message) {
     if ($this->isCurrentPageAdmin()) {
@@ -209,8 +195,6 @@ class MessageContext extends DrupalExtensionMessageContext {
 
   /**
    * {@inheritdoc}
-   *
-   * @override
    */
   public function assertNotWarningMessage($message) {
     if ($this->isCurrentPageAdmin()) {
