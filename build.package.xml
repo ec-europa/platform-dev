@@ -200,13 +200,13 @@
     <target name="process-europa-theme">
         <!-- Download the Europa theme archive for a given branch. -->
         <exec
-            command="curl -L https://api.github.com/repos/ec-europa/ec_europa/tarball/${platform.theme.europa.repo.tag} > profiles/common/themes/europa.tar.gz"
+            command="curl -L https://github.com/ec-europa/ec_europa/releases/download/${ec_europa.version}/ec_europa-${ec_europa.version}.tar.gz > profiles/common/themes/europa.tar.gz"
             passthru="true" />
         <!-- Extract the archive -->
         <mkdir dir="profiles/common/themes/europa" />
         <exec
             dir="profiles/common/themes"
-            command="tar xvf europa.tar.gz --strip=1 -C europa"
+            command="tar xzvf europa.tar.gz --strip=1 -C europa"
             passthru="true" />
         <delete file="profiles/common/themes/europa.tar.gz" quiet="true" />
         <phingcall target="embed-ecl-assets" />
@@ -256,7 +256,7 @@
             branchname="${platform.theme.atomium.repo.branch}"/>
 
         <!-- Clonning the Europa theme repo into the common profiles directory -->
-        <echo msg = "Clonning the Europa theme repository."/>
+        <echo msg = "Cloning the Europa theme repository."/>
         <gitclone
             repository="${platform.theme.europa.repo.url}"
             targetPath="${platform.resources.profiles.common.themes.dir}/europa"/>

@@ -13,12 +13,15 @@ platform.site.theme_default = ec_resp
 # The default Europa Component Library release
 ecl.version = v0.10.0
 
+# The default EC Europa theme release
+ec_europa.version = 0.0.2
+
 # The default Atomium and Europa theme build properties.
 # Used only if default theme is set to "europa".
 platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
 platform.theme.atomium.repo.branch = 7.x-1.x
 platform.theme.europa.repo.url = https://github.com/ec-europa/ec_europa.git
-platform.theme.europa.repo.tag = 0.0.2
+platform.theme.europa.repo.branch = master
 
 # The Drupal core make file.
 drupal.make = ${platform.resources.dir}/drupal-core.make
