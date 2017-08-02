@@ -46,10 +46,12 @@
             files="${phpcs.files}"
             globalConfig="${phpcs.global.config}"
             ignorePatterns="${phpcs.ignore}"
+            installedPaths="${phpcs.installed.paths}"
+            passWarnings = "${phpcs.passwarnings}"
             report="${phpcs.report}"
             showProgress="${phpcs.progress}"
             showSniffCodes="${phpcs.sniffcodes}"
-            standard="${phpcs.standard}"
+            standards="${phpcs.standards}"
         />
     </target>
 

@@ -5,26 +5,6 @@
     <description>QA Roadmap</description>
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-804 -->
 
-    <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
-    <rule ref="./vendor/drupal/coder/coder_sniffer/DrupalPractice" />
-    <rule ref="./vendor/ec-europa/qa-automation/phpcs/Standards/DrupalSecure" />
-    <rule ref="./vendor/ec-europa/qa-automation/phpcs/Standards/QualityAssurance"/>
-    
-    <!-- Disable DrupalPractice rules that do not apply to non-contribs. -->
-    <rule ref="DrupalPractice">
-        <exclude name="DrupalPractice.Commenting.AuthorTag" />
-    </rule>
-
-    <!-- Exceptions for the platform -->
-    <rule ref="QualityAssurance">
-        <exclude name="QualityAssurance.InfoFiles.Required.MultisiteVersion" />
-        <exclude name="QualityAssurance.InfoFiles.Required.PHP" />
-        <exclude name="QualityAssurance.InfoFiles.Forbidden.TagsTaxonomy" />
-        <exclude name="QualityAssurance.InfoFiles.Forbidden.MenuDependency" />
-        <exclude name="QualityAssurance.FeaturesFiles.ForbiddenPermissions.Permissions" />
-    </rule>
-
-
     <!-- Check if variable is actually used. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-814 -->
     <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable">
