@@ -38,7 +38,7 @@ function nexteuropa_lastupdate_preprocess_nexteuropa_last_update_block(&$variabl
   if ($entity = _nexteuropa_lastupdate_menu_get_any_entity()) {
     $info = entity_get_info($entity->entity_type);
     if (isset($info['last update callback']) && function_exists($info['last update callback'])) {
-      $last_update_variables = $info['last update callback']($entity);
+      $last_update_variables = call_user_func($info['last update callback'], $entity);
       if (!empty($last_update_variables)) {
         $variables['label'] = $last_update_variables['label'];
         $variables['date'] = $last_update_variables['date'];

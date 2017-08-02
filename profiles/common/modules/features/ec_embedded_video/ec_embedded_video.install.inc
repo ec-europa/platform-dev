@@ -10,7 +10,6 @@
  * Implied media assets are YouTube, Vimeo, Dailymotion and AV portal.
  */
 function _ec_embedded_video_install_soft_configured_file_display() {
-
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__wysiwyg__no_wrapper_media_avportal_video';
