@@ -206,7 +206,7 @@
         <mkdir dir="profiles/common/themes/ec_europa" />
         <exec
             dir="profiles/common/themes"
-            command="tar xzvf europa.tar.gz --strip=1 -C europa"
+            command="tar xzvf ec_europa.tar.gz --strip=1 -C ec_europa"
             passthru="true" />
         <delete file="profiles/common/themes/ec_europa.tar.gz" quiet="true" />
         <phingcall target="embed-ecl-assets" />
