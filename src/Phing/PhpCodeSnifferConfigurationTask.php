@@ -108,7 +108,8 @@ class PhpCodeSnifferConfigurationTask extends \Task {
     // Add the coding standards.
     foreach ($this->standards as $standard) {
       $installedPaths = explode(',', $this->installedPaths);
-      if (drupal_substr($standard, -4) === '.xml') {
+      // @codingStandardsIgnoreLine
+      if (substr($standard, -4) === '.xml') {
         if (file_exists($standard)) {
           $element = $document->createElement('rule');
           $element->setAttribute('ref', $standard);
