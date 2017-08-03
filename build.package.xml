@@ -206,7 +206,7 @@
         <mkdir dir="profiles/common/themes/ec_europa" />
         <exec
             dir="profiles/common/themes"
-            command="tar xzvf ec_europa.tar.gz --strip=1 -C ec_europa"
+            command="tar xzv ec_europa.tar.gz --strip=1 -C ec_europa"
             passthru="true" />
         <delete file="profiles/common/themes/ec_europa.tar.gz" quiet="true" />
         <phingcall target="embed-ecl-assets" />
@@ -220,7 +220,7 @@
         <!-- Extract and embed the ECL artifacts into the Europa theme. -->
         <exec
             dir="profiles/common/themes/ec_europa"
-            command="tar xvf framework.tar.gz --strip=1 -C assets"
+            command="tar xzv framework.tar.gz --strip=1 -C assets"
             passthru="true" />
         <delete file="profiles/common/themes/ec_europa/framework.tar.gz" quiet="true" />
     </target>
