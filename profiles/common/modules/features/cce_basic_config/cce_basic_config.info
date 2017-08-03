@@ -56,6 +56,7 @@ dependencies[] = views_ui
 dependencies[] = workbench
 dependencies[] = workbench_moderation
 dependencies[] = wysiwyg
+dependencies[] = nexteuropa_europa_search
 stylesheets[all][] = cce_basic_config.css
 features[context][] = site_wide
 features[ctools][] = context:context:3

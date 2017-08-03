@@ -20,8 +20,11 @@ Feature: Site level language switcher tests
       | en       | This title is in English   |
       | fr       | Ce titre est en Français   |
       | it       | Questo titolo è in inglese |
-    Then I should see an "#block-language-selector-site-language-selector-site" element
+    Then I should see an "nept_element:block:site-language-switcher" element
 
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario Outline: Check site level language switcher behaviour
     Given I am viewing a multilingual "page" content:
       | language | title                      |

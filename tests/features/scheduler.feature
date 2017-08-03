@@ -16,7 +16,7 @@ Feature: Scheduler features
     Then I should see the error message "The 'publish on' date must be in the future"
     And I change the variable "scheduler_publish_past_date_page" to "schedule"
     And I press the "Save" button
-    Then I should see the message "This post is unpublished and will be published 2000-12-31 23:59:59."
+    Then I should see the success message "This post is unpublished and will be published 2000-12-31 23:59:59."
     And I should see the text "Revision state: Draft"
     And I run cron
     And I visit the "page" content with title "Next content"

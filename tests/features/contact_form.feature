@@ -4,7 +4,8 @@ Feature: Contact Form
   As a citizen of the European Union
   I want to be able to access contact forms
 
-  @javascript
+  @javascript @theme_wip
+  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
   Scenario: Anonymous user can see the contact page
     Given I am not logged in
     And the module is enabled
@@ -21,7 +22,8 @@ Feature: Contact Form
       | error messages                   |
       | Math question field is required. |
 
-  @javascript
+  @javascript @theme_wip
+  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
   Scenario: Administrator user can submit the contact page
     Given I am logged in as a user with the administrator role
     And the module is enabled
