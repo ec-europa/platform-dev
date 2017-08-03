@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrupalContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -114,9 +109,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    * Visit a node page given its type and title.
    *
    * @param string $type
-   *    The node type.
+   *   The node type.
    * @param string $title
-   *    The node title.
+   *   The node title.
    *
    * @Then I visit the :type content with title :title
    */
@@ -191,12 +186,12 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *   | en       | Content title | Content body | validated        | page    |
    *
    * @param string $text_format
-   *    The filter format name or its machine name.
-   * @param TableNode $table
-   *    List of available content property.
+   *   The filter format name or its machine name.
+   * @param \Behat\Gherkin\Node\TableNode $table
+   *   List of available content property.
    *
    * @return array
-   *    Array containing the created node objects.
+   *   Array containing the created node objects.
    *
    * @Given the following contents using :arg1 for WYSIWYG fields:
    */

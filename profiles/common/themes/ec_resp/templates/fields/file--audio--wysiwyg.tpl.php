@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to display an audio file value inside a WYSIWYG field.

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field\FieldHandlerInterface.
- */
-
 namespace Drupal\field;
 
 /**
@@ -18,7 +13,7 @@ interface FieldHandlerInterface {
    * Create field instance using constructed instance array.
    *
    * @return array
-   *    Field array as returned by Field API CRUD operations.
+   *   Field array as returned by Field API CRUD operations.
    */
   public function save();
 
@@ -26,7 +21,7 @@ interface FieldHandlerInterface {
    * Return field array built using field handler methods.
    *
    * @return array
-   *    Field settings array.
+   *   Field settings array.
    */
   public function getField();
 

@@ -3,7 +3,7 @@
  * Scripts for TMGMT Poetry module.
  */
 
-(function($) {
+(function ($) {
 
   /**
    * Small script for making Translator select field disabled on /admin/tmgmt/jobs/% path.

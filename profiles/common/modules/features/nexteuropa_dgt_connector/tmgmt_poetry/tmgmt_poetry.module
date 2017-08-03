@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file of the translation management Poetry .
@@ -474,10 +475,10 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
  * Fetches active translation jobs based on a given entity id.
  *
  * @param int $entity_id
- *    Entity id.
+ *   Entity id.
  *
  * @return mixed
- *    An array of results with active translation jobs for given entity id.
+ *   An array of results with active translation jobs for given entity id.
  */
 function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
   $query = db_select('tmgmt_job_item', 'item');
@@ -1199,7 +1200,6 @@ function tmgmt_poetry_permission() {
     ),
   );
 }
-
 
 /**
  * Provides main TMGMT job based on the given entity id.

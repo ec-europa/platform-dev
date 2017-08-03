@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Component\PyStringYamlParser.
- */
-
 namespace Drupal\nexteuropa\Component;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -20,7 +15,7 @@ class PyStringYamlParser {
   /**
    * PyStringNode object.
    *
-   * @var PyStringNode;
+   * @var \Behat\Gherkin\Node\PyStringNode
    */
   protected $node;
 
@@ -28,7 +23,7 @@ class PyStringYamlParser {
    * PyStringYamlParser constructor.
    *
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing text in YAML format.
+   *   PyString containing text in YAML format.
    */
   public function __construct(PyStringNode $node) {
     $this->node = $node;
@@ -38,7 +33,7 @@ class PyStringYamlParser {
    * Parse YAML contained in a PyString node.
    *
    * @return array
-   *    Parsed YAML.
+   *   Parsed YAML.
    */
   public function parse() {
     // Sanitize PyString test by removing initial indentation spaces.

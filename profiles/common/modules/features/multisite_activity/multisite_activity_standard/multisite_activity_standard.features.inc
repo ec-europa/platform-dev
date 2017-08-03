@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_activity_standard.features.inc

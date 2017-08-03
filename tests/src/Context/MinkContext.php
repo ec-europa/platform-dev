@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MinkContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -32,7 +27,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     $frontpage = variable_get('site_frontpage', 'node');
     $this->visitPath($frontpage);
   }
-
 
   /**
    * {@inheritdoc}
@@ -243,10 +237,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @param callable $matcher
    *   Callable which returns if the element matches or not.
-   * @param NodeElement[] $elements
+   * @param \Behat\Mink\Element\NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|NULL
+   * @return \Behat\Mink\Element\NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -276,7 +270,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
    *    Throw exception if class table row was not found.
@@ -299,7 +293,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and uncheck a checkbox in a table row with a given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
    *    Throw exception if class table row was not found.
@@ -372,16 +366,16 @@ class MinkContext extends DrupalExtensionMinkContext {
   /**
    * Retrieve a table row containing specified text from a given element.
    *
-   * @param Element $element
-   *    Mink element object.
+   * @param \Behat\Mink\Element\Element $element
+   *   Mink element object.
    * @param string $search
-   *    Table row text.
+   *   Table row text.
    *
    * @throws \Exception
    *    Throw exception if class table row was not found.
    *
-   * @return NodeElement
-   *    Table row node element.
+   * @return \Behat\Mink\Element\NodeElement
+   *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
@@ -389,7 +383,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
         ->getCurrentUrl()));
     }
-    /** @var NodeElement $row */
+    /** @var \Behat\Mink\Element\NodeElement $row */
     foreach ($rows as $row) {
       if (strpos($row->getText(), $search) !== FALSE) {
         return $row;

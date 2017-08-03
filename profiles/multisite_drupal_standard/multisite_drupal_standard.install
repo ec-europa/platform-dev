@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Multisite Drupal Standard installation profile.

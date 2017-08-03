@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\taxonomy\\Config.
- */
-
 namespace Drupal\taxonomy;
 
 use Drupal\multisite_config\ConfigBase;
@@ -20,16 +15,16 @@ class Config extends ConfigBase {
    * Create a vocabulary.
    *
    * @param string $machine_name
-   *    Vocabulary machine name.
+   *   Vocabulary machine name.
    * @param string $name
-   *    Vocabulary human readable name.
+   *   Vocabulary human readable name.
    * @param string $description
-   *    Vocabulary description.
+   *   Vocabulary description.
    * @param int $hierarchy
-   *    If hierarchical or not.
+   *   If hierarchical or not.
    *
    * @return object
-   *    Return vocabulary object.
+   *   Return vocabulary object.
    */
   public function createVocabulary($machine_name, $name, $description = '', $hierarchy = 1) {
     $vocabulary = new \stdClass();
@@ -44,7 +39,7 @@ class Config extends ConfigBase {
    * Delete a vocabulary.
    *
    * @param string $machine_name
-   *    Vocabulary machine name.
+   *   Vocabulary machine name.
    *
    * @return bool|int
    *   Constant indicating items were deleted.
@@ -69,18 +64,18 @@ class Config extends ConfigBase {
    * Create a taxonomy term for a given vocabulary.
    *
    * @param string $vocabulary
-   *    Vocabulary machine name.
+   *   Vocabulary machine name.
    * @param string $name
-   *    Term name.
+   *   Term name.
    * @param string $parent
-   *    Parent field name, if any.
+   *   Parent field name, if any.
    * @param array $fields
-   *    Fields to be attached to term entity.
+   *   Fields to be attached to term entity.
    * @param int $weight
-   *    Term weight.
+   *   Term weight.
    *
    * @return object|bool
-   *    Return new term object or FALSE.
+   *   Return new term object or FALSE.
    */
   public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = array(), $weight = 0) {
 
@@ -133,7 +128,7 @@ class Config extends ConfigBase {
    * Delete a taxonomy term.
    *
    * @param int $tid
-   *    Taxonomy term ID.
+   *   Taxonomy term ID.
    *
    * @return int
    *   Constant indicating items were deleted.
@@ -146,17 +141,17 @@ class Config extends ConfigBase {
    * Perform a taxonomy_get_tree() for a given vocabulary.
    *
    * @param string $vocabulary_name
-   *    Vocabulary machine name.
+   *   Vocabulary machine name.
    * @param int $parent
-   *    The term ID under which to generate the tree.
+   *   The term ID under which to generate the tree.
    *    If 0, generate the tree for the entire vocabulary.
    * @param int $max_depth
-   *    Levels of the tree to return. Leave NULL to return all levels.
+   *   Levels of the tree to return. Leave NULL to return all levels.
    * @param bool $load_entities
-   *    If TRUE, a full entity load will occur on the term objects.
+   *   If TRUE, a full entity load will occur on the term objects.
    *
    * @return array
-   *    An array of all term objects in the tree.
+   *   An array of all term objects in the tree.
    *
    * @see: taxonomy_get_tree().
    */

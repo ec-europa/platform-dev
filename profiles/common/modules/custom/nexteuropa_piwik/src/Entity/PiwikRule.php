@@ -1,11 +1,8 @@
 <?php
-/**
- * @file
- * Definition of Drupal\nexteuropa_piwik\Entity\PiwikRule.
- */
 
 namespace Drupal\nexteuropa_piwik\Entity;
-use \Entity;
+
+use Entity;
 
 /**
  * PIWIK rule entity.

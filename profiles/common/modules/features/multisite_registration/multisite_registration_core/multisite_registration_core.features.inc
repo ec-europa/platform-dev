@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_registration_core.features.inc

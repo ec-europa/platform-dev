@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\locale\\Config.
- */
-
 namespace Drupal\locale;
 
 use Drupal\multisite_config\ConfigBase;
@@ -20,7 +15,7 @@ class Config extends ConfigBase {
    * Add language.
    *
    * @param string $language
-   *    Language code.
+   *   Language code.
    */
   public function addLanguage($language) {
     include_once DRUPAL_ROOT . '/includes/locale.inc';
@@ -35,9 +30,9 @@ class Config extends ConfigBase {
    * Set language negotiation.
    *
    * @param string $language_negotiation
-   *    Language negotiation name.
+   *   Language negotiation name.
    * @param string $type
-   *    Language type.
+   *   Language type.
    *
    * @see language_types_configurable()
    */
@@ -56,9 +51,9 @@ class Config extends ConfigBase {
    * Set language prefix, given a certain language code.
    *
    * @param string $language
-   *    Language code.
+   *   Language code.
    * @param string $prefix
-   *    Language prefix.
+   *   Language prefix.
    */
   public function setLanguagePrefix($language, $prefix) {
     $arguments = array(':language' => $language, ':prefix' => $prefix);

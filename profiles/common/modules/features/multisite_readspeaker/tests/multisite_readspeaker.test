@@ -9,7 +9,9 @@
  * Defines a base class for testing the readspeaker feature.
  */
 class ReadSpeakerTestCase extends DrupalWebTestCase {
-  // $adminUser is a user with permission to administer blocks.
+  /**
+   * $adminUser is a user with permission to administer blocks.
+   */
   protected $adminUser;
   protected $defaultUser;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Survey feature.
@@ -37,7 +38,6 @@ function survey_core_menu() {
 
   return $items;
 }
-
 
 /**
  * Display analysis results of a webform.

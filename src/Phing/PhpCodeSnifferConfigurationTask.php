@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \NextEuropa\build\Phing\PhpCodeSnifferConfigurationTask.
- */
-
 namespace NextEuropa\Phing;
 
 require_once 'phing/Task.php';
@@ -91,7 +86,6 @@ class PhpCodeSnifferConfigurationTask extends \Task {
    */
   private $installedPaths = '';
 
-
   /**
    * Configures PHP CodeSniffer.
    */
@@ -114,7 +108,7 @@ class PhpCodeSnifferConfigurationTask extends \Task {
     // Add the coding standards.
     foreach ($this->standards as $standard) {
       $installedPaths = explode(',', $this->installedPaths);
-      if (substr($standard, -4) === '.xml') {
+      if (drupal_substr($standard, -4) === '.xml') {
         if (file_exists($standard)) {
           $element = $document->createElement('rule');
           $element->setAttribute('ref', $standard);
@@ -291,7 +285,6 @@ PHP;
   public function setInstalledPaths($installedPaths) {
     $this->installedPaths = $installedPaths;
   }
-
 
   /**
    * Sets the list of patterns to ignore.

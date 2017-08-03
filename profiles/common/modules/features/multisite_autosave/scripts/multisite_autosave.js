@@ -52,7 +52,7 @@
 
         // Wire up TinyMCE to autosave.
         if (typeof(tinymce) !== 'undefined') {
-          setInterval(function() {
+          setInterval(function () {
             // Save text data from the tinymce area back to the original form element.
             // Once it's in the original form element, autosave will notice it
             // and do what it needs to do.
@@ -72,7 +72,7 @@
 
         // Code added for support the CKEDITOR.
         if (typeof(CKEDITOR) !== 'undefined') {
-          setInterval(function() {
+          setInterval(function () {
             var id;
             for (id in CKEDITOR.instances) {
               var instance = CKEDITOR.instances[id];
@@ -95,11 +95,11 @@
     });
   };
 
-  Drupal.behaviors.autosave.hideMessage = function() {
+  Drupal.behaviors.autosave.hideMessage = function () {
     $('#autosave-status').fadeOut('slow');
   };
 
-  Drupal.behaviors.autosave.displayMessage = function(message, settings) {
+  Drupal.behaviors.autosave.displayMessage = function (message, settings) {
     settings = settings || {};
     settings.timeout = settings.timeout || 3000;
     // Settings = $.extend({}, {timeout: 3000, extra: ''}, settings);.

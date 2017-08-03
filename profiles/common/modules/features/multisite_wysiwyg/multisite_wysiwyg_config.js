@@ -3,9 +3,9 @@
  * Wysiwyg configuration file.
  */
 
-(function($) {
+(function ($) {
   // Get a CKEDITOR.dialog.contentDefinition object by its ID.
-  var getById = function(array, id, recurse) {
+  var getById = function (array, id, recurse) {
     for (var i = 0, item; (item = array[i]); i++) {
       if (item.id == id) {
         return item;
@@ -20,7 +20,7 @@
     return null;
   };
 
-  CKEDITOR.on('dialogDefinition', function(ev) {
+  CKEDITOR.on('dialogDefinition', function (ev) {
     // Take the dialog name and its definition from the event data.
     var dialogName = ev.data.name;
     var dialogDefinition = ev.data.definition;
@@ -44,7 +44,7 @@
         id : 'check_url_btn',
         label : 'Check URL',
         title : 'Check URL',
-        onClick : function() {
+        onClick : function () {
           var dialog = CKEDITOR.dialog.getCurrent();
           elem_url = dialog.getContentElement('info','url');
           elem_protocol = dialog.getContentElement('info','protocol');
@@ -55,8 +55,8 @@
 
       // Override the onShow event to display custom elements and manage buttons
       // display.
-      dialogDefinition.onShow = CKEDITOR.tools.override(dialogDefinition.onShow, function(original) {
-        return function() {
+      dialogDefinition.onShow = CKEDITOR.tools.override(dialogDefinition.onShow, function (original) {
+        return function () {
           original.call(this);
 
           var dialog = CKEDITOR.dialog.getCurrent();
@@ -80,8 +80,8 @@
       var elem_linkType = getById(info.elements, 'linkType');
       // Override the onChange event of the linkType element to manage the
       // buttons display.
-      elem_linkType.onChange = CKEDITOR.tools.override(elem_linkType.onChange, function(original) {
-        return function() {
+      elem_linkType.onChange = CKEDITOR.tools.override(elem_linkType.onChange, function (original) {
+        return function () {
           original.call(this);
 
           elem_check_url_btn = this.getDialog().getContentElement('info', 'check_url_btn');
@@ -106,7 +106,7 @@
     $.ajax({
       type: "GET",
       url: url,
-      success: function(response){
+      success: function (response) {
         if (response == true) {
           $('#url_check_msg').html('URL ok');
           $('#url_check_msg').css({ 'color': 'green', 'font-weight': 'bold' });
@@ -119,7 +119,7 @@
           // $('.cke_dialog_ui_button_ok').hide();.
         }
       },
-      error: function(XMLHttpRequest, textStatus, errorThrown) {
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
         console.log("Status: " + textStatus); alert("Error: " + errorThrown);
         $('#url_check_msg').html('Network error');
         $('#url_check_msg').css({ 'color': 'red', 'font-weight': 'bold' });

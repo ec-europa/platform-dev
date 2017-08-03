@@ -320,6 +320,7 @@ function nexteuropa_piwik_rule_label($piwik_rule) {
 
   return t('Rule ID: [NEW]');
 }
+
 /**
  * Access callback for the  rule entity..
  *
@@ -497,7 +498,7 @@ function _nexteuropa_piwik_filter_results($results, $path, $lang_code) {
  * @param array $rules_array
  *   An array with the PiwikRule objects keyed by the id.
  *
- * @return PiwikRule
+ * @return \Drupal\nexteuropa_piwik\Entity\PiwikRule
  *   PiwikRule entity.
  */
 function _nexteuropa_piwik_get_latest_rule($rules_array) {

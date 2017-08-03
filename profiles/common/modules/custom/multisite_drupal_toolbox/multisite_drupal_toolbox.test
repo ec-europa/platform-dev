@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Test files for the toolbox.
@@ -189,12 +190,12 @@ class MultisiteDrupalWebTestCase extends DrupalWebTestCase {
     $role = user_role_load_by_name($role_name);
 
     // Create a user assigned to that role.
-    $edit = array();
+    $edit           = array();
     $edit['name']   = $this->randomName();
     $edit['mail']   = $edit['name'] . '@example.com';
     $edit['pass']   = user_password();
     $edit['status'] = 1;
-    $edit['roles'] = array(
+    $edit['roles']  = array(
       2 => 2,
       $role->rid => $role_name,
     );

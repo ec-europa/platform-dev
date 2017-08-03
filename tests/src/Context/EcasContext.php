@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrupalContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -13,6 +8,7 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
  * Provides step definitions for interacting with ECAS.
  */
 class EcasContext extends RawDrupalContext {
+
   /**
    * Creates and authenticates an ECAS user with the given role(s).
    *
@@ -34,7 +30,7 @@ class EcasContext extends RawDrupalContext {
       $roles = explode(',', $role);
       $roles = array_map('trim', $roles);
       foreach ($roles as $role) {
-        if (!in_array(strtolower($role), array('authenticated', 'authenticated user'))) {
+        if (!in_array(drupal_strtolower($role), array('authenticated', 'authenticated user'))) {
           // Only add roles other than 'authenticated user'.
           $this->getDriver()->userAddRole($user, $role);
         }
@@ -58,7 +54,6 @@ class EcasContext extends RawDrupalContext {
   public function ecasLoggedInWithRole($role) {
     return $this->loggedIn() && $this->user && $this->user->ecas && isset($this->user->role) && $this->user->role == $role;
   }
-
 
   /**
    * Create an ECAS user.

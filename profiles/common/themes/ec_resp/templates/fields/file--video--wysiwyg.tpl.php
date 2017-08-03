@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to display an video file value inside a WYSIWYG field.

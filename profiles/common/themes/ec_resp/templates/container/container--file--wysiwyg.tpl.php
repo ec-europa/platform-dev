@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to display an form container used inside a WYSIWYG field.

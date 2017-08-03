@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\multisite_config\Tests\Drupal\field_group.
- */
-
 namespace Drupal\multisite_config\Tests\Drupal\field_group;
 
 use Drupal\multisite_config\Tests\ConfigAbstractTest;
@@ -77,9 +72,9 @@ class ConfigTest extends ConfigAbstractTest {
    * Assert that group definitions are equal.
    *
    * @param object $group
-   *    Field group definition object, loaded from the database.
+   *   Field group definition object, loaded from the database.
    * @param object $definition
-   *    Field group definition object, constructed using FieldGroupHandler.
+   *   Field group definition object, constructed using FieldGroupHandler.
    */
   public function assertEqualFieldGroupDefinition($group, $definition) {
 
@@ -105,7 +100,7 @@ class ConfigTest extends ConfigAbstractTest {
    * Build and return test field group handler.
    *
    * @return \Drupal\field_group\FieldGroupHandler
-   *    Field group handler object instance.
+   *   Field group handler object instance.
    */
   private function getFieldGroupHandler() {
 
