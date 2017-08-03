@@ -1003,7 +1003,7 @@ projects[ec_resp][download][tag] = 2.3
 projects[europa][type] = theme
 projects[europa][download][type] = git
 projects[europa][download][url] = https://github.com/ec-europa/ec-europa-theme.git
-projects[europa][download][branch] = europa-atomium
+projects[europa][download][branch] = europa-atomium 
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git

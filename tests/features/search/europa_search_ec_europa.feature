@@ -1,6 +1,6 @@
-@api @javascript
+@api @javascript @ec_europa_theme
 Feature: Europa Search features
-  In order to find rapidly contents across the site and Europa
+  In order to find rapidly contents across the site and Europa on a site using the "ec_europa" theme
   As a anonymous user
   I want to search content from a form available on the site
 
