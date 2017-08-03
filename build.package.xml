@@ -206,7 +206,7 @@
         <mkdir dir="profiles/common/themes/ec_europa" />
         <exec
             dir="profiles/common/themes"
-            command="tar xzv ec_europa.tar.gz --strip=1 -C ec_europa"
+            command="tar xzf ec_europa.tar.gz --strip=1 -C ec_europa"
             passthru="true" />
         <delete file="profiles/common/themes/ec_europa.tar.gz" quiet="true" />
         <phingcall target="embed-ecl-assets" />
@@ -220,7 +220,7 @@
         <!-- Extract and embed the ECL artifacts into the Europa theme. -->
         <exec
             dir="profiles/common/themes/ec_europa"
-            command="tar xzv framework.tar.gz --strip=1 -C assets"
+            command="tar xzf framework.tar.gz --strip=1 -C assets"
             passthru="true" />
         <delete file="profiles/common/themes/ec_europa/framework.tar.gz" quiet="true" />
     </target>
@@ -239,14 +239,14 @@
         description="Build a local development version of the platform based on the EC Europa theme."
         depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory, europa-theme-repo-clone, europa-theme-build" />
 
-    <!-- Clonning and checking out the branch of the Atomium and EC Europa theme repositories. -->
+    <!-- Cloning and checking out the branch of the Atomium and EC Europa theme repositories. -->
     <target name="europa-theme-repo-clone">
-        <!-- Deleting theme directories before clonning -->
+        <!-- Deleting theme directories before cloning -->
         <delete dir="${platform.resources.profiles.common.themes.dir}/atomium" quiet="true"/>
         <delete dir="${platform.resources.profiles.common.themes.dir}/ec_europa" quiet="true"/>
 
-        <!-- Clonning the Atomium theme repo into the common profiles directory -->
-        <echo msg = "Clonning the Atomium theme repository."/>
+        <!-- Cloning the Atomium theme repo into the common profiles directory -->
+        <echo msg = "Cloning the Atomium theme repository."/>
         <gitclone
             repository="${platform.theme.atomium.repo.url}"
             targetPath="${platform.resources.profiles.common.themes.dir}/atomium"/>
@@ -255,7 +255,7 @@
             repository="${platform.resources.profiles.common.themes.dir}/atomium"
             branchname="${platform.theme.atomium.repo.branch}"/>
 
-        <!-- Clonning the EC Europa theme repo into the common profiles directory -->
+        <!-- cloning the EC Europa theme repo into the common profiles directory -->
         <echo msg = "Cloning the EC Europa theme repository."/>
         <gitclone
             repository="${platform.theme.europa.repo.url}"
