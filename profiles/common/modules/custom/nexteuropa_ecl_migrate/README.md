@@ -15,5 +15,4 @@ Notes
 -----
 
 For implementation details of ECL refer to:
-- https://github.com/ec-europa/ec-europa-theme
-- https://ec-europa.github.io/europa-component-library/
+- https://github.com/ec-europa/ec_europa
