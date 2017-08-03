@@ -134,7 +134,7 @@ To run a profile other than the default one , the following command must be exec
 $ ./bin/behat -c tests/behat.yml -p [profile]
 ```
 
-[profile] stands for the profile name as written in the list above; I.E: communities,
+`[profile]` stands for the profile name as written in the list above; I.E: communities,
 standard_ec_resp, communities_ec_resp.
 
 If you want to execute a single test, just provide the path to the test as an argument. 
