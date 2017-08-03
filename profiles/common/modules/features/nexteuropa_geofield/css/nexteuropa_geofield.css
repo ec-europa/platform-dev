@@ -40,3 +40,23 @@
 .label_title {
   float: left;
 }
+ul.geofield-search-results {
+  border: 1px solid #ccc;
+  padding: 0px;
+  background-color: #fff;
+}
+ul.geofield-search-results.no-results {
+  border: none;
+  background-color: transparent;
+}
+
+ul.geofield-search-results li {
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
+  list-style: none;
+  margin: 0px;
+  cursor: pointer;
+}
+ul.geofield-search-results li:hover {
+  background-color: #d9edf7;
+}
