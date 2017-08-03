@@ -14,14 +14,14 @@ try {
                 }
             }
         },
-        'standard-europa' : {
+        'standard-ec-europa' : {
             // Build and test the standard profile with europa theme
             node('php5') {
                 try {
                     withEnv([
-                        "THEME_DEFAULT=europa"
+                        "THEME_DEFAULT=ec_europa"
                     ]) {
-                        executeStages('standard europa')
+                        executeStages('standard ec_europa')
                     }
                 } catch(err) {
                     throw(err)
@@ -43,16 +43,16 @@ try {
                 }
             }
         },
-        'communities-europa' : {
+        'communities-ec-europa' : {
             // Build and test the communities profile with europa theme
             node('php5') {
                 try {
                     withEnv([
                         "BEHAT_PROFILE=communities",
                         "PLATFORM_PROFILE=multisite_drupal_communities",
-                        "THEME_DEFAULT=europa"
+                        "THEME_DEFAULT=ec_europa"
                     ]) {
-                        executeStages('communities europa')
+                        executeStages('communities ec_europa')
                     }
                 } catch(err) {
                     throw(err)
