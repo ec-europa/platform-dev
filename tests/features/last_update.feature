@@ -35,10 +35,13 @@ Scenario: Check that the last update block is shown if a node is published
   And I press "Save"
   Then I should see "Last published" in the "nept_element:block:last-update" element
 
+@theme_wip
+# It is in wip for the europa theme because it implies a step referring a
+# region. This must be evaluate deeper before being able to know how to deal with.
 Scenario Outline: Check that the last update block is shown in other cases (user/file)
   Given that the block "last_update" from module "nexteuropa_lastupdate" is assigned to the region "footer"
   When I go to "<url>"
-  Then I should see "<sentence>" in the ".last-update" element
+  Then I should see "<sentence>" in the "nept_element:block:last-update" element
 
   Examples:
     | url                 | sentence      |
