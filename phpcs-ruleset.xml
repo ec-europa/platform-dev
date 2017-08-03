@@ -20,14 +20,14 @@
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/bootstrap</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/bootstrap</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_standard/themes/europa</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_europa</exclude-pattern>
 
     <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
 
     <!-- Exclude third party code. -->
     <exclude-pattern>profiles/common/libraries/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
-    <exclude-pattern>profiles/common/themes/europa</exclude-pattern>
+    <exclude-pattern>profiles/common/themes/ec_europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/libraries/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/modules/contrib/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/libraries/</exclude-pattern>
@@ -37,9 +37,9 @@
     <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/</exclude-pattern>
     <exclude-pattern>build/vendor/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/atomium</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_standard/themes/europa</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/atomium</exclude-pattern>
-    <exclude-pattern>profiles/multisite_drupal_communities/themes/europa</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_europa</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/scripts</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_communities/themes/ec_resp/scripts</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_standard/themes/ec_resp/css</exclude-pattern>

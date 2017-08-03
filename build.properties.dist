@@ -7,7 +7,7 @@ platform.profile.name = multisite_drupal_standard
 # The site name.
 platform.site.name = NextEuropa
 
-# The default theme to enable, set to either "europa" or "ec_resp".
+# The default theme to enable, set to either "ec_europa" or "ec_resp".
 platform.site.theme_default = ec_resp
 
 # The default Europa Component Library release
@@ -17,7 +17,7 @@ ecl.version = v0.10.0
 ec_europa.version = 0.0.2
 
 # The default Atomium and Europa theme build properties.
-# Used only if default theme is set to "europa".
+# Used only if default theme is set to "ec_europa".
 platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
 platform.theme.atomium.repo.branch = 7.x-1.x
 platform.theme.europa.repo.url = https://github.com/ec-europa/ec_europa.git

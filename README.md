@@ -75,7 +75,7 @@ $ ./bin/phing install-platform
 
 ### From the release 2.4.x following configuration variables are available:
 
-  - The default theme to enable, set to either "ec_resp" (default) or "europa".
+  - The default theme to enable, set to either "ec_resp" (default) or "ec_europa".
 
 > platform.site.theme_default = ec_resp
 
@@ -87,7 +87,7 @@ $ ./bin/phing install-platform
 
 > ec_europa.version = 0.0.2
 
-  - The default Atomium theme build properties. Used only if default theme is set to "europa".
+  - The default Atomium theme build properties. Used only if default theme is set to "ec_europa".
   You can find default values of those variables below. 
   
 >platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
@@ -105,7 +105,7 @@ fetch the release package of the Europa Components Library and regenerate theme 
 **To run this target you must have node.js and npm installed on your local machine.**
 You need also configure additional configuration variables which are described in the
 section above. The most important is to set the `platform.site.theme_default` variable
-to `europa`.
+to `ec_europa`.
 
 You can use this Phing target in the following way:
 ```
