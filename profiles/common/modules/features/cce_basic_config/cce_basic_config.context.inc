@@ -38,6 +38,12 @@ function cce_basic_config_context_default_contexts() {
           'region' => 'tools',
           'weight' => '2',
         ),
+        'locale-language' => array(
+          'module' => 'locale',
+          'delta' => 'language',
+          'region' => 'header_top',
+          'weight' => '-10',
+        ),
         'system-main-menu' => array(
           'module' => 'system',
           'delta' => 'main-menu',
@@ -61,6 +67,12 @@ function cce_basic_config_context_default_contexts() {
           'delta' => 'form',
           'region' => 'header_right',
           'weight' => 1,
+        ),
+        'menu-service-tools' => array(
+          'module' => 'menu',
+          'delta' => 'menu-service-tools',
+          'region' => 'header_top',
+          'weight' => '-9',
         ),
         'footer' => array(
           'module' => 'cce_basic_config',

@@ -4,6 +4,7 @@ Feature: Europa Search features
   As a anonymous user
   I want to search content from a form available on the site
 
+  @wip
   Scenario: Anonymous user can use the header search form to find contents on Europa and
     the results is displayed on the "Europa Search" interface
     Given I am on the homepage
