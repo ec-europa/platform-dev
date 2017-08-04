@@ -13,7 +13,7 @@ Feature: Event features
   Scenario: Users can see the calendar
     When I go to "calendar"
     Then I should see the text "Consult planned events"
-    And I should see an "div.fullcalendar" element
+    And I should see an "nept_element:event-full-calendar" element
 
   Scenario: Users can see the calendar when a term of Resources is added
     Given the vocabulary "Resources" exists
@@ -23,4 +23,4 @@ Feature: Event features
     And the cache has been cleared
     When I go to "calendar"
     Then I should see the text "Consult planned events"
-    And I should see an "div.fullcalendar" element
+    And I should see an "nept_element:event-full-calendar" element

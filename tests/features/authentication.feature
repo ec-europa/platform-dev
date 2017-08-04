@@ -4,6 +4,8 @@ Feature: User authentication
   As a product owner
   I want to make sure only authenticated users can access the site administration
 
+@theme_wip
+# It is in theme wip waiting for the resolution of the NEPT-1190.
 Scenario: Anonymous user can see the user login page
   Given I am not logged in
   When I visit "user"
