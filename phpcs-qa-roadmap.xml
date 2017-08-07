@@ -512,4 +512,277 @@
         <exclude-pattern>profiles/multisite_drupal_standard/multisite_drupal_standard.install</exclude-pattern>
     </rule>
 
+    <!-- Line exceeds 80 characters. -->
+    <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
+        <exclude-pattern>profiles/common/modules/custom/ecas/README.md</exclude-pattern>
+        <exclude-pattern>*</exclude-pattern>
+     </rule>
+
+    <!-- Line exceeds 80 characters. -->
+    <rule ref="Drupal.Files.EndFileNewline.TooMany">
+        <exclude-pattern>profiles/common/modules/custom/ecas/README.md</exclude-pattern>
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- The PHP open tag must be followed by exactly one blank line. -->
+    <rule ref="Drupal.WhiteSpace.OpenTagNewline.BlankLine">
+        <exclude-pattern>profiles/common/modules/custom/ecas/ecas.module</exclude-pattern>
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Object operator not indented correctly. -->
+    <rule ref="Drupal.WhiteSpace.ObjectOperatorIndent.Indent">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Return comment indentation must be 3 spaces. -->
+    <rule ref="Drupal.Commenting.FunctionComment.ReturnCommentIndentation">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Equals sign not aligned with surrounding assignments. -->
+    <rule ref="Drupal.Formatting.MultipleStatementAlignment.NotSame">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Equals sign not aligned correctly. -->
+    <rule ref="Drupal.Formatting.MultipleStatementAlignment.Incorrect">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected "false|\stdClass" but found "FALSE|\stdClass" for function return type. -->
+    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturn">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Type hint "array" missing for ... -->
+    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturn">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Type hint "array" missing for ... -->
+    <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Closing brace must be on a line by itself ... -->
+    <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Line">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Namespaced classes, interfaces and traits should not begin with a file doc comment. -->
+    <rule ref="Drupal.Commenting.FileComment.NamespaceNoFileDoc">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Parameter comment indentation must be 3 spaces. -->
+    <rule ref="Drupal.Commenting.FunctionComment.ParamCommentIndentation">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Return type must not contain variable name "$this". -->
+    <rule ref="Drupal.Commenting.FunctionComment.ReturnVarName">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Unused use statement. -->
+    <rule ref="Drupal.Classes.UnusedUseStatement.UnusedUse">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Tags should not be used. -->
+    <rule ref="DrupalPractice.Commenting.ExpectedException.TagFound">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Function return type is not void, but function is returning void here. -->
+    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturnNotVoid">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected 1 newline at end of file. -->
+    <rule ref="Drupal.Files.EndFileNewline.NoneFound">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Return type must not contain variable name. -->
+    <rule ref="Drupal.Commenting.FunctionComment.ReturnVarName">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- The static declaration must come after the visibility declaration. -->
+    <rule ref="Drupal.Methods.MethodDeclaration.StaticBeforeVisibility">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Data types in @param tags need to be fully namespaced. -->
+    <rule ref="Drupal.Commenting.DataTypeNamespace.DataTypeNamespace">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Namespaced classes/interfaces/traits should be referenced with use statements. -->
+    <rule ref="Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Data types in @return tags need to be fully namespaced. -->
+    <rule ref="Drupal.Commenting.DataTypeNamespace.DataTypeNamespace">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- When importing a class with "use", do not include a leading. -->
+    <rule ref="Drupal.Classes.UseLeadingBackslash.SeparatorStart">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Parameter $entity_id is not described in comment. -->
+    <rule ref="Drupal.Commenting.FunctionComment.ParamMissingDefinition">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Missing @var tag in member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.MissingVar">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Return type "int | NULL" must not contain spaces. -->
+    <rule ref="Drupal.Commenting.FunctionComment.ReturnTypeSpaces">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Line indented incorrectly. -->
+    <rule ref="Drupal.WhiteSpace.ScopeIndent.IncorrectExact">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- You must use "/**" style comments for a member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.WrongStyle">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected "\Drupal\DrupalDriverManager" but found "\Drupal\DrupalDriverManager;" for @var tag in member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.IncorrectVarType">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected "bool|false" but found "bool|FALSE" for parameter type. -->
+    <rule ref="Drupal.Commenting.FunctionComment.IncorrectParamVarName">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Do not concatenate strings to translatable strings, they should be part of the t() argument and you should use placeholders. -->
+    <rule ref="Drupal.Semantics.FunctionT.ConcatString">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Closing brace indented incorrectly. -->
+    <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Indent">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Missing file doc comment. -->
+    <rule ref="Drupal.Commenting.FileComment.Missing">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Values usually have to run through t() for translation. -->
+    <rule ref="DrupalPractice.General.OptionsT.TforValue">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Variable $column is undefined. -->
+    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.UndefinedVariable">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Unused private method. -->
+    <rule ref="DrupalPractice.Objects.UnusedPrivateMethod.UnusedMethod">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Do not use the raw $form_state['input'], use $form_state['values'] instead where possible. -->
+    <rule ref="DrupalPractice.General.FormStateInput.Input">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Are you accessing field values here? Then you should use LANGUAGE_NONE instead of 'und'. -->
+    <rule ref="DrupalPractice.General.LanguageNone.Und">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Unused variable $key.. -->
+    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- The @var tag must be the first tag in a member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.VarOrder">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Content missing for @var tag in member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.EmptyVar">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected 1 blank line after function. -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing.After">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected 1 blank line before function. -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing.Before">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected 1 space after FUNCTION keyword. -->
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Expected 1 space before opening brace. -->
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeBrace">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Opening brace should be on the same line as the declaration. -->
+    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnNewLine">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- There must be one blank line after the namespace declaration. -->
+    <rule ref="PSR2.Namespaces.NamespaceDeclaration.BlankLineAfter">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- There must be one blank line after the last USE statement. -->
+    <rule ref="PSR2.Namespaces.UseDeclaration.SpaceAfterLastUse">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- The use of function strlen() is forbidden; use drupal_strlen() instead. -->
+    <rule ref="QualityAssurance.Functions.DrupalWrappers.FoundWithAlternative">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Internal hardcoded paths are not allowed. Please use variable_get('file_public|private|temporary_path'). -->
+    <rule ref="QualityAssurance.Generic.HardcodedPath.HardcodedPath">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Empty strongarm settings for 'pathauto_node_blog_pattern' are not allowed. -->
+    <rule ref="QualityAssurance.Generic.EmptySettings.Strongarm">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Move the "multisite_drupal_standard_install_tasks" function declaration in to a file named multisite_drupal_standard.install.inc and include that file in multisite_drupal_standard.install. -->
+    <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- File appears to be minified and cannot be processed. -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
 </ruleset>
