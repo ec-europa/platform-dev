@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab9829847a0cba9b04dcb90ea866f465",
-    "content-hash": "26cfd4c178cc63820fdb874552440390",
+    "content-hash": "fe93ff4cca93edfd0427795a5ef4962b",
     "packages": [
         {
             "name": "cpliakas/git-wrapper",
@@ -60,7 +59,7 @@
             "keywords": [
                 "git"
             ],
-            "time": "2016-04-19 16:12:33"
+            "time": "2016-04-19T16:12:33+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -93,7 +92,7 @@
                 "MIT"
             ],
             "description": "implementation of xdg base directory specification for php",
-            "time": "2014-10-24 07:27:01"
+            "time": "2014-10-24T07:27:01+00:00"
         },
         {
             "name": "drupal/coder",
@@ -130,7 +129,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-03-18 10:28:49"
+            "time": "2017-03-18T10:28:49+00:00"
         },
         {
             "name": "drupal/phingdrushtask",
@@ -216,7 +215,7 @@
                 "issues": "https://www.drupal.org/project/issues/phingdrushtask",
                 "source": "http://cgit.drupalcode.org/phingdrushtask"
             },
-            "time": "2016-12-02 20:39:55"
+            "time": "2016-12-02T20:39:55+00:00"
         },
         {
             "name": "drupol/phingbehattask",
@@ -276,7 +275,7 @@
                 "phing",
                 "test"
             ],
-            "time": "2016-11-24 09:43:44"
+            "time": "2016-11-24T09:43:44+00:00"
         },
         {
             "name": "drush/drush",
@@ -374,11 +373,11 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2016-03-08 21:00:41"
+            "time": "2016-03-08T21:00:41+00:00"
         },
         {
             "name": "ec-europa/qa-automation",
-            "version": "dev-release/3.0",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/qa-automation.git",
@@ -411,7 +410,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Performs automated QA checks and extra php codesniffs for the subsite starterkit.",
-            "time": "2017-08-02 22:24:18"
+            "time": "2017-08-02T22:24:18+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -454,7 +453,7 @@
                     "homepage": "http://www.acci.cz"
                 }
             ],
-            "time": "2014-04-08 15:00:19"
+            "time": "2014-04-08T15:00:19+00:00"
         },
         {
             "name": "jakub-onderka/php-console-highlighter",
@@ -498,7 +497,7 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
-            "time": "2015-04-20 18:58:01"
+            "time": "2015-04-20T18:58:01+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -549,7 +548,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-07-28 14:45:09"
+            "time": "2017-07-28T14:45:09+00:00"
         },
         {
             "name": "pear/console_getopt",
@@ -596,7 +595,7 @@
                 }
             ],
             "description": "More info available on: http://pear.php.net/package/Console_Getopt",
-            "time": "2015-07-20 20:28:12"
+            "time": "2015-07-20T20:28:12+00:00"
         },
         {
             "name": "pear/console_table",
@@ -651,7 +650,7 @@
             "keywords": [
                 "console"
             ],
-            "time": "2016-01-21 16:14:31"
+            "time": "2016-01-21T16:14:31+00:00"
         },
         {
             "name": "pear/pear-core-minimal",
@@ -695,7 +694,7 @@
                 }
             ],
             "description": "Minimal set of PEAR core files to be used as composer dependency",
-            "time": "2017-02-28 16:46:11"
+            "time": "2017-02-28T16:46:11+00:00"
         },
         {
             "name": "pear/pear_exception",
@@ -750,7 +749,7 @@
             "keywords": [
                 "exception"
             ],
-            "time": "2015-02-10 20:07:52"
+            "time": "2015-02-10T20:07:52+00:00"
         },
         {
             "name": "pear/versioncontrol_git",
@@ -897,7 +896,7 @@
                 "task",
                 "tool"
             ],
-            "time": "2016-12-22 20:16:33"
+            "time": "2016-12-22T20:16:33+00:00"
         },
         {
             "name": "psr/log",
@@ -944,7 +943,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "psy/psysh",
@@ -1017,7 +1016,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-07-29 19:30:02"
+            "time": "2017-07-29T19:30:02+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
@@ -1095,7 +1094,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-05-22 02:43:20"
+            "time": "2017-05-22T02:43:20+00:00"
         },
         {
             "name": "symfony/console",
@@ -1164,7 +1163,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-29 21:27:59"
+            "time": "2017-07-29T21:27:59+00:00"
         },
         {
             "name": "symfony/debug",
@@ -1220,7 +1219,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-28 15:27:31"
+            "time": "2017-07-28T15:27:31+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -1283,7 +1282,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-09 14:53:08"
+            "time": "2017-06-09T14:53:08+00:00"
         },
         {
             "name": "symfony/finder",
@@ -1332,7 +1331,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2017-06-01 21:01:25"
+            "time": "2017-06-01T21:01:25+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1391,7 +1390,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09 14:24:12"
+            "time": "2017-06-09T14:24:12+00:00"
         },
         {
             "name": "symfony/process",
@@ -1440,7 +1439,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-13 13:05:09"
+            "time": "2017-07-13T13:05:09+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -1508,7 +1507,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2017-07-28 06:06:09"
+            "time": "2017-07-28T06:06:09+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -1563,7 +1562,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2017-07-23 12:43:26"
+            "time": "2017-07-23T12:43:26+00:00"
         },
         {
             "name": "wimg/php-compatibility",
@@ -1610,14 +1609,13 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-10-30 14:34:26"
+            "time": "2016-10-30T14:34:26+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "ec-europa/qa-automation": 20,
         "pear/versioncontrol_git": 20
     },
     "prefer-stable": true,
