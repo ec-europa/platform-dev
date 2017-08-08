@@ -9,10 +9,15 @@
  * Custom function that moves the proper blocks in the right areas.
  */
 function _nexteuropa_ecl_migrate_blocks() {
+  // Migrate blocks from default install.
   _nexteuropa_ecl_migrate_remove_blocks_header_top();
   _nexteuropa_ecl_migrate_dt_menus();
   _nexteuropa_ecl_migrate_europa_main_menu();
   _nexteuropa_ecl_migrate_europa_utility_region();
+
+  // Migrate blocks from optional features.
+  _nexteuropa_ecl_migrate_move_community_blocks();
+  _nexteuropa_ecl_migrate_move_ne_registration_blocks();
 }
 
 /**
@@ -229,4 +234,15 @@ function _nexteuropa_ecl_migrate_move_community_blocks() {
   multisite_drupal_toolbox_add_block_context('communities', 'menu-community-menu', 'menu', 'menu-community-menu', 'sidebar_first', -10);
   multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -9);
   multisite_drupal_toolbox_add_block_context('communities', 'community_members-block_1', 'views', 'community_members-block_1', 'sidebar_first', -5);
+}
+
+/**
+ * Custom function that moves blocks from the nexteuropa_registration feature.
+ */
+function _nexteuropa_ecl_migrate_move_ne_registration_blocks() {
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'registration-block');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'registration_management-block');
+  multisite_drupal_toolbox_add_block_context('site_wide', 'registration-block', 'views', 'registration-block', 'sidebar_second', '-7');
+  multisite_drupal_toolbox_add_block_context('site_wide', 'registration_management-block', 'views', 'registration_management-block', 'sidebar_second', '-6');
+
 }
