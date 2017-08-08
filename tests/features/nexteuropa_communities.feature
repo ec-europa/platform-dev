@@ -1,4 +1,4 @@
-@api @reset-nodes
+@api @reset-nodes @theme_wip
 Feature: Nexteuropa Communities
   In order to effectively manage groups of people
   As a site administrator

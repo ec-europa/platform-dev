@@ -166,7 +166,7 @@ function multisite_forum_core_workbench_create_alter(&$output) {
   // $output['#markup'] contains html : recreate #markup from scratch
   // (see _workbench_create()) without Discussion link.
   $output = array();
-  $output['#markup'] = '<h3>' . t('Create content') . '</h3>';
+  $output['#markup'] = '<h3 class="ecl-heading ecl-heading--h3">' . t('Create content') . '</h3>';
 
   $item = menu_get_item('node/add');
   $contents = system_admin_menu_block($item);

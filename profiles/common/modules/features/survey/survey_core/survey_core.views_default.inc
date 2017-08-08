@@ -55,7 +55,7 @@ function survey_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Participate or review surveys</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Participate or review surveys</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
 
@@ -138,7 +138,7 @@ function survey_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Participate or review surveys</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Participate or review surveys</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['empty'] = FALSE;
@@ -300,7 +300,7 @@ function survey_core_views_default_views() {
     t('Items per page'),
     t('- All -'),
     t('Offset'),
-    t('<h2>Participate or review surveys</h2>'),
+    t('<h2 class="ecl-heading ecl-heading--h2">Participate or review surveys</h2>'),
     t('There is no content in this group.'),
     t('Title'),
     t('Body'),

@@ -474,21 +474,63 @@ function cce_basic_config_install() {
 }
 
 /**
- * Initialize 'theme default' and 'admin theme'.
+ * Form for the installation profile task "Choose theme".
+ *
+ * This form is shared by both standard and communities profile, hence it is
+ * exposed by the 'cce_basic_config' module.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ * @see multisite_drupal_communities_install_tasks()
+ */
+function cce_basic_config_profile_theme_default_form() {
+  $form = array();
+  $form['container'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Choose theme'),
+    '#collapsible' => FALSE,
+    '#tree' => FALSE,
+  );
+  $form['container']['theme_default'] = array(
+    '#type' => 'radios',
+    '#required' => TRUE,
+    '#options' => array(
+      'ec_resp' => st('EC Resp'),
+      'ec_europa' => st('EC Europa'),
+    ),
+    '#default_value' => 'ec_resp',
+  );
+  $form['container']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => st('Continue'),
+  );
+  return $form;
+}
+
+/**
+ * Form submit.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ */
+function cce_basic_config_profile_theme_default_form_submit($form, &$form_state) {
+  $theme_default = $form_state['values']['theme_default'];
+  $theme_list = array($theme_default);
+  if ($theme_default == 'ec_europa') {
+    $theme_list[] = 'atomium';
+    module_enable(array('nexteuropa_ecl_migrate'));
+    _nexteuropa_ecl_migrate_blocks();
+  }
+  theme_enable($theme_list);
+  variable_set('theme_default', $theme_default);
+  $theme_name = $form['container']['theme_default']['#options'][$theme_default];
+  drupal_set_message(st("'@name' has been set as default theme.", array('@name' => $theme_name)));
+}
+
+/**
+ * Initialize 'admin theme'.
  */
 function _cce_basic_config_post_install_theme() {
-  // Define themes.
-  $themes = array(
-    'theme_default' => 'ec_resp',
-    'admin_theme' => 'seven',
-  );
-  theme_enable($themes);
-
-  foreach ($themes as $var => $theme) {
-    if (!is_numeric($var)) {
-      variable_set($var, $theme);
-    }
-  }
+  theme_enable(array('seven'));
+  variable_set('admin_theme', 'seven');
 }
 
 /**
@@ -2409,5 +2451,14 @@ function cce_basic_config_update_7218() {
     field_delete_field('field_article_publication_date');
     field_delete_field('field_article_unpublish_on');
     field_purge_batch(1);
+  }
+}
+
+/**
+ * Force the activation of nexteuropa_europa_search.
+ */
+function cce_basic_config_update_7219() {
+  if (!module_exists('nexteuropa_europa_search')) {
+    module_enable(array('nexteuropa_europa_search'));
   }
 }

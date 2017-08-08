@@ -50,7 +50,7 @@ function nexteuropa_faq_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Quick answer to common questions</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Quick answer to common questions</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Header: Global: FAQ Collapsible Menu */
   $handler->display->display_options['header']['f_a_q_collapsible_menu']['id'] = 'f_a_q_collapsible_menu';

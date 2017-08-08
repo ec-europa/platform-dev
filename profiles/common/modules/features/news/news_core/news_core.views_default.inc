@@ -110,7 +110,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Read the latest news</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Read the latest news</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
@@ -391,7 +391,7 @@ function news_core_views_default_views() {
     t('last »'),
     t('<small>[created]</small>'),
     t('News list page'),
-    t('<h2>Read the latest news</h2>'),
+    t('<h2 class="ecl-heading ecl-heading--h2">Read the latest news</h2>'),
     t('Related link'),
     t('Language'),
     t('Translation set node ID'),
@@ -401,7 +401,7 @@ function news_core_views_default_views() {
     t('Community Top news'),
     t('Top News'),
     t('<div class="news" id="news[nid]">'),
-    t('<h3>[title]</h3>'),
+    t('<h3 class="ecl-heading ecl-heading--h3">[title]</h3>'),
     t('</div>'),
     t('Top news Attachment'),
   );

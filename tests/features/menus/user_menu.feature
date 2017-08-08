@@ -4,7 +4,8 @@ Feature: User menu
   As an administrative user
   I want to have links to the most important pages in my user menu
 
-  @api
+  @api @theme_wip
+  # It is in theme wip waiting for the resolution of the NEPT-1145.
   Scenario Outline: Test user menu as administrator
     Given I am logged in as a user with the "administrator" role and I have the following fields:
     | first name      | Myrrine |
@@ -23,7 +24,8 @@ Feature: User menu
       | Translate                | Translate                |
       | Log out                  | Welcome to NextEuropa    |
 
-  @api
+  @api @theme_wip
+  # It is in theme wip waiting for the resolution of the NEPT-1145.
   Scenario Outline: Test user menu as editorial team member
     Given I am logged in as a user with the "editorial team member" role and I have the following fields:
     | first name      | Yami   |
@@ -39,7 +41,8 @@ Feature: User menu
       | My account   | Yami Vígdís           |
       | Log out      | Welcome to NextEuropa |
 
-  @api
+  @api @theme_wip
+  # It is in theme wip waiting for the resolution of the NEPT-1145.
   Scenario Outline: Test user menu as editor
     Given I am logged in as a user with the "editor" role and I have the following fields:
     | first name      | Cornelia   |

@@ -7,6 +7,22 @@ platform.profile.name = multisite_drupal_standard
 # The site name.
 platform.site.name = NextEuropa
 
+# The default theme to enable, set to either "ec_europa" or "ec_resp".
+platform.site.theme_default = ec_resp
+
+# The default Europa Component Library release
+ecl.version = v0.10.0
+
+# The default EC Europa theme release
+ec_europa.version = 0.0.3
+
+# The default Atomium and Europa theme build properties.
+# Used only if default theme is set to "ec_europa".
+platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
+platform.theme.atomium.repo.branch = 7.x-1.x
+platform.theme.europa.repo.url = https://github.com/ec-europa/ec_europa.git
+platform.theme.europa.repo.branch = master
+
 # The Drupal core make file.
 drupal.make = ${platform.resources.dir}/drupal-core.make
 
@@ -64,6 +80,7 @@ platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 # Local resources
 platform.resources.dir = ${platform.basedir}/resources
 platform.resources.profiles.dir = ${platform.basedir}/profiles
+platform.resources.profiles.common.themes.dir = ${platform.basedir}/profiles/common/themes
 platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.profile.name}
 
 platform.resources.composer.json = ${platform.resources.dir}/composer.json

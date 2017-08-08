@@ -7,7 +7,6 @@ core = 7.x
 
 includes[] = "drupal-core.make"
 
-
 ; ===================
 ; Contributed modules
 ; ===================
@@ -995,13 +994,12 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 ; Themes
 ; ======
 
-projects[bootstrap][type] = theme
-projects[bootstrap][version] = 3.8
-
 projects[ec_resp][type] = theme
-projects[ec_resp][download][type] = get
-projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.2/ec_resp-2.2.tar.gz
+projects[ec_resp][download][type] = git
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
+projects[ec_resp][download][tag] = 2.3
 
-projects[europa][type] = theme
-projects[europa][download][type] = get
-projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz
+projects[atomium][type] = theme
+projects[atomium][download][type] = git
+projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
+projects[atomium][download][branch] = 7.x-1.x

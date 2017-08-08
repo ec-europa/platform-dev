@@ -344,7 +344,7 @@
        */
       function buildPopupContent(leaflet_id, name, description) {
         var content = '<div id="popup_' + leaflet_id + '">';
-        content = content + '<h4 class="popup_name">' + name + '</h4>';
+        content = content + '<h4 class="ecl-heading ecl-heading--h4 popup_name">' + name + '</h4>';
         content = content + '<p class="popup_description">' + description + '</p>';
         content = content + '</div>';
         return content;

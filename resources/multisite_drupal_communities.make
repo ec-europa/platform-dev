@@ -1,4 +1,15 @@
+api = 2
+core = 7.x
+
+; =========================
+; Multisite Drupal Standard
+; =========================
+
 includes[] = "multisite_drupal_standard.make"
+
+; ===================
+; Contributed modules
+; ===================
 
 projects[og-delete][download][revision] = "c759e354d89b7ec280836047569acc75843eed38"
 projects[og-delete][download][type] = "git"
