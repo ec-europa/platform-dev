@@ -218,3 +218,15 @@ function _nexteuropa_ecl_migrate_remove_blocks_header_top() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'menu-service-tools');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
 }
+
+/**
+ * Custom function that moves blocks from the nexteuropa_community feature.
+ */
+function _nexteuropa_ecl_migrate_move_community_blocks() {
+  multisite_drupal_toolbox_remove_block_context('communities', 'menu-community-menu');
+  multisite_drupal_toolbox_remove_block_context('communities', 'og-contextual-links');
+  multisite_drupal_toolbox_remove_block_context('communities', 'community_members-block_1');
+  multisite_drupal_toolbox_add_block_context('communities', 'menu-community-menu', 'menu', 'menu-community-menu', 'sidebar_first', -10);
+  multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -9);
+  multisite_drupal_toolbox_add_block_context('communities', 'community_members-block_1', 'views', 'community_members-block_1', 'sidebar_first', -5);
+}
