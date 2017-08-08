@@ -105,7 +105,7 @@ void executeStages(String label) {
         }
 
         stage('Check & Test ' + label) {
-            sh './bin/phpcs'
+            sh './bin/phpcs -s'
             sh './bin/phpunit -c tests/phpunit.xml'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
