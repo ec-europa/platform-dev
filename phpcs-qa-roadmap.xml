@@ -556,11 +556,6 @@
     </rule>
 
     <!-- Type hint "array" missing for ... -->
-    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturn">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Type hint "array" missing for ... -->
     <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
         <exclude-pattern>*</exclude-pattern>
     </rule>
@@ -625,11 +620,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Data types in @return tags need to be fully namespaced. -->
-    <rule ref="Drupal.Commenting.DataTypeNamespace.DataTypeNamespace">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- When importing a class with "use", do not include a leading. -->
     <rule ref="Drupal.Classes.UseLeadingBackslash.SeparatorStart">
         <exclude-pattern>*</exclude-pattern>
@@ -687,11 +677,6 @@
 
     <!-- Doc comment short description must start with a capital letter. -->
     <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Missing file doc comment. -->
-    <rule ref="Drupal.Commenting.FileComment.Missing">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
