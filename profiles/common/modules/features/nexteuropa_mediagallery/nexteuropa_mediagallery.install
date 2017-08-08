@@ -1,11 +1,11 @@
 <?php
-
 /**
  * @file
  * Install the feature exteuropa Galleries feature.
  */
 
 include_once 'nexteuropa_mediagallery.features.inc';
+
 
 /**
  * Implements hook_requirements().

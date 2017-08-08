@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\MediaContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 

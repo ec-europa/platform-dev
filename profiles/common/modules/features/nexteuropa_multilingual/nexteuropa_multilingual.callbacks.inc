@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Nexteuropa_multilingual.callbacks.inc.
@@ -26,6 +25,7 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
   }
   return $language_url;
 }
+
 
 /**
  * Function nexteuropa_multilingual_language_negotiation_url_rewrite_callback.
@@ -87,6 +87,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   }
 
 }
+
 
 /**
  * Extract the suffix from the path.
@@ -198,10 +199,10 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
  * Get source path given its alias. Return input path if no alias is found.
  *
  * @param string $path
- *   Relative Drupal path.
+ *    Relative Drupal path.
  *
  * @return string
- *   Source path if any, input path if none.
+ *    Source path if any, input path if none.
  */
 function _nexteuropa_multilingual_get_source_path($path) {
   $result = db_select('url_alias', 'a')

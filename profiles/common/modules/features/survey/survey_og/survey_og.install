@@ -23,6 +23,7 @@ function survey_og_enable() {
   drupal_flush_all_caches();
 }
 
+
 /**
  * Implements hook_disable().
  */
@@ -39,6 +40,7 @@ function survey_og_disable() {
   // Delete drupal variables.
   variable_del('pathauto_node_webform_pattern');
 }
+
 
 /**
  * Add survey options on "communities_menu_item" context.

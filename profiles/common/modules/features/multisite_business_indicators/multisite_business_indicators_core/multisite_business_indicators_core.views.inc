@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_business_indicators_core.views.inc
@@ -38,7 +37,7 @@ function template_preprocess_multisite_business_indicators_core_views_view_chart
   $view = $vars['view'];
   $vars['classes'] = 'chart-container';
 
-  $options = $view->style_plugin->options;
+  $options  = $view->style_plugin->options;
   $renders = $view->style_plugin->render_fields($vars['rows']);
 
   $data = array();

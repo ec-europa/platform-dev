@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \\Drupal\\version_management\\Config.
+ */
+
 namespace Drupal\version_management;
 
 use Drupal\multisite_config\ConfigBase;
@@ -15,7 +20,7 @@ class Config extends ConfigBase {
    * Allow the major version management for a node type.
    *
    * @param string $node_type
-   *   Content type machine name.
+   *    Content type machine name.
    */
   public function enableVersionManagement($node_type = NULL) {
     $version_management_node_types = variable_get('version_management_node_types', array());

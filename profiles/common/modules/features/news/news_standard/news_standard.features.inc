@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * News.features.inc.

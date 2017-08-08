@@ -3,7 +3,7 @@
  * Provides FullCalendar objects and functions.
  */
 
-(function ($) {
+(function($) {
   Drupal.behaviors.events_resources = {
     attach: function (context, settings) {
       if (Drupal.settings.events_resources && Drupal.settings.events_resources.resources) {

@@ -17,14 +17,14 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager
+   * @var \Drupal\DrupalDriverManager;
    */
   protected $drupal;
 
   /**
    * Constructs a NextEuropaEditorialSubContext object.
    *
-   * @param \Drupal\DrupalDriverManager $drupal
+   * @param DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {

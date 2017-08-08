@@ -33,13 +33,14 @@ function events_core_tokens($type, $tokens, $data = array(), $options = array())
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'events_title':
-          $replacements[$original] = t("events");
+                    $replacements[$original] = t("events");
           break;
       }
     }
   }
   return $replacements;
 }
+
 
 /**
  * Implements hook_node_form_alter().

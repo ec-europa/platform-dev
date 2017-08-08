@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * sitemap.strongarm.inc

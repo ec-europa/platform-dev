@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\ViewsContext.
+ */
+
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -44,10 +49,10 @@ class ViewsContext extends RawDrupalContext {
    * Provide a test content view.
    *
    * @param string $machine_name
-   *   View machine name.
+   *    View machine name.
    *
    * @return \view
-   *   View object, not yet saved.
+   *    View object, not yet saved.
    */
   protected function getContentView($machine_name) {
     $view = new \view();

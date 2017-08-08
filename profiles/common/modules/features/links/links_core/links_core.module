@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the Links feature.
@@ -33,7 +32,7 @@ function links_core_tokens($type, $tokens, $data = array(), $options = array()) 
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'links_title':
-          $replacements[$original] = t("links");
+                    $replacements[$original] = t("links");
           break;
       }
     }

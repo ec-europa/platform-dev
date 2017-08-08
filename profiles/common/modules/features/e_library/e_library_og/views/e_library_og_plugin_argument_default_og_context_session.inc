@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains the user's session group context argument default plugin.

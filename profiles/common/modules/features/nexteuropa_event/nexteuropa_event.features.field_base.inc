@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_event.features.field_base.inc

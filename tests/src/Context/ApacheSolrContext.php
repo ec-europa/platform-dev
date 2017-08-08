@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\FrontendCacheContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 
@@ -36,14 +40,14 @@ class ApacheSolrContext implements Context {
   /**
    * The mocked HTTP server.
    *
-   * @var \InterNations\Component\HttpMock\Server
+   * @var Server
    */
   protected $server;
 
   /**
    * Facade to access requests made to the mocked HTTP server.
    *
-   * @var \InterNations\Component\HttpMock\RequestCollectionFacade
+   * @var RequestCollectionFacade
    */
   protected $requests;
 
@@ -62,7 +66,7 @@ class ApacheSolrContext implements Context {
    *
    * Initializes the server if it was not used before.
    *
-   * @return \InterNations\Component\HttpMock\Server
+   * @return Server
    *   The mocked HTTP server.
    */
   protected function getServer() {
@@ -107,7 +111,7 @@ class ApacheSolrContext implements Context {
   /**
    * Gets the requests made to the mocked Integration backend.
    *
-   * @return \InterNations\Component\HttpMock\RequestCollectionFacade
+   * @return RequestCollectionFacade
    *   The requests facade.
    */
   protected function getRequests() {

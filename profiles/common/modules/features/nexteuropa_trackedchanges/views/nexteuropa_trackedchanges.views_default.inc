@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code related to module views.

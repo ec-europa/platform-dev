@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Class \Drupal\multisite_config\Tests\NextEuropaDataExportAbstractTest.
+ */
+
 namespace Drupal\multisite_config\Tests;
 
 /**

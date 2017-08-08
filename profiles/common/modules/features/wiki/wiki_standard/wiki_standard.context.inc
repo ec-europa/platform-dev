@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * wiki_standard.context.inc

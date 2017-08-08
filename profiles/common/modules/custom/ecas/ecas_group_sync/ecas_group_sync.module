@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Drupal needs this blank file.
@@ -101,7 +100,7 @@ function ecas_group_sync_info_ecas_update($user, $user_info, $args) {
  *   mapping, 'group' for for DG/OG roles.
  *
  * @return array|bool
- *   An array of objects containing rules data; otherwise FALSE.
+ *    An array of objects containing rules data; otherwise FALSE.
  */
 function ecas_group_sync_get_ecas_sync_rules($dg_id, $sync_type = 'role') {
   $sync_rules = &drupal_static(__FUNCTION__);

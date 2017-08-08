@@ -92,8 +92,8 @@ function events_core_update_7202() {
             db_add_field($table_name, $column_name . '_temp', $param);
 
             db_update($table_name)
-              ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
-              ->execute();
+                    ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
+                    ->execute();
 
             // Delete old column.
             db_drop_field($table_name, $column_name);

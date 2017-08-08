@@ -3,10 +3,10 @@
  * CKEditor Link hreflang code.
  */
 
-(function ($) {
+(function($) {
   CKEDITOR.plugins.add("multisite_wysiwyg_link_hreflang", {
-    init: function (editor) {
-      CKEDITOR.on("dialogDefinition", function (e) {
+    init: function(editor) {
+      CKEDITOR.on("dialogDefinition", function(e) {
         if ((e.editor != editor) || (e.data.name != 'link')) {
           return;
         }

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\nexteuropa_token\Tests\ViewModeEntityTokenHandlerTest.
+ */
+
 namespace Drupal\nexteuropa_token\Tests\Entity;
 
 use Drupal\nexteuropa_token\Entity\ViewModeTokenHandler;
@@ -31,7 +36,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
    *
    * @param string $entity_type
-   *   Entity type machine name.
+   *    Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -54,7 +59,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Test we get entity view modes correctly.
    *
    * @param string $entity_type
-   *   Entity type machine name.
+   *    Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -87,7 +92,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of token $original values.
    *
    * @return array
-   *   Return PHPUnit data.
+   *    Return PHPUnit data.
    */
   public static function tokenOriginalValues() {
     return array(
@@ -105,11 +110,12 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
     );
   }
 
+
   /**
    * Data provider: provides list of entity machine names.
    *
    * @return array
-   *   Return PHPUnit data.
+   *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'), array('bean'));

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\nexteuropa_token\Tests\PoetryTokenProcessorsTest.
+ */
+
 namespace Drupal\nexteuropa_token\Tests;
 
 /**
@@ -15,9 +20,9 @@ class PoetryTokenProcessorsTest extends \PHPUnit_Framework_TestCase {
    * Test replacement of NextEuropa tokens with ignore token.
    *
    * @param string $text
-   *   Input text.
+   *    Input text.
    * @param string $expected
-   *   Expected texts.
+   *    Expected texts.
    *
    * @dataProvider tokenReplacementProvider
    */
@@ -30,9 +35,9 @@ class PoetryTokenProcessorsTest extends \PHPUnit_Framework_TestCase {
    * Test replacement of ignore tokens with NextEuropa token.
    *
    * @param string $expected
-   *   Expected texts.
+   *    Expected texts.
    * @param string $text
-   *   Input text.
+   *    Input text.
    *
    * @dataProvider tokenReplacementProvider
    */
@@ -45,7 +50,7 @@ class PoetryTokenProcessorsTest extends \PHPUnit_Framework_TestCase {
    * Data provider.
    *
    * @return array
-   *   Return PHPUnit data.
+   *    Return PHPUnit data.
    */
   public static function tokenReplacementProvider() {
     return array(

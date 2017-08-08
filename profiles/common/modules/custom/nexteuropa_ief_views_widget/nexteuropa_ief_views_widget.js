@@ -5,8 +5,8 @@
 
 (function ($) {
     Drupal.behaviors.nexteuropa_ief_views_widget = {
-        attach: function (context) {
-            $('.ief-selection-link', context).each(function () {
+        attach: function(context) {
+            $('.ief-selection-link', context).each(function() {
                 $(this).click(function (e) {
                     e.preventDefault();
                     var autocomplete_id = $(this).attr('autocomplete-id');

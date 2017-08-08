@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_charts.features.user_permission.inc

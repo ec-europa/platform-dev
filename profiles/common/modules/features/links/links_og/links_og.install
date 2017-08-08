@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature links.
@@ -23,6 +22,7 @@ function links_og_enable() {
 
   drupal_flush_all_caches();
 }
+
 
 /**
  * Implements hook_disable().

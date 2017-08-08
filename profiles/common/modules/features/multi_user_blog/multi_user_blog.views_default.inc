@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multi_user_blog.views_default.inc

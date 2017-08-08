@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature multisite_activity_standard.
@@ -11,6 +10,7 @@
 function multisite_activity_standard_enable() {
   drupal_set_message(t('Multisite activity feature is now enabled on your site.'));
 }
+
 
 /**
  * Implements hook_disable().

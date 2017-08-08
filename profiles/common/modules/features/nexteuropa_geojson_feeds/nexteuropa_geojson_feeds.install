@@ -11,7 +11,6 @@
 function nexteuropa_geojson_feeds_enable() {
   drupal_set_message(t('The GeoJSON Feeds feature is now active on your site.'));
 }
-
 /**
  * Implements hook_disable().
  */

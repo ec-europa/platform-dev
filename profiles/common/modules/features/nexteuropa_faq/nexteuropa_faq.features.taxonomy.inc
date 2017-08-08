@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_faq.features.taxonomy.inc

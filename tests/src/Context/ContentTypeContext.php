@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\FieldContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 
@@ -46,9 +50,9 @@ class ContentTypeContext implements Context {
    * Add a field to a specified content type.
    *
    * @param string $arg1
-   *   The machine name of the content type to which attaching the field.
-   * @param \Behat\Gherkin\Node\TableNode $settings
-   *   Two columns table containing field settings.
+   *    The machine name of the content type to which attaching the field.
+   * @param TableNode $settings
+   *    Two columns table containing field settings.
    *
    * @Given a field with the following settings is added to the :arg1 type:
    *
@@ -144,9 +148,9 @@ class ContentTypeContext implements Context {
    * Add a field group in the content type view and assign fields as children.
    *
    * @param string $arg1
-   *   The machine name of the content type to which attaching the field.
-   * @param \Behat\Gherkin\Node\TableNode $settings
-   *   Two columns table containing field settings.
+   *    The machine name of the content type to which attaching the field.
+   * @param TableNode $settings
+   *    Two columns table containing field settings.
    *
    * @Given a field group with the following settings is added to the :arg1 type view:
    */

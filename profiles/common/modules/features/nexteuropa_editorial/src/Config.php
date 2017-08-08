@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Multisite\Config\Features\nexteuropa_editorial\Config.
+ */
+
 namespace Drupal\nexteuropa_editorial;
 
 use Drupal\multisite_config\ConfigBase;
@@ -18,7 +23,7 @@ class Config extends ConfigBase {
    *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
-   *   TRUE if the user is an editorial team member, FALSE otherwise.
+   *    TRUE if the user is an editorial team member, FALSE otherwise.
    */
   public function isEditorialTeamMember($account = NULL) {
     if (!isset($account)) {
@@ -45,13 +50,13 @@ class Config extends ConfigBase {
    * Create an Editorial Team.
    *
    * @param string $title
-   *   Editorial team name.
+   *    Editorial team name.
    * @param string $group_content_access
-   *   Define group content access public regardless of its group definition.
+   *    Define group content access public regardless of its group definition.
    *    Either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
    *
    * @return int
-   *   Newly created editorial team node NID.
+   *    Newly created editorial team node NID.
    */
   public function createEditorialTeam($title, $group_content_access = OG_CONTENT_ACCESS_PUBLIC) {
     $properties = array(

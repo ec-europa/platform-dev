@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\FlickrContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Custom POETRY Mock actions.
@@ -11,11 +10,11 @@ use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
  * Translate Job based on given request from the file and redirect.
  *
  * @param string $lg_code
- *   Request translation file.
+ *    Request translation file.
  * @param int $file_id
- *   Request translation dump file ID.
+ *    Request translation dump file ID.
  * @param int $entity_id
- *   An entity ID.
+ *    An entity ID.
  */
 function _tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_id) {
   $poetry_mock = new PoetryMock();
@@ -26,9 +25,9 @@ function _tmgmt_poetry_mock_translate_job($lg_code, $file_id, $entity_id) {
  * Refuse translation job based on given request from the file.
  *
  * @param int $file_id
- *   Request translation file dump ID.
+ *    Request translation file dump ID.
  * @param int $entity_id
- *   An entity ID.
+ *    An entity ID.
  */
 function _tmgmt_poetry_mock_refuse_job($file_id, $entity_id) {
   $poetry_mock = new PoetryMock();
@@ -39,9 +38,9 @@ function _tmgmt_poetry_mock_refuse_job($file_id, $entity_id) {
  * Sends status request to Drupal.
  *
  * @param string $status_code
- *   Request translation file dump ID.
+ *    Request translation file dump ID.
  * @param int $job_id
- *   TMGMT Poetry job ID.
+ *    TMGMT Poetry job ID.
  */
 function _tmgmt_poetry_mock_send_status($status_code, $job_id) {
   $poetry_mock = new PoetryMock();

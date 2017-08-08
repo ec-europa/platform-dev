@@ -222,7 +222,7 @@
         }
       };
 
-      var updateUICropDimensions = function (width, height) {
+      var updateUICropDimensions = function(width, height) {
         $('input[name=crop_width]', context).val(Math.round(width / imageScale));
         $('input[name=crop_height]', context).val(Math.round(height / imageScale));
       };

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature multisite_activity_og.
@@ -15,6 +14,7 @@ function multisite_activity_og_enable() {
   multisite_drupal_toolbox_add_block_context('communities_homepage', 'views-multisite_activity-block_1', 'views', 'multisite_activity-block_1', 'content_bottom');
 
 }
+
 
 /**
  * Implements hook_disable().

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \\Drupal\\multisite_config\\ConfigBase.
+ */
+
 // @cond DEV
 namespace Drupal\multisite_config;
 
@@ -14,12 +19,12 @@ class ConfigBase {
    * Call a method dynamically.
    *
    * @param string $method
-   *   Method name.
+   *    Method name.
    * @param mixed $args
-   *   Array of arguments to be passed to the invoked method.
+   *    Array of arguments to be passed to the invoked method.
    *
    * @return mixed
-   *   Method execution result.
+   *    Method execution result.
    */
   public function __call($method, $args) {
 

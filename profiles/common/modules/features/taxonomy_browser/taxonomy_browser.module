@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Allow to filter view with a taxonomy tree.
@@ -17,6 +16,7 @@ function taxonomy_browser_permission() {
     ),
   );
 }
+
 
 /**
  * Implements hook_menu().
@@ -190,7 +190,7 @@ function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax = FALSE, $sel
  * @param string $children_key
  *   Name of the key of children.
  *
- * @return array
+ * @return array $return
  *   Returnable array what contains the result tree.
  */
 function _taxonomy_browser_recursive_admittance(array $tree, $children_key = 'children') {
@@ -215,7 +215,7 @@ function _taxonomy_browser_recursive_admittance(array $tree, $children_key = 'ch
  * @param array $tree
  *   Input array without recounting.
  *
- * @return int
+ * @return int $sum
  *   Sum of the items.
  */
 function _taxonomy_browser_recount_items(array &$tree) {

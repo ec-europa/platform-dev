@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the NextEuropa Tracked Changes feature.
@@ -274,7 +273,6 @@ function nexteuropa_trackedchanges_views_api() {
     'path' => drupal_get_path('module', 'nexteuropa_trackedchanges') . '/views',
   );
 }
-
 /**
  * Implements hook_views_pre_render().
  *
@@ -455,7 +453,7 @@ function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
  * with tracking changes.
  *
  * @return bool
- *   It returns true if the user has the following permissions:
+ *    It returns true if the user has the following permissions:
  *    - ckeditor_lite highlight changes (CKEditor LITE)
  *    - administer nodes (Node)
  */

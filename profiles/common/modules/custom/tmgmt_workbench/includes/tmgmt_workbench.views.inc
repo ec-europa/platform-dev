@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Alter view data for tmgmt_workbench related entities.

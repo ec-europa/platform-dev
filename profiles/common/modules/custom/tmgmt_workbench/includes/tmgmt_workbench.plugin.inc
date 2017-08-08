@@ -37,6 +37,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
     return tmgmt_field_get_source_data('node', $current_revision, $job_item->getJob()->source_language, TRUE);
   }
 
+
   /**
    * {@inheritdoc}
    */
@@ -74,12 +75,12 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * Get moderation state.
    *
    * @param object $node
-   *   Node object.
+   *    Node object.
    * @param string $type
-   *   Moderation type.
+   *    Moderation type.
    *
-   * @return string|false
-   *   Moderation state or FALSE.
+   * @return string|FALSE
+   *    Moderation state or FALSE.
    */
   private function getModerationState($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {
@@ -93,12 +94,12 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * Get moderation revision.
    *
    * @param object $node
-   *   Node object.
+   *    Node object.
    * @param string $type
-   *   Moderation type.
+   *    Moderation type.
    *
-   * @return object|false
-   *   Current node object or FALSE.
+   * @return object|FALSE
+   *    Current node object or FALSE.
    */
   private function getModerationRevision($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {

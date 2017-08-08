@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \\Drupal\\tmgmt\\Config.
+ */
+
 namespace Drupal\tmgmt;
 
 use Drupal\multisite_config\ConfigBase;

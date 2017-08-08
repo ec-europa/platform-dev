@@ -6,7 +6,6 @@
  */
 
  define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
-
 /**
  * Implements hook_permission().
  */
@@ -474,6 +473,7 @@ function multisite_drupal_toolbox_filter_info() {
   );
   return $info;
 }
+
 
 /**
  * Alter filter process callback for the token input filter.
@@ -1528,10 +1528,10 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
     if (db_table_exists('field_revision_' . $field['field_name'])) {
       // Clean revision field.
       db_delete('field_revision_' . $field['field_name'])
-        ->condition('entity_type', $target->entity_type)
-        ->condition('entity_id', $target->entity_id)
-        ->condition($field['field_name'] . '_tid', $term->tid)
-        ->execute();
+          ->condition('entity_type', $target->entity_type)
+          ->condition('entity_id', $target->entity_id)
+          ->condition($field['field_name'] . '_tid', $term->tid)
+          ->execute();
     }
   }
 }

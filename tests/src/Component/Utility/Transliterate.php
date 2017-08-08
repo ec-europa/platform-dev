@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Component\Utility\Transliterate.
+ */
+
 namespace Drupal\nexteuropa\Component\Utility;
 
 /**

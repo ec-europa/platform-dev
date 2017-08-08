@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature e_library_og.
@@ -22,6 +21,7 @@ function e_library_og_enable() {
   drupal_flush_all_caches();
 }
 
+
 /**
  * Remove block from the context.
  */
@@ -36,6 +36,7 @@ function e_library_og_disable() {
   // Activation message.
   drupal_set_message('E-library feature is now disabled on your site.');
 }
+
 
 /**
  * Hook_modules_enabled.

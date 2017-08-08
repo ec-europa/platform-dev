@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_registration_core.features.user_permission.inc

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \\Drupal\\og\\Config.
+ */
+
 namespace Drupal\og;
 
 use Drupal\multisite_config\ConfigBase;
@@ -15,9 +20,9 @@ class Config extends ConfigBase {
    * Add a group field to the specified entity.
    *
    * @param object $entity
-   *   Entity object.
+   *    Entity object.
    * @param string $bundle
-   *   Entity bundle name.
+   *    Entity bundle name.
    */
   public function createOgGroupField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -28,9 +33,9 @@ class Config extends ConfigBase {
    * Add a group access field to the specified entity.
    *
    * @param object $entity
-   *   Entity object.
+   *    Entity object.
    * @param string $bundle
-   *   Entity bundle name.
+   *    Entity bundle name.
    */
   public function createOgAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -41,9 +46,9 @@ class Config extends ConfigBase {
    * Add a group audience field to the specified entity.
    *
    * @param object $entity
-   *   Entity object.
+   *    Entity object.
    * @param string $bundle
-   *   Entity bundle name.
+   *    Entity bundle name.
    */
   public function createOgGroupAudienceField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -69,9 +74,9 @@ class Config extends ConfigBase {
    * Add group_content_access field to the specified entity.
    *
    * @param object $entity
-   *   Entity object.
+   *    Entity object.
    * @param string $bundle
-   *   Entity bundle name.
+   *    Entity bundle name.
    */
   public function createOgContentAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -82,9 +87,9 @@ class Config extends ConfigBase {
    * Add og_roles_permissions field to the specified entity.
    *
    * @param object $entity
-   *   Entity object.
+   *    Entity object.
    * @param string $bundle
-   *   Entity bundle name.
+   *    Entity bundle name.
    */
   public function createOgDefaultContentAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -102,7 +107,7 @@ class Config extends ConfigBase {
    *   Entity type.
    *
    * @return bool|int
-   *   A stub OG role object.
+   *    A stub OG role object.
    */
   public function createOgRole($name, $entity, $entity_type) {
     $role = og_role_create($name, $entity, 0, $entity_type);
@@ -113,14 +118,14 @@ class Config extends ConfigBase {
    * Get OG role given group type, bundle and role name.
    *
    * @param string $group_type
-   *   Group type.
+   *    Group type.
    * @param string $group_bundle
-   *   Group bundle.
+   *    Group bundle.
    * @param string $role
-   *   Role machine name.
+   *    Role machine name.
    *
    * @return object
-   *   Role object, as fetched from the database.
+   *    Role object, as fetched from the database.
    */
   public function getOgRole($group_type, $group_bundle, $role) {
     return db_select('og_role', 'r')
@@ -136,18 +141,18 @@ class Config extends ConfigBase {
    * Grant OG permissions.
    *
    * @param string $role_name
-   *   OG role machine name.
+   *    OG role machine name.
    * @param mixed $permissions
-   *   Array of permissions, each value is a permission string.
+   *    Array of permissions, each value is a permission string.
    * @param object $entity
    *   Entity object.
    * @param string $entity_type
    *   Entity type.
    * @param string $module
-   *   Module machine name the permissions belong to.
+   *    Module machine name the permissions belong to.
    *
    * @return bool
-   *   TRUE if permission granting was successful, FALSE otherwise.
+   *    TRUE if permission granting was successful, FALSE otherwise.
    */
   public function grantOgPermissions($role_name, $permissions, $entity, $entity_type, $module = '') {
 

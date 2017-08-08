@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_charts.features.field_instance.inc

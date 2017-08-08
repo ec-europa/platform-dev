@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\PathautoContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 
@@ -31,9 +35,9 @@ class PathautoContext implements Context {
    * Set a pathauto pattern value.
    *
    * @param string $name
-   *   Pathauto pattern machine_name.
+   *    Pathauto pattern machine_name.
    * @param string $value
-   *   Pathauto pattern value.
+   *    Pathauto pattern value.
    *
    * @Given the pathauto :name pattern is set to :value
    */

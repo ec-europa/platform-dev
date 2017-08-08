@@ -250,7 +250,6 @@ function multisite_drupal_toolbox_filter_xss_split(array $m, $store = FALSE) {
 
   return "<$elem$attr2$xhtml_slash>";
 }
-
 /**
  * Processes a string of HTML attributes.
  *

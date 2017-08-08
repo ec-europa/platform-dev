@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the wiki feature.
@@ -33,7 +32,7 @@ function wiki_core_tokens($type, $tokens, $data = array(), $options = array()) {
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'wiki_title':
-          $replacements[$original] = t("wiki");
+                    $replacements[$original] = t("wiki");
           break;
       }
     }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_multilingual.features.inc

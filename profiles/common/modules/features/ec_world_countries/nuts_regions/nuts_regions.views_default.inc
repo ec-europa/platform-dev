@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Nuts_regions views altering.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains classes for Client connections handlers.

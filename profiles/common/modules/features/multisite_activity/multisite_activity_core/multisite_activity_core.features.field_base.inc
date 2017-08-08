@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_activity_core.features.field_base.inc

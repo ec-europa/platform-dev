@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * wiki_core.views_default.inc

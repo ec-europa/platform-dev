@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the E-library feature.
@@ -33,13 +32,14 @@ function e_library_core_tokens($type, $tokens, $data = array(), $options = array
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'e_library_title':
-          $replacements[$original] = t("e-library");
+                    $replacements[$original] = t("e-library");
           break;
       }
     }
   }
   return $replacements;
 }
+
 
 /**
  * Implements hook_views_pre_render().

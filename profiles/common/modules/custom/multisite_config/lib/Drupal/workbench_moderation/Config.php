@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \\Drupal\\workbench_moderation\\Config.
+ */
+
 namespace Drupal\workbench_moderation;
 
 use Drupal\multisite_config\ConfigBase;
@@ -18,16 +23,16 @@ class Config extends ConfigBase {
    * non-unique name updates the existing state.
    *
    * @param string $name
-   *   State name.
+   *    State name.
    * @param string $label
-   *   State label.
+   *    State label.
    * @param string $description
-   *   State description.
+   *    State description.
    * @param int $weight
-   *   State weight.
+   *    State weight.
    *
    * @return mixed
-   *   Created state object.
+   *    Created state object.
    */
   public function createModerationState($name, $label, $description = NULL, $weight = 0) {
     $state = new \stdClass();
@@ -42,14 +47,14 @@ class Config extends ConfigBase {
    * Create a new moderation state transition.
    *
    * @param string $to
-   *   Transition state name.
+   *    Transition state name.
    * @param string $from
-   *   Transition state name.
+   *    Transition state name.
    * @param string $name
-   *   Transition name.
+   *    Transition name.
    *
    * @return mixed
-   *   Saved status.
+   *    Saved status.
    */
   public function createModerationStateTransition($to, $from, $name = '') {
     if ($from != $to) {
@@ -65,7 +70,7 @@ class Config extends ConfigBase {
    * Enable Workbench moderation for the specified content type.
    *
    * @param string $type
-   *   Content type machine name.
+   *    Content type machine name.
    */
   public function enableWorkbenchModeration($type) {
 

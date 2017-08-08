@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_forum_community.features.inc

@@ -3,15 +3,15 @@
  * Javascripts for notices.
  */
 
-(function ($) {
+(function($){
 
   Drupal.behaviors.notices = {
-    attach: function (context, settings) {
+    attach: function(context, settings) {
       var cookieName = "hide_notices";
       var cookieValue = getCookie(cookieName);
 
       // Manage display of notices.
-      $('.notice').each(function () {
+      $('.notice').each(function() {
         // Check if cookie exists.
         if (cookieValue != "") {
           if (jQuery.inArray($(this).attr('id'), JSON.parse(cookieValue)) == -1) {
@@ -29,7 +29,7 @@
       });
 
       // Manage close button.
-      $('.notice__btn-close').click({name:cookieName}, function (e) {
+      $('.notice__btn-close').click({name:cookieName}, function(e) {
         var notice = $(this).closest('.notice');
         var noticeId = notice.attr('id');
 
@@ -48,7 +48,7 @@
         }
 
         // Close notice.
-        notice.fadeOut(400, function () {
+        notice.fadeOut(400, function() {
           notice.addClass('is-close');
           notice.removeClass('is-open');
         });

@@ -4,7 +4,7 @@
  */
 
 (function ($) {
-  $(document).ready(function () {
+  $(document).ready(function() {
     $('.node-wiki > .content .field-name-body').prepend('<ul id="toc"/>');
     $("#toc").tableOfContents(
       $(".node-type-wiki .node-wiki>.content"),

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Configuration settings for cookie consent module.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ec_world_countries.views_default.inc

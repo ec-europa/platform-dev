@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * idea_core.features.taxonomy.inc

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * events_core.features.user_permission.inc

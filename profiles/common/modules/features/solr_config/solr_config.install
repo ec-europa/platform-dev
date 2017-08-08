@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Solr_config.install file.
@@ -47,6 +46,7 @@ function solr_config_enable() {
     'bundle' => 'document',
   ))->execute();
 }
+
 
 /**
  * Implements hook_disable().
@@ -102,6 +102,7 @@ function solr_config_update_7110() {
     'bundle' => 'document',
   ))->execute();
 }
+
 
 /**
  * Implements hook_update_N().

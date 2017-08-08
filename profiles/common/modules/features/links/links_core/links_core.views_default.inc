@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * links_core.views_default.inc

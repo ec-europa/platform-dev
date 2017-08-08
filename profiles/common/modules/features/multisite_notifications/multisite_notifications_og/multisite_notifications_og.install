@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature Notifications.
@@ -51,6 +50,7 @@ function multisite_notifications_og_enable() {
       ->execute();
   };
 }
+
 
 /**
  * Implements hook_disnable().

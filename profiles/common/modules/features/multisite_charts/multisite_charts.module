@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the Multisite Charts feature.
@@ -17,6 +16,7 @@ function multisite_charts_theme($existing, $type, $theme, $path) {
     ),
   );
 }
+
 
 /**
  * Chart rendering function.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Multisite_readspeaker.features.user_permission.inc.

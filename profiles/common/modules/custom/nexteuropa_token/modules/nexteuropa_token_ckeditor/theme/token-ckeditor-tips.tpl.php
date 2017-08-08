@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains template file.

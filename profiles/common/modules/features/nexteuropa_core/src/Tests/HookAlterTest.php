@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\nexteuropa_core\Tests\HookAlterTest.
+ */
+
 namespace Drupal\nexteuropa_core\Tests;
 
 use Drupal\nexteuropa\Unit\AbstractUnitTest;

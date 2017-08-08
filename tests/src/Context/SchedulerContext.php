@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\SchedulerContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 

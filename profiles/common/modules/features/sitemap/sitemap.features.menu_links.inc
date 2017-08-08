@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * sitemap.features.menu_links.inc

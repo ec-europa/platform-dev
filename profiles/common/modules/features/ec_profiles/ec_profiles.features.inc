@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ec_profiles.features.inc

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Template of the DGT supported HTML format.

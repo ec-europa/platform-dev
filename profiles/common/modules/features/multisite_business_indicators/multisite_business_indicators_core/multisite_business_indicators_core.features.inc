@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_business_indicators_core.features.inc

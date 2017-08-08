@@ -113,7 +113,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Checks that the given element is of the given type.
    *
-   * @param \Behat\Mink\Element\NodeElement $element
+   * @param NodeElement $element
    *   The element to check.
    * @param string $type
    *   The expected type.
@@ -153,7 +153,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @param string $filename
    *   Name of the file (relative path).
-   * @param \Behat\Gherkin\Node\PyStringNode $content
+   * @param PyStringNode $content
    *   PyString string instance.
    *
    * @Given /^(?:there is )?a file named "([^"]*)" with:$/
@@ -179,10 +179,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Transforms human readable field labels for Articles into machine names.
    *
-   * @param \Behat\Gherkin\Node\TableNode $article_table
+   * @param TableNode $article_table
    *   The original table.
    *
-   * @return \Behat\Gherkin\Node\TableNode
+   * @return TableNode
    *   The transformed table.
    *
    * @Transform rowtable:title,body,tags,moderation state
@@ -201,10 +201,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Transforms human readable field labels for Users into machine names.
    *
-   * @param \Behat\Gherkin\Node\TableNode $user_table
+   * @param TableNode $user_table
    *   The original table.
    *
-   * @return \Behat\Gherkin\Node\TableNode
+   * @return TableNode
    *   The transformed table.
    *
    * @Transform rowtable:first name,last name
@@ -258,8 +258,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Check for PHP errors log.
    *
-   * @param \Behat\Behat\Hook\Scope\AfterStepScope $scope
-   *   AfterStep hook scope object.
+   * @param AfterStepScope $scope
+   *    AfterStep hook scope object.
    *
    * @throws \Exception
    *    Print out descriptive error message by throwing an exception.
@@ -314,7 +314,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Assert the given class exists.
    *
    * @param string $class_name
-   *   Fully namespaced class name.
+   *    Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
    *    Throw exception if class specified has not been found.
@@ -434,7 +434,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Check if given field is translatable.
    *
    * @param string $field_name
-   *   Field machine name.
+   *    Field machine name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
    *    Throw exception if field is not translatable.

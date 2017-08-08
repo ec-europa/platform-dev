@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\ContextUtil.
+ */
+
 namespace Drupal\nexteuropa\Context;
 
 /**

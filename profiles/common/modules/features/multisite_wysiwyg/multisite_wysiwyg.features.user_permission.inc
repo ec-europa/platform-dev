@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_wysiwyg.features.user_permission.inc

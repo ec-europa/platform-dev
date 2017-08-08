@@ -4,6 +4,6 @@
  */
 
 History = {
-    pushState: function () {
+    pushState: function() {
     }
 };

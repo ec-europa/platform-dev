@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_activity_standard.rules_defaults.inc

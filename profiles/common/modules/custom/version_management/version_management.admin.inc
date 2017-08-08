@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Admin callbacks for the version_management module.

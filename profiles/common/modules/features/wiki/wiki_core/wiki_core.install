@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Wiki installation file.
@@ -21,6 +20,7 @@ function wiki_core_enable() {
   // Add type to the simplenews related content.
   drupal_set_message(st('Wiki feature is now active on your site.'));
 }
+
 
 /**
  * Implements hook_disable().

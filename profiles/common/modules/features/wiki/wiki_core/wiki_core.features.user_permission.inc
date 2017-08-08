@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * wiki_core.features.user_permission.inc

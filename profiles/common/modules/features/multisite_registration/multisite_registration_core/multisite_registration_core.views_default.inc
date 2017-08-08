@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_registration_core.views_default.inc

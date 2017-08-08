@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_maps.field_group.inc

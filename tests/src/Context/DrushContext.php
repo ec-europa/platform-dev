@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\DrushContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 

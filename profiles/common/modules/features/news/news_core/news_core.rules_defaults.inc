@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * news_core.rules_defaults.inc

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Multisite_wysiwyg.features.wysiwyg.inc.

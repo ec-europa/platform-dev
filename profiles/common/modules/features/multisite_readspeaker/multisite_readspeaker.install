@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * The install and uninstall code for the ReadSpeaker module.

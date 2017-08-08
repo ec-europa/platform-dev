@@ -189,6 +189,7 @@ function multisite_forum_community_url_outbound_alter(&$path, &$options, $origin
   }
 }
 
+
 /**
  * Implements hook_node_view().
  */

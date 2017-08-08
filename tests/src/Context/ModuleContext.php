@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\ModuleContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 
@@ -33,7 +37,7 @@ class ModuleContext extends RawDrupalContext {
    * | blog     |
    * | book     |
    *
-   * @param \Behat\Gherkin\Node\TableNode $modules_table
+   * @param TableNode $modules_table
    *   The table listing modules.
    *
    * @Given the/these module/modules is/are enabled
@@ -68,7 +72,7 @@ class ModuleContext extends RawDrupalContext {
    * | Events      |
    * | Links       |
    *
-   * @param \Behat\Gherkin\Node\TableNode $featureset_table
+   * @param TableNode $featureset_table
    *   The table listing feature set titles.
    *
    * @Given the/these featureSet/FeatureSets is/are enabled

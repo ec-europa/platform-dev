@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_translations.rules_defaults.inc

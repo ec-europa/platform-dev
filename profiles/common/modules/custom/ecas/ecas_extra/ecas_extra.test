@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Tests for ecas_extra.module.
@@ -228,6 +227,7 @@ class EcasExtraFunctionalTest extends DrupalWebTestCase {
     }
     return $account;
   }
+
 
   /**
    * {@inheritdoc}

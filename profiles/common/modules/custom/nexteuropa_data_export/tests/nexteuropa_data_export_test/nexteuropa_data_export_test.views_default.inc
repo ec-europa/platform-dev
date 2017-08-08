@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Default views for the Nexteuropa Data Export Test module.

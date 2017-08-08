@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\multisite_config\Tests\NextEuropaDataExportTest.
+ */
+
 namespace Drupal\multisite_config\Tests\Drupal\taxonomy;
 
 use Drupal\multisite_config\Tests\ConfigAbstractTest;

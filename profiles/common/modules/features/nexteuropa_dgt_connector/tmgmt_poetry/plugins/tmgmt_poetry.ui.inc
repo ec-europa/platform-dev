@@ -9,7 +9,6 @@
  * DGT connector translator ui controller.
  */
 class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIController {
-
   /**
    * Overrides TMGMTDefaultTranslatorUIController::pluginSettingsForm().
    */
@@ -217,7 +216,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
 
         }
         if (in_array($language_job_item->state, array(TMGMT_JOB_ITEM_STATE_REVIEW, TMGMT_JOB_ITEM_STATE_ACCEPTED))) {
-          $options[$language->language]['operations'] = l(t('View'), 'admin/tmgmt/items/' . $language_job_item->tjiid, array('query' => array('destination' => 'admin/tmgmt/jobs/' . $job->tjid)));
+          $options[$language->language]['operations']  = l(t('View'), 'admin/tmgmt/items/' . $language_job_item->tjiid, array('query' => array('destination' => 'admin/tmgmt/jobs/' . $job->tjid)));
         }
       }
 

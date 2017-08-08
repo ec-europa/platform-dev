@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * e_library_core.views_default.inc

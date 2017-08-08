@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Exported default views.

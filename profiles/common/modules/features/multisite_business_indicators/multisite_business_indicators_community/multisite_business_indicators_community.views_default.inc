@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_business_indicators_community.views_default.inc

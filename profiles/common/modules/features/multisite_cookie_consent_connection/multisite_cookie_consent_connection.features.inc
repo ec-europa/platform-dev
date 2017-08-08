@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_cookie_consent_connection.features.inc

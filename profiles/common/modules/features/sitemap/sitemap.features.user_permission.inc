@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * sitemap.features.user_permission.inc

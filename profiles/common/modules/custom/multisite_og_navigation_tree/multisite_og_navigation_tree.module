@@ -141,7 +141,7 @@ function multisite_og_navigation_tree_module_implements_alter(&$implementations,
  * @param int $nid
  *   The node ID of the node to load.
  *
- * @return object|false
+ * @return object|FALSE
  *   The node, or FALSE if the node is not part of an OG Navigation Tree group.
  */
 function mont_node_load($nid) {
@@ -422,7 +422,7 @@ function _mont_og_context_handler() {
 /**
  * Helper function to fetch the links.
  *
- * @return array|false
+ * @return array|FALSE
  *   Either the Taxonomy Navigation block or FALSE if the block couldn't be
  *   rendered.
  */
@@ -466,7 +466,7 @@ function _mont_block_taxonomy_navigation() {
         $items[] = $item;
       }
       // @todo Variable $node is unused in its scope.
-      $node = node_load($nid);
+      $node  = node_load($nid);
       if (count($items)) {
         $block['subject'] = t('navigation');
         $block['content'] = theme('item_list', array('items' => $items, 'attributes' => array('class' => 'menu')));

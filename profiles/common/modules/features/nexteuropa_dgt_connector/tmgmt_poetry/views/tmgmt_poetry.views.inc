@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Views specific hooks implementations.

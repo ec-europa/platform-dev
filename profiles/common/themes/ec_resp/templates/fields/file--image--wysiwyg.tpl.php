@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Template to display an image file value inside a WYSIWYG field.

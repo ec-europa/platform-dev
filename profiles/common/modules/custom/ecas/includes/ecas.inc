@@ -63,6 +63,7 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+
 /**
  * Implements hook_form_FORM_ID_alter().
  */
@@ -661,7 +662,7 @@ function _ecas_init_phpcas_client() {
   $start_session      = (boolean) FALSE;
 
   // Drupal takes care of its own session.
-  $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
+  $assurance_level    = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
 
   // Before using the phpCas client, we optionally set it in debug mode.
   if (variable_get('ecas_phpcas_debug', FALSE)) {
@@ -696,7 +697,7 @@ function _ecas_init_phpcas_client() {
  * @param array $defaults
  *   An array of user fields and properties to save on the user object.
  *
- * @return false|\stdClass
+ * @return FALSE|\stdClass
  *   The user object, or FALSE if the user could not be created.
  */
 function ecas_create_user($ecas_name, $defaults = array()) {

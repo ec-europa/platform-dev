@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature links.
@@ -19,6 +18,7 @@ function links_core_enable() {
 
   drupal_set_message(t('Links feature is now active on your site.'));
 }
+
 
 /**
  * Implements hook_disable().

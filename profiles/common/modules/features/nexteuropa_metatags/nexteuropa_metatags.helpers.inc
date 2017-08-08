@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the NextEuropa Metatags module.

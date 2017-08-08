@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature events.
@@ -32,6 +31,7 @@ function events_og_enable() {
   drupal_flush_all_caches();
 }
 
+
 /**
  * Implements hook_disable().
  *
@@ -51,6 +51,7 @@ function events_og_disable() {
 
   drupal_flush_all_caches();
 }
+
 
 /**
  * Implements hook_modules_enabled().

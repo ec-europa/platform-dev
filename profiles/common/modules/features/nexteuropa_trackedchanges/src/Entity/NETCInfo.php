@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa_trackedchanges\Entity\NETCInfo.
+ */
 
 namespace Drupal\nexteuropa_trackedchanges\Entity;
 

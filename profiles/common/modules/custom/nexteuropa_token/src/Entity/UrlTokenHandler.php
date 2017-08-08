@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \Drupal\nexteuropa_token\Entity\UrlTokenHandler.
+ */
+
 namespace Drupal\nexteuropa_token\Entity;
 
 /**

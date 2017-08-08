@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * links_core.features.field_base.inc

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Views integration for Taxonomy Browser.

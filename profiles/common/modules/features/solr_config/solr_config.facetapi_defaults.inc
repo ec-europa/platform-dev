@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * solr_config.facetapi_defaults.inc

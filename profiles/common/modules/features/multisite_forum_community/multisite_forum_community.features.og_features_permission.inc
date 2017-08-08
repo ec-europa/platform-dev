@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_forum_community.features.og_features_permission.inc

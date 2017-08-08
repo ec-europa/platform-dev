@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * survey_core.features.taxonomy.inc

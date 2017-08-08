@@ -9,7 +9,6 @@
  * Defines a base class for testing the "Embedded video" module.
  */
 class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
-
   /**
    * {@inheritdoc}
    */

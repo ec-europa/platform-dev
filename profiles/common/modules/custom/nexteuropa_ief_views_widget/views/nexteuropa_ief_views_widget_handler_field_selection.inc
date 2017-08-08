@@ -65,7 +65,7 @@ class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_
    * Get list of fields that use Inline Entity Form widget.
    *
    * @return array
-   *   Get list of fields that uses inline entity form widgets.
+   *    Get list of fields that uses inline entity form widgets.
    */
   public function get_entity_reference_field_options() {
     $options = array();

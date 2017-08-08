@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Main functions and hook implementations for the cookie consent module.

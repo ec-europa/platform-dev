@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * survey_og.features.inc

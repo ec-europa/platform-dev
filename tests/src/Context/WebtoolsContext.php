@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\WebtoolsContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 

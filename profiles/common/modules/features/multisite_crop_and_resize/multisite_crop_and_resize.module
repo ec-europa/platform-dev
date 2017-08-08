@@ -374,6 +374,7 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
   }
 }
 
+
 /**
  * Implements hook_image_default_styles().
  */
@@ -608,6 +609,7 @@ function multisite_media_crop_image($variables) {
     return theme('image', $image_variables);
   }
 }
+
 
 /**
  * Implements hook_entity_info_alter().

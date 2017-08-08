@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains DrupalMailContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 
@@ -21,7 +25,7 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager
+   * @var DrupalDriverManager
    */
   protected $drupal;
 
@@ -49,7 +53,7 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
   /**
    * Constructs a DrupalMailContext object.
    *
-   * @param \Drupal\DrupalDriverManager $drupal
+   * @param DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {

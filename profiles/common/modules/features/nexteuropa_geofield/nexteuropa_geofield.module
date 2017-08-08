@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the NextEuropa GeoField feature.
@@ -13,11 +12,11 @@ function nexteuropa_geofield_field_schema($field) {
 
   switch ($field['type']) {
     case 'geofield_geojson':
-      $schema['columns']['geofield_geojson'] = array(
-        'type' => 'text',
-        'size' => 'big',
-        'not null' => FALSE,
-      );
+        $schema['columns']['geofield_geojson'] = array(
+          'type' => 'text',
+          'size' => 'big',
+          'not null' => FALSE,
+        );
       break;
   }
   return $schema;
@@ -270,18 +269,18 @@ function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field,
 
   switch ($display['type']) {
     case 'geofield_geojson_raw':
-      $element[0] = array(
-        '#type' => 'html_tag',
-        '#tag' => 'div',
-        '#attributes' => array(
-          'id' => 'geofield_geojson_raw',
-        ),
-        '#value' => isset($items[0]['geofield_geojson']) ? $items[0]['geofield_geojson'] : '',
-      );
+        $element[0] = array(
+          '#type' => 'html_tag',
+          '#tag' => 'div',
+          '#attributes' => array(
+            'id' => 'geofield_geojson_raw',
+          ),
+          '#value' => isset($items[0]['geofield_geojson']) ? $items[0]['geofield_geojson'] : '',
+        );
       break;
 
     case 'geofield_geojson_map_format':
-      $value = isset($items[0]['geofield_geojson']) ? $items[0]['geofield_geojson'] : '';
+        $value = isset($items[0]['geofield_geojson']) ? $items[0]['geofield_geojson'] : '';
       $element[0] = array(
         '#type' => 'markup',
         '#markup' => '<div id="geofield_geojson_map"></div><div id="geofield_geojson_map_wrapper"></div>',
@@ -381,7 +380,7 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
       $error = $geocode->error;
     }
     else {
-      $geocode_decoded = drupal_json_decode($geocode->data);
+      $geocode_decoded = json_decode($geocode->data);
 
       if ($geocode_decoded->geocodingRequestsCollection[0]->foundCount < 1) {
         $error = t('No address found.');

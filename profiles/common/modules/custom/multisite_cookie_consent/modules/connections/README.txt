@@ -73,3 +73,4 @@ user is anonymous, or if the user has the 'administer users' permission (see
 _user_resource_access()). To keep things simple, Clients assumes that for the
 'user/register' services you intend to be anonymous, and for the 'user/create'
 you are logging in as normal.
+

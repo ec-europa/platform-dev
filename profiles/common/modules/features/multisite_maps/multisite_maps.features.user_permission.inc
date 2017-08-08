@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_maps.features.user_permission.inc

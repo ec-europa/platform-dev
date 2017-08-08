@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains \\Drupal\\menu\\Config.
+ */
+
 namespace Drupal\menu;
 
 use Drupal\multisite_config\ConfigBase;
@@ -15,9 +20,9 @@ class Config extends ConfigBase {
    * Set available menus setting for a specific content type.
    *
    * @param string $content_type
-   *   Content type machine name.
+   *    Content type machine name.
    * @param mixed $menus
-   *   Menus to be available.
+   *    Menus to be available.
    */
   public function setAvailableMenusForContentType($content_type, $menus) {
     if (!is_array($menus)) {

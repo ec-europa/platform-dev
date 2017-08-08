@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains install and update functions for nexteuropa_varnish.

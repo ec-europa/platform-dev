@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the News views alter file.

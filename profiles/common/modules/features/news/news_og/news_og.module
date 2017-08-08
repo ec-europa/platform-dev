@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the News feature.
@@ -26,6 +25,7 @@ function news_og_menu() {
 
   return $items;
 }
+
 
 /**
  * Implements hook_form_FORM_ID_alter().

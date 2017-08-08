@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Contains \Drupal\nexteuropa\Context\FrontendCacheContext.
+ */
 
 namespace Drupal\nexteuropa\Context;
 
@@ -47,14 +51,14 @@ class FrontendCacheContext implements Context {
   /**
    * The mocked HTTP server.
    *
-   * @var \InterNations\Component\HttpMock\Server
+   * @var Server
    */
   protected $server;
 
   /**
    * Facade to access requests made to the mocked HTTP server.
    *
-   * @var \InterNations\Component\HttpMock\RequestCollectionFacade
+   * @var RequestCollectionFacade
    */
   protected $requests;
 
@@ -75,7 +79,7 @@ class FrontendCacheContext implements Context {
    * By default it responds to any POST requests to /invalidate with 200 OK,
    * additional behavior can be added in further steps.
    *
-   * @return \InterNations\Component\HttpMock\Server
+   * @return Server
    *   The mocked HTTP server.
    */
   protected function getServer() {
@@ -102,7 +106,7 @@ class FrontendCacheContext implements Context {
   /**
    * Gets the requests made to the mocked Integration backend.
    *
-   * @return \InterNations\Component\HttpMock\RequestCollectionFacade
+   * @return RequestCollectionFacade
    *   The requests facade.
    */
   protected function getRequests() {
@@ -209,7 +213,7 @@ class FrontendCacheContext implements Context {
 
     \bovigo\assert\assert($rows, isOfSize(count($expected_rules)));
 
-    /** @var \Behat\Mink\Element\Element $row */
+    /** @var Element $row */
     foreach (array_values($rows) as $i => $row) {
       $expected_rule = $expected_rules[$i];
 
@@ -220,7 +224,7 @@ class FrontendCacheContext implements Context {
   /**
    * Gets the cache purge rules overview.
    *
-   * @return \Behat\Mink\Element\Element
+   * @return Element
    *   The table body.
    */
   protected function getCachePurgeRulesOverview() {
@@ -230,13 +234,13 @@ class FrontendCacheContext implements Context {
   /**
    * Asserts a particular row from the cache purge rules overview.
    *
-   * @param \Behat\Mink\Element\Element $row
+   * @param Element $row
    *   The table row.
    * @param array $expected_rule
    *   The expected values for the cache purge rule.
    */
   protected function assertOverviewCachePurgeRule(Element $row, array $expected_rule) {
-    /** @var \Behat\Mink\Element\Element[] $cells */
+    /** @var Element[] $cells */
     $cells = $row->findAll('css', 'td');
 
     assert($cells[0]->getText(), equals($expected_rule['Content Type']));
@@ -448,7 +452,7 @@ class FrontendCacheContext implements Context {
   /**
    * Retrieve the values in the 'Path' column.
    *
-   * @param \Behat\Gherkin\Node\TableNode $table
+   * @param TableNode $table
    *   The Behat Gherkin table node.
    *
    * @return string[]
