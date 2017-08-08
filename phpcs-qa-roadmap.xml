@@ -685,6 +685,16 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
+    <!-- Doc comment short description must start with a capital letter. -->
+    <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Missing file doc comment. -->
+    <rule ref="Drupal.Commenting.FileComment.Missing">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
     <!-- Values usually have to run through t() for translation. -->
     <rule ref="DrupalPractice.General.OptionsT.TforValue">
         <exclude-pattern>*</exclude-pattern>
@@ -782,6 +792,11 @@
 
     <!-- File appears to be minified and cannot be processed. -->
     <rule ref="Internal.Tokenizer.Exception">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Possible useless method overriding detected. -->
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod.Found">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
