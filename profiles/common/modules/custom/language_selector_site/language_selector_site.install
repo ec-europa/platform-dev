@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Implements installation/uninstallation functions.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function language_selector_site_enable() {
+  // Add block in context.
+  multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_page', 'language_selector_page', 'language_selector_page', 'header_top', '-10');
+}
+
+/**
+ * Implements hook_disable().
+ */
+function language_selector_site_disable() {
+  // Remove block from context.
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
+}
