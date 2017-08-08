@@ -32,12 +32,6 @@ function cce_basic_config_context_default_contexts() {
           'region' => 'tools',
           'weight' => 1,
         ),
-        'create-content-button' => array(
-          'module' => 'multisite_create_button',
-          'delta' => 'create-content-button',
-          'region' => 'tools',
-          'weight' => '2',
-        ),
         'locale-language' => array(
           'module' => 'locale',
           'delta' => 'language',
