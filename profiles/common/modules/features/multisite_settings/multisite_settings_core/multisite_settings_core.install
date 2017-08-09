@@ -6,13 +6,6 @@
  */
 
 /**
- * Implements hook_install().
- */
-function multisite_settings_core_install() {
-  variable_set('theme_default', 'ec_resp');
-}
-
-/**
  * Add and configure the context workbench.
  */
 function multisite_settings_core_update_7121() {
