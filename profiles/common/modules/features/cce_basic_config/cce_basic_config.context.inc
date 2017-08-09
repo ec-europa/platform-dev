@@ -51,7 +51,7 @@ function cce_basic_config_context_default_contexts() {
           'weight' => '-11',
         ),
         'print-print-links' => array(
-          'module' => 'print',
+          'module' => 'print_ui',
           'delta' => 'print-links',
           'region' => 'content_bottom',
           'weight' => '-10',
