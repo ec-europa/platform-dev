@@ -7,6 +7,10 @@
 
 /**
  * Implements hook_views_default_views_alter().
+ *
+ * Change views settings defined in Workbench and Workbench Moderation.
+ * To have these settings applied you can run:
+ * $ drush views-revert [view_machine_name] .
  */
 function multisite_workbench_moderation_view_views_default_views_alter(&$views) {
 
@@ -163,6 +167,53 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
       ),
     );
 
+    /* NEPT-485: Change view for new column "Last revision". */
+    $handler  =& $view->display['default']->handler;
+    $save_field_1 = $handler->display->display_options['fields']['changed'];
+    $save_field_2 = $handler->display->display_options['fields']['views_bulk_operations'];
+    unset($handler->display->display_options['fields']['changed']);
+    unset($handler->display->display_options['fields']['views_bulk_operations']);
+
+    /* Field: Workbench Moderation: Timestamp */
+    $handler->display->display_options['fields']['stamp']['id'] = 'stamp';
+    $handler->display->display_options['fields']['stamp']['table'] = 'workbench_moderation_node_history';
+    $handler->display->display_options['fields']['stamp']['field'] = 'stamp';
+    $handler->display->display_options['fields']['stamp']['label'] = 'Last revision';
+    $handler->display->display_options['fields']['stamp']['date_format'] = 'time ago';
+    $handler->display->display_options['fields']['stamp']['second_date_format'] = 'long';
+
+    /* Field: Content: Updated date */
+    $handler->display->display_options['fields']['changed'] = $save_field_1;
+    /* Field: Bulk operations: Content */
+    $handler->display->display_options['fields']['views_bulk_operations'] = $save_field_2;
+
+    unset($handler->display->display_options['sorts']['changed']);
+
+    /* Sort criterion: Workbench Moderation: Timestamp */
+    $handler->display->display_options['sorts']['stamp']['id'] = 'stamp';
+    $handler->display->display_options['sorts']['stamp']['table'] = 'workbench_moderation_node_history';
+    $handler->display->display_options['sorts']['stamp']['field'] = 'stamp';
+    $handler->display->display_options['sorts']['stamp']['order'] = 'DESC';
+
+    $handler->display->display_options['style_options']['info']['stamp'] = array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    );
+    $handler->display->display_options['style_options']['default'] = 'stamp';
+    /* ~ NEPT-485 */
+
+    /* NEPT-485: Change view from column "Last updated" to "Last published". */
+    unset($handler->display->display_options['fields']['nid']['link_to_node']);
+    $handler->display->display_options['fields']['changed']['label'] = 'Last published';
+    $handler->display->display_options['fields']['changed']['alter']['alter_text'] = TRUE;
+    $handler->display->display_options['fields']['changed']['alter']['text']
+      = '<span id="last_published_[nid]">[changed]</span>';
+    $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
+    /* ~ NEPT-485 */
+
     /*
      * ADD NEW DISPLAY
      */
@@ -251,5 +302,34 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
     // Remove 'Needs review page' and 'Drafts page' view displays menu tab.
     unset($view->display['drafts_page']->display_options['menu']['type']);
     unset($view->display['needs_review_page']->display_options['menu']['type']);
+
+    if (array_key_exists('workbench_edited', $views)) {
+      $view = $views['workbench_edited'];
+
+      /* NEPT-485: Change view from column "Last updated" to "Last published". */
+      $handler  =& $view->display['default']->handler;
+      $handler->display->display_options['fields']['timestamp']['label'] = 'Last published';
+      $handler->display->display_options['fields']['timestamp']['alter']['alter_text'] = TRUE;
+      $handler->display->display_options['fields']['timestamp']['alter']['text']
+        = '<span id="last_published_[nid]">[timestamp]</span>';
+      $handler->display->display_options['fields']['timestamp']['second_date_format'] = 'long';
+      unset($handler->display->display_options['fields']['nid']['group_type']);
+      unset($handler->display->display_options['fields']['nid']['alter']['word_boundary']);
+      unset($handler->display->display_options['fields']['nid']['alter']['ellipsis']);
+      /* ~ NEPT-485 */
+    }
+
+    if (array_key_exists('workbench_recent_content', $views)) {
+      $view = $views['workbench_recent_content'];
+
+      /* NEPT-485: Change view from column "Last updated" to "Last published". */
+      $handler  =& $view->display['default']->handler;
+      $handler->display->display_options['fields']['changed']['label'] = 'Last published';
+      $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
+      $handler  =& $view->display['page_1']->handler;
+      $handler->display->display_options['fields']['changed']['label'] = 'Last published';
+      $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
+      /* ~ NEPT-485 */
+    }
   }
 }

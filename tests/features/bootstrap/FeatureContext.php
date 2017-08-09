@@ -20,20 +20,6 @@ use Behat\Gherkin\Node\PyStringNode;
 class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
-   * List of modules to enable.
-   *
-   * @var array
-   */
-  protected $modules = array();
-
-  /**
-   * List of feature sets to enable.
-   *
-   * @var array
-   */
-  protected $featureSets = array();
-
-  /**
    * Checks that a 403 Access Denied error occurred.
    *
    * @Then I should get an access denied error
@@ -142,130 +128,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Disabled and uninstall modules.
-   *
-   * @AfterScenario
-   */
-  public function cleanModule() {
-    if (!empty($this->modules)) {
-      // Disable and uninstall any modules that were enabled.
-      module_disable($this->modules);
-      drupal_uninstall_modules($this->modules);
-      $this->modules = array();
-    }
-  }
-
-  /**
-   * Enables one or more modules.
-   *
-   * Provide modules data in the following format:
-   *
-   * | modules  |
-   * | blog     |
-   * | book     |
-   *
-   * @param TableNode $modules_table
-   *   The table listing modules.
-   *
-   * @return bool
-   *   Always returns TRUE.
-   *
-   * @throws \Exception
-   *   Thrown when a module does not exist.
-   *
-   * @Given the/these module/modules is/are enabled
-   */
-  public function enableModule(TableNode $modules_table) {
-    $rebuild = FALSE;
-    $message = array();
-    foreach ($modules_table->getHash() as $row) {
-      if (!module_exists($row['modules'])) {
-        if (!module_enable($row)) {
-          $message[] = $row['modules'];
-        }
-        else {
-          $this->modules[] = $row['modules'];
-          $rebuild = TRUE;
-        }
-      }
-    }
-
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Modules "%s" not found', implode(', ', $message)));
-    }
-    else {
-      if ($rebuild) {
-        drupal_flush_all_caches();
-      }
-      return TRUE;
-    }
-  }
-
-  /**
-   * Enables one or more Feature Set(s).
-   *
-   * Provide feature set names in the following format:
-   *
-   * | featureSet  |
-   * | Events      |
-   * | Links       |
-   *
-   * @param TableNode $featureset_table
-   *   The table listing feature set titles.
-   *
-   * @Given the/these featureSet/FeatureSets is/are enabled
-   */
-  public function enableFeatureSet(TableNode $featureset_table) {
-    $rebuild = FALSE;
-    $message = array();
-    $featuresets = feature_set_get_featuresets();
-    foreach ($featureset_table->getHash() as $row) {
-      foreach ($featuresets as $featureset_available) {
-        if ($featureset_available['title'] == $row['featureSet'] &&
-          feature_set_status($featureset_available) === FEATURE_SET_DISABLED
-        ) {
-          if (feature_set_enable_feature_set($featureset_available)) {
-            $this->featureSets[] = $featureset_available;
-            $rebuild = TRUE;
-          }
-          else {
-            $message[] = $row['featureSet'];
-          }
-        }
-      }
-    }
-    if (!empty($message)) {
-      throw new \Exception(sprintf('Feature Set "%s" not correctly enabled', implode(', ', $message)));
-    }
-    else {
-      if ($rebuild) {
-        drupal_flush_all_caches();
-      }
-      return TRUE;
-    }
-  }
-
-  /**
-   * Disables one or more Feature Set(s).
-   *
-   * Disable any Feature Set that were enabled during Feature test.
-   *
-   * @AfterScenario
-   */
-  public function cleanFeatureSet() {
-    if (!empty($this->featureSets)) {
-      // Disable and uninstall any feature set that were enabled.
-      foreach ($this->featureSets as $featureset) {
-        if (isset($featureset['disable'])) {
-          $featureset['uninstall'] = $featureset['disable'];
-          feature_set_disable_feature_set($featureset);
-        }
-      }
-      $this->featureSets = array();
-    }
-  }
-
-  /**
    * Check the languages order in the language selector page.
    *
    * @Then the language options on the page content language switcher should be :active_language non clickable followed by :language_order links
@@ -283,32 +145,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
     if (!preg_match($pattern, $page_content)) {
       throw new Exception(sprintf('The page content language switcher is not set to %s and not followed by the language links %s.', $active_language, $language_order));
-    }
-  }
-
-  /**
-   * Reinitialize some environment settings.
-   *
-   * @AfterScenario @cleanEnvironment
-   */
-  public static function cleanEnvironment() {
-    // Restore homepage.
-    variable_set("site_frontpage", "node");
-
-    // Restore default language (en) settings.
-    $languages = language_list('enabled', TRUE);
-    if (isset($languages['1']['en'])) {
-      $language = $languages['1']['en'];
-
-      $language->prefix = '';
-      $properties[] = 'prefix';
-
-      $fields = array_intersect_key((array) $language, array_flip($properties));
-      // Update language fields.
-      db_update('languages')
-        ->fields($fields)
-        ->condition('language', $language->language)
-        ->execute();
     }
   }
 
@@ -650,10 +486,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterFeature @cleanCommunityEnvironment
    */
   public static function cleanCommunityEnvironment() {
-    // Delete 'community' node type.
-    _node_types_build(TRUE);
-    node_type_delete('community');
-    field_purge_batch(1);
 
     // Delete community's variables.
     $feature = features_load_feature('nexteuropa_communities');
@@ -679,6 +511,54 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
 
     drupal_flush_all_caches();
+  }
+
+  /**
+   * Create a new revision for content of given type and title.
+   *
+   * @Given I create a new revision for :arg1 content with title :arg2
+   */
+  public function createNewRevision($type, $title) {
+    $node = $this->getNodeByTitle($type, $title);
+    $node->revision = TRUE;
+    node_save($node);
+  }
+
+  /**
+   * Revert given content to its first revision.
+   *
+   * @Given I revert the :arg1 content with title :arg2 to its first revision
+   */
+  public function revertContentToFirstRevision($type, $title) {
+    $node = $this->getNodeByTitle($type, $title);
+    $revisions = node_revision_list($node);
+    ksort($revisions);
+    $node_revision = array_shift($revisions);
+    $node_revision = node_load($node->nid, $node_revision->vid);
+    $node_revision->revision = TRUE;
+    node_save($node_revision);
+  }
+
+  /**
+   * Assert field language given field name, content type and content title.
+   *
+   * @Then I should only have :arg1 in :arg2 for :arg3 published content with title :arg4
+   */
+  public function assertFieldLanguageForPublishedContentWithTitle($field_name, $language, $type, $title) {
+    $node = $this->getNodeByTitle($type, $title);
+
+    $query = db_select("field_data_{$field_name}", 'f')
+      ->fields('f', ['language', 'entity_id'])
+      ->condition('entity_type', 'node')
+      ->condition('language', $language, '!=')
+      ->condition('bundle', $type)
+      ->condition('entity_id', $node->nid)
+      ->countQuery();
+
+    $results = $query->execute()->fetchField();
+    if ($results > 0) {
+      throw new ExpectationException("Other languages than '{$language}' have been found for '{$field_name}' field.", $this->getSession());
+    }
   }
 
 }

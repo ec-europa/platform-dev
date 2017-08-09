@@ -1,4 +1,4 @@
-@api @i18n
+@api
 Feature: Multilingual features
   In order to easily understand the content of the European Commission
   As a citizen of the European Union
@@ -32,53 +32,6 @@ Feature: Multilingual features
     And I click "English"
     Then I should see the heading "Content can be translated in English"
 
-  Scenario: Custom URL suffix language negotiation is applied by default on new content.
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title                                  |
-      | en       | Custom URL suffix language negotiation |
-      | fr       | Suffix de language negotiation French  |
-      | de       | Suffix Sprache Verhandlung German      |
-    Then I should be on "content/custom-url-suffix-language-negotiation_en"
-    And I click "English" in the "header_top" region
-    Then I should be on the language selector page
-    And I click "Français"
-    Then I should be on "content/custom-url-suffix-language-negotiation_fr"
-    And I click "Français" in the "header_top" region
-    Then I should be on the language selector page
-    And I click "Deutsch"
-    Then I should be on "content/custom-url-suffix-language-negotiation_de"
-
-  Scenario: Enable multiple languages
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/regional/language"
-    Then I should see "English"
-    And I should see "French"
-    And I should see "German"
-
-  @cleanEnvironment
-  Scenario: Enable language suffix and check the base path
-    Given I am logged in as a user with the 'administrator' role
-    When I go to "admin/config/regional/language/configure"
-    And I check the box "edit-language-enabled-nexteuropa-multilingual-url-suffix"
-    And I uncheck the box "edit-language-enabled-locale-url"
-    And I press the "Save settings" button
-    Then I should see the success message "Language negotiation configuration saved."
-    When I go to "admin/config/regional/language/edit/en"
-    And I fill in "edit-prefix" with "en-prefix"
-    And I press the "Save language" button
-    And I go to "admin/config/system/site-information"
-    And I fill in "edit-site-frontpage" with "admin/fake-url"
-    And I select "01000" from "edit-classification"
-    And I press the "Save configuration" button
-    Then I should see the success message "The configuration options have been saved."
-    And the cache has been cleared
-    And I should not see "admin/fake-url" in the ".form-item-site-frontpage span.field-prefix" element
-    And I should not see "en-prefix" in the ".form-item-site-frontpage span.field-prefix" element
-    When I go to "admin/config/regional/language/edit/en"
-    And I fill in "edit-prefix" with "en"
-    And I press the "Save language" button
-
   Scenario: Path aliases are not deleted when translating content via translation management
     Given local translator "Translator A" is available
     Given I am logged in as a user with the "administrator" role
@@ -86,7 +39,7 @@ Feature: Multilingual features
       | language | title                                       |
       | en       | Path aliases are not deleted in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-de"
+    And I check the box on the "German" row
     And I press the "Request translation" button
     And I select "Translator A" from "Translator"
     And I press the "Submit to translator" button
@@ -114,7 +67,7 @@ Feature: Multilingual features
       | language | title                        |
       | en       | This title is in English     |
     And I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-de"
+    And I check the box on the "German" row
     And I press the "Request translation" button
     And I select "Translator A" from "Translator"
     And I press the "Submit to translator" button
@@ -159,34 +112,6 @@ Feature: Multilingual features
     And I click "Français" in the "content" region
     Then I should see "Ce titre est en Français"
 
-  Scenario: Path alias must be synchronized through all translations of
-  content when it is manually defined and the configuration is maintained
-  when I come back on the content edit form
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title            |
-      | en       | Title in English |
-      | fr       | Title in French  |
-    And I click "English" in the "header_top" region
-    And I click "Français"
-    Then I should be on "content/title-english_fr"
-    And I click "New draft"
-    # And I click "URL path settings"
-    And I uncheck the box "edit-path-pathauto"
-    And I fill in "URL alias" with "page-alias-for-all-languages"
-    # And I click "Publishing options"
-    And I select "published" from "Moderation state"
-    When I press "Save"
-    Then I should be on "page-alias-for-all-languages_fr"
-    And I click "Français" in the "header_top" region
-    When I click "English"
-    Then I should be on "page-alias-for-all-languages_en"
-    When I click "New draft"
-    # And I click "URL path settings"
-    Then I should not see the box "edit-path-pathauto" checked
-    And the "URL alias" field should contain "page-alias-for-all-languages"
-
-
   Scenario: Multilingual view on language neutral content
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/translate/translate"
@@ -214,3 +139,17 @@ Feature: Multilingual features
     And I press "Apply"
     And I go to "content/new-article-title_it"
     Then I should see "Corpo del testo"
+
+  Scenario: NEPT-495: Reverting from a translated revision to a non translated one will not
+            leave leftovers in the field table.
+    Given "page" content:
+      | title           |
+      | Page in English |
+    And I create a new revision for "page" content with title "Page in English"
+    And I create the following translations for "page" content with title "Page in English":
+      | language | title          |
+      | fr       | Page in French |
+      | de       | Page in German |
+    And I revert the "page" content with title "Page in English" to its first revision
+    Then I should only have "title_field" in "en" for "page" published content with title "Page in English"
+

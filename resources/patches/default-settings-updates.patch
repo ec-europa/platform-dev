@@ -1,0 +1,59 @@
+--- sites/default/default.settings-ini.php	2017-03-09 17:31:07.000000000 +0100
++++ sites/default/default.settings.php	2017-03-09 19:06:49.000000000 +0100
+@@ -1,6 +1,22 @@
+ <?php
+
+ /**
++ * Load local development override configuration, if available.
++ *
++ * Use a custom settings file to override variables on secondary (staging,
++ * development, etc) installations of this site. Typically used to disable
++ * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
++ * other things that should not happen on development and testing sites.
++ *
++ * The purpose of this file is to set defaults, not to enforce them, so
++ * keep this code block at the start of this file.
++ */
++$local_settings = getenv('DRUPAL_LOCAL_SETTINGS_LOCATION');
++if (file_exists($local_settings)){
++  include $local_settings;
++}
++
++/**
+  * @file
+  * Drupal site-specific configuration file.
+  *
+@@ -628,3 +644,33 @@
+  * @see drupal_clean_css_identifier()
+  */
+ # $conf['allow_css_double_underscores'] = TRUE;
++
++/**
++ * Override session cookie lifetime defined above.
++ * Set value to zero for session cookies to be deleted when browser is closed.
++ */
++ini_set('session.cookie_lifetime', 0);
++
++/**
++ * Load local development override configuration, if available.
++ *
++ * Use settings.local.php to override variables on secondary (staging,
++ * development, etc) installations of this site. Typically used to disable
++ * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
++ * other things that should not happen on development and testing sites.
++ *
++ * The purpose of this file is to override settings, so keep this code block
++ * at the end of this file to take full effect.
++ */
++$local_settings_post = str_replace('.php', '.post.php', $local_settings);
++if (file_exists($local_settings_post)){
++  include $local_settings_post;
++}
++
++/**
++ * Include a local settings file if it exists.
++ */
++$local_settings = dirname(__FILE__) . '/settings.local.php';
++if (file_exists($local_settings)) {
++  include $local_settings;
++}

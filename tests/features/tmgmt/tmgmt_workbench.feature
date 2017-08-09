@@ -1,4 +1,4 @@
-@api @i18n
+@api
 Feature: TMGMT Workbench features
   In order to request a new translation for moderated content
   As a Translation manager user
@@ -44,7 +44,6 @@ Feature: TMGMT Workbench features
     And I click "Sources"
     Then I should not see "New Editorial team"
 
-#  @run
   Scenario: NEXTEUROPA-9861: Translations requested from a validated revision should be applied to that revision only.
     Given local translator "Translator A" is available
     And I am logged in as a user with the "administrator" role
@@ -88,7 +87,6 @@ Feature: TMGMT Workbench features
     And I click "Français" in the "content" region
     Then I should see "Title in French 1.1"
 
-#  @run
   Scenario: NEXTEUROPA-9861: Translations requested from a published revision should be applied to that revision only.
     Given local translator "Translator A" is available
     And I am viewing a multilingual "page" content:
@@ -111,7 +109,6 @@ Feature: TMGMT Workbench features
     Then I should see "Title in French 2.0"
     And the url should match "(.)*content/title-english-20_fr"
 
-#  @run
   Scenario: NEXTEUROPA-9998: When submitting a new translated revision for a sub job, the URL of the published node is not modified.
     Given local translator "Translator A" is available
     Given I am logged in as a user with the 'administrator' role
@@ -121,7 +118,7 @@ Feature: TMGMT Workbench features
     And I select "Published" from "state"
     And I press "Apply"
     Then I click "Translate" in the "primary_tabs" region
-    And I select the radio button "" with the id "edit-languages-fr"
+    And I check the box on the "French" row
     And I press "Request translation"
     And I select "Translator A" from "Translator"
     And I press "Submit to translator"
@@ -138,3 +135,24 @@ Feature: TMGMT Workbench features
     And I press "Apply"
     And I click "View published" in the "primary_tabs" region
     Then the url should match "(.)*content/original-version_en"
+
+  Scenario: Check the translation messages.
+    Given I am logged in as a user with the 'administrator' role
+    And local translator "Translator A" is available
+    When I go to "node/add/page"
+    And I fill in "Title" with "Title of the Basic page"
+    And I press "Save"
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see the text "The current piece of content's moderation state is: draft"
+    And I should see the text "Current moderation state does not allow to request a translation for this content."
+    When I click "Moderate" in the "primary_tabs" region
+    And I select "Validated" from "state"
+    And I press the "Apply" button
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see the text "The current piece of content's moderation state is: validated"
+    And I should not see the text "Current moderation state does not allow to request a translation for this content."
+    When I check the box on the "French" row
+    And I press "Request translation"
+    And I select "Translator A" from "Translator"
+    And I press "Submit to translator"
+    Then I should not see the text "Current moderation state does not allow to request a translation for this content."

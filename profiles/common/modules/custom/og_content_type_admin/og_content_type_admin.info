@@ -1,0 +1,17 @@
+name = OG Content Type Admin
+description = Allows restriction of content type use based on group.
+package = Multisite OG Features
+core = 7.x
+php = 5.6
+multisite_version = 2.2
+configure = admin/config/group/og_content_types
+dependencies[] = multisite_og_button
+dependencies[] = multisite_workbench_moderation_view
+dependencies[] = nexteuropa_communities
+dependencies[] = node
+dependencies[] = og
+dependencies[] = og_access
+dependencies[] = og_context
+dependencies[] = og_ui
+dependencies[] = views
+files[] = tests/og_content_type_admin.extra.test

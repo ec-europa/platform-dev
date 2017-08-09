@@ -15,6 +15,7 @@ use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isOfSize;
 use function bovigo\assert\predicate\matches;
 use function bovigo\assert\predicate\not;
+use function bovigo\assert\predicate\isEmpty;
 use InterNations\Component\HttpMock\Matcher\ExtractorFactory;
 use InterNations\Component\HttpMock\Matcher\MatcherFactory;
 use InterNations\Component\HttpMock\MockBuilder;
@@ -131,10 +132,10 @@ class FrontendCacheContext implements Context {
   /**
    * Configures the frontend cache integration for testing purposes.
    *
-   * @Given :arg1 is configured as the purge application tag
+   * @Given :tag is :correctly configured as the purge application tag
    */
-  public function valueIsConfiguredAsThePurgeApplicationTag($arg1) {
-    $this->variables->setVariable('nexteuropa_varnish_tag', $arg1);
+  public function valueIsConfiguredAsThePurgeApplicationTag($tag, $correctly) {
+    $this->variables->setVariable('nexteuropa_varnish_tag', $tag);
 
     $server = $this->getServer();
 
@@ -149,6 +150,16 @@ class FrontendCacheContext implements Context {
     $this->variables->setVariable('nexteuropa_varnish_http_targets',
       array('http://' . $server->getConnectionString())
     );
+    if ($correctly == 'correctly') {
+      $this->variables->setVariable('nexteuropa_varnish_request_user', 'usr');
+      $this->variables->setVariable('nexteuropa_varnish_request_password', 'pass');
+      $this->variables->setVariable('nexteuropa_varnish_http_timeout', '2.0');
+    }
+    else {
+      $this->variables->deleteVariable('nexteuropa_varnish_request_user');
+      $this->variables->deleteVariable('nexteuropa_varnish_request_password');
+      $this->variables->deleteVariable('nexteuropa_varnish_http_timeout');
+    }
   }
 
   /**
@@ -177,6 +188,15 @@ class FrontendCacheContext implements Context {
 
       entity_save('nexteuropa_varnish_cache_purge_rule', $rule);
     }
+  }
+
+  /**
+   * Disables the default purge rule for content type modifications.
+   *
+   * @Given the default purge rule is disabled
+   */
+  public function theDefaultPurgeRuleIsDisabled() {
+    $this->variables->setVariable('nexteuropa_varnish_default_purge_rule', FALSE);
   }
 
   /**
@@ -252,6 +272,19 @@ class FrontendCacheContext implements Context {
   /**
    * Asserts that the web front end cache received certain purge requests.
    *
+   * @Then the web front end cache is ready to receive requests.
+   */
+  public function theWebFrontEndCacheIsReadyToReceiveRequests() {
+    if ($this->server && $this->server->isStarted()) {
+      // Cleaning the requests recorder during creation of the content.
+      // Useful for testing with the default purge rule enabled.
+      $this->server->clean();
+    }
+  }
+
+  /**
+   * Asserts that the web front end cache received certain purge requests.
+   *
    * @Then the web front end cache was instructed to purge the following paths for the application tag :arg1:
    */
   public function theWebFrontEndCacheWasInstructedToPurgeTheFollowingPathsForTheApplicationTag($arg1, TableNode $table) {
@@ -282,6 +315,25 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Asserts that the web front end cache received a full purge request.
+   *
+   * @Then the web front end cache was instructed to purge completely its index for the application tag :arg1
+   */
+  public function theWebFrontEndCacheWasInstructedToPurgeCompletelyItsIndexForTheApplicationTag($arg1) {
+    $requests = $this->getRequests();
+
+    assert($requests, isOfSize(1));
+
+    $purge_request = $requests->last();
+    $purge_request_paths = $purge_request->getHeader('X-Invalidate-Regexp');
+
+    assert($purge_request->getHeader('X-Invalidate-Tag')->toArray(), equals([$arg1]));
+    assert($purge_request->getHeader('X-Invalidate-Type')->toArray(), equals(['full']));
+    assert($purge_request_paths, isEmpty());
+
+  }
+
+  /**
    * Asserts that the web front end cache did not receive any purge requests.
    *
    * @Then the web front end cache was not instructed to purge any paths
@@ -292,12 +344,28 @@ class FrontendCacheContext implements Context {
   }
 
   /**
+   * Clean all requests created by rules on the server.
+   *
+   * @Then Execute all purge rules
+   */
+  public function executeAllRulePurge() {
+    $requests = $this->getRequests();
+
+    while ($requests->count() > 0) {
+      $requests->pop();
+    }
+  }
+
+  /**
    * Stops the mock HTTP server if it was started.
    *
    * @AfterScenario
    */
   public function stopMockServer() {
     if ($this->server && $this->server->isStarted()) {
+      // Cleaning the mock server state.
+      $this->server->clean();
+      // Stopping the mock server.
       $this->server->stop();
     }
   }
