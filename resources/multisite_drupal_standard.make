@@ -161,7 +161,7 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.11"
+projects[ctools][version] = "1.12"
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
