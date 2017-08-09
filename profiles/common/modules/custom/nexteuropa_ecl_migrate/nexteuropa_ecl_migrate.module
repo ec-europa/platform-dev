@@ -276,4 +276,5 @@ function _nexteuropa_ecl_migrate_remove_ec_resp_blocks() {
     ->condition('module', 'system')
     ->condition('delta', 'help')
     ->execute();
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'footer-ipg');
 }
