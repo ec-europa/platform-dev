@@ -26,12 +26,8 @@ function social_bookmark_enable() {
   // Add block in context.
   global $theme_key;
 
-  if ($theme_key == 'ec_resp') {
-    multisite_drupal_toolbox_add_block_context('site_wide', 'social_bookmark-social-bookmark', 'social_bookmark', 'social-bookmark', 'content_bottom');
-  }
-  else {
-    multisite_drupal_toolbox_add_block_context('site_wide', 'social_bookmark-social-bookmark', 'social_bookmark', 'social-bookmark', 'tools_bottom');
-  }
+  multisite_drupal_toolbox_add_block_context('site_wide', 'social_bookmark-social-bookmark', 'social_bookmark', 'social-bookmark', 'content_bottom');
+
   // Activation message.
   drupal_set_message(t('Social bookmark feature is now active on your site.'));
   drupal_set_message(t('Social bookmark block has been created.'));
