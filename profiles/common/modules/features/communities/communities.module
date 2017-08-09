@@ -453,10 +453,15 @@ function communities_views_post_execute(&$view) {
   if (isset($view->argument['gid'])) {
     $handler = $view->argument['gid'];
     if ($handler->table == 'og_membership' && $handler->field == 'gid') {
-      // Postiton 0 = argument 1 (%1, !1)...
+      // Position 0 = argument 1 (%1, !1)...
       $position = $handler->position + 1;
       // Not use node_load for performance reason.
-      $title = db_query('SELECT title FROM {node} WHERE nid = :nid', array(':nid' => $handler->argument))->fetchField();
+      $title = db_select('node', 'n')
+        ->fields('n', array('title'))
+        ->condition('nid', $handler->argument, '=')
+        ->addTag('node_access')
+        ->execute()
+        ->fetchField();
       if ($title) {
         module_load_include('inc', 'pathauto', 'pathauto');
         $view->build_info['substitutions']['%' . $position] = check_plain($title);
