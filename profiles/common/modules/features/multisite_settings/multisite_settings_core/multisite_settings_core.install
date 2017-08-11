@@ -6,6 +6,14 @@
  */
 
 /**
+ * Add the tags vocabulary.
+ */
+function multisite_settings_core_install() {
+  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
+  multisite_settings_core_taxonomy_vocabulary_insert($tags_vocab);
+}
+
+/**
  * Add and configure the context workbench.
  */
 function multisite_settings_core_update_7121() {

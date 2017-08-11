@@ -19,6 +19,7 @@ function _nexteuropa_ecl_migrate_blocks() {
   _nexteuropa_ecl_migrate_move_facet_blocks();
   _nexteuropa_ecl_migrate_move_community_blocks();
   _nexteuropa_ecl_migrate_move_ne_registration_blocks();
+  _nexteuropa_ecl_migrate_move_taxonomy_browser();
   _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
 }
 
@@ -254,6 +255,15 @@ function _nexteuropa_ecl_migrate_move_ne_registration_blocks() {
 }
 
 /**
+ * Custom function that moves blocks from the nexteuropa_registration feature.
+ */
+function _nexteuropa_ecl_migrate_move_taxonomy_browser() {
+  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
+  multisite_drupal_toolbox_remove_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid);
+  multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'taxonomy_browser', 'taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'sidebar_first', '-10');
+}
+
+/**
  * Custom function that moves blocks from the solr facet blocks.
  */
 function _nexteuropa_ecl_migrate_move_facet_blocks() {
@@ -262,10 +272,10 @@ function _nexteuropa_ecl_migrate_move_facet_blocks() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j');
   multisite_drupal_toolbox_remove_block_context('site_wide', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT');
   if (module_exists('facetapi')) {
-    multisite_drupal_toolbox_add_block_context('search', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'sidebar_second', '-17');
-    multisite_drupal_toolbox_add_block_context('search', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'sidebar_second', '-16');
-    multisite_drupal_toolbox_add_block_context('search', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'sidebar_second', '-15');
-    multisite_drupal_toolbox_add_block_context('search', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'sidebar_second', '-14');
+    multisite_drupal_toolbox_add_block_context('search', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'sidebar_first', '-17');
+    multisite_drupal_toolbox_add_block_context('search', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'sidebar_first', '-16');
+    multisite_drupal_toolbox_add_block_context('search', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'sidebar_first', '-15');
+    multisite_drupal_toolbox_add_block_context('search', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'sidebar_first', '-14');
   }
 }
 /**
@@ -293,4 +303,8 @@ function _nexteuropa_ecl_migrate_remove_ec_resp_blocks() {
     ->condition('delta', 'help')
     ->execute();
   multisite_drupal_toolbox_remove_block_context('site_wide', 'footer-ipg');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'menu-service-tools');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'search-form');
+
 }
