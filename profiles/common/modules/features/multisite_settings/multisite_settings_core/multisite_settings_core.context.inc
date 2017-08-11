@@ -66,12 +66,6 @@ function multisite_settings_core_context_default_contexts() {
           'region' => 'sidebar_left',
           'weight' => '-10',
         ),
-        'apachesolr_search-sort' => array(
-          'module' => 'apachesolr_search',
-          'delta' => 'sort',
-          'region' => 'sidebar_right',
-          'weight' => '-10',
-        ),
       ),
     ),
   );
