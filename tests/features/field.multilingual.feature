@@ -16,6 +16,13 @@ Feature: Field Multilingual features
       | en       | Title in English  |
       | fr       | Titre en Français |
 
+  @theme_wip
+  # It is in wip because of the steps:
+  # - And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
+  # - And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
+  # - And I should see "Red" in the "nept_element:field:color-selection-value" element
+  # The reason is the field component is not implemented yet.
+  # It will be done with the ticket NEPT-1066
   Scenario: Administrator can create and translate field and field group labels.
     Given I am logged in as a user with the 'administrator' role
   # Add and translate field and field Group
@@ -57,7 +64,7 @@ Feature: Field Multilingual features
     And I put the field "field_selectcolor" inside the field group "group_groupcolor" of an entity "node" type of "page" using the view mode "form"
     And I go to "admin/structure/types/manage/page/fields"
     And I press the "Save" button
-     # Displaying once the field group 'groupcolor' label and translating it
+  # Displaying once the field group 'groupcolor' label and translating it
     When I go to "node/add/page_en"
     And I go to "admin/config/regional/translate/translate"
     And I fill in "edit-string" with "My Group Color"
@@ -67,7 +74,8 @@ Feature: Field Multilingual features
     And I press the "Save translations" button
     Then I should see the success message "The string has been saved."
 
-     # Updating the main node
+  # Check that anonymous user sees labels in the expected language.
+  # Updating the main node
     When I go to "content/title-english_en"
     And I click "New draft"
     And I select the radio button "Red" with the id "edit-field-selectcolor-en-red"
@@ -76,39 +84,39 @@ Feature: Field Multilingual features
     And I press the "Save" button
     Then I should see the success message "Basic page Title in English has been updated."
 
-     # Checking given translations for different variants
+    # Checking given translations for different variants
     Given I am an anonymous user
     When I go to "content/title-english_en"
-    Then I should see "Title in English" in the "#page-title" element
-    And I should see "My Group Color" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Select a Color" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Red" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    Then I should see "Title in English" in the "nept_element:page-title" element
+    And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
+    And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
+    And I should see "Red" in the "nept_element:field:color-selection-value" element
 
     When I go to "content/title-english_de"
-    Then I should see "Title in English" in the "#page-title" element
-    And I should see "My Group Color" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Select a Color" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Red" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    Then I should see "Title in English" in the "nept_element:page-title" element
+    And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
+    And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
+    And I should see "Red" in the "nept_element:field:color-selection-value" element
 
     When I go to "content/title-english_en?2nd-language=fr"
-    Then I should see "Title in English" in the "#page-title" element
-    And I should see "My Group Color" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Select a Color" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Red" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    Then I should see "Title in English" in the "nept_element:page-title" element
+    And I should see "My Group Color" in the "nept_element:field-group:color-selection-legend" element
+    And I should see "Select a Color" in the "nept_element:field:color-selection-label" element
+    And I should see "Red" in the "nept_element:field:color-selection-value" element
 
     When I go to "content/title-english_fr"
-    Then I should see "Titre en Français" in the "#page-title" element
-    And I should see "Mon Groupe Couleur" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Selectionner une Couleur" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Rouge" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    Then I should see "Titre en Français" in the "nept_element:page-title" element
+    And I should see "Mon Groupe Couleur" in the "nept_element:field-group:color-selection-legend" element
+    And I should see "Selectionner une Couleur" in the "nept_element:field:color-selection-label" element
+    And I should see "Rouge" in the "nept_element:field:color-selection-value" element
 
     When I go to "content/title-english_de?2nd-language=fr"
-    Then I should see "Titre en Français" in the "#page-title" element
-    And I should see "Mon Groupe Couleur" in the "fieldset.group-groupcolor span.fieldset-legend" element
-    And I should see "Selectionner une Couleur" in the "div.field-name-field-selectcolor div.field-label" element
-    And I should see "Rouge" in the "div.field-name-field-selectcolor div.field-items div.field-item" element
+    Then I should see "Titre en Français" in the "nept_element:page-title" element
+    And I should see "Mon Groupe Couleur" in the "nept_element:field-group:color-selection-legend" element
+    And I should see "Selectionner une Couleur" in the "nept_element:field:color-selection-label" element
+    And I should see "Rouge" in the "nept_element:field:color-selection-value" element
 
-  # Deleting the added fields
+    # Deleting the added fields
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/structure/types/manage/page/fields/field_selectcolor/delete"
     And I press the "Delete" button

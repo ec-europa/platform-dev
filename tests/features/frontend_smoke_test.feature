@@ -7,6 +7,7 @@ Feature: Frontend smoke test
   # Test whether Bootstrap, our CSS, the logo and the search image are present.
   # Note that these tests are specific to the current 'ec_resp' theme. When a
   # new theme is developed this will need to be adapted.
+  @theme_wip
   Scenario: Check availability of assets
     Given the following files can be downloaded:
       | profiles/multisite_drupal_standard/themes/ec_resp/bootstrap/fonts/glyphicons-halflings-regular.woff2 |
