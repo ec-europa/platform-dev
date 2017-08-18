@@ -711,6 +711,9 @@ projects[views][patch][] = https://www.drupal.org/files/includes_handlers.inc_.g
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
+; Fix issue NEPT-1447
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1447
+projects[views][patch][] = patches/views-fix-issue-nept-1447.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
