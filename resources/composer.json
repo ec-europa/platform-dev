@@ -1,17 +1,24 @@
 {
   "require": {
-    "guzzlehttp/guzzle": "^6.2.1"
+    "guzzlehttp/guzzle": "^6.2.1",
+    "ec-europa/oe-poetry-client": "dev-master"
   },
   "require-dev": {
     "behat/behat": "~3.1.0@rc",
     "bex/behat-screenshot": "~1.2.5",
     "drupal/drupal-extension": "~3.1.0",
-    "internations/http-mock": "^0.7.4",
+    "internations/http-mock": "^0.8.1",
     "bovigo/assert": "^1.7",
     "rych/random": "v0.1.0",
     "bex/behat-screenshot-image-driver-img42": "^1.0",
     "phpunit/phpunit": "^5.0"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/ec-europa/oe-poetry-client.git"
+    }
+  ],
   "autoload": {
     "psr-4": {
       "Drupal\\nexteuropa\\": "tests/src"
