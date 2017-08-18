@@ -951,14 +951,6 @@ libraries[plupload][directory_name] = "plupload"
 ; See https://www.drupal.org/node/1903850#comment-11676067.
 libraries[plupload][patch][1903850] = "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
 
-; Poetry Client Library
-libraries[oe-poetry-client][download][type]= "file"
-libraries[oe-poetry-client][download][request_type]= "get"
-libraries[oe-poetry-client][download][file_type] = "zip"
-libraries[oe-poetry-client][download][url] = "https://github.com/ec-europa/oe-poetry-client/archive/master.zip"
-libraries[oe-poetry-client][destination] = "libraries"
-libraries[oe-poetry-client][directory_name] = "oe-poetry-client"
-
 ; ===========================
 ; Libraries for Ec_resp Theme
 ; ===========================
