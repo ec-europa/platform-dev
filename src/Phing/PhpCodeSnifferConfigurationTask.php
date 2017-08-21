@@ -54,7 +54,7 @@ class PhpCodeSnifferConfigurationTask extends \Task {
    *
    * @var bool
    */
-  private $passWarnings = FALSE;
+  private $ignoreWarnings = FALSE;
 
   /**
    * The report format to use.
@@ -113,7 +113,8 @@ class PhpCodeSnifferConfigurationTask extends \Task {
 
     // Add the coding standards.
     foreach ($this->standards as $standard) {
-      $installedPaths = explode(',', $this->installedPaths);
+
+      $installedPaths = $this->explodeToken($this->installedPaths);
       // @codingStandardsIgnoreLine
       if (substr($standard, -4) === '.xml') {
         if (file_exists($standard)) {
@@ -176,7 +177,7 @@ class PhpCodeSnifferConfigurationTask extends \Task {
 
     // If a global configuration file is passed, update this too.
     if (!empty($this->globalConfig)) {
-      $ignore_warnings_on_exit = $this->passWarnings ? 1 : 0;
+      $ignore_warnings_on_exit = $this->ignoreWarnings ? 1 : 0;
       $global_config = <<<PHP
 <?php
  \$phpCodeSnifferConfig = array (
@@ -248,13 +249,7 @@ PHP;
    *   semicolons.
    */
   public function setExtensions($extensions) {
-    $this->extensions = array();
-    $token = ' ,;';
-    $extension = strtok($extensions, $token);
-    while ($extension !== FALSE) {
-      $this->extensions[] = $extension;
-      $extension = strtok($token);
-    }
+    $this->extensions = $this->explodeToken($extensions);
   }
 
   /**
@@ -264,13 +259,7 @@ PHP;
    *   A list of paths, delimited by spaces, commas or semicolons.
    */
   public function setFiles($files) {
-    $this->files = array();
-    $token = ' ,;';
-    $file = strtok($files, $token);
-    while ($file !== FALSE) {
-      $this->files[] = $file;
-      $file = strtok($token);
-    }
+    $this->files = $this->explodeToken($files);
   }
 
   /**
@@ -301,23 +290,17 @@ PHP;
    *   The list of patterns, delimited by spaces, commas or semicolons.
    */
   public function setIgnorePatterns($ignorePatterns) {
-    $this->ignorePatterns = array();
-    $token = ' ,;';
-    $pattern = strtok($ignorePatterns, $token);
-    while ($pattern !== FALSE) {
-      $this->ignorePatterns[] = $pattern;
-      $pattern = strtok($token);
-    }
+    $this->ignorePatterns = $this->explodeToken($ignorePatterns);
   }
 
   /**
    * Sets whether or not to pass with warnings.
    *
-   * @param bool $passWarnings
+   * @param bool $ignoreWarnings
    *   Whether or not to pass with warnings.
    */
-  public function setPassWarnings($passWarnings) {
-    $this->passWarnings = (bool) $passWarnings;
+  public function setIgnoreWarnings($ignoreWarnings) {
+    $this->ignoreWarnings = (bool) $ignoreWarnings;
   }
 
   /**
@@ -357,13 +340,28 @@ PHP;
    *   A list of paths, delimited by spaces, commas or semicolons.
    */
   public function setStandards($standards) {
-    $this->standards = array();
-    $token = ' ,;';
-    $standard = strtok($standards, $token);
-    while ($standard !== FALSE) {
-      $this->standards[] = $standard;
-      $standard = strtok($token);
+    $this->standards = $this->explodeToken($standards);
+  }
+
+  /**
+   * Transform a String to Array with strtok().
+   *
+   * @param string $string
+   *   A list of items.
+   * @param string $token
+   *   A list of token, by default is space, comma and semicolon.
+   *
+   * @return array $array
+   *   A list of items in an array.
+   */
+  private function explodeToken($string, $token = ' ,;') {
+    $array = array();
+    $item = strtok($string, $token);
+    while ($item !== FALSE) {
+      $array[] = $item;
+      $item = strtok($token);
     }
+    return $array;
   }
 
 }

@@ -705,11 +705,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Unused variable $key.. -->
-    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- The @var tag must be the first tag in a member variable comment. -->
     <rule ref="Drupal.Commenting.VariableComment.VarOrder">
         <exclude-pattern>*</exclude-pattern>

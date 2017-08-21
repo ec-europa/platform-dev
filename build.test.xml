@@ -49,7 +49,7 @@
             globalConfig="${phpcs.global.config}"
             ignorePatterns="${phpcs.ignore}"
             installedPaths="${phpcs.installed.paths}"
-            passWarnings = "${phpcs.passwarnings}"
+            ignoreWarnings = "${phpcs.ignore.warnings}"
             report="${phpcs.report}"
             showProgress="${phpcs.progress}"
             showSniffCodes="${phpcs.sniffcodes}"
