@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe93ff4cca93edfd0427795a5ef4962b",
+    "content-hash": "16ef4c043a1bc908e961aeeb72e1dc52",
     "packages": [
         {
             "name": "cpliakas/git-wrapper",
@@ -377,16 +377,16 @@
         },
         {
             "name": "ec-europa/qa-automation",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/qa-automation.git",
-                "reference": "fbec58cfaf143c4e9ebb2de37099df2ca4525558"
+                "reference": "28a1c4d9eeab90f7d419641c3b0439a577054ba0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/qa-automation/zipball/fbec58cfaf143c4e9ebb2de37099df2ca4525558",
-                "reference": "fbec58cfaf143c4e9ebb2de37099df2ca4525558",
+                "url": "https://api.github.com/repos/ec-europa/qa-automation/zipball/28a1c4d9eeab90f7d419641c3b0439a577054ba0",
+                "reference": "28a1c4d9eeab90f7d419641c3b0439a577054ba0",
                 "shasum": ""
             },
             "require": {
@@ -410,7 +410,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "description": "Performs automated QA checks and extra php codesniffs for the subsite starterkit.",
-            "time": "2017-08-02T22:24:18+00:00"
+            "time": "2017-08-11T13:44:36+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -793,7 +793,7 @@
                 }
             ],
             "description": "VersionControl_Git is a library that provides OO interface to handle Git repository.",
-            "time": "2015-11-04 13:03:54"
+            "time": "2015-11-04T13:03:54+00:00"
         },
         {
             "name": "pfrenssen/phpcs-pre-push",
@@ -1335,16 +1335,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937"
+                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
+                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
                 "shasum": ""
             },
             "require": {
@@ -1356,7 +1356,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "autoload": {
@@ -1390,7 +1390,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09T14:24:12+00:00"
+            "time": "2017-06-14T15:44:48+00:00"
         },
         {
             "name": "symfony/process",

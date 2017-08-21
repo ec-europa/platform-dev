@@ -273,10 +273,10 @@ PHP;
   }
 
   /**
-   * Sets the installed_paths configuration..
+   * Sets the installed_paths configuration.
    *
    * @param string $installedPaths
-   *   The paths in which the standards are installed..
+   *   The paths in which the standards are installed.
    */
   public function setInstalledPaths($installedPaths) {
     $this->installedPaths = $installedPaths;
