@@ -37,10 +37,10 @@ function nexteuropa_formatters_theme($existing, $type, $theme, $path) {
     ),
     'expandable' => array(
       'variables' => array(
-        'id' => NULL,
-        'icon' => NULL,
         'title' => NULL,
         'body' => NULL,
+        'id' => 'expandable',
+        'button' => FALSE,
       ),
       'template' => 'expandable',
       'path' => $templates_path,
