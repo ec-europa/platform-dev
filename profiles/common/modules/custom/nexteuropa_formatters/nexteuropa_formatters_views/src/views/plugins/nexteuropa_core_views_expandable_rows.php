@@ -15,10 +15,10 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
    */
   public function option_definition() {
     $options = parent::option_definition();
-    $options['id'] = array('default' => '');
-    $options['icon'] = array('default' => '');
-    $options['title'] = array('default' => '');
-    $options['body'] = array('default' => '');
+    $options['title'] = array('default' => NULL);
+    $options['body'] = array('default' => NULL);
+    $options['id'] = array('default' => NULL);
+    $options['button'] = array('default' => FALSE);
     return $options;
   }
 
@@ -48,20 +48,11 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
       '#default_value' => $this->options['id'],
     );
 
-    $form['icon'] = array(
-      '#type' => 'select',
-      '#required' => TRUE,
-      '#title' => t('Icon'),
-      '#description' => t('Icon for the expandable button, needs to be an image field.'),
-      '#options' => $fields,
-      '#default_value' => $this->options['icon'],
-    );
-
     $form['title'] = array(
       '#type' => 'select',
       '#required' => TRUE,
-      '#title' => t('Title'),
-      '#description' => t('Title for the expandable item, needs to be a text field.'),
+      '#title' => t('Link title'),
+      '#description' => t('Link title for the expandable item, needs to be a text field.'),
       '#options' => $fields,
       '#default_value' => $this->options['title'],
     );
@@ -88,22 +79,21 @@ class nexteuropa_formatters_views_expandable_rows extends views_plugin_row {
    */
   function render($row) {
     static $row_index;
-    if (!isset($row_index)) {
-      $row_index = 0;
-    }
+
+    $row_index = isset($row_index) ? $row_index + 1 : 0;
 
     // In order to have automatic theme hooks suggestions.
-    $theme = sprintf('%s__%s__%s', 'expandable', $this->view->name, $this->view->current_display);
+    $theme = array(
+      sprintf('%s__%s__%s__%s', 'expandable', $this->view->name, $this->view->current_display, 'row_' . $row_index)
+    );
 
-    $output = theme(array($theme),
+    return theme($theme,
       array(
-        'id' => $this->get_field($row_index, $this->options['id']),
-        'icon' => $this->get_field($row_index, $this->options['icon']),
         'title' => $this->get_field($row_index, $this->options['title']),
         'body' => $this->get_field($row_index, $this->options['body']),
+        'id' => $this->get_field($row_index, $this->options['id']),
+        'button' => $this->options['button'],
       ));
-    $row_index++;
-    return $output;
   }
 
   /**
