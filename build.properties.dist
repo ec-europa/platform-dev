@@ -178,15 +178,16 @@ phpcs.extensions = php inc module install info test profile theme css js
 phpcs.config = ${project.basedir}/phpcs.xml
 
 # The default path of qa-automation.
-phpcs.qaautomation.path = ${project.basedir}/vendor/ec-europa/qa-automation
+phpcs.qa_automation.path = ${project.basedir}/vendor/ec-europa/qa-automation
 
 # The locations for installed standards, delimited by spaces, commas or semicolons.
-phpcs.installed.paths = ${phpcs.qaautomation.path}/phpcs/SubStandards
+phpcs.installed.paths = ${phpcs.qa_automation.path}/phpcs/SubStandards
 
 # The coding standards to use, delimited by spaces, commas or semicolons.
 phpcs.standards = Platform;${project.basedir}/phpcs-ruleset.xml
 
-# Returns a 0 error code when only warnings are found if enabled. Ment for CI.
+# Returns a 0 error code when only warnings are found if enabled. Meant for CI.
+# Set to 1 for ignoring warnings, 0 for showing warnings.
 phpcs.ignore.warnings = 0
 
 # Paths to check, delimited by spaces, commas or semicolons.

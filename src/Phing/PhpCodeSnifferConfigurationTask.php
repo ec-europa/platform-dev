@@ -125,7 +125,7 @@ class PhpCodeSnifferConfigurationTask extends \Task {
       }
       else {
         foreach ($installedPaths as $installedPath) {
-          $ruleset = $installedPath . "/" . $standard . "/ruleset.xml";
+          $ruleset = $installedPath . '/' . $standard . '/ruleset.xml';
           if (file_exists($ruleset)) {
             $element = $document->createElement('rule');
             $element->setAttribute('ref', $ruleset);
@@ -281,7 +281,6 @@ PHP;
   public function setInstalledPaths($installedPaths) {
     $this->installedPaths = $installedPaths;
   }
-
 
   /**
    * Sets the list of patterns to ignore.
