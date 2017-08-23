@@ -7,7 +7,6 @@ core = 7.x
 
 includes[] = "drupal-core.make"
 
-
 ; ===================
 ; Contributed modules
 ; ===================
