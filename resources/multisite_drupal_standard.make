@@ -225,10 +225,8 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
-projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = 599b07585d37101bc7b38c9df5b2ef196a7416b2
-projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
+projects[entityreference][version] = "1.5"
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
