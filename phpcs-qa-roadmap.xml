@@ -146,14 +146,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
     </rule>
 
-    <!-- Fix spacing. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter">
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_wiki_toc/multisite_drupal_wiki_toc.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_config/src/ConfigBase.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/feed_rss_core/feed_rss_core.module</exclude-pattern>
-    </rule>
-
     <!-- Check if changes can be made or a more generalized exclusion can be set. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-816 -->
     <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
