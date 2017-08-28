@@ -159,7 +159,7 @@ function multisite_drupal_language_negociation_views_query_alter(&$view, &$query
 
       // Conditions for the language selection and fallbacks.
       $query->add_where(0, "
-        (node.language IN ('und', '$language->language'))
+        (node.language IN (LANGUAGE_NONE, '$language->language'))
         OR (node.tnid = node.nid AND node_node.status = '0')
         OR (node.tnid = node.nid AND node_node.language IS NULL)
         OR (node.language = '$language_default->language' AND node.tnid = 0)
