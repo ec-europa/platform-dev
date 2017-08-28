@@ -240,19 +240,6 @@
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.install</exclude-pattern>
     </rule>
 
-    <!-- Please use the get_t(). -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-819 -->
-    <rule ref="DrupalPractice.FunctionDefinitions.InstallT.TranslationFound">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_button/multisite_og_button.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_metatags/nexteuropa_metatags.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/f_a_q/f_a_q.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_charts/multisite_charts.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_maps/multisite_maps.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
-    </rule>
-
     <!-- Make message translatable. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
