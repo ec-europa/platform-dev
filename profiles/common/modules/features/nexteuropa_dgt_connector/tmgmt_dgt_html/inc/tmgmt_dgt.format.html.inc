@@ -7,7 +7,7 @@
 /**
  * DGT aproved HTML format exporter.
  */
-class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
+class TmgmtDgtHtmlFormat implements TMGMTFileFormatInterface {
 
   /**
    * Returns base64 encoded data that is safe for use in xml ids.

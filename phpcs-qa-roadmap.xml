@@ -154,40 +154,6 @@
         <exclude-pattern>profiles/common/modules/features/feed_rss_core/feed_rss_core.module</exclude-pattern>
     </rule>
 
-    <!-- Check if changes can be made or a more generalized exclusion can be set. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-816 -->
-    <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/media_avportal/includes/MediaInternetAvportalHandler.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_button/multisite_og_button.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_create_button/multisite_create_button.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/tests/multisite_readspeaker.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/wiki/wiki_core/tests/wiki_core.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_html/inc/tmgmt_dgt.format.html.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/includes/multisite_notifications_core.behat.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/ec_embedded_video/tests/ec_embedded_video.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_standard/tests/e_library_standard.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_multilingual/includes/translation.handler.file.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/f_a_q/views/views_handler_area_f_a_q_collapsible_menu.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_custom_error/tests/multisite_custom_error.extra.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_filter_ecas_user_roles.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_field_ecas_user_roles.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_field_business_indicators_ext_uuid.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/tests/multisite_business_indicators_standard.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_community/tests/multisite_business_indicators_community.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/tests/multisite_business_indicators_core.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.migrate.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/communities/views/views_handler_area_communities_create_new_community_link.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/communities/views/views_handler_area_communities_glossary.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/views/views_handler_area_f_a_q_collapsible_menu.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/views/views_handler_area_nexteuropa_faq_collapsible_menu.inc</exclude-pattern>
-    </rule>
-
-
     <!-- Use more descriptive variable names. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-817 -->
     <rule ref="DrupalPractice.General.VariableName.VariableName">
