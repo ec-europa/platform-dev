@@ -177,7 +177,7 @@ function nexteuropa_formatters_fields_field_formatter_settings_summary($field, $
 /**
  * Implements hook_field_formatter_prepare_view().
  */
-function nexteuropa_fields_formatters_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+function nexteuropa_formatters_fields_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
   $display_modes = array('ne_button', 'ne_tags');
   $target_ids = array();
   $target_type = FALSE;
