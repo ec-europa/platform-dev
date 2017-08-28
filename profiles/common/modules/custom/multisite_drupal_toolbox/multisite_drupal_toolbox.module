@@ -1208,7 +1208,7 @@ function multisite_drupal_toolbox_linkit_scan_url($url, $field) {
 
   if (!isset($parts['scheme']) || !isset($parts['host'])) {
     // Not an absolute URL.
-    form_set_error($field, 'Please insert a complete url. ex: http://www.myurl.com');
+    form_set_error($field, t('Please insert a complete url. ex: http://www.myurl.com'));
     return FALSE;
   }
 
