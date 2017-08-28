@@ -245,13 +245,6 @@
         <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
     </rule>
 
-    <!-- Make message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_group_sync/ecas_group_sync.install</exclude-pattern>
-    </rule>
-
     <!-- Make description translatable. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.General.DescriptionT">
