@@ -1444,10 +1444,10 @@ function cce_basic_config_update_7170() {
     if ($vocab_object->name == "classification") {
       $classification = $vocab_object->vid;
       if ($classification) {
-        db_query('UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid', array(
-          ':name' => '000',
-          ':vid' => $classification,
-        ));
+        db_update('taxonomy_term_data')
+          ->expression('NAME', 'NAME=concat(name, :name)', array(':name', '000'))
+          ->condition('vid', $classification, '=')
+          ->execute();
       }
       return;
     }
