@@ -60,11 +60,11 @@ function multisite_cookie_consent_init() {
       var cookie_notice_url = {
       ' . _get_site_languages($notice_page) . '};', 'inline');
     // External pointer to EC consent.js file.
-    $consent_js = variable_get('eucookie_consent_ec_consent_javascript',
+    $consent_js = variable_get('multisite_cookie_consent_ec_consent_javascript',
       'http://ec.europa.eu/wel/cookie-consent/consent.js');
     // Consent banner.
     if (user_is_logged_in()) {
-      if (variable_get('eucookie_consent_ec_consent_loggedin') == 1) {
+      if (variable_get('multisite_cookie_consent_ec_consent_loggedin') == 1) {
         // Inclusion of external JavaScript from EC.
         drupal_add_js($consent_js, 'external');
       }
@@ -592,7 +592,7 @@ function _multisite_cookie_consent_cookielistheader() {
  */
 function multisite_cookie_consent_cron() {
   // Default to a daily interval.
-  $interval = variable_get('eucookie_consent_cron_interval', 60 * 60 * 24);
+  $interval = variable_get('multisite_cookie_consent_cron_interval', 60 * 60 * 24);
   if (time() >= variable_get('eucookie_consent_cron_next_execution', 0)) {
     _multisite_cookie_consent_rebuild_static_text();
     _multisite_cookie_consent_rebuild_registered_cookies();

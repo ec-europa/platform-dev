@@ -187,27 +187,6 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/views/views_handler_area_nexteuropa_faq_collapsible_menu.inc</exclude-pattern>
     </rule>
 
-
-    <!-- Use more descriptive variable names. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-817 -->
-    <rule ref="DrupalPractice.General.VariableName.VariableName">
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.settings.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/multisite_cookie_consent.admin.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/multisite_readspeaker.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/multisite_twitterblock.admin.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_path_override/multisite_path_override.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/includes/multisite_notifications_core.settings.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.admin.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark_bar.admin.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/includes/nexteuropa_subscriptions.settings.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
-    </rule>
-
     <!-- Do not use check_plain() on string literals. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.FunctionCalls.CheckPlain.CheckPlainLiteral">

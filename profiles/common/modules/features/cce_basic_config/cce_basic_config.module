@@ -52,18 +52,18 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     '#options' => $list,
     '#required' => TRUE,
     '#empty_option' => 'none',
-    '#default_value' => variable_get('meta_configuration', 'none'),
+    '#default_value' => variable_get('cce_basic_config_meta_configuration', 'none'),
     '#description' => t('Choose the classification for your website. This classification respects the !url', array('!url' => l(t('IPG guidelines'), "http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm"))),
   );
 
-  // Get the 'code' and set meta_configuration variable.
+  // Get the 'code' and set cce_basic_config_meta_configuration variable.
   if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration') {
     if (isset($form_state['input']['classification'])) {
       $pattern = '@(^[0-9]+).*@';
       $subject = $form_state['input']['classification'];
       $result = preg_match($pattern, $subject, $matches);
       if (isset($matches[1])) {
-        variable_set('meta_configuration', $matches[1]);
+        variable_set('cce_basic_config_meta_configuration', $matches[1]);
       }
     }
   }

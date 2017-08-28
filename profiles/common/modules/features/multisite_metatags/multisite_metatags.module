@@ -71,12 +71,12 @@ function multisite_metatags_html_head_alter(&$head_elements) {
   }
 
   if (array_key_exists('meta_ipgreference', $head_elements)) {
-    $head_elements['meta_reference']['#attributes']['content'] = $head_elements['meta_ipgreference']['#attributes']['content'];
+    $head_elements['multisite_metatags_meta_reference']['#attributes']['content'] = $head_elements['meta_ipgreference']['#attributes']['content'];
     unset($head_elements['meta_ipgreference']);
   }
 
   if (array_key_exists('meta_sitewidecreator', $head_elements)) {
-    $head_elements['meta_creator']['#attributes']['content'] = $head_elements['meta_sitewidecreator']['#attributes']['content'];
+    $head_elements['multisite_metatags_meta_creator']['#attributes']['content'] = $head_elements['meta_sitewidecreator']['#attributes']['content'];
     unset($head_elements['meta_sitewidecreator']);
   }
 
@@ -93,35 +93,35 @@ function multisite_metatags_html_head_alter(&$head_elements) {
 function multisite_metatags_form_system_site_information_settings_alter(&$form, &$form_state, $form_id) {
   // Create textfields.
   // Reference prefix.
-  $form['meta']['meta_reference'] = array(
+  $form['meta']['multisite_metatags_meta_reference'] = array(
     '#type' => 'textfield',
     '#title' => t('Reference prefix'),
     '#required' => TRUE,
-    '#default_value' => variable_get('meta_reference'),
+    '#default_value' => variable_get('multisite_metatags_meta_reference'),
     '#description' => t('Usually the acronym of the DG / Site name (max. 30 characters).<br/>This text will supply information to METADATA "Reference".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_1" target="_blank">IPG guidelines</a> for more information.'),
     '#maxlength' => 30,
     '#weight' => 10,
   );
 
   // Creator.
-  $form['meta']['meta_creator'] = array(
+  $form['meta']['multisite_metatags_meta_creator'] = array(
     '#type' => 'textfield',
     '#title' => t('Creator'),
     '#required' => FALSE,
-    '#default_value' => variable_get('meta_creator'),
+    '#default_value' => variable_get('multisite_metatags_meta_creator'),
     '#description' => t('Ex. COMM/DG/UNIT (max. 30 characters).<br/>This text will supply information to METADATA "Creator".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_2" target="_blank">IPG guidelines</a> for more information.'),
     '#maxlength' => 30,
     '#weight' => 11,
   );
 
   // Create select field.
-  $form['meta']['meta_og_image'] = array(
+  $form['meta']['multisite_metatags_meta_og_image'] = array(
     '#title' => t('OG Image'),
     '#type' => 'managed_file',
     '#description' => t('Choose an image to show it when you share a node in Facebook if a node body has no image.
             <br/> Files must be less than <strong>2 MB</strong>
             <br/> Allowed extensions: <strong>gif png jpg jpeg</strong>'),
-    '#default_value' => variable_get('meta_og_image'),
+    '#default_value' => variable_get('multisite_metatags_meta_og_image'),
     '#upload_location' => 'public://og_image/',
     '#required' => TRUE,
     '#upload_validators' => array(
@@ -140,19 +140,19 @@ function multisite_metatags_form_system_site_information_settings_alter(&$form, 
  */
 function _multisite_metatags_form_submit($form, &$form_state) {
   if (isset($form_state['input']['classification'])) {
-    variable_set('meta_configuration', $form_state['input']['classification']);
+    variable_set('cce_basic_config_meta_configuration', $form_state['input']['classification']);
   }
 
   if (isset($form_state['input']['reference'])) {
-    variable_set('meta_reference', $form_state['input']['reference']);
+    variable_set('multisite_metatags_meta_reference', $form_state['input']['reference']);
   }
 
   if (isset($form_state['input']['creator'])) {
-    variable_set('meta_creator', $form_state['input']['creator']);
+    variable_set('multisite_metatags_meta_creator', $form_state['input']['creator']);
   }
 
-  if (isset($form_state['values']['meta_og_image'])) {
-    $file = file_load($form_state['values']['meta_og_image']);
+  if (isset($form_state['values']['multisite_metatags_meta_og_image'])) {
+    $file = file_load($form_state['values']['multisite_metatags_meta_og_image']);
     $file->status = FILE_STATUS_PERMANENT;
     file_save($file);
   }
@@ -269,9 +269,9 @@ function multisite_metatags_preprocess_page(&$variables) {
     drupal_add_html_head($meta_date, 'meta_nodedate');
 
     // Meta Creator.
-    $creator = variable_get('meta_creator');
+    $creator = variable_get('multisite_metatags_meta_creator');
     if ($creator) {
-      $meta_creator = array(
+      $multisite_metatags_meta_creator = array(
         '#type' => 'html_tag',
         '#tag' => 'meta',
         '#attributes' => array(
@@ -279,11 +279,11 @@ function multisite_metatags_preprocess_page(&$variables) {
           'content' => drupal_strtoupper($creator),
         ),
       );
-      drupal_add_html_head($meta_creator, 'meta_sitewidecreator');
+      drupal_add_html_head($multisite_metatags_meta_creator, 'meta_sitewidecreator');
     }
 
     // Meta Reference.
-    $reference_prefix = variable_get('meta_reference');
+    $reference_prefix = variable_get('multisite_metatags_meta_reference');
     if ($reference_prefix) {
       $path = current_path();
 
@@ -292,7 +292,7 @@ function multisite_metatags_preprocess_page(&$variables) {
       }
       $reference = drupal_strtoupper($reference_prefix . '/' . $path . '/' . $language->language);
 
-      $meta_reference = array(
+      $multisite_metatags_meta_reference = array(
         '#type' => 'html_tag',
         '#tag' => 'meta',
         '#attributes' => array(
@@ -300,7 +300,7 @@ function multisite_metatags_preprocess_page(&$variables) {
           'content' => $reference,
         ),
       );
-      drupal_add_html_head($meta_reference, 'meta_ipgreference');
+      drupal_add_html_head($multisite_metatags_meta_reference, 'meta_ipgreference');
     }
 
     // Meta OG image.
@@ -325,7 +325,7 @@ function multisite_metatags_preprocess_page(&$variables) {
     }
 
     if ($ogimg_found == FALSE) {
-      $ogimage = file_load(variable_get('meta_og_image', ''));
+      $ogimage = file_load(variable_get('multisite_metatags_meta_og_image', ''));
       if ($ogimage) {
         $field_image = $ogimage->uri;
       }

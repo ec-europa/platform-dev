@@ -55,11 +55,11 @@ function multisite_drupal_language_negociation_menu() {
  * Form constructor for the language negotiation form.
  */
 function multisite_drupal_language_negociation_form($form, &$form_state) {
-  $form['language_suffix_delimiter'] = array(
+  $form['multisite_drupal_language_negociation_suffix_delimiter'] = array(
     '#type' => 'textfield',
     '#maxlength' => 3,
     '#title' => t('language suffix delimiter'),
-    '#default_value' => variable_get('language_suffix_delimiter', '_'),
+    '#default_value' => variable_get('multisite_drupal_language_negociation_suffix_delimiter', '_'),
     '#description' => 'Ex : character like an underscore or hyphen..',
   );
   return system_settings_form($form);

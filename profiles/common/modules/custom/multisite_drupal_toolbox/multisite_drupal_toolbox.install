@@ -9,7 +9,7 @@
  * Implements hook_enable().
  */
 function multisite_drupal_toolbox_enable() {
-  variable_set('contact_form_maxlength', 1000);
+  variable_set('multisite_drupal_toolbox_contact_form_maxlength', 1000);
 
   // Remove "Workbench information" block from its default location.
   db_update('block')
@@ -28,7 +28,7 @@ function multisite_drupal_toolbox_enable() {
  * Implements hook_disable().
  */
 function multisite_drupal_toolbox_disable() {
-  variable_del('contact_form_maxlength');
+  variable_del('multisite_drupal_toolbox_contact_form_maxlength');
 }
 
 /**
