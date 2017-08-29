@@ -30,7 +30,7 @@ function multisite_activity_core_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'base',
@@ -75,7 +75,7 @@ function multisite_activity_core_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'base',
@@ -111,7 +111,7 @@ function multisite_activity_core_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
