@@ -340,19 +340,6 @@
         <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.module</exclude-pattern>
     </rule>
 
-    <!-- Check if there is no security risk in using the input and add a @codingStandardsIgnoreLine tag if it's not. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-825 -->
-    <rule ref="DrupalPractice.General.FormStateInput.Input">
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.taxonomy.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/tmgmt_workbench.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_audio/multisite_audio.field.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_autosave/multisite_autosave.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
-    </rule>
-
-
     <!-- Check if the value that is being returned should not be sanitized. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-813 -->
     <rule ref="DrupalSecure.General.Helper.XSS.CallbackOutput">
