@@ -43,22 +43,28 @@ function multisite_cookie_consent_menu() {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
-function multisite_cookie_consent_init() {
+function multisite_cookie_consent_page_build(&$page) {
   // Don't display banner in cookie page.
   if (current_path() != 'cookie-notice') {
     // Notice url.
     $notice_page = url('cookie-notice', array('absolute' => TRUE));
     // Add for example external.
-    drupal_add_js('http://ec.europa.eu/wel/like/js/likedislike.js', 'external');
-    // Add js inline (example for now).
-    drupal_add_js('var consent_required_cookies = {
+    $page['content']['#attached']['js'][] = array(
+      'type' => 'external',
+      'data' => 'http://ec.europa.eu/wel/like/js/likedislike.js',
+    );
+    // Add js inline (example for now)
+    $page['content']['#attached']['js'][] = array(
+      'type' => 'inline',
+      'data' => 'var consent_required_cookies = {
       "a":{
           "' . _multisite_cookie_consent_site_name() . '":[' . _multisite_cookie_consent_cookielistheader() . ']}
       };
       var cookie_notice_url = {
-      ' . _get_site_languages($notice_page) . '};', 'inline');
+      ' . _get_site_languages($notice_page) . '};',
+    );
     // External pointer to EC consent.js file.
     $consent_js = variable_get('eucookie_consent_ec_consent_javascript',
       'http://ec.europa.eu/wel/cookie-consent/consent.js');
@@ -66,12 +72,18 @@ function multisite_cookie_consent_init() {
     if (user_is_logged_in()) {
       if (variable_get('eucookie_consent_ec_consent_loggedin') == 1) {
         // Inclusion of external JavaScript from EC.
-        drupal_add_js($consent_js, 'external');
+        $page['content']['#attached']['js'][] = array(
+          'type' => 'external',
+          'data' => $consent_js,
+        );
       }
     }
     else {
       // Inclusion of external JavaScript from EC.
-      drupal_add_js($consent_js, 'external');
+      $page['content']['#attached']['js'][] = array(
+        'type' => 'external',
+        'data' => $consent_js,
+      );
     }
   }
 }

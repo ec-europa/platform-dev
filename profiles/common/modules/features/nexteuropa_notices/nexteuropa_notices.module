@@ -9,19 +9,17 @@ include_once 'nexteuropa_notices.features.inc';
 /**
  * Implements hook_init().
  */
-function nexteuropa_notices_init() {
+function nexteuropa_notices_page_build(&$page) {
   $path = drupal_get_path('module', 'nexteuropa_notices');
-  drupal_add_css(
-    $path . '/nexteuropa_notices.css',
-    array('type' => 'file')
+  $page['content']['#attached']['css'][] = array(
+    'type' => 'file',
+    'data' => $path . '/nexteuropa_notices.css',
   );
-  drupal_add_js(
-    $path . '/nexteuropa_notices.js',
-    array(
-      'type' => 'file',
-      'scope' => 'footer',
-      'weight' => 100,
-    )
+  $page['content']['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/nexteuropa_notices.css',
+    'scope' => 'footer',
+    'weight' => 100,
   );
 }
 
