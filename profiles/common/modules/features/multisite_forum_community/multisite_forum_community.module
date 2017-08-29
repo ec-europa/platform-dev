@@ -247,6 +247,7 @@ function multisite_forum_community_forum_page($forum_term = NULL) {
   }
 
   module_load_include('inc', 'forum', 'forum.pages');
+  // @codingStandardsIgnoreLine: Return is managed by contributed forum_page function.
   return forum_page($forum_term);
 }
 

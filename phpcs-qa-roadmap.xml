@@ -352,15 +352,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
 
-
-    <!-- Check if the value that is being returned should not be sanitized. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-813 -->
-    <rule ref="DrupalSecure.General.Helper.XSS.CallbackOutput">
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/modules/nexteuropa_token_ckeditor/nexteuropa_token_ckeditor.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.module</exclude-pattern>
-    </rule>
-
-
     <!-- Unlocked fields that need to be locked. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-812 -->
     <rule ref="QualityAssurance.FeaturesFiles.LockedFields.UnlockedFields">
