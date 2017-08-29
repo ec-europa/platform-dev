@@ -40,8 +40,6 @@ function events_core_disable() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Content types using date fields should be using timestamp instead datetime.
  * No need to update schema in hook_install().
  * On a clean installation the date fields are already set up.
