@@ -452,18 +452,6 @@
         <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.info</exclude-pattern>
     </rule>
 
-    <!-- Upgrade these features to api:2. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-809 -->
-    <rule ref="QualityAssurance.InfoFiles.Features.FeaturesAPI">
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/multisite_notifications_core.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_og/multisite_notifications_og.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_europa_search/nexteuropa_europa_search.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.info</exclude-pattern>
-        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin/og_content_type_admin.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.info</exclude-pattern>
-    </rule>
-
     <!-- Remove useless attribute -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-808 -->
     <rule ref="QualityAssurance.InfoFiles.Forbidden.ProjectPath">
