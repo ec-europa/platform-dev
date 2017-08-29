@@ -442,29 +442,6 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/nexteuropa_faq.info</exclude-pattern>
     </rule>
 
-    <!-- Move helper functions for install file out of install file. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-807 -->
-    <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/ecas_extra.install</exclude-pattern>
-        <exclude-pattern>profiles/multisite_drupal_communities/multisite_drupal_communities.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/wiki/wiki_og/wiki_og.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_settings/multisite_settings_core/multisite_settings_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community/multisite_mediagallery_community.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_webtools/nexteuropa_webtools.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/f_a_q/f_a_q.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/events/events_og/events_og.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_notices/nexteuropa_notices.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_mediagallery/nexteuropa_mediagallery.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/communities/communities.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_megamenu/multisite_megamenu.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.install</exclude-pattern>
-    </rule>
-
     <!-- Update the description of the update hooks. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-806 -->
     <rule ref="QualityAssurance.InstallFiles.HookUpdateN">
