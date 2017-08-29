@@ -22,6 +22,7 @@ function multisite_drupal_toolbox_enable() {
   multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->enableTextFilter('full_html_track', 'toolbox_sanitize');
 }
 
 /**

@@ -491,7 +491,6 @@ function cce_basic_config_user_default_permissions() {
     'name' => 'use text format full_html',
     'roles' => array(
       'administrator' => 'administrator',
-      'authenticated user' => 'authenticated user',
       'contributor' => 'contributor',
       'editor' => 'editor',
     ),
