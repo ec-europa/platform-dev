@@ -310,15 +310,6 @@
         <exclude-pattern>profiles/common/modules/features/communities/communities.module</exclude-pattern>
     </rule>
 
-    <!-- Do not call theming functions directly. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-823 -->
-    <rule ref="DrupalPractice.FunctionCalls.Theme.ThemeFunctionDirect">
-        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin/og_content_type_admin.module</exclude-pattern>
-        <exclude-pattern>profiles/common/themes/ec_resp/template.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_formatters/nexteuropa_formatters.theme.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
-    </rule>
-
     <!-- Provide a reason in a comment on the line above as to why it should be open. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-824 -->
     <rule ref="DrupalPractice.FunctionDefinitions.AccessHookMenu.OpenCallback">
