@@ -140,12 +140,6 @@
         <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.views_default.inc</exclude-pattern>
     </rule>
 
-    <!-- Remove re-declaration. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.VariableRedeclaration">
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
-    </rule>
-
     <!-- Fix spacing. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter">
