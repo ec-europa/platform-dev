@@ -518,12 +518,6 @@
         <exclude-pattern>*</exclude-pattern>
      </rule>
 
-    <!-- Line exceeds 80 characters. -->
-    <rule ref="Drupal.Files.EndFileNewline.TooMany">
-        <exclude-pattern>profiles/common/modules/custom/ecas/README.md</exclude-pattern>
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- The PHP open tag must be followed by exactly one blank line. -->
     <rule ref="Drupal.WhiteSpace.OpenTagNewline.BlankLine">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas.module</exclude-pattern>
