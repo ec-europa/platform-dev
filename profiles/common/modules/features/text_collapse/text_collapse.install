@@ -43,12 +43,12 @@ function text_collapse_enable() {
     $editor = $profile->editor;
 
     db_merge('wysiwyg')
-         ->key(array('format' => 'full_html'))
-        ->fields(array(
-          'editor' => $editor,
-          'settings' => serialize($settings),
-        ))
-        ->execute();
+      ->key(array('format' => 'full_html'))
+      ->fields(array(
+        'editor' => $editor,
+        'settings' => serialize($settings),
+      ))
+      ->execute();
     wysiwyg_profile_cache_clear();
   }
   drupal_set_message(t('Text Collapse feature is now active on your site.'));

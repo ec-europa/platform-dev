@@ -530,11 +530,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Object operator not indented correctly. -->
-    <rule ref="Drupal.WhiteSpace.ObjectOperatorIndent.Indent">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Return comment indentation must be 3 spaces. -->
     <rule ref="Drupal.Commenting.FunctionComment.ReturnCommentIndentation">
         <exclude-pattern>*</exclude-pattern>
