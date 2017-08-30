@@ -21,7 +21,7 @@ function social_bookmark_uninstall() {
  */
 function social_bookmark_enable() {
   // Set the default value.
-  variable_set('user_value_socialbookmark', 'EU_Commission');
+  variable_set('social_bookmark_user_value_socialbookmark', 'EU_Commission');
 
   // Add block in context.
   global $theme_key;
@@ -57,24 +57,24 @@ function social_bookmark_disable() {
  */
 function _social_bookmark_get_global_var() {
   $global_var = array(
-    'type_socialbookmark',
-    'icon_size_socialbookmark',
-    'override_socialbookmark',
-    'label_socialbookmark',
-    'display_socialbookmark',
-    'least_socialbookmark',
-    'orientation_socialbookmark',
-    'statistics_socialbookmark',
-    'language_socialbookmark',
-    'language_selector_socialbookmark',
-    'data_table',
-    'type_socialbar',
-    'icon_size_socialbar',
-    'text_socialbar',
-    'statistics_socialbar',
-    'language_socialbar',
-    'language_selector_socialbar',
-    'user_value_socialbookmark',
+    'social_bookmark_type_socialbookmark',
+    'social_bookmark_icon_size_socialbookmark',
+    'social_bookmark_override_socialbookmark',
+    'social_bookmark_label_socialbookmark',
+    'social_bookmark_display_socialbookmark',
+    'social_bookmark_least_socialbookmark',
+    'social_bookmark_orientation_socialbookmark',
+    'social_bookmark_statistics_socialbookmark',
+    'social_bookmark_language_socialbookmark',
+    'social_bookmark_language_selector_socialbookmark',
+    'social_bookmark_data_table',
+    'social_bookmark_type_socialbar',
+    'social_bookmark_icon_size_socialbar',
+    'social_bookmark_text_socialbar',
+    'social_bookmark_statistics_socialbar',
+    'social_bookmark_language_socialbar',
+    'social_bookmark_language_selector_socialbar',
+    'social_bookmark_user_value_socialbookmark',
   );
 
   return $global_var;
@@ -84,5 +84,5 @@ function _social_bookmark_get_global_var() {
  * Set twitter custom user parameter.
  */
 function social_bookmark_update_7310() {
-  variable_set('user_value_socialbookmark', 'EU_Commission');
+  variable_set('social_bookmark_user_value_socialbookmark', 'EU_Commission');
 }

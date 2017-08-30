@@ -26,15 +26,15 @@ function multisite_readspeaker_disable() {
  * Set variables for ReadSpeaker module.
  */
 function multisite_readspeaker_install() {
-  variable_set('readspeaker_accountid', '');
-  variable_set('readspeaker_readid', 'block-system-main');
-  variable_set('readspeaker_langid', '');
-  variable_set('readspeaker_prefer_uk', FALSE);
-  variable_set('readspeaker_buttonstyle', FALSE);
-  variable_set('readspeaker_playerstyle', FALSE);
-  variable_set('readspeaker_nodes', array());
-  variable_set('readspeaker_vocabularies', array());
-  variable_set('readspeaker_block', FALSE);
+  variable_set('multisite_readspeaker_accountid', '');
+  variable_set('multisite_readspeaker_readid', 'block-system-main');
+  variable_set('multisite_readspeaker_langid', '');
+  variable_set('multisite_readspeaker_prefer_uk', FALSE);
+  variable_set('multisite_readspeaker_buttonstyle', FALSE);
+  variable_set('multisite_readspeaker_playerstyle', FALSE);
+  variable_set('multisite_readspeaker_nodes', array());
+  variable_set('multisite_readspeaker_vocabularies', array());
+  variable_set('multisite_readspeaker_block', FALSE);
 }
 
 /**
@@ -43,13 +43,13 @@ function multisite_readspeaker_install() {
  * Unset variables for ReadSpeaker module.
  */
 function multisite_readspeaker_uninstall() {
-  variable_del('readspeaker_accountid');
-  variable_del('readspeaker_readid');
-  variable_del('readspeaker_langid');
-  variable_del('readspeaker_prefer_uk');
-  variable_del('readspeaker_buttonstyle');
-  variable_del('readspeaker_playerstyle');
-  variable_del('readspeaker_nodes');
-  variable_del('readspeaker_vocabularies');
-  variable_del('readspeaker_block');
+  variable_del('multisite_readspeaker_accountid');
+  variable_del('multisite_readspeaker_readid');
+  variable_del('multisite_readspeaker_langid');
+  variable_del('multisite_readspeaker_prefer_uk');
+  variable_del('multisite_readspeaker_buttonstyle');
+  variable_del('multisite_readspeaker_playerstyle');
+  variable_del('multisite_readspeaker_nodes');
+  variable_del('multisite_readspeaker_vocabularies');
+  variable_del('multisite_readspeaker_block');
 }

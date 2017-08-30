@@ -122,7 +122,7 @@ function _mont_is_group($node) {
  *   TRUE if the node is a group type and group taxonomy is enabled.
  */
 function _mont_group_taxonomy_enabled($node) {
-  $group_taxonomy_settings = variable_get('_mont_taxonomy_enabled', array());
+  $group_taxonomy_settings = variable_get('multisite_og_navigation_tree_mont_taxonomy_enabled', array());
   if (array_key_exists($node->type, $group_taxonomy_settings)) {
     $group_taxonomy_vid = variable_get('multisite_og_navigation_tree_vid', FALSE);
     if ($group_taxonomy_vid) {

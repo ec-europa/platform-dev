@@ -53,16 +53,16 @@ function multisite_notifications_core_mail($key, &$message, $params) {
 
   switch ($key) {
     case 'subscription':
-      $message['subject'] = variable_get('subscribe_subject_' . $language->language, 'Please confirm your subscription');
-      $message['body'][] = variable_get('subscribe_message_' . $language->language, 'Please confirm your subscription by clicking the link provided by this mail.');
+      $message['subject'] = variable_get('multisite_notifications_core_subscribe_subject_' . $language->language, 'Please confirm your subscription');
+      $message['body'][] = variable_get('multisite_notifications_core_subscribe_message_' . $language->language, 'Please confirm your subscription by clicking the link provided by this mail.');
       // @todo integrate with tokens.
       // @todo make $params an associative array.
       $message['body'][] = $base_url . '/subscribe/' . $params[1];
       break;
 
     case 'unsubscription':
-      $message['subject'] = variable_get('unsubscribe_subject_' . $language->language, 'Please confirm your unsubscription');
-      $message['body'][] = variable_get('unsubscribe_message_' . $language->language, 'Please confirm your unsubscription by clicking the link provided by this mail.');
+      $message['subject'] = variable_get('multisite_notifications_core_unsubscribe_subject_' . $language->language, 'Please confirm your unsubscription');
+      $message['body'][] = variable_get('multisite_notifications_core_unsubscribe_message_' . $language->language, 'Please confirm your unsubscription by clicking the link provided by this mail.');
       $message['body'][] = $base_url . '/unsubscribe/' . $params[1];
       break;
 

@@ -95,7 +95,7 @@ function social_bookmark_block_view($delta = '') {
  * Custom html block.
  */
 function _social_bookmark_contents() {
-  $user_value_socialbookmark = variable_get('user_value_socialbookmark', 'EU_Commission');
+  $user_value_socialbookmark = variable_get('social_bookmark_user_value_socialbookmark', 'EU_Commission');
   switch ($user_value_socialbookmark) {
     case TRUE:
       $user_value_socialbookmark_twitter = '"twitter_via_handle":"' . $user_value_socialbookmark . '", ';
@@ -110,13 +110,13 @@ function _social_bookmark_contents() {
       break;
   }
 
-  $stat_book_final = _social_bookmark_stat_switch(variable_get('statistics_socialbookmark'));
+  $stat_book_final = _social_bookmark_stat_switch(variable_get('social_bookmark_statistics_socialbookmark'));
 
-  $language_selector_socialbookmark = variable_get('language_selector_socialbookmark');
-  $lan_book_final = _social_bookmark_lang_switch(variable_get('language_socialbookmark'), $language_selector_socialbookmark) . ',';
+  $language_selector_socialbookmark = variable_get('social_bookmark_language_selector_socialbookmark');
+  $lan_book_final = _social_bookmark_lang_switch(variable_get('social_bookmark_language_socialbookmark'), $language_selector_socialbookmark) . ',';
 
-  $typ_socialbookmark = variable_get('type_socialbookmark');
-  $siz_socialbookmark = variable_get('icon_size_socialbookmark');
+  $typ_socialbookmark = variable_get('social_bookmark_type_socialbookmark');
+  $siz_socialbookmark = variable_get('social_bookmark_icon_size_socialbookmark');
   switch ($typ_socialbookmark) {
     case 'Button':
       $typ_final = '"style":"button", ';
@@ -131,8 +131,8 @@ function _social_bookmark_contents() {
       break;
   }
 
-  $ove_socialbookmark = variable_get('override_socialbookmark');
-  $lab_socialbookmark = variable_get('label_socialbookmark');
+  $ove_socialbookmark = variable_get('social_bookmark_override_socialbookmark');
+  $lab_socialbookmark = variable_get('social_bookmark_label_socialbookmark');
   switch ($ove_socialbookmark) {
     case TRUE:
       $ove_final = '"text":"' . $lab_socialbookmark . '", ';
@@ -147,8 +147,8 @@ function _social_bookmark_contents() {
       break;
   }
 
-  $dis_socialbookmark = variable_get('display_socialbookmark');
-  $atl_socialbookmark = variable_get('least_socialbookmark');
+  $dis_socialbookmark = variable_get('social_bookmark_display_socialbookmark');
+  $atl_socialbookmark = variable_get('social_bookmark_least_socialbookmark');
   switch ($dis_socialbookmark) {
     case TRUE:
       $dis_final = '"counter_display":true, ';
@@ -166,7 +166,7 @@ function _social_bookmark_contents() {
       break;
   }
 
-  $ori_socialbookmark = variable_get('orientation_socialbookmark');
+  $ori_socialbookmark = variable_get('social_bookmark_orientation_socialbookmark');
   switch ($ori_socialbookmark) {
     case 'Right':
       $ori_final = '"counter_position":"right"';
@@ -191,7 +191,7 @@ function _social_bookmark_contents() {
  */
 function _social_bookmark_bar_contents() {
   // Get global variable with the form data.
-  if ($saved_form = variable_get('data_table')) {
+  if ($saved_form = variable_get('social_bookmark_data_table')) {
     $array_widget = array();
     foreach ($saved_form as $row => $data) {
       // If enabled is TRUE, add item to the new array.
@@ -213,12 +213,12 @@ function _social_bookmark_bar_contents() {
     }
     $slots_final .= '],';
 
-    $display_final = '"display":"' . _social_bookmark_display_bar_switch(variable_get('type_socialbar')) . '",';
-    $size_final = '"size":' . variable_get('icon_size_socialbar') . ',';
-    $text_final = '"text":"' . _social_bookmark_text_bar_switch(variable_get('text_socialbar')) . '",';
-    $language_selector_socialbar = variable_get('language_selector_socialbar');
-    $lan_bar_final = _social_bookmark_lang_switch(variable_get('language_socialbar'), $language_selector_socialbar) . ',';
-    $stat_bar_final = _social_bookmark_stat_switch(variable_get('statistics_socialbar'));
+    $display_final = '"display":"' . _social_bookmark_display_bar_switch(variable_get('social_bookmark_type_socialbar')) . '",';
+    $size_final = '"size":' . variable_get('social_bookmark_icon_size_socialbar') . ',';
+    $text_final = '"text":"' . _social_bookmark_text_bar_switch(variable_get('social_bookmark_text_socialbar')) . '",';
+    $language_selector_socialbar = variable_get('social_bookmark_language_selector_socialbar');
+    $lan_bar_final = _social_bookmark_lang_switch(variable_get('social_bookmark_language_socialbar'), $language_selector_socialbar) . ',';
+    $stat_bar_final = _social_bookmark_stat_switch(variable_get('social_bookmark_statistics_socialbar'));
 
     $bar = '<div id="ec-widget-share-example" class="ec-widget-individual" style="word-wrap: normal"><!--{' . $slots_final . $display_final . $size_final . $text_final . $lan_bar_final . $stat_bar_final . '}//--></div>';
 

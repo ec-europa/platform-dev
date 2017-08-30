@@ -9,13 +9,13 @@
  */
 function _social_bookmark_bar_admin_settings() {
   // Get global variable with the form data.
-  $saved_form = variable_get('data_table');
+  $saved_form = variable_get('social_bookmark_data_table');
   $form = array();
   $rows = array();
   $row_elements = array();
 
   // Put it into a fieldset.
-  $form['data_table'] = array(
+  $form['social_bookmark_data_table'] = array(
     '#type' => 'fieldset',
     '#title' => t('Individual networks buttons'),
     '#collapsible' => TRUE,
@@ -103,7 +103,7 @@ function _social_bookmark_bar_admin_settings() {
     ),
   );
 
-  if (variable_get('data_table')) {
+  if (variable_get('social_bookmark_data_table')) {
     // Sort the rows.
     uasort($data, '_social_bookmark_bar_form_weight_arraysort');
   }
@@ -126,7 +126,7 @@ function _social_bookmark_bar_admin_settings() {
             '#title_display' => 'invisible',
             '#default_value' => _social_bookmark_get_values($id, $entry),
             '#parents' => array(
-              'data_table',
+              'social_bookmark_data_table',
               $id,
               'weight',
             ),
@@ -145,7 +145,7 @@ function _social_bookmark_bar_admin_settings() {
             '#title_display' => 'invisible',
             '#default_value' => $entry['enable'],
             '#parents' => array(
-              'data_table',
+              'social_bookmark_data_table',
               $id,
               'enabled',
             ),
@@ -162,7 +162,7 @@ function _social_bookmark_bar_admin_settings() {
   }
 
   // Add the table to the form.
-  $form['data_table']['drag_table'] = array(
+  $form['social_bookmark_data_table']['drag_table'] = array(
     '#theme' => 'table',
     // The row form elements need to be processed and build,
     // therefore pass them as element children.
@@ -199,10 +199,10 @@ function _social_bookmark_bar_admin_settings() {
     '#collapsed' => TRUE,
   );
 
-  $form['style_socialbar']['type_socialbar'] = array(
+  $form['style_socialbar']['social_bookmark_type_socialbar'] = array(
     '#type' => 'radios',
     '#title' => t('Button display'),
-    '#default_value' => variable_get('type_socialbar', 'Horizontal'),
+    '#default_value' => variable_get('social_bookmark_type_socialbar', 'Horizontal'),
     '#options' => drupal_map_assoc(array(
       0 => t('Horizontal'),
       1 => t('Vertical'),
@@ -210,7 +210,7 @@ function _social_bookmark_bar_admin_settings() {
     '#description' => t('Display the list of buttons in a horizontal or vertical bar.'),
   );
 
-  $form['style_socialbar']['icon_size_socialbar'] = array(
+  $form['style_socialbar']['social_bookmark_icon_size_socialbar'] = array(
     '#type' => 'select',
     '#title' => t('Icons size (px)'),
     '#options' => drupal_map_assoc(array(
@@ -218,14 +218,14 @@ function _social_bookmark_bar_admin_settings() {
       1 => t('24'),
       2 => t('32'),
     )),
-    '#default_value' => variable_get('icon_size_socialbar', '24'),
+    '#default_value' => variable_get('social_bookmark_icon_size_socialbar', '24'),
     '#description' => t('Size of the icons in pixels.'),
   );
 
-  $form['style_socialbar']['text_socialbar'] = array(
+  $form['style_socialbar']['social_bookmark_text_socialbar'] = array(
     '#type' => 'radios',
     '#title' => t('Label display'),
-    '#default_value' => variable_get('text_socialbar', 'None'),
+    '#default_value' => variable_get('social_bookmark_text_socialbar', 'None'),
     '#options' => drupal_map_assoc(array(
       0 => t('None'),
       1 => t('Share'),
@@ -242,10 +242,10 @@ function _social_bookmark_bar_admin_settings() {
     '#collapsed' => TRUE,
   );
 
-  $form['statistics']['statistics_socialbar'] = array(
+  $form['statistics']['social_bookmark_statistics_socialbar'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable/disable statistics'),
-    '#default_value' => variable_get('statistics_socialbar', TRUE),
+    '#default_value' => variable_get('social_bookmark_statistics_socialbar', TRUE),
     '#description' => t('By default statistics are enabled. In order to disable it, uncheck this parameter.'),
   );
 
@@ -256,10 +256,10 @@ function _social_bookmark_bar_admin_settings() {
     '#collapsed' => TRUE,
   );
 
-  $form['language_detection']['language_socialbar'] = array(
+  $form['language_detection']['social_bookmark_language_socialbar'] = array(
     '#type' => 'radios',
     '#title' => t('Language source'),
-    '#default_value' => variable_get('language_socialbar', 'From META DATA'),
+    '#default_value' => variable_get('social_bookmark_language_socialbar', 'From META DATA'),
     '#options' => drupal_map_assoc(array(
       0 => t('From URL'),
       1 => t('From META DATA'),
@@ -273,11 +273,11 @@ function _social_bookmark_bar_admin_settings() {
   foreach ($languages[1] as $lan) {
     $langs[$lan->language] = $lan->name;
   }
-  $form['language_detection']['language_selector_socialbar'] = array(
+  $form['language_detection']['social_bookmark_language_selector_socialbar'] = array(
     '#type' => 'select',
     '#title' => t('Set a specific language'),
     '#options' => $langs,
-    '#default_value' => variable_get('language_selector_socialbar', $language->language),
+    '#default_value' => variable_get('social_bookmark_language_selector_socialbar', $language->language),
     '#description' => t('Select a language (only available for the "Language specified" option)."'),
   );
 
@@ -307,7 +307,7 @@ function _social_bookmark_bar_form_weight_arraysort($a, $b) {
  */
 function _social_bookmark_get_values($id, $data) {
   // If exist saved data.
-  if ($saved_form = variable_get('data_table')) {
+  if ($saved_form = variable_get('social_bookmark_data_table')) {
     return $saved_form[$id]['weight'];
   }
   else {

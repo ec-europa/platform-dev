@@ -122,13 +122,13 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
 
     // Setup a configuration.
     $conf = array(
-      'language_socialbookmark' => 'Language specified',
-      'language_selector_socialbookmark' => 'en',
-      'type_socialbookmark' => 'Icon',
-      'icon_size_socialbookmark' => '32',
-      'override_socialbookmark' => TRUE,
-      'label_socialbookmark' => 'Custom label',
-      'display_socialbookmark' => FALSE,
+      'social_bookmark_language_socialbookmark' => 'Language specified',
+      'social_bookmark_language_selector_socialbookmark' => 'en',
+      'social_bookmark_type_socialbookmark' => 'Icon',
+      'social_bookmark_icon_size_socialbookmark' => '32',
+      'social_bookmark_override_socialbookmark' => TRUE,
+      'social_bookmark_label_socialbookmark' => 'Custom label',
+      'social_bookmark_display_socialbookmark' => FALSE,
     );
     $this->drupalPost('admin/config/socialbookmark/socialbookmark', $conf, t('Save configuration'));
 
@@ -222,12 +222,12 @@ class SocialBookmarkFeatureTest extends DrupalWebTestCase {
       'data_table[twitter][weight]' => 1,
       'data_table[wordpress][enabled]' => TRUE,
       'data_table[wordpress][weight]' => 2,
-      'type_socialbar' => 'Horizontal',
-      'icon_size_socialbar' => '32',
-      'text_socialbar' => 'Share on [Network name]',
-      'statistics_socialbar' => TRUE,
-      'language_socialbar' => 'Language specified',
-      'language_selector_socialbar' => 'en',
+      'social_bookmark_type_socialbar' => 'Horizontal',
+      'social_bookmark_icon_size_socialbar' => '32',
+      'social_bookmark_text_socialbar' => 'Share on [Network name]',
+      'social_bookmark_statistics_socialbar' => TRUE,
+      'social_bookmark_language_socialbar' => 'Language specified',
+      'social_bookmark_language_selector_socialbar' => 'en',
     );
     $this->drupalPost('admin/config/socialbookmark/social_bar', $conf, t('Save configuration'));
 

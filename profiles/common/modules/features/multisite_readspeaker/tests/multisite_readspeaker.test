@@ -40,11 +40,11 @@ class ReadSpeakerTestCase extends DrupalWebTestCase {
   public function testReadSpeakerBlock() {
     $this->drupalLogin($this->adminUser);
     $edit = array(
-      'readspeaker_accountid' => '12345',
-      'readspeaker_readid' => 'block-system-main',
-      'readspeaker_langid' => 'en',
-      'readspeaker_prefer_uk' => TRUE,
-      'readspeaker_nodes[page]' => TRUE,
+      'multisite_readspeaker_accountid' => '12345',
+      'multisite_readspeaker_readid' => 'block-system-main',
+      'multisite_readspeaker_langid' => 'en',
+      'multisite_readspeaker_prefer_uk' => TRUE,
+      'multisite_readspeaker_nodes[page]' => TRUE,
     );
     $this->drupalPost('admin/config/content/multisite_readspeaker', $edit, t('Save configuration'));
     $testnode = $this->drupalCreateNode(array('type' => 'page'));
