@@ -512,10 +512,14 @@
         <exclude-pattern>profiles/multisite_drupal_standard/multisite_drupal_standard.install</exclude-pattern>
     </rule>
 
-    <!-- Line exceeds 80 characters. -->
+    <!-- Line exceeds 80 characters. README.md files are excluded until a standard is agreed upon. -->
     <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
-        <exclude-pattern>profiles/common/modules/custom/ecas/README.md</exclude-pattern>
-        <exclude-pattern>*</exclude-pattern>
+        <exclude-pattern>*/README.md</exclude-pattern>
+        <exclude-pattern>*/README.txt</exclude-pattern>
+        <exclude-pattern>*/LICENSE.md</exclude-pattern>
+        <exclude-pattern>*/LICENSE.txt</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
 
     <!-- Line exceeds 80 characters. -->
