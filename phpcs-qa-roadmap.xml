@@ -540,11 +540,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Equals sign not aligned with surrounding assignments. -->
-    <rule ref="Drupal.Formatting.MultipleStatementAlignment.NotSame">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Equals sign not aligned correctly. -->
     <rule ref="Drupal.Formatting.MultipleStatementAlignment.Incorrect">
         <exclude-pattern>*</exclude-pattern>
