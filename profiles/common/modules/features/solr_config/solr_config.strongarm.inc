@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * solr_config.strongarm.inc
