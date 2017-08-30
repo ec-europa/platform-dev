@@ -522,15 +522,15 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
               // This allows other modules to detect a user creation.
               array('ecas_import_users_user_creation' => TRUE)
           );
-          drupal_set_message(t('User !user_uid imported', array('!user_uid' => $uid)));
+          drupal_set_message(t('User @user_uid imported', array('@user_uid' => $uid)));
           $imported_users[] = $uid;
         }
         else {
-          drupal_set_message(t('User !user_uid not imported', array('!user_uid' => $uid)));
+          drupal_set_message(t('User @user_uid not imported', array('@user_uid' => $uid)));
         }
       }
       else {
-        drupal_set_message(t('User !user_uid not imported', array('!user_uid' => $uid)));
+        drupal_set_message(t('User @user_uid not imported', array('@user_uid' => $uid)));
       }
     }
   }
