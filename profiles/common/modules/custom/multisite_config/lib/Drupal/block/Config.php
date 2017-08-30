@@ -28,8 +28,8 @@ class Config extends ConfigBase {
    * @param string $theme_name
    *    Theme machine name.
    *
-   * @return mixed
-   *    Query execution state.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ execution state.
    */
   public function setBlockRegion($module, $delta, $region, $theme_name = NULL) {
 

@@ -22,8 +22,8 @@ class Config extends ConfigBase {
    * @param mixed $account
    *   (optional) The user object or UID. Defaults to the current user.
    *
-   * @return bool
-   *    TRUE if the user is an editorial team member, FALSE otherwise.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ if the user is an editorial team member, FALSE otherwise.
    */
   public function isEditorialTeamMember($account = NULL) {
     if (!isset($account)) {
@@ -55,8 +55,8 @@ class Config extends ConfigBase {
    *    Define group content access public regardless of its group definition.
    *    Either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
    *
-   * @return int
-   *    Newly created editorial team node NID.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ created editorial team node NID.
    */
   public function createEditorialTeam($title, $group_content_access = OG_CONTENT_ACCESS_PUBLIC) {
     $properties = array(

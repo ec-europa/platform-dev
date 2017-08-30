@@ -87,8 +87,8 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * @param string $original
    *    Token, in its original format, eg. [node:1:view-mode:full].
    *
-   * @return string
-   *    Extracted view mode machine name.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ view mode machine name.
    */
   public function getViewModeFromToken($original) {
     return $this->parseToken($original, 'view_mode');
@@ -126,8 +126,8 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * @param string $token_type
    *    Entity token type name.
    *
-   * @return array
-   *    List of view mode machine names for a given entity token type.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ of view mode machine names for a given entity token type.
    */
   public function getEntityViewModes($token_type) {
     $view_modes = array();
@@ -151,8 +151,8 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * @param string $view_mode
    *    View mode machine name.
    *
-   * @return string
-   *    Formatted token name.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ token name.
    *
    * @see ViewModeTokenHandler::hookTokenInfoAlter()
    */
@@ -163,8 +163,8 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
   /**
    * Returns entity token types list.
    *
-   * @return array
-   *    List of entity info array.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ of entity info array.
    */
   public function getEntityTokenTypes() {
     $supported_types = $this->getSupportedTokenTypes();

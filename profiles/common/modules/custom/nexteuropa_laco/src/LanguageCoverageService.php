@@ -147,8 +147,8 @@ class LanguageCoverageService {
    * @param string $path
    *    Relative Drupal path.
    *
-   * @return bool
-   *    TRUE if given path is a node path, FALSE otherwise.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ if given path is a node path, FALSE otherwise.
    */
   protected function isNodePath($path) {
     return (bool) preg_match('/node\/\d*/', $path);
@@ -162,8 +162,8 @@ class LanguageCoverageService {
    * @param string $language
    *    Language code.
    *
-   * @return bool
-   *    TRUE if given node is available in the given language, FALSE otherwise.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ if given node is available in the given language, FALSE otherwise.
    */
   protected function assertNodeLanguageCoverage($path, $language) {
     list(, $nid) = explode('/', $path);
@@ -187,8 +187,8 @@ class LanguageCoverageService {
    * @param string $language
    *    Language code.
    *
-   * @return bool
-   *    TRUE for a valid language, FALSE otherwise.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ for a valid language, FALSE otherwise.
    */
   protected function isValidLanguage($language) {
     $valid = (bool) db_select('languages', 'l')
@@ -206,8 +206,8 @@ class LanguageCoverageService {
   /**
    * Get list of available languages.
    *
-   * @return array
-   *    List of available languages
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ of available languages
    */
   protected function getAvailableLanguages() {
     $languages = db_select('languages', 'l')
@@ -234,8 +234,8 @@ class LanguageCoverageService {
   /**
    * Status property getter.
    *
-   * @return string
-   *    Return current response status.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ current response status.
    */
   protected function getStatus() {
     return $this->status;
@@ -244,8 +244,8 @@ class LanguageCoverageService {
   /**
    * Check whereas the status has already been set ot not.
    *
-   * @return bool
-   *    TRUE status has been set, FALSE otherwise.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ status has been set, FALSE otherwise.
    */
   protected function hasStatus() {
     return (bool) $this->status;
@@ -296,8 +296,8 @@ class LanguageCoverageService {
    * @param string $url
    *    Requested URL.
    *
-   * @return string
-   *    Sanitized URL.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ URL.
    */
   protected function removeLanguageNegotiationSuffix($url) {
     include_once DRUPAL_ROOT . '/includes/iso.inc';
@@ -315,8 +315,8 @@ class LanguageCoverageService {
    * @param string $path
    *    Relative Drupal path.
    *
-   * @return string
-   *    Source path if any, input path if none.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ path if any, input path if none.
    */
   protected function getSourcePath($path) {
     $result = db_select('url_alias', 'a')
@@ -339,8 +339,8 @@ class LanguageCoverageService {
    * @param string $path
    *    Relative Drupal path.
    *
-   * @return string
-   *    Sanitized path.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ path.
    */
   protected function sanitizePath($path) {
     $path = $this->removeLanguageNegotiationSuffix($path);
@@ -354,8 +354,8 @@ class LanguageCoverageService {
    * @param string $header
    *    Header name as provided by the HTTP request.
    *
-   * @return string
-   *    Header name as a $_SERVER array key.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ name as a $_SERVER array key.
    */
   static protected function getHeaderKey($header) {
     $header = 'HTTP_' . strtoupper($header);

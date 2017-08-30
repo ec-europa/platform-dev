@@ -17,16 +17,16 @@ interface FieldHandlerInterface {
   /**
    * Create field instance using constructed instance array.
    *
-   * @return array
-   *    Field array as returned by Field API CRUD operations.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ array as returned by Field API CRUD operations.
    */
   public function save();
 
   /**
    * Return field array built using field handler methods.
    *
-   * @return array
-   *    Field settings array.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ settings array.
    */
   public function getField();
 

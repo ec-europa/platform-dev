@@ -97,8 +97,8 @@ function tmgmt_poetry_mock_menu() {
 /**
  * Helper function for checking if poetry_service variable is set up correctly.
  *
- * @return bool
- *    TRUE if it's correct / FALSE if not
+ * @return [a-zA-Z]+
+ *   [a-zA-Z]+ if it's correct / FALSE if not
  */
 function _check_poetry_service_variable() {
   $poetry_service = variable_get('poetry_service', FALSE);
@@ -125,8 +125,8 @@ function _check_poetry_service_variable() {
 /**
  * Get the absolute URL of the mocked Poetry WSDL.
  *
- * @return string
- *    Absolute URL of the mocked Poetry WSDL.
+ * @return [a-zA-Z]+
+ *   [a-zA-Z]+ URL of the mocked Poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
   return url(
@@ -141,8 +141,8 @@ function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
 /**
  * Get the absolute URL of the mocked Poetry SOAP endpoint.
  *
- * @return string
- *    Absolute URL of the mocked Poetry SOAP endpoint.
+ * @return [a-zA-Z]+
+ *   [a-zA-Z]+ URL of the mocked Poetry SOAP endpoint.
  */
 function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
   return url(
@@ -157,8 +157,8 @@ function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
 /**
  * Get the URL of the tmgmt_poetry WSDL.
  *
- * @return string
- *    Absolute URL of the tmgmt_poetry WSDL.
+ * @return [a-zA-Z]+
+ *   [a-zA-Z]+ URL of the tmgmt_poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
   return url(
@@ -300,8 +300,8 @@ function tmgmt_poetry_mock_entity_info_alter(&$info) {
  * @param object $vocabulary
  *   The vocabulary for which we want the path.
  *
- * @return array
- *    The path for vocabulary's administration page.
+ * @return [a-zA-Z]+
+ *   [a-zA-Z]+ path for vocabulary's administration page.
  */
 function tmgmt_poetry_mock_entity_info_uri_callback($vocabulary) {
   if (user_access('administer taxonomy')) {

@@ -100,8 +100,8 @@ function nexteuropa_token_get_handler($name) {
 /**
  * Get token handler definitions.
  *
- * @return array
- *    Array of token handler definitions.
+ * @return [a-zA-Z]+
+ *   [a-zA-Z]+ of token handler definitions.
  *
  * @see hook_nexteuropa_token_token_handlers()
  * @see hook_nexteuropa_token_token_handlers_alter()

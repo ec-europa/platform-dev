@@ -49,8 +49,8 @@ class PoetryTokenProcessorsTest extends \PHPUnit_Framework_TestCase {
   /**
    * Data provider.
    *
-   * @return array
-   *    Return PHPUnit data.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ PHPUnit data.
    */
   public static function tokenReplacementProvider() {
     return array(

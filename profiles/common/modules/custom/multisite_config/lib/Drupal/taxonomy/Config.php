@@ -28,8 +28,8 @@ class Config extends ConfigBase {
    * @param int $hierarchy
    *    If hierarchical or not.
    *
-   * @return object
-   *    Return vocabulary object.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ vocabulary object.
    */
   public function createVocabulary($machine_name, $name, $description = '', $hierarchy = 1) {
     $vocabulary = new \stdClass();
@@ -155,8 +155,8 @@ class Config extends ConfigBase {
    * @param bool $load_entities
    *    If TRUE, a full entity load will occur on the term objects.
    *
-   * @return array
-   *    An array of all term objects in the tree.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ array of all term objects in the tree.
    *
    * @see: taxonomy_get_tree().
    */

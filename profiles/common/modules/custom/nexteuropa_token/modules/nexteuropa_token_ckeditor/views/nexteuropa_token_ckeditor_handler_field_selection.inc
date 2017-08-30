@@ -52,8 +52,8 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
    * @param object $values
    *    Render values.
    *
-   * @return string
-   *    Rendered output.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ output.
    */
   public function render($values) {
     $entity_id = $values->{$this->field_alias};
@@ -86,8 +86,8 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
   /**
    * Get view modes machine names per entity type.
    *
-   * @return array
-   *    List of view modes machine names.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ of view modes machine names.
    */
   private function get_view_modes_options() {
 
@@ -105,8 +105,8 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
    * @param string $view_mode
    *    View mode machine name.
    *
-   * @return mixed
-   *    View mode options array.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ mode options array.
    */
   private function get_view_mode_label($view_mode) {
 

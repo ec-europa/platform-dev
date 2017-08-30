@@ -143,8 +143,8 @@ class PoetryMock {
    * @param string $message
    *    XML message which should be send.
    *
-   * @return mixed
-   *    Response from service.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ from service.
    */
   public function sendRequestToDrupal($message) {
     $this->instantiateClient($this->settings['drupal_wsdl']);
@@ -275,8 +275,8 @@ class PoetryMock {
    * @param array $demande_id
    *    Array with IDs regarding translation request.
    *
-   * @return array
-   *    Array with translation response data.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ with translation response data.
    */
   private static function getTranslationResponseData($attribution, $content, $demande_id) {
     return array(
@@ -296,8 +296,8 @@ class PoetryMock {
    * @param string $message
    *    Translation request XML data.
    *
-   * @return array
-   *    Array with languages.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ with languages.
    */
   public static function getLanguagesFromRequest($message) {
     $request_data = self::getDataFromRequest($message);
@@ -315,8 +315,8 @@ class PoetryMock {
    * @param string $message
    *    Translation request content.
    *
-   * @return array
-   *    Array with data from translation request.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ with data from translation request.
    */
   public static function getDataFromRequest($message) {
     $xml = simplexml_load_string($message);
@@ -354,8 +354,8 @@ class PoetryMock {
    * @param string $language
    *    Translation language.
    *
-   * @return string
-   *    Encoded translated content for the translation response.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ translated content for the translation response.
    */
   private static function translateRequestContent($content, $language) {
     $decoded_content = base64_decode($content);
@@ -384,8 +384,8 @@ class PoetryMock {
    * @param array $demande_id
    *    An array with identifiers for POETRY translation request.
    *
-   * @return mixed
-   *    An array with result.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ array with result.
    */
   public static function getEntityDetailsByDemandeId($demande_id) {
     return db_select('poetry_map', 'pm')
@@ -401,8 +401,8 @@ class PoetryMock {
   /**
    * Helper method for fetching all translation request files.
    *
-   * @return array
-   *    An array with objects or an empty one if there is no results.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ array with objects or an empty one if there is no results.
    */
   public static function getAllRequestTranslationFiles() {
     $result = db_select('file_managed', 'fm')
@@ -462,8 +462,8 @@ class PoetryMock {
    * @param int $entity_id
    *    Entity id.
    *
-   * @return mixed
-   *    An array of results with active translation jobs for given entity id.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ array of results with active translation jobs for given entity id.
    */
   public static function getActiveTranslationJobsByEntityId($entity_id) {
     $query = db_select('tmgmt_job_item', 'item');

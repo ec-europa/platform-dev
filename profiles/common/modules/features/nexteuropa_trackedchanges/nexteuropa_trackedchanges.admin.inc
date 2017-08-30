@@ -45,8 +45,8 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
  * @param array $info
  *    An array with WYSIWYG profile information.
  *
- * @return string
- *    Markup with rendered table.
+ * @return [a-zA-Z]+
+ *   [a-zA-Z]+ with rendered table.
  */
 function _nexteuropa_trackedchanges_render_info_table($info) {
   // Setting up table header.

@@ -73,8 +73,8 @@ class Config extends ConfigBase {
    * @param bool $reset
    *    TRUE to reset filter formats cache.
    *
-   * @return array
-   *    An array of filter objects associated to the given text format.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ array of filter objects associated to the given text format.
    */
   public function getFormatFilters($format_name, $reset = FALSE) {
     if ($reset) {
@@ -227,8 +227,8 @@ class Config extends ConfigBase {
    * @param string $format_name
    *    Text format machine name.
    *
-   * @return array
-   *    An array of role names, keyed by role ID.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ array of role names, keyed by role ID.
    */
   public function getFormatRoles($format_name) {
     $format = $this->getFormat($format_name);
@@ -243,8 +243,8 @@ class Config extends ConfigBase {
    * @param array $roles
    *    Roles array keyed by the role ID.
    *
-   * @return bool
-   *    TRUE / FALSE when filter name is invalid.
+   * @return [a-zA-Z]+
+   *   [a-zA-Z]+ / FALSE when filter name is invalid.
    */
   public function setFormatRoles($format_name, $roles) {
     $format = $this->getFormat($format_name);
