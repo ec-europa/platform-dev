@@ -50,8 +50,7 @@ function multisite_cookie_consent_init() {
   if (current_path() != 'cookie-notice') {
     // Notice url.
     $notice_page = url('cookie-notice', array('absolute' => TRUE));
-    // Add for example external.
-    drupal_add_js('http://ec.europa.eu/wel/like/js/likedislike.js', 'external');
+
     // Add js inline (example for now).
     drupal_add_js('var consent_required_cookies = {
       "a":{
