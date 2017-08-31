@@ -140,12 +140,6 @@
         <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.views_default.inc</exclude-pattern>
     </rule>
 
-    <!-- Remove re-declaration. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.VariableRedeclaration">
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
-    </rule>
-
     <!-- Fix spacing. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter">
@@ -208,64 +202,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
 
-    <!-- Do not use check_plain() on string literals. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.CheckPlain.CheckPlainLiteral">
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.module</exclude-pattern>
-    </rule>
-
-    <!-- Incorrect doc comment. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionDefinitions.FormAlterDoc.Different">
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community/multisite_mediagallery_community.module</exclude-pattern>
-    </rule>
-
-    <!-- Make error message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.FormErrorT.ErrorMessage">
-        <exclude-pattern>/profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
-    </rule>
-
-    <!-- Remove checkplain and use correct placeholder. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.TCheckPlain.CheckPlain">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.module</exclude-pattern>
-    </rule>
-
-    <!-- Please make error message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/controller/tmgmt_poetry.controller.job.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.install</exclude-pattern>
-    </rule>
-
-    <!-- Please use the get_t(). -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-819 -->
-    <rule ref="DrupalPractice.FunctionDefinitions.InstallT.TranslationFound">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_button/multisite_og_button.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_metatags/nexteuropa_metatags.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/f_a_q/f_a_q.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_charts/multisite_charts.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_maps/multisite_maps.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
-    </rule>
-
-    <!-- Make message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_group_sync/ecas_group_sync.install</exclude-pattern>
-    </rule>
-
-    <!-- Make description translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.General.DescriptionT">
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
-    </rule>
-
     <!-- Please provide justification in code and use @codingStandardsIgnoreLine if needed. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-818 -->
     <rule ref="DrupalPractice.FunctionCalls.DbQuery.DbQuery">
@@ -313,8 +249,8 @@
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
     </rule>
 
-    <!-- Provide a reason in a comment on the line above as to why it should be open. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-824 -->
+    <!-- Provide a reason in a comment on the line above as to why it should be open or change restrictions. -->
+    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1473 -->
     <rule ref="DrupalPractice.FunctionDefinitions.AccessHookMenu.OpenCallback">
         <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/wiki/wiki_og/wiki_og.module</exclude-pattern>

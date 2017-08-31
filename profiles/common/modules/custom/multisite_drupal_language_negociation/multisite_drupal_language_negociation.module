@@ -60,7 +60,7 @@ function multisite_drupal_language_negociation_form($form, &$form_state) {
     '#maxlength' => 3,
     '#title' => t('language suffix delimiter'),
     '#default_value' => variable_get('language_suffix_delimiter', '_'),
-    '#description' => 'Ex : character like an underscore or hyphen..',
+    '#description' => t('Ex : character like an underscore or hyphen..'),
   );
   return system_settings_form($form);
 }
