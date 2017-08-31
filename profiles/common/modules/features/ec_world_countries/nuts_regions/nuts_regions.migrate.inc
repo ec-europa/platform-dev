@@ -29,7 +29,7 @@ function nuts_regions_migrate_api() {
 /**
  * Defines a dynamic migration that is reused for each source CSV file.
  */
-class NutsRegonsMigration extends Migration {
+class NutsRegionsMigration extends Migration {
 
   /**
    * Constructs the migration.
