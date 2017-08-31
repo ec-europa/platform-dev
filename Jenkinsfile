@@ -91,11 +91,7 @@ void executeStages(String label) {
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
     try {
-        stage('Check ' + label) {
-            sh './bin/phpcs --report=full --report=source --report=summary -s'
-        }
-
-        stage('Init & Build ' + label) {
+        stage('Build & Check ' + label) {
             deleteDir()
             checkout scm
             sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
@@ -104,6 +100,7 @@ void executeStages(String label) {
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
             ]) {
                 sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
+                sh './bin/phpcs --report=full --report=source --report=summary -s'
                 sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
             }
         }
