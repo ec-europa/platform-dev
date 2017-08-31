@@ -68,8 +68,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_core/e_library_core.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_core/e_library_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/includes/nexteuropa_subscriptions.settings.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/nexteuropa_subscriptions.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.admin.inc</exclude-pattern>
@@ -195,7 +193,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/includes/multisite_notifications_core.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark_bar.admin.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/includes/nexteuropa_subscriptions.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
@@ -319,7 +316,6 @@
         <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/nexteuropa_subscriptions.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community/multisite_mediagallery_community.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/events/events_og/events_og.module</exclude-pattern>
