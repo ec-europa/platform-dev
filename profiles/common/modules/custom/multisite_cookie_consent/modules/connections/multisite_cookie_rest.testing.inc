@@ -1,4 +1,5 @@
 <?php
+// @codingStandardsIgnoreFile: NEPT-198 - Module to be removed
 /**
  * @file
  * Contains classes for Client connection testing.
