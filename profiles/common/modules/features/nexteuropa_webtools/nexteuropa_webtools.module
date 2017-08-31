@@ -90,7 +90,7 @@ function nexteuropa_webtools_file_insert($file) {
   $destination = file_field_widget_uri($field, $instance);
   // Stole following lines from file_save_upload().
   // A URI may already have a trailing slash or look like "public://".
-  if (substr($destination, -1) != '/') {
+  if (drupal_substr($destination, -1) != '/') {
     $destination .= '/';
   }
   // Rename and move the file.
@@ -147,13 +147,13 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     return;
   }
   // Decoded json object is easier to use.
-  $json_object = json_decode($json_object);
+  $json_object = drupal_json_decode($json_object);
   // First, strip the "custom" attribute from the json_object.
   if (!empty($json_object->custom)) {
     unset($json_object->custom);
     // Set the updated object back in the form_state, allowing us to bail out
     // early. DO NOT FORGET TO ENCODE!
-    drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object));
+    drupal_array_set_nested_value($values, $json_object_parents, drupal_json_encode($json_object));
   }
 
   $field_custom_js_status = field_get_items('bean', $bean, 'field_custom_js_status');
@@ -189,6 +189,6 @@ function nexteuropa_webtools_bean_submit(&$bean, &$form, &$form_state) {
     $json_object->custom = $url;
     // Add the JSON_UNESCAPED_SLASHES option to json_encode because we need the
     // full url in the json_object.
-    drupal_array_set_nested_value($values, $json_object_parents, json_encode($json_object, JSON_UNESCAPED_SLASHES));
+    drupal_array_set_nested_value($values, $json_object_parents, drupal_json_encode($json_object, JSON_UNESCAPED_SLASHES));
   }
 }

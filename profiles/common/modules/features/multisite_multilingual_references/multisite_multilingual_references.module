@@ -73,7 +73,7 @@ function _multisite_multilingual_references_clean_path($path) {
   }
 
   // Strip base_path.
-  if ($base_path == substr($path, 0, $base_path_length)) {
+  if ($base_path == drupal_substr($path, 0, $base_path_length)) {
     $path = drupal_substr($path, $base_path_length);
   }
 

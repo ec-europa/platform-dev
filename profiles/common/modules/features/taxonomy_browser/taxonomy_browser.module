@@ -276,7 +276,7 @@ function taxonomy_browser_block_configure($delta = '') {
       }
     }
   }
-  $vid = substr($delta, 28);
+  $vid = drupal_substr($delta, 28);
   $vocabulary = taxonomy_vocabulary_load($vid);
   $form['vid'] = array(
     '#type' => 'hidden',
@@ -304,7 +304,7 @@ function taxonomy_browser_block_save($delta = '', $edit = array()) {
  */
 function taxonomy_browser_block_view($delta = '') {
   $block = array();
-  $vid = substr($delta, 28);
+  $vid = drupal_substr($delta, 28);
   $vocabulary = taxonomy_vocabulary_load($vid);
   if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0 && $vocabulary) {
     // Block will be only displayed in views.

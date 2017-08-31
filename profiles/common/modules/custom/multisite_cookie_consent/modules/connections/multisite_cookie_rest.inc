@@ -216,7 +216,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
       'username' => $this->credentials['username'],
       'password' => $this->credentials['password'],
     );
-    $data = http_build_query($data, '', '&');
+    $data = drupal_http_build_query($data, '', '&');
 
     $headers = array(
       'Accept' => 'application/json',
@@ -233,7 +233,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
     // Check if login was successful.
     $this->handleRestError($response);
 
-    $data = json_decode($response->data);
+    $data = drupal_json_decode($response->data);
 
     // It's possible for the response to have a 200, but the data to be
     // malformed. This happens for example when the remote site is running a
@@ -323,7 +323,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
       $this->userLogin();
     }
 
-    $data = http_build_query($data, '', '&');
+    $data = drupal_http_build_query($data, '', '&');
 
     $headers = array(
       'Accept' => 'application/json',
@@ -348,7 +348,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
 
     $this->handleRestError($response);
 
-    $result = json_decode($response->data);
+    $result = drupal_json_decode($response->data);
     return $result;
   }
 
@@ -387,7 +387,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
 
     $response = drupal_http_request($this->endpoint . '/user/token', $options);
     if ($response->code == 200) {
-      $data = json_decode($response->data);
+      $data = drupal_json_decode($response->data);
       $this->CSRFToken = $data->token;
       return $this->CSRFToken;
     }
@@ -430,7 +430,7 @@ class clients_connection_multisite_cookie_rest extends clients_connection_base {
     // Create response and send request to remote service.
     $response = drupal_http_request($this->endpoint . '/cookies', $options);
     $this->handleRestError($response);
-    $result = json_decode($response->data);
+    $result = drupal_json_decode($response->data);
     return $result;
   }
 

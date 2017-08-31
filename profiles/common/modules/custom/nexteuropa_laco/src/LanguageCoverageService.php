@@ -358,7 +358,7 @@ class LanguageCoverageService {
    *    Header name as a $_SERVER array key.
    */
   static protected function getHeaderKey($header) {
-    $header = 'HTTP_' . strtoupper($header);
+    $header = 'HTTP_' . drupal_strtoupper($header);
     return str_replace('-', '_', $header);
   }
 

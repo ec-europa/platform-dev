@@ -206,7 +206,7 @@ function multisite_cookie_consent_getcookie($language = 'en') {
 function _multisite_cookie_consent_site_name() {
   global $base_url;
   global $base_path;
-  $url = parse_url($base_url . $base_path);
+  $url = drupal_parse_url($base_url . $base_path);
   return $url['host'];
 }
 

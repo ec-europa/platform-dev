@@ -27,7 +27,7 @@ function cce_basic_config_requirements($phase) {
 
   if (file_exists(DRUPAL_ROOT . '/continuousphp.package')) {
     if ($continuousphp_package = file_get_contents(DRUPAL_ROOT . '/continuousphp.package')) {
-      $info = json_decode($continuousphp_package, TRUE);
+      $info = drupal_json_decode($continuousphp_package, TRUE);
       $t = get_t();
       $requirements['git_ref'] = array(
         'title' => $t('Git ref'),
@@ -305,7 +305,7 @@ function cce_basic_config_install() {
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
-    if (substr($id_export, 0, 8) == 'document') {
+    if (drupal_substr($id_export, 0, 8) == 'document') {
       db_insert('file_display')->fields(
         array(
           'name' => $id_export,
@@ -1049,7 +1049,7 @@ function cce_basic_config_uninstall() {
   // This process must be temporary.
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
-    if (substr($id_export, 0, 8) == 'document') {
+    if (drupal_substr($id_export, 0, 8) == 'document') {
       db_delete('file_display')
         ->condition('name', $id_export)
         ->execute();
@@ -1690,7 +1690,7 @@ function cce_basic_config_update_7193() {
   // $content type : content type that contains fields to replace.
   // $module_name : module that contains fields.
   $content_type = 'article';
-  $module_name = basename(__FILE__, '.install');
+  $module_name = drupal_basename(__FILE__, '.install');
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);
 
@@ -2209,7 +2209,7 @@ function cce_basic_config_update_7208() {
     "rebuttal",
   );
 
-  if (in_array(basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
+  if (in_array(drupal_basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
     variable_set('toolbox_survey_whitelist_js', TRUE);
   }
 

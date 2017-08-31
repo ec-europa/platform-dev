@@ -123,7 +123,7 @@ class PoetryMock {
    */
   public static function saveTranslationRequest($message, $reference) {
     $path = TMGMT_POETRY_MOCK_REQUESTS_PATH . $reference . '.xml';
-    $dirname = dirname($path);
+    $dirname = drupal_dirname($path);
     if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
       file_save_data($message, $path);
     }
@@ -513,7 +513,7 @@ class PoetryMock {
       $file_object = file_load($file_id);
       $message = file_get_contents($file_object->uri);
       // Prepare responses array.
-      $responses = self::prepareTranslationResponseData($message, strtoupper($lg_code));
+      $responses = self::prepareTranslationResponseData($message, drupal_strtoupper($lg_code));
       foreach ($responses as $response) {
         $message = theme('poetry_receive_translation', $response);
         $this->sendRequestToDrupal($message);

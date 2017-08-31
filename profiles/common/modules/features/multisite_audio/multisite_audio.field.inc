@@ -139,7 +139,7 @@ function _multisite_audio_generic_settings_max_filesize($element, &$form_state) 
  */
 function _multisite_audio_generic_settings_extensions($element, &$form_state) {
   if (!empty($element['#value'])) {
-    $extensions = preg_replace('/([, ]+\.?)/', ' ', trim(strtolower($element['#value'])));
+    $extensions = preg_replace('/([, ]+\.?)/', ' ', trim(drupal_strtolower($element['#value'])));
     $extensions = array_filter(explode(' ', $extensions));
     $extensions = implode(' ', array_unique($extensions));
     if (!preg_match('/^([a-z0-9]+([.][a-z0-9])* ?)+$/', $extensions)) {

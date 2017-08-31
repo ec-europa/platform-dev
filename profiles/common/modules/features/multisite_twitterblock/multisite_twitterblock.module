@@ -263,7 +263,7 @@ function theme_fpfis_twitter(array $variables) {
       $variables[$key] = (boolean) $variables[$key];
     }
   }
-  $config = json_encode($variables);
+  $config = drupal_json_encode($variables);
   return '<div id="' . $type . '"><!--' . $config . '//--></div>';
 }
 

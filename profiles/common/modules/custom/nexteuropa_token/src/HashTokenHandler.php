@@ -163,9 +163,9 @@ class HashTokenHandler extends TokenAbstractHandler {
     $charset = is_array($charset) ? $charset : array($charset);
     $crumbs = $numeric;
     for ($i = 0; $i < count($charset); $i++) {
-      $position = $crumbs % strlen($charset[$i]);
+      $position = $crumbs % drupal_strlen($charset[$i]);
       $hash .= $charset[$i]{$position};
-      $crumbs = round($crumbs / strlen($charset[$i]));
+      $crumbs = round($crumbs / drupal_strlen($charset[$i]));
     }
     return $hash;
   }
