@@ -93,10 +93,11 @@ class TMGMTPoetryJob extends TMGMTJob {
    * Checks if job has a translator with a poetry plugin.
    *
    * @return bool
+   *   TRUE if translator has a poetry plugin, FALSE otherwise.
    */
   public function hasPoetryTranslator() {
     $translator = $this->getTranslator();
-    if(!empty($translator)) {
+    if (!empty($translator)) {
       return in_array($translator->plugin, ['poetry', 'tmgmt_dgt_connector']);
     }
     return FALSE;

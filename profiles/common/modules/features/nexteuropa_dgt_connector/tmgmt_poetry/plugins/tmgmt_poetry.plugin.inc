@@ -236,8 +236,14 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
   /**
    * Helper function to create the XML to send to Poetry.
+   *
+   * @param TMGMTJob $job
+   *   Job object.
+   *
+   * @return string
+   *   Data for sending to the translator service.
    */
-  protected function generateRequestXml($job) {
+  protected function generateRequestXml(TMGMTJob $job) {
 
     // Load translator settings.
     $translator = $job->getTranslator();
