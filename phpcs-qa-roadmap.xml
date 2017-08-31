@@ -202,18 +202,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
 
-    <!-- Do not use check_plain() on string literals. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.CheckPlain.CheckPlainLiteral">
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.module</exclude-pattern>
-    </rule>
-
-    <!-- Incorrect doc comment. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionDefinitions.FormAlterDoc.Different">
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community/multisite_mediagallery_community.module</exclude-pattern>
-    </rule>
-
     <!-- Remove checkplain and use correct placeholder. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.FunctionCalls.TCheckPlain.CheckPlain">
