@@ -140,12 +140,6 @@
         <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.views_default.inc</exclude-pattern>
     </rule>
 
-    <!-- Remove re-declaration. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.VariableRedeclaration">
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
-    </rule>
-
     <!-- Fix spacing. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter">
@@ -207,13 +201,6 @@
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
-
-    <!-- Do not use check_plain() on string literals. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.CheckPlain.CheckPlainLiteral">
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.module</exclude-pattern>
-    </rule>
-
 
     <!-- Make error message translatable. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
