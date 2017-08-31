@@ -19,12 +19,10 @@ class TMGMTPoetryJob extends TMGMTJob {
    *   TRUE if the job can be aborted, FALSE otherwise.
    */
   public function isAbortable() {
-    $translator = $this->getTranslator();
-    if ($translator) {
-      if ($translator->plugin == 'poetry' && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
-        return FALSE;
-      }
+    if ($this->hasPoetryTranslator() && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
+      return FALSE;
     }
+
     return parent::isAbortable();
   }
 
@@ -35,11 +33,8 @@ class TMGMTPoetryJob extends TMGMTJob {
    *   TRUE if the job can be deleted, FALSE otherwise.
    */
   public function isDeletable() {
-    $translator = $this->getTranslator();
-    if ($translator) {
-      if ($translator->plugin == 'poetry' && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
-        return FALSE;
-      }
+    if ($this->hasPoetryTranslator() && $this->state != TMGMT_JOB_STATE_UNPROCESSED) {
+      return FALSE;
     }
     return parent::isDeletable();
   }
@@ -92,6 +87,19 @@ class TMGMTPoetryJob extends TMGMTJob {
    */
   public function getWordCount() {
     return tmgmt_poetry_job_statistics($this, 'word_count');
+  }
+
+  /**
+   * Checks if job has a translator with a poetry plugin.
+   *
+   * @return bool
+   */
+  public function hasPoetryTranslator() {
+    $translator = $this->getTranslator();
+    if(!empty($translator)) {
+      return in_array($translator->plugin, ['poetry', 'tmgmt_dgt_connector']);
+    }
+    return FALSE;
   }
 
 }

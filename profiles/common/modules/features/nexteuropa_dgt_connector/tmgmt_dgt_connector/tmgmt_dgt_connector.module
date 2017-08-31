@@ -11,7 +11,7 @@
 function tmgmt_dgt_connector_entity_info_alter(&$entity_info) {
   $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
   $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
-  $entity_info['tmgmt_translator']['access callback'] = '_tmgmt_poetry_translator_access';
+  $entity_info['tmgmt_translator']['access callback'] = '_tmgmt_dgt_connector_translator_access';
 }
 
 /**
@@ -26,4 +26,32 @@ function tmgmt_dgt_connector_tmgmt_translator_plugin_info() {
       'ui controller class' => 'TmgmtDgtConnectorTranslatorUIController',
     ),
   );
+}
+
+/**
+ * Custom function to manage permissions of the tmgmt_dgt_connector translator.
+ *
+ * @param string $op
+ *   Which operation is performed.
+ * @param array $translator
+ *   The translator the operation is performed on.
+ * @param array $account
+ *   The account which is performing the update.
+ *
+ * @return bool
+ *   Boolean
+ */
+function _tmgmt_dgt_connector_translator_access($op, $translator, $account) {
+  if (!empty($translator) && $translator->plugin == 'tmgmt_dgt_connector') {
+    if ($op == 'delete') {
+      return FALSE;
+    }
+    else {
+      return user_access('manage feature nexteuropa_dgt_connector');
+    }
+  }
+  else {
+    return tmgmt_translator_access($op, $translator, $account);
+  }
+
 }

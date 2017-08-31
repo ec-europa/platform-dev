@@ -66,8 +66,7 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
  * @TODO remove this deletion.
  */
 function tmgmt_poetry_tmgmt_job_delete($job) {
-  $translator = $job->getTranslator();
-  if (!empty($translator) && $translator->plugin == 'poetry' && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
+  if ($job->hasPoetryTranslator() && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
     $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
     foreach ($related_jobs as $related_job) {
       entity_get_controller('tmgmt_job')->delete(array($related_job->tjid));
@@ -203,7 +202,7 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     $translator = $job->getTranslator();
   }
   $form['translator_wrapper']['#id'] = "tmgmt-ui-translator-wrapper";
-  if ($translator && ($translator->plugin == 'poetry' || $job->getTranslator()->plugin == 'poetry')) {
+  if ($translator && ($translator->plugin == 'poetry' || $job->hasPoetryTranslator())) {
     // Putting custom form submit as a first one on the list.
     array_unshift($form['#submit'], '_tmgmt_poetry_form_tmgmt_job_submit');
     array_unshift($form['#validate'], '_tmgmt_poetry_validate_job_mandatory_fields');
@@ -287,7 +286,6 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 
   // Current implementation part.
   $origin_job = $form_state['tmgmt_job'];
-  $translator = $origin_job->getTranslator();
 
   // Get list of job_items and main job_item.
   $origin_job_items = $origin_job->getItems();
@@ -327,7 +325,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   }
 
   // Checking translator plugin type.
-  if ($translator->plugin != 'poetry') {
+  if ($origin_job->hasPoetryTranslator()) {
     // The translator has benn changed,
     // proceed to clear the settings of origin job and the main reference.
     if (isset($origin_job->settings['languages'])) {
@@ -1010,24 +1008,24 @@ function _tmgmt_poetry_check_translatability($entity_id) {
 /**
  * Checks if passed job items are in the state which allows translation.
  *
- * @param array $existing_jobs
+ * @param array $existing_jobs_items
  *   An array with the TMGMT job items.
  *
  * @return bool
  *   Returns TRUE/FALSE.
  */
-function _tmgmt_poetry_check_jobs_translatability($existing_jobs) {
-  foreach ($existing_jobs as $existing_job) {
+function _tmgmt_poetry_check_jobs_translatability($existing_jobs_items) {
+  foreach ($existing_jobs_items as $existing_job_item) {
     // Check if it's a poetry job.
-    $translator = $existing_job->getTranslator();
-    if ($translator && $translator->plugin != 'poetry') {
+    $job = $existing_job_item->getJob();
+    if (!$job->hasPoetryTranslator()) {
       continue;
     }
 
     // Check the poetry status.
     $result = db_select('poetry_status', 'ps')
       ->fields('ps')
-      ->condition('tjiid', $existing_job->tjiid, '=')
+      ->condition('tjiid', $existing_job_item->tjiid, '=')
       ->execute()
       ->fetchAssoc();
 

@@ -97,8 +97,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       if ($results) {
         foreach ($results as $result) {
           if ($job = tmgmt_job_load($result->tjid)) {
-            $translator = $job->getTranslator();
-            if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
+            if ($job->hasPoetryTranslator() && $job->getState() == 1) {
               // Check the poetry status.
               $result_ps = db_select('poetry_status', 'ps')
                 ->fields('ps', array('status'))

@@ -38,8 +38,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       if ($results) {
         foreach ($results as $result) {
           if ($job = tmgmt_job_load($result->tjid)) {
-            $translator = $job->getTranslator();
-            if ($translator && $translator->plugin == 'tmgmt_dgt_connector' && $job->getState() == 1) {
+            if ($job->hasPoetryTranslator() && $job->getState() == 1) {
               // Check the poetry status.
               $result_ps = db_select('poetry_status', 'ps')
                 ->fields('ps', array('status'))
@@ -272,7 +271,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    * @return string
    *   Data for sending to the translator service.
    */
-  protected function generateRequestXml(TMGMTJob $job) {
+  protected function generateRequestXml($job) {
 
     // Load translator settings.
     $translator = $job->getTranslator();
