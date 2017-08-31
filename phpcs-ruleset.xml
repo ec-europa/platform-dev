@@ -107,7 +107,7 @@
 
     <!-- NEPT-1288: Views files are to be excluded from class name checking. -->
     <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
-        <exclude-pattern>profiles/*/modules/custom/**/views/views_handler*</exclude-pattern>
-        <exclude-pattern>profiles/*/modules/features/**/views/views_handler*</exclude-pattern>
+        <exclude-pattern>*/views_handler*</exclude-pattern>
+        <exclude-pattern>*/views_handler*</exclude-pattern>
     </rule>
 </ruleset>
