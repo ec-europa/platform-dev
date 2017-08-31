@@ -235,8 +235,8 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
   /**
    * Utility method: get translatable states from module's settings.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ translatable moderation states.
+   * @return array
+   *    Get translatable moderation states.
    */
   public function getTranslatableStates() {
     return variable_get('tmgmt_workbench_moderation_states', array());

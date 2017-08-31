@@ -17,16 +17,16 @@ interface FieldGroupHandlerInterface {
   /**
    * Create field instance using constructed instance array.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ array as returned by Field API CRUD operations.
+   * @return array
+   *    Field array as returned by Field API CRUD operations.
    */
   public function save();
 
   /**
    * Return field group definition array built using handler methods.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ group definition array.
+   * @return array
+   *    Field group definition array.
    */
   public function getDefinition();
 

@@ -23,8 +23,8 @@ class ConfigBase {
    * @param mixed $args
    *    Array of arguments to be passed to the invoked method.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ execution result.
+   * @return mixed
+   *    Method execution result.
    */
   public function __call($method, $args) {
 

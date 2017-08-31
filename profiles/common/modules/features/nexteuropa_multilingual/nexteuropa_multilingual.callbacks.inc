@@ -201,8 +201,8 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
  * @param string $path
  *    Relative Drupal path.
  *
- * @return [a-zA-Z]+
- *   [a-zA-Z]+ path if any, input path if none.
+ * @return string
+ *    Source path if any, input path if none.
  */
 function _nexteuropa_multilingual_get_source_path($path) {
   $result = db_select('url_alias', 'a')

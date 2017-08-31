@@ -143,8 +143,8 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Data provider: provides list of entity machine names.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ PHPUnit data.
+   * @return array
+   *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));
@@ -153,8 +153,8 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Data provider: provides input for generation function.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ PHPUnit data.
+   * @return array
+   *    Return PHPUnit data.
    */
   public static function hashGenerationProvider() {
     $values = array(

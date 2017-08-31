@@ -76,8 +76,8 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Data provider: provides list of token $original values.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ PHPUnit data.
+   * @return array
+   *    Return PHPUnit data.
    */
   public static function tokenOriginalValues() {
     return array(
@@ -98,8 +98,8 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
   /**
    * Data provider: provides list of entity machine names.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ PHPUnit data.
+   * @return array
+   *    Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));

@@ -43,8 +43,8 @@ class Config extends ConfigBase {
    * @param int $weight
    *    Block weight in the specified region.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if context is saved correctly, FALSE otherwise.
+   * @return bool
+   *    TRUE if context is saved correctly, FALSE otherwise.
    */
   public function addBlock($name, $module, $delta, $region, $weight = 0) {
 
@@ -68,8 +68,8 @@ class Config extends ConfigBase {
    * @param string $delta
    *    Block delta.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if context is saved correctly, FALSE otherwise.
+   * @return bool
+   *    TRUE if context is saved correctly, FALSE otherwise.
    */
   public function removeBlock($name, $module, $delta) {
 
@@ -84,8 +84,8 @@ class Config extends ConfigBase {
    * @param object $context
    *    A valid context object, as returned from context_load().
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if context is saved correctly, FALSE otherwise.
+   * @return bool
+   *    TRUE if context is saved correctly, FALSE otherwise.
    */
   public function saveContext($context) {
     return context_save($context);

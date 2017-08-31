@@ -79,8 +79,8 @@ class HashTokenHandler extends TokenAbstractHandler {
    * @param int $entity_id
    *    Entity ID in the current site.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ URL hash.
+   * @return string
+   *    Encoded URL hash.
    *
    * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
@@ -91,8 +91,8 @@ class HashTokenHandler extends TokenAbstractHandler {
   /**
    * Get system wide hash prefix.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ hash prefix.
+   * @return string
+   *    Return hash prefix.
    */
   protected function getHashPrefix() {
     return variable_get('nexteuropa_token_hash_prefix', self::DEFAULT_PREFIX);
@@ -104,8 +104,8 @@ class HashTokenHandler extends TokenAbstractHandler {
    * @param string $prefix
    *    Hash prefix.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ hash prefix.
+   * @return string
+   *    Encoded hash prefix.
    */
   public function encodePrefix($prefix) {
     $numeric = '';
@@ -121,8 +121,8 @@ class HashTokenHandler extends TokenAbstractHandler {
    * @param string $entity_type
    *    Entity type machine name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ entity type.
+   * @return string
+   *    Encoded entity type.
    *
    * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
@@ -140,8 +140,8 @@ class HashTokenHandler extends TokenAbstractHandler {
    * @param int $entity_id
    *    Entity ID.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ eintity ID.
+   * @return string
+   *    Encoded eintity ID.
    */
   public function encodeEntityId($entity_id) {
     return $this->encodeNumericValue($entity_id, $this->allChars);
@@ -155,8 +155,8 @@ class HashTokenHandler extends TokenAbstractHandler {
    * @param string $charset
    *    Charset on which to encode to.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ numeric value.
+   * @return string
+   *    Encoded numeric value.
    */
   public function encodeNumericValue($numeric, $charset) {
     $hash = '';

@@ -19,8 +19,8 @@ class Config extends ConfigBase {
   /**
    * Get current theme machine name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ theme machine name.
+   * @return string
+   *    Current theme machine name.
    */
   public function getCurrentTheme() {
     global $theme;
@@ -30,8 +30,8 @@ class Config extends ConfigBase {
   /**
    * Get current theme info object.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ theme info object.
+   * @return object
+   *    Current theme info object.
    */
   public function getCurrentThemeInfo() {
     global $theme_info;
@@ -44,8 +44,8 @@ class Config extends ConfigBase {
    * @param string $name
    *    Theme machine name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if theme is found and enabled, FALSE otherwise.
+   * @return bool
+   *    TRUE if theme is found and enabled, FALSE otherwise.
    */
   public function setDefaultTheme($name) {
 
@@ -66,8 +66,8 @@ class Config extends ConfigBase {
    * @param string $name
    *    Theme machine name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if theme is found and enabled, FALSE otherwise.
+   * @return bool
+   *    TRUE if theme is found and enabled, FALSE otherwise.
    */
   public function setAdminTheme($name) {
 
@@ -90,8 +90,8 @@ class Config extends ConfigBase {
    * @param int $weight
    *    Module weight.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if module exists and operation has been performed, FALSE otherwise.
+   * @return bool
+   *    TRUE if module exists and operation has been performed, FALSE otherwise.
    */
   public function setModuleWeight($module, $weight = 0) {
 
@@ -115,8 +115,8 @@ class Config extends ConfigBase {
    * @param mixed $default
    *    Variable default value.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ value.
+   * @return mixed
+   *    Variable value.
    */
   public function getVariable($name, $default = NULL) {
     return variable_get($name, $default);

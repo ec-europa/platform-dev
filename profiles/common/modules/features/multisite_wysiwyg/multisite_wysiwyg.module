@@ -49,8 +49,8 @@ function multisite_wysiwyg_element_info_alter(&$types) {
  * @param mixed $element
  *    Element array.
  *
- * @return [a-zA-Z]+
- *   [a-zA-Z]+ array.
+ * @return mixed
+ *    Element array.
  *
  * @see multisite_wysiwyg_element_info_alter()
  */
@@ -81,8 +81,8 @@ function multisite_wysiwyg_pre_render_text_format($element) {
  * @param string $state
  *    One of the states above.
  *
- * @return [a-zA-Z]+
- *   [a-zA-Z]+ entity object state.
+ * @return string
+ *    Current entity object state.
  *
  * @see multisite_wysiwyg_wysiwyg_editor_settings_alter()
  */

@@ -452,8 +452,8 @@ function nexteuropa_communities_url_outbound_alter(&$path, &$options, $original_
 /**
  * Returns the sanitized community title.
  *
- * @return [a-zA-Z]+
- *   [a-zA-Z]+ community title or 'none'
+ * @return string
+ *    The community title or 'none'
  */
 function community_to_arg($arg = NULL) {
   module_load_include('inc', 'pathauto', 'pathauto');

@@ -124,8 +124,8 @@ class Config extends ConfigBase {
    * @param string $role
    *    Role machine name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ object, as fetched from the database.
+   * @return object
+   *    Role object, as fetched from the database.
    */
   public function getOgRole($group_type, $group_bundle, $role) {
     return db_select('og_role', 'r')
@@ -151,8 +151,8 @@ class Config extends ConfigBase {
    * @param string $module
    *    Module machine name the permissions belong to.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if permission granting was successful, FALSE otherwise.
+   * @return bool
+   *    TRUE if permission granting was successful, FALSE otherwise.
    */
   public function grantOgPermissions($role_name, $permissions, $entity, $entity_type, $module = '') {
 

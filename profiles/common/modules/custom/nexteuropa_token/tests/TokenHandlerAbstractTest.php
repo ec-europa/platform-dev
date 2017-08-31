@@ -71,8 +71,8 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
   /**
    * Get test content type.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ type object.
+   * @return string
+   *    Content type object.
    */
   protected function getTestContentType() {
     return self::$contentType;
@@ -117,8 +117,8 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
   /**
    * Get test vocabulary.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ object.
+   * @return object
+   *    Vocabulary object.
    */
   protected function getTestVocabulary() {
     return self::$vocabulary;
@@ -180,8 +180,8 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * @param int $length
    *    Length of randomly generated name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ generated name.
+   * @return string
+   *    Randomly generated name.
    */
   public static function randomName($length = 8) {
     $values = array_merge(range(65, 90), range(97, 122), range(48, 57));

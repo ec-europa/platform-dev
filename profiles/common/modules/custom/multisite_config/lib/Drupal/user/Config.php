@@ -24,8 +24,8 @@ class Config extends ConfigBase {
    * @param mixed $account
    *   (optional) The user object or UID. Defaults to the current user.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if operation was successful, FALSE otherwise.
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function assignRoleToUser($role_name, $account = NULL) {
     if (!isset($account)) {
@@ -56,8 +56,8 @@ class Config extends ConfigBase {
    * @param mixed $account
    *   (optional) The user object or UID. Defaults to the current user.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if operation was successful, FALSE otherwise.
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function revokeRoleFromUser($role_name, $account = NULL) {
     if (!isset($account)) {
@@ -91,8 +91,8 @@ class Config extends ConfigBase {
    * @param string $module
    *    Module name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if operation was successful, FALSE otherwise.
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function grantPermission($role, $permission, $module = NULL) {
 
@@ -144,8 +144,8 @@ class Config extends ConfigBase {
    * @param string $permission
    *    Permission machine name.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ if operation was successful, FALSE otherwise.
+   * @return bool
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function revokePermission($role, $permission) {
     $role_object = user_role_load_by_name($role);
@@ -166,8 +166,8 @@ class Config extends ConfigBase {
    * @param int $weight
    *    Role weight.
    *
-   * @return [a-zA-Z]+
-   *   [a-zA-Z]+ object.
+   * @return object
+   *    Role object.
    */
   public function createRole($name, $weight = 0) {
     $role = new \stdClass();

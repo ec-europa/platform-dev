@@ -452,8 +452,8 @@ function nexteuropa_trackedchanges_info_load_by_entity($entity_type, $entity) {
  * It determines if users can access the list of entities
  * with tracking changes.
  *
- * @return [a-zA-Z]+
- *   [a-zA-Z]+ returns true if the user has the following permissions:
+ * @return bool
+ *    It returns true if the user has the following permissions:
  *    - ckeditor_lite highlight changes (CKEditor LITE)
  *    - administer nodes (Node)
  */
