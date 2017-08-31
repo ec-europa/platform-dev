@@ -6,8 +6,6 @@
  */
 
 /**
- * Implements hook_enable().
- *
  * Add block to the context.
  */
 function events_core_enable() {
@@ -25,8 +23,6 @@ function events_core_enable() {
 }
 
 /**
- * Implements hook_disable().
- *
  * Remove block from the context.
  */
 function events_core_disable() {
@@ -41,6 +37,7 @@ function events_core_disable() {
 
 /**
  * Content types using date fields should be using timestamp instead datetime.
+ *
  * No need to update schema in hook_install().
  * On a clean installation the date fields are already set up.
  * DATE FIELD MIGRATION SCRIPT: datetime to datestamp.

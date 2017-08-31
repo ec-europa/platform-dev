@@ -1923,6 +1923,7 @@ function cce_basic_config_update_7199() {
 
 /**
  * Use jquery 1.10.
+ *
  * Define admin pages that should use default theme.
  * Disable user contact form for anonymous.
  * Activate captcha of user contact form.
@@ -1968,6 +1969,7 @@ function cce_basic_config_update_7201() {
 
 /**
  * Update list of admin pages using jquery 1.10.
+ *
  * Update display of user menu.
  */
 function cce_basic_config_update_7202() {
