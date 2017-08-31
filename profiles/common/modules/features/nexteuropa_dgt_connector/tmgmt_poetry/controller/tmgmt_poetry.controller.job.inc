@@ -24,7 +24,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
       $origin_job_item = array_shift($origin_job_items);
       if (empty($origin_job_item)) {
-        drupal_set_message('The selected job cannot be used. Please make a new translation request.', 'warning');
+        drupal_set_message(t('The selected job cannot be used. Please make a new translation request.'), 'warning');
         drupal_goto('admin/tmgmt');
         return;
       }

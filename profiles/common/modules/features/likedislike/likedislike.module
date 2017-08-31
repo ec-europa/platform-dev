@@ -132,7 +132,7 @@ function likedislike_menu() {
     'description' => 'Configuration for Like / Dislike widget',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('likedislike_form'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer site configuration'),
     'type' => MENU_NORMAL_ITEM,
   );
   return $items;
