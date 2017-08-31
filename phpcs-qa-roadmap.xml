@@ -202,12 +202,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
 
-    <!-- Use correct permission. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.General.AccessAdminPages.PermissionFound">
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
-    </rule>
-
     <!-- Please provide justification in code and use @codingStandardsIgnoreLine if needed. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-818 -->
     <rule ref="DrupalPractice.FunctionCalls.DbQuery.DbQuery">
