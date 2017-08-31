@@ -25,7 +25,8 @@ function e_library_core_views_default_views() {
   $handler->display->display_options['title'] = 'E-Library';
   $handler->display->display_options['use_ajax'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['access']['type'] = 'perm';
+  $handler->display->display_options['access']['perm'] = 'access content';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['query']['options']['distinct'] = TRUE;
@@ -82,7 +83,7 @@ function e_library_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Browse library of document</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Browse library of document</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
@@ -223,6 +224,7 @@ function e_library_core_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['path'] = 'e_library';
 
   $translatables['e_library'] = array(
     t('Master'),
@@ -240,7 +242,7 @@ function e_library_core_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('<h2>Browse library of document</h2>'),
+    t('<h2 class="ecl-heading ecl-heading--h2">Browse library of document</h2>'),
     t('author'),
     t('File'),
     t('File type'),

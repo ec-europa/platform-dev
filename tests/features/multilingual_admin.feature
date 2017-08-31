@@ -7,6 +7,9 @@ Feature: Content translation
   Background:
     Given I am logged in as a user with the 'administrator' role
 
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Content page does not show mixed content language
     Given the following languages are available:
       | languages |
@@ -24,8 +27,12 @@ Feature: Content translation
     And I fill in "Title" with "Deutsch title"
     And I fill in "Body" with "Deutsch Body not for English version."
     And I press "Save"
-    And I click "English" in the "content" region
-    Then I should not see the text "Deutsch Body not for English version."
+    Then I should see the text "Deutsch title"
+    And I should see the text "Deutsch Body not for English version."
+    When I click "English" in the "content" region
+    Then I should not see the text "Deutsch title"
+    And I should not see the text "Deutsch Body not for English version."
+    But I should see the text "English title"
 
   @javascript @maximizedwindow
   Scenario: Make sure that I can add "title_field" fields to a view when the Estonian language is enabled.
@@ -46,6 +53,9 @@ Feature: Content translation
     Then I should see "The view testing_view has been saved."
     And the response should contain "/admin/structure/views/nojs/config-item/testing_view/default/field/field_ne_body_et_en"
 
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Check the default message in workbench moderation
     Given the following languages are available:
       | languages |
@@ -58,6 +68,9 @@ Feature: Content translation
     When I click "New draft" in the "primary_tabs" region
     Then I should see the text "The state of the content Title in English and all its validated translations English French will be updated!"
 
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Check the customizable message in workbench moderation
     Given the following languages are available:
       | languages |
@@ -71,3 +84,114 @@ Feature: Content translation
       | fr       | Title in French  |
     When I click "New draft" in the "primary_tabs" region
     Then I should see the text "New Message!"
+
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
+ # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1217.
+  Scenario: Files can be translated in available languages
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+    When I go to "file/add"
+    And I attach the file "/tests/files/logo.png" to "edit-upload-upload"
+    And I press "Next"
+    And I select the radio button "Public local files served by the webserver."
+    And I press "Next"
+    And I fill in "File name" with "English File name"
+    And I fill in "Alt Text" with "English Alt Text"
+    And I fill in "Title Text" with "English Title Text"
+    And I fill in "Caption" with "English Caption"
+    And I press "Save"
+    Then I should see the success message "Image English File name was uploaded."
+    When I click "English File name"
+    Then I should see the heading "English File name"
+    When I click "Translate" in the "primary_tabs" region
+    And I click "add" in the "French" row
+    And I fill in "File name" with "French File name"
+    And I fill in "Alt Text" with "French Alt Text"
+    And I fill in "Title Text" with "French Title Text"
+    And I fill in "Caption" with "French Caption"
+    And I press "Save"
+    Then I should see the success message "Image French File name has been updated."
+    And I should see the heading "French File name"
+    And the response should contain "alt=\"French Alt Text\""
+    And the response should contain "title=\"French Title Text\""
+    And I should see "French Caption"
+
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
+  Scenario: Custom URL suffix language negotiation is applied by default on new content.
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+      | de        |
+    And I am viewing a multilingual "page" content:
+      | language | title                                  |
+      | en       | Custom URL suffix language negotiation |
+      | fr       | Suffix de language negotiation French  |
+      | de       | Suffix Sprache Verhandlung German      |
+    Then I should be on "content/custom-url-suffix-language-negotiation_en"
+    When I click "English" in the "header_top" region
+    Then I should be on the language selector page
+    When I click "Français"
+    Then I should be on "content/custom-url-suffix-language-negotiation_fr"
+    When I click "Français" in the "header_top" region
+    Then I should be on the language selector page
+    When I click "Deutsch"
+    Then I should be on "content/custom-url-suffix-language-negotiation_de"
+
+  Scenario: Enable multiple languages
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+      | de        |
+    When I go to "admin/config/regional/language"
+    Then I should see "English"
+    And I should see "French"
+    And I should see "German"
+
+  Scenario: Check the base path doesn't change when changing language prefix
+    Given the site front page is set to "admin/fake-url"
+    And the "en" language "prefix" is set to "en-prefix"
+    And the cache has been cleared
+    When I go to "admin/config/system/site-information"
+    Then I should be on "admin/config/system/site-information"
+    # We check that path prefix set earlier does not bleeds into the site base path.
+    And I should not see "en-prefix" in the ".form-item-site-frontpage span.field-prefix" element
+    When I click "Home"
+    Then I should be on "admin/fake-url_en-prefix"
+
+  @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
+  Scenario: Path alias must be synchronized through all translations of
+  content when it is manually defined and the configuration is maintained
+  when I come back on the content edit form
+    Given the following languages are available:
+      | languages |
+      | en        |
+      | fr        |
+    And I am viewing a multilingual "page" content:
+      | language | title            |
+      | en       | Title in English |
+      | fr       | Title in French  |
+    When I click "English" in the "header_top" region
+    And I click "Français"
+    Then I should be on "content/title-english_fr"
+    When I click "New draft"
+    And I uncheck the box "edit-path-pathauto"
+    And I fill in "URL alias" with "page-alias-for-all-languages"
+    And I select "published" from "Moderation state"
+    And I press "Save"
+    Then I should be on "page-alias-for-all-languages_fr"
+    When I click "Français" in the "header_top" region
+    And I click "English"
+    Then I should be on "page-alias-for-all-languages_en"
+    When I click "New draft"
+    Then I should not see the box "edit-path-pathauto" checked
+    And the "URL alias" field should contain "page-alias-for-all-languages"

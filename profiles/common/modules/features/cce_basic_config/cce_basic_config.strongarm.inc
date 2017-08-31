@@ -1055,13 +1055,19 @@ video
   $export['easy_breadcrumb-segments_separator'] = $strongarm;
 
   $strongarm = new stdClass();
+  $strongarm->disabled = FALSE;
+  $strongarm->api_version = 1;
+  $strongarm->name = 'easy_breadcrumb-include_title_segment';
+  $strongarm->value = 0;
+  $export['easy_breadcrumb-include_title_segment'] = $strongarm;
+
+  $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'cce_basic_config_admin_pages';
   $strongarm->value = array(
-    'admin/structure/feature-set',
     'admin/workbench',
     'admin/content/comment',
     'admin/content/media',

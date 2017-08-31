@@ -19,7 +19,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 1,
@@ -46,7 +46,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -73,7 +73,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -100,7 +100,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -127,7 +127,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -154,7 +154,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2>We use cookies on this site to enhance your user experience</h2><p>By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2">We use cookies on this site to enhance your user experience</h2><p>By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -181,7 +181,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -208,7 +208,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -235,7 +235,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -262,7 +262,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -289,7 +289,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -316,7 +316,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -343,7 +343,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -370,7 +370,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -397,7 +397,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -424,7 +424,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -451,7 +451,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -478,7 +478,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -505,7 +505,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -532,7 +532,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -559,7 +559,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -586,7 +586,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 1,
@@ -613,7 +613,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,
@@ -640,7 +640,7 @@ function multisite_eu_cookie_compliance_strongarm() {
     'popup_clicking_confirmation' => 0,
     'popup_position' => 0,
     'popup_info' => array(
-      'value' => '<h2 style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
+      'value' => '<h2 class="ecl-heading ecl-heading--h2" style="line-height: 20px; ">We use cookies on this site to enhance your user experience</h2><p style="font-size: 13px; line-height: 20px; ">By clicking any link on this page you are giving your consent for us to set cookies.</p>',
       'format' => 'full_html',
     ),
     'popup_agreed_enabled' => 0,

@@ -10,7 +10,9 @@ Feature: Subscription
       |modules                      |
       |multisite_notifications_core |
 
-  @javascript
+  @javascript @theme_wip
+  # It is in wip for the europa theme because it implies a step referring a
+  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Create a page and have someone subscribe to it
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
@@ -50,6 +52,30 @@ Feature: Subscription
     And I click "View draft" in the "primary_tabs" region
     And I select "Published" from "Moderation state"
     When I press "Apply"
+    And I am on "admin/config/system/cron_en"
+    And I press "Run cron"
+    And I go to "admin/reports/dblog"
+    Then I should see text matching "Subscriptions sent"
+
+  @javascript
+  Scenario: Have someone subscribe to Basic page content
+    And I go to "admin/config/system/site-information_en"
+    When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
+    And I select "01000" from "classification"
+    And I press "Save configuration"
+    Then I am logged in as a user with the "authenticated" role
+    And I am on "user"
+    And I click "Subscriptions"
+    And I click "Content types"
+    # Check "Basic page" option
+    And I check "edit-0-checkboxes-page-1"
+    And I press "Save"
+    When I am logged in as a user with the 'administrator' role
+    When I go to "node/add/page"
+    And I fill in "Title" with "Another page"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    When I press "Save"
     And I am on "admin/config/system/cron_en"
     And I press "Run cron"
     And I go to "admin/reports/dblog"

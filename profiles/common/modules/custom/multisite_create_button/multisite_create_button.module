@@ -42,7 +42,7 @@ function _multisite_create_button_contextual_links() {
   if (!empty($content)) {
     $links = array();
     foreach ($content as $content_type) {
-      $links['items'][] = l($content_type['link_title'], $base_url . '/' . $content_type['link_path']);
+      $links['items'][$content_type['link_title']] = $base_url . '/' . $content_type['link_path'];
     }
 
     $output = theme('dropdown', $links);

@@ -4,9 +4,11 @@
  * Nexteuropa_multilingual install file.
  */
 
- /**
-  * Implements hook_requirements().
-  */
+module_load_include('inc', 'nexteuropa_multilingual', 'nexteuropa_multilingual.install');
+
+/**
+ * Implements hook_requirements().
+ */
 function nexteuropa_multilingual_requirements() {
   $requirements = [];
   if (module_exists('multisite_drupal_language_negociation')) {
@@ -51,7 +53,35 @@ function nexteuropa_multilingual_install() {
   multisite_config_service('user')->grantPermission('administrator', $permissions);
 
   // Set nexteuropa_multilingual_url_suffix as default language negotiation.
-  multisite_config_service('locale')->setLanguageNegotiation('nexteuropa_multilingual_url_suffix');
+  $enabled_providers_interface = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $enabled_providers_content = variable_get('language_negotiation_' . LANGUAGE_TYPE_CONTENT);
+  $url_suffix_provider = array(
+    'nexteuropa_multilingual_url_suffix' => array(
+      'callbacks' => array(
+        'language' => 'nexteuropa_multilingual_language_negotiation_provider_callback',
+      ),
+      'file' => drupal_get_path('module', 'nexteuropa_multilingual') . '/nexteuropa_multilingual.callbacks.inc',
+    ),
+  );
+  $language_admin_provider = array(
+    'language-administration' => array(
+      'callbacks' => array(
+        'language' => 'administration_language_negotiation_admin_language',
+      ),
+      'file' => drupal_get_path('module', 'administration_language_negotiation') . '/administration_language_negotiation.module',
+      'cache' => 0,
+    ),
+  );
+  // Suffix is not compatible with prefix. Remove that negotiation mechanism.
+  unset($enabled_providers_interface[LOCALE_LANGUAGE_NEGOTIATION_URL]);
+
+  // NEPT-8: Don't use interface language as admin interface is always EN.
+  unset($enabled_providers_content[LOCALE_LANGUAGE_NEGOTIATION_INTERFACE]);
+
+  drupal_static_reset("language_negotiation_info");
+  variable_set('administration_language_negotiation_default', 'en');
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers_interface + $url_suffix_provider + $language_admin_provider);
+  language_negotiation_set(LANGUAGE_TYPE_CONTENT, $enabled_providers_content + $url_suffix_provider);
 
   // Set translatable states for TMGMT Workbench module.
   multisite_config_service('system')->setVariable('tmgmt_workbench_moderation_states', array('validated', 'published'));
@@ -70,6 +100,8 @@ function nexteuropa_multilingual_install() {
 
   // Set the warning message when changing node state.
   variable_set('nexteuropa_multilingual_warning_message_languages', "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!");
+
+  _nexteuropa_multilingual_make_files_translatable();
 }
 
 /**
@@ -92,4 +124,11 @@ function nexteuropa_multilingual_update_7001() {
   $old_variable = variable_get('warning_message_languages');
   variable_set('nexteuropa_multilingual_warning_message_languages', $old_variable);
   variable_del('warning_message_languages');
+}
+
+/**
+ * NEPT-7: Make files translatable.
+ */
+function nexteuropa_multilingual_update_7002() {
+  _nexteuropa_multilingual_make_files_translatable();
 }

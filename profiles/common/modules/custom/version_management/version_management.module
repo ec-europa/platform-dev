@@ -104,46 +104,40 @@ function version_management_form_build() {
  * Version_management additional handler for workbench_moderation forms.
  */
 function version_management_handler_submit($form, &$form_state) {
-  if (isset($form_state['values']['minor_version']) && $form_state['values']['minor_version'] == 0) {
-    $minor_version_nids = variable_get('minor_version_nids', array());
-    $minor_version_nids[$form_state['build_info']['args'][0]->nid] = 'minor';
-    variable_set('minor_version_nids', $minor_version_nids);
-  }
+  $form_state['values']['node']->minor_version
+    = empty($form_state['values']['minor_version']) ? 0 : 1;
 }
 
 /**
  * Implements hook_node_presave().
  *
- * Prevents update of $node->changed.
+ * Prevents update of Last update date.
  */
 function version_management_node_presave($node) {
-  $types = variable_get('version_management_node_types');
-  // Only act on existing nodes that are version managed.
-  if (isset($types[$node->type]) && empty($node->is_new)) {
-    $minor_version_nids = variable_get('minor_version_nids', array());
-    if (isset($node->minor_version)) {
-      if ($node->minor_version == 0) {
-        unset($node->changed);
-        if (isset($node->workbench_moderation) && isset($node->workbench_moderation['published'])) {
-          $minor_version_nids[$node->nid] = 'minor';
-          $node->timestamp = $node->original->workbench_moderation['current']->timestamp;
-          variable_set('minor_version_nids', $minor_version_nids);
-        }
-      }
-    }
-    else {
-      // Manage the second node_save when workbench_moderation is used.
-      $minor_version_nids = variable_get('minor_version_nids');
-      if (isset($node->nid) && isset($minor_version_nids[$node->nid])) {
-        unset($node->changed);
-        $node->timestamp = $node->original->workbench_moderation['current']->timestamp;
-        if ($node->workbench_moderation['updating_live_revision']) {
-          unset($minor_version_nids[$node->nid]);
-          variable_set('minor_version_nids', $minor_version_nids);
-        }
-      }
-    }
+
+  // Skip new nodes.
+  if (!isset($node->nid)) {
+    return;
   }
+  // Skip nodes published for first time.
+  if ($node->status && !isset($node->workbench_moderation['published'])) {
+    return;
+  }
+  // Skip nodes declared as major release.
+  // Careful with errouneous field name.
+  if (!empty($node->minor_version)) {
+    return;
+  }
+  // Skip nodes of not selected content types.
+  $types = variable_get('version_management_node_types');
+  if (empty($types[$node->type])) {
+    return;
+  }
+
+  // Process node to keep date.
+  unset($node->changed);
+  $node->timestamp = $node->original->workbench_moderation['current']->timestamp;
+
 }
 
 /**
@@ -166,7 +160,7 @@ function version_management_help($path, $arg) {
   switch ($path) {
     case 'admin/help#version_management':
       $output = '';
-      $output .= '<h3>' . t('About Version management (major/minor version)') . '</h3>';
+      $output .= '<h3 class="ecl-heading ecl-heading--h3">' . t('About Version management (major/minor version)') . '</h3>';
       $output .= '<p>' . t("Version management adds a toggle to node editing forms which, if not checked (not mark as major), prevents the node's updated time from changing.  This keeps it from floating to the top of last-updated listings.  This may be desirable behavior when the edit isn't substantial, such as typo correction.<br /><br />This behavior must be enabled per content type on the admin/config/version_management/settings page, and requires the 'administer nodes' privilege.") . '<p>';
       return $output;
   }

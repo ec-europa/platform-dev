@@ -4,6 +4,9 @@ Feature: Images
   As a contributor
   I can attach images to content
 
+  @theme_wip
+  # It is in WIP because the image display is not integrated in europa yet.
+  # see NEPT-1243
   Scenario: Add a caption to an Article image
     Given I am logged in as a user with the "administrator" role
     When I go to "node/add/article"
@@ -14,7 +17,7 @@ Feature: Images
     When I go to "/admin/content/file"
     And I click "logo.png"
     And I click "Edit"
-    And I fill in "Name" with "Image name"
+    And I fill in "File name" with "Image name"
     And I fill in "Caption" with "Image caption"
     And I press "Save"
     Then the response should contain "has been updated."

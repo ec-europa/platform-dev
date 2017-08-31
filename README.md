@@ -11,19 +11,10 @@
 ## Install build system
 
 Before we can build the NextEuropa platform we need to install the build system
-itself. This can be done using composer:
+itself. This can be done using [composer](https://getcomposer.org/):
 
 ```
 $ composer install
-```
-
-### Tips
-
-If you have a global install of composer already, this may cause conflict.
-Try the command below.
-
-```
-$ curl -sS https://getcomposer.org/installer | php
 ```
 
 ## Customize build properties
@@ -82,6 +73,46 @@ $ ./bin/phing build-platform-dev
 $ ./bin/phing install-platform
 ```
 
+### From the release 2.4.x following configuration variables are available:
+
+  - The default theme to enable, set to either "ec_resp" (default) or "ec_europa".
+
+> platform.site.theme_default = ec_resp
+
+  - The default Europa Component Library release which is used to build the EC Europa theme.
+
+> ecl.version = v0.10.0
+  
+  - The default EC Europa theme release version.
+
+> ec_europa.version = 0.0.2
+
+  - The default Atomium theme build properties. Used only if default theme is set to "ec_europa".
+  You can find default values of those variables below. 
+  
+>platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
+>platform.theme.atomium.repo.branch = 7.x-1.x
+
+
+## Building a local development environment for the EC Europa theme
+
+There is a specific Phing target which is setting up the development environment
+for the EC Europa theme needs. It helps developers to perform code reviews and
+contribute code to the repositories.
+It clones the repository of the Atomium and EC Europa themes. It will also
+fetch the release package of the Europa Components Library and regenerate theme assets.
+
+**To run this target you must have node.js and npm installed on your local machine.**
+You need also configure additional configuration variables which are described in the
+section above. The most important is to set the `platform.site.theme_default` variable
+to `ec_europa`.
+
+You can use this Phing target in the following way:
+```
+$ ./bin/phing build-europa-dev
+```
+This Phing target is meant to be used only for the local development purposes.
+
 ## Running Behat tests
 
 The Behat test suite is located in the `tests/` folder. When the development
@@ -124,14 +155,30 @@ Behat tests can be executed from the repository root by running:
 $ ./bin/behat -c tests/behat.yml
 ```
 
-With a single Phing task, you can run every tests suites:
+The platform can run 4 different behat profiles:
+* default: it runs behat tests against a multisite_drupal_standard build using 
+the "Europa" theme;
+* communities: it runs behat tests against a multisite_drupal_communities build 
+using the "Europa" theme;
+* standard_ec_resp: it runs behat tests against a multisite_drupal_standard build using
+the "ec_resp" theme;
+* communities_ec_resp: it runs behat tests against a multisite_drupal_communities build
+using the "ec_resp" theme;
+
+The behat execution command mentioned above runs the tests only with the default profile. <br />
+The tests will fail with it if the platform is built with the "ec_resp" theme.
+
+To run a profile other than the default one , the following command must be executed:
 
 ```
-./bin/phing behat
+$ ./bin/behat -c tests/behat.yml -p [profile]
 ```
 
-If you want to execute a single test, just provide the path to the test as an
-argument. The tests are located in `tests/features/`. For example:
+`[profile]` stands for the profile name as written in the list above; I.E: communities,
+standard_ec_resp, communities_ec_resp.
+
+If you want to execute a single test, just provide the path to the test as an argument. 
+ The tests are located in `tests/features/`. For example:
 
 ```
 $ ./bin/behat -c tests/behat.yml tests/features/content_editing.feature
