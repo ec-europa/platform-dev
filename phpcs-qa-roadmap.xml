@@ -682,11 +682,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Do not use the raw $form_state['input'], use $form_state['values'] instead where possible. -->
-    <rule ref="DrupalPractice.General.FormStateInput.Input">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Are you accessing field values here? Then you should use LANGUAGE_NONE instead of 'und'. -->
     <rule ref="DrupalPractice.General.LanguageNone.Und">
         <exclude-pattern>*</exclude-pattern>

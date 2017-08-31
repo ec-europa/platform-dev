@@ -56,6 +56,7 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     '#description' => t('Choose the classification for your website. This classification respects the !url', array('!url' => l(t('IPG guidelines'), "http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm"))),
   );
 
+  // @codingStandardsIgnoreStart: NEPT-1304: $form_state['values'] is not populated at this stage.
   // Get the 'code' and set meta_configuration variable.
   if (isset($form_state['input']['op']) && $form_state['input']['op'] == 'Save configuration') {
     if (isset($form_state['input']['classification'])) {
@@ -67,6 +68,7 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
       }
     }
   }
+  // @codingStandardsIgnoreEnd
 }
 
 /**

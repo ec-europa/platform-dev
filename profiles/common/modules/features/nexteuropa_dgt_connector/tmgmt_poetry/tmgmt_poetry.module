@@ -1160,8 +1160,8 @@ function _tmgmt_poetry_add_target_languages_form_submit($form, &$form_state) {
  * Validation callback of the addition of languages to the ongoing translation.
  */
 function _tmgmt_poetry_add_target_languages_form_validate($form, &$form_state) {
-  if (isset($form_state['input']['translatable_languages'])) {
-    foreach ($form_state['input']['translatable_languages'] as $language) {
+  if (isset($form_state['values']['translatable_languages'])) {
+    foreach ($form_state['values']['translatable_languages'] as $language) {
       if (!is_null($language)) {
         return;
       }
