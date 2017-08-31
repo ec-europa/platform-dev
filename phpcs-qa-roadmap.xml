@@ -140,12 +140,10 @@
         <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.views_default.inc</exclude-pattern>
     </rule>
 
-    <!-- Fix spacing. -->
+    <!-- Remove re-declaration. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter">
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_wiki_toc/multisite_drupal_wiki_toc.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_config/src/ConfigBase.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/feed_rss_core/feed_rss_core.module</exclude-pattern>
+    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.VariableRedeclaration">
+        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
     </rule>
 
     <!-- Check if changes can be made or a more generalized exclusion can be set. -->
