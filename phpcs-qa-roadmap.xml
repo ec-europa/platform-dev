@@ -301,8 +301,8 @@
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
     </rule>
 
-    <!-- Provide a reason in a comment on the line above as to why it should be open. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-824 -->
+    <!-- Provide a reason in a comment on the line above as to why it should be open or change restrictions. -->
+    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1473 -->
     <rule ref="DrupalPractice.FunctionDefinitions.AccessHookMenu.OpenCallback">
         <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/wiki/wiki_og/wiki_og.module</exclude-pattern>
