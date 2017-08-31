@@ -91,6 +91,10 @@ void executeStages(String label) {
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
     try {
+        stage('Check ' + label) {
+            sh './bin/phpcs --report=full --report=source --report=summary -s'
+        }
+
         stage('Init & Build ' + label) {
             deleteDir()
             checkout scm
@@ -104,8 +108,7 @@ void executeStages(String label) {
             }
         }
 
-        stage('Check & Test ' + label) {
-            sh './bin/phpcs --report=full --report=source --report=summary -s'
+        stage('Test ' + label) {
             sh './bin/phpunit -c tests/phpunit.xml'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
