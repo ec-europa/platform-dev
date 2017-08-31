@@ -202,14 +202,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
 
-    <!-- Please make error message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/controller/tmgmt_poetry.controller.job.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.install</exclude-pattern>
-    </rule>
-
     <!-- Please use the get_t(). -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-819 -->
     <rule ref="DrupalPractice.FunctionDefinitions.InstallT.TranslationFound">
@@ -221,13 +213,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_charts/multisite_charts.install</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_maps/multisite_maps.install</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
-    </rule>
-
-    <!-- Make message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_group_sync/ecas_group_sync.install</exclude-pattern>
     </rule>
 
     <!-- Make description translatable. -->
