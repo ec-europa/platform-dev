@@ -40,11 +40,11 @@ function multisite_og_navigation_tree_settings($form) {
   );
 
   if (variable_get('multisite_og_navigation_tree_vid', array())) {
-    $form['multisite_og_navigation_tree_mont_taxonomy_enabled'] = array(
+    $form['_mont_taxonomy_enabled'] = array(
       '#type' => 'checkboxes',
       '#title' => t('Enable Group taxonomy'),
       '#options' => drupal_map_assoc(array_keys($group_types)),
-      '#default_value' => variable_get('multisite_og_navigation_tree_mont_taxonomy_enabled', array()),
+      '#default_value' => variable_get('_mont_taxonomy_enabled', array()),
       '#description' => t("do not change this if you don't know what you are doing"),
     );
   }
@@ -59,6 +59,6 @@ function multisite_og_navigation_tree_settings($form) {
  * @see multisite_og_navigation_tree_settings()
  */
 function multisite_og_navigation_tree_settings_submit($form, $form_state) {
-  variable_set('multisite_og_navigation_tree_mont_taxonomy_enabled', array_filter($form_state['values']['multisite_og_navigation_tree_mont_taxonomy_enabled']));
+  variable_set('_mont_taxonomy_enabled', array_filter($form_state['values']['_mont_taxonomy_enabled']));
   variable_set('multisite_og_navigation_tree_vid', $form_state['values']['multisite_og_navigation_tree_vid']);
 }

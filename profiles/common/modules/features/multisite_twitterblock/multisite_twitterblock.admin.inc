@@ -10,7 +10,7 @@
 function multisite_twitterblock_admin_settings() {
   $form = _multisite_twitterblock_settings_form(_multisite_twitterblock_load_twitter_config());
 
-  $form['multisite_twitterblock_feature_settings'] = array(
+  $form['fpfis_twitter_feature_settings'] = array(
     '#access' => user_access('administer fpfis twitter feature'),
     '#type' => 'fieldset',
     '#title' => t('Feature settings'),
@@ -19,20 +19,20 @@ function multisite_twitterblock_admin_settings() {
   );
 
   $content_types = node_type_get_names();
-  $form['multisite_twitterblock_feature_settings']['multisite_twitterblock_override_types'] = array(
+  $form['fpfis_twitter_feature_settings']['fpfis_twitter_override_types'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Content types'),
     '#options' => $content_types,
-    '#default_value' => variable_get('multisite_twitterblock_override_types', array()),
+    '#default_value' => variable_get('fpfis_twitter_override_types', array()),
     '#description' => t('Content types where the common widget settings can be overriden on the node edit form.'),
   );
 
   $vocabularies = _multisite_twitterblock_vocabularies_list();
-  $form['multisite_twitterblock_feature_settings']['multisite_twitterblock_override_vocabularies'] = array(
+  $form['fpfis_twitter_feature_settings']['fpfis_twitter_override_vocabularies'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Taxonomy vocabularies'),
     '#options' => $vocabularies,
-    '#default_value' => variable_get('multisite_twitterblock_override_vocabularies', array()),
+    '#default_value' => variable_get('fpfis_twitter_override_vocabularies', array()),
     '#description' => t('Taxonomy vocabularies where the common widget settings can be overriden on the taxonomy term edit form.'),
   );
 

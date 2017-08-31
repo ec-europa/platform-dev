@@ -119,9 +119,9 @@ class MultisiteMetatagsFeatureTest extends DrupalWebTestCase {
 
     $edit = array();
     $edit['classification'] = '21000';
-    $edit['files[multisite_metatags_meta_og_image]'] = drupal_get_path('module', 'multisite_metatags') . '/tests/test_ogimage.jpg';
-    $edit['multisite_metatags_meta_reference'] = 'DEVCO/EUROPEAID';
-    $edit['multisite_metatags_meta_creator'] = 'COMM';
+    $edit['files[meta_og_image]'] = drupal_get_path('module', 'multisite_metatags') . '/tests/test_ogimage.jpg';
+    $edit['meta_reference'] = 'DEVCO/EUROPEAID';
+    $edit['meta_creator'] = 'COMM';
     $edit['site_frontpage'] = '';
     $this->drupalPost('admin/config/system/site-information', $edit, t('Save configuration'));
     $this->assertText(t('The configuration options have been saved.'));

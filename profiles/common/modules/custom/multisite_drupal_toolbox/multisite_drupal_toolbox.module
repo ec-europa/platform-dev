@@ -408,7 +408,7 @@ function multisite_drupal_toolbox_form_contact_site_form_alter(&$form, &$form_st
   global $user;
 
   if ($user->uid != 1) {
-    $maximum_limit = (int) variable_get('multisite_drupal_toolbox_contact_form_maxlength', 1000);
+    $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
     if (isset($maximum_limit) && is_numeric($maximum_limit)) {
       if ($form['message']) {
         $form['message']['#title'] = $form['message']['#title'] . ' ' . t('(maximum @max characters)', array('@max' => $maximum_limit));
@@ -425,7 +425,7 @@ function multisite_drupal_toolbox_form_contact_personal_form_alter(&$form, &$for
   global $user;
 
   if ($user->uid != 1) {
-    $maximum_limit = (int) variable_get('multisite_drupal_toolbox_contact_form_maxlength', 1000);
+    $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
     if (isset($maximum_limit) && is_numeric($maximum_limit)) {
       if ($form['message']) {
         $form['message']['#title'] = $form['message']['#title'] . ' ' . t('(maximum @max characters)', array('@max' => $maximum_limit));
@@ -493,12 +493,12 @@ function _multisite_drupal_toolbox_filter_sanitize($text, $filter, $format, $lan
  */
 function multisite_drupal_toolbox_sanitize($content, $nid) {
   // Security process to prevent xss attack in node contents.
-  $nodes_bypass = explode("\n", variable_get("multisite_drupal_toolbox_security_bypassed_nodes", ""));
+  $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
 
   // Check if the node must be bypass.
   if (!in_array($nid, $nodes_bypass) || is_null($nid)) {
     // Retrieve the list of allowed tags that were configured in the UI.
-    $tags_allowed = explode("\n", variable_get("multisite_drupal_toolbox_security_allowed_tags", ""));
+    $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
     // Trim whitespace and filter empty lines.
     $tags_allowed = array_map('trim', $tags_allowed);
     $tags_allowed = array_filter($tags_allowed);
@@ -1140,17 +1140,17 @@ function _content_type_linkchecker($type, $op) {
  * Modifies the security settings.
  */
 function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
-  $form['multisite_drupal_toolbox_security_allowed_tags'] = array(
+  $form['security_allowed_tags'] = array(
     '#type' => 'textarea',
     '#title' => t('allowed tags'),
-    '#default_value' => variable_get('multisite_drupal_toolbox_security_allowed_tags'),
+    '#default_value' => variable_get('security_allowed_tags'),
     '#description' => t('One tag per line.'),
   );
 
-  $form['multisite_drupal_toolbox_security_bypassed_nodes'] = array(
+  $form['security_bypassed_nodes'] = array(
     '#type' => 'textarea',
     '#title' => t('nodes to bypass'),
-    '#default_value' => variable_get('multisite_drupal_toolbox_security_bypassed_nodes'),
+    '#default_value' => variable_get('security_bypassed_nodes'),
     '#description' => t('Insert the nid of nodes that must not be filtered to check xss attacks.<br/>One nid per line.'),
   );
 
@@ -1415,10 +1415,10 @@ function multisite_drupal_toolbox_contact_settings() {
     '#type' => 'fieldset',
     '#title' => t('Contact form configuration'),
   );
-  $form['contact_form_information']['multisite_drupal_toolbox_contact_form_maxlength'] = array(
+  $form['contact_form_information']['contact_form_maxlength'] = array(
     '#type' => 'textfield',
     '#title' => t('Message maximum length'),
-    '#default_value' => variable_get('multisite_drupal_toolbox_contact_form_maxlength', 1000),
+    '#default_value' => variable_get('contact_form_maxlength', 1000),
   );
 
   return system_settings_form($form);

@@ -22,21 +22,21 @@ function multisite_cookie_consent_admin_settings() {
     );
 
     // Link to external consent javascript, it can be overwritten.
-    $form['eucookie_consent']['multisite_cookie_consent_ec_consent_javascript'] = array(
+    $form['eucookie_consent']['eucookie_consent_ec_consent_javascript'] = array(
       '#type' => 'textfield',
       '#title' => t('Consent JavaScript file'),
       '#description' => t('This file is required! If you store this file locally, you can overwrite this setting, otherwise leave as it is.'),
       '#required' => TRUE,
-      '#default_value' => variable_get('multisite_cookie_consent_ec_consent_javascript', 'http://ec.europa.eu/wel/cookie-consent/consent.js'),
+      '#default_value' => variable_get('eucookie_consent_ec_consent_javascript', 'http://ec.europa.eu/wel/cookie-consent/consent.js'),
     );
 
     // Link to external consent javascript, it can be overwritten.
-    $form['eucookie_consent']['multisite_cookie_consent_ec_consent_loggedin'] = array(
+    $form['eucookie_consent']['eucookie_consent_ec_consent_loggedin'] = array(
       '#type' => 'checkbox',
       '#title' => t('Display banner for logged in?'),
       '#description' => t('By default the cookie consent banner will shown
         only for anonymous user but check if you want to display it also for logged in users.'),
-      '#default_value' => variable_get('multisite_cookie_consent_ec_consent_loggedin', '0'),
+      '#default_value' => variable_get('eucookie_consent_ec_consent_loggedin', '0'),
     );
 
     // Get cookie info and store it to the database
@@ -55,10 +55,10 @@ function multisite_cookie_consent_admin_settings() {
     );
 
     // Cron frequency for automatic synch.
-    $form['eucookie_consent']['multisite_cookie_consent_cron_interval'] = array(
+    $form['eucookie_consent']['eucookie_consent_cron_interval'] = array(
       '#type' => 'select',
       '#title' => t('Set the frequency of automatic rebuilding of the cookie list and the cookie notice page'),
-      '#default_value' => variable_get('multisite_cookie_consent_cron_interval', 86400),
+      '#default_value' => variable_get('eucookie_consent_cron_interval', 86400),
       '#options' => array(
         0 => t('Every cron run'),
         86400 => t('Once a day'),
@@ -96,11 +96,11 @@ function multisite_cookie_consent_admin_settings() {
  */
 function multisite_cookie_consent_admin_settings_submit($form, &$form_state) {
   // Overwrite the pointer to the EC consent.js file.
-  variable_set('multisite_cookie_consent_ec_consent_javascript', $form_state['values']['multisite_cookie_consent_ec_consent_javascript']);
+  variable_set('eucookie_consent_ec_consent_javascript', $form_state['values']['eucookie_consent_ec_consent_javascript']);
   // Set variable if you want to display banner to logged in users.
-  variable_set('multisite_cookie_consent_ec_consent_loggedin', $form_state['values']['multisite_cookie_consent_ec_consent_loggedin']);
+  variable_set('eucookie_consent_ec_consent_loggedin', $form_state['values']['eucookie_consent_ec_consent_loggedin']);
   // Set variable for synch frequency.
-  variable_set('multisite_cookie_consent_cron_interval', $form_state['values']['multisite_cookie_consent_cron_interval']);
+  variable_set('eucookie_consent_cron_interval', $form_state['values']['eucookie_consent_cron_interval']);
   // Fetch data from remote services.
   if ($form_state['values']['eucookie_consent_purge'] == 1) {
     _multisite_cookie_consent_rebuild_registered_cookies();

@@ -23,9 +23,9 @@ define('MULTISITE_TWITTERBLOCK_DEFAULT_RTS_DISPLAY_ORIGINAL', TRUE);
 define('MULTISITE_TWITTERBLOCK_DEFAULT_DISPLAY_USER', TRUE);
 define('MULTISITE_TWITTERBLOCK_DEFAULT_DISPLAY_USER_PIC', TRUE);
 define('MULTISITE_TWITTERBLOCK_DEFAULT_AUTO_EXPAND_PHOTO', TRUE);
-define('MULTISITE_TWITTERBLOCK_FIELD_NAME', 'multisite_twitterblock_override');
-define('MULTISITE_TWITTERBLOCK_VOCABULARY_LIST', 'multisite_twitterblock_override_vocabularies');
-define('MULTISITE_TWITTERBLOCK_CONTENT_TYPE_LIST', 'multisite_twitterblock_override_types');
+define('MULTISITE_TWITTERBLOCK_FIELD_NAME', 'fpfis_twitter_override');
+define('MULTISITE_TWITTERBLOCK_VOCABULARY_LIST', 'fpfis_twitter_override_vocabularies');
+define('MULTISITE_TWITTERBLOCK_CONTENT_TYPE_LIST', 'fpfis_twitter_override_types');
 define('MULTISITE_TWITTERBLOCK_ENTITY_CONTENT_TYPE', 'content_type');
 define('MULTISITE_TWITTERBLOCK_ENTITY_TAXONOMY_VOCABULARY', 'taxonomy_vocabulary');
 define('MULTISITE_TWITTERBLOCK_ENTITY_NODE', 'node');
@@ -68,7 +68,7 @@ function multisite_twitterblock_permission() {
  * Implements hook_block_info().
  */
 function multisite_twitterblock_block_info() {
-  $blocks['multisite_twitterblock'] = array(
+  $blocks['fpfis_twitter'] = array(
     'info' => t('Twitter widget'),
   );
   return $blocks;
@@ -81,7 +81,7 @@ function multisite_twitterblock_block_view($delta = '') {
   $block = array();
 
   switch ($delta) {
-    case 'multisite_twitterblock':
+    case 'fpfis_twitter':
       $config = array();
       // Node override.
       $node = menu_get_object();
@@ -90,8 +90,8 @@ function multisite_twitterblock_block_view($delta = '') {
 
         node_object_prepare($node);
 
-        if (isset($node->multisite_twitterblock_override)) {
-          $config = $node->multisite_twitterblock_override['config'];
+        if (isset($node->fpfis_twitter_override)) {
+          $config = $node->fpfis_twitter_override['config'];
         }
       }
 
@@ -109,8 +109,8 @@ function multisite_twitterblock_block_view($delta = '') {
       }
 
       if ($taxonomy_term) {
-        if (isset($taxonomy_term->multisite_twitterblock_override)) {
-          $config = $taxonomy_term->multisite_twitterblock_override['config'];
+        if (isset($taxonomy_term->fpfis_twitter_override)) {
+          $config = $taxonomy_term->fpfis_twitter_override['config'];
         }
       }
 
@@ -126,7 +126,7 @@ function multisite_twitterblock_block_view($delta = '') {
       }
 
       $block['subject'] = $config['title'];
-      $block['content'] = theme('multisite_twitterblock', $config);
+      $block['content'] = theme('fpfis_twitter', $config);
       break;
   }
 
@@ -144,33 +144,33 @@ function multisite_twitterblock_block_view($delta = '') {
  */
 function _multisite_twitterblock_load_twitter_config(array $override = NULL) {
   $config = array(
-    'title' => variable_get('multisite_twitterblock_title', '<none>'),
-    'type' => variable_get('multisite_twitterblock_type', 'smk-twitter_user_timeline'),
-    'screen_name' => variable_get('multisite_twitterblock_screen_name', MULTISITE_TWITTERBLOCK_DEFAULT_SCREEN_NAME),
-    'owner_screen_name' => variable_get('multisite_twitterblock_owner_screen_name', MULTISITE_TWITTERBLOCK_DEFAULT_OWNER_SCREEN_NAME),
-    'slug' => variable_get('multisite_twitterblock_slug', MULTISITE_TWITTERBLOCK_DEFAULT_SLUG),
-    'incl_hashtags' => variable_get('multisite_twitterblock_incl_hashtags', MULTISITE_TWITTERBLOCK_DEFAULT_INCL_HASHTAGS),
-    'incl_profiles' => variable_get('multisite_twitterblock_incl_profiles', MULTISITE_TWITTERBLOCK_DEFAULT_INCL_PROFILES),
-    'excl_hashtags' => variable_get('multisite_twitterblock_excl_hashtags', MULTISITE_TWITTERBLOCK_DEFAULT_EXCL_HASHTAGS),
-    'excl_profiles' => variable_get('multisite_twitterblock_excl_profiles', MULTISITE_TWITTERBLOCK_DEFAULT_EXCL_PROFILES),
-    'from' => variable_get('multisite_twitterblock_from', MULTISITE_TWITTERBLOCK_DEFAULT_FROM),
-    'restr_lang_to' => variable_get('multisite_twitterblock_restr_lang_to', MULTISITE_TWITTERBLOCK_DEFAULT_RESTR_LANG_TO),
-    'result_type' => variable_get('multisite_twitterblock_result_type', MULTISITE_TWITTERBLOCK_DEFAULT_RESULT_TYPE),
-    'count' => variable_get('multisite_twitterblock_count', MULTISITE_TWITTERBLOCK_DEFAULT_COUNT),
-    'include_rts' => variable_get('multisite_twitterblock_include_rts', MULTISITE_TWITTERBLOCK_DEFAULT_INCLUDE_RTS),
-    'exclude_replies' => variable_get('multisite_twitterblock_exclude_replies', MULTISITE_TWITTERBLOCK_DEFAULT_EXCLUDE_REPLIES),
-    'rts_display_original' => variable_get('multisite_twitterblock_rts_display_original', MULTISITE_TWITTERBLOCK_DEFAULT_RTS_DISPLAY_ORIGINAL),
-    'display_user' => variable_get('multisite_twitterblock_display_user', MULTISITE_TWITTERBLOCK_DEFAULT_DISPLAY_USER),
-    'display_user_pic' => variable_get('multisite_twitterblock_display_user_pic', MULTISITE_TWITTERBLOCK_DEFAULT_DISPLAY_USER_PIC),
-    'auto_expand_photo' => variable_get('multisite_twitterblock_auto_expand_photo', MULTISITE_TWITTERBLOCK_DEFAULT_AUTO_EXPAND_PHOTO),
+    'title' => variable_get('fpfis_twitter_title', '<none>'),
+    'type' => variable_get('fpfis_twitter_type', 'smk-twitter_user_timeline'),
+    'screen_name' => variable_get('fpfis_twitter_screen_name', MULTISITE_TWITTERBLOCK_DEFAULT_SCREEN_NAME),
+    'owner_screen_name' => variable_get('fpfis_twitter_owner_screen_name', MULTISITE_TWITTERBLOCK_DEFAULT_OWNER_SCREEN_NAME),
+    'slug' => variable_get('fpfis_twitter_slug', MULTISITE_TWITTERBLOCK_DEFAULT_SLUG),
+    'incl_hashtags' => variable_get('fpfis_twitter_incl_hashtags', MULTISITE_TWITTERBLOCK_DEFAULT_INCL_HASHTAGS),
+    'incl_profiles' => variable_get('fpfis_twitter_incl_profiles', MULTISITE_TWITTERBLOCK_DEFAULT_INCL_PROFILES),
+    'excl_hashtags' => variable_get('fpfis_twitter_excl_hashtags', MULTISITE_TWITTERBLOCK_DEFAULT_EXCL_HASHTAGS),
+    'excl_profiles' => variable_get('fpfis_twitter_excl_profiles', MULTISITE_TWITTERBLOCK_DEFAULT_EXCL_PROFILES),
+    'from' => variable_get('fpfis_twitter_from', MULTISITE_TWITTERBLOCK_DEFAULT_FROM),
+    'restr_lang_to' => variable_get('fpfis_twitter_restr_lang_to', MULTISITE_TWITTERBLOCK_DEFAULT_RESTR_LANG_TO),
+    'result_type' => variable_get('fpfis_twitter_result_type', MULTISITE_TWITTERBLOCK_DEFAULT_RESULT_TYPE),
+    'count' => variable_get('fpfis_twitter_count', MULTISITE_TWITTERBLOCK_DEFAULT_COUNT),
+    'include_rts' => variable_get('fpfis_twitter_include_rts', MULTISITE_TWITTERBLOCK_DEFAULT_INCLUDE_RTS),
+    'exclude_replies' => variable_get('fpfis_twitter_exclude_replies', MULTISITE_TWITTERBLOCK_DEFAULT_EXCLUDE_REPLIES),
+    'rts_display_original' => variable_get('fpfis_twitter_rts_display_original', MULTISITE_TWITTERBLOCK_DEFAULT_RTS_DISPLAY_ORIGINAL),
+    'display_user' => variable_get('fpfis_twitter_display_user', MULTISITE_TWITTERBLOCK_DEFAULT_DISPLAY_USER),
+    'display_user_pic' => variable_get('fpfis_twitter_display_user_pic', MULTISITE_TWITTERBLOCK_DEFAULT_DISPLAY_USER_PIC),
+    'auto_expand_photo' => variable_get('fpfis_twitter_auto_expand_photo', MULTISITE_TWITTERBLOCK_DEFAULT_AUTO_EXPAND_PHOTO),
   );
 
   if ($override) {
     $overridden_values['title'] = $override['title'];
     $overridden_values['type'] = $override['type'];
     // Pop out type specific settings.
-    $multisite_twitterblock_types = variable_get('multisite_twitterblock_types');
-    foreach ($multisite_twitterblock_types as $key => $current_type) {
+    $fpfis_twitter_types = variable_get('fpfis_twitter_types');
+    foreach ($fpfis_twitter_types as $key => $current_type) {
       if (isset($override[$key])) {
         if (isset($override[$key]['detailed'])) {
           $overridden_values = array_merge($override[$key]['detailed'], $overridden_values);
@@ -190,7 +190,7 @@ function _multisite_twitterblock_load_twitter_config(array $override = NULL) {
  */
 function multisite_twitterblock_theme() {
   return array(
-    'multisite_twitterblock' => array(
+    'fpfis_twitter' => array(
       'variables' => array('config' => NULL),
     ),
   );
@@ -205,7 +205,7 @@ function multisite_twitterblock_theme() {
  * @return string
  *   Twitter output config.
  */
-function theme_multisite_twitterblock(array $variables) {
+function theme_fpfis_twitter(array $variables) {
   global $is_https;
   drupal_add_js(($is_https ? 'https' : 'http') . '://ec.europa.eu/wel/social-media-kit/social-media-kit.js', 'external');
   $type = $variables['type'];
@@ -302,15 +302,15 @@ function multisite_twitterblock_node_prepare($node) {
  */
 function _multisite_twitterblock_load_settings(&$entity, $entity_id, $entity_type) {
 
-  $multisite_twitterblock_override = array();
+  $fpfis_twitter_override = array();
   $field = MULTISITE_TWITTERBLOCK_FIELD_NAME;
 
   if ($entity_type == MULTISITE_TWITTERBLOCK_ENTITY_CONTENT_TYPE || $entity_type == MULTISITE_TWITTERBLOCK_ENTITY_TAXONOMY_VOCABULARY) {
     // Settings for Content Type or Taxonomy vocabulary.
     $settings = variable_get(multisite_twitterblock_get_var_name($entity_id, $entity_type), NULL);
     if (!empty($settings)) {
-      $multisite_twitterblock_override['enabled'] = $settings['enabled'];
-      $multisite_twitterblock_override['config'] = _multisite_twitterblock_load_twitter_config($settings['config']);
+      $fpfis_twitter_override['enabled'] = $settings['enabled'];
+      $fpfis_twitter_override['config'] = _multisite_twitterblock_load_twitter_config($settings['config']);
     }
   }
   else {
@@ -319,47 +319,47 @@ function _multisite_twitterblock_load_settings(&$entity, $entity_id, $entity_typ
       if (!empty($entity_id)) {
         $settings = multisite_twitterblock_load($entity_id, $entity_type);
         if (!empty($settings)) {
-          $multisite_twitterblock_override['enabled'] = TRUE;
-          $multisite_twitterblock_override['config'] = _multisite_twitterblock_load_twitter_config($settings);
+          $fpfis_twitter_override['enabled'] = TRUE;
+          $fpfis_twitter_override['config'] = _multisite_twitterblock_load_twitter_config($settings);
         }
       }
     }
 
     // Load Node default settings from content type.
-    if ($entity_type == MULTISITE_TWITTERBLOCK_ENTITY_NODE && empty($multisite_twitterblock_override)) {
+    if ($entity_type == MULTISITE_TWITTERBLOCK_ENTITY_NODE && empty($fpfis_twitter_override)) {
       $settings = variable_get(multisite_twitterblock_get_var_name($entity->type, MULTISITE_TWITTERBLOCK_ENTITY_CONTENT_TYPE), NULL);
       if (!empty($settings)) {
-        $multisite_twitterblock_override['enabled'] = $settings['enabled'];
-        $multisite_twitterblock_override['config'] = _multisite_twitterblock_load_twitter_config($settings['config']);
+        $fpfis_twitter_override['enabled'] = $settings['enabled'];
+        $fpfis_twitter_override['config'] = _multisite_twitterblock_load_twitter_config($settings['config']);
       }
     }
 
     // Load taxonomy term default settings from taxonomy vocabulary.
-    if ($entity_type == MULTISITE_TWITTERBLOCK_ENTITY_TAXONOMY_TERM && empty($multisite_twitterblock_override)) {
+    if ($entity_type == MULTISITE_TWITTERBLOCK_ENTITY_TAXONOMY_TERM && empty($fpfis_twitter_override)) {
 
       if (!empty($entity)) {
         $vocabulary_machine_name = is_object($entity) ? $entity->vocabulary_machine_name : $entity['vocabulary_machine_name'];
         $settings = variable_get(multisite_twitterblock_get_var_name($vocabulary_machine_name, MULTISITE_TWITTERBLOCK_ENTITY_TAXONOMY_VOCABULARY), NULL);
         if (!empty($settings)) {
-          $multisite_twitterblock_override['enabled'] = $settings['enabled'];
-          $multisite_twitterblock_override['config'] = _multisite_twitterblock_load_twitter_config($settings['config']);
+          $fpfis_twitter_override['enabled'] = $settings['enabled'];
+          $fpfis_twitter_override['config'] = _multisite_twitterblock_load_twitter_config($settings['config']);
         }
       }
     }
   }
 
   // Set default values.
-  if (empty($multisite_twitterblock_override)) {
-    $multisite_twitterblock_override['enabled'] = FALSE;
-    $multisite_twitterblock_override['config'] = _multisite_twitterblock_load_twitter_config(NULL);
+  if (empty($fpfis_twitter_override)) {
+    $fpfis_twitter_override['enabled'] = FALSE;
+    $fpfis_twitter_override['config'] = _multisite_twitterblock_load_twitter_config(NULL);
   }
 
   // If entiry exists set settings.
   if (is_object($entity)) {
-    $entity->$field = $multisite_twitterblock_override;
+    $entity->$field = $fpfis_twitter_override;
   }
 
-  return $multisite_twitterblock_override;
+  return $fpfis_twitter_override;
 }
 
 /**
@@ -404,18 +404,18 @@ function multisite_twitterblock_form_node_form_alter(&$form, $form_state) {
  * @param array $form
  *   Rendable array.
  */
-function _multisite_twitterblock_entity_subform(array &$form, $multisite_twitterblock_override = array()) {
+function _multisite_twitterblock_entity_subform(array &$form, $fpfis_twitter_override = array()) {
   $field = MULTISITE_TWITTERBLOCK_FIELD_NAME;
   // Try to get settings from form entity.
   if (isset($form['#entity']->$field)) {
-    $multisite_twitterblock_override = $form['#entity']->$field;
+    $fpfis_twitter_override = $form['#entity']->$field;
   }
   if (isset($form['#term'][MULTISITE_TWITTERBLOCK_FIELD_NAME])) {
-    $multisite_twitterblock_override = $form['#term'][MULTISITE_TWITTERBLOCK_FIELD_NAME];
+    $fpfis_twitter_override = $form['#term'][MULTISITE_TWITTERBLOCK_FIELD_NAME];
   }
 
   // Do nothing in case there are no settings.
-  if (empty($multisite_twitterblock_override)) {
+  if (empty($fpfis_twitter_override)) {
     return;
   }
 
@@ -441,23 +441,23 @@ function _multisite_twitterblock_entity_subform(array &$form, $multisite_twitter
     '#group' => 'additional_settings',
     '#tree' => TRUE,
     '#weight' => $weight,
-    '#attributes' => array('class' => array('multisite_twitterblock_override-form')),
+    '#attributes' => array('class' => array('fpfis_twitter_override-form')),
   );
 
   $form[MULTISITE_TWITTERBLOCK_FIELD_NAME]['enabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Override Twitter widget on this page'),
-    '#default_value' => $multisite_twitterblock_override['enabled'],
+    '#default_value' => $fpfis_twitter_override['enabled'],
   );
 
-  $form[MULTISITE_TWITTERBLOCK_FIELD_NAME]['config'] = _multisite_twitterblock_settings_form($multisite_twitterblock_override['config'], 'override', '', 'multisite_twitterblock_override[config]');
+  $form[MULTISITE_TWITTERBLOCK_FIELD_NAME]['config'] = _multisite_twitterblock_settings_form($fpfis_twitter_override['config'], 'override', '', 'fpfis_twitter_override[config]');
   $form[MULTISITE_TWITTERBLOCK_FIELD_NAME]['config'] += array(
     '#type' => 'container',
     '#collapsible' => FALSE,
     '#collapsed' => FALSE,
     '#states' => array(
       'visible' => array(
-        ':input[name="multisite_twitterblock_override[enabled]"]' => array('checked' => TRUE),
+        ':input[name="fpfis_twitter_override[enabled]"]' => array('checked' => TRUE),
       ),
     ),
   );
@@ -538,8 +538,8 @@ function multisite_twitterblock_taxonomy_term_update($term) {
 function multisite_twitterblock_entity_save($entity, $entity_id, $entity_type) {
   $field = MULTISITE_TWITTERBLOCK_FIELD_NAME;
   if (isset($entity->$field)) {
-    $multisite_twitterblock_override = &$entity->$field;
-    if (empty($multisite_twitterblock_override['enabled'])) {
+    $fpfis_twitter_override = &$entity->$field;
+    if (empty($fpfis_twitter_override['enabled'])) {
       // Remove previously created.
       if (multisite_twitterblock_load($entity_id, $entity_type)) {
         multisite_twitterblock_delete($entity_id, $entity_type);
@@ -547,8 +547,8 @@ function multisite_twitterblock_entity_save($entity, $entity_id, $entity_type) {
     }
     else {
       // Create new.
-      $multisite_twitterblock_override['entity_id'] = $entity_id;
-      multisite_twitterblock_save($multisite_twitterblock_override, $entity_type);
+      $fpfis_twitter_override['entity_id'] = $entity_id;
+      multisite_twitterblock_save($fpfis_twitter_override, $entity_type);
     }
   }
 }
@@ -572,17 +572,17 @@ function multisite_twitterblock_taxonomy_term_delete($term) {
 /**
  * Stores serialized twitter settings.
  *
- * @param array $multisite_twitterblock_override
+ * @param array $fpfis_twitter_override
  *    Array of overrides.
  * @param string $entity_type
  *   Entity type.
  */
-function multisite_twitterblock_save(array $multisite_twitterblock_override = array(), $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
+function multisite_twitterblock_save(array $fpfis_twitter_override = array(), $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
   $status = db_merge('multisite_twitterblock_twitter_overrides')
-      ->key(array('entity_id' => $multisite_twitterblock_override['entity_id']))
+      ->key(array('entity_id' => $fpfis_twitter_override['entity_id']))
       ->fields(array(
         'entity_type' => $entity_type,
-        'data' => serialize($multisite_twitterblock_override['config']),
+        'data' => serialize($fpfis_twitter_override['config']),
       ))
       ->execute();
 }
@@ -617,8 +617,8 @@ function multisite_twitterblock_delete($entity_id, $entity_type = MULTISITE_TWIT
  * @return array
  *   Array form.
  */
-function _multisite_twitterblock_settings_form(array $default_values = array(), $mode = 'full', $prefix = 'multisite_twitterblock_', $container = '') {
-  $multisite_twitterblock_types = variable_get('multisite_twitterblock_types');
+function _multisite_twitterblock_settings_form(array $default_values = array(), $mode = 'full', $prefix = 'fpfis_twitter_', $container = '') {
+  $fpfis_twitter_types = variable_get('fpfis_twitter_types');
 
   $form[$prefix . 'title'] = array(
     '#type' => 'textfield',
@@ -630,7 +630,7 @@ function _multisite_twitterblock_settings_form(array $default_values = array(), 
   $form[$prefix . 'type'] = array(
     '#type' => 'select',
     '#title' => t('Widget type'),
-    '#options' => $multisite_twitterblock_types,
+    '#options' => $fpfis_twitter_types,
     '#default_value' => $default_values['type'],
     '#description' => t('User feed,  List member feed, Search'),
   );

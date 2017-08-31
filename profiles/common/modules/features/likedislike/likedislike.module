@@ -46,7 +46,7 @@ function likedislike_block_view($delta = '') {
  * Custom html block.
  */
 function likedislike_contents() {
-  $wid = variable_get('likedislike_widget');
+  $wid = variable_get('widget');
   switch ($wid) {
     case t('Like / Dislike with labels'):
       $wid_final = NULL;
@@ -68,8 +68,8 @@ function likedislike_contents() {
       $wid_final = NULL;
       break;
   }
-  $url = variable_get('likedislike_url');
-  $url_address = variable_get('likedislike_url_address');
+  $url = variable_get('url');
+  $url_address = variable_get('url_address');
   switch ($url) {
     case t('No URL specified - URL detected automatically'):
       $url_final = NULL;
@@ -92,8 +92,8 @@ function likedislike_contents() {
       $url_final = NULL;
       break;
   }
-  $lan = variable_get('likedislike_language');
-  $language_selector = variable_get('likedislike_language_selector');
+  $lan = variable_get('language');
+  $language_selector = variable_get('language_selector');
   switch ($lan) {
     case t('From URL'):
       $lan_final = '"lang":"url"';
@@ -149,9 +149,9 @@ function likedislike_form($form, &$form_state) {
     '#collapsed' => FALSE,
   );
 
-  $form['like_dislike']['likedislike_widget'] = array(
+  $form['like_dislike']['widget'] = array(
     '#type' => 'radios',
-    '#default_value' => variable_get('likedislike_widget', 'Like / Dislike with labels'),
+    '#default_value' => variable_get('widget', 'Like / Dislike with labels'),
     '#options' => drupal_map_assoc(array(
       0 => t('Like / Dislike with labels'),
       1 => t('Like / Dislike without labels - Thumbs only'),
@@ -169,9 +169,9 @@ function likedislike_form($form, &$form_state) {
     '#collapsed' => TRUE,
   );
 
-  $form['specify_url']['likedislike_url'] = array(
+  $form['specify_url']['url'] = array(
     '#type' => 'radios',
-    '#default_value' => variable_get('likedislike_url', 'No URL specified - URL detected automatically'),
+    '#default_value' => variable_get('url', 'No URL specified - URL detected automatically'),
     '#options' => drupal_map_assoc(array(
       0 => t('No URL specified - URL detected automatically'),
       1 => t('No URL specified - URL detected automatically but without considering request parameters'),
@@ -181,10 +181,10 @@ function likedislike_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
-  $form['specify_url']['likedislike_url_address'] = array(
+  $form['specify_url']['url_address'] = array(
     '#type' => 'textfield',
     '#title' => t('Set a specific URL'),
-    '#default_value' => variable_get('likedislike_url_address', NULL),
+    '#default_value' => variable_get('url_address', NULL),
     '#maxlength' => 255,
     '#description' => t('Please, introduce the specific URL in case you select the option "User specified URL". i.e. http://ec.europa.eu/index_en.htm'),
     '#required' => FALSE,
@@ -197,9 +197,9 @@ function likedislike_form($form, &$form_state) {
     '#collapsed' => TRUE,
   );
 
-  $form['language_detection']['likedislike_language'] = array(
+  $form['language_detection']['language'] = array(
     '#type' => 'radios',
-    '#default_value' => variable_get('likedislike_language', 'From URL'),
+    '#default_value' => variable_get('language', 'From URL'),
     '#options' => drupal_map_assoc(array(
       0 => t('From URL'),
       1 => t('From HTML lang'),
@@ -218,11 +218,11 @@ function likedislike_form($form, &$form_state) {
   foreach ($languages[1] as $lan) {
     $langs[$lan->language] = $lan->name;
   }
-  $form['language_detection']['likedislike_language_selector'] = array(
+  $form['language_detection']['language_selector'] = array(
     '#type' => 'select',
     '#title' => t('Set a specific Language'),
     '#options' => $langs,
-    '#default_value' => variable_get('likedislike_language_selector', $language->language),
+    '#default_value' => variable_get('language_selector', $language->language),
     '#description' => t('Please, select a specific language in case you select the option "Language specified"'),
   );
   return system_settings_form($form);

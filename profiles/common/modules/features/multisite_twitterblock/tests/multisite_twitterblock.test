@@ -15,24 +15,24 @@ class MultisiteTwitterblockDevelopmentQA extends DrupalWebTestCase {
   protected $adminUser = NULL;
   protected $basicUser = NULL;
   protected $configuration = array(
-    'multisite_twitterblock_type' => 'smk-twitter_search',
-    'multisite_twitterblock_title' => 'Some twitter widget',
-    'multisite_twitterblock_slug' => 'cloud-influencers',
-    'multisite_twitterblock_screen_name' => 'DigitalAgendaEU',
-    'multisite_twitterblock_rts_display_original' => '1',
-    'multisite_twitterblock_result_type' => 'popular',
-    'multisite_twitterblock_restr_lang_to' => 'rus',
-    'multisite_twitterblock_owner_screen_name' => 'DigitalAgendaEU',
-    'multisite_twitterblock_override_types[article]' => 'article',
-    'multisite_twitterblock_include_rts' => '1',
-    'multisite_twitterblock_incl_profiles' => '',
-    'multisite_twitterblock_incl_hashtags' => 'box',
-    'multisite_twitterblock_from' => '',
-    'multisite_twitterblock_excl_profiles' => '',
-    'multisite_twitterblock_excl_hashtags' => '',
-    'multisite_twitterblock_display_user_pic' => '1',
-    'multisite_twitterblock_display_user' => '1',
-    'multisite_twitterblock_count' => '20',
+    'fpfis_twitter_type' => 'smk-twitter_search',
+    'fpfis_twitter_title' => 'Some twitter widget',
+    'fpfis_twitter_slug' => 'cloud-influencers',
+    'fpfis_twitter_screen_name' => 'DigitalAgendaEU',
+    'fpfis_twitter_rts_display_original' => '1',
+    'fpfis_twitter_result_type' => 'popular',
+    'fpfis_twitter_restr_lang_to' => 'rus',
+    'fpfis_twitter_owner_screen_name' => 'DigitalAgendaEU',
+    'fpfis_twitter_override_types[article]' => 'article',
+    'fpfis_twitter_include_rts' => '1',
+    'fpfis_twitter_incl_profiles' => '',
+    'fpfis_twitter_incl_hashtags' => 'box',
+    'fpfis_twitter_from' => '',
+    'fpfis_twitter_excl_profiles' => '',
+    'fpfis_twitter_excl_hashtags' => '',
+    'fpfis_twitter_display_user_pic' => '1',
+    'fpfis_twitter_display_user' => '1',
+    'fpfis_twitter_count' => '20',
     'form_id' => 'multisite_twitterblock_admin_settings',
   );
 
@@ -134,7 +134,7 @@ class MultisiteTwitterblockDevelopmentQA extends DrupalWebTestCase {
     // Check wether basic user has access to override twitter setting.
     $this->drupalLogin($this->basicUser);
     $this->drupalGet('node/add/article/');
-    $this->assertNoField('multisite_twitterblock_override[enabled]', 'No Override settings');
+    $this->assertNoField('fpfis_twitter_override[enabled]', 'No Override settings');
 
     $this->drupalLogout();
 
@@ -142,12 +142,12 @@ class MultisiteTwitterblockDevelopmentQA extends DrupalWebTestCase {
     // (article has twitter settings).
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('node/add/article/');
-    $this->assertField('multisite_twitterblock_override[enabled]', 'Override settings');
+    $this->assertField('fpfis_twitter_override[enabled]', 'Override settings');
 
     // Check wether admin user has override twitter setting on Basic page.
     // (basic page does not have twitter settings).
     $this->drupalGet('node/add/page/');
-    $this->assertNoField('multisite_twitterblock_override[enabled]', 'No Override settings');
+    $this->assertNoField('fpfis_twitter_override[enabled]', 'No Override settings');
     $this->drupalLogout();
   }
 

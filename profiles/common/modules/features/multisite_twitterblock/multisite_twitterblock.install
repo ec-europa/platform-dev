@@ -14,7 +14,7 @@ function multisite_twitterblock_enable() {
   drupal_set_message(t('Multisite twitter block feature is now active on your site.'));
 
   // Twitter to sidebar.
-  multisite_drupal_toolbox_add_block_context('site_wide', 'multisite_twitterblock', 'multisite_twitterblock', 'multisite_twitterblock', 'sidebar_right', '-7');
+  multisite_drupal_toolbox_add_block_context('site_wide', 'fpfis_twitter', 'multisite_twitterblock', 'fpfis_twitter', 'sidebar_right', '-7');
 }
 
 /**
@@ -24,7 +24,7 @@ function multisite_twitterblock_disable() {
   drupal_set_message(t('Multisite twitter block feature is now inactive on your site.'));
 
   // Remove Twitter from context.
-  multisite_drupal_toolbox_remove_block_context('site_wide', 'multisite_twitterblock');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'fpfis_twitter');
 }
 
 /**
@@ -32,12 +32,12 @@ function multisite_twitterblock_disable() {
  */
 function multisite_twitterblock_install() {
   // Install scripts here.
-  $multisite_twitterblock_types = array(
+  $fpfis_twitter_types = array(
     'smk-twitter_user_timeline' => 'User feed',
     'smk-twitter_list_timeline' => 'List members feed',
     'smk-twitter_search' => 'Search feed',
   );
-  variable_set('multisite_twitterblock_types', $multisite_twitterblock_types);
+  variable_set('fpfis_twitter_types', $fpfis_twitter_types);
 }
 
 /**
@@ -45,27 +45,27 @@ function multisite_twitterblock_install() {
  */
 function multisite_twitterblock_uninstall() {
   // Uninstall scripts here.
-  variable_del('multisite_twitterblock_title');
-  variable_del('multisite_twitterblock_types');
-  variable_del('multisite_twitterblock_type');
-  variable_del('multisite_twitterblock_screen_name');
-  variable_del('multisite_twitterblock_owner_screen_name');
-  variable_del('multisite_twitterblock_slug');
-  variable_del('multisite_twitterblock_incl_hashtags');
-  variable_del('multisite_twitterblock_incl_profiles');
-  variable_del('multisite_twitterblock_excl_hashtags');
-  variable_del('multisite_twitterblock_excl_profiles');
-  variable_del('multisite_twitterblock_from');
-  variable_del('multisite_twitterblock_restr_lang_to');
-  variable_del('multisite_twitterblock_result_type');
-  variable_del('multisite_twitterblock_count');
-  variable_del('multisite_twitterblock_include_rts');
-  variable_del('multisite_twitterblock_exclude_replies_rts');
-  variable_del('multisite_twitterblock_rts_display_original');
-  variable_del('multisite_twitterblock_display_user');
-  variable_del('multisite_twitterblock_display_user_pic');
-  variable_del('multisite_twitterblock_auto_expand_photo');
-  variable_del('multisite_twitterblock_override_types');
+  variable_del('fpfis_twitter_title');
+  variable_del('fpfis_twitter_types');
+  variable_del('fpfis_twitter_type');
+  variable_del('fpfis_twitter_screen_name');
+  variable_del('fpfis_twitter_owner_screen_name');
+  variable_del('fpfis_twitter_slug');
+  variable_del('fpfis_twitter_incl_hashtags');
+  variable_del('fpfis_twitter_incl_profiles');
+  variable_del('fpfis_twitter_excl_hashtags');
+  variable_del('fpfis_twitter_excl_profiles');
+  variable_del('fpfis_twitter_from');
+  variable_del('fpfis_twitter_restr_lang_to');
+  variable_del('fpfis_twitter_result_type');
+  variable_del('fpfis_twitter_count');
+  variable_del('fpfis_twitter_include_rts');
+  variable_del('fpfis_twitter_exclude_replies_rts');
+  variable_del('fpfis_twitter_rts_display_original');
+  variable_del('fpfis_twitter_display_user');
+  variable_del('fpfis_twitter_display_user_pic');
+  variable_del('fpfis_twitter_auto_expand_photo');
+  variable_del('fpfis_twitter_override_types');
 }
 
 /**

@@ -13,16 +13,16 @@ function multisite_notifications_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'multisite_notifications_core_subscribe_message_en';
+  $strongarm->name = 'subscribe_message_en';
   $strongarm->value = 'Please confirm your subscription by clicking the link provided by this mail.';
-  $export['multisite_notifications_core_subscribe_message_en'] = $strongarm;
+  $export['subscribe_message_en'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'multisite_notifications_core_subscribe_subject_en';
+  $strongarm->name = 'subscribe_subject_en';
   $strongarm->value = 'Please confirm your subscription';
-  $export['multisite_notifications_core_subscribe_subject_en'] = $strongarm;
+  $export['subscribe_subject_en'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -170,16 +170,16 @@ function multisite_notifications_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'multisite_notifications_core_unsubscribe_message_en';
+  $strongarm->name = 'unsubscribe_message_en';
   $strongarm->value = 'Please confirm your unsubscription by clicking the link provided by this mail.';
-  $export['multisite_notifications_core_unsubscribe_message_en'] = $strongarm;
+  $export['unsubscribe_message_en'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'multisite_notifications_core_unsubscribe_subject_en';
+  $strongarm->name = 'unsubscribe_subject_en';
   $strongarm->value = 'Please confirm your unsubscription';
-  $export['multisite_notifications_core_unsubscribe_subject_en'] = $strongarm;
+  $export['unsubscribe_subject_en'] = $strongarm;
 
   return $export;
 }

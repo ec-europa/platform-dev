@@ -33,7 +33,7 @@ function multisite_language_provider_callback($languages) {
 function multisite_url_rewrite_callback(&$path, &$options) {
   global $language_url;
 
-  $delimiter = variable_get('multisite_drupal_language_negociation_suffix_delimiter', '_');
+  $delimiter = variable_get('language_suffix_delimiter', '_');
 
   $language_list = language_list('enabled');
   $languages = array_flip(array_keys($language_list[1]));
@@ -68,7 +68,7 @@ function multisite_url_rewrite_callback(&$path, &$options) {
  * Extract the suffix from the path.
  */
 function language_url_split_suffix($path, $languages) {
-  $delimiter = variable_get('multisite_drupal_language_negociation_suffix_delimiter', '_');
+  $delimiter = variable_get('language_suffix_delimiter', '_');
   $args = empty($path) ? array() : explode($delimiter, $path);
   $suffix = array_pop($args);
   // Handle if there are extra parameters after the suffix.

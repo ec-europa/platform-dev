@@ -38,13 +38,13 @@ function multisite_drupal_language_negociation_enable() {
   $ln['locale-url'] = $lni['locale-url'];
   language_negotiation_set('language', $ln);
 
-  variable_set("multisite_drupal_language_negociation_suffix_delimiter", "_");
+  variable_set("language_suffix_delimiter", "_");
 }
 
 /**
  * Implements hook_disable().
  */
 function multisite_drupal_language_negociation_disable() {
-  variable_del("multisite_drupal_language_negociation_suffix_delimiter");
+  variable_del("language_suffix_delimiter");
   variable_del("language_negociation_views");
 }

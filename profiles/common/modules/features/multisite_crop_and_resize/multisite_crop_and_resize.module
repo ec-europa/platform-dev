@@ -93,7 +93,7 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
       '#options' => $image_style_options + array(
         '-1' => t('None'),
       ),
-      '#default_value' => variable_get('multisite_crop_and_resize_default_style', -1),
+      '#default_value' => variable_get('media_crop_default_style', -1),
       '#attributes' => array(
         'class' => array('media-crop-special-select'),
       ),

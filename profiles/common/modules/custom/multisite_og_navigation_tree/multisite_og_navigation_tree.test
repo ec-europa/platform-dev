@@ -213,7 +213,7 @@ class OGNavigationTreeDrupalWebTestCase extends DrupalWebTestCase {
     $vocabulary = taxonomy_vocabulary_machine_name_load('multisite_og_navigation_tree');
     $edit = array();
     $edit['multisite_og_navigation_tree_vid'] = $vocabulary->vid;
-    $edit['multisite_og_navigation_tree_mont_taxonomy_enabled[groups]'] = 'groups';
+    $edit['_mont_taxonomy_enabled[groups]'] = 'groups';
     $this->drupalPost($this->getUrl(), $edit, t('Save settings'));
     $this->assertResponse(200, 'OG Navigation Tree settings have been saved');
 
