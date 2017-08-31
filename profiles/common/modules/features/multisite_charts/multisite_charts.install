@@ -40,7 +40,7 @@ function multisite_charts_requirements($phase) {
     // Fusionchart PHP file.
     $file_exists = file_exists(multisite_charts_get_library_path() . 'Code/PHP/Includes/FusionCharts.php');
     if ($file_exists) {
-      $requirements['multisite_charts']['value'] = t('FusionCharts PHP file found.');
+      $requirements['multisite_charts']['value'] = $t('FusionCharts PHP file found.');
       $requirements['multisite_charts']['severity'] = REQUIREMENT_OK;
     }
     else {
