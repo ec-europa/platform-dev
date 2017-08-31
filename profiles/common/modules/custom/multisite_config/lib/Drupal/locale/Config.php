@@ -61,12 +61,11 @@ class Config extends ConfigBase {
    *    Language prefix.
    */
   public function setLanguagePrefix($language, $prefix) {
-    $arguments = array(':language' => $language, ':prefix' => $prefix);
     db_update('languages')
       ->fields(array(
-        'prefix' => ':prefix',
+        'prefix' => $prefix,
       ))
-      ->condition('language', ':language', '=')
+      ->condition('language', $language, '=')
       ->execute();
   }
 
