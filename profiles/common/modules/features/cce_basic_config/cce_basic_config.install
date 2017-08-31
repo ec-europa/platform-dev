@@ -2107,9 +2107,11 @@ function cce_basic_config_update_7204() {
 
   foreach ($rate_widgets as &$rate_widget) {
     foreach (array('css', 'js') as $attachment) {
+      // @codingStandardsIgnoreStart: NEPT-1308: The following code tries to remove static urls from the database.
       if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
         $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
       }
+      // @codingStandardsIgnoreEnd
     }
   }
 

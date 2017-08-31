@@ -745,11 +745,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Internal hardcoded paths are not allowed. Please use variable_get('file_public|private|temporary_path'). -->
-    <rule ref="QualityAssurance.Generic.HardcodedPath.HardcodedPath">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Empty strongarm settings for 'pathauto_node_blog_pattern' are not allowed. -->
     <rule ref="QualityAssurance.Generic.EmptySettings.Strongarm">
         <exclude-pattern>*</exclude-pattern>
