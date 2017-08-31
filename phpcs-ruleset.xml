@@ -104,4 +104,10 @@
         <exclude-pattern>sprofiles/*/modules/features/**/*features.field_base.inc</exclude-pattern>
         <exclude-pattern>sprofiles/*/modules/features/**/*features.field_instance.inc</exclude-pattern>
     </rule>
+
+    <!-- Use more descriptive variable names. -->
+    <!-- NEPT-1483: This rule should be enforced after taking the impact of the renaming into consideration. -->
+    <rule ref="DrupalPractice.General.VariableName.VariableName">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
 </ruleset>
