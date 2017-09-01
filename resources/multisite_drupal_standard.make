@@ -789,13 +789,7 @@ projects[workbench_og][version] = "2.0-beta1"
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][branch] = 7.x-1.x
-projects[wysiwyg][download][revision] = c55e14e
-projects[wysiwyg][download][type] = git
-; Various core/platform modules loading remote content trough _locale_parse_js_file
-; https://www.drupal.org/node/1802394
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
-projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
+projects[wysiwyg][download][branch] = 7.x-2.4
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
