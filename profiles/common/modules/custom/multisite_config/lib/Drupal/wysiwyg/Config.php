@@ -73,7 +73,7 @@ class Config extends ConfigBase {
    *    Text format machine name, for example: "full_html".
    *
    * @return object
-   *    WYSIWYG profile object.
+   *   WYSIWYG profile object.
    */
   public function getProfile($format_name) {
     wysiwyg_profile_cache_clear();
@@ -93,7 +93,7 @@ class Config extends ConfigBase {
    *    Profile settings array.
    *
    * @return object
-   *    WYSIWYG profile object.
+   *   WYSIWYG profile object.
    */
   public function createProfile($format_name, $editor, $settings = array()) {
     $settings += $this->defaultSettings();
@@ -143,7 +143,7 @@ class Config extends ConfigBase {
    * @see: wysiwyg_profile_form().
    *
    * @return array
-   *    Array of default profile settings.
+   *   Array of default profile settings.
    */
   private function defaultSettings() {
     return array(

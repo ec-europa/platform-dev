@@ -29,7 +29,7 @@ class Config extends ConfigBase {
    *    Field group mode.
    *
    * @return object
-   *    Field group definition object.
+   *   Field group definition object.
    */
   public function loadFieldGroup($group_name, $entity_type, $bundle_name, $mode = 'form') {
     return field_group_load_field_group($group_name, $entity_type, $bundle_name, $mode);
@@ -42,7 +42,7 @@ class Config extends ConfigBase {
    *    Identifier string, like "group_group_name|node|article|form".
    *
    * @return object
-   *    Field group definition object.
+   *   Field group definition object.
    */
   public function loadFieldGroupByIdentifier($identifier) {
     list($group_name, $entity_type, $bundle_name, $mode) = explode('|', $identifier);
@@ -65,7 +65,7 @@ class Config extends ConfigBase {
    *    Bundle machine name.
    *
    * @return \Drupal\field_group\FieldGroupHandler
-   *    Field group handler object instance.
+   *   Field group handler object instance.
    */
   public function createFieldGroup($label, $group_name, $entity_type, $bundle) {
     return new FieldGroupHandler($label, $group_name, $entity_type, $bundle);

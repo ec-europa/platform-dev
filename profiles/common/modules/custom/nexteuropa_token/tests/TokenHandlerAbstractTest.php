@@ -72,7 +72,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Get test content type.
    *
    * @return string
-   *    Content type object.
+   *   Content type object.
    */
   protected function getTestContentType() {
     return self::$contentType;
@@ -118,7 +118,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Get test vocabulary.
    *
    * @return object
-   *    Vocabulary object.
+   *   Vocabulary object.
    */
   protected function getTestVocabulary() {
     return self::$vocabulary;
@@ -149,7 +149,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Create and return test node.
    *
    * @return \stdClass
-   *    Return node object.
+   *   Return node object.
    */
   protected function getTestNode() {
     $content_type = $this->getTestContentType();
@@ -181,7 +181,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    *    Length of randomly generated name.
    *
    * @return string
-   *    Randomly generated name.
+   *   Randomly generated name.
    */
   public static function randomName($length = 8) {
     $values = array_merge(range(65, 90), range(97, 122), range(48, 57));

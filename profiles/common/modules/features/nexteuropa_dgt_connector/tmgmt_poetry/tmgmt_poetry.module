@@ -477,7 +477,7 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
  *    Entity id.
  *
  * @return mixed
- *    An array of results with active translation jobs for given entity id.
+ *   An array of results with active translation jobs for given entity id.
  */
 function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
   $query = db_select('tmgmt_job_item', 'item');

@@ -50,7 +50,7 @@ function multisite_wysiwyg_element_info_alter(&$types) {
  *    Element array.
  *
  * @return mixed
- *    Element array.
+ *   Element array.
  *
  * @see multisite_wysiwyg_element_info_alter()
  */
@@ -82,7 +82,7 @@ function multisite_wysiwyg_pre_render_text_format($element) {
  *    One of the states above.
  *
  * @return string
- *    Current entity object state.
+ *   Current entity object state.
  *
  * @see multisite_wysiwyg_wysiwyg_editor_settings_alter()
  */

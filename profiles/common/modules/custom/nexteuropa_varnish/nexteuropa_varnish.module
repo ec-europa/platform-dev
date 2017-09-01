@@ -628,7 +628,7 @@ function _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths = 
  *    The node object.
  *
  * @return bool
- *    True, if at least a rule is set.
+ *   True, if at least a rule is set.
  */
 function nexteuropa_varnish_node_has_rules($node) {
   if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {

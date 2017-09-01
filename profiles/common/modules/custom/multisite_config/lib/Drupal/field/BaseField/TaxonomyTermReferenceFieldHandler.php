@@ -21,7 +21,7 @@ class TaxonomyTermReferenceFieldHandler extends DefaultFieldHandler {
    *    Vocabulary machine name.
    *
    * @return $this
-   *    Reference to this object instance, so to allow method chaining.
+   *   Reference to this object instance, so to allow method chaining.
    */
   public function setVocabulary($vocabulary_name) {
     $this->field['settings']['allowed_values'] = array(

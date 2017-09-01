@@ -53,7 +53,7 @@ class nexteuropa_token_ckeditor_bean_handler_field_selection extends views_handl
    *    Render values.
    *
    * @return string
-   *    Rendered output.
+   *   Rendered output.
    */
   public function render($values) {
     $entity_id = $values->{$this->field_alias};
@@ -80,7 +80,7 @@ class nexteuropa_token_ckeditor_bean_handler_field_selection extends views_handl
    * Get view modes machine names per entity type.
    *
    * @return array
-   *    List of view modes machine names.
+   *   List of view modes machine names.
    */
   private function get_view_modes_options() {
     $view_modes = array();
@@ -100,7 +100,7 @@ class nexteuropa_token_ckeditor_bean_handler_field_selection extends views_handl
    *    View mode machine name.
    *
    * @return mixed
-   *    View mode options array.
+   *   View mode options array.
    */
   private function get_view_mode_label($view_mode) {
     $view_modes = $this->get_view_modes_options();

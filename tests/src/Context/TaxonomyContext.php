@@ -258,7 +258,7 @@ class TaxonomyContext implements Context {
    *    Name of the group.
    *
    * @return string
-   *    Machine name of the group.
+   *   Machine name of the group.
    */
   private function getGroupTypeFormatByName($name) {
     $formats = field_group_formatter_info();
@@ -282,7 +282,7 @@ class TaxonomyContext implements Context {
    *    Name of the field.
    *
    * @return string
-   *    Machine name of the field.
+   *   Machine name of the field.
    */
   private function getFieldTypeFormatByName($name) {
     $formats = array_merge(text_field_info(), number_field_info(), list_field_info(), image_field_info(), file_field_info());
@@ -306,7 +306,7 @@ class TaxonomyContext implements Context {
    *    Name of the taxonomy.
    *
    * @return string
-   *    Id of the taxonomy.
+   *   Id of the taxonomy.
    */
   private function getTaxonomyIdByName($name) {
     $vocabulary = taxonomy_vocabulary_machine_name_load($this->transliterate->getMachineName($name));

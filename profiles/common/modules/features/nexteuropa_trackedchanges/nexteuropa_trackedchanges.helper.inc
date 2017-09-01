@@ -678,7 +678,7 @@ function nexteuropa_trackedchanges_disable_buttons($profile_name) {
  * Helper function for fetching WYSIWYG profiles.
  *
  * @return array
- *    An array with WYSIWYG profiles.
+ *   An array with WYSIWYG profiles.
  */
 function _nexteuropa_trackedchanges_get_profiles() {
   $wysiwyg_profiles = [];
@@ -873,7 +873,7 @@ function _nexteuropa_trackedchanges_check_field_entities($field_name, $entity_ty
  * These fields are of the following types: text_long, text, text_with_summary.
  *
  * @return array
- *    list of field machine names.
+ *   list of field machine names.
  *
  * @see field_info_field_map
  */

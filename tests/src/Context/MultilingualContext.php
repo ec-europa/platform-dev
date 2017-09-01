@@ -88,7 +88,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    List of available languages and field translations.
    *
    * @return object
-   *    The created node object.
+   *   The created node object.
    *
    * @throws \InvalidArgumentException
    *    Thrown if the specified content type does not support field translation.
@@ -165,7 +165,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    Moderation state label.
    *
    * @return string
-   *    Moderation state machine name.
+   *   Moderation state machine name.
    */
   protected function getModerationStateMachineName($label) {
     $states = [];
@@ -335,7 +335,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get translation job ID from current page's URL.
    *
    * @return int|FALSE
-   *    Translators job ID, FALSE if none found.
+   *   Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();
@@ -350,7 +350,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    Job Item id.
    *
    * @return int|FALSE
-   *    Parent Job id or FALSE if none was found.
+   *   Parent Job id or FALSE if none was found.
    */
   public function getParentJobId($tjiid) {
     return db_select('tmgmt_job_item', 't')
@@ -364,7 +364,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get translation job item ID from current page's URL.
    *
    * @return int|FALSE
-   *    Translators job ID, FALSE if none found.
+   *   Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobSubItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();
@@ -593,7 +593,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    The node title.
    *
    * @return object
-   *    The node object.
+   *   The node object.
    */
   protected function getNodeByTitle($type, $title) {
     $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
@@ -612,7 +612,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    The node title.
    *
    * @return object
-   *    The node object.
+   *   The node object.
    */
   protected function getNodeRevisionByTitle($type, $title) {
     $query = db_select('node', 'n');
@@ -636,7 +636,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    Human readable labels will be converted into machine name-like syntax.
    *
    * @return \TMGMTTranslator
-   *    Translator object.
+   *   Translator object.
    *
    * @see NextEuropaMultilingualSubContext::isTranslatorAvailable()
    */
@@ -653,7 +653,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get latest saved translation job.
    *
    * @return \TMGMTJob
-   *    Translation job object.
+   *   Translation job object.
    */
   protected function getLatestTranslationJob() {
     if ($this->latestJob) {
@@ -669,7 +669,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    State human readable label.
    *
    * @return int
-   *    Translation job state value.
+   *   Translation job state value.
    */
   protected function getTranslationJobState($state) {
     $states = [
@@ -692,7 +692,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *    State human readable label.
    *
    * @return int
-   *    Translation job item state value.
+   *   Translation job item state value.
    */
   protected function getTranslationJobItemState($state) {
     $states = [

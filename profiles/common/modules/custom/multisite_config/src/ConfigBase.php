@@ -24,7 +24,7 @@ class ConfigBase {
    *    Array of arguments to be passed to the invoked method.
    *
    * @return mixed
-   *    Method execution result.
+   *   Method execution result.
    */
   public function __call($method, $args) {
 

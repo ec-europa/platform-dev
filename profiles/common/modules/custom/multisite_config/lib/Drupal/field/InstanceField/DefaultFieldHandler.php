@@ -58,7 +58,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *    Field label.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   *   Current object.
    */
   public function label($label) {
     $this->instance['label'] = $label;
@@ -72,7 +72,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *    TRUE if required, FALSE otherwise.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   *   Current object.
    */
   public function required($required) {
     $this->instance['required'] = $required;
@@ -86,7 +86,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *    Widget type machine name.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   *   Current object.
    */
   public function widget($widget_type) {
     $this->instance['widget'] = array(
@@ -106,7 +106,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    *    Label settings, either 'inline', 'above' or 'hidden'.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   *   Current object.
    */
   public function display($display_name, $formatter_type, $label = 'above') {
     $this->instance['display'][$display_name]['type'] = $formatter_type;
@@ -120,7 +120,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Return field array built using field handler methods.
    *
    * @return array
-   *    Field settings array.
+   *   Field settings array.
    */
   public function getField() {
     return $this->instance;
@@ -130,7 +130,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Create field instance using constructed instance array.
    *
    * @return array
-   *    Field array as returned by Field API CRUD operations.
+   *   Field array as returned by Field API CRUD operations.
    */
   public function save() {
     return field_create_instance($this->instance);

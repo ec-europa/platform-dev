@@ -53,7 +53,7 @@ class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
    *    Language to check coverage for.
    *
    * @return \Psr\Http\Message\ResponseInterface
-   *    Response object instance.
+   *   Response object instance.
    */
   protected function request($path, $language = 'en') {
     $client = new \GuzzleHttp\Client([

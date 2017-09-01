@@ -18,7 +18,7 @@ interface TokenHandlerInterface {
    * Return list of supported token type.
    *
    * @return array
-   *    Return list of supported token types.
+   *   Return list of supported token types.
    */
   public function getSupportedTokenTypes();
 
@@ -26,7 +26,7 @@ interface TokenHandlerInterface {
    * Return token suffix portion, e.g. what follows "[node:1:" or "[user:1:".
    *
    * @return string
-   *    Return token suffix.
+   *   Return token suffix.
    */
   public function getTokenSuffix();
 
@@ -37,7 +37,7 @@ interface TokenHandlerInterface {
    *    Token, in its original format, eg. [node:1:view-mode:full].
    *
    * @return bool
-   *    TRUE if it is a valid token, FALSE otherwise.
+   *   TRUE if it is a valid token, FALSE otherwise.
    */
   public function isValidToken($original);
 
@@ -48,7 +48,7 @@ interface TokenHandlerInterface {
    *    Token, in its original format, eg. [node:1:view-mode:full].
    *
    * @return string
-   *    Extracted Entity ID.
+   *   Extracted Entity ID.
    */
   public function getEntityIdFromToken($original);
 
@@ -61,7 +61,7 @@ interface TokenHandlerInterface {
    *    Entity object.
    *
    * @return string
-   *    Entity URL.
+   *   Entity URL.
    */
   public function getEntityUrl($entity_type, $entity);
 

@@ -107,7 +107,7 @@ class BlockContext implements Context {
    *    Module that produced the block.
    *
    * @return \stdClass
-   *    Block object.
+   *   Block object.
    */
   private function getBlockInfo($delta, $module) {
     global $theme;

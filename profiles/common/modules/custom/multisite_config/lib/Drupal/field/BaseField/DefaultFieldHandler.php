@@ -46,7 +46,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Return field array built using field handler methods.
    *
    * @return array
-   *    Field settings array.
+   *   Field settings array.
    */
   public function getField() {
     return $this->field;
@@ -56,7 +56,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Create field instance using constructed instance array.
    *
    * @return array
-   *    Field array as returned by Field API CRUD operations.
+   *   Field array as returned by Field API CRUD operations.
    */
   public function save() {
     return field_create_field($this->field);
