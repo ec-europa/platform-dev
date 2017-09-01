@@ -4,11 +4,13 @@ slackSend color: "good", message: "${env.slackMessage} started."
 
 try {
     node('master') {
-        deleteDir()
-        checkout scm
-        sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
-        sh './bin/phing setup-php-codesniffer'
-        sh './bin/phpcs --report=full --report=source --report=summary -s'
+        stage('Check') {
+            deleteDir()
+            checkout scm
+            sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
+            sh './bin/phing setup-php-codesniffer'
+            sh './bin/phpcs --report=full --report=source --report=summary -s'
+        }
     }
     parallel (
         'standard-ec-resp' : {
@@ -70,7 +72,8 @@ try {
                     throw(err)
                 }
             }
-        }
+        },
+        failFast: true
     )
 } catch(err) {
     slackSend color: "danger", message: "${env.slackMessage} failed."
