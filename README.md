@@ -253,7 +253,7 @@ $ ./bin/phpunit -c tests/phpunit.xml
 
 ## Checking for coding standards violations
 
-When a development build is created by executing the 'build-platform-dev' Phing
+When a development build is created by executing the 'setup-php-codesniffer' Phing
 target PHP CodeSniffer will be set up and can be run with the following
 command:
 
