@@ -312,17 +312,6 @@
         <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.info</exclude-pattern>
     </rule>
 
-<<<<<<< HEAD
-    <!-- Remove useless attribute -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-808 -->
-    <rule ref="QualityAssurance.InfoFiles.Forbidden.ProjectPath">
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_event/nexteuropa_event.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_mediagallery/nexteuropa_mediagallery.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_communities/nexteuropa_communities.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_news/nexteuropa_news.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/nexteuropa_faq.info</exclude-pattern>
-    </rule>
-
     <!-- Move helper functions for install file out of install file. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-807 -->
     <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
