@@ -8,7 +8,7 @@
 /**
  * Defines a base class for testing the "multisite_translations" module.
  */
-class MultisiteElibraryStandardFunctionalWebTestCase extends DrupalWebTestCase {
+class ELibraryStandardFunctionalWebTestCase extends DrupalWebTestCase {
   protected $privilegedUser;
   protected $contributorUser;
 
