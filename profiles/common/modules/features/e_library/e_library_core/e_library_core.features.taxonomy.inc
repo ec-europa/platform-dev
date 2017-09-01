@@ -16,7 +16,7 @@ function e_library_core_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'media_library_core',
       'weight' => 0,
-      'language' => 'und',
+      'language' => LANGUAGE_NONE,
       'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(
