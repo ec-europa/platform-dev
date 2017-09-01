@@ -7,7 +7,7 @@
 /**
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
-class MultisiteDrupalWebTestCase extends DrupalWebTestCase {
+class MultisiteDrupalToolboxDrupalWebTestCase extends DrupalWebTestCase {
 
   /**
    * Set up.

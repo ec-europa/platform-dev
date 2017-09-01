@@ -7,7 +7,7 @@
 /**
  * Test Business Indicators features to ensure it follows QA requirements.
  */
-class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
+class MultisiteBusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
   /**
    * {@inheritdoc}
    */
