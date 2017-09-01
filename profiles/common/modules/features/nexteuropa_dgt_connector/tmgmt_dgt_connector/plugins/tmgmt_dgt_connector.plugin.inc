@@ -58,9 +58,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
   }
 
   /**
-   * Implements getNotCanTranslateReason().
-   *
-   * Show the reason why we can not translate.
+   * {@inheritdoc}
    */
   public function getNotCanTranslateReason(TMGMTJob $job) {
     return t('An active translation for this item already exists');
@@ -71,7 +69,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    */
   public function requestTranslation(TMGMTJob $job) {
 
-    // Request translation from MT@EC service.
+    // Request translation from Poetry.
     $response = $this->sendRequest($job);
 
     // Handling response.
@@ -158,6 +156,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    * Execute a request against the Poetry API.
    */
   protected function sendRequest(TMGMTJob $job) {
+    global $base_url;
 
     // Generate the identifier for the request.
     $translator = $job->getTranslator();
@@ -165,6 +164,12 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $item = array_shift($items);
     $settings = $translator->getSetting('settings');
     $id_data = $this->generateRequestId($item, $settings);
+
+    // Get other pieces of information.
+    $organization = $job->settings['organization'];
+    $details_title = 'NE-CMS: ';
+    $details_title .= (empty($settings['website_identifier']) ? '' : $settings['website_identifier'] . ' - ');
+    $details_title .= $job->label;
 
     // Generate the callback parameters for the request.
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
@@ -190,58 +195,52 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         'server.uri' => $callback_address,
       ]);
 
+      // Start building the request message.
       $message = $poetry->get('message.request');
 
-      $details = new Components\Details();
-      $details->setClientId('Job ID 6');
-      $details->setTitle('NE-CMS: my-website - Teste');
-      $details->setRequester('IE/CE/DIGIT/A/3');
-      $details->setAuthor('IE/CE/DIGIT');
-      $details->setApplicationId('FPFIS');
-      $details->setDelay('30/04/2017');
-      $details->setRemark('');
-      $details->setReferenceFilesRemark('http://localhost/eceuropa/platform-dev/build/content/teste_en');
-      $details->setProcedure('NEANT');
-      $details->setDestination('PUBLIC');
-      $details->setType('INTER');
+      $details = (new Components\Details())
+        ->setClientId('Job ID ' . $job->tjid)
+        ->setTitle($details_title)
+        ->setRequester($organization['demandeur'])
+        ->setAuthor($organization['auteur'])
+        ->setApplicationId('FPFIS')
+        ->setDelay(date('d/m/Y', strtotime($job->settings['delai'])))
+        ->setRemark('')
+        ->setReferenceFilesRemark($base_url)
+        ->setProcedure('NEANT')
+        ->setDestination('PUBLIC')
+        ->setType('INTER');
       $message->setDetails($details);
 
       $contacts = [];
-      $contacts['secretaire'] = new Components\Contact();
-      $contacts['secretaire']->setType('Secretaire')
+      $contacts['secretaire'] = (new Components\Contact())
+        ->setType('Secretaire')
         ->setNickname('ecusername');
-      $contacts['contact'] = new Components\Contact();
-      $contacts['contact']->setType('Contact')
+      $contacts['contact'] = (new Components\Contact())
+        ->setType('Contact')
         ->setNickname('ecusername');
-      $contacts['responsable'] = new Components\Contact();
-      $contacts['responsable']->setType('Responsible')
+      $contacts['responsable'] = (new Components\Contact())
+        ->setType('Responsible')
         ->setNickname('ecusername');
       $message->setContacts($contacts);
 
-      $retour = new Components\ReturnAddress();
-      $retour->setType('webService')
+      $retour = (new Components\ReturnAddress())
+        ->setType('webService')
         ->setAction('UPDATE')
         ->setUser('MockCallback')
         ->setPassword('MockCallbackPWD')
-        ->setAddress('http://localhost/eceuropa/platform-dev/build/profiles/multisite_drupal_standard/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/wsdl/PoetryIntegration.wsdl')
+        ->setAddress($callback_address)
         // Missing ->setPath('FPFISPoetryIntegrationRequest') .
         ->setRemark('');
       $message->setReturnAddress($retour);
 
-      $document_source = new Components\ReferenceDocument();
-      $document_source->setFormat('HTML')
+      $document_source = (new Components\ReferenceDocument())
+        ->setType('REF')
+        ->setFormat('HTML')
         ->setName('content.html')
         ->setLanguage('EN')
-        ->setFile('PCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9X.......');
+        ->setFile($content);
       $message->setReferenceDocuments([$document_source]);
-
-      // @todo Remove referenceDocument, use documentSource
-      $reference_document = new Components\ReferenceDocument();
-      $reference_document->setFormat('HTML')
-        ->setName('TESTE')
-        ->setType('REF')
-        ->setLanguage('EN');
-      $message->setReferenceDocuments([$reference_document]);
 
       // To test do
       // $renderer = $poetry->get('renderer');
