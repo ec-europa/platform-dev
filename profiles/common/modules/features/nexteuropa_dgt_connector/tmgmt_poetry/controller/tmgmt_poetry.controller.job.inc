@@ -105,6 +105,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
    */
   public function removeUnusedJobs() {
     // Remove Jobs that don't have an associated Job Item.
+    // @codingStandardsIgnoreLine: db_delete doesn't accept joins.
     db_query('DELETE {tmgmt_job}.* FROM {tmgmt_job} LEFT JOIN {tmgmt_job_item} ON {tmgmt_job}.tjid={tmgmt_job_item}.tjid WHERE {tmgmt_job_item}.tjid IS NULL');
   }
 
