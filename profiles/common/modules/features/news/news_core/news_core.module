@@ -51,7 +51,7 @@ function news_core_form_news_node_form_alter(&$form, &$form_state, $form_id) {
  * Validation function.
  */
 function news_core_custom_valid_news_link(&$form, &$form_state) {
-  if (isset($form['field_link']['und'][0]['url']['#value']) && (bool) $form['field_link']['und'][0]['url']['#value']) {
-    $result_scan = multisite_drupal_toolbox_linkit_scan_url($form['field_link']['und'][0]['url']['#value'], 'field_link');
+  if (isset($form['field_link'][LANGUAGE_NONE][0]['url']['#value']) && (bool) $form['field_link'][LANGUAGE_NONE][0]['url']['#value']) {
+    $result_scan = multisite_drupal_toolbox_linkit_scan_url($form['field_link'][LANGUAGE_NONE][0]['url']['#value'], 'field_link');
   }
 }
