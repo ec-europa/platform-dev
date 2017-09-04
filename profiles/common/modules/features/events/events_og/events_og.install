@@ -64,8 +64,6 @@ function events_og_modules_enabled($modules) {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Add events options on "communities_menu_item" context.
  */
 function events_og_udpate_7101() {
