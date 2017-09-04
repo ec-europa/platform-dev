@@ -20,7 +20,7 @@ function ecas_env_menu_link_alter(&$item) {
     if (!isset($item['customized']) || (isset($item['customized']) && $item['customized'] == 0)) {
       switch ($item['link_path']) {
         case 'ecas':
-          $item['options']['attributes']['title'] = t('Log in');
+          $item['options']['attributes']['title'] = t('EU login');
           $item['options']['attributes']['class'] = 'btn btn-default';
           $item['options']['attributes']['data-image'] = 'log-in';
           $item['options']['attributes']['data-toggle'] = 'tooltip';

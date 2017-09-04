@@ -72,7 +72,7 @@ function cce_basic_config_context_default_contexts() {
           'module' => 'menu',
           'delta' => 'menu-service-tools',
           'region' => 'header_top',
-          'weight' => -9,
+          'weight' => '-9',
         ),
         'footer' => array(
           'module' => 'cce_basic_config',

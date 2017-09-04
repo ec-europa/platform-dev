@@ -43,8 +43,9 @@ class TMGMTPoetryJobController extends TMGMTJobController {
             continue;
           }
 
-          // Check if job is already created and update it,
-          // this is useful for #card .
+          // Check if job is already created
+          // and in that case don't create it again, just update it.
+          // The update is useful for #card .
           $result = _tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid);
           if ($result->rowCount() > 0) {
             $row = $result->fetchAssoc();

@@ -40,7 +40,7 @@ function events_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Consult planned events</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Consult planned events</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -274,7 +274,7 @@ function events_core_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('<h2>Consult planned events</h2>'),
+    t('<h2 class="ecl-heading ecl-heading--h2">Consult planned events</h2>'),
     t('All taxonomy terms'),
     t('Body'),
     t('Dates'),

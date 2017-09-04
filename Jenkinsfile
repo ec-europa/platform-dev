@@ -4,25 +4,60 @@ slackSend color: "good", message: "${env.slackMessage} started."
 
 try {
     parallel (
-        'standard' : {
-            // Build, test and package the standard profile
-            node('standard') {
+        'standard-ec-resp' : {
+            // Build and test the standard profile with ec_resp theme
+            node('php5') {
                 try {
-                    executeStages('standard')
+                    withEnv([
+                        "BEHAT_PROFILE=standard_ec_resp",
+                        "THEME_DEFAULT=ec_resp"
+                    ]) {
+                        executeStages('standard ec_resp')
+                    }
                 } catch(err) {
                     throw(err)
                 }
             }
         },
-        'communities' : {
-            // Build and test the communities profile
-            node('communities') {
+        'standard-ec-europa' : {
+            // Build and test the standard profile with europa theme
+            node('php5') {
+                try {
+                    withEnv([
+                        "THEME_DEFAULT=ec_europa"
+                    ]) {
+                        executeStages('standard ec_europa')
+                    }
+                } catch(err) {
+                    throw(err)
+                }
+            }
+        },
+        'communities-ec-resp' : {
+            // Build and test the communities profile with ec_resp theme
+            node('php5') {
+                try {
+                    withEnv([
+                        "BEHAT_PROFILE=communities_ec_resp",
+                        "PLATFORM_PROFILE=multisite_drupal_communities"
+                    ]) {
+                        executeStages('communities ec_resp')
+                    }
+                } catch(err) {
+                    throw(err)
+                }
+            }
+        },
+        'communities-ec-europa' : {
+            // Build and test the communities profile with europa theme
+            node('php5') {
                 try {
                     withEnv([
                         "BEHAT_PROFILE=communities",
-                        "PLATFORM_PROFILE=multisite_drupal_communities"
+                        "PLATFORM_PROFILE=multisite_drupal_communities",
+                        "THEME_DEFAULT=ec_europa"
                     ]) {
-                        executeStages('communities')
+                        executeStages('communities ec_europa')
                     }
                 } catch(err) {
                     throw(err)
@@ -64,13 +99,13 @@ void executeStages(String label) {
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'mysql', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS'],
                 [$class: 'UsernamePasswordMultiBinding', credentialsId: 'flickr', usernameVariable: 'FLICKR_KEY', passwordVariable: 'FLICKR_SECRET']
             ]) {
-                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE'"
-                sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE'"
+                sh "./bin/phing build-platform-dev -Dcomposer.bin=`which composer` -D'behat.base_url'='$BASE_URL/$SITE_PATH/build' -D'behat.wd_host.url'='$WD_HOST_URL' -D'behat.browser.name'='$WD_BROWSER_NAME' -D'env.FLICKR_KEY'='$FLICKR_KEY' -D'env.FLICKR_SECRET'='$FLICKR_SECRET' -D'integration.server.port'='$HTTP_MOCK_PORT' -D'varnish.server.port'='$HTTP_MOCK_PORT' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
+                sh "./bin/phing install-platform -D'drupal.db.name'='$DB_NAME' -D'drupal.db.user'='$DB_USER' -D'drupal.db.password'='$DB_PASS' -D'platform.profile.name'='$PLATFORM_PROFILE' -D'platform.site.theme_default'='$THEME_DEFAULT'"
             }
         }
 
         stage('Check & Test ' + label) {
-            sh './bin/phpcs'
+            sh './bin/phpcs --report=full --report=source --report=summary -s'
             sh './bin/phpunit -c tests/phpunit.xml'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {

@@ -98,7 +98,7 @@ function ec_profiles_views_default_views() {
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['label'] = 'Description';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Browse the people directory to acces user profiles </h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Browse the people directory to acces user profiles </h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Field: User: Picture */
   $handler->display->display_options['fields']['picture']['id'] = 'picture';
