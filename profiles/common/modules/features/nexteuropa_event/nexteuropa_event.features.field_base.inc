@@ -18,7 +18,7 @@ function nexteuropa_event_field_default_field_bases() {
     'entity_types' => array(),
     'field_name' => 'field_dates',
     'indexes' => array(),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'date',
     'settings' => array(
       'cache_count' => 4,
@@ -52,7 +52,7 @@ function nexteuropa_event_field_default_field_bases() {
         0 => 'tid',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'taxonomy',
     'settings' => array(
       'allowed_values' => array(

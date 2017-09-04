@@ -53,7 +53,7 @@ function communities_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'list',
     'no_ui' => TRUE,
     'settings' => array(
@@ -80,7 +80,7 @@ function communities_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'list',
     'no_ui' => TRUE,
     'settings' => array(
@@ -108,7 +108,7 @@ function communities_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'list',
     'no_ui' => TRUE,
     'settings' => array(
@@ -142,7 +142,7 @@ function communities_field_default_field_bases() {
         0 => 'target_id',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'entityreference',
     'settings' => array(
       'handler' => 'og',
@@ -181,7 +181,7 @@ function communities_field_default_field_bases() {
         0 => 'value',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
