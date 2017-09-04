@@ -545,11 +545,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- There must be one blank line after the namespace declaration. -->
-    <rule ref="PSR2.Namespaces.NamespaceDeclaration.BlankLineAfter">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- There must be one blank line after the last USE statement. -->
     <rule ref="PSR2.Namespaces.UseDeclaration.SpaceAfterLastUse">
         <exclude-pattern>*</exclude-pattern>

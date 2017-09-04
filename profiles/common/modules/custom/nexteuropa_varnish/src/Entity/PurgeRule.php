@@ -5,7 +5,9 @@
  */
 
 namespace Drupal\nexteuropa_varnish\Entity;
+
 use Drupal\nexteuropa_varnish\PurgeRuleType;
+
 use \Entity;
 
 /**

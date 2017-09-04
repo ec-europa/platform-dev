@@ -5,6 +5,7 @@
  */
 
 namespace Drupal\nexteuropa_piwik\Entity;
+
 use \Entity;
 
 /**
