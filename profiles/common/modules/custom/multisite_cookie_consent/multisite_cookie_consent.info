@@ -1,6 +1,0 @@
-name =  Multisite Cookie Consent
-description = "Implements European Cookie law"
-core = 7.x
-package = "Multisite cookie consent"
-dependencies[] = multisite_cookie_rest
-dependencies[] = clients
