@@ -7,6 +7,7 @@
 module_load_include('inc', 'nexteuropa_varnish', 'nexteuropa_varnish.helper');
 
 use Drupal\nexteuropa_varnish\PurgeRuleType;
+
 define('NEXTEUROPA_VARNISH_CACHE_TABLE', 'cache_nexteuropa_varnish');
 
 /**

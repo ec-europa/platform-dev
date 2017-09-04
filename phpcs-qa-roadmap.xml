@@ -549,12 +549,7 @@
     <rule ref="PSR2.Namespaces.NamespaceDeclaration.BlankLineAfter">
         <exclude-pattern>*</exclude-pattern>
     </rule>
-
-    <!-- There must be one blank line after the last USE statement. -->
-    <rule ref="PSR2.Namespaces.UseDeclaration.SpaceAfterLastUse">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
+    
     <!-- The use of function strlen() is forbidden; use drupal_strlen() instead. -->
     <rule ref="QualityAssurance.Functions.DrupalWrappers.FoundWithAlternative">
         <exclude-pattern>*</exclude-pattern>
