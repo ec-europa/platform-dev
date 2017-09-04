@@ -166,11 +166,6 @@ function tmgmt_workbench_form_tmgmt_entity_ui_translate_form_alter(&$form, $form
             t('Current moderation state does not allow to request a translation
              for this content.') . '</div>';
 
-          if (!module_exists('nexteuropa_dgt_connector')) {
-            // Remove add to cart button.
-            unset($form['top_actions']);
-          }
-
           if ($always_show_direct_translation_links && ($lang_code != $node->translations->original)) {
             $options[$lang_code][TMGMT_WORKBENCH_REQUEST_OPERATION_INDEX] = '';
           }
