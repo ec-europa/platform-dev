@@ -7,7 +7,6 @@ core = 7.x
 
 includes[] = "drupal-core.make"
 
-
 ; ===================
 ; Contributed modules
 ; ===================
@@ -71,6 +70,12 @@ projects[apachesolr_multilingual][version] = "1.3"
 
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.1"
+
+projects[autologout][subdir] = "contrib"
+projects[autologout][version] = "4.4"
+; Issue #2739114 : Change warning message to be more user friendly
+; https://www.drupal.org/node/2739114
+projects[autologout][patch][] = https://www.drupal.org/files/issues/change-warning-message-2739114-15.patch
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
@@ -155,7 +160,9 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.11"
+projects[ctools][download][branch] = 7.x-1.x
+projects[ctools][download][revision] = e94ba64a8e8a0afbc4d6d231d09f040ebd1177d4
+projects[ctools][download][type] = git
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -217,10 +224,8 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
-projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = 599b07585d37101bc7b38c9df5b2ef196a7416b2
-projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
+projects[entityreference][version] = "1.5"
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
@@ -700,14 +705,11 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.15
+projects[views][version] = 3.17
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
-projects[views][patch][] = https://www.drupal.org/files/views-1818176-11.patch
-; Fatal error: Unsupported operand types in [path to drupal]/sites/all/modules/views/includes/handlers.inc on line 1032
-; https://www.drupal.org/node/1752062
-projects[views][patch][] = https://www.drupal.org/files/includes_handlers.inc_.git_.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
@@ -998,7 +1000,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3
+projects[ec_resp][download][tag] = 2.3.1
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git

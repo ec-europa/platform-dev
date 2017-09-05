@@ -141,7 +141,7 @@ function multisite_block_carousel_form_block_admin_display_form_alter(&$form, $f
     if (empty($blocks[$delta])) {
       $form['blocks']['block_carousel_' . $delta]['delete'] = array(
         '#type' => 'link',
-        '#title' => check_plain('delete'),
+        '#title' => t('delete'),
         '#href' => 'admin/structure/block/delete-block-carousel/' . $delta,
       );
     }
