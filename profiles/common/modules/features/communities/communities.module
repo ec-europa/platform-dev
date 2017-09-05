@@ -390,7 +390,7 @@ function _communities_title_item($arg) {
  */
 function communities_block_view_alter(&$data, $block) {
   if ($block->delta == 'menu-communities-menu') {
-    $context  = og_context();
+    $context = og_context();
     if (isset($context['gid'])) {
       $node = node_load($context['gid']);
       $data['subject'] = $node->title;

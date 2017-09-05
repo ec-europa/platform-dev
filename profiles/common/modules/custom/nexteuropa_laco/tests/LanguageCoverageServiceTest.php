@@ -9,7 +9,6 @@ namespace Drupal\nexteuropa_laco\Tests;
 
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
 
-
 /**
  * Class LanguageCoverageServiceTest.
  *

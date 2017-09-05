@@ -18,7 +18,7 @@ function nuts_regions_migrate_api() {
     ),
     'migrations' => array(
       'Nuts' => array(
-        'class_name' => 'NutsMigration',
+        'class_name' => 'NutsRegonsMigration',
         'group_name' => 'geos',
       ),
     ),
@@ -29,7 +29,7 @@ function nuts_regions_migrate_api() {
 /**
  * Defines a dynamic migration that is reused for each source CSV file.
  */
-class NutsMigration extends Migration {
+class NutsRegionsMigration extends Migration {
 
   /**
    * Constructs the migration.

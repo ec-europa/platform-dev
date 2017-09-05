@@ -16,7 +16,7 @@ function cce_basic_config_menu_default_menu_custom() {
     'menu_name' => 'menu-breadcrumb-menu',
     'title' => 'Breadcrumb menu',
     'description' => 'Items to be displayed before the automatic breadcrumb',
-    'language' => 'und',
+    'language' => LANGUAGE_NONE,
     'i18n_mode' => 0,
   );
   // Exported menu: menu-service-tools.
@@ -24,7 +24,7 @@ function cce_basic_config_menu_default_menu_custom() {
     'menu_name' => 'menu-service-tools',
     'title' => 'Service tools',
     'description' => 'Links to be put in the banner, according to IPG',
-    'language' => 'und',
+    'language' => LANGUAGE_NONE,
     'i18n_mode' => 0,
   );
   // Translatables
