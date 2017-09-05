@@ -5,7 +5,7 @@
  * Contains \\Drupal\\multisite_config\\ConfigBase.
  */
 
-// @cond DEV
+/* @cond DEV */
 namespace Drupal\multisite_config;
 
 /**
@@ -37,4 +37,4 @@ class ConfigBase {
   }
 
 }
-// @endcond
+/* @endcond */

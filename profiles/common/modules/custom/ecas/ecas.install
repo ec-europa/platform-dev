@@ -62,7 +62,7 @@ function ecas_requirements($phase) {
   $requirements = array();
   if ($phase == 'runtime') {
     $t = get_t();
-    $requirements['ecas_library']['title'] = t('CAS Library');
+    $requirements['ecas_library']['title'] = $t('CAS Library');
     $cas_version = constant('PHPCAS_VERSION');
     $min_version = constant('ECAS_MIN_PHPCAS_VERSION');
     if (!$cas_version) {

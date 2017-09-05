@@ -92,13 +92,17 @@ function multisite_notifications_core_disable() {
  * Refactor mail template with correct unsubscribe url.
  */
 function multisite_notifications_core_update_7101() {
-  db_query("update mail_edit set body = replace(body, '[site:url]unsubscribe/[current-user:uid]', '[site:url]/unsubscribe/[current-user:uid]') ");
+  db_update('mail_edit')
+    ->expression('body', "replace(body, '[site:url]unsubscribe/[current-user:uid]', '[site:url]/unsubscribe/[current-user:uid]')")
+    ->execute();
 }
 
 /**
  * Refactor mail template with correct unsubscribe url.
  */
 function multisite_notifications_core_update_7102() {
-  db_query("update {mail_edit} set body = replace(body, '[site:url]/unsubscribe/[current-user:uid]', '[subs:unsubscribe-url]') ");
+  db_update('mail_edit')
+    ->expression('body', "replace(body, '[site:url]/unsubscribe/[current-user:uid]', '[subs:unsubscribe-url]')")
+    ->execute();
   user_role_delete('subscriber');
 }
