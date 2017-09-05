@@ -435,7 +435,7 @@ function nexteuropa_geofield_node_validate($node, $form, &$form_state) {
       // Add the javascript files if there is a geofield_geojson field.
       if ($type == 'geofield_geojson') {
         $field_instance = $form_state['field'][$field_name][LANGUAGE_NONE];
-        drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->{$field_name}['und'][0]['geofield_geojson'])), 'setting');
+        drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->{$field_name}[LANGUAGE_NONE][0]['geofield_geojson'])), 'setting');
         drupal_add_js(array('nexteuropa_geojson' => array('settings' => $field_instance['instance']['widget']['settings'])), 'setting');
         drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field_instance['field']['cardinality'])), 'setting');
       }

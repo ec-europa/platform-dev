@@ -268,7 +268,7 @@ function theme_og_content_type_admin_main($form) {
     'colgroups' => NULL,
     'attributes' => array(),
   );
-  $output .= theme_table($content_table);
+  $output .= theme('table', $content_table);
 
   return $output;
 }
@@ -592,7 +592,7 @@ function theme_og_content_type_admin_admin($form) {
 
     $fieldset = array(
       '#type' => 'fieldset',
-      '#value' => theme_table($content_table),
+      '#value' => theme('table', $content_table),
       '#title' => $key,
       '#collapsible' => TRUE,
       '#collapsed' => ($form['groups'][$key]['coll']['#value'] == 1) ? TRUE : FALSE,
@@ -607,7 +607,7 @@ function theme_og_content_type_admin_admin($form) {
         <li>If you uncheck an <b>ALLOW</b> box, that content-type won\'t be available for any group.
         <br/><em>These settings cannot be override.</em>');
       $theme_fieldset['element'] = $fieldset;
-      $output_array[$fieldset['#weight']] = theme_fieldset($theme_fieldset);
+      $output_array[$fieldset['#weight']] = theme('fieldset', $theme_fieldset);
     }
     elseif ($key == 'Default') {
       $fieldset['#weight'] = -8;
@@ -617,14 +617,14 @@ function theme_og_content_type_admin_admin($form) {
         <br/><em>Required content-types are locked for editing by the group owners.</em>');
 
       $theme_fieldset['element'] = $fieldset;
-      $output_array[$fieldset['#weight']] = theme_fieldset($theme_fieldset);
+      $output_array[$fieldset['#weight']] = theme('fieldset', $theme_fieldset);
     }
     else {
       $fieldset['#description'] = t('<li>If you <b>REQUIRE</b> that a group use a content type, it will automatically be allowed; no need to check the <em>ALLOW</em> boxes too.
         <li>If you <b>ALLOW</b> the use of a content-type, group members will be able to create content of that type.
         <br/><em>Required content-types are locked for editing by the group owners.</em>');
       $theme_fieldset['element'] = $fieldset;
-      $output_array[] = theme_fieldset($theme_fieldset);
+      $output_array[] = theme('fieldset', $theme_fieldset);
     }
     unset($form['groups'][$key]['coll']);
   }
@@ -993,14 +993,14 @@ function theme_og_content_type_admin_owner($form) {
 
   $fieldset = array(
     '#type' => 'fieldset',
-    '#value' => theme_table($content_table),
+    '#value' => theme('table', $content_table),
     '#title' => 'Group Content Types',
     '#description' => t('As group owner, you can limit the kinds of content that your group members create in this group by deactivating content types.<br/>
       This settings may be overriden by the site admin.'),
     '#children' => NULL,
   );
   $theme_fieldset['element'] = $fieldset;
-  $output = theme_fieldset($theme_fieldset);
+  $output = theme('fieldset', $theme_fieldset);
 
   $output .= drupal_render_children($form);
   return $output;

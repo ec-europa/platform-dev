@@ -491,7 +491,7 @@ function _nexteuropa_multilingual_path_und_sync($path) {
 
       default:
         // Update with custom alias
-        // (We update the 'und' value and delete the others).
+        // (We update the LANGUAGE_NONE value and delete the others).
         $language_none_exist = FALSE;
         foreach ($existing_paths as $existing_path) {
           if ($existing_path->language == LANGUAGE_NONE) {
@@ -503,8 +503,8 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         }
         module_load_include('inc', 'pathauto');
         $is_old_alias_to_delete = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
-        // Special case: If the 'und' value exists, the current treated path
-        // becomes the LANGUAGE_NONE value.
+        // Special case: If the LANGUAGE_NONE value exists, the current
+        // treated path becomes the LANGUAGE_NONE value.
         if (!$language_none_exist) {
           $path['language'] = LANGUAGE_NONE;
           drupal_write_record('url_alias', $path, array('pid'));
@@ -672,12 +672,12 @@ function nexteuropa_multilingual_entity_info_alter(&$entity_info) {
   if (module_exists('file_entity')) {
     if (!isset($entity_info['file']['translation']['entity_translation'])) {
       $entity_info['file']['translation']['entity_translation'] = array(
-        'class' => 'EntityTranslationFileHandler',
+        'class' => 'NexteuropaMultilingualEntityTranslationFileHandler',
         'edit form' => 'file',
       );
     }
     else {
-      $entity_info['file']['translation']['entity_translation']['class'] = 'EntityTranslationFileHandler';
+      $entity_info['file']['translation']['entity_translation']['class'] = 'NexteuropaMultilingualEntityTranslationFileHandler';
     }
   }
 }

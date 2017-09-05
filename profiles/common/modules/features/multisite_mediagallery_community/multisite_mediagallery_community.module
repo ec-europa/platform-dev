@@ -28,7 +28,7 @@ function multisite_mediagallery_community_menu() {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_FORM_ID_alter().
  */
 function multisite_mediagallery_community_form_gallerymedia_node_form_alter(&$form, &$form_state, $form_id) {
   // Get children from group tab 'Commnunity'.

@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreFile: NEPT-198 - Module is going to be removed.
 /**
  * @file
  * Contains classes for Client connections handlers.

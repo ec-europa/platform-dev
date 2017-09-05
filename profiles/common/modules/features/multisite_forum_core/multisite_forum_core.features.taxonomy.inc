@@ -17,7 +17,7 @@ function multisite_forum_core_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => -10,
-      'language' => 'und',
+      'language' => LANGUAGE_NONE,
       'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(

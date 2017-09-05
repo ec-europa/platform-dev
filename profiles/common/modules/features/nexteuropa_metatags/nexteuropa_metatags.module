@@ -68,7 +68,7 @@ function nexteuropa_metatags_metatag_info() {
     $terms = taxonomy_get_tree($vocabulary->vid);
     foreach ($terms as $term) {
       $term_full = taxonomy_term_load($term->tid);
-      $options[$term_full->field_meta_value['und'][0]['value']] = str_repeat('-', $term->depth) . $term->name;
+      $options[$term_full->field_meta_value[LANGUAGE_NONE][0]['value']] = str_repeat('-', $term->depth) . $term->name;
     }
   }
 

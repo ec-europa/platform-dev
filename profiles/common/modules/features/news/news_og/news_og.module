@@ -32,6 +32,6 @@ function news_og_menu() {
  * Implements hook_form_FORM_ID_alter().
  */
 function news_og_form_news_node_form_alter(&$form, &$form_state, $form_id) {
-  $desc = $form['field_top_news']['und']['#description'];
-  $form['field_top_news']['und']['#description'] = $desc . " " . t('(The visibility of the news must be set to public to appear on the site homepage)');
+  $desc = $form['field_top_news'][LANGUAGE_NONE]['#description'];
+  $form['field_top_news'][LANGUAGE_NONE]['#description'] = $desc . " " . t('(The visibility of the news must be set to public to appear on the site homepage)');
 }

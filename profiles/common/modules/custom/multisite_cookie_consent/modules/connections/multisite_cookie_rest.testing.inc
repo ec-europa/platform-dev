@@ -1,5 +1,5 @@
 <?php
-
+// @codingStandardsIgnoreFile: NEPT-198 - Module to be removed
 /**
  * @file
  * Contains classes for Client connection testing.
@@ -8,7 +8,7 @@
 /**
  * Test basic connection.
  */
-class ClientsConnectionMultiSiteCookieRESTServerCheck implements ClientsConnectionTestingInterface {
+class MultisiteCookieRestClientsConnectionMultiSiteCookieRESTServerCheck implements ClientsConnectionTestingInterface {
 
   /**
    * The labels for the test.
@@ -84,7 +84,7 @@ class ClientsConnectionMultiSiteCookieRESTServerCheck implements ClientsConnecti
 /**
  * Test node load from a Drupal Services REST connection.
  */
-class ClientsConnectionMultiSiteCookieRESTCookieRetrieve implements ClientsConnectionTestingInterface {
+class MultisiteCookieRestClientsConnectionMultiSiteCookieRESTCookieRetrieve implements ClientsConnectionTestingInterface {
 
   /**
    * The labels for the test.
@@ -167,7 +167,7 @@ class ClientsConnectionMultiSiteCookieRESTCookieRetrieve implements ClientsConne
 /**
  * Test entity creation on a Drupal Services connection.
  */
-class ClientsConnectionMultiSiteCookieRESTCookieCreate implements ClientsConnectionTestingInterface {
+class MultisiteCookieRestClientsConnectionMultiSiteCookieRESTCookieCreate implements ClientsConnectionTestingInterface {
 
   /**
    * The labels for the test.
@@ -277,7 +277,7 @@ class ClientsConnectionMultiSiteCookieRESTCookieCreate implements ClientsConnect
 /**
  * Test a Delete cookie.
  */
-class ClientsConnectionMultiSiteCookieRESTCookieDelete implements ClientsConnectionTestingInterface {
+class MultisiteCookieRestClientsConnectionMultiSiteCookieRESTCookieDelete implements ClientsConnectionTestingInterface {
 
   /**
    * The labels for the test.

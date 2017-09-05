@@ -8,6 +8,7 @@
 module_load_include('inc', 'nexteuropa_varnish', 'nexteuropa_varnish.helper');
 
 use Drupal\nexteuropa_varnish\PurgeRuleType;
+
 define('NEXTEUROPA_VARNISH_CACHE_TABLE', 'cache_nexteuropa_varnish');
 
 /**
@@ -61,7 +62,7 @@ function nexteuropa_varnish_entity_info() {
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
         'path' => 'admin/config/system/nexteuropa-varnish/purge_rules',
-        'controller class' => 'CachePurgeRuleEntityUIController',
+        'controller class' => 'NexteuropaVarnishCachePurgeRuleEntityUIController',
         'file' => 'nexteuropa_varnish.rules.admin.inc',
       ),
     ),

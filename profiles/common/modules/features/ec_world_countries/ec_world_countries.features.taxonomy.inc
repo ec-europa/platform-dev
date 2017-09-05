@@ -17,7 +17,7 @@ function ec_world_countries_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => 0,
-      'language' => 'und',
+      'language' => LANGUAGE_NONE,
       'i18n_mode' => 1,
       'rdf_mapping' => array(
         'rdftype' => array(

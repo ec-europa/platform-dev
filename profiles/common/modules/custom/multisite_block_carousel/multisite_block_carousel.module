@@ -142,7 +142,7 @@ function multisite_block_carousel_form_block_admin_display_form_alter(&$form, $f
     if (empty($blocks[$delta])) {
       $form['blocks']['block_carousel_' . $delta]['delete'] = array(
         '#type' => 'link',
-        '#title' => check_plain('delete'),
+        '#title' => t('delete'),
         '#href' => 'admin/structure/block/delete-block-carousel/' . $delta,
       );
     }
@@ -298,14 +298,14 @@ function multisite_block_carousel_contents($delta) {
     $first = TRUE;
 
     // Merge photos and videos.
-    if (isset($gall->field_picture_upload['und']) && isset($gall->field_video_upload['und'])) {
-      $media_items = array_merge($gall->field_picture_upload['und'], $gall->field_video_upload['und']);
+    if (isset($gall->field_picture_upload[LANGUAGE_NONE]) && isset($gall->field_video_upload[LANGUAGE_NONE])) {
+      $media_items = array_merge($gall->field_picture_upload[LANGUAGE_NONE], $gall->field_video_upload[LANGUAGE_NONE]);
     }
-    elseif (isset($gall->field_picture_upload['und'])) {
-      $media_items = $gall->field_picture_upload['und'];
+    elseif (isset($gall->field_picture_upload[LANGUAGE_NONE])) {
+      $media_items = $gall->field_picture_upload[LANGUAGE_NONE];
     }
-    elseif (isset($gall->field_video_upload['und'])) {
-      $media_items = $gall->field_video_upload['und'];
+    elseif (isset($gall->field_video_upload[LANGUAGE_NONE])) {
+      $media_items = $gall->field_video_upload[LANGUAGE_NONE];
     }
     // @todo This is unneeded, $media_items is already instantiated to an empty
     //   array.
@@ -340,7 +340,7 @@ function multisite_block_carousel_contents($delta) {
           $thumb = image_style_url('landscape', $item['uri']);
           $return .= '<a href="' . $path . '">';
           $return .= '<img src="' . $thumb . '" alt="' . check_plain($item['filename']) . '" />';
-          $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description']['und'][0]['safe_value']) ? filter_xss($item['field_picture_description']['und'][0]['safe_value']) : check_plain($item['filename'])) . '</p>';
+          $return .= '<p class="carousel-caption">' . (isset($item['field_picture_description'][LANGUAGE_NONE][0]['safe_value']) ? filter_xss($item['field_picture_description'][LANGUAGE_NONE][0]['safe_value']) : check_plain($item['filename'])) . '</p>';
           $return .= '</a>';
           break;
 
