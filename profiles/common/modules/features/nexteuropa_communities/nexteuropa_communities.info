@@ -50,4 +50,3 @@ features[variable][] = og_context_negotiation_group_context
 features[variable][] = og_context_providers_weight_group_context
 features[views_view][] = communities
 features[views_view][] = community_members
-project path = profiles/common/modules/features
