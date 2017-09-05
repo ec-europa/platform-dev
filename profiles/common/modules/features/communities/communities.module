@@ -46,7 +46,7 @@ function communities_views_pre_render(&$view) {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
 function communities_page_build(&$page) {
   $page['content']['#attached']['css'][] = array(

@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
 function social_bookmark_page_build(&$page) {
   if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {

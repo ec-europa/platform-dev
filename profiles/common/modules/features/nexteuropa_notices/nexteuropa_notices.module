@@ -7,7 +7,7 @@
 include_once 'nexteuropa_notices.features.inc';
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
 function nexteuropa_notices_page_build(&$page) {
   $path = drupal_get_path('module', 'nexteuropa_notices');
