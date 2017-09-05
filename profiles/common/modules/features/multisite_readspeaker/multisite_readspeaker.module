@@ -308,7 +308,7 @@ function multisite_readspeaker_block_view($delta = '') {
  */
 function multisite_readspeaker_node_view($node, $build_mode = 'full') {
   $node_types = variable_get('readspeaker_nodes', array());
-  $accountid  = variable_get('readspeaker_accountid', '');
+  $accountid = variable_get('readspeaker_accountid', '');
   if ($build_mode == 'full' && !empty($node_types[$node->type]) && !empty($accountid)) {
     $node->content['readspeaker_hl'] = array(
       '#type' => 'markup',
