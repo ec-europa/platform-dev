@@ -3,6 +3,15 @@ env.slackMessage = "<${env.BUILD_URL}|${env.RELEASE_NAME} build ${env.BUILD_NUMB
 slackSend color: "good", message: "${env.slackMessage} started."
 
 try {
+    node('master') {
+        stage('Check') {
+            deleteDir()
+            checkout scm
+            sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
+            sh './bin/phing setup-php-codesniffer'
+            sh './bin/phpcs --report=full --report=source --report=summary -s'
+        }
+    }
     parallel (
         'standard' : {
             // Build, test and package the standard profile
@@ -28,7 +37,8 @@ try {
                     throw(err)
                 }
             }
-        }
+        },
+        failFast: true
     )
 } catch(err) {
     slackSend color: "danger", message: "${env.slackMessage} failed."
@@ -56,7 +66,7 @@ void executeStages(String label) {
     env.WD_HOST_URL = "http://${env.WD_HOST}:${env.WD_PORT}/wd/hub"
 
     try {
-        stage('Init & Build ' + label) {
+        stage('Build & Install ' + label) {
             deleteDir()
             checkout scm
             sh 'COMPOSER_CACHE_DIR=/dev/null composer install --no-suggest'
@@ -69,8 +79,7 @@ void executeStages(String label) {
             }
         }
 
-        stage('Check & Test ' + label) {
-            sh './bin/phpcs'
+        stage('Test ' + label) {
             sh './bin/phpunit -c tests/phpunit.xml'
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
