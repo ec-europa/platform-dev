@@ -68,8 +68,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_core/e_library_core.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_core/e_library_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/includes/nexteuropa_subscriptions.settings.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/nexteuropa_subscriptions.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.admin.inc</exclude-pattern>
@@ -146,48 +144,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
     </rule>
 
-    <!-- Fix spacing. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.Commenting.CommentEmptyLine.SpacingAfter">
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_wiki_toc/multisite_drupal_wiki_toc.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_config/src/ConfigBase.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/feed_rss_core/feed_rss_core.module</exclude-pattern>
-    </rule>
-
-    <!-- Check if changes can be made or a more generalized exclusion can be set. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-816 -->
-    <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/media_avportal/includes/MediaInternetAvportalHandler.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_button/multisite_og_button.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_create_button/multisite_create_button.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/tests/multisite_readspeaker.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/wiki/wiki_core/tests/wiki_core.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_html/inc/tmgmt_dgt.format.html.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/includes/multisite_notifications_core.behat.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/ec_embedded_video/tests/ec_embedded_video.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_standard/tests/e_library_standard.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_multilingual/includes/translation.handler.file.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/f_a_q/views/views_handler_area_f_a_q_collapsible_menu.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_custom_error/tests/multisite_custom_error.extra.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_filter_ecas_user_roles.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_field_ecas_user_roles.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_field_business_indicators_ext_uuid.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/tests/multisite_business_indicators_standard.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_community/tests/multisite_business_indicators_community.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/tests/multisite_business_indicators_core.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.migrate.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/communities/views/views_handler_area_communities_create_new_community_link.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/communities/views/views_handler_area_communities_glossary.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/views/views_handler_area_f_a_q_collapsible_menu.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/views/views_handler_area_nexteuropa_faq_collapsible_menu.inc</exclude-pattern>
-    </rule>
-
-
     <!-- Use more descriptive variable names. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-817 -->
     <rule ref="DrupalPractice.General.VariableName.VariableName">
@@ -201,102 +157,10 @@
         <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/includes/multisite_notifications_core.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark_bar.admin.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/includes/nexteuropa_subscriptions.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
-    </rule>
-
-    <!-- Do not use check_plain() on string literals. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.CheckPlain.CheckPlainLiteral">
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.module</exclude-pattern>
-    </rule>
-
-    <!-- Incorrect doc comment. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionDefinitions.FormAlterDoc.Different">
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community/multisite_mediagallery_community.module</exclude-pattern>
-    </rule>
-
-    <!-- Make error message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.FormErrorT.ErrorMessage">
-        <exclude-pattern>/profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
-    </rule>
-
-    <!-- Remove checkplain and use correct placeholder. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.TCheckPlain.CheckPlain">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.module</exclude-pattern>
-    </rule>
-
-    <!-- Please make error message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/controller/tmgmt_poetry.controller.job.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.install</exclude-pattern>
-    </rule>
-
-    <!-- Please use the get_t(). -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-819 -->
-    <rule ref="DrupalPractice.FunctionDefinitions.InstallT.TranslationFound">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_button/multisite_og_button.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_metatags/nexteuropa_metatags.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/f_a_q/f_a_q.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_charts/multisite_charts.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_maps/multisite_maps.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
-    </rule>
-
-    <!-- Make message translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_group_sync/ecas_group_sync.install</exclude-pattern>
-    </rule>
-
-    <!-- Make description translatable. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.General.DescriptionT">
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
-    </rule>
-
-    <!-- Use correct permission. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.General.AccessAdminPages.PermissionFound">
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
-    </rule>
-
-    <!-- Please provide justification in code and use @codingStandardsIgnoreLine if needed. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-818 -->
-    <rule ref="DrupalPractice.FunctionCalls.DbQuery.DbQuery">
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_config/lib/Drupal/locale/Config.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/controller/tmgmt_poetry.controller.job.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/multisite_notifications_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-    </rule>
-
-    <!-- Use the LANGUAGE_NONE constant. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-821 -->
-    <rule ref="DrupalPractice.General.LanguageNone.Und">
-        <exclude-pattern>profiles/common/themes/ec_resp/template.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/subscriptions_og/subscriptions_og.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_metatags/nexteuropa_metatags.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/events/events_core/events_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_geofield/nexteuropa_geofield.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.module</exclude-pattern>
     </rule>
 
     <!-- Remove these functions from hook_init(). -->
@@ -308,15 +172,6 @@
         <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_notices/nexteuropa_notices.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/communities/communities.module</exclude-pattern>
-    </rule>
-
-    <!-- Do not call theming functions directly. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-823 -->
-    <rule ref="DrupalPractice.FunctionCalls.Theme.ThemeFunctionDirect">
-        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin/og_content_type_admin.module</exclude-pattern>
-        <exclude-pattern>profiles/common/themes/ec_resp/template.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_formatters/nexteuropa_formatters.theme.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
     </rule>
 
     <!-- Provide a reason in a comment on the line above as to why it should be open. -->
@@ -331,7 +186,6 @@
         <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/nexteuropa_subscriptions.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community/multisite_mediagallery_community.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/events/events_og/events_og.module</exclude-pattern>
@@ -351,15 +205,6 @@
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
-
-
-    <!-- Check if the value that is being returned should not be sanitized. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-813 -->
-    <rule ref="DrupalSecure.General.Helper.XSS.CallbackOutput">
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/modules/nexteuropa_token_ckeditor/nexteuropa_token_ckeditor.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.module</exclude-pattern>
-    </rule>
-
 
     <!-- Unlocked fields that need to be locked. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-812 -->
@@ -383,16 +228,6 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/nexteuropa_faq.features.field_base.inc</exclude-pattern>
     </rule>
 
-    <!-- Make paths dynamic -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-811 -->
-    <rule ref="QualityAssurance.Generic.HardcodedPath">
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.features.ckeditor_profile.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.strongarm.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_html/tmgmt_dgt_html.info</exclude-pattern>
-
-    </rule>
-
     <!-- Move custom modules to custom folder IF it's not a submodule of a feature. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-810 -->
     <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
@@ -403,28 +238,6 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_feature_set/multisite_drupal_features_set_standard/multisite_drupal_features_set_standard.info</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.info</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.info</exclude-pattern>
-    </rule>
-
-    <!-- Upgrade these features to api:2. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-809 -->
-    <rule ref="QualityAssurance.InfoFiles.Features.FeaturesAPI">
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/multisite_notifications_core.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_og/multisite_notifications_og.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_europa_search/nexteuropa_europa_search.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.info</exclude-pattern>
-        <exclude-pattern>profiles/multisite_drupal_communities/modules/custom/og_content_type_admin/og_content_type_admin.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.info</exclude-pattern>
-    </rule>
-
-    <!-- Remove useless attribute -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-808 -->
-    <rule ref="QualityAssurance.InfoFiles.Forbidden.ProjectPath">
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_event/nexteuropa_event.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_mediagallery/nexteuropa_mediagallery.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_communities/nexteuropa_communities.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_news/nexteuropa_news.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/nexteuropa_faq.info</exclude-pattern>
     </rule>
 
     <!-- Move helper functions for install file out of install file. -->
@@ -465,17 +278,15 @@
         <exclude-pattern>profiles/multisite_drupal_standard/multisite_drupal_standard.install</exclude-pattern>
     </rule>
 
-    <!-- Line exceeds 80 characters. -->
+    <!-- Line exceeds 80 characters. README.md files are excluded until a standard is agreed upon. -->
     <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
-        <exclude-pattern>profiles/common/modules/custom/ecas/README.md</exclude-pattern>
-        <exclude-pattern>*</exclude-pattern>
+        <exclude-pattern>*/README.md</exclude-pattern>
+        <exclude-pattern>*/README.txt</exclude-pattern>
+        <exclude-pattern>*/LICENSE.md</exclude-pattern>
+        <exclude-pattern>*/LICENSE.txt</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
-
-    <!-- Line exceeds 80 characters. -->
-    <rule ref="Drupal.Files.EndFileNewline.TooMany">
-        <exclude-pattern>profiles/common/modules/custom/ecas/README.md</exclude-pattern>
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
 
     <!-- The PHP open tag must be followed by exactly one blank line. -->
     <rule ref="Drupal.WhiteSpace.OpenTagNewline.BlankLine">
@@ -490,16 +301,6 @@
 
     <!-- Return comment indentation must be 3 spaces. -->
     <rule ref="Drupal.Commenting.FunctionComment.ReturnCommentIndentation">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Equals sign not aligned with surrounding assignments. -->
-    <rule ref="Drupal.Formatting.MultipleStatementAlignment.NotSame">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Equals sign not aligned correctly. -->
-    <rule ref="Drupal.Formatting.MultipleStatementAlignment.Incorrect">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -695,16 +496,6 @@
 
     <!-- There must be one blank line after the namespace declaration. -->
     <rule ref="PSR2.Namespaces.NamespaceDeclaration.BlankLineAfter">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- There must be one blank line after the last USE statement. -->
-    <rule ref="PSR2.Namespaces.UseDeclaration.SpaceAfterLastUse">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Internal hardcoded paths are not allowed. Please use variable_get('file_public|private|temporary_path'). -->
-    <rule ref="QualityAssurance.Generic.HardcodedPath.HardcodedPath">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 

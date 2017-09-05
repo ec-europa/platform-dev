@@ -892,8 +892,8 @@ function _cce_basic_config_post_install_users() {
   $account->init = $account->mail;
   $role = user_role_load_by_name('administrator');
   $account->roles[$role->rid] = $role->name;
-  $account->field_firstname['und'][0]['value'] = 'John';
-  $account->field_lastname['und'][0]['value'] = 'Smith';
+  $account->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account->field_lastname[LANGUAGE_NONE][0]['value'] = 'Smith';
   user_save($account);
 
   $account1 = new stdClass();
@@ -905,8 +905,8 @@ function _cce_basic_config_post_install_users() {
   $account1->init = $account1->mail;
   $role1 = user_role_load_by_name('contributor');
   $account1->roles[$role1->rid] = $role1->name;
-  $account1->field_firstname['und'][0]['value'] = 'John';
-  $account1->field_lastname['und'][0]['value'] = 'Doe';
+  $account1->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account1->field_lastname[LANGUAGE_NONE][0]['value'] = 'Doe';
   user_save($account1);
 
   $account2 = new stdClass();
@@ -918,8 +918,8 @@ function _cce_basic_config_post_install_users() {
   $account2->init = $account2->mail;
   $role2 = user_role_load_by_name('editor');
   $account2->roles[$role2->rid] = $role2->name;
-  $account2->field_firstname['und'][0]['value'] = 'John';
-  $account2->field_lastname['und'][0]['value'] = 'Blake';
+  $account2->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account2->field_lastname[LANGUAGE_NONE][0]['value'] = 'Blake';
   user_save($account2);
 
   // Assign dummy content to the 'administrator' user.
@@ -1444,10 +1444,10 @@ function cce_basic_config_update_7170() {
     if ($vocab_object->name == "classification") {
       $classification = $vocab_object->vid;
       if ($classification) {
-        db_query('UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid', array(
-          ':name' => '000',
-          ':vid' => $classification,
-        ));
+        db_update('taxonomy_term_data')
+          ->expression('NAME', 'NAME=concat(name, :name)', array(':name', '000'))
+          ->condition('vid', $classification, '=')
+          ->execute();
       }
       return;
     }
@@ -2107,9 +2107,11 @@ function cce_basic_config_update_7204() {
 
   foreach ($rate_widgets as &$rate_widget) {
     foreach (array('css', 'js') as $attachment) {
+      // @codingStandardsIgnoreStart: NEPT-1308: The following code tries to remove static urls from the database.
       if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
         $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
       }
+      // @codingStandardsIgnoreEnd
     }
   }
 

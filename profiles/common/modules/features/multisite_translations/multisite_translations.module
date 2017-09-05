@@ -237,7 +237,7 @@ function create_translation_roles() {
               'deleted' => 0,
               'entity_id' => $user->uid,
               'revision_id' => $user->uid,
-              'language' => 'und',
+              'language' => LANGUAGE_NONE,
               'delta' => $delta,
               'tmgmt_translation_skills_language_from' => $default_language,
               'tmgmt_translation_skills_language_to' => $language->language,
