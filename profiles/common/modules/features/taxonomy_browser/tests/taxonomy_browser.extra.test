@@ -285,25 +285,6 @@ class TaxonomyBrowserFeatureTest extends DrupalWebTestCase {
     /* Display: Page */
     $handler = $view->new_display('page', 'Page', 'page');
     $handler->display->display_options['path'] = 'view-articles';
-    $translatables['view_articles'] = array(
-      t('Master'),
-      t('View Articles'),
-      t('more'),
-      t('Apply'),
-      t('Reset'),
-      t('Sort by'),
-      t('Asc'),
-      t('Desc'),
-      t('Items per page'),
-      t('- All -'),
-      t('Offset'),
-      t('« first'),
-      t('‹ previous'),
-      t('next ›'),
-      t('last »'),
-      t('All'),
-      t('Page'),
-    );
 
     $view->save();
   }

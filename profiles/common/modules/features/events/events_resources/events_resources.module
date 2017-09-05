@@ -145,10 +145,12 @@ function events_resources_fullcalendar_options_pre_view(&$settings, &$view) {
     $settings['fullcalendar']['header']['right'] .= ' resourceDay';
 
     // Get the values from the URL.
+    // @codingStandardsIgnoreStart: Extract will set $mode.
     extract($view->get_exposed_input(), EXTR_SKIP);
     if (isset($mode) && in_array($mode, array('resourceDay'))) {
       $settings['date']['defaultView'] = $mode;
     }
+    // @codingStandardsIgnoreEnd
   }
 }
 

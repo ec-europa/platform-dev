@@ -319,7 +319,6 @@ function _nexteuropa_communities_create_alias($node, $op) {
   module_load_include('inc', 'pathauto');
 
   $node_source = 'update' != $op ? 'node/' . $node->nid : $node->path['source'];
-  $node_language = 'update' != $op ? $node->language : $node->path['language'];
 
   // For each linked group, leave only that group alone
   // linked in the node and obtain the node alias.
@@ -396,7 +395,7 @@ function _nexteuropa_communities_node_alias_check($node, $mode) {
   if (isset($node->og_group_ref[LANGUAGE_NONE]) && is_array($node->og_group_ref[LANGUAGE_NONE])) {
     // Since at least one group exists, check if any of them is a community.
     $group_types = variable_get('nexteuropa_communities_content_types', ['community']);
-    foreach ($node->og_group_ref[LANGUAGE_NONE] as $index => $group) {
+    foreach ($node->og_group_ref[LANGUAGE_NONE] as $group) {
       $group = node_load($group['target_id']);
       if (in_array($group->type, $group_types)) {
         // Found a community, generate the aliases and stop searching here.
@@ -415,7 +414,6 @@ function _nexteuropa_communities_node_alias_check($node, $mode) {
 function nexteuropa_communities_url_outbound_alter(&$path, &$options, $original_path) {
   $context = og_context();
   if ($context && strpos($original_path, 'node/') !== FALSE) {
-    global $language;
     $keyword = variable_get('nexteuropa_communities_url_keyword', 'community');
     // Load pathauto in order to use the cleanstring method.
     module_load_include('inc', 'pathauto', 'pathauto');

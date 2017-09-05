@@ -181,11 +181,12 @@ function nexteuropa_fields_formatters_field_formatter_prepare_view($entity_type,
   $display_modes = array('ne_button', 'ne_tags');
   $target_ids = array();
   $target_type = FALSE;
+  $column = '';
 
   // Collect every possible entity attached to any of the entities.
   foreach ($entities as $id => $entity) {
     if (in_array($displays[$id]['type'], $display_modes)) {
-      if (!isset($column)) {
+      if (empty($column)) {
         $field_type_settings = entityreference_field_type_settings($field);
         $target_type = $field_type_settings['entity_type'];
         $column = $field_type_settings['column'];
@@ -243,50 +244,21 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
   $elements = array();
   $settings = $display['settings'];
 
+  if ($field['type'] === 'taxonomy_term_reference' || $field['type'] === 'entityreference') {
+    $field_type_settings = entityreference_field_type_settings($field);
+    $target_type = $field_type_settings['entity_type'];
+  }
+
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_tags':
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
-            // If the access is denied to the term, we do not display it.
-            if (empty($item['access'])) {
-              continue;
-            }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
-            }
-
-            // Calling EntityReferenceHandler::getLabel() would make a repeated,
-            // wasteful call to entity_access().
-            $label = entity_label($target_type, $item['entity']);
-            $uri = entity_uri($target_type, $item['entity']);
-
-            $link = array(
-              '#theme' => 'link',
-              '#text' => $label,
-              '#path' => $uri['path'],
-              '#options' => array(
-                'attributes' => array(
-                  'class' => array(
-                    'ecl-tag__item',
-                  ),
-                ),
-              ),
-            );
-            break;
-
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
               continue;
-            }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
             }
 
             // Calling EntityReferenceHandler::getLabel() would make a repeated,
@@ -331,16 +303,10 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
-
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
               continue;
-            }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
             }
 
             // Calling EntityReferenceHandler::getLabel() would make a repeated,

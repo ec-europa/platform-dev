@@ -114,17 +114,6 @@ function nexteuropa_trackedchanges_views_default_views() {
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
 
-  $translatables['content_tracked_changes'] = array(
-    t('Content tracked changes'),
-    t('Content title'),
-    t('Content moderation state'),
-    t('Translation with tracked changes'),
-    t('Content bundle'),
-    t('Content entity type'),
-    t('Concerned entity label'),
-    t('<div class="messages status">No tracked changes detected in any contents</div>'),
-  );
-
   $views[$view->name] = $view;
 
   return $views;

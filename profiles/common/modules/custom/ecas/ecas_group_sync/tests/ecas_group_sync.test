@@ -108,8 +108,7 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
       node_save($node1);
 
       // Create mapping rule.
-      // @todo The variable $id is unused in its scope.
-      $id = db_insert('ecas_sync_mapping')
+      db_insert('ecas_sync_mapping')
         ->fields(array(
           'LDAPfield' => 'dg',
           'LDAPfield_value' => 'DIGIT',
@@ -118,8 +117,7 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
           'synctype_value_extra' => '4',
         ))
         ->execute();
-      // @todo The variable $id is unused in its scope.
-      $id = db_insert('ecas_sync_mapping')
+      db_insert('ecas_sync_mapping')
         ->fields(array(
           'LDAPfield' => 'dg',
           'LDAPfield_value' => 'MARE',

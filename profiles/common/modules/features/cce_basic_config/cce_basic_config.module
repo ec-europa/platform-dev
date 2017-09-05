@@ -33,7 +33,7 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
   $classification = taxonomy_get_tree($vid_classification[0]->vid);
 
   $list = array();
-  foreach ($classification as $key => $obj_term) {
+  foreach ($classification as $obj_term) {
     $list[$obj_term->name] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
   }
 
@@ -61,7 +61,7 @@ function cce_basic_config_form_system_site_information_settings_alter(&$form, &$
     if (isset($form_state['input']['classification'])) {
       $pattern = '@(^[0-9]+).*@';
       $subject = $form_state['input']['classification'];
-      $result = preg_match($pattern, $subject, $matches);
+      preg_match($pattern, $subject, $matches);
       if (isset($matches[1])) {
         variable_set('meta_configuration', $matches[1]);
       }
@@ -90,16 +90,15 @@ function cce_basic_config_form_media_format_form_alter(&$form) {
  * The output variable $videos is being rendered by the field--video.tpl.php.
  */
 function cce_basic_config_preprocess_field(&$variables) {
-  global $base_url, $theme;
+  global $base_url;
   if ('video' === $variables['element']['#field_type']) {
 
     if (isset($variables['element']['#items'])) {
       $output = '';
       $field = $variables['element']['#field_name'];
       $delta = 0;
-      $themepath = drupal_get_path('theme', $theme);
 
-      foreach ($variables['element']['#items'] as $key => $value) {
+      foreach ($variables['element']['#items'] as $value) {
         if (isset($value['playablefiles'][0]->uri)) {
           $video_path = str_replace('http:', '', $base_url) . '/' . file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath() . str_replace('public://', '/', $value['playablefiles'][0]->uri);
         }

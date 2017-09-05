@@ -308,7 +308,7 @@ function ecas_import_users_show_user_content() {
 function ecas_import_users_show_user_content_form($form, &$form_state, $arguments) {
   $filters = '';
 
-  // Extract will set $names, $dg, $search_by, $country and $mail.
+  // @codingStandardsIgnoreStart: Extract will set $names, $dg, $search_by, $country and $mail.
   extract($arguments);
   if (!isset($names)) {
     $names = 'everybody';
@@ -325,6 +325,7 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
   if (!isset($mail)) {
     $mail = 'no-mail';
   }
+  // @codingStandardsIgnoreEnd
 
   if ($names != 'everybody') {
     $names = trim($names);
@@ -416,10 +417,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
   else {
     drupal_add_js(drupal_get_path('module', 'ecas_import_users') . '/js/check_users.js');
 
-    // @todo The $header variable is unused in its scope.
-    $header = array('cn', 'dg', 'departmentnumber');
-    $rows = array();
-
     $form['fs'] = array(
       '#type' => 'fieldset',
       '#title' => t('List users LDAP'),
@@ -439,7 +436,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
       $row['dg'] = isset($result[$r]['dg'][0]) ? $result[$r]['dg'][0] : '';
       $row['departmentnumber'] = isset($result[$r]['departmentnumber'][0]) ? $result[$r]['departmentnumber'][0] : '';
       $row['domain'] = isset($result[$r]['o'][0]) ? $result[$r]['o'][0] : '';
-      $rows[] = $row;
 
       if ($row['cn'] == '') {
         // User needs a cn!
@@ -496,7 +492,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
   $users = $form_state['values']['fs'];
 
   $imported_users = array();
-  foreach ($users as $key => $value) {
+  foreach ($users as $value) {
     if ($value != '0') {
       list($uid, $mail, $firstname, $lastname, $domain, $departmentnumber) = explode('|', $value);
       $account = user_load_by_name($uid);

@@ -228,7 +228,7 @@ function multisite_audio_field_presave($entity_type, $entity, $field, $instance,
  * Implements hook_field_insert().
  */
 function multisite_audio_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  list($id) = entity_extract_ids($entity_type, $entity);
 
   // Add a new usage of each uploaded file.
   foreach ($items as $item) {
@@ -299,10 +299,10 @@ function multisite_audio_field_update($entity_type, $entity, $field, $instance, 
  * Implements hook_field_delete().
  */
 function multisite_audio_field_delete($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  list($id) = entity_extract_ids($entity_type, $entity);
 
   // Delete all file usages within this entity.
-  foreach ($items as $delta => $item) {
+  foreach ($items as $item) {
     file_field_delete_file($item, $field, $entity_type, $id, 0);
   }
 }
@@ -311,7 +311,7 @@ function multisite_audio_field_delete($entity_type, $entity, $field, $instance, 
  * Implements hook_field_delete_revision().
  */
 function multisite_audio_field_delete_revision($entity_type, $entity, $field, $instance, $langcode, &$items) {
-  list($id, $vid, $bundle) = entity_extract_ids($entity_type, $entity);
+  list($id) = entity_extract_ids($entity_type, $entity);
   foreach ($items as $delta => $item) {
     // Decrement the file usage count by 1 and delete the file if possible.
     if (file_field_delete_file($item, $field, $entity_type, $id)) {
@@ -550,7 +550,6 @@ function multisite_audio_field_widget_process($element, &$form_state, $form) {
 
   $field = field_widget_field($element, $form_state);
   $instance = field_widget_instance($element, $form_state);
-  $settings = $instance['widget']['settings'];
 
   $element['#theme'] = 'file_widget';
 

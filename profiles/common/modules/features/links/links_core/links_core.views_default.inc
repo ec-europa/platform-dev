@@ -244,30 +244,7 @@ function links_core_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  $translatables['links'] = array(
-    t('Master'),
-    t('Latest Links'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('Tags'),
-    t('link'),
-    t('Edit link'),
-    t('Delete link'),
-    t('Page'),
-    t('Links'),
-    t('Block'),
-  );
+
   $export['links'] = $view;
 
   return $export;

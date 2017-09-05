@@ -19,7 +19,7 @@ function multisite_metatags_form_node_form_alter(&$form, &$form_state, $form_id)
 
     // Change the select to show name and description.
     $list[0] = 'none';
-    foreach ($classification as $key => $obj_term) {
+    foreach ($classification as $obj_term) {
       $list[$obj_term->tid] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
     }
     $form['field_meta_classification'][LANGUAGE_NONE]['#options'] = $list;

@@ -435,7 +435,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('Unable to find an element with the following id: "%s"', $id));
     }
     // Loading attributes from the step.
-    $attribs = $rules = $table->getHash();
+    $attribs = $table->getHash();
     // Checking if attributes of the element are equal.
     foreach ($attribs as $attrib) {
       $attrib_value = $element_node->getAttribute($attrib['Attribute']);

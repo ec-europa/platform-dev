@@ -328,39 +328,7 @@ function multisite_forum_community_views_default_views() {
   $handler->display->display_options['fields']['last_comment_timestamp']['alter']['text'] = '<small>By [last_comment_name]<br />[last_comment_timestamp]</small>';
   $handler->display->display_options['fields']['last_comment_timestamp']['date_format'] = 'time ago';
   $handler->display->display_options['path'] = '/';
-  $translatables['forums_discussions'] = array(
-    t('Master'),
-    t('Forums discussions'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('No content found.'),
-    t('author'),
-    t('OG membership from node'),
-    t('<span class="label label-warning"><span class="glyphicon glyphicon-comment"></span></span>'),
-    t('<span class="label label-info"><span class="glyphicon glyphicon-comment"></span></span>'),
-    t('Discussion'),
-    t('[timestamp]<blockquote>[title]<br /><small>By [name] on [changed]</small></blockquote>'),
-    t('Replies'),
-    t('.'),
-    t(','),
-    t('<span class="badge pull-right">[new_comments]</span>'),
-    t('Last reply'),
-    t('<small>By [last_comment_name]<br />[last_comment_timestamp]</small>'),
-    t('All'),
-    t('%2'),
-    t('Discussions list'),
-  );
+
   $export['forums_discussions'] = $view;
 
   $view = new view();
@@ -464,20 +432,7 @@ function multisite_forum_community_views_default_views() {
   /* Display: Forums list */
   $handler = $view->new_display('page', 'Forums list', 'page');
   $handler->display->display_options['path'] = '/';
-  $translatables['forums_list'] = array(
-    t('Master'),
-    t('Forums list'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Group node from OG membership'),
-    t('.'),
-    t(','),
-    t('All'),
-  );
+
   $export['forums_list'] = $view;
 
   return $export;

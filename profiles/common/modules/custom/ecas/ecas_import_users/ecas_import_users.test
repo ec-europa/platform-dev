@@ -173,7 +173,7 @@ class EcasImportUsersFunctionalTest extends DrupalWebTestCase {
       'create article content',
       'create page content',
     ));
-    $cas_authmap = db_insert('authmap')
+    db_insert('authmap')
         ->fields(array(
           'authname' => $this->ecasUser->name,
           'uid' => $this->ecasUser->uid,

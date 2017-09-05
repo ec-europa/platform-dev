@@ -13,13 +13,12 @@ function ec_world_countries_add_code() {
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('ec_world_countries');
   if ($vocabulary) {
-    $vid = $vocabulary->vid;
 
     // Loads the list of countries and 2 letter codes from the include file.
     include_once 'includes/countries.php';
     $country_array = ec_world_countries_countries();
 
-    foreach ($country_array as $continent => $countries) {
+    foreach ($country_array as $countries) {
       foreach ($countries as $country => $cy_name) {
 
         // Loads existing terms that match the country name.

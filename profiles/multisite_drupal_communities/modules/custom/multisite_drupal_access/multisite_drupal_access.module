@@ -12,7 +12,6 @@ function multisite_drupal_access_node_access_records($node) {
 
   // Give the right for any users to view community type.
   if ($node->type == 'community') {
-    $group_type = 'node';
     $grants[] = array(
       'realm' => 'all',
       'gid' => 0,
@@ -27,7 +26,7 @@ function multisite_drupal_access_node_access_records($node) {
   // If revision is not published we need to grant access to group.
   if (isset($node->workbench_moderation['my_revision']) && !$node->workbench_moderation['my_revision']->published) {
     // Fet the groups defined in the node.
-    $groups = og_get_entity_groups($entity_type = 'node', $node);
+    $groups = og_get_entity_groups('node', $node);
     if (isset($groups['node']) && !empty($groups)) {
       // For each group set a grant.
       foreach ($groups['node'] as $gid) {

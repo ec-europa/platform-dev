@@ -52,8 +52,6 @@ function og_content_type_admin_permission() {
  * The menu item(s) for this module.
  */
 function og_content_type_admin_menu() {
-  global $user, $_menu;
-
   $items['admin/config/group/og_content_types'] = array(
     'title' => 'OG Content Types',
     'page callback' => 'drupal_get_form',
@@ -102,9 +100,6 @@ function og_content_type_admin_menu() {
  * Implements callback to access "Content type" tab.
  */
 function _og_content_type_admin_is_admin_access_callback($nid) {
-  global $user;
-
-  $group = node_load($nid);
   $og_administer_access = og_user_access('node', $nid, 'administer group');
   if ($og_administer_access) {
     return TRUE;
@@ -118,8 +113,6 @@ function _og_content_type_admin_is_admin_access_callback($nid) {
  * Implements hook_theme().
  */
 function og_content_type_admin_theme() {
-  $module_path = drupal_get_path('module', 'og_content_type_admin');
-
   return array(
     'og_content_type_admin_main' => array(
       'render element' => 'form',
@@ -137,7 +130,6 @@ function og_content_type_admin_theme() {
  * Implements hook_og_create_links().
  */
 function og_content_type_admin_og_create_links($group) {
-  global $user;
   $links = array();
   if ($group) {
     if (_og_content_type_admin_is_admin($group)) {
@@ -460,7 +452,6 @@ function og_content_type_admin_admin_submit($form, &$form_state) {
   $error = FALSE;
   foreach (element_children($form_values['groups']) as $group) {
     // Grab the stored 'required/activated' data for comparison.
-    $sql = "SELECT octa.types_active FROM {og_content_type_admin} octa WHERE octa.name = '%s'";
     $results = db_select('og_content_type_admin', 'octa')
       ->fields('octa', array('types_active'))
       ->condition('name', $group, '=')
@@ -676,8 +667,6 @@ function _og_content_type_admin_update_types($gid, &$new_active_site_wide = NULL
     ->execute()
     ->fetchAssoc();
 
-  $assigned = array();
-
   // Site Wide -> Required.
   $activated_status_site_wide = unserialize($result_site_wide_sel['types_active']);
   $activated_status_site_wide = clean_types($activated_status_site_wide, $all_active);
@@ -687,7 +676,7 @@ function _og_content_type_admin_update_types($gid, &$new_active_site_wide = NULL
   $allowed_status_site_wide = clean_types($allowed_status_site_wide, $all_allowed);
   $new_allowed_site_wide = array_merge((array) $all_allowed, (array) $allowed_status_site_wide);
 
-  $result_site_wide_up = db_update('og_content_type_admin')
+  db_update('og_content_type_admin')
     ->fields(array(
       'types_allowed' => serialize($new_allowed_site_wide),
       'types_active' => serialize($new_active_site_wide),
@@ -718,7 +707,7 @@ function _og_content_type_admin_update_types($gid, &$new_active_site_wide = NULL
       $allowed_status = clean_types($allowed_status, $all_allowed);
       $new_allowed = array_merge((array) $all_allowed, (array) $allowed_status);
 
-      $result_group_up = db_update('og_content_type_admin')
+      db_update('og_content_type_admin')
         ->fields(array(
           'types_allowed' => serialize($new_allowed),
           'types_active' => serialize($new_active),
@@ -745,7 +734,7 @@ function _og_content_type_admin_update_types($gid, &$new_active_site_wide = NULL
     $allowed_status = clean_types($allowed_status, $all_allowed);
     $new_allowed = array_merge((array) $all_allowed, (array) $allowed_status);
 
-    $result_default_up = db_update('og_content_type_admin')
+    db_update('og_content_type_admin')
       ->fields(array(
         'types_allowed' => serialize($new_allowed),
         'types_active' => serialize($new_active),
@@ -761,7 +750,6 @@ function _og_content_type_admin_update_types($gid, &$new_active_site_wide = NULL
  * Let the group owner decide which content types his members can use.
  */
 function og_content_type_admin_owner($form, &$form_state, $nid = NULL) {
-  global $user;
   $nid = (int) arg(1);
   $group = node_load($nid);
 
@@ -932,7 +920,7 @@ function og_content_type_admin_owner_submit($form, &$form_state) {
             ->fetchAssoc();
           $allowed = $result['types_allowed'];
 
-          $resp = db_insert('og_content_type_admin')
+          db_insert('og_content_type_admin')
             ->fields(array(
               'gid' => $group->nid,
               'name' => $group->title,
@@ -1009,7 +997,7 @@ function theme_og_content_type_admin_owner($form) {
  * Interception of the node module's node_add function.
  */
 function og_content_type_admin_node_access($node, $op, $account) {
-  global $user, $_GET;
+  global $_GET;
 
   // If there is a group context, get the active types for the group,
   // otherwise, use the site-wide list.
@@ -1029,9 +1017,7 @@ function og_content_type_admin_node_access($node, $op, $account) {
         ->execute()
         ->fetchAssoc();
     }
-    $activated_types = unserialize($result['types_active']);
     $allowed_types = unserialize($result['types_allowed']);
-    $look_at_allowed = 1;
 
     $arg_index = str_replace("-", "_", arg(2));
 
@@ -1181,10 +1167,7 @@ function _og_content_type_admin_is_admin($group) {
  * Check if a user is a group manager of the given group.
  */
 function _og_content_type_admin_is_admin_content_access_nid($nid) {
-  global $user;
-
   $res = og_user_access('node', $nid, 'administer group');
-
   return $res;
 }
 

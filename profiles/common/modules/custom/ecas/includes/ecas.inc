@@ -389,12 +389,13 @@ function ecas_login_check() {
       phpCAS::forceAuthentication();
     }
 
-    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
+    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
+      // @codingStandardsIgnoreStart: NEPT-1332: To be fixed during refactoring.
       $ecas_attributes = phpCAS::getAttributes();
       $ecas_groups = $ecas_attributes['cas:groups'];
       $ecas_email = $ecas_attributes['cas:email'];
-
+      // @codingStandardsIgnoreEnd
       // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
@@ -567,7 +568,7 @@ function _ecas_force_login() {
   }
 
   // Allow users to access the drupal login page.
-  if ($arg0 == 'user' && empty($arg1)) {
+  if ($arg0 == 'user') {
     return ECAS_NO_LOGIN;
   }
 

@@ -169,7 +169,7 @@ function multisite_cookie_consent_getcookie($language = 'en') {
         if (!isset($cookie_info['translation'][$language])) {
           // Loop through out all the languages to find which one is the
           // default.
-          foreach ($cookie_info['translation'] as $languages => $lang) {
+          foreach ($cookie_info['translation'] as $lang) {
             if ($lang['default']) {
               $output .= '<h3 class="ecl-heading ecl-heading--h3">' . $lang['name'] . '</h3>';
               $output .= '<p>' . $lang['description'] . '</p>';

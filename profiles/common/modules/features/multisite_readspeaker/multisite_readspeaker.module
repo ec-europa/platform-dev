@@ -355,7 +355,6 @@ function theme_multisite_readspeaker_button() {
 
   if (user_access('display multisite_readspeaker')) {
     global $language;
-    global $base_path;
 
     $accountid = variable_get('readspeaker_accountid', '');
     $node = menu_get_object();

@@ -77,10 +77,10 @@ function events_core_update_7202() {
 
     // Update our fields defines to 'datestamp' in feature.field.
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
-      foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
+      foreach ($field_info['storage']['details']['sql'] as $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
 
-        foreach ($info_sql[$table_name] as $id => $column_name) {
+        foreach ($info_sql[$table_name] as $column_name) {
 
           if (field_has_data($field_info)) {
             // There is data: migrate data and update column to int.

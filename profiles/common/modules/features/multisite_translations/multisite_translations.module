@@ -135,12 +135,12 @@ function multisite_translations_views_query_alter(&$view, &$query) {
  */
 function is_translator($account) {
   $roles = $account->roles;
-  foreach ($roles as $rid => $role) {
+  foreach ($roles as $role) {
     if (substr($role, 0, 10) == 'translator') {
       return TRUE;
     }
   }
-  $result = FALSE;
+  return FALSE;
 }
 
 /**
@@ -149,7 +149,7 @@ function is_translator($account) {
 function get_translator_languages($account) {
   $language_codes = array();
   $roles = $account->roles;
-  foreach ($roles as $rid => $role) {
+  foreach ($roles as $role) {
     if (substr($role, 0, 10) == 'translator') {
       $language_codes[] = get_related_language($role);
     }
@@ -193,7 +193,7 @@ function create_translation_roles() {
   $default_language = $default_language->language;
 
   // Create translation roles.
-  foreach ($languages as $lid => $language) {
+  foreach ($languages as $language) {
     $role_name = 'translator_' . strtolower($language->name);
 
     $result = db_select('role', 'r')
@@ -219,7 +219,7 @@ function create_translation_roles() {
   // Add translation skill to user_administrator.
   $delta = count($languages);
   if ($user = user_load_by_name('user_administrator')) {
-    foreach ($languages as $lid => $language) {
+    foreach ($languages as $language) {
       if ($language->language != $default_language) {
         $check_skill = db_select('field_data_tmgmt_translation_skills', 'fdtts')
           ->fields('fdtts')
@@ -230,7 +230,7 @@ function create_translation_roles() {
           ->fetchAssoc();
 
         if ($check_skill == NULL) {
-          $id = db_insert('field_data_tmgmt_translation_skills')
+          db_insert('field_data_tmgmt_translation_skills')
             ->fields(array(
               'entity_type' => 'user',
               'bundle' => 'user',
@@ -312,7 +312,7 @@ function rules_action_mail_to_related_translation_role($subject, $message, $from
   );
   // Set a unique key for this mail.
   $name = isset($element->root()->name) ? $element->root()->name : 'unnamed';
-  $key = 'rules_action_mail_to_users_of_role_' . $name . '_' . $element->elementId();  $languages = language_list();
+  $key = 'rules_action_mail_to_users_of_role_' . $name . '_' . $element->elementId();
 
   $message = array('result' => TRUE);
   foreach ($result as $row) {

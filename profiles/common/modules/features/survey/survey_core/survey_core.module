@@ -89,7 +89,6 @@ function survey_core_token_info() {
  */
 function survey_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
-  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
   if ($type == 'Breadcrumb_survey') {
     foreach ($tokens as $name => $original) {

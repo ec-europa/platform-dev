@@ -633,7 +633,7 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
   $handler = entity_translation_get_handler($context['entity_type'], $context['entity']);
   $translations = $handler->getTranslations();
   if (isset($translations->data) && isset($translations->data[$context['language']]) && !entity_translation_access($context['entity_type'], $translations->data[$context['language']])) {
-    foreach ($display_language as $field => &$language) {
+    foreach ($display_language as &$language) {
       if ($language == $context['language']) {
         $language = isset($translations->data[$context['language']]['source']) ? $translations->data[$context['language']]['source'] : LANGUAGE_NONE;
       }
@@ -656,7 +656,7 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
 
     // Loop over, if we have a field that is using a teritary language, we set
     // it to undefined.
-    foreach ($display_language as $field => &$language) {
+    foreach ($display_language as &$language) {
       if (!in_array($language, $allowed_languages)) {
         $language = LANGUAGE_NONE;
       }

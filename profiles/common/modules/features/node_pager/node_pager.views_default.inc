@@ -118,23 +118,7 @@ function node_pager_views_default_views() {
   $handler->display->display_options['previous'] = 'nothing_1';
   $handler->display->display_options['current'] = '0';
   $handler->display->display_options['next'] = 'nothing';
-  $translatables['article_pager'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Nid'),
-    t('older'),
-    t('&larr; Older'),
-    t('newer'),
-    t('Newer &rarr;'),
-    t('Articles browser'),
-    t('node/[nid]'),
-  );
+
   $export['article_pager'] = $view;
 
   $view = new view();
@@ -249,25 +233,7 @@ function node_pager_views_default_views() {
   $handler->display->display_options['previous'] = 'nothing_1';
   $handler->display->display_options['current'] = '0';
   $handler->display->display_options['next'] = 'nothing';
-  $translatables['events_pager'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Nid'),
-    t('older'),
-    t('&larr;  Older'),
-    t('newer'),
-    t('Newer &rarr;'),
-    t('News browser'),
-    t('node/[nid]'),
-    t('Next &rarr;'),
-    t('&larr; Previous'),
-  );
+
   $export['events_pager'] = $view;
 
   $view = new view();
@@ -379,23 +345,7 @@ function node_pager_views_default_views() {
   $handler->display->display_options['previous'] = 'nothing_1';
   $handler->display->display_options['current'] = '0';
   $handler->display->display_options['next'] = 'nothing';
-  $translatables['news_pager'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Nid'),
-    t('older'),
-    t('&larr; Older'),
-    t('newer'),
-    t('Newer &rarr;'),
-    t('News browser'),
-    t('node/[nid]'),
-  );
+
   $export['news_pager'] = $view;
 
   $view = new view();
@@ -506,23 +456,7 @@ function node_pager_views_default_views() {
   $handler->display->display_options['previous'] = 'nothing_1';
   $handler->display->display_options['current'] = '0';
   $handler->display->display_options['next'] = 'nothing';
-  $translatables['page_view'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Nid'),
-    t('older'),
-    t('&larr; Older'),
-    t('newer'),
-    t('Newer &rarr;'),
-    t('Page browser'),
-    t('node/[nid]'),
-  );
+
   $export['page_view'] = $view;
 
   return $export;

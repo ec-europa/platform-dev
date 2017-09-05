@@ -63,7 +63,7 @@ class MultisiteDrupalToolboxDrupalWebTestCase extends DrupalWebTestCase {
 
     // Include the testing profile.
     variable_set('install_profile', $this->profile);
-    $profile_details = install_profile_info($this->profile, 'en');
+    install_profile_info($this->profile, 'en');
 
     // OVERRIDE : Always install required modules first.
     // Respect the dependencies between the modules.
