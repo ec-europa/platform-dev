@@ -86,7 +86,6 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
 
     // If no pictures display empty_pic.
     if (!isset($sorted_media_items) || count($sorted_media_items) == 0) {
-      global $base_url;
       $empty_pic = array(
         'type' => 'empty',
         'uri' => $base_url . '/' . path_to_theme() . '/images/empty_gallery.png',
