@@ -100,7 +100,7 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
         'body' => array(LANGUAGE_NONE => array(array('Community body'))),
       );
 
-      $node1 = $this->drupalCreateNode($settings);
+      $node1               = $this->drupalCreateNode($settings);
       $node1->og_register  = 0;
       $node1->og_directory = 0;
       $node1->og_private   = 1;
