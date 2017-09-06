@@ -79,7 +79,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * @param string $type
    *    Moderation type.
    *
-   * @return string|FALSE
+   * @return string|false
    *    Moderation state or FALSE.
    */
   private function getModerationState($node, $type = 'current') {
@@ -98,7 +98,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * @param string $type
    *    Moderation type.
    *
-   * @return object|FALSE
+   * @return object|false
    *    Current node object or FALSE.
    */
   private function getModerationRevision($node, $type = 'current') {

@@ -279,7 +279,7 @@ class LanguageCoverageService {
   /**
    * Get requested language.
    *
-   * @return string|FALSE
+   * @return string|false
    *    The requested language, FALSE if none found.
    */
   protected function getRequestedLanguage() {

@@ -340,11 +340,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected "false|\stdClass" but found "FALSE|\stdClass" for function return type. -->
-    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturn">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Type hint "array" missing for ... -->
     <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
         <exclude-pattern>*</exclude-pattern>
