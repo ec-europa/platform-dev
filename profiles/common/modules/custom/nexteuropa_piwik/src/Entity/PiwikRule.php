@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Definition of Drupal\nexteuropa_piwik\Entity\PiwikRule.

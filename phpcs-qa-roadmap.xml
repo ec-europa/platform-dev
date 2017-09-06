@@ -335,12 +335,6 @@
         <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
 
-    <!-- The PHP open tag must be followed by exactly one blank line. -->
-    <rule ref="Drupal.WhiteSpace.OpenTagNewline.BlankLine">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas.module</exclude-pattern>
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Object operator not indented correctly. -->
     <rule ref="Drupal.WhiteSpace.ObjectOperatorIndent.Indent">
         <exclude-pattern>*</exclude-pattern>
