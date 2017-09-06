@@ -151,6 +151,7 @@ function solr_config_update_7122() {
  * Implements hook_install().
  */
 function solr_config_install() {
+  $t = get_t();
   // Add a menu link for the solr facets settings.
   $mlid_parent = db_select('menu_links', 'ml')
     ->condition('ml.link_path', 'admin/config/search')
@@ -159,11 +160,11 @@ function solr_config_install() {
     ->fetchField();
 
   $options = array();
-  $options['attributes']['title'] = t('Configure SolR facets');
+  $options['attributes']['title'] = $t('Configure SolR facets');
 
   $item = array(
     'link_path' => 'admin/config/search/apachesolr/settings/solr/facets',
-    'link_title' => t('SolR facets'),
+    'link_title' => $t('SolR facets'),
     'menu_name' => 'management',
     'options' => $options,
     'plid' => $mlid_parent,

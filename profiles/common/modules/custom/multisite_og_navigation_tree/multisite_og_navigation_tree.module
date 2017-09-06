@@ -466,7 +466,7 @@ function _mont_block_taxonomy_navigation() {
         $items[] = $item;
       }
       // @todo Variable $node is unused in its scope.
-      $node  = node_load($nid);
+      $node = node_load($nid);
       if (count($items)) {
         $block['subject'] = t('navigation');
         $block['content'] = theme('item_list', array('items' => $items, 'attributes' => array('class' => 'menu')));

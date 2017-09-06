@@ -54,5 +54,13 @@ function nexteuropa_formatters_theme($existing, $type, $theme, $path) {
       'template' => 'timelines',
       'path' => $templates_path,
     ),
+    'social_icon' => array(
+      'variables' => array(
+        'text' => NULL,
+        'type' => NULL,
+      ),
+      'template' => 'social-icon',
+      'path' => $templates_path,
+    ),
   );
 }
