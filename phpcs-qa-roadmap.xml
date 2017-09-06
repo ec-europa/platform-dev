@@ -177,21 +177,6 @@
         <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.install</exclude-pattern>
     </rule>
 
-    <!-- Update the description of the update hooks. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-806 -->
-    <rule ref="QualityAssurance.InstallFiles.HookUpdateN">
-        <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_core/e_library_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/events/events_core/events_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/multisite_business_indicators_standard.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/idea/idea_core/idea_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.install</exclude-pattern>
-        <exclude-pattern>profiles/multisite_drupal_standard/multisite_drupal_standard.install</exclude-pattern>
-    </rule>
-
     <!-- Line exceeds 80 characters. README.md files are excluded until a standard is agreed upon. -->
     <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
         <exclude-pattern>*/README.md</exclude-pattern>
@@ -202,24 +187,8 @@
         <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
 
-    <!-- The PHP open tag must be followed by exactly one blank line. -->
-    <rule ref="Drupal.WhiteSpace.OpenTagNewline.BlankLine">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas.module</exclude-pattern>
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Object operator not indented correctly. -->
-    <rule ref="Drupal.WhiteSpace.ObjectOperatorIndent.Indent">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Return comment indentation must be 3 spaces. -->
     <rule ref="Drupal.Commenting.FunctionComment.ReturnCommentIndentation">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Expected "false|\stdClass" but found "FALSE|\stdClass" for function return type. -->
-    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturn">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -403,11 +372,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- There must be one blank line after the namespace declaration. -->
-    <rule ref="PSR2.Namespaces.NamespaceDeclaration.BlankLineAfter">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-    
     <!-- The use of function strlen() is forbidden; use drupal_strlen() instead. -->
     <rule ref="QualityAssurance.Functions.DrupalWrappers.FoundWithAlternative">
         <exclude-pattern>*</exclude-pattern>

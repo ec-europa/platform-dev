@@ -55,9 +55,9 @@ function multisite_forum_core_replace_strings() {
           || in_array('comment', $path_array)) {
 
     $language_prefix = db_select('languages', 'l')
-            ->fields('l', array('prefix'))
-            ->execute()
-            ->fetchAll(PDO::FETCH_COLUMN);
+      ->fields('l', array('prefix'))
+      ->execute()
+      ->fetchAll(PDO::FETCH_COLUMN);
 
     // en/discussion/$nid.
     if (in_array($path_array[0], $language_prefix)) {
@@ -81,10 +81,10 @@ function multisite_forum_core_replace_strings() {
       // discussion/$node_title.
       case 'discussion':
         $source = db_select('url_alias', 'a')
-                ->fields('a', array('source'))
-                ->condition('a.alias', $url)
-                ->execute()
-                ->fetch(PDO::FETCH_COLUMN);
+          ->fields('a', array('source'))
+          ->condition('a.alias', $url)
+          ->execute()
+          ->fetch(PDO::FETCH_COLUMN);
 
         if (strstr($source, 'node/') !== FALSE) {
           list(, $nid) = explode('/', $source);
@@ -100,10 +100,10 @@ function multisite_forum_core_replace_strings() {
         else {
           $cid = (int) $path_array[1];
           $nid = db_select('comment', 'c')
-                  ->fields('c', array('nid'))
-                  ->condition('c.cid', $cid)
-                  ->execute()
-                  ->fetch(PDO::FETCH_COLUMN);
+            ->fields('c', array('nid'))
+            ->condition('c.cid', $cid)
+            ->execute()
+            ->fetch(PDO::FETCH_COLUMN);
         }
         break;
     }
@@ -111,10 +111,10 @@ function multisite_forum_core_replace_strings() {
     if ($nid) {
       $nid = (int) $nid;
       $type = db_select('node', 'n')
-              ->fields('n', array('type'))
-              ->condition('n.nid', $nid)
-              ->execute()
-              ->fetch(PDO::FETCH_COLUMN);
+        ->fields('n', array('type'))
+        ->condition('n.nid', $nid)
+        ->execute()
+        ->fetch(PDO::FETCH_COLUMN);
 
       if ($type == MULTISITE_FORUM_CORE_CT_NAME) {
         global $conf;

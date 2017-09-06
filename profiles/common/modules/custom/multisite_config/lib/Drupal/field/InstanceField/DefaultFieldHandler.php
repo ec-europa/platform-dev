@@ -6,6 +6,7 @@
  */
 
 namespace Drupal\field\InstanceField;
+
 use Drupal\field\FieldHandlerInterface;
 
 /**

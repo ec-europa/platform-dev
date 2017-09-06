@@ -57,6 +57,26 @@ function nexteuropa_formatters_fields_field_formatter_info() {
         'show_translations' => TRUE,
       ),
     ),
+    'ne_social_icon' => array(
+      'label' => t('NE Social Icon'),
+      'description' => t('Displays as a Social Icon'),
+      'field types' => array(
+        'link_field',
+      ),
+      'settings' => array(
+        'type' => 'email',
+      ),
+    ),
+    'ne_social_icon_link' => array(
+      'label' => t('NE Social Icon - link'),
+      'description' => t('Render a link as a Social Icon'),
+      'field types' => array(
+        'link_field',
+      ),
+      'settings' => array(
+        'type' => 'email',
+      ),
+    ),
     'ne_tags' => array(
       'label' => t('NE Tags'),
       'field types' => array(
@@ -130,6 +150,29 @@ function nexteuropa_formatters_fields_field_formatter_settings_form($field, $ins
         '#description' => t('Text to be displayed inside the button.'),
       );
       break;
+
+    case 'ne_social_icon':
+    case 'ne_social_icon_link':
+      $types = array(
+        'Arto', 'Facebook', 'Bebo', 'Bitly', 'Blinklist', 'Blog', 'Blogger', 'Delicious', 'Digg', 'Diigo',
+        'Dzone', 'Email', 'Flickr', 'Foursquare', 'Generic', 'Google', 'Gplus', 'Instagram', 'Linkarena', 'Linkedin',
+        'Live', 'Meneame', 'Misterwong', 'Myspace', 'Netlog', 'Netvibes', 'Newsvine', 'Nujij', 'Pinterest', 'Pocket',
+        'Reddit', 'RSS', 'Share', 'Skype', 'Slashdot', 'Sonico', 'Spotify', 'Storify', 'Studivz', 'Stumbleupon',
+        'Technorati', 'Tuenti', 'Tumblr', 'Tumblr', 'Twitter', 'Viadeo', 'Vine', 'Wordpress', 'Wykop', 'Xerpi',
+        'Yammer', 'Youtube', 'Print',
+      );
+      $options = array();
+      foreach ($types as $type) {
+        $options[drupal_strtolower($type)] = $type;
+      }
+      $element['type'] = array(
+        '#type' => 'select',
+        '#title' => t('Social icon:'),
+        '#options' => $options,
+        '#default_value' => $settings['type'],
+        '#description' => t('Type of Social Icon.'),
+      );
+      break;
   }
 
   return $element;
@@ -149,6 +192,15 @@ function nexteuropa_formatters_fields_field_formatter_settings_summary($field, $
       if (isset($settings['label'])) {
         $summary[] = t('Button label: @label', array(
           '@label' => $settings['label'],
+        ));
+      }
+      break;
+
+    case 'ne_social_icon':
+    case 'ne_social_icon_link':
+      if (isset($settings['type'])) {
+        $summary[] = t('Social icon: @type', array(
+          '@type' => $settings['type'],
         ));
       }
       break;
@@ -380,7 +432,6 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
 
     // @TODO improve and Fix this by using a template.
     case 'ne_download_button':
-
       if ($field['type'] == 'link_field') {
         foreach ($items as $delta => $item) {
           $link = array(
@@ -398,7 +449,41 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
           $elements[$delta] = $link;
         }
       }
+      break;
 
+    case 'ne_social_icon':
+      if ($field['type'] == 'link_field') {
+        foreach ($items as $delta => $item) {
+          $link = array(
+            '#theme' => 'social_icon',
+            '#text' => $item['title'],
+            '#type' => $settings['type'],
+          );
+          $elements[$delta] = $link;
+        }
+      }
+      break;
+
+    case 'ne_social_icon_link':
+      if ($field['type'] == 'link_field') {
+        foreach ($items as $delta => $item) {
+          $link = array(
+            '#theme' => 'link',
+            '#text' => $item['title'],
+            '#path' => $item['url'],
+            '#options' => array(
+              'attributes' => array(
+                'class'  => array(
+                  'ecl-link',
+                  'ecl-icon-social',
+                  'ecl-icon-social--' . $settings['type'],
+                ),
+              ),
+            ),
+          );
+          $elements[$delta] = $link;
+        }
+      }
       break;
   }
   return $elements;

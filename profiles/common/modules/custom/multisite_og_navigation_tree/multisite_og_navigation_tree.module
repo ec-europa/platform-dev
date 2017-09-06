@@ -141,7 +141,7 @@ function multisite_og_navigation_tree_module_implements_alter(&$implementations,
  * @param int $nid
  *   The node ID of the node to load.
  *
- * @return object|FALSE
+ * @return object|false
  *   The node, or FALSE if the node is not part of an OG Navigation Tree group.
  */
 function mont_node_load($nid) {
@@ -421,7 +421,7 @@ function _mont_og_context_handler() {
 /**
  * Helper function to fetch the links.
  *
- * @return array|FALSE
+ * @return array|false
  *   Either the Taxonomy Navigation block or FALSE if the block couldn't be
  *   rendered.
  */

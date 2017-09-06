@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Nexteuropa_multilingual.callbacks.inc.

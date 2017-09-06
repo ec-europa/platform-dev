@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Taxonomy browser admin.inc file.
