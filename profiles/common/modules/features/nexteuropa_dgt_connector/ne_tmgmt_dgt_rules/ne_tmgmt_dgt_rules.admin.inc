@@ -20,7 +20,7 @@ function ne_tmgmt_dgt_rules_admin_settings_form($form, $form_state) {
   );
 
   $form['settings']['ftt_translations']['ne_tmgmt_dgt_rules_translator'] = array(
-    '#title' => t('Default TMGMT translator'),git s
+    '#title' => t('Default TMGMT translator'),
     '#type' => 'select',
     '#options' => tmgmt_translator_labels(),
     '#default_value' => variable_get('ne_tmgmt_dgt_rules_translator', array()),
