@@ -283,10 +283,10 @@ function og_content_type_admin_confirm_delete($form, &$form_state, $gid = NULL) 
   }
 
   $result = db_select('og_content_type_admin', 'octa')
-              ->fields('octa', array('gid', 'name'))
-              ->condition('gid', $gid, '=')
-              ->execute()
-              ->fetchAssoc();
+    ->fields('octa', array('gid', 'name'))
+    ->condition('gid', $gid, '=')
+    ->execute()
+    ->fetchAssoc();
 
   $form['name'] = array('#type' => 'value', '#value' => $result['name']);
   $form['gid'] = array('#type' => 'value', '#value' => $gid);
@@ -305,8 +305,8 @@ function og_content_type_admin_confirm_delete_submit($form, &$form_state) {
   $form_values = $form_state['values'];
 
   $dbquery = db_delete('og_content_type_admin')
-              ->condition('gid', $form_values['gid'])
-              ->execute();
+    ->condition('gid', $form_values['gid'])
+    ->execute();
   if ($dbquery) {
     drupal_set_message(t('The group %gid has been removed from the content type admin table.', array('%gid' => $form_values['name'])));
     watchdog('content', 'og_content_type_admin: deleted %gid.', array('%gid' => $form_values['name']));
@@ -1017,10 +1017,10 @@ function og_content_type_admin_node_access($node, $op, $account) {
   if (isset($_GET['og_group_ref'])) {
     $gid = $_GET['og_group_ref'];
     $result = db_select('og_content_type_admin', 'octa')
-                ->fields('octa', array('types_active', 'types_allowed'))
-                ->condition('gid', $gid, '=')
-                ->execute()
-                ->fetchAssoc();
+      ->fields('octa', array('types_active', 'types_allowed'))
+      ->condition('gid', $gid, '=')
+      ->execute()
+      ->fetchAssoc();
     // If we're keeping track of this group, get it's active types,
     // otherwise, get the defaults.
     if (!count($result)) {
@@ -1151,9 +1151,9 @@ function og_content_type_admin_form_alter(&$form, $form_state, $form_id) {
  */
 function _og_content_type_admin_get_added() {
   $result = db_select('og_content_type_admin', 'octa')
-              ->fields('octa', array('gid', 'name'))
-              ->orderBy('name', 'ASC')
-              ->execute();
+    ->fields('octa', array('gid', 'name'))
+    ->orderBy('name', 'ASC')
+    ->execute();
 
   while ($row = $result->fetchAssoc()) {
     $options[$row['gid']] = $row['name'];
@@ -1319,10 +1319,10 @@ function _og_content_type_get_all_groups($group_type = 'node') {
   if (!empty($result[$group_type])) {
     foreach ($result[$group_type] as $id_result => $result) {
       $res_node = db_select('node', 'n')
-                      ->fields('n', array('title'))
-                      ->condition('nid', $id_result, '=')
-                      ->execute()
-                      ->fetchAssoc();
+        ->fields('n', array('title'))
+        ->condition('nid', $id_result, '=')
+        ->execute()
+        ->fetchAssoc();
       $return[$id_result] = $res_node['title'];
     }
   }
