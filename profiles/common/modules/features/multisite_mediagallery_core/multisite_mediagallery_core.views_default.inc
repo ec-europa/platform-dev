@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_mediagallery_core.views_default.inc

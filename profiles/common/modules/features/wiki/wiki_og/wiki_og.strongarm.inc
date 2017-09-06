@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * wiki_og.strongarm.inc

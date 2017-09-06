@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Admin section for ECAS Group Sync.
