@@ -94,7 +94,7 @@ function solr_config_disable() {
 }
 
 /**
- * Implements hook_update_N().
+ * Add documents to the indexable file bundles.
  */
 function solr_config_update_7110() {
   db_insert('apachesolr_index_bundles')->fields(array(
@@ -106,10 +106,9 @@ function solr_config_update_7110() {
 
 
 /**
- * Implements hook_update_N().
+ * Add solr facet blocks to the search context.
  */
 function solr_config_update_7120() {
-  // Add solr facet blocks to the search context.
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
@@ -127,8 +126,6 @@ function solr_config_update_7120() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Add a menu link for the solr facets settings.
  */
 function solr_config_update_7122() {

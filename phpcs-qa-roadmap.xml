@@ -310,21 +310,6 @@
         <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.install</exclude-pattern>
     </rule>
 
-    <!-- Update the description of the update hooks. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-806 -->
-    <rule ref="QualityAssurance.InstallFiles.HookUpdateN">
-        <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_core/e_library_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/events/events_core/events_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/multisite_business_indicators_standard.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/idea/idea_core/idea_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.install</exclude-pattern>
-        <exclude-pattern>profiles/multisite_drupal_standard/multisite_drupal_standard.install</exclude-pattern>
-    </rule>
-
     <!-- Line exceeds 80 characters. README.md files are excluded until a standard is agreed upon. -->
     <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
         <exclude-pattern>*/README.md</exclude-pattern>

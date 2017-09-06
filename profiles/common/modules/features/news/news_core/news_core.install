@@ -23,9 +23,8 @@ function news_core_enable() {
 }
 
 /**
- * Implements hook_disable().
- *
  * Edit communities context to remove block.
+ *
  * Remove permissions.
  */
 function news_core_disable() {
@@ -60,9 +59,8 @@ function news_core_disable() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Content types using date fields should be using timestamp instead datetime.
+ *
  * No need to update schema in hook_install().
  * On a clean installation the date fields are already set up.
  * DATE FIELD MIGRATION SCRIPT: datetime to datestamp.
