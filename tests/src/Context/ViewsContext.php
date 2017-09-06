@@ -52,7 +52,7 @@ class ViewsContext extends RawDrupalContext {
    *    View machine name.
    *
    * @return \view
-   *    View object, not yet saved.
+   *   View object, not yet saved.
    */
   protected function getContentView($machine_name) {
     $view = new \view();

@@ -275,18 +275,6 @@
         <exclude-pattern>tests/src/Component/PyStringYamlParser.php</exclude-pattern>
     </rule>
 
-    <!-- Move custom modules to custom folder IF it's not a submodule of a feature. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-810 -->
-    <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_html/tmgmt_dgt_html.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry_mock/tmgmt_poetry_mock.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_path_override/multisite_path_override.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_feature_set/multisite_drupal_features_set_standard/multisite_drupal_features_set_standard.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.info</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.info</exclude-pattern>
-    </rule>
-
     <!-- Move helper functions for install file out of install file. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-807 -->
     <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
@@ -310,21 +298,6 @@
         <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.install</exclude-pattern>
     </rule>
 
-    <!-- Update the description of the update hooks. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-806 -->
-    <rule ref="QualityAssurance.InstallFiles.HookUpdateN">
-        <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/e_library/e_library_core/e_library_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/taxonomy_browser/taxonomy_browser.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/events/events_core/events_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/multisite_business_indicators_standard.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/idea/idea_core/idea_core.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/solr_config/solr_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.install</exclude-pattern>
-        <exclude-pattern>profiles/multisite_drupal_standard/multisite_drupal_standard.install</exclude-pattern>
-    </rule>
-
     <!-- Line exceeds 80 characters. README.md files are excluded until a standard is agreed upon. -->
     <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
         <exclude-pattern>*/README.md</exclude-pattern>
@@ -334,27 +307,6 @@
         <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
         <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
-
-    <!-- The PHP open tag must be followed by exactly one blank line. -->
-    <rule ref="Drupal.WhiteSpace.OpenTagNewline.BlankLine">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas.module</exclude-pattern>
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Object operator not indented correctly. -->
-    <rule ref="Drupal.WhiteSpace.ObjectOperatorIndent.Indent">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Return comment indentation must be 3 spaces. -->
-    <rule ref="Drupal.Commenting.FunctionComment.ReturnCommentIndentation">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Expected "false|\stdClass" but found "FALSE|\stdClass" for function return type. -->
-    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturn">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
 
     <!-- Closing brace must be on a line by itself ... -->
     <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Line">
@@ -536,11 +488,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- There must be one blank line after the namespace declaration. -->
-    <rule ref="PSR2.Namespaces.NamespaceDeclaration.BlankLineAfter">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-    
     <!-- The use of function strlen() is forbidden; use drupal_strlen() instead. -->
     <rule ref="QualityAssurance.Functions.DrupalWrappers.FoundWithAlternative">
         <exclude-pattern>*</exclude-pattern>

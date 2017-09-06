@@ -107,7 +107,7 @@ class Config extends ConfigBase {
    *   Entity type.
    *
    * @return bool|int
-   *    A stub OG role object.
+   *   A stub OG role object.
    */
   public function createOgRole($name, $entity, $entity_type) {
     $role = og_role_create($name, $entity, 0, $entity_type);
@@ -125,7 +125,7 @@ class Config extends ConfigBase {
    *    Role machine name.
    *
    * @return object
-   *    Role object, as fetched from the database.
+   *   Role object, as fetched from the database.
    */
   public function getOgRole($group_type, $group_bundle, $role) {
     return db_select('og_role', 'r')
@@ -152,7 +152,7 @@ class Config extends ConfigBase {
    *    Module machine name the permissions belong to.
    *
    * @return bool
-   *    TRUE if permission granting was successful, FALSE otherwise.
+   *   TRUE if permission granting was successful, FALSE otherwise.
    */
   public function grantOgPermissions($role_name, $permissions, $entity, $entity_type, $module = '') {
 

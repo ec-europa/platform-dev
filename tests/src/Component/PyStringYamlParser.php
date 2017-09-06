@@ -38,7 +38,7 @@ class PyStringYamlParser {
    * Parse YAML contained in a PyString node.
    *
    * @return array
-   *    Parsed YAML.
+   *   Parsed YAML.
    */
   public function parse() {
     // Sanitize PyString test by removing initial indentation spaces.

@@ -111,7 +111,13 @@
         <exclude-pattern>*/views_handler*</exclude-pattern>
     </rule>
 
-    <!-- NEPT-1373: Skip checks for legacy code. -->
+    <!-- Current QA rules give false positives for submodules of a feature. -->
+    <!-- Todo: Remove this when MULTISITE-18366 is fixed. -->
+    <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- NEPT-1373: Skip checks for Type hint "array" missing in legacy code. -->
     <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
         <exclude-pattern>profiles/common/modules/custom/ecas/includes/ecas.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_config/lib/Drupal/filter/Config.php</exclude-pattern>

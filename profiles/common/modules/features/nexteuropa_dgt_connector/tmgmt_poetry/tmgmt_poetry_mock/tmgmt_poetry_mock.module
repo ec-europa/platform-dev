@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module to simulate a poetry response.
@@ -98,7 +99,7 @@ function tmgmt_poetry_mock_menu() {
  * Helper function for checking if poetry_service variable is set up correctly.
  *
  * @return bool
- *    TRUE if it's correct / FALSE if not
+ *   TRUE if it's correct / FALSE if not
  */
 function _check_poetry_service_variable() {
   $poetry_service = variable_get('poetry_service', FALSE);
@@ -126,7 +127,7 @@ function _check_poetry_service_variable() {
  * Get the absolute URL of the mocked Poetry WSDL.
  *
  * @return string
- *    Absolute URL of the mocked Poetry WSDL.
+ *   Absolute URL of the mocked Poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
   return url(
@@ -142,7 +143,7 @@ function _tmgmt_poetry_mock_get_poetry_service_wsdl() {
  * Get the absolute URL of the mocked Poetry SOAP endpoint.
  *
  * @return string
- *    Absolute URL of the mocked Poetry SOAP endpoint.
+ *   Absolute URL of the mocked Poetry SOAP endpoint.
  */
 function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
   return url(
@@ -158,7 +159,7 @@ function _tmgmt_poetry_mock_get_poetry_service_endpoint() {
  * Get the URL of the tmgmt_poetry WSDL.
  *
  * @return string
- *    Absolute URL of the tmgmt_poetry WSDL.
+ *   Absolute URL of the tmgmt_poetry WSDL.
  */
 function _tmgmt_poetry_mock_get_drupal_service_wsdl() {
   return url(
@@ -258,7 +259,7 @@ function tmgmt_poetry_mock_service_configuration() {
  *    A translation job item ID.
  *
  * @return bool $translation
- *    Indicates if the pretended path is for translation page.
+ *   Indicates if the pretended path is for translation page.
  */
 function _tmgmt_poetry_mock_get_job_item_entity_path($tjiid, $translation = FALSE) {
 
@@ -301,7 +302,7 @@ function tmgmt_poetry_mock_entity_info_alter(&$info) {
  *   The vocabulary for which we want the path.
  *
  * @return array
- *    The path for vocabulary's administration page.
+ *   The path for vocabulary's administration page.
  */
 function tmgmt_poetry_mock_entity_info_uri_callback($vocabulary) {
   if (user_access('administer taxonomy')) {

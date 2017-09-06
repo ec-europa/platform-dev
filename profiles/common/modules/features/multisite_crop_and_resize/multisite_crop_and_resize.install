@@ -54,10 +54,10 @@ function multisite_crop_and_resize_install() {
   $requires = array('media', 'media_crop');
   // Get media_crop's weight.
   $weight = db_select('system', 's')
-              ->fields('s', array('weight'))
-              ->condition('name', $requires, 'IN')
-              ->execute()
-              ->fetchCol(0);
+    ->fields('s', array('weight'))
+    ->condition('name', $requires, 'IN')
+    ->execute()
+    ->fetchCol(0);
   $weight = max($weight);
 
   // Update multisite_crop_and_resize's weight (media_crop + 1).

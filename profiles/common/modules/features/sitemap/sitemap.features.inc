@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * sitemap.features.inc

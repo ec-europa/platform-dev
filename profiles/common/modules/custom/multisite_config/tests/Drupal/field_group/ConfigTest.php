@@ -105,7 +105,7 @@ class ConfigTest extends ConfigAbstractTest {
    * Build and return test field group handler.
    *
    * @return \Drupal\field_group\FieldGroupHandler
-   *    Field group handler object instance.
+   *   Field group handler object instance.
    */
   private function getFieldGroupHandler() {
 

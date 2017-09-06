@@ -196,7 +196,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *    List of available content property.
    *
    * @return array
-   *    Array containing the created node objects.
+   *   Array containing the created node objects.
    *
    * @Given the following contents using :arg1 for WYSIWYG fields:
    */

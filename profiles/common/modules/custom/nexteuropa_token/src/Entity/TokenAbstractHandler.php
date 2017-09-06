@@ -48,7 +48,7 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
    *    Item to be extracted when parsing the token.
    *
    * @return string
-   *    Extracted item.
+   *   Extracted item.
    */
   protected function parseToken($original, $item = 'entity_id') {
     $matches = array();
