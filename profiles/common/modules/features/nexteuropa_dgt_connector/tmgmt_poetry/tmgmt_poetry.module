@@ -1162,7 +1162,7 @@ function _tmgmt_poetry_add_target_languages_form_submit($form, &$form_state) {
 function _tmgmt_poetry_add_target_languages_form_validate($form, &$form_state) {
   if (isset($form_state['values']['translatable_languages'])) {
     foreach ($form_state['values']['translatable_languages'] as $language) {
-      if (!is_null($language)) {
+      if (!empty($language)) {
         return;
       }
 
