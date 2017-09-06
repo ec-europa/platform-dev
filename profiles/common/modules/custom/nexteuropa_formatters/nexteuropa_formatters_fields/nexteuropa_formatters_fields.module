@@ -233,12 +233,12 @@ function nexteuropa_fields_formatters_field_formatter_prepare_view($entity_type,
   $display_modes = array('ne_button', 'ne_tags');
   $target_ids = array();
   $target_type = FALSE;
-  $column = '';
+  $column = NULL;
 
   // Collect every possible entity attached to any of the entities.
   foreach ($entities as $id => $entity) {
     if (in_array($displays[$id]['type'], $display_modes)) {
-      if (empty($column)) {
+      if (is_null($column)) {
         $field_type_settings = entityreference_field_type_settings($field);
         $target_type = $field_type_settings['entity_type'];
         $column = $field_type_settings['column'];
