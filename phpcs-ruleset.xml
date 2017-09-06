@@ -101,8 +101,14 @@
     <!-- Comments in exported fields are missing a period at the end. -->
     <!-- Todo: Remove this when https://www.drupal.org/node/2568161 is fixed. -->
     <rule ref="Drupal.Commenting.InlineComment.InvalidEndChar">
-        <exclude-pattern>sprofiles/*/modules/features/**/*features.field_base.inc</exclude-pattern>
-        <exclude-pattern>sprofiles/*/modules/features/**/*features.field_instance.inc</exclude-pattern>
+        <exclude-pattern>profiles/*/modules/features/**/*features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/*/modules/features/**/*features.field_instance.inc</exclude-pattern>
+    </rule>
+
+    <!-- NEPT-1288: Views files are to be excluded from class name checking. -->
+    <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
+        <exclude-pattern>*/views_handler*</exclude-pattern>
+        <exclude-pattern>*/views_handler*</exclude-pattern>
     </rule>
 
     <!-- Current QA rules give false positives for submodules of a feature. -->
