@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks for nexteuropa_trackedchanges admin interfaces.

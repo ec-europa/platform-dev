@@ -6,6 +6,7 @@
  */
 
 namespace Drupal\field\BaseField;
+
 use Drupal\field\FieldHandlerInterface;
 
 /**

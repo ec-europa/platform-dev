@@ -334,8 +334,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * Get translation job ID from current page's URL.
    *
-   * @return int|FALSE
-   *   Translators job ID, FALSE if none found.
+   * @return int|false
+   *    Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();
@@ -349,8 +349,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * @param int $tjiid
    *    Job Item id.
    *
-   * @return int|FALSE
-   *   Parent Job id or FALSE if none was found.
+   * @return int|false
+   *    Parent Job id or FALSE if none was found.
    */
   public function getParentJobId($tjiid) {
     return db_select('tmgmt_job_item', 't')
@@ -363,8 +363,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * Get translation job item ID from current page's URL.
    *
-   * @return int|FALSE
-   *   Translators job ID, FALSE if none found.
+   * @return int|false
+   *    Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobSubItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();

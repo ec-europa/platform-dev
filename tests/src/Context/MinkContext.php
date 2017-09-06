@@ -246,7 +246,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @param NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|NULL
+   * @return NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {

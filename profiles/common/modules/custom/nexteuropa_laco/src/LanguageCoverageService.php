@@ -279,8 +279,8 @@ class LanguageCoverageService {
   /**
    * Get requested language.
    *
-   * @return string|FALSE
-   *   The requested language, FALSE if none found.
+   * @return string|false
+   *    The requested language, FALSE if none found.
    */
   protected function getRequestedLanguage() {
     $header = self::getHeaderKey(self::HTTP_HEADER_LANGUAGE_NAME);
