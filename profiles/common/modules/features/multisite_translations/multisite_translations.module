@@ -132,15 +132,19 @@ function multisite_translations_views_query_alter(&$view, &$query) {
 }
 
 /**
- * Test if a user has one or any translator roles.
+ * Test if a user belongs to a translator role.
+ *
+ * @return bool
+ *   True if the user has a role that contains the word translator, False
+ *   otherwise.
  */
 function is_translator($account) {
-  $roles = $account->roles;
-  foreach ($roles as $role) {
+  foreach ($account->roles as $role) {
     if (substr($role, 0, 10) == 'translator') {
       return TRUE;
     }
   }
+
   return FALSE;
 }
 
