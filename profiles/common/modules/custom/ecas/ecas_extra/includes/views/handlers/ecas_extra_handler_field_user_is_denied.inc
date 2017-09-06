@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * This file provides the ecas_extra_handler_field_user_is_denied class.
