@@ -61,7 +61,7 @@ function _poetry_mock_prepare_request_data_set() {
  *    Data set with translation job requests.
  *
  * @return string
- *    Rendered markup for the table with translation job requests.
+ *   Rendered markup for the table with translation job requests.
  */
 function _poetry_mock_render_table($data_set) {
   if (count($data_set) > 0) {
@@ -131,7 +131,7 @@ function _poetry_mock_render_table($data_set) {
  *    Translation job data array.
  *
  * @return string
- *    Rendered markup with action list links.
+ *   Rendered markup with action list links.
  */
 function _poetry_mock_get_data_row_action_links($data_row) {
   $action_list = [

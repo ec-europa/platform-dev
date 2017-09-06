@@ -15,7 +15,7 @@
  *    Module name.
  *
  * @return mixed|Drupal\multisite_config\ConfigBase
- *    Configuration API object.
+ *   Configuration API object.
  *
  * @throws \Exception
  *    Throw exception if either module, service class or both are missing.

@@ -320,11 +320,6 @@
         <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
 
-    <!-- Return comment indentation must be 3 spaces. -->
-    <rule ref="Drupal.Commenting.FunctionComment.ReturnCommentIndentation">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Type hint "array" missing for ... -->
     <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
         <exclude-pattern>*</exclude-pattern>

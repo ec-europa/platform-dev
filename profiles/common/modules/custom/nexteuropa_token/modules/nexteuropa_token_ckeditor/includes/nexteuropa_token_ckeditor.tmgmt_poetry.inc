@@ -93,7 +93,7 @@ function nexteuropa_token_ckeditor_tmgmt_poetry_get_fields($entity, $entity_type
  *    Input text.
  *
  * @return string
- *    Text where tokens have been replaced by ignore tags.
+ *   Text where tokens have been replaced by ignore tags.
  */
 function nexteuropa_token_ckeditor_replace_tokens_with_tmgmt_poetry_ignore_tags($text) {
   $regular_expressions = array(
@@ -121,7 +121,7 @@ function nexteuropa_token_ckeditor_replace_tokens_with_tmgmt_poetry_ignore_tags(
  *    Input text.
  *
  * @return string
- *    Text where ignore tags have been replaced by tokens.
+ *   Text where ignore tags have been replaced by tokens.
  */
 function nexteuropa_token_ckeditor_replace_tmgmt_poetry_ignore_tags_with_tokens($text) {
   preg_match_all(NEXTEUROPA_TOKEN_CKEDITOR_REGEX_TMGMT_POETRY_IGNORE, $text, $matches);

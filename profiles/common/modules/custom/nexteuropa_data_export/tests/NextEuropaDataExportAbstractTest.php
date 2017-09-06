@@ -55,7 +55,7 @@ abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestC
    * Mink wrapper: get current session.
    *
    * @return \Behat\Mink\Session
-   *    Session object instance.
+   *   Session object instance.
    */
   public function getSession() {
     return $this->mink->getSession();
@@ -75,7 +75,7 @@ abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestC
    * Mink wrapper: get current page.
    *
    * @return \Behat\Mink\Element\DocumentElement
-   *    Document object instance.
+   *   Document object instance.
    */
   public function page() {
     return $this->getSession()->getPage();

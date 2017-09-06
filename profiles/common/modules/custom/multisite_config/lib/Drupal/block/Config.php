@@ -29,7 +29,7 @@ class Config extends ConfigBase {
    *    Theme machine name.
    *
    * @return mixed
-   *    Query execution state.
+   *   Query execution state.
    */
   public function setBlockRegion($module, $delta, $region, $theme_name = NULL) {
 

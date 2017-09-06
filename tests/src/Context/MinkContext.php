@@ -381,7 +381,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    *    Throw exception if class table row was not found.
    *
    * @return NodeElement
-   *    Table row node element.
+   *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
