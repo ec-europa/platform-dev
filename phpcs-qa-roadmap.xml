@@ -356,11 +356,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Type hint "array" missing for ... -->
-    <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Closing brace must be on a line by itself ... -->
     <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Line">
         <exclude-pattern>*</exclude-pattern>
