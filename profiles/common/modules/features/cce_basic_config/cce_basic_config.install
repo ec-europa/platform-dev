@@ -2474,6 +2474,9 @@ function cce_basic_config_update_7220() {
   variable_set('multisite_version', '2.4');
 }
 
+/**
+ * Add the ckeditor version we are expecting.
+ */
 function cce_basic_config_update_7221() {
   $profile = multisite_config_service('wysiwyg')->getProfile('full_html');
   $settings = unserialize($profile->settings);
