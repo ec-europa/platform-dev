@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * communities.field_group.inc

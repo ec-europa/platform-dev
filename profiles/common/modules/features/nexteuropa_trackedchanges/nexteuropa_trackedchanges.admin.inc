@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks for nexteuropa_trackedchanges admin interfaces.
@@ -46,7 +47,7 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
  *    An array with WYSIWYG profile information.
  *
  * @return string
- *    Markup with rendered table.
+ *   Markup with rendered table.
  */
 function _nexteuropa_trackedchanges_render_info_table($info) {
   // Setting up table header.

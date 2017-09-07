@@ -246,7 +246,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @param NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|NULL
+   * @return NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -381,7 +381,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    *    Throw exception if class table row was not found.
    *
    * @return NodeElement
-   *    Table row node element.
+   *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');

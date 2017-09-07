@@ -272,7 +272,7 @@ class MessageContext extends DrupalExtensionMessageContext {
    * Helps to determine if the current page is an admin page.
    *
    * @return bool
-   *    TRUE if it is an admin page
+   *   TRUE if it is an admin page
    */
   private function isCurrentPageAdmin() {
     $base_url = $this->getMinkParameter('base_url');

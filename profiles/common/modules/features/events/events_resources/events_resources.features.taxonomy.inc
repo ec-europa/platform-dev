@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * events_resources.features.taxonomy.inc

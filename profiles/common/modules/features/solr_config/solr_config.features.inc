@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * solr_config.features.inc

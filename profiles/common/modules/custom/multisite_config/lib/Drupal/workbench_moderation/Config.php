@@ -32,7 +32,7 @@ class Config extends ConfigBase {
    *    State weight.
    *
    * @return mixed
-   *    Created state object.
+   *   Created state object.
    */
   public function createModerationState($name, $label, $description = NULL, $weight = 0) {
     $state = new \stdClass();
@@ -54,7 +54,7 @@ class Config extends ConfigBase {
    *    Transition name.
    *
    * @return mixed
-   *    Saved status.
+   *   Saved status.
    */
   public function createModerationStateTransition($to, $from, $name = '') {
     if ($from != $to) {

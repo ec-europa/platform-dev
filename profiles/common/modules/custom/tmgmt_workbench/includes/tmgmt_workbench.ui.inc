@@ -145,7 +145,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    *    Moderation type.
    *
    * @return string|null
-   *    Moderation state or null.
+   *   Moderation state or null.
    */
   private function getModerationState($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation')
@@ -166,7 +166,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    *    Moderation type.
    *
    * @return object|null
-   *    Node revision or null.
+   *   Node revision or null.
    */
   private function getModerationRevision($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {
@@ -236,7 +236,7 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    * Utility method: get translatable states from module's settings.
    *
    * @return array
-   *    Get translatable moderation states.
+   *   Get translatable moderation states.
    */
   public function getTranslatableStates() {
     return variable_get('tmgmt_workbench_moderation_states', array());
