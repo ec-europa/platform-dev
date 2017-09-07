@@ -1,4 +1,0 @@
-name = NextEuropa TMGMT
-description = Wrapper module for NextEuropa TMGMT modules.
-core = 7.x
-package = Translation Management
