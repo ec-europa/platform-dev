@@ -789,7 +789,7 @@ projects[workbench_og][version] = "2.0-beta1"
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][download][branch] = "2.4"
+projects[wysiwyg][download][version] = "2.4"
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"

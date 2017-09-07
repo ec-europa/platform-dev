@@ -10,4 +10,3 @@ dependencies[] = media
 dependencies[] = media_wysiwyg
 dependencies[] = media_wysiwyg_view_mode
 features[features_api][] = api:2
-features[user_permission][] = administer media wysiwyg view mode
