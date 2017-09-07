@@ -1,4 +1,4 @@
-@api @poetry_mock @i18n @poetry @wip
+@api @poetry_mock @i18n @poetry
 Feature: TMGMT Poetry features
   In order to request Carts translations with Poetry service.
   As an Administrator
@@ -6,9 +6,9 @@ Feature: TMGMT Poetry features
 
   Background:
     Given the module is enabled
-      |modules                |
-      |tmgmt_poetry_mock      |
-      |tmgmt_dgt_connector    |
+      | modules             |
+      | tmgmt_poetry_mock   |
+      | tmgmt_dgt_connector |
     And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
@@ -20,12 +20,18 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario: I can translate contents with Carts.
     Given I am viewing a multilingual "page" content:
-      | language | title   | field_ne_body |
-      | en       | My page | Short body    |
+      | language | title   | field_ne_body | status |
+      | en       | My page | Short body    | 1      |
     When I click "Translate" in the "primary_tabs" region
     And I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
-    Then I click "cart" in the "messages" region
+    Given I am viewing a multilingual "page" content:
+      | language | title     | field_ne_body | status |
+      | en       | My page 2 | Short body 2  | 1      |
+    When I click "Translate" in the "primary_tabs" region
+    And I press "Add to cart"
+    Then I should see the success message "1 content source was added into the cart."
+    When I click "cart" in the "front_messages" region
 
   @javascript @wip
   Scenario: I can translate menus with Carts.
