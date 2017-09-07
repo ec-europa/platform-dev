@@ -8,8 +8,8 @@
  * Implements hook_menu().
  */
 function ne_tmgmt_dgt_rules_menu() {
-  $items['admin/config/workflow/ne_tmgmt_dgt_rules'] = array(
-    'title' => 'Next Europa TMGMT DGT Rules',
+  $items['admin/config/workflow/rules/ne_tmgmt_dgt_rules'] = array(
+    'title' => 'NE TMGMT DGT Rules',
     'description' => 'Configure TMGMT DGT Rules settings.',
     'position' => 'right',
     'page callback' => 'drupal_get_form',

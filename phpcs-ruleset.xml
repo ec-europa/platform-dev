@@ -76,9 +76,11 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tests/tmgmt_poetry.test</exclude-pattern>
     </rule>
 
-    <!-- Custom helper modules should be included in the feature folder for this case. -->
+    <!-- Custom TMGMT DGT modules should be included in the feature folder. -->
     <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/**</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_standard/modules/features/nexteuropa_dgt_connector/**</exclude-pattern>
+        <exclude-pattern>profiles/multisite_drupal_communities/modules/features/nexteuropa_dgt_connector/**</exclude-pattern>
     </rule>
 
     <!-- Next Europa PiwikRuleEntityUIController do not follow Drupal function name conventions. -->
