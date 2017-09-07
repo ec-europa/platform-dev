@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the multisite-cookie-consent-connection feature.
- */
-
-include_once 'multisite_cookie_consent_connection.features.inc';
