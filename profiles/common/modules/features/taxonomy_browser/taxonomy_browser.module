@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Allow to filter view with a taxonomy tree.

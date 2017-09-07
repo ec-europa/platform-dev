@@ -128,7 +128,7 @@ function _multisite_dynamic_basetheme_is_multisite_base_theme($theme) {
  * Return list of available base theme (theme with 'multisite = 1').
  *
  * @return array
- *    available multisite base themes.
+ *   available multisite base themes.
  */
 function multisite_dynamic_basetheme_get_base_theme_list($theme_key = FALSE) {
   $options = array();

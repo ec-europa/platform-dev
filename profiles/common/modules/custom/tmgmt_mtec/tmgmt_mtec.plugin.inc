@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides MT@EC translation plugin controller.

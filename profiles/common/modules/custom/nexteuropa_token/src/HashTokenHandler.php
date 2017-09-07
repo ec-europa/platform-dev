@@ -80,7 +80,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    *    Entity ID in the current site.
    *
    * @return string
-   *    Encoded URL hash.
+   *   Encoded URL hash.
    *
    * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
@@ -92,7 +92,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Get system wide hash prefix.
    *
    * @return string
-   *    Return hash prefix.
+   *   Return hash prefix.
    */
   protected function getHashPrefix() {
     return variable_get('nexteuropa_token_hash_prefix', self::DEFAULT_PREFIX);
@@ -105,7 +105,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    *    Hash prefix.
    *
    * @return string
-   *    Encoded hash prefix.
+   *   Encoded hash prefix.
    */
   public function encodePrefix($prefix) {
     $numeric = '';
@@ -122,7 +122,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    *    Entity type machine name.
    *
    * @return string
-   *    Encoded entity type.
+   *   Encoded entity type.
    *
    * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
@@ -141,7 +141,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    *    Entity ID.
    *
    * @return string
-   *    Encoded eintity ID.
+   *   Encoded eintity ID.
    */
   public function encodeEntityId($entity_id) {
     return $this->encodeNumericValue($entity_id, $this->allChars);
@@ -156,7 +156,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    *    Charset on which to encode to.
    *
    * @return string
-   *    Encoded numeric value.
+   *   Encoded numeric value.
    */
   public function encodeNumericValue($numeric, $charset) {
     $hash = '';

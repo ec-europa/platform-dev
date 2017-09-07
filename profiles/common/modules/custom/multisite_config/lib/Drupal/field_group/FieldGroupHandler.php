@@ -56,7 +56,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Return field array built using field handler methods.
    *
    * @return object
-   *    Field settings object.
+   *   Field settings object.
    */
   public function getDefinition() {
     return $this->definition;
@@ -66,7 +66,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Create field group instance using internal definition array.
    *
    * @return object
-   *    Field group configuration object.
+   *   Field group configuration object.
    */
   public function save() {
 

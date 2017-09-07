@@ -579,12 +579,12 @@ function multisite_twitterblock_taxonomy_term_delete($term) {
  */
 function multisite_twitterblock_save(array $fpfis_twitter_override = array(), $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
   $status = db_merge('multisite_twitterblock_twitter_overrides')
-      ->key(array('entity_id' => $fpfis_twitter_override['entity_id']))
-      ->fields(array(
-        'entity_type' => $entity_type,
-        'data' => serialize($fpfis_twitter_override['config']),
-      ))
-      ->execute();
+    ->key(array('entity_id' => $fpfis_twitter_override['entity_id']))
+    ->fields(array(
+      'entity_type' => $entity_type,
+      'data' => serialize($fpfis_twitter_override['config']),
+    ))
+    ->execute();
 }
 
 /**
@@ -597,9 +597,9 @@ function multisite_twitterblock_save(array $fpfis_twitter_override = array(), $e
  */
 function multisite_twitterblock_delete($entity_id, $entity_type = MULTISITE_TWITTERBLOCK_ENTITY_NODE) {
   $delete = db_delete('multisite_twitterblock_twitter_overrides')
-      ->condition('entity_id', $entity_id, is_array($entity_id) ? 'IN' : '=')
-      ->condition('entity_type', $entity_type, '=')
-      ->execute();
+    ->condition('entity_id', $entity_id, is_array($entity_id) ? 'IN' : '=')
+    ->condition('entity_type', $entity_type, '=')
+    ->execute();
 }
 
 /**

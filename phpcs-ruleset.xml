@@ -32,7 +32,6 @@
     <exclude-pattern>profiles/common/modules/custom/ecas/libraries/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/tmgmt_poetry/tests/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins</exclude-pattern>
-    <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/js/ReadSpeaker/</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/icons</exclude-pattern>
 
     <!-- Legacy modules which are not compliant with coding standards. These are
@@ -109,5 +108,11 @@
     <rule ref="DrupalPractice.General.ClassName.ClassPrefix">
         <exclude-pattern>*/views_handler*</exclude-pattern>
         <exclude-pattern>*/views_handler*</exclude-pattern>
+    </rule>
+
+    <!-- Current QA rules give false positives for submodules of a feature. -->
+    <!-- Todo: Remove this when MULTISITE-18366 is fixed. -->
+    <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
+        <exclude-pattern>*</exclude-pattern>
     </rule>
 </ruleset>

@@ -29,7 +29,7 @@ class Config extends ConfigBase {
    *    If hierarchical or not.
    *
    * @return object
-   *    Return vocabulary object.
+   *   Return vocabulary object.
    */
   public function createVocabulary($machine_name, $name, $description = '', $hierarchy = 1) {
     $vocabulary = new \stdClass();
@@ -80,7 +80,7 @@ class Config extends ConfigBase {
    *    Term weight.
    *
    * @return object|bool
-   *    Return new term object or FALSE.
+   *   Return new term object or FALSE.
    */
   public function createTaxonomyTerm($vocabulary, $name, $parent = NULL, $fields = array(), $weight = 0) {
 
@@ -156,7 +156,7 @@ class Config extends ConfigBase {
    *    If TRUE, a full entity load will occur on the term objects.
    *
    * @return array
-   *    An array of all term objects in the tree.
+   *   An array of all term objects in the tree.
    *
    * @see: taxonomy_get_tree().
    */
