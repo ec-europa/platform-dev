@@ -104,4 +104,10 @@
         <exclude-pattern>sprofiles/*/modules/features/**/*features.field_base.inc</exclude-pattern>
         <exclude-pattern>sprofiles/*/modules/features/**/*features.field_instance.inc</exclude-pattern>
     </rule>
+
+    <!-- Current QA rules give false positives for submodules of a feature. -->
+    <!-- Todo: Remove this when MULTISITE-18366 is fixed. -->
+    <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
 </ruleset>
