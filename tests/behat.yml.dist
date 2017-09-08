@@ -91,7 +91,7 @@ default:
         content: "#layout-body"
         footer: "#layout-footer"
         messages: "#console"
-        front_messages: "#messages"
+        front_messages: ".ecl-message"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
       text:
