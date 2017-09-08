@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Next Europa TMGMT DGT Rules configuration page callbacks.
