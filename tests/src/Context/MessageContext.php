@@ -281,6 +281,13 @@ class MessageContext extends DrupalExtensionMessageContext {
     // Retrieve the page path from the URL.
     $path = str_replace($base_url . '/', '', $url);
 
+    $list_pages = variable_get('cce_basic_config_admin_pages', array());
+    foreach ($list_pages as $page) {
+      if (strpos($path, $page) === 0) {
+        return FALSE;
+      }
+    }
+
     return path_is_admin($path);
   }
 

@@ -17,55 +17,73 @@ Feature: TMGMT Poetry features
       | fr        |
     And I am logged in as a user with the "administrator" role
 
-  @javascript
   Scenario: I can translate contents with Carts.
-    Given I am viewing a multilingual "page" content:
-      | language | title   | field_ne_body | status |
-      | en       | My page | Short body    | 1      |
-    When I click "Translate" in the "primary_tabs" region
-    And I press "Add to cart"
+    When I am viewing a multilingual "page" content:
+      | language | title     | field_ne_body | status |
+      | en       | My page 1 | Short body    | 1      |
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see "There are 0 items in the translation cart."
+    When I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
-    Given I am viewing a multilingual "page" content:
+    And I should see "There is 1 item in the translation cart."
+    When I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 2 | Short body 2  | 1      |
-    When I click "Translate" in the "primary_tabs" region
-    And I press "Add to cart"
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see "There is 1 item in the translation cart."
+    When I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
+    And I should see "There are 2 items in the translation cart."
     When I click "cart" in the "front_messages" region
+    Then I should see "My page 1"
+    And I should see "My page 2"
 
-  @javascript @wip
   Scenario: I can translate menus with Carts.
     When I go to "admin/structure/menu/manage/user-menu/translate"
-    And I press "Add to cart"
+    Then I should see "There are 0 items in the translation cart."
+    When I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
-    Then I click "cart" in the "admin_messages" region
+    And I should see "There is 1 item in the translation cart including the current item."
+    When I click "cart" in the "messages" region
+    And I should see "User menu (menu:menu:user-menu)"
 
-  @javascript @wip
   Scenario: I can translate vocabularies with Carts.
     When I go to "admin/structure/taxonomy/classification/translate"
-    And I press "Add to cart"
+    Then I should see "There are 0 items in the translation cart."
+    When I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
+    And I should see "There is 1 item in the translation cart including the current item."
+    When I click "cart" in the "messages" region
+    Then I should see "classification (taxonomy:vocabulary:1)"
 
-  @javascript @wip
   Scenario: I can translate terms with Carts.
     When I go to "admin/structure/taxonomy/classification/edit"
     And I select the radio button "Localize. Terms are common for all languages, but their name and description may be localized."
     And I press "Save and translate"
+    Then I should see the success message "Updated vocabulary classification."
+    And I should see "There are 0 items in the translation cart."
     And I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
+    And I should see "There is 1 item in the translation cart including the current item."
+    When I click "cart" in the "messages" region
+    Then I should see "classification (taxonomy:vocabulary:1)"
 
-  @javascript @wip
   Scenario: I can translate blocks with Carts.
     When I go to "admin/structure/block/manage/user/login/configure"
-    And I click "Languages" in the "admin_vertical_tabs" region
     And I check the box "Make this block translatable"
     And I press "Save and translate"
-    And I press "Add to cart"
+    Then I should see the success message "The block configuration has been saved."
+    And I should see "There are 0 items in the translation cart."
+    When I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
+    And I should see "There is 1 item in the translation cart including the current item."
+    When I click "cart" in the "front_messages" region
+    Then I should see "(blocks:user:login)"
 
-  @javascript @wip
   Scenario: I can translate strings with Carts.
     When I go to "admin/tmgmt/sources/locale_default?label=Edit"
     And I check the box on the "Edit" row
     And I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
+    When I click "cart" in the "messages" region
+    Then I should see "Edit"
