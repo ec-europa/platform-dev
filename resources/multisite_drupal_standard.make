@@ -290,6 +290,8 @@ projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.4"
+; Issue #2893132: File description missing from Download Link display.
+; https://www.drupal.org/node/2893132
 projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
 
 projects[filefield_sources][subdir] = "contrib"
