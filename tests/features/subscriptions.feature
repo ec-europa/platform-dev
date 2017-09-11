@@ -5,10 +5,10 @@ Feature: Subscription
   I want to be able to subscribe to content and manage subscriptions.
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
-    And the module is enabled
+    Given the module is enabled
       |modules                      |
       |multisite_notifications_core |
+    And I am logged in as a user with the 'administrator' role
 
   @javascript @theme_wip
   # It is in wip for the europa theme because it implies a step referring a

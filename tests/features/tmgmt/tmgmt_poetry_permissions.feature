@@ -5,21 +5,19 @@ Feature: TMGMT Poetry permissions features
   I should be able to browse and fill configuration pages for the connector.
 
   Background:
-    Given I am logged in as a user with the "cem" role
-    And the module is enabled
+    Given the module is enabled
       |modules                       |
       |nexteuropa_dgt_connector      |
-
     And the following languages are available:
       | languages |
       | en        |
       | pt-pt     |
+    And I am logged in as a user with the "cem" role
     And I go to "admin/config/regional/tmgmt_translator/manage/poetry"
 
   Scenario Outline: Configuration fields are mandatory.
-
     Then I should see "<field_name>"
-    And I press "Save translator"
+    When I press "Save translator"
     Then I should see "<field_name> field is required."
     Examples:
       | field_name         |
@@ -30,7 +28,7 @@ Feature: TMGMT Poetry permissions features
       | Poetry User        |
       | Poetry Password    |
       | Responsable        |
-      | DG Author             |
+      | DG Author          |
       | Requester          |
       | Secretaire         |
       | Contact            |
