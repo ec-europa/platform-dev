@@ -45,8 +45,15 @@ class TMGMTPoetryJobController extends TMGMTJobController {
           }
 
           // Check if job is already created
-          // and in that case don't create it again.
-          if (_tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid)->rowCount() > 0) {
+          // and in that case don't create it again, just update it.
+          // The update is useful for #card .
+          $result = _tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid);
+          if ($result->rowCount() > 0) {
+            $row = $result->fetchAssoc();
+            $job = tmgmt_job_load($row['tjid']);
+            $job->translator = $origin_job->translator;
+            $job->label = $origin_job->label . ' ' . $languages[$requested_language]->name;
+            $job->save();
             continue;
           }
 

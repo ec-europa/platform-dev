@@ -284,33 +284,46 @@ function _tmgmt_poetry_form_load_translator_settings(&$form_state, &$form, $job)
  * Job Form Callback.
  */
 function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
+  // Current implementation part.
+  $origin_job = $form_state['tmgmt_job'];
+  $translator = $origin_job->getTranslator();
+
+  // Get list of job_items and main job_item.
+  $origin_job_items = $origin_job->getItems();
+  if ($origin_job_items === NULL) {
+    return;
+  }
+  $origin_job_item = array_shift($origin_job_items);
+
   // NEXTEUROPA-7719 - Simplifying Poetry UI.
   // Checking if main language has been changed and picking another one if so
   // and saving it in to the job to keep the current implementation way.
   $target_lg = $form_state['values']['target_language'];
   if (isset($form_state['values']['settings']['languages'])) {
     if ($form_state['values']['settings']['languages'][$target_lg] === 0) {
-      $chosen_lg = [];
       foreach ($form_state['values']['settings']['languages'] as $language) {
         if ($language !== 0) {
-          $chosen_lg[] = $language;
+          $new_main_lg = $language;
+          break;
         }
       }
-      $new_main_lg = reset($chosen_lg);
       // There are other submit callbacks after this, that's why changes of
       // $form_state variable are needed.
       $form_state['values']['target_language'] = $new_main_lg;
       $form_state['tmgmt_job']->target_language = $new_main_lg;
       $form_state['tmgmt_job']->save();
+
+      // If there was already a job item for new target language, delete it.
+      // This is usefull for the #cart.
+      $result = _tmgmt_poetry_obtain_related_translation_jobs(array($new_main_lg), 'SUB_' . $origin_job->tjid);
+      if ($row = $result->fetchAssoc()) {
+        entity_get_controller('tmgmt_job')->delete(array($row['tjid']));
+        entity_get_controller('tmgmt_job_item')->delete(array($row['tjiid']));
+      }
     }
     // Clearing chosen request languages from the session.
     _tmgmt_poetry_workbench_clear_request_languages();
   }
-
-  // Current implementation part.
-  $origin_job = $form_state['tmgmt_job'];
-  $translator = $origin_job->getTranslator();
-  $requested_languages = array();
 
   // Checking translator plugin type.
   if ($translator->plugin != 'poetry') {
@@ -322,32 +335,6 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
       $origin_job->save();
     }
   }
-  // Getting requested languages from the $form_state submitted values.
-  if (isset($form_state['values']['settings']['languages'])) {
-    $requested_languages = $form_state['values']['settings']['languages'];
-  }
-  // Checking if job already has been submit to translator at least once.
-  if (!is_null($origin_job->settings) && isset($origin_job->settings['languages'])) {
-    $requested_languages = $origin_job->settings['languages'];
-  }
-
-  $languages = language_list('language');
-  // Remove old translations in case that they are not available
-  // in the settings of the main translation.
-  $language_targets_to_remove = array();
-  foreach ($languages as $language) {
-    // If a language is not in the requested translation.
-    if (!in_array($language->language, array_merge(array($origin_job->source_language), $requested_languages), TRUE)) {
-      $language_targets_to_remove[] = $language->language;
-    }
-  }
-
-  $origin_job_items = $origin_job->getItems();
-  if ($origin_job_items === NULL) {
-    return;
-  }
-
-  $origin_job_item = array_shift($origin_job_items);
 
   // In case if a translation request is already sent,
   // check if there was added or removed additionnal languages.
@@ -382,14 +369,38 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   }
 
   // Find unchecked translations to be removed.
-  $result = _tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
-  // If any, removed found translations.
-  if ($result) {
-    foreach ($result as $row) {
-      // Remove if the target language is the same as the main translation.
-      if ($origin_job->tjid !== $row->tjid && $origin_job_item->tjiid !== $row->tjiid) {
-        entity_get_controller('tmgmt_job')->delete(array($row->tjid));
-        entity_get_controller('tmgmt_job_item')->delete(array($row->tjiid));
+  // This is usefull for the #cart (but it was here before).
+  $active_languages = array();
+  // Checking if job already has been submit to translator at least once.
+  if (!is_null($origin_job->settings) && isset($origin_job->settings['languages'])) {
+    $active_languages = $origin_job->settings['languages'];
+  }
+  // Getting requested languages from the $form_state submitted values.
+  elseif (isset($form_state['values']['settings']['languages'])) {
+    $active_languages = $form_state['values']['settings']['languages'];
+  }
+  $active_languages = array_merge(array($origin_job->source_language), $active_languages);
+
+  $languages = language_list('language');
+  // Remove old translations in case that they are not available
+  // in the settings of the main translation.
+  $language_targets_to_remove = array();
+  foreach ($languages as $language) {
+    // If a language is not in the requested translation.
+    if (!in_array($language->language, $active_languages, TRUE)) {
+      $language_targets_to_remove[] = $language->language;
+    }
+  }
+  if (!empty($language_targets_to_remove)) {
+    $result = _tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
+    // If any, removed found translations.
+    if ($result) {
+      foreach ($result as $row) {
+        // Remove if the target language is the same as the main translation.
+        if ($origin_job->tjid !== $row->tjid && $origin_job_item->tjiid !== $row->tjiid) {
+          entity_get_controller('tmgmt_job')->delete(array($row->tjid));
+          entity_get_controller('tmgmt_job_item')->delete(array($row->tjiid));
+        }
       }
     }
   }
@@ -742,6 +753,12 @@ function tmgmt_poetry_page_alter(&$page) {
  * functionalities.
  */
 function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+
+  if (!module_exists('tmgmt_dgt_connector')) {
+    // Remove add to cart button.
+    unset($form['top_actions']);
+  }
+
   $entity_type = $form_state['entity_type'];
   // Current tmgmt_poetry implementation for the 'Translate' tab form works
   // only with the nodes.
@@ -841,9 +858,6 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
         }
       }
 
-      // Remove the 'Add to cart' button.
-      unset($form['top_actions']);
-
       // Allow to select multiple languages.
       $form['languages']['#multiple'] = TRUE;
     }
@@ -935,18 +949,10 @@ function _tmgmt_poetry_inject_request_update_elements(&$form) {
  */
 function _tmgmt_poetry_workbench_translate_form_submit($form, &$form_state) {
   $entity = $form_state['entity'];
-  $chosen_languages = $form_state['values']['languages'];
-  foreach ($chosen_languages as $key => $language) {
-    if ($language === 0) {
-      unset($chosen_languages[$key]);
-    }
-  }
-  // Pick first language to be a main translation request language.
-  $langcode = reset($chosen_languages);
-  $chosen_languages['main'] = $langcode;
+
   // Store chosen languages in session because there is no other more elegant
   // way to move them between requests (passing data to tmgmt job form).
-  _tmgmt_poetry_workbench_store_request_languages($chosen_languages);
+  $langcode = _tmgmt_poetry_workbench_store_request_languages($form_state['values']['languages']);
 
   $jobs = array();
   // Create the job object.
@@ -1002,7 +1008,18 @@ function _tmgmt_poetry_workbench_translate_form_validate($form, &$form_state) {
  * @see TMGMTPoetryTranslatorUIController
  */
 function _tmgmt_poetry_workbench_store_request_languages($languages) {
+  foreach ($languages as $key => $language) {
+    if ($language === 0) {
+      unset($languages[$key]);
+    }
+  }
+  // Pick first language to be a main translation request language.
+  $langcode = reset($languages);
+  $languages['main'] = $langcode;
+
   $_SESSION['tmgmt_workbench']['languages'] = $languages;
+
+  return $langcode;
 }
 
 /**

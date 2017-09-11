@@ -80,12 +80,8 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * and the number of items.
    */
   public function canTranslate(TMGMTTranslator $translator, TMGMTJob $job) {
-    // Check that only one item is being requested.
-    $items = $job->getItems();
-    if (count($items) > 1) {
-      return FALSE;
-    }
     // Check that the item does not have pending requests.
+    $items = $job->getItems();
     $item = array_shift($items);
     if (!empty($item)) {
       $results = db_select('tmgmt_job_item', 'tji')
@@ -123,15 +119,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Show the reason why we can not translate.
    */
   public function getNotCanTranslateReason(TMGMTJob $job) {
-    if (count($job->getItems()) > 1) {
-      return t('@translator can not translate more than 1 item per request.', array(
-        '@translator' => $job->getTranslator()
-          ->label(),
-      ));
-    }
-    else {
-      return t('An active translation for this item already exists');
-    }
+    return t('An active translation for this item already exists');
   }
 
   /**
