@@ -14,12 +14,12 @@ function _nexteuropa_ecl_migrate_blocks() {
   _nexteuropa_ecl_migrate_dt_menus();
   _nexteuropa_ecl_migrate_europa_main_menu();
   _nexteuropa_ecl_migrate_europa_utility_region();
+  _nexteuropa_ecl_migrate_move_taxonomy_browser();
 
   // Migrate blocks from optional features.
   _nexteuropa_ecl_migrate_move_facet_blocks();
   _nexteuropa_ecl_migrate_move_community_blocks();
   _nexteuropa_ecl_migrate_move_ne_registration_blocks();
-  _nexteuropa_ecl_migrate_move_taxonomy_browser();
   _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
 }
 
@@ -255,7 +255,7 @@ function _nexteuropa_ecl_migrate_move_ne_registration_blocks() {
 }
 
 /**
- * Custom function that moves blocks from the nexteuropa_registration feature.
+ * Custom function that moves blocks from the taxonomy_browser feature.
  */
 function _nexteuropa_ecl_migrate_move_taxonomy_browser() {
   $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
