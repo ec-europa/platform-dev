@@ -21,12 +21,14 @@ function multisite_create_button_block_info() {
  */
 function multisite_create_button_block_view($delta = '') {
   $block = array();
+
   switch ($delta) {
     case 'create-content-button':
       $block['subject'] = t('Create content');
       $block['content'] = _multisite_create_button_contextual_links();
       break;
   }
+
   return $block;
 }
 
@@ -34,18 +36,27 @@ function multisite_create_button_block_view($delta = '') {
  * Helper function to fetch the links.
  */
 function _multisite_create_button_contextual_links() {
-  global $base_url;
-
-  $items = menu_get_item('node/add');
-  $content = system_admin_menu_block($items);
+  $element = NULL;
+  $content = system_admin_menu_block(menu_get_item('node/add'));
 
   if (!empty($content)) {
-    $links = array();
+    $options = array(
+      '#' => t('Create content'),
+    );
+
     foreach ($content as $content_type) {
-      $links['items'][$content_type['link_title']] = $base_url . '/' . $content_type['link_path'];
+      $options[url($content_type['link_path'], array('absolute' => TRUE))] = $content_type['link_title'];
     }
 
-    $output = theme('dropdown', $links);
-    return $output;
+    $element = array(
+      '#theme' => array('select__create_content_button'),
+      '#title' => t('Create content'),
+      '#options' => $options,
+      '#attributes' => array(
+        'onChange' => 'if (this.value) window.location.href=this.value;',
+      ),
+    );
   }
+
+  return $element;
 }
