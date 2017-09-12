@@ -130,6 +130,7 @@ function nexteuropa_formatters_fields_field_formatter_settings_form($field, $ins
         '#description' => t('Text to be displayed inside the button.'),
       );
       break;
+
   }
 
   return $element;
@@ -263,13 +264,9 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
             // wasteful call to entity_access().
             $label = entity_label($target_type, $item['entity']);
             $uri = entity_uri($target_type, $item['entity']);
-
-            $link = array(
-              '#theme' => array(
-                'link__tag',
-              ),
-              '#text' => $label,
-              '#path' => $uri['path'],
+            $tag = array(
+              'value' => $label,
+              'href' => $uri['path'],
             );
             break;
 
@@ -289,31 +286,19 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
             $label = entity_label($target_type, $item['entity']);
             $uri = entity_uri($target_type, $item['entity']);
 
-            $link = array(
-              '#theme' => array(
-                'link__tag',
-              ),
-              '#text' => $label,
-              '#path' => $uri['path'],
+            $tag = array(
+              'value' => $label,
+              'href' => $uri['path'],
             );
             break;
 
           case 'link_field':
-            $link = array(
-              '#theme' => 'link',
-              '#text' => $item['title'],
-              '#path' => $item['url'],
-              '#options' => array(
-                'attributes' => array(
-                  'class' => array(
-                    'ecl-tag__item',
-                  ),
-                ),
-              ),
+            $tag = array(
+              'value' => $item['title'],
+              'href' => $item['url'],
             );
-            break;
         }
-        $elements[$delta] = $link;
+        $elements[$delta] = $tag;
       }
       break;
 
