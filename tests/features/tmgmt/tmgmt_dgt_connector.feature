@@ -40,7 +40,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "My page 1" row
     And I check the box on the "My page 2" row
     And I select "French" from "Request translation into language/s" with javascript
-    And I select "Spanish" from "Request translation into language/s" with javascript
+    And I select "Portuguese, Portugal" from "Request translation into language/s" with javascript
     And I press "Request translation"
     # Checkout page
     And I click "Change translator"
@@ -49,8 +49,7 @@ Feature: TMGMT Poetry features
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     # Then I should not see the error message "There was an error with the SOAP service."
-
-
+  
   Scenario: I can translate menus with Carts.
     When I go to "admin/structure/menu/manage/user-menu/translate"
     Then I should see "There are 0 items in the translation cart."
