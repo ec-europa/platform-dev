@@ -54,7 +54,7 @@ function taxonomy_browser_form_form_taxonomy_browser_settings_alter(&$form, &$fo
  */
 function _taxonomy_browser_form_submit($form, &$form_state) {
   $vids_available = taxonomy_get_vocabularies();
-  $vids_selected = $form_state['input']['taxonomy_browser_vocabulary'];
+  $vids_selected = $form_state['values']['taxonomy_browser_vocabulary'];
 
   foreach ($vids_available as $v) {
     if (!in_array($v->vid, $vids_selected, TRUE)) {

@@ -67,6 +67,7 @@ function _multisite_autosave_restore($formid, $timestamp) {
       require_once DRUPAL_ROOT . '/' . $menu_item['include_file'];
       $form_state['build_info']['files'][] = $menu_item['include_file'];
     }
+    // @codingStandardsIgnoreLine: NEPT-1304: The code tries to build a form, not read it.
     $form_state['input'] = unserialize($record->serialized);
 
     // The node_form() form builder expects the first argument to be a full node

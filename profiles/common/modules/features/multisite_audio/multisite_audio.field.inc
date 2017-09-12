@@ -681,6 +681,7 @@ function multisite_audio_field_widget_submit($form, &$form_state) {
   // have #default_value set appropriately for the current state of the field,
   // so nothing is lost in doing this.
   $parents = array_slice($form_state['triggering_element']['#parents'], 0, -2);
+  // @codingStandardsIgnoreLine: NEPT-1304: See comment above.
   drupal_array_set_nested_value($form_state['input'], $parents, NULL);
 
   $button = $form_state['triggering_element'];
