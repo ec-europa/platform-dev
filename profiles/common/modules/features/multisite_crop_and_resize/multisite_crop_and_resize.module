@@ -315,7 +315,7 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
     foreach (array('width', 'height', 'x', 'y', 'rotate') as $name) {
       // @codingStandardsIgnoreStart : Ignore the variable translation
       $form[$name] = array(
-        '#title' => t(ucfirst($name), array(), array('context' => 'Media crop')),
+        '#title' => t(drupal_ucfirst($name), array(), array('context' => 'Media crop')),
         '#title_display' => 'invisible',
         '#type' => 'textfield',
         '#attributes' => array(

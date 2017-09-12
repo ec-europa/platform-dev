@@ -26,8 +26,8 @@ print $xml;
       <div class="asset" id="item-<?php echo filter_xss($item_key); ?>">
         <?php foreach ($item as $field_key => $field): ?>
           <?php
-            $key = substr($field_key, 1);
-            $key = base64_decode(str_pad(strtr($key, '-_', '+/'), strlen($key) % 4, '=', STR_PAD_RIGHT));
+            $key = drupal_substr($field_key, 1);
+            $key = base64_decode(str_pad(strtr($key, '-_', '+/'), drupal_strlen($key) % 4, '=', STR_PAD_RIGHT));
           ?>
         <!--
           label="<?php echo filter_xss($field['#label']); ?>"

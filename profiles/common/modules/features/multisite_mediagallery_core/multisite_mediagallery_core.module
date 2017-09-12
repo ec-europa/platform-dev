@@ -106,7 +106,7 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
       else {
         $local_data = $sorted_media_items[$key];
       }
-      $short_name = (strlen(filter_xss($local_data['filename'])) > 35) ? substr(filter_xss($local_data['filename']), 0, 30) . '[...]' : filter_xss($local_data['filename']);
+      $short_name = (drupal_strlen(filter_xss($local_data['filename'])) > 35) ? drupal_substr(filter_xss($local_data['filename']), 0, 30) . '[...]' : filter_xss($local_data['filename']);
 
       if (isset($local_data['filemime'])) {
         $type = explode('/', $local_data['filemime']);

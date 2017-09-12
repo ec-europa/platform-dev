@@ -379,7 +379,7 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
       $error = $geocode->error;
     }
     else {
-      $geocode_decoded = json_decode($geocode->data);
+      $geocode_decoded = drupal_json_decode($geocode->data);
 
       if ($geocode_decoded->geocodingRequestsCollection[0]->foundCount < 1) {
         $error = t('No address found.');

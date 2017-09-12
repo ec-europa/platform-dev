@@ -47,7 +47,7 @@ function events_core_update_7202() {
   // $content type : content type that contains fiels to replace
   // $module_name : module that contains fields.
   $content_type = 'event';
-  $module_name = basename(__FILE__, '.install');
+  $module_name = drupal_basename(__FILE__, '.install');
   //
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);

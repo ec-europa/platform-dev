@@ -197,7 +197,7 @@ function ecas_login_page() {
   }
 
   $force_proto = variable_get('ecas_force_proto', FALSE);
-  if (strlen($force_proto)) {
+  if (drupal_strlen($force_proto)) {
     $destination = preg_replace('/^(https?:\/\/)/', $force_proto . '://', $destination);
   }
 
@@ -226,7 +226,7 @@ function ecas_logout($full_logout = TRUE) {
   unset($_SESSION['ecas_goto']);
   // Removes the optional sticky cookie.
   $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
-  if (strlen($http_cookie_name)) {
+  if (drupal_strlen($http_cookie_name)) {
     global $base_path;
     setcookie($http_cookie_name, 'deleted', time() - 86400, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
   }
@@ -464,7 +464,7 @@ function ecas_login_check() {
         // using HTTPS and should not use HTTP for the duration of this
         // session".
         $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
-        if (strlen($http_cookie_name)) {
+        if (drupal_strlen($http_cookie_name)) {
           global $base_path;
           setcookie($http_cookie_name, variable_get('ecas_sticky_cookie_value', 'y'), 0, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
         }

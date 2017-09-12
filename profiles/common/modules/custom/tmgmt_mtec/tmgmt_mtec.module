@@ -78,7 +78,7 @@ function _tmgmt_mtec_correct_callback($values) {
       // Load ftp settings.
       $ftp_server = variable_get('ftp_server');
       $ftp_location = 'ftp://' . $ftp_server['user'] . ':' . $ftp_server['password'] . '@' . $ftp_server['address'] . ':' . $ftp_server['port'] . '/' . $job->uuid;
-      $server_file = _tmgmt_mtec_filename_builder($job->tjid, $job->getSetting('export_format'), strtoupper($job->target_language));
+      $server_file = _tmgmt_mtec_filename_builder($job->tjid, $job->getSetting('export_format'), drupal_strtoupper($job->target_language));
 
       // Open connection and login.
       $conn_id = ftp_connect($ftp_server['address'], $ftp_server['port'], 15);
@@ -127,9 +127,9 @@ function _tmgmt_mtec_correct_callback($values) {
         }
 
         // Delete the temporary file created earlier.
-        $realpath = realpath(variable_get('file_private_path') . $tjid . ".xlf");
+        $realpath = drupal_realpath(variable_get('file_private_path') . $tjid . ".xlf");
         if (is_readable($realpath)) {
-          unlink($realpath);
+          drupal_unlink($realpath);
         }
       }
       else {

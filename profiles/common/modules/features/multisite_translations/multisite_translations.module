@@ -140,7 +140,7 @@ function multisite_translations_views_query_alter(&$view, &$query) {
  */
 function is_translator($account) {
   foreach ($account->roles as $role) {
-    if (substr($role, 0, 10) == 'translator') {
+    if (drupal_substr($role, 0, 10) == 'translator') {
       return TRUE;
     }
   }
@@ -155,7 +155,7 @@ function get_translator_languages($account) {
   $language_codes = array();
   $roles = $account->roles;
   foreach ($roles as $role) {
-    if (substr($role, 0, 10) == 'translator') {
+    if (drupal_substr($role, 0, 10) == 'translator') {
       $language_codes[] = get_related_language($role);
     }
   }
@@ -169,7 +169,7 @@ function get_related_language($role) {
   $elt = explode("_", $role);
   $result = db_select('languages', 'l')
     ->fields('l', array('language'))
-    ->condition('name', ucfirst($elt[1]), '=')
+    ->condition('name', drupal_ucfirst($elt[1]), '=')
     ->execute()
     ->fetchAssoc();
 
@@ -186,7 +186,7 @@ function get_related_translation_role($language_code) {
     ->execute()
     ->fetchAssoc();
 
-  return ('translator_' . strtolower($result['name']));
+  return ('translator_' . drupal_strtolower($result['name']));
 }
 
 /**
@@ -199,7 +199,7 @@ function create_translation_roles() {
 
   // Create translation roles.
   foreach ($languages as $language) {
-    $role_name = 'translator_' . strtolower($language->name);
+    $role_name = 'translator_' . drupal_strtolower($language->name);
 
     $result = db_select('role', 'r')
       ->fields('r')

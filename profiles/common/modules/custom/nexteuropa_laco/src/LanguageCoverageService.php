@@ -358,6 +358,7 @@ class LanguageCoverageService {
    *   Header name as a $_SERVER array key.
    */
   static protected function getHeaderKey($header) {
+    // @codingStandardsIgnoreLine: The feature gets called before the Drupal wrapper is available.
     $header = 'HTTP_' . strtoupper($header);
     return str_replace('-', '_', $header);
   }

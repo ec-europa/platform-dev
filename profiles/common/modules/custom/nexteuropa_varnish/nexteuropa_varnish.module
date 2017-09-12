@@ -700,7 +700,7 @@ function _nexteuropa_varnish_trim_base_path($path) {
   $base_path_position = strpos($path, $base_path);
 
   if ($base_path_position !== FALSE) {
-    return substr_replace($path, '', $base_path_position, strlen($base_path));
+    return substr_replace($path, '', $base_path_position, drupal_strlen($base_path));
   }
 
   return $path;
