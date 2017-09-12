@@ -115,4 +115,31 @@
     <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
         <exclude-pattern>*</exclude-pattern>
     </rule>
+
+    <!-- NEPT-1373: Skip checks for Type hint "array" missing in legacy code. -->
+    <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
+        <exclude-pattern>profiles/common/modules/custom/ecas/includes/ecas.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/multisite_config/lib/Drupal/filter/Config.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/multisite_config/lib/Drupal/taxonomy/Config.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/multisite_config/lib/Drupal/wysiwyg/Config.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/nexteuropa_piwik.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/src/Entity/TokenAbstractHandler.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/nexteuropa_varnish.helper.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/nexteuropa_varnish.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/src/PurgeRuleController.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.helpers.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_html/tmgmt_dgt_html.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/entity/tmgmt_poetry.entity.job.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/plugins/tmgmt_poetry.plugin.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry_mock/includes/tmgmt_poetry_mock_dashboard.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry_mock/src/Mock/PoetryMock.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/views/handlers/tmgmt_poetry_handler_field_progress.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_geofield/nexteuropa_geofield.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_multilingual/nexteuropa_multilingual.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.admin.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.helper.inc</exclude-pattern>
+    </rule>
 </ruleset>

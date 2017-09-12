@@ -266,7 +266,7 @@
         <exclude-pattern>tests/src/Component/Utility/Transliterate.php</exclude-pattern>
         <exclude-pattern>tests/src/Component/PyStringYamlParser.php</exclude-pattern>
     </rule>
-  
+
     <!-- Move helper functions for install file out of install file. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-807 -->
     <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
@@ -299,11 +299,6 @@
         <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
         <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
-
-    <!-- Type hint "array" missing for ... -->
-    <rule ref="Drupal.Commenting.FunctionComment.TypeHintMissing">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
 
     <!-- Closing brace must be on a line by itself ... -->
     <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Line">
