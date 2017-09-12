@@ -24,8 +24,6 @@ function social_bookmark_enable() {
   variable_set('user_value_socialbookmark', 'EU_Commission');
 
   // Add block in context.
-  global $theme_key;
-
   multisite_drupal_toolbox_add_block_context('site_wide', 'social_bookmark-social-bookmark', 'social_bookmark', 'social-bookmark', 'content_bottom');
 
   // Activation message.

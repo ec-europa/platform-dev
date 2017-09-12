@@ -1,2 +1,3 @@
-This feature is deprecated, do not use it.
+THIS FEATURE IS DEPRECATED, DO NOT USE IT.
+
 The webtools feature allows to display twitter feeds.

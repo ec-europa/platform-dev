@@ -9,8 +9,6 @@
  */
 function likedislike_enable() {
   // Add block in context.
-  global $theme_key;
-
   multisite_drupal_toolbox_add_block_context('site_wide', 'likedislike', 'likedislike', 'likedislike', 'content_bottom');
 
   drupal_set_message(t('Like/Dislike feature is now active on your site.'));

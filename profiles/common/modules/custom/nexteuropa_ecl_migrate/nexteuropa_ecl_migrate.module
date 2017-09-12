@@ -208,7 +208,6 @@ function _nexteuropa_ecl_migrate_dt_menus() {
  * Custom function that moves the proper blocks in the right areas.
  */
 function _nexteuropa_ecl_migrate_europa_main_menu() {
-
   multisite_drupal_toolbox_add_block_context('site_wide', 'main-menu', 'system', 'main-menu', 'navigation');
 }
 
