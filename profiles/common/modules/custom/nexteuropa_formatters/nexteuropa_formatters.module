@@ -30,7 +30,8 @@ function nexteuropa_formatters_theme($existing, $type, $theme, $path) {
     ),
     'blockquote' => array(
       'variables' => array(
-        '$markup' => NULL,
+        'body' => NULL,
+        'author' => NULL,
       ),
       'template' => 'blockquote',
       'path' => $templates_path,
@@ -52,6 +53,14 @@ function nexteuropa_formatters_theme($existing, $type, $theme, $path) {
         'footer' => NULL,
       ),
       'template' => 'timelines',
+      'path' => $templates_path,
+    ),
+    'social_icon' => array(
+      'variables' => array(
+        'text' => NULL,
+        'type' => NULL,
+      ),
+      'template' => 'social-icon',
       'path' => $templates_path,
     ),
   );
