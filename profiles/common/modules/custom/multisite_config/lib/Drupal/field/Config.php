@@ -27,7 +27,7 @@ class Config extends ConfigBase {
    *    Field type, as specified by hook_field_info() implementations.
    *
    * @return \Drupal\field\BaseField\DefaultFieldHandler
-   *    Field handler object instance.
+   *   Field handler object instance.
    */
   public function createBaseField($field_name, $type) {
     $class = str_replace(' ', '', ucwords(str_replace('_', ' ', $type)));
@@ -46,7 +46,7 @@ class Config extends ConfigBase {
    *    Bundle machine name.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler
-   *    Field handler object instance.
+   *   Field handler object instance.
    */
   public function createInstanceField($field_name, $entity_type, $bundle) {
     return new DefaultInstanceFieldHandler($field_name, $entity_type, $bundle);
