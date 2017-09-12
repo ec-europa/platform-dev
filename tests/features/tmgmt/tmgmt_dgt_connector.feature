@@ -17,6 +17,7 @@ Feature: TMGMT Poetry features
       | fr        |
     And I am logged in as a user with the "administrator" role
 
+  @javascript
   Scenario: I can translate contents with Carts.
     When I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
@@ -35,8 +36,20 @@ Feature: TMGMT Poetry features
     Then I should see the success message "1 content source was added into the cart."
     And I should see "There are 2 items in the translation cart."
     When I click "cart" in the "front_messages" region
-    Then I should see "My page 1"
-    And I should see "My page 2"
+    # Cart page
+    And I check the box on the "My page 1" row
+    And I check the box on the "My page 2" row
+    And I select "French" from "Request translation into language/s" with javascript
+    And I select "Spanish" from "Request translation into language/s" with javascript
+    And I press "Request translation"
+    # Checkout page
+    And I click "Change translator"
+    And I select "tmgmt_dgt_connector" from "Translator"
+    And I wait for AJAX to finish
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    # Then I should not see the error message "There was an error with the SOAP service."
+
 
   Scenario: I can translate menus with Carts.
     When I go to "admin/structure/menu/manage/user-menu/translate"
