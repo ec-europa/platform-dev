@@ -9,13 +9,8 @@
  * Function form_taxonomy_browser_settings().
  */
 function _taxonomy_browser_form_taxonomy_browser_settings($form, &$form_state) {
-  global $base_path;
 
   $vocabularies = taxonomy_get_vocabularies();
-
-  foreach ($vocabularies as $vid => $vocabulary) {
-    $items_vocabulary[$vid] = $vocabulary->name;
-  }
 
   $form['taxonomy_browser'] = array(
     '#type' => 'fieldset',
@@ -32,7 +27,7 @@ function _taxonomy_browser_form_taxonomy_browser_settings($form, &$form_state) {
   );
 
   $options = array();
-  foreach ($vocabularies as $vid => $vocabulary) {
+  foreach ($vocabularies as $vocabulary) {
     $options[$vocabulary->vid] = array(
       'name' => $vocabulary->name,
       'description' => $vocabulary->description,

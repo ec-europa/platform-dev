@@ -1030,7 +1030,7 @@ function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
     case 'add':
       if (module_exists('rate')) {
         $rw = variable_get("rate_widgets", array());
-        foreach ($rw as $key => $value) {
+        foreach ($rw as $value) {
           if ('rate_fivestar' == $value->name) {
             $value->node_types[] = $content_type;
           }
@@ -1042,7 +1042,7 @@ function multisite_drupal_toolbox_rate_content_type($content_type, $op) {
     case 'delete':
       if (module_exists('rate')) {
         $rw = variable_get("rate_widgets", array());
-        foreach ($rw as $key => $value) {
+        foreach ($rw as $value) {
           if ('rate_fivestar' == $value->name) {
             foreach ($value->node_types as $id => $item) {
               if ($content_type == $item) {

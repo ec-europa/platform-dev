@@ -87,7 +87,7 @@ function multisite_forum_core_replace_strings() {
           ->fetch(PDO::FETCH_COLUMN);
 
         if (strstr($source, 'node/') !== FALSE) {
-          list($a, $nid) = explode('/', $source);
+          list(, $nid) = explode('/', $source);
         }
         break;
 

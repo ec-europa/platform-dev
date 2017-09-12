@@ -952,7 +952,6 @@ function _nexteuropa_trackedchanges_entity_scanning_process($wysiwyg_profile, &$
     $context['results']['text_format'] = $wysiwyg_profile;
   }
 
-  $message['message'] = t('No scan to perform on entities.');
   if (!empty($context['sandbox']['detected_entity_types'])) {
     $field_entity_info = array_shift($context['sandbox']['detected_entity_types']);
     $field_name = $field_entity_info->field_name;
@@ -1014,7 +1013,6 @@ function _nexteuropa_trackedchanges_table_rebuilt_process($wysiwyg_profile, &$co
     $context['results']['text_format'] = $wysiwyg_profile;
   }
 
-  $message['message'] = t('No info related to detected tracked changes in any entities to save.');
   if (!empty($context['sandbox']['detected_entities'])) {
     $detected_entity = array_shift($context['sandbox']['detected_entities']);
 

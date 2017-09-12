@@ -11,7 +11,6 @@
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
   $language_url = FALSE;
   $current_path = request_path();
-  $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
     return $language_url;

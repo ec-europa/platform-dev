@@ -266,21 +266,5 @@ function events_core_views_default_views() {
   $handler->display->display_options['filters']['field_event_date_value2']['default_date'] = 'now';
   $export['events'] = $view;
 
-  $translatables['calendar'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('<h2 class="ecl-heading ecl-heading--h2">Consult planned events</h2>'),
-    t('All taxonomy terms'),
-    t('Body'),
-    t('Dates'),
-    t('Month'),
-  );
-
   return $export;
 }

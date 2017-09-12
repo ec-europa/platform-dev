@@ -227,39 +227,6 @@ function e_library_core_views_default_views() {
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['path'] = 'e_library';
 
-  $translatables['e_library'] = array(
-    t('Master'),
-    t('E-Library'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<h2 class="ecl-heading ecl-heading--h2">Browse library of document</h2>'),
-    t('author'),
-    t('File'),
-    t('File type'),
-    t('Title'),
-    t('[filemime] [title]'),
-    t('Author'),
-    t('Last update'),
-    t('Use count'),
-    t('.'),
-    t(','),
-    t('All'),
-    t('Media tags'),
-    t('Attachment'),
-    t('Attachment header'),
-    t('Page'),
-  );
   $export['e_library'] = $view;
 
   $view = new view();
@@ -350,28 +317,7 @@ function e_library_core_views_default_views() {
   $handler = $view->new_display('media_browser', 'Media browser tab', 'media_browser_1');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  $translatables['elibrary_browser_tab'] = array(
-    t('Master'),
-    t('E-library browser'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('field_document'),
-    t('Content'),
-    t('Media tags'),
-    t('Page'),
-    t('Media browser tab'),
-  );
+
   $export['elibrary_browser_tab'] = $view;
 
   return $export;

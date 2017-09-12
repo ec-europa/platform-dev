@@ -78,7 +78,6 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
 
     $entities = tmgmt_entity_get_translatable_entities($type, $property_conditions, TRUE);
 
-    $entity_info = entity_get_info($type);
     $bundles = tmgmt_entity_get_translatable_bundles($type);
 
     // For retrieved entities add translation specific data.

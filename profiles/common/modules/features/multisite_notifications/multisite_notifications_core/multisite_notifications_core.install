@@ -71,7 +71,7 @@ function multisite_notifications_core_disable() {
 
   $content_types = node_type_get_types();
   foreach ($content_types as $content_type) {
-    $custom_template_deleted = db_delete('mail_edit')
+    db_delete('mail_edit')
       ->condition('id', 'subscriptions_mail_node-type-' . $content_type->type)
       ->execute();
   }

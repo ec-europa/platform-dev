@@ -309,7 +309,6 @@ function multisite_og_navigation_tree_node_insert($node) {
  */
 function multisite_og_navigation_tree_node_update($node) {
   $node_type = $node->type;
-  $nid = $node->nid;
 
   if (og_is_group_type('node', $node_type) && $group_taxonomy_vid = _mont_group_taxonomy_enabled($node)) {
     if (_mont_is_group($node) && !_mont_group_taxonomy_load($node->nid)) {
@@ -437,8 +436,6 @@ function _mont_block_taxonomy_navigation() {
       $child_elements = array();
       $root_elements = array();
 
-      // @todo Variable $current_term_id is unused in its scope.
-      $current_term_id = FALSE;
       $current_term = menu_get_object('taxonomy_term', 2);
       $active_class = array();
       if ($current_term) {
@@ -461,12 +458,10 @@ function _mont_block_taxonomy_navigation() {
 
       $items = array();
 
-      foreach ($root_elements as $tid => $term) {
+      foreach ($root_elements as $term) {
         $item = _mont_block_item_list_children($root_elements, $child_elements, $term, $active_class);
         $items[] = $item;
       }
-      // @todo Variable $node is unused in its scope.
-      $node = node_load($nid);
       if (count($items)) {
         $block['subject'] = t('navigation');
         $block['content'] = theme('item_list', array('items' => $items, 'attributes' => array('class' => 'menu')));

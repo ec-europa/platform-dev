@@ -31,7 +31,7 @@ function nexteuropa_notices_init() {
  */
 function nexteuropa_notices_preprocess_block(&$variables) {
   if (isset($variables['block']->module) && $variables['block']->module == 'bean') {
-    foreach ($variables['elements']['bean'] as $key => $content) {
+    foreach ($variables['elements']['bean'] as $content) {
       if (isset($content['#bundle']) && $content['#bundle'] == 'notice') {
         $variables['classes_array'][] = 'notice';
       }

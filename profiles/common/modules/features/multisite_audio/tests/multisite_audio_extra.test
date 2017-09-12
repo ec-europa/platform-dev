@@ -40,8 +40,6 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
    */
   public function testAudioField() {
     $content_type_machine = drupal_strtolower($this->randomName(10));
-    // @todo The $title variable is unused.
-    $title = $this->randomName(20);
 
     // Create and login user.
     $account = $this->drupalCreateUser(array('administer content types'));

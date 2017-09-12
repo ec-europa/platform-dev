@@ -28,7 +28,6 @@ function multisite_mediagallery_core_token_info() {
  */
 function multisite_mediagallery_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
-  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
   if ($type == 'Breadcrumb_gallery') {
     foreach ($tokens as $name => $original) {
@@ -133,10 +132,6 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
 
           if (isset($local_data['field_picture_description'][LANGUAGE_NONE][0]['value'])) {
             $output .= '<p>' . filter_xss($local_data['field_picture_description'][LANGUAGE_NONE][0]['value']) . '</p>';
-          }
-
-          if (!empty($tags)) {
-            $output .= '<p>' . $tags . '</p>';
           }
 
           $output .= '<p><a href="' . $base_url . '/' . $picture_original . '" title="' . filter_xss($local_data['filename']) . '" target="_blank">' . t('View full size picture') . '</a></p>';

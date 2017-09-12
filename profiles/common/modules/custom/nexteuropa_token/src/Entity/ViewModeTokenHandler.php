@@ -42,7 +42,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
     $replacements = array();
 
     if ($this->isValidTokenType($type)) {
-      foreach ($tokens as $name => $original) {
+      foreach ($tokens as $original) {
         if ($this->isValidToken($original)) {
           $entity_view_mode_type = $this->getViewModeTypeHandlers();
 
