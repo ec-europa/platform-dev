@@ -47,10 +47,13 @@ function communities_views_pre_render(&$view) {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
-function communities_init() {
-  drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
+function communities_page_build(&$page) {
+  $page['content']['#attached']['css'][] = array(
+    'type' => 'file',
+    'data' => drupal_get_path('module', 'communities') . '/communities.css',
+  );
 }
 
 /**

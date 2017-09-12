@@ -23,17 +23,6 @@
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
 
-    <!-- Remove these functions from hook_init(). -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-822 -->
-    <rule ref="DrupalPractice.FunctionDefinitions.HookInitCss.AddFunctionFound">
-        <exclude-pattern>profiles/common/modules/custom/language_selector_page/language_selector_page.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/multisite_cookie_consent.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_notices/nexteuropa_notices.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/communities/communities.module</exclude-pattern>
-    </rule>
-
     <!-- Provide a reason in a comment on the line above as to why it should be open. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-824 -->
     <rule ref="DrupalPractice.FunctionDefinitions.AccessHookMenu.OpenCallback">
