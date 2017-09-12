@@ -200,37 +200,7 @@ function idea_core_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '3';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['block_description'] = 'Most rated ideas';
-  $translatables['idea_list'] = array(
-    t('Defaults'),
-    t('Ideas'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('All ideas'),
-    t('There is no content in this group.'),
-    t('author'),
-    t('Vote results'),
-    t('Title'),
-    t('Body'),
-    t('Score (%)'),
-    t('.'),
-    t(','),
-    t('Author'),
-    t('Watched'),
-    t('Page'),
-    t('Most rated'),
-    t('Most rated ideas'),
-  );
+
   $export['idea_list'] = $view;
 
   return $export;

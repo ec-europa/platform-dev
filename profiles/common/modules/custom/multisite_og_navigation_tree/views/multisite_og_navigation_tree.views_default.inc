@@ -82,21 +82,6 @@ function multisite_og_navigation_tree_views_default_views() {
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = '1';
-  $translatables['mont_grouptaxonomy'] = array(
-    t('Defaults'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('There is no content in this group.'),
-    t('group membership'),
-    t('All'),
-  );
 
   $views['mont_grouptaxonomy'] = $view;
 

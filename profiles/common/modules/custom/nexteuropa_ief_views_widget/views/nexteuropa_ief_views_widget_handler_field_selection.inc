@@ -69,7 +69,7 @@ class nexteuropa_ief_views_widget_handler_field_selection extends views_handler_
    */
   public function get_entity_reference_field_options() {
     $options = array();
-    foreach (field_info_instances($this->table) as $bundle => $fields) {
+    foreach (field_info_instances($this->table) as $fields) {
       foreach ($fields as $field_name => $field) {
         if (in_array($field['widget']['type'], array('inline_entity_form', 'inline_entity_form_single'))) {
           $options[$field_name] = $field['label'];

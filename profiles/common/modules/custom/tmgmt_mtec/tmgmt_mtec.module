@@ -189,7 +189,7 @@ function tmgmt_mtec_tmgmt_job_delete(TMGMTJob $job) {
     drupal_exit();
   }
   ftp_pasv($conn_id, TRUE);
-  _tmgmt_mtec_ftp_rmdir($conn_id, $job->uuid);
+  _tmgmt_mtec_ftp_rmdir($conn_id, $job);
   // Close connection.
   ftp_close($conn_id);
 }
@@ -290,7 +290,8 @@ function tmgmt_mtec_entity_info_alter(&$entity_info) {
 /**
  * Helper function to remove a directory on a FTP server recursively.
  */
-function _tmgmt_mtec_ftp_rmdir($handle, $path) {
+function _tmgmt_mtec_ftp_rmdir($handle, $job) {
+  $path = $job->uuid;
   try {
     if (@ftp_delete($handle, $path) === FALSE) {
       if ($children = @ftp_nlist($handle, $path)) {

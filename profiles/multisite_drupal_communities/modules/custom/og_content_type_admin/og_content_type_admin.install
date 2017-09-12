@@ -95,7 +95,7 @@ function og_content_type_admin_enable() {
   $swgid = -1;
   $sitewide = 'Site Wide';
 
-  $query3 = db_insert('og_content_type_admin')
+  db_insert('og_content_type_admin')
     ->fields(array(
       'gid' => $swgid,
       'name' => $sitewide,
@@ -111,7 +111,7 @@ function og_content_type_admin_enable() {
   }
   $dfgid = 0;
   $group_default = 'Default';
-  $query4 = db_insert('og_content_type_admin')
+  db_insert('og_content_type_admin')
     ->fields(array(
       'gid' => $dfgid,
       'name' => $group_default,

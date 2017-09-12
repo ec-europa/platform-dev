@@ -68,32 +68,7 @@ function multisite_translations_views_default_views() {
   $handler->display->display_options['menu']['title'] = 'Translation jobs';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['context'] = 0;
-  $translatables['translation_jobs'] = array(
-    t('Master'),
-    t('translation jobs'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('Label'),
-    t('Source_language'),
-    t('Target_language'),
-    t('State'),
-    t('URL'),
-    t('ID'),
-    t('.'),
-    t(','),
-    t('Page'),
-  );
+
   $export['translation_jobs'] = $view;
 
   return $export;

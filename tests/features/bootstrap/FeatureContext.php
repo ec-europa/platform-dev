@@ -333,7 +333,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Given I am a/an :roles user, member of entity :entity_name of type :entity_type as :group_role
    */
   public function iAmMemberOfEntityHavingRole($roles, $group_role, $entity_name, $entity_type) {
-    $admin = user_load(1);
     // Create the user.
     $account = (object) array(
       'name' => $this->getRandom()->name(8),

@@ -138,6 +138,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
   $term_deltas = array();
   $tree = taxonomy_get_tree($vocabulary->vid, $group_tid);
   $term = current($tree);
+  $complete_tree = FALSE;
   do {
     // In case this tree is completely empty.
     if (empty($term)) {
@@ -150,7 +151,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
       continue;
     }
     // Count entries after the current page.
-    elseif ($page_entries > $page_increment && isset($complete_tree)) {
+    elseif ($page_entries > $page_increment && $complete_tree) {
       $after_entries++;
       continue;
     }

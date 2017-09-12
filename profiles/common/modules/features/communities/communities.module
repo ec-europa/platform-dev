@@ -256,7 +256,7 @@ function _communities_get_url_in_group($path, $original_path) {
       if (!isset($paths_group[$group_path][$original_path])) {
         $paths_group[$group_path][$original_path] = NULL;
         // Find the node alias that matches with the current group path.
-        foreach ($paths[$original_path] as $pid => $alias) {
+        foreach ($paths[$original_path] as $alias) {
           if (0 === strpos($alias, $group_path)) {
             $paths_group[$group_path][$original_path] = $alias;
             break;
@@ -309,7 +309,6 @@ function group_name_to_arg($arg = NULL) {
  *   or NULL if the Community node could not be derived from the path alias.
  */
 function group_name_load($arg) {
-  global $language;
 
   if ($arg == 'none') {
     return 0;

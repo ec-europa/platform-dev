@@ -208,51 +208,7 @@ function multi_user_blog_views_default_views() {
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['name'] = 'user-menu';
   $handler->display->display_options['menu']['context'] = 0;
-  $translatables['blog'] = array(
-    t('Master'),
-    t('Blog'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<h2 class="ecl-heading ecl-heading--h2">Post from the editorial team</h2>'),
-    t('author'),
-    t('Vote results'),
-    t('.'),
-    t(','),
-    t('Read more'),
-    t('<div class="media">
-  <div class="pull-right t_center">
-    [picture]
-    <div class="meta">
-      [name]<br />
-      [created]
-    </div>
-  </div>
-  <div class="media-body">
-    <div class="pull-right">[value]</div>
-    <h3 class="ecl-heading ecl-heading--h3 media-heading">[title]</h3>
-    <div class="fieldset t_left">
-      [body]
-      <div class="t_right c_left c_right"><a href="[path]">Read more</a></div>
-    </div>
-  </div>  
-</div>'),
-    t('Associated tags'),
-    t('Blog list page'),
-    t('User blog page'),
-    t('%1'),
-    t('All'),
-  );
+
   $export['blog'] = $view;
 
   return $export;

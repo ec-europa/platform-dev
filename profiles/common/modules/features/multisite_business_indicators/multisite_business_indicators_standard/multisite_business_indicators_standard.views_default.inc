@@ -92,21 +92,7 @@ function multisite_business_indicators_standard_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $translatables['business_indicators_active_users'] = array(
-    t('Master'),
-    t('Most active users'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('nodes'),
-    t('Name'),
-    t('Number of content items'),
-    t('Block: Table'),
-    t('Block: Chart'),
-  );
+
   $export['business_indicators_active_users'] = $view;
 
   $view = new view();
@@ -305,32 +291,7 @@ function multisite_business_indicators_standard_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $translatables['business_indicators_ext_index'] = array(
-    t('Master'),
-    t('Business Indicators Page Access Block'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('Title'),
-    t('Type'),
-    t('User Roles'),
-    t('Total'),
-    t('.'),
-    t(','),
-    t('Business Indicators Page Access xls'),
-    t('Business Indicators Page Access Page'),
-    t('Business Indicators Page Access'),
-  );
+
   $export['business_indicators_ext_index'] = $view;
 
   $view = new view();
@@ -409,20 +370,7 @@ function multisite_business_indicators_standard_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $translatables['business_indicators_files'] = array(
-    t('Master'),
-    t('Files'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Mime type'),
-    t('Total'),
-    t('Block: Table'),
-    t('Block: Chart'),
-  );
+
   $export['business_indicators_files'] = $view;
 
   $view = new view();
@@ -538,20 +486,7 @@ function multisite_business_indicators_standard_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $translatables['business_indicators_nodes'] = array(
-    t('Master'),
-    t('Nodes per content type'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Content type'),
-    t('Total'),
-    t('Block: Table'),
-    t('Block: Chart'),
-  );
+
   $export['business_indicators_nodes'] = $view;
 
   $view = new view();
@@ -631,23 +566,7 @@ function multisite_business_indicators_standard_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['business_indicators_recent_comments'] = array(
-    t('Master'),
-    t('Recent Comments'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Content'),
-    t('author'),
-    t('Post date'),
-    t('Author'),
-    t('Comment'),
-    t('Commented on'),
-    t('Block'),
-  );
+
   $export['business_indicators_recent_comments'] = $view;
 
   $view = new view();
@@ -714,22 +633,7 @@ function multisite_business_indicators_standard_views_default_views() {
   /* Display: Block: Table */
   $handler = $view->new_display('block', 'Block: Table', 'block');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['business_indicators_recent_nodes'] = array(
-    t('Master'),
-    t('Recent Nodes'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('author'),
-    t('Post date'),
-    t('Updated date'),
-    t('Title'),
-    t('Author'),
-    t('Block: Table'),
-  );
+
   $export['business_indicators_recent_nodes'] = $view;
 
   return $export;

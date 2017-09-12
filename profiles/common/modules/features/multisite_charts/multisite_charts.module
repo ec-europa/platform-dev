@@ -55,8 +55,6 @@ function theme_multisite_chart(array $variables = array()) {
 
   drupal_add_js($charts_path . 'FusionCharts.js');
 
-  // Get the path of drupal instance.
-  $path_drupal = base_path();
   $swf_file = $charts_path . $info['type'] . '.swf';
   return renderChart($swf_file, '', $info['xml'], $jsid, $info['width'], $info['height']);
 }

@@ -291,7 +291,7 @@ function nexteuropa_trackedchanges_views_pre_render(&$view) {
 
     if ($results) {
       $language_list = language_list();
-      foreach ($results as $key => $result) {
+      foreach ($results as $result) {
         $entity_path = '';
         $entity_moderation_state = '';
         if (isset($result->_field_data)) {
@@ -701,6 +701,7 @@ function nexteuropa_trackedchanges_cron() {
   // When required, scan non-node entities after tracked changes.
   // It is difficult to cover all entities view their edit form.
   // Doing like that, it is the best way to avoid missing entities in the scan.
+  $queue = NULL;
   $is_to_rebuild = _nexteuropa_trackedchanges_table_rebuild();
   if ($is_to_rebuild) {
     $fields_to_scan = _nexteuropa_trackedchanges_wysiwyg_fields_info();
@@ -719,7 +720,7 @@ function nexteuropa_trackedchanges_cron() {
         $query->distinct();
         $entity_scans = $query->execute()->fetchAll();
         if ($entity_scans) {
-          if (!isset($queue)) {
+          if ($queue === NULL) {
             watchdog('nexteuropa_trackedchanges cron', 'Tracked change detected in non-node entities, logging started.', array(), WATCHDOG_INFO);
             $queue = DrupalQueue::get('netc_scan_queue');
           }
@@ -737,7 +738,7 @@ function nexteuropa_trackedchanges_cron() {
           }
         }
       }
-      if (isset($queue)) {
+      if ($queue !== NULL) {
         variable_set('nexteuropa_trackedchanges_rebuild_lock', 1);
         // Add an empty item to indicate it is the rebuild is done.
         $info = array();

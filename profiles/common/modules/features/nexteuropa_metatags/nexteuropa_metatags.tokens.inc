@@ -68,6 +68,7 @@ function nexteuropa_metatags_token_info() {
  * Implements hook_tokens().
  */
 function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $sanitize = !empty($options['sanitize']);
   // Language tokens.
   $replacements = array();
   if ($type == 'language') {
