@@ -1,8 +1,0 @@
-name = likedislike
-description = Make usable the "Like/Dislike buttons". See http://webtools.ec.europa.eu/like/examples/
-package = Multisite Features
-core = 7.x
-features[features_api][] = api:2
-files[] = tests/likedislike.extra.test
-scripts[] = scripts/form_script.js
-configure = admin/config/likedislike
