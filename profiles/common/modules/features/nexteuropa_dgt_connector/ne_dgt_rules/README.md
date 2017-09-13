@@ -8,6 +8,8 @@ needed to configure the DGT Fast Track Translations (FFT) workflow.
 
 1. Configuration
 ================
+Before using some of the custom rules elements, first you have to
+configure the module. Below you can find information how to do that.
 ## 1.1. Default TMGMT translator.
 To implement the DGT FTT workflow you need to setup default TMGMT
 translator which will be used to communicate with the DGT Translation
@@ -16,8 +18,10 @@ configuration page available at
 ```admin/config/workflow/rules/ne_dgt_rules```
 by picking the expected value from the drop down list.
 
-2. Rules elements
-=================
+# 2. Rules elements
+In order to configure different workflow for dealing with the DGT
+Translation Service, this module provides custom rules elements.
+By using them you can configure an expected workflow.
 ## 2.1. Custom conditions
 Module provides custom conditions which have to be used in order to
 configure DGT FTT workflow.
