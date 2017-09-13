@@ -1,5 +1,5 @@
 Next Europa DGT Rules
-===========================
+=====================
 This module provides rules events, conditions, actions and components
 which could be used to build customised translation workflow.
 
@@ -7,8 +7,8 @@ Current functionalities are focused on delivering elements which are
 needed to configure the DGT Fast Track Translations (FFT) workflow.
 
 # 1. Configuration
-Before you can start to use features provided by module, first you have
-to configure the module. Below you can find information how to do that.
+Before you can start to use provided features, first you have to configure
+the module. Below you can find information how to do that.
 ## 1.1. Default TMGMT translator.
 To implement the DGT FTT workflow you need to setup default TMGMT
 translator which will be used to communicate with the DGT Translation
@@ -42,7 +42,8 @@ under the FTT workflow.
 To use this action you need to set the source for the 'node' parameter.
 Action provides variable 'dgt_service_response' which includes
 information received from the DGT TS.
-**Please, remember to use custom conditions before triggering this action.**
+>**Please, remember to include and set out required conditions 
+before triggering this action.**
 
 ## 2.3. Custom data types.
 ### 2.3.1. DGT Translation Service response
