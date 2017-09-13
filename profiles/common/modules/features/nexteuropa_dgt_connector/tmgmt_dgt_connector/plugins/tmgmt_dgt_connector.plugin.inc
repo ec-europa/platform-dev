@@ -10,19 +10,14 @@ use EC\Poetry\Messages\Components;
 use EC\Poetry\Exceptions;
 
 /**
- * DGT Connector translation plugin controller.
- *
- * It's now mostly based on TMGMTPoetryTranslatorPluginController
- * Later this should extend TMGMTDefaultTranslatorPluginController and
- * TMGMTPoetryTranslatorPluginController should be deprecated.
+ * TMGMT DGT Connector translation plugin controller.
  */
-class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorPluginController {
+class TmgmtDgtConnectorTranslatorPluginController extends TMGMTDefaultTranslatorPluginController {
 
   /**
    * Implements TMGMTTranslatorPluginControllerInterface::canTranslation().
    *
-   * We will check are source and target language supported
-   * and the number of items.
+   * Check if source and target languages are supported.
    */
   public function canTranslate(TMGMTTranslator $translator, TMGMTJob $job) {
     // Check that the item does not have pending requests.
