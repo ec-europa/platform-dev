@@ -1,0 +1,19 @@
+<?php
+/**
+ * @file
+ * Next Europa TMGMT DGT FTT translator module file.
+ */
+
+/**
+ * Implements hook_tmgmt_translator_plugin_info().
+ */
+function ne_tmgmt_dgt_ftt_translator_tmgmt_translator_plugin_info() {
+  $info['dgt_ftt'] = array(
+    'label' => t('DGT FTT Translator'),
+    'description' => t('DGT Fast Track Translations translator.'),
+    'plugin controller class' => 'TmgmtDgtFttTranslatorPluginController',
+    'ui controller class' => 'TmgmtDgtFttTranslatorUiController',
+  );
+
+  return $info;
+}
