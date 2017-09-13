@@ -97,8 +97,6 @@
         <exclude-pattern>profiles/common/modules/features/idea/idea_core/idea_core.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/sitemap/tests/sitemap.test</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.install</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/newsletters/newsletters.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_forum_core/multisite_forum_core.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/ec_world_countries/ec_world_countries.views_default.inc</exclude-pattern>

@@ -10,7 +10,7 @@
  */
 function _nexteuropa_ecl_migrate_blocks() {
   // Migrate blocks from default install.
-  _nexteuropa_ecl_migrate_remove_blocks_header_top();
+  _nexteuropa_ecl_migrate_remove_blocks_default_blocks();
   _nexteuropa_ecl_migrate_dt_menus();
   _nexteuropa_ecl_migrate_europa_main_menu();
   _nexteuropa_ecl_migrate_europa_utility_region();
@@ -20,7 +20,6 @@ function _nexteuropa_ecl_migrate_blocks() {
   _nexteuropa_ecl_migrate_move_facet_blocks();
   _nexteuropa_ecl_migrate_move_community_blocks();
   _nexteuropa_ecl_migrate_move_ne_registration_blocks();
-  _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
 }
 
 /**
@@ -222,9 +221,13 @@ function _nexteuropa_ecl_migrate_europa_utility_region() {
 /**
  * Custom function that deletes blocks in the header_top region.
  */
-function _nexteuropa_ecl_migrate_remove_blocks_header_top() {
+function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'menu-service-tools');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'footer');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'search-form');
+  _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
 }
 
 /**
@@ -301,9 +304,4 @@ function _nexteuropa_ecl_migrate_remove_ec_resp_blocks() {
     ->condition('module', 'system')
     ->condition('delta', 'help')
     ->execute();
-  multisite_drupal_toolbox_remove_block_context('site_wide', 'footer-ipg');
-  multisite_drupal_toolbox_remove_block_context('site_wide', 'menu-service-tools');
-  multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
-  multisite_drupal_toolbox_remove_block_context('site_wide', 'search-form');
-
 }
