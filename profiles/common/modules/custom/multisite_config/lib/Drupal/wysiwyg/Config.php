@@ -47,6 +47,23 @@ class Config extends ConfigBase {
   }
 
   /**
+   * Add a preference to a WYSIWYG profile.
+   *
+   * @param string $format_name
+   *   Text format machine name, for example: "full_html".
+   * @param string $preference
+   *   Preference name. Ex. 'version', 'show_toggle', etc.
+   * @param string $value
+   *   Value to assign to the preference.
+   *   Ex. '1', '0', '4.6.1.580bcaf' etc.
+   */
+  public function addPreferenceToProfile($format_name, $preference, $value) {
+    if (($profile = $this->getProfile($format_name))) {
+      $profile->settings['_profile_preferences'][$preference] = $value;
+      $this->updateProfile($profile);
+    }
+  }
+  /**
    * Remove a button from a WYSIWYG profile.
    *
    * @param string $format_name
