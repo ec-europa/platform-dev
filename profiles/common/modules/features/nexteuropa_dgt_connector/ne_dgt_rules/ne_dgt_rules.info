@@ -1,11 +1,15 @@
-name = Next Europa TMGMT DGT Rules
-description = Provides custom rules elements for the TMGMT DGT translators.
+name = Next Europa DGT Rules
+description = Provides custom rules elements for the DGT translators.
 php = 5.6
 package = Translation Management
 core = 7.x
+
+dependencies[] = ne_tmgmt_dgt_ftt_connector
 dependencies[] = rules
 dependencies[] = tmgmt
 dependencies[] = tmgmt_entity_ui
 dependencies[] = tmgmt_node
 dependencies[] = tmgmt_node_ui
 dependencies[] = tmgmt_workbench
+dependencies[] = workbench
+dependencies[] = workbench_moderation

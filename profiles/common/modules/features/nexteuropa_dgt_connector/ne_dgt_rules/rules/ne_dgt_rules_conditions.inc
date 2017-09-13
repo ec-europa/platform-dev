@@ -1,29 +1,32 @@
 <?php
 /**
  * @file
- * Next Europa TMGMT DGT Rules module file.
+ * Next Europa DGT Rules integration - Custom conditions.
  */
-
-/**
- * Implements hook_rules_file_info().
- */
-function ne_tmgmt_dgt_rules_rules_file_info() {
-  $items = array();
-  $items[] = 'ne_tmgmt_dgt_rules.rules';
-
-  return $items;
-}
 
 /**
  * Implements hook_rules_condition_info().
  */
-function ne_tmgmt_dgt_rules_rules_condition_info() {
+function ne_dgt_rules_rules_condition_info() {
   $items = array();
+
+  $items['content_meets_requirements_for_dgt_ftt_translator'] = array(
+    'group' => t("NE DGT Rules"),
+    'label' => t("Content meets requirements of the DGT FTT workflow"),
+    'base' => 'ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow',
+    'parameter' => array(
+      'node' => array(
+        'type' => 'node',
+        'label' => t("Content"),
+        'restriction' => 'selector',
+      ),
+    ),
+  );
 
   $items['comparison_of_moderation_states_after_transition'] = array(
     'group' => t("NE DGT Rules"),
     'label' => t("Comparison of moderation states after transition"),
-    'base' => 'ne_tmgmt_dgt_rules_comparison_of_moderation_states_after_transition',
+    'base' => 'ne_dgt_rules_comparison_of_moderation_states_after_transition',
     'parameter' => array(
       'previous_state_source' => array(
         'type' => 'text',
@@ -47,7 +50,7 @@ function ne_tmgmt_dgt_rules_rules_condition_info() {
       ),
       'new_state_value' => array(
         'type' => 'text',
-        'label' => t("Expected new moderation state"),
+        'label' => t("Expected 'new' moderation state"),
         'description' => t("Select the 'new' workbench moderation state from the drop down list."),
         'options list' => 'workbench_moderation_state_labels',
         'restriction' => 'input',
@@ -58,6 +61,38 @@ function ne_tmgmt_dgt_rules_rules_condition_info() {
   );
 
   return $items;
+}
+
+/**
+ * Condition: Check if content meets requirements.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @return TRUE/FALSE
+ *  TRUE/FALSE depending on if the content meets requirements or not.
+ */
+function ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow($node) {
+  // Checking if given content is integrated with the DGT FTT workflow.
+  if (!variable_get('ne_dgt_rules_ftt_workflow_' . $node->type, FALSE)) {
+    return FALSE;
+  }
+
+  // Checking if given content supports the entity translation mechanism.
+  if (!entity_translation_node_supported_type($node->type)) {
+    watchdog(
+      'ne_dgt_rules',
+      "Content type '$node->type' does not support the entity translation mechanism.
+        It can not be used in the DGT FTT workflow. Please disable DGT FTT integration
+        or enable the entity translation for given content type.",
+      array(),
+      WATCHDOG_ERROR
+    );
+
+    return FALSE;
+  }
+
+  return TRUE;
 }
 
 /**
@@ -75,7 +110,7 @@ function ne_tmgmt_dgt_rules_rules_condition_info() {
  * @return TRUE/FALSE
  *  TRUE/FALSE depending on if the states matches source and selected values.
  */
-function ne_tmgmt_dgt_rules_comparison_of_moderation_states_after_transition($previous_state_source, $previous_state_value, $new_state_source, $new_state_value) {
+function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous_state_source, $previous_state_value, $new_state_source, $new_state_value) {
   if (($previous_state_source === $previous_state_value) && ($new_state_source === $new_state_value)) {
     return TRUE;
   }
