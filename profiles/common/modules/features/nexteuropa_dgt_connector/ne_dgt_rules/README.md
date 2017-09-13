@@ -7,8 +7,8 @@ Current functionalities are focused on delivering elements which are
 needed to configure the DGT Fast Track Translations (FFT) workflow.
 
 # 1. Configuration
-Before using some of the custom rules elements, first you have to
-configure the module. Below you can find information how to do that.
+Before you can start to use features provided by module, first you have
+to configure the module. Below you can find information how to do that.
 ## 1.1. Default TMGMT translator.
 To implement the DGT FTT workflow you need to setup default TMGMT
 translator which will be used to communicate with the DGT Translation
