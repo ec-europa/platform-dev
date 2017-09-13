@@ -22,6 +22,7 @@ function multisite_drupal_toolbox_enable() {
   multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->enableTextFilter('full_html_track', 'toolbox_sanitize');
 }
 
 /**
@@ -51,4 +52,28 @@ function multisite_drupal_toolbox_update_7201() {
   multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+}
+
+/**
+ * NEPT-1453: Enable HTML sanitize filter for all "non-checkplain" formats.
+ */
+function multisite_drupal_toolbox_update_7202() {
+  $formats = filter_formats();
+  $format_machine_names = array_keys($formats);
+  foreach ($format_machine_names as $format_machine_name) {
+    $format = multisite_config_service('filter')->getFormatFilters($format_machine_name, TRUE);
+
+    // Check 'filter_html_escape' filter
+    if (!empty($format['filter_html_escape']) && ($format['filter_html_escape']->status)) {
+      continue;
+    }
+
+    // Check 'toolbox_sanitize' filter
+    if (!empty($format['toolbox_sanitize']) && ($format['toolbox_sanitize']->status)) {
+      continue;
+    }
+
+    multisite_config_service('filter')->enableTextFilter($format_machine_name, 'toolbox_sanitize');
+    multisite_config_service('filter')->setTextFilterWeight($format_machine_name, 'toolbox_sanitize', 0);
+  }
 }
