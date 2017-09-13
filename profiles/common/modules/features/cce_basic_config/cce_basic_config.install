@@ -829,7 +829,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access user contact forms',
     'access user profiles',
     'access workbench',
-    'use text format full_html',
     'view moderation history',
     'view moderation messages',
     'view own unpublished content',
