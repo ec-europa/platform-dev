@@ -188,7 +188,6 @@
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark_bar.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/includes/nexteuropa_subscriptions.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
@@ -242,12 +241,6 @@
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.General.DescriptionT">
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
-    </rule>
-
-    <!-- Use correct permission. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.General.AccessAdminPages.PermissionFound">
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
     </rule>
 
     <!-- Please provide justification in code and use @codingStandardsIgnoreLine if needed. -->

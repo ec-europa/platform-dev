@@ -95,7 +95,7 @@ projects[bounce][subdir] = "contrib"
 projects[bounce][version] = "1.7"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.3"
+projects[captcha][version] = "1.5"
 
 projects[cdn][subdir] = "contrib"
 projects[cdn][version] = "2.9"
