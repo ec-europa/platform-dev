@@ -1,0 +1,11 @@
+name = Next Europa TMGMT DGT FTT translator
+description = Provides a custom TMGMT translator for the DGT Fast Track Translations workflow.
+php = 5.6
+package = Translation Management
+core = 7.x
+
+dependencies[] = tmgmt
+dependencies[] = workbench_moderation
+
+files[] = ne_tmgmt_dgt_ftt_translator.plugin.inc
+files[] = ne_tmgmt_dgt_ftt_translator.ui.inc
