@@ -101,7 +101,7 @@ projects[bounce][subdir] = "contrib"
 projects[bounce][version] = "1.7"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.3"
+projects[captcha][version] = "1.5"
 
 projects[cdn][subdir] = "contrib"
 projects[cdn][version] = "2.9"
@@ -229,6 +229,9 @@ projects[entityreference][version] = "1.5"
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
+; Fix issues with autocomplete callback and add constant to track control string
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1459
+projects[entityreference][patch][] = patches/entityreference-autocomplete-constant-control.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -1000,7 +1003,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.1
+projects[ec_resp][download][tag] = 2.3.2
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
