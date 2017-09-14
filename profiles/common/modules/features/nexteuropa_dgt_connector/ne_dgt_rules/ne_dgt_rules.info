@@ -4,7 +4,7 @@ php = 5.6
 package = Translation Management
 core = 7.x
 
-dependencies[] = ne_tmgmt_dgt_ftt_connector
+dependencies[] = ne_tmgmt_dgt_ftt_translator
 dependencies[] = rules
 dependencies[] = tmgmt
 dependencies[] = tmgmt_entity_ui
