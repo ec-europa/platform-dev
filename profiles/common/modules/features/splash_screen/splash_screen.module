@@ -62,6 +62,9 @@ function splash_screen_theme($existing, $type, $theme, $path) {
     'splash' => array(
       'template' => 'splash',
       'path' => $path . '/theme',
+      'variables' => array(
+        'path' => NULL,
+      ),
     ),
     'page__splash' => array(
       'template' => 'page--splash',
