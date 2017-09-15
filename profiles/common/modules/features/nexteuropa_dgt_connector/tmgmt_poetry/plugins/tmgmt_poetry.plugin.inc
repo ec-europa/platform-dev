@@ -129,7 +129,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       ));
     }
     else {
-      return t('An active translation for this item already exists');
+      return t('A pending translation for this item already exists');
     }
   }
 
