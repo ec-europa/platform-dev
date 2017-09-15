@@ -11,8 +11,12 @@ use EC\Poetry\Exceptions;
 
 /**
  * TMGMT DGT Connector translation plugin controller.
+ *
+ * It's now mostly based on TMGMTPoetryTranslatorPluginController
+ * Later this should extend TMGMTDefaultTranslatorPluginController and
+ * TMGMTPoetryTranslatorPluginController should be deprecated.
  */
-class TmgmtDgtConnectorTranslatorPluginController extends TMGMTDefaultTranslatorPluginController {
+class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorPluginController {
 
   /**
    * Implements TMGMTTranslatorPluginControllerInterface::canTranslation().
@@ -56,7 +60,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTDefaultTranslator
    * {@inheritdoc}
    */
   public function getNotCanTranslateReason(TMGMTJob $job) {
-    return t('An active translation for this item already exists');
+    return t('A pending translation for this item already exists');
   }
 
   /**
