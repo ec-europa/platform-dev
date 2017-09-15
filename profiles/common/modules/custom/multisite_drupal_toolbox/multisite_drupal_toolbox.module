@@ -511,11 +511,23 @@ function multisite_drupal_toolbox_filter_format_update($format) {
   }
 
   if (!$toolbox_sanitize_status) {
+    // Set a weight below the minimal existing value.
+    // The weight setting is only the filter is enforce. After, site builders
+    // can set the weight freely.
+    // The goal is to reduce a maximum negative impacts during the enforcing.
+    $weight_list = array_map(
+      function($o) {
+        return $o['weight'];
+      },
+      $filters
+    );
+    $min_weight = min($weight_list);
+
     // Save the enforcing. Cannot pass by a normal save because that causes an
     // infinitive loop.
     $fields = array(
       'status' => 1,
-      'weight' => -10,
+      'weight' => ($min_weight - 1),
     );
 
     db_merge('filter')
@@ -530,8 +542,7 @@ function multisite_drupal_toolbox_filter_format_update($format) {
       '@text_format' => $format->format,
       '@value' => (!$filter_html_escape_status),
     );
-    watchdog('multisite_drupal_toolbox_update_7202', '"toolbox_sanitize" status has been set to @value for @text_format.', $watchdog_variables, WATCHDOG_INFO);
-
+    watchdog('multisite drupal toolbox', '"toolbox_sanitize" status has been set to @value for @text_format.', $watchdog_variables, WATCHDOG_INFO);
   }
 }
 
