@@ -63,17 +63,32 @@ function multisite_drupal_toolbox_update_7202() {
   foreach ($format_machine_names as $format_machine_name) {
     $format = multisite_config_service('filter')->getFormatFilters($format_machine_name, TRUE);
 
-    // Check 'filter_html_escape' filter
+    $filter_html_escape_status = 0;
+    $toolbox_sanitize_status = 0;
+    // Set the actual value of the 'filter_html_escape' filter.
     if (!empty($format['filter_html_escape']) && ($format['filter_html_escape']->status)) {
-      continue;
+      $filter_html_escape_status = $format['filter_html_escape']->status;
     }
 
-    // Check 'toolbox_sanitize' filter
+    // Set the actual value of the 'toolbox_sanitize' filter.
     if (!empty($format['toolbox_sanitize']) && ($format['toolbox_sanitize']->status)) {
+      $toolbox_sanitize_status = $format['toolbox_sanitize']->status;
+    }
+
+    // If both are different, nothing to do then.
+    if ($filter_html_escape_status != $toolbox_sanitize_status) {
       continue;
     }
 
-    multisite_config_service('filter')->enableTextFilter($format_machine_name, 'toolbox_sanitize');
-    multisite_config_service('filter')->setTextFilterWeight($format_machine_name, 'toolbox_sanitize', 0);
+    if (!$toolbox_sanitize_status) {
+      multisite_config_service('filter')->enableTextFilter($format_machine_name, 'toolbox_sanitize');
+      multisite_config_service('filter')->setTextFilterWeight($format_machine_name, 'toolbox_sanitize', 0);
+      watchdog('multisite_drupal_toolbox_update_7202', '"toolbox_sanitize" has been enabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
+      continue;
+    }
+
+    // If $filter_html_escape is enabled no need to use toolbox_sanitize.
+    multisite_config_service('filter')->disableTextFilter($format_machine_name, 'toolbox_sanitize');
+    watchdog('multisite_drupal_toolbox_update_7202', '"toolbox_sanitize" has been disabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
   }
 }
