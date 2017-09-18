@@ -33,8 +33,6 @@
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/src/Entity/LinkTokenHandler.php</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/src/Entity/ViewModeTokenHandler.php</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/modules/nexteuropa_token_ckeditor/views/nexteuropa_token_ckeditor.views.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/multisite_cookie_consent.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.plugin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_config/tests/Drupal/field/InstanceField/DefaultFieldHandlerTest.php</exclude-pattern>
@@ -44,7 +42,6 @@
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_group_sync/ecas_group_sync.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_group_sync/ecas_group_sync_group.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_group_sync/tests/ecas_group_sync.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/multisite_readspeaker.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/wiki/wiki_core/wiki_core.views_default.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/wiki/wiki_core/wiki_core.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/wiki/wiki_og/tests/wiki_og.test</exclude-pattern>
@@ -126,7 +123,6 @@
         <exclude-pattern>common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.taxonomy.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/tests/TokenHandlerTest.php</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_dynamic_basetheme/multisite_dynamic_basetheme.drush.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/ecas/includes/ecas.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.module</exclude-pattern>
@@ -155,11 +151,8 @@
         <exclude-pattern>profiles/common/modules/custom/media_avportal/includes/MediaInternetAvportalHandler.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_og_button/multisite_og_button.test</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_create_button/multisite_create_button.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/tests/multisite_readspeaker.test</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/wiki/wiki_core/tests/wiki_core.test</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_html/inc/tmgmt_dgt.format.html.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/includes/multisite_notifications_core.behat.inc</exclude-pattern>
@@ -188,8 +181,6 @@
         <exclude-pattern>profiles/common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/multisite_cookie_consent.admin.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_readspeaker/multisite_readspeaker.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/multisite_twitterblock.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_path_override/multisite_path_override.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_notifications/multisite_notifications_core/includes/multisite_notifications_core.settings.inc</exclude-pattern>
@@ -197,7 +188,6 @@
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark_bar.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/includes/nexteuropa_subscriptions.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.module</exclude-pattern>
     </rule>
@@ -223,7 +213,6 @@
     <!-- Please make error message translatable. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.FunctionCalls.MessageT.ErrorMessage">
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.testing.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/controller/tmgmt_poetry.controller.job.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.install</exclude-pattern>
     </rule>
@@ -252,12 +241,6 @@
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
     <rule ref="DrupalPractice.General.DescriptionT">
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
-    </rule>
-
-    <!-- Use correct permission. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-826 -->
-    <rule ref="DrupalPractice.General.AccessAdminPages.PermissionFound">
-        <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
     </rule>
 
     <!-- Please provide justification in code and use @codingStandardsIgnoreLine if needed. -->
@@ -291,7 +274,6 @@
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-822 -->
     <rule ref="DrupalPractice.FunctionDefinitions.HookInitCss.AddFunctionFound">
         <exclude-pattern>profiles/common/modules/custom/language_selector_page/language_selector_page.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/multisite_cookie_consent.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/social_bookmark/social_bookmark.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/likedislike/likedislike.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_notices/nexteuropa_notices.module</exclude-pattern>
@@ -355,8 +337,6 @@
         <exclude-pattern>profiles/common/modules/custom/language_selector_site/language_selector_site.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/media_avportal/includes/MediaAvportalStreamWrapper.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_config/tests/ConfigBaseTest.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/modules/connections/multisite_cookie_rest.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_cookie_consent/multisite_cookie_consent.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.sanitize.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_laco/src/LanguageCoverageService.php</exclude-pattern>
