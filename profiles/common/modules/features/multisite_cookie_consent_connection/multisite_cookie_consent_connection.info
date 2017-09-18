@@ -1,9 +1,0 @@
-name = multisite-cookie-consent-connection
-description = Client connection to CSR service
-core = 7.x
-package = Multisite cookie consent
-dependencies[] = clients
-dependencies[] = entity
-dependencies[] = multisite_cookie_rest
-features[clients_connection][] = csr
-features[features_api][] = api:2

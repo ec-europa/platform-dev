@@ -31,7 +31,8 @@ function nexteuropa_formatters_theme($existing, $type, $theme, $path) {
     ),
     'blockquote' => array(
       'variables' => array(
-        '$markup' => NULL,
+        'body' => NULL,
+        'author' => NULL,
       ),
       'template' => 'blockquote',
       'path' => $templates_path,
