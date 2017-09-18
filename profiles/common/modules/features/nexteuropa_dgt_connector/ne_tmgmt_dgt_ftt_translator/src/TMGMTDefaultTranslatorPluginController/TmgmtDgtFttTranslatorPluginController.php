@@ -98,7 +98,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   public function requestReview(TMGMTJob $job, $entity_id, $entity_type = 'node') {
     if ($this->checkRequestReviewConditions($job, $entity_id, $entity_type)) {
-
+      $poetry = new \EC\Poetry\Poetry([]);
     }
 
     return FALSE;
