@@ -253,11 +253,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Return type must not contain variable name "$this". -->
-    <rule ref="Drupal.Commenting.FunctionComment.ReturnVarName">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Unused use statement. -->
     <rule ref="Drupal.Classes.UnusedUseStatement.UnusedUse">
         <exclude-pattern>*</exclude-pattern>
