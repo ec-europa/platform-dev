@@ -60,7 +60,6 @@ function nexteuropa_formatters_fields_field_formatter_info() {
     'ne_tags' => array(
       'label' => t('NE Tags'),
       'field types' => array(
-        'taxonomy_term_reference',
         'link_field',
         'entityreference',
       ),
@@ -249,27 +248,6 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
     case 'ne_tags':
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
-          case 'taxonomy_term_reference':
-            // If the access is denied to the term, we do not display it.
-            if (empty($item['access'])) {
-              continue;
-            }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
-            }
-
-            // Calling EntityReferenceHandler::getLabel() would make a repeated,
-            // wasteful call to entity_access().
-            $label = entity_label($target_type, $item['entity']);
-            $uri = entity_uri($target_type, $item['entity']);
-            $tag = array(
-              'value' => $label,
-              'href' => $uri['path'],
-            );
-            break;
-
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
