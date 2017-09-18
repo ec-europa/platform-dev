@@ -80,8 +80,12 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * and the number of items.
    */
   public function canTranslate(TMGMTTranslator $translator, TMGMTJob $job) {
-    // Check that the item does not have pending requests.
+    // Check that only one item is being requested.
     $items = $job->getItems();
+    if (count($items) > 1) {
+      return FALSE;
+    }
+    // Check that the item does not have pending requests.
     $item = array_shift($items);
     if (!empty($item)) {
       $results = db_select('tmgmt_job_item', 'tji')
@@ -93,8 +97,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       if ($results) {
         foreach ($results as $result) {
           if ($job = tmgmt_job_load($result->tjid)) {
-            $translator = $job->getTranslator();
-            if ($translator && $translator->plugin == 'poetry' && $job->getState() == 1) {
+            if ($job->getTranslator() && $job->getState() == 1) {
               // Check the poetry status.
               $result_ps = db_select('poetry_status', 'ps')
                 ->fields('ps', array('status'))
@@ -119,7 +122,15 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Show the reason why we can not translate.
    */
   public function getNotCanTranslateReason(TMGMTJob $job) {
-    return t('An active translation for this item already exists');
+    if (count($job->getItems()) > 1) {
+      return t('@translator can not translate more than 1 item per request.', array(
+        '@translator' => $job->getTranslator()
+          ->label(),
+      ));
+    }
+    else {
+      return t('A pending translation for this item already exists');
+    }
   }
 
   /**

@@ -87,4 +87,73 @@ class FormContext extends RawDrupalContext {
     }
   }
 
+  /**
+   * Selects option in select field using javascript.
+   *
+   * Selects option in select field with specified id|name|label|value.
+   * This method uses javascript to allow selection of options that may be
+   * overridden by javascript libraries, and thus hide the element.
+   *
+   * Source: @link https://github.com/gambry/behat-contexts @endlink .
+   *
+   * @When /^(?:|I )select "(?P<option>(?:[^"]|\\")*)" from "(?P<select>(?:[^"]|\\")*)" with javascript$/
+   */
+  public function selectOptionWithJavascript($select, $option) {
+    $select = $this->fixStepArgument($select);
+    $option = $this->fixStepArgument($option);
+    $page = $this->getSession()->getPage();
+    // Find field.
+    $field = $page->findField($select);
+    if (NULL === $field) {
+      throw new ElementNotFoundException($this->getSession(), 'form field', 'id|name|label|value', $select);
+    }
+    // Find option.
+    $opt = $field->find('named', array(
+      'option',
+      $option,
+    ));
+    if (NULL === $opt) {
+      throw new ElementNotFoundException($this->getSession(), 'select option', 'value|text', $option);
+    }
+    // Merge new option in with old handling both multiselect and single select.
+    $value = $field->getValue();
+    $newValue = $opt->getAttribute('value');
+    if (is_array($value)) {
+      if (!in_array($newValue, $value)) {
+        $value[] = $newValue;
+      }
+    }
+    else {
+      $value = $newValue;
+    }
+    $valueEncoded = json_encode($value);
+    // Inject this value via javascript.
+    $fieldID = $field->getAttribute('ID');
+    $script = <<<EOS
+			(function($) {
+				$("#$fieldID")
+					.val($valueEncoded)
+					.change()
+					.trigger('liszt:updated')
+					.trigger('chosen:updated');
+			})(jQuery);
+EOS;
+    $this->getSession()->getDriver()->executeScript($script);
+  }
+
+  /**
+   * Returns fixed step argument (with \\" replaced back to ").
+   *
+   * Source: @link https://github.com/gambry/behat-contexts @endlink .
+   *
+   * @param string $argument
+   *    The argument.
+   *
+   * @return string
+   *    The return.
+   */
+  protected function fixStepArgument($argument) {
+    return str_replace('\\"', '"', $argument);
+  }
+
 }
