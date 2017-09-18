@@ -19,6 +19,11 @@ function ne_dgt_rules_rules_action_info() {
         'label' => t('Content'),
         'description' => t('The content that requires review done by the DGT reviewer.'),
       ),
+      'tmgmt_job' => array(
+        'type' => 'tmgmt_job',
+        'label' => t('Translation Job'),
+        'description' => t('The translation job for which the review request should be sent.'),
+      ),
     ),
     'provides' => array(
       'dgt_service_response' => array(
@@ -38,9 +43,12 @@ function ne_dgt_rules_rules_action_info() {
  * @return array
  *   An array with the DGT Translation Service response.
  */
-function ne_dgt_rules_create_job($node) {
-  $dgt_service_response = array();
-  // Client code goes here.
+function ne_dgt_rules_send_the_review_request($node, $tmgmt_job) {
+  $translator = $tmgmt_job->getTranslator();
+  $controller = $translator->getController();
+
+  $dgt_service_response = $controller->requestReview($tmgmt_job, $node->nid);
+
   return array(
     'dgt_service_response' => $dgt_service_response,
   );
