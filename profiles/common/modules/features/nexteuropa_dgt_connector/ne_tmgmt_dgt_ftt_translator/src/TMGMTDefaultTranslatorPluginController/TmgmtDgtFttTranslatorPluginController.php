@@ -85,7 +85,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   }
 
   /**
-   * Custom method which sends the request for a review to the DGT Service.
+   * Custom method which sends the review request to the DGT Service.
    *
    * @param \TMGMTJob $job
    *   TMGMT Job object.
@@ -109,7 +109,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *
    * @param \TMGMTJob $job
    *   TMGMT Job object.
-   * @param stirng $entity_id
+   * @param string $entity_id
    *   Entity ID (for some edge cases the string type can appear).
    * @param string $entity_type
    *   Entity type.
@@ -181,7 +181,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
     return FALSE;
   }
-
 
   /**
    * Provides 'ne_tmgmt_dgt_ftt_map' entities by passing a property and
