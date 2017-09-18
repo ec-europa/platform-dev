@@ -85,7 +85,7 @@ function multisite_drupal_toolbox_update_7202() {
       // Put below the Drupal standard minimum value for the weight;
       // It is a one shot and no exotic value has been detected in sub-sites;
       // no need to complicating more.
-      multisite_config_service('filter')->setTextFilterWeight($format_machine_name, 'toolbox_sanitize', -51);
+      multisite_config_service('filter')->setTextFilterWeight($format_machine_name, 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
       watchdog('multisite drupal toolbox', '"Updatedb process: toolbox_sanitize" has been enabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
       continue;
     }

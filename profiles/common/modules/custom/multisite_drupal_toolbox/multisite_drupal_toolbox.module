@@ -5,7 +5,10 @@
  * Multisite Toolbox definition module.
  */
 
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT', -50);
+define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MAX_WEIGHT', 50);
+
 /**
  * Implements hook_permission().
  */
@@ -472,9 +475,6 @@ function multisite_drupal_toolbox_form_filter_admin_format_form_alter(&$form, &$
   $filter_html_escape = &$form['filters']['status']['filter_html_escape'];
   $toolbox_sanitize = &$form['filters']['status']['toolbox_sanitize'];
 
-  // Initial case; the text format is not created yet.
-  $toolbox_sanitize['#default_value'] = (!$filter_html_escape['#default_value']);
-
   $addendum = '<span style="font-weight: bold;color: red;">' . t('Important:') . '</span> ';
   $filter_html_escape['#description'] .= $addendum;
   $addendum = '<br />' . $addendum;
@@ -522,12 +522,14 @@ function multisite_drupal_toolbox_filter_format_update($format) {
       $filters
     );
     $min_weight = min($weight_list);
+    // Do not go below -50; the standard minimum value set for the weight.
+    $min_weight = (($min_weight - 1) < MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT) ? MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT : ($min_weight - 1);
 
     // Save the enforcing. Cannot pass by a normal save because that causes an
     // infinitive loop.
     $fields = array(
       'status' => 1,
-      'weight' => ($min_weight - 1),
+      'weight' => $min_weight,
     );
 
     db_merge('filter')
