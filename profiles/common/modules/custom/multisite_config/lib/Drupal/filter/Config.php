@@ -20,9 +20,9 @@ class Config extends ConfigBase {
    * Get a text format object given its machine name.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    * @param bool $reset
-   *    TRUE to reset filter formats cache.
+   *   TRUE to reset filter formats cache.
    *
    * @return object|bool
    *   Text format object or FALSE.
@@ -41,9 +41,9 @@ class Config extends ConfigBase {
    * It contains filters set for this format.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    * @param bool $reset
-   *    TRUE to reset filter formats cache.
+   *   TRUE to reset filter formats cache.
    *
    * @return object|bool
    *   Text format object (filters config. included and filter format
@@ -69,9 +69,9 @@ class Config extends ConfigBase {
    * Retrieves a list of filters for a given text format.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    * @param bool $reset
-   *    TRUE to reset filter formats cache.
+   *   TRUE to reset filter formats cache.
    *
    * @return array
    *   An array of filter objects associated to the given text format.
@@ -98,9 +98,9 @@ class Config extends ConfigBase {
    * Enable a filter on a text format.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    * @param string $filter_name
-   *    Machine name of text filter, as defined in hook_filter_info().
+   *   Machine name of text filter, as defined in hook_filter_info().
    *
    * @return bool|int
    *   SAVED_UPDATED if saved, FALSE otherwise.
@@ -134,9 +134,9 @@ class Config extends ConfigBase {
    * Disable a filter on a text format.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    * @param string $filter_name
-   *    Machine name of text filter, as defined in hook_filter_info().
+   *   Machine name of text filter, as defined in hook_filter_info().
    *
    * @return bool|int
    *   SAVED_UPDATED if saved, FALSE otherwise.
@@ -170,11 +170,11 @@ class Config extends ConfigBase {
    * Enable the specified filter on a text format.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    * @param string $filter_name
-   *    Machine name of text filter, as defined in hook_filter_info().
+   *   Machine name of text filter, as defined in hook_filter_info().
    * @param int $weight
-   *    Weight that specified text filter will have in the text format.
+   *   Weight that specified text filter will have in the text format.
    *
    * @return bool|int
    *   SAVED_UPDATED if saved, FALSE otherwise.
@@ -208,7 +208,7 @@ class Config extends ConfigBase {
    * Normalize and save format objects.
    *
    * @param object $format
-   *    Text format object to be sanitized and saved.
+   *   Text format object to be sanitized and saved.
    *
    * @return bool|int
    *   SAVED_UPDATED if saved, FALSE otherwise.
@@ -225,7 +225,7 @@ class Config extends ConfigBase {
    * Retrieves a list of roles for a given text format.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    *
    * @return array
    *   An array of role names, keyed by role ID.
@@ -239,9 +239,9 @@ class Config extends ConfigBase {
    * Set roles for the specified text format.
    *
    * @param string $format_name
-   *    Text format machine name.
+   *   Text format machine name.
    * @param array $roles
-   *    Roles array keyed by the role ID.
+   *   Roles array keyed by the role ID.
    *
    * @return bool
    *   TRUE / FALSE when filter name is invalid.

@@ -276,10 +276,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I check the box on the :row_text row
    */
@@ -299,10 +299,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and uncheck a checkbox in a table row with a given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I uncheck the box on the :row_text row
    */
@@ -373,12 +373,12 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Retrieve a table row containing specified text from a given element.
    *
    * @param Element $element
-   *    Mink element object.
+   *   Mink element object.
    * @param string $search
-   *    Table row text.
+   *   Table row text.
    *
    * @throws \Exception
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @return NodeElement
    *   Table row node element.
@@ -408,7 +408,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    *   Class of the second div.
    *
    * @throws \Exception
-   *    Throw exception if the two positions from top are different.
+   *   Throw exception if the two positions from top are different.
    *
    * @Then I check if :div1 and :div2 have the same position from top
    */

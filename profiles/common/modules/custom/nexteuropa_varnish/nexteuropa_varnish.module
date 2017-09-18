@@ -627,7 +627,7 @@ function _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths = 
  * Determines if purge rules are set for a specific node.
  *
  * @param object $node
- *    The node object.
+ *   The node object.
  *
  * @return bool
  *   True, if at least a rule is set.

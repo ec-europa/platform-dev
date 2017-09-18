@@ -70,13 +70,13 @@ function nexteuropa_token_tokens($type, $tokens, array $data = array(), array $o
  * Get instance of token handler object.
  *
  * @param string $name
- *    Token handler name.
+ *   Token handler name.
  *
  * @return \Drupal\nexteuropa_token\TokenHandlerInterface
  *   Token handler object instance.
  *
  * @throws \Exception
- *    Throws exception if no handler class has been found.
+ *   Throws exception if no handler class has been found.
  *
  * @see hook_nexteuropa_token_token_handlers()
  */

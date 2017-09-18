@@ -34,7 +34,7 @@ interface TokenHandlerInterface {
    * Return TRUE if token is a valid entity tokens.
    *
    * @param string $original
-   *    Token, in its original format, eg. [node:1:view-mode:full].
+   *   Token, in its original format, eg. [node:1:view-mode:full].
    *
    * @return bool
    *   TRUE if it is a valid token, FALSE otherwise.
@@ -45,7 +45,7 @@ interface TokenHandlerInterface {
    * Get entity ID from a token string.
    *
    * @param string $original
-   *    Token, in its original format, eg. [node:1:view-mode:full].
+   *   Token, in its original format, eg. [node:1:view-mode:full].
    *
    * @return string
    *   Extracted Entity ID.
@@ -56,9 +56,9 @@ interface TokenHandlerInterface {
    * Return entity URL.
    *
    * @param string $entity_type
-   *    Entity type.
+   *   Entity type.
    * @param object $entity
-   *    Entity object.
+   *   Entity object.
    *
    * @return string
    *   Entity URL.

@@ -42,7 +42,7 @@ class PoetryMock {
    * Method for instantiating SOAP Client based on given WSDL.
    *
    * @param string $wsdl_endpoint
-   *    Absolute URL to the SOAP WSDL resource.
+   *   Absolute URL to the SOAP WSDL resource.
    */
   private function instantiateClient($wsdl_endpoint) {
     $this->client = new \SoapClient(
@@ -119,7 +119,7 @@ class PoetryMock {
    * Helper method for saving requests coming to POETRY mock.
    *
    * @param string $message
-   *    XML request.
+   *   XML request.
    */
   public static function saveTranslationRequest($message, $reference) {
     $path = TMGMT_POETRY_MOCK_REQUESTS_PATH . $reference . '.xml';
@@ -141,7 +141,7 @@ class PoetryMock {
    * Method for mimicking requests from Poetry to Drupal.
    *
    * @param string $message
-   *    XML message which should be send.
+   *   XML message which should be send.
    *
    * @return mixed
    *   Response from service.
@@ -168,9 +168,9 @@ class PoetryMock {
    * Helper function which prepares translate response data.
    *
    * @param string $message
-   *    Translation request XML data.
+   *   Translation request XML data.
    * @param string $lg_code
-   *    Language code. If ALL then all languages will be processed one by one.
+   *   Language code. If ALL then all languages will be processed one by one.
    *
    * @return array Array with translation response data.
    *   Array with translation response data.
@@ -211,7 +211,7 @@ class PoetryMock {
    * Helper function which prepares refuse job response data.
    *
    * @param string $message
-   *    Translation request XML data.
+   *   Translation request XML data.
    *
    * @return array Array with translation response data.
    *   Array with translation response data.
@@ -269,11 +269,11 @@ class PoetryMock {
    * Helper function for setting up translation response data array.
    *
    * @param array $attribution
-   *    Part of request which is related to given translation language request.
+   *   Part of request which is related to given translation language request.
    * @param string $content
-   *    Encoded content that was send for the translation.
+   *   Encoded content that was send for the translation.
    * @param array $demande_id
-   *    Array with IDs regarding translation request.
+   *   Array with IDs regarding translation request.
    *
    * @return array
    *   Array with translation response data.
@@ -294,7 +294,7 @@ class PoetryMock {
    * Helper method to fetch languages from translation request.
    *
    * @param string $message
-   *    Translation request XML data.
+   *   Translation request XML data.
    *
    * @return array
    *   Array with languages.
@@ -313,7 +313,7 @@ class PoetryMock {
    * Helper function which prepares data from translation request.
    *
    * @param string $message
-   *    Translation request content.
+   *   Translation request content.
    *
    * @return array
    *   Array with data from translation request.
@@ -350,9 +350,9 @@ class PoetryMock {
    * The code is based on _tmgmt_poetry_replace_job_in_content().
    *
    * @param string $content
-   *    Content that should be translated (encoded HTML markup).
+   *   Content that should be translated (encoded HTML markup).
    * @param string $language
-   *    Translation language.
+   *   Translation language.
    *
    * @return string
    *   Encoded translated content for the translation response.
@@ -382,7 +382,7 @@ class PoetryMock {
    * Helper method for fetching an entity details based on demande_id.
    *
    * @param array $demande_id
-   *    An array with identifiers for POETRY translation request.
+   *   An array with identifiers for POETRY translation request.
    *
    * @return mixed
    *   An array with result.
@@ -460,7 +460,7 @@ class PoetryMock {
    * Helper method for fetching active translation jobs based on give entity id.
    *
    * @param int $entity_id
-   *    Entity id.
+   *   Entity id.
    *
    * @return mixed
    *   An array of results with active translation jobs for given entity id.
@@ -502,11 +502,11 @@ class PoetryMock {
    * Prepare to translate job based on given parameters.
    *
    * @param string $lg_code
-   *    Language code.
+   *   Language code.
    * @param int $file_id
-   *    Translation request file dump ID.
+   *   Translation request file dump ID.
    * @param int $tjiid
-   *    A translation job item ID.
+   *   A translation job item ID.
    */
   public function translateJob($lg_code, $file_id, $tjiid) {
     if ($lg_code and $file_id) {
@@ -536,9 +536,9 @@ class PoetryMock {
    * Prepare to refuse job translation based on given data.
    *
    * @param int $file_id
-   *    Translation request file dump ID.
+   *   Translation request file dump ID.
    * @param int $tjiid
-   *    A translation job item ID.
+   *   A translation job item ID.
    */
   public function refuseJob($file_id, $tjiid) {
     if ($file_id) {

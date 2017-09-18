@@ -20,13 +20,13 @@ class Config extends ConfigBase {
    * Loads a group definition.
    *
    * @param string $group_name
-   *    Field group machine name, it should by prepended by "group_".
+   *   Field group machine name, it should by prepended by "group_".
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle_name
-   *    Bundle machine name.
+   *   Bundle machine name.
    * @param string $mode
-   *    Field group mode.
+   *   Field group mode.
    *
    * @return object
    *   Field group definition object.
@@ -39,7 +39,7 @@ class Config extends ConfigBase {
    * Loads a group definition given its identifier string.
    *
    * @param string $identifier
-   *    Identifier string, like "group_group_name|node|article|form".
+   *   Identifier string, like "group_group_name|node|article|form".
    *
    * @return object
    *   Field group definition object.
@@ -56,13 +56,13 @@ class Config extends ConfigBase {
    * array, which will need to be saved by calling its save() method.
    *
    * @param string $label
-   *    Field group label.
+   *   Field group label.
    * @param string $group_name
-   *    Field group machine name, it should by prepended by "group_".
+   *   Field group machine name, it should by prepended by "group_".
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle
-   *    Bundle machine name.
+   *   Bundle machine name.
    *
    * @return \Drupal\field_group\FieldGroupHandler
    *   Field group handler object instance.
@@ -75,13 +75,13 @@ class Config extends ConfigBase {
    * Delete field group.
    *
    * @param string $group_name
-   *    Field group machine name, it should by prepended by "group_".
+   *   Field group machine name, it should by prepended by "group_".
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle_name
-   *    Bundle machine name.
+   *   Bundle machine name.
    * @param string $mode
-   *    Field group mode.
+   *   Field group mode.
    */
   public function deleteFieldGroup($group_name, $entity_type, $bundle_name, $mode) {
     $group = $this->loadFieldGroup($group_name, $entity_type, $bundle_name, $mode);
@@ -93,7 +93,7 @@ class Config extends ConfigBase {
    * Delete a field group given its identifier.
    *
    * @param string $identifier
-   *    Identifier string, like "group_group_name|node|article|form".
+   *   Identifier string, like "group_group_name|node|article|form".
    */
   public function deleteFieldGroupByIdentifier($identifier) {
     list($group_name, $entity_type, $bundle_name, $mode) = explode('|', $identifier);

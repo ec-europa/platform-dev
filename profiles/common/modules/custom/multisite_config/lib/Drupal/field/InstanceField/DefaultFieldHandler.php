@@ -35,11 +35,11 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Construct instance field handler with required information.
    *
    * @param string $field_name
-   *    Machine name of an existing base field.
+   *   Machine name of an existing base field.
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle
-   *    Bundle machine name.
+   *   Bundle machine name.
    */
   public function __construct($field_name, $entity_type, $bundle) {
 
@@ -56,7 +56,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set field label.
    *
    * @param string $label
-   *    Field label.
+   *   Field label.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
    *   Current object.
@@ -70,7 +70,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set weather the field is required or not.
    *
    * @param bool $required
-   *    TRUE if required, FALSE otherwise.
+   *   TRUE if required, FALSE otherwise.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
    *   Current object.
@@ -84,7 +84,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set field widget type.
    *
    * @param string $widget_type
-   *    Widget type machine name.
+   *   Widget type machine name.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
    *   Current object.
@@ -100,11 +100,11 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set field widget type.
    *
    * @param string $display_name
-   *    Entity display machine name.
+   *   Entity display machine name.
    * @param string $formatter_type
-   *    Formatter type machine name.
+   *   Formatter type machine name.
    * @param string $label
-   *    Label settings, either 'inline', 'above' or 'hidden'.
+   *   Label settings, either 'inline', 'above' or 'hidden'.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
    *   Current object.

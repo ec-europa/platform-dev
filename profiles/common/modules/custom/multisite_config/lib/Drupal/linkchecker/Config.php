@@ -20,7 +20,7 @@ class Config extends ConfigBase {
    * Enable Linkchecker control on a specific content type.
    *
    * @param string $content_type
-   *    Content type machine name.
+   *   Content type machine name.
    */
   public function enableLinkcheckerForContentType($content_type) {
     $settings = variable_get('linkchecker_scan_nodetypes', array());
@@ -32,7 +32,7 @@ class Config extends ConfigBase {
    * Disable Linkchecker control on a specific content type.
    *
    * @param string $content_type
-   *    Content type machine name.
+   *   Content type machine name.
    */
   public function disableLinkcheckerForContentType($content_type) {
     $settings = variable_get('linkchecker_scan_nodetypes', array());

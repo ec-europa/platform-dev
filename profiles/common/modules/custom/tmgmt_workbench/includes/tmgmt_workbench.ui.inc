@@ -139,9 +139,9 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    * Get moderation state.
    *
    * @param object $node
-   *    Node object.
+   *   Node object.
    * @param string $type
-   *    Moderation type.
+   *   Moderation type.
    *
    * @return string|null
    *   Moderation state or null.
@@ -160,9 +160,9 @@ class TMGMTWorkbenchSourceUIController extends TMGMTEntitySourceUIController {
    * Get moderation revision.
    *
    * @param object $node
-   *    Node object.
+   *   Node object.
    * @param string $type
-   *    Moderation type.
+   *   Moderation type.
    *
    * @return object|null
    *   Node revision or null.

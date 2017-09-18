@@ -145,7 +145,7 @@ class LanguageCoverageService {
    * Check if the given path is a node path.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    *
    * @return bool
    *   TRUE if given path is a node path, FALSE otherwise.
@@ -158,9 +158,9 @@ class LanguageCoverageService {
    * Assert node language coverage given its relative path.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    * @param string $language
-   *    Language code.
+   *   Language code.
    *
    * @return bool
    *   TRUE if given node is available in the given language, FALSE otherwise.
@@ -185,7 +185,7 @@ class LanguageCoverageService {
    * Check whereas thew given language is enabled on the current site.
    *
    * @param string $language
-   *    Language code.
+   *   Language code.
    *
    * @return bool
    *   TRUE for a valid language, FALSE otherwise.
@@ -224,7 +224,7 @@ class LanguageCoverageService {
    * Set HTTP response status code.
    *
    * @param string $status
-   *    Set response status.
+   *   Set response status.
    */
   protected function setStatus($status) {
     $this->status = $status;
@@ -255,9 +255,9 @@ class LanguageCoverageService {
    * Set HTTP response header.
    *
    * @param string $name
-   *    Header name.
+   *   Header name.
    * @param string $value
-   *    Header value.
+   *   Header value.
    */
   protected function setHeader($name, $value) {
     drupal_add_http_header($name, $value);
@@ -267,7 +267,7 @@ class LanguageCoverageService {
    * Set debug custom HTTP response header.
    *
    * @param string $value
-   *    Header value.
+   *   Header value.
    */
   protected function setDebugHeader($value) {
     if (variable_get('nexteuropa_laco_debug', FALSE)) {
@@ -294,7 +294,7 @@ class LanguageCoverageService {
    * Remove language negotiation suffix from the end of the URL, if any.
    *
    * @param string $url
-   *    Requested URL.
+   *   Requested URL.
    *
    * @return string
    *   Sanitized URL.
@@ -313,7 +313,7 @@ class LanguageCoverageService {
    * Get source path given its alias. Return input path if no alias is found.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    *
    * @return string
    *   Source path if any, input path if none.
@@ -337,7 +337,7 @@ class LanguageCoverageService {
    * Sanitize path.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    *
    * @return string
    *   Sanitized path.
@@ -352,7 +352,7 @@ class LanguageCoverageService {
    * Convert HTTP header name into $_SERVER array key.
    *
    * @param string $header
-   *    Header name as provided by the HTTP request.
+   *   Header name as provided by the HTTP request.
    *
    * @return string
    *   Header name as a $_SERVER array key.

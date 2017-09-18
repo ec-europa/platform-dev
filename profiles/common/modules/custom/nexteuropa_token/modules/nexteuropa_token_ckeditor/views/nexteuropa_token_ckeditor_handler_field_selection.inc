@@ -50,7 +50,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
    * Return the rendered field.
    *
    * @param object $values
-   *    Render values.
+   *   Render values.
    *
    * @return string
    *   Rendered output.
@@ -103,7 +103,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
    * Get view mode label.
    *
    * @param string $view_mode
-   *    View mode machine name.
+   *   View mode machine name.
    *
    * @return mixed
    *   View mode options array.

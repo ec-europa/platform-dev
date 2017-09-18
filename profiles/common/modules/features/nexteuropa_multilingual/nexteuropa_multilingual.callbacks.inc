@@ -199,7 +199,7 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
  * Get source path given its alias. Return input path if no alias is found.
  *
  * @param string $path
- *    Relative Drupal path.
+ *   Relative Drupal path.
  *
  * @return string
  *   Source path if any, input path if none.

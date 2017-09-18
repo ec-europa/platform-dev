@@ -62,9 +62,9 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Test we get entity view modes correctly.
    *
    * @param string $original
-   *    Token in original format.
+   *   Token in original format.
    * @param int $entity_id
-   *    Entity ID.
+   *   Entity ID.
    *
    * @dataProvider tokenOriginalValues
    */

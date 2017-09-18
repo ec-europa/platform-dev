@@ -73,11 +73,11 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Generate URL hash given the following three arguments.
    *
    * @param string $prefix
-   *    Unique prefix identifier.
+   *   Unique prefix identifier.
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param int $entity_id
-   *    Entity ID in the current site.
+   *   Entity ID in the current site.
    *
    * @return string
    *   Encoded URL hash.
@@ -102,7 +102,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Return encoded prefix portion.
    *
    * @param string $prefix
-   *    Hash prefix.
+   *   Hash prefix.
    *
    * @return string
    *   Encoded hash prefix.
@@ -119,7 +119,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Return encoded entity type portion.
    *
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @return string
    *   Encoded entity type.
@@ -138,7 +138,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Return encoded entity ID portion.
    *
    * @param int $entity_id
-   *    Entity ID.
+   *   Entity ID.
    *
    * @return string
    *   Encoded eintity ID.
@@ -151,9 +151,9 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Encode numeric value following specifications available at:.
    *
    * @param int $numeric
-   *    Numeric value.
+   *   Numeric value.
    * @param string $charset
-   *    Charset on which to encode to.
+   *   Charset on which to encode to.
    *
    * @return string
    *   Encoded numeric value.

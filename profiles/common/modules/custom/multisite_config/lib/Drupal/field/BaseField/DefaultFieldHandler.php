@@ -30,9 +30,9 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Create a base field, given its name and type.
    *
    * @param string $field_name
-   *    Field machine name.
+   *   Field machine name.
    * @param string $type
-   *    Field type, as specified by hook_field_info() implementations.
+   *   Field type, as specified by hook_field_info() implementations.
    */
   public function __construct($field_name, $type) {
     $this->field = array(

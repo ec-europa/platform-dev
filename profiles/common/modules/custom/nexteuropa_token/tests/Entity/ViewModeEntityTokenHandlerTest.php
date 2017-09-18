@@ -36,7 +36,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
    *
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -59,7 +59,7 @@ class ViewModeEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Test we get entity view modes correctly.
    *
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */

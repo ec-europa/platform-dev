@@ -757,11 +757,11 @@ function _nexteuropa_trackedchanges_check_field_revisions($field_name, $text_for
  * Get entities that have tracked changes in values for a specific field.
  *
  * @param string $field_name
- *    The field machine name to scan.
+ *   The field machine name to scan.
  * @param string $entity_type
- *    The type of entities to scan.
+ *   The type of entities to scan.
  * @param string $bundle
- *    The bundle of entities to scan.
+ *   The bundle of entities to scan.
  * @param string $text_format
  *   The text_format on which the scanning process needs to focus.
  *   If set, the process scans only values using this text format.
@@ -896,8 +896,8 @@ function _nexteuropa_trackedchanges_wysiwyg_fields_info() {
  * Batch operation callback scanning field revision tables for tracked changes.
  *
  * @param string $wysiwyg_profile
- *    The machine name of the wysiwyg profile to take into account during the
- *    scanning.
+ *   The machine name of the wysiwyg profile to take into account during the
+ *   scanning.
  *
  * @see nexteuropa_trackedchanges_table_rebuilt()
  * @see nexteuropa_trackedchanges_disable_buttons()
@@ -936,8 +936,8 @@ function _nexteuropa_trackedchanges_revisions_scanning_process($wysiwyg_profile,
  * Batch operation scanning field revision tables for tracked changes.
  *
  * @param string $wysiwyg_profile
- *    The machine name of the wysiwyg profile to take into account during the
- *    scanning.
+ *   The machine name of the wysiwyg profile to take into account during the
+ *   scanning.
  *
  * @see nexteuropa_trackedchanges_table_rebuilt()
  * @see nexteuropa_trackedchanges_disable_buttons()
@@ -997,8 +997,8 @@ function _nexteuropa_trackedchanges_entity_scanning_process($wysiwyg_profile, &$
  * Batch operation saving info on entity in the DB.
  *
  * @param string $wysiwyg_profile
- *    The machine name of the wysiwyg profile to take into account during the
- *    scanning.
+ *   The machine name of the wysiwyg profile to take into account during the
+ *   scanning.
  *
  * @see nexteuropa_trackedchanges_table_rebuilt()
  * @see nexteuropa_trackedchanges_disable_buttons()

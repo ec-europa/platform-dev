@@ -210,11 +210,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Parameter comment indentation must be 3 spaces. -->
-    <rule ref="Drupal.Commenting.FunctionComment.ParamCommentIndentation">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Return type must not contain variable name "$this". -->
     <rule ref="Drupal.Commenting.FunctionComment.ReturnVarName">
         <exclude-pattern>*</exclude-pattern>

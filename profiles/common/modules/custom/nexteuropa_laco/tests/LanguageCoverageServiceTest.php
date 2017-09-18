@@ -47,9 +47,9 @@ class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
    * Perform language coverage request on the given path for the given language.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    * @param string $language
-   *    Language to check coverage for.
+   *   Language to check coverage for.
    *
    * @return \Psr\Http\Message\ResponseInterface
    *   Response object instance.

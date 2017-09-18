@@ -256,7 +256,7 @@ function tmgmt_poetry_mock_service_configuration() {
  * Get the path for translation job item related entity.
  *
  * @param int $tjiid
- *    A translation job item ID.
+ *   A translation job item ID.
  *
  * @return bool $translation
  *   Indicates if the pretended path is for translation page.

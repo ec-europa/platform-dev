@@ -18,7 +18,7 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
    * Returns true if passed argument is a valid token type.
    *
    * @param string $type
-   *    Token type machine name.
+   *   Token type machine name.
    *
    * @return bool
    *   TRUE if valid token type, FALSE otherwise.
@@ -52,7 +52,7 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
    * Get an entity key ID given the entity's token-like name.
    *
    * @param string $type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @return string
    *   Entity ID key.

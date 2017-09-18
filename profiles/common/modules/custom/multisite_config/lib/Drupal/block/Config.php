@@ -20,13 +20,13 @@ class Config extends ConfigBase {
    * Set region for a block.
    *
    * @param string $module
-   *    Module name.
+   *   Module name.
    * @param string $delta
-   *    Block delta.
+   *   Block delta.
    * @param string $region
-   *    Theme region.
+   *   Theme region.
    * @param string $theme_name
-   *    Theme machine name.
+   *   Theme machine name.
    *
    * @return mixed
    *   Query execution state.

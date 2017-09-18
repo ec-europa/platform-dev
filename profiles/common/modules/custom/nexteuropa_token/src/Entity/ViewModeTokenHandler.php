@@ -85,7 +85,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Extract view mode machine name from a token string.
    *
    * @param string $original
-   *    Token, in its original format, eg. [node:1:view-mode:full].
+   *   Token, in its original format, eg. [node:1:view-mode:full].
    *
    * @return string
    *   Extracted view mode machine name.
@@ -124,7 +124,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Get view modes machine names per entity.
    *
    * @param string $token_type
-   *    Entity token type name.
+   *   Entity token type name.
    *
    * @return array
    *   List of view mode machine names for a given entity token type.
@@ -149,7 +149,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Get token name using predefined token prefix.
    *
    * @param string $view_mode
-   *    View mode machine name.
+   *   View mode machine name.
    *
    * @return string
    *   Formatted token name.
@@ -206,7 +206,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    *   Entity view mode type object.
    *
    * @throws \Exception
-   *    Throws exception if no handler class has been found.
+   *   Throws exception if no handler class has been found.
    */
   public function getEntityViewModeType($type, array $configuration = array()) {
     $handlers = $this->getViewModeTypeHandlers();
