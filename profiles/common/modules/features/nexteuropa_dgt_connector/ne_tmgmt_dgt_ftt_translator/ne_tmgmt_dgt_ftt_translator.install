@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Contains install and update functions for the NE TMGMT DGT FTT translator.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ne_tmgmt_dgt_ftt_translator_schema() {
+  $schema = array();
+  $schema['ne_tmgmt_dgt_ftt_map'] = array(
+    'description' => 'Custom entity containing the mappings between Drupal and DGT Service.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique mapping ID.',
+      ),
+      'tjid' => array(
+        'description' => "TMGMT Job ID",
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'entity_id' => array(
+        'description' => 'Entity ID.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_type' => array(
+        'description' => 'Entity type',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'year' => array(
+        'description' => "'Annee' in the official DGT service specification.",
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'number' => array(
+        'description' => "'Numero' in the official DGT service specification.",
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'version' => array(
+        'description' => "'Version' in the official DGT service specification.",
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'part' => array(
+        'description' => "'Partie' in the official DGT service specification.",
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}

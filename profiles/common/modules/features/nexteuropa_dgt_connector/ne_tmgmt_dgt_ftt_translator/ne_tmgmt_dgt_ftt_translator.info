@@ -4,8 +4,8 @@ php = 5.6
 package = Translation Management
 core = 7.x
 
+dependencies[] = registry_autoload
 dependencies[] = tmgmt
 dependencies[] = workbench_moderation
 
-files[] = ne_tmgmt_dgt_ftt_translator.plugin.inc
-files[] = ne_tmgmt_dgt_ftt_translator.ui.inc
+registry_autoload[] = PSR-4
