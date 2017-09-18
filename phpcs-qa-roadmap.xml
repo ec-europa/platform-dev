@@ -78,6 +78,49 @@
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
     </rule>
 
+    <!-- Provide a reason in a comment on the line above as to why it should be open. -->
+    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-824 -->
+    <rule ref="DrupalPractice.FunctionDefinitions.AccessHookMenu.OpenCallback">
+        <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/wiki/wiki_og/wiki_og.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry_mock/tmgmt_poetry_mock.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/survey/survey_core/survey_core.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/survey/survey_og/survey_og.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/links/links_og/links_og.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/e_library/e_library_og/e_library_og.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_subscriptions/nexteuropa_subscriptions.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_community/multisite_mediagallery_community.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_crop_and_resize/multisite_crop_and_resize.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/events/events_og/events_og.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/newsletters/newsletters.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/communities/communities.module</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.module</exclude-pattern>
+    </rule>
+
+    <!-- Unlocked fields that need to be locked. -->
+    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-812 -->
+    <rule ref="QualityAssurance.FeaturesFiles.LockedFields.UnlockedFields">
+        <exclude-pattern>profiles/common/modules/custom/multisite_config/tests/multisite_config_test/multisite_config_test.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_data_export/tests/nexteuropa_data_export_test/nexteuropa_data_export_test.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_data_export/tests/nexteuropa_data_export_test/nexteuropa_data_export_test.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_core/nexteuropa_core.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_activity/multisite_activity_core/multisite_activity_core.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_event/nexteuropa_event.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_webtools/nexteuropa_webtools.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/ec_content_slider/ec_content_slider.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_multilingual/nexteuropa_multilingual.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_notices/nexteuropa_notices.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_metatags/multisite_metatags.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_mediagallery/nexteuropa_mediagallery.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/communities/communities.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_news/nexteuropa_news.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.features.field_base.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_faq/nexteuropa_faq.features.field_base.inc</exclude-pattern>
+    </rule>
+
     <!-- Replace functions with Drupal Wrappers if possible -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-805 -->
     <rule ref="QualityAssurance.Functions.DrupalWrappers.FoundWithAlternative">
