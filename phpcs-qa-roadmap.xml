@@ -273,11 +273,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Return type must not contain variable name. -->
-    <rule ref="Drupal.Commenting.FunctionComment.ReturnVarName">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- The static declaration must come after the visibility declaration. -->
     <rule ref="Drupal.Methods.MethodDeclaration.StaticBeforeVisibility">
         <exclude-pattern>*</exclude-pattern>
