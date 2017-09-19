@@ -243,11 +243,6 @@
         <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
      </rule>
 
-    <!-- Closing brace must be on a line by itself ... -->
-    <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Line">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Namespaced classes, interfaces and traits should not begin with a file doc comment. -->
     <rule ref="Drupal.Commenting.FileComment.NamespaceNoFileDoc">
         <exclude-pattern>*</exclude-pattern>
