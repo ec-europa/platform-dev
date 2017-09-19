@@ -511,25 +511,11 @@ function multisite_drupal_toolbox_filter_format_update($format) {
   }
 
   if (!$toolbox_sanitize_status) {
-    // Set a weight below the minimal existing value.
-    // The weight setting is only the filter is enforce. After, site builders
-    // can set the weight freely.
-    // The goal is to reduce a maximum negative impacts during the enforcing.
-    $weight_list = array_map(
-      function($o) {
-        return $o['weight'];
-      },
-      $filters
-    );
-    $min_weight = min($weight_list);
-    // Do not go below -50; the standard minimum value set for the weight.
-    $min_weight = (($min_weight - 1) < MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT) ? MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT : ($min_weight - 1);
-
     // Save the enforcing. Cannot pass by a normal save because that causes an
     // infinitive loop.
     $fields = array(
       'status' => 1,
-      'weight' => $min_weight,
+      'weight' => MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT,
     );
 
     db_merge('filter')
