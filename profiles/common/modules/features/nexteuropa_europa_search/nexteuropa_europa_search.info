@@ -3,5 +3,3 @@ core = 7.x
 package = NextEuropa
 description = "Integrates with the Europa Search service"
 php = 5.2.4
-
-features[features_api][] = api:2

@@ -18,7 +18,7 @@ function nuts_regions_migrate_api() {
     ),
     'migrations' => array(
       'Nuts' => array(
-        'class_name' => 'NutsRegonsMigration',
+        'class_name' => 'NutsRegionsMigration',
         'group_name' => 'geos',
       ),
     ),
