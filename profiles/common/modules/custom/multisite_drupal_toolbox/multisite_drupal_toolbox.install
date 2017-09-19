@@ -97,6 +97,6 @@ function multisite_drupal_toolbox_update_7202() {
 
     // If $filter_html_escape is enabled no need to use toolbox_sanitize.
     multisite_config_service('filter')->disableTextFilter($format_machine_name, 'toolbox_sanitize');
-    watchdog('mmultisite drupal toolbox', '"Updatedb process: toolbox_sanitize" has been disabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
+    watchdog('multisite drupal toolbox', '"Updatedb process: toolbox_sanitize" has been disabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
   }
 }
