@@ -229,9 +229,6 @@ projects[entityreference][version] = "1.5"
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
-; Fix issues with autocomplete callback and add constant to track control string
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1459
-projects[entityreference][patch][] = patches/entityreference-autocomplete-constant-control.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -291,8 +288,10 @@ projects[field_group][version] = "1.5"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
+projects[file_entity][download][revision] = "f9b172177f340204fbed3ad0ac2fdcfef0d42271"
+projects[file_entity][download][type] = "git"
+projects[file_entity][download][url] = http://git.drupal.org/project/file_entity.git
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.2"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
