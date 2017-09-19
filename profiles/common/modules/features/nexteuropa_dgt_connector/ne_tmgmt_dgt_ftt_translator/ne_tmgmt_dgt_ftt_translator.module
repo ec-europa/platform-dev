@@ -19,6 +19,25 @@ function ne_tmgmt_dgt_ftt_translator_tmgmt_translator_plugin_info() {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function ne_tmgmt_dgt_ftt_translator_menu() {
+  $items = array();
+  $items['dgt_ftt_translator/dgt_service_callback'] = array(
+    'page callback' => '_ne_tmgmt_dgt_ftt_translator_callback',
+    'access callback' => TRUE,
+  );
+
+  $items['dgt_ftt_translator/DGTServicesIntegration.wsdl'] = array(
+    'page callback' => '_ne_tmgmt_dgt_ftt_translator_wsdl',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+
+/**
  * Implements hook_entity_info().
  */
 function ne_tmgmt_dgt_ftt_translator_entity_info() {
@@ -104,4 +123,58 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
   );
 
   return $info;
+}
+
+/**
+ * Callback for requests/responses sent by the DGT Services (Poetry).
+ */
+function _ne_tmgmt_dgt_ftt_translator_callback() {
+  // Generate our own SOAP server.
+  $context = stream_context_create();
+  $uri = url("dgt_ftt_translator/DGTServicesIntegration.wsdl", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
+
+  $server = new SoapServer($uri, array(
+    'stream_context' => $context,
+    'cache_wsdl' => WSDL_CACHE_NONE,
+  ));
+  $server->AddFunction("OEPoetryClientNotification");
+  $server->handle();
+}
+
+function OEPoetryClientNotification($user, $password, $msg) {
+  $filename='dump_'.date('m-d-Y_hia');
+  $path = "public://dgt_req_res/dumps/" . $filename . '.xml';
+  $dirname = dirname($path);
+    if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+      file_save_data($msg, $path);
+    }
+    else {
+      watchdog(
+        'ne_tmgmt_dgt_ftt_translator',
+        'Unable to save the DGT request/response dump.',
+        array(),
+        WATCHDOG_ERROR
+    );
+  }
+}
+
+/**
+ * Callback for exposing WSDL configuration.
+ */
+function _ne_tmgmt_dgt_ftt_translator_wsdl() {
+  $url = url("dgt_ftt_translator/dgt_service_callback", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
+
+  $poetry = new \EC\Poetry\Poetry([
+    'notification.endpoint' => $url,
+  ]);
+
+  drupal_add_http_header('Content-Type', 'application/xml; utf-8');
+  print $poetry->getWsdl();
+  drupal_exit();
 }
