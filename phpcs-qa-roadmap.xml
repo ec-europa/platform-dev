@@ -253,11 +253,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Return type must not contain variable name "$this". -->
-    <rule ref="Drupal.Commenting.FunctionComment.ReturnVarName">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Unused use statement. -->
     <rule ref="Drupal.Classes.UnusedUseStatement.UnusedUse">
         <exclude-pattern>*</exclude-pattern>
@@ -275,11 +270,6 @@
 
     <!-- Expected 1 newline at end of file. -->
     <rule ref="Drupal.Files.EndFileNewline.NoneFound">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Return type must not contain variable name. -->
-    <rule ref="Drupal.Commenting.FunctionComment.ReturnVarName">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
