@@ -441,11 +441,11 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
 
       break;
 
-      case 'ne_group_access':
+    case 'ne_group_access':
       if ('list_boolean' == $field['type']) {
         $output = $field['settings']['allowed_values'];
         foreach ($items as $delta => $item) {
-          if (0 == $item['value']){
+          if (0 == $item['value']) {
             $elements[$delta] = array(
               '#theme' => 'labels__open',
               '#content' => t($output[0]),
