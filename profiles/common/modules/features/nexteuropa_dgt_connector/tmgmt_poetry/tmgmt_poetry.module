@@ -475,7 +475,7 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
  * Fetches active translation jobs based on a given entity id.
  *
  * @param int $entity_id
- *    Entity id.
+ *   Entity id.
  *
  * @return mixed
  *   An array of results with active translation jobs for given entity id.

@@ -12,13 +12,13 @@
  * multisite_config_service('system')->getVariable('site_name').
  *
  * @param string $module
- *    Module name.
+ *   Module name.
  *
  * @return mixed|Drupal\multisite_config\ConfigBase
  *   Configuration API object.
  *
  * @throws \Exception
- *    Throw exception if either module, service class or both are missing.
+ *   Throw exception if either module, service class or both are missing.
  */
 function multisite_config_service($module) {
   $class = "\\Drupal\\{$module}\\Config";

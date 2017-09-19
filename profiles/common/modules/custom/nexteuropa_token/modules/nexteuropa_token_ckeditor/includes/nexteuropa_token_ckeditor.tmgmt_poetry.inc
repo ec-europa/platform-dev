@@ -90,7 +90,7 @@ function nexteuropa_token_ckeditor_tmgmt_poetry_get_fields($entity, $entity_type
  * Replace NextEuropa Tokens by TMGMT Poetry ignore tags.
  *
  * @param string $text
- *    Input text.
+ *   Input text.
  *
  * @return string
  *   Text where tokens have been replaced by ignore tags.
@@ -118,7 +118,7 @@ function nexteuropa_token_ckeditor_replace_tokens_with_tmgmt_poetry_ignore_tags(
  * Replace TMGMT Poetry ignore tags by NextEuropa Tokens.
  *
  * @param string $text
- *    Input text.
+ *   Input text.
  *
  * @return string
  *   Text where ignore tags have been replaced by tokens.

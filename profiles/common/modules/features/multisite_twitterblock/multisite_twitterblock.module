@@ -573,7 +573,7 @@ function multisite_twitterblock_taxonomy_term_delete($term) {
  * Stores serialized twitter settings.
  *
  * @param array $fpfis_twitter_override
- *    Array of overrides.
+ *   Array of overrides.
  * @param string $entity_type
  *   Entity type.
  */

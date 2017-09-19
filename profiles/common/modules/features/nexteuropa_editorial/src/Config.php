@@ -50,10 +50,10 @@ class Config extends ConfigBase {
    * Create an Editorial Team.
    *
    * @param string $title
-   *    Editorial team name.
+   *   Editorial team name.
    * @param string $group_content_access
-   *    Define group content access public regardless of its group definition.
-   *    Either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
+   *   Define group content access public regardless of its group definition.
+   *   Either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
    *
    * @return int
    *   Newly created editorial team node NID.

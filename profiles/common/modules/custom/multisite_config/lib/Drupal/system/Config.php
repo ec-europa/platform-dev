@@ -42,7 +42,7 @@ class Config extends ConfigBase {
    * Set default theme given its machine name.
    *
    * @param string $name
-   *    Theme machine name.
+   *   Theme machine name.
    *
    * @return bool
    *   TRUE if theme is found and enabled, FALSE otherwise.
@@ -64,7 +64,7 @@ class Config extends ConfigBase {
    * Set admin theme given its machine name.
    *
    * @param string $name
-   *    Theme machine name.
+   *   Theme machine name.
    *
    * @return bool
    *   TRUE if theme is found and enabled, FALSE otherwise.
@@ -86,9 +86,9 @@ class Config extends ConfigBase {
    * Set a module's weight.
    *
    * @param string $module
-   *    Module machine name.
+   *   Module machine name.
    * @param int $weight
-   *    Module weight.
+   *   Module weight.
    *
    * @return bool
    *   TRUE if module exists and operation has been performed, FALSE otherwise.
@@ -111,9 +111,9 @@ class Config extends ConfigBase {
    * Get variable.
    *
    * @param string $name
-   *    Variable name.
+   *   Variable name.
    * @param mixed $default
-   *    Variable default value.
+   *   Variable default value.
    *
    * @return mixed
    *   Variable value.
@@ -126,9 +126,9 @@ class Config extends ConfigBase {
    * Set variable.
    *
    * @param string $name
-   *    Variable name.
+   *   Variable name.
    * @param mixed $value
-   *    Variable default value.
+   *   Variable default value.
    */
   public function setVariable($name, $value = NULL) {
     variable_set($name, $value);
@@ -138,7 +138,7 @@ class Config extends ConfigBase {
    * Delete variable.
    *
    * @param string $name
-   *    Variable name.
+   *   Variable name.
    */
   public function deleteVariable($name) {
     variable_del($name);

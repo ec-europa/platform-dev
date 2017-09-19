@@ -65,7 +65,7 @@ abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestC
    * Mink wrapper: visit specified relative path.
    *
    * @param string $path
-   *    Relative URL path.
+   *   Relative URL path.
    */
   public function visit($path) {
     $this->getSession()->visit(BASE_URL . '/' . $path);

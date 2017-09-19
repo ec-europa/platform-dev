@@ -19,9 +19,9 @@ class ConfigBase {
    * Call a method dynamically.
    *
    * @param string $method
-   *    Method name.
+   *   Method name.
    * @param mixed $args
-   *    Array of arguments to be passed to the invoked method.
+   *   Array of arguments to be passed to the invoked method.
    *
    * @return mixed
    *   Method execution result.

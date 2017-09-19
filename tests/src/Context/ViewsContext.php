@@ -49,7 +49,7 @@ class ViewsContext extends RawDrupalContext {
    * Provide a test content view.
    *
    * @param string $machine_name
-   *    View machine name.
+   *   View machine name.
    *
    * @return \view
    *   View object, not yet saved.

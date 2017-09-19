@@ -75,9 +75,9 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * Get moderation state.
    *
    * @param object $node
-   *    Node object.
+   *   Node object.
    * @param string $type
-   *    Moderation type.
+   *   Moderation type.
    *
    * @return string|false
    *   Moderation state or FALSE.
@@ -94,9 +94,9 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * Get moderation revision.
    *
    * @param object $node
-   *    Node object.
+   *   Node object.
    * @param string $type
-   *    Moderation type.
+   *   Moderation type.
    *
    * @return object|false
    *   Current node object or FALSE.

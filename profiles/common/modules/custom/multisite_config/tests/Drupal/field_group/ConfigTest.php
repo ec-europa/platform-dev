@@ -77,9 +77,9 @@ class ConfigTest extends ConfigAbstractTest {
    * Assert that group definitions are equal.
    *
    * @param object $group
-   *    Field group definition object, loaded from the database.
+   *   Field group definition object, loaded from the database.
    * @param object $definition
-   *    Field group definition object, constructed using FieldGroupHandler.
+   *   Field group definition object, constructed using FieldGroupHandler.
    */
   public function assertEqualFieldGroupDefinition($group, $definition) {
 

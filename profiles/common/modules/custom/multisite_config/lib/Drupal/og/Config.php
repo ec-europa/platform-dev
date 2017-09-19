@@ -20,9 +20,9 @@ class Config extends ConfigBase {
    * Add a group field to the specified entity.
    *
    * @param object $entity
-   *    Entity object.
+   *   Entity object.
    * @param string $bundle
-   *    Entity bundle name.
+   *   Entity bundle name.
    */
   public function createOgGroupField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -33,9 +33,9 @@ class Config extends ConfigBase {
    * Add a group access field to the specified entity.
    *
    * @param object $entity
-   *    Entity object.
+   *   Entity object.
    * @param string $bundle
-   *    Entity bundle name.
+   *   Entity bundle name.
    */
   public function createOgAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -46,9 +46,9 @@ class Config extends ConfigBase {
    * Add a group audience field to the specified entity.
    *
    * @param object $entity
-   *    Entity object.
+   *   Entity object.
    * @param string $bundle
-   *    Entity bundle name.
+   *   Entity bundle name.
    */
   public function createOgGroupAudienceField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -74,9 +74,9 @@ class Config extends ConfigBase {
    * Add group_content_access field to the specified entity.
    *
    * @param object $entity
-   *    Entity object.
+   *   Entity object.
    * @param string $bundle
-   *    Entity bundle name.
+   *   Entity bundle name.
    */
   public function createOgContentAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -87,9 +87,9 @@ class Config extends ConfigBase {
    * Add og_roles_permissions field to the specified entity.
    *
    * @param object $entity
-   *    Entity object.
+   *   Entity object.
    * @param string $bundle
-   *    Entity bundle name.
+   *   Entity bundle name.
    */
   public function createOgDefaultContentAccessField($entity = NULL, $bundle = NULL) {
     drupal_static_reset('og_fields_info');
@@ -118,11 +118,11 @@ class Config extends ConfigBase {
    * Get OG role given group type, bundle and role name.
    *
    * @param string $group_type
-   *    Group type.
+   *   Group type.
    * @param string $group_bundle
-   *    Group bundle.
+   *   Group bundle.
    * @param string $role
-   *    Role machine name.
+   *   Role machine name.
    *
    * @return object
    *   Role object, as fetched from the database.
@@ -141,15 +141,15 @@ class Config extends ConfigBase {
    * Grant OG permissions.
    *
    * @param string $role_name
-   *    OG role machine name.
+   *   OG role machine name.
    * @param mixed $permissions
-   *    Array of permissions, each value is a permission string.
+   *   Array of permissions, each value is a permission string.
    * @param object $entity
    *   Entity object.
    * @param string $entity_type
    *   Entity type.
    * @param string $module
-   *    Module machine name the permissions belong to.
+   *   Module machine name the permissions belong to.
    *
    * @return bool
    *   TRUE if permission granting was successful, FALSE otherwise.

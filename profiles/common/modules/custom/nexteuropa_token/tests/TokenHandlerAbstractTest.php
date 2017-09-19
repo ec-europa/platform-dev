@@ -178,7 +178,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Borrowed from DrupalTestCase::randomName().
    *
    * @param int $length
-   *    Length of randomly generated name.
+   *   Length of randomly generated name.
    *
    * @return string
    *   Randomly generated name.
