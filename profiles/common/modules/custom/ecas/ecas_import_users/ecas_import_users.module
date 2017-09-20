@@ -460,9 +460,9 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
           '|',
           array(
             check_plain($uid),
-            check_plain($mail),
-            check_plain($firstname),
-            check_plain($lastname),
+            $mail,
+            $firstname,
+            $lastname,
             check_plain($row['domain']),
             check_plain($row['departmentnumber']),
           )
