@@ -14,9 +14,14 @@
  * @see template_process()
  */
 ?>
-
 <nav class="site-level-language-selector">
-  <?php if ($icon): print $icon; endif; ?>
+  <?php if ($icon): ?>
+    <?php print $icon; ?>
+  <?php endif; ?>
+
   <?php print $languages_list; ?>
-  <?php if ($close_button): print $close_button; endif; ?>
+
+  <?php if ($close_button): ?>
+    <?php print $close_button; ?>
+  <?php endif; ?>
 </nav>
