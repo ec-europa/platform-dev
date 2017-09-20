@@ -136,4 +136,7 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.helper.inc</exclude-pattern>
     </rule>
+
+    <!-- NEPT-1374: Skip checks for nexteuropa_newsroom module. -->
+    <exclude-pattern>profiles/multisite_drupal_*/modules/custom/nexteuropa_newsroom</exclude-pattern>
 </ruleset>
