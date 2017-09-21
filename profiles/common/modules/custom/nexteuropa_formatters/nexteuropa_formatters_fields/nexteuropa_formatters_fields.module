@@ -85,7 +85,7 @@ function nexteuropa_formatters_fields_field_formatter_info() {
         'entityreference',
       ),
     ),
-    'ne_group_access' => array(
+    'ne_labels' => array(
       'label' => t('NE Group Access Labels'),
       'field types' => array(
         'list_boolean',
