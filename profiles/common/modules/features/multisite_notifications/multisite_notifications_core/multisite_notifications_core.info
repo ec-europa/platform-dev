@@ -13,7 +13,6 @@ dependencies[] = translation
 features[content_menu_links][] = management:admin/config/system/mail-edit
 features[content_menu_links][] = management:admin/config/system/subscriptions
 features[content_menu_links][] = management:admin/config/system/subscriptions/subscription-block
-features[ctools][] = context:context:3
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[menu_links][] = management:admin/config/system/mail-edit

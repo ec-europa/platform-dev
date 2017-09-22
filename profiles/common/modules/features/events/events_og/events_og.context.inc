@@ -42,7 +42,7 @@ function events_og_context_default_contexts() {
   // Included for use with string extractors like potx.
   t('A context to add active trail class to links posts outside community');
   t('Menu items');
-  $export['links_posts'] = $context;
+  $export['event_posts'] = $context;
 
   return $export;
 }
