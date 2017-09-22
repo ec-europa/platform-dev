@@ -11,7 +11,7 @@ function ne_dgt_rules_rules_condition_info() {
   $items = array();
 
   $items['content_meets_requirements_for_dgt_ftt_translator'] = array(
-    'group' => t("NE DGT Rules"),
+    'group' => t("Next Europa DGT Rules"),
     'label' => t("Content meets requirements of the DGT FTT workflow"),
     'base' => 'ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow',
     'parameter' => array(
@@ -24,7 +24,7 @@ function ne_dgt_rules_rules_condition_info() {
   );
 
   $items['comparison_of_moderation_states_after_transition'] = array(
-    'group' => t("NE DGT Rules"),
+    'group' => t("Next Europa DGT Rules"),
     'label' => t("Comparison of moderation states after transition"),
     'base' => 'ne_dgt_rules_comparison_of_moderation_states_after_transition',
     'parameter' => array(

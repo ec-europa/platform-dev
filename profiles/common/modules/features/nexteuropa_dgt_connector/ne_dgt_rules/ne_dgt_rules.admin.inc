@@ -22,7 +22,7 @@ function ne_dgt_rules_admin_settings_form($form, $form_state) {
     '#title' => t('Default TMGMT translator'),
     '#type' => 'select',
     '#options' => tmgmt_translator_labels(),
-    '#default_value' => variable_get('ne_dgt_rules_translator', array()),
+    '#default_value' => variable_get('ne_dgt_rules_translator', ''),
     '#required' => TRUE,
     '#description' => t('Select the default TMGMT translator for the fast track translations workflow.'),
   );

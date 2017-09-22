@@ -140,7 +140,7 @@ function _ne_tmgmt_dgt_ftt_translator_callback() {
     'stream_context' => $context,
     'cache_wsdl' => WSDL_CACHE_NONE,
   ));
-  $server->AddFunction("OEPoetryClientNotification");
+  $server->AddFunction("OEPoetryCallback");
   $server->handle();
 }
 
