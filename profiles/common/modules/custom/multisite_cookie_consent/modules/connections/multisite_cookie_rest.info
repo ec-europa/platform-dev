@@ -1,7 +1,0 @@
-name = Multisite Cookie Consent client REST
-description = Provides connections to remote Cookie Services module with REST endpoints.
-core = 7.x
-dependencies[] = clients
-package = Multisite cookie consent
-files[] = multisite_cookie_rest.inc
-files[] = multisite_cookie_rest.testing.inc

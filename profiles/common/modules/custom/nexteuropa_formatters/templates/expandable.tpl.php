@@ -11,9 +11,8 @@
  * - $body: string or a render array which contains a content.
  */
 ?>
-
 <div<?php print $attributes; ?>>
-  <?php print render($link); ?>
+  <?php print render($title); ?>
     <div<?php print $content_attributes; ?>>
       <?php print render($body); ?>
     </div>
