@@ -399,10 +399,7 @@ function cce_basic_config_install() {
 
   // Create WYSIWYG profile for Full HTML text format.
   multisite_config_service('wysiwyg')->createProfile('full_html', 'ckeditor');
-  $profile = multisite_config_service('wysiwyg')->getProfile('full_html');
-  $settings['_profile_preferences']['version'] = '4.4.8.ccd0038';
-  $profile->settings = $settings;
-  multisite_config_service('wysiwyg')->updateProfile($profile);
+
   $plugin_settings = array(
     'default' => array(
       'Bold',
@@ -452,6 +449,14 @@ function cce_basic_config_install() {
   foreach ($plugin_settings as $group => $buttons) {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
+
+  $profile = multisite_config_service('wysiwyg')->getProfile('full_html');
+  $profile->settings += array(
+    '_profile_preferences' => array(
+      'version' => '4.4.8.ccd0038',
+    ),
+  );
+  multisite_config_service('wysiwyg')->updateProfile($profile);
 
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
@@ -2481,9 +2486,11 @@ function cce_basic_config_update_7221() {
   $profile = multisite_config_service('wysiwyg')->getProfile('full_html');
   $settings = unserialize($profile->settings);
   if (empty($settings['_profile_preferences']['version'])) {
-    $settings['_profile_preferences']['version'] = '4.4.8.ccd0038';
+    $profile->settings += array(
+      '_profile_preferences' => array(
+        'version' => '4.4.8.ccd0038',
+      ),
+    );
+    multisite_config_service('wysiwyg')->updateProfile($profile);
   }
-
-  $profile->settings = $settings;
-  multisite_config_service('wysiwyg')->updateProfile($profile);
 }
