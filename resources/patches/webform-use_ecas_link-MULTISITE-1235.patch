@@ -1,6 +1,8 @@
---- webform.module	2013-01-03 16:38:38.027106913 +0100
-+++ webform.module	2013-01-03 16:22:41.322095149 +0100
-@@ -2095,8 +2095,17 @@
+diff --git a/webform.module b/webform.module
+index 48a1516..9c189cc 100644
+--- a/webform.module
++++ b/webform.module
+@@ -2198,8 +2198,16 @@ function theme_webform_view_messages($variables) {
      }
      elseif ($user->uid == 0) {
        // The user is anonymous, so (at least) needs to log in to view the form.
@@ -16,8 +18,6 @@
 +        $login = url('user/login', array('query' => drupal_get_destination()));
 +        $register = url('user/register', array('query' => drupal_get_destination()));
 +      }
-+
        if (variable_get('user_register', 1) == 0) {
          $message = t('You must <a href="!login">login</a> to view this form.', array('!login' => $login));
        }
-
