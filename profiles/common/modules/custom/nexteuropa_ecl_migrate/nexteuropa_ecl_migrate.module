@@ -9,10 +9,17 @@
  * Custom function that moves the proper blocks in the right areas.
  */
 function _nexteuropa_ecl_migrate_blocks() {
-  _nexteuropa_ecl_migrate_remove_blocks_header_top();
+  // Migrate blocks from default install.
+  _nexteuropa_ecl_migrate_remove_blocks_default_blocks();
   _nexteuropa_ecl_migrate_dt_menus();
   _nexteuropa_ecl_migrate_europa_main_menu();
   _nexteuropa_ecl_migrate_europa_utility_region();
+  _nexteuropa_ecl_migrate_move_taxonomy_browser();
+
+  // Migrate blocks from optional features.
+  _nexteuropa_ecl_migrate_move_facet_blocks();
+  _nexteuropa_ecl_migrate_move_community_blocks();
+  _nexteuropa_ecl_migrate_move_ne_registration_blocks();
 }
 
 /**
@@ -214,7 +221,87 @@ function _nexteuropa_ecl_migrate_europa_utility_region() {
 /**
  * Custom function that deletes blocks in the header_top region.
  */
-function _nexteuropa_ecl_migrate_remove_blocks_header_top() {
+function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'menu-service-tools');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'footer');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'search-form');
+  _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
+}
+
+/**
+ * Custom function that moves blocks from the nexteuropa_community feature.
+ */
+function _nexteuropa_ecl_migrate_move_community_blocks() {
+  if (module_exists('nexteuropa_communities')) {
+    multisite_drupal_toolbox_remove_block_context('communities', 'menu-community-menu');
+    multisite_drupal_toolbox_remove_block_context('communities', 'og-contextual-links');
+    multisite_drupal_toolbox_remove_block_context('communities', 'community_members-block_1');
+    multisite_drupal_toolbox_add_block_context('communities', 'menu-community-menu', 'menu', 'menu-community-menu', 'sidebar_first', -10);
+    multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -9);
+    multisite_drupal_toolbox_add_block_context('communities', 'community_members-block_1', 'views', 'community_members-block_1', 'sidebar_first', -5);
+  }
+}
+
+/**
+ * Custom function that moves blocks from the nexteuropa_registration feature.
+ */
+function _nexteuropa_ecl_migrate_move_ne_registration_blocks() {
+  if (module_exists('multisite_registration_core')) {
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'registration-block');
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'registration_management-block');
+    multisite_drupal_toolbox_add_block_context('site_wide', 'registration-block', 'views', 'registration-block', 'sidebar_second', '-7');
+    multisite_drupal_toolbox_add_block_context('site_wide', 'registration_management-block', 'views', 'registration_management-block', 'sidebar_second', '-6');
+  }
+}
+
+/**
+ * Custom function that moves blocks from the taxonomy_browser feature.
+ */
+function _nexteuropa_ecl_migrate_move_taxonomy_browser() {
+  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
+  multisite_drupal_toolbox_remove_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid);
+  multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'taxonomy_browser', 'taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'sidebar_first', '-10');
+}
+
+/**
+ * Custom function that moves blocks from the solr facet blocks.
+ */
+function _nexteuropa_ecl_migrate_move_facet_blocks() {
+  if (module_exists('facetapi')) {
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A');
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu');
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j');
+    multisite_drupal_toolbox_remove_block_context('site_wide', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT');
+    multisite_drupal_toolbox_add_block_context('search', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'sidebar_first', '-17');
+    multisite_drupal_toolbox_add_block_context('search', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'sidebar_first', '-16');
+    multisite_drupal_toolbox_add_block_context('search', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'sidebar_first', '-15');
+    multisite_drupal_toolbox_add_block_context('search', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'sidebar_first', '-14');
+  }
+}
+/**
+ * Custom function to disable ec_resp blocks.
+ *
+ * Those were added on ec_resp in _cce_basic_config_post_install_default_blocks.
+ */
+function _nexteuropa_ecl_migrate_remove_ec_resp_blocks() {
+
+  db_update('block')
+    ->fields([
+      'status' => 0,
+    ])
+    ->condition('theme', 'ec_resp')
+    ->condition('module', 'system')
+    ->condition('delta', 'main')
+    ->execute();
+
+  db_update('block')
+    ->fields([
+      'status' => 0,
+    ])
+    ->condition('theme', 'ec_resp')
+    ->condition('module', 'system')
+    ->condition('delta', 'help')
+    ->execute();
 }

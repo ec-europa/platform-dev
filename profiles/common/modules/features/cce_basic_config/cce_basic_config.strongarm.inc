@@ -710,28 +710,6 @@ example.org';
 
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
-  $strongarm->name = 'search_active_modules';
-  $strongarm->value = array(
-    'apachesolr_search' => 'apachesolr_search',
-    'user' => 'user',
-    'node' => 0,
-  );
-  $export['search_active_modules'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
-  $strongarm->name = 'search_default_module';
-  $strongarm->value = 'apachesolr_search';
-  $export['search_default_module'] = $strongarm;
-
-  $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
-  $strongarm->api_version = 1;
   $strongarm->name = 'security_allowed_tags';
   $strongarm->value = 'a
 abbr
