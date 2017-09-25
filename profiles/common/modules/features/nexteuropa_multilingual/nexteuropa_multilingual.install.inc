@@ -6,8 +6,11 @@
 
 /**
  * Helper function to make all file types translatable.
+ *
+ * @param string $default_language
+ *   Language default preference.
  */
-function _nexteuropa_multilingual_make_files_translatable() {
+function _nexteuropa_multilingual_make_files_translatable($default_language = ENTITY_TRANSLATION_LANGUAGE_DEFAULT) {
 
   // Add files as translatable entities.
   $translatable_entities = variable_get('entity_translation_entity_types', array('node' => 'node'));
@@ -30,7 +33,7 @@ function _nexteuropa_multilingual_make_files_translatable() {
   foreach ($default_file_types as $default_file_type) {
     $file_type_configuration = variable_get('entity_translation_settings_file__' . $default_file_type, array());
     $file_type_configuration['hide_language_selector'] = 0;
-    $file_type_configuration['default_language'] = LANGUAGE_NONE;
+    $file_type_configuration['default_language'] = $default_language;
     variable_set('entity_translation_settings_file__' . $default_file_type, $file_type_configuration);
     if (title_field_replacement_toggle('file', $default_file_type, 'filename')) {
       title_field_replacement_batch_set('file', $default_file_type, 'filename');
