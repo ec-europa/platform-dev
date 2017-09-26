@@ -6,10 +6,11 @@
  */
 
 /**
- * Implements hook_install().
+ * Add the tags vocabulary.
  */
 function multisite_settings_core_install() {
-  variable_set('theme_default', 'ec_resp');
+  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
+  multisite_settings_core_taxonomy_vocabulary_insert($tags_vocab);
 }
 
 /**
