@@ -6,6 +6,7 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
+use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use \EntityFieldQuery;
 use \TMGMTDefaultTranslatorPluginController;
 use \TMGMTTranslator;
@@ -98,7 +99,12 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   public function requestReview(TMGMTJob $job, $entity_id, $entity_type = 'node') {
     if ($this->checkRequestReviewConditions($job, $entity_id, $entity_type)) {
-      $poetry = new \EC\Poetry\Poetry([]);
+      if ($identifier = $this->getRequestIdentifier($job, $entity_id)) {
+        // Instantiate the Poetry Client object.
+        $poetry = new \EC\Poetry\Poetry($identifier);
+      }
+
+
     }
 
     return FALSE;
@@ -146,14 +152,110 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       WATCHDOG_ERROR
     );
 
-    return FLASE;
+    return FALSE;
   }
 
   /**
+   * Provides an identifier array in order to send a request.
    *
+   * @param \TMGMTJob $job
+   *   TMGMT Job object.
+   * @param $node_id
+   *   Node id
+   * @return array|bool
    */
-  protected function generateRequestId() {
+  protected function getRequestIdentifier(TMGMTJob $job, $node_id) {
+    $identifier = array();
+    // Getting the latest mapping entity in order to set the part and number.
+    if ($mapping_entity = $this->getLatestDgtFttTranslatorMappingEntity()) {
+      if ($mapping_entity->part < 99) {
+        $identifier['identifier.part'] = (int) $mapping_entity->part + 1;
+        $identifier['identifier.number'] = (int) $mapping_entity->number;
+      }
+      else {
+        // Returning FALSE in case if we need to request a new number.
+        return FALSE;
+      }
+    }
 
+    // Checking if there are mappings for the given content and setting version.
+    if ($mapping_entity = $this->getDgtFttTranslatorMappingByProperty('entity_id', $node_id)) {
+      $identifier['identifier.version'] = (int) $mapping_entity->version + 1;
+    }
+
+    return $identifier + $this->getRequestIdentifierDefaults($job);
+  }
+
+  /**
+   * Provides the request identifier default values.
+   *
+   * @param \TMGMTJob $job
+   *   TMGMT Job object.
+   *
+   * @return array
+   *   An array with the identifier default values.
+   */
+  private function getRequestIdentifierDefaults(TMGMTJob $job) {
+    // Getting a translator from the job.
+    $translator = $job->getTranslator();
+    // Getting translator settings.
+    $settings = $translator->getSetting('settings');
+
+    return array(
+      'identifier.code' => $settings['dgt_code'],
+      'identifier.year' => date("Y"),
+      'client.wsdl' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
+      'service.wsdl' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
+      'service.username' => $settings['dgt_ftt_username'],
+      'service.password' => $settings['dgt_ftt_password'],
+    );
+  }
+
+  /**
+   * Provides the latest DGT FTT Translator Mapping entity.
+   *
+   * @return DgtFttTranslatorMapping/bool
+   *   Entity or FALSE if there are no entries in the entity table.
+   */
+  private function getLatestDgtFttTranslatorMappingEntity() {
+    // Querying for the latest entry based on the max id.
+    $latest_entity_id = db_query("SELECT MAX(id) FROM {ne_tmgmt_dgt_ftt_map}")->fetchField();
+
+    // Checking if we have any entries in the table.
+    if (is_null($latest_entity_id)) {
+
+      return FALSE;
+    }
+
+    return entity_load_single(self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE, $latest_entity_id);;
+  }
+
+  /**
+   * Provides the latest 'ne_tmgmt_dgt_ftt_map' entity by passing a property
+   * and its value.
+   *
+   * @param string $property_name
+   *   Property name.
+   * @param string $property_value
+   *   Property value.
+   *
+   * @return bool|mixed
+   */
+  protected function getDgtFttTranslatorMappingByProperty($property_name, $property_value) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE)
+      ->propertyCondition($property_name, $property_value);
+    $result = $query->execute();
+
+    if (isset($result[self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE])) {
+      $mapping_ids = array_keys($result[self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE]);
+      $mapping_entity_id = max($mapping_ids);
+      $mapping_entity = entity_load_single(self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE, $mapping_entity_id);
+
+      return $mapping_entity;
+    }
+
+    return FALSE;
   }
 
   /**
@@ -177,33 +279,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     if (isset($results['tmgmt_job_item'])) {
 
       return array_keys($results['tmgmt_job_item']);
-    }
-
-    return FALSE;
-  }
-
-  /**
-   * Provides 'ne_tmgmt_dgt_ftt_map' entities by passing a property and
-   * its value.
-   *
-   * @param string $property_name
-   *   Property name.
-   * @param string $property_value
-   *   Property value.
-   *
-   * @return bool|mixed
-   */
-  protected function getDgtFttTranslatorMappingByProperty($property_name, $property_value) {
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE)
-      ->propertyCondition($property_name, $property_value);
-
-    $result = $query->execute();
-    if (isset($result[self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE])) {
-      $mapping_item_id = array_keys($result[self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE]);
-      $dgt_ftt_mapping = entity_load(self::DGT_FTT_TRANSLATOR_MAPPING_ENTITY_TYPE, $mapping_item_id);
-
-      return array_shift($dgt_ftt_mapping);
     }
 
     return FALSE;

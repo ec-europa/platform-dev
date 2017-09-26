@@ -131,10 +131,10 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
 function _ne_tmgmt_dgt_ftt_translator_callback() {
   // Generate our own SOAP server.
   $context = stream_context_create();
-  $uri = url("dgt_ftt_translator/DGTServicesIntegration.wsdl", array(
-    'absolute' => TRUE,
-    'language' => (object) array('language' => FALSE),
-  ));
+  // Get the Client WSDL URI
+  $uri = _ne_tmgmt_dgt_ftt_translator_get_client_wsdl();
+
+  // This part in future suppose to be handled by the library.
 
   $server = new SoapServer($uri, array(
     'stream_context' => $context,
@@ -177,4 +177,19 @@ function _ne_tmgmt_dgt_ftt_translator_wsdl() {
   drupal_add_http_header('Content-Type', 'application/xml; utf-8');
   print $poetry->getWsdl();
   drupal_exit();
+}
+
+/**
+ * Provides the Client WSDL URI path.
+ *
+ * @return string
+ *   Client WSDL URI path.
+ */
+function _ne_tmgmt_dgt_ftt_translator_get_client_wsdl() {
+  $uri = url("dgt_ftt_translator/DGTServicesIntegration.wsdl", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
+
+  return $uri;
 }
