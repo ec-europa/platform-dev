@@ -103,8 +103,10 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         // Instantiate the Poetry Client object.
         $poetry = new \EC\Poetry\Poetry($identifier);
       }
+      // Request new 'number'.
+      else {
 
-
+      }
     }
 
     return FALSE;
@@ -169,18 +171,22 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Getting the latest mapping entity in order to set the part and number.
     if ($mapping_entity = $this->getLatestDgtFttTranslatorMappingEntity()) {
       if ($mapping_entity->part < 99) {
-        $identifier['identifier.part'] = (int) $mapping_entity->part + 1;
-        $identifier['identifier.number'] = (int) $mapping_entity->number;
+        $identifier['identifier.part'] = $mapping_entity->part + 1;
+        $identifier['identifier.number'] = $mapping_entity->number;
       }
       else {
-        // Returning FALSE in case if we need to request a new number.
+        // The 'part' value reached 99 and we need to request new 'number'.
         return FALSE;
       }
+    }
+    else {
+      // There are no entries so we need to request new 'number'.
+      return FALSE;
     }
 
     // Checking if there are mappings for the given content and setting version.
     if ($mapping_entity = $this->getDgtFttTranslatorMappingByProperty('entity_id', $node_id)) {
-      $identifier['identifier.version'] = (int) $mapping_entity->version + 1;
+      $identifier['identifier.version'] = $mapping_entity->version + 1;
     }
 
     return $identifier + $this->getRequestIdentifierDefaults($job);
