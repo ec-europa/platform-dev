@@ -526,7 +526,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
       }
       break;
 
-    case 'ne_group_access':
+    case 'ne_labels':
       if ('list_boolean' == $field['type']) {
         $theme_names = array('labels__open', 'labels__closed');
         foreach ($items as $delta => $item) {
