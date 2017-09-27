@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4a369993d0ec433df20873b9a0e095a",
+    "content-hash": "a04629e52b993beb17ef431d3955dcc6",
     "packages": [
         {
             "name": "ec-europa/oe-poetry-client",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/oe-poetry-client.git",
-                "reference": "4260a9876522b13c0cfe7e13d9b0cebb3d1a640f"
+                "reference": "cb1a689621100ce1466e87749ca533ca3453c9e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/oe-poetry-client/zipball/4260a9876522b13c0cfe7e13d9b0cebb3d1a640f",
-                "reference": "4260a9876522b13c0cfe7e13d9b0cebb3d1a640f",
+                "url": "https://api.github.com/repos/ec-europa/oe-poetry-client/zipball/cb1a689621100ce1466e87749ca533ca3453c9e5",
+                "reference": "cb1a689621100ce1466e87749ca533ca3453c9e5",
                 "shasum": ""
             },
             "require": {
@@ -53,7 +53,7 @@
                 "EUPL-1.1"
             ],
             "description": "Client library for the European Commission Poetry Service",
-            "time": "2017-09-20 14:01:42"
+            "time": "2017-09-27T13:17:54+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4680,12 +4680,12 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "stability-flags": {
         "ec-europa/oe-poetry-client": 20,
         "behat/behat": 5
     },
-    "prefer-stable": true,
+    "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
