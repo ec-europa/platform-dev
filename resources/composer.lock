@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7441638dcd446430b6c37dc5d26359a8",
+    "content-hash": "c5ce107550198e46ba01cb618f198ed4",
     "packages": [
         {
             "name": "ec-europa/oe-poetry-client",
@@ -12,46 +12,48 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/oe-poetry-client.git",
-                "reference": "a8c83b213762fe4bce46e67e2a1759bd9eac3229"
+                "reference": "cb1a689621100ce1466e87749ca533ca3453c9e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/oe-poetry-client/zipball/a8c83b213762fe4bce46e67e2a1759bd9eac3229",
-                "reference": "a8c83b213762fe4bce46e67e2a1759bd9eac3229",
+                "url": "https://api.github.com/repos/ec-europa/oe-poetry-client/zipball/cb1a689621100ce1466e87749ca533ca3453c9e5",
+                "reference": "cb1a689621100ce1466e87749ca533ca3453c9e5",
                 "shasum": ""
             },
             "require": {
                 "ext-soap": "*",
                 "league/plates": "^3.3",
                 "pimple/pimple": "^3.1",
-                "symfony/dom-crawler": "^3.3",
-                "symfony/expression-language": "^3.3",
-                "symfony/validator": "^3.3"
+                "psr/container": "^1.0",
+                "psr/log": "^1.0",
+                "symfony/dom-crawler": "^2.8 || ^3.0",
+                "symfony/event-dispatcher": "^3.3",
+                "symfony/expression-language": "^2.8 || ^3.0",
+                "symfony/validator": "^2.8 || ^3.0"
             },
             "require-dev": {
-                "escapestudios/symfony2-coding-standard": "^2.11",
+                "ec-europa/oe-code-review": "^0.0.2",
+                "internations/http-mock": "^0.10.0",
                 "mockery/mockery": "^0.9.9",
                 "peridot-php/leo": "^1.6",
-                "phpmd/phpmd": "^2.6",
-                "phpro/grumphp": "^0.11.6",
+                "phpspec/phpspec": "^4.0",
                 "phpunit/phpunit": "^5"
+            },
+            "suggest": {
+                "monolog/monolog": "Log Poetry requests and responses via Monolog"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "EC\\Poetry\\": "./src",
-                    "EC\\Poetry\\Tests\\": "./tests/src"
+                    "EC\\Poetry\\": "./src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "EUPL-1.1"
             ],
             "description": "Client library for the European Commission Poetry Service",
-            "support": {
-                "source": "https://github.com/ec-europa/oe-poetry-client/tree/master",
-                "issues": "https://github.com/ec-europa/oe-poetry-client/issues"
-            },
-            "time": "2017-07-28 13:57:57"
+            "time": "2017-09-27T13:17:54+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -706,6 +708,69 @@
             "description": "Symfony DomCrawler Component",
             "homepage": "https://symfony.com",
             "time": "2017-05-25T23:10:31+00:00"
+        },
+        {
+            "name": "symfony/event-dispatcher",
+            "version": "v3.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/event-dispatcher.git",
+                "reference": "67535f1e3fd662bdc68d7ba317c93eecd973617e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/67535f1e3fd662bdc68d7ba317c93eecd973617e",
+                "reference": "67535f1e3fd662bdc68d7ba317c93eecd973617e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.3"
+            },
+            "require-dev": {
+                "psr/log": "~1.0",
+                "symfony/config": "~2.8|~3.0",
+                "symfony/dependency-injection": "~3.3",
+                "symfony/expression-language": "~2.8|~3.0",
+                "symfony/stopwatch": "~2.8|~3.0"
+            },
+            "suggest": {
+                "symfony/dependency-injection": "",
+                "symfony/http-kernel": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\EventDispatcher\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony EventDispatcher Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-06-09T14:53:08+00:00"
         },
         {
             "name": "symfony/expression-language",
@@ -3985,69 +4050,6 @@
             "description": "Symfony DependencyInjection Component",
             "homepage": "https://symfony.com",
             "time": "2017-07-28T15:27:31+00:00"
-        },
-        {
-            "name": "symfony/event-dispatcher",
-            "version": "v3.3.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "67535f1e3fd662bdc68d7ba317c93eecd973617e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/67535f1e3fd662bdc68d7ba317c93eecd973617e",
-                "reference": "67535f1e3fd662bdc68d7ba317c93eecd973617e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.5.9"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.3"
-            },
-            "require-dev": {
-                "psr/log": "~1.0",
-                "symfony/config": "~2.8|~3.0",
-                "symfony/dependency-injection": "~3.3",
-                "symfony/expression-language": "~2.8|~3.0",
-                "symfony/stopwatch": "~2.8|~3.0"
-            },
-            "suggest": {
-                "symfony/dependency-injection": "",
-                "symfony/http-kernel": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\EventDispatcher\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony EventDispatcher Component",
-            "homepage": "https://symfony.com",
-            "time": "2017-06-09T14:53:08+00:00"
         },
         {
             "name": "symfony/filesystem",

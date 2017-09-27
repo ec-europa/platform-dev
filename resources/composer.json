@@ -1,7 +1,7 @@
 {
   "require": {
     "guzzlehttp/guzzle": "^6.2.1",
-    "ec-europa/oe-poetry-client": "dev-master"
+    "ec-europa/oe-poetry-client": "*@dev"
   },
   "require-dev": {
     "behat/behat": "~3.1.0@rc",
@@ -13,12 +13,6 @@
     "bex/behat-screenshot-image-driver-img42": "^1.0",
     "phpunit/phpunit": "^5.0"
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/ec-europa/oe-poetry-client.git"
-    }
-  ],
   "autoload": {
     "psr-4": {
       "Drupal\\nexteuropa\\": "tests/src"

@@ -69,13 +69,11 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
   public function requestTranslation(TMGMTJob $job) {
 
     // Request translation from Poetry.
+    /** @var EC\Poetry\Messages\Responses\Status $response */
     $response = $this->sendRequest($job);
 
-    // Handling response.
-    $response_xml = simplexml_load_string($response);
-
     // If it is not an xml response, the SOAP request failed.
-    if (!$response_xml) {
+    if (!$response) {
       _tmgmt_poetry_tmgmt_job_reject(
         $job,
         "Rejected",
@@ -84,14 +82,13 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       );
     }
     else {
-      $request = $response_xml->request;
 
-      $statuses = $request->status;
+      $statuses = $response->getStatuses();
 
       // Check the statuses of the response
       // in order to verify that everything is correct.
       foreach ($statuses as $status) {
-        $message = (string) $status->statusMessage;
+        $message = $status->getMessage();
         if ($message != 'OK') {
           _tmgmt_poetry_tmgmt_job_reject(
             $job,
@@ -102,52 +99,51 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         }
       }
 
-      if (isset($request->demandeId)) {
-        // Insert or update the mapping information.
-        $demande_id = (array) $request->demandeId;
-        $items = $job->getItems();
-        $item = array_shift($items);
+      // Insert or update the mapping information.
+      $demande_id = $response->getIdentifier();
 
-        $result = db_select('poetry_map', 'pm')
-          ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+      $items = $job->getItems();
+      $item = array_shift($items);
+
+      $result = db_select('poetry_map', 'pm')
+        ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+        ->condition('entity_type', $item->item_type, '=')
+        ->condition('entity_id', $item->item_id, '=')
+        ->execute()
+        ->fetchAssoc();
+      if (!$result) {
+        db_insert('poetry_map')
+          ->fields(array(
+            'entity_type' => $item->item_type,
+            'entity_id' => $item->item_id,
+            'annee' => $demande_id->getYear(),
+            'numero' => $demande_id->getNumber(),
+            'version' => $demande_id->getVersion(),
+            'partie' => $demande_id->getPart(),
+          ))
+          ->execute();
+      }
+      else {
+        // @FIXME Do not overwrite data. Might not be for the same revision.
+        db_update('poetry_map')
+          ->fields(array(
+            'annee' => $demande_id->getYear(),
+            'numero' => $demande_id->getNumber(),
+            'version' => $demande_id->getVersion(),
+            'partie' => $demande_id->getPart(),
+          ))
           ->condition('entity_type', $item->item_type, '=')
           ->condition('entity_id', $item->item_id, '=')
-          ->execute()
-          ->fetchAssoc();
-        if (!$result) {
-          db_insert('poetry_map')
-            ->fields(array(
-              'entity_type' => $item->item_type,
-              'entity_id' => $item->item_id,
-              'annee' => $demande_id['annee'],
-              'numero' => $demande_id['numero'],
-              'version' => $demande_id['version'],
-              'partie' => $demande_id['partie'],
-            ))
-            ->execute();
-        }
-        else {
-          // @FIXME Do not overwrite data. Might not be for the same revision.
-          db_update('poetry_map')
-            ->fields(array(
-              'annee' => $demande_id['annee'],
-              'numero' => $demande_id['numero'],
-              'version' => $demande_id['version'],
-              'partie' => $demande_id['partie'],
-            ))
-            ->condition('entity_type', $item->item_type, '=')
-            ->condition('entity_id', $item->item_id, '=')
-            ->execute();
-        }
+          ->execute();
       }
+    }
 
-      if (!$job->isRejected()) {
-        if (strpos($job->reference, '_POETRY_') === FALSE) {
-          $job->reference .= '_POETRY_' . implode('/', $demande_id);
-        }
-        $job->submitted('Job has been successfully submitted for translation. Project ID is: %project_id',
-          array('%project_id' => $job->reference));
+    if (!$job->isRejected()) {
+      if (strpos($job->reference, '_POETRY_') === FALSE) {
+        $job->reference .= '_POETRY_' . $demande_id->getFormattedIdentifier();
       }
+      $job->submitted('Job has been successfully submitted for translation. Project ID is: %project_id',
+        array('%project_id' => $job->reference));
     }
   }
 
@@ -185,17 +181,18 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       $poetry = new Poetry([
         'identifier.code' => $id_data['codeDemandeur'],
         'identifier.year' => $id_data['annee'],
-        'identifier.number' => $id_data['sequence'],
+        'identifier.sequence' => $id_data['sequence'],
         'identifier.version' => $id_data['version'],
         'identifier.part' => $id_data['partie'],
-        'identifier.product' => $id_data['produit'],
-        'authentication.username' => $settings['poetry_user'],
-        'authentication.password' => $settings['poetry_password'],
-        'server.uri' => $callback_address,
+        'service.wsdl' => _tmgmt_poetry_mock_get_poetry_service_wsdl(),
+        'service.username' => $settings['poetry_user'],
+        'service.password' => $settings['poetry_password'],
+        'client.wsdl' => $callback_address,
+        'notification.endpoint' => 'http://my-site.com/my/poetry/notifications',
       ]);
 
       // Start building the request message.
-      $message = $poetry->get('message.request');
+      $message = $poetry->get('request.create_request');
 
       $details = (new Components\Details())
         ->setClientId('Job ID ' . $job->tjid)
@@ -241,7 +238,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setFile($content);
       $message->setReferenceDocuments([$document_source]);
 
-      // To test do
+      // @todo remove testing code here.
       // $renderer = $poetry->get('renderer');
       // dpm($renderer->render($message));
       // .
