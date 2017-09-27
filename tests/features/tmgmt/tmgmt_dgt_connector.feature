@@ -48,7 +48,15 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    # Then I should not see the error message "There was an error with the SOAP service."
+    Then I should see the success message containing "Job has been successfully submitted for translation."
+    # End process
+    When I visit the "page" content with title "My page 2"
+    And I click "Translate" in the "primary_tabs" region
+    Then I click "In progress" in the "French" row
+    And I press "Save"
+    And I click "Needs review" in the "French" row
+    And I press "Save as completed"
+    Then I should see "None" in the "French" row
   
   Scenario: I can translate menus with Carts.
     When I go to "admin/structure/menu/manage/user-menu/translate"
