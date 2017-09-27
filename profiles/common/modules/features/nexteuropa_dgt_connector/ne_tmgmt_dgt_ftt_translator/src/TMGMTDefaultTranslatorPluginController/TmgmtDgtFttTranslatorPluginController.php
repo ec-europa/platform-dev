@@ -7,6 +7,7 @@
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
 use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
+use \EC\Poetry;
 use \EntityFieldQuery;
 use \TMGMTDefaultTranslatorPluginController;
 use \TMGMTTranslator;
@@ -99,17 +100,80 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   public function requestReview(TMGMTJob $job, $entity_id, $entity_type = 'node') {
     if ($this->checkRequestReviewConditions($job, $entity_id, $entity_type)) {
-      if ($identifier = $this->getRequestIdentifier($job, $entity_id)) {
-        // Instantiate the Poetry Client object.
-        $poetry = new \EC\Poetry\Poetry($identifier);
+      $identifier = $this->getRequestIdentifier($job, $entity_id);
+      // If the 'number' key is set we are going to send the review request.
+      if (isset($identifier['identifier.number'])) {
+        // Sending the 'review' request.
+        $dgt_response = $this->sendReviewRequest($identifier);
       }
-      // Request new 'number'.
-      else {
 
+      // If the 'sequence' key is set there are no entries in the mapping table
+      // or the 'part' counter value reached 99.
+      if (isset($identifier['identifier.sequence'])) {
+        $dgt_response = $this->sendNewNumberRequest($identifier);
+        // Checking the status and creating the new mapping entity.
+        if($dgt_response->getStatuses[0]['code'] === 0) {
+
+        }
       }
+
     }
 
     return FALSE;
+  }
+
+  /**
+   * Sends the 'review' request to the DGT Service.
+   *
+   * @param $identifier
+   */
+  private function sendReviewRequest($identifier) {
+    // Instantiate the Poetry Client object.
+    $poetry = new Poetry\Poetry($identifier);
+
+    $data = [
+      'details' => [
+
+      ],
+      'return_address' => [
+
+      ],
+      'source' => [
+
+      ],
+      'contact' => [
+
+      ],
+      'target' => [
+
+      ],
+    ];
+
+    $message = $poetry->get('request.send_review_request');
+    $message->withArray($data);
+
+    $response = $poetry->getClient()->send($message);
+
+  }
+
+  /**
+   * Sends the 'new number' request to the DGT Service.
+   *
+   * @param $identifier
+   */
+  private function sendNewNumberRequest($identifier) {
+    $poetry = new Poetry\Poetry($identifier);
+    $message = $poetry->get('request.request_new_number');
+
+    $response = $poetry->getClient()->send($message);
+  }
+
+  /**
+   * Creates the DGT FTT Translator Mapping entity.
+   *
+   */
+  private function createDgtFttTranslatorMappingEntity(Poetry\Messages\Responses\Status $response) {
+
   }
 
   /**
@@ -167,29 +231,31 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array|bool
    */
   protected function getRequestIdentifier(TMGMTJob $job, $node_id) {
-    $identifier = array();
+    // Getting the default values based on the configuration.
+    $identifier = $this->getRequestIdentifierDefaults($job);
+    // Setting up helper default values.
+    $identifier['identifier.part'] = 0;
+    $identifier['identifier.version'] = 0;
+    $unset_key = 'identifier.number';
+
     // Getting the latest mapping entity in order to set the part and number.
     if ($mapping_entity = $this->getLatestDgtFttTranslatorMappingEntity()) {
+      // Checking if the 'part' counter value reached 99.
       if ($mapping_entity->part < 99) {
-        $identifier['identifier.part'] = $mapping_entity->part + 1;
         $identifier['identifier.number'] = $mapping_entity->number;
-      }
-      else {
-        // The 'part' value reached 99 and we need to request new 'number'.
-        return FALSE;
+        $identifier['identifier.part'] = $mapping_entity->part + 1;
+        $unset_key = 'identifier.sequence';
       }
     }
-    else {
-      // There are no entries so we need to request new 'number'.
-      return FALSE;
-    }
+
+    unset($identifier[$unset_key]);
 
     // Checking if there are mappings for the given content and setting version.
     if ($mapping_entity = $this->getDgtFttTranslatorMappingByProperty('entity_id', $node_id)) {
       $identifier['identifier.version'] = $mapping_entity->version + 1;
     }
 
-    return $identifier + $this->getRequestIdentifierDefaults($job);
+    return $identifier;
   }
 
   /**
@@ -210,6 +276,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     return array(
       'identifier.code' => $settings['dgt_code'],
       'identifier.year' => date("Y"),
+      'identifier.sequence' => $settings['dgt_counter'],
       'client.wsdl' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
       'service.wsdl' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
       'service.username' => $settings['dgt_ftt_username'],
