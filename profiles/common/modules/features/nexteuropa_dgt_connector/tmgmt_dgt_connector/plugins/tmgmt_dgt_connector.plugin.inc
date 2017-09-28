@@ -177,6 +177,9 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $export = $controller->export($job);
     $content = base64_encode($export);
 
+    // Set delai.
+    $delai = date('d/m/Y', strtotime($job->settings['delai']));
+
     try {
       $poetry = new Poetry([
         'identifier.code' => $id_data['codeDemandeur'],
@@ -201,7 +204,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setRequester($organization['demandeur'])
         ->setAuthor($organization['auteur'])
         ->setApplicationId('FPFIS')
-        ->setDelay(date('d/m/Y', strtotime($job->settings['delai'])))
+        ->setDelay($delai)
         ->setRemark('')
         ->setReferenceFilesRemark($base_url)
         ->setProcedure('NEANT')
@@ -233,6 +236,17 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setName('content.html')
         ->setLanguage('EN')
         ->setFile($content);
+
+      foreach ($job->settings['languages'] as $lang_val) {
+        if ($lang_val) {
+          $lang = drupal_strtoupper($translator->mapToRemoteLanguage($lang_val));
+          $message->withTarget()
+            ->setLanguage($lang)
+            ->setFormat('HTML')
+            ->setAction('INSERT')
+            ->setDelay($delai);
+        }
+      }
 
       // @todo remove testing code here.
       // $renderer = $poetry->get('renderer');
