@@ -144,7 +144,7 @@ function _ne_tmgmt_dgt_ftt_translator_callback() {
   $server->handle();
 }
 
-function OEPoetryClientNotification($user, $password, $msg) {
+function OEPoetryCallback($user, $password, $msg) {
   $filename='dump_'.date('m-d-Y_hia');
   $path = "public://dgt_req_res/dumps/" . $filename . '.xml';
   $dirname = dirname($path);

@@ -160,4 +160,5 @@ class TmgmtDgtFttTranslatorUiController extends TMGMTDefaultTranslatorUIControll
     return parent::pluginSettingsForm($form, $form_state, $translator);
   }
 
+  // @todo: check if the validation for this form is needed.
 }
