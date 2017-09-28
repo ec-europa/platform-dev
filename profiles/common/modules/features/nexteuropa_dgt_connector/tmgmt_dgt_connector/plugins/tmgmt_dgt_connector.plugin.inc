@@ -192,9 +192,10 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       ]);
 
       // Start building the request message.
+      /** @var EC\Poetry\Messages\Requests\CreateRequest $message */
       $message = $poetry->get('request.create_request');
 
-      $details = (new Components\Details())
+      $message->withDetails()
         ->setClientId('Job ID ' . $job->tjid)
         ->setTitle($details_title)
         ->setRequester($organization['demandeur'])
@@ -206,21 +207,18 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setProcedure('NEANT')
         ->setDestination('PUBLIC')
         ->setType('INTER');
-      $message->setDetails($details);
 
-      $contacts = [];
-      $contacts['secretaire'] = (new Components\Contact())
+      $message->withContact()
         ->setType('Secretaire')
         ->setNickname('ecusername');
-      $contacts['contact'] = (new Components\Contact())
+      $message->withContact()
         ->setType('Contact')
         ->setNickname('ecusername');
-      $contacts['responsable'] = (new Components\Contact())
+      $message->withContact()
         ->setType('Responsible')
         ->setNickname('ecusername');
-      $message->setContacts($contacts);
 
-      $retour = (new Components\ReturnAddress())
+      $message->withReturnAddress()
         ->setType('webService')
         ->setAction('UPDATE')
         ->setUser('MockCallback')
@@ -228,15 +226,13 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setAddress($callback_address)
         // Missing ->setPath('FPFISPoetryIntegrationRequest') .
         ->setRemark('');
-      $message->setReturnAddress($retour);
 
-      $document_source = (new Components\ReferenceDocument())
+      $message->withReferenceDocument()
         ->setType('REF')
         ->setFormat('HTML')
         ->setName('content.html')
         ->setLanguage('EN')
         ->setFile($content);
-      $message->setReferenceDocuments([$document_source]);
 
       // @todo remove testing code here.
       // $renderer = $poetry->get('renderer');
