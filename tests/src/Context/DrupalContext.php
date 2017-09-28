@@ -192,7 +192,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *
    * @param string $text_format
    *    The filter format name or its machine name.
-   * @param TableNode $table
+   * @param Behat\Gherkin\Node\TableNode $table
    *    List of available content property.
    *
    * @return array

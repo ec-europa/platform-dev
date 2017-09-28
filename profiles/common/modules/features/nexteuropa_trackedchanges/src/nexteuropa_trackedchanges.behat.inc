@@ -23,7 +23,7 @@ class NextEuropaTrackedChangesSubContext extends RawDrupalContext implements Dru
   /**
    * Constructs a NextEuropaTrackedChangesSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {

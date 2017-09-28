@@ -578,11 +578,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Data types in @param tags need to be fully namespaced. -->
-    <rule ref="Drupal.Commenting.DataTypeNamespace.DataTypeNamespace">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Namespaced classes/interfaces/traits should be referenced with use statements. -->
     <rule ref="Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing">
         <exclude-pattern>*</exclude-pattern>
