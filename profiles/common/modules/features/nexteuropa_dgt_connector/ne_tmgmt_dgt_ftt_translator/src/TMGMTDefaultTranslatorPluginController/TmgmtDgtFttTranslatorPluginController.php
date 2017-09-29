@@ -23,6 +23,19 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   use DataProcessor;
 
   /**
+   * Override parent defaultSettings method.
+   *
+   * Copy paste form the old implementation.
+   */
+  public function defaultSettings() {
+    return array(
+      'export_format' => 'html_poetry',
+      'allow_override' => TRUE,
+      'scheme' => 'public',
+    );
+  }
+
+  /**
    * Implements TMGMTTranslatorPluginControllerInterface::isAvailable().
    */
   public function isAvailable(TMGMTTranslator $translator) {
@@ -121,7 +134,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       if (isset($identifier['identifier.sequence'])) {
         $dgt_response = $this->sendNewNumberRequest($identifier);
         // Checking the DGT services response status.
-        if($dgt_response->getStatuses[0]['code'] === 0) {
+        $statuses = $dgt_response->getStatuses();
+        if($statuses[0]['code'] === 0) {
           // Creating a new mapping entity and performing the review request.
           $this->createDgtFttTranslatorMappingEntity($dgt_response, $identifier);
           $this->requestReview($job, $node);

@@ -10,30 +10,6 @@
 function ne_dgt_rules_rules_action_info() {
   $items = array();
 
-  $items['ne_dgt_rules_send_the_review_request'] = array(
-    'label' => t('Send the review request'),
-    'group' => t('Next Europa DGT Rules'),
-    'parameter' => array(
-      'node' => array(
-        'type' => 'node',
-        'label' => t('Content'),
-        'description' => t('The content that requires review done by the DGT reviewer.'),
-      ),
-      'tmgmt_job' => array(
-        'type' => 'tmgmt_job',
-        'label' => t('Translation Job'),
-        'description' => t('The translation job for which the review request should be sent.'),
-      ),
-    ),
-    'provides' => array(
-      'dgt_service_response' => array(
-        'type' => 'dgt_service_response',
-        'label' => t('DGT Service response'),
-        'description' => t('Response from the DGT Translation Service.'),
-      ),
-    ),
-  );
-
   $items['ne_dgt_rules_ftt_node_send_review_request'] = array(
     'label' => t('FTT | Node | Send the review request'),
     'group' => t('Next Europa DGT Rules'),
@@ -62,29 +38,6 @@ function ne_dgt_rules_rules_action_info() {
 }
 
 /**
- * Obsolete !!!
- * Action: Send the content review request to the DGT Translation Service.
- *
- * @param object $node
- *   Node object.
- * @param object $tmgmt_job
- *   TMGMT Job object.
- *
- * @return array An array with the DGT Translation Service response.
- * An array with the DGT Translation Service response.
- */
-function ne_dgt_rules_send_the_review_request($node, TMGMTJob $tmgmt_job) {
-  $translator = $tmgmt_job->getTranslator();
-  $controller = $translator->getController();
-
-  $dgt_service_response = $controller->requestReview($tmgmt_job, $node);
-
-  return array(
-    'dgt_service_response' => $dgt_service_response,
-  );
-}
-
-/**
  * Action: Send the review request for a given node.
  *
  * @param object $node
@@ -93,22 +46,24 @@ function ne_dgt_rules_send_the_review_request($node, TMGMTJob $tmgmt_job) {
  * @return array
  */
 function ne_dgt_rules_ftt_node_send_review_request($node) {
-  $dgt_service_response = array();
-
   if ($default_translator = getDefaultFttWorkflowTranslator()) {
     // The review request can be only sent for the english version of the node.
     if (isset($node->language) && $node->language === 'en') {
       if ($job = createTmgmtJobAndItemForNode($default_translator, $node)) {
         // Sending the review request to DGT Services.
         $dgt_service_response = sendReviewRequest($job, $node);
+
+        return array(
+          'tmgmt_job' => $job,
+          'dgt_service_response' => $dgt_service_response,
+        );
       }
     }
   }
-  // @Todo - when there is no translator
 
   return array(
-    'tmgmt_job' => $job,
-    'dgt_service_response' => $dgt_service_response,
+    'tmgmt_job' => NULL,
+    'dgt_service_response' => array(),
   );
 }
 
@@ -122,7 +77,7 @@ function sendReviewRequest(TMGMTJob $job, $node) {
   $translator = $job->getTranslator();
   $controller = $translator->getController();
 
-  $service_response = $controller->requestReview($job, $node->nid);
+  $service_response = $controller->requestReview($job, $node);
 
   return $service_response;
 }

@@ -6,6 +6,11 @@ core = 7.x
 
 dependencies[] = registry_autoload
 dependencies[] = tmgmt
+dependencies[] = tmgmt_entity_ui
+dependencies[] = tmgmt_node
+dependencies[] = tmgmt_node_ui
+dependencies[] = tmgmt_workbench
+dependencies[] = tmgmt_dgt_html
 dependencies[] = workbench_moderation
 
 registry_autoload[] = PSR-4

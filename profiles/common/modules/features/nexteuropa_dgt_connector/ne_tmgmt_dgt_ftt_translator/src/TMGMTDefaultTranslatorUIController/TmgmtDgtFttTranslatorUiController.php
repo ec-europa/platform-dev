@@ -79,11 +79,11 @@ class TmgmtDgtFttTranslatorUiController extends TMGMTDefaultTranslatorUIControll
       '#collapsed' => FALSE,
       '#description' => t("Requester organization information."),
     );
-    $form['organization']['responsable'] = array(
+    $form['organization']['responsible'] = array(
       '#type' => 'textfield',
-      '#title' => t('Responsable'),
+      '#title' => t('Responsible'),
       '#required' => TRUE,
-      '#default_value' => $organization['responsable'],
+      '#default_value' => $organization['responsible'],
       '#description' => t("Eg.: DIGIT"),
     );
     $form['organization']['author'] = array(

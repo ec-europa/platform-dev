@@ -4,9 +4,6 @@
  * Provides Next Europa TMGMT DGT FTT translator helper functions.
  */
 
-/**
- * Helper trait with methods for processing translator's data and settings.
- */
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
@@ -14,17 +11,58 @@ use \EntityFieldQuery;
 use \TMGMTJob;
 use \TMGMTTranslator;
 
+/**
+ * Helper trait with methods for processing translator's data and settings.
+ */
 trait DataProcessor {
-  /** @var  \TMGMTTranslator */
-  private $translator;
+  /**
+   * TMGMT Job object.
+   *
+   * @var TMGMTJob
+   */
+  private $job;
 
   /**
-   * Translator settings keys
+   * Node object.
+   *
+   * @var object.
+   */
+  private $node;
+
+  /**
+   * Translator settings keys.
+   *
    * @var array
    */
   private $settingsKeys = array('settings', 'organization', 'contacts');
+
+  /**
+   * Translator settings.
+   *
+   * @var array
+   */
   private $settings;
+
+  /**
+   * TMGMT Translator object.
+   *
+   * @var \TMGMTTranslator
+   */
+  private $translator;
+
+  /**
+   * Translator mapping entity.
+   *
+   * @var string
+   */
   private $translatorEntityType = 'ne_tmgmt_dgt_ftt_map';
+
+  /**
+   * Default delay date - 72 hours form the date of sending request.
+   *
+   * @var string
+   */
+  private $defaultDelayDate;
 
   /**
    * Provides the data array for a request.
@@ -33,21 +71,28 @@ trait DataProcessor {
    *   TMGMT Job object.
    * @param object $node
    *   Node object.
-
+   *
    * @return array
    *   Request data array.
    */
   public function getRequestData(\TMGMTJob $job, $node) {
+    // Setting out the node object property.
+    $this->node = $node;
+    // Setting out the job property.
+    $this->job = $job;
     // Setting out the translator property.
     $this->translator = $job->getTranslator();
-    $this->settings = $this->getTranslatorSettings();
+    // Setting out the default delay date - 72 hours.
+    $this->defaultDelayDate = date('d/m/Y', time() + 259200);
+    // Getting the translator settings.
+    $settings = $this->getTranslatorSettings();
 
     return array(
-      'details' => $this->getRequestDetails($this->settings),
-      'return_address' => $this->getReturnAddress($this->settings),
-      'source' => $this->getSource($this->settings),
-      'contact' => $this->getConstact($this->settings),
-      'target' => $this->getTarget($this->settings),
+      'details' => $this->getRequestDetails($settings),
+      'return_address' => $this->getReturnAddress($settings),
+      'source' => $this->getSource($settings),
+      'contact' => $this->getContact($settings),
+      'target' => $this->getTarget($settings),
     );
   }
 
@@ -55,6 +100,7 @@ trait DataProcessor {
    * Provides translator settings array.
    *
    * @return array
+   *   An array with the translator settings.
    */
   private function getTranslatorSettings() {
     $settings = array();
@@ -74,11 +120,21 @@ trait DataProcessor {
    *
    * @return array
    *   Array with data.
-   *
    */
   private function getRequestDetails(array $settings) {
-
-    return array();
+    return array(
+      'client_id' => t('Job ID: @tjid', array('@tjid' => $this->job->identifier())),
+      'title' => $this->node->title,
+      'author' => $settings['organization']['author'],
+      'responsible' => $settings['organization']['responsible'],
+      'requester' => $settings['organization']['requester'],
+      'applicationId' => 'FPFIS',
+      'delay' => $this->defaultDelayDate,
+      'reference_files_remark' => url(drupal_get_path_alias('node/'.$this->node->nid), array('absolute' => TRUE)),
+      'procedure' => 'NEANT',
+      'destination' => 'PUBLIC',
+      'type' => 'INTER',
+    );
   }
 
   /**
@@ -91,8 +147,14 @@ trait DataProcessor {
    *   Array with data.
    */
   private function getReturnAddress(array $settings) {
-
-    return array();
+    return array(
+      'action' => 'UPDATE',
+      'type' => 'webService',
+      'user' => $settings['settings']['dgt_ftt_username'],
+      'password' => $settings['settings']['dgt_ftt_password'],
+      'address' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
+      'path' => 'OEPoetryCallback',
+    );
   }
 
   /**
@@ -105,8 +167,18 @@ trait DataProcessor {
    *   Array with data.
    */
   private function getSource(array $settings) {
-
-    return array();
+    return array(
+      'format' => 'HTML',
+      'name' => 'content.html',
+      'file' => $this->getContent(),
+      'legiswrite_format' => 'No',
+      'source_language' => array(
+        array(
+          'code' => strtoupper($this->node->language),
+          'pages' => 1,
+        ),
+      ),
+    );
   }
 
   /**
@@ -118,9 +190,25 @@ trait DataProcessor {
    * @return array
    *   Array with data.
    */
-  private function getConstact(array $settings) {
-
-    return array();
+  private function getContact(array $settings) {
+    return array(
+      array(
+        'type' => 'auteur',
+        'nickname' => $settings['contacts']['author'],
+      ),
+      array(
+        'type' => 'secretaire',
+        'nickname' => $settings['contacts']['secretaire'],
+      ),
+      array(
+        'type' => 'contact',
+        'nickname' => $settings['contacts']['secretaire'],
+      ),
+      array(
+        'type' => 'responsable',
+        'nickname' => $settings['contacts']['responsible'],
+      ),
+    );
   }
 
   /**
@@ -133,17 +221,40 @@ trait DataProcessor {
    *   Array with data.
    */
   private function getTarget(array $settings) {
-
-    return array();
+    return array(
+      array(
+        'action' => 'INSERT',
+        'format' => 'HTML',
+        'language' => strtoupper($this->node->language),
+        'delay' => $this->defaultDelayDate,
+      ),
+    );
   }
+
+  /**
+   * Provides BASE64 encoded content from the node.
+   *
+   */
+  private function getContent() {
+    // Load data exporter.
+    $controller = tmgmt_file_format_controller($this->job->getSetting('export_format'));
+
+    // Generate the data into a XML format and encode it to be translated.
+    $export = $controller->export($this->job);
+
+    return base64_encode($export);
+  }
+
   /**
    * Provides an identifier array in order to send a request.
    *
    * @param \TMGMTJob $job
    *   TMGMT Job object.
-   * @param $node_id
-   *   Node id
-   * @return array|bool
+   * @param object $node_id
+   *   Node id.
+   *
+   * @return array
+   *   An array with the identifier data.
    */
   public function getRequestIdentifier(TMGMTJob $job, $node_id) {
     // Getting the default values based on the configuration.
@@ -220,15 +331,15 @@ trait DataProcessor {
   }
 
   /**
-   * Provides the latest 'ne_tmgmt_dgt_ftt_map' entity by passing a property
-   * and its value.
+   * Provides the latest mapping entity based on property and its value query.
    *
    * @param string $property_name
    *   Property name.
    * @param string $property_value
    *   Property value.
    *
-   * @return bool|mixed
+   * @return DgtFttTranslatorMapping entity | bool
+   *   A mapping entity or FALSE if there are no results.
    */
   protected function getDgtFttTranslatorMappingByProperty($property_name, $property_value) {
     $query = new EntityFieldQuery();
@@ -248,8 +359,7 @@ trait DataProcessor {
   }
 
   /**
-   * Provides an array with IDs of the TMGMT Job Items which are under
-   * translation processes.
+   * Provides IDs of TMGMT Job Items which are under translation processes.
    *
    * @param string $entity_id
    *   Entity ID (for some edge cases the string type can appear).
@@ -272,4 +382,5 @@ trait DataProcessor {
 
     return FALSE;
   }
+
 }
