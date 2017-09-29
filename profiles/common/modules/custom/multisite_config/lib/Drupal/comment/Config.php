@@ -53,4 +53,5 @@ class Config extends ConfigBase {
   public function setThreadingCommentForContentType($content_type, $value) {
     variable_set('comment_form_location_' . $content_type, $value);
   }
+
 }

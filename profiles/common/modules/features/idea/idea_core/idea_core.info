@@ -32,7 +32,6 @@ features[user_permission][] = edit own idea content
 features[variable][] = comment_anonymous_idea
 features[variable][] = comment_default_mode_idea
 features[variable][] = comment_default_per_page_idea
-features[variable][] = comment_form_location_idea
 features[variable][] = comment_idea
 features[variable][] = comment_preview_idea
 features[variable][] = comment_subject_field_idea
