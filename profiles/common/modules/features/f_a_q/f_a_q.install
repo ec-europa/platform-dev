@@ -15,6 +15,8 @@ function f_a_q_install() {
     'module' => 'faq',
   );
   taxonomy_vocabulary_save($vocabulary);
+  // Use soft config for article comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('f_a_q', 0);
 }
 
 /**
