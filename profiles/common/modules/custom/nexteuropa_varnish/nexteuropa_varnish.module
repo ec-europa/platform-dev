@@ -695,7 +695,7 @@ function _nexteuropa_varnish_temporary_message() {
  */
 function _nexteuropa_varnish_trim_base_path($path) {
   $base_path = base_path();
-  if (substr($path, 0, strlen($base_path)) == $base_path) {
+  if (substr($path, 0, strlen($base_path)) === $base_path) {
     $path = substr($path, strlen($base_path));
   }
 
