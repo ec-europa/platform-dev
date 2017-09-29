@@ -25,6 +25,14 @@ function events_core_enable() {
 }
 
 /**
+ * Use soft config for events comment form location.
+ */
+function events_core_install() {
+  // Use soft config for event comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('event', 0);
+}
+
+/**
  * Implements hook_disable().
  *
  * Remove block from the context.
