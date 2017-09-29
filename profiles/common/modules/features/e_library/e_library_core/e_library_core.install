@@ -44,6 +44,14 @@ function e_library_core_enable() {
 }
 
 /**
+ * Set the threading properties for documents comments.
+ */
+function e_library_core_install() {
+  // Use soft config for documents comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('document', 0);
+}
+
+/**
  * Implements hook_disable().
  */
 function e_library_core_disable() {
