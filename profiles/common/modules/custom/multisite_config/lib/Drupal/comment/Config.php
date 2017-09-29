@@ -46,9 +46,9 @@ class Config extends ConfigBase {
    * Set threading comment setting for a specific content type.
    *
    * @param string $content_type
-   *    Content type machine name.
+   *   Content type machine name.
    * @param string $value
-   *    Value to be set (boolean).
+   *   Value to be set (boolean).
    */
   public function setThreadingCommentForContentType($content_type, $value) {
     variable_set('comment_form_location_' . $content_type, $value);
