@@ -62,6 +62,9 @@ function communities_install() {
 
   // Enable the og ontext negociation 'multisite_communities'.
   communities_enable_og_context_negociation();
+
+  // Use soft config for community comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('community', 1);
 }
 
 /**
