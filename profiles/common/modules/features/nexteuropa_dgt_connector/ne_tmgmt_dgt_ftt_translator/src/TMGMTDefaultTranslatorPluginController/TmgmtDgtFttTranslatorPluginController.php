@@ -12,14 +12,13 @@ use \EC\Poetry;
 use \TMGMTDefaultTranslatorPluginController;
 use \TMGMTTranslator;
 use \TMGMTJob;
+use \TMGMTJobItem;
 
 /**
  * TMGMT DGT FTT translator plugin controller.
  */
 class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPluginController {
-  /**
-   * Helper trait with methods for processing settings and the request data.
-   */
+  // Helper trait with methods for processing settings and the request data.
   use DataProcessor;
 
   /**
@@ -39,26 +38,31 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Implements TMGMTTranslatorPluginControllerInterface::isAvailable().
    */
   public function isAvailable(TMGMTTranslator $translator) {
-    // @todo: check if it's not easier to provide those variables in this
-    // module. Variables are provided for the whole environment.
     // Checking if the common global configuration variables are available.
-    // if ($this->checkPoetryServiceSettings()) {
-    //  return FALSE;
-    // }.
+    if (!$this->checkPoetryServiceSettings()) {
+
+      return FALSE;
+    }
+    // Settings array keys specific for the translator.
     $dgt_ftt_settings = array('settings', 'organization', 'contacts');
-    $all_settings = array();
 
     // Get setting value for each setting.
     foreach ($dgt_ftt_settings as $setting) {
-      $all_settings[$setting] = $translator->getSetting($setting);
-    }
+      $dgt_ftt_setting = $translator->getSetting($setting);
+      // If any of these are empty, the translator is not properly configured.
+      if (empty($dgt_ftt_setting)) {
 
-    // If any of these are empty, the translator is not properly configured.
-    foreach ($all_settings as $value) {
-      if (empty($value)) {
         return FALSE;
       }
-    };
+      // Checking values under given settings array.
+      foreach ($dgt_ftt_setting as $dgt_ftt_setting_value) {
+        if (empty($dgt_ftt_setting_value)) {
+
+          return FALSE;
+        }
+      }
+
+    }
 
     return TRUE;
   }
@@ -104,49 +108,36 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   /**
    * Custom method which sends the review request to the DGT Service.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
-   * @param object $node
-   *   Node object.
    *
-   * @return bool
-   *
+   * @return array|bool
+   *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestReview(TMGMTJob $job, $node) {
-    if ($this->checkRequestReviewConditions($job, $node->nid)) {
-      $identifier = $this->getRequestIdentifier($job, $node->nid);
-      // If the 'number' key is set we are going to send the review request.
-      if (isset($identifier['identifier.number'])) {
-        // Sending the 'review' request.
+  public function requestReview(TMGMTJob $job) {
+    // Checking if there is a node associated with the given job.
+    if ($node = $this->getNodeFromTmgmtJob($job)) {
+      // Checking if review request conditions are met.
+      if ($this->checkRequestReviewConditions($job, $node->nid)) {
+        // Getting the identifier data.
+        $identifier = $this->getIdentifier($job, $node->nid);
+        // Getting the request data.
         $data = $this->getRequestData($job, $node);
+        // Sending a review request to DGT Services.
         $dgt_response = $this->sendReviewRequest($identifier, $data);
-        // Put there the reference ID
+        // Put there the reference ID.
         $job = $this->updateTmgmtJobAndJobItem();
 
-        return array (
+        return array(
           'tmgmt_job' => $job,
-          'dgt_response' =>$dgt_response,
+          'dgt_response' => $dgt_response,
         );
       }
 
-      // If the 'sequence' key is set there are no entries in the mapping table
-      // or the 'part' counter value reached 99.
-      if (isset($identifier['identifier.sequence'])) {
-        $dgt_response = $this->sendNewNumberRequest($identifier);
-        // Checking the DGT services response status.
-        $statuses = $dgt_response->getStatuses();
-        if($statuses[0]['code'] === 0) {
-          // Creating a new mapping entity and performing the review request.
-          $this->createDgtFttTranslatorMappingEntity($dgt_response, $identifier);
-          $this->requestReview($job, $node);
-
-        }
-        else {
-          // Log the error or other details from the response to the watchdog.
-          return FALSE;
-        }
-      }
-
+      return array(
+        'tmgmt_job' => $job,
+        'dgt_response' => array(),
+      );
     }
 
     return FALSE;
@@ -157,7 +148,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *
    * @param array $identifier
    *   An array with the identifier data.
-   *
    * @param array $data
    *   An array with the request data.
    *
@@ -173,29 +163,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $response = $poetry->getClient()->send($message);
 
     return $response;
-
-  }
-
-  /**
-   * Sends the 'new number' request to the DGT Service.
-   *
-   * @param array $identifier
-   *   An array with values which are required to instantiate OE Poetry client.
-   * @return \EC\Poetry\Messages\Responses\Status
-   */
-  private function sendNewNumberRequest($identifier) {
-    $poetry = new Poetry\Poetry($identifier);
-    $message = $poetry->get('request.request_new_number');
-
-    return $poetry->getClient()->send($message);
-  }
-
-  /**
-   * Creates the DGT FTT Translator Mapping entity.
-   *
-   */
-  private function createDgtFttTranslatorMappingEntity(Poetry\Messages\Responses\Status $response, $node) {
-
   }
 
   /**
@@ -219,8 +186,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   TRUE/FALSE depending on conditions checks.
    */
   private function checkRequestReviewConditions(TMGMTJob $job, $entity_id, $entity_type = 'node') {
-    // @todo: to be removed, check if it fits to canTranslate.
-    return TRUE;
     // Checking if there aren't any translation processes for a given job and
     // content.
     if ($job->getState() === TMGMT_JOB_STATE_UNPROCESSED && !$this->getActiveTmgmtJobItemsIds($entity_id)) {

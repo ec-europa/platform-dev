@@ -7,8 +7,11 @@
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
+use Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController\TmgmtDgtFttTranslatorPluginController;
 use \EntityFieldQuery;
+use \EC\Poetry;
 use \TMGMTJob;
+use \TMGMTJobItem;
 use \TMGMTTranslator;
 
 /**
@@ -46,7 +49,7 @@ trait DataProcessor {
   /**
    * TMGMT Translator object.
    *
-   * @var \TMGMTTranslator
+   * @var TMGMTTranslator
    */
   private $translator;
 
@@ -55,7 +58,7 @@ trait DataProcessor {
    *
    * @var string
    */
-  private $translatorEntityType = 'ne_tmgmt_dgt_ftt_map';
+  public $translatorEntityType = 'ne_tmgmt_dgt_ftt_map';
 
   /**
    * Default delay date - 72 hours form the date of sending request.
@@ -67,7 +70,7 @@ trait DataProcessor {
   /**
    * Provides the data array for a request.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    * @param object $node
    *   Node object.
@@ -75,7 +78,7 @@ trait DataProcessor {
    * @return array
    *   Request data array.
    */
-  public function getRequestData(\TMGMTJob $job, $node) {
+  public function getRequestData(TMGMTJob $job, $node) {
     // Setting out the node object property.
     $this->node = $node;
     // Setting out the job property.
@@ -130,7 +133,7 @@ trait DataProcessor {
       'requester' => $settings['organization']['requester'],
       'applicationId' => 'FPFIS',
       'delay' => $this->defaultDelayDate,
-      'reference_files_remark' => url(drupal_get_path_alias('node/'.$this->node->nid), array('absolute' => TRUE)),
+      'reference_files_remark' => url(drupal_get_path_alias('node/' . $this->node->nid), array('absolute' => TRUE)),
       'procedure' => 'NEANT',
       'destination' => 'PUBLIC',
       'type' => 'INTER',
@@ -233,7 +236,6 @@ trait DataProcessor {
 
   /**
    * Provides BASE64 encoded content from the node.
-   *
    */
   private function getContent() {
     // Load data exporter.
@@ -246,9 +248,44 @@ trait DataProcessor {
   }
 
   /**
+   * Provides an identifier array.
+   *
+   * @param TMGMTJob $job
+   *   TMGMT Job object.
+   * @param integer $node_id
+   *   Node ID.
+   *
+   * @return array|bool
+   *   An array with an identifier data or FALSE in case of errors;
+   */
+  public function getIdentifier(TMGMTJob $job, $node_id) {
+    $identifier = $this->getRequestIdentifier($job, $node_id);
+
+    // If the 'sequence' key is set there are no entries in the mapping table
+    // or the 'part' counter value reached 99.
+    if (isset($identifier['identifier.sequence'])) {
+      $dgt_response = $this->sendNewNumberRequest($identifier);
+      // Checking the DGT services response status.
+      $statuses = $dgt_response->getStatuses();
+      if ($statuses[0]['code'] === 0) {
+        // Creating a new mapping entity and performing the review request.
+        $this->createDgtFttTranslatorMappingEntity($dgt_response, $job);
+
+        return $this->getIdentifier($job, $node_id);
+      }
+      else {
+        // Log the error or other details from the response to the watchdog.
+        return FALSE;
+      }
+    }
+
+    return $identifier;
+  }
+
+  /**
    * Provides an identifier array in order to send a request.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    * @param object $node_id
    *   Node id.
@@ -256,7 +293,7 @@ trait DataProcessor {
    * @return array
    *   An array with the identifier data.
    */
-  public function getRequestIdentifier(TMGMTJob $job, $node_id) {
+  private function getRequestIdentifier(TMGMTJob $job, $node_id) {
     // Getting the default values based on the configuration.
     $identifier = $this->getRequestIdentifierDefaults($job);
     // Setting up helper default values.
@@ -288,7 +325,7 @@ trait DataProcessor {
   /**
    * Provides the request identifier default values.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return array
@@ -381,6 +418,72 @@ trait DataProcessor {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Provides a node object related to a given translation job.
+   *
+   * @param \TMGMTJob $job
+   *   TMGMT Job object.
+   *
+   * @return bool|mixed
+   *   A node object or FALSE if there are no results.
+   */
+  public function getNodeFromTmgmtJob(TMGMTJob $job) {
+    // Getting job items from the job (in our case there should be always one).
+    $job_items = $job->getItems();
+    // Checking if we have job item for a given job.
+    if (!empty($job_items)) {
+      /** @var TMGMTJobItem $job_item */
+      $job_item = array_shift($job_items);
+      // Checking if an item type is 'node'.
+      if ($job_item->item_type === 'node') {
+        // Returning the node object.
+        return node_load($job_item->item_id);
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Creates the DGT FTT Translator Mapping entity.
+   */
+  private function createDgtFttTranslatorMappingEntity(Poetry\Messages\Responses\Status $response, TMGMTJob $job) {
+    // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
+    /** @var \TMGMTJobItem $job_item */
+    if ($job_item = $this->getNodeFromTmgmtJob($job)) {
+      // Creating the mapping entity.
+      $map_entity = entity_create(
+        'ne_tmgmt_dgt_ftt_map',
+        array(
+          'tjid' => $job_item->tjid,
+          'entity_id' => $job_item->item_id,
+          'entity_type' => $job_item->item_type,
+          'year' => $response->getIdentifier()->getYear(),
+          'number' => $response->getIdentifier()->getNumber(),
+          'version' => $response->getIdentifier()->getVersion(),
+          'part' => $response->getIdentifier()->getPart(),
+        )
+      );
+      $map_entity->save();
+    };
+  }
+
+  /**
+   * Sends the 'new number' request to the DGT Service.
+   *
+   * @param array $identifier
+   *   An array with values which are required to instantiate OE Poetry client.
+   *
+   * @return \EC\Poetry\Messages\Responses\Status
+   *   A response from the DGT Services.
+   */
+  private function sendNewNumberRequest($identifier) {
+    $poetry = new Poetry\Poetry($identifier);
+    $message = $poetry->get('request.request_new_number');
+
+    return $poetry->getClient()->send($message);
   }
 
 }

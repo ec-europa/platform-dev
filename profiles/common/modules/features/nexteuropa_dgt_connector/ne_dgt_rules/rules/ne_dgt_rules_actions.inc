@@ -51,7 +51,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
     if (isset($node->language) && $node->language === 'en') {
       if ($job = createTmgmtJobAndItemForNode($default_translator, $node)) {
         // Sending the review request to DGT Services.
-        $dgt_service_response = sendReviewRequest($job, $node);
+        $dgt_service_response = sendReviewRequest($job);
 
         return array(
           'tmgmt_job' => $job,
@@ -71,13 +71,12 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
  * Sends the review request to DGT Services for a given node.
  *
  * @param \TMGMTJob $job
- * @param $node
  */
-function sendReviewRequest(TMGMTJob $job, $node) {
+function sendReviewRequest(TMGMTJob $job) {
   $translator = $job->getTranslator();
   $controller = $translator->getController();
 
-  $service_response = $controller->requestReview($job, $node);
+  $service_response = $controller->requestReview($job);
 
   return $service_response;
 }

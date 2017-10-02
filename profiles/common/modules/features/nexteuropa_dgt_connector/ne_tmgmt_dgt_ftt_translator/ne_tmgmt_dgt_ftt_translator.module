@@ -131,11 +131,10 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
 function _ne_tmgmt_dgt_ftt_translator_callback() {
   // Generate our own SOAP server.
   $context = stream_context_create();
-  // Get the Client WSDL URI
+  // Get the Client WSDL URI.
   $uri = _ne_tmgmt_dgt_ftt_translator_get_client_wsdl();
 
   // This part in future suppose to be handled by the library.
-
   $server = new SoapServer($uri, array(
     'stream_context' => $context,
     'cache_wsdl' => WSDL_CACHE_NONE,
@@ -144,8 +143,20 @@ function _ne_tmgmt_dgt_ftt_translator_callback() {
   $server->handle();
 }
 
+/**
+ * Temporary callback function.
+ *
+ * This part should be handled by the OE Poetry Client soon.
+ *
+ * @param string $user
+ *   User name string.
+ * @param string $password
+ *   Password.
+ * @param string $msg
+ *   Message from DGT Services.
+ */
 function OEPoetryCallback($user, $password, $msg) {
-  $filename='dump_'.date('m-d-Y_hia');
+  $filename = 'dump_' . date('m-d-Y_hia');
   $path = "public://dgt_req_res/dumps/" . $filename . '.xml';
   $dirname = dirname($path);
     if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
