@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MultilingualContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalDriverManager;

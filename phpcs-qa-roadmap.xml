@@ -533,11 +533,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Namespaced classes, interfaces and traits should not begin with a file doc comment. -->
-    <rule ref="Drupal.Commenting.FileComment.NamespaceNoFileDoc">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Parameter comment indentation must be 3 spaces. -->
     <rule ref="Drupal.Commenting.FunctionComment.ParamCommentIndentation">
         <exclude-pattern>*</exclude-pattern>

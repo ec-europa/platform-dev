@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Entity\ViewModeType\NodeViewModeType.
- */
-
 namespace Drupal\nexteuropa_token\Entity\ViewModeType;
 
 /**

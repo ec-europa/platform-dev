@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Entity\ViewModeType\BeanViewModeType.
- */
-
 namespace Drupal\nexteuropa_token\Entity\ViewModeType;
 
 /**

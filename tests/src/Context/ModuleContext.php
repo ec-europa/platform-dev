@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\ModuleContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 
