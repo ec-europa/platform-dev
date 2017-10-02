@@ -451,11 +451,7 @@ function cce_basic_config_install() {
   }
 
   $profile = multisite_config_service('wysiwyg')->getProfile('full_html');
-  $profile->settings += array(
-    '_profile_preferences' => array(
-      'version' => '4.4.8.ccd0038',
-    ),
-  );
+  $profile->settings['_profile_preferences']['version'] = '4.4.8.ccd0038';
   multisite_config_service('wysiwyg')->updateProfile($profile);
 
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
@@ -2486,11 +2482,7 @@ function cce_basic_config_update_7221() {
   $profile = multisite_config_service('wysiwyg')->getProfile('full_html');
   $settings = unserialize($profile->settings);
   if (empty($settings['_profile_preferences']['version'])) {
-    $profile->settings += array(
-      '_profile_preferences' => array(
-        'version' => '4.4.8.ccd0038',
-      ),
-    );
+    $profile->settings['_profile_preferences']['version'] = '4.4.8.ccd0038';
     multisite_config_service('wysiwyg')->updateProfile($profile);
   }
 }
