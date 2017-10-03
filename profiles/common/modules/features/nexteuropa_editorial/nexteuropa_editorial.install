@@ -17,6 +17,9 @@ function nexteuropa_editorial_install() {
   // See: nexteuropa_editorial_og_membership_delete().
   multisite_config_service('user')->createRole(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, 2);
 
+  // Use soft config for editorial_teams comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('editorial_team', 1);
+
   // Set "editorial team member" permissions.
   $permissions = array(
 
