@@ -373,7 +373,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
 
     // @TODO improve and Fix this by using a template.
     case 'ne_download_button':
-      if ($field['type'] == 'link_field') {
+      if ('link_field' == $field['type']) {
         foreach ($items as $delta => $item) {
           $link = array(
             '#theme' => 'link',
