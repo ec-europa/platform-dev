@@ -34,7 +34,6 @@ features[taxonomy][] = faq_categories
 features[variable][] = comment_anonymous_nexteuropa_faq
 features[variable][] = comment_default_mode_nexteuropa_faq
 features[variable][] = comment_default_per_page_nexteuropa_faq
-features[variable][] = comment_form_location_nexteuropa_faq
 features[variable][] = comment_nexteuropa_faq
 features[variable][] = comment_preview_nexteuropa_faq
 features[variable][] = comment_subject_field_nexteuropa_faq
