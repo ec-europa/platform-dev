@@ -14,6 +14,13 @@ function nexteuropa_communities_enable() {
 }
 
 /**
+ * Use soft config for communities comment form location.
+ */
+function nexteuropa_communities_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('communities', 1);
+}
+
+/**
  * Implements hook_disable().
  */
 function nexteuropa_communities_disable() {
