@@ -42,6 +42,13 @@ function multisite_maps_enable() {
 }
 
 /**
+ * Use soft config for map comment form location.
+ */
+function multisite_maps_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('map', 0);
+}
+
+/**
  * Implements hook_disable().
  */
 function multisite_maps_disable() {
