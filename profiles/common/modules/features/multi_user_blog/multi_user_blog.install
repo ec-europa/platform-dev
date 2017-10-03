@@ -25,6 +25,13 @@ function multi_user_blog_disable() {
 }
 
 /**
+ * Use soft config for blog comment form location.
+ */
+function multi_user_blog_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('blog_post', 0);
+}
+
+/**
  * Implements hook_enable().
  */
 function multi_user_blog_enable() {
