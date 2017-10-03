@@ -593,11 +593,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Parameter $entity_id is not described in comment. -->
-    <rule ref="Drupal.Commenting.FunctionComment.ParamMissingDefinition">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Missing @var tag in member variable comment. -->
     <rule ref="Drupal.Commenting.VariableComment.MissingVar">
         <exclude-pattern>*</exclude-pattern>
