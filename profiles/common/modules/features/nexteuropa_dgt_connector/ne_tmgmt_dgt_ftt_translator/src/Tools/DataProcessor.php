@@ -10,6 +10,7 @@ use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController\TmgmtDgtFttTranslatorPluginController;
 use \EntityFieldQuery;
 use \EC\Poetry;
+use \EC\Poetry\Messages\Responses\Status;
 use \TMGMTJob;
 use \TMGMTJobItem;
 use \TMGMTTranslator;
@@ -448,8 +449,11 @@ trait DataProcessor {
 
   /**
    * Creates the DGT FTT Translator Mapping entity.
+   *
+   * @param \EC\Poetry\Messages\Responses\Status $response
+   * @param \TMGMTJob $job
    */
-  private function createDgtFttTranslatorMappingEntity(Poetry\Messages\Responses\Status $response, TMGMTJob $job) {
+  private function createDgtFttTranslatorMappingEntity(Status $response, TMGMTJob $job) {
     // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
     /** @var \TMGMTJobItem $job_item */
     if ($job_item = $this->getNodeFromTmgmtJob($job)) {
@@ -486,4 +490,15 @@ trait DataProcessor {
     return $poetry->getClient()->send($message);
   }
 
+  /**
+   * Updating the TMGMT Job and TMGMT Job Item with data from the DGT response.
+   *
+   * @param \EC\Poetry\Messages\Responses\Status $response
+   *   DGT Service response.
+   * @param \TMGMTJob $job
+   *   TMGMT Job object
+   */
+  private function updateTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
+
+  }
 }

@@ -9,6 +9,7 @@ namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginControl
 use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
 use \EC\Poetry;
+use \EC\Poetry\Messages\Responses\Status;
 use \TMGMTDefaultTranslatorPluginController;
 use \TMGMTTranslator;
 use \TMGMTJob;
@@ -121,12 +122,15 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       if ($this->checkRequestReviewConditions($job, $node->nid)) {
         // Getting the identifier data.
         $identifier = $this->getIdentifier($job, $node->nid);
+
         // Getting the request data.
         $data = $this->getRequestData($job, $node);
+
         // Sending a review request to DGT Services.
         $dgt_response = $this->sendReviewRequest($identifier, $data);
-        // Put there the reference ID.
-        $job = $this->updateTmgmtJobAndJobItem();
+
+        // Process the response.
+        $this->processResponse($dgt_response, $job);
 
         return array(
           'tmgmt_job' => $job,
@@ -141,6 +145,15 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     }
 
     return FALSE;
+  }
+
+  /**
+   * Process response from DGT Services.
+   *
+   * @param \EC\Poetry\Messages\Responses\Status $response
+   */
+  private function processResponse(Status $response, TMGMTJob $job) {
+    $this->updateTmgmtJobAndJobItem($response, $job);
   }
 
   /**
@@ -160,16 +173,10 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $message = $poetry->get('request.send_review_request');
     $message->withArray($data);
 
+    /** @var Status $response */
     $response = $poetry->getClient()->send($message);
 
     return $response;
-  }
-
-  /**
-   * Updating the TMGMT Job and TMGMT Job Item with data from the DGT response.
-   */
-  private function updateTmgmtJobAndJobItem() {
-
   }
 
   /**
