@@ -62,6 +62,7 @@ function nexteuropa_formatters_fields_field_formatter_info() {
       'field types' => array(
         'link_field',
         'entityreference',
+        'taxonomy_term_reference',
       ),
     ),
   );
@@ -248,6 +249,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
     case 'ne_tags':
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
+          case 'taxonomy_term_reference':
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
@@ -265,9 +267,17 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
             $uri = entity_uri($target_type, $item['entity']);
 
             $tag = array(
-              'value' => $label,
-              'href' => $uri['path'],
-            );
+                '#theme' => 'link',
+                '#text' => $label,
+                '#path' => $uri['path'],
+                '#options' => array(
+                  'attributes' => array(
+                    'class' => array(
+                      'ecl-tag__item',
+                    ),
+                  ),
+                ),
+              );
             break;
 
           case 'link_field':
@@ -284,18 +294,15 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
-
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
               continue;
             }
-
             if (!isset($target_type)) {
               $field_type_settings = entityreference_field_type_settings($field);
               $target_type = $field_type_settings['entity_type'];
             }
-
             // Calling EntityReferenceHandler::getLabel() would make a repeated,
             // wasteful call to entity_access().
             $label = entity_label($target_type, $item['entity']);
@@ -337,7 +344,6 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
       $markup = '<div class="listing ' . $settings['class'] . '">';
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
-
           case 'link_field':
             $link = array(
               '#theme' => 'link',
@@ -367,7 +373,6 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
 
     // @TODO improve and Fix this by using a template.
     case 'ne_download_button':
-
       if ($field['type'] == 'link_field') {
         foreach ($items as $delta => $item) {
           $link = array(
