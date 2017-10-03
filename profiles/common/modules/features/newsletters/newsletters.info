@@ -42,7 +42,6 @@ features[variable][] = bounce_notify_user_message
 features[variable][] = comment_anonymous_simplenews
 features[variable][] = comment_default_mode_simplenews
 features[variable][] = comment_default_per_page_simplenews
-features[variable][] = comment_form_location_simplenews
 features[variable][] = comment_preview_simplenews
 features[variable][] = comment_simplenews
 features[variable][] = comment_subject_field_simplenews

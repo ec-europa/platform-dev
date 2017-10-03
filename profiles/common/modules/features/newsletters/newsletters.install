@@ -18,6 +18,13 @@ function newsletters_enable() {
 }
 
 /**
+ * Use soft config for newsletters comment form location.
+ */
+function newsletters_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('simplenews', 1);
+}
+
+/**
  * Implements hook_disable().
  */
 function newsletters_disable() {
