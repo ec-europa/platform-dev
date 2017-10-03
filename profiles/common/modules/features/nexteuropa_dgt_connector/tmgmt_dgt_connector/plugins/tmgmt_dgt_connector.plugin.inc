@@ -262,7 +262,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
 
       return $response;
 
-    } catch (Exceptions\ValidationException $exception) {
+    }
+    catch (Exceptions\ValidationException $exception) {
       drupal_set_message($exception->getMessage(), 'error');
       return FALSE;
     }
