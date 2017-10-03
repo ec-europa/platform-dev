@@ -267,17 +267,17 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
             $uri = entity_uri($target_type, $item['entity']);
 
             $tag = array(
-                '#theme' => 'link',
-                '#text' => $label,
-                '#path' => $uri['path'],
-                '#options' => array(
-                  'attributes' => array(
-                    'class' => array(
-                      'ecl-tag__item',
-                    ),
+              '#theme' => 'link',
+              '#text' => $label,
+              '#path' => $uri['path'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'ecl-tag__item',
                   ),
                 ),
-              );
+              ),
+            );
             break;
 
           case 'link_field':
