@@ -588,11 +588,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- When importing a class with "use", do not include a leading. -->
-    <rule ref="Drupal.Classes.UseLeadingBackslash.SeparatorStart">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Parameter $entity_id is not described in comment. -->
     <rule ref="Drupal.Commenting.FunctionComment.ParamMissingDefinition">
         <exclude-pattern>*</exclude-pattern>

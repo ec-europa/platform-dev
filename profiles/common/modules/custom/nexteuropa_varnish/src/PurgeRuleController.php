@@ -6,7 +6,7 @@
 
 namespace Drupal\nexteuropa_varnish;
 
-use \EntityAPIController;
+use EntityAPIController;
 
 /**
  * Class PurgeRuleController.
