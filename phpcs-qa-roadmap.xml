@@ -583,11 +583,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Namespaced classes/interfaces/traits should be referenced with use statements. -->
-    <rule ref="Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- When importing a class with "use", do not include a leading. -->
     <rule ref="Drupal.Classes.UseLeadingBackslash.SeparatorStart">
         <exclude-pattern>*</exclude-pattern>
