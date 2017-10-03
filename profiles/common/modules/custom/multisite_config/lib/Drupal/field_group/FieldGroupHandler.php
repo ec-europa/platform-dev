@@ -8,7 +8,6 @@ namespace Drupal\field_group;
  * @package Drupal\field_group\InstanceField
  */
 class FieldGroupHandler implements FieldGroupHandlerInterface {
-
   /**
    * Construct instance field handler with required information.
    *
@@ -22,7 +21,6 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *    Bundle machine name.
    */
   public function __construct($label, $group_name, $entity_type, $bundle) {
-
     $this->definition = new \stdClass();
     $this->definition->identifier = "$group_name|$entity_type|$bundle|form";
     $this->definition->group_name = $group_name;
