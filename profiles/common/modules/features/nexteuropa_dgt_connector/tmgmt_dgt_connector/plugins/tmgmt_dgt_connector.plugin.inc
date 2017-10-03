@@ -76,26 +76,32 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     if (!$response) {
       _tmgmt_poetry_tmgmt_job_reject(
         $job,
-        "Rejected",
-        "There was an error with the SOAP service.",
+        'Rejected',
+        'There was an error with the SOAP service.',
         $response
       );
     }
     else {
 
-      $statuses = $response->getStatuses();
+      if (!$response->isSuccess()) {
 
-      // Check the statuses of the response
-      // in order to verify that everything is correct.
-      foreach ($statuses as $status) {
-        $message = $status->getMessage();
-        if ($message != 'OK') {
+        if ($statuses = $response->getStatusesWithWarnings()) {
+          $job->addMessage(
+            'There were warnings with the Poetry request: :msg',
+            array(':msg' => implode('. ', $statuses)),
+            'warning'
+          );
+        }
+
+        if ($statuses = $response->getStatusesWithErrors()) {
           _tmgmt_poetry_tmgmt_job_reject(
             $job,
-            "Rejected",
-            "There was an error with the Poetry request.",
-            $message
+            'Rejected',
+            'There were errors with the Poetry request.',
+            implode('. ', $statuses)
           );
+
+          return;
         }
       }
 
@@ -181,7 +187,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
     try {
-      $poetry = new Poetry([
+      $poetry = new Poetry(array(
         'identifier.code' => $id_data['codeDemandeur'],
         'identifier.year' => $id_data['annee'],
         'identifier.sequence' => $id_data['sequence'],
@@ -192,7 +198,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         'service.password' => $settings['poetry_password'],
         'client.wsdl' => $callback_address,
         'notification.endpoint' => 'http://my-site.com/my/poetry/notifications',
-      ]);
+      ));
 
       // Start building the request message.
       /** @var EC\Poetry\Messages\Requests\CreateRequest $message */
@@ -256,8 +262,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
 
       return $response;
 
-    }
-    catch (Exceptions\ValidationException $exception) {
+    } catch (Exceptions\ValidationException $exception) {
       drupal_set_message($exception->getMessage(), 'error');
       return FALSE;
     }
