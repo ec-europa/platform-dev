@@ -267,8 +267,7 @@ trait DataProcessor {
     if (isset($identifier['identifier.sequence'])) {
       $dgt_response = $this->sendNewNumberRequest($identifier);
       // Checking the DGT services response status.
-      $statuses = $dgt_response->getStatuses();
-      if ($statuses[0]['code'] === 0) {
+      if ($dgt_response->isSuccess()) {
         // Creating a new mapping entity and performing the review request.
         $this->createDgtFttTranslatorMappingEntity($dgt_response, $job);
 
@@ -333,6 +332,8 @@ trait DataProcessor {
    *   An array with the identifier default values.
    */
   private function getRequestIdentifierDefaults(TMGMTJob $job) {
+    // Getting the global configuration.
+    global $conf;
     // Getting a translator from the job.
     $translator = $job->getTranslator();
     // Getting translator settings.
@@ -343,7 +344,7 @@ trait DataProcessor {
       'identifier.year' => date("Y"),
       'identifier.sequence' => $settings['dgt_counter'],
       'client.wsdl' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
-      'service.wsdl' => 'http://intragate.test.ec.europa.eu/DGT/poetry_services/components/poetry.cfc?wsdl',
+      'service.wsdl' => $conf['poetry_service']['address'],
       'service.username' => $settings['dgt_ftt_username'],
       'service.password' => $settings['dgt_ftt_password'],
     );
@@ -391,31 +392,6 @@ trait DataProcessor {
       $mapping_entity = entity_load_single($this->translatorEntityType, $mapping_entity_id);
 
       return $mapping_entity;
-    }
-
-    return FALSE;
-  }
-
-  /**
-   * Provides IDs of TMGMT Job Items which are under translation processes.
-   *
-   * @param string $entity_id
-   *   Entity ID (for some edge cases the string type can appear).
-   *
-   * @return array|bool
-   *   An array with IDs or FALSE if no items where found.
-   */
-  protected function getActiveTmgmtJobItemsIds($entity_id) {
-    $query = new EntityFieldQuery();
-    $query->entityCondition('entity_type', 'tmgmt_job_item')
-      ->propertyCondition('item_id', $entity_id)
-      ->propertyCondition('state', array(TMGMT_JOB_ITEM_STATE_ACTIVE, TMGMT_JOB_ITEM_STATE_REVIEW));
-
-    $results = $query->execute();
-
-    if (isset($results['tmgmt_job_item'])) {
-
-      return array_keys($results['tmgmt_job_item']);
     }
 
     return FALSE;

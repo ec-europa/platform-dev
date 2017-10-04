@@ -118,33 +118,28 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   public function requestReview(TMGMTJob $job) {
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($job)) {
-      // Checking if review request conditions are met.
-      if ($this->checkRequestReviewConditions($job, $node->nid)) {
-        // Getting the identifier data.
-        $identifier = $this->getIdentifier($job, $node->nid);
+      // Getting the identifier data.
+      $identifier = $this->getIdentifier($job, $node->nid);
 
-        // Getting the request data.
-        $data = $this->getRequestData($job, $node);
+      // Getting the request data.
+      $data = $this->getRequestData($job, $node);
 
-        // Sending a review request to DGT Services.
-        $dgt_response = $this->sendReviewRequest($identifier, $data);
+      // Sending a review request to DGT Services.
+      $dgt_response = $this->sendReviewRequest($identifier, $data);
 
-        // Process the response.
-        $this->processResponse($dgt_response, $job);
-
-        return array(
-          'tmgmt_job' => $job,
-          'dgt_response' => $dgt_response,
-        );
-      }
+      // Process the response.
+      $this->processResponse($dgt_response, $job);
 
       return array(
         'tmgmt_job' => $job,
-        'dgt_response' => array(),
+        'dgt_response' => $dgt_response,
       );
     }
 
-    return FALSE;
+    return array(
+      'tmgmt_job' => $job,
+      'dgt_response' => array(),
+    );
   }
 
   /**
@@ -221,7 +216,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   }
 
   /**
-   * Sends the 'review' request to the DGT Service.
+   * Sends the 'translation' request to the DGT Service.
    *
    * @param array $identifier
    *   An array with the identifier data.
@@ -289,7 +284,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   }
 
   /**
-   * Helper function to check if the job and content met request requirement.
+   * Implements TMGMTTranslatorPluginControllerInterface::requestTranslation().
    *
    * @param \TMGMTJob $job
    *   TMGMT Job object.
