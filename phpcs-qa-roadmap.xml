@@ -618,11 +618,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected "\Drupal\DrupalDriverManager" but found "\Drupal\DrupalDriverManager;" for @var tag in member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.IncorrectVarType">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Expected "bool|false" but found "bool|FALSE" for parameter type. -->
     <rule ref="Drupal.Commenting.FunctionComment.IncorrectParamVarName">
         <exclude-pattern>*</exclude-pattern>
