@@ -154,33 +154,28 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   public function requestTranslation(TMGMTJob $job) {
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($job)) {
-      // Checking if review request conditions are met.
-      if ($this->checkRequestTranslationConditions($job, $node->nid)) {
-        // Getting the identifier data.
-        $identifier = $this->getIdentifier($job, $node->nid);
+      // Getting the identifier data.
+      $identifier = $this->getIdentifier($job, $node->nid);
 
-        // Getting the request data.
-        $data = $this->getRequestData($job, $node);
+      // Getting the request data.
+      $data = $this->getRequestData($job, $node);
 
-        // Sending a review request to DGT Services.
-        $dgt_response = $this->sendTranslationRequest($identifier, $data);
+      // Sending a review request to DGT Services.
+      $dgt_response = $this->sendTranslationRequest($identifier, $data);
 
-        // Process the response.
-        $this->processResponse($dgt_response, $job);
-
-        return array(
-          'tmgmt_job' => $job,
-          'dgt_response' => $dgt_response,
-        );
-      }
+      // Process the response.
+      $this->processResponse($dgt_response, $job);
 
       return array(
         'tmgmt_job' => $job,
-        'dgt_response' => array(),
+        'dgt_response' => $dgt_response,
       );
     }
 
-    return FALSE;
+    return array(
+      'tmgmt_job' => $job,
+      'dgt_response' => array(),
+    );
   }
 
   /**
@@ -239,96 +234,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $response = $poetry->getClient()->send($message);
 
     return $response;
-  }
-
-  /**
-   * Helper function to check if the job and content met request requirement.
-   *
-   * @param \TMGMTJob $job
-   *   TMGMT Job object.
-   * @param string $entity_id
-   *   Entity ID (for some edge cases the string type can appear).
-   * @param string $entity_type
-   *   Entity type.
-   *
-   * @return bool
-   *   TRUE/FALSE depending on conditions checks.
-   */
-  private function checkRequestReviewConditions(TMGMTJob $job, $entity_id, $entity_type = 'node') {
-    // Checking if there aren't any translation processes for a given job and
-    // content.
-    if ($job->getState() === TMGMT_JOB_STATE_UNPROCESSED && !$this->getActiveTmgmtJobItemsIds($entity_id)) {
-
-      return TRUE;
-    }
-
-    // Informing user that the review request can not be send.
-    $error_message = t("Content type with following ID '@entity_id' and type
-      '@entity_type' is currently included in one of the translation processes.
-      You can not request the review for the content which is currently under
-      translation process. Please finish ongoing processes for a given content
-      and try again.",
-      array('@entity_id' => $entity_id, '@entity_type' => $entity_type)
-    );
-
-    drupal_set_message($error_message, 'error');
-
-    // Logging an error to the watchdog.
-    watchdog('ne_tmgmt_dgt_ftt_translator',
-      "Content type with following ID: '$entity_id' and type: '$entity_type' is
-       currently included in one of the translation processes. The review
-       request for the content which is under ongoing translation processes can
-       not be send.",
-      array(),
-      WATCHDOG_ERROR
-    );
-
-    return FALSE;
-  }
-
-  /**
-   * Implements TMGMTTranslatorPluginControllerInterface::requestTranslation().
-   *
-   * @param \TMGMTJob $job
-   *   TMGMT Job object.
-   * @param string $entity_id
-   *   Entity ID (for some edge cases the string type can appear).
-   * @param string $entity_type
-   *   Entity type.
-   *
-   * @return bool
-   *   TRUE/FALSE depending on conditions checks.
-   */
-  private function checkRequestTranslationConditions(TMGMTJob $job, $entity_id, $entity_type = 'node') {
-    // Checking if there aren't any translation processes for a given job and
-    // content.
-    if ($job->getState() === TMGMT_JOB_STATE_UNPROCESSED && !$this->getActiveTmgmtJobItemsIds($entity_id)) {
-
-      return TRUE;
-    }
-
-    // Informing user that the review request can not be send.
-    $error_message = t("Content type with following ID '@entity_id' and type
-      '@entity_type' is currently included in one of the translation processes.
-      You can not request the review for the content which is currently under
-      translation process. Please finish ongoing processes for a given content
-      and try again.",
-      array('@entity_id' => $entity_id, '@entity_type' => $entity_type)
-    );
-
-    drupal_set_message($error_message, 'error');
-
-    // Logging an error to the watchdog.
-    watchdog('ne_tmgmt_dgt_ftt_translator',
-      "Content type with following ID: '$entity_id' and type: '$entity_type' is
-       currently included in one of the translation processes. The review
-       request for the content which is under ongoing translation processes can
-       not be send.",
-      array(),
-      WATCHDOG_ERROR
-    );
-
-    return FALSE;
   }
 
 }
