@@ -603,11 +603,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Return type "int | NULL" must not contain spaces. -->
-    <rule ref="Drupal.Commenting.FunctionComment.ReturnTypeSpaces">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Line indented incorrectly. -->
     <rule ref="Drupal.WhiteSpace.ScopeIndent.IncorrectExact">
         <exclude-pattern>*</exclude-pattern>

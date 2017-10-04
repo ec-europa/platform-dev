@@ -172,7 +172,7 @@ class PoetryMock {
    * @param string $lg_code
    *    Language code. If ALL then all languages will be processed one by one.
    *
-   * @return array Array with translation response data.
+   * @return array
    *    Array with translation response data.
    */
   public static function prepareTranslationResponseData($message, $lg_code) {
@@ -213,7 +213,7 @@ class PoetryMock {
    * @param string $message
    *    Translation request XML data.
    *
-   * @return array Array with translation response data.
+   * @return array
    *    Array with translation response data.
    */
   public static function prepareRefuseJobResponseData($message) {
