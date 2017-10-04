@@ -598,11 +598,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Missing @var tag in member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.MissingVar">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Return type "int | NULL" must not contain spaces. -->
     <rule ref="Drupal.Commenting.FunctionComment.ReturnTypeSpaces">
         <exclude-pattern>*</exclude-pattern>
