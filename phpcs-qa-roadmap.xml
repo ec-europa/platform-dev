@@ -633,11 +633,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Closing brace indented incorrectly. -->
-    <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Indent">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Missing file doc comment. -->
     <rule ref="Drupal.Commenting.FileComment.Missing">
         <exclude-pattern>*</exclude-pattern>
