@@ -427,7 +427,9 @@ trait DataProcessor {
    * Creates the DGT FTT Translator Mapping entity.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
+   *   TMGMT Status object.
    * @param \TMGMTJob $job
+   *   TMGMT Job object.
    */
   private function createDgtFttTranslatorMappingEntity(Status $response, TMGMTJob $job) {
     // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
@@ -472,9 +474,10 @@ trait DataProcessor {
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   DGT Service response.
    * @param \TMGMTJob $job
-   *   TMGMT Job object
+   *   TMGMT Job object.
    */
-  private function updateTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
+  private function updateTmgmtJobAndJobItem(Status $response, TMGMTJob $job) {
 
   }
+
 }

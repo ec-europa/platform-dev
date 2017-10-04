@@ -187,6 +187,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Process response from DGT Services.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
+   *   TMGMT status object.
+   * @param TMGMTJob $job
+   *   TMGMT Job object.
    */
   private function processResponse(Status $response, TMGMTJob $job) {
     $this->updateTmgmtJobAndJobItem($response, $job);

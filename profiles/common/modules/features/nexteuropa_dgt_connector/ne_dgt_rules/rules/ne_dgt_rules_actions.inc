@@ -68,6 +68,7 @@ function ne_dgt_rules_rules_action_info() {
  *   The node that needs to be reviewed by the DGT Reviewer.
  *
  * @return array
+ *   An Array with the job and the response, this element can be NULL.
  */
 function ne_dgt_rules_ftt_node_send_review_request($node) {
   if ($default_translator = get_default_ftt_workflow_translator()) {
@@ -75,8 +76,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
     if (isset($node->language) && $node->language === 'en') {
       // Checking if review request conditions are met.
       if (!get_active_tmgmt_job_items_ids($node->nid)
-        && $job = create_tmgmt_job_and_item_for_node($default_translator, $node))
-      {
+        && $job = create_tmgmt_job_and_item_for_node($default_translator, $node)) {
         // Sending the review request to DGT Services.
         $dgt_service_response = send_review_request($job);
 
@@ -101,6 +101,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
  *   The node that needs to be reviewed by the DGT Reviewer.
  *
  * @return array
+ *   An Array with the job and the response, this element can be NULL.
  */
 function ne_dgt_rules_ftt_node_send_translation_request($node) {
   if ($default_translator = get_default_ftt_workflow_translator()) {
@@ -108,8 +109,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node) {
     if (isset($node->language) && $node->language === 'en') {
       // Checking if review request conditions are met.
       if (!get_active_tmgmt_job_items_ids($node->nid)
-        && $job = create_tmgmt_job_and_item_for_node($default_translator, $node))
-      {
+        && $job = create_tmgmt_job_and_item_for_node($default_translator, $node)) {
         // Sending the review request to DGT Services.
         $dgt_service_response = send_translation_request($job);
 
@@ -131,6 +131,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node) {
  * Sends the review request to DGT Services for a given node.
  *
  * @param \TMGMTJob $job
+ *   TMGMT Job object.
  */
 function send_review_request(TMGMTJob $job) {
   $translator = $job->getTranslator();
@@ -145,6 +146,7 @@ function send_review_request(TMGMTJob $job) {
  * Sends the review request to DGT Services for a given node.
  *
  * @param \TMGMTJob $job
+ *   TMGMT Job object.
  */
 function send_translation_request(TMGMTJob $job) {
   $translator = $job->getTranslator();
@@ -175,9 +177,9 @@ function create_tmgmt_job_and_item_for_node($default_translator, $node) {
   $translator = $tmgmt_job->getTranslator();
 
   // Checking if the default translator is configured and available and if so
-  // creating related job item as placeholder for further workflow steps;
+  // creating related job item as placeholder for further workflow steps.
   if ($translator && $translator->isAvailable()) {
-    // Adding the TMGMT Job Item to the created TMGMT Job
+    // Adding the TMGMT Job Item to the created TMGMT Job.
     try {
       $tmgmt_job->addItem('workbench_moderation', $node->entity_type, $node->nid);
     }
