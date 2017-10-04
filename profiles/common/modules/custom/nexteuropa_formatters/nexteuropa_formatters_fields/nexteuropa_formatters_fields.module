@@ -304,47 +304,21 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_tags':
-      foreach ($items as $delta => $item) {
-        switch ($field['type']) {
-          case 'taxonomy_term_reference':
-          case 'entityreference':
-            // If the access is denied to the term, we do not display it.
-            if (empty($item['access'])) {
-              continue;
-            }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
-            }
-
-            // Calling EntityReferenceHandler::getLabel() would make a repeated,
-            // wasteful call to entity_access().
-            $label = entity_label($target_type, $item['entity']);
-            $uri = entity_uri($target_type, $item['entity']);
-
-            $tag = array(
-              '#theme' => 'link',
-              '#text' => $label,
-              '#path' => $uri['path'],
-              '#options' => array(
-                'attributes' => array(
-                  'class' => array(
-                    'ecl-tag__item',
-                  ),
-                ),
-              ),
-            );
-            break;
-
-          case 'link_field':
-            $tag = array(
-              'value' => $item['title'],
-              'href' => $item['url'],
-            );
+      if ('taxonomy_term_reference' == $field['type']) {
+        foreach ($items as $delta => $item) {
+          $entity = $item['entity'];
+          $uri = entity_uri($entity->entity_type, $entity);
+          $items[$delta] = array(
+            'value' => $entity->name,
+            'href' => $uri['path'],
+          );
         }
-        $elements[$delta] = $tag;
       }
+
+      $elements[0] = array(
+        '#theme' => 'tags',
+        '#items' => $items,
+      );
       break;
 
     case 'ne_button':
