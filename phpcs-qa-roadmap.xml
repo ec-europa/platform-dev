@@ -608,11 +608,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Line indented incorrectly. -->
-    <rule ref="Drupal.WhiteSpace.ScopeIndent.IncorrectExact">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- You must use "/**" style comments for a member variable comment. -->
     <rule ref="Drupal.Commenting.VariableComment.WrongStyle">
         <exclude-pattern>*</exclude-pattern>
