@@ -689,12 +689,18 @@ function _nexteuropa_varnish_temporary_message() {
  *
  * @param string $path
  *   Path which is going to be trimmed.
+ * @param string $base_path
+ *   The base path of the current Drupal site. If NULL, the function will
+ *   use the value given by the function base_path().
  *
  * @return string
  *   Trimmed path.
  */
-function _nexteuropa_varnish_trim_base_path($path) {
-  $base_path = base_path();
+function _nexteuropa_varnish_trim_base_path($path, $base_path = NULL) {
+  if (is_null($base_path)) {
+    $base_path = base_path();
+  }
+
   if (substr($path, 0, strlen($base_path)) === $base_path) {
     $path = substr($path, strlen($base_path));
   }
