@@ -39,6 +39,12 @@
          remove it from this list so it can be tested. -->
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
 
+    <!-- This module is not supported by Core team, so to progress with the cleanup
+          for QA AUTOMATION (NEPT-884, NEPT-1387, NEPT-1389, NEPT-1390, NEPT-1391, NEPT-1393),
+          this exception must exist
+          to allow the removing rule and has the phpcs logs OK (all green).  -->
+    <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
+
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
