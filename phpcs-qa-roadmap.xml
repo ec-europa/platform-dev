@@ -613,11 +613,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- You must use "/**" style comments for a member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.WrongStyle">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Expected "\Drupal\DrupalDriverManager" but found "\Drupal\DrupalDriverManager;" for @var tag in member variable comment. -->
     <rule ref="Drupal.Commenting.VariableComment.IncorrectVarType">
         <exclude-pattern>*</exclude-pattern>
