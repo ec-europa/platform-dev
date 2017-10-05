@@ -693,11 +693,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected 1 space after FUNCTION keyword. -->
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Expected 1 space before opening brace. -->
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeBrace">
         <exclude-pattern>*</exclude-pattern>
