@@ -116,6 +116,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
   public function requestReview(TMGMTJob $job) {
+    $dgt_response = array();
+
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($job)) {
       // Getting the identifier data.
@@ -129,16 +131,11 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
       // Process the response.
       $this->processResponse($dgt_response, $job);
-
-      return array(
-        'tmgmt_job' => $job,
-        'dgt_response' => $dgt_response,
-      );
     }
 
     return array(
       'tmgmt_job' => $job,
-      'dgt_response' => array(),
+      'dgt_response' => $dgt_response,
     );
   }
 
@@ -146,6 +143,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Process response from DGT Services.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
+   *   The response.
+   * @param TMGMTJob $job
+   *   TMGMT Job object.
    */
   private function processResponse(Status $response, TMGMTJob $job) {
     $this->updateTmgmtJobAndJobItem($response, $job);
