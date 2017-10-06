@@ -267,8 +267,7 @@ trait DataProcessor {
     if (isset($identifier['identifier.sequence'])) {
       $dgt_response = $this->sendNewNumberRequest($identifier);
       // Checking the DGT services response status.
-      $statuses = $dgt_response->getStatuses();
-      if ($statuses[0]['code'] === 0) {
+      if ($dgt_response->isSuccess()) {
         // Creating a new mapping entity and performing the review request.
         $this->createDgtFttTranslatorMappingEntity($dgt_response, $job);
 
