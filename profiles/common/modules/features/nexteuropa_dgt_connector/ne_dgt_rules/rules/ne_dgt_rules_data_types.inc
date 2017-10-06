@@ -30,5 +30,9 @@ function _ne_dgt_rules_dgt_service_response_data_info() {
       'type' => 'text',
       'label' => 'Reference number',
     ),
+    'raw_xml' => array(
+      'type' => 'text',
+      'label' => 'Response XML',
+    ),
   );
 }
