@@ -433,7 +433,9 @@ trait DataProcessor {
   private function createDgtFttTranslatorMappingEntity(Status $response, TMGMTJob $job) {
     // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
     /** @var \TMGMTJobItem $job_item */
-    if ($job_item = $this->getNodeFromTmgmtJob($job)) {
+    $job_items = $job->getItems();
+    if (count($job_items) == 1) {
+      $job_item = arrat_shift($job_items);
       // Creating the mapping entity.
       $map_entity = entity_create(
         'ne_tmgmt_dgt_ftt_map',
@@ -449,6 +451,19 @@ trait DataProcessor {
       );
       $map_entity->save();
     };
+
+    // Printing an error message.
+    $error_message = t("The DGT FTT mapping entity was not created.");
+    drupal_set_message($error_message, 'error');
+
+    // Logging an error to the watchdog.
+    watchdog('ne_tmgmt_dgt_ftt_translator',
+      "The DGT FTT mapping entity was not created. Check if there is job item
+      available for the following TMGMT Job ID: '$job->identifier()'. Please,
+      check also if there is only one job item for that job.",
+      array(),
+      WATCHDOG_ERROR
+    );
   }
 
   /**
