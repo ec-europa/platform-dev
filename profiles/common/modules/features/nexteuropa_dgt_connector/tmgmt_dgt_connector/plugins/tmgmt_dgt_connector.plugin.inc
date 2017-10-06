@@ -162,7 +162,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     // Generate the identifier for the request.
     $translator = $job->getTranslator();
     $settings = $translator->getSetting('settings');
-    $id_data = $this->generateRequestId($settings);
+    $poetry_service = variable_get("poetry_service");
+    $id_data = $this->generateRequestIdData($settings);
 
     // Get other pieces of information.
     $organization = $job->settings['organization'];
@@ -191,7 +192,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         'identifier.sequence' => $id_data['sequence'],
         'identifier.version' => $id_data['version'],
         'identifier.part' => $id_data['partie'],
-        'service.wsdl' => $settings['address'],
+        'service.wsdl' => $poetry_service['address'],
         'service.username' => $settings['poetry_user'],
         'service.password' => $settings['poetry_password'],
         'client.wsdl' => $callback_address,
@@ -277,7 +278,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    * @return @array
    *   The id data.
    */
-  protected function generateRequestId(array $settings) {
+  protected function generateRequestIdData(array $settings) {
 
     // Check the highest number, (if it exists and if it's lower then 99).
     $query = db_select('poetry_map', 'pm');
