@@ -280,7 +280,32 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    */
   protected function generateRequestId(TMGMTJobItem $item, array $settings) {
 
-    // Always request a new numero.
+    // Check the highest number, (if it exists and if it's lower then 99).
+    $query = db_select('poetry_map', 'pm');
+    $query->addExpression('MAX(numero)', 'max_numero');
+    $max_numero = $query->execute()->fetchAssoc();
+    if (!empty($max_numero['max_numero'])) {
+      $query = db_select('poetry_map', 'pm')
+        ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+        ->condition('numero', $max_numero['max_numero'], '=');
+      $query->addExpression('MAX(partie)', 'max_partie');
+      $result = $query->execute()->fetchAssoc();
+      // If we have a number and we haven't reached the max partie,
+      // increment it and return it.
+      if ($result && $result['max_partie'] < 99 && $result['numero'] > -1) {
+        $id_data = array(
+          'codeDemandeur' => $settings['code'],
+          'annee' => $result['annee'],
+          'numero' => $result['numero'],
+          'version' => $result['version'] = 00,
+          'partie' => $result['max_partie'] + 1,
+          'produit' => 'TRA',
+        );
+        return $id_data;
+      }
+    }
+
+    // Request a new number.
     $id_data = array(
       'codeDemandeur' => $settings['code'],
       'annee' => date("Y"),
