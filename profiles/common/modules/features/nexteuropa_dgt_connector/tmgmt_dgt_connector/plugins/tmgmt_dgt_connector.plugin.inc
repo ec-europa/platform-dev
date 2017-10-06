@@ -80,68 +80,67 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         'There was an error with the SOAP service.',
         $response
       );
+      return FALSE;
+    }
+
+    if (!$response->isSuccess()) {
+
+      if ($statuses = $response->getStatusesWithWarnings()) {
+        $job->addMessage(
+          'There were warnings with the Poetry request: :msg',
+          array(':msg' => implode('. ', $statuses)),
+          'warning'
+        );
+      }
+
+      if ($statuses = $response->getStatusesWithErrors()) {
+        _tmgmt_poetry_tmgmt_job_reject(
+          $job,
+          'Rejected',
+          'There were errors with the Poetry request.',
+          implode('. ', $statuses)
+        );
+
+        return FALSE;
+      }
+    }
+
+    // Insert or update the mapping information.
+    $demande_id = $response->getIdentifier();
+
+    $items = $job->getItems();
+    $item = array_shift($items);
+
+    $result = db_select('poetry_map', 'pm')
+      ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+      ->condition('entity_type', $item->item_type, '=')
+      ->condition('entity_id', $item->item_id, '=')
+      ->execute()
+      ->fetchAssoc();
+    if (!$result) {
+      db_insert('poetry_map')
+        ->fields(array(
+          'entity_type' => $item->item_type,
+          'entity_id' => $item->item_id,
+          'annee' => $demande_id->getYear(),
+          'numero' => $demande_id->getNumber(),
+          'version' => $demande_id->getVersion(),
+          'partie' => $demande_id->getPart(),
+        ))
+        ->execute();
     }
     else {
-
-      if (!$response->isSuccess()) {
-
-        if ($statuses = $response->getStatusesWithWarnings()) {
-          $job->addMessage(
-            'There were warnings with the Poetry request: :msg',
-            array(':msg' => implode('. ', $statuses)),
-            'warning'
-          );
-        }
-
-        if ($statuses = $response->getStatusesWithErrors()) {
-          _tmgmt_poetry_tmgmt_job_reject(
-            $job,
-            'Rejected',
-            'There were errors with the Poetry request.',
-            implode('. ', $statuses)
-          );
-
-          return;
-        }
-      }
-
-      // Insert or update the mapping information.
-      $demande_id = $response->getIdentifier();
-
-      $items = $job->getItems();
-      $item = array_shift($items);
-
-      $result = db_select('poetry_map', 'pm')
-        ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+      // @FIXME Do not overwrite data. Might not be for the same revision.
+      db_update('poetry_map')
+        ->fields(array(
+          'annee' => $demande_id->getYear(),
+          'numero' => $demande_id->getNumber(),
+          'version' => $demande_id->getVersion(),
+          'partie' => $demande_id->getPart(),
+        ))
         ->condition('entity_type', $item->item_type, '=')
         ->condition('entity_id', $item->item_id, '=')
-        ->execute()
-        ->fetchAssoc();
-      if (!$result) {
-        db_insert('poetry_map')
-          ->fields(array(
-            'entity_type' => $item->item_type,
-            'entity_id' => $item->item_id,
-            'annee' => $demande_id->getYear(),
-            'numero' => $demande_id->getNumber(),
-            'version' => $demande_id->getVersion(),
-            'partie' => $demande_id->getPart(),
-          ))
-          ->execute();
-      }
-      else {
-        // @FIXME Do not overwrite data. Might not be for the same revision.
-        db_update('poetry_map')
-          ->fields(array(
-            'annee' => $demande_id->getYear(),
-            'numero' => $demande_id->getNumber(),
-            'version' => $demande_id->getVersion(),
-            'partie' => $demande_id->getPart(),
-          ))
-          ->condition('entity_type', $item->item_type, '=')
-          ->condition('entity_id', $item->item_id, '=')
-          ->execute();
-      }
+        ->execute();
     }
 
     if (!$job->isRejected()) {
@@ -162,14 +161,15 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     // Generate the identifier for the request.
     $translator = $job->getTranslator();
     $settings = $translator->getSetting('settings');
-    $poetry_service = variable_get("poetry_service");
     $id_data = $this->generateRequestIdData($settings);
 
     // Get other pieces of information.
+    $poetry_service = variable_get("poetry_service");
     $organization = $job->settings['organization'];
     $details_title = 'NE-CMS: ';
     $details_title .= (empty($settings['website_identifier']) ? '' : $settings['website_identifier'] . ' - ');
     $details_title .= $job->label;
+    $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
     // Generate the callback parameters for the request.
     $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
@@ -181,9 +181,6 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
     $export = $controller->export($job);
     $content = base64_encode($export);
-
-    // Set delai.
-    $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
     try {
       $poetry = new Poetry(array(
@@ -229,15 +226,17 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setUser('MockCallback')
         ->setPassword('MockCallbackPWD')
         ->setAddress($callback_address)
-        // Missing ->setPath('FPFISPoetryIntegrationRequest') .
+        ->setPath('FPFISPoetryIntegrationRequest')
         ->setRemark('');
 
-      $message->withReferenceDocument()
-        ->setType('REF')
+      $message->withSource()
         ->setFormat('HTML')
         ->setName('content.html')
-        ->setLanguage('EN')
-        ->setFile($content);
+        ->setFile($content)
+        ->setLegiswriteFormat('No')
+        ->withSourceLanguage()
+        ->setCode(drupal_strtoupper($job->getTranslator()->mapToRemoteLanguage($job->source_language)))
+        ->setPages(1);
 
       foreach ($job->settings['languages'] as $lang_val) {
         if ($lang_val) {
@@ -254,9 +253,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       // $renderer = $poetry->get('renderer');
       // dpm($renderer->render($message));
       // .
-      $response = $poetry->getClient()->send($message);
-
-      return $response;
+      return $poetry->getClient()->send($message);
 
     }
     catch (Exceptions\ValidationException $exception) {
