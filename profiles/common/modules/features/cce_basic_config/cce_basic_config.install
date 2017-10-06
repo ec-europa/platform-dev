@@ -2457,7 +2457,7 @@ function cce_basic_config_update_7220() {
 }
 
 /**
- * Force the first day to Monday on the platform
+ * Force the first day to Monday on the platform.
  */
 function cce_basic_config_update_7221() {
   variable_set('date_first_day', 1);

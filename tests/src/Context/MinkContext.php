@@ -496,4 +496,5 @@ class MinkContext extends DrupalExtensionMinkContext {
 
     assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
   }
+
 }
