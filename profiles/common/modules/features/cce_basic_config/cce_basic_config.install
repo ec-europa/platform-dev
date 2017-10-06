@@ -2455,3 +2455,10 @@ function cce_basic_config_update_7219() {
 function cce_basic_config_update_7220() {
   variable_set('multisite_version', '2.4');
 }
+
+/**
+ * Force the first day to Monday on the platform.
+ */
+function cce_basic_config_update_7221() {
+  variable_set('date_first_day', 1);
+}
