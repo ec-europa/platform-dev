@@ -561,14 +561,4 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
-  /**
-   * Checks that a select box is set to a given value.
-   *
-   * @Then the select(s) :selector should be set to :value
-   */
-  public function theSelectsShouldBeSetTo($selector, $value) {
-    $this->assertSession()
-      ->elementAttributeContains('css', $selector . ' option[selected="selected"]', 'value', $value);
-  }
-
 }

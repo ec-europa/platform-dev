@@ -18,6 +18,7 @@ use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
+use function bovigo\assert\predicate\isTrue;
 use function bovigo\assert\assert;
 
 /**
@@ -478,4 +479,21 @@ class MinkContext extends DrupalExtensionMinkContext {
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
+
+  /**
+   * Checks that a select box is set to a given value is selected in select box.
+   *
+   * @Then :option is selected in the :selector options list
+   */
+  public function selectedOptionShouldBeSetTo($selector, $value_label) {
+    $page = $this->getSession()->getPage();
+    $select_box = $page->findField($selector);
+
+    $optionField = $select_box->find('named', array(
+      'option',
+      $value_label,
+    ));
+
+    assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
+  }
 }
