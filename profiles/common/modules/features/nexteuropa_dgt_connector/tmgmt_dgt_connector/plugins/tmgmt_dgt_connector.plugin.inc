@@ -216,15 +216,12 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setDestination('PUBLIC')
         ->setType('INTER');
 
-      $message->withContact()
-        ->setType('Secretaire')
-        ->setNickname('ecusername');
-      $message->withContact()
-        ->setType('Contact')
-        ->setNickname('ecusername');
-      $message->withContact()
-        ->setType('Responsible')
-        ->setNickname('ecusername');
+      // Get contact information from translator and add it to the request.
+      foreach ($job->settings['contacts'] as $type => $value) {
+        $message->withContact()
+          ->setType($type)
+          ->setNickname($value);
+      }
 
       $message->withReturnAddress()
         ->setType('webService')
