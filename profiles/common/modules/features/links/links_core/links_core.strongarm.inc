@@ -30,7 +30,7 @@ function links_core_strongarm() {
   $strongarm->name = 'comment_default_per_page_links';
   $strongarm->value = '50';
   $export['comment_default_per_page_links'] = $strongarm;
-  
+
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
