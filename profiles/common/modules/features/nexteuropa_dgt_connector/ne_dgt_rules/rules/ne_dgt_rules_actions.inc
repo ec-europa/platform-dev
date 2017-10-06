@@ -46,6 +46,11 @@ function ne_dgt_rules_rules_action_info() {
  * @return array
  */
 function ne_dgt_rules_ftt_node_send_review_request($node) {
+  $return = array(
+    'tmgmt_job' => NULL,
+    'dgt_service_response' => array(),
+  );
+
   if ($default_translator = get_default_ftt_workflow_translator()) {
     // The review request can be only sent for the english version of the node.
     if (isset($node->language) && $node->language === 'en') {
@@ -54,20 +59,12 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
         && $job = create_tmgmt_job_and_item_for_node($default_translator, $node))
       {
         // Sending the review request to DGT Services.
-        $dgt_service_response = send_review_request($job);
-
-        return array(
-          'tmgmt_job' => $job,
-          'dgt_service_response' => $dgt_service_response,
-        );
+        $return = send_review_request($job);
       }
     }
   }
 
-  return array(
-    'tmgmt_job' => NULL,
-    'dgt_service_response' => array(),
-  );
+  return $return;
 }
 
 /**
@@ -79,9 +76,7 @@ function send_review_request(TMGMTJob $job) {
   $translator = $job->getTranslator();
   $controller = $translator->getController();
 
-  $service_response = $controller->requestReview($job);
-
-  return $service_response;
+  return $controller->requestReview($job);
 }
 
 /**

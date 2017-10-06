@@ -62,7 +62,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
           return FALSE;
         }
       }
-
     }
 
     return TRUE;
@@ -116,7 +115,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
   public function requestReview(TMGMTJob $job) {
-    $dgt_response = array();
+    $rules_response = array();
 
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($job)) {
@@ -129,13 +128,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendReviewRequest($identifier, $data);
 
-      // Process the response.
-      $this->processResponse($dgt_response, $job);
+      // Process the DGT response to get the Rules response.
+      $rules_response = $this->processResponse($dgt_response, $job);
     }
 
     return array(
       'tmgmt_job' => $job,
-      'dgt_response' => $dgt_response,
+      'dgt_service_response' => $rules_response,
     );
   }
 
@@ -146,9 +145,17 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   The response.
    * @param TMGMTJob $job
    *   TMGMT Job object.
+   *
+   * @return array
+   *   An array containing the ref id and raw xml.
    */
   private function processResponse(Status $response, TMGMTJob $job) {
     $this->updateTmgmtJobAndJobItem($response, $job);
+
+    return array(
+      'ref_id' => $response->getMessageId(),
+      'raw_xml' => $response->getRaw(),
+    );
   }
 
   /**

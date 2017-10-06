@@ -490,6 +490,7 @@ trait DataProcessor {
    *   TMGMT Job object
    */
   private function updateTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
-
+    $job->reference = $response->getMessageId();
+    $job->save();
   }
 }
