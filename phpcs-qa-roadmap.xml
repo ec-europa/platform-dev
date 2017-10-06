@@ -638,11 +638,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Missing file doc comment. -->
-    <rule ref="Drupal.Commenting.FileComment.Missing">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Doc comment short description must start with a capital letter. -->
     <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
         <exclude-pattern>*</exclude-pattern>
