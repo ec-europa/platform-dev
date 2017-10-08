@@ -304,7 +304,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_tags':
-      switch ($field['type']){
+      switch ($field['type']) {
         case 'entityreference':
           foreach ($items as $delta => $item) {
             if (empty($item['access']) || !$item['access']) {
@@ -329,9 +329,9 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
           break;
 
         case 'taxonomy_term_reference':
-          foreach ( $items as $delta => $item){
+          foreach ($items as $delta => $item) {
             $entity = $item['entity'];
-            $uri = entity_uri($entity->entity_type,$entity);
+            $uri = entity_uri($entity->entity_type, $entity);
             $items[$delta] = array(
               'value' => $entity->name,
               'href' => $uri['path'],
@@ -345,7 +345,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
           break;
 
         case 'link_field':
-          foreach ( $items as $delta => $item) {
+          foreach ($items as $delta => $item) {
             $items[$delta] = array(
               'value' => $item['title'],
               'href' => $item['url'],
@@ -357,6 +357,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
             '#items' => $items,
           );
           break;
+
         default:
 
       }
