@@ -33,7 +33,6 @@ class PiwikRulesContext implements Context {
    */
   protected $variables;
 
-
   /**
    * Gathers other contexts we rely on, before the scenario starts.
    *

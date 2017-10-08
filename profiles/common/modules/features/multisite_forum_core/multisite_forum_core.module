@@ -10,7 +10,6 @@ define('MULTISITE_FORUM_CORE_CT_NAME', 'discussion');
 
 include_once 'multisite_forum_core.features.inc';
 
-
 /**
  * Implements hook_boot().
  */

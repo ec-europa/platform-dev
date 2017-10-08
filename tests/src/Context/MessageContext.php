@@ -16,6 +16,7 @@ use Drupal\DrupalExtension\Context\MessageContext as DrupalExtensionMessageConte
  * @package Drupal\nexteuropa\Context
  */
 class MessageContext extends DrupalExtensionMessageContext {
+
   /**
    * Checks if the current page contains the given error message.
    *

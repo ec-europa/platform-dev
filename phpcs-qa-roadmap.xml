@@ -688,11 +688,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected 1 blank line before function. -->
-    <rule ref="Squiz.WhiteSpace.FunctionSpacing.Before">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Expected 1 space after FUNCTION keyword. -->
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction">
         <exclude-pattern>*</exclude-pattern>
