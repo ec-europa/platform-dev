@@ -113,7 +113,6 @@ function multisite_wysiwyg_ckeditor_plugin() {
  * Implements hook_wysiwyg_plugin().
  */
 function multisite_wysiwyg_wysiwyg_plugin($editor, $version) {
-
   if ($editor == 'ckeditor') {
     return array(
       'multisite_wysiwyg_link_hreflang' => array(

@@ -1,0 +1,13 @@
+# Fix remote js loading on ckeditor plugin
+# See NEXTEUROPA-9874
+--- a/wysiwyg.module
++++ b/wysiwyg.module
+@@ -389,7 +389,7 @@ function wysiwyg_load_editor($profile) {
+             drupal_add_js($init, array('type' => 'inline') + $default_library_options);
+           }
+           else {
+-            drupal_add_js($uri, $default_library_options);
++            drupal_add_js($uri, array('type' => 'external') + $default_library_options);
+           }
+         }
+       }
