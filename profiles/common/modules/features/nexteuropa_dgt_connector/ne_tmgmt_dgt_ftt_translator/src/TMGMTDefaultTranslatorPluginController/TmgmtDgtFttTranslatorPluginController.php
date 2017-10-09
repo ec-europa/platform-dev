@@ -151,7 +151,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   private function processResponse(Status $response, TMGMTJob $job) {
     $this->updateTmgmtJobAndJobItem($response, $job);
-
+    // Creating new mapping entity based on the response and job.
+    $this->createDgtFttTranslatorMappingEntity($response, $job);
     return array(
       'ref_id' => $response->getMessageId(),
       'raw_xml' => $response->getRaw(),
