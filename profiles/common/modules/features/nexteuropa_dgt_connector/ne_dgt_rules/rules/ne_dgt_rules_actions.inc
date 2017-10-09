@@ -101,27 +101,25 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
  *   An Array with the job and the response, this element can be NULL.
  */
 function ne_dgt_rules_ftt_node_send_translation_request($node) {
+  $return = array(
+    'tmgmt_job' => NULL,
+    'dgt_service_response' => array(),
+  );
+
   if ($default_translator = get_default_ftt_workflow_translator()) {
     // The review request can be only sent for the english version of the node.
     if (isset($node->language) && $node->language === 'en') {
       // Checking if review request conditions are met.
-      if (!get_active_tmgmt_job_items_ids($node->nid)
-        && $job = create_tmgmt_job_and_item_for_node($default_translator, $node)) {
-        // Sending the review request to DGT Services.
-        $dgt_service_response = send_translation_request($job);
-
-        return array(
-          'tmgmt_job' => $job,
-          'dgt_service_response' => $dgt_service_response,
-        );
+      if (!get_active_tmgmt_job_items_ids($node->nid)) {
+        if ($job = create_tmgmt_job_and_item_for_node($default_translator, $node, 'es')) {
+          // Sending the translation request to DGT Services.
+          $return = send_translation_request($job);
+        }
       }
     }
   }
 
-  return array(
-    'tmgmt_job' => NULL,
-    'dgt_service_response' => array(),
-  );
+  return $return;
 }
 
 /**
@@ -138,7 +136,7 @@ function send_review_request(TMGMTJob $job) {
 }
 
 /**
- * Sends the review request to DGT Services for a given node.
+ * Sends the translation request to DGT Services for a given node.
  *
  * @param \TMGMTJob $job
  *   TMGMT Job object.
@@ -147,9 +145,7 @@ function send_translation_request(TMGMTJob $job) {
   $translator = $job->getTranslator();
   $controller = $translator->getController();
 
-  $service_response = $controller->requestTranslation($job);
-
-  return $service_response;
+  return $controller->requestTranslation($job);
 }
 
 /**
@@ -163,9 +159,9 @@ function send_translation_request(TMGMTJob $job) {
  * @return \TMGMTJob
  *   Returns created TMGMT Job.
  */
-function create_tmgmt_job_and_item_for_node($default_translator, $node) {
+function create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language = '') {
   // Creating TMGMT Main job.
-  $tmgmt_job = tmgmt_job_create($node->language, '');
+  $tmgmt_job = tmgmt_job_create($node->language, $target_language);
   // Assiging the default translator to the job.
   $tmgmt_job->translator = $default_translator;
   // Getting the default translator object.

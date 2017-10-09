@@ -148,6 +148,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
   public function requestTranslation(TMGMTJob $job) {
+    $rules_response = array();
+
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($job)) {
       // Getting the identifier data.
@@ -159,18 +161,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendTranslationRequest($identifier, $data);
 
-      // Process the response.
-      $this->processResponse($dgt_response, $job);
-
-      return array(
-        'tmgmt_job' => $job,
-        'dgt_response' => $dgt_response,
-      );
+      // Process the DGT response to get the Rules response.
+      $rules_response = $this->processResponse($dgt_response, $job);
     }
 
     return array(
       'tmgmt_job' => $job,
-      'dgt_response' => array(),
+      'dgt_service_response' => $rules_response,
     );
   }
 
@@ -178,18 +175,12 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * Process response from DGT Services.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
-<<<<<<< HEAD
-   *   TMGMT status object.
-   * @param TMGMTJob $job
-   *   TMGMT Job object.
-=======
    *   The response.
    * @param TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return array
    *   An array containing the ref id and raw xml.
->>>>>>> nept-1477_nept-1479
    */
   private function processResponse(Status $response, TMGMTJob $job) {
     $this->updateTmgmtJobAndJobItem($response, $job);
@@ -237,13 +228,11 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   private function sendTranslationRequest(array $identifier, array $data) {
     // Instantiate the Poetry Client object.
     $poetry = new Poetry\Poetry($identifier);
-    $message = $poetry->get('request.send_translation_request');
+    $message = $poetry->get('request.create_request');
     $message->withArray($data);
 
     /** @var Status $response */
-    $response = $poetry->getClient()->send($message);
-
-    return $response;
+    return $poetry->getClient()->send($message);
   }
 
 }
