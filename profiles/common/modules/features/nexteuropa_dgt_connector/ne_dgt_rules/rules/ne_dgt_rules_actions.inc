@@ -29,7 +29,17 @@ function ne_dgt_rules_rules_action_info() {
       'dgt_service_response' => array(
         'type' => 'dgt_service_response',
         'label' => t('DGT Service response'),
-        'description' => t('Response from the DGT Translation Service.'),
+        'description' => t('Response from the DGT Service.'),
+      ),
+      'dgt_service_response_status' => array(
+        'type' => 'dgt_service_response_status',
+        'label' => t('DGT Service Response - Response status'),
+        'description' => t('Response from the DGT Service - response status.'),
+      ),
+      'dgt_service_demand_status' => array(
+        'type' => 'dgt_service_demand_status',
+        'label' => t('DGT Service Response - Demand status'),
+        'description' => t('Response from the DGT Service - demand status.'),
       ),
     ),
   );
