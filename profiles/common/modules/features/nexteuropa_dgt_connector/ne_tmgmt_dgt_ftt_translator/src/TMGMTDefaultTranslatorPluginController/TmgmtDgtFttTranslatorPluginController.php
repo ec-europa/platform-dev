@@ -150,13 +150,24 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   An array containing the ref id and raw xml.
    */
   private function processResponse(Status $response, TMGMTJob $job) {
-    $this->updateTmgmtJobAndJobItem($response, $job);
-    // Creating new mapping entity based on the response and job.
-    $this->createDgtFttTranslatorMappingEntity($response, $job);
-    return array(
-      'ref_id' => $response->getMessageId(),
-      'raw_xml' => $response->getRaw(),
+    $return = array(
+      'ref_id' => '',
+      'raw_xml' => '',
     );
+
+    if ($response->isSuccess()) {
+      // Updating TMGMT Job information.
+      $this->updateTmgmtJobAndJobItem($response, $job);
+
+      // Creating new mapping entity based on the response and job.
+      $this->createDgtFttTranslatorMappingEntity($response, $job);
+
+      // Setting up values for the Rules.
+      $return['ref_id'] = $response->getMessageId();
+      $return['raw_xml'] = $response->getRaw();
+    }
+
+    return $return;
   }
 
   /**
