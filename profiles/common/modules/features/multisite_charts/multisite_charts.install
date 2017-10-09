@@ -17,6 +17,13 @@ function multisite_charts_enable() {
 }
 
 /**
+ * Use soft config for charts comment form location.
+ */
+function multisite_charts_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('chart', 0);
+}
+
+/**
  * Implements hook_disable().
  */
 function multisite_charts_disable() {

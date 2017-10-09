@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Nexteuropa_news install file.
+ */
+
+/**
+ * Use soft config for nexteuropa_events comment form location..
+ */
+function nexteuropa_multilingual_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('nexteuropa_news', 1);
+}

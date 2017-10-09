@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the event feature.
+ */
+
+/**
+ * Use soft config for nexteuropa_event comment form location.
+ */
+function nexteuropa_event_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('nexteuropa_event', 1);
+}

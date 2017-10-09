@@ -28,7 +28,6 @@ features[variable][] = comment_anonymous_chart
 features[variable][] = comment_chart
 features[variable][] = comment_default_mode_chart
 features[variable][] = comment_default_per_page_chart
-features[variable][] = comment_form_location_chart
 features[variable][] = comment_preview_chart
 features[variable][] = comment_subject_field_chart
 features[variable][] = field_bundle_settings_node__chart

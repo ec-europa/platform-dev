@@ -42,6 +42,13 @@ function nexteuropa_mediagallery_enable() {
 }
 
 /**
+ * nept-758: Use soft config for nexteuropa_mediagallery comment form location.
+ */
+function nexteuropa_mediagallery_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('nexteuropa_mediagallery', 0);
+}
+
+/**
  * Implements hook_disable().
  */
 function nexteuropa_mediagallery_disable() {

@@ -71,6 +71,12 @@ projects[apachesolr_multilingual][version] = "1.3"
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.1"
 
+projects[autologout][subdir] = "contrib"
+projects[autologout][version] = "4.4"
+; Issue #2739114 : Change warning message to be more user friendly
+; https://www.drupal.org/node/2739114
+projects[autologout][patch][] = https://www.drupal.org/files/issues/change-warning-message-2739114-15.patch
+
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
@@ -154,7 +160,9 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.11"
+projects[ctools][download][branch] = 7.x-1.x
+projects[ctools][download][revision] = e94ba64a8e8a0afbc4d6d231d09f040ebd1177d4
+projects[ctools][download][type] = git
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -216,16 +224,11 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
-projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = 599b07585d37101bc7b38c9df5b2ef196a7416b2
-projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
+projects[entityreference][version] = "1.5"
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
-; Fix issues with autocomplete callback and add constant to track control string
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1459
-projects[entityreference][patch][] = patches/entityreference-autocomplete-constant-control.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"

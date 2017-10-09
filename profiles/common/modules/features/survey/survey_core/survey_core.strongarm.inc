@@ -34,13 +34,6 @@ function survey_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'comment_form_location_webform';
-  $strongarm->value = 0;
-  $export['comment_form_location_webform'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_webform';
   $strongarm->value = '1';
   $export['comment_preview_webform'] = $strongarm;

@@ -23,7 +23,6 @@ features[user_permission][] = edit own links content
 features[variable][] = comment_anonymous_links
 features[variable][] = comment_default_mode_links
 features[variable][] = comment_default_per_page_links
-features[variable][] = comment_form_location_links
 features[variable][] = comment_links
 features[variable][] = comment_preview_links
 features[variable][] = comment_subject_field_links

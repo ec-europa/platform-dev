@@ -30,7 +30,6 @@ features[user_permission][] = use text format wiki
 features[variable][] = comment_anonymous_wiki
 features[variable][] = comment_default_mode_wiki
 features[variable][] = comment_default_per_page_wiki
-features[variable][] = comment_form_location_wiki
 features[variable][] = comment_preview_wiki
 features[variable][] = comment_subject_field_wiki
 features[variable][] = comment_wiki

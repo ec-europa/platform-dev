@@ -36,7 +36,6 @@ features[user_permission][] = edit own news content
 features[variable][] = comment_anonymous_news
 features[variable][] = comment_default_mode_news
 features[variable][] = comment_default_per_page_news
-features[variable][] = comment_form_location_news
 features[variable][] = comment_news
 features[variable][] = comment_preview_news
 features[variable][] = comment_subject_field_news

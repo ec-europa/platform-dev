@@ -24,6 +24,13 @@ function multisite_mediagallery_core_enable() {
 }
 
 /**
+ * Use soft config for gallerymedia comment form location.
+ */
+function multisite_mediagallery_core_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('gallerymedia', 0);
+}
+
+/**
  * Implements hook_disable().
  *
  * Edit communities context to remove block
