@@ -195,9 +195,30 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Creating new mapping entity based on the response and job.
       $this->createDgtFttTranslatorMappingEntity($response, $job);
 
+      $job->submitted('Job has been successfully submitted. Job Reference ID is: %job_reference',
+        array('%job_reference' => $job->reference));
+
       // Setting up values for the Rules.
       $return['ref_id'] = $response->getMessageId();
       $return['raw_xml'] = $response->getRaw();
+    } else {
+      if ($statuses = $response->getStatusesWithWarnings()) {
+        $job->addMessage(
+          'There were warnings with the poetry request: :msg',
+          array(':msg' => implode('. ', $statuses)),
+          'warning'
+        );
+      }
+
+      if ($statuses = $response->getStatusesWithErrors()) {
+        $job->addMessage(
+          'There were errors with the poetry request: :msg',
+          array(':msg' => implode('. ', $statuses)),
+          'error'
+        );
+      }
+
+      $job->aborted();
     }
 
     return $return;

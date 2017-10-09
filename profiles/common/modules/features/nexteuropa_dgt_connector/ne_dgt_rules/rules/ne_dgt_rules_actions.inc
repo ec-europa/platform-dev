@@ -247,26 +247,27 @@ function get_active_tmgmt_job_items_ids($entity_id) {
   if (isset($results['tmgmt_job_item'])) {
     // Informing user that the review request can not be send.
     $job_items = implode(" ,", array_keys($results['tmgmt_job_item']));
+
     $error_message = t("Content type with ID: '@entity_id' is currently
       included in one of the translation processes
-      (TMGMT Job Item IDs: '@job_items'). You can not request the review for
+      (TMGMT Job Item IDs: '@job_items'). You can not do a request for
       the content which is currently under translation process.
       Please finish ongoing processes and try again.",
       array('@entity_id' => $entity_id, '@job_items' => $job_items)
     );
-
     drupal_set_message($error_message, 'error');
 
     // Logging an error to the watchdog.
     watchdog('ne_tmgmt_dgt_ftt_translator',
       "Content type with ID: $entity_id is currently
       included in one of the translation processes
-      (TMGMT Job Item IDs: $job_items). You can not request the review for
+      (TMGMT Job Item IDs: $job_items). You can not do a request for
       the content which is currently under translation process.
       Please finish ongoing processes and try again.",
       array(),
       WATCHDOG_ERROR
     );
+
     return array_keys($results['tmgmt_job_item']);
   }
 
