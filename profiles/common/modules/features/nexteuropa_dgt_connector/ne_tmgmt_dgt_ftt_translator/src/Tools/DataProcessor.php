@@ -434,7 +434,7 @@ trait DataProcessor {
     /** @var \TMGMTJobItem $job_item */
     $job_items = $job->getItems();
     if (count($job_items) == 1) {
-      $job_item = arrat_shift($job_items);
+      $job_item = array_shift($job_items);
       // Creating the mapping entity.
       $map_entity = entity_create(
         'ne_tmgmt_dgt_ftt_map',
