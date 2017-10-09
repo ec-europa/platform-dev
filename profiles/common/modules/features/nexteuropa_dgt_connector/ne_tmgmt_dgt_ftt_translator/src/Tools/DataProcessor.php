@@ -178,7 +178,7 @@ trait DataProcessor {
       'legiswrite_format' => 'No',
       'source_language' => array(
         array(
-          'code' => strtoupper($this->node->language),
+          'code' => strtoupper($this->job->source_language),
           'pages' => 1,
         ),
       ),
@@ -229,7 +229,7 @@ trait DataProcessor {
       array(
         'action' => 'INSERT',
         'format' => 'HTML',
-        'language' => strtoupper($this->node->language),
+        'language' => strtoupper($this->job->target_language),
         'delay' => $this->defaultDelayDate,
       ),
     );
@@ -267,7 +267,7 @@ trait DataProcessor {
     if (isset($identifier['identifier.sequence'])) {
       $dgt_response = $this->sendNewNumberRequest($identifier);
       // Checking the DGT services response status.
-      if ($dgt_response->isSuccess()) {
+      if ($dgt_response->isSuccessful()) {
         // Creating a new mapping entity and performing the review request.
         $this->createDgtFttTranslatorMappingEntity($dgt_response, $job);
 
@@ -495,6 +495,44 @@ trait DataProcessor {
   private function updateTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
     $job->reference = $response->getMessageId();
     $job->save();
+  }
+
+  /**
+   * Updating the TMGMT Job and TMGMT Job Item with data from the DGT response.
+   *
+   * @param \EC\Poetry\Messages\Responses\Status $response
+   *   DGT Service response.
+   * @param \TMGMTJob $job
+   *   TMGMT Job object.
+   */
+  private function abortTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
+    if ($statuses = $response->getWarnings()) {
+      $job->addMessage(
+        'There were warnings with the poetry request: :msg',
+        array(':msg' => implode('. ', $statuses)),
+        'warning'
+      );
+      watchdog('ne_tmgmt_dgt_ftt_translator',
+        "The TMGMT Job ID: '$job->tjid' have warnings with the poetry request: :msg",
+        array(':msg' => implode('. ', $statuses)),
+        WATCHDOG_WARNING
+      );
+    }
+
+    if ($statuses = $response->getErrors()) {
+      $job->addMessage(
+        'There were errors with the poetry request: :msg',
+        array(':msg' => implode('. ', $statuses)),
+        'error'
+      );
+      watchdog('ne_tmgmt_dgt_ftt_translator',
+        "The TMGMT Job ID: '$job->tjid' have errors with the poetry request: :msg",
+        array(':msg' => implode('. ', $statuses)),
+        WATCHDOG_ERROR
+      );
+    }
+
+    $job->aborted();
   }
 
 }

@@ -111,19 +111,19 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
  *   An Array with the job and the response, this element can be NULL.
  */
 function ne_dgt_rules_ftt_node_send_translation_request($node) {
-  $return = array(
-    'tmgmt_job' => NULL,
-    'dgt_service_response' => array(),
-  );
+  $return = array();
 
   if ($default_translator = get_default_ftt_workflow_translator()) {
     // The review request can be only sent for the english version of the node.
     if (isset($node->language) && $node->language === 'en') {
       // Checking if review request conditions are met.
       if (!get_active_tmgmt_job_items_ids($node->nid)) {
-        if ($job = create_tmgmt_job_and_item_for_node($default_translator, $node, 'es')) {
-          // Sending the translation request to DGT Services.
-          $return = send_translation_request($job);
+        foreach(language_list() as $target_language) {
+          if (($target_language->language != $node->language)
+            && ($job = create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language->language))) {
+            // Sending the translation request to DGT Services.
+            $return[] = send_translation_request($job);
+          }
         }
       }
     }
@@ -170,16 +170,19 @@ function send_translation_request(TMGMTJob $job) {
  *   Returns created TMGMT Job.
  */
 function create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language = '') {
-  // Creating TMGMT Main job.
-  $tmgmt_job = tmgmt_job_create($node->language, $target_language);
-  // Assiging the default translator to the job.
-  $tmgmt_job->translator = $default_translator;
+
   // Getting the default translator object.
-  $translator = $tmgmt_job->getTranslator();
+  $translator = tmgmt_translator_load($default_translator);
+  $target_language = $translator->mapToRemoteLanguage($target_language);
 
   // Checking if the default translator is configured and available and if so
   // creating related job item as placeholder for further workflow steps.
   if ($translator && $translator->isAvailable()) {
+    // Creating TMGMT Main job.
+    $tmgmt_job = tmgmt_job_create($node->language, $target_language);
+    // Assiging the default translator to the job.
+    $tmgmt_job->translator = $default_translator;
+
     // Adding the TMGMT Job Item to the created TMGMT Job.
     try {
       $tmgmt_job->addItem('workbench_moderation', $node->entity_type, $node->nid);

@@ -188,7 +188,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       'raw_xml' => '',
     );
 
-    if ($response->isSuccess()) {
+    if ($response->isSuccessful()) {
       // Updating TMGMT Job information.
       $this->updateTmgmtJobAndJobItem($response, $job);
 
@@ -202,23 +202,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $return['ref_id'] = $response->getMessageId();
       $return['raw_xml'] = $response->getRaw();
     } else {
-      if ($statuses = $response->getStatusesWithWarnings()) {
-        $job->addMessage(
-          'There were warnings with the poetry request: :msg',
-          array(':msg' => implode('. ', $statuses)),
-          'warning'
-        );
+      if ('0' === $response->getRequestStatus()->getCode()) {
+        // Creating new mapping entity based on the response and job.
+        $this->createDgtFttTranslatorMappingEntity($response, $job);
       }
 
-      if ($statuses = $response->getStatusesWithErrors()) {
-        $job->addMessage(
-          'There were errors with the poetry request: :msg',
-          array(':msg' => implode('. ', $statuses)),
-          'error'
-        );
-      }
-
-      $job->aborted();
+      // Abort the TMGMT Job and the JobItem.
+      $this->abortTmgmtJobAndJobItem($response, $job);
     }
 
     return $return;
