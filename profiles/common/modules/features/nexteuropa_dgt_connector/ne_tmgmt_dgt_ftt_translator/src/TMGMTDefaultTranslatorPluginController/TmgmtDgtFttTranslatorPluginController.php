@@ -10,10 +10,10 @@ use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
 use \EC\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
-use \TMGMTDefaultTranslatorPluginController;
-use \TMGMTTranslator;
-use \TMGMTJob;
-use \TMGMTJobItem;
+use TMGMTDefaultTranslatorPluginController;
+use TMGMTTranslator;
+use TMGMTJob;
+use TMGMTJobItem;
 
 /**
  * TMGMT DGT FTT translator plugin controller.
@@ -110,11 +110,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *
    * @param TMGMTJob $job
    *   TMGMT Job object.
+   * @param array $parameters
+   *   An array with additional parameters like the organisation data.
    *
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestReview(TMGMTJob $job) {
+  public function requestReview(TMGMTJob $job, $parameters) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
@@ -124,6 +126,11 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
       // Getting the request data.
       $data = $this->getRequestData($job, $node);
+
+      // Overwrite the data if we have some parameters.
+      if (!empty($parameters)) {
+        $this->overwriteRequestData($data, $parameters);
+      }
 
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendReviewRequest($identifier, $data);

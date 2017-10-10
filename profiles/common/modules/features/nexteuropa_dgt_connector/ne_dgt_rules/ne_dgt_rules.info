@@ -5,6 +5,7 @@ package = Translation Management
 core = 7.x
 
 dependencies[] = ne_tmgmt_dgt_ftt_translator
+dependencies[] = registry_autoload
 dependencies[] = rules
 dependencies[] = tmgmt
 dependencies[] = tmgmt_entity_ui
@@ -13,3 +14,5 @@ dependencies[] = tmgmt_node_ui
 dependencies[] = tmgmt_workbench
 dependencies[] = workbench
 dependencies[] = workbench_moderation
+
+registry_autoload[] = PSR-4

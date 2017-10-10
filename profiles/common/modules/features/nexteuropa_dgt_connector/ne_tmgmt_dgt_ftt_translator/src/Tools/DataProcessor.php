@@ -8,12 +8,12 @@ namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController\TmgmtDgtFttTranslatorPluginController;
-use \EntityFieldQuery;
+use EntityFieldQuery;
 use \EC\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
-use \TMGMTJob;
-use \TMGMTJobItem;
-use \TMGMTTranslator;
+use TMGMTJob;
+use TMGMTJobItem;
+use TMGMTTranslator;
 
 /**
  * Helper trait with methods for processing translator's data and settings.
@@ -400,7 +400,7 @@ trait DataProcessor {
   /**
    * Provides a node object related to a given translation job.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return bool|mixed
@@ -427,11 +427,13 @@ trait DataProcessor {
    * Creates the DGT FTT Translator Mapping entity.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
-   * @param \TMGMTJob $job
+   *   The DGT Service response.
+   * @param TMGMTJob $job
+   *   TMGMT Job object.
    */
   private function createDgtFttTranslatorMappingEntity(Status $response, TMGMTJob $job) {
     // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
-    /** @var \TMGMTJobItem $job_item */
+    /** @var TMGMTJobItem $job_item */
     $job_items = $job->getItems();
     if (count($job_items) == 1) {
       $job_item = array_shift($job_items);
@@ -486,11 +488,79 @@ trait DataProcessor {
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   DGT Service response.
-   * @param \TMGMTJob $job
-   *   TMGMT Job object
+   * @param TMGMTJob $job
+   *   TMGMT Job object.
    */
-  private function updateTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
+  private function updateTmgmtJobAndJobItem(Status $response, TMGMTJob $job) {
     $job->reference = $response->getMessageId();
     $job->save();
   }
+
+  /**
+   * Provides data arrays in order to expose useful values to the Rules.
+   *
+   * @param \EC\Poetry\Messages\Responses\Status $response
+   *   DGT Service response.
+   *
+   * @return array
+   *   An array with data that are going to be exposed in the Rules.
+   */
+  private function getRulesDataArrays(Status $response) {
+    // Whenever there is an XML response it will be exposed to the Rules.
+    $response_data = array(
+      'raw_xml' => $response->getRaw(),
+    );
+    // Instantiate statuses arrays.
+    $request_status = array();
+    $demand_status = array();
+
+    // Checking if there is a 'request status' in the response object.
+    if ($response->hasRequestStatus()) {
+      $response_data = array(
+        'ref_id' => $response->getMessageId(),
+      );
+
+      $request_status = array(
+        'code' => $response->getRequestStatus()->getCode(),
+        'language' => $response->getRequestStatus()->getLanguage(),
+        'date' => $response->getRequestStatus()->getDate(),
+        'time' => $response->getRequestStatus()->getTime(),
+        'message' => $response->getRequestStatus()->getMessage(),
+      );
+    }
+
+    // Checking if there is an 'demand status' in the response object.
+    if ($response->hasDemandStatus()) {
+      $demand_status = array(
+        'code' => $response->getDemandStatus()->getCode(),
+        'language' => $response->getDemandStatus()->getLanguage(),
+        'date' => $response->getDemandStatus()->getDate(),
+        'time' => $response->getDemandStatus()->getTime(),
+        'message' => $response->getDemandStatus()->getMessage(),
+      );
+    }
+
+    return array(
+      'dgt_service_response' => $response_data,
+      'dgt_service_response_status' => $request_status,
+      'dgt_service_demand_status' => $demand_status,
+    );
+  }
+
+  /**
+   * Overwrites request data with given parameters.
+   *
+   * @param array $data
+   *   An array with the request data.
+   * @param array $parameters
+   *   An array with additional parameters.
+   *
+   * @return array
+   *   An overwrite request data array.
+   */
+  public function overwriteRequestData($data, $parameters) {
+
+    return array_merge($data, $parameters);
+  }
+
 }
