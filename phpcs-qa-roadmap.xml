@@ -254,22 +254,6 @@
         <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
     </rule>
 
-    <!-- Use the LANGUAGE_NONE constant. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-821 -->
-    <rule ref="DrupalPractice.General.LanguageNone.Und">
-        <exclude-pattern>profiles/common/themes/ec_resp/template.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_block_carousel/multisite_block_carousel.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/subscriptions_og/subscriptions_og.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_forum_community/multisite_forum_community.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_metatags/nexteuropa_metatags.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/events/events_core/events_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/cce_basic_config/cce_basic_config.install</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_geofield/nexteuropa_geofield.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_core/news_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.module</exclude-pattern>
-    </rule>
-
     <!-- Remove these functions from hook_init(). -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-822 -->
     <rule ref="DrupalPractice.FunctionDefinitions.HookInitCss.AddFunctionFound">
@@ -665,11 +649,6 @@
 
     <!-- Do not use the raw $form_state['input'], use $form_state['values'] instead where possible. -->
     <rule ref="DrupalPractice.General.FormStateInput.Input">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Are you accessing field values here? Then you should use LANGUAGE_NONE instead of 'und'. -->
-    <rule ref="DrupalPractice.General.LanguageNone.Und">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
