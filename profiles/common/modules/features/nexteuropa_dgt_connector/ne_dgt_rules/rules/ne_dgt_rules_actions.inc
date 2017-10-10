@@ -44,6 +44,40 @@ function ne_dgt_rules_rules_action_info() {
     ),
   );
 
+  $items['ne_dgt_rules_ftt_node_send_translation_request'] = array(
+    'label' => t('FTT | Node | Send the translation request'),
+    'group' => t('Next Europa DGT Rules'),
+    'parameter' => array(
+      'node' => array(
+        'type' => 'node',
+        'label' => t('Content'),
+        'description' => t('The content that requires to be translated by the DGT reviewer.'),
+      ),
+    ),
+    'provides' => array(
+      'tmgmt_job' => array(
+        'type' => 'tmgmt_job',
+        'label' => t('Translation Job'),
+        'description' => t('The translation job for which the translation request should be sent.'),
+      ),
+      'dgt_service_response' => array(
+        'type' => 'dgt_service_response',
+        'label' => t('DGT Service response'),
+        'description' => t('Response from the DGT Service.'),
+      ),
+      'dgt_service_response_status' => array(
+        'type' => 'dgt_service_response_status',
+        'label' => t('DGT Service Response - Response status'),
+        'description' => t('Response from the DGT Service - response status.'),
+      ),
+      'dgt_service_demand_status' => array(
+        'type' => 'dgt_service_demand_status',
+        'label' => t('DGT Service Response - Demand status'),
+        'description' => t('Response from the DGT Service - demand status.'),
+      ),
+    ),
+  );
+
   return $items;
 }
 
@@ -54,6 +88,7 @@ function ne_dgt_rules_rules_action_info() {
  *   The node that needs to be reviewed by the DGT Reviewer.
  *
  * @return array
+ *   An Array with the job and the response, this element can be NULL.
  */
 function ne_dgt_rules_ftt_node_send_review_request($node) {
   $return = array(
@@ -66,10 +101,45 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
     if (isset($node->language) && $node->language === 'en') {
       // Checking if review request conditions are met.
       if (!get_active_tmgmt_job_items_ids($node->nid)
-        && $job = create_tmgmt_job_and_item_for_node($default_translator, $node))
-      {
+        && $job = create_tmgmt_job_and_item_for_node($default_translator, $node)) {
         // Sending the review request to DGT Services.
         $return = send_review_request($job);
+      }
+    }
+  }
+
+  return $return;
+}
+
+/**
+ * Action: Send the review request for a given node.
+ *
+ * @param object $node
+ *   The node that needs to be reviewed by the DGT Reviewer.
+ *
+ * @return array
+ *   An Array with the job and the response, this element can be NULL.
+ */
+function ne_dgt_rules_ftt_node_send_translation_request($node) {
+  $return = array(
+    'tmgmt_job' => NULL,
+    'dgt_service_response' => array(),
+  );
+  $jobs = array();
+
+  if ($default_translator = get_default_ftt_workflow_translator()) {
+    // The review request can be only sent for the english version of the node.
+    if (isset($node->language) && $node->language === 'en') {
+      // Checking if review request conditions are met.
+      if (!get_active_tmgmt_job_items_ids($node->nid)) {
+        foreach (language_list('enabled')[1] as $target_language) {
+          if (($target_language->language != $node->language)
+            && ($job = create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language->language))) {
+            $jobs[] = $job;
+          }
+        }
+        // Sending the translation request to DGT Services.
+        $return = send_translation_request($default_translator, $jobs);
       }
     }
   }
@@ -81,12 +151,31 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
  * Sends the review request to DGT Services for a given node.
  *
  * @param \TMGMTJob $job
+ *   TMGMT Job object.
  */
 function send_review_request(TMGMTJob $job) {
   $translator = $job->getTranslator();
   $controller = $translator->getController();
 
-  return $controller->requestReview($job);
+  return $controller->requestReview(array($job));
+}
+
+/**
+ * Sends the translation request to DGT Services for a given node.
+ *
+ * @param string $default_translator
+ *   The default translator fot the FTT workflow.
+ * @param array $jobs
+ *   Array of TMGMT Job object.
+ *
+ * @return array $jobs
+ *   Array of TMGMT Job object.
+ */
+function send_translation_request($default_translator, $jobs) {
+  $translator = tmgmt_translator_load($default_translator);
+  $controller = $translator->getController();
+
+  return $controller->requestTranslations($jobs);
 }
 
 /**
@@ -96,22 +185,31 @@ function send_review_request(TMGMTJob $job) {
  *   The default translator fot the FTT workflow.
  * @param object $node
  *   The node that needs to be reviewed by the DGT Reviewer.
+ * @param string $target_language
+ *   The target language.
  *
- * @return \TMGMTJob
+ * @return \TMGMTJob | bool
  *   Returns created TMGMT Job.
  */
-function create_tmgmt_job_and_item_for_node($default_translator, $node) {
-  // Creating TMGMT Main job.
-  $tmgmt_job = tmgmt_job_create($node->language, '');
-  // Assiging the default translator to the job.
-  $tmgmt_job->translator = $default_translator;
+function create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language = '') {
   // Getting the default translator object.
-  $translator = $tmgmt_job->getTranslator();
+  $translator = tmgmt_translator_load($default_translator);
 
   // Checking if the default translator is configured and available and if so
-  // creating related job item as placeholder for further workflow steps;
+  // creating related job item as placeholder for further workflow steps.
   if ($translator && $translator->isAvailable()) {
-    // Adding the TMGMT Job Item to the created TMGMT Job
+    // Creating TMGMT Main job.
+    if ('' === $target_language) {
+      $target_language = $node->language;
+    }
+
+    // Creating TMGMT Main job.
+    $tmgmt_job = tmgmt_job_create($node->language, $target_language);
+
+    // Assiging the default translator to the job.
+    $tmgmt_job->translator = $default_translator;
+
+    // Adding the TMGMT Job Item to the created TMGMT Job.
     try {
       $tmgmt_job->addItem('workbench_moderation', $node->entity_type, $node->nid);
     }
@@ -150,6 +248,7 @@ function create_tmgmt_job_and_item_for_node($default_translator, $node) {
  */
 function get_default_ftt_workflow_translator() {
   $default_translator = variable_get('ne_dgt_rules_translator', FALSE);
+
   // Checking if the default translator is set.
   if (!$default_translator) {
     watchdog(
@@ -188,26 +287,27 @@ function get_active_tmgmt_job_items_ids($entity_id) {
   if (isset($results['tmgmt_job_item'])) {
     // Informing user that the review request can not be send.
     $job_items = implode(" ,", array_keys($results['tmgmt_job_item']));
+
     $error_message = t("Content type with ID: '@entity_id' is currently
       included in one of the translation processes
-      (TMGMT Job Item IDs: '@job_items'). You can not request the review for
+      (TMGMT Job Item IDs: '@job_items'). You can not do a request for
       the content which is currently under translation process.
       Please finish ongoing processes and try again.",
       array('@entity_id' => $entity_id, '@job_items' => $job_items)
     );
-
     drupal_set_message($error_message, 'error');
 
     // Logging an error to the watchdog.
     watchdog('ne_tmgmt_dgt_ftt_translator',
       "Content type with ID: $entity_id is currently
       included in one of the translation processes
-      (TMGMT Job Item IDs: $job_items). You can not request the review for
+      (TMGMT Job Item IDs: $job_items). You can not do a request for
       the content which is currently under translation process.
       Please finish ongoing processes and try again.",
       array(),
       WATCHDOG_ERROR
     );
+
     return array_keys($results['tmgmt_job_item']);
   }
 

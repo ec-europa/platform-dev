@@ -22,9 +22,9 @@ trait DataProcessor {
   /**
    * TMGMT Job object.
    *
-   * @var TMGMTJob
+   * @var array TMGMTJob
    */
-  private $job;
+  private $jobs;
 
   /**
    * Node object.
@@ -71,21 +71,21 @@ trait DataProcessor {
   /**
    * Provides the data array for a request.
    *
-   * @param TMGMTJob $job
-   *   TMGMT Job object.
+   * @param array $jobs
+   *   Array TMGMT Job object.
    * @param object $node
    *   Node object.
    *
    * @return array
    *   Request data array.
    */
-  public function getRequestData(TMGMTJob $job, $node) {
+  public function getRequestData($jobs, $node) {
     // Setting out the node object property.
     $this->node = $node;
     // Setting out the job property.
-    $this->job = $job;
+    $this->jobs = $jobs;
     // Setting out the translator property.
-    $this->translator = $job->getTranslator();
+    $this->translator = $jobs[0]->getTranslator();
     // Setting out the default delay date - 72 hours.
     $this->defaultDelayDate = date('d/m/Y', time() + 259200);
     // Getting the translator settings.
@@ -108,6 +108,7 @@ trait DataProcessor {
    */
   private function getTranslatorSettings() {
     $settings = array();
+
     // Get settings values for each category keys.
     foreach ($this->settingsKeys as $setting_key) {
       $settings[$setting_key] = $this->translator->getSetting($setting_key);
@@ -127,7 +128,7 @@ trait DataProcessor {
    */
   private function getRequestDetails(array $settings) {
     return array(
-      'client_id' => t('Job ID: @tjid', array('@tjid' => $this->job->identifier())),
+      'client_id' => t('Job ID: @tjid', array('@tjid' => $this->jobs[0]->identifier())),
       'title' => $this->node->title,
       'author' => $settings['organization']['author'],
       'responsible' => $settings['organization']['responsible'],
@@ -154,10 +155,10 @@ trait DataProcessor {
     return array(
       'action' => 'UPDATE',
       'type' => 'webService',
-      'user' => $settings['settings']['dgt_ftt_username'],
-      'password' => $settings['settings']['dgt_ftt_password'],
+      'user' => $settings['settings']['callback_username'],
+      'password' => $settings['settings']['callback_password'],
       'address' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
-      'path' => 'OEPoetryCallback',
+      'path' => 'handle',
     );
   }
 
@@ -178,7 +179,7 @@ trait DataProcessor {
       'legiswrite_format' => 'No',
       'source_language' => array(
         array(
-          'code' => strtoupper($this->node->language),
+          'code' => strtoupper($this->translator->mapToRemoteLanguage($this->node->language)),
           'pages' => 1,
         ),
       ),
@@ -225,14 +226,18 @@ trait DataProcessor {
    *   Array with data.
    */
   private function getTarget(array $settings) {
-    return array(
-      array(
+    $return = array();
+
+    foreach ($this->jobs as $job) {
+      $return[] = array(
         'action' => 'INSERT',
         'format' => 'HTML',
-        'language' => strtoupper($this->node->language),
+        'language' => strtoupper($this->translator->mapToRemoteLanguage($job->target_language)),
         'delay' => $this->defaultDelayDate,
-      ),
-    );
+      );
+    }
+
+    return $return;
   }
 
   /**
@@ -240,10 +245,10 @@ trait DataProcessor {
    */
   private function getContent() {
     // Load data exporter.
-    $controller = tmgmt_file_format_controller($this->job->getSetting('export_format'));
+    $controller = tmgmt_file_format_controller($this->jobs[0]->getSetting('export_format'));
 
     // Generate the data into a XML format and encode it to be translated.
-    $export = $controller->export($this->job);
+    $export = $controller->export($this->jobs[0]);
 
     return base64_encode($export);
   }
@@ -267,7 +272,7 @@ trait DataProcessor {
     if (isset($identifier['identifier.sequence'])) {
       $dgt_response = $this->sendNewNumberRequest($identifier);
       // Checking the DGT services response status.
-      if ($dgt_response->isSuccess()) {
+      if ($dgt_response->isSuccessful()) {
         // Creating a new mapping entity and performing the review request.
         $this->createDgtFttTranslatorMappingEntity($dgt_response, $job);
 
@@ -296,6 +301,7 @@ trait DataProcessor {
   private function getRequestIdentifier(TMGMTJob $job, $node_id) {
     // Getting the default values based on the configuration.
     $identifier = $this->getRequestIdentifierDefaults($job);
+
     // Setting up helper default values.
     $identifier['identifier.part'] = 0;
     $identifier['identifier.version'] = 0;
@@ -334,6 +340,7 @@ trait DataProcessor {
   private function getRequestIdentifierDefaults(TMGMTJob $job) {
     // Getting the global configuration.
     global $conf;
+
     // Getting a translator from the job.
     $translator = $job->getTranslator();
     // Getting translator settings.
@@ -362,7 +369,6 @@ trait DataProcessor {
 
     // Checking if we have any entries in the table.
     if (is_null($latest_entity_id)) {
-
       return FALSE;
     }
 
@@ -409,6 +415,7 @@ trait DataProcessor {
   public function getNodeFromTmgmtJob(TMGMTJob $job) {
     // Getting job items from the job (in our case there should be always one).
     $job_items = $job->getItems();
+
     // Checking if we have job item for a given job.
     if (!empty($job_items)) {
       /** @var TMGMTJobItem $job_item */
@@ -427,7 +434,9 @@ trait DataProcessor {
    * Creates the DGT FTT Translator Mapping entity.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
+   *   TMGMT Status object.
    * @param \TMGMTJob $job
+   *   TMGMT Job object.
    */
   private function createDgtFttTranslatorMappingEntity(Status $response, TMGMTJob $job) {
     // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
@@ -450,7 +459,7 @@ trait DataProcessor {
       );
       $map_entity->save();
     };
-
+/*
     // Printing an error message.
     $error_message = t("The DGT FTT mapping entity was not created.");
     drupal_set_message($error_message, 'error');
@@ -463,6 +472,7 @@ trait DataProcessor {
       array(),
       WATCHDOG_ERROR
     );
+*/
   }
 
   /**
@@ -486,11 +496,54 @@ trait DataProcessor {
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   DGT Service response.
-   * @param \TMGMTJob $job
-   *   TMGMT Job object
+   * @param array $jobs
+   *   TMGMT Job object.
    */
-  private function updateTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
-    $job->reference = $response->getMessageId();
-    $job->save();
+  private function updateTmgmtJobAndJobItem(Status $response, $jobs) {
+    foreach ($jobs as $job) {
+      $job->reference = $response->getMessageId();
+      $job->save();
+    }
   }
+
+  /**
+   * Updating the TMGMT Job and TMGMT Job Item with data from the DGT response.
+   *
+   * @param \EC\Poetry\Messages\Responses\Status $response
+   *   DGT Service response.
+   * @param array $jobs
+   *   TMGMT Job object.
+   */
+  private function abortTmgmtJobAndJobItem(Status $response, $jobs) {
+    foreach ($jobs as $job) {
+      if ($statuses = $response->getWarnings()) {
+        $job->addMessage(
+          'There were warnings with the poetry request: :msg',
+          array(':msg' => implode('. ', $statuses)),
+          'warning'
+        );
+        watchdog('ne_tmgmt_dgt_ftt_translator',
+          "The TMGMT Job '$job->tjid' have warnings with the poetry request: :msg",
+          array(':msg' => implode('. ', $statuses)),
+          WATCHDOG_WARNING
+        );
+      }
+
+      if ($statuses = $response->getErrors()) {
+        $job->addMessage(
+          'There were errors with the poetry request: :msg',
+          array(':msg' => implode('. ', $statuses)),
+          'error'
+        );
+        watchdog('ne_tmgmt_dgt_ftt_translator',
+          "The TMGMT Job '$job->tjid' have errors with the poetry request: :msg",
+          array(':msg' => implode('. ', $statuses)),
+          WATCHDOG_ERROR
+        );
+      }
+
+      $job->aborted();
+    }
+  }
+
 }
