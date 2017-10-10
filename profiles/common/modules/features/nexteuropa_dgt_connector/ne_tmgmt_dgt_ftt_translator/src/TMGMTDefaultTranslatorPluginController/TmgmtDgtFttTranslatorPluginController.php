@@ -114,32 +114,32 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestReview(TMGMTJob $job) {
+  public function requestReview(TMGMTJob $jobs) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
-    if ($node = $this->getNodeFromTmgmtJob($job)) {
+    if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
-      $identifier = $this->getIdentifier($job, $node->nid);
+      $identifier = $this->getIdentifier($jobs[0], $node->nid);
 
       // Getting the request data.
-      $data = $this->getRequestData($job, $node);
+      $data = $this->getRequestData($jobs, $node);
 
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendReviewRequest($identifier, $data);
 
       // Process the DGT response to get the Rules response.
-      $rules_response = $this->processResponse($dgt_response, $job);
+      $rules_response = $this->processResponse($dgt_response, $jobs);
     }
 
     return array(
-      'tmgmt_job' => $job,
+      'tmgmt_job' => $jobs[0],
       'dgt_service_response' => $rules_response,
     );
   }
 
   /**
-   * Custom method which sends the translation request to the DGT Service.
+   * Custom method which sends the review request to the DGT Service.
    *
    * @param TMGMTJob $job
    *   TMGMT Job object.
@@ -147,26 +147,39 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestTranslation(TMGMTJob $job) {
+  public function requestTranslation(TMGMTJob $job)
+  {
+  }
+
+  /**
+   * Custom method which sends the translation request to the DGT Service.
+   *
+   * @param array $jobs
+   *   Array of TMGMT Job object.
+   *
+   * @return array|bool
+   *   An array with data for the 'Rules workflow' or FALSE if errors appear.
+   */
+  public function requestTranslations($jobs) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
-    if ($node = $this->getNodeFromTmgmtJob($job)) {
+    if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
-      $identifier = $this->getIdentifier($job, $node->nid);
+      $identifier = $this->getIdentifier($jobs[0], $node->nid);
 
       // Getting the request data.
-      $data = $this->getRequestData($job, $node);
+      $data = $this->getRequestData($jobs, $node);
 
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendTranslationRequest($identifier, $data);
 
       // Process the DGT response to get the Rules response.
-      $rules_response = $this->processResponse($dgt_response, $job);
+      $rules_response = $this->processResponse($dgt_response, $jobs);
     }
 
     return array(
-      'tmgmt_job' => $job,
+      'tmgmt_job' => $jobs[0],
       'dgt_service_response' => $rules_response,
     );
   }
@@ -182,7 +195,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array
    *   An array containing the ref id and raw xml.
    */
-  private function processResponse(Status $response, TMGMTJob $job) {
+  private function processResponse(Status $response, $jobs) {
     $return = array(
       'ref_id' => '',
       'raw_xml' => '',
@@ -190,13 +203,15 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
     if ($response->isSuccessful()) {
       // Updating TMGMT Job information.
-      $this->updateTmgmtJobAndJobItem($response, $job);
+      $this->updateTmgmtJobAndJobItem($response, $jobs);
 
       // Creating new mapping entity based on the response and job.
-      $this->createDgtFttTranslatorMappingEntity($response, $job);
+      $this->createDgtFttTranslatorMappingEntity($response, $jobs[0]);
 
-      $job->submitted('Job has been successfully submitted. Job Reference ID is: %job_reference',
-        array('%job_reference' => $job->reference));
+      foreach ($jobs as $job) {
+        $job->submitted('Job has been successfully submitted. Job Reference ID is: %job_reference',
+          array('%job_reference' => $job->reference));
+      }
 
       // Setting up values for the Rules.
       $return['ref_id'] = $response->getMessageId();
@@ -204,11 +219,11 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     } else {
       if ('0' === $response->getRequestStatus()->getCode()) {
         // Creating new mapping entity based on the response and job.
-        $this->createDgtFttTranslatorMappingEntity($response, $job);
+        $this->createDgtFttTranslatorMappingEntity($response, $jobs[0]);
       }
 
       // Abort the TMGMT Job and the JobItem.
-      $this->abortTmgmtJobAndJobItem($response, $job);
+      $this->abortTmgmtJobAndJobItem($response, $jobs);
     }
 
     return $return;

@@ -112,19 +112,21 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
  */
 function ne_dgt_rules_ftt_node_send_translation_request($node) {
   $return = array();
+  $jobs = [];
 
   if ($default_translator = get_default_ftt_workflow_translator()) {
     // The review request can be only sent for the english version of the node.
     if (isset($node->language) && $node->language === 'en') {
       // Checking if review request conditions are met.
       if (!get_active_tmgmt_job_items_ids($node->nid)) {
-        foreach(language_list() as $target_language) {
+        foreach(language_list('enabled')[1] as $target_language) {
           if (($target_language->language != $node->language)
             && ($job = create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language->language))) {
-            // Sending the translation request to DGT Services.
-            $return[] = send_translation_request($job);
+            $jobs[] = $job;
           }
         }
+        // Sending the translation request to DGT Services.
+        $return = send_translation_request($default_translator, $jobs);
       }
     }
   }
@@ -142,20 +144,25 @@ function send_review_request(TMGMTJob $job) {
   $translator = $job->getTranslator();
   $controller = $translator->getController();
 
-  return $controller->requestReview($job);
+  return $controller->requestReview(array($job));
 }
 
 /**
  * Sends the translation request to DGT Services for a given node.
  *
- * @param \TMGMTJob $job
- *   TMGMT Job object.
+ * @param string $default_translator
+ *   The default translator fot the FTT workflow.
+ * @param array $jobs
+ *   Array of TMGMT Job object.
+ *
+ * @return array $jobs
+ *   Array of TMGMT Job object.
  */
-function send_translation_request(TMGMTJob $job) {
-  $translator = $job->getTranslator();
+function send_translation_request($default_translator, $jobs) {
+  $translator = tmgmt_translator_load($default_translator);
   $controller = $translator->getController();
 
-  return $controller->requestTranslation($job);
+  return $controller->requestTranslations($jobs);
 }
 
 /**

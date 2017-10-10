@@ -22,9 +22,9 @@ trait DataProcessor {
   /**
    * TMGMT Job object.
    *
-   * @var TMGMTJob
+   * @var array TMGMTJob
    */
-  private $job;
+  private $jobs;
 
   /**
    * Node object.
@@ -71,21 +71,21 @@ trait DataProcessor {
   /**
    * Provides the data array for a request.
    *
-   * @param TMGMTJob $job
-   *   TMGMT Job object.
+   * @param array $jobs
+   *   Array TMGMT Job object.
    * @param object $node
    *   Node object.
    *
    * @return array
    *   Request data array.
    */
-  public function getRequestData(TMGMTJob $job, $node) {
+  public function getRequestData($jobs, $node) {
     // Setting out the node object property.
     $this->node = $node;
     // Setting out the job property.
-    $this->job = $job;
+    $this->jobs = $jobs;
     // Setting out the translator property.
-    $this->translator = $job->getTranslator();
+    $this->translator = $jobs[0]->getTranslator();
     // Setting out the default delay date - 72 hours.
     $this->defaultDelayDate = date('d/m/Y', time() + 259200);
     // Getting the translator settings.
@@ -127,7 +127,7 @@ trait DataProcessor {
    */
   private function getRequestDetails(array $settings) {
     return array(
-      'client_id' => t('Job ID: @tjid', array('@tjid' => $this->job->identifier())),
+      'client_id' => t('Job ID: @tjid', array('@tjid' => $this->jobs[0]->identifier())),
       'title' => $this->node->title,
       'author' => $settings['organization']['author'],
       'responsible' => $settings['organization']['responsible'],
@@ -154,8 +154,8 @@ trait DataProcessor {
     return array(
       'action' => 'UPDATE',
       'type' => 'webService',
-      'user' => $settings['settings']['dgt_ftt_username'],
-      'password' => $settings['settings']['dgt_ftt_password'],
+      'user' => $settings['settings']['callback_username'],
+      'password' => $settings['settings']['callback_password'],
       'address' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
       'path' => 'OEPoetryCallback',
     );
@@ -178,7 +178,7 @@ trait DataProcessor {
       'legiswrite_format' => 'No',
       'source_language' => array(
         array(
-          'code' => strtoupper($this->job->source_language),
+          'code' => strtoupper($this->node->language),
           'pages' => 1,
         ),
       ),
@@ -225,14 +225,16 @@ trait DataProcessor {
    *   Array with data.
    */
   private function getTarget(array $settings) {
-    return array(
-      array(
-        'action' => 'INSERT',
-        'format' => 'HTML',
-        'language' => strtoupper($this->job->target_language),
-        'delay' => $this->defaultDelayDate,
-      ),
-    );
+    $return = array();
+    foreach ($this->jobs as $job) {
+      $return[] = array(
+          'action' => 'INSERT',
+          'format' => 'HTML',
+          'language' => strtoupper($job->target_language),
+          'delay' => $this->defaultDelayDate,
+      );
+    }
+    return $return;
   }
 
   /**
@@ -240,10 +242,10 @@ trait DataProcessor {
    */
   private function getContent() {
     // Load data exporter.
-    $controller = tmgmt_file_format_controller($this->job->getSetting('export_format'));
+    $controller = tmgmt_file_format_controller($this->jobs[0]->getSetting('export_format'));
 
     // Generate the data into a XML format and encode it to be translated.
-    $export = $controller->export($this->job);
+    $export = $controller->export($this->jobs[0]);
 
     return base64_encode($export);
   }
@@ -489,12 +491,14 @@ trait DataProcessor {
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   DGT Service response.
-   * @param \TMGMTJob $job
+   * @param array $jobs
    *   TMGMT Job object.
    */
-  private function updateTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
-    $job->reference = $response->getMessageId();
-    $job->save();
+  private function updateTmgmtJobAndJobItem(Status $response, $jobs) {
+    foreach ($jobs as $job) {
+      $job->reference = $response->getMessageId();
+      $job->save();
+    }
   }
 
   /**
@@ -502,37 +506,39 @@ trait DataProcessor {
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   DGT Service response.
-   * @param \TMGMTJob $job
+   * @param array $jobs
    *   TMGMT Job object.
    */
-  private function abortTmgmtJobAndJobItem(Status $response,  TMGMTJob $job) {
-    if ($statuses = $response->getWarnings()) {
-      $job->addMessage(
-        'There were warnings with the poetry request: :msg',
-        array(':msg' => implode('. ', $statuses)),
-        'warning'
-      );
-      watchdog('ne_tmgmt_dgt_ftt_translator',
-        "The TMGMT Job ID: '$job->tjid' have warnings with the poetry request: :msg",
-        array(':msg' => implode('. ', $statuses)),
-        WATCHDOG_WARNING
-      );
-    }
+  private function abortTmgmtJobAndJobItem(Status $response, $jobs) {
+    foreach ($jobs as $job) {
+      if ($statuses = $response->getWarnings()) {
+        $job->addMessage(
+          'There were warnings with the poetry request: :msg',
+          array(':msg' => implode('. ', $statuses)),
+          'warning'
+        );
+        watchdog('ne_tmgmt_dgt_ftt_translator',
+          "The TMGMT Job ID: '$job->tjid' have warnings with the poetry request: :msg",
+          array(':msg' => implode('. ', $statuses)),
+          WATCHDOG_WARNING
+        );
+      }
 
-    if ($statuses = $response->getErrors()) {
-      $job->addMessage(
-        'There were errors with the poetry request: :msg',
-        array(':msg' => implode('. ', $statuses)),
-        'error'
-      );
-      watchdog('ne_tmgmt_dgt_ftt_translator',
-        "The TMGMT Job ID: '$job->tjid' have errors with the poetry request: :msg",
-        array(':msg' => implode('. ', $statuses)),
-        WATCHDOG_ERROR
-      );
-    }
+      if ($statuses = $response->getErrors()) {
+        $job->addMessage(
+          'There were errors with the poetry request: :msg',
+          array(':msg' => implode('. ', $statuses)),
+          'error'
+        );
+        watchdog('ne_tmgmt_dgt_ftt_translator',
+          "The TMGMT Job ID: '$job->tjid' have errors with the poetry request: :msg",
+          array(':msg' => implode('. ', $statuses)),
+          WATCHDOG_ERROR
+        );
+      }
 
-    $job->aborted();
+      $job->aborted();
+    }
   }
 
 }
