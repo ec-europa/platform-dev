@@ -234,8 +234,7 @@ function ecas_logout($full_logout = TRUE) {
   if ($full_logout) {
     _ecas_init_phpcas_client();
     $params = array(
-      'service' => variable_get('site_name', 'ecas'),
-      'url' => url('front', array('absolute' => TRUE)),
+      'url' => url('<front>', array('absolute' => TRUE)),
     );
     drupal_alter('ecas_full_logout_parameters', $params);
     phpCAS::logout($params);
