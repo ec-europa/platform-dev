@@ -111,9 +111,5 @@ function ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow($node) {
  *  TRUE/FALSE depending on if the states matches source and selected values.
  */
 function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous_state_source, $previous_state_value, $new_state_source, $new_state_value) {
-  if (($previous_state_source === $previous_state_value) && ($new_state_source === $new_state_value)) {
-    return TRUE;
-  }
-
-  return FALSE;
+  return (($previous_state_source === $previous_state_value) && ($new_state_source === $new_state_value)) ? TRUE : FALSE;
 }

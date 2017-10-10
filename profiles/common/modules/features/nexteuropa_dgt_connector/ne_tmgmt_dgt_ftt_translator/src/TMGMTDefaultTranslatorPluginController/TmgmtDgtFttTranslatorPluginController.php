@@ -6,14 +6,12 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
-use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
 use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use \TMGMTDefaultTranslatorPluginController;
 use \TMGMTTranslator;
 use \TMGMTJob;
-use \TMGMTJobItem;
 
 /**
  * TMGMT DGT FTT translator plugin controller.
@@ -74,10 +72,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   TRUE/FALSE depending on the check result.
    */
   private function checkPoetryServiceSettings() {
-    $poetry_service = array(
-      'address',
-      'method',
-    );
+    $poetry_service = array('address', 'method');
+
     $poetry_hard_settings = variable_get('poetry_service');
 
     // If the configuration in the settings.php is missing don't check further.
@@ -223,7 +219,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Setting up values for the Rules.
       $return['ref_id'] = $response->getMessageId();
       $return['raw_xml'] = $response->getRaw();
-
     }
     else {
       if ('0' === $response->getRequestStatus()->getCode()) {
@@ -255,10 +250,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $message = $poetry->get('request.send_review_request');
     $message->withArray($data);
 
-    /** @var Status $response */
-    $response = $poetry->getClient()->send($message);
-
-    return $response;
+    return $poetry->getClient()->send($message);
   }
 
   /**
@@ -278,7 +270,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $message = $poetry->get('request.create_request');
     $message->withArray($data);
 
-    /** @var Status $response */
     return $poetry->getClient()->send($message);
   }
 

@@ -63,7 +63,17 @@ function ne_dgt_rules_rules_action_info() {
       'dgt_service_response' => array(
         'type' => 'dgt_service_response',
         'label' => t('DGT Service response'),
-        'description' => t('Response from the DGT Translation Service.'),
+        'description' => t('Response from the DGT Service.'),
+      ),
+      'dgt_service_response_status' => array(
+        'type' => 'dgt_service_response_status',
+        'label' => t('DGT Service Response - Response status'),
+        'description' => t('Response from the DGT Service - response status.'),
+      ),
+      'dgt_service_demand_status' => array(
+        'type' => 'dgt_service_demand_status',
+        'label' => t('DGT Service Response - Demand status'),
+        'description' => t('Response from the DGT Service - demand status.'),
       ),
     ),
   );
@@ -111,8 +121,11 @@ function ne_dgt_rules_ftt_node_send_review_request($node) {
  *   An Array with the job and the response, this element can be NULL.
  */
 function ne_dgt_rules_ftt_node_send_translation_request($node) {
-  $return = array();
-  $jobs = [];
+  $return = array(
+    'tmgmt_job' => NULL,
+    'dgt_service_response' => array(),
+  );
+  $jobs = array();
 
   if ($default_translator = get_default_ftt_workflow_translator()) {
     // The review request can be only sent for the english version of the node.
@@ -172,12 +185,13 @@ function send_translation_request($default_translator, $jobs) {
  *   The default translator fot the FTT workflow.
  * @param object $node
  *   The node that needs to be reviewed by the DGT Reviewer.
+ * @param string $target_language
+ *   The target language.
  *
- * @return \TMGMTJob
+ * @return \TMGMTJob | bool
  *   Returns created TMGMT Job.
  */
 function create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language = '') {
-
   // Getting the default translator object.
   $translator = tmgmt_translator_load($default_translator);
 
@@ -185,7 +199,13 @@ function create_tmgmt_job_and_item_for_node($default_translator, $node, $target_
   // creating related job item as placeholder for further workflow steps.
   if ($translator && $translator->isAvailable()) {
     // Creating TMGMT Main job.
+    if ('' === $target_language) {
+      $target_language = $node->language;
+    }
+
+    // Creating TMGMT Main job.
     $tmgmt_job = tmgmt_job_create($node->language, $target_language);
+
     // Assiging the default translator to the job.
     $tmgmt_job->translator = $default_translator;
 
@@ -228,6 +248,7 @@ function create_tmgmt_job_and_item_for_node($default_translator, $node, $target_
  */
 function get_default_ftt_workflow_translator() {
   $default_translator = variable_get('ne_dgt_rules_translator', FALSE);
+
   // Checking if the default translator is set.
   if (!$default_translator) {
     watchdog(

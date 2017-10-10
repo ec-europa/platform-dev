@@ -108,6 +108,7 @@ trait DataProcessor {
    */
   private function getTranslatorSettings() {
     $settings = array();
+
     // Get settings values for each category keys.
     foreach ($this->settingsKeys as $setting_key) {
       $settings[$setting_key] = $this->translator->getSetting($setting_key);
@@ -157,7 +158,7 @@ trait DataProcessor {
       'user' => $settings['settings']['callback_username'],
       'password' => $settings['settings']['callback_password'],
       'address' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
-      'path' => 'OEPoetryCallback',
+      'path' => 'handle',
     );
   }
 
@@ -226,6 +227,7 @@ trait DataProcessor {
    */
   private function getTarget(array $settings) {
     $return = array();
+
     foreach ($this->jobs as $job) {
       $return[] = array(
         'action' => 'INSERT',
@@ -234,6 +236,7 @@ trait DataProcessor {
         'delay' => $this->defaultDelayDate,
       );
     }
+
     return $return;
   }
 
@@ -298,6 +301,7 @@ trait DataProcessor {
   private function getRequestIdentifier(TMGMTJob $job, $node_id) {
     // Getting the default values based on the configuration.
     $identifier = $this->getRequestIdentifierDefaults($job);
+
     // Setting up helper default values.
     $identifier['identifier.part'] = 0;
     $identifier['identifier.version'] = 0;
@@ -336,6 +340,7 @@ trait DataProcessor {
   private function getRequestIdentifierDefaults(TMGMTJob $job) {
     // Getting the global configuration.
     global $conf;
+
     // Getting a translator from the job.
     $translator = $job->getTranslator();
     // Getting translator settings.
@@ -364,7 +369,6 @@ trait DataProcessor {
 
     // Checking if we have any entries in the table.
     if (is_null($latest_entity_id)) {
-
       return FALSE;
     }
 
@@ -411,6 +415,7 @@ trait DataProcessor {
   public function getNodeFromTmgmtJob(TMGMTJob $job) {
     // Getting job items from the job (in our case there should be always one).
     $job_items = $job->getItems();
+
     // Checking if we have job item for a given job.
     if (!empty($job_items)) {
       /** @var TMGMTJobItem $job_item */
