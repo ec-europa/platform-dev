@@ -703,11 +703,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Opening brace should be on the same line as the declaration. -->
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnNewLine">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- There must be one blank line after the namespace declaration. -->
     <rule ref="PSR2.Namespaces.NamespaceDeclaration.BlankLineAfter">
         <exclude-pattern>*</exclude-pattern>
