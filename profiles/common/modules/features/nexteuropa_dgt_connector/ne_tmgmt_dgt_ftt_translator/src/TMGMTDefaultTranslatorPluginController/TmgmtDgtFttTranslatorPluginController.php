@@ -8,7 +8,7 @@ namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginControl
 
 use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
-use \EC\Poetry;
+use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use \TMGMTDefaultTranslatorPluginController;
 use \TMGMTTranslator;
@@ -108,13 +108,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   /**
    * Custom method which sends the review request to the DGT Service.
    *
-   * @param TMGMTJob $job
-   *   TMGMT Job object.
+   * @param array $jobs
+   *   Array of TMGMT Job object.
    *
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestReview(TMGMTJob $jobs) {
+  public function requestReview($jobs) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
@@ -147,8 +147,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestTranslation(TMGMTJob $job)
-  {
+  public function requestTranslation(TMGMTJob $job) {
+    return FALSE;
   }
 
   /**
@@ -189,8 +189,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   The response.
-   * @param TMGMTJob $job
-   *   TMGMT Job object.
+   * @param array $jobs
+   *   Array of TMGMT Job object.
    *
    * @return array
    *   An array containing the ref id and raw xml.
@@ -224,7 +224,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $return['ref_id'] = $response->getMessageId();
       $return['raw_xml'] = $response->getRaw();
 
-    } else {
+    }
+    else {
       if ('0' === $response->getRequestStatus()->getCode()) {
         // Creating new mapping entity based on the response and job.
         $this->createDgtFttTranslatorMappingEntity($response, $jobs[0]);
@@ -250,7 +251,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   private function sendReviewRequest(array $identifier, array $data) {
     // Instantiate the Poetry Client object.
-    $poetry = new Poetry\Poetry($identifier);
+    $poetry = new Poetry($identifier);
     $message = $poetry->get('request.send_review_request');
     $message->withArray($data);
 
@@ -273,7 +274,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    */
   private function sendTranslationRequest(array $identifier, array $data) {
     // Instantiate the Poetry Client object.
-    $poetry = new Poetry\Poetry($identifier);
+    $poetry = new Poetry($identifier);
     $message = $poetry->get('request.create_request');
     $message->withArray($data);
 

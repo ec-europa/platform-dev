@@ -228,10 +228,10 @@ trait DataProcessor {
     $return = array();
     foreach ($this->jobs as $job) {
       $return[] = array(
-          'action' => 'INSERT',
-          'format' => 'HTML',
-          'language' => strtoupper($this->translator->mapToRemoteLanguage($job->target_language)),
-          'delay' => $this->defaultDelayDate,
+        'action' => 'INSERT',
+        'format' => 'HTML',
+        'language' => strtoupper($this->translator->mapToRemoteLanguage($job->target_language)),
+        'delay' => $this->defaultDelayDate,
       );
     }
     return $return;

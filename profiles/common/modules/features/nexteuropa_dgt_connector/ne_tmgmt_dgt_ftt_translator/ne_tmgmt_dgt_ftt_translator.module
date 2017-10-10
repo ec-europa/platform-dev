@@ -4,6 +4,8 @@
  * Next Europa TMGMT DGT FTT translator module file.
  */
 
+use EC\Poetry\Poetry;
+
 /**
  * Implements hook_tmgmt_translator_plugin_info().
  */
@@ -128,7 +130,8 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
  * Callback for requests/responses sent by the DGT Services (Poetry).
  */
 function _ne_tmgmt_dgt_ftt_translator_callback() {
-
+  // Log the event.
+  // @todo: Remove this log.
   watchdog(
     'ne_tmgmt_dgt_ftt_translator',
     'The translator DGT FTT receives a request/response - callback.',
@@ -136,62 +139,17 @@ function _ne_tmgmt_dgt_ftt_translator_callback() {
     WATCHDOG_INFO
   );
 
-  // Generate our own SOAP server.
-  $context = stream_context_create();
-  // Get the Client WSDL URI.
-  $uri = _ne_tmgmt_dgt_ftt_translator_get_client_wsdl();
-
-  // This part in future suppose to be handled by the library.
-  $server = new SoapServer($uri, array(
-    'stream_context' => $context,
-    'cache_wsdl' => WSDL_CACHE_NONE,
-  ));
-  $server->AddFunction("OEPoetryCallback");
-  $server->handle();
-}
-
-/**
- * Temporary callback function.
- *
- * This part should be handled by the OE Poetry Client soon.
- *
- * @param string $user
- *   User name string.
- * @param string $password
- *   Password.
- * @param string $msg
- *   Message from DGT Services.
- */
-function OEPoetryCallback($user, $password, $msg) {
-
-  watchdog(
-    'ne_tmgmt_dgt_ftt_translator',
-    'The translator DGT FTT receives a request/response.',
-    array(),
-    WATCHDOG_INFO
-  );
-
-  $filename = 'dump_' . date('m-d-Y_hia');
-  $path = "public://dgt_req_res/dumps/" . $filename . '.xml';
-  $dirname = dirname($path);
-    if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
-      file_save_data($msg, $path);
-    }
-    else {
-      watchdog(
-        'ne_tmgmt_dgt_ftt_translator',
-        'Unable to save the DGT request/response dump.',
-        array(),
-        WATCHDOG_ERROR
-    );
-  }
+  $poetry = new Poetry();
+  $poetry->getServer()->handle();
+  drupal_exit();
 }
 
 /**
  * Callback for exposing WSDL configuration.
  */
 function _ne_tmgmt_dgt_ftt_translator_wsdl() {
-
+  // Log the event.
+  // @todo: Remove this log.
   watchdog(
     'ne_tmgmt_dgt_ftt_translator',
     'The translator DGT FTT receives a request/response - callback wsdl.',
@@ -204,9 +162,7 @@ function _ne_tmgmt_dgt_ftt_translator_wsdl() {
     'language' => (object) array('language' => FALSE),
   ));
 
-  $poetry = new \EC\Poetry\Poetry([
-    'notification.endpoint' => $url,
-  ]);
+  $poetry = new Poetry(array('notification.endpoint' => $url));
 
   drupal_add_http_header('Content-Type', 'application/xml; utf-8');
   print $poetry->getWsdl()->getXml();

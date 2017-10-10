@@ -119,7 +119,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node) {
     if (isset($node->language) && $node->language === 'en') {
       // Checking if review request conditions are met.
       if (!get_active_tmgmt_job_items_ids($node->nid)) {
-        foreach(language_list('enabled')[1] as $target_language) {
+        foreach (language_list('enabled')[1] as $target_language) {
           if (($target_language->language != $node->language)
             && ($job = create_tmgmt_job_and_item_for_node($default_translator, $node, $target_language->language))) {
             $jobs[] = $job;

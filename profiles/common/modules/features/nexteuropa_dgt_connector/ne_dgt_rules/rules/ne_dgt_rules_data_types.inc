@@ -84,6 +84,7 @@ function _ne_dgt_rules_dgt_service_response_status_data_info() {
  * Provides properties definition for the 'dgt_service_response_status' type.
  *
  * @return array
+ *   An array with defined properties.
  */
 function _ne_dgt_rules_dgt_service_demand_status_data_info() {
   return array(
