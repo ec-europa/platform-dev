@@ -3,7 +3,7 @@
  * Create a dropdown.
  */
 
-(function($){
+(function($) {
   Drupal.behaviors.taxonomy_browser = {
     attach: function(context, settings) {
                 $('.tb-browser-tree > ul.taxonomy-tree').find('ul.taxonomy-tree').hide();
@@ -11,7 +11,7 @@
 
                 $currentActive.parents('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');
                 $currentActive.siblings('ul.taxonomy-tree').show().parent('.taxonomy-tree-item').removeClass('jstree-closed').addClass('jstree-open');
-                $('.taxonomy-tree-opener').click(function(e){
+                $('.taxonomy-tree-opener').click(function(e) {
                   e.preventDefault();
 
                   if ($(this).parent().hasClass('jstree-open')) {

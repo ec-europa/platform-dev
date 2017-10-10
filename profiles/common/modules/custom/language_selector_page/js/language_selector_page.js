@@ -3,7 +3,7 @@
  * This file provides a small modification to the autocomplete url paths.
  */
 
-(function($){
+(function($) {
   Drupal.behaviors.language_selector_page = {
     attach: function (context, settings) {
 

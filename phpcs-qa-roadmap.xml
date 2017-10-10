@@ -698,11 +698,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected 1 space before opening brace. -->
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeBrace">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Opening brace should be on the same line as the declaration. -->
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.BraceOnNewLine">
         <exclude-pattern>*</exclude-pattern>
