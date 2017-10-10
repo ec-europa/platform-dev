@@ -9,6 +9,7 @@ Feature: Subscription
     And the module is enabled
       |modules                      |
       |multisite_notifications_core |
+      |dblog                        |
 
   @javascript @theme_wip
   # It is in wip for the europa theme because it implies a step referring a
