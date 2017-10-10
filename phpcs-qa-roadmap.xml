@@ -673,11 +673,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- The @var tag must be the first tag in a member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.VarOrder">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Content missing for @var tag in member variable comment. -->
     <rule ref="Drupal.Commenting.VariableComment.EmptyVar">
         <exclude-pattern>*</exclude-pattern>
