@@ -576,8 +576,13 @@ trait DataProcessor {
    *   An overwrite request data array.
    */
   public function overwriteRequestData($data, $parameters) {
+    foreach ($parameters as $group_key => $group_parameters) {
+      foreach ($group_parameters as $parameter_key => $parameter) {
+        $data[$group_key][$parameter_key] = $parameter;
+      }
+    }
 
-    return array_merge($data, $parameters);
+    return $data;
   }
 
   /**

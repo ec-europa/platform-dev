@@ -129,7 +129,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
       // Overwrite the data if we have some parameters.
       if (!empty($parameters)) {
-        $this->overwriteRequestData($data, $parameters);
+        $data = $this->overwriteRequestData($data, $parameters);
       }
 
       // Sending a review request to DGT Services.
@@ -139,10 +139,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $rules_response = $this->processResponse($dgt_response, $job);
     }
 
-    return array(
-      'tmgmt_job' => $job,
-      'dgt_service_response' => $rules_response,
-    );
+    $rules_response['tmgmt_job'] = $job;
+
+    return $rules_response;
   }
 
   /**
@@ -163,7 +162,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $this->updateTmgmtJobAndJobItem($response, $job);
     }
 
-    if ($response->hasRequestStatus()) {
+    if ($response->hasRequestStatus() && $response->getRequestStatus()->getCode() == 0) {
       // Creating new mapping entity based on the response and job.
       $this->createDgtFttTranslatorMappingEntity($response, $job);
     }
