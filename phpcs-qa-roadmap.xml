@@ -548,11 +548,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Tags should not be used. -->
-    <rule ref="DrupalPractice.Commenting.ExpectedException.TagFound">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Function return type is not void, but function is returning void here. -->
     <rule ref="Drupal.Commenting.FunctionComment.InvalidReturnNotVoid">
         <exclude-pattern>*</exclude-pattern>
