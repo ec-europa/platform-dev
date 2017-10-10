@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains DrupalMailContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 

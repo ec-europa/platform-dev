@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\tmgmt_poetry_mock\Mock\PoetryMock.
- */
-
 namespace Drupal\tmgmt_poetry_mock\Mock;
 
 /**

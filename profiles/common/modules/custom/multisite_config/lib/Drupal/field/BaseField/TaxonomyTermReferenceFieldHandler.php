@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field\BaseField\TaxonomyTermReferenceFieldHandler.
- */
-
 namespace Drupal\field\BaseField;
 
 /**

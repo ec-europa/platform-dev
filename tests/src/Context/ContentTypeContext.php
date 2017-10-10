@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\FieldContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 

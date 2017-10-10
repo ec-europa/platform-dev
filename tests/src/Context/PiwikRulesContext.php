@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\FrontendCacheContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 
