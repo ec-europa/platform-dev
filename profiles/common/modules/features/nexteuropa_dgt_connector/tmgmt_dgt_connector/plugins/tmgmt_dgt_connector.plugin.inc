@@ -83,9 +83,9 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       return FALSE;
     }
 
-    if (!$response->isSuccess()) {
+    if (!$response->isSuccessful()) {
 
-      if ($statuses = $response->getStatusesWithWarnings()) {
+      if ($statuses = $response->getWarnings()) {
         $job->addMessage(
           'There were warnings with the Poetry request: :msg',
           array(':msg' => implode('. ', $statuses)),
@@ -93,7 +93,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         );
       }
 
-      if ($statuses = $response->getStatusesWithErrors()) {
+      if ($statuses = $response->getErrors()) {
         _tmgmt_poetry_tmgmt_job_reject(
           $job,
           'Rejected',
