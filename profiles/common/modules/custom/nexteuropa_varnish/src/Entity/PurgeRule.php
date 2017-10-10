@@ -1,10 +1,7 @@
 <?php
-/**
- * @file
- * Definition of Drupal\nexteuropa_varnish\Entity\PurgeRule.
- */
 
 namespace Drupal\nexteuropa_varnish\Entity;
+
 use Drupal\nexteuropa_varnish\PurgeRuleType;
 use \Entity;
 

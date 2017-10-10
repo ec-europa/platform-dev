@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\ViewsContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;

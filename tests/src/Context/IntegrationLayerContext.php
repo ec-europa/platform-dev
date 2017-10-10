@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\IntegrationLayerContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 

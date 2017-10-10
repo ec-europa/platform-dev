@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\context\\Config.
- */
-
 namespace Drupal\context;
 
 use Drupal\multisite_config\ConfigBase;
