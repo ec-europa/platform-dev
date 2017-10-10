@@ -54,7 +54,6 @@ class EcasContext extends RawDrupalContext {
     return $this->loggedIn() && $this->user && $this->user->ecas && isset($this->user->role) && $this->user->role == $role;
   }
 
-
   /**
    * Create an ECAS user.
    *

@@ -28,7 +28,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     $this->visitPath($frontpage);
   }
 
-
   /**
    * {@inheritdoc}
    */

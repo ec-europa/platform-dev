@@ -137,7 +137,6 @@ class BusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCase {
     }
   }
 
-
   /**
    * Tests comment creation.
    */

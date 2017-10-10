@@ -212,7 +212,6 @@ function language_selector_page_drupal_goto_alter(&$path, &$options, &$http_resp
   }
 }
 
-
 /**
  * Implements hook_field_language_alter().
  */

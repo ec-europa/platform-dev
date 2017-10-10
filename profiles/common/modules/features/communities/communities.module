@@ -273,7 +273,6 @@ function _communities_get_url_in_group($path, $original_path) {
   return isset($new_path) ? $new_path : FALSE;
 }
 
-
 /**
  * Returns the sanitized group title or 'none' if there is no group context.
  */
@@ -294,7 +293,6 @@ function group_name_to_arg($arg = NULL) {
     return NULL;
   }
 }
-
 
 /**
  * Returns the ID of the Community node corresponding to the given group name.
@@ -328,7 +326,6 @@ function group_name_load($arg) {
   return;
   // No og found in the url to determine the og context.
 }
-
 
 /**
  * Implements hook_menu().
@@ -384,7 +381,6 @@ function _communities_title_item($arg) {
   }
 }
 
-
 /**
  * Implements hook_block_view_alter().
  */
@@ -418,7 +414,6 @@ function communities_node_view($node, $view_mode, $langcode) {
     }
   }
 }
-
 
 /**
  * Implements hook_form_FORM_ID_alter().

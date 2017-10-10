@@ -86,7 +86,6 @@ class Config extends ConfigBase {
     return context_save($context);
   }
 
-
   /**
    * Add a content type as condition to trigger a context.
    *

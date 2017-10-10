@@ -40,7 +40,6 @@ function e_library_core_tokens($type, $tokens, $data = array(), $options = array
   return $replacements;
 }
 
-
 /**
  * Implements hook_views_pre_render().
  */
