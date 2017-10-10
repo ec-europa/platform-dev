@@ -213,9 +213,17 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
           array('%job_reference' => $job->reference));
       }
 
+      watchdog(
+        'ne_tmgmt_dgt_ftt_translator',
+        'The TMGMT Job %job_reference has been successfully submitted.',
+        array('%job_reference' => $job->reference),
+        WATCHDOG_INFO
+      );
+
       // Setting up values for the Rules.
       $return['ref_id'] = $response->getMessageId();
       $return['raw_xml'] = $response->getRaw();
+
     } else {
       if ('0' === $response->getRequestStatus()->getCode()) {
         // Creating new mapping entity based on the response and job.

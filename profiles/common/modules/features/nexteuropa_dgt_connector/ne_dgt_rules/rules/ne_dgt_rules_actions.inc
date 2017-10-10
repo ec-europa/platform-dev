@@ -180,7 +180,6 @@ function create_tmgmt_job_and_item_for_node($default_translator, $node, $target_
 
   // Getting the default translator object.
   $translator = tmgmt_translator_load($default_translator);
-  $target_language = $translator->mapToRemoteLanguage($target_language);
 
   // Checking if the default translator is configured and available and if so
   // creating related job item as placeholder for further workflow steps.

@@ -178,7 +178,7 @@ trait DataProcessor {
       'legiswrite_format' => 'No',
       'source_language' => array(
         array(
-          'code' => strtoupper($this->node->language),
+          'code' => strtoupper($this->translator->mapToRemoteLanguage($this->node->language)),
           'pages' => 1,
         ),
       ),
@@ -230,7 +230,7 @@ trait DataProcessor {
       $return[] = array(
           'action' => 'INSERT',
           'format' => 'HTML',
-          'language' => strtoupper($job->target_language),
+          'language' => strtoupper($this->translator->mapToRemoteLanguage($job->target_language)),
           'delay' => $this->defaultDelayDate,
       );
     }
@@ -518,7 +518,7 @@ trait DataProcessor {
           'warning'
         );
         watchdog('ne_tmgmt_dgt_ftt_translator',
-          "The TMGMT Job ID: '$job->tjid' have warnings with the poetry request: :msg",
+          "The TMGMT Job '$job->tjid' have warnings with the poetry request: :msg",
           array(':msg' => implode('. ', $statuses)),
           WATCHDOG_WARNING
         );
@@ -531,7 +531,7 @@ trait DataProcessor {
           'error'
         );
         watchdog('ne_tmgmt_dgt_ftt_translator',
-          "The TMGMT Job ID: '$job->tjid' have errors with the poetry request: :msg",
+          "The TMGMT Job '$job->tjid' have errors with the poetry request: :msg",
           array(':msg' => implode('. ', $statuses)),
           WATCHDOG_ERROR
         );
