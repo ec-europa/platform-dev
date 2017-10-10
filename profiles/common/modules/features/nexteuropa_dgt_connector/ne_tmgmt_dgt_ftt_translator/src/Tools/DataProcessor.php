@@ -506,13 +506,30 @@ trait DataProcessor {
    *   An array with data that are going to be exposed in the Rules.
    */
   private function getRulesDataArrays(Status $response) {
-    // Whenever there is an XML response it will be exposed to the Rules.
+    // Initiation of the response data array.
     $response_data = array(
-      'raw_xml' => $response->getRaw(),
+      'dgt_service_response' => array(
+        'ref_id' => '',
+        'raw_xml' => '',
+      ),
+      'dgt_service_response_status' => array(
+        'code' => '',
+        'language' => '',
+        'date' => '',
+        'time' => '',
+        'message' => '',
+      ),
+      'dgt_service_demand_status' => array(
+        'code' => '',
+        'language' => '',
+        'date' => '',
+        'time' => '',
+        'message' => '',
+      ),
     );
-    // Instantiate statuses arrays.
-    $request_status = array();
-    $demand_status = array();
+
+    // Whenever there is an XML response it will be exposed to the Rules.
+    $response_data['raw_xml'] = $response->getRaw();
 
     // Checking if there is a 'request status' in the response object.
     if ($response->hasRequestStatus()) {
@@ -561,6 +578,16 @@ trait DataProcessor {
   public function overwriteRequestData($data, $parameters) {
 
     return array_merge($data, $parameters);
+  }
+
+  /**
+   * Logs the DGT Service response data.
+   *
+   * @param array $response_data
+   *   An array with the DGT Service response data.
+   */
+  private function logResponseData($response_data) {
+    // @todo: Implement logging into files system.
   }
 
 }
