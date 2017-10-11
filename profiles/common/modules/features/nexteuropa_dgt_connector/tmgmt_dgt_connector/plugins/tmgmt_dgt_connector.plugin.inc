@@ -182,19 +182,26 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $export = $controller->export($job);
     $content = base64_encode($export);
 
+    $poetry_values = array(
+      'identifier.code' => $id_data['codeDemandeur'],
+      'identifier.year' => $id_data['annee'],
+      'identifier.version' => $id_data['version'],
+      'identifier.part' => $id_data['partie'],
+      'service.wsdl' => $poetry_service['address'],
+      'service.username' => $settings['poetry_user'],
+      'service.password' => $settings['poetry_password'],
+      'client.wsdl' => $callback_address,
+      'notification.endpoint' => 'http://my-site.com/my/poetry/notifications',
+    );
+    if (isset($id_data['numero'])) {
+      $poetry_values['identifier.number'] = $id_data['numero'];
+    }
+    else {
+      $poetry_values['identifier.sequence'] = $id_data['sequence'];
+    }
+
     try {
-      $poetry = new Poetry(array(
-        'identifier.code' => $id_data['codeDemandeur'],
-        'identifier.year' => $id_data['annee'],
-        'identifier.sequence' => $id_data['sequence'],
-        'identifier.version' => $id_data['version'],
-        'identifier.part' => $id_data['partie'],
-        'service.wsdl' => $poetry_service['address'],
-        'service.username' => $settings['poetry_user'],
-        'service.password' => $settings['poetry_password'],
-        'client.wsdl' => $callback_address,
-        'notification.endpoint' => 'http://my-site.com/my/poetry/notifications',
-      ));
+      $poetry = new Poetry($poetry_values);
 
       // Start building the request message.
       /** @var EC\Poetry\Messages\Requests\CreateRequest $message */
@@ -223,8 +230,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       $message->withReturnAddress()
         ->setType('webService')
         ->setAction('UPDATE')
-        ->setUser('MockCallback')
-        ->setPassword('MockCallbackPWD')
+        ->setUser($settings['callback_user'])
+        ->setPassword($settings['callback_password'])
         ->setAddress($callback_address)
         ->setPath('FPFISPoetryIntegrationRequest')
         ->setRemark('');
