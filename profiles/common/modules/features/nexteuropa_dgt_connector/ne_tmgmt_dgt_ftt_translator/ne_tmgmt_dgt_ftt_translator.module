@@ -132,16 +132,10 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
  * Callback for requests/responses sent by the DGT Services (Poetry).
  */
 function _ne_tmgmt_dgt_ftt_translator_callback() {
-  // Log the event.
-  // @todo: Remove this log.
-  watchdog(
-    'ne_tmgmt_dgt_ftt_translator',
-    'The translator DGT FTT receives a request/response - callback.',
-    array(),
-    WATCHDOG_INFO
-  );
 
-  $poetry = new Poetry();
+  $logger = new \Monolog\Logger('Poetry');
+  $logger->pushHandler(new \Monolog\Handler\StreamHandler(__DIR__ . '/poetry.log'));
+  $poetry = new Poetry(array('logger' => $logger));
   $poetry->getEventDispatcher()
     ->addListener(TranslationReceivedEvent::NAME, array(
       'Drupal\\ne_tmgmt_dgt_ftt_translator\\TMGMTDefaultTranslatorListener\\TmgmtDgtFttTranslatorListener',
