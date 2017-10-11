@@ -738,11 +738,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- File appears to be minified and cannot be processed. -->
-    <rule ref="Internal.Tokenizer.Exception">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Possible useless method overriding detected. -->
     <rule ref="Generic.CodeAnalysis.UselessOverridingMethod.Found">
         <exclude-pattern>*</exclude-pattern>
