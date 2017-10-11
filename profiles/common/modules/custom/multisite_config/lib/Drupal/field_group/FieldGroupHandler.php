@@ -9,6 +9,13 @@ namespace Drupal\field_group;
  */
 class FieldGroupHandler implements FieldGroupHandlerInterface {
   /**
+   * Field group definition array as required by field_group_save().
+   *
+   * @var array
+   */
+  protected $definition = array();
+
+  /**
    * Construct instance field handler with required information.
    *
    * @param string $label
@@ -37,13 +44,6 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
   }
 
   /**
-   * Field group definition array as required by field_group_save().
-   *
-   * @var array
-   */
-  protected $definition = array();
-
-  /**
    * Return field array built using field handler methods.
    *
    * @return object
@@ -60,7 +60,6 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *    Field group configuration object.
    */
   public function save() {
-
     $service = new Config();
     $group = $service->loadFieldGroupByIdentifier($this->definition->identifier);
     if ($group) {
