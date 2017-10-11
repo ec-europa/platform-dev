@@ -543,11 +543,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Unused use statement. -->
-    <rule ref="Drupal.Classes.UnusedUseStatement.UnusedUse">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Tags should not be used. -->
     <rule ref="DrupalPractice.Commenting.ExpectedException.TagFound">
         <exclude-pattern>*</exclude-pattern>
