@@ -30,11 +30,13 @@ function ne_tmgmt_dgt_ftt_translator_menu() {
 
   $items['dgt_ftt_translator/dgt_service_callback'] = array(
     'page callback' => '_ne_tmgmt_dgt_ftt_translator_callback',
+    // @todo. Temporary test.
     'access callback' => TRUE,
   );
 
   $items['dgt_ftt_translator/DGTServicesIntegration.wsdl'] = array(
     'page callback' => '_ne_tmgmt_dgt_ftt_translator_wsdl',
+    // @todo. Temporary test.
     'access callback' => TRUE,
   );
 

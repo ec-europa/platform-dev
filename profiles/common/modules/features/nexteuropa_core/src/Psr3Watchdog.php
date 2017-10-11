@@ -11,13 +11,15 @@ use Psr\Log\AbstractLogger;
 use Psr\Log\LogLevel;
 
 /**
- * Class Psr3Watchdog
+ * Class Psr3Watchdog.
  *
  * @package Drupal\nexteuropa_core
  */
 class Psr3Watchdog extends AbstractLogger {
 
   /**
+   * Mapping between PSR3 log levels and Drupal watchdog log levels.
+   *
    * @var array
    */
   private $map = array(
@@ -32,17 +34,17 @@ class Psr3Watchdog extends AbstractLogger {
   );
 
   /**
+   * Log type.
+   *
    * @var string
    */
   private $type = 'PSR-3';
 
   /**
-   * Sets the type of watchdog entries created by this Psr3Watchdog instance.
-   * If not set, 'PSR-3' is used.
+   * Set log type.
    *
    * @param string $type
-   *   The category to which this message belongs. Can be any string, but
-   *   the general practice is to use the name of the module calling watchdog().
+   *    Log type.
    */
   public function setType($type) {
     $this->type = $type;
@@ -52,9 +54,11 @@ class Psr3Watchdog extends AbstractLogger {
    * Logs with an arbitrary level.
    *
    * @param mixed $level
+   *    Log level.
    * @param string $message
+   *    Log message.
    * @param array $context
-   * @return null
+   *    Log context.
    */
   public function log($level, $message, array $context = array()) {
     if (isset($context['message'])) {
@@ -63,4 +67,5 @@ class Psr3Watchdog extends AbstractLogger {
     $message .= "<pre>" . var_export($context, TRUE) . "</pre>";
     watchdog($this->type, $message, [], $this->map[$level]);
   }
+
 }

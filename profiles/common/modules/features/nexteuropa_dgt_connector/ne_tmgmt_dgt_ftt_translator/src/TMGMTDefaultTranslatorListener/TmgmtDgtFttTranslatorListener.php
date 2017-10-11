@@ -16,7 +16,7 @@ class TmgmtDgtFttTranslatorListener {
    * Implements the event onTranslationReceived.
    */
   public static function onTranslationReceived(TranslationReceivedEvent $event) {
-    $message = $event->getMessage();
+    $event->getMessage();
   }
 
 }
