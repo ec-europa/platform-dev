@@ -539,7 +539,7 @@ trait DataProcessor {
     );
 
     // Whenever there is an XML response it will be exposed to the Rules.
-    $response_data['raw_xml'] = $response->getRaw();
+    $response_data['dgt_service_response']['raw_xml'] = $response->getRaw();
 
     // Checking if there is a 'request status' in the response object.
     if ($response->hasRequestStatus()) {
@@ -554,6 +554,9 @@ trait DataProcessor {
         'time' => $response->getRequestStatus()->getTime(),
         'message' => $response->getRequestStatus()->getMessage(),
       );
+
+      $response_data['dgt_service_response'] = $response_data;
+      $response_data['dgt_service_response_status'] = $request_status;
     }
 
     // Checking if there is an 'demand status' in the response object.
@@ -565,13 +568,11 @@ trait DataProcessor {
         'time' => $response->getDemandStatus()->getTime(),
         'message' => $response->getDemandStatus()->getMessage(),
       );
+
+      $response_data['dgt_service_demand_status'] = $demand_status;
     }
 
-    return array(
-      'dgt_service_response' => $response_data,
-      'dgt_service_response_status' => $request_status,
-      'dgt_service_demand_status' => $demand_status,
-    );
+    return $response_data;
   }
 
   /**
@@ -611,7 +612,7 @@ trait DataProcessor {
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   DGT Service response.
    * @param array $jobs
-   *   TMGMT Job object.
+   *   An array of TMGMT Job objects.
    */
   private function abortTmgmtJobAndJobItem(Status $response, $jobs) {
     foreach ($jobs as $job) {

@@ -105,24 +105,24 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   /**
    * Custom method which sends the review request to the DGT Service.
    *
-   * @param TMGMTJob $job
-   *   TMGMT Job object.
+   * @param array $jobs
+   *   Array of TMGMT Job object.
    * @param array $parameters
    *   An array with additional parameters like the organisation data.
    *
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestReview(TMGMTJob $job, $parameters) {
+  public function requestReview($jobs, $parameters) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
-    if ($node = $this->getNodeFromTmgmtJob($job)) {
+    if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
-      $identifier = $this->getIdentifier($job, $node->nid);
+      $identifier = $this->getIdentifier($jobs[0], $node->nid);
 
       // Getting the request data.
-      $data = $this->getRequestData($job, $node);
+      $data = $this->getRequestData($jobs, $node);
 
       // Overwrite the data if we have some parameters.
       if (!empty($parameters)) {
@@ -133,10 +133,10 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $dgt_response = $this->sendReviewRequest($identifier, $data);
 
       // Process the DGT response to get the Rules response.
-      $rules_response = $this->processResponse($dgt_response, $job);
+      $rules_response = $this->processResponse($dgt_response, $jobs);
     }
 
-    $rules_response['tmgmt_job'] = $job;
+    $rules_response['tmgmt_job'] = $jobs[0];
 
     return $rules_response;
   }
@@ -159,11 +159,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *
    * @param array $jobs
    *   Array of TMGMT Job object.
+   * @param array $parameters
+   *   An array with additional parameters like the organisation data.
    *
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestTranslations($jobs) {
+  public function requestTranslations($jobs, $parameters) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
@@ -174,6 +176,11 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Getting the request data.
       $data = $this->getRequestData($jobs, $node);
 
+      // Overwrite the data if we have some parameters.
+      if (!empty($parameters)) {
+        $data = $this->overwriteRequestData($data, $parameters);
+      }
+
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendTranslationRequest($identifier, $data);
 
@@ -181,10 +188,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $rules_response = $this->processResponse($dgt_response, $jobs);
     }
 
-    return array(
-      'tmgmt_job' => $jobs[0],
-      'dgt_service_response' => $rules_response,
-    );
+    $rules_response['tmgmt_job'] = $jobs[0];
+
+    return $rules_response;
   }
 
   /**

@@ -87,6 +87,7 @@ class DgtRulesTools {
     if (isset($results['tmgmt_job_item'])) {
       // Informing user that the review request can not be send.
       $job_items = implode(" ,", array_keys($results['tmgmt_job_item']));
+
       $error_message = t("Content type with ID: '@entity_id' is currently
       included in one of the translation processes
       (TMGMT Job Item IDs: '@job_items'). You can not request the review for
@@ -120,21 +121,30 @@ class DgtRulesTools {
    *   The default translator fot the FTT workflow.
    * @param object $node
    *   The node that needs to be reviewed by the DGT Reviewer.
+   * @param string $target_language
+   *   The target language.
    *
    * @return TMGMTJob
    *   Returns created TMGMT Job.
    */
-  public static function createTmgmtJobAndItemForNode($default_translator, $node) {
-    // Creating TMGMT Main job.
-    $tmgmt_job = tmgmt_job_create($node->language, '');
-    // Assiging the default translator to the job.
-    $tmgmt_job->translator = $default_translator;
+  public static function createTmgmtJobAndItemForNode($default_translator, $node, $target_language = '') {
     // Getting the default translator object.
-    $translator = $tmgmt_job->getTranslator();
+    $translator = tmgmt_translator_load($default_translator);
 
     // Checking if the default translator is configured and available and if so
-    // creating related job item as placeholder for further workflow steps;.
+    // creating related job item as placeholder for further workflow steps.
     if ($translator && $translator->isAvailable()) {
+      // Creating TMGMT Main job.
+      if ('' === $target_language) {
+        $target_language = $node->language;
+      }
+
+      // Creating TMGMT Main job.
+      $tmgmt_job = tmgmt_job_create($node->language, $target_language);
+
+      // Assiging the default translator to the job.
+      $tmgmt_job->translator = $default_translator;
+
       // Adding the TMGMT Job Item to the created TMGMT Job.
       try {
         $tmgmt_job->addItem('workbench_moderation', $node->entity_type, $node->nid);
@@ -181,7 +191,27 @@ class DgtRulesTools {
     $translator = $job->getTranslator();
     $controller = $translator->getController();
 
-    return $controller->requestReview($job, $parameters);
+    return $controller->requestReview(array($job), $parameters);
+  }
+
+  /**
+   * Sends the translation request to DGT Services for a given node.
+   *
+   * @param string $default_translator
+   *   The default translator fot the FTT workflow.
+   * @param array $jobs
+   *   Array of TMGMT Job object.
+   * @param array $parameters
+   *   An array with additional parameters.
+   *
+   * @return array $jobs
+   *   Array of TMGMT Job object.
+   */
+  public static function sendTranslationRequest($default_translator, $jobs, $parameters) {
+    $translator = tmgmt_translator_load($default_translator);
+    $controller = $translator->getController();
+
+    return $controller->requestTranslations($jobs, $parameters);
   }
 
 }
