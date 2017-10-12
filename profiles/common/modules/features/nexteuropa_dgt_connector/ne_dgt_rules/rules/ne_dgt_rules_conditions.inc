@@ -4,6 +4,9 @@
  * Next Europa DGT Rules integration - Custom conditions.
  */
 
+use Drupal\ne_dgt_rules\DgtRulesTools;
+
+
 /**
  * Implements hook_rules_condition_info().
  */
@@ -60,6 +63,19 @@ function ne_dgt_rules_rules_condition_info() {
     'access callback' => 'rules_node_integration_access',
   );
 
+  $items['all_translations_are_received'] = array(
+    'group' => t("Next Europa DGT Rules"),
+    'label' => t("All translations for a content are received"),
+    'base' => 'ne_dgt_rules_all_translations_are_received',
+    'parameter' => array(
+      'identifier' => array(
+        'type' => 'struct',
+        'label' => t("Translation request identifier"),
+        'restriction' => 'selector',
+      ),
+    ),
+  );
+
   return $items;
 }
 
@@ -112,4 +128,24 @@ function ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow($node) {
  */
 function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous_state_source, $previous_state_value, $new_state_source, $new_state_value) {
   return (($previous_state_source === $previous_state_value) && ($new_state_source === $new_state_value)) ? TRUE : FALSE;
+}
+
+/**
+ * Condition: All translations are received for a content.
+ *
+ * @param \EC\Poetry\Messages\Components\Identifier $identifier
+ *   The translation request identifier.
+ *
+ * @return TRUE/FALSE
+ *  TRUE/FALSE depending on if all translations were received.
+ */
+function ne_dgt_rules_all_translations_are_received($identifier) {
+  $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
+  foreach ($ftt_mappings as $ftt_map) {
+    $job = tmgmt_job_load($ftt_map->tjid);
+    if ($job->getCountPending()) {
+      return FALSE;
+    }
+  }
+  return TRUE;
 }

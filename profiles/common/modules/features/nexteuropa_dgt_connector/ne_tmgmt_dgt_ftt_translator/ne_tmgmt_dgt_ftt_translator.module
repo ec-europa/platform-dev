@@ -4,6 +4,9 @@
  * Next Europa TMGMT DGT FTT translator module file.
  */
 
+// Custom Rules elements.
+module_load_include('inc', 'ne_tmgmt_dgt_ftt_translator', 'rules/ne_tmgmt_dgt_ftt_translator_rules');
+
 use EC\Poetry\Poetry;
 use EC\Poetry\Events\Notifications\TranslationReceivedEvent;
 
@@ -29,11 +32,13 @@ function ne_tmgmt_dgt_ftt_translator_menu() {
 
   $items['dgt_ftt_translator/dgt_service_callback'] = array(
     'page callback' => '_ne_tmgmt_dgt_ftt_translator_callback',
+    // Access restriction is handled on the soap callback.
     'access callback' => TRUE,
   );
 
   $items['dgt_ftt_translator/DGTServicesIntegration.wsdl'] = array(
     'page callback' => '_ne_tmgmt_dgt_ftt_translator_wsdl',
+    // Access restriction is handled on the soap callback.
     'access callback' => TRUE,
   );
 

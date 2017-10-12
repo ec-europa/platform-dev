@@ -214,4 +214,27 @@ class DgtRulesTools {
     return $controller->requestTranslations($jobs, $parameters);
   }
 
+  /**
+   * Returns all mapping entities based on a request identifier.
+   *
+   * @param \EC\Poetry\Messages\Components\Identifier $identifier
+   *   The translation request identifier.
+   *
+   * @return array $maps
+   *   Array of FTT Map objects.
+   */
+  public static function findMappingsByIdentifier($identifier) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'ne_tmgmt_dgt_ftt_map')
+      ->propertyCondition('year', $identifier->getYear())
+      ->propertyCondition('number', $identifier->getNumber())
+      ->propertyCondition('part', $identifier->getPart())
+      ->propertyCondition('version', $identifier->getVersion());
+    $results = $query->execute();
+    if (isset($results['ne_tmgmt_dgt_ftt_map'])) {
+      return $results['ne_tmgmt_dgt_ftt_map'];
+    }
+    return array();
+  }
+
 }

@@ -39,6 +39,10 @@ class TmgmtDgtFttTranslatorListener {
         WATCHDOG_ERROR
       );
     }
+    $identifier = 0;
+    if (module_exists('rules')) {
+      rules_invoke_event('ftt_translation_received', $identifier);
+    }
   }
 
 }

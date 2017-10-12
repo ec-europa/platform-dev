@@ -116,6 +116,19 @@ function ne_dgt_rules_rules_action_info() {
     ),
   );
 
+  $items['accept_all_translations'] = array(
+    'group' => t("Next Europa DGT Rules"),
+    'label' => t("Accept all translations"),
+    'base' => 'ne_dgt_rules_accept_all_translations',
+    'parameter' => array(
+      'identifier' => array(
+        'type' => 'struct',
+        'label' => t("Translation request identifier"),
+        'restriction' => 'selector',
+      ),
+    ),
+  );
+
   return $items;
 }
 
@@ -228,4 +241,22 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible 
   }
 
   return $return;
+}
+
+/**
+ * Condition: All translations are received for a content.
+ *
+ * @param \EC\Poetry\Messages\Components\Identifier $identifier
+ *   The translation request identifier.
+ */
+function ne_dgt_rules_accept_all_translations($identifier) {
+  $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
+  foreach ($ftt_mappings as $ftt_map) {
+    $job = tmgmt_job_load($ftt_map->tjid);
+    $job_items = $job->getItems();
+    foreach ($job_items as $job_item) {
+      $job_item->acceptTranslation();
+    }
+    $job->finished();
+  }
 }
