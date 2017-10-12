@@ -43,7 +43,7 @@
          for QA AUTOMATION (NEPT-884 and NEPT-1387), this exception must existto allow
          the removing of "Drupal.Commenting.FunctionComment.ParamMissingDefinition" rule
          and has the phpcs logs OK (all green).  -->
-    <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
+    <!--<exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>-->
 
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
