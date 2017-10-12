@@ -4,5 +4,3 @@
  * @file
  * Code for the Multisite Media Gallery Standard feature.
  */
-
-include_once 'multisite_mediagallery_standard.features.inc';
