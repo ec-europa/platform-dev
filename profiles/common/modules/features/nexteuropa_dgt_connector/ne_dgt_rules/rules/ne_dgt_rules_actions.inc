@@ -127,6 +127,12 @@ function ne_dgt_rules_rules_action_info() {
         'restriction' => 'selector',
       ),
     ),
+    'provides' => array(
+      'entity_id' => array(
+        'type' => 'integer',
+        'label' => t("Translated content ID."),
+      ),
+    ),
   );
 
   return $items;
@@ -248,10 +254,17 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible 
  *
  * @param \EC\Poetry\Messages\Components\Identifier $identifier
  *   The translation request identifier.
+ *
+ * @return integer|NULL
+ *   The translation request identifier.
  */
 function ne_dgt_rules_accept_all_translations($identifier) {
   $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
+  $entity_id = NULL;
   foreach ($ftt_mappings as $ftt_map) {
+    if (empty($entity_id)) {
+      $entity_id = $ftt_map->entity_id;
+    }
     $job = tmgmt_job_load($ftt_map->tjid);
     $job_items = $job->getItems();
     foreach ($job_items as $job_item) {
@@ -259,4 +272,5 @@ function ne_dgt_rules_accept_all_translations($identifier) {
     }
     $job->finished();
   }
+  return $entity_id;
 }
