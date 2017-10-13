@@ -33,6 +33,7 @@ dependencies[] = media_wysiwyg_view_mode
 dependencies[] = multisite_wysiwyg
 dependencies[] = multisite_config
 dependencies[] = nexteuropa_token_ckeditor
+dependencies[] = nexteuropa_metatags
 dependencies[] = node
 dependencies[] = options
 dependencies[] = password_policy
