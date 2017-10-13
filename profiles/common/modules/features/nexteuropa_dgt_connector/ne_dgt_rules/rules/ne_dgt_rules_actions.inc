@@ -235,9 +235,11 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible 
       // Checking if review request conditions are met.
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)) {
         foreach (language_list('enabled')[1] as $target_language) {
-          if (($target_language->language != $node->language)
-            && ($job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $target_language->language))) {
-            $jobs[] = $job;
+          if ($target_language->language != $node->language) {
+            $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $target_language->language);
+            if ($job) {
+              $jobs[] = $job;
+            }
           }
         }
         // Sending the translation request to DGT Services.

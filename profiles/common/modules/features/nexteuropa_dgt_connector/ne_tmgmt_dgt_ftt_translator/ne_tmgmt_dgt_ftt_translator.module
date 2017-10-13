@@ -10,6 +10,7 @@ module_load_include('inc', 'ne_tmgmt_dgt_ftt_translator', 'rules/ne_tmgmt_dgt_ft
 use EC\Poetry\Poetry;
 use Drupal\nexteuropa_core\Psr3Watchdog;
 use Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultSubscriber\TMGMTDgtFttSubscriber;
+use Drupal\ne_dgt_rules\DgtRulesTools;
 
 /**
  * Implements hook_tmgmt_translator_plugin_info().
@@ -138,14 +139,18 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
  * Callback for requests/responses sent by the DGT Services (Poetry).
  */
 function _ne_tmgmt_dgt_ftt_translator_callback() {
+  $translator = tmgmt_translator_load(DgtRulesTools::getDefaultFttTranslator());
+  $settings = $translator->getSetting('settings');
+
   $poetry = new Poetry([
-    'notification.username' => 'admin',
-    'notification.password' => 'pass',
+    'notification.username' => $settings['callback_username'],
+    'notification.password' => $settings['callback_password'],
     'logger' => new Psr3Watchdog(),
   ]);
   $poetry->getEventDispatcher()
     ->addSubscriber(new TMGMTDgtFttSubscriber());
   $poetry->getServer()->handle();
+
   drupal_exit();
 }
 

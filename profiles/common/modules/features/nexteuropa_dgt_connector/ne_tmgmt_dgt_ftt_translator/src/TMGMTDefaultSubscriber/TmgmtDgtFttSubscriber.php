@@ -55,8 +55,11 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
     watchdog(
       'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update.',
-      array('@reference' => $identifier->getFormattedIdentifier()),
+      'Job @reference receives a Status Update. Message: @message',
+      array(
+        '@reference' => $identifier->getFormattedIdentifier(),
+        '@message' => $message->getRaw(),
+      ),
       WATCHDOG_INFO
     );
 
@@ -71,7 +74,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
         $job_language = strtoupper($translator->mapToRemoteLanguage($job->target_language));
 
         if ($job_language == $attribution->getLanguage()) {
-          if (DgtRulesTools::UpdateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
+          if (DgtRulesTools::updateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
             if (module_exists('rules')) {
               rules_invoke_event('ftt_translation_received', $identifier);
             }
@@ -81,7 +84,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
               DgtRulesTools::addMessageTmgmtJob(
                 $job,
                 t('The translation has been accepted automatically by DGT.'),
-                []
+                array()
               );
             }
           }
@@ -124,8 +127,11 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
     watchdog(
       'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update.',
-      array('@reference' => $identifier->getFormattedIdentifier()),
+      'Job @reference receives a Status Update. Message: @message',
+      array(
+        '@reference' => $identifier->getFormattedIdentifier(),
+        '@message' => $message->getRaw(),
+      ),
       WATCHDOG_INFO
     );
 
@@ -142,7 +148,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
         $job_language = strtoupper($translator->mapToRemoteLanguage($job->target_language));
 
         if ($job_language == $attributionStatus->getLanguage()) {
-          DgtRulesTools::UpdateStatusTmgmtJob($job, $attributionStatus);
+          DgtRulesTools::updateStatusTmgmtJob($job, $attributionStatus);
           continue;
         }
       }

@@ -338,20 +338,18 @@ trait DataProcessor {
    *   An array with the identifier default values.
    */
   private function getRequestIdentifierDefaults(TMGMTJob $job) {
-    // Getting the global configuration.
-    global $conf;
-
     // Getting a translator from the job.
     $translator = $job->getTranslator();
     // Getting translator settings.
     $settings = $translator->getSetting('settings');
+    $poetry_service = variable_get('poetry_service');
 
     return array(
       'identifier.code' => $settings['dgt_code'],
       'identifier.year' => date("Y"),
       'identifier.sequence' => $settings['dgt_counter'],
       'client.wsdl' => _ne_tmgmt_dgt_ftt_translator_get_client_wsdl(),
-      'service.wsdl' => $conf['poetry_service']['address'],
+      'service.wsdl' => $poetry_service['address'],
       'service.username' => $settings['dgt_ftt_username'],
       'service.password' => $settings['dgt_ftt_password'],
     );
