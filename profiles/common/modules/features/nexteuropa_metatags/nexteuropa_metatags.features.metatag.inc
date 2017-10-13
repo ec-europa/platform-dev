@@ -55,9 +55,6 @@ function nexteuropa_metatags_metatag_export_default() {
       'referrer' => array(
         'value' => '',
       ),
-      'generator' => array(
-        'value' => 'Drupal 7 (https://drupal.org)',
-      ),
       'rights' => array(
         'value' => '',
       ),
