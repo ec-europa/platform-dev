@@ -22,7 +22,7 @@
 <?php if (!$no_wrapper): ?>
   <div class="<?php print $classes; ?> media-youtube-<?php print $id; ?>">
 <?php endif ?>
-  <iframe class="media-youtube-player" <?php print $api_id_attribute; ?>width="<?php print $width; ?>" height="<?php print $height; ?>" title="<?php print $title; ?>" src="<?php print $url; ?>" frameborder="0" allowfullscreen><?php print $alternative_content; ?></iframe>
+  <iframe class="media-youtube-player" <?php print $api_id_attribute; ?>width="<?php print $width; ?>" height="<?php print $height; ?>" title="<?php print $title; ?>" src="<?php print $ec_embedded_video_url; ?>" frameborder="0" allowfullscreen><?php print $alternative_content; ?></iframe>
 <?php if (!$no_wrapper): ?>
   </div>
 <?php endif ?>
