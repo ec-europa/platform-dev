@@ -62,6 +62,7 @@ dependencies[] = print_mail
 dependencies[] = jquery_update
 dependencies[] = mediafield
 dependencies[] = menu_block
+dependencies[] = language_cookie
 dependencies[] = variable
 dependencies[] = i18n
 dependencies[] = i18n_sync
