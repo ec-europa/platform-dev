@@ -1,5 +1,0 @@
-name = TMGMT DGT STS connector
-description = Provides a custom TMGMT translator for the DGT Fast Track Translations workflow.
-php = 5.6
-package = Translation Management
-core = 7.x
