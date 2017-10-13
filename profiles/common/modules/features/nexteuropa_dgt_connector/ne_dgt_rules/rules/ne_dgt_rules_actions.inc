@@ -181,7 +181,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $org_responsible = '',
       // Checking if review request conditions are met.
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)
         && $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node)) {
-      // Sending the review request to DGT Services.
+        // Sending the review request to DGT Services.
         $return = DgtRulesTools::sendReviewRequest($job, $parameters);
       }
     }
@@ -260,7 +260,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible 
  * @return array
  *   The translation request identifier.
  */
-function ne_dgt_rules_accept_all_translations($identifier) {
+function ne_dgt_rules_accept_all_translations(\EC\Poetry\Messages\Components\Identifier $identifier) {
   $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
   $entity_id = array();
   if (!empty($ftt_mappings)) {
