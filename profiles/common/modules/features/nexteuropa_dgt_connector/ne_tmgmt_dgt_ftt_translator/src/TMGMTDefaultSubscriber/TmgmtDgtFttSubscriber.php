@@ -71,7 +71,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
         $job_language = strtoupper($translator->mapToRemoteLanguage($job->target_language));
 
         if ($job_language == $attribution->getLanguage()) {
-          if (DgtRulesTools::UpdateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
+          if (DgtRulesTools::updateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
             $job->acceptTranslation();
 
             DgtRulesTools::addMessageTmgmtJob(
@@ -137,7 +137,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
         $job_language = strtoupper($translator->mapToRemoteLanguage($job->target_language));
 
         if ($job_language == $attributionStatus->getLanguage()) {
-          DgtRulesTools::UpdateStatusTmgmtJob($job, $attributionStatus);
+          DgtRulesTools::updateStatusTmgmtJob($job, $attributionStatus);
           continue;
         }
       }
