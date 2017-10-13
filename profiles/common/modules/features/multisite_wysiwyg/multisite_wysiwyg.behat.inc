@@ -24,7 +24,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   /**
    * Constructs a NextEuropaTokenSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
