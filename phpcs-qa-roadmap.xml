@@ -548,8 +548,8 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected 1 newline at end of file. -->
-    <rule ref="Drupal.Files.EndFileNewline.NoneFound">
+    <!-- Function return type is not void, but function is returning void here. -->
+    <rule ref="Drupal.Commenting.FunctionComment.InvalidReturnNotVoid">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
