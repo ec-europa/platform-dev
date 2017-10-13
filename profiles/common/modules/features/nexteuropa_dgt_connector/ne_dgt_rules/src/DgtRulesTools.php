@@ -10,6 +10,7 @@ namespace Drupal\ne_dgt_rules;
 use EntityFieldQuery;
 use TMGMTException;
 use TMGMTJob;
+use TMGMTJobItem;
 
 
 /**
@@ -45,7 +46,7 @@ class DgtRulesTools {
    * Provides default translator for the FTT workflow.
    *
    * @return string/bool
-   *  Returns the name of the default FTT translator or FALSE if it's not set.
+   *   Returns the name of the default FTT translator or FALSE if it's not set.
    */
   public static function getDefaultFttTranslator() {
     $default_translator = variable_get('ne_dgt_rules_translator', FALSE);
@@ -179,7 +180,7 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param String $reference
+   * @param string $reference
    *   Reference.
    *
    * @return array
@@ -203,8 +204,8 @@ class DgtRulesTools {
    * @param \EC\Poetry\Messages\Components\Status $status
    *   The status.
    */
-  public static function updateStatusTmgmtJob($job, $status) {
-    $statusMap = array(
+  public static function updateStatusTmgmtJob(TMGMTJob $job, \EC\Poetry\Messages\Components\Status $status) {
+    $status_map = array(
       'SUS' => TMGMT_JOB_STATE_ACTIVE,
       'ONG' => TMGMT_JOB_STATE_ACTIVE,
       'LCK' => TMGMT_JOB_STATE_ACTIVE,
@@ -213,15 +214,15 @@ class DgtRulesTools {
       'CNL' => TMGMT_JOB_STATE_ABORTED,
     );
 
-    if ($statusMap[$status->getCode()] != $job->getState()) {
-      $job->setState($statusMap[$status->getCode()]);
+    if ($status_map[$status->getCode()] != $job->getState()) {
+      $job->setState($status_map[$status->getCode()]);
 
       DgtRulesTools::addMessageTmgmtJob(
         $job,
         'Update the status from @old_status to @new_status by DGT. Message: @message',
         array(
           '@old_status' => $job->getState(),
-          '@new_status' => $statusMap[$status->getCode()],
+          '@new_status' => $status_map[$status->getCode()],
           '@message' => $status->getMessage(),
         )
       );
@@ -233,13 +234,13 @@ class DgtRulesTools {
    *
    * @param TMGMTJob $job
    *   The TMGMT job.
-   * @param String $content
-   *   The status.
+   * @param string $content
+   *   The content of the translation.
    *
    * @return bool
    *   The
    */
-  public static function updateTranslationTmgmtJob($job, $content) {
+  public static function updateTranslationTmgmtJob(TMGMTJob $job, $content) {
     $job_items = $job->getItems();
 
     foreach ($job_items as $job_item) {
@@ -327,14 +328,16 @@ class DgtRulesTools {
    * Return related translations by the translated entity id.
    *
    * @param TMGMTJob $job
-   *   The TMGMT job.
-   * @param String $content
-   *   The status.
+   *   The TMGMT Job object.
+   * @param TMGMTJobItem $job_item
+   *   The TMGMT Job Item object.
+   * @param string $content
+   *   The translation content.
    *
-   * @return bool
-   *   The
+   * @return string
+   *   Parsed XML.
    */
-  public static function parseTranslationTmgmtJob($job, $job_item, $content) {
+  public static function parseTranslationTmgmtJob(TMGMTJob $job, TMGMTJobItem $job_item, $content) {
     $translator = $job->getTranslator();
 
     $dom = new \DOMDocument();
@@ -401,14 +404,14 @@ class DgtRulesTools {
    *
    * @param TMGMTJob $job
    *   The TMGMT job.
-   * @param String $message
+   * @param string $message
    *   The message.
    * @param array $array
    *   The Array of variables for the message.
-   * @param String $type
+   * @param string $type
    *   The Array of variables for the message.
    */
-  public static function addMessageTmgmtJob($job, $message, $array, $type = 'info') {
+  public static function addMessageTmgmtJob(TMGMTJob $job, $message, $array, $type = 'info') {
     $job->addMessage($message, $array, $type);
 
     $message = 'Job @reference-@language: ' . $message;
@@ -469,7 +472,7 @@ class DgtRulesTools {
    * @return array $maps
    *   Array of FTT Map objects.
    */
-  public static function findMappingsByIdentifier($identifier) {
+  public static function findMappingsByIdentifier(\EC\Poetry\Messages\Components\Identifier $identifier) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'ne_tmgmt_dgt_ftt_map')
       ->propertyCondition('year', $identifier->getYear())

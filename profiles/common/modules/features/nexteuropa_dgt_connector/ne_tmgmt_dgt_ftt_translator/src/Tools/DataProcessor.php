@@ -7,14 +7,10 @@
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
-use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
-use Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController\TmgmtDgtFttTranslatorPluginController;
 use EntityFieldQuery;
 use \EC\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use TMGMTJob;
-use TMGMTJobItem;
-use TMGMTTranslator;
 
 /**
  * Helper trait with methods for processing translator's data and settings.
@@ -259,7 +255,7 @@ trait DataProcessor {
    *
    * @param TMGMTJob $job
    *   TMGMT Job object.
-   * @param integer $node_id
+   * @param int $node_id
    *   Node ID.
    *
    * @return array|bool
@@ -291,7 +287,7 @@ trait DataProcessor {
   /**
    * Provides an identifier array.
    *
-   * @param integer $node
+   * @param int $node
    *   Node Object.
    *
    * @return array|bool
@@ -471,20 +467,20 @@ trait DataProcessor {
       );
       $map_entity->save();
     };
-/*
+    /*
     // Printing an error message.
     $error_message = t("The DGT FTT mapping entity was not created.");
     drupal_set_message($error_message, 'error');
 
     // Logging an error to the watchdog.
     watchdog('ne_tmgmt_dgt_ftt_translator',
-      "The DGT FTT mapping entity was not created. Check if there is job item
-      available for the following TMGMT Job ID: '$job->identifier()'. Please,
-      check also if there is only one job item for that job.",
-      array(),
-      WATCHDOG_ERROR
+    "The DGT FTT mapping entity was not created. Check if there is job item
+    available for the following TMGMT Job ID: '$job->identifier()'. Please,
+    check also if there is only one job item for that job.",
+    array(),
+    WATCHDOG_ERROR
     );
-*/
+     */
   }
 
   /**
@@ -598,11 +594,34 @@ trait DataProcessor {
   public function overwriteRequestData($data, $parameters) {
     foreach ($parameters as $group_key => $group_parameters) {
       foreach ($group_parameters as $parameter_key => $parameter) {
-        $data[$group_key][$parameter_key] = $parameter;
+        if (!is_null($parameter)) {
+          $data[$group_key][$parameter_key] = $parameter;
+        }
       }
     }
 
     return $data;
+  }
+
+  /**
+   * Overwrites request identifier with given parameters.
+   *
+   * @param array $identifier
+   *   An array with the request identifier.
+   * @param array $parameters
+   *   An array with additional parameters.
+   *
+   * @return array
+   *   An overwrite request identifier array.
+   */
+  public function overwriteRequestIdentifier($identifier, $parameters) {
+    foreach ($parameters as $parameter_key => $parameter_value) {
+      if (!is_null($parameter_value)) {
+          $identifier[$parameter_key] = $parameter_value;
+      }
+    }
+
+    return $identifier;
   }
 
   /**

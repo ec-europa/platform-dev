@@ -6,14 +6,12 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
-use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
 use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use TMGMTDefaultTranslatorPluginController;
 use TMGMTTranslator;
 use TMGMTJob;
-use TMGMTJobItem;
 
 /**
  * TMGMT DGT FTT translator plugin controller.
@@ -125,10 +123,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Getting the request data.
       $data = $this->getRequestData($jobs, $node);
 
-      // Overwrite the data if we have some parameters.
-      if (!empty($parameters)) {
-        $data = $this->overwriteRequestData($data, $parameters);
-      }
+      // Overwrite the request identifier and data with parameters from 'Rules'.
+      $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
+      $data = $this->overwriteRequestData($data, $parameters['data']);
 
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendReviewRequest($identifier, $data);
@@ -198,10 +195,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Getting the request data.
       $data = $this->getRequestData($jobs, $node);
 
-      // Overwrite the data if we have some parameters.
-      if (!empty($parameters)) {
-        $data = $this->overwriteRequestData($data, $parameters);
-      }
+      // Overwrite the request identifier and data with parameters from 'Rules'.
+      $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
+      $data = $this->overwriteRequestData($data, $parameters['data']);
 
       // Sending a review request to DGT Services.
       $dgt_response = $this->sendTranslationRequest($identifier, $data);
@@ -273,7 +269,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   An array with the request data.
    *
    * @return \EC\Poetry\Messages\Responses\Status DGT Services response
-   * DGT Services response
+   *   DGT Services response
    */
   private function sendReviewRequest(array $identifier, array $data) {
     // Instantiate the Poetry Client object.
@@ -293,7 +289,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   An array with the request data.
    *
    * @return \EC\Poetry\Messages\Responses\Status DGT Services response
-   * DGT Services response
+   *   DGT Services response
    */
   private function sendTranslationRequest(array $identifier, array $data) {
     // Instantiate the Poetry Client object.

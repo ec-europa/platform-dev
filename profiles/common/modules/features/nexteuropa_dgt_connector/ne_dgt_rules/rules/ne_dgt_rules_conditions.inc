@@ -86,7 +86,7 @@ function ne_dgt_rules_rules_condition_info() {
  *   Node object.
  *
  * @return TRUE/FALSE
- *  TRUE/FALSE depending on if the content meets requirements or not.
+ *   TRUE/FALSE depending on if the content meets requirements or not.
  */
 function ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow($node) {
   // Checking if given content is integrated with the DGT FTT workflow.
@@ -124,7 +124,7 @@ function ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow($node) {
  *   Expected 'new' workbench moderation state value.
  *
  * @return TRUE/FALSE
- *  TRUE/FALSE depending on if the states matches source and selected values.
+ *   TRUE/FALSE depending on if the states matches source and selected values.
  */
 function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous_state_source, $previous_state_value, $new_state_source, $new_state_value) {
   return (($previous_state_source === $previous_state_value) && ($new_state_source === $new_state_value)) ? TRUE : FALSE;
@@ -137,9 +137,9 @@ function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous
  *   The translation request identifier.
  *
  * @return TRUE/FALSE
- *  TRUE/FALSE depending on if all translations were received.
+ *   TRUE/FALSE depending on if all translations were received.
  */
-function ne_dgt_rules_all_translations_are_received($identifier) {
+function ne_dgt_rules_all_translations_are_received(\EC\Poetry\Messages\Components\Identifier $identifier) {
   $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
   foreach ($ftt_mappings as $ftt_map) {
     $job = tmgmt_job_load($ftt_map->tjid);

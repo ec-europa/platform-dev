@@ -21,6 +21,12 @@ function ne_dgt_rules_rules_action_info() {
         'label' => t('Content'),
         'description' => t('The content that requires review done by the DGT reviewer.'),
       ),
+      'code' => array(
+        'type' => 'text',
+        'label' => t('Requester code'),
+        'description' => t('Eg.: WEB'),
+        'optional' => TRUE,
+      ),
       'org_responsible' => array(
         'type' => 'text',
         'label' => t('Responsible'),
@@ -72,6 +78,12 @@ function ne_dgt_rules_rules_action_info() {
         'type' => 'node',
         'label' => t('Content'),
         'description' => t('The content for the translation request.'),
+      ),
+      'code' => array(
+        'type' => 'text',
+        'label' => t('Requester code'),
+        'description' => t('Eg.: WEB'),
+        'optional' => TRUE,
       ),
       'org_responsible' => array(
         'type' => 'text',
@@ -153,7 +165,7 @@ function ne_dgt_rules_rules_action_info() {
  * @return array
  *   An array of arrays with data which are exposed to the 'Rules'.
  */
-function ne_dgt_rules_ftt_node_send_review_request($node, $org_responsible = '', $org_dg_author = '', $org_requester = '') {
+function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -163,17 +175,17 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $org_responsible = '',
 
   // Initializing the parameters array..
   $parameters = array(
-    'details' => array(
-      'responsible' => $org_responsible,
-      'author' => $org_dg_author,
-      'requester' => $org_requester,
+    'identifier' => array(
+      'identifier.code' => $code,
+    ),
+    'data' => array(
+      'details' => array(
+        'responsible' => $org_responsible,
+        'author' => $org_dg_author,
+        'requester' => $org_requester,
+      ),
     ),
   );
-
-  // Checking if all the organisation parameters are set.
-  if (!DgtRulesTools::checkParameters($parameters)) {
-    $parameters = array();
-  }
 
   if ($default_translator = DgtRulesTools::getDefaultFttTranslator()) {
     // The review request can be only sent for the english version of the node.
@@ -181,7 +193,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $org_responsible = '',
       // Checking if review request conditions are met.
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)
         && $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node)) {
-      // Sending the review request to DGT Services.
+        // Sending the review request to DGT Services.
         $return = DgtRulesTools::sendReviewRequest($job, $parameters);
       }
     }
@@ -205,7 +217,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $org_responsible = '',
  * @return array
  *   An Array with the job and the response, this element can be NULL.
  */
-function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible = '', $org_dg_author = '', $org_requester = '') {
+function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -215,17 +227,17 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible 
 
   // Initializing the parameters array..
   $parameters = array(
-    'details' => array(
-      'responsible' => $org_responsible,
-      'author' => $org_dg_author,
-      'requester' => $org_requester,
+    'identifier' => array(
+      'identifier.code' => $code,
+    ),
+    'data' => array(
+      'details' => array(
+        'responsible' => $org_responsible,
+        'author' => $org_dg_author,
+        'requester' => $org_requester,
+      ),
     ),
   );
-
-  // Checking if all the organisation parameters are set.
-  if (!DgtRulesTools::checkParameters($parameters)) {
-    $parameters = array();
-  }
 
   $jobs = array();
 
@@ -260,7 +272,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible 
  * @return array
  *   The translation request identifier.
  */
-function ne_dgt_rules_accept_all_translations($identifier) {
+function ne_dgt_rules_accept_all_translations(\EC\Poetry\Messages\Components\Identifier $identifier) {
   $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
   $entity_id = array();
   if (!empty($ftt_mappings)) {
