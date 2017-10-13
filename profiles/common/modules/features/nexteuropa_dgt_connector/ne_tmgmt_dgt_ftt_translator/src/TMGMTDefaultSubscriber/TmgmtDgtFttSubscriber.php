@@ -34,24 +34,9 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
    *   The event for the translation Received.
    */
   public function onTranslationReceivedEvent(TranslationReceivedEvent $event) {
-    /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
+    /** @var \EC\Poetry\Messages\Notifications\TranslationReceived $message */
     $message = $event->getMessage();
     $identifier = $message->getIdentifier();
-    $requestStatus = $message->getRequestStatus();
-
-    if ($requestStatus->getCode() != '0') {
-      watchdog(
-        'ne_dtmgmt_dgt_ftt_translator',
-        'Job @reference receives a Status Update with issues. Message: @message',
-        array(
-          '@reference' => $identifier->getFormattedIdentifier(),
-          '@message' => $requestStatus->getMessage(),
-        ),
-        WATCHDOG_ERROR
-      );
-
-      return;
-    }
 
     watchdog(
       'ne_dtmgmt_dgt_ftt_translator',

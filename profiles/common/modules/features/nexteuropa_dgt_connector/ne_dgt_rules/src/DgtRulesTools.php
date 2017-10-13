@@ -478,7 +478,7 @@ class DgtRulesTools {
       ->propertyCondition('version', $identifier->getVersion());
     $results = $query->execute();
     if (isset($results['ne_tmgmt_dgt_ftt_map'])) {
-      return $results['ne_tmgmt_dgt_ftt_map'];
+      return entity_load('ne_tmgmt_dgt_ftt_map', array_keys($results['ne_tmgmt_dgt_ftt_map']));
     }
     return array();
   }

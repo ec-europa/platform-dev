@@ -274,6 +274,8 @@ function ne_dgt_rules_accept_all_translations($identifier) {
       $job_item->acceptTranslation();
     }
     $job->finished();
+    DgtRulesTools::addMessageTmgmtJob($job, "Accepted by DGT FTT.", array());
   }
+
   return $entity_id;
 }
