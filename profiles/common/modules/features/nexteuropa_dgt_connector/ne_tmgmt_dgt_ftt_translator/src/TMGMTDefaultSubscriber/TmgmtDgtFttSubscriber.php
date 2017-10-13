@@ -55,8 +55,11 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
     watchdog(
       'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update.',
-      array('@reference' => $identifier->getFormattedIdentifier()),
+      'Job @reference receives a Status Update. Message: @message',
+      array(
+        '@reference' => $identifier->getFormattedIdentifier(),
+        '@message' => $message->getRaw(),
+      ),
       WATCHDOG_INFO
     );
 
@@ -119,11 +122,14 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
     watchdog(
       'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update.',
-      array('@reference' => $identifier->getFormattedIdentifier()),
+      'Job @reference receives a Status Update. Message: @message',
+      array(
+        '@reference' => $identifier->getFormattedIdentifier(),
+        '@message' => $message->getRaw(),
+      ),
       WATCHDOG_INFO
     );
-
+    
     // Checking the Demand Status.
     foreach ($jobs as $job) {
       DgtRulesTools::updateStatusTmgmtJob($job, $demandStatus);
