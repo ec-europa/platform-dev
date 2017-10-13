@@ -257,17 +257,18 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $org_responsible 
  * @param \EC\Poetry\Messages\Components\Identifier $identifier
  *   The translation request identifier.
  *
- * @return integer|NULL
+ * @return array
  *   The translation request identifier.
  */
 function ne_dgt_rules_accept_all_translations($identifier) {
   $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
-  $entity_id = NULL;
-  foreach ($ftt_mappings as $ftt_map) {
-    if (empty($entity_id)) {
-      $entity_id = $ftt_map->entity_id;
-    }
-    $job = tmgmt_job_load($ftt_map->tjid);
+  $entity_id = array();
+  if (!empty($ftt_mappings)) {
+    $entity_id['entity_id'] = reset($ftt_mappings)->entity_id;
+  }
+  $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
+  /** @var \TMGMTJob $job */
+  foreach ($jobs as $job) {
     $job_items = $job->getItems();
     foreach ($job_items as $job_item) {
       $job_item->acceptTranslation();
