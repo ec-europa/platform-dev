@@ -2455,15 +2455,3 @@ function cce_basic_config_update_7219() {
 function cce_basic_config_update_7220() {
   variable_set('multisite_version', '2.4');
 }
-
-/**
- * Uninstall language_cookie from the platformn NEPT-163.
- */
-function cce_basic_config_update_7221() {
-  $cookie_language_usage = language_negotiation_get('language', 'language_cookie');
-  $cookie_content_usage = language_negotiation_get('language_content', 'language_cookie');
-  if (module_exists('language_cookie') && $cookie_language_usage === FALSE && $cookie_content_usage === FALSE) {
-    module_disable(array('language_cookie'), FALSE);
-    drupal_uninstall_modules(array('language_cookie'), FALSE);
-  }
-}
