@@ -6,6 +6,7 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
+use Drupal\ne_dgt_rules\DgtRulesTools;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController\TmgmtDgtFttTranslatorPluginController;
 use EntityFieldQuery;
@@ -285,6 +286,19 @@ trait DataProcessor {
     }
 
     return $identifier;
+  }
+
+  /**
+   * Provides an identifier array.
+   *
+   * @param integer $node
+   *   Node Object.
+   *
+   * @return array|bool
+   *   An array with an identifier data or FALSE in case of errors;
+   */
+  public function getReviewIdentifier($node) {
+    return DgtRulesTools::findMappingsByNode($node);
   }
 
   /**

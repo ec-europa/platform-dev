@@ -40,7 +40,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
     watchdog(
       'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update. Message: @message',
+      'Job @reference receives a Translation Received. Message: @message',
       array(
         '@reference' => $identifier->getFormattedIdentifier(),
         '@message' => $message->getRaw(),

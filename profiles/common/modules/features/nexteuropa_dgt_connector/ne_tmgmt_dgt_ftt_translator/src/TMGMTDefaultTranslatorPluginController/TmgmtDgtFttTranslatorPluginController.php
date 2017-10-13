@@ -6,6 +6,7 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
+use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
 use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
@@ -185,6 +186,14 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid);
+
+      // Using the latest reference id for the node.
+      // This reference is created by the Review request.
+      /** @var DgtFttTranslatorMapping $mapping_entity */
+      $mapping_entity = $this->getReviewIdentifier($node);
+      $identifier['identifier.year'] = $mapping_entity->year;
+      $identifier['identifier.number'] = $mapping_entity->number;
+      $identifier['identifier.part'] = $mapping_entity->part;
 
       // Getting the request data.
       $data = $this->getRequestData($jobs, $node);

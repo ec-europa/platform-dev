@@ -150,7 +150,7 @@ function _ne_tmgmt_dgt_ftt_translator_callback() {
   $poetry->getEventDispatcher()
     ->addSubscriber(new TMGMTDgtFttSubscriber());
   $poetry->getServer()->handle();
-  drupal_exit();
+  exit();
 }
 
 /**
@@ -166,7 +166,7 @@ function _ne_tmgmt_dgt_ftt_translator_wsdl() {
   $poetry = new Poetry(array('notification.endpoint' => $url));
   print $poetry->getWsdl()->getXml();
 
-  drupal_exit();
+  exit();
 }
 
 /**

@@ -483,4 +483,25 @@ class DgtRulesTools {
     return array();
   }
 
+  /**
+   * Returns all mapping entities based on a request identifier.
+   *
+   * @param object $node
+   *   The Node Object.
+   *
+   * @return object | NULL $maps
+   *   FTT Map object.
+   */
+  public static function findMappingsByNode($node) {
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'ne_tmgmt_dgt_ftt_map')
+      ->propertyCondition('entity_id', $node->nid);
+    $results = $query->execute();
+    if (isset($results['ne_tmgmt_dgt_ftt_map'])) {
+      $entities = entity_load('ne_tmgmt_dgt_ftt_map', array_keys($results['ne_tmgmt_dgt_ftt_map']));
+      return array_shift($entities);
+    }
+    return NULL;
+  }
+
 }
