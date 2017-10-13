@@ -134,6 +134,19 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
 
       // Process the DGT response to get the Rules response.
       $rules_response = $this->processResponse($dgt_response, $jobs);
+
+      /** @var TMGMTJob $job */
+      foreach ($jobs as $job) {
+        /** @var TMGMTJobItem $job_item */
+        foreach ($job->getItems() as $job_item) {
+          $job_item->accepted("Review Request has been created. Reference: @reference",
+            array(
+              '@reference' => $job->reference,
+            )
+          );
+        }
+      }
+
     }
 
     $rules_response['tmgmt_job'] = $jobs[0];
