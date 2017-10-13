@@ -72,13 +72,18 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
         if ($job_language == $attribution->getLanguage()) {
           if (DgtRulesTools::UpdateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
-            $job->acceptTranslation();
+            if (module_exists('rules')) {
+              rules_invoke_event('ftt_translation_received', $identifier);
+            }
+            else {
+              $job->acceptTranslation();
 
-            DgtRulesTools::addMessageTmgmtJob(
-              $job,
-              t('The translation has been accepted automatically by DGT.'),
-              array()
-            );
+              DgtRulesTools::addMessageTmgmtJob(
+                $job,
+                t('The translation has been accepted automatically by DGT.'),
+                []
+              );
+            }
           }
 
           continue;
