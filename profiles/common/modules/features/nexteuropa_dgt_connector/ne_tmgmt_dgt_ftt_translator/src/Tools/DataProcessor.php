@@ -543,9 +543,7 @@ trait DataProcessor {
 
     // Checking if there is a 'request status' in the response object.
     if ($response->hasRequestStatus()) {
-      $response_data = array(
-        'ref_id' => $response->getMessageId(),
-      );
+      $response_data['dgt_service_response']['ref_id'] = $response->getMessageId();
 
       $request_status = array(
         'code' => $response->getRequestStatus()->getCode(),
@@ -555,7 +553,6 @@ trait DataProcessor {
         'message' => $response->getRequestStatus()->getMessage(),
       );
 
-      $response_data['dgt_service_response'] = $response_data;
       $response_data['dgt_service_response_status'] = $request_status;
     }
 
