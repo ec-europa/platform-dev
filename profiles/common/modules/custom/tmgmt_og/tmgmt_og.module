@@ -191,7 +191,7 @@ function tmgmt_og_menu_alter_title_callback() {
 function tmgmt_og_query_tmgmt_entity_get_translatable_entities_alter(QueryAlterableInterface $query) {
   if (($group = og_context())) {
     $fields = $query->getFields();
-    foreach ($fields as $field => $info) {
+    foreach ($fields as $info) {
       // Get field on primary table, which is aliased as "e".
       // See tmgmt_entity_get_translatable_entities().
       if ($info['table'] == 'e') {

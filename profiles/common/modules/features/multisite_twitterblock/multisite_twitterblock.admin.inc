@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Multisite Twitter Block Media administration pages.
