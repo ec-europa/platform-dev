@@ -791,15 +791,10 @@ projects[workbench_og][version] = "2.0-beta1"
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.2"
-projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
-projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
-projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
+projects[wysiwyg][download][version] = "2.4"
+; Fix remote js loading on ckeditor plugin
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
-; Features export doesn't work correctly
-; https://www.drupal.org/node/2414575
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1
-projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-feature_export_object_to_array-2414575-10-7.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
