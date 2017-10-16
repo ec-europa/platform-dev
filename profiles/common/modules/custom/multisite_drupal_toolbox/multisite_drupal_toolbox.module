@@ -1176,6 +1176,8 @@ function _content_type_linkchecker($type, $op) {
  * Configuration form for the custom "Sanitize HTML" text filter.
  *
  * @deprecated
+ *   NEPT-1494: Form is no longer available, we will now show a message and
+ *   later remove the page where this function is being used.
  */
 function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
   $form['#theme'] = array('form_filter_security_settings');

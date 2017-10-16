@@ -155,8 +155,8 @@ function multisite_drupal_toolbox_get_default_filter_options() {
  * - Validates HTML input against whitelists of HTML elements, attributes
  *   and style properties.
  * - Optionally apply rel="nofollow" rules to links.
- * - Rules for the above can be specified by site administrators from the
- *   filter settings form.
+ * - Rules for the above can be specified by site site builders using
+ *   the hook_multisite_drupal_toolbox_filter_options_alter(&$filter_options).
  *
  * @param string $text
  *   HTML text to be filtered.
