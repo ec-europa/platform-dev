@@ -99,4 +99,17 @@ function multisite_drupal_toolbox_update_7202() {
     multisite_config_service('filter')->disableTextFilter($format_machine_name, 'toolbox_sanitize');
     watchdog('multisite drupal toolbox', '"Updatedb process: toolbox_sanitize" has been disabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
   }
+
+  /**
+   * NEPT-1494: Sanitize HTML filter.
+   *
+   * Remove the central configuration feature & the node related parameter.
+   */
+  function multisite_drupal_toolbox_update_7203() {
+    // Remove obsolete variables.
+    array_map(function($variable) {
+      variable_del($variable);
+    }, array('security_bypassed_nodes', 'security_allowed_tags'));
+  }
+
 }

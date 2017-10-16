@@ -59,6 +59,7 @@ function multisite_drupal_toolbox_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
     'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
   );
   $items['admin/config/security/settings'] = array(
     'title' => 'Security settings',
@@ -66,6 +67,7 @@ function multisite_drupal_toolbox_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('multisite_drupal_toolbox_form_security_settings'),
     'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
   );
   $items['admin/config/system/contact'] = array(
     'title' => 'Contact Form Settings',
@@ -132,6 +134,7 @@ function multisite_drupal_toolbox_module_implements_alter(&$implementations, $ho
  */
 function multisite_drupal_toolbox_boot() {
   global $conf;
+
   if (!isset($conf["language_count"])) {
     $conf["language_count"] = 2;
   }
@@ -164,6 +167,7 @@ function multisite_drupal_toolbox_init() {
 function multisite_drupal_toolbox_menu_alter(&$items) {
   // Use default theme for specific admin pages.
   $list_pages = variable_get('cce_basic_config_admin_pages', array());
+
   foreach ($items as $url => $item) {
     foreach ($list_pages as $page) {
       if (strpos($url, $page) === 0) {
@@ -206,21 +210,25 @@ function multisite_drupal_toolbox_edit_access($account) {
  * Implements hook_theme().
  */
 function multisite_drupal_toolbox_theme($existing, $type, $theme, $path) {
-  $items = array(
+  return array(
     'dropdown' => array(
       'variables' => array(
         'items' => array(),
       ),
     ),
+    'form_filter_security_settings' => array(
+      'template' => 'form--filter-security-settings',
+      'path' => $path . '/templates',
+      'render element' => 'form',
+    ),
   );
-  return $items;
 }
 
 /**
  * Returns HTML for a dropdown.
  */
 function theme_dropdown(array $variables) {
-  return(theme("item_list", $variables));
+  return theme('item_list', $variables);
 }
 
 /**
@@ -259,7 +267,7 @@ function multisite_drupal_toolbox_media_wysiwyg_token_to_markup_alter(&$element,
 /**
  * Implements hook_url_inbound_alter().
  *
- * Santizie URL inputs.
+ * Sanitize URL inputs.
  */
 function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $path_language) {
   if (!($path == '<front>') && !(url_is_external($path))) {
@@ -271,14 +279,11 @@ function multisite_drupal_toolbox_url_inbound_alter(&$path, $original_path, $pat
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_system_modules_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     unset($form['modules']['Core']['php']);
-    // Prevent users to give the permission to inject PHP.
-    // in input text area.
+    // Prevent users to give the permission to inject PHP in input text area.
     unset($form['modules']['Development']);
-    // Prevent users to give access to the devel modules.
+    // Prevent users to give access to the devel module.
   }
 }
 
@@ -286,23 +291,16 @@ function multisite_drupal_toolbox_form_system_modules_alter(&$form, &$form_state
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_user_admin_permissions_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     // Prevent users to give certain permissions.
     unset($form['permission']['administer modules']);
     unset($form['permission']['administer features']);
     unset($form['permission']['manage features']);
     unset($form['permission']['administer software updates']);
 
-    if (isset($form['permission']['administer varnish'])) {
-      unset($form['permission']['administer varnish']);
-    }
-
+    unset($form['permission']['administer varnish']);
     // Auto_nodetile module.
-    if (isset($form['permission']['use PHP for title patterns'])) {
-      unset($form['permission']['use PHP for title patterns']);
-    }
+    unset($form['permission']['use PHP for title patterns']);
 
     foreach (array_keys(user_roles()) as $rid) {
       // Hide checkboxes in the permissions admin page.
@@ -310,12 +308,8 @@ function multisite_drupal_toolbox_form_user_admin_permissions_alter(&$form, &$fo
       unset($form['checkboxes'][$rid]['#options']['administer features']);
       unset($form['checkboxes'][$rid]['#options']['manage features']);
       unset($form['checkboxes'][$rid]['#options']['administer software updates']);
-      if (isset($form['checkboxes'][$rid]['#options']['use PHP for title patterns'])) {
-        unset($form['checkboxes'][$rid]['#options']['use PHP for title patterns']);
-      }
-      if (isset($form['checkboxes'][$rid]['#options']['administer varnish'])) {
-        unset($form['checkboxes'][$rid]['#options']['administer varnish']);
-      }
+      unset($form['checkboxes'][$rid]['#options']['use PHP for title patterns']);
+      unset($form['checkboxes'][$rid]['#options']['administer varnish']);
     }
   }
 }
@@ -324,9 +318,7 @@ function multisite_drupal_toolbox_form_user_admin_permissions_alter(&$form, &$fo
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_user_admin_account_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     unset($form['accounts']['#options'][1]);
   }
 }
@@ -335,9 +327,7 @@ function multisite_drupal_toolbox_form_user_admin_account_alter(&$form, &$form_s
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_user_admin_role_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     // Prevent predefined roles updated for non admin.
     if (isset($form['rid'])) {
       $rid_administrator = multisite_drupal_toolbox_get_rid('administrator');
@@ -355,9 +345,7 @@ function multisite_drupal_toolbox_form_user_admin_role_alter(&$form, &$form_stat
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_workbench_moderation_admin_states_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     // Prevent administrator from changing existing workflow states.
     $blocked_states = array(
       'draft',
@@ -380,9 +368,7 @@ function multisite_drupal_toolbox_form_workbench_moderation_admin_states_form_al
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_workbench_moderation_admin_transitions_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     // Prevent administrator from changing existing workflow transitions.
     $blocked_transitions = array(
       'published_archived',
@@ -408,9 +394,7 @@ function multisite_drupal_toolbox_form_workbench_moderation_admin_transitions_fo
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_contact_site_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
     if (isset($maximum_limit) && is_numeric($maximum_limit)) {
       if ($form['message']) {
@@ -425,10 +409,9 @@ function multisite_drupal_toolbox_form_contact_site_form_alter(&$form, &$form_st
  * Implements hook_form_FORM_ID_alter().
  */
 function multisite_drupal_toolbox_form_contact_personal_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
-  if ($user->uid != 1) {
+  if (!multisite_drupal_toolbox_is_admin()) {
     $maximum_limit = (int) variable_get('contact_form_maxlength', 1000);
+
     if (isset($maximum_limit) && is_numeric($maximum_limit)) {
       if ($form['message']) {
         $form['message']['#title'] = $form['message']['#title'] . ' ' . t('(maximum @max characters)', array('@max' => $maximum_limit));
@@ -540,12 +523,12 @@ function multisite_drupal_toolbox_filter_format_update($format) {
 function multisite_drupal_toolbox_filter_info() {
   $info['toolbox_sanitize'] = array(
     'title' => t('Sanitize HTML'),
-    'description' => t('Security process to prevent xss attack (provided by nexteuropa toolbox)'),
+    'description' => t('Security process to prevent xss attack (provided by multisite_drupal_toolbox custom module).'),
     'process callback' => '_multisite_drupal_toolbox_filter_sanitize',
   );
+
   return $info;
 }
-
 
 /**
  * Alter filter process callback for the token input filter.
@@ -553,35 +536,16 @@ function multisite_drupal_toolbox_filter_info() {
  * @see multisite_drupal_toolbox_filter_info()
  */
 function _multisite_drupal_toolbox_filter_sanitize($text, $filter, $format, $langcode, $cache, $cache_id) {
-  $nid = NULL;
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
-    $nid = arg(1);
-  }
-  return multisite_drupal_toolbox_sanitize($text, $nid);
+  return multisite_drupal_toolbox_sanitize($text);
 }
 
 /**
  * Custom sanitize function.
  */
-function multisite_drupal_toolbox_sanitize($content, $nid) {
-  // Security process to prevent xss attack in node contents.
-  $nodes_bypass = explode("\n", variable_get("security_bypassed_nodes", ""));
+function multisite_drupal_toolbox_sanitize($content) {
+  module_load_include('inc', 'multisite_drupal_toolbox', 'multisite_drupal_toolbox.sanitize');
 
-  // Check if the node must be bypass.
-  if (!in_array($nid, $nodes_bypass) || is_null($nid)) {
-    // Retrieve the list of allowed tags that were configured in the UI.
-    $tags_allowed = explode("\n", variable_get("security_allowed_tags", ""));
-    // Trim whitespace and filter empty lines.
-    $tags_allowed = array_map('trim', $tags_allowed);
-    $tags_allowed = array_filter($tags_allowed);
-
-    module_load_include('inc', 'multisite_drupal_toolbox', 'multisite_drupal_toolbox.sanitize');
-    $filter_options = multisite_drupal_toolbox_get_default_filter_options();
-    $filter_options['valid_elements'] = array_fill_keys($tags_allowed, array('*' => TRUE));
-
-    $content = multisite_drupal_toolbox_filter_xss($content, $filter_options);
-  }
-  return $content;
+  return multisite_drupal_toolbox_filter_xss($content, multisite_drupal_toolbox_get_default_filter_options());
 }
 
 /**
@@ -764,7 +728,7 @@ function _remove_content_type_context($context_name, $content_type) {
 /**
  * Public function to add path condition to a context.
  *
- * You need to add the module context as a dependancy to your feature.
+ * You need to add the module context as a dependency to your feature.
  */
 function multisite_drupal_toolbox_add_path_context($context_name, $path) {
   // Load context.
@@ -975,6 +939,8 @@ function multisite_drupal_toolbox_get_rid($role_name) {
  *
  * @obsolete
  *   Use multisite_drupal_toolbox_get_rid() instead.
+ * @deprecated
+ *   Use multisite_drupal_toolbox_get_rid() instead.
  */
 function get_rid($role_name) {
   return multisite_drupal_toolbox_get_rid($role_name);
@@ -986,19 +952,17 @@ function get_rid($role_name) {
 function multisite_drupal_toolbox_is_admin() {
   global $user;
 
-  if ($user->uid == 1) {
-    return TRUE;
-  }
-  else {
-    return FALSE;
-  }
+  return ($user->uid === 1) ? TRUE : FALSE;
 }
 
 /**
  * Obsolete.
  *
  * @obsolete
- *   Use multisite_drupal_toolbox_is_admin().
+ *   Use multisite_drupal_toolbox_is_admin() instead.
+ *
+ * @deprecated
+ *   Use multisite_drupal_toolbox_is_admin() instead.
  */
 function is_admin() {
   return multisite_drupal_toolbox_is_admin();
@@ -1209,24 +1173,14 @@ function _content_type_linkchecker($type, $op) {
 }
 
 /**
- * Modifies the security settings.
+ * Configuration form for the custom "Sanitize HTML" text filter.
+ *
+ * @deprecated
  */
 function multisite_drupal_toolbox_form_security_settings($form, &$form_state) {
-  $form['security_allowed_tags'] = array(
-    '#type' => 'textarea',
-    '#title' => t('allowed tags'),
-    '#default_value' => variable_get('security_allowed_tags'),
-    '#description' => t('One tag per line.'),
-  );
+  $form['#theme'] = array('form_filter_security_settings');
 
-  $form['security_bypassed_nodes'] = array(
-    '#type' => 'textarea',
-    '#title' => t('nodes to bypass'),
-    '#default_value' => variable_get('security_bypassed_nodes'),
-    '#description' => t('Insert the nid of nodes that must not be filtered to check xss attacks.<br/>One nid per line.'),
-  );
-
-  return system_settings_form($form);
+  return $form;
 }
 
 /**
@@ -1248,7 +1202,7 @@ function form_security_settings($form, &$form_state) {
  * @param string $url
  *   The url that should be scanned.
  *
- * @return path_info
+ * @return array
  *   An associative array containing:
  *   - url: The same as the argument $url, untouched.
  *   - target: Either "internal" or "external".
@@ -1600,10 +1554,10 @@ function multisite_drupal_toolbox_taxonomy_term_delete_batch_process($target, $f
     if (db_table_exists('field_revision_' . $field['field_name'])) {
       // Clean revision field.
       db_delete('field_revision_' . $field['field_name'])
-          ->condition('entity_type', $target->entity_type)
-          ->condition('entity_id', $target->entity_id)
-          ->condition($field['field_name'] . '_tid', $term->tid)
-          ->execute();
+        ->condition('entity_type', $target->entity_type)
+        ->condition('entity_id', $target->entity_id)
+        ->condition($field['field_name'] . '_tid', $term->tid)
+        ->execute();
     }
   }
 }

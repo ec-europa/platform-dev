@@ -16,7 +16,30 @@
  * @see wysiwyg_filter_get_filter_options()
  */
 function multisite_drupal_toolbox_get_default_filter_options() {
-  return array(
+  $allowed_tags = array(
+    'a', 'abbr', 'area', 'audio',
+    'b', 'base', 'blockquote', 'br', 'button',
+    'canvas', 'caption', 'center', 'cite', 'code', 'col', 'colgroup',
+    'dt', 'dd', 'div', 'dl',
+    'em', 'embed',
+    'fieldset', 'figcaption', 'figure', 'font', 'form',
+    'h2', 'h3', 'h4', 'h5', 'h6', 'hr',
+    'i', 'iframe', 'img', 'input',
+    'label', 'legend', 'li',
+    'map', 'mark',
+    'ol', 'option',
+    'p', 'pre',
+    'q',
+    'rp', 'rt',
+    's', 'section', 'select', 'small', 'source', 'span', 'strike', 'strong',
+    'style', 'sub', 'summary', 'sup',
+    'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'tr',
+    'track', 'tt',
+    'u', 'ul',
+    'video',
+  );
+
+  $filter_options = array(
     'allow_comments' => '1',
     'style_properties' => array(
       'background' => '`^(?:(?:(?:#[a-fA-F0-9]{3}|#[a-fA-F0-9]{6}|rgb\\(\\s*[0-9]{0,3}%?(?:\\s*,\\s*[0-9]{0,3}%?){2}\\s*\\)|[a-zA-Z]+|transparent)|(?:none|url\\(\\s*[\'"]?(?:[^)]|(?<=\\\\)\\))+[\'"]?\\s*\\))|(?:no-repeat|repeat(?:-x|-y)?)|(?:scroll|fixed)|(?:(?:(?:top|center|bottom|left|right)(?:\\s+(?:top|center|bottom|left|right))?)|(?:(?:[-]?(?:[0-9]{0,3}|[0-9]{0,3}\\.[0-9]{1,4})(?:px|pt|em|ex|in|cm|mm|pc)?|[-]?[12]?[0-9]{1,2}%)(?:\\s+(?:[-]?(?:[0-9]{0,3}|[0-9]{0,3}\\.[0-9]{1,4})(?:px|pt|em|ex|in|cm|mm|pc)?|[-]?[12]?[0-9]{1,2}%))?))))(?:(?:\\s+(?:(?:#[a-fA-F0-9]{3}|#[a-fA-F0-9]{6}|rgb\\(\\s*[0-9]{0,3}%?(?:\\s*,\\s*[0-9]{0,3}%?){2}\\s*\\)|[a-zA-Z]+|transparent)|(?:none|url\\(\\s*[\'"]?(?:[^)]|(?<=\\\\)\\))+[\'"]?\\s*\\))|(?:no-repeat|repeat(?:-x|-y)?)|(?:scroll|fixed)|(?:(?:(?:top|center|bottom|left|right)(?:\\s+(?:top|center|bottom|left|right))?)|(?:(?:[-]?(?:[0-9]{0,3}|[0-9]{0,3}\\.[0-9]{1,4})(?:px|pt|em|ex|in|cm|mm|pc)?|[-]?[12]?[0-9]{1,2}%)(?:\\s+(?:[-]?(?:[0-9]{0,3}|[0-9]{0,3}\\.[0-9]{1,4})(?:px|pt|em|ex|in|cm|mm|pc)?|[-]?[12]?[0-9]{1,2}%))?))))+)$`',
@@ -114,7 +137,13 @@ function multisite_drupal_toolbox_get_default_filter_options() {
     'valid_classes' => array('`^(?:-?[_a-zA-Z]+[_a-zA-Z0-9-]*)$`'),
     'valid_ids' => array('`^(?:[a-zA-Z][a-zA-Z0-9_-]*)$`'),
     'style_urls' => array(),
+    'valid_elements' => array_fill_keys($allowed_tags, array('*' => TRUE)),
   );
+
+  // Let other module alter those default values.
+  drupal_alter('multisite_drupal_toolbox_filter_options', $filter_options);
+
+  return $filter_options;
 }
 
 /**
