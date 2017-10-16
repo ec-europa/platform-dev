@@ -144,7 +144,7 @@
       CKEDITOR.dtd.$blockLimit['nexteuropatoken'] = 1;
       CKEDITOR.dtd.$inline['nexteuropatoken'] = 1;
       CKEDITOR.dtd.$nonEditable['nexteuropatoken'] = 1;
-      // Set the HTML in which the placeholder tag can be included.
+      // Set tags in which the placeholder tag can be included.
       // Note that CKEditor sets already some of them by default like for
       // "p", "div".
       CKEDITOR.dtd['td']['nexteuropatoken'] = 1;
