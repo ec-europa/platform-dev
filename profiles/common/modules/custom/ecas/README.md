@@ -30,4 +30,3 @@ Usage
 -----
 
 More information can be found in the [readme of feature "ecas_env"](../../features/ecas_env/README.md)
-    
