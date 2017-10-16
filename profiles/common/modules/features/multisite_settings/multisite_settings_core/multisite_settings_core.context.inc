@@ -60,40 +60,10 @@ function multisite_settings_core_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'facetapi-odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A' => array(
-          'module' => 'facetapi',
-          'delta' => 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A',
-          'region' => 'sidebar_left',
-          'weight' => '-17',
-        ),
-        'facetapi-GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu' => array(
-          'module' => 'facetapi',
-          'delta' => 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu',
-          'region' => 'sidebar_left',
-          'weight' => '-16',
-        ),
-        'facetapi-wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j' => array(
-          'module' => 'facetapi',
-          'delta' => 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j',
-          'region' => 'sidebar_left',
-          'weight' => '-15',
-        ),
-        'facetapi-8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT' => array(
-          'module' => 'facetapi',
-          'delta' => '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT',
-          'region' => 'sidebar_left',
-          'weight' => '-14',
-        ),
         'current_search-standard' => array(
           'module' => 'current_search',
           'delta' => 'standard',
           'region' => 'sidebar_left',
-          'weight' => '-10',
-        ),
-        'apachesolr_search-sort' => array(
-          'module' => 'apachesolr_search',
-          'delta' => 'sort',
-          'region' => 'sidebar_right',
           'weight' => '-10',
         ),
       ),

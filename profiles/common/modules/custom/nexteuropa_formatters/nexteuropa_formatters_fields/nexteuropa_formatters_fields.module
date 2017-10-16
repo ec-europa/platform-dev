@@ -85,6 +85,12 @@ function nexteuropa_formatters_fields_field_formatter_info() {
         'entityreference',
       ),
     ),
+    'ne_labels' => array(
+      'label' => t('NE Labels'),
+      'field types' => array(
+        'list_boolean',
+      ),
+    ),
   );
 }
 
@@ -482,6 +488,18 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
             ),
           );
           $elements[$delta] = $link;
+        }
+      }
+      break;
+
+    case 'ne_labels':
+      if ('list_boolean' == $field['type']) {
+        $theme_names = array('labels__open', 'labels__closed');
+        foreach ($items as $delta => $item) {
+          $elements[$delta] = array(
+            '#theme' => $theme_names[$item['value']],
+            '#content' => $field['settings']['allowed_values'][$item['value']],
+          );
         }
       }
       break;
