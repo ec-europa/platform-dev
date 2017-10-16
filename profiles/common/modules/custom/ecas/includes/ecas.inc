@@ -825,7 +825,7 @@ function _ecas_session_end() {
  * Get the full URL for the homepage of the site.
  *
  * @return string
- *    The full URL for the homepage of the site.
+ *   The full URL for the homepage of the site.
  */
 function _ecas_get_url_site_frontpage() {
   return url(variable_get('site_frontpage', 'node'), ['absolute' => TRUE]);
