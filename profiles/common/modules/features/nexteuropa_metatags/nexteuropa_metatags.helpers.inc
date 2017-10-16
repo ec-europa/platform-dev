@@ -27,6 +27,26 @@ function _nexteuropa_metatags_check_metatag_config() {
 }
 
 /**
+ * Custom function to get the list of IPG classifications.
+ */
+function _nexteuropa_metatags_classification_options() {
+  $vid_classification = db_select('taxonomy_vocabulary', 't')
+    ->fields('t')
+    ->condition('machine_name', 'classification', '=')
+    ->execute()
+    ->fetchAll();
+  // Get Taxonomy tree.
+  $classification = taxonomy_get_tree($vid_classification[0]->vid);
+
+  $list = array();
+  foreach ($classification as $key => $obj_term) {
+    $list[$obj_term->name] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
+  }
+  return $list;
+}
+
+
+/**
  * Create the "metatags ess gf".
  */
 function _nexteuropa_metatags_create_metatag_config() {

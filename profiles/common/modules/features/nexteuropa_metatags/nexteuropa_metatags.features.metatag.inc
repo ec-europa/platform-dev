@@ -326,17 +326,8 @@ function nexteuropa_metatags_metatag_export_default() {
       'video:series' => array(
         'value' => '',
       ),
-      'creator' => array(
-        'value' => 'COMM/DG/UNIT',
-      ),
-      'reference' => array(
-        'value' => '[site:name]',
-      ),
       'X-UA-Compatible' => array(
         'value' => 'IE=edge',
-      ),
-      'date' => array(
-        'value' => '[current-date:short]',
       ),
       'classification' => array(
         'value' => '[variable:classification]',

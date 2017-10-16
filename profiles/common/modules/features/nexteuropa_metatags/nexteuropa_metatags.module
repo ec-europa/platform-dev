@@ -8,21 +8,21 @@ include_once 'nexteuropa_metatags.tokens.inc';
 
 /**
  * Implements hook_metatag_info().
- */
+
 function nexteuropa_metatags_metatag_info() {
-  $info['tags']['creator'] = array(
+ /* $info['tags']['creator'] = array(
     'label' => t('Creator'),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
     'name' => 'creator',
-    'description' => '',
+    'description' => t('Ex. COMM/DG/UNIT (max. 30 characters).<br/>This text will supply information to METADATA "Creator".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_2" target="_blank">IPG guidelines</a> for more information.'),
   );
   $info['tags']['reference'] = array(
     'label' => t('Reference'),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
     'name' => 'reference',
-    'description' => '',
+    'description' => t('Usually the acronym of the DG / Site name (max. 30 characters).<br/>This text will supply information to METADATA "Reference".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_1" target="_blank">IPG guidelines</a> for more information.'),
   );
   $info['tags']['X-UA-Compatible'] = array(
     'label' => t('X-UA-Compatible'),
@@ -40,7 +40,7 @@ function nexteuropa_metatags_metatag_info() {
   );
   $info['tags']['classification'] = array(
     'label' => t('Classification'),
-    'description' => t("IPG classification"),
+    'description' =>  t('Choose the classification for your website. This classification respects the !url', array('!url' => l(t('IPG guidelines'), "http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm"))),
     'class' => 'DrupalTextMetaTag',
     'context' => array('global'),
     'name' => 'classification',
@@ -93,7 +93,7 @@ function nexteuropa_metatags_metatag_info() {
 
   return $info;
 }
-
+*/
 /**
  * Implements hook_variable_info().
  */
