@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_maps.features.inc

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file of ecas_import_users.
@@ -308,23 +309,19 @@ function ecas_import_users_show_user_content() {
 function ecas_import_users_show_user_content_form($form, &$form_state, $arguments) {
   $filters = '';
 
-  // Extract will set $names, $dg, $search_by, $country and $mail.
-  extract($arguments);
-  if (!isset($names)) {
-    $names = 'everybody';
-  }
-  if (!isset($dg)) {
-    $dg = 'all-groups';
-  }
-  if (!isset($search_by)) {
-    $search_by = 'by-username';
-  }
-  if (!isset($country)) {
-    $country = 'all-countries';
-  }
-  if (!isset($mail)) {
-    $mail = 'no-mail';
-  }
+  $arguments += array(
+    'names' => 'everybody',
+    'dg' => 'all-groups',
+    'search_by' => 'by-username',
+    'country' => 'all-countries',
+    'mail' => 'no-mail',
+  );
+
+  $names = $arguments['names'];
+  $dg = $arguments['dg'];
+  $search_by = $arguments['search_by'];
+  $country = $arguments['country'];
+  $mail = $arguments['mail'];
 
   if ($names != 'everybody') {
     $names = trim($names);
@@ -416,10 +413,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
   else {
     drupal_add_js(drupal_get_path('module', 'ecas_import_users') . '/js/check_users.js');
 
-    // @todo The $header variable is unused in its scope.
-    $header = array('cn', 'dg', 'departmentnumber');
-    $rows = array();
-
     $form['fs'] = array(
       '#type' => 'fieldset',
       '#title' => t('List users LDAP'),
@@ -439,7 +432,6 @@ function ecas_import_users_show_user_content_form($form, &$form_state, $argument
       $row['dg'] = isset($result[$r]['dg'][0]) ? $result[$r]['dg'][0] : '';
       $row['departmentnumber'] = isset($result[$r]['departmentnumber'][0]) ? $result[$r]['departmentnumber'][0] : '';
       $row['domain'] = isset($result[$r]['o'][0]) ? $result[$r]['o'][0] : '';
-      $rows[] = $row;
 
       if ($row['cn'] == '') {
         // User needs a cn!
@@ -496,7 +488,7 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
   $users = $form_state['values']['fs'];
 
   $imported_users = array();
-  foreach ($users as $key => $value) {
+  foreach ($users as $value) {
     if ($value != '0') {
       list($uid, $mail, $firstname, $lastname, $domain, $departmentnumber) = explode('|', $value);
       $account = user_load_by_name($uid);
@@ -522,15 +514,15 @@ function ecas_import_users_show_user_content_form_submit($form, &$form_state) {
               // This allows other modules to detect a user creation.
               array('ecas_import_users_user_creation' => TRUE)
           );
-          drupal_set_message(t('User !user_uid imported', array('!user_uid' => check_plain($uid))));
+          drupal_set_message(t('User @user_uid imported', array('@user_uid' => $uid)));
           $imported_users[] = $uid;
         }
         else {
-          drupal_set_message(t('User !user_uid not imported', array('!user_uid' => check_plain($uid))));
+          drupal_set_message(t('User @user_uid not imported', array('@user_uid' => $uid)));
         }
       }
       else {
-        drupal_set_message(t('User !user_uid not imported', array('!user_uid' => check_plain($uid))));
+        drupal_set_message(t('User @user_uid not imported', array('@user_uid' => $uid)));
       }
     }
   }

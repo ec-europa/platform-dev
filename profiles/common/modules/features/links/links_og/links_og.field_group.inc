@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * links_og.field_group.inc

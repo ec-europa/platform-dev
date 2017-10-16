@@ -64,7 +64,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     }
 
     // If any of these are empty, the translator is not properly configured.
-    foreach ($all_settings as $key => $value) {
+    foreach ($all_settings as $value) {
       if (empty($value)) {
         return FALSE;
       }

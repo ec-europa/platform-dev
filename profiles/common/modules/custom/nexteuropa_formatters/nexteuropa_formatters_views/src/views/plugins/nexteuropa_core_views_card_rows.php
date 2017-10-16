@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Definition of views_europa_banner_plugin_rows.

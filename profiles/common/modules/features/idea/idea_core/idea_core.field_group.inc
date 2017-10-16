@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * idea_core.field_group.inc

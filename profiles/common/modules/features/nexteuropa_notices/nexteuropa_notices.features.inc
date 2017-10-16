@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_notices.features.inc

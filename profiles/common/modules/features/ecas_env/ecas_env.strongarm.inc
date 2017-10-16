@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ecas_env.strongarm.inc

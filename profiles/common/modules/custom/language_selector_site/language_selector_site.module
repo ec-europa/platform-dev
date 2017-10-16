@@ -122,12 +122,8 @@ function template_preprocess_language_selector_site_language_list(&$variables) {
 
   // Split the destination URL into path and query arguments.
   $options = [];
-  $path_components = parse_url($destination);
+  $path_components = drupal_parse_url($destination);
   $path = $path_components['path'];
-  if (!empty($path_components['query'])) {
-    parse_str($path_components['query'], $arguments);
-    $options['query'] = $arguments;
-  }
 
   // Export variables to template.
   $variables['icon'] = theme('nexteuropa_multilingual_language_icon');

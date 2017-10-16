@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ec_embedded_video.features.user_permission.inc

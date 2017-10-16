@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * survey_core.field_group.inc

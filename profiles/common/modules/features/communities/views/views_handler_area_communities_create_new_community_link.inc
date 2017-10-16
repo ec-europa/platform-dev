@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Definition of views_handler_area_communities_create_new_community_link.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ec_embedded_image.features.inc

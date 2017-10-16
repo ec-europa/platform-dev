@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * newsletters.features.user_permission.inc

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * File containing module's helper functions.

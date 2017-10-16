@@ -38,7 +38,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
    * HashTokenHandler::hookTokenInfoAlter() produces well-formed array.
    *
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -57,7 +57,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
    * Test that nexteuropa_token_token_info_alter() actually works.
    *
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @dataProvider entityTypeMachineNamesProvider
    */
@@ -96,17 +96,17 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
    * Test hash generation.
    *
    * @param string $prefix_one
-   *    Test data from data provider.
+   *   Test data from data provider.
    * @param string $entity_type_one
-   *    Test data from data provider.
+   *   Test data from data provider.
    * @param int $entity_id_one
-   *    Test data from data provider.
+   *   Test data from data provider.
    * @param string $prefix_two
-   *    Test data from data provider.
+   *   Test data from data provider.
    * @param string $entity_type_two
-   *    Test data from data provider.
+   *   Test data from data provider.
    * @param int $entity_id_two
-   *    Test data from data provider.
+   *   Test data from data provider.
    *
    * @dataProvider hashGenerationProvider
    */
@@ -144,7 +144,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of entity machine names.
    *
    * @return array
-   *    Return PHPUnit data.
+   *   Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));
@@ -154,7 +154,7 @@ class HashTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides input for generation function.
    *
    * @return array
-   *    Return PHPUnit data.
+   *   Return PHPUnit data.
    */
   public static function hashGenerationProvider() {
     $values = array(
