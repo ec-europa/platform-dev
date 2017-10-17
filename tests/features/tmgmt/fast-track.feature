@@ -123,4 +123,3 @@ Feature: Fast track
       | <organisationAuteur>John Smith</organisationAuteur>           |
       | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
-      | <delai>15/10/2017</delai>                                     |

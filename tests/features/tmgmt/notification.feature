@@ -1,6 +1,11 @@
 @poetry
 Feature: Server notifications
 
+  Background:
+    Given these modules are enabled
+    | modules                     |
+    | ne_tmgmt_dgt_ftt_translator |
+  @wip
   Scenario: Poetry server can notify the client using raw XML.
     When Poetry notifies the client with the following XML:
     """
