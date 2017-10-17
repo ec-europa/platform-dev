@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\nexteuropa\Context\PoetryContext.
@@ -41,7 +42,7 @@ class PoetryContext implements Context {
      * would override the following step.
      *
      * @param \Behat\Gherkin\Node\PyStringNode $string
-     *      Settings in PyString format.
+     *   Settings in PyString format.
      *
      * @Given the following Poetry settings:
      */

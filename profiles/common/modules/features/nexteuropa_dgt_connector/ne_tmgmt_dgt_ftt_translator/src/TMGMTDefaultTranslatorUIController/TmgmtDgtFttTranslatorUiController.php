@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides Next Europa TMGMT DGT FTT translator UI plugin controller.

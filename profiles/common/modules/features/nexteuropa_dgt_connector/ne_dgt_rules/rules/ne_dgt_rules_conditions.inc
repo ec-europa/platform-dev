@@ -1,11 +1,11 @@
 <?php
+
 /**
  * @file
  * Next Europa DGT Rules integration - Custom conditions.
  */
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
-
 
 /**
  * Implements hook_rules_condition_info().
@@ -85,8 +85,8 @@ function ne_dgt_rules_rules_condition_info() {
  * @param object $node
  *   Node object.
  *
- * @return TRUE/FALSE
- *   TRUE/FALSE depending on if the content meets requirements or not.
+ * @return true|false
+ *   Returns true or false depending if the content meets requirements or not.
  */
 function ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow($node) {
   // Checking if given content is integrated with the DGT FTT workflow.
@@ -123,8 +123,8 @@ function ne_dgt_rules_content_meets_requirements_for_dgt_ftt_workflow($node) {
  * @param string $new_state_value
  *   Expected 'new' workbench moderation state value.
  *
- * @return TRUE/FALSE
- *   TRUE/FALSE depending on if the states matches source and selected values.
+ * @return true|false
+ *   Returns true or false depending if source and state values match.
  */
 function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous_state_source, $previous_state_value, $new_state_source, $new_state_value) {
   return (($previous_state_source === $previous_state_value) && ($new_state_source === $new_state_value)) ? TRUE : FALSE;
@@ -136,8 +136,8 @@ function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous
  * @param \EC\Poetry\Messages\Components\Identifier $identifier
  *   The translation request identifier.
  *
- * @return TRUE/FALSE
- *   TRUE/FALSE depending on if all translations were received.
+ * @return true|false
+ *   Returns true or false depending if all translations were received.
  */
 function ne_dgt_rules_all_translations_are_received(\EC\Poetry\Messages\Components\Identifier $identifier) {
   $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);

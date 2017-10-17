@@ -44,7 +44,7 @@ class Psr3Watchdog extends AbstractLogger {
    * Set log type.
    *
    * @param string $type
-   *    Log type.
+   *   Log type.
    */
   public function setType($type) {
     $this->type = $type;
@@ -54,11 +54,11 @@ class Psr3Watchdog extends AbstractLogger {
    * Logs with an arbitrary level.
    *
    * @param mixed $level
-   *    Log level.
+   *   Log level.
    * @param string $message
-   *    Log message.
+   *   Log message.
    * @param array $context
-   *    Log context.
+   *   Log context.
    */
   public function log($level, $message, array $context = array()) {
     if (isset($context['message'])) {

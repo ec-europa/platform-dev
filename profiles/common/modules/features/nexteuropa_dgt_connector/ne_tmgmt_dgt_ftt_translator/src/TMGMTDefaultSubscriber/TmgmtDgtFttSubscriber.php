@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides Next Europa TMGMT DGT FTT translator listener.
@@ -52,10 +53,10 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
     /** @var \EC\Poetry\Messages\Components\Target $attribution */
     foreach ($attributions as $attribution) {
-      /** @var TMGMTJob $job */
+      /** @var \TMGMTJob $job */
       foreach ($jobs as $job) {
         $translator = $job->getTranslator();
-        $job_language = strtoupper($translator->mapToRemoteLanguage($job->target_language));
+        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
 
         if ($job_language == $attribution->getLanguage()) {
           if (DgtRulesTools::updateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
@@ -126,10 +127,10 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
 
     /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
     foreach ($attributions_statuses as $attribution_status) {
-      /** @var TMGMTJob $job */
+      /** @var \TMGMTJob $job */
       foreach ($jobs as $job) {
         $translator = $job->getTranslator();
-        $job_language = strtoupper($translator->mapToRemoteLanguage($job->target_language));
+        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
 
         if ($job_language == $attribution_status->getLanguage()) {
           DgtRulesTools::updateStatusTmgmtJob($job, $attribution_status);

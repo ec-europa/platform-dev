@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides Next Europa TMGMT DGT FTT translator plugin controller.
@@ -112,7 +113,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestReview($jobs, $parameters) {
+  public function requestReview(array $jobs, array $parameters) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
@@ -176,7 +177,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestTranslations($jobs, $parameters) {
+  public function requestTranslations(array $jobs, array $parameters) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
@@ -234,7 +235,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    * @return array
    *   An array containing the ref id and raw xml.
    */
-  private function processResponse(Status $response, $jobs) {
+  private function processResponse(Status $response, array $jobs) {
     // There are no warnings and errors.
     if ($response->isSuccessful()) {
       // Updating TMGMT Job information.

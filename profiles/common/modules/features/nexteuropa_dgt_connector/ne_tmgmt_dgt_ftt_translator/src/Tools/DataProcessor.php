@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Provides Next Europa TMGMT DGT FTT translator helper functions.
@@ -76,7 +77,7 @@ trait DataProcessor {
    * @return array
    *   Request data array.
    */
-  public function getRequestData($jobs, $node) {
+  public function getRequestData(array $jobs, $node) {
     // Setting out the node object property.
     $this->node = $node;
     // Setting out the job property.
@@ -176,7 +177,7 @@ trait DataProcessor {
       'legiswrite_format' => 'No',
       'source_language' => array(
         array(
-          'code' => strtoupper($this->translator->mapToRemoteLanguage($this->node->language)),
+          'code' => drupal_strtoupper($this->translator->mapToRemoteLanguage($this->node->language)),
           'pages' => 1,
         ),
       ),
@@ -229,7 +230,7 @@ trait DataProcessor {
       $return[] = array(
         'action' => 'INSERT',
         'format' => 'HTML',
-        'language' => strtoupper($this->translator->mapToRemoteLanguage($job->target_language)),
+        'language' => drupal_strtoupper($this->translator->mapToRemoteLanguage($job->target_language)),
         'delay' => $this->defaultDelayDate,
       );
     }
@@ -368,7 +369,7 @@ trait DataProcessor {
   /**
    * Provides the latest DGT FTT Translator Mapping entity.
    *
-   * @return DgtFttTranslatorMapping/bool
+   * @return DgtFttTranslatorMapping|bool
    *   Entity or FALSE if there are no entries in the entity table.
    */
   private function getLatestDgtFttTranslatorMappingEntity() {
@@ -467,20 +468,6 @@ trait DataProcessor {
       );
       $map_entity->save();
     };
-    /*
-    // Printing an error message.
-    $error_message = t("The DGT FTT mapping entity was not created.");
-    drupal_set_message($error_message, 'error');
-
-    // Logging an error to the watchdog.
-    watchdog('ne_tmgmt_dgt_ftt_translator',
-    "The DGT FTT mapping entity was not created. Check if there is job item
-    available for the following TMGMT Job ID: '$job->identifier()'. Please,
-    check also if there is only one job item for that job.",
-    array(),
-    WATCHDOG_ERROR
-    );
-     */
   }
 
   /**
@@ -489,10 +476,10 @@ trait DataProcessor {
    * @param array $identifier
    *   An array with values which are required to instantiate OE Poetry client.
    *
-   * @return \EC\Poetry\Messages\Responses\Status
+   * @return \EC\Poetry\Messages\MessageInterface
    *   A response from the DGT Services.
    */
-  private function sendNewNumberRequest($identifier) {
+  private function sendNewNumberRequest(array $identifier) {
     $poetry = new Poetry\Poetry($identifier);
     $message = $poetry->get('request.request_new_number');
 
@@ -507,7 +494,7 @@ trait DataProcessor {
    * @param array $jobs
    *   TMGMT Job object.
    */
-  private function updateTmgmtJobAndJobItem(Status $response, $jobs) {
+  private function updateTmgmtJobAndJobItem(Status $response, array $jobs) {
     foreach ($jobs as $job) {
       $job->reference = $response->getMessageId();
       $job->save();
@@ -591,7 +578,7 @@ trait DataProcessor {
    * @return array
    *   An overwrite request data array.
    */
-  public function overwriteRequestData($data, $parameters) {
+  public function overwriteRequestData(array $data, array $parameters) {
     foreach ($parameters as $group_key => $group_parameters) {
       foreach ($group_parameters as $parameter_key => $parameter) {
         if (!is_null($parameter)) {
@@ -614,7 +601,7 @@ trait DataProcessor {
    * @return array
    *   An overwrite request identifier array.
    */
-  public function overwriteRequestIdentifier($identifier, $parameters) {
+  public function overwriteRequestIdentifier(array $identifier, array $parameters) {
     foreach ($parameters as $parameter_key => $parameter_value) {
       if (!is_null($parameter_value)) {
           $identifier[$parameter_key] = $parameter_value;
@@ -630,7 +617,7 @@ trait DataProcessor {
    * @param array $response_data
    *   An array with the DGT Service response data.
    */
-  private function logResponseData($response_data) {
+  private function logResponseData(array $response_data) {
     // @todo: Implement logging into files system.
   }
 
@@ -642,7 +629,7 @@ trait DataProcessor {
    * @param array $jobs
    *   An array of TMGMT Job objects.
    */
-  private function abortTmgmtJobAndJobItem(Status $response, $jobs) {
+  private function abortTmgmtJobAndJobItem(Status $response, array $jobs) {
     foreach ($jobs as $job) {
       if ($statuses = $response->getWarnings()) {
         $job->addMessage(

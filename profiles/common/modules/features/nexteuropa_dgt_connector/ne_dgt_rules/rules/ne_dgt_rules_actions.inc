@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Next Europa DGT Rules integration - Custom actions.

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping.

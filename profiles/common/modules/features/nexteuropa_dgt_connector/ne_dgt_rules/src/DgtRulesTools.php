@@ -12,7 +12,6 @@ use TMGMTException;
 use TMGMTJob;
 use TMGMTJobItem;
 
-
 /**
  * Class DgtRulesTools.
  *
@@ -28,7 +27,7 @@ class DgtRulesTools {
    * @return bool
    *   FALSE whenever one of the parameters is not set otherwise TRUE.
    */
-  public static function checkParameters($parameters) {
+  public static function checkParameters(array $parameters) {
     foreach ($parameters as $parameters_group) {
       foreach ($parameters_group as $parameter) {
         if (empty($parameter)) {
@@ -45,7 +44,7 @@ class DgtRulesTools {
   /**
    * Provides default translator for the FTT workflow.
    *
-   * @return string/bool
+   * @return string|bool
    *   Returns the name of the default FTT translator or FALSE if it's not set.
    */
   public static function getDefaultFttTranslator() {
@@ -385,8 +384,8 @@ class DgtRulesTools {
         /** @var SimpleXMLElement $div */
         foreach ($parent_div->div as $div) {
           if ($div['class'] == 'atom') {
-            $data = substr($div['id'], 1);
-            $data = base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+            $data = drupal_substr($div['id'], 1);
+            $data = base64_decode(str_pad(strtr($data, '-_', '+/'), drupal_strlen($data) % 4, '=', STR_PAD_RIGHT));
             $data = explode(']', $data);
             $data[0] = $job_item->tjiid;
             $data = implode(']', $data);
@@ -406,23 +405,23 @@ class DgtRulesTools {
    *   The TMGMT job.
    * @param string $message
    *   The message.
-   * @param array $array
-   *   The Array of variables for the message.
+   * @param array $args
+   *   An associative array of replacements for the message.
    * @param string $type
-   *   The Array of variables for the message.
+   *   Type of the message.
    */
-  public static function addMessageTmgmtJob(TMGMTJob $job, $message, $array, $type = 'info') {
-    $job->addMessage($message, $array, $type);
+  public static function addMessageTmgmtJob(TMGMTJob $job, $message, array $args, $type = 'info') {
+    $job->addMessage($message, $args, $type);
 
     $message = 'Job @reference-@language: ' . $message;
-    $array = array_merge(
-      $array,
+    $watchdog_args = array_merge(
+      $args,
       array(
         '@reference' => $job->reference,
         '@language' => $job->target_language,
       )
     );
-    watchdog('ne_dgt_rules', $message, $array, WATCHDOG_INFO);
+    watchdog('ne_dgt_rules', $message, $watchdog_args, WATCHDOG_INFO);
   }
 
   /**
@@ -436,7 +435,7 @@ class DgtRulesTools {
    * @return array
    *   An array with data which are going to be exposed for the 'Rules'.
    */
-  public static function sendReviewRequest(TMGMTJob $job, $parameters) {
+  public static function sendReviewRequest(TMGMTJob $job, array $parameters) {
     $translator = $job->getTranslator();
     $controller = $translator->getController();
 
@@ -453,10 +452,10 @@ class DgtRulesTools {
    * @param array $parameters
    *   An array with additional parameters.
    *
-   * @return array $jobs
+   * @return array
    *   Array of TMGMT Job object.
    */
-  public static function sendTranslationRequest($default_translator, $jobs, $parameters) {
+  public static function sendTranslationRequest($default_translator, array $jobs, array $parameters) {
     $translator = tmgmt_translator_load($default_translator);
     $controller = $translator->getController();
 
@@ -469,7 +468,7 @@ class DgtRulesTools {
    * @param \EC\Poetry\Messages\Components\Identifier $identifier
    *   The translation request identifier.
    *
-   * @return array $maps
+   * @return array
    *   Array of FTT Map objects.
    */
   public static function findMappingsByIdentifier(\EC\Poetry\Messages\Components\Identifier $identifier) {
