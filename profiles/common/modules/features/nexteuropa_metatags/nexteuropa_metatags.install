@@ -48,3 +48,4 @@ function nexteuropa_metatags_requirements($phase) {
 
   return $requirements;
 }
+

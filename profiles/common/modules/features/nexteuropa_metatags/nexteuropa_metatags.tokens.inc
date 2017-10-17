@@ -60,13 +60,30 @@ function nexteuropa_metatags_token_info() {
     'name' => t('Native name'),
     'description' => t('The active content language native name.'),
   );
+  // File fid token.
+  $info['types']['files'] = array(
+    'name' => t('Files'),
+    'description' => t('Reference a file entity by using its fid'),
+  );
+  $info['tokens']['files']['uri'] = array(
+    'name' => t('Files uri'),
+    'description' => t('Reference a file entity by using its fid'),
+    'dynamic' => TRUE,
+  );
+  $info['tokens']['files']['uri']['fid'] = array(
+    'name' => t('Files fid'),
+    'description' => t('Reference a file entity by using its fid'),
+    'dynamic' => TRUE,
+  );
   return $info;
 }
+
 
 /**
  * Implements hook_tokens().
  */
 function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $sanitize = !empty($options['sanitize']);
   // Language tokens.
   $replacements = array();
   if ($type == 'language') {
@@ -118,6 +135,15 @@ function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array
             $replacements[$original] = $language->native;
             break;
         }
+      }
+    }
+  }
+
+  if ($type == 'files') {
+    if ($query_tokens = token_find_with_prefix($tokens, 'uri')) {
+      foreach ($query_tokens as $name => $original) {
+        $file = file_load($name);
+        $replacements[$original] = token_render_array((array) $file->uri);
       }
     }
   }

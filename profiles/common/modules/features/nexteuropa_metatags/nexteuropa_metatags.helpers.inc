@@ -39,7 +39,7 @@ function _nexteuropa_metatags_classification_options() {
   $classification = taxonomy_get_tree($vid_classification[0]->vid);
 
   $list = array();
-  foreach ($classification as $key => $obj_term) {
+  foreach ($classification as $obj_term) {
     $list[$obj_term->name] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
   }
   return $list;

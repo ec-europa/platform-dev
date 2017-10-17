@@ -7,94 +7,6 @@
 include_once 'nexteuropa_metatags.tokens.inc';
 
 /**
- * Implements hook_metatag_info().
-
-function nexteuropa_metatags_metatag_info() {
- /* $info['tags']['creator'] = array(
-    'label' => t('Creator'),
-    'class' => 'DrupalTextMetaTag',
-    'context' => array('global'),
-    'name' => 'creator',
-    'description' => t('Ex. COMM/DG/UNIT (max. 30 characters).<br/>This text will supply information to METADATA "Creator".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_2" target="_blank">IPG guidelines</a> for more information.'),
-  );
-  $info['tags']['reference'] = array(
-    'label' => t('Reference'),
-    'class' => 'DrupalTextMetaTag',
-    'context' => array('global'),
-    'name' => 'reference',
-    'description' => t('Usually the acronym of the DG / Site name (max. 30 characters).<br/>This text will supply information to METADATA "Reference".<br/>See the <a href="http://ec.europa.eu/ipg/content/optimise/metadata/annex1_en.htm#section_1" target="_blank">IPG guidelines</a> for more information.'),
-  );
-  $info['tags']['X-UA-Compatible'] = array(
-    'label' => t('X-UA-Compatible'),
-    'class' => 'DrupalTextMetaTag',
-    'context' => array('global'),
-    'name' => 'X-UA-Compatible',
-    'description' => '',
-  );
-  $info['tags']['date'] = array(
-    'label' => t('Date'),
-    'class' => 'DrupalTextMetaTag',
-    'context' => array('global'),
-    'name' => 'date',
-    'description' => '',
-  );
-  $info['tags']['classification'] = array(
-    'label' => t('Classification'),
-    'description' =>  t('Choose the classification for your website. This classification respects the !url', array('!url' => l(t('IPG guidelines'), "http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm"))),
-    'class' => 'DrupalTextMetaTag',
-    'context' => array('global'),
-    'name' => 'classification',
-  );
-
-  $info['groups']['mobile'] = array(
-    'label' => t('Mobile & UI Adjustments'),
-  );
-  $info['tags']['viewport'] = array(
-    'label' => t('Viewport'),
-    'description' => t("Please read a guide on responsive web design for details of what values to use."),
-    'class' => 'DrupalTextMetaTag',
-    'context' => array('global'),
-    'name' => 'viewport',
-    'group' => 'mobile',
-  );
-
-  $info['groups']['ESS_metatags'] = array(
-    'label' => t('ESS metatags : metatags for ES indexation'),
-  );
-
-  $options = array();
-  if ($vocabulary = taxonomy_vocabulary_machine_name_load('metatags_ess_gf')) {
-    $terms = taxonomy_get_tree($vocabulary->vid);
-    foreach ($terms as $term) {
-      $term_full = taxonomy_term_load($term->tid);
-      $options[$term_full->field_meta_value['und'][0]['value']] = str_repeat('-', $term->depth) . $term->name;
-    }
-  }
-
-  $info['tags']['ESS_GF'] = array(
-    'label' => t('ESS GF'),
-    'description' => t('Global search'),
-    'class' => 'DrupalTextMetaTag',
-    'group' => 'ESS_metatags',
-    'form' => array(
-      '#type' => 'select',
-      '#options' => $options,
-      '#empty_option' => t('- None -'),
-    ),
-    'select_or_other' => TRUE,
-  );
-
-  $info['tags']['ESS_RF'] = array(
-    'label' => t('ESS RF'),
-    'description' => t('Restricted search'),
-    'class' => 'DrupalTextMetaTag',
-    'group' => 'ESS_metatags',
-  );
-
-  return $info;
-}
-*/
-/**
  * Implements hook_variable_info().
  */
 function nexteuropa_metatags_variable_info($options) {
@@ -105,4 +17,13 @@ function nexteuropa_metatags_variable_info($options) {
     'token' => TRUE,
   );
   return $variable;
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function nexteuropa_metatags_ctools_plugin_api($owner, $api) {
+  if ($owner == 'metatag' && $api == 'metatag') {
+    return array('version' => 1);
+  }
 }
