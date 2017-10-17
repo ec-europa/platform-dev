@@ -604,7 +604,7 @@ trait DataProcessor {
   public function overwriteRequestIdentifier(array $identifier, array $parameters) {
     foreach ($parameters as $parameter_key => $parameter_value) {
       if (!is_null($parameter_value)) {
-          $identifier[$parameter_key] = $parameter_value;
+        $identifier[$parameter_key] = $parameter_value;
       }
     }
 
