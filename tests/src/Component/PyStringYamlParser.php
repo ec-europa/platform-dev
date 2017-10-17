@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Component\PyStringYamlParser.
- */
-
 namespace Drupal\nexteuropa\Component;
 
 use Behat\Gherkin\Node\PyStringNode;

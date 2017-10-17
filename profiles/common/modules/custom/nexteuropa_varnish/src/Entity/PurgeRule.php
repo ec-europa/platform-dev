@@ -1,10 +1,7 @@
 <?php
-/**
- * @file
- * Definition of Drupal\nexteuropa_varnish\Entity\PurgeRule.
- */
 
 namespace Drupal\nexteuropa_varnish\Entity;
+
 use Drupal\nexteuropa_varnish\PurgeRuleType;
 use \Entity;
 
@@ -26,7 +23,7 @@ class PurgeRule extends Entity {
   /**
    * Get the type of the purge rule.
    *
-   * @return PurgeRuleType
+   * @return Drupal\nexteuropa_varnish\PurgeRuleType
    *   The type of the purge rule.
    */
   public function type() {

@@ -533,11 +533,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Namespaced classes, interfaces and traits should not begin with a file doc comment. -->
-    <rule ref="Drupal.Commenting.FileComment.NamespaceNoFileDoc">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Parameter comment indentation must be 3 spaces. -->
     <rule ref="Drupal.Commenting.FunctionComment.ParamCommentIndentation">
         <exclude-pattern>*</exclude-pattern>
@@ -548,11 +543,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Unused use statement. -->
-    <rule ref="Drupal.Classes.UnusedUseStatement.UnusedUse">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Tags should not be used. -->
     <rule ref="DrupalPractice.Commenting.ExpectedException.TagFound">
         <exclude-pattern>*</exclude-pattern>
@@ -560,11 +550,6 @@
 
     <!-- Function return type is not void, but function is returning void here. -->
     <rule ref="Drupal.Commenting.FunctionComment.InvalidReturnNotVoid">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Expected 1 newline at end of file. -->
-    <rule ref="Drupal.Files.EndFileNewline.NoneFound">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -583,11 +568,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Namespaced classes/interfaces/traits should be referenced with use statements. -->
-    <rule ref="Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- When importing a class with "use", do not include a leading. -->
     <rule ref="Drupal.Classes.UseLeadingBackslash.SeparatorStart">
         <exclude-pattern>*</exclude-pattern>
@@ -595,11 +575,6 @@
 
     <!-- Parameter $entity_id is not described in comment. -->
     <rule ref="Drupal.Commenting.FunctionComment.ParamMissingDefinition">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Missing @var tag in member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.MissingVar">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 

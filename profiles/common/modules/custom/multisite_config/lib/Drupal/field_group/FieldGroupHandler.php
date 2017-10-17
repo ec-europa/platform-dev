@@ -1,13 +1,6 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field\InstanceField\DefaultFieldHandler.
- */
-
 namespace Drupal\field_group;
-
-use Drupal\field_group\Config;
 
 /**
  * Class DefaultFieldHandler.
@@ -15,6 +8,12 @@ use Drupal\field_group\Config;
  * @package Drupal\field_group\InstanceField
  */
 class FieldGroupHandler implements FieldGroupHandlerInterface {
+  /**
+   * Field group definition array as required by field_group_save().
+   *
+   * @var array
+   */
+  protected $definition = array();
 
   /**
    * Construct instance field handler with required information.
@@ -29,7 +28,6 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *    Bundle machine name.
    */
   public function __construct($label, $group_name, $entity_type, $bundle) {
-
     $this->definition = new \stdClass();
     $this->definition->identifier = "$group_name|$entity_type|$bundle|form";
     $this->definition->group_name = $group_name;
@@ -44,13 +42,6 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
     $this->definition->format_settings = array();
     return $this;
   }
-
-  /**
-   * Field group definition array as required by field_group_save().
-   *
-   * @var array
-   */
-  protected $definition = array();
 
   /**
    * Return field array built using field handler methods.
@@ -69,7 +60,6 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    *    Field group configuration object.
    */
   public function save() {
-
     $service = new Config();
     $group = $service->loadFieldGroupByIdentifier($this->definition->identifier);
     if ($group) {

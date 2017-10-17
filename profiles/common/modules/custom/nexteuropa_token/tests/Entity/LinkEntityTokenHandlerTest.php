@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Tests\LinkEntityTokenHandlerTest.
- */
-
 namespace Drupal\nexteuropa_token\Tests\Entity;
 
 use Drupal\nexteuropa_token\Entity\LinkTokenHandler;
