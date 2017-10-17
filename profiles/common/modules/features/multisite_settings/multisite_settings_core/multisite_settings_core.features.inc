@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_settings_core.features.inc
