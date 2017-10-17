@@ -594,11 +594,34 @@ trait DataProcessor {
   public function overwriteRequestData($data, $parameters) {
     foreach ($parameters as $group_key => $group_parameters) {
       foreach ($group_parameters as $parameter_key => $parameter) {
-        $data[$group_key][$parameter_key] = $parameter;
+        if (!is_null($parameter)) {
+          $data[$group_key][$parameter_key] = $parameter;
+        }
       }
     }
 
     return $data;
+  }
+
+  /**
+   * Overwrites request identifier with given parameters.
+   *
+   * @param array $identifier
+   *   An array with the request identifier.
+   * @param array $parameters
+   *   An array with additional parameters.
+   *
+   * @return array
+   *   An overwrite request identifier array.
+   */
+  public function overwriteRequestIdentifier($identifier, $parameters) {
+    foreach ($parameters as $parameter_key => $parameter_value) {
+      if (!is_null($parameter_value)) {
+          $identifier[$parameter_key] = $parameter_value;
+      }
+    }
+
+    return $identifier;
   }
 
   /**
