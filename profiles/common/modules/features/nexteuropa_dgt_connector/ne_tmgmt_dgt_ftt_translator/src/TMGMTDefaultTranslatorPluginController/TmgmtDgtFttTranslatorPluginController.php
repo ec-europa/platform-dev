@@ -188,22 +188,34 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // This reference is created by the Review request.
       /** @var DgtFttTranslatorMapping $mapping_entity */
       $mapping_entity = $this->getReviewIdentifier($node);
-      $identifier['identifier.year'] = $mapping_entity->year;
-      $identifier['identifier.number'] = $mapping_entity->number;
-      $identifier['identifier.part'] = $mapping_entity->part;
+      if (!is_null($mapping_entity)) {
+        $identifier['identifier.year'] = $mapping_entity->year;
+        $identifier['identifier.number'] = $mapping_entity->number;
+        $identifier['identifier.part'] = $mapping_entity->part;
 
-      // Getting the request data.
-      $data = $this->getRequestData($jobs, $node);
+        // Getting the request data.
+        $data = $this->getRequestData($jobs, $node);
 
-      // Overwrite the request identifier and data with parameters from 'Rules'.
-      $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
-      $data = $this->overwriteRequestData($data, $parameters['data']);
+        // Overwrite the request identifier and data with parameters from 'Rules'.
+        $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
+        $data = $this->overwriteRequestData($data, $parameters['data']);
 
-      // Sending a review request to DGT Services.
-      $dgt_response = $this->sendTranslationRequest($identifier, $data);
+        // Sending a review request to DGT Services.
+        $dgt_response = $this->sendTranslationRequest($identifier, $data);
 
-      // Process the DGT response to get the Rules response.
-      $rules_response = $this->processResponse($dgt_response, $jobs);
+        // Process the DGT response to get the Rules response.
+        $rules_response = $this->processResponse($dgt_response, $jobs);
+      }
+      else {
+        watchdog(
+          'ne_tmgmt_dgt_ftt_translator',
+          "There is no entry in the entity mapping table for given
+          content. Please make sure that the review request was sent before
+          the translation request. Node ID: %nid",
+          array('%nid' => $node->nid),
+          WATCHDOG_ERROR
+        );
+      }
     }
 
     $rules_response['tmgmt_job'] = $jobs[0];
