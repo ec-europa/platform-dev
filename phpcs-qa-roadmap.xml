@@ -598,11 +598,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected "bool|false" but found "bool|FALSE" for parameter type. -->
-    <rule ref="Drupal.Commenting.FunctionComment.IncorrectParamVarName">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Do not concatenate strings to translatable strings, they should be part of the t() argument and you should use placeholders. -->
     <rule ref="Drupal.Semantics.FunctionT.ConcatString">
         <exclude-pattern>*</exclude-pattern>
