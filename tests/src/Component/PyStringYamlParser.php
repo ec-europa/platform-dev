@@ -15,7 +15,7 @@ class PyStringYamlParser {
   /**
    * PyStringNode object.
    *
-   * @var Behat\Gherkin\Node\PyStringNode;
+   * @var PyStringNode
    */
   protected $node;
 
