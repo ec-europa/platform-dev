@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains test class.
- */
-
 namespace Drupal\multisite_config\Tests\Drupal\field\BaseField;
 
 use Drupal\multisite_config\Tests\ConfigAbstractTest;

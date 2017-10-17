@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrupalContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -192,7 +187,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *
    * @param string $text_format
    *    The filter format name or its machine name.
-   * @param TableNode $table
+   * @param Behat\Gherkin\Node\TableNode $table
    *    List of available content property.
    *
    * @return array
