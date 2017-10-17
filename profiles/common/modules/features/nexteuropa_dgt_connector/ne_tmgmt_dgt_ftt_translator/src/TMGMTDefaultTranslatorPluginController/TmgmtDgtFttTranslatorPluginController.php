@@ -196,7 +196,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         // Getting the request data.
         $data = $this->getRequestData($jobs, $node);
 
-        // Overwrite the request identifier and data with parameters from 'Rules'.
+        // Overwrite request identifier and data with parameters from 'Rules'.
         $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
         $data = $this->overwriteRequestData($data, $parameters['data']);
 
