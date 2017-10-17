@@ -14,7 +14,7 @@
  * - Create taxonomies.
  * - Create group owner with the right permissions.
  */
-class OGNavigationTreeDrupalWebTestCase extends DrupalWebTestCase {
+class MultisiteOgNavigationTreeDrupalWebTestCase extends DrupalWebTestCase {
 
   /**
    * A test user.
