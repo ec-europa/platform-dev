@@ -688,11 +688,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Empty strongarm settings for 'pathauto_node_blog_pattern' are not allowed. -->
-    <rule ref="QualityAssurance.Generic.EmptySettings.Strongarm">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Move the "multisite_drupal_standard_install_tasks" function declaration in to a file named multisite_drupal_standard.install.inc and include that file in multisite_drupal_standard.install. -->
     <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
         <exclude-pattern>*</exclude-pattern>
