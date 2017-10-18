@@ -4,6 +4,8 @@
  * Webservice definition and behaviour.
  */
 
+use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
+
 /**
  * Log message severity -- Emergency: system is unusable.
  */
@@ -106,7 +108,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
   // Use the Poetry Mock translator if the tmgmt_poetry_mock is enabled.
   if (module_exists('tmgmt_poetry_mock')) {
-    $poetry_translator = tmgmt_translator_load(\Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME);
+    $poetry_translator = tmgmt_translator_load(PoetryMock::TRANSLATOR_NAME);
   }
 
   // Authenticate the request.
