@@ -600,12 +600,7 @@
 
     <!-- Doc comment short description must start with a capital letter. -->
     <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Values usually have to run through t() for translation. -->
-    <rule ref="DrupalPractice.General.OptionsT.TforValue">
-        <exclude-pattern>*</exclude-pattern>
+         <exclude-pattern>*</exclude-pattern>
     </rule>
 
     <!-- Variable $column is undefined. -->
