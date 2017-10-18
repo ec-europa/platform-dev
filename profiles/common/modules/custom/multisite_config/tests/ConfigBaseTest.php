@@ -1,11 +1,8 @@
 <?php
 
-/**
- * @file
- * Class \Drupal\multisite_config\Tests\NextEuropaDataExportAbstractTest.
- */
-
 namespace Drupal\multisite_config\Tests;
+
+use Drupal\Driver\Exception\Exception;
 
 /**
  * Class ConfigAbstractTest.
@@ -33,12 +30,11 @@ class ConfigBaseTest extends ConfigAbstractTest {
 
   /**
    * Test case when both service class and module do not exist.
-   *
-   * @expectedException \Exception
-   *
-   * @expectedExceptionMessage Service class "\Drupal\not_existing_module\Config" and module "not_existing_module" does not exists.
    */
   public function testNotExistingServiceClassAndModule() {
+    $this->expectException(Exception::class);
+    $exMsg = 'Service class "\Drupal\not_existing_module\Config" and module "not_existing_module" does not exists.';
+    $this->expectExceptionMessage($exMsg);
     $service = multisite_config_service('not_existing_module');
     $this->assertEquals('Drupal\multisite_config\ConfigBase', get_class($service));
   }

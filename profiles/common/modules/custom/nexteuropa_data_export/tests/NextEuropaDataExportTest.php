@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_data_export\Tests\NextEuropaDataExportTest.
- */
-
 namespace Drupal\nexteuropa_data_export\Tests;
 
 /**
