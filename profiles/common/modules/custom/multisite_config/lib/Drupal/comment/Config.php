@@ -20,9 +20,9 @@ class Config extends ConfigBase {
    * Set default comment setting for a specific content type.
    *
    * @param string $content_type
-   *    Content type machine name.
+   *   Content type machine name.
    * @param string $value
-   *    Value to be set (human readable).
+   *   Value to be set (human readable).
    */
   public function setDefaultCommentForContentType($content_type, $value) {
     switch ($value) {

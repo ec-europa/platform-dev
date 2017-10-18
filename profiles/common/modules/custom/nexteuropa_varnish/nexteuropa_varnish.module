@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file.
@@ -7,6 +8,7 @@
 module_load_include('inc', 'nexteuropa_varnish', 'nexteuropa_varnish.helper');
 
 use Drupal\nexteuropa_varnish\PurgeRuleType;
+
 define('NEXTEUROPA_VARNISH_CACHE_TABLE', 'cache_nexteuropa_varnish');
 
 /**
@@ -60,7 +62,7 @@ function nexteuropa_varnish_entity_info() {
       'access callback' => 'nexteuropa_varnish_cache_purge_rule_access',
       'admin ui' => array(
         'path' => 'admin/config/system/nexteuropa-varnish/purge_rules',
-        'controller class' => 'CachePurgeRuleEntityUIController',
+        'controller class' => 'NexteuropaVarnishCachePurgeRuleEntityUIController',
         'file' => 'nexteuropa_varnish.rules.admin.inc',
       ),
     ),
@@ -625,10 +627,10 @@ function _nexteuropa_varnish_process_paths_sending($node, $updated_node_paths = 
  * Determines if purge rules are set for a specific node.
  *
  * @param object $node
- *    The node object.
+ *   The node object.
  *
  * @return bool
- *    True, if at least a rule is set.
+ *   True, if at least a rule is set.
  */
 function nexteuropa_varnish_node_has_rules($node) {
   if (variable_get('nexteuropa_varnish_default_purge_rule', FALSE)) {
@@ -689,16 +691,20 @@ function _nexteuropa_varnish_temporary_message() {
  *
  * @param string $path
  *   Path which is going to be trimmed.
+ * @param string $base_path
+ *   The base path of the current Drupal site. If NULL, the function will
+ *   use the value given by the function base_path().
  *
  * @return string
  *   Trimmed path.
  */
-function _nexteuropa_varnish_trim_base_path($path) {
-  $base_path = base_path();
-  $base_path_position = strpos($path, $base_path);
+function _nexteuropa_varnish_trim_base_path($path, $base_path = NULL) {
+  if (is_null($base_path)) {
+    $base_path = base_path();
+  }
 
-  if ($base_path_position !== FALSE) {
-    return substr_replace($path, '', $base_path_position, strlen($base_path));
+  if (drupal_substr($path, 0, drupal_strlen($base_path)) === $base_path) {
+    $path = drupal_substr($path, drupal_strlen($base_path));
   }
 
   return $path;

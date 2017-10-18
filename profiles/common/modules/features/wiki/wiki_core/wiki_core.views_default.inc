@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * wiki_core.views_default.inc
@@ -40,7 +41,7 @@ function wiki_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Knowledge base</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Knowledge base</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
@@ -125,29 +126,7 @@ function wiki_core_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  $translatables['wiki_list'] = array(
-    t('Defaults'),
-    t('Wikis'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<h2>Knowledge base</h2>'),
-    t('There is no content in this group.'),
-    t('Title'),
-    t('Page'),
-    t('Block'),
-    t('Latest wikis'),
-  );
+
   $export['wiki_list'] = $view;
 
   return $export;

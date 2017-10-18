@@ -14,4 +14,6 @@ dependencies[] = og_access
 dependencies[] = og_context
 dependencies[] = og_ui
 dependencies[] = views
+dependencies[] = node
+dependencies[] = multisite_workbench_moderation_view
 files[] = tests/og_content_type_admin.extra.test

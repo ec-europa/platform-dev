@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * communities.features.inc

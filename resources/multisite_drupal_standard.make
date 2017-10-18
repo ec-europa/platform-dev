@@ -7,7 +7,6 @@ core = 7.x
 
 includes[] = "drupal-core.make"
 
-
 ; ===================
 ; Contributed modules
 ; ===================
@@ -96,7 +95,7 @@ projects[bounce][subdir] = "contrib"
 projects[bounce][version] = "1.7"
 
 projects[captcha][subdir] = "contrib"
-projects[captcha][version] = "1.3"
+projects[captcha][version] = "1.5"
 
 projects[cdn][subdir] = "contrib"
 projects[cdn][version] = "2.9"
@@ -226,6 +225,9 @@ projects[entityreference][subdir] = "contrib"
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
+; Fix issues with autocomplete callback and add constant to track control string
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1459
+projects[entityreference][patch][] = patches/entityreference-autocomplete-constant-control.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -244,7 +246,7 @@ projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
 
 projects[fblikebutton][subdir] = "contrib"
-projects[fblikebutton][version] = "2.3"
+projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.10"
@@ -285,8 +287,10 @@ projects[field_group][version] = "1.5"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
+projects[file_entity][download][revision] = "f9b172177f340204fbed3ad0ac2fdcfef0d42271"
+projects[file_entity][download][type] = "git"
+projects[file_entity][download][url] = http://git.drupal.org/project/file_entity.git
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.2"
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -310,13 +314,15 @@ projects[flexslider][version] = "2.0-rc1"
 
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 projects[flexslider_views_slideshow][download][type] = "git"
-projects[flexslider_views_slideshow][download][url] = "http://git.drupal.org/project/flexslider_views_slideshow.git"
+projects[flexslider_views_slideshow][download][url] = http://git.drupal.org/project/flexslider_views_slideshow.git
 projects[flexslider_views_slideshow][subdir] = "contrib"
 projects[fpa][subdir] = "contrib"
 projects[fpa][version] = "2.6"
 
+projects[freepager][download][revision] = "c11c40f6e3e54ff728515589600a0d8e26d831f1"
+projects[freepager][download][type] = "git"
+projects[freepager][download][url] = http://git.drupal.org/project/freepager.git
 projects[freepager][subdir] = "contrib"
-projects[freepager][version] = "2.x-dev"
 
 projects[fullcalendar][subdir] = "contrib"
 projects[fullcalendar][version] = "2.0"
@@ -368,8 +374,10 @@ projects[integration][download][revision] = fb3cf87
 projects[integration][download][type] = git
 projects[integration][subdir] = contrib
 
+projects[integration_couchdb][download][revision] = "dcadb1ea483cbdaa7f476f7e0e8530873f484616"
+projects[integration_couchdb][download][type] = "git"
+projects[integration_couchdb][download][url] = http://git.drupal.org/project/integration_couchdb.git
 projects[integration_couchdb][subdir] = "contrib"
-projects[integration_couchdb][version] = "1.x-dev"
 
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
@@ -706,14 +714,11 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.15
+projects[views][version] = 3.17
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
-projects[views][patch][] = https://www.drupal.org/files/views-1818176-11.patch
-; Fatal error: Unsupported operand types in [path to drupal]/sites/all/modules/views/includes/handlers.inc on line 1032
-; https://www.drupal.org/node/1752062
-projects[views][patch][] = https://www.drupal.org/files/includes_handlers.inc_.git_.patch
+projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
@@ -835,7 +840,7 @@ libraries[colorbox][destination] = libraries
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip"
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
 libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
 libraries[ckeditor][directory_name] = "ckeditor"
 
@@ -851,7 +856,7 @@ libraries[ckeditor_lite][directory_name] = "lite"
 libraries[ckeditor_moono][download][type]= "file"
 libraries[ckeditor_moono][download][request_type]= "get"
 libraries[ckeditor_moono][download][file_type] = "zip"
-libraries[ckeditor_moono][download][url] = "http://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip"
+libraries[ckeditor_moono][download][url] = http://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip
 libraries[ckeditor_moono][destination] = "../common/modules/features/multisite_wysiwyg/ckeditor/skins"
 libraries[ckeditor_moono][directory_name] = "moonocolor"
 
@@ -891,7 +896,7 @@ libraries[fullcalendar_resources][destination] = "../common/libraries"
 
 ; history.js v1.8b2
 libraries[history][download][type] = "git"
-libraries[history][download][url] = "https://github.com/browserstate/history.js/"
+libraries[history][download][url] = https://github.com/browserstate/history.js/
 libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
@@ -927,7 +932,7 @@ libraries[jquery][directory_name] = "jquery"
 ; Leaflet.draw
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
-libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
+libraries[Leaflet.draw][download][url] = https://github.com/Leaflet/Leaflet.draw.git
 libraries[Leaflet.draw][download][tag] = "v0.3.0"
 
 ; modernizr 2.8.3
@@ -941,13 +946,13 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/archive/v6.1.0.zip"
+libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.0.zip
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
-libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
+libraries[leaflet][download][url] = http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip
 libraries[leaflet][directory_name] = "leaflet"
 
 ; Plupload
@@ -955,7 +960,7 @@ libraries[plupload][destination] = "libraries"
 libraries[plupload][download][type] = "file"
 libraries[plupload][download][request_type]= "get"
 libraries[plupload][download][file_type] = "zip"
-libraries[plupload][download][url] = "https://github.com/moxiecode/plupload/archive/v1.5.8.zip"
+libraries[plupload][download][url] = https://github.com/moxiecode/plupload/archive/v1.5.8.zip
 libraries[plupload][directory_name] = "plupload"
 ; Remove the examples directory.
 ; See https://www.drupal.org/node/1903850#comment-11676067.
@@ -974,7 +979,7 @@ libraries[ec_resp_bootstrap][directory_name] = bootstrap
 
 ; Ec_resp theme: Bootstrap less
 libraries[ec_resp_bootstrap_less][download][type] = "get"
-libraries[ec_resp_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.5.zip"
+libraries[ec_resp_bootstrap_less][download][url] = https://github.com/twbs/bootstrap/archive/v3.3.5.zip
 libraries[ec_resp_bootstrap_less][download][subtree] = "bootstrap-3.3.5/less"
 libraries[ec_resp_bootstrap_less][destination] =  "themes/ec_resp/bootstrap"
 libraries[ec_resp_bootstrap_less][directory_name] = less
@@ -983,31 +988,30 @@ libraries[ec_resp_bootstrap_less][directory_name] = less
 libraries[html5shiv][destination] = "themes/ec_resp"
 libraries[html5shiv][directory_name] = "scripts"
 libraries[html5shiv][download][type] = "get"
-libraries[html5shiv][download][url] = "https://raw.githubusercontent.com/aFarkas/html5shiv/master/dist/html5shiv.min.js"
+libraries[html5shiv][download][url] = https://raw.githubusercontent.com/aFarkas/html5shiv/a3c7567c5f7055f9b76230bbbc79967d0b9f7003/dist/html5shiv.min.js
 
 ; Ec_resp theme: jQuery Mousewheel
 libraries[mousewheel][destination] = "themes/ec_resp"
 libraries[mousewheel][directory_name] = "scripts"
 libraries[mousewheel][download][type] = "get"
-libraries[mousewheel][download][url] = "https://raw.githubusercontent.com/jquery/jquery-mousewheel/master/jquery.mousewheel.min.js"
+libraries[mousewheel][download][url] = https://raw.githubusercontent.com/jquery/jquery-mousewheel/33dc8f1090da2eaadbca8e782965d7fd6c28db42/jquery.mousewheel.min.js
 
 ; Ec_resp theme: Respond JS
 libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
 libraries[respond][download][type] = "get"
-libraries[respond][download][url] = "https://raw.githubusercontent.com/scottjehl/Respond/master/dest/respond.min.js"
+libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/Respond/9d91fd47eb59c11a80d570d4ea0beaa59cfc71bf/dest/respond.min.js
 
 ; ======
 ; Themes
 ; ======
 
-projects[bootstrap][type] = theme
-projects[bootstrap][version] = 3.8
-
 projects[ec_resp][type] = theme
-projects[ec_resp][download][type] = get
-projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp/releases/download/2.2/ec_resp-2.2.tar.gz
+projects[ec_resp][download][type] = git
+projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
+projects[ec_resp][download][tag] = 2.3.2
 
-projects[europa][type] = theme
-projects[europa][download][type] = get
-projects[europa][download][url] = https://github.com/ec-europa/platform-theme/releases/download/0.2.0/platform-theme-0.2.0.tar.gz
+projects[atomium][type] = theme
+projects[atomium][download][type] = git
+projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
+projects[atomium][download][branch] = 7.x-1.x

@@ -3,6 +3,14 @@ Ecas env Feature
 
 The module aims to provide an authentication method to Drupal using ECAS
 
+Table of content:
+=================
+- [Installation](#installation)
+- [Usage](#usage)
+- [Debugging](#debugging)
+
+[Go to top](#table-of-content)
+
 Installation
 ------------
 
@@ -47,8 +55,8 @@ Default is to not force a domain
 #### Change Password URL
 #### Debug mode
 When enabled, each attempt will be logged to the phpCas.log file
-IE: if you enter 'sites/default/files/phpCas.log' in the textfield, you will be
-able to view the log output on /build/sites/default/files/phpCas.log
+IE: if you enter '%file_public%/phpCas.log' in the textfield, you will be
+able to view the log output on /build/%file_public%/phpCas.log
 #### User account status (first login)
 Activate or block user at the time his account is created.
 #### Login message
@@ -81,3 +89,21 @@ in the "Assurance Level of the application".
 To create an external account go to
 https://webgate.ec.europa.eu/cas/eim/external/register.cgi
 Change the domain to 'External' and fill in the fields.
+
+#Local configuration for user_sync
+In order to test the user sync feature locally against LDAP production server, 
+you need to provide some extra configuration in your settings.php file
+
+- define('FPFIS_LDAP_SERVER_NAME', 'XXXX');
+- define('FPFIS_LDAP_SERVER_PORT', 'XXXXX');
+- define('FPFIS_LDAP_BASE_DN', 'XXXXX');
+- define('FPFIS_LDAP_BASE_DN_DG', 'XXXXX');
+- $ldap_password = 'XXXXX';
+- $fpfis_ldap_user = 'XXXXXX';
+- define('FPFIS_LDAP_USER_DN', sprintf('uid=%s,ou=TrustedApps,o=cec.eu.int', $fpfis_ldap_user));
+- define('FPFIS_LDAP_PASSWORD', $ldap_password);
+
+The values can be retrieved from dorstenia server. 
+
+Please also have a look at [dorstenia common settings doc](https://webgate.ec.europa.eu/CITnet/stash/projects/NEXTEUROPA/repos/fpfis-platform-settings/browse?at=dorstenia)
+If you have more questions, please contact "COMM Europa Management"
