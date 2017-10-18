@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\BlockContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 

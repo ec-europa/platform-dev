@@ -1,14 +1,9 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_laco\Tests\LanguageCoverageServiceTest.
- */
-
 namespace Drupal\nexteuropa_laco\Tests;
 
 use Drupal\nexteuropa_laco\LanguageCoverageService as Service;
-
+use GuzzleHttp\Client;
 
 /**
  * Class LanguageCoverageServiceTest.
@@ -56,7 +51,7 @@ class LanguageCoverageServiceTest extends \PHPUnit_Framework_TestCase {
    *    Response object instance.
    */
   protected function request($path, $language = 'en') {
-    $client = new \GuzzleHttp\Client([
+    $client = new Client([
       'headers' => [
         Service::HTTP_HEADER_SERVICE_NAME => Service::HTTP_HEADER_SERVICE_VALUE,
         Service::HTTP_HEADER_LANGUAGE_NAME => $language,
