@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\PathautoContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 
