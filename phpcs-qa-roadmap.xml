@@ -628,8 +628,8 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected 1 blank line before function. -->
-    <rule ref="Squiz.WhiteSpace.FunctionSpacing.Before">
+    <!-- Expected 1 blank line after function. -->
+    <rule ref="Squiz.WhiteSpace.FunctionSpacing.After">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 

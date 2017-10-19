@@ -6,6 +6,7 @@
  */
 
  define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+
 /**
  * Implements hook_permission().
  */

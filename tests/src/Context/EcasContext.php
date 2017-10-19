@@ -8,6 +8,7 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
  * Provides step definitions for interacting with ECAS.
  */
 class EcasContext extends RawDrupalContext {
+
   /**
    * Creates and authenticates an ECAS user with the given role(s).
    *
