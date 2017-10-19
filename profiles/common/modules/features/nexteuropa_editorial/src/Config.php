@@ -25,7 +25,7 @@ class Config extends ConfigBase {
    * @return bool
    *   TRUE if the user is an editorial team member, FALSE otherwise.
    */
-  public function isEditorialTeamMember($account = NULL) {
+  public function isEditorialTeamMember($account) {
     $uid = is_object($account) ? $account->uid : $account;
     if ($uid) {
       $query = db_select('og_membership', 'ogm')
