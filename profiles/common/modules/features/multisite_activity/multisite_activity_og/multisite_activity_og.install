@@ -15,7 +15,6 @@ function multisite_activity_og_enable() {
 
 }
 
-
 /**
  * Implements hook_disable().
  */

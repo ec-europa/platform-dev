@@ -10,7 +10,6 @@ define('MULTISITE_FORUM_CORE_CT_NAME', 'discussion');
 
 include_once 'multisite_forum_core.features.inc';
 
-
 /**
  * Implements hook_boot().
  */
@@ -186,7 +185,6 @@ function multisite_forum_core_workbench_create_alter(&$output) {
     $output['#markup'] .= t('You cannot create any new content. Please contact the site administrator.');
   }
 }
-
 
 /**
  * Implements hook_node_load().

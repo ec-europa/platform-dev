@@ -113,7 +113,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Checks that the given element is of the given type.
    *
-   * @param NodeElement $element
+   * @param Behat\Mink\Element\NodeElement $element
    *   The element to check.
    * @param string $type
    *   The expected type.
@@ -153,7 +153,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @param string $filename
    *   Name of the file (relative path).
-   * @param PyStringNode $content
+   * @param Behat\Gherkin\Node\PyStringNode $content
    *   PyString string instance.
    *
    * @Given /^(?:there is )?a file named "([^"]*)" with:$/
@@ -179,10 +179,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Transforms human readable field labels for Articles into machine names.
    *
-   * @param TableNode $article_table
+   * @param Behat\Gherkin\Node\TableNode $article_table
    *   The original table.
    *
-   * @return TableNode
+   * @return Behat\Gherkin\Node\TableNode
    *   The transformed table.
    *
    * @Transform rowtable:title,body,tags,moderation state
@@ -201,10 +201,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Transforms human readable field labels for Users into machine names.
    *
-   * @param TableNode $user_table
+   * @param Behat\Gherkin\Node\TableNode $user_table
    *   The original table.
    *
-   * @return TableNode
+   * @return Behat\Gherkin\Node\TableNode
    *   The transformed table.
    *
    * @Transform rowtable:first name,last name
@@ -258,7 +258,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Check for PHP errors log.
    *
-   * @param AfterStepScope $scope
+   * @param Behat\Behat\Hook\Scope\AfterStepScope $scope
    *    AfterStep hook scope object.
    *
    * @throws \Exception
