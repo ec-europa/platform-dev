@@ -137,7 +137,7 @@ trait DataProcessor {
       'procedure' => 'NEANT',
       'destination' => 'PUBLIC',
       'type' => 'INTER',
-      'workflowCode' => $settings['settings']['workflow_code'],
+      'workflowCode' => $settings['settings']['dgt_ftt_workflow_code'],
     );
   }
 
