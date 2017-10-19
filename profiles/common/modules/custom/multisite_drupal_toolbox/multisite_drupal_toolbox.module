@@ -475,7 +475,6 @@ function multisite_drupal_toolbox_filter_info() {
   return $info;
 }
 
-
 /**
  * Alter filter process callback for the token input filter.
  *

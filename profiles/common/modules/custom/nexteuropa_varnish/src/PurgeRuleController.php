@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains Drupal\nexteuropa_varnish\PurgeRuleController.
- */
 
 namespace Drupal\nexteuropa_varnish;
 
