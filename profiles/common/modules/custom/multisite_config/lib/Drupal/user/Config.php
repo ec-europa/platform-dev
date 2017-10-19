@@ -27,7 +27,7 @@ class Config extends ConfigBase {
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function assignRoleToUser($role_name, $account = NULL) {
+  public function assignRoleToUser($role_name, $account) {
     $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
     if ($uid && $role) {
@@ -57,7 +57,7 @@ class Config extends ConfigBase {
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function revokeRoleFromUser($role_name, $account = NULL) {
+  public function revokeRoleFromUser($role_name, $account) {
     $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
     if ($uid && $role) {
