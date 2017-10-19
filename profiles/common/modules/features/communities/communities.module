@@ -300,7 +300,7 @@ function group_name_to_arg($arg = NULL) {
  * @param string $arg
  *   The group name, or 'none' if no ID should be returned.
  *
- * @return int | NULL
+ * @return int|NULL
  *   The node ID of the Community node,
  *   or the integer 0 if no group name was given,
  *   or NULL if the Community node could not be derived from the path alias.

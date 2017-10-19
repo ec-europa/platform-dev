@@ -14,7 +14,7 @@ class ArgumentTransformer implements ArgumentTransformerInterface {
   /**
    * Extension configuration.
    *
-   * @var
+   * @var array
    */
   private $config;
 
