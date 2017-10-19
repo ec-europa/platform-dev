@@ -151,6 +151,7 @@ function _ne_tmgmt_dgt_ftt_translator_callback() {
   $poetry->getEventDispatcher()
     ->addSubscriber(new TMGMTDgtFttSubscriber());
   $poetry->getServer()->handle();
+
   exit();
 }
 

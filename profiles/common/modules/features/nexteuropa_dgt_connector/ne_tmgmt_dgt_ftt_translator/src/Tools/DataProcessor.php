@@ -137,6 +137,7 @@ trait DataProcessor {
       'procedure' => 'NEANT',
       'destination' => 'PUBLIC',
       'type' => 'INTER',
+      'workflowCode' => $settings['settings']['workflow_code'],
     );
   }
 
@@ -201,11 +202,11 @@ trait DataProcessor {
       ),
       array(
         'type' => 'secretaire',
-        'nickname' => $settings['contacts']['secretaire'],
+        'nickname' => $settings['contacts']['secretary'],
       ),
       array(
         'type' => 'contact',
-        'nickname' => $settings['contacts']['secretaire'],
+        'nickname' => $settings['contacts']['contact'],
       ),
       array(
         'type' => 'responsable',
