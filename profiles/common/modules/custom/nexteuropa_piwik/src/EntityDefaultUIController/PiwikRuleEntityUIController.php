@@ -1,10 +1,7 @@
 <?php
-/**
- * @file
- * Definition of PiwikRuleEntityUIController.
- */
 
 namespace Drupal\nexteuropa_piwik\EntityDefaultUIController;
+
 use \EntityDefaultUIController;
 
 /**

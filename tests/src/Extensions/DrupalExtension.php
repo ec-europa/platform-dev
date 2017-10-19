@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\nexteuropa\DrupalExtension\ServiceContainer.
- */
-
 namespace Drupal\nexteuropa\Extensions;
 
 use Drupal\DrupalExtension\ServiceContainer\DrupalExtension as OriginalDrupalExtension;
