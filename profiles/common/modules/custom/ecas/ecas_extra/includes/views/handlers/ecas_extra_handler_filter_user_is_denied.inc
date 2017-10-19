@@ -44,8 +44,8 @@ class ecas_extra_handler_filter_user_is_denied extends views_handler_filter_bool
       '#type' => 'radios',
       '#title' => 'Display only users who are',
       '#options' => array(
-        'denied',
-        'not denied',
+        t('denied'),
+        t('not denied'),
       ),
       '#default_value' => $this->options['value'],
     );

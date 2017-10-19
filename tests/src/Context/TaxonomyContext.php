@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\TaxonomyContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 

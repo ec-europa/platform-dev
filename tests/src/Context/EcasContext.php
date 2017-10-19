@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrupalContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
@@ -58,7 +53,6 @@ class EcasContext extends RawDrupalContext {
   public function ecasLoggedInWithRole($role) {
     return $this->loggedIn() && $this->user && $this->user->ecas && isset($this->user->role) && $this->user->role == $role;
   }
-
 
   /**
    * Create an ECAS user.

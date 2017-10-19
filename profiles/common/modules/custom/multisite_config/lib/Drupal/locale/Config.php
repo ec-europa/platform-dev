@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\locale\\Config.
- */
-
 namespace Drupal\locale;
 
 use Drupal\multisite_config\ConfigBase;

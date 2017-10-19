@@ -187,7 +187,6 @@ function multisite_forum_core_workbench_create_alter(&$output) {
   }
 }
 
-
 /**
  * Implements hook_node_load().
  */

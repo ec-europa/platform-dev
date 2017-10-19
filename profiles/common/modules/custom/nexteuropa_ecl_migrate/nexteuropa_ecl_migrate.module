@@ -280,6 +280,7 @@ function _nexteuropa_ecl_migrate_move_facet_blocks() {
     multisite_drupal_toolbox_add_block_context('search', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'sidebar_first', '-14');
   }
 }
+
 /**
  * Custom function to disable ec_resp blocks.
  *

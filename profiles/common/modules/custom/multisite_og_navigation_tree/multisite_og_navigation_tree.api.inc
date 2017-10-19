@@ -90,7 +90,6 @@ function _mont_og_is_group($entity_type, $entity) {
   return !empty($wrapper->{OG_GROUP_FIELD}) && $wrapper->{OG_GROUP_FIELD}->value();
 }
 
-
 /**
  * Check if group checkbox is ticked.
  *

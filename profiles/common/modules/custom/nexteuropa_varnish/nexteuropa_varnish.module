@@ -472,7 +472,6 @@ function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(
   );
 }
 
-
 /**
  * Get the base headers for the web frontend cache purge requests.
  *
@@ -689,16 +688,20 @@ function _nexteuropa_varnish_temporary_message() {
  *
  * @param string $path
  *   Path which is going to be trimmed.
+ * @param string $base_path
+ *   The base path of the current Drupal site. If NULL, the function will
+ *   use the value given by the function base_path().
  *
  * @return string
  *   Trimmed path.
  */
-function _nexteuropa_varnish_trim_base_path($path) {
-  $base_path = base_path();
-  $base_path_position = strpos($path, $base_path);
+function _nexteuropa_varnish_trim_base_path($path, $base_path = NULL) {
+  if (is_null($base_path)) {
+    $base_path = base_path();
+  }
 
-  if ($base_path_position !== FALSE) {
-    return substr_replace($path, '', $base_path_position, strlen($base_path));
+  if (substr($path, 0, strlen($base_path)) === $base_path) {
+    $path = substr($path, strlen($base_path));
   }
 
   return $path;

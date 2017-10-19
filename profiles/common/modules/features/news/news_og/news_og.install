@@ -57,7 +57,6 @@ function news_og_modules_enabled($modules) {
   }
 }
 
-
 /**
  * Implements hook_update().
  *

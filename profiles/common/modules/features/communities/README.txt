@@ -10,4 +10,4 @@ Due a new version of the feature is generated, we apply the STARTER KIT guidelin
 
 	1) This README.txt file is included.
 	2) A communities.install.inc file is included.
-	3) The communities.install file is edited. 
+	3) The communities.install file is edited.
