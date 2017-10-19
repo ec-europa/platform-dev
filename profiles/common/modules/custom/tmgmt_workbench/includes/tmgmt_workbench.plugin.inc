@@ -71,25 +71,6 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
   }
 
   /**
-   * Get moderation state.
-   *
-   * @param object $node
-   *    Node object.
-   * @param string $type
-   *    Moderation type.
-   *
-   * @return string|FALSE
-   *    Moderation state or FALSE.
-   */
-  private function getModerationState($node, $type = 'current') {
-    if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {
-      $state = $node->workbench_moderation[$type];
-      return $state->state;
-    }
-    return FALSE;
-  }
-
-  /**
    * Get moderation revision.
    *
    * @param object $node

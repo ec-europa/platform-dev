@@ -608,11 +608,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Unused private method. -->
-    <rule ref="DrupalPractice.Objects.UnusedPrivateMethod.UnusedMethod">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Do not use the raw $form_state['input'], use $form_state['values'] instead where possible. -->
     <rule ref="DrupalPractice.General.FormStateInput.Input">
         <exclude-pattern>*</exclude-pattern>
