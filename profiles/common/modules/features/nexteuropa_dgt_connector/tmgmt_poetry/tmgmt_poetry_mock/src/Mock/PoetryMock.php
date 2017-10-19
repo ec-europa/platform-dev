@@ -115,6 +115,8 @@ class PoetryMock {
    *
    * @param string $message
    *    XML request.
+   * @param string $reference
+   *    The XML file name.
    */
   public static function saveTranslationRequest($message, $reference) {
     $path = TMGMT_POETRY_MOCK_REQUESTS_PATH . $reference . '.xml';
