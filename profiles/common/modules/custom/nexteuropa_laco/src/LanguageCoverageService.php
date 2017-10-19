@@ -58,7 +58,7 @@ class LanguageCoverageService {
   /**
    * {@inheritdoc}
    */
-  static public function getInstance() {
+  public static function getInstance() {
     if (!self::$instance) {
       self::$instance = new static();
     }
@@ -68,7 +68,7 @@ class LanguageCoverageService {
   /**
    * {@inheritdoc}
    */
-  static public function isServiceRequest() {
+  public static  function isServiceRequest() {
     $header = self::getHeaderKey(self::HTTP_HEADER_SERVICE_NAME);
     $result = isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == self::HTTP_METHOD);
     $result = $result && isset($_SERVER[$header]) && ($_SERVER[$header] == self::HTTP_HEADER_SERVICE_VALUE);
@@ -352,7 +352,7 @@ class LanguageCoverageService {
    * @return string
    *    Header name as a $_SERVER array key.
    */
-  static protected function getHeaderKey($header) {
+  protected static function getHeaderKey($header) {
     $header = 'HTTP_' . strtoupper($header);
     return str_replace('-', '_', $header);
   }

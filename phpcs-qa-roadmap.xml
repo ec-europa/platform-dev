@@ -548,18 +548,8 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Tags should not be used. -->
-    <rule ref="DrupalPractice.Commenting.ExpectedException.TagFound">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Function return type is not void, but function is returning void here. -->
     <rule ref="Drupal.Commenting.FunctionComment.InvalidReturnNotVoid">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Expected 1 newline at end of file. -->
-    <rule ref="Drupal.Files.EndFileNewline.NoneFound">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -578,11 +568,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Namespaced classes/interfaces/traits should be referenced with use statements. -->
-    <rule ref="Drupal.Classes.FullyQualifiedNamespace.UseStatementMissing">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- When importing a class with "use", do not include a leading. -->
     <rule ref="Drupal.Classes.UseLeadingBackslash.SeparatorStart">
         <exclude-pattern>*</exclude-pattern>
@@ -593,18 +578,8 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Missing @var tag in member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.MissingVar">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Return type "int | NULL" must not contain spaces. -->
     <rule ref="Drupal.Commenting.FunctionComment.ReturnTypeSpaces">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Line indented incorrectly. -->
-    <rule ref="Drupal.WhiteSpace.ScopeIndent.IncorrectExact">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -613,18 +588,8 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected "\Drupal\DrupalDriverManager" but found "\Drupal\DrupalDriverManager;" for @var tag in member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.IncorrectVarType">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Expected "bool|false" but found "bool|FALSE" for parameter type. -->
     <rule ref="Drupal.Commenting.FunctionComment.IncorrectParamVarName">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Do not concatenate strings to translatable strings, they should be part of the t() argument and you should use placeholders. -->
-    <rule ref="Drupal.Semantics.FunctionT.ConcatString">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -633,19 +598,9 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Missing file doc comment. -->
-    <rule ref="Drupal.Commenting.FileComment.Missing">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Doc comment short description must start with a capital letter. -->
     <rule ref="Drupal.Commenting.DocComment.ShortNotCapital">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Values usually have to run through t() for translation. -->
-    <rule ref="DrupalPractice.General.OptionsT.TforValue">
-        <exclude-pattern>*</exclude-pattern>
+         <exclude-pattern>*</exclude-pattern>
     </rule>
 
     <!-- Variable $column is undefined. -->
@@ -670,11 +625,6 @@
 
     <!-- The @var tag must be the first tag in a member variable comment. -->
     <rule ref="Drupal.Commenting.VariableComment.VarOrder">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Content missing for @var tag in member variable comment. -->
-    <rule ref="Drupal.Commenting.VariableComment.EmptyVar">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -723,19 +673,8 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Empty strongarm settings for 'pathauto_node_blog_pattern' are not allowed. -->
-    <rule ref="QualityAssurance.Generic.EmptySettings.Strongarm">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Move the "multisite_drupal_standard_install_tasks" function declaration in to a file named multisite_drupal_standard.install.inc and include that file in multisite_drupal_standard.install. -->
     <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
         <exclude-pattern>*</exclude-pattern>
     </rule>
-
-    <!-- File appears to be minified and cannot be processed. -->
-    <rule ref="Internal.Tokenizer.Exception">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
 </ruleset>

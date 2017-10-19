@@ -238,10 +238,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @param callable $matcher
    *   Callable which returns if the element matches or not.
-   * @param NodeElement[] $elements
+   * @param Behat\Mink\Element\NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|NULL
+   * @return Behat\Mink\Element\NodeElement|NULL
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -367,7 +367,7 @@ class MinkContext extends DrupalExtensionMinkContext {
   /**
    * Retrieve a table row containing specified text from a given element.
    *
-   * @param Element $element
+   * @param Behat\Mink\Element\Element $element
    *    Mink element object.
    * @param string $search
    *    Table row text.
@@ -375,7 +375,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @throws \Exception
    *    Throw exception if class table row was not found.
    *
-   * @return NodeElement
+   * @return Behat\Mink\Element\NodeElement
    *    Table row node element.
    */
   public function getTableRow(Element $element, $search) {
@@ -384,7 +384,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
         ->getCurrentUrl()));
     }
-    /** @var NodeElement $row */
+    /** @var Behat\Mink\Element\NodeElement $row */
     foreach ($rows as $row) {
       if (strpos($row->getText(), $search) !== FALSE) {
         return $row;

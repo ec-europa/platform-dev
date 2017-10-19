@@ -15,7 +15,7 @@ class PyStringYamlParser {
   /**
    * PyStringNode object.
    *
-   * @var PyStringNode;
+   * @var PyStringNode
    */
   protected $node;
 

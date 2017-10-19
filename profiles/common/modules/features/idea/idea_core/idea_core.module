@@ -32,7 +32,7 @@ function idea_core_tokens($type, $tokens, $data = array(), $options = array()) {
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'idea_title':
-                    $replacements[$original] = t("idea");
+          $replacements[$original] = t("idea");
           break;
       }
     }

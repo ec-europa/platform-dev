@@ -24,14 +24,14 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
   /**
    * Constructs a TmgmtPoetrySubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
@@ -212,7 +212,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @Then I see the date of the last change in the ":rowText" row
    */
   public function assertLastChangeDateInTableRow($row_text) {
-    /** @var DrupalContext $drupal_context */
+    /** @var Drupal\DrupalExtension\Context\DrupalContext $drupal_context */
     $drupal_context = $this->getContext(DrupalContext::class);
     $row = $drupal_context->getTableRow($this->getSession()
       ->getPage(), $row_text);
@@ -277,7 +277,7 @@ class TmgmtPoetrySubContext extends RawDrupalContext implements DrupalSubContext
    * @BeforeScenario cleanup-tmgmt-poetry-website-identifier
    */
   public function prepareCleanupWebsiteIdentifier() {
-    /** @var VariableContext $variable_context */
+    /** @var Drupal\nexteuropa\Context\VariableContext $variable_context */
     $variable_context = $this->getContext(VariableContext::class);
     $variable_context->setVariable('website_identifier', '');
   }
