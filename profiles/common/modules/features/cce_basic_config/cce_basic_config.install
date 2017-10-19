@@ -2399,7 +2399,6 @@ function cce_basic_config_update_7214(&$sandbox) {
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
 }
 
-
 /**
  * NEPT-182: Enable nexteuropa_feature_set and nexteuropa_dgt_connector feature.
  *

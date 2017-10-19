@@ -50,7 +50,6 @@ function solr_config_enable() {
 
 }
 
-
 /**
  * Implements hook_disable().
  */
@@ -125,7 +124,6 @@ function solr_config_update_7110() {
     'bundle' => 'document',
   ))->execute();
 }
-
 
 /**
  * Implements hook_update_N().

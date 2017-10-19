@@ -628,8 +628,8 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected 1 blank line after function. -->
-    <rule ref="Squiz.WhiteSpace.FunctionSpacing.After">
+    <!-- Content missing for @var tag in member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.EmptyVar">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 

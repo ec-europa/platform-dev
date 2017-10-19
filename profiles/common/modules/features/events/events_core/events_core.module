@@ -41,7 +41,6 @@ function events_core_tokens($type, $tokens, $data = array(), $options = array())
   return $replacements;
 }
 
-
 /**
  * Implements hook_node_form_alter().
  */

@@ -89,7 +89,6 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
     );
   }
 
-
   /**
    * Data provider: provides list of entity machine names.
    *
