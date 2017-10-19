@@ -18,7 +18,7 @@ function nuts_regions_migrate_api() {
     ),
     'migrations' => array(
       'Nuts' => array(
-        'class_name' => 'NutsMigration',
+        'class_name' => 'NutsRegionsMigration',
         'group_name' => 'geos',
       ),
     ),
@@ -29,7 +29,7 @@ function nuts_regions_migrate_api() {
 /**
  * Defines a dynamic migration that is reused for each source CSV file.
  */
-class NutsMigration extends Migration {
+class NutsRegionsMigration extends Migration {
 
   /**
    * Constructs the migration.
@@ -119,7 +119,7 @@ class NutsMigration extends Migration {
       // - Parent of BE2 is BE.
       // - Parent of BE21 is BE2.
       // - Parent of BE211 is BE21.
-      $possible_parent = substr($row->nuts_code, 0, $row->level + 1);
+      $possible_parent = drupal_substr($row->nuts_code, 0, $row->level + 1);
       $query = new EntityFieldQuery();
       $query->entityCondition('entity_type', 'taxonomy_term')
         ->entityCondition('bundle', 'nuts_regions');
