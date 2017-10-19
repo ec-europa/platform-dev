@@ -9,9 +9,11 @@ namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
 use EntityFieldQuery;
-use \EC\Poetry;
+use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use TMGMTJob;
+use TMGMTJobItem;
+use TMGMTTranslator;
 
 /**
  * Helper trait with methods for processing translator's data and settings.
@@ -269,10 +271,12 @@ trait DataProcessor {
     // If the 'sequence' key is set there are no entries in the mapping table
     // or the 'part' counter value reached 99.
     if (isset($identifier['identifier.sequence'])) {
-      $dgt_response = $this->sendNewNumberRequest($identifier);
+      $client_action = 'request.get_new_number';
+      $dgt_response = $this->sendRequest($client_action, $identifier);
       // Checking the DGT services response status.
       if ($dgt_response->isSuccessful()) {
         // Creating a new mapping entity and performing the review request.
+        $job->client_action = $client_action;
         $this->createDgtFttTranslatorMappingEntity($dgt_response, $job);
 
         return $this->getIdentifier($job, $node_id);
@@ -325,7 +329,9 @@ trait DataProcessor {
       // Checking if the 'part' counter value reached 99.
       if ($mapping_entity->part < 99) {
         $identifier['identifier.number'] = $mapping_entity->number;
-        $identifier['identifier.part'] = $mapping_entity->part + 1;
+        if ($mapping_entity->client_action != 'request.get_new_number') {
+          $identifier['identifier.part'] = $mapping_entity->part + 1;
+        }
         $unset_key = 'identifier.sequence';
       }
     }
@@ -334,7 +340,9 @@ trait DataProcessor {
 
     // Checking if there are mappings for the given content and setting version.
     if ($mapping_entity = $this->getDgtFttTranslatorMappingByProperty('entity_id', $node_id)) {
-      $identifier['identifier.version'] = $mapping_entity->version + 1;
+      if ($mapping_entity->client_action != 'request.get_new_number') {
+        $identifier['identifier.version'] = $mapping_entity->version + 1;
+      }
     }
 
     return $identifier;
@@ -465,26 +473,12 @@ trait DataProcessor {
           'number' => $response->getIdentifier()->getNumber(),
           'version' => $response->getIdentifier()->getVersion(),
           'part' => $response->getIdentifier()->getPart(),
+          'delay' => property_exists($job, 'client_request_data') ? strtotime(str_replace('/', '-', $job->client_request_data['details']['delay'])) : 0,
+          'client_action' => property_exists($job, 'client_action') ? $job->client_action : '',
         )
       );
       $map_entity->save();
     };
-  }
-
-  /**
-   * Sends the 'new number' request to the DGT Service.
-   *
-   * @param array $identifier
-   *   An array with values which are required to instantiate OE Poetry client.
-   *
-   * @return \EC\Poetry\Messages\MessageInterface
-   *   A response from the DGT Services.
-   */
-  private function sendNewNumberRequest(array $identifier) {
-    $poetry = new Poetry\Poetry($identifier);
-    $message = $poetry->get('request.request_new_number');
-
-    return $poetry->getClient()->send($message);
   }
 
   /**
@@ -660,6 +654,31 @@ trait DataProcessor {
 
       $job->aborted();
     }
+  }
+
+  /**
+   * Sends the request to the DGT Service.
+   *
+   * @param string $client_action
+   *   A client action which will be performed.
+   * @param array $identifier
+   *   An array with the identifier data.
+   * @param array $data
+   *   An array with the request data.
+   *
+   * @return \EC\Poetry\Messages\Responses\Status DGT Services response
+   *   DGT Services response
+   */
+  private function sendRequest($client_action, array $identifier, array $data = array()) {
+    // Instantiate the Poetry Client object.
+    $poetry = new Poetry($identifier);
+    $message = $poetry->get($client_action);
+
+    if (!empty($data)) {
+      $message->withArray($data);
+    }
+
+    return $poetry->getClient()->send($message);
   }
 
 }

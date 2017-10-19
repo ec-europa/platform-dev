@@ -132,6 +132,30 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
     'required' => TRUE,
     'schema field' => 'part',
   );
+  $properties['part'] = array(
+    'label' => t('Part'),
+    'type' => 'integer',
+    'description' => t("'Partie' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'part',
+  );
+  $properties['delay'] = array(
+    'label' => t('Delay date'),
+    'type' => 'integer',
+    'description' => t("Delay date - The Unix timestamp"),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'delay',
+  );
+  $properties['client_action'] = array(
+    'label' => t('Client action'),
+    'type' => 'text',
+    'description' => t('Client action.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'client_action',
+  );
 
   return $info;
 }
