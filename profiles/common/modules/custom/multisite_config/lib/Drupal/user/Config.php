@@ -22,7 +22,7 @@ class Config extends ConfigBase {
    * @param string $role_name
    *    Role machine name.
    * @param mixed $account
-   *   (optional) The user object or UID. Defaults to the current user.
+   *   The user object or UID.
    *
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.
@@ -52,7 +52,7 @@ class Config extends ConfigBase {
    * @param string $role_name
    *    Role machine name.
    * @param mixed $account
-   *   (optional) The user object or UID. Defaults to the current user.
+   *   The user object or UID.
    *
    * @return bool
    *    TRUE if operation was successful, FALSE otherwise.

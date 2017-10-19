@@ -20,7 +20,7 @@ class Config extends ConfigBase {
    * Return whereas a user is an editorial team member or not.
    *
    * @param mixed $account
-   *   (optional) The user object or UID. Defaults to the current user.
+   *   The user object or UID.
    *
    * @return bool
    *    TRUE if the user is an editorial team member, FALSE otherwise.
