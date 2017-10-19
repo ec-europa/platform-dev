@@ -26,24 +26,20 @@ class Config extends ConfigBase {
    *   TRUE if the user is an editorial team member, FALSE otherwise.
    */
   public function isEditorialTeamMember($account = NULL) {
-    if (!isset($account)) {
-      global $user;
-      $account = clone $user;
-    }
-
     $uid = is_object($account) ? $account->uid : $account;
-    $query = db_select('og_membership', 'ogm')
-      ->fields('ogm')
-      ->condition('ogm.group_type', 'node')
-      ->condition('ogm.state', OG_STATE_ACTIVE)
-      ->condition('entity_type', 'user')
-      ->condition('etid', $uid);
-
-    // Filter on the editorial_team group bundle.
-    $query->join('node', 'group_node', 'ogm.gid = group_node.nid');
-    $query->condition('group_node.type', 'editorial_team');
-
-    return (bool) $query->execute()->rowCount();
+    if ($uid) {
+      $query = db_select('og_membership', 'ogm')
+        ->fields('ogm')
+        ->condition('ogm.group_type', 'node')
+        ->condition('ogm.state', OG_STATE_ACTIVE)
+        ->condition('entity_type', 'user')
+        ->condition('etid', $uid);
+      // Filter on the editorial_team group bundle.
+      $query->join('node', 'group_node', 'ogm.gid = group_node.nid');
+      $query->condition('group_node.type', 'editorial_team');
+      return (bool) $query->execute()->rowCount();
+    }
+    return FALSE;
   }
 
   /**

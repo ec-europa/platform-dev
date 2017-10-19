@@ -28,14 +28,12 @@ class Config extends ConfigBase {
    *   TRUE if operation was successful, FALSE otherwise.
    */
   public function assignRoleToUser($role_name, $account = NULL) {
-    if (!isset($account)) {
-      global $user;
-      $account = clone $user;
-    }
-
     $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
     if ($uid && $role) {
+      // We can't call user_multiple_role_edit here because the function could
+      // (and is) called during a user_save, which would cause the changes to
+      // be overriden.
       db_merge('users_roles')
         ->key(array('uid' => $uid, 'rid' => $role->rid))
         ->execute();
@@ -60,14 +58,12 @@ class Config extends ConfigBase {
    *   TRUE if operation was successful, FALSE otherwise.
    */
   public function revokeRoleFromUser($role_name, $account = NULL) {
-    if (!isset($account)) {
-      global $user;
-      $account = clone $user;
-    }
-
     $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
     if ($uid && $role) {
+      // We can't call user_multiple_role_edit here because the function could
+      // (and is) called during a user_save, which would cause the changes to
+      // be overriden.
       db_delete('users_roles')
         ->condition('rid', $role->rid)
         ->condition('uid', $uid)
