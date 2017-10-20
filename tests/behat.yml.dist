@@ -28,13 +28,21 @@ default:
         - Drupal\nexteuropa\Context\PathautoContext
         - Drupal\nexteuropa\Context\SchedulerContext
         - Drupal\nexteuropa\Context\MultilingualContext
+        - Drupal\nexteuropa\Context\DrupalMailContext
         - Drupal\nexteuropa\Context\PiwikRulesContext
         - Drupal\nexteuropa\Context\DrushContext:
-            drush_bin: "{{ drush.bin }}"
+            drush_bin: '{{ drush.bin }}'
             db_dump_location: '{{ drush.db.dump }}'
+        - EC\Behat\PoetryExtension\Context\PoetryContext
+        - Drupal\nexteuropa\Context\PoetryContext
+        - Drupal\nexteuropa\Context\RulesContext
       filters:
-        tags: "~@wip&&~@communities"
+        tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
   extensions:
+    EC\Behat\PoetryExtension:
+      application:
+        base_url: '{{ behat.base_url }}'
+        endpoint: '/dgt_ftt_translator/dgt_service_callback'
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'

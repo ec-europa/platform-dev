@@ -62,13 +62,12 @@ class TmgmtDgtFttTranslatorUiController extends TMGMTDefaultTranslatorUIControll
       '#required' => TRUE,
       '#default_value' => $settings['dgt_ftt_password'],
     );
-    $form['settings']['dgt_ftt_web_id'] = array(
+    $form['settings']['dgt_ftt_workflow_code'] = array(
       '#type' => 'textfield',
-      '#title' => t('DGT FTT - website ID'),
+      '#title' => t('DGT FTT - workflow code'),
       '#maxlength' => 15,
       '#required' => TRUE,
-      '#default_value' => $settings['dgt_ftt_web_id'],
-      '#description' => t('This value - which is mandatory - will be put in the title of translation requests, in order for DGT to identify which website the request came from.'),
+      '#default_value' => $settings['dgt_ftt_workflow_code'],
     );
 
     // Organization details.
@@ -117,11 +116,11 @@ class TmgmtDgtFttTranslatorUiController extends TMGMTDefaultTranslatorUIControll
       '#required' => TRUE,
       '#default_value' => $contacts['author'],
     );
-    $form['contacts']['secretaire'] = array(
+    $form['contacts']['secretary'] = array(
       '#type' => 'textfield',
-      '#title' => t('Secretaire'),
+      '#title' => t('Secretary'),
       '#required' => TRUE,
-      '#default_value' => $contacts['secretaire'],
+      '#default_value' => $contacts['secretary'],
     );
     $form['contacts']['contact'] = array(
       '#type' => 'textfield',
