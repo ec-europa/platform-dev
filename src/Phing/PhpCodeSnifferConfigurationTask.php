@@ -86,7 +86,6 @@ class PhpCodeSnifferConfigurationTask extends \Task {
    */
   private $installedPaths = '';
 
-
   /**
    * Configures PHP CodeSniffer.
    */

@@ -445,7 +445,6 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
   }
 }
 
-
 /**
  * Finished callback of the batch field for tracked changes values.
  *

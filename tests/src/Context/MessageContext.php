@@ -11,6 +11,7 @@ use Drupal\DrupalExtension\Context\MessageContext as DrupalExtensionMessageConte
  * @package Drupal\nexteuropa\Context
  */
 class MessageContext extends DrupalExtensionMessageContext {
+
   /**
    * Checks if the current page contains the given error message.
    *
@@ -206,7 +207,6 @@ class MessageContext extends DrupalExtensionMessageContext {
     }
   }
 
-
   /**
    * Internal callback to check for a specific message in a given context.
    *
@@ -261,7 +261,6 @@ class MessageContext extends DrupalExtensionMessageContext {
       }
     }
   }
-
 
   /**
    * Helps to determine if the current page is an admin page.

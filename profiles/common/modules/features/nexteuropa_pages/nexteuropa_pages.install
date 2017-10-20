@@ -122,7 +122,6 @@ function nexteuropa_pages_update_7201() {
     ->save();
 }
 
-
 /**
  * MULTISITE-9813 : Replace the body field by the nexteuropa body field.
  */

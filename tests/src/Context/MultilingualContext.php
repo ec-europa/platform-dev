@@ -259,6 +259,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $name
    *    Local translator human readable name.
+   * @param string $plugin
+   *    The plugin's name.
    *
    * @Given :plugin translator :name is available
    */

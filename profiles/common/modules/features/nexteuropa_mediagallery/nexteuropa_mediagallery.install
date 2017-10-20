@@ -6,7 +6,6 @@
 
 include_once 'nexteuropa_mediagallery.features.inc';
 
-
 /**
  * Implements hook_requirements().
  */

@@ -93,7 +93,6 @@ class BlockContext implements Context {
     }
   }
 
-
   /**
    * Get the Taxonomy Id by the name.
    *
