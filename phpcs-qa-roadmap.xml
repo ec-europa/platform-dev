@@ -672,10 +672,4 @@
     <rule ref="QualityAssurance.InstallFiles.FunctionDeclarations.NonHookFound">
         <exclude-pattern>*</exclude-pattern>
     </rule>
-
-    <!-- Possible useless method overriding detected. -->
-    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod.Found">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
 </ruleset>
