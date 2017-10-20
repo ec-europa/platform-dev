@@ -172,7 +172,6 @@ function nexteuropa_multilingual_language_negotiation_info() {
   return $providers;
 }
 
-
 /**
  * Implements hook_menu().
  */

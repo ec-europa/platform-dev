@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \NextEuropa\build\Phing\PhpCodeSnifferConfigurationTask.
- */
-
 namespace NextEuropa\Phing;
 
 require_once 'phing/Task.php';
@@ -90,7 +85,6 @@ class PhpCodeSnifferConfigurationTask extends \Task {
    * @var string
    */
   private $installedPaths = '';
-
 
   /**
    * Configures PHP CodeSniffer.

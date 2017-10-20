@@ -13,7 +13,6 @@
 class MultisiteMetatagsFeatureTest extends DrupalWebTestCase {
   protected $webUser;
 
-
   /**
    * Info for the simpleTest UI.
    */

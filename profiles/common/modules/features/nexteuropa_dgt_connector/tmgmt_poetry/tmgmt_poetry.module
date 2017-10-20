@@ -1200,7 +1200,6 @@ function tmgmt_poetry_permission() {
   );
 }
 
-
 /**
  * Provides main TMGMT job based on the given entity id.
  *
