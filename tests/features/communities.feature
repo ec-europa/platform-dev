@@ -19,4 +19,4 @@ Feature: Communities
     Given I run drush pmi nexteuropa_multilingual
     Then drush output should contain "not installed"
     Given I run drush pmi nexteuropa_communities
-    Then drush output should contain "not installed"
+    Then drush output should contain "nexteuropa_communities was not found"
