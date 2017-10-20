@@ -7,6 +7,7 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
+use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
 use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
@@ -129,9 +130,12 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $data = $this->overwriteRequestData($data, $parameters['data']);
 
       // Sending a review request to DGT Services.
-      $dgt_response = $this->sendReviewRequest($identifier, $data);
+      $client_action = 'request.create_review_request';
+      $dgt_response = $this->sendRequest($client_action, $identifier, $data);
 
       // Process the DGT response to get the Rules response.
+      $jobs[0]->client_action = $client_action;
+      $jobs[0]->client_request_data = $data;
       $rules_response = $this->processResponse($dgt_response, $jobs);
 
       /** @var TMGMTJob $job */
@@ -202,9 +206,12 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         $data = $this->overwriteRequestData($data, $parameters['data']);
 
         // Sending a review request to DGT Services.
-        $dgt_response = $this->sendTranslationRequest($identifier, $data);
+        $client_action = 'request.create_translation_request';
+        $dgt_response = $this->sendRequest($client_action, $identifier, $data);
 
         // Process the DGT response to get the Rules response.
+        $jobs[0]->client_action = $client_action;
+        $jobs[0]->client_request_data = $data;
         $rules_response = $this->processResponse($dgt_response, $jobs);
       }
       else {
@@ -271,46 +278,6 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     $this->logResponseData($response_data);
 
     return $response_data;
-  }
-
-  /**
-   * Sends the 'review' request to the DGT Service.
-   *
-   * @param array $identifier
-   *   An array with the identifier data.
-   * @param array $data
-   *   An array with the request data.
-   *
-   * @return \EC\Poetry\Messages\Responses\Status DGT Services response
-   *   DGT Services response
-   */
-  private function sendReviewRequest(array $identifier, array $data) {
-    // Instantiate the Poetry Client object.
-    $poetry = new Poetry($identifier);
-    $message = $poetry->get('request.send_review_request');
-    $message->withArray($data);
-
-    return $poetry->getClient()->send($message);
-  }
-
-  /**
-   * Sends the 'translation' request to the DGT Service.
-   *
-   * @param array $identifier
-   *   An array with the identifier data.
-   * @param array $data
-   *   An array with the request data.
-   *
-   * @return \EC\Poetry\Messages\Responses\Status DGT Services response
-   *   DGT Services response
-   */
-  private function sendTranslationRequest(array $identifier, array $data) {
-    // Instantiate the Poetry Client object.
-    $poetry = new Poetry($identifier);
-    $message = $poetry->get('request.create_request');
-    $message->withArray($data);
-
-    return $poetry->getClient()->send($message);
   }
 
 }

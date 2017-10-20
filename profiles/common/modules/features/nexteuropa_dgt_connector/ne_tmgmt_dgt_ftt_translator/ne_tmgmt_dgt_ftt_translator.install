@@ -69,6 +69,17 @@ function ne_tmgmt_dgt_ftt_translator_schema() {
         'type' => 'int',
         'not null' => TRUE,
       ),
+      'delay' => array(
+        'description' => "Delay date - The Unix timestamp.",
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+      'client_action' => array(
+        'description' => 'Client action.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
     ),
     'primary key' => array('id'),
   );
