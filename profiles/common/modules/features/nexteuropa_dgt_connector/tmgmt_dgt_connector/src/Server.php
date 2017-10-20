@@ -7,7 +7,7 @@
 namespace Drupal\tmgmt_dgt_connector;
 
 use EC\Poetry\Poetry;
-use Drupal\tmgmt_dgt_connector\TmgmtDgtConnectorSubscriber;
+use Drupal\tmgmt_dgt_connector\Subscriber;
 use Drupal\nexteuropa_core\Psr3Watchdog;
 use Psr\Log\LogLevel;
 
@@ -42,7 +42,7 @@ class Server {
       'log_level' => LogLevel::DEBUG,
     ]);
 
-    $poetry->getEventDispatcher()->addSubscriber(new TmgmtDgtConnectorSubscriber());
+    $poetry->getEventDispatcher()->addSubscriber(new Subscriber());
     $poetry->getServer()->handle();
 
     exit;

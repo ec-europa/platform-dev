@@ -18,7 +18,7 @@ use EC\Poetry\Messages\Notifications\StatusUpdated;
  *
  * @package Drupal\tmgmt_dgt_connector
  */
-class TmgmtDgtConnectorSubscriber implements EventSubscriberInterface {
+class Subscriber implements EventSubscriberInterface {
 
   /**
    * {@inheritdoc}
