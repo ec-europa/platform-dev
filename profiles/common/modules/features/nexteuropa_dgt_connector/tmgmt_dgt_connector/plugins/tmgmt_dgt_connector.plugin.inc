@@ -203,8 +203,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       $poetry = new Poetry($poetry_values);
 
       // Start building the request message.
-      /** @var EC\Poetry\Messages\Requests\CreateRequest $message */
-      $message = $poetry->get('request.create_request');
+      /** @var EC\Poetry\Messages\Requests\CreateTranslationRequest $message */
+      $message = $poetry->get('request.create_translation_request');
 
       $message->withDetails()
         ->setClientId('Job ID ' . $job->tjid)
