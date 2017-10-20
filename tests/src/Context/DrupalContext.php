@@ -32,9 +32,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   /**
    * Stores languages modified during test execution.
    *
-   * @see DrupalContext::setLanguageProperty()
-   *
    * @var array
+   *
+   * @see DrupalContext::setLanguageProperty()
    */
   protected $modifiedLanguages = [];
 
