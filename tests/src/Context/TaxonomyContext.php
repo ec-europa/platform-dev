@@ -116,6 +116,8 @@ class TaxonomyContext implements Context {
    *
    * @param string $term_name
    *    Name of the term.
+   * @param string $parent_name
+   *    Name of parent taxonomy.
    * @param string $vocabulary_name
    *    Name of the vocabulary.
    *

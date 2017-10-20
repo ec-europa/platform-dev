@@ -24,7 +24,6 @@ function multisite_drupal_workbench_moderation_node_access($node, $op, $account)
   return NODE_ACCESS_IGNORE;
 }
 
-
 /**
  * Implements hook_og_permission().
  */

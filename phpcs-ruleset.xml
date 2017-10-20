@@ -46,6 +46,17 @@
          this exception must exist to allow the removing rule and get OK from phpcs logs (all green).  -->
     <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
 
+    <!-- This module is not supported by Core team, so to progress with the cleanup
+         for QA AUTOMATION (NEPT-884 and NEPT-1387), this exception must existto allow
+         the removing of "Drupal.Commenting.FunctionComment.ParamMissingDefinition" rule
+         and has the phpcs logs OK (all green).  -->
+    <!--<exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>-->
+
+    <!-- This module is not supported by Core team, so to progress with the cleanup for QA AUTOMATION ticket NEPT-884
+         (NEPT-1387, NEPT-1389, NEPT-1390, NEPT-1391, NEPT-1393, NEPT-1396, NEPT-1397, NEPT-1398, NEPT-1400),
+         this exception must exist to allow the removing rule and get OK from phpcs logs (all green).  -->
+    <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
+
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>

@@ -596,6 +596,7 @@ function _tmgmt_poetry_wsdl() {
  * Local Exception class.
  */
 class TMGMTPoetryException extends Exception {
+
   /**
    * Override of the parent __construct method.
    */

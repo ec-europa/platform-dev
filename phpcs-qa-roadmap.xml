@@ -593,8 +593,13 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Closing brace indented incorrectly. -->
-    <rule ref="Drupal.WhiteSpace.ScopeClosingBrace.Indent">
+    <!-- Do not concatenate strings to translatable strings, they should be part of the t() argument and you should use placeholders. -->
+    <rule ref="Drupal.Semantics.FunctionT.ConcatString">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Missing file doc comment. -->
+    <rule ref="Drupal.Commenting.FileComment.Missing">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
@@ -608,11 +613,6 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Unused private method. -->
-    <rule ref="DrupalPractice.Objects.UnusedPrivateMethod.UnusedMethod">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Do not use the raw $form_state['input'], use $form_state['values'] instead where possible. -->
     <rule ref="DrupalPractice.General.FormStateInput.Input">
         <exclude-pattern>*</exclude-pattern>
@@ -623,23 +623,23 @@
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
+    <!-- The @var tag must be the first tag in a member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.VarOrder">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
+    <!-- Content missing for @var tag in member variable comment. -->
+    <rule ref="Drupal.Commenting.VariableComment.EmptyVar">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+
     <!-- Expected 1 blank line after function. -->
     <rule ref="Squiz.WhiteSpace.FunctionSpacing.After">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 
-    <!-- Expected 1 blank line before function. -->
-    <rule ref="Squiz.WhiteSpace.FunctionSpacing.Before">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
     <!-- Expected 1 space after FUNCTION keyword. -->
     <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction">
-        <exclude-pattern>*</exclude-pattern>
-    </rule>
-
-    <!-- Expected 1 space before opening brace. -->
-    <rule ref="Squiz.Functions.MultiLineFunctionDeclaration.SpaceBeforeBrace">
         <exclude-pattern>*</exclude-pattern>
     </rule>
 

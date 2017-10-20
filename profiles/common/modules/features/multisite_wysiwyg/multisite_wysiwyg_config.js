@@ -100,13 +100,13 @@
   });
 
   // Ajax call to check if an URL exists, update/submit the dialog box.
-  function urlExists(url){
+  function urlExists(url) {
     $('#url_check_msg').html('Checking url... <img src="' + Drupal.settings.basePath + 'misc/throbber-active.gif"/>');
 
     $.ajax({
       type: "GET",
       url: url,
-      success: function(response){
+      success: function(response) {
         if (response == true) {
           $('#url_check_msg').html('URL ok');
           $('#url_check_msg').css({ 'color': 'green', 'font-weight': 'bold' });
