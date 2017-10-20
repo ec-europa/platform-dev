@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Entity\ViewModeTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token\Entity;
 
 /**
@@ -150,6 +145,8 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    *
    * @param string $view_mode
    *    View mode machine name.
+   * @param string|int $entity_id
+   *    The entity identifier.
    *
    * @return string
    *    Formatted token name.

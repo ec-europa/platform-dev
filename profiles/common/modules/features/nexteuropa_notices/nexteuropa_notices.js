@@ -3,7 +3,7 @@
  * Javascripts for notices.
  */
 
-(function($){
+(function($) {
 
   Drupal.behaviors.notices = {
     attach: function(context, settings) {

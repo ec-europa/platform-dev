@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\HashTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token;
 
 /**
@@ -17,9 +12,7 @@ class HashTokenHandler extends TokenAbstractHandler {
   const DEFAULT_PREFIX = 'prefix';
   const TOKEN_NAME = 'url-hash';
 
-  /**
-   * Character sets used in encoding routine.
-   */
+  // Character sets used in encoding routine.
   protected $sliceChars   = "5zqcn9l7mg0rskjb621pwtv3xd84fh";
   protected $typeChars    = "d3gxr6zws4fb2qp8mk9n1vtcj7l5h0";
   protected $firstChars   = "6svjw1z7dmt9kqgcr405b3nxp82hlf";

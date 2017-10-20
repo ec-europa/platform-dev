@@ -17,7 +17,6 @@ function taxonomy_browser_permission() {
   );
 }
 
-
 /**
  * Implements hook_menu().
  */

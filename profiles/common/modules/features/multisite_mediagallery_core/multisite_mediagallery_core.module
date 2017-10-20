@@ -6,7 +6,6 @@
 
 include_once 'multisite_mediagallery_core.features.inc';
 
-
 /**
  * Implements hook_token_info().
  */

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrupalContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
@@ -37,9 +32,9 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   /**
    * Stores languages modified during test execution.
    *
-   * @see DrupalContext::setLanguageProperty()
-   *
    * @var array
+   *
+   * @see DrupalContext::setLanguageProperty()
    */
   protected $modifiedLanguages = [];
 
@@ -192,7 +187,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
    *
    * @param string $text_format
    *    The filter format name or its machine name.
-   * @param TableNode $table
+   * @param Behat\Gherkin\Node\TableNode $table
    *    List of available content property.
    *
    * @return array

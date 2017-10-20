@@ -93,19 +93,4 @@ class nexteuropa_token_ckeditor_bean_handler_field_selection extends views_handl
     return $view_modes;
   }
 
-  /**
-   * Get view mode label.
-   *
-   * @param string $view_mode
-   *    View mode machine name.
-   *
-   * @return mixed
-   *    View mode options array.
-   */
-  private function get_view_mode_label($view_mode) {
-    $view_modes = $this->get_view_modes_options();
-
-    return $view_modes[$view_mode];
-  }
-
 }

@@ -10,6 +10,7 @@
  * @codingStandardsIgnoreFile
  */
 class nexteuropa_formatters_views_card_rows extends views_plugin_row {
+
   /**
    * Definition.
    */

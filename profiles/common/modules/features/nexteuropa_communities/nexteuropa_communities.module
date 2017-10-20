@@ -233,7 +233,7 @@ function nexteuropa_communities_node_access($node, $op, $account) {
  * @param string $arg
  *   The name or nid of the community to load.
  *
- * @return stdClass | string
+ * @return stdClass|string
  *   Return the instance of a community, or
  */
 function community_load($arg) {

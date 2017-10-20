@@ -472,7 +472,6 @@ function _nexteuropa_varnish_prepare_request_options($path_regexp_rules = array(
   );
 }
 
-
 /**
  * Get the base headers for the web frontend cache purge requests.
  *

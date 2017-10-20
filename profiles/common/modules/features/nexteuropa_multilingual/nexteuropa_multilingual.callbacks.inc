@@ -26,7 +26,6 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
   return $language_url;
 }
 
-
 /**
  * Function nexteuropa_multilingual_language_negotiation_url_rewrite_callback.
  *
@@ -87,7 +86,6 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   }
 
 }
-
 
 /**
  * Extract the suffix from the path.
