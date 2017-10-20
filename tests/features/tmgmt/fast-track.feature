@@ -84,7 +84,7 @@ Feature: Fast track
         callback_password: pass
         dgt_ftt_username: user
         dgt_ftt_password: pass
-        dgt_ftt_web_id: Test
+        dgt_ftt_workflow_code: STS
       organization:
         responsible: John Smith
         author: John Smith
