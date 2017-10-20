@@ -39,6 +39,8 @@ default:
         - Drupal\nexteuropa\Context\DrushContext:
             drush_bin: '{{ drush.bin }}'
             db_dump_location: '{{ drush.db.dump }}'
+        - EC\Behat\PoetryExtension\Context\PoetryContext
+        - Drupal\nexteuropa\Context\PoetryContext
       filters:
         tags: "~@wip&&~@communities&&~@ec_resp_theme&&~@theme_wip"
   extensions:
@@ -100,6 +102,10 @@ default:
     Bex\Behat\ScreenshotExtension:
       screenshot_taking_mode: failed_scenarios
       active_image_drivers: img42
+    EC\Behat\PoetryExtension:
+      application:
+        base_url: '{{ behat.base_url }}'
+        endpoint: '/tmgmt_dgt_connector/server'
   formatters:
     {{ behat.formatter.name }}: ~
 

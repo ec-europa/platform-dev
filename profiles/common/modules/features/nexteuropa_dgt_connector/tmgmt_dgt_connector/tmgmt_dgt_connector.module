@@ -6,6 +6,25 @@
  */
 
 define('TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH', 300);
+define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_dgt_connector_menu() {
+  $items = array();
+  $items['tmgmt_dgt_connector/server'] = array(
+    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::endpoint',
+    // Authentication is done within the service.
+    'access callback' => TRUE,
+  );
+  $items['tmgmt_dgt_connector/wsdl'] = array(
+    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::wsdl',
+    // Authentication is done within the service.
+    'access callback' => TRUE,
+  );
+  return $items;
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().

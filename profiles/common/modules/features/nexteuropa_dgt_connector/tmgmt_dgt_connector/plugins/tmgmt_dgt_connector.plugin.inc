@@ -147,7 +147,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       if (strpos($job->reference, '_POETRY_') === FALSE) {
         $job->reference .= '_POETRY_' . $demande_id->getFormattedIdentifier();
       }
-      $job->submitted('Job has been successfully submitted for translation. Project ID is: %project_id',
+      $job->submitted('Job was successfully sent for translation. Project ID is: %project_id',
         array('%project_id' => $job->reference));
     }
   }
@@ -191,7 +191,6 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       'service.username' => $settings['poetry_user'],
       'service.password' => $settings['poetry_password'],
       'client.wsdl' => $callback_address,
-      'notification.endpoint' => 'http://my-site.com/my/poetry/notifications',
     );
     if (isset($id_data['numero'])) {
       $poetry_values['identifier.number'] = $id_data['numero'];
