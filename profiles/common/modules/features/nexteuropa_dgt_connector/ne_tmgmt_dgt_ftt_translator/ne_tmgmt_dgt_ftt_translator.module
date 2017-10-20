@@ -171,7 +171,9 @@ function _ne_tmgmt_dgt_ftt_translator_callback() {
     'notification.username' => $settings['callback_username'],
     'notification.password' => $settings['callback_password'],
     'logger' => new Psr3Watchdog(),
+    'log_level' => variable_get('poetry_client_log_level', FALSE),
   ]);
+
   $poetry->getEventDispatcher()
     ->addSubscriber(new TMGMTDgtFttSubscriber());
   $poetry->getServer()->handle();

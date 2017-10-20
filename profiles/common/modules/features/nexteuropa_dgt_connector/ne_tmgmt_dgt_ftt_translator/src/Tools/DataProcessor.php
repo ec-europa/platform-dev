@@ -8,6 +8,7 @@
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
+use Drupal\nexteuropa_core\Psr3Watchdog;
 use EntityFieldQuery;
 use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
@@ -671,6 +672,8 @@ trait DataProcessor {
    */
   private function sendRequest($client_action, array $identifier, array $data = array()) {
     // Instantiate the Poetry Client object.
+    $identifier['logger'] = new Psr3Watchdog();
+    $identifier['log_level'] = variable_get('poetry_client_log_level', FALSE);
     $poetry = new Poetry($identifier);
     $message = $poetry->get($client_action);
 

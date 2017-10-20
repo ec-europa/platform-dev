@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "901e8c90963263990a8e6a2b3936cc24",
+    "content-hash": "2efc4d744352823fbb76231f93d730cb",
     "packages": [
         {
             "name": "ec-europa/oe-poetry-client",
-            "version": "0.3.0",
+            "version": "0.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/oe-poetry-client.git",
-                "reference": "675878b627c73a9bedbb0d83ac8ddd88f1931a3a"
+                "reference": "1b7d1fb93ec0abdec415b4a382fccdb9e71f95da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/oe-poetry-client/zipball/675878b627c73a9bedbb0d83ac8ddd88f1931a3a",
-                "reference": "675878b627c73a9bedbb0d83ac8ddd88f1931a3a",
+                "url": "https://api.github.com/repos/ec-europa/oe-poetry-client/zipball/1b7d1fb93ec0abdec415b4a382fccdb9e71f95da",
+                "reference": "1b7d1fb93ec0abdec415b4a382fccdb9e71f95da",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
                 "EUPL-1.1"
             ],
             "description": "Client library for the European Commission Poetry Service",
-            "time": "2017-10-19T16:07:47+00:00"
+            "time": "2017-10-20T12:01:02+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1934,7 +1934,7 @@
         },
         {
             "name": "ec-europa/oe-poetry-behat",
-            "version": "dev-master",
+            "version": "0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ec-europa/oe-poetry-behat.git",
@@ -2369,37 +2369,40 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.6.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102"
+                "reference": "3b8a3a99ba1f6a3952ac2747d989303cbd6b7a3e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/8e6e04167378abf1ddb4d3522d8755c5fd90d102",
-                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3b8a3a99ba1f6a3952ac2747d989303cbd6b7a3e",
+                "reference": "3b8a3a99ba1f6a3952ac2747d989303cbd6b7a3e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": "^5.6 || ^7.0"
             },
             "require-dev": {
-                "doctrine/collections": "1.*",
-                "phpunit/phpunit": "~4.1"
+                "doctrine/collections": "^1.0",
+                "doctrine/common": "^2.6",
+                "phpunit/phpunit": "^4.1"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "DeepCopy\\": "src/DeepCopy/"
-                }
+                },
+                "files": [
+                    "src/DeepCopy/deep_copy.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Create deep copies (clones) of your objects",
-            "homepage": "https://github.com/myclabs/DeepCopy",
             "keywords": [
                 "clone",
                 "copy",
@@ -2407,7 +2410,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-04-12T18:52:22+00:00"
+            "time": "2017-10-19T19:58:43+00:00"
         },
         {
             "name": "nikic/php-parser",
