@@ -91,7 +91,7 @@ Feature: Fast track
         requester: IE/CE/DIGIT/A/3
       contacts:
         author: john_smith
-        secretaire: john_smith
+        secretary: john_smith
         contact: john_smith
         responsible: john_smith
       feedback_contacts:

@@ -69,11 +69,6 @@ function ne_tmgmt_dgt_ftt_translator_schema() {
         'type' => 'int',
         'not null' => TRUE,
       ),
-      'part' => array(
-        'description' => "'Partie' in the official DGT service specification.",
-        'type' => 'int',
-        'not null' => TRUE,
-      ),
       'delay' => array(
         'description' => "Delay date - The Unix timestamp.",
         'type' => 'int',
