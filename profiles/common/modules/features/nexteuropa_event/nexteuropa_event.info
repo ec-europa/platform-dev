@@ -62,4 +62,3 @@ features[views_view][] = calendar
 features[views_view][] = ical
 features_exclude[field_base][og_group_ref] = og_group_ref
 features_exclude[field_base][group_content_access] = group_content_access
-project path = profiles/common/modules/features

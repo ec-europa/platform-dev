@@ -72,7 +72,7 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
       'og_group_ref' => $field,
       'status' => 1,
     );
-    $node2 = $this->drupalCreateNode($settings);
+    $this->drupalCreateNode($settings);
     $this->drupalGet('community/community-test1/articles/article-test1');
     $this->assertRaw('Article test1', t('Article created.'));
 

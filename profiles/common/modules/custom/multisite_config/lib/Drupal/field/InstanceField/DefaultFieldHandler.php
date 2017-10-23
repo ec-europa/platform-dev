@@ -30,11 +30,11 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Construct instance field handler with required information.
    *
    * @param string $field_name
-   *    Machine name of an existing base field.
+   *   Machine name of an existing base field.
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle
-   *    Bundle machine name.
+   *   Bundle machine name.
    */
   public function __construct($field_name, $entity_type, $bundle) {
 
@@ -51,10 +51,10 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set field label.
    *
    * @param string $label
-   *    Field label.
+   *   Field label.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
+   *   Current object.
    */
   public function label($label) {
     $this->instance['label'] = $label;
@@ -65,10 +65,10 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set weather the field is required or not.
    *
    * @param bool $required
-   *    TRUE if required, FALSE otherwise.
+   *   TRUE if required, FALSE otherwise.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
+   *   Current object.
    */
   public function required($required) {
     $this->instance['required'] = $required;
@@ -79,10 +79,10 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set field widget type.
    *
    * @param string $widget_type
-   *    Widget type machine name.
+   *   Widget type machine name.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
+   *   Current object.
    */
   public function widget($widget_type) {
     $this->instance['widget'] = array(
@@ -95,14 +95,14 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Set field widget type.
    *
    * @param string $display_name
-   *    Entity display machine name.
+   *   Entity display machine name.
    * @param string $formatter_type
-   *    Formatter type machine name.
+   *   Formatter type machine name.
    * @param string $label
-   *    Label settings, either 'inline', 'above' or 'hidden'.
+   *   Label settings, either 'inline', 'above' or 'hidden'.
    *
-   * @return \Drupal\field\InstanceField\DefaultFieldHandler $this
-   *    Current object.
+   * @return \Drupal\field\InstanceField\DefaultFieldHandler
+   *   Current object.
    */
   public function display($display_name, $formatter_type, $label = 'above') {
     $this->instance['display'][$display_name]['type'] = $formatter_type;
@@ -116,7 +116,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Return field array built using field handler methods.
    *
    * @return array
-   *    Field settings array.
+   *   Field settings array.
    */
   public function getField() {
     return $this->instance;
@@ -126,7 +126,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Create field instance using constructed instance array.
    *
    * @return array
-   *    Field array as returned by Field API CRUD operations.
+   *   Field array as returned by Field API CRUD operations.
    */
   public function save() {
     return field_create_instance($this->instance);

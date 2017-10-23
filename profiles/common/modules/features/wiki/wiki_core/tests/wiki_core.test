@@ -10,7 +10,7 @@
 /**
  * Defines a base class for testing the Wiki feature.
  */
-class MultisiteWikiStandardFeatureTest extends DrupalWebTestCase {
+class WikiCoreFeatureTest extends DrupalWebTestCase {
 
   /**
    * Info for the simpleTest UI.

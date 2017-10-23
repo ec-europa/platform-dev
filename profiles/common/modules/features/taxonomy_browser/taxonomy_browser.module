@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Allow to filter view with a taxonomy tree.
@@ -52,7 +53,7 @@ function taxonomy_browser_form_form_taxonomy_browser_settings_alter(&$form, &$fo
  */
 function _taxonomy_browser_form_submit($form, &$form_state) {
   $vids_available = taxonomy_get_vocabularies();
-  $vids_selected = $form_state['input']['taxonomy_browser_vocabulary'];
+  $vids_selected = $form_state['values']['taxonomy_browser_vocabulary'];
 
   foreach ($vids_available as $v) {
     if (!in_array($v->vid, $vids_selected, TRUE)) {
@@ -189,7 +190,7 @@ function _taxonomy_browser_taxonomy_create_tree($vid, $path, $ajax = FALSE, $sel
  * @param string $children_key
  *   Name of the key of children.
  *
- * @return array $return
+ * @return array
  *   Returnable array what contains the result tree.
  */
 function _taxonomy_browser_recursive_admittance(array $tree, $children_key = 'children') {
@@ -214,12 +215,12 @@ function _taxonomy_browser_recursive_admittance(array $tree, $children_key = 'ch
  * @param array $tree
  *   Input array without recounting.
  *
- * @return int $sum
+ * @return int
  *   Sum of the items.
  */
 function _taxonomy_browser_recount_items(array &$tree) {
   $sum = 0;
-  foreach ($tree as $key => &$value) {
+  foreach ($tree as &$value) {
     $count = 0;
     // Recurse into child elements.
     if (!empty($value['children'])) {
@@ -242,7 +243,6 @@ function taxonomy_browser_block_info() {
     if (!empty($vid)) {
       $vocab = taxonomy_vocabulary_load($vid);
       if ($vocab) {
-        $block_name = str_replace(' ', '', $vocab->machine_name);
         $blocks['taxonomy_browser_vocabulary_' . $vocab->vid] = array(
           'info' => t('taxonomy_browser: @vocabulary', array('@vocabulary' => $vocab->name)),
         );
@@ -258,14 +258,12 @@ function taxonomy_browser_block_info() {
  */
 function taxonomy_browser_block_configure($delta = '') {
   $form = array();
-  $vids = variable_get('taxonomy_browser_vocabulary', array());
-  $blocks = array();
   $view_list = views_get_all_views();
   $view_options = array();
   $view_options[0] = ' - Please choose one from the list!';
-  foreach ($view_list as $view_name => $view) {
+  foreach ($view_list as $view) {
     if (!$view->disabled) {
-      foreach ($view->display as $display_name => $display) {
+      foreach ($view->display as $display) {
         if ($display->display_plugin == 'page') {
           $name = !empty($view->human_name) ? $view->human_name : $view->name;
           $name .= ' - ';
@@ -275,7 +273,7 @@ function taxonomy_browser_block_configure($delta = '') {
       }
     }
   }
-  $vid = substr($delta, 28);
+  $vid = drupal_substr($delta, 28);
   $vocabulary = taxonomy_vocabulary_load($vid);
   $form['vid'] = array(
     '#type' => 'hidden',
@@ -303,7 +301,7 @@ function taxonomy_browser_block_save($delta = '', $edit = array()) {
  */
 function taxonomy_browser_block_view($delta = '') {
   $block = array();
-  $vid = substr($delta, 28);
+  $vid = drupal_substr($delta, 28);
   $vocabulary = taxonomy_vocabulary_load($vid);
   if (strpos($delta, 'taxonomy_browser_vocabulary_') === 0 && $vocabulary) {
     // Block will be only displayed in views.
@@ -367,7 +365,6 @@ function _taxonomy_browser_create_block_content($vid, $vocabulary) {
 
   drupal_add_library('system', 'drupal.ajax');
 
-  $view = views_get_page_view();
   // don't use views path, they are rewrited on communities pages.
   // @code
   // $view_path = $view->get_path();

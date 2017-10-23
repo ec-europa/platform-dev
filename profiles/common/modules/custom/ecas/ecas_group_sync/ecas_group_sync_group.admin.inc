@@ -26,8 +26,6 @@ function ecas_group_sync_mapping_group_form($form, &$form_state) {
     '#description' => t('to delete a mapping rule, put the mapping value to none'),
   );
 
-  // @todo The variable $none_option is unused in its scope.
-  $none_option = array("0" => "none");
   $id_mapping = 0;
 
   $query = db_select('ecas_sync_mapping', 'esm');
@@ -131,8 +129,7 @@ function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
 
   for ($i = 0; $i < $values['count_mapping']; $i++) {
     if ($values["LDAPfield_value_" . $i] != '0' && $values["synctype_value_" . $i] != '0' && $values['synctype_extra_value_' . $i] != '0') {
-      // @todo The variable $id is unused in its scope.
-      $id = db_insert('ecas_sync_mapping')
+      db_insert('ecas_sync_mapping')
         ->fields(array(
           'LDAPfield' => $values['LDAPfield_' . $i],
           'LDAPfield_value' => $values['LDAPfield_value_' . $i],
@@ -146,8 +143,7 @@ function ecas_group_sync_mapping_group_form_submit($form, &$form_state) {
 
   for ($i = 0; $i < $values['count_extra_mapping']; $i++) {
     if ($values["synctype_value_extra_" . $i] != '0' && $values["LDAPfield_value_extra_" . $i] != '0' && $values["synctype_extra_value_extra_" . $i] != '0') {
-      // @todo The variable $id is unused in its scope.
-      $id = db_insert('ecas_sync_mapping')
+      db_insert('ecas_sync_mapping')
         ->fields(array(
           'LDAPfield' => $values['LDAPfield_extra_' . $i],
           'LDAPfield_value' => $values['LDAPfield_value_extra_' . $i],

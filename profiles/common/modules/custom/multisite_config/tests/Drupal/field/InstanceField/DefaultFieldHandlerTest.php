@@ -69,7 +69,6 @@ class DefaultFieldHandlerTest extends ConfigAbstractTest {
       ->display('default', $default_formatter, 'inline')
       ->display('teaser', $teaser_formatter);
 
-    $instance = $handler->getField();
     $handler->save();
 
     $saved_instance = field_info_instance('node', $field_name, self::CONTENT_TYPE_WITHOUT_FIELDS);

@@ -259,10 +259,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Check for PHP errors log.
    *
    * @param Behat\Behat\Hook\Scope\AfterStepScope $scope
-   *    AfterStep hook scope object.
+   *   AfterStep hook scope object.
    *
    * @throws \Exception
-   *    Print out descriptive error message by throwing an exception.
+   *   Print out descriptive error message by throwing an exception.
    *
    * @AfterStep
    */
@@ -314,10 +314,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Assert the given class exists.
    *
    * @param string $class_name
-   *    Fully namespaced class name.
+   *   Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class specified has not been found.
+   *   Throw exception if class specified has not been found.
    *
    * @Then the class :arg1 exists in my codebase
    */
@@ -333,7 +333,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Given I am a/an :roles user, member of entity :entity_name of type :entity_type as :group_role
    */
   public function iAmMemberOfEntityHavingRole($roles, $group_role, $entity_name, $entity_type) {
-    $admin = user_load(1);
     // Create the user.
     $account = (object) array(
       'name' => $this->getRandom()->name(8),
@@ -434,10 +433,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Check if given field is translatable.
    *
    * @param string $field_name
-   *    Field machine name.
+   *   Field machine name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if field is not translatable.
+   *   Throw exception if field is not translatable.
    *
    * @Given the :field_name field is translatable
    */

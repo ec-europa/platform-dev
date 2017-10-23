@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the multisite_mediagallery_core feature.
@@ -26,7 +27,6 @@ function multisite_mediagallery_core_token_info() {
  */
 function multisite_mediagallery_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
-  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
   if ($type == 'Breadcrumb_gallery') {
     foreach ($tokens as $name => $original) {
@@ -105,7 +105,7 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
       else {
         $local_data = $sorted_media_items[$key];
       }
-      $short_name = (strlen(filter_xss($local_data['filename'])) > 35) ? substr(filter_xss($local_data['filename']), 0, 30) . '[...]' : filter_xss($local_data['filename']);
+      $short_name = (drupal_strlen(filter_xss($local_data['filename'])) > 35) ? drupal_substr(filter_xss($local_data['filename']), 0, 30) . '[...]' : filter_xss($local_data['filename']);
 
       if (isset($local_data['filemime'])) {
         $type = explode('/', $local_data['filemime']);
@@ -131,10 +131,6 @@ function multisite_mediagallery_core_preprocess_node(&$variables) {
 
           if (isset($local_data['field_picture_description'][LANGUAGE_NONE][0]['value'])) {
             $output .= '<p>' . filter_xss($local_data['field_picture_description'][LANGUAGE_NONE][0]['value']) . '</p>';
-          }
-
-          if (!empty($tags)) {
-            $output .= '<p>' . $tags . '</p>';
           }
 
           $output .= '<p><a href="' . $base_url . '/' . $picture_original . '" title="' . filter_xss($local_data['filename']) . '" target="_blank">' . t('View full size picture') . '</a></p>';

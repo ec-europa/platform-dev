@@ -39,7 +39,7 @@ class HelperMethodsTest extends \PHPUnit_Framework_TestCase {
    * Provides test data for testTrimmingPath().
    *
    * @return array
-   *  The test data.
+   *   The test data.
    */
   public function trimmingPathDataProvider() {
     return array(

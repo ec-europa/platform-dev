@@ -344,7 +344,7 @@ PHP;
    * @param string $token
    *   A list of token, by default is space, comma and semicolon.
    *
-   * @return array $array
+   * @return array
    *   A list of items in an array.
    */
   private function explodeToken($string, $token = ' ,;') {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NextEuropa GeoField feature.
@@ -52,8 +53,6 @@ function nexteuropa_geofield_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $widget = $element;
-  $widget['#delta'] = $delta;
   $value = isset($items[$delta]) ? $items[$delta] : '';
   $settings = $instance['widget']['settings'];
 
@@ -380,7 +379,7 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
       $error = $geocode->error;
     }
     else {
-      $geocode_decoded = json_decode($geocode->data);
+      $geocode_decoded = drupal_json_decode($geocode->data);
 
       if ($geocode_decoded->geocodingRequestsCollection[0]->foundCount < 1) {
         $error = t('No address found.');

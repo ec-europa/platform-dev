@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Webservice definition and behaviour.
@@ -122,7 +123,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
 
     // Watchdog is only temporary information, save the file to the filesystem.
     $path = 'public://tmgmt_file/dgt_responses/' . $reference . '.xml';
-    $dirname = dirname($path);
+    $dirname = drupal_dirname($path);
     if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
       file_save_data($msg, $path);
     }
@@ -244,7 +245,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
         if ($status['type'] == 'attribution') {
           if (!empty($status['lgCode'])) {
             $reference = '%' . $reference;
-            $language_code = strtolower((string) $status['lgCode']);
+            $language_code = drupal_strtolower((string) $status['lgCode']);
             $language_code = $poetry_translator->mapToLocalLanguage($language_code);
             $language_job = array($language_code);
           }
@@ -282,7 +283,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
     // </ATTRIBUTIONS>.
     foreach ($request->attributions as $attributions) {
       $reference = '%' . $reference;
-      $language_code = strtolower((string) $attributions['lgCode']);
+      $language_code = drupal_strtolower((string) $attributions['lgCode']);
       $language_code = $poetry_translator->mapToLocalLanguage($language_code);
       $language_job = array($language_code);
 
@@ -292,7 +293,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
       $job = tmgmt_job_load($ids->tjid);
       $job_item = tmgmt_job_item_load($ids->tjiid);
 
-      if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), strtolower((string) $attributions['format'])) === FALSE))) {
+      if (!isset($attributions['format']) || (isset($attributions['format']) && (strpos($job->getSetting('export_format'), drupal_strtolower((string) $attributions['format'])) === FALSE))) {
         $message_job->addMessage(
           t('Received format "@format" is not compatible, translation job format "@job_format" should be used instead'),
           array(
@@ -369,7 +370,7 @@ function FPFISPoetryIntegrationRequest($user, $password, $msg) {
               $name = "JobID" . $job->tjid . '_' . $job->source_language . '_' . $job->target_language;
               $path = 'public://tmgmt_file/' . $name . '.' . $job->getSetting('export_format');
 
-              $dirname = dirname($path);
+              $dirname = drupal_dirname($path);
               if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY)) {
                 $file = file_save_data($content, $path);
                 file_usage_add($file, 'tmgmt_file', 'tmgmt_job', $job->tjid);
@@ -481,8 +482,8 @@ function _tmgmt_poetry_replace_job_in_content($content, $job, $job_item) {
           /** @var SimpleXMLElement $div */
           foreach ($parent_div->div as $div) {
             if ($div['class'] == 'atom') {
-              $data = substr($div['id'], 1);
-              $data = base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+              $data = drupal_substr($div['id'], 1);
+              $data = base64_decode(str_pad(strtr($data, '-_', '+/'), drupal_strlen($data) % 4, '=', STR_PAD_RIGHT));
               $data = explode(']', $data);
               $data[0] = $job_item->tjiid;
               $data = implode(']', $data);

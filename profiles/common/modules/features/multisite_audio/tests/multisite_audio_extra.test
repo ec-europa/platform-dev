@@ -40,9 +40,7 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
    * - Tests that both audio fields are enabled in the add node form.
    */
   public function testAudioField() {
-    $content_type_machine = strtolower($this->randomName(10));
-    // @todo The $title variable is unused.
-    $title = $this->randomName(20);
+    $content_type_machine = drupal_strtolower($this->randomName(10));
 
     // Create and login user.
     $account = $this->drupalCreateUser(array('administer content types'));
@@ -60,8 +58,8 @@ class MultisiteAudioFeatureTest extends DrupalWebTestCase {
     $this->drupalPost(NULL, $edit, t('Save and add fields'));
     $this->assertText(t('The content type @name has been added.', array('@name' => $content_type_machine)));
 
-    $single_audio_field = strtolower($this->randomName(10));
-    $multiple_audio_field = strtolower($this->randomName(10));
+    $single_audio_field = drupal_strtolower($this->randomName(10));
+    $multiple_audio_field = drupal_strtolower($this->randomName(10));
 
     // Description of field to be created.
     $fields[$single_audio_field] = array('cardinality' => 1);

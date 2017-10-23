@@ -6,6 +6,7 @@ package = Multisite OG Features
 dependencies[] = events_core
 dependencies[] = field_group
 
+features[context][] = event_posts
 features[ctools][] = context:context:3
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1

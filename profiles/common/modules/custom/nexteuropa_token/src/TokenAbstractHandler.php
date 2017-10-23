@@ -13,10 +13,10 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
    * Returns true if passed argument is a valid token type.
    *
    * @param string $type
-   *    Token type machine name.
+   *   Token type machine name.
    *
    * @return bool
-   *    TRUE if valid token type, FALSE otherwise.
+   *   TRUE if valid token type, FALSE otherwise.
    */
   protected function isValidTokenType($type) {
     $types = $this->getEntityTokenTypes();
@@ -27,7 +27,7 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
    * Get list of entity info arrays, keyed by the entity's token-like name.
    *
    * @return array
-   *    List of entity info arrays.
+   *   List of entity info arrays.
    */
   protected function getEntityTokenTypes() {
     $return = array();
@@ -47,10 +47,10 @@ abstract class TokenAbstractHandler implements TokenHandlerInterface {
    * Get an entity key ID given the entity's token-like name.
    *
    * @param string $type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @return string
-   *    Entity ID key.
+   *   Entity ID key.
    */
   protected function getEntityKeysId($type) {
     $token_types = $this->getEntityTokenTypes();

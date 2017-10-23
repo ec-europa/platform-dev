@@ -211,16 +211,16 @@ class MessageContext extends DrupalExtensionMessageContext {
    * Internal callback to check for a specific message in a given context.
    *
    * @param string $message
-   *    The message to be checked.
+   *   The message to be checked.
    * @param string $selector
-   *    The css selector.
+   *   The css selector.
    * @param string $exception_msg_none
-   *    The message being thrown when no message is contained, string
-   *    should contain one '%s' as a placeholder for the current URL.
+   *   The message being thrown when no message is contained, string
+   *   should contain one '%s' as a placeholder for the current URL.
    * @param string $exception_msg_missing
-   *    The message being thrown when the message is not contained, string
-   *    should contain two '%s' as placeholders for the current URL and the
-   *    message.
+   *   The message being thrown when the message is not contained, string
+   *   should contain two '%s' as placeholders for the current URL and the
+   *   message.
    *
    * @throws \Exception
    */
@@ -241,13 +241,13 @@ class MessageContext extends DrupalExtensionMessageContext {
    * Checks if the current page does not contain the given message.
    *
    * @param string $message
-   *    The message to be checked.
+   *   The message to be checked.
    * @param string $selector
-   *    The css selector.
+   *   The css selector.
    * @param string $exception_msg
-   *    The message being thrown when the message is contained, string
-   *    should contain two '%s' as placeholders for the current URL and the
-   *    message.
+   *   The message being thrown when the message is contained, string
+   *   should contain two '%s' as placeholders for the current URL and the
+   *   message.
    *
    * @throws \Exception
    */
@@ -266,7 +266,7 @@ class MessageContext extends DrupalExtensionMessageContext {
    * Helps to determine if the current page is an admin page.
    *
    * @return bool
-   *    TRUE if it is an admin page
+   *   TRUE if it is an admin page
    */
   private function isCurrentPageAdmin() {
     $base_url = $this->getMinkParameter('base_url');

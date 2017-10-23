@@ -8,7 +8,7 @@
 /**
  * File translation handler.
  */
-class EntityTranslationFileHandler extends EntityTranslationDefaultHandler {
+class NexteuropaMultilingualEntityTranslationFileHandler extends EntityTranslationDefaultHandler {
 
   /**
    * Constructor.

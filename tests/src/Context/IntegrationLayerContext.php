@@ -332,7 +332,7 @@ class IntegrationLayerContext implements Context {
    *   """
    *
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
+   *   PyString containing configuration in YAML format.
    *
    * @Given the following Integration Layer node producer is created:
    */
@@ -370,7 +370,7 @@ class IntegrationLayerContext implements Context {
    *   """
    *
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
+   *   PyString containing configuration in YAML format.
    *
    * @Given the following Integration Layer node consumer is created:
    */
@@ -406,7 +406,7 @@ class IntegrationLayerContext implements Context {
    *   """
    *
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
+   *   PyString containing configuration in YAML format.
    *
    * @Given the following Integration Layer resource schema is created:
    */
@@ -432,7 +432,7 @@ class IntegrationLayerContext implements Context {
    * Assert that configuration array is actually valid.
    *
    * @param array $configuration
-   *    Configuration array.
+   *   Configuration array.
    */
   protected function assertValidConfiguration(array $configuration) {
     assert($configuration, hasKey('name'));
@@ -469,13 +469,13 @@ class IntegrationLayerContext implements Context {
    *     """
    *
    * @param string $producer_name
-   *    Producer machine name.
+   *   Producer machine name.
    * @param string $type
-   *    Node type.
+   *   Node type.
    * @param string $title
-   *    Node title.
+   *   Node title.
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    Expected document in YAML format.
+   *   Expected document in YAML format.
    *
    * @Then the :producer_name producer builds the following document for the :type with title :title:
    */

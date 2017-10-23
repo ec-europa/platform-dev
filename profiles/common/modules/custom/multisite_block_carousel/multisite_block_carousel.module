@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file for multisite_block_carousel.
@@ -94,7 +95,7 @@ function multisite_block_carousel_add_block_form_submit($form, &$form_state) {
     'delta',
     'cache',
   ));
-  foreach (list_themes() as $key => $theme) {
+  foreach (list_themes() as $theme) {
     if ($theme->status) {
       $region = !empty($form_state['values']['regions'][$theme->name]) ? $form_state['values']['regions'][$theme->name] : BLOCK_REGION_NONE;
       $query->values(array(

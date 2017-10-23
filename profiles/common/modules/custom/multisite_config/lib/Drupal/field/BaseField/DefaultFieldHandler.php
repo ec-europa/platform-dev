@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\field\BaseField;
+
 use Drupal\field\FieldHandlerInterface;
 
 /**
@@ -24,9 +25,9 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Create a base field, given its name and type.
    *
    * @param string $field_name
-   *    Field machine name.
+   *   Field machine name.
    * @param string $type
-   *    Field type, as specified by hook_field_info() implementations.
+   *   Field type, as specified by hook_field_info() implementations.
    */
   public function __construct($field_name, $type) {
     $this->field = array(
@@ -41,7 +42,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Return field array built using field handler methods.
    *
    * @return array
-   *    Field settings array.
+   *   Field settings array.
    */
   public function getField() {
     return $this->field;
@@ -51,7 +52,7 @@ class DefaultFieldHandler implements FieldHandlerInterface {
    * Create field instance using constructed instance array.
    *
    * @return array
-   *    Field array as returned by Field API CRUD operations.
+   *   Field array as returned by Field API CRUD operations.
    */
   public function save() {
     return field_create_field($this->field);
