@@ -140,10 +140,9 @@ function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous
  *   Returns true or false depending if all translations were received.
  */
 function ne_dgt_rules_all_translations_are_received(\EC\Poetry\Messages\Components\Identifier $identifier) {
-  $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
-  foreach ($ftt_mappings as $ftt_map) {
-    $job = tmgmt_job_load($ftt_map->tjid);
-    if ($job->getCountPending()) {
+  $ftt_jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
+  foreach ($ftt_jobs as $ftt_job) {
+    if ($ftt_job->getCountPending()) {
       return FALSE;
     }
   }

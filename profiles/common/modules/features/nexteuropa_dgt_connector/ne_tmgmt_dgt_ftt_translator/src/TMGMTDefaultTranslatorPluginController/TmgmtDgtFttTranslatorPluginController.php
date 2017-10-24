@@ -7,9 +7,7 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
-use Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping;
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;
-use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use TMGMTDefaultTranslatorPluginController;
 use TMGMTTranslator;

@@ -13,8 +13,6 @@ use EntityFieldQuery;
 use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use TMGMTJob;
-use TMGMTJobItem;
-use TMGMTTranslator;
 
 /**
  * Helper trait with methods for processing translator's data and settings.
@@ -600,7 +598,7 @@ trait DataProcessor {
   public function overwriteRequestIdentifier(array $identifier, array $parameters) {
     foreach ($parameters as $parameter_key => $parameter_value) {
       if (!is_null($parameter_value)) {
-          $identifier[$parameter_key] = $parameter_value;
+        $identifier[$parameter_key] = $parameter_value;
       }
     }
 
