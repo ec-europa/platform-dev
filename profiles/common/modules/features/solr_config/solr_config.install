@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Solr_config.install file.
@@ -52,7 +53,6 @@ function solr_config_enable() {
 
 }
 
-
 /**
  * Implements hook_disable().
  */
@@ -98,7 +98,7 @@ function solr_config_disable() {
 }
 
 /**
- * Implements hook_update_N().
+ * Add documents to the indexable file bundles.
  */
 function solr_config_update_7110() {
   db_insert('apachesolr_index_bundles')->fields(array(
@@ -108,17 +108,14 @@ function solr_config_update_7110() {
   ))->execute();
 }
 
-
 /**
- * Implements hook_update_N().
+ * Add solr facet blocks to the search context.
  */
 function solr_config_update_7120() {
   _solr_config_place_facets();
 }
 
 /**
- * Implements hook_update_N().
- *
  * Add a menu link for the solr facets settings.
  */
 function solr_config_update_7122() {
@@ -145,6 +142,7 @@ function solr_config_update_7122() {
  * Implements hook_install().
  */
 function solr_config_install() {
+  $t = get_t();
   // Add a menu link for the solr facets settings.
   $mlid_parent = db_select('menu_links', 'ml')
     ->condition('ml.link_path', 'admin/config/search')
@@ -153,11 +151,11 @@ function solr_config_install() {
     ->fetchField();
 
   $options = array();
-  $options['attributes']['title'] = t('Configure SolR facets');
+  $options['attributes']['title'] = $t('Configure SolR facets');
 
   $item = array(
     'link_path' => 'admin/config/search/apachesolr/settings/solr/facets',
-    'link_title' => t('SolR facets'),
+    'link_title' => $t('SolR facets'),
     'menu_name' => 'management',
     'options' => $options,
     'plid' => $mlid_parent,

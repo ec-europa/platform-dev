@@ -112,7 +112,7 @@ class FieldContext implements Context {
    *
    * @see field_group_read_groups()
    */
-  private function scanFieldGroupsForResetting($field_groups_def_level, $default_def_level, $checked_def_level = 'entity_type') {
+  private function scanFieldGroupsForResetting(array $field_groups_def_level, array $default_def_level, $checked_def_level = 'entity_type') {
     ctools_include('export');
     foreach ($field_groups_def_level as $key => $item) {
       $current_default_def_level = (isset($default_def_level[$key])) ? $default_def_level[$key] : FALSE;

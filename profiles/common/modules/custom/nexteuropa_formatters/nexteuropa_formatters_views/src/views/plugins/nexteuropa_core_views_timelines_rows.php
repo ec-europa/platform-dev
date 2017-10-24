@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Definition of views_europa_banner_plugin_rows.
@@ -10,6 +11,7 @@
  * @codingStandardsIgnoreFile
  */
 class nexteuropa_formatters_views_timelines_rows extends views_plugin_row {
+
   /**
    * Definition.
    */

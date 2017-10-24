@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature events.
@@ -31,7 +32,6 @@ function events_og_enable() {
   drupal_flush_all_caches();
 }
 
-
 /**
  * Implements hook_disable().
  *
@@ -52,7 +52,6 @@ function events_og_disable() {
   drupal_flush_all_caches();
 }
 
-
 /**
  * Implements hook_modules_enabled().
  */
@@ -64,8 +63,6 @@ function events_og_modules_enabled($modules) {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Add events options on "communities_menu_item" context.
  */
 function events_og_udpate_7101() {

@@ -20,7 +20,7 @@ class NodeViewModeType extends ViewModeTypeBase {
   public function entityView() {
     $configuration = $this->getConfiguration();
 
-    if ($node = $this->entityLoad()) {
+    if ($this->entityLoad()) {
       if ($this->entityAccess()) {
         return entity_view($this->getType(), array($this->getEntity()), $configuration['view mode']);
       }

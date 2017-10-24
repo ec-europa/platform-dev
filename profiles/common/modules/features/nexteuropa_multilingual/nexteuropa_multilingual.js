@@ -3,7 +3,7 @@
  * Javascript functionality for the NextEuropa Multilingual feature.
  */
 
-(function($){
+(function($) {
   Drupal.behaviors.nexteuropa_multilingual = {
     attach: function (context, settings) {
 

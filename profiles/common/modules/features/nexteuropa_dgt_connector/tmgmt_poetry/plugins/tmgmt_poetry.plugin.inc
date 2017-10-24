@@ -64,7 +64,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     }
 
     // If any of these are empty, the translator is not properly configured.
-    foreach ($all_settings as $key => $value) {
+    foreach ($all_settings as $value) {
       if (empty($value)) {
         return FALSE;
       }
@@ -573,6 +573,10 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    *
    * @param \SimpleXMLElement $poetry_xml
    *   Main XML document.
+   * @param string $poetry_user
+   *   The poetry user.
+   * @param int $poetry_password
+   *   The user password.
    *
    * @return mixed
    *   FALSE or string with XML response.

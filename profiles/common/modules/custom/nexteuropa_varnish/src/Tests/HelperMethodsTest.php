@@ -10,6 +10,7 @@ namespace Drupal\nexteuropa_varnish\Tests;
  * @package Drupal\nexteuropa_varnish\Tests
  */
 class HelperMethodsTest extends \PHPUnit_Framework_TestCase {
+
   /**
    * Tests the helper function _nexteuropa_varnish_trim_base_path().
    *
@@ -38,7 +39,7 @@ class HelperMethodsTest extends \PHPUnit_Framework_TestCase {
    * Provides test data for testTrimmingPath().
    *
    * @return array
-   *  The test data.
+   *   The test data.
    */
   public function trimmingPathDataProvider() {
     return array(

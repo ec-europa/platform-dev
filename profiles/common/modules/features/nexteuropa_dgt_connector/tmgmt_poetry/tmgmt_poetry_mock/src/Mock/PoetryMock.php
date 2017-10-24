@@ -37,7 +37,7 @@ class PoetryMock {
    * Method for instantiating SOAP Client based on given WSDL.
    *
    * @param string $wsdl_endpoint
-   *    Absolute URL to the SOAP WSDL resource.
+   *   Absolute URL to the SOAP WSDL resource.
    */
   private function instantiateClient($wsdl_endpoint) {
     $this->client = new \SoapClient(
@@ -114,11 +114,13 @@ class PoetryMock {
    * Helper method for saving requests coming to POETRY mock.
    *
    * @param string $message
-   *    XML request.
+   *   XML request.
+   * @param string $reference
+   *   The XML file name.
    */
   public static function saveTranslationRequest($message, $reference) {
     $path = TMGMT_POETRY_MOCK_REQUESTS_PATH . $reference . '.xml';
-    $dirname = dirname($path);
+    $dirname = drupal_dirname($path);
     if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
       file_save_data($message, $path);
     }
@@ -136,14 +138,14 @@ class PoetryMock {
    * Method for mimicking requests from Poetry to Drupal.
    *
    * @param string $message
-   *    XML message which should be send.
+   *   XML message which should be send.
    *
    * @return mixed
-   *    Response from service.
+   *   Response from service.
    */
   public function sendRequestToDrupal($message) {
     $this->instantiateClient($this->settings['drupal_wsdl']);
-    $translator = tmgmt_translator_load(\Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME);
+    $translator = tmgmt_translator_load(self::TRANSLATOR_NAME);
     $settings = $translator->getSetting('settings');
     try {
       $response = $this->client->{self::SOAP_METHOD}(
@@ -163,12 +165,12 @@ class PoetryMock {
    * Helper function which prepares translate response data.
    *
    * @param string $message
-   *    Translation request XML data.
+   *   Translation request XML data.
    * @param string $lg_code
-   *    Language code. If ALL then all languages will be processed one by one.
+   *   Language code. If ALL then all languages will be processed one by one.
    *
-   * @return array Array with translation response data.
-   *    Array with translation response data.
+   * @return array
+   *   Array with translation response data.
    */
   public static function prepareTranslationResponseData($message, $lg_code) {
     $data = self::getDataFromRequest($message);
@@ -206,10 +208,10 @@ class PoetryMock {
    * Helper function which prepares refuse job response data.
    *
    * @param string $message
-   *    Translation request XML data.
+   *   Translation request XML data.
    *
-   * @return array Array with translation response data.
-   *    Array with translation response data.
+   * @return array
+   *   Array with translation response data.
    */
   public static function prepareRefuseJobResponseData($message) {
     $data = self::getDataFromRequest($message);
@@ -264,14 +266,14 @@ class PoetryMock {
    * Helper function for setting up translation response data array.
    *
    * @param array $attribution
-   *    Part of request which is related to given translation language request.
+   *   Part of request which is related to given translation language request.
    * @param string $content
-   *    Encoded content that was send for the translation.
+   *   Encoded content that was send for the translation.
    * @param array $demande_id
-   *    Array with IDs regarding translation request.
+   *   Array with IDs regarding translation request.
    *
    * @return array
-   *    Array with translation response data.
+   *   Array with translation response data.
    */
   private static function getTranslationResponseData($attribution, $content, $demande_id) {
     return array(
@@ -289,10 +291,10 @@ class PoetryMock {
    * Helper method to fetch languages from translation request.
    *
    * @param string $message
-   *    Translation request XML data.
+   *   Translation request XML data.
    *
    * @return array
-   *    Array with languages.
+   *   Array with languages.
    */
   public static function getLanguagesFromRequest($message) {
     $request_data = self::getDataFromRequest($message);
@@ -308,10 +310,10 @@ class PoetryMock {
    * Helper function which prepares data from translation request.
    *
    * @param string $message
-   *    Translation request content.
+   *   Translation request content.
    *
    * @return array
-   *    Array with data from translation request.
+   *   Array with data from translation request.
    */
   public static function getDataFromRequest($message) {
     $xml = simplexml_load_string($message);
@@ -345,12 +347,12 @@ class PoetryMock {
    * The code is based on _tmgmt_poetry_replace_job_in_content().
    *
    * @param string $content
-   *    Content that should be translated (encoded HTML markup).
+   *   Content that should be translated (encoded HTML markup).
    * @param string $language
-   *    Translation language.
+   *   Translation language.
    *
    * @return string
-   *    Encoded translated content for the translation response.
+   *   Encoded translated content for the translation response.
    */
   private static function translateRequestContent($content, $language) {
     $decoded_content = base64_decode($content);
@@ -377,10 +379,10 @@ class PoetryMock {
    * Helper method for fetching an entity details based on demande_id.
    *
    * @param array $demande_id
-   *    An array with identifiers for POETRY translation request.
+   *   An array with identifiers for POETRY translation request.
    *
    * @return mixed
-   *    An array with result.
+   *   An array with result.
    */
   public static function getEntityDetailsByDemandeId($demande_id) {
     return db_select('poetry_map', 'pm')
@@ -397,7 +399,7 @@ class PoetryMock {
    * Helper method for fetching all translation request files.
    *
    * @return array
-   *    An array with objects or an empty one if there is no results.
+   *   An array with objects or an empty one if there is no results.
    */
   public static function getAllRequestTranslationFiles() {
     $result = db_select('file_managed', 'fm')
@@ -455,10 +457,10 @@ class PoetryMock {
    * Helper method for fetching active translation jobs based on give entity id.
    *
    * @param int $entity_id
-   *    Entity id.
+   *   Entity id.
    *
    * @return mixed
-   *    An array of results with active translation jobs for given entity id.
+   *   An array of results with active translation jobs for given entity id.
    */
   public static function getActiveTranslationJobsByEntityId($entity_id) {
     $query = db_select('tmgmt_job_item', 'item');
@@ -497,18 +499,18 @@ class PoetryMock {
    * Prepare to translate job based on given parameters.
    *
    * @param string $lg_code
-   *    Language code.
+   *   Language code.
    * @param int $file_id
-   *    Translation request file dump ID.
+   *   Translation request file dump ID.
    * @param int $tjiid
-   *    A translation job item ID.
+   *   A translation job item ID.
    */
   public function translateJob($lg_code, $file_id, $tjiid) {
     if ($lg_code and $file_id) {
       $file_object = file_load($file_id);
       $message = file_get_contents($file_object->uri);
       // Prepare responses array.
-      $responses = self::prepareTranslationResponseData($message, strtoupper($lg_code));
+      $responses = self::prepareTranslationResponseData($message, drupal_strtoupper($lg_code));
       foreach ($responses as $response) {
         $message = theme('poetry_receive_translation', $response);
         $this->sendRequestToDrupal($message);
@@ -531,9 +533,9 @@ class PoetryMock {
    * Prepare to refuse job translation based on given data.
    *
    * @param int $file_id
-   *    Translation request file dump ID.
+   *   Translation request file dump ID.
    * @param int $tjiid
-   *    A translation job item ID.
+   *   A translation job item ID.
    */
   public function refuseJob($file_id, $tjiid) {
     if ($file_id) {
@@ -731,21 +733,21 @@ class PoetryMock {
   public static function importMockTranslator() {
     /** @var \EntityDrupalWrapper $translator */
     $translator = entity_import('tmgmt_translator', '{
-    "name" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_NAME . '",
-    "label" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::TRANSLATOR_LABEL . '",
+    "name" : "' . self::TRANSLATOR_NAME . '",
+    "label" : "' . self::TRANSLATOR_LABEL . '",
     "description" : "",
     "weight" : "-999",
     "plugin" : "poetry",
     "settings" : {
       "auto_accept" : 0,
       "settings" : {
-        "counter" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::COUNTER_STRING . '",
+        "counter" : "' . self::COUNTER_STRING . '",
         "code" : "WEB",
         "website_identifier" : "my-website",
-        "callback_user" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::CALLBACK_USER . '",
-        "callback_password" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::CALLBACK_PASSWORD . '",
-        "poetry_user" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::POETRY_USER . '",
-        "poetry_password" : "' . \Drupal\tmgmt_poetry_mock\Mock\PoetryMock::POETRY_PASSWORD . '"
+        "callback_user" : "' . self::CALLBACK_USER . '",
+        "callback_password" : "' . self::CALLBACK_PASSWORD . '",
+        "poetry_user" : "' . self::POETRY_USER . '",
+        "poetry_password" : "' . self::POETRY_PASSWORD . '"
       },
       "organization" : {
         "responsable" : "DIGIT",
@@ -766,6 +768,7 @@ class PoetryMock {
     },
     "rdf_mapping" : []
   }');
+
     $translator->save();
   }
 

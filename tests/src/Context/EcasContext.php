@@ -8,6 +8,7 @@ use Drupal\DrupalExtension\Context\RawDrupalContext;
  * Provides step definitions for interacting with ECAS.
  */
 class EcasContext extends RawDrupalContext {
+
   /**
    * Creates and authenticates an ECAS user with the given role(s).
    *
@@ -53,7 +54,6 @@ class EcasContext extends RawDrupalContext {
   public function ecasLoggedInWithRole($role) {
     return $this->loggedIn() && $this->user && $this->user->ecas && isset($this->user->role) && $this->user->role == $role;
   }
-
 
   /**
    * Create an ECAS user.

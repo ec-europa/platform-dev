@@ -2,6 +2,8 @@
 
 namespace Drupal\multisite_config\Tests;
 
+use Drupal\Driver\Exception\Exception;
+
 /**
  * Class ConfigAbstractTest.
  *
@@ -16,7 +18,7 @@ class ConfigBaseTest extends ConfigAbstractTest {
 
     $paths = glob(drupal_get_path('module', 'multisite_config') . '/lib/Drupal/*', GLOB_ONLYDIR);
     foreach ($paths as $path) {
-      $name = basename($path);
+      $name = drupal_basename($path);
       $this->assertTrue(class_exists("Drupal\\$name\\Config"));
     }
 
@@ -28,12 +30,11 @@ class ConfigBaseTest extends ConfigAbstractTest {
 
   /**
    * Test case when both service class and module do not exist.
-   *
-   * @expectedException \Exception
-   *
-   * @expectedExceptionMessage Service class "\Drupal\not_existing_module\Config" and module "not_existing_module" does not exists.
    */
   public function testNotExistingServiceClassAndModule() {
+    $this->expectException(Exception::class);
+    $exMsg = 'Service class "\Drupal\not_existing_module\Config" and module "not_existing_module" does not exists.';
+    $this->expectExceptionMessage($exMsg);
     $service = multisite_config_service('not_existing_module');
     $this->assertEquals('Drupal\multisite_config\ConfigBase', get_class($service));
   }

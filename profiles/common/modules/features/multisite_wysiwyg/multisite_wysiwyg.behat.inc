@@ -17,14 +17,14 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
   /**
    * Constructs a NextEuropaTokenSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
@@ -97,7 +97,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $driver = $this->getSession()->getDriver();
 
     $modal_id = $modal;
-    if ('ckeditor' == strtolower($modal) && $field_id) {
+    if ('ckeditor' == drupal_strtolower($modal) && $field_id) {
       // Example: cke_editor_edit-field-ne-body-und-0-value_dialog.
       $modal_id = 'cke_editor_' . $field_id . '_dialog';
     }
@@ -151,7 +151,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $modal_element = $this->getWysiwygModalDialog($instance_id, $modal_id, $field_id);
 
     // Click the action link.
-    $action_test = strtolower($action);
+    $action_test = drupal_strtolower($action);
     switch ($action_test) {
       case 'ok':
         $close_modal_link = $modal_element->find("xpath", "//a[contains(@class, 'cke_dialog_ui_button_ok')]/span[@class='cke_dialog_ui_button']");

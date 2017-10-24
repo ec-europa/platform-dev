@@ -35,7 +35,6 @@ function multisite_dynamic_basetheme_drush_command() {
   return $items;
 }
 
-
 /**
  * Implements drush_hook_COMMAND().
  */
@@ -56,7 +55,7 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_list() {
  * Callback function of theme-base-theme-list.
  */
 function drush_multisite_dynamic_basetheme_theme_base_theme_get() {
-  global $theme_info, $base_theme_info;
+  global $theme_info;
   drush_print("Current theme : " . $theme_info->name);
 
   // Get the base theme from info file.
@@ -65,7 +64,7 @@ function drush_multisite_dynamic_basetheme_theme_base_theme_get() {
   drush_print("Base theme (info file): $base_theme_info_file");
 
   // Get the base theme from theme settings.
-  $settings = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_key);
+  $settings = theme_get_setting('ec_resp_base_theme_of_subtheme', $theme_info->name);
   $base_theme_settings = ($settings) ? $settings : 'not defined';
   drush_print("Base theme (theme settings): " . $base_theme_settings);
 

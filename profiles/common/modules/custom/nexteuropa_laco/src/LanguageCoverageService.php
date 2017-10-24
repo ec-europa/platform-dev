@@ -58,7 +58,7 @@ class LanguageCoverageService {
   /**
    * {@inheritdoc}
    */
-  static public function getInstance() {
+  public static function getInstance() {
     if (!self::$instance) {
       self::$instance = new static();
     }
@@ -68,7 +68,7 @@ class LanguageCoverageService {
   /**
    * {@inheritdoc}
    */
-  static public function isServiceRequest() {
+  public static  function isServiceRequest() {
     $header = self::getHeaderKey(self::HTTP_HEADER_SERVICE_NAME);
     $result = isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] == self::HTTP_METHOD);
     $result = $result && isset($_SERVER[$header]) && ($_SERVER[$header] == self::HTTP_HEADER_SERVICE_VALUE);
@@ -140,10 +140,10 @@ class LanguageCoverageService {
    * Check if the given path is a node path.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    *
    * @return bool
-   *    TRUE if given path is a node path, FALSE otherwise.
+   *   TRUE if given path is a node path, FALSE otherwise.
    */
   protected function isNodePath($path) {
     return (bool) preg_match('/node\/\d*/', $path);
@@ -153,12 +153,12 @@ class LanguageCoverageService {
    * Assert node language coverage given its relative path.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    * @param string $language
-   *    Language code.
+   *   Language code.
    *
    * @return bool
-   *    TRUE if given node is available in the given language, FALSE otherwise.
+   *   TRUE if given node is available in the given language, FALSE otherwise.
    */
   protected function assertNodeLanguageCoverage($path, $language) {
     list(, $nid) = explode('/', $path);
@@ -180,10 +180,10 @@ class LanguageCoverageService {
    * Check whereas thew given language is enabled on the current site.
    *
    * @param string $language
-   *    Language code.
+   *   Language code.
    *
    * @return bool
-   *    TRUE for a valid language, FALSE otherwise.
+   *   TRUE for a valid language, FALSE otherwise.
    */
   protected function isValidLanguage($language) {
     $valid = (bool) db_select('languages', 'l')
@@ -202,7 +202,7 @@ class LanguageCoverageService {
    * Get list of available languages.
    *
    * @return array
-   *    List of available languages
+   *   List of available languages
    */
   protected function getAvailableLanguages() {
     $languages = db_select('languages', 'l')
@@ -219,7 +219,7 @@ class LanguageCoverageService {
    * Set HTTP response status code.
    *
    * @param string $status
-   *    Set response status.
+   *   Set response status.
    */
   protected function setStatus($status) {
     $this->status = $status;
@@ -230,7 +230,7 @@ class LanguageCoverageService {
    * Status property getter.
    *
    * @return string
-   *    Return current response status.
+   *   Return current response status.
    */
   protected function getStatus() {
     return $this->status;
@@ -240,7 +240,7 @@ class LanguageCoverageService {
    * Check whereas the status has already been set ot not.
    *
    * @return bool
-   *    TRUE status has been set, FALSE otherwise.
+   *   TRUE status has been set, FALSE otherwise.
    */
   protected function hasStatus() {
     return (bool) $this->status;
@@ -250,9 +250,9 @@ class LanguageCoverageService {
    * Set HTTP response header.
    *
    * @param string $name
-   *    Header name.
+   *   Header name.
    * @param string $value
-   *    Header value.
+   *   Header value.
    */
   protected function setHeader($name, $value) {
     drupal_add_http_header($name, $value);
@@ -262,7 +262,7 @@ class LanguageCoverageService {
    * Set debug custom HTTP response header.
    *
    * @param string $value
-   *    Header value.
+   *   Header value.
    */
   protected function setDebugHeader($value) {
     if (variable_get('nexteuropa_laco_debug', FALSE)) {
@@ -274,8 +274,8 @@ class LanguageCoverageService {
   /**
    * Get requested language.
    *
-   * @return string|FALSE
-   *    The requested language, FALSE if none found.
+   * @return string|false
+   *   The requested language, FALSE if none found.
    */
   protected function getRequestedLanguage() {
     $header = self::getHeaderKey(self::HTTP_HEADER_LANGUAGE_NAME);
@@ -289,10 +289,10 @@ class LanguageCoverageService {
    * Remove language negotiation suffix from the end of the URL, if any.
    *
    * @param string $url
-   *    Requested URL.
+   *   Requested URL.
    *
    * @return string
-   *    Sanitized URL.
+   *   Sanitized URL.
    */
   protected function removeLanguageNegotiationSuffix($url) {
     include_once DRUPAL_ROOT . '/includes/iso.inc';
@@ -308,10 +308,10 @@ class LanguageCoverageService {
    * Get source path given its alias. Return input path if no alias is found.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    *
    * @return string
-   *    Source path if any, input path if none.
+   *   Source path if any, input path if none.
    */
   protected function getSourcePath($path) {
     $result = db_select('url_alias', 'a')
@@ -332,10 +332,10 @@ class LanguageCoverageService {
    * Sanitize path.
    *
    * @param string $path
-   *    Relative Drupal path.
+   *   Relative Drupal path.
    *
    * @return string
-   *    Sanitized path.
+   *   Sanitized path.
    */
   protected function sanitizePath($path) {
     $path = $this->removeLanguageNegotiationSuffix($path);
@@ -347,12 +347,13 @@ class LanguageCoverageService {
    * Convert HTTP header name into $_SERVER array key.
    *
    * @param string $header
-   *    Header name as provided by the HTTP request.
+   *   Header name as provided by the HTTP request.
    *
    * @return string
-   *    Header name as a $_SERVER array key.
+   *   Header name as a $_SERVER array key.
    */
-  static protected function getHeaderKey($header) {
+  protected static function getHeaderKey($header) {
+    // @codingStandardsIgnoreLine: The feature gets called before the Drupal wrapper is available.
     $header = 'HTTP_' . strtoupper($header);
     return str_replace('-', '_', $header);
   }

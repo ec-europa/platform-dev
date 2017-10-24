@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Hooks for nexteuropa_trackedchanges admin interfaces.
@@ -43,10 +44,10 @@ function nexteuropa_trackedchanges_settings_form($form, &$form_state) {
  * Helper function renders array with information about profiles.
  *
  * @param array $info
- *    An array with WYSIWYG profile information.
+ *   An array with WYSIWYG profile information.
  *
  * @return string
- *    Markup with rendered table.
+ *   Markup with rendered table.
  */
 function _nexteuropa_trackedchanges_render_info_table($info) {
   // Setting up table header.
@@ -317,7 +318,7 @@ function _nexteuropa_trackedchanges_feature_disable_check_validate($form, &$form
  * and block or not the module disabling.
  *
  * @param string $finished_batch
- *    The name of the "finished" callback that must be executed.
+ *   The name of the "finished" callback that must be executed.
  *
  * @see _nexteuropa_trackedchanges_system_disable_field_scanning_finished()
  */
@@ -444,7 +445,6 @@ function _nexteuropa_trackedchanges_disable_field_scanning_finished($success, $r
     drupal_set_message($message, 'error');
   }
 }
-
 
 /**
  * Finished callback of the batch field for tracked changes values.

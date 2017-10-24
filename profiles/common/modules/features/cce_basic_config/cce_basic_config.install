@@ -27,7 +27,7 @@ function cce_basic_config_requirements($phase) {
 
   if (file_exists(DRUPAL_ROOT . '/continuousphp.package')) {
     if ($continuousphp_package = file_get_contents(DRUPAL_ROOT . '/continuousphp.package')) {
-      $info = json_decode($continuousphp_package, TRUE);
+      $info = drupal_json_decode($continuousphp_package, TRUE);
       $t = get_t();
       $requirements['git_ref'] = array(
         'title' => $t('Git ref'),
@@ -305,7 +305,7 @@ function cce_basic_config_install() {
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
-    if (substr($id_export, 0, 8) == 'document') {
+    if (drupal_substr($id_export, 0, 8) == 'document') {
       db_insert('file_display')->fields(
         array(
           'name' => $id_export,
@@ -892,8 +892,8 @@ function _cce_basic_config_post_install_users() {
   $account->init = $account->mail;
   $role = user_role_load_by_name('administrator');
   $account->roles[$role->rid] = $role->name;
-  $account->field_firstname['und'][0]['value'] = 'John';
-  $account->field_lastname['und'][0]['value'] = 'Smith';
+  $account->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account->field_lastname[LANGUAGE_NONE][0]['value'] = 'Smith';
   user_save($account);
 
   $account1 = new stdClass();
@@ -905,8 +905,8 @@ function _cce_basic_config_post_install_users() {
   $account1->init = $account1->mail;
   $role1 = user_role_load_by_name('contributor');
   $account1->roles[$role1->rid] = $role1->name;
-  $account1->field_firstname['und'][0]['value'] = 'John';
-  $account1->field_lastname['und'][0]['value'] = 'Doe';
+  $account1->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account1->field_lastname[LANGUAGE_NONE][0]['value'] = 'Doe';
   user_save($account1);
 
   $account2 = new stdClass();
@@ -918,8 +918,8 @@ function _cce_basic_config_post_install_users() {
   $account2->init = $account2->mail;
   $role2 = user_role_load_by_name('editor');
   $account2->roles[$role2->rid] = $role2->name;
-  $account2->field_firstname['und'][0]['value'] = 'John';
-  $account2->field_lastname['und'][0]['value'] = 'Blake';
+  $account2->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account2->field_lastname[LANGUAGE_NONE][0]['value'] = 'Blake';
   user_save($account2);
 
   // Assign dummy content to the 'administrator' user.
@@ -1049,7 +1049,7 @@ function cce_basic_config_uninstall() {
   // This process must be temporary.
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
-    if (substr($id_export, 0, 8) == 'document') {
+    if (drupal_substr($id_export, 0, 8) == 'document') {
       db_delete('file_display')
         ->condition('name', $id_export)
         ->execute();
@@ -1444,10 +1444,10 @@ function cce_basic_config_update_7170() {
     if ($vocab_object->name == "classification") {
       $classification = $vocab_object->vid;
       if ($classification) {
-        db_query('UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid', array(
-          ':name' => '000',
-          ':vid' => $classification,
-        ));
+        db_update('taxonomy_term_data')
+          ->expression('NAME', 'NAME=concat(name, :name)', array(':name', '000'))
+          ->condition('vid', $classification, '=')
+          ->execute();
       }
       return;
     }
@@ -1690,7 +1690,7 @@ function cce_basic_config_update_7193() {
   // $content type : content type that contains fields to replace.
   // $module_name : module that contains fields.
   $content_type = 'article';
-  $module_name = basename(__FILE__, '.install');
+  $module_name = drupal_basename(__FILE__, '.install');
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);
 
@@ -1714,10 +1714,10 @@ function cce_basic_config_update_7193() {
 
     // Update only our fields defines to 'datestamp' in feature.field.
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
-      foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
+      foreach ($field_info['storage']['details']['sql'] as $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
 
-        foreach ($info_sql[$table_name] as $id => $column_name) {
+        foreach ($info_sql[$table_name] as $column_name) {
 
           if (field_has_data($field_info)) {
             // There is data: migrate data and update column to int.
@@ -1787,7 +1787,7 @@ function cce_basic_config_update_7193() {
 }
 
 /**
- * Implements hook_update_N().
+ * Add text format selection permissions to authenticated users.
  */
 function cce_basic_config_update_7194() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
@@ -1922,9 +1922,8 @@ function cce_basic_config_update_7199() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Use jquery 1.10.
+ *
  * Define admin pages that should use default theme.
  * Disable user contact form for anonymous.
  * Activate captcha of user contact form.
@@ -1962,8 +1961,6 @@ function cce_basic_config_update_7200() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Set linkchecker interval from 3hrs [259200] to 4 weeks [2419200].
  */
 function cce_basic_config_update_7201() {
@@ -1971,9 +1968,8 @@ function cce_basic_config_update_7201() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Update list of admin pages using jquery 1.10.
+ *
  * Update display of user menu.
  */
 function cce_basic_config_update_7202() {
@@ -2107,9 +2103,11 @@ function cce_basic_config_update_7204() {
 
   foreach ($rate_widgets as &$rate_widget) {
     foreach (array('css', 'js') as $attachment) {
+      // @codingStandardsIgnoreStart: NEPT-1308: The following code tries to remove static urls from the database.
       if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
         $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
       }
+      // @codingStandardsIgnoreEnd
     }
   }
 
@@ -2209,7 +2207,7 @@ function cce_basic_config_update_7208() {
     "rebuttal",
   );
 
-  if (in_array(basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
+  if (in_array(drupal_basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
     variable_set('toolbox_survey_whitelist_js', TRUE);
   }
 
@@ -2238,8 +2236,6 @@ function cce_basic_config_update_7209() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Update platforme version.
  */
 function cce_basic_config_update_7210() {
@@ -2398,7 +2394,6 @@ function cce_basic_config_update_7214(&$sandbox) {
 
   $sandbox['#finished'] = empty($sandbox['max']) ? 1 : ($sandbox['progress'] / $sandbox['max']);
 }
-
 
 /**
  * NEPT-182: Enable nexteuropa_feature_set and nexteuropa_dgt_connector feature.

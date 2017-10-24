@@ -2,6 +2,8 @@
 
 namespace Drupal\nexteuropa_token\Tests;
 
+use Drupal\Driver\Exception\Exception;
+
 /**
  * Class TokenHandlerTest.
  *
@@ -11,15 +13,15 @@ class TokenHandlerTest extends TokenHandlerAbstractTest {
 
   /**
    * Test faulty service container call.
-   *
-   * @expectedException \Exception
    */
   public function testFaultyServiceContainerCall() {
     nexteuropa_token_get_handler('foo');
 
+    $this->expectException(Exception::class);
+
     $reflection = new \ReflectionClass('\stdClass');
     if (!$reflection->implementsInterface('\Drupal\nexteuropa_token\TokenHandlerInterface')) {
-      throw new \Exception(t('Token handler class !class must implement \Drupal\nexteuropa_token\TokenHandlerInterface interface.', array('!class' => $handlers[$name])));
+      throw new \Exception(t('Token handler class !class must implement \Drupal\nexteuropa_token\TokenHandlerInterface interface.', array('!class' => 'foo')));
     }
   }
 

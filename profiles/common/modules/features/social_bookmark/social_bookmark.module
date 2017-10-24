@@ -1,18 +1,25 @@
 <?php
+
 /**
  * @file
  * This is the .module file of the social bookmark feature.
  */
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
-function social_bookmark_init() {
+function social_bookmark_page_build(&$page) {
   if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
-    drupal_add_js('https://ec.europa.eu/wel/socialbookmark/share.js', 'external');
+    $page['content']['#attached']['js'][] = array(
+      'type' => 'external',
+      'data' => 'https://ec.europa.eu/wel/socialbookmark/share.js',
+    );
   }
   else {
-    drupal_add_js('http://ec.europa.eu/wel/socialbookmark/share.js', 'external');
+    $page['content']['#attached']['js'][] = array(
+      'type' => 'external',
+      'data' => 'http://ec.europa.eu/wel/socialbookmark/share.js',
+    );
   }
 }
 
@@ -230,7 +237,6 @@ function _social_bookmark_bar_contents() {
     }
   }
 }
-
 
 /**
  * Display auxiliar function for _social_bookmark_bar_contents().

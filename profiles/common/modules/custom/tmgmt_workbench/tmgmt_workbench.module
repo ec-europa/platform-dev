@@ -51,7 +51,6 @@ function tmgmt_workbench_menu() {
   return $items;
 }
 
-
 /**
  * Implements hook_tmgmt_source_plugin_info().
  */
@@ -90,7 +89,7 @@ function tmgmt_workbench_query_tmgmt_entity_get_translatable_entities_alter(Quer
     $query->condition('e.type', $moderated, 'IN');
     // Don't show content that is not in a translatable state.
     $states = variable_get('tmgmt_workbench_moderation_states', array());
-    foreach ($fields as $field => $info) {
+    foreach ($fields as $info) {
       // Get field on primary table, which is aliased as "e".
       // @see: tmgmt_entity_get_translatable_entities() for more details.
       if ($states && ($info['table'] == 'e')) {

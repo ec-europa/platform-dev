@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Callbacks used by the administration area.
@@ -121,7 +122,6 @@ function nexteuropa_piwik_rule_path_type_selection($form, $form_state) {
   return $form['specifics'];
 }
 
-
 /**
  * Form API submit callback for the cache purge rule editing form.
  */
@@ -140,7 +140,7 @@ function nexteuropa_piwik_rule_form_submit(&$form, &$form_state) {
  * @param string $rule_path_type
  *   PIWIK rule patt type.
  *
- * @return string $description
+ * @return string
  *   Description for the field.
  */
 function _nexteuropa_piwik_rule_path_description($rule_path_type) {

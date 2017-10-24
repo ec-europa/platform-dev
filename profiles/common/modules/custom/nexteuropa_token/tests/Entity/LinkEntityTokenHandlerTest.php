@@ -67,7 +67,7 @@ class LinkEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of token $original values.
    *
    * @return array
-   *    Return PHPUnit data.
+   *   Return PHPUnit data.
    */
   public static function tokenOriginalValues() {
     return array(
@@ -87,7 +87,7 @@ class LinkEntityTokenHandlerTest extends TokenHandlerAbstractTest {
    * Data provider: provides list of entity machine names.
    *
    * @return array
-   *    Return PHPUnit data.
+   *   Return PHPUnit data.
    */
   public static function entityTypeMachineNamesProvider() {
     return array(array('node'), array('user'), array('term'));
