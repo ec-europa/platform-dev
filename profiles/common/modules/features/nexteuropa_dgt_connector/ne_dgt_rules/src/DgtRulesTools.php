@@ -217,7 +217,7 @@ class DgtRulesTools {
     if (TMGMT_JOB_STATE_FINISHED == $job->getState()) {
       DgtRulesTools::addMessageTmgmtJob(
         $job,
-        'Receiving a status update (@new_status) on the finish job. Message: @message',
+        'Receiving a status update (@new_status) on the finished job. Message: @message',
         array(
           '@new_status' => $status_map[$status->getCode()],
           '@message' => $status->getMessage(),
