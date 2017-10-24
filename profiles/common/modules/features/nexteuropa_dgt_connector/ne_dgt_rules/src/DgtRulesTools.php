@@ -213,9 +213,22 @@ class DgtRulesTools {
       'CNL' => TMGMT_JOB_STATE_ABORTED,
     );
 
-    if ($status_map[$status->getCode()] != $job->getState()) {
-      $job->setState($status_map[$status->getCode()]);
+    // Check if the job is finished, so do nothing.
+    if (TMGMT_JOB_STATE_FINISHED == $job->getState()) {
+      DgtRulesTools::addMessageTmgmtJob(
+        $job,
+        'Receiving a status update (@new_status) on the finish job. Message: @message',
+        array(
+          '@new_status' => $status_map[$status->getCode()],
+          '@message' => $status->getMessage(),
+        )
+      );
 
+      return;
+    }
+
+    // Change the state of the Job.
+    if ($status_map[$status->getCode()] != $job->getState()) {
       DgtRulesTools::addMessageTmgmtJob(
         $job,
         'Update the status from @old_status to @new_status by DGT. Message: @message',
@@ -225,6 +238,8 @@ class DgtRulesTools {
           '@message' => $status->getMessage(),
         )
       );
+
+      $job->setState($status_map[$status->getCode()]);
     }
   }
 
