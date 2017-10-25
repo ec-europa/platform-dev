@@ -82,6 +82,7 @@ function nexteuropa_metatags_metatag_config_default() {
     'dcterms.type' => array(
       'value' => 'Text',
     ),
+
     // Open graph tags.
     'og:description' => array(
       'value' => '[site:name] - [site:slogan]',
@@ -226,6 +227,7 @@ function nexteuropa_metatags_metatag_info() {
       '#type' => 'select',
       '#options' => _nexteuropa_metatags_classification_options(),
       '#empty_option' => t('- None -'),
+      '#required' => TRUE,
     ),
     'devel_generate' => array(
       'type' => 'select',
