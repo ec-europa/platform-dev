@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature news.
@@ -22,9 +23,8 @@ function news_core_enable() {
 }
 
 /**
- * Implements hook_disable().
- *
  * Edit communities context to remove block.
+ *
  * Remove permissions.
  */
 function news_core_disable() {
@@ -59,9 +59,8 @@ function news_core_disable() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Content types using date fields should be using timestamp instead datetime.
+ *
  * No need to update schema in hook_install().
  * On a clean installation the date fields are already set up.
  * DATE FIELD MIGRATION SCRIPT: datetime to datestamp.
@@ -69,7 +68,7 @@ function news_core_disable() {
 function news_core_update_7101() {
   // Configuration.
   $content_type = 'news';
-  $module_name = basename(__FILE__, '.install');
+  $module_name = drupal_basename(__FILE__, '.install');
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);
 
@@ -93,7 +92,7 @@ function news_core_update_7101() {
 
     // Update only our fields defines to 'datestamp' in feature.field.
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
-      foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
+      foreach ($field_info['storage']['details']['sql'] as $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
         $column_name = $info_sql[$table_name]['value'];
 
@@ -107,8 +106,8 @@ function news_core_update_7101() {
           db_add_field($table_name, $column_name . '_temp', $param);
 
           db_update($table_name)
-                  ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
-                  ->execute();
+            ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
+            ->execute();
 
           // Delete old column.
           db_drop_field($table_name, $column_name);
