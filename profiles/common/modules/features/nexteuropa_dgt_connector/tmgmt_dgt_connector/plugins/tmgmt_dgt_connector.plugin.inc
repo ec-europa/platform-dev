@@ -174,7 +174,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
     // Generate the callback parameters for the request.
-    $callback_address = url(drupal_get_path("module", "tmgmt_dgt_connector") . "/wsdl/", array(
+    $callback_address = url('tmgmt_dgt_connector/wsdl', array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));
