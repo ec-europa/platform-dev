@@ -76,6 +76,10 @@ Feature: TMGMT Poetry features
     And I fill in "Date" with a relative date of "+20" days
     And I store job ID of translation request page
     And I press "Submit to translator"
+    Then I should see the message "Job was successfully sent for translation."
+    When I visit the "page" content with title "My page 1"
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see the message "Please wait for the translation request to be accepted before further update options."
     And Poetry notifies the client with the following XML:
     """
     <?xml version="1.0" encoding="UTF-8"?>
@@ -118,3 +122,5 @@ Feature: TMGMT Poetry features
        </request>
     </POETRY>
     """
+    And I reload the page
+    Then I should not see the message "Please wait for the translation request to be accepted before further update options."
