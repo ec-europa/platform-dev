@@ -4,6 +4,7 @@ core = 7.x
 package = Multisite OG Features
 dependencies[] = communities
 dependencies[] = news_core
+features[ctools][] = strongarm:strongarm:1
 features[ctools][] = field_group:field_group:1
 features[ctools][] = views:views_default:3.0
 features[ctools][] = context:context:3

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_communities.field_group.inc

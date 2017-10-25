@@ -20,39 +20,43 @@ class Config extends ConfigBase {
    * Return whereas a user is an editorial team member or not.
    *
    * @param mixed $account
-   *   The user object or UID.
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
-   *   TRUE if the user is an editorial team member, FALSE otherwise.
+   *    TRUE if the user is an editorial team member, FALSE otherwise.
    */
-  public function isEditorialTeamMember($account) {
-    $uid = is_object($account) ? $account->uid : $account;
-    if ($uid) {
-      $query = db_select('og_membership', 'ogm')
-        ->fields('ogm')
-        ->condition('ogm.group_type', 'node')
-        ->condition('ogm.state', OG_STATE_ACTIVE)
-        ->condition('entity_type', 'user')
-        ->condition('etid', $uid);
-      // Filter on the editorial_team group bundle.
-      $query->join('node', 'group_node', 'ogm.gid = group_node.nid');
-      $query->condition('group_node.type', 'editorial_team');
-      return (bool) $query->execute()->rowCount();
+  public function isEditorialTeamMember($account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
     }
-    return FALSE;
+
+    $uid = is_object($account) ? $account->uid : $account;
+    $query = db_select('og_membership', 'ogm')
+      ->fields('ogm')
+      ->condition('ogm.group_type', 'node')
+      ->condition('ogm.state', OG_STATE_ACTIVE)
+      ->condition('entity_type', 'user')
+      ->condition('etid', $uid);
+
+    // Filter on the editorial_team group bundle.
+    $query->join('node', 'group_node', 'ogm.gid = group_node.nid');
+    $query->condition('group_node.type', 'editorial_team');
+
+    return (bool) $query->execute()->rowCount();
   }
 
   /**
    * Create an Editorial Team.
    *
    * @param string $title
-   *   Editorial team name.
+   *    Editorial team name.
    * @param string $group_content_access
-   *   Define group content access public regardless of its group definition.
-   *   Either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
+   *    Define group content access public regardless of its group definition.
+   *    Either OG_CONTENT_ACCESS_PUBLIC or OG_CONTENT_ACCESS_PRIVATE.
    *
    * @return int
-   *   Newly created editorial team node NID.
+   *    Newly created editorial team node NID.
    */
   public function createEditorialTeam($title, $group_content_access = OG_CONTENT_ACCESS_PUBLIC) {
     $properties = array(

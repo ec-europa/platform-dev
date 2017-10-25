@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * f_a_q.features.field_base.inc

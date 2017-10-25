@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Callbacks used by the administration area.

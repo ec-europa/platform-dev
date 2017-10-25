@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Nexteuropa_multililngual.tokens.inc file.

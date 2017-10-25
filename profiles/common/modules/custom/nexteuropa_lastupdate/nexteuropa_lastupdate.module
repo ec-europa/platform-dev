@@ -75,7 +75,7 @@ function nexteuropa_lastupdate_theme($existing, $type, $theme, $path) {
 /**
  * Define last update callbacks for default entities.
  *
- * @return array
+ * @return array $last_update_callbacks.
  *   Array of callbacks keyed by entity name.
  */
 function _nexteuropa_lastupdate_supported_core_entities() {

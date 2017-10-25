@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ec_content_slider.views_default.inc
@@ -132,7 +131,20 @@ function ec_content_slider_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-
+  $translatables['view_ec_content_slider'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('<div class="carousel-caption">
+[title]<br />
+[body]
+</div>'),
+    t('Block'),
+  );
   $export['view_ec_content_slider'] = $view;
 
   return $export;

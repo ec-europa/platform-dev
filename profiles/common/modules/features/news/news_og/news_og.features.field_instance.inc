@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * news_og.features.field_instance.inc

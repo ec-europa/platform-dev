@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ec_content_slider.features.field_base.inc

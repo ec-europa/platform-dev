@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Test files for the toolbox.
@@ -8,7 +7,7 @@
 /**
  * Test Multisite Forum features to ensure it follows QA requirements.
  */
-class MultisiteDrupalToolboxDrupalWebTestCase extends DrupalWebTestCase {
+class MultisiteDrupalWebTestCase extends DrupalWebTestCase {
 
   /**
    * Set up.
@@ -64,7 +63,7 @@ class MultisiteDrupalToolboxDrupalWebTestCase extends DrupalWebTestCase {
 
     // Include the testing profile.
     variable_set('install_profile', $this->profile);
-    install_profile_info($this->profile, 'en');
+    $profile_details = install_profile_info($this->profile, 'en');
 
     // OVERRIDE : Always install required modules first.
     // Respect the dependencies between the modules.
@@ -190,12 +189,12 @@ class MultisiteDrupalToolboxDrupalWebTestCase extends DrupalWebTestCase {
     $role = user_role_load_by_name($role_name);
 
     // Create a user assigned to that role.
-    $edit           = array();
+    $edit = array();
     $edit['name']   = $this->randomName();
     $edit['mail']   = $edit['name'] . '@example.com';
     $edit['pass']   = user_password();
     $edit['status'] = 1;
-    $edit['roles']  = array(
+    $edit['roles'] = array(
       2 => 2,
       $role->rid => $role_name,
     );

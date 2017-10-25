@@ -141,7 +141,7 @@ function multisite_og_navigation_tree_module_implements_alter(&$implementations,
  * @param int $nid
  *   The node ID of the node to load.
  *
- * @return object|false
+ * @return object|FALSE
  *   The node, or FALSE if the node is not part of an OG Navigation Tree group.
  */
 function mont_node_load($nid) {
@@ -309,6 +309,7 @@ function multisite_og_navigation_tree_node_insert($node) {
  */
 function multisite_og_navigation_tree_node_update($node) {
   $node_type = $node->type;
+  $nid = $node->nid;
 
   if (og_is_group_type('node', $node_type) && $group_taxonomy_vid = _mont_group_taxonomy_enabled($node)) {
     if (_mont_is_group($node) && !_mont_group_taxonomy_load($node->nid)) {
@@ -421,7 +422,7 @@ function _mont_og_context_handler() {
 /**
  * Helper function to fetch the links.
  *
- * @return array|false
+ * @return array|FALSE
  *   Either the Taxonomy Navigation block or FALSE if the block couldn't be
  *   rendered.
  */
@@ -436,6 +437,8 @@ function _mont_block_taxonomy_navigation() {
       $child_elements = array();
       $root_elements = array();
 
+      // @todo Variable $current_term_id is unused in its scope.
+      $current_term_id = FALSE;
       $current_term = menu_get_object('taxonomy_term', 2);
       $active_class = array();
       if ($current_term) {
@@ -458,10 +461,12 @@ function _mont_block_taxonomy_navigation() {
 
       $items = array();
 
-      foreach ($root_elements as $term) {
+      foreach ($root_elements as $tid => $term) {
         $item = _mont_block_item_list_children($root_elements, $child_elements, $term, $active_class);
         $items[] = $item;
       }
+      // @todo Variable $node is unused in its scope.
+      $node  = node_load($nid);
       if (count($items)) {
         $block['subject'] = t('navigation');
         $block['content'] = theme('item_list', array('items' => $items, 'attributes' => array('class' => 'menu')));

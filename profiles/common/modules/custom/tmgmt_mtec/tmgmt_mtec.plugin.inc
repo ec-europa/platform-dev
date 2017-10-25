@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Provides MT@EC translation plugin controller.
@@ -66,9 +65,10 @@ class TMGMTMtecTranslatorPluginController extends TMGMTDefaultTranslatorPluginCo
     else {
       // If the file is on the FTP server,
       // request translation from MT@EC service.
+      $translator = $job->getTranslator();
       $response = $this->doRequest($job->getTranslator(), array(
-        'source' => drupal_strtoupper($job->source_language),
-        'target' => drupal_strtoupper($job->target_language),
+        'source' => strtoupper($job->source_language),
+        'target' => strtoupper($job->target_language),
         'folder' => $job->uuid,
         'filename' => $filename,
         'tjid' => $job->tjid,

@@ -43,12 +43,12 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
    * It also provides an additional $item to extract other token's parts.
    *
    * @param string $original
-   *   Token string, in its original format, eg. [node:1:view-mode:full].
+   *    Token string, in its original format, eg. [node:1:view-mode:full].
    * @param string $item
-   *   Item to be extracted when parsing the token.
+   *    Item to be extracted when parsing the token.
    *
    * @return string
-   *   Extracted item.
+   *    Extracted item.
    */
   protected function parseToken($original, $item = 'entity_id') {
     $matches = array();
@@ -72,9 +72,9 @@ abstract class TokenAbstractHandler extends BaseTokenAbstractHandler implements 
    * Create a Watchdog Log, if it's a node we can tell where they have to fix.
    *
    * @param array $data
-   *   Node Data.
+   *    Node Data.
    * @param string $original
-   *   Token Original string.
+   *    Token Original string.
    */
   protected function watchdogTokenNotFound($data, $original) {
     if (isset($data['node'])) {

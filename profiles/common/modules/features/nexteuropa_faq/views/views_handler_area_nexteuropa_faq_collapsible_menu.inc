@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Definition of views_handler_area_nexteuropa_faq_collapsible_menu.

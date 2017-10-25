@@ -4,6 +4,7 @@ core = 7.x
 package = Multisite Standard Features
 dependencies[] = wiki_core
 features[features_api][] = api:2
+features[ctools][] = strongarm:strongarm:1
 features[context][] = wiki_posts
 features[ctools][] = context:context:3
 files[] = tests/wiki_standard.test

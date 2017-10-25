@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the communities feature.
@@ -34,6 +33,18 @@ function communities_enable() {
  * Implements hook_install().
  */
 function communities_install() {
+
+  $path = drupal_get_path('module', 'communities') . '/assets/images/default_images';
+
+  $default_images = array(
+    'user_picture_default' => array(
+      'scheme' => 'public://',
+      'dest_directory' => 'default',
+      'source_path' => $path . '/community_default.png',
+      'filename' => 'community_default.png',
+      'variable' => 'default_community_image',
+    ),
+  );
 
   global $_communities_fid_default_community_image;
   // Affect a file image to the default image of the field thumbnail

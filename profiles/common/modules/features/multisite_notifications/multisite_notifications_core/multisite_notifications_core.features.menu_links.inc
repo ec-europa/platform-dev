@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_notifications_core.features.menu_links.inc

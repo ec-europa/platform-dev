@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the wiki feature.
@@ -27,6 +26,7 @@ function wiki_core_token_info() {
  */
 function wiki_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
+  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
   if ($type == 'Breadcrumb_wiki') {
     foreach ($tokens as $name => $original) {

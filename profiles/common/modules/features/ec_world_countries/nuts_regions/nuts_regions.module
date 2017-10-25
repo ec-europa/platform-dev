@@ -5,4 +5,13 @@
  * Contains main functionality of the nuts regions module.
  */
 
-include_once 'nuts_regions.features.inc';
+/**
+ * Implements hook_views_api().
+ *
+ * Allows defining views in code.
+ */
+function nuts_regions_views_api() {
+  return array(
+    'api' => 3,
+  );
+}

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * List of countries used to generate taxonomy.

@@ -168,7 +168,7 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
     );
 
     /* NEPT-485: Change view for new column "Last revision". */
-    $handler =& $view->display['default']->handler;
+    $handler  =& $view->display['default']->handler;
     $save_field_1 = $handler->display->display_options['fields']['changed'];
     $save_field_2 = $handler->display->display_options['fields']['views_bulk_operations'];
     unset($handler->display->display_options['fields']['changed']);
@@ -307,7 +307,7 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
       $view = $views['workbench_edited'];
 
       /* NEPT-485: Change view from column "Last updated" to "Last published". */
-      $handler =& $view->display['default']->handler;
+      $handler  =& $view->display['default']->handler;
       $handler->display->display_options['fields']['timestamp']['label'] = 'Last published';
       $handler->display->display_options['fields']['timestamp']['alter']['alter_text'] = TRUE;
       $handler->display->display_options['fields']['timestamp']['alter']['text']
@@ -323,10 +323,10 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
       $view = $views['workbench_recent_content'];
 
       /* NEPT-485: Change view from column "Last updated" to "Last published". */
-      $handler =& $view->display['default']->handler;
+      $handler  =& $view->display['default']->handler;
       $handler->display->display_options['fields']['changed']['label'] = 'Last published';
       $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
-      $handler =& $view->display['page_1']->handler;
+      $handler  =& $view->display['page_1']->handler;
       $handler->display->display_options['fields']['changed']['label'] = 'Last published';
       $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
       /* ~ NEPT-485 */

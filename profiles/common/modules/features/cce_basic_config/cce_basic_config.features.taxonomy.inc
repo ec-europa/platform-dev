@@ -17,7 +17,7 @@ function cce_basic_config_taxonomy_default_vocabularies() {
       'hierarchy' => '0',
       'module' => 'taxonomy',
       'weight' => '0',
-      'language' => LANGUAGE_NONE,
+      'language' => 'und',
       'i18n_mode' => '0',
       'rdf_mapping' => array(
         'rdftype' => array(
@@ -42,7 +42,7 @@ function cce_basic_config_taxonomy_default_vocabularies() {
       'hierarchy' => '0',
       'module' => 'taxonomy',
       'weight' => '0',
-      'language' => LANGUAGE_NONE,
+      'language' => 'und',
       'i18n_mode' => '0',
       'rdf_mapping' => array(
         'rdftype' => array(

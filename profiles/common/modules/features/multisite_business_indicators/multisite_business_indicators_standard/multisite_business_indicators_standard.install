@@ -9,21 +9,21 @@
  */
 
 /**
- * Deprecated; will be removed in NEPT-463.
+ * Implements hook_enable().
  */
 function multisite_business_indicators_standard_enable() {
   drupal_set_message(t('Business Indicators Standard feature is now active on your site.'));
 }
 
 /**
- * Deprecated; will be removed in NEPT-463.
+ * Implements hook_disable().
  */
 function multisite_business_indicators_standard_disable() {
   drupal_set_message(t('Business Indicators Standard feature is now inactive on your site.'));
 }
 
 /**
- * Deprecated; will be removed in NEPT-463.
+ * Implements hook_schema().
  */
 function multisite_business_indicators_standard_schema() {
   $schema['business_indicators_ext_index'] = array(
@@ -91,9 +91,10 @@ function multisite_business_indicators_standard_schema() {
 }
 
 /**
- * Resizing the "ip" column in the business_indicators_ext_index table.
+ * Implements hook_update_N().
  *
- * Needed for supporting the IPV6 addresses.
+ * Resizing the "ip" column in the business_indicators_ext_index table
+ * for supporting the IPV6 addresses.
  */
 function multisite_business_indicators_standard_update_7207(&$sandbox) {
   $db_table_name = "business_indicators_ext_index";

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the Links feature.
@@ -27,6 +26,7 @@ function links_core_token_info() {
  */
 function links_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
+  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
   if ($type == 'Breadcrumb_links') {
     foreach ($tokens as $name => $original) {

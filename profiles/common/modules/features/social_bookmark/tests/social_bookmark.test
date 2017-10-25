@@ -88,7 +88,7 @@ class SocialBookmark extends DrupalWebTestCase {
     $this->assertRaw('share_counter_container', 'Anonymous user can check the counter');
     $this->clickLink('Share');
     $box_id = 'share_box';
-    $xpath = "[@id='" . $box_id . "']";
+    $xpath .= "[@id='" . $box_id . "']";
     $elements = $this->xpath($xpath);
     $this->assertTrue($elements[0], 'The container with social networks links is active');
   }
@@ -167,6 +167,7 @@ class SocialBookmark extends DrupalWebTestCase {
    * Dummy content.
    */
   public function socialBookmarkContents() {
+    global $language;
     return 'bla bla';
   }
 

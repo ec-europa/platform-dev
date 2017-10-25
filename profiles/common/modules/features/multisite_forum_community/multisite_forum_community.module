@@ -200,7 +200,7 @@ function multisite_forum_community_node_view($node, $view_mode, $langcode) {
   $field = field_info_instance('node', 'taxonomy_forums', $node->type);
   if (is_array($field)) {
     if ($view_mode == 'full' && node_is_page($node)) {
-      $forum_term = $node->taxonomy_forums[LANGUAGE_NONE][0]['taxonomy_term'];
+      $forum_term = $node->taxonomy_forums['und'][0]['taxonomy_term'];
       $gid = multisite_forum_community_get_forum_term_git($forum_term);
       if ($gid) {
         $group_node = node_load($gid);
@@ -247,9 +247,6 @@ function multisite_forum_community_forum_page($forum_term = NULL) {
   }
 
   module_load_include('inc', 'forum', 'forum.pages');
-  // The forum_page method returns the output of a theme method
-  // and the sanitation is taken care on the core "Forum" module.
-  // @codingStandardsIgnoreLine: NEPT-1305
   return forum_page($forum_term);
 }
 

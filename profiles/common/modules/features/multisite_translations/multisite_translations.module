@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the multisite_translations feature.
@@ -132,20 +131,16 @@ function multisite_translations_views_query_alter(&$view, &$query) {
 }
 
 /**
- * Test if a user belongs to a translator role.
- *
- * @return bool
- *   True if the user has a role that contains the word translator, False
- *   otherwise.
+ * Test if a user has one or any translator roles.
  */
 function is_translator($account) {
-  foreach ($account->roles as $role) {
-    if (drupal_substr($role, 0, 10) == 'translator') {
+  $roles = $account->roles;
+  foreach ($roles as $rid => $role) {
+    if (substr($role, 0, 10) == 'translator') {
       return TRUE;
     }
   }
-
-  return FALSE;
+  $result = FALSE;
 }
 
 /**
@@ -154,8 +149,8 @@ function is_translator($account) {
 function get_translator_languages($account) {
   $language_codes = array();
   $roles = $account->roles;
-  foreach ($roles as $role) {
-    if (drupal_substr($role, 0, 10) == 'translator') {
+  foreach ($roles as $rid => $role) {
+    if (substr($role, 0, 10) == 'translator') {
       $language_codes[] = get_related_language($role);
     }
   }
@@ -169,7 +164,7 @@ function get_related_language($role) {
   $elt = explode("_", $role);
   $result = db_select('languages', 'l')
     ->fields('l', array('language'))
-    ->condition('name', drupal_ucfirst($elt[1]), '=')
+    ->condition('name', ucfirst($elt[1]), '=')
     ->execute()
     ->fetchAssoc();
 
@@ -186,7 +181,7 @@ function get_related_translation_role($language_code) {
     ->execute()
     ->fetchAssoc();
 
-  return ('translator_' . drupal_strtolower($result['name']));
+  return ('translator_' . strtolower($result['name']));
 }
 
 /**
@@ -198,8 +193,8 @@ function create_translation_roles() {
   $default_language = $default_language->language;
 
   // Create translation roles.
-  foreach ($languages as $language) {
-    $role_name = 'translator_' . drupal_strtolower($language->name);
+  foreach ($languages as $lid => $language) {
+    $role_name = 'translator_' . strtolower($language->name);
 
     $result = db_select('role', 'r')
       ->fields('r')
@@ -224,7 +219,7 @@ function create_translation_roles() {
   // Add translation skill to user_administrator.
   $delta = count($languages);
   if ($user = user_load_by_name('user_administrator')) {
-    foreach ($languages as $language) {
+    foreach ($languages as $lid => $language) {
       if ($language->language != $default_language) {
         $check_skill = db_select('field_data_tmgmt_translation_skills', 'fdtts')
           ->fields('fdtts')
@@ -235,14 +230,14 @@ function create_translation_roles() {
           ->fetchAssoc();
 
         if ($check_skill == NULL) {
-          db_insert('field_data_tmgmt_translation_skills')
+          $id = db_insert('field_data_tmgmt_translation_skills')
             ->fields(array(
               'entity_type' => 'user',
               'bundle' => 'user',
               'deleted' => 0,
               'entity_id' => $user->uid,
               'revision_id' => $user->uid,
-              'language' => LANGUAGE_NONE,
+              'language' => 'und',
               'delta' => $delta,
               'tmgmt_translation_skills_language_from' => $default_language,
               'tmgmt_translation_skills_language_to' => $language->language,
@@ -317,7 +312,7 @@ function rules_action_mail_to_related_translation_role($subject, $message, $from
   );
   // Set a unique key for this mail.
   $name = isset($element->root()->name) ? $element->root()->name : 'unnamed';
-  $key = 'rules_action_mail_to_users_of_role_' . $name . '_' . $element->elementId();
+  $key = 'rules_action_mail_to_users_of_role_' . $name . '_' . $element->elementId();  $languages = language_list();
 
   $message = array('result' => TRUE);
   foreach ($result as $row) {

@@ -51,6 +51,7 @@ function multisite_autosave_menu() {
  *   differentiate between different people mucking with the same form.
  */
 function _multisite_autosave_restore($formid, $timestamp) {
+  global $user;
 
   // Convert the form ID back to the PHP version.  I do hate that duality...
   $form_id = str_replace("-", "_", $formid);
@@ -67,7 +68,6 @@ function _multisite_autosave_restore($formid, $timestamp) {
       require_once DRUPAL_ROOT . '/' . $menu_item['include_file'];
       $form_state['build_info']['files'][] = $menu_item['include_file'];
     }
-    // @codingStandardsIgnoreLine: NEPT-1304: The code tries to build a form, not read it.
     $form_state['input'] = unserialize($record->serialized);
 
     // The node_form() form builder expects the first argument to be a full node
@@ -125,7 +125,7 @@ function _multisite_autosave_url($path) {
   if (drupal_multilingual() && language_negotiation_get_any(LOCALE_LANGUAGE_NEGOTIATION_URL)) {
     $url_part = variable_get('locale_language_negotiation_url_part', LOCALE_LANGUAGE_NEGOTIATION_URL_PREFIX);
     if ($url_part === LOCALE_LANGUAGE_NEGOTIATION_URL_PREFIX) {
-      list(, $path) = language_url_split_prefix($path, language_list());
+      list($lang, $path) = language_url_split_prefix($path, language_list());
     }
   }
   return url($path);

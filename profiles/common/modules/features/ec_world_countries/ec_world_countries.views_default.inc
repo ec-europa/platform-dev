@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ec_world_countries.views_default.inc
@@ -167,7 +166,28 @@ function ec_world_countries_views_default_views() {
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'ec-world-countries';
-
+  $translatables['ec_world_countries'] = array(
+    t('Master'),
+    t('EC world countries'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Parent'),
+    t('Name'),
+    t('ISO 3166-1 alpha-2 code'),
+    t('Continent'),
+    t('Page'),
+  );
   $export['ec_world_countries'] = $view;
 
   return $export;

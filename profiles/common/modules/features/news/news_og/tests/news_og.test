@@ -97,7 +97,10 @@ class NewsOgWebTestCase extends DrupalWebTestCase {
 
     $this->assertTrue(module_exists('og'), t('og feature enabled.'));
     if (module_exists('og')) {
+
       og_role_grant_permissions($this->communityUser->name, array('edit group' => 0, 'administer group' => 1));
+      $og_membership = og_is_member('community', $node->nid, $entity_type = 'user', $entity = NULL, $states = array(OG_STATE_ACTIVE));
+
     }
 
     $this->drupalLogout();

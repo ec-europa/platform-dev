@@ -9,12 +9,11 @@
  * Implements hook_enable().
  */
 function multisite_charts_enable() {
-  $t = get_t();
   multisite_drupal_toolbox_config_solr_bundle('chart', 'add');
 
   multisite_drupal_toolbox_content_type_linkchecker('chart', 'add');
 
-  drupal_set_message($t('Multisite Charts feature is now active on your site.'));
+  drupal_set_message(t('Multisite Charts feature is now active on your site.'));
 }
 
 /**
@@ -33,20 +32,19 @@ function multisite_charts_disable() {
  * Implements hook_requirements().
  */
 function multisite_charts_requirements($phase) {
-  $t = get_t();
   $requirements = array();
-  $requirements['multisite_charts']['title'] = $t('Multisite Charts');
+  $requirements['multisite_charts']['title'] = t('Multisite Charts');
   if ($phase == 'runtime') {
     // Fusionchart PHP file.
     $file_exists = file_exists(multisite_charts_get_library_path() . 'Code/PHP/Includes/FusionCharts.php');
     if ($file_exists) {
-      $requirements['multisite_charts']['value'] = $t('FusionCharts PHP file found.');
+      $requirements['multisite_charts']['value'] = t('FusionCharts PHP file found.');
       $requirements['multisite_charts']['severity'] = REQUIREMENT_OK;
     }
     else {
-      $requirements['multisite_charts']['value'] = $t('FusionCharts PHP file not found.');
+      $requirements['multisite_charts']['value'] = t('FusionCharts PHP file not found.');
       $requirements['multisite_charts']['severity'] = REQUIREMENT_ERROR;
-      $requirements['multisite_charts']['description'] = $t('Please download these files from <a href="@url">http://www.fusioncharts.com</a> and copy them into the fusioncharts library directory as per instructions in the readme.txt file.', array('@url' => 'http://www.fusioncharts.com'));
+      $requirements['multisite_charts']['description'] = t('Please download these files from <a href="@url">http://www.fusioncharts.com</a> and copy them into the fusioncharts library directory as per instructions in the readme.txt file.', array('@url' => 'http://www.fusioncharts.com'));
     }
 
   }

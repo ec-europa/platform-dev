@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * news_og.context.inc

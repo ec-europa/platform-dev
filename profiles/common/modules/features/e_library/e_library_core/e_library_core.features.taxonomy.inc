@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * e_library_core.features.taxonomy.inc
@@ -17,7 +16,7 @@ function e_library_core_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'media_library_core',
       'weight' => 0,
-      'language' => LANGUAGE_NONE,
+      'language' => 'und',
       'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_feature_set.features.user_role.inc

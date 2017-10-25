@@ -55,8 +55,8 @@ Default is to not force a domain
 #### Change Password URL
 #### Debug mode
 When enabled, each attempt will be logged to the phpCas.log file
-IE: if you enter '%file_public%/phpCas.log' in the textfield, you will be
-able to view the log output on /build/%file_public%/phpCas.log
+IE: if you enter 'sites/default/files/phpCas.log' in the textfield, you will be
+able to view the log output on /build/sites/default/files/phpCas.log
 #### User account status (first login)
 Activate or block user at the time his account is created.
 #### Login message

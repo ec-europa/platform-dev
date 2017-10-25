@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the NextEuropa GeoField feature.
@@ -53,6 +52,8 @@ function nexteuropa_geofield_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  $widget = $element;
+  $widget['#delta'] = $delta;
   $value = isset($items[$delta]) ? $items[$delta] : '';
   $settings = $instance['widget']['settings'];
 
@@ -379,7 +380,7 @@ function _nexteuropa_geofield_geocode($form, $form_state) {
       $error = $geocode->error;
     }
     else {
-      $geocode_decoded = drupal_json_decode($geocode->data);
+      $geocode_decoded = json_decode($geocode->data);
 
       if ($geocode_decoded->geocodingRequestsCollection[0]->foundCount < 1) {
         $error = t('No address found.');
@@ -433,7 +434,7 @@ function nexteuropa_geofield_node_validate($node, $form, &$form_state) {
       // Add the javascript files if there is a geofield_geojson field.
       if ($type == 'geofield_geojson') {
         $field_instance = $form_state['field'][$field_name][LANGUAGE_NONE];
-        drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->{$field_name}[LANGUAGE_NONE][0]['geofield_geojson'])), 'setting');
+        drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->{$field_name}['und'][0]['geofield_geojson'])), 'setting');
         drupal_add_js(array('nexteuropa_geojson' => array('settings' => $field_instance['instance']['widget']['settings'])), 'setting');
         drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field_instance['field']['cardinality'])), 'setting');
       }

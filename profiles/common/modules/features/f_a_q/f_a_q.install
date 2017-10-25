@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature f_a_q.
@@ -10,9 +9,8 @@
  */
 function f_a_q_install() {
   // Create a vocabulary dedicated to the faq.
-  $t = get_t();
   $vocabulary = (object) array(
-    'name' => $t('FAQ categories'),
+    'name' => st('FAQ categories'),
     'machine_name' => 'faq_categories',
     'module' => 'faq',
   );
@@ -31,8 +29,7 @@ function f_a_q_uninstall() {
  * Implements hook_enable().
  */
 function f_a_q_enable() {
-  $t = get_t();
-  drupal_set_message($t('FAQ enabled'));
+  drupal_set_message(t('FAQ enabled'));
 
   // SolR configuration add bundle.
   multisite_drupal_toolbox_config_solr_bundle('f_a_q', 'add');

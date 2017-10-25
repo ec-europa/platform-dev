@@ -8,7 +8,7 @@
 /**
  * Defines a base class for testing the "Embedded video" module.
  */
-class EcEmbeddedVideoWebTestCase extends DrupalWebTestCase {
+class EmbeddedVideosWebTestCase extends DrupalWebTestCase {
   /**
    * {@inheritdoc}
    */
@@ -52,7 +52,7 @@ class EcEmbeddedVideoWebTestCase extends DrupalWebTestCase {
    * Create and test content type.
    */
   public function createVideoField($node_type = 'page', $settings = array()) {
-    $name = drupal_strtolower($this->randomName());
+    $name = strtolower($this->randomName());
     $edit = array(
       'fields[_add_new_field][label]' => $name,
       'fields[_add_new_field][field_name]' => $name,

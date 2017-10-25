@@ -277,7 +277,7 @@ function _nexteuropa_piwik_get_forbidden_tokens($value) {
   $invalid_tokens = array();
   $value_tokens = is_string($value) ? token_scan($value) : $value;
 
-  foreach ($value_tokens as $tokens) {
+  foreach ($value_tokens as $type => $tokens) {
     if (array_filter($tokens, '_nexteuropa_piwik_contains_forbidden_token')) {
       $invalid_tokens = array_merge($invalid_tokens, array_values($tokens));
     }

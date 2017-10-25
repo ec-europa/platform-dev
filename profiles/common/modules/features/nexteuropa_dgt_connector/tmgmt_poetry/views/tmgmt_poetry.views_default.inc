@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Exported views specific for TMGMT Poetry module.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the newsletters feature.
@@ -79,6 +78,7 @@ function newsletters_tokens($type, $tokens, $data = array(), $options = array())
   global $language;
   $replacements = array();
 
+  $sanitize = !empty($options['sanitize']);
   // Tokens for newsletter breadcrumb.
   if ($type == 'newsletter-breadcrump' && !empty($data['node'])) {
     $node = $data['node'];

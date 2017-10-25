@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Template file for the POETRY send status message.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ec_embedded_image.features.field_base.inc

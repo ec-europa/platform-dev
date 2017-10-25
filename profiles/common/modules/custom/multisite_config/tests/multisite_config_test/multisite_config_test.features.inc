@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_config_test.features.inc

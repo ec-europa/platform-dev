@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * API documentation for the Multisite OG Navigation Tree module.

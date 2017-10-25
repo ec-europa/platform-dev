@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Template for messages displayed through interfaces managed by the module.

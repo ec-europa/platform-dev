@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * communities.features.field_instance.inc

@@ -26,7 +26,7 @@ function multisite_notifications_core_general_settings() {
   );
 
   // Subject.
-  foreach (language_list() as $language) {
+  foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['subscribe_confirmation']['subscribe_subject_' . $language->language] = array(
       '#title' => t('Subscribe mail subject: @name', array('@name' => $language->name)),
       '#type' => 'textfield',
@@ -35,7 +35,7 @@ function multisite_notifications_core_general_settings() {
   }
 
   // Body.
-  foreach (language_list() as $language) {
+  foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['subscribe_confirmation']['subscribe_message_' . $language->language] = array(
       '#title' => t('Subscribe mail body: @name', array('@name' => $language->name)),
       '#type' => 'textarea',
@@ -52,7 +52,7 @@ function multisite_notifications_core_general_settings() {
   );
 
   // Subject.
-  foreach (language_list() as $language) {
+  foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['unsubscribe_confirmation']['unsubscribe_subject_' . $language->language] = array(
       '#title' => t('Unsubscribe mail subject: @name', array('@name' => $language->name)),
       '#type' => 'textfield',
@@ -61,7 +61,7 @@ function multisite_notifications_core_general_settings() {
   }
 
   // Body.
-  foreach (language_list() as $language) {
+  foreach ($languages = language_list() as $language) {
     $form['subscription_block_settings']['unsubscribe_confirmation']['unsubscribe_message_' . $language->language] = array(
       '#title' => t('Unsubscribe mail body: @name', array('@name' => $language->name)),
       '#type' => 'textarea',

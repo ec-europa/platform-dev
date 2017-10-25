@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * events_core.field_group.inc

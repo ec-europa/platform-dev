@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains \Drupal\nexteuropa\Context\TaxonomyContext.
@@ -47,7 +46,7 @@ class TaxonomyContext implements Context {
    * Check vocabulary.
    *
    * @param string $name
-   *   Name of the taxonomy.
+   *    Name of the taxonomy.
    *
    * @Given the vocabulary :name exists
    */
@@ -59,7 +58,7 @@ class TaxonomyContext implements Context {
    * Create vocabulary.
    *
    * @param string $name
-   *   Name of the taxonomy.
+   *    Name of the taxonomy.
    *
    * @Given the vocabulary :name is created
    *
@@ -99,9 +98,9 @@ class TaxonomyContext implements Context {
    * Create term in a vocabulary.
    *
    * @param string $term_name
-   *   Name of the term.
+   *    Name of the term.
    * @param string $vocabulary_name
-   *   Name of the vocabulary.
+   *    Name of the vocabulary.
    *
    * @Given the term :term_name in the vocabulary :vocabulary_name exists
    *
@@ -120,9 +119,9 @@ class TaxonomyContext implements Context {
    * Create term with a parent in a vocabulary.
    *
    * @param string $term_name
-   *   Name of the term.
+   *    Name of the term.
    * @param string $vocabulary_name
-   *   Name of the vocabulary.
+   *    Name of the vocabulary.
    *
    * @Given the term :term_name with the parent term :parent_term in the vocabulary :vocabulary_name exists
    *
@@ -160,11 +159,11 @@ class TaxonomyContext implements Context {
    * Create a group in a vocabulary.
    *
    * @param string $group_name
-   *   Name of the group.
+   *    Name of the group.
    * @param string $group_type
-   *   Type of the group.
+   *    Type of the group.
    * @param string $vocabulary_name
-   *   Name of the vocabulary.
+   *    Name of the vocabulary.
    *
    * @Given the group :group_type named :group_name in the vocabulary :vocabulary_name exists
    *
@@ -201,13 +200,13 @@ class TaxonomyContext implements Context {
    * Create a field in a group and in a vocabulary.
    *
    * @param string $field_name
-   *   Name of the field.
+   *    Name of the field.
    * @param string $field_type
-   *   Type of the field.
+   *    Type of the field.
    * @param string $group_name
-   *   Name of the group.
+   *    Name of the group.
    * @param string $vocabulary_name
-   *   Name of the vocabulary.
+   *    Name of the vocabulary.
    *
    * @Given the field :field_type named :field_name grouped in :group_name in the vocabulary :vocabulary_name exists
    *
@@ -256,10 +255,10 @@ class TaxonomyContext implements Context {
    * Get the type format of a Group by the name.
    *
    * @param string $name
-   *   Name of the group.
+   *    Name of the group.
    *
    * @return string
-   *   Machine name of the group.
+   *    Machine name of the group.
    */
   private function getGroupTypeFormatByName($name) {
     $formats = field_group_formatter_info();
@@ -280,10 +279,10 @@ class TaxonomyContext implements Context {
    * Get the type format of a Field by the name.
    *
    * @param string $name
-   *   Name of the field.
+   *    Name of the field.
    *
    * @return string
-   *   Machine name of the field.
+   *    Machine name of the field.
    */
   private function getFieldTypeFormatByName($name) {
     $formats = array_merge(text_field_info(), number_field_info(), list_field_info(), image_field_info(), file_field_info());
@@ -304,10 +303,10 @@ class TaxonomyContext implements Context {
    * Get the Taxonomy Id by the name.
    *
    * @param string $name
-   *   Name of the taxonomy.
+   *    Name of the taxonomy.
    *
    * @return string
-   *   Id of the taxonomy.
+   *    Id of the taxonomy.
    */
   private function getTaxonomyIdByName($name) {
     $vocabulary = taxonomy_vocabulary_machine_name_load($this->transliterate->getMachineName($name));

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * e_library_core.field_group.inc

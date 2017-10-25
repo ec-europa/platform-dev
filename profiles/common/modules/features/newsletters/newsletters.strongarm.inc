@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * newsletters.strongarm.inc

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * e_library_core.features.field_instance.inc

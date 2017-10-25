@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the Multisite Maps feature.
@@ -55,6 +54,9 @@ function theme_multisite_map(array $variables) {
   }
 
   drupal_add_js($js_path . 'FusionCharts.js', 'external');
+
+  // Get the path of drupal instance.
+  $path_drupal = base_path();
 
   // Build the path to swf. Beware swf files have lowercase filenames.
   $swf_file = $path . $info['type'] . '.swf';

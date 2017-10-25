@@ -42,7 +42,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
     $replacements = array();
 
     if ($this->isValidTokenType($type)) {
-      foreach ($tokens as $original) {
+      foreach ($tokens as $name => $original) {
         if ($this->isValidToken($original)) {
           $entity_view_mode_type = $this->getViewModeTypeHandlers();
 
@@ -85,10 +85,10 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Extract view mode machine name from a token string.
    *
    * @param string $original
-   *   Token, in its original format, eg. [node:1:view-mode:full].
+   *    Token, in its original format, eg. [node:1:view-mode:full].
    *
    * @return string
-   *   Extracted view mode machine name.
+   *    Extracted view mode machine name.
    */
   public function getViewModeFromToken($original) {
     return $this->parseToken($original, 'view_mode');
@@ -124,10 +124,10 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Get view modes machine names per entity.
    *
    * @param string $token_type
-   *   Entity token type name.
+   *    Entity token type name.
    *
    * @return array
-   *   List of view mode machine names for a given entity token type.
+   *    List of view mode machine names for a given entity token type.
    */
   public function getEntityViewModes($token_type) {
     $view_modes = array();
@@ -149,10 +149,10 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Get token name using predefined token prefix.
    *
    * @param string $view_mode
-   *   View mode machine name.
+   *    View mode machine name.
    *
    * @return string
-   *   Formatted token name.
+   *    Formatted token name.
    *
    * @see ViewModeTokenHandler::hookTokenInfoAlter()
    */
@@ -164,7 +164,7 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    * Returns entity token types list.
    *
    * @return array
-   *   List of entity info array.
+   *    List of entity info array.
    */
   public function getEntityTokenTypes() {
     $supported_types = $this->getSupportedTokenTypes();
@@ -203,10 +203,10 @@ class ViewModeTokenHandler extends TokenAbstractHandler {
    *   The configuration array.
    *
    * @return \Drupal\nexteuropa_token\Entity\ViewModeType\ViewModeTypeInterface
-   *   Entity view mode type object.
+   *    Entity view mode type object.
    *
    * @throws \Exception
-   *   Throws exception if no handler class has been found.
+   *    Throws exception if no handler class has been found.
    */
   public function getEntityViewModeType($type, array $configuration = array()) {
     $handlers = $this->getViewModeTypeHandlers();

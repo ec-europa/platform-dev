@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_editorial.features.inc

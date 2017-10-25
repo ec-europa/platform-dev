@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * f_a_q.features.taxonomy.inc
@@ -17,7 +16,7 @@ function f_a_q_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'faq',
       'weight' => 0,
-      'language' => LANGUAGE_NONE,
+      'language' => 'und',
       'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(

@@ -71,9 +71,9 @@ function multisite_notifications_core_disable() {
 
   $content_types = node_type_get_types();
   foreach ($content_types as $content_type) {
-    db_delete('mail_edit')
-      ->condition('id', 'subscriptions_mail_node-type-' . $content_type->type)
-      ->execute();
+    $custom_template_deleted = db_delete('mail_edit')
+            ->condition('id', 'subscriptions_mail_node-type-' . $content_type->type)
+            ->execute();
   }
 
   $modules = array(
@@ -92,17 +92,13 @@ function multisite_notifications_core_disable() {
  * Refactor mail template with correct unsubscribe url.
  */
 function multisite_notifications_core_update_7101() {
-  db_update('mail_edit')
-    ->expression('body', "replace(body, '[site:url]unsubscribe/[current-user:uid]', '[site:url]/unsubscribe/[current-user:uid]')")
-    ->execute();
+  db_query("update mail_edit set body = replace(body, '[site:url]unsubscribe/[current-user:uid]', '[site:url]/unsubscribe/[current-user:uid]') ");
 }
 
 /**
  * Refactor mail template with correct unsubscribe url.
  */
 function multisite_notifications_core_update_7102() {
-  db_update('mail_edit')
-    ->expression('body', "replace(body, '[site:url]/unsubscribe/[current-user:uid]', '[subs:unsubscribe-url]')")
-    ->execute();
+  db_query("update {mail_edit} set body = replace(body, '[site:url]/unsubscribe/[current-user:uid]', '[subs:unsubscribe-url]') ");
   user_role_delete('subscriber');
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_charts.field_group.inc

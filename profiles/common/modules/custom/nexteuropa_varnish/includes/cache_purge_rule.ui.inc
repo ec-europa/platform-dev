@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Definition of NexteuropaVarnishCachePurgeRuleEntityUIController.
+ * Definition of CachePurgeRuleEntityUIController.
  */
 
 use Drupal\nexteuropa_varnish\PurgeRuleType;
@@ -10,7 +9,7 @@ use Drupal\nexteuropa_varnish\PurgeRuleType;
 /**
  * Entity UI controller for cache purge rules.
  */
-class NexteuropaVarnishCachePurgeRuleEntityUIController extends EntityDefaultUIController {
+class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
 
   /**
    * {@inheritdoc}

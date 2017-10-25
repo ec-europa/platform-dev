@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Template file for the POETRY confirmation of receiving translation request.

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * news_core.field_group.inc

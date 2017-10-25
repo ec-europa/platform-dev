@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * events_resources.features.field_base.inc

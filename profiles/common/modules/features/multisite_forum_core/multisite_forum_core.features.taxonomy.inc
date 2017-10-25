@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_forum_core.features.taxonomy.inc
@@ -17,7 +16,7 @@ function multisite_forum_core_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => -10,
-      'language' => LANGUAGE_NONE,
+      'language' => 'und',
       'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(

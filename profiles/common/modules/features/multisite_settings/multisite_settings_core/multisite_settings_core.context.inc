@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_settings_core.context.inc

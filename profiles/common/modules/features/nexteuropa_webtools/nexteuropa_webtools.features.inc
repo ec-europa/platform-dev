@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_webtools.features.inc

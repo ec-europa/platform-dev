@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ec_embedded_video.file_default_displays.inc

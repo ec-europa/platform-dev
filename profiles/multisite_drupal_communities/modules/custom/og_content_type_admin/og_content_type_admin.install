@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install the feature og_content_type_admin.
@@ -95,7 +94,7 @@ function og_content_type_admin_enable() {
   $swgid = -1;
   $sitewide = 'Site Wide';
 
-  db_insert('og_content_type_admin')
+  $query3 = db_insert('og_content_type_admin')
     ->fields(array(
       'gid' => $swgid,
       'name' => $sitewide,
@@ -111,7 +110,7 @@ function og_content_type_admin_enable() {
   }
   $dfgid = 0;
   $group_default = 'Default';
-  db_insert('og_content_type_admin')
+  $query4 = db_insert('og_content_type_admin')
     ->fields(array(
       'gid' => $dfgid,
       'name' => $group_default,

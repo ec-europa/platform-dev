@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * This file contains examples of hooks that can be implemented.

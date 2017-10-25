@@ -16,7 +16,7 @@ function nexteuropa_communities_menu_default_menu_custom() {
     'menu_name' => 'menu-community-menu',
     'title' => 'community',
     'description' => '',
-    'language' => LANGUAGE_NONE,
+    'language' => 'und',
     'i18n_mode' => 0,
   );
   // Translatables

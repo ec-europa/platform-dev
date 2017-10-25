@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code that generates a fat footer.
@@ -12,7 +11,7 @@ function theme_fat_footer_links($variables) {
   $output = "";
 
   $links = $variables['links'];
-  foreach ($links as $link) {
+  foreach ($links as $key => $link) {
     $output .= "<div class=\"fat_footer_item\">";
     $output .= l($link['link']['title'], $link['link']['href'], $link);
 

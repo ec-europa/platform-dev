@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * survey_og.features.og_features_permission.inc

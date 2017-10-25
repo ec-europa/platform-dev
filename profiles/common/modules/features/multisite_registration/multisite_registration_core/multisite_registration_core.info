@@ -7,6 +7,7 @@ dependencies[] = registration
 dependencies[] = registration_entity_access
 dependencies[] = registration_views
 dependencies[] = registration_waitlist
+features[ctools][] = field_group:field_group:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
 features[registration_state][] = canceled

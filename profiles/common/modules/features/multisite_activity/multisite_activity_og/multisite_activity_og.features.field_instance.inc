@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_activity_og.features.field_instance.inc

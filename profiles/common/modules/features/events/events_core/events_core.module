@@ -27,6 +27,7 @@ function events_core_token_info() {
  */
 function events_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
+  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core breadcrump.
   if ($type == 'Breadcrumb_events') {
     foreach ($tokens as $name => $original) {
@@ -52,7 +53,7 @@ function events_core_form_event_node_form_alter(&$form, &$form_state, $form_id) 
  * Validation function : scan urls.
  */
 function custom_valid_events_link(&$form, &$form_state) {
-  if (isset($form['field_location'][LANGUAGE_NONE][0]['url']['#value']) && (bool) $form['field_location'][LANGUAGE_NONE][0]['url']['#value']) {
-    multisite_drupal_toolbox_linkit_scan_url($form['field_location'][LANGUAGE_NONE][0]['url']['#value'], 'field_location');
+  if (isset($form['field_location']['und'][0]['url']['#value']) && (bool) $form['field_location']['und'][0]['url']['#value']) {
+    $result_scan = multisite_drupal_toolbox_linkit_scan_url($form['field_location']['und'][0]['url']['#value'], 'field_location');
   }
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains \Drupal\nexteuropa\Context\BlockContext.
@@ -32,9 +31,9 @@ class BlockContext implements Context {
    * Check vocabulary.
    *
    * @param string $delta
-   *   Identifier of the block.
+   *    Identifier of the block.
    * @param string $module
-   *   Module that produced the block.
+   *    Module that produced the block.
    *
    * @Given the block :delta from the module :module exists
    */
@@ -46,11 +45,11 @@ class BlockContext implements Context {
    * Create vocabulary.
    *
    * @param string $delta
-   *   Identifier of the block.
+   *    Identifier of the block.
    * @param string $module
-   *   Module that produced the block.
+   *    Module that produced the block.
    * @param string $region
-   *   Region to asign the block to.
+   *    Region to asign the block to.
    *
    * @Given that the block :delta from module :module is assigned to the region :region
    *
@@ -103,12 +102,12 @@ class BlockContext implements Context {
    * Get the Taxonomy Id by the name.
    *
    * @param string $delta
-   *   Identifier of the block.
+   *    Identifier of the block.
    * @param string $module
-   *   Module that produced the block.
+   *    Module that produced the block.
    *
    * @return \stdClass
-   *   Block object.
+   *    Block object.
    */
   private function getBlockInfo($delta, $module) {
     global $theme;

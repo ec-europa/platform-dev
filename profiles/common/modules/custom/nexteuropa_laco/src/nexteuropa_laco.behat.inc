@@ -42,13 +42,13 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
    * Assert language coverage on a specific path.
    *
    * @param string $code
-   *   Expected response code.
+   *    Expected response code.
    * @param string $language
-   *   Language to be queried.
+   *    Language to be queried.
    * @param string $path
-   *   Path to determined the language coverage for.
+   *    Path to determined the language coverage for.
    * @param string $message
-   *   Debug response message.
+   *    Debug response message.
    *
    * @Then I should get a :code for :language language coverage on the :path path
    */
@@ -76,7 +76,7 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
    * Assert language coverage on a specific path given a list of parameters.
    *
    * @param \Behat\Gherkin\Node\TableNode $table
-   *   Table containing response code, language code and relative path.
+   *    Table containing response code, language code and relative path.
    *
    * @Then I should get the following language coverage responses:
    */

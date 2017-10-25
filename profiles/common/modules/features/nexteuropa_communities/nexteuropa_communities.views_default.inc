@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_communities.views_default.inc

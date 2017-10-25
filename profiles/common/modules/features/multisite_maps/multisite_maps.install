@@ -11,19 +11,18 @@
 function multisite_maps_requirements($phase) {
   $requirements = array();
   if ($phase == 'runtime') {
-    $t = get_t();
     // FusionMaps PHP file.
     $file_exists = file_exists(multisite_maps_get_library_path() . '/Code/PHP/Includes/FusionMaps.php');
     if ($file_exists) {
       $requirements['multisite_maps']['severity'] = REQUIREMENT_OK;
-      $requirements['multisite_maps']['value'] = $t('FusionMaps PHP file found.');
+      $requirements['multisite_maps']['value'] = t('FusionMaps PHP file found.');
     }
     else {
       $requirements['multisite_maps']['severity'] = REQUIREMENT_ERROR;
-      $requirements['multisite_maps']['value'] = $t('FusionMaps PHP file not found.');
-      $requirements['multisite_maps']['description'] = $t('Please download these files from <a href="@url">http://www.fusioncharts.com</a> and copy them into the FusionMaps library directory as per instructions in the readme.txt file.', array('@url' => 'http://www.fusioncharts.com/charts/fusionmaps/'));
+      $requirements['multisite_maps']['value'] = t('FusionMaps PHP file not found.');
+      $requirements['multisite_maps']['description'] = t('Please download these files from <a href="@url">http://www.fusioncharts.com</a> and copy them into the FusionMaps library directory as per instructions in the readme.txt file.', array('@url' => 'http://www.fusioncharts.com/charts/fusionmaps/'));
     }
-    $requirements['multisite_maps']['title'] = $t('FusionMaps');
+    $requirements['multisite_maps']['title'] = t('FusionMaps');
   }
   return $requirements;
 }
@@ -32,7 +31,6 @@ function multisite_maps_requirements($phase) {
  * Implements hook_enable().
  */
 function multisite_maps_enable() {
-  $t = get_t();
   // SolR configuration add bundle.
   config_solr_bundle('map', 'add');
 
@@ -40,7 +38,7 @@ function multisite_maps_enable() {
   _content_type_linkchecker('map', 'add');
 
   // Activation message.
-  drupal_set_message($t('Multisite Maps feature is now active on your site.'));
+  drupal_set_message(t('Multisite Maps feature is now active on your site.'));
 }
 
 /**

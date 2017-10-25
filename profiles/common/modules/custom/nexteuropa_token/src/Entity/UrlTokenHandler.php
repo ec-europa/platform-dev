@@ -48,7 +48,7 @@ class UrlTokenHandler extends TokenAbstractHandler {
 
     if ($this->isValidTokenType($type)) {
       $token_types = token_get_entity_mapping();
-      foreach ($tokens as $original) {
+      foreach ($tokens as $name => $original) {
         if ($this->isValidToken($original)) {
           $entity_id = $this->getEntityIdFromToken($original);
           $entity_type = $token_types[$type];

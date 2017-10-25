@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * wiki_core.features.field_instance.inc

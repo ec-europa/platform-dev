@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_metatags.features.metatag.inc

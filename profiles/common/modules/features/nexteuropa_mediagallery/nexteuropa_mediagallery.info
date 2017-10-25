@@ -213,3 +213,4 @@ features_exclude[dependencies][taxonomy] = taxonomy
 features_exclude[dependencies][cce_basic_config] = cce_basic_config
 features_exclude[field_base][group_content_access] = group_content_access
 features_exclude[field_base][og_group_ref] = og_group_ref
+project path = profiles/multisite_drupal_standard/modules/features

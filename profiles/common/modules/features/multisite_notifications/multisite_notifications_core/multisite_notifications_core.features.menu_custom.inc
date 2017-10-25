@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_notifications_core.features.menu_custom.inc
@@ -16,7 +15,7 @@ function multisite_notifications_core_menu_default_menu_custom() {
     'menu_name' => 'management',
     'title' => 'Management',
     'description' => 'The <em>Management</em> menu contains links for administrative tasks.',
-    'language' => LANGUAGE_NONE,
+    'language' => 'und',
     'i18n_mode' => 0,
   );
   // Translatables

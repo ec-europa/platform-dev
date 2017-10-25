@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_mediagallery.views_default.inc

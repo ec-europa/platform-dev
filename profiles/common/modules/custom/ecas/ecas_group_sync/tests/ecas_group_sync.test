@@ -100,7 +100,7 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
         'body' => array(LANGUAGE_NONE => array(array('Community body'))),
       );
 
-      $node1               = $this->drupalCreateNode($settings);
+      $node1 = $this->drupalCreateNode($settings);
       $node1->og_register  = 0;
       $node1->og_directory = 0;
       $node1->og_private   = 1;
@@ -108,7 +108,8 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
       node_save($node1);
 
       // Create mapping rule.
-      db_insert('ecas_sync_mapping')
+      // @todo The variable $id is unused in its scope.
+      $id = db_insert('ecas_sync_mapping')
         ->fields(array(
           'LDAPfield' => 'dg',
           'LDAPfield_value' => 'DIGIT',
@@ -117,7 +118,8 @@ class EcasGroupSyncWebTestCase extends DrupalWebTestCase {
           'synctype_value_extra' => '4',
         ))
         ->execute();
-      db_insert('ecas_sync_mapping')
+      // @todo The variable $id is unused in its scope.
+      $id = db_insert('ecas_sync_mapping')
         ->fields(array(
           'LDAPfield' => 'dg',
           'LDAPfield_value' => 'MARE',

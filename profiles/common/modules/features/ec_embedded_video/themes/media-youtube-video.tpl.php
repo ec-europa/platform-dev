@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Template file for theme('media_youtube_video').

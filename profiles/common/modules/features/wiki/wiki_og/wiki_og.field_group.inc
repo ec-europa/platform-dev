@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * wiki_og.field_group.inc

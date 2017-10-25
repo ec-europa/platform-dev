@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Code for the Multi-user blog feature.
@@ -27,6 +26,7 @@ function multi_user_blog_token_info() {
  */
 function multi_user_blog_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
+  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
   if ($type == 'Breadcrumb_multi_user_blog') {
     foreach ($tokens as $name => $original) {

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_mediagallery_community.views_alter.inc

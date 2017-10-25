@@ -38,3 +38,6 @@ It allows configuring 3 options:
 * By selecting a language (e.g. "English"), the results page will be **always** displayed in this language.
 3. **`Subset name for Restricted Search`**: the data subset that will be added to the action URL in order to instruct EuropaSearch to filter search results on its basis.<br />
  For more information, please consult the [Europa search documentation](http://ec.europa.eu/ipg/docs/services/search-guidelines_en.pdf), section  2.3.
+
+
+

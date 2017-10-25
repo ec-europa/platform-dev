@@ -3,6 +3,7 @@ description = Community feature for Multisite Forum suite.
 core = 7.x
 package = Multisite OG Features
 dependencies[] = multisite_forum_core
+features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[ctools][] = field_group:field_group:1
 features[features_api][] = api:2

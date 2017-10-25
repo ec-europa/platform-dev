@@ -33,11 +33,11 @@ class MultisiteMaxlengthSubContext extends RawDrupalContext implements DrupalSub
    * Create a new field and a new instance.
    *
    * @param string $field_name
-   *   Machine name of the field.
+   *    Machine name of the field.
    * @param string $field_type
-   *   Type of the field.
+   *    Type of the field.
    * @param string $field_bundle
-   *   Bundle of type.
+   *    Bundle of type.
    *
    * @Then I create a new :field_type field named :field_name on :field_bundle
    */

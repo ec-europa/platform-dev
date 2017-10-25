@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Definition of views_handler_area_f_a_q_collapsible_menu.

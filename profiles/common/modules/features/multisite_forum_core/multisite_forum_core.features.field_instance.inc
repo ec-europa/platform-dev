@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * multisite_forum_core.features.field_instance.inc

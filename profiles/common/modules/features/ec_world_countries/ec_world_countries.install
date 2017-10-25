@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Installs the EC world countries feature.
@@ -43,7 +42,7 @@ function ec_world_countries_enable() {
     $term = (object) array('vid' => $vid, 'name' => $continent);
     taxonomy_term_save($term);
     $tid = $term->tid;
-    foreach ($countries as $cy_name) {
+    foreach ($countries as $country => $cy_name) {
       $subterm = (object) array(
         'vid' => $vid,
         'name' => $cy_name,

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * nexteuropa_event.context.inc

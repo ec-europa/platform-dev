@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Multisite Business Indicators simpletest class.
@@ -8,7 +7,7 @@
 /**
  * Test Business Indicators features to ensure it follows QA requirements.
  */
-class MultisiteBusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
+class BusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase {
   /**
    * {@inheritdoc}
    */
@@ -150,12 +149,12 @@ class MultisiteBusinessIndicatorsStandardQAWebTestCase extends DrupalWebTestCase
     $this->assertTrue(!empty($role->rid), t('User role %name loaded correctly', array('%name' => $role->name)), t('User login'));
 
     // Create a user assigned to that role.
-    $edit           = array();
+    $edit = array();
     $edit['name']   = $this->randomName();
     $edit['mail']   = $edit['name'] . '@example.com';
     $edit['pass']   = user_password();
     $edit['status'] = 1;
-    $edit['roles']  = array($role->rid => $role->name);
+    $edit['roles'] = array($role->rid => $role->name);
 
     $account = user_save(drupal_anonymous_user(), $edit);
 

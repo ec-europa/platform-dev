@@ -3,3 +3,4 @@ description = Allow and track user registrations for events
 core = 7.x
 package = Multisite Standard Features
 dependencies[] = multisite_registration_core
+features[features_api][] = api:2

@@ -24,7 +24,7 @@ class TokenHandlerTest extends TokenHandlerAbstractTest {
 
     $reflection = new \ReflectionClass('\stdClass');
     if (!$reflection->implementsInterface('\Drupal\nexteuropa_token\TokenHandlerInterface')) {
-      throw new \Exception(t('Token handler class !class must implement \Drupal\nexteuropa_token\TokenHandlerInterface interface.', array('!class' => 'foo')));
+      throw new \Exception(t('Token handler class !class must implement \Drupal\nexteuropa_token\TokenHandlerInterface interface.', array('!class' => $handlers[$name])));
     }
   }
 

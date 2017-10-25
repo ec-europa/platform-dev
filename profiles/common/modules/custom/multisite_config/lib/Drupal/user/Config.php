@@ -20,20 +20,22 @@ class Config extends ConfigBase {
    * Assign a specific role to a user.
    *
    * @param string $role_name
-   *   Role machine name.
+   *    Role machine name.
    * @param mixed $account
-   *   The user object or UID.
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
-   *   TRUE if operation was successful, FALSE otherwise.
+   *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function assignRoleToUser($role_name, $account) {
+  public function assignRoleToUser($role_name, $account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
+    }
+
     $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
     if ($uid && $role) {
-      // We can't call user_multiple_role_edit here because the function could
-      // (and is) called during a user_save, which would cause the changes to
-      // be overriden.
       db_merge('users_roles')
         ->key(array('uid' => $uid, 'rid' => $role->rid))
         ->execute();
@@ -50,20 +52,22 @@ class Config extends ConfigBase {
    * Revoke a specific role from a user.
    *
    * @param string $role_name
-   *   Role machine name.
+   *    Role machine name.
    * @param mixed $account
-   *   The user object or UID.
+   *   (optional) The user object or UID. Defaults to the current user.
    *
    * @return bool
-   *   TRUE if operation was successful, FALSE otherwise.
+   *    TRUE if operation was successful, FALSE otherwise.
    */
-  public function revokeRoleFromUser($role_name, $account) {
+  public function revokeRoleFromUser($role_name, $account = NULL) {
+    if (!isset($account)) {
+      global $user;
+      $account = clone $user;
+    }
+
     $uid = is_object($account) ? $account->uid : $account;
     $role = user_role_load_by_name($role_name);
     if ($uid && $role) {
-      // We can't call user_multiple_role_edit here because the function could
-      // (and is) called during a user_save, which would cause the changes to
-      // be overriden.
       db_delete('users_roles')
         ->condition('rid', $role->rid)
         ->condition('uid', $uid)
@@ -81,14 +85,14 @@ class Config extends ConfigBase {
    * Grant permissions to a specific role, if it exists.
    *
    * @param string $role
-   *   Role machine name.
+   *    Role machine name.
    * @param string $permission
-   *   Permission machine name.
+   *    Permission machine name.
    * @param string $module
-   *   Module name.
+   *    Module name.
    *
    * @return bool
-   *   TRUE if operation was successful, FALSE otherwise.
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function grantPermission($role, $permission, $module = NULL) {
 
@@ -136,12 +140,12 @@ class Config extends ConfigBase {
    * Revoke permissions to a specific role, if it exists.
    *
    * @param string $role
-   *   Role machine name.
+   *    Role machine name.
    * @param string $permission
-   *   Permission machine name.
+   *    Permission machine name.
    *
    * @return bool
-   *   TRUE if operation was successful, FALSE otherwise.
+   *    TRUE if operation was successful, FALSE otherwise.
    */
   public function revokePermission($role, $permission) {
     $role_object = user_role_load_by_name($role);
@@ -158,12 +162,12 @@ class Config extends ConfigBase {
    * Create user role, given its name and weight.
    *
    * @param string $name
-   *   Role machine name.
+   *    Role machine name.
    * @param int $weight
-   *   Role weight.
+   *    Role weight.
    *
    * @return object
-   *   Role object.
+   *    Role object.
    */
   public function createRole($name, $weight = 0) {
     $role = new \stdClass();

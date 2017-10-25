@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Install, uninstall, update and schema hooks.
@@ -9,12 +8,7 @@
  * Implements hook_install().
  */
 function multisite_og_navigation_tree_install() {
-  db_update('system')
-    ->fields(array(
-      'weight' => 5,
-    ))
-    ->condition('name', 'multisite_og_navigation_tree', '=')
-    ->execute();
+  db_query("UPDATE {system} SET weight = 5 WHERE name = 'multisite_og_navigation_tree'");
 }
 
 /**
@@ -33,12 +27,9 @@ function multisite_og_navigation_tree_uninstall() {
       drupal_set_message(t('@fieldname deleted', array(@fieldname => $field['field_name'])));
     }
   }
-  db_delete('variable')
-    ->condition('name', 'multisite_og_navigation_tree_%', 'LIKE')
-    ->execute();
-  db_delete('variable')
-    ->condition('name', '_mont_%', 'LIKE')
-    ->execute();
+
+  db_query("DELETE FROM {variable} WHERE name LIKE 'multisite_og_navigation_tree_%'");
+  db_query("DELETE FROM {variable} WHERE name LIKE '_mont_%'");
   cache_clear_all('variables', 'cache');
 }
 
