@@ -143,8 +143,10 @@ function nexteuropa_metatags_tokens($type, $tokens, array $data = array(), array
   if ($type == 'files') {
     if ($query_tokens = token_find_with_prefix($tokens, 'uri')) {
       foreach ($query_tokens as $name => $original) {
-        $file = file_load($name);
-        $replacements[$original] = token_render_array((array) $file->uri);
+        if (is_numeric($name)) {
+          $file = file_load($name);
+          $replacements[$original] = token_render_array((array) $file->uri);
+        }
       }
     }
   }
