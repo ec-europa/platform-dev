@@ -24,14 +24,6 @@ class Subscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-
-    watchdog(
-      'tmgmt_poetry',
-      'SIM Subs',
-      array(),
-      WATCHDOG_INFO
-    );
-
     return array(
       TranslationReceivedEvent::NAME => 'onTranslationReceivedEvent',
       StatusUpdatedEvent::NAME  => 'onStatusUpdatedEvent',

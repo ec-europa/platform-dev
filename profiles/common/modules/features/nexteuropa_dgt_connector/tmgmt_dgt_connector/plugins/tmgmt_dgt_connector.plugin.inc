@@ -8,6 +8,8 @@
 use EC\Poetry\Poetry;
 use EC\Poetry\Messages\Components;
 use EC\Poetry\Exceptions;
+use Drupal\nexteuropa_core\Psr3Watchdog;
+use Psr\Log\LogLevel;
 
 /**
  * TMGMT DGT Connector translation plugin controller.
@@ -172,7 +174,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
     // Generate the callback parameters for the request.
-    $callback_address = url(drupal_get_path("module", "tmgmt_poetry") . "/wsdl/PoetryIntegration.wsdl", array(
+    $callback_address = url(drupal_get_path("module", "tmgmt_dgt_connector") . "/wsdl/", array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));
@@ -191,6 +193,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       'service.username' => $settings['poetry_user'],
       'service.password' => $settings['poetry_password'],
       'client.wsdl' => $callback_address,
+      'logger' => new Psr3Watchdog(),
+      'log_level' => LogLevel::DEBUG,
     );
     if (isset($id_data['numero'])) {
       $poetry_values['identifier.number'] = $id_data['numero'];

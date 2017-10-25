@@ -25,13 +25,6 @@ class Server {
    */
   static public function endpoint() {
 
-    watchdog(
-      'tmgmt_poetry',
-      'SIM endpoint',
-      array(),
-      WATCHDOG_INFO
-    );
-
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
     $settings = $translator->getSetting('settings');
 
