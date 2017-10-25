@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * newsletters.context.inc
