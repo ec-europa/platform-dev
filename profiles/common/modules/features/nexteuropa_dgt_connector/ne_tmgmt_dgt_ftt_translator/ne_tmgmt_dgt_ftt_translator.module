@@ -1,0 +1,206 @@
+<?php
+/**
+ * @file
+ * Next Europa TMGMT DGT FTT translator module file.
+ */
+
+/**
+ * Implements hook_tmgmt_translator_plugin_info().
+ */
+function ne_tmgmt_dgt_ftt_translator_tmgmt_translator_plugin_info() {
+  $info['dgt_ftt'] = array(
+    'label' => t('DGT FTT Translator'),
+    'description' => t('DGT Fast Track Translations translator.'),
+    'plugin controller class' => 'Drupal\\ne_tmgmt_dgt_ftt_translator\\TMGMTDefaultTranslatorPluginController\\TmgmtDgtFttTranslatorPluginController',
+    'ui controller class' => 'Drupal\\ne_tmgmt_dgt_ftt_translator\\TMGMTDefaultTranslatorUIController\\TmgmtDgtFttTranslatorUiController',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ne_tmgmt_dgt_ftt_translator_menu() {
+  $items = array();
+  $items['dgt_ftt_translator/dgt_service_callback'] = array(
+    'page callback' => '_ne_tmgmt_dgt_ftt_translator_callback',
+    'access callback' => TRUE,
+  );
+
+  $items['dgt_ftt_translator/DGTServicesIntegration.wsdl'] = array(
+    'page callback' => '_ne_tmgmt_dgt_ftt_translator_wsdl',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_entity_info().
+ */
+function ne_tmgmt_dgt_ftt_translator_entity_info() {
+  return array(
+    'ne_tmgmt_dgt_ftt_map' => array(
+      'module' => 'ne_tmgmt_dgt_ftt_translator',
+      'label' => t('NE TMGMT DGT FTT Mapping'),
+      'fieldable' => FALSE,
+      'entity keys' => array(
+        'id' => 'id',
+      ),
+      'base table' => 'ne_tmgmt_dgt_ftt_map',
+      'entity class' => 'Drupal\\ne_tmgmt_dgt_ftt_translator\\Entity\\DgtFttTranslatorMapping',
+      'controller class' => 'EntityAPIController',
+    ),
+  );
+}
+
+/**
+ * Implements hook_entity_property_info().
+ */
+function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
+  $info = array();
+
+  // Adding the properties definition.
+  $properties = &$info['ne_tmgmt_dgt_ftt_map']['properties'];
+
+  $properties['tjid'] = array(
+    'label' => t('TMGMT Job ID'),
+    'type' => 'integer',
+    'description' => t('Translation Job ID'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'tjid',
+  );
+  $properties['entity_id'] = array(
+    'label' => t('Entity ID'),
+    'type' => 'text',
+    'description' => t('Entity ID.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'entity_id',
+  );
+  $properties['entity_type'] = array(
+    'label' => t('Entity type'),
+    'type' => 'text',
+    'description' => t('Entity type.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'entity_type',
+  );
+  $properties['year'] = array(
+    'label' => t('Year'),
+    'type' => 'integer',
+    'description' => t("'Annee' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'year',
+  );
+  $properties['number'] = array(
+    'label' => t('Number'),
+    'type' => 'integer',
+    'description' => t("'Numero' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'number',
+  );
+  $properties['version'] = array(
+    'label' => t('Version'),
+    'type' => 'integer',
+    'description' => t("'Version' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'version',
+  );
+  $properties['part'] = array(
+    'label' => t('Part'),
+    'type' => 'integer',
+    'description' => t("'Partie' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'part',
+  );
+
+  return $info;
+}
+
+/**
+ * Callback for requests/responses sent by the DGT Services (Poetry).
+ */
+function _ne_tmgmt_dgt_ftt_translator_callback() {
+  // Generate our own SOAP server.
+  $context = stream_context_create();
+  // Get the Client WSDL URI.
+  $uri = _ne_tmgmt_dgt_ftt_translator_get_client_wsdl();
+
+  // This part in future suppose to be handled by the library.
+  $server = new SoapServer($uri, array(
+    'stream_context' => $context,
+    'cache_wsdl' => WSDL_CACHE_NONE,
+  ));
+  $server->AddFunction("OEPoetryCallback");
+  $server->handle();
+}
+
+/**
+ * Temporary callback function.
+ *
+ * This part should be handled by the OE Poetry Client soon.
+ *
+ * @param string $user
+ *   User name string.
+ * @param string $password
+ *   Password.
+ * @param string $msg
+ *   Message from DGT Services.
+ */
+function OEPoetryCallback($user, $password, $msg) {
+  $filename = 'dump_' . date('m-d-Y_hia');
+  $path = "public://dgt_req_res/dumps/" . $filename . '.xml';
+  $dirname = dirname($path);
+    if (file_prepare_directory($dirname, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+      file_save_data($msg, $path);
+    }
+    else {
+      watchdog(
+        'ne_tmgmt_dgt_ftt_translator',
+        'Unable to save the DGT request/response dump.',
+        array(),
+        WATCHDOG_ERROR
+    );
+  }
+}
+
+/**
+ * Callback for exposing WSDL configuration.
+ */
+function _ne_tmgmt_dgt_ftt_translator_wsdl() {
+  $url = url("dgt_ftt_translator/dgt_service_callback", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
+
+  $poetry = new \EC\Poetry\Poetry([
+    'notification.endpoint' => $url,
+  ]);
+
+  drupal_add_http_header('Content-Type', 'application/xml; utf-8');
+  print $poetry->getWsdl();
+  drupal_exit();
+}
+
+/**
+ * Provides the Client WSDL URI path.
+ *
+ * @return string
+ *   Client WSDL URI path.
+ */
+function _ne_tmgmt_dgt_ftt_translator_get_client_wsdl() {
+  $uri = url("dgt_ftt_translator/DGTServicesIntegration.wsdl", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
+
+  return $uri;
+}
