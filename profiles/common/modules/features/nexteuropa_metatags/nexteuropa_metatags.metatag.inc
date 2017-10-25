@@ -195,6 +195,7 @@ function nexteuropa_metatags_metatag_config_default() {
  */
 function nexteuropa_metatags_metatag_info() {
 
+  // Create a tag group for nexteuropa tags.
   $info['groups']['nexteuropa'] = array(
     'label' => t('Nexteuropa tags'),
     'description' => t('Add metatag information that respects the IPG guidelines and are required by corporate tools.'),
@@ -203,7 +204,41 @@ function nexteuropa_metatags_metatag_info() {
     ),
   );
 
-  // Default values for each meta tag.
+  // Create a tag group for Europa search tags.
+  $info['groups']['ESS_metatags'] = array(
+    'label' => t('ESS metatags : metatags for Europa Search indexation'),
+    'description' => t('Add metatag information that are necessary for Europa search integration.'),
+  );
+
+  $options = array();
+  if ($vocabulary = taxonomy_vocabulary_machine_name_load('metatags_ess_gf')) {
+    $terms = taxonomy_get_tree($vocabulary->vid);
+    foreach ($terms as $term) {
+      $term_full = taxonomy_term_load($term->tid);
+      $options[$term_full->field_meta_value[LANGUAGE_NONE][0]['value']] = str_repeat('-', $term->depth) . $term->name;
+    }
+  }
+  $info['tags']['ESS_GF'] = array(
+    'label' => t('ESS GF'),
+    'description' => t('Global search'),
+    'class' => 'DrupalTextMetaTag',
+    'group' => 'ESS_metatags',
+    'form' => array(
+      '#type' => 'select',
+      '#options' => $options,
+      '#empty_option' => t('- None -'),
+    ),
+    'select_or_other' => TRUE,
+  );
+
+  $info['tags']['ESS_RF'] = array(
+    'label' => t('ESS RF'),
+    'description' => t('Restricted search'),
+    'class' => 'DrupalTextMetaTag',
+    'group' => 'ESS_metatags',
+  );
+
+  // Default values for each nexteuropa meta tag.
   $ne_defaults = array(
     'description' => '',
     'class' => 'DrupalTextMetaTag',

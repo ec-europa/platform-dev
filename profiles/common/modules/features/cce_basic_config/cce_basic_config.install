@@ -1041,6 +1041,8 @@ function cce_basic_config_post_install() {
   _cce_basic_config_post_install_default_images();
   _cce_basic_config_post_install_default_menu_items();
   _cce_basic_config_post_install_default_terms();
+  // Install the module at the end of the process,when all fields are available.
+  module_enable(array('nexteuropa_metatags'));
 }
 
 /**
@@ -2458,7 +2460,7 @@ function cce_basic_config_update_7220() {
  * Enable nexteuropa_metatags for all websites.
  */
 function cce_basic_config_update_7221() {
-  module_enable(array_keys('nexteuropa_metatags'));
+  module_enable(array('nexteuropa_metatags'));
 }
 
 /**

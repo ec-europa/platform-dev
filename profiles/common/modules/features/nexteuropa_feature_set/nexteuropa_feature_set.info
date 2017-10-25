@@ -27,7 +27,6 @@ features[user_permission][] = manage feature multisite_crop_and_resize
 features[user_permission][] = manage feature multisite_maxlength
 features[user_permission][] = manage feature multisite_mediagallery_standard
 features[user_permission][] = manage feature multisite_megamenu
-features[user_permission][] = manage feature multisite_metatags
 features[user_permission][] = manage feature multisite_multilingual_references
 features[user_permission][] = manage feature multisite_notifications_core
 features[user_permission][] = manage feature multisite_registration_standard

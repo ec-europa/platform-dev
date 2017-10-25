@@ -87,15 +87,6 @@ feature_sets[multi_user_blog][font] = 'multisite-icon-book'
 feature_sets[multi_user_blog][enable][] = multi_user_blog
 feature_sets[multi_user_blog][disable][] = multi_user_blog
 
-feature_sets[multisite_metatags][title] = 'Meta tags'
-feature_sets[multisite_metatags][description] = 'Add metatag information to nodes, that respects the IPG guidelines.'
-feature_sets[multisite_metatags][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/CIbhAg'
-feature_sets[multisite_metatags][category] = 'Communication'
-feature_sets[multisite_metatags][icon] = ''
-feature_sets[multisite_metatags][font] = 'multisite-icon-bookmarks'
-feature_sets[multisite_metatags][enable][] = multisite_metatags
-feature_sets[multisite_metatags][disable][] = multisite_metatags
-
 feature_sets[nexteuropa_webtools][title] = 'Webtools'
 feature_sets[nexteuropa_webtools][description] = 'Provides usefull widgets to webmasters.'
 feature_sets[nexteuropa_webtools][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/Webtools+feature'

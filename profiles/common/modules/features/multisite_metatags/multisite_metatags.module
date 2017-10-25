@@ -347,3 +347,12 @@ function multisite_metatags_preprocess_page(&$variables) {
     }
   }
 }
+
+/**
+ * Unintsall multisite_metatags once the ne metatags are installed.
+ */
+function multisite_metatags_modules_installed(array $modules) {
+  if (in_array('nexteuropa_metatags', $modules)) {
+    module_disable(array('multisite_metatags'), FALSE);
+  }
+}
