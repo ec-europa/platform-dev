@@ -225,4 +225,5 @@ class Subscriber implements EventSubscriberInterface {
       }
     }
   }
+
 }
