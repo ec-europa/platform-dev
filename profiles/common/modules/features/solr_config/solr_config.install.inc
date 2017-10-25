@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Solr_config.install.inc file, helper functions.
