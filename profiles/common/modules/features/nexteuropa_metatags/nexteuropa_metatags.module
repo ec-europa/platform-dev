@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NextEuropa Metatags feature.
@@ -7,16 +8,91 @@
 include_once 'nexteuropa_metatags.tokens.inc';
 
 /**
- * Implements hook_variable_info().
+ * Implements hook_metatag_info().
  */
-function nexteuropa_metatags_variable_info($options) {
-  $variable['classification'] = array(
-    'title' => t('IPG classification', array(), $options),
-    'description' => t('IPG classification', array(), $options),
-    'type' => 'string',
-    'token' => TRUE,
+function nexteuropa_metatags_metatag_info() {
+  $info['tags']['creator'] = array(
+    'label' => t('Creator'),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'creator',
+    'description' => '',
   );
-  return $variable;
+  $info['tags']['reference'] = array(
+    'label' => t('Reference'),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'reference',
+    'description' => '',
+  );
+  $info['tags']['X-UA-Compatible'] = array(
+    'label' => t('X-UA-Compatible'),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'X-UA-Compatible',
+    'description' => '',
+  );
+  $info['tags']['date'] = array(
+    'label' => t('Date'),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'date',
+    'description' => '',
+  );
+  $info['tags']['classification'] = array(
+    'label' => t('Classification'),
+    'description' => t("IPG classification"),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'classification',
+  );
+
+  $info['groups']['mobile'] = array(
+    'label' => t('Mobile & UI Adjustments'),
+  );
+  $info['tags']['viewport'] = array(
+    'label' => t('Viewport'),
+    'description' => t("Please read a guide on responsive web design for details of what values to use."),
+    'class' => 'DrupalTextMetaTag',
+    'context' => array('global'),
+    'name' => 'viewport',
+    'group' => 'mobile',
+  );
+
+  $info['groups']['ESS_metatags'] = array(
+    'label' => t('ESS metatags : metatags for ES indexation'),
+  );
+
+  $options = array();
+  if ($vocabulary = taxonomy_vocabulary_machine_name_load('metatags_ess_gf')) {
+    $terms = taxonomy_get_tree($vocabulary->vid);
+    foreach ($terms as $term) {
+      $term_full = taxonomy_term_load($term->tid);
+      $options[$term_full->field_meta_value[LANGUAGE_NONE][0]['value']] = str_repeat('-', $term->depth) . $term->name;
+    }
+  }
+
+  $info['tags']['ESS_GF'] = array(
+    'label' => t('ESS GF'),
+    'description' => t('Global search'),
+    'class' => 'DrupalTextMetaTag',
+    'group' => 'ESS_metatags',
+    'form' => array(
+      '#type' => 'select',
+      '#options' => $options,
+      '#empty_option' => t('- None -'),
+    ),
+    'select_or_other' => TRUE,
+  );
+
+  $info['tags']['ESS_RF'] = array(
+    'label' => t('ESS RF'),
+    'description' => t('Restricted search'),
+    'class' => 'DrupalTextMetaTag',
+    'group' => 'ESS_metatags',
+  );
+
+  return $info;
 }
 
 /**
