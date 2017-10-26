@@ -18,7 +18,7 @@ function tmgmt_dgt_connector_menu() {
     // Authentication is done within the service.
     'access callback' => TRUE,
   );
-  $items['tmgmt_dgt_connector/wsdl'] = array(
+  $items['tmgmt_dgt_connector/DGTServicesIntegration.wsdl'] = array(
     'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::wsdl',
     // Authentication is done within the service.
     'access callback' => TRUE,

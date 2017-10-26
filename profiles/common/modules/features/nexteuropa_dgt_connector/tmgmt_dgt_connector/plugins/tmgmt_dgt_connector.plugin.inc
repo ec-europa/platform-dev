@@ -174,7 +174,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
     // Generate the callback parameters for the request.
-    $callback_address = url('tmgmt_dgt_connector/wsdl', array(
+    $callback_address = url('tmgmt_dgt_connector/DGTServicesIntegration.wsdl', array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));
@@ -213,6 +213,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       $message->withDetails()
         ->setClientId('Job ID ' . $job->tjid)
         ->setTitle($details_title)
+        ->setResponsible($organization['responsable'])
         ->setRequester($organization['demandeur'])
         ->setAuthor($organization['auteur'])
         ->setApplicationId('FPFIS')
@@ -236,7 +237,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         ->setUser($settings['callback_user'])
         ->setPassword($settings['callback_password'])
         ->setAddress($callback_address)
-        ->setPath('FPFISPoetryIntegrationRequest')
+        ->setPath('handle')
         ->setRemark('');
 
       $message->withSource()
