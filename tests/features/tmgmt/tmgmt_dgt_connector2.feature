@@ -124,3 +124,22 @@ Feature: TMGMT Poetry features
     """
     And I reload the page
     Then I should not see the message "Please wait for the translation request to be accepted before further update options."
+    When Poetry notifies the client with the following XML:
+    """
+    <?xml version="1.0" encoding="UTF-8"?>
+    <POETRY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">
+       <request communication="synchrone" id="3558615" type="translation">
+          <demandeId>
+             <codeDemandeur>WEB</codeDemandeur>
+             <annee>2017</annee>
+             <numero>1234</numero>
+             <version>0</version>
+             <partie>0</partie>
+             <produit>TRA</produit>
+          </demandeId>
+          <attributions format="HTML" lgCode="FR">
+             <attributionsFile>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhRE9DVFlQRSBodG1sIFBVQkxJQyAiLS8vVzNDLy9EVEQgWEhUTUwgMS4wIFN0cmljdC8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9UUi94aHRtbDEvRFREL3hodG1sMS1zdHJpY3QuZHRkIj4NCjxodG1sIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hodG1sIj4NCiAgPGhlYWQ+DQogICAgPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9VVRGLTgiIC8+DQogICAgPG1ldGEgbmFtZT0iSm9iSUQiIGNvbnRlbnQ9IjI1IiAvPg0KICAgIDxtZXRhIG5hbWU9Imxhbmd1YWdlU291cmNlIiBjb250ZW50PSJlbiIgLz4NCiAgICA8bWV0YSBuYW1lPSJsYW5ndWFnZVRhcmdldCIgY29udGVudD0iZnIiIC8+DQogICAgPHRpdGxlPkpvYiBJRCAyNTwvdGl0bGU+DQogIDwvaGVhZD4NCiAgPGJvZHk+DQogICAgICAgICAgPGRpdiBjbGFzcz0iYXNzZXQiIGlkPSJpdGVtLTUzIj4NCiAgICAgICAgICAgICAgICAgICAgICAgICAgPCEtLQ0KICAgICAgICAgIGxhYmVsPSJUaXRsZSINCiAgICAgICAgICBjb250ZXh0PSJbNTNdW3RpdGxlX2ZpZWxkXVswXVt2YWx1ZV0iDQogICAgICAgIC0tPg0KICAgICAgICA8ZGl2IGNsYXNzPSJhdG9tIiBpZD0iYk5UTmRXM1JwZEd4bFgyWnBaV3hrWFZzd1hWdDJZV3gxWlEiPlRlc3RlIDEwMjYgNSBUUiBGUjwvZGl2Pg0KICAgICAgICAgICAgICAgICAgICAgICAgICA8IS0tDQogICAgICAgICAgbGFiZWw9IkJvZHkiDQogICAgICAgICAgY29udGV4dD0iWzUzXVtmaWVsZF9uZV9ib2R5XVswXVt2YWx1ZV0iDQogICAgICAgIC0tPg0KICAgICAgICA8ZGl2IGNsYXNzPSJhdG9tIiBpZD0iYk5UTmRXMlpwWld4a1gyNWxYMkp2WkhsZFd6QmRXM1poYkhWbCI+PHA+VGVzdGUgMTAyNiA1IFRSIEZSLjwvcD4NCjwvZGl2Pg0KICAgICAgICAgICAgICA8L2Rpdj4NCiAgICAgICAgICA8ZGl2IGNsYXNzPSJhc3NldCIgaWQ9Iml0ZW0tNTQiPg0KICAgICAgICAgICAgICAgICAgICAgICAgICA8IS0tDQogICAgICAgICAgbGFiZWw9IlRpdGxlIg0KICAgICAgICAgIGNvbnRleHQ9Ils1NF1bdGl0bGVfZmllbGRdWzBdW3ZhbHVlXSINCiAgICAgICAgLS0+DQogICAgICAgIDxkaXYgY2xhc3M9ImF0b20iIGlkPSJiTlRSZFczUnBkR3hsWDJacFpXeGtYVnN3WFZ0MllXeDFaUSI+VGVzdGUgMTAyNiA2IFRSIEZSPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgIDwhLS0NCiAgICAgICAgICBsYWJlbD0iQm9keSINCiAgICAgICAgICBjb250ZXh0PSJbNTRdW2ZpZWxkX25lX2JvZHldWzBdW3ZhbHVlXSINCiAgICAgICAgLS0+DQogICAgICAgIDxkaXYgY2xhc3M9ImF0b20iIGlkPSJiTlRSZFcyWnBaV3hrWDI1bFgySnZaSGxkV3pCZFczWmhiSFZsIj48cD5UZXN0ZSAxMDI2IDYgVFIgRlIuPC9wPg0KPC9kaXY+DQogICAgICAgICAgICAgIDwvZGl2Pg0KICAgICAgPC9ib2R5Pg0KPC9odG1sPg0K</attributionsFile>
+          </attributions>
+       </request>
+    </POETRY>
+    """
