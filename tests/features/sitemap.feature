@@ -4,11 +4,20 @@ Feature: Check the Sitemap
   I can publish a sitemap
 
   @api
+  Scenario: Value of the variable xmlsitemap_prefetch_aliases is zero
+    Given the module is enabled
+      | modules     |
+      | sitemap     |
+    Given I am an administrator user
+    When I go to "/admin/config/search/xmlsitemap/settings"
+    Then "Prefetch URL aliases during sitemap generation." checkbox should not be checked
+
+  @api
   Scenario: Administrator user can check the sitemap
     Given the module is enabled
       | modules     |
       | sitemap     |
     Given I am an anonymous user
     When I go to "/sitemap.xml"
-    And the response should not contain "Page not found"
+    Then the response should not contain "Page not found"
     And the response should contain "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">"
