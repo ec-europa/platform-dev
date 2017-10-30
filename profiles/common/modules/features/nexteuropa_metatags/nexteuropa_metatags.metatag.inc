@@ -41,10 +41,10 @@ function nexteuropa_metatags_metatag_config_default() {
     ),
     // Nexteuropa tags.
     'creator' => array(
-      'value' => isset($meta_creator) ? $meta_creator : 'COMM/DG/UNIT',
+      'value' => !empty($meta_creator) ? $meta_creator : 'COMM/DG/UNIT',
     ),
     'reference' => array(
-      'value' => isset($reference) ? $reference : '[site:name]',
+      'value' => !empty($reference) ? $reference : '[site:name]',
     ),
     'classification' => array(
       'value' => '[variable:classification]',
@@ -87,7 +87,7 @@ function nexteuropa_metatags_metatag_config_default() {
       'value' => '[site:name] - [site:slogan]',
     ),
     'og:image' => array(
-      'value' => isset($og_image_fid) ? '[files:uri:' . $og_image_fid . ']' : '',
+      'value' => !empty($og_image_fid) ? '[files:uri:' . $og_image_fid . ']' : '',
     ),
     'og:site_name' => array(
       'value' => '[site:name] - European Commission',
@@ -143,10 +143,7 @@ function nexteuropa_metatags_metatag_config_default() {
       'value' => '[node:created:custom:c]',
     ),
     'classification' => array(
-      'value' => '[node:field-meta-classification]',
-    ),
-    'description' => array(
-      'value' => '[node:field-meta-description]',
+      'value' => '[variable:classification], [node:field-meta-classification]',
     ),
     'dcterms.creator' => array(
       'value' => '[node:author]',
@@ -164,13 +161,13 @@ function nexteuropa_metatags_metatag_config_default() {
       'value' => '[node:title]',
     ),
     'description' => array(
-      'value' => '[node:title]',
+      'value' => '[node:field-meta-description]',
     ),
     'keywords' => array(
       'value' => '[node:field-tags]',
     ),
     'og:description' => array(
-      'value' => '[node:title]',
+      'value' => '[node:field-meta-description]',
     ),
     'og:title' => array(
       'value' => '[node:title] - [site:name] - European Commission',
