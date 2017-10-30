@@ -24,3 +24,11 @@ function multisite_metatags_disable() {
   // Deactivation message.
   drupal_set_message(t('Multisite Metatags feature is now inactive on your site.'));
 }
+
+/**
+ * Remove fields that were created by the feature.
+ */
+function multisite_metatags_uninstall() {
+  field_delete_field('field_meta_description');
+  field_delete_field('field_meta_classification');
+}
