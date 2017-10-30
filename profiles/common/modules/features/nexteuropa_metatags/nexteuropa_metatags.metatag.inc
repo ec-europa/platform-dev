@@ -26,7 +26,6 @@ function nexteuropa_metatags_metatag_config_default() {
 
   // Only overrides default if value is already set.
   $meta_creator = variable_get('meta_creator', '');
-  $classification = variable_get('classification', '');
   $reference = variable_get('meta_reference', '');
 
   $configs = array();
@@ -48,7 +47,8 @@ function nexteuropa_metatags_metatag_config_default() {
       'value' => isset($reference) ? $reference : '[site:name]',
     ),
     'classification' => array(
-      'value' => isset($classification) ? $classification : '[variable:classification]',
+      'value' => '[variable:classification]',
+      'readonly' => 'readonly',
     ),
     // Basic tags.
     'description' => array(
@@ -82,7 +82,6 @@ function nexteuropa_metatags_metatag_config_default() {
     'dcterms.type' => array(
       'value' => 'Text',
     ),
-
     // Open graph tags.
     'og:description' => array(
       'value' => '[site:name] - [site:slogan]',
@@ -102,7 +101,6 @@ function nexteuropa_metatags_metatag_config_default() {
     'og:url' => array(
       'value' => '[current-page:url:absolute]',
     ),
-
     'revisit-after' => array(
       'value' => 15,
       'period' => 'day',
@@ -143,6 +141,12 @@ function nexteuropa_metatags_metatag_config_default() {
     ),
     'article:published_time' => array(
       'value' => '[node:created:custom:c]',
+    ),
+    'classification' => array(
+      'value' => '[node:field-meta-classification]',
+    ),
+    'description' => array(
+      'value' => '[node:field-meta-description]',
     ),
     'dcterms.creator' => array(
       'value' => '[node:author]',
@@ -256,7 +260,14 @@ function nexteuropa_metatags_metatag_info() {
 
   $info['tags']['classification'] = array(
     'label' => t('IPG Classification'),
-    'description' => t('Choose the classification for your website. This classification respects the !url', array('!url' => l(t('IPG guidelines'), "http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm"))),
+    'description' => t('Choose the classification for your website. You can 
+    also enter the token value of a taxonomy term or reference field pointing 
+    to the "classification" vocabulary. This classification complies with !url',
+      array(
+        '!url' => l(t('IPG guidelines'),
+        'http://ec.europa.eu/ipg/content/optimise/metadata/annex2_en.htm'),
+      )
+    ),
     'select_or_other' => TRUE,
     'form' => array(
       '#type' => 'select',
