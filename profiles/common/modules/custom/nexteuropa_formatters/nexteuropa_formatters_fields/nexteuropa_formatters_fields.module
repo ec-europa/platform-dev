@@ -323,24 +323,20 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
             $label = entity_label($target_type, $item['entity']);
             $uri = entity_uri($target_type, $item['entity']);
 
-            $items[$delta] = array(
+            $elements[$delta] = array(
               'value' => $label,
               'href' => $uri['path'],
             );
             break;
 
           case 'link_field':
-            $items[$delta] = array(
+            $elements[$delta] = array(
               'value' => $item['title'],
               'href' => $item['url'],
             );
             break;
         }
       }
-      $elements[0] = array(
-        '#theme' => 'tags',
-        '#items' => $items,
-      );
 
       break;
 
