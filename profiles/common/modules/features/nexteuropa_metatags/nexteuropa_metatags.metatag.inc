@@ -88,7 +88,7 @@ function nexteuropa_metatags_metatag_config_default() {
       'value' => '[site:name] - [site:slogan]',
     ),
     'og:image' => array(
-      'value' => '[files:uri:' . $og_image_fid . ']',
+      'value' => isset($og_image_fid) ? '[files:uri:' . $og_image_fid . ']' : '',
     ),
     'og:site_name' => array(
       'value' => '[site:name] - European Commission',
