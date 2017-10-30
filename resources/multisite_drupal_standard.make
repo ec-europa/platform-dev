@@ -712,6 +712,8 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_e
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
+; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
+; https://www.drupal.org/node/2908538
 projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
