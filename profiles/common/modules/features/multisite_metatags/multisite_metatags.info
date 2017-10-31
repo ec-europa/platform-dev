@@ -4,6 +4,4 @@ core = 7.x
 package = Multisite Features
 dependencies[] = cce_basic_config
 features[features_api][] = api:2
-features[field_base][] = field_meta_classification
-features[field_base][] = field_meta_description
 files[] = tests/multisite_metatags.extra.test
