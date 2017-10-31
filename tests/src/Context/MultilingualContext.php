@@ -2,10 +2,12 @@
 
 namespace Drupal\nexteuropa\Context;
 
+use Behat\Gherkin\Node\PyStringNode;
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
+use Drupal\nexteuropa\Component\PyStringYamlParser;
 
 /**
  * Behat step definitions for the NextEuropa Multilingual module.
@@ -27,9 +29,16 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * List of translators created during test execution.
    *
-   * @var array
+   * @var \TMGMTTranslator[]
    */
   protected $translators = [];
+
+  /**
+   * List of translators updated during test execution.
+   *
+   * @var array
+   */
+  protected $updatedTranslators = [];
 
   /**
    * List of TMGMT translation jobs created during test execution.
@@ -300,6 +309,35 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
         $controller->delete([$translator->identifier()]);
       }
     }
+  }
+
+  /**
+   * Update existing translator.
+   *
+   * @Given I update the :name translator settings with the following values:
+   */
+  public function updateExistingTranslator($name, PyStringNode $string) {
+    $translator = tmgmt_translator_load($name);
+    if ($translator === FALSE) {
+      throw new \InvalidArgumentException("Translator '{$name}' does not exists");
+    }
+    $this->updatedTranslators[] = $translator;
+    $parser = new PyStringYamlParser($string);
+    $settings = $parser->parse();
+    $translator->settings = array_merge($translator->settings, $settings);
+    $translator->save();
+  }
+
+  /**
+   * Restore translators changed during scenarios execution.
+   *
+   * @AfterScenario
+   */
+  public function restoreTranslators() {
+    foreach ($this->updatedTranslators as $translator) {
+      $translator->save();
+    }
+    $this->translators = [];
   }
 
   /**
