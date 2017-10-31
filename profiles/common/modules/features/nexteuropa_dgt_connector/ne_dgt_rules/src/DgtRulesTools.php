@@ -1,16 +1,13 @@
 <?php
 
-/**
- * @file
- * Helper class with helper static methods for the NE DGT Rules module.
- */
-
 namespace Drupal\ne_dgt_rules;
 
 use EntityFieldQuery;
 use TMGMTException;
 use TMGMTJob;
 use TMGMTJobItem;
+use EC\Poetry\Messages\Components\Status;
+use EC\Poetry\Messages\Components\Identifier;
 
 /**
  * Class DgtRulesTools.
@@ -18,6 +15,7 @@ use TMGMTJobItem;
  * Helper class with helper static methods.
  */
 class DgtRulesTools {
+
   /**
    * Checks if all of the organisation parameters are set.
    *
@@ -31,11 +29,9 @@ class DgtRulesTools {
     foreach ($parameters as $parameters_group) {
       foreach ($parameters_group as $parameter) {
         if (empty($parameter)) {
-
           return FALSE;
         }
       }
-
     }
 
     return TRUE;
@@ -203,7 +199,7 @@ class DgtRulesTools {
    * @param \EC\Poetry\Messages\Components\Status $status
    *   The status.
    */
-  public static function updateStatusTmgmtJob(TMGMTJob $job, \EC\Poetry\Messages\Components\Status $status) {
+  public static function updateStatusTmgmtJob(TMGMTJob $job, Status $status) {
     $status_map = array(
       'SUS' => TMGMT_JOB_STATE_ACTIVE,
       'ONG' => TMGMT_JOB_STATE_ACTIVE,
@@ -486,7 +482,7 @@ class DgtRulesTools {
    * @return array
    *   Array of FTT Map objects.
    */
-  public static function findMappingsByIdentifier(\EC\Poetry\Messages\Components\Identifier $identifier) {
+  public static function findMappingsByIdentifier(Identifier $identifier) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'ne_tmgmt_dgt_ftt_map')
       ->propertyCondition('year', $identifier->getYear())

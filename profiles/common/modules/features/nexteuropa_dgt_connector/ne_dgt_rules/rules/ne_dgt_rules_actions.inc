@@ -6,6 +6,7 @@
  */
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
+use EC\Poetry\Messages\Components\Identifier;
 
 /**
  * Implements hook_rules_action_info().
@@ -273,7 +274,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_
  * @return array
  *   The translation request identifier.
  */
-function ne_dgt_rules_accept_all_translations(\EC\Poetry\Messages\Components\Identifier $identifier) {
+function ne_dgt_rules_accept_all_translations(Identifier $identifier) {
   $ftt_mappings = DgtRulesTools::findMappingsByIdentifier($identifier);
   $entity_id = array();
   if (!empty($ftt_mappings)) {

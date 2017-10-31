@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator listener.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

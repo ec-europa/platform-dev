@@ -1,11 +1,6 @@
 <?php
 
 /**
- * @file
- * Multisite Drupal Standard installation profile.
- */
-
-/**
  * Implements hook_install_tasks().
  */
 function multisite_drupal_standard_install_tasks() {

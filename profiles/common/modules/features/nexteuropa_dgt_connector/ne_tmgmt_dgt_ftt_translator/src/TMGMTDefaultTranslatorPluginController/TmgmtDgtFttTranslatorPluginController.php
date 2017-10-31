@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator plugin controller.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorPluginController;
 
 use Drupal\ne_tmgmt_dgt_ftt_translator\Tools\DataProcessor;

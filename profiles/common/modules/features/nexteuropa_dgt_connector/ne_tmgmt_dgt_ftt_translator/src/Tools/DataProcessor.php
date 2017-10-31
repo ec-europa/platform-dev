@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator helper functions.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
@@ -21,14 +16,14 @@ trait DataProcessor {
   /**
    * TMGMT Job object.
    *
-   * @var array TMGMTJob
+   * @var arrayTMGMTJob
    */
   private $jobs;
 
   /**
    * Node object.
    *
-   * @var object.
+   * @var object
    */
   private $node;
 
