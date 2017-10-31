@@ -26,5 +26,8 @@ Table of content:
 [Go to top](#table-of-content)
 
 ## How to insert a metatag for a given content
+When the module is enabled there is a new vertical tab available on the edit 
+mode of the content. It is called 'Meta tags'. You can override there any
+value that you have entered using the two options above.
 
 [Go to top](#table-of-content)
