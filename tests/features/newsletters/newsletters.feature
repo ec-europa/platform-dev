@@ -5,7 +5,7 @@ Feature: newsletter feature
   I want to be able to manage newsletters and subscribe to them
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
+    # Given I am logged in as a user with the 'administrator' role
     And the module is enabled
       | modules               |
       | bounce                |
@@ -48,15 +48,15 @@ Feature: newsletter feature
     Then  I should see the link "AnotherTopic newsletter"
 
   Scenario: browse and request subscription to Newsletter for logged users
-    Given I am logged in as a user with the 'administrator' role
+    Given I am logged in as a user with the 'administrator' role and I have the following fields:
+      | mail | admin@test.com |
     When  I go to "/my_subscriptions"
     Then  I should see the link "Newsletters"
     And   I click "Newsletters"
     Then  I should see the heading "Newsletters"
     When  I check the box "NextEuropa newsletter"
     And   I press "Update"
-    Then  I should see the text "The newsletter subscriptions for"
-    And   I should see the text "have been updated"
+    Then  I should see the text "The newsletter subscriptions for admin@test.com have been updated"
 
   Scenario: browse and request subscription to Newsletter for anonymous users
     Given I am not logged in
