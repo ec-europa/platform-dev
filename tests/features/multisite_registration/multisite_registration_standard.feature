@@ -1,0 +1,124 @@
+@api @javascript
+Feature: Multisite registration standard
+  In order to add registration option to different content types
+  As different types of users
+  I want to be able to add a registration field in an article, register users and manage registrations
+
+  Background:
+    Given I am logged in as a user with the 'administrator' role
+    And the module is enabled
+      | modules                         |
+      | multisite_registration_core     |
+      | multisite_registration_standard |
+      # | multisite_registration_og       |
+
+  Scenario: Add registration field to Article content type
+    Given I am on "/admin/structure/types/manage/article/fields"
+    When  I fill in "New field label" with "Registration field test"
+    And   I select "registration" from "edit-fields-add-new-field-type"
+    And   I press "Save"
+    And   I go to "/admin/structure/types/manage/article/fields/field_registration_field_test"
+    Then  I should see the text "Registration field test"
+    When  I check "Enable"
+    And   I fill in "Spaces allowed" with "1"
+    #maximum number of spaces for each registration. default 1, unilimited 0
+    And   I check "Allow multiple registrations"
+    #when selected each person can create multiple registratitons for this event.
+    And   I check "authenticated user"
+    And   I check "administrator"
+    And   I check "editorial team member"
+    And   I check "contributor"
+    And   I check "editor"
+    And   I select "multisite_registration" from "edit-field-registration-field-test-und-0-registration-type"
+    And   I press "Save settings"
+    Then  I should see the text "Saved Registration field test configuration"
+    When  I go to "/node/add/article"
+    Then  I should see "Registration field test"
+    And   I should see "multisite_registration"
+
+  Scenario: add article content with registration option
+    Given I am on "/node/add/article"
+    Then  I should see "Registration field test"
+    And   I should see "multisite_registration"
+    When  I fill in "Title" with "Registration Article"
+    When  I select "multisite_registration" from "Registration field test"
+    And   I click "Publishing options"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+    And   I should see the text "Article Registration Article has been created"
+    And   I should see the text "Revision state: Published"
+
+  Scenario: user registers someone in a content
+    Given I am viewing an "article" content:
+      | title              | Registration Article     |
+      | body               | registration body        |
+      | status | 1 |
+      | moderation state   | published                |
+      | revision state   | published                |
+
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor |
+      | name | contributor |
+      | mail | contributor@test.com |
+    When  I go to "/content/registration-article"
+    Then  I should see the text "Registration Article"
+    And   I should see "Register"
+    When  I click "Register"
+    And   I select "Other account" from "This registration is for:"
+    And   I fill in "User" with "contributor"
+    And   I press "Save Registration"
+    Then  I should see the text "Registration has been saved"
+    Given I use device with "1080" px and "1920" px resolution
+    When  I go to "/content/registration-article"
+    Then  I should see the text "Registered user"
+    And   I should see the text "Registration management"
+    Then  I should see "Cancel my registration"
+    Given I am logged in as a user with the "administrator" role
+    When  I go to "/content/registration-article"
+    And   I click "Manage Registrations"
+    And   I click "Registrations"
+    Then  I should see the text "List of registrations for Registration Article"
+    And   I should see the link "contributor@test.com"
+
+
+  Scenario: user cancels registration in a content
+    Given I am viewing an "article" content:
+      | title              | Registration Article  |
+      | author             | admin                 |
+      | body               | registration body     |
+      | status             | 1                     |
+      | moderation state   | published             |
+      | revision state     | published             |
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor          |
+      | name     | contributor          |
+      | mail     | contributor@test.com |
+    When  I go to "/content/registration-article"
+    When  I click "Register"
+    And   I select "Other account" from "This registration is for:"
+    And   I fill in "User" with "contributor"
+    And   I press "Save Registration"
+    Given I use device with "1080" px and "1920" px resolution
+    When  I go to "/content/registration-article"
+    Then  I should see "Cancel my registration"
+    When  I click "Cancel my registration"
+    Then  I should see the text "Are you sure you want to delete registration"
+    When  I press "Delete"
+    Given I am logged in as a user with the "administrator" role
+    When  I go to "/content/registration-article"
+    And   I click "Manage Registrations"
+    And   I click "Registrations"
+    Then  I should see the text "There are no registrants for Registration Article"
+
+  Scenario: user without permission can access content and see registered users, but he cannot register himself
+    Given I am viewing an "article" content:
+      | title              | Registration Article  |
+      | author             | admin                 |
+      | body               | registration body     |
+      | status             | 1                     |
+      | moderation state   | published             |
+      | revision state     | published             |
+    Given I am not logged in
+    When  I go to "/content/registration-article"
+    And   I should not see the text "Registration management"
+    And   I should not see the text "Register"
