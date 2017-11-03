@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Taxonomy Browser Features integration.

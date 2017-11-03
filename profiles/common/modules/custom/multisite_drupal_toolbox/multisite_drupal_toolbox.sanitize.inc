@@ -231,11 +231,11 @@ function multisite_drupal_toolbox_filter_xss_split(array $m, $store = FALSE) {
 
   $string = $m[1];
 
-  if (substr($string, 0, 1) != '<') {
+  if (drupal_substr($string, 0, 1) != '<') {
     // We matched a lone ">" character.
     return '&gt;';
   }
-  elseif (strlen($string) == 1) {
+  elseif (drupal_strlen($string) == 1) {
     // We matched a lone "<" character.
     return '&lt;';
   }
@@ -246,7 +246,7 @@ function multisite_drupal_toolbox_filter_xss_split(array $m, $store = FALSE) {
   }
 
   $slash = trim($matches[1]);
-  $elem = strtolower($matches[2]);
+  $elem = drupal_strtolower($matches[2]);
   $attrlist = &$matches[3];
   $comment = &$matches[4];
 
@@ -275,7 +275,7 @@ function multisite_drupal_toolbox_filter_xss_split(array $m, $store = FALSE) {
   }
   $attr2 = implode(' ', $attr2);
   $attr2 = preg_replace('/[<>]/', '', $attr2);
-  $attr2 = strlen($attr2) ? ' ' . $attr2 : '';
+  $attr2 = drupal_strlen($attr2) ? ' ' . $attr2 : '';
 
   return "<$elem$attr2$xhtml_slash>";
 }
@@ -314,7 +314,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
   $mode = 0;
   $attrname = '';
 
-  while (strlen($attr) != 0) {
+  while (drupal_strlen($attr) != 0) {
     // Was the last operation successful?
     $working = 0;
 
@@ -322,8 +322,8 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       case 0:
         // Attribute name, href for instance.
         if (preg_match('/^([-a-zA-Z]+)/', $attr, $match)) {
-          $attrname = strtolower($match[1]);
-          $skip = (substr($attrname, 0, 2) == 'on' || (!isset($allowed_attributes[$attrname]) && !isset($allowed_attributes['*'])));
+          $attrname = drupal_strtolower($match[1]);
+          $skip = (drupal_substr($attrname, 0, 2) == 'on' || (!isset($allowed_attributes[$attrname]) && !isset($allowed_attributes['*'])));
           $working = $mode = 1;
           $attr = preg_replace('/^[-a-zA-Z]+/', '', $attr);
         }
@@ -462,7 +462,7 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
             // value".
             continue;
           }
-          $property_name = strtolower($property_matches[1]);
+          $property_name = drupal_strtolower($property_matches[1]);
           $property_value = &$property_matches[2];
           if (!isset($allowed_properties[$property_name])) {
             // Ignore property if not whitelisted in filter settings.
@@ -492,12 +492,12 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
               continue;
             }
             if (!empty($url[2])) {
-              if (substr($url[1], -1) != $url[2]) {
+              if (drupal_substr($url[1], -1) != $url[2]) {
                 // Ignore property if start and end delimiters don't match.
                 continue;
               }
               // Remove delimiters.
-              $url[1] = substr($url[1], 1, -1);
+              $url[1] = drupal_substr($url[1], 1, -1);
             }
             // Remove backslashes that could have been used to escape
             // parentheses, commas, whitespace characters, single quotes or
@@ -625,9 +625,9 @@ function multisite_drupal_toolbox_filter_xss_attributes($attr, $element = '') {
       $parsed_attributes['rel'] = 'rel="nofollow"';
     }
     elseif (strpos($parsed_attributes['rel'], 'nofollow') === FALSE) {
-      // Since we know the attribute is well formed, we can use substr(),
+      // Since we know the attribute is well formed, we can use drupal_substr(),
       // which is faster than preg_replace().
-      $parsed_attributes['rel'] = substr($parsed_attributes['rel'], 0, -1) . ' nofollow' . substr($parsed_attributes['rel'], -1);
+      $parsed_attributes['rel'] = drupal_substr($parsed_attributes['rel'], 0, -1) . ' nofollow' . drupal_substr($parsed_attributes['rel'], -1);
     }
   }
 
@@ -667,7 +667,7 @@ function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
     $colonpos = strpos($string, ':');
     if ($colonpos > 0) {
       // We found a colon, possibly a protocol. Verify.
-      $protocol = substr($string, 0, $colonpos);
+      $protocol = drupal_substr($string, 0, $colonpos);
       // If a colon is preceded by a slash, question mark or hash, it cannot
       // possibly be part of the URL scheme. This must be a relative URL,
       // which inherits the (safe) protocol of the base document.
@@ -676,8 +676,8 @@ function multisite_drupal_toolbox_filter_xss_bad_protocol($string) {
       }
       // Per RFC2616, section 3.2.3 (URI Comparison) scheme comparison must
       // be case-insensitive Check if this is a disallowed protocol.
-      if (!isset($allowed_protocols[strtolower($protocol)])) {
-        $string = substr($string, $colonpos + 1);
+      if (!isset($allowed_protocols[drupal_strtolower($protocol)])) {
+        $string = drupal_substr($string, $colonpos + 1);
       }
     }
   } while ($before != $string);
