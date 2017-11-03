@@ -136,7 +136,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
    *
    * @param Identifier $identifier
    *   The identifier.
-   * @param String $xml_dump
+   * @param string $xml_dump
    *   The XML to dump.
    */
   private function dumpPoetryRequest(Identifier $identifier, $xml_dump) {
