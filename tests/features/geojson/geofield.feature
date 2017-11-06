@@ -26,8 +26,14 @@ Feature: Geofield feature
 
   Scenario: manage geojson field
     And   I go to "/admin/structure/types/manage/article/fields/field_geofield_test"
+    # I add a default map center
     When  I fill in "Latitude" with "41.65"
     And   I fill in "Longitude" with "0.92"
+    # I select the four types of objects
+    And   I check "polygon"
+    And   I check "rectangle"
+    And   I check "marker"
+    And   I check "polyline"
     And   I press "Save"
     Then  I should see the text "Saved geofield test configuration"
     When  I go to "node/add/article"
