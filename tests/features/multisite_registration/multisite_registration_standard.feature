@@ -5,12 +5,12 @@ Feature: Multisite registration standard
   I want to be able to add a registration field in an article, register users and manage registrations
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
-    And the module is enabled
+    Given I use device with "1920" px and "1920" px resolution
+    And   I am logged in as a user with the 'administrator' role
+    And   the module is enabled
       | modules                         |
       | multisite_registration_core     |
       | multisite_registration_standard |
-      # | multisite_registration_og       |
 
   Scenario: Add registration field to Article content type
     Given I am on "/admin/structure/types/manage/article/fields"
@@ -21,9 +21,7 @@ Feature: Multisite registration standard
     Then  I should see the text "Registration field test"
     When  I check "Enable"
     And   I fill in "Spaces allowed" with "1"
-    #maximum number of spaces for each registration. default 1, unilimited 0
     And   I check "Allow multiple registrations"
-    #when selected each person can create multiple registratitons for this event.
     And   I check "authenticated user"
     And   I check "administrator"
     And   I check "editorial team member"
@@ -55,7 +53,6 @@ Feature: Multisite registration standard
       | status | 1 |
       | moderation state   | published                |
       | revision state   | published                |
-
     Given I am logged in as a user with the 'contributor' role and I have the following fields:
       | username | contributor |
       | name | contributor |
@@ -79,7 +76,6 @@ Feature: Multisite registration standard
     And   I click "Registrations"
     Then  I should see the text "List of registrations for Registration Article"
     And   I should see the link "contributor@test.com"
-
 
   Scenario: user cancels registration in a content
     Given I am viewing an "article" content:
@@ -122,3 +118,27 @@ Feature: Multisite registration standard
     When  I go to "/content/registration-article"
     And   I should not see the text "Registration management"
     And   I should not see the text "Register"
+
+  Scenario: user without permission can access content and see registered users, but he cannot register himself
+    Given I am viewing an "article" content:
+      | title              | Registration Article  |
+      | author             | admin                 |
+      | body               | registration body     |
+      | status             | 1                     |
+      | moderation state   | published             |
+      | revision state     | published             |
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor          |
+      | name     | contributor          |
+      | mail     | contributor@test.com |
+    When  I go to "/content/registration-article"
+    When  I click "Register"
+    And   I select "Other account" from "This registration is for:"
+    And   I fill in "User" with "contributor"
+    And   I press "Save Registration"
+    And   I click "Log out"
+    Given I am not logged in
+    When  I go to "/content/registration-article"
+    And   I should not see the text "Registration management"
+    But   I should see the text "Registered user"
+    But   I should see the text "contributor"
