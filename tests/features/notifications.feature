@@ -35,7 +35,7 @@ Feature: User notifications
     When I click "Pages/Threads"
     Then I should see the text "Article sub"
 
-  Scenario: As an Authorized user I can unsubscribe from a content, content type or content type by user.
+  Scenario: As an Authorized user I can unsubscribe from a content I was subscribed to.
     Given I visit the "Article" content with title "Article sub"
     And I click "Subscribe"
     And I check the box "Subscribe to this page"
@@ -48,8 +48,21 @@ Feature: User notifications
     And I press the "Save" button
     Then I should see the text "There are no available subscribed pages."
 
+  Scenario: As an Authorized user I can unsubscribe from a content type I was subscribed to.
+    Given I visit the "Article" content with title "Article sub"
+    And I click "Subscribe"
+    And I check the box "To Article content"
+    And I press the "Save" button
+    And I go to "user"
+    And I click "Subscriptions"
+    When I click "Content types"
+    Then I should see the text "Article"
+    And I uncheck the box on the "Article" row
+    And I press the "Save" button
+    Then the checkbox "edit-0-checkboxes-article-1" is unchecked
+
   Scenario: As an Authorized user I can disable and enable my subscriptions
-    When I go to "/user"
+    Given I go to "/user"
     And I click "Subscriptions"
     And I click "Delivery of notifications"
     And I select the radio button "No"
@@ -61,9 +74,8 @@ Feature: User notifications
     Then I should see the text "The changes have been saved."
     And the radio button "Yes" is selected
 
-  @prueba
   Scenario: As and Authorized user I can configure my subscription settings
-    When I go to "/user"
+    Given I go to "/user"
     And I click "Subscriptions"
     Then I should see the link "Overview"
     And I should see the text "Delivery of notifications"
@@ -77,3 +89,40 @@ Feature: User notifications
     And I should see the "Save settings" button
     And I should see the "Save notifications" button
 
+  Scenario: As an administrator I can configure the overview tab of the subscriptions
+    Given I am logged in as "administrator"
+    And I go to "/admin/config/system/subscriptions/userdefaults"
+    And I check the box "Hide the Overview page from your users"
+    And I press the "Save settings" button
+    When I am logged in as "authuser"
+    And I go to "/user"
+    And I click "Subscriptions"
+    Then I should not see the text "Overview"
+
+  Scenario: As an administrator I can configure the users default options
+    Given I am logged in as "administrator"
+    And I go to "/admin/config/system/subscriptions/userdefaults"
+    And I check the box "Auto-subscribe to new content"
+    And I check the box "Auto-subscribe to updated content"
+    And the checkbox "Auto-subscribe to comments" is unchecked
+    And I press the "Save settings" button
+    When I am logged in as "authuser"
+    And I go to "/user"
+    And I click "Subscriptions"
+    And I click "Settings"
+    Then the checkbox "Auto-subscribe to new content" is checked
+    And the checkbox "Auto-subscribe to updated content" is checked
+    And the checkbox "Auto-subscribe to comments" is unchecked
+
+  Scenario: As adn administrator I can configure the visibility of controls
+    Given I am logged in as "administrator"
+    And I go to "/admin/config/system/subscriptions/userdefaults"
+    And I select the radio button "Completely inaccessible to the user" with the id "edit-send-interval-visible-3"
+    And I select the radio button "Completely inaccessible to the user" with the id "edit-send-updates-visible-3"
+    And I select the radio button "Completely inaccessible to the user" with the id "edit-send-comments-visible-3"
+    And I press the "Save settings" button
+    When I am logged in as "authuser"
+    And I go to "/user"
+    And I click "Subscriptions"
+    And I click "Settings"
+    Then I should not see the text "Visibility of controls"
