@@ -5,7 +5,7 @@ Feature: Multisite registration standard
   I want to be able to add a registration field in an article, register users and manage registrations
 
   Background:
-    Given I use device with "1920" px and "1920" px resolution
+    Given I use device with "1080" px and "1920" px resolution
     And   I am logged in as a user with the 'administrator' role
     And   the module is enabled
       | modules                         |
@@ -142,3 +142,30 @@ Feature: Multisite registration standard
     And   I should not see the text "Registration management"
     But   I should see the text "Registered user"
     But   I should see the text "contributor"
+
+  Scenario: user with permission to register cannot register in a content in which the close date has already finished
+    Given I am logged in as a user with the 'administrator' role
+    Given I am viewing an "article" content:
+      | title              | Registration Article  |
+      | author             | admin                 |
+      | body               | registration body     |
+      | status             | 1                     |
+      | moderation state   | published             |
+      | revision state     | published             |
+    When  I go to "/content/registration-article"
+    And   I click "Manage Registrations"
+    And   I click "Settings"
+    And   I fill in "edit-scheduling-open-datepicker-popup-0" with "2017-10-30"
+    And   I fill in "edit-scheduling-open-timeEntry-popup-1" with "10:00:00"
+    And   I fill in "edit-scheduling-close-datepicker-popup-0" with "2017-10-31"
+    And   I fill in "edit-scheduling-close-timeEntry-popup-1" with "10:00:00"
+    And   I press "Save Settings"
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor2          |
+      | name     | contributor2          |
+      | mail     | contributor2@test.com |
+    When  I go to "/content/registration-article"
+    Then  I should see "Register"
+    When  I click "Register"
+    Then  I should see the text "Sorry, registrations are no longer available"
+

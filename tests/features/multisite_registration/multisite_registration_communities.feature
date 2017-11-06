@@ -16,6 +16,7 @@ Feature: Multisite registration standard
       | workbench_moderation_state     | published           |
       | workbench_moderation_state_new | published           |
 
+
   Scenario: Add registration field to Article content type
     Given I am on "/admin/structure/types/manage/article/fields"
     When  I fill in "New field label" with "Registration field test"
@@ -146,4 +147,29 @@ Feature: Multisite registration standard
     But   I should see the text "Registered user"
     But   I should see the text "contributor"
 
+  Scenario: user with permission to register cannot register in a content in which the close date has already finished
+    Given I am logged in as a user with the 'administrator' role
+    Given I am viewing an "article" content:
+      | title              | Registration Article  |
+      | author             | admin                 |
+      | body               | registration body     |
+      | status             | 1                     |
+      | moderation state   | published             |
+      | revision state     | published             |
+    When  I go to "/community/articles/registration-article"
+    And   I click "Manage Registrations"
+    And   I click "Settings"
+    And   I fill in "edit-scheduling-open-datepicker-popup-0" with "2017-10-30"
+    And   I fill in "edit-scheduling-open-timeEntry-popup-1" with "10:00:00"
+    And   I fill in "edit-scheduling-close-datepicker-popup-0" with "2017-10-31"
+    And   I fill in "edit-scheduling-close-timeEntry-popup-1" with "10:00:00"
+    And   I press "Save Settings"
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor2          |
+      | name     | contributor2          |
+      | mail     | contributor2@test.com |
+    When  I go to "/community/articles/registration-article"
+    Then  I should see "Register"
+    When  I click "Register"
+    Then  I should see the text "Sorry, registrations are no longer available"
 
