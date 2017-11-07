@@ -51,7 +51,7 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
 
     // Change the active language of the entity to the target language.
     $handler = entity_translation_get_handler($job_item->item_type, $current_revision);
-    $handler->setFormLanguage($job_item->getJob()->target_language);
+    $handler->setActiveLanguage($job_item->getJob()->target_language);
 
     // Save current node revision.
     node_save($current_revision);
@@ -75,12 +75,12 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * Get moderation state.
    *
    * @param object $node
-   *    Node object.
+   *   Node object.
    * @param string $type
-   *    Moderation type.
+   *   Moderation type.
    *
-   * @return string|FALSE
-   *    Moderation state or FALSE.
+   * @return string|false
+   *   Moderation state or FALSE.
    */
   private function getModerationState($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {
@@ -94,12 +94,12 @@ class TMGMTWorkbenchSourcePluginController extends TMGMTEntitySourcePluginContro
    * Get moderation revision.
    *
    * @param object $node
-   *    Node object.
+   *   Node object.
    * @param string $type
-   *    Moderation type.
+   *   Moderation type.
    *
-   * @return object|FALSE
-   *    Current node object or FALSE.
+   * @return object|false
+   *   Current node object or FALSE.
    */
   private function getModerationRevision($node, $type = 'current') {
     if (is_object($node) && property_exists($node, 'workbench_moderation') && isset($node->workbench_moderation[$type])) {

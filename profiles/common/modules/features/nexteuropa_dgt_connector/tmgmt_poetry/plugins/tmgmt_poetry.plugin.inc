@@ -64,7 +64,7 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     }
 
     // If any of these are empty, the translator is not properly configured.
-    foreach ($all_settings as $key => $value) {
+    foreach ($all_settings as $value) {
       if (empty($value)) {
         return FALSE;
       }
@@ -245,8 +245,9 @@ class TMGMTPoetryTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Load data exporter.
     $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
 
-    // Encode the data to be translated.
-    $content = base64_encode($controller->export($job));
+    // Generate the data into a XML format and encode it to be translated.
+    $export = $controller->export($job);
+    $content = base64_encode($export);
 
     // Generate the ID for the request.
     $items = $job->getItems();

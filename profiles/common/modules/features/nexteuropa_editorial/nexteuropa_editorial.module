@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NextEuropa Editorial feature.
@@ -29,27 +30,39 @@ function nexteuropa_editorial_workbench_block() {
  * Implements hook_og_membership_insert().
  */
 function nexteuropa_editorial_og_membership_insert(OgMembership $og_membership) {
+  _nexteuropa_editorial_sync_editorial_team_role($og_membership);
+}
 
-  // Automatically assign "editorial team member" to a user joining
-  // an editorial team organic group.
-  if ($og_membership->entity_type == 'user') {
-    if (multisite_config_service('nexteuropa_editorial')->isEditoralTeamGroup($og_membership->gid)) {
-      multisite_config_service('user')->assignRoleToUser(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $og_membership->etid);
-    }
-  }
+/**
+ * Implements hook_og_membership_update().
+ */
+function nexteuropa_editorial_og_membership_update(OgMembership $og_membership) {
+  _nexteuropa_editorial_sync_editorial_team_role($og_membership);
 }
 
 /**
  * Implements hook_og_membership_delete().
  */
 function nexteuropa_editorial_og_membership_delete(OgMembership $og_membership) {
+  _nexteuropa_editorial_sync_editorial_team_role($og_membership);
+}
 
-  // Automatically revoke "editorial team member" to a leaving
-  // an editorial team organic group.
-  if ($og_membership->entity_type == 'user') {
-    if (!multisite_config_service('nexteuropa_editorial')->isEditoralTeamMember($og_membership->etid)) {
-      multisite_config_service('user')->revokeRoleFromUser(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $og_membership->etid);
-    }
+/**
+ * Helper function for OG membership operations hooks.
+ *
+ * Grants/revokes the "editorial team member" role to the related user
+ * depending on whether or not he has at least 1 active OG membership
+ * bound to an Editorial Team group.
+ *
+ * @param \OgMembership $og_membership
+ *   The OG membership being inserted/updated/deleted.
+ */
+function _nexteuropa_editorial_sync_editorial_team_role(OgMembership $og_membership) {
+  if ($og_membership->field_name == 'og_user_node' && $og_membership->entity_type == 'user' && $og_membership->etid) {
+    $uid = $og_membership->etid;
+    $is_member = multisite_config_service('nexteuropa_editorial')->isEditorialTeamMember($uid);
+    $function = $is_member ? 'assignRoleToUser' : 'revokeRoleFromUser';
+    multisite_config_service('user')->$function(NEXTEUROPA_EDITORIAL_TEAM_MEMBER_ROLE, $uid);
   }
 }
 

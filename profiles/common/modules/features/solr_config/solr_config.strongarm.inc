@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * solr_config.strongarm.inc
@@ -89,6 +90,28 @@ function solr_config_strongarm() {
     ),
   );
   $export['field_bundle_settings_file__video'] = $strongarm;
+
+  $strongarm = new stdClass();
+  /* Edit this to true to make a default strongarm disabled initially */
+
+  $strongarm->disabled = FALSE;
+  $strongarm->api_version = 1;
+  $strongarm->name = 'search_active_modules';
+  $strongarm->value = array(
+    'apachesolr_search' => 'apachesolr_search',
+    'user' => 'user',
+    'node' => 0,
+  );
+  $export['search_active_modules'] = $strongarm;
+
+  $strongarm = new stdClass();
+  /* Edit this to true to make a default strongarm disabled initially */
+
+  $strongarm->disabled = FALSE;
+  $strongarm->api_version = 1;
+  $strongarm->name = 'search_default_module';
+  $strongarm->value = 'apachesolr_search';
+  $export['search_default_module'] = $strongarm;
 
   return $export;
 }

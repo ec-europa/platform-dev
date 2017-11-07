@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[drupal][type] = "core"
-projects[drupal][version] = "7.54"
+projects[drupal][version] = "7.56"
 
 ; AJAX callbacks not properly working with the language url suffix.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-4268
@@ -39,7 +39,7 @@ projects[drupal][patch][] = https://www.drupal.org/files/issues/drupal-n1256368-
 ; Please read carefully: https://www.drupal.org/node/1399846?page=1#comment-11718181
 ; The hook_update_N() has been removed from the patch, it needs to be added somewhere else to be consistent.
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-5641
-projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-306_0.patch
+projects[drupal][patch][] = https://www.drupal.org/files/issues/cleanup-files-1399846-315.patch 
 
 ; Make sure drupal_add_js marks files as external when no type is specified and is_external is true:
 ; https://www.drupal.org/node/2697611

@@ -7,10 +7,12 @@
 
 namespace Drupal\nexteuropa\Context;
 
+use Behat\Gherkin\Node\PyStringNode;
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
+use Drupal\nexteuropa\Component\PyStringYamlParser;
 
 /**
  * Behat step definitions for the NextEuropa Multilingual module.
@@ -32,9 +34,16 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * List of translators created during test execution.
    *
-   * @var array
+   * @var \TMGMTTranslator[]
    */
   protected $translators = [];
+
+  /**
+   * List of translators updated during test execution.
+   *
+   * @var array
+   */
+  protected $updatedTranslators = [];
 
   /**
    * List of TMGMT translation jobs created during test execution.
@@ -83,15 +92,15 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *      | de       | Title in German  | Body in German  |
    *
    * @param string $type
-   *    Content type machine name.
+   *   Content type machine name.
    * @param TableNode $table
-   *    List of available languages and field translations.
+   *   List of available languages and field translations.
    *
    * @return object
-   *    The created node object.
+   *   The created node object.
    *
    * @throws \InvalidArgumentException
-   *    Thrown if the specified content type does not support field translation.
+   *   Thrown if the specified content type does not support field translation.
    *
    * @Given I create the following multilingual :arg1 content:
    */
@@ -140,11 +149,11 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Add a translation to an existing node.
    *
    * @param string $type
-   *    Content type machine name.
+   *   Content type machine name.
    * @param string $title
-   *    Source node title.
+   *   Source node title.
    * @param TableNode $table
-   *    List of available languages and field translations.
+   *   List of available languages and field translations.
    *
    * @Then I create the following translations for :type content with title :arg2:
    */
@@ -162,10 +171,10 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get a node by specifying its type and title.
    *
    * @param string $label
-   *    Moderation state label.
+   *   Moderation state label.
    *
    * @return string
-   *    Moderation state machine name.
+   *   Moderation state machine name.
    */
   protected function getModerationStateMachineName($label) {
     $states = [];
@@ -182,15 +191,15 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Save a translation for an existing node.
    *
    * @param object $node
-   *    Node object.
+   *   Node object.
    * @param string $language
-   *    Language for which to create the translation for.
+   *   Language for which to create the translation for.
    * @param array $fields
-   *    Translation fields.
+   *   Translation fields.
    * @param int|null $vid
-   *    Node revision ID to which to apply the translation.
+   *   Node revision ID to which to apply the translation.
    * @param string $moderation_state
-   *    Moderation state.
+   *   Moderation state.
    */
   public function saveNodeTranslation($node, $language, array $fields, $vid = NULL, $moderation_state = self::MODERATION_PUBLISHED) {
     $handler = entity_translation_get_handler('node', $node);
@@ -205,19 +214,18 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
       'language' => $language,
     ];
 
-    $values = [];
-    // Assign translated title field.
-    $values['title_field'][$language][0]['value'] = $fields['title'];
-    // Assign translated body field, if any.
+    $node_wrapper = entity_metadata_wrapper('node', $node);
+    $node_wrapper->language($language)->title_field = $fields['title'];
     if (!empty($fields['field_ne_body'])) {
-      $values['field_ne_body'][$language][0]['value'] = $fields['field_ne_body'];
+      $node_wrapper->language($language)->field_ne_body->set(array('value' => $fields['field_ne_body']));
     }
     elseif (!empty($fields['body'])) {
-      $values['body'][$language][0]['value'] = $fields['body'];
+      $node_wrapper->language($language)->body->set(array('value' => $fields['body']));
     }
-    $handler->setTranslation($translation, $values);
-    // Set translation language.
-    $handler->setFormLanguage($language);
+
+    // Assign translated body field, if any.
+    $handler->setTranslation($translation, $node_wrapper->value());
+    $node_wrapper->save();
 
     // Workbench Moderation disables pathauto after node has been published.
     // Enforcing it here will ensure a consistent behavior.
@@ -231,12 +239,12 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Create a node along with its translations and visit its node page.
    *
    * @param string $type
-   *    Content type machine name.
+   *   Content type machine name.
    * @param TableNode $table
-   *    List of available languages and title translations.
+   *   List of available languages and title translations.
    *
    * @throws \InvalidArgumentException
-   *    Thrown if the specified content type does not support field translation.
+   *   Thrown if the specified content type does not support field translation.
    *
    * @see NextEuropaMultilingualSubContext::createMultilingualContent()
    *
@@ -264,7 +272,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Create a TMGMT local translator.
    *
    * @param string $name
-   *    Local translator human readable name.
+   *   Local translator human readable name.
    *
    * @Given :plugin translator :name is available
    */
@@ -307,6 +315,35 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   }
 
   /**
+   * Update existing translator.
+   *
+   * @Given I update the :name translator settings with the following values:
+   */
+  public function updateExistingTranslator($name, PyStringNode $string) {
+    $translator = tmgmt_translator_load($name);
+    if ($translator === FALSE) {
+      throw new \InvalidArgumentException("Translator '{$name}' does not exists");
+    }
+    $this->updatedTranslators[] = $translator;
+    $parser = new PyStringYamlParser($string);
+    $settings = $parser->parse();
+    $translator->settings = array_merge($translator->settings, $settings);
+    $translator->save();
+  }
+
+  /**
+   * Restore translators changed during scenarios execution.
+   *
+   * @AfterScenario
+   */
+  public function restoreTranslators() {
+    foreach ($this->updatedTranslators as $translator) {
+      $translator->save();
+    }
+    $this->translators = [];
+  }
+
+  /**
    * Check that the current job has only items of a specific source plugin.
    *
    * @Then I am on a translation job page with :arg1 job items
@@ -335,8 +372,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * Get translation job ID from current page's URL.
    *
-   * @return int|FALSE
-   *    Translators job ID, FALSE if none found.
+   * @return int|false
+   *   Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();
@@ -348,10 +385,10 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get the id of the parent job.
    *
    * @param int $tjiid
-   *    Job Item id.
+   *   Job Item id.
    *
-   * @return int|FALSE
-   *    Parent Job id or FALSE if none was found.
+   * @return int|false
+   *   Parent Job id or FALSE if none was found.
    */
   public function getParentJobId($tjiid) {
     return db_select('tmgmt_job_item', 't')
@@ -364,8 +401,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * Get translation job item ID from current page's URL.
    *
-   * @return int|FALSE
-   *    Translators job ID, FALSE if none found.
+   * @return int|false
+   *   Translators job ID, FALSE if none found.
    */
   protected function getTranslationJobSubItemFromUrl() {
     $url = $this->getSession()->getCurrentUrl();
@@ -377,9 +414,9 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Assert re-importing latest translation job.
    *
    * @param string $type
-   *    Content type machine name.
+   *   Content type machine name.
    * @param string $title
-   *    Content type in default language.
+   *   Content type in default language.
    *
    * @Then I re-import the latest translation job for :type with title :title
    */
@@ -411,11 +448,11 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Create a translation job for an already existing piece of content.
    *
    * @param string $type
-   *    The node type.
+   *   The node type.
    * @param string $title
-   *    The node title.
+   *   The node title.
    * @param \Behat\Gherkin\Node\TableNode $table
-   *    Properties table, "source language" and "target language" are required.
+   *   Properties table, "source language" and "target language" are required.
    *
    * @Given I create the following job for :type with title :title
    * @Given I create a translation job for :type with title :title and the following properties:
@@ -486,7 +523,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Assert current translation job state.
    *
    * @param string $expected
-   *    Expected state in human readable format.
+   *   Expected state in human readable format.
    *
    * @Then the translation job is in :expected state
    */
@@ -503,7 +540,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Assert current translation job items state.
    *
    * @param string $expected
-   *    Expected state in human readable format.
+   *   Expected state in human readable format.
    *
    * @Then the translation job items are in :expected state
    */
@@ -535,9 +572,9 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Accept all job items for a given translation job.
    *
    * @param string $label
-   *    Job label.
+   *   Job label.
    * @param string $language
-   *    Target language code.
+   *   Target language code.
    *
    * @Given the translation job with label :label and target language :language is accepted
    */
@@ -589,12 +626,12 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get a node by specifying its type and title.
    *
    * @param string $type
-   *    The node type.
+   *   The node type.
    * @param string $title
-   *    The node title.
+   *   The node title.
    *
    * @return object
-   *    The node object.
+   *   The node object.
    */
   protected function getNodeByTitle($type, $title) {
     $nodes = node_load_multiple([], ['title' => $title, 'type' => $type], TRUE);
@@ -608,12 +645,12 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get a node revision by specifying its type and title.
    *
    * @param string $type
-   *    The node type.
+   *   The node type.
    * @param string $title
-   *    The node title.
+   *   The node title.
    *
    * @return object
-   *    The node object.
+   *   The node object.
    */
   protected function getNodeRevisionByTitle($type, $title) {
     $query = db_select('node', 'n');
@@ -634,10 +671,10 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get translator by machine name.
    *
    * @param string $name
-   *    Human readable labels will be converted into machine name-like syntax.
+   *   Human readable labels will be converted into machine name-like syntax.
    *
    * @return \TMGMTTranslator
-   *    Translator object.
+   *   Translator object.
    *
    * @see NextEuropaMultilingualSubContext::isTranslatorAvailable()
    */
@@ -654,7 +691,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get latest saved translation job.
    *
    * @return \TMGMTJob
-   *    Translation job object.
+   *   Translation job object.
    */
   protected function getLatestTranslationJob() {
     if ($this->latestJob) {
@@ -667,10 +704,10 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get translation job state value given its human readable label.
    *
    * @param string $state
-   *    State human readable label.
+   *   State human readable label.
    *
    * @return int
-   *    Translation job state value.
+   *   Translation job state value.
    */
   protected function getTranslationJobState($state) {
     $states = [
@@ -690,10 +727,10 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Get translation job item state value given its human readable label.
    *
    * @param string $state
-   *    State human readable label.
+   *   State human readable label.
    *
    * @return int
-   *    Translation job item state value.
+   *   Translation job item state value.
    */
   protected function getTranslationJobItemState($state) {
     $states = [
@@ -712,11 +749,11 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    * Update language in database.
    *
    * @param string $field
-   *    The field to change.
+   *   The field to change.
    * @param string $value
-   *    The new value.
+   *   The new value.
    * @param string $langcode
-   *    The code of the language to bee changed.
+   *   The code of the language to bee changed.
    */
   protected function updateLanguage($field, $value, $langcode) {
     db_update('languages')

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains NexteuropaCoreSubContext.
@@ -36,7 +37,7 @@ class NexteuropaCoreSubContext extends DrupalSubContextBase {
           0 => 'tid',
         ),
       ),
-      'locked' => 0,
+      'locked' => 1,
       'module' => 'taxonomy',
       'settings' => array(
         'allowed_values' => array(

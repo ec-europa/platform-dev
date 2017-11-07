@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * news_core.views_default.inc
@@ -109,7 +110,7 @@ function news_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Read the latest news</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Read the latest news</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Content: Title */
@@ -372,38 +373,7 @@ function news_core_views_default_views() {
     'page' => 0,
     'block_1' => 0,
   );
-  $translatables['news'] = array(
-    t('Master'),
-    t('News'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<small>[created]</small>'),
-    t('News list page'),
-    t('<h2>Read the latest news</h2>'),
-    t('Related link'),
-    t('Language'),
-    t('Translation set node ID'),
-    t('Published'),
-    t('Latest News Block'),
-    t('Latest News'),
-    t('Community Top news'),
-    t('Top News'),
-    t('<div class="news" id="news[nid]">'),
-    t('<h3>[title]</h3>'),
-    t('</div>'),
-    t('Top news Attachment'),
-  );
+
   $export['news'] = $view;
 
   return $export;

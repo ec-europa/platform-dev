@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_multilingual.features.field_base.inc
@@ -22,7 +23,7 @@ function nexteuropa_multilingual_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'text',
     'settings' => array(
       'entity_translation_sync' => FALSE,

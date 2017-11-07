@@ -1,4 +1,4 @@
-@api @reset-nodes
+@api @reset-nodes @theme_wip
 Feature: Nexteuropa Communities
   In order to effectively manage groups of people
   As a site administrator
@@ -139,8 +139,8 @@ Feature: Nexteuropa Communities
     And I have the "member" role in the "My public Community" group
     When I reload the page
     And I click "Basic page" in the sidebar_left
-    And I fill in "title_field[und][0][value]" with "Page in My public Community"
-    And I fill in "field_ne_body[und][0][value]" with "Lorem ipsum dolor sit amet"
+    And I fill in "title_field[en][0][value]" with "Page in My public Community"
+    And I fill in "field_ne_body[en][0][value]" with "Lorem ipsum dolor sit amet"
     And I press the "Save" button
     Then I should see the success message "Basic page Page in My public Community has been created."
     When I go to "community/my-public-community/basic-page/page-my-public-community"
@@ -167,8 +167,8 @@ Feature: Nexteuropa Communities
     And I have the "member" role in the "My private Community" group
     When I reload the page
     And I click "Basic page" in the sidebar_left
-    And I fill in "title_field[und][0][value]" with "Page in My private Community"
-    And I fill in "field_ne_body[und][0][value]" with "Lorem ipsum dolor sit amet"
+    And I fill in "title_field[en][0][value]" with "Page in My private Community"
+    And I fill in "field_ne_body[en][0][value]" with "Lorem ipsum dolor sit amet"
     And I press the "Save" button
     Then I should see the success message "Basic page Page in My private Community has been created."
     When I go to "community/my-private-community/basic-page/page-my-private-community"

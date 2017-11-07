@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NextEuropa GeoField feature.
@@ -8,7 +9,6 @@
  * Implements hook_field_schema().
  */
 function nexteuropa_geofield_field_schema($field) {
-
   $schema = array();
 
   switch ($field['type']) {
@@ -27,7 +27,6 @@ function nexteuropa_geofield_field_schema($field) {
  * Implements hook_field_info().
  */
 function nexteuropa_geofield_field_info() {
-
   return array(
     'geofield_geojson' => array(
       'label' => t('Geofield geoJSON'),
@@ -42,7 +41,6 @@ function nexteuropa_geofield_field_info() {
  * Implements hook_field_widget_info().
  */
 function nexteuropa_geofield_field_widget_info() {
-
   return array(
     'geofield_widget_map' => array(
       'label' => t('Interactive map'),
@@ -55,9 +53,6 @@ function nexteuropa_geofield_field_widget_info() {
  * Implements hook_field_widget_form().
  */
 function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-
-  $widget = $element;
-  $widget['#delta'] = $delta;
   $value = isset($items[$delta]) ? $items[$delta] : '';
   $settings = $instance['widget']['settings'];
 
@@ -66,6 +61,38 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
       if (!isset($element['#title'])) {
         $element['#title'] = t('Map');
       }
+
+      $element['geojson_search'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Search address'),
+        '#attributes' => array(
+          'class' => array(
+            'search-address-field',
+          ),
+        ),
+      );
+
+      $element['geojson_search_button'] = array(
+        '#type' => 'button',
+        '#attributes' => array(
+          'search-field' => $field['field_name'],
+          'class' => array('search-address-button'),
+        ),
+        '#value' => t('Search'),
+        '#limit_validation_errors' => array(),
+        '#ajax' => array(
+          'callback' => '_nexteuropa_geofield_geocode',
+          'wrapper' => 'geofield-search-results',
+          'method' => 'replace',
+          'effect' => 'fade',
+        ),
+      );
+
+      $element['geocode-search-results'] = array(
+        '#type' => 'item',
+        '#markup' => '<ul id="geofield-search-results" class="geofield-search-results no-results"></ul>',
+      );
+
       $element['geojson_map'] = array(
         '#type' => 'item',
         '#title' => $element['#title'],
@@ -101,6 +128,10 @@ function nexteuropa_geofield_field_widget_form(&$form, &$form_state, $field, $in
  * Implements hook_field_widget_settings_form().
  */
 function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
+  $default_map_center = array(
+    'lat' => 50.85,
+    'lng' => 4.35,
+  );
   $widget = $instance['widget'];
   $value = $widget['settings'];
 
@@ -113,7 +144,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
     $element['fs_default_map_center']['lat'] = array(
       '#type' => 'textfield',
       '#title' => t('Latitude'),
-      '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : 0,
+      '#default_value' => isset($value['fs_default_map_center']['lat']) ? $value['fs_default_map_center']['lat'] : $default_map_center['lat'],
       '#size' => 8,
       '#element_validate' => array('_decimal_check'),
       '#description' => t('Number with 5 decimals maximum : 53.45435'),
@@ -121,7 +152,7 @@ function nexteuropa_geofield_field_widget_settings_form($field, $instance) {
     $element['fs_default_map_center']['lng'] = array(
       '#type' => 'textfield',
       '#title' => t('Longitude'),
-      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : 0,
+      '#default_value' => isset($value['fs_default_map_center']['lng']) ? $value['fs_default_map_center']['lng'] : $default_map_center['lng'],
       '#size' => 8,
       '#element_validate' => array('_decimal_check'),
       '#description' => t('Number with 5 decimals maximum : 53.45435'),
@@ -199,12 +230,10 @@ function _decimal_check($element, &$form_state) {
   }
 }
 
-
 /**
  * Implements hook_form_ID_alter().
  */
 function nexteuropa_geofield_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
-
   if ($form_state['build_info']['args'][0]['widget']['type'] == 'geofield_widget_map') {
     $form['field']['cardinality']['#default_value'] = 1;
     $form['field']['cardinality']['#disabled'] = TRUE;
@@ -218,7 +247,6 @@ function nexteuropa_geofield_form_field_ui_field_edit_form_alter(&$form, &$form_
  * Implements hook_field_formatter_info().
  */
 function nexteuropa_geofield_field_formatter_info() {
-
   return array(
     'geofield_geojson_map_format' => array(
       'label' => t('Interactive map'),
@@ -235,7 +263,6 @@ function nexteuropa_geofield_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-
   $element = array();
   $settings = $instance['widget']['settings'];
 
@@ -281,7 +308,6 @@ function nexteuropa_geofield_field_formatter_view($entity_type, $entity, $field,
  * Implements hook_field_is_empty().
  */
 function nexteuropa_geofield_field_is_empty($item, $field) {
-
   return empty($item['geofield_geojson']);
 }
 
@@ -289,7 +315,6 @@ function nexteuropa_geofield_field_is_empty($item, $field) {
  * Implements hook_menu().
  */
 function nexteuropa_geofield_menu() {
-
   $items = array();
   $items['node/%node/geojson'] = array(
     'title' => 'GeoJson data',
@@ -322,6 +347,79 @@ function _nexteuropa_geofield_get_geojson($node) {
 }
 
 /**
+ * Ajax callback to fetch the available coordinates for specified address.
+ *
+ * @param array $form
+ *   Drupal form array.
+ * @param array $form_state
+ *   Drupal form state array.
+ *
+ * @return string
+ *   Return the Ajax response to be rendered in the form.
+ */
+function _nexteuropa_geofield_geocode($form, $form_state) {
+  $error = NULL;
+  $response = '';
+
+  $geo_field_name = $form_state['triggering_element']['#attributes']['search-field'];
+  $address = $form_state['values'][$geo_field_name][LANGUAGE_NONE][0]['geojson_search'];
+
+  if (empty($address)) {
+    $error = t('No address specified for search.');
+  }
+  else {
+    /*
+     * @todo move to configuration.
+     */
+    $url = 'http://europa.eu/webtools/rest/geocoding/index.php?address=' . urlencode($address) . '&mode=5';
+    // Contact the WebTools geocoding service.
+    $geocode = drupal_http_request($url);
+
+    if (!empty($geocode->error)) {
+      $error = $geocode->error;
+    }
+    else {
+      $geocode_decoded = drupal_json_decode($geocode->data);
+
+      if ($geocode_decoded->geocodingRequestsCollection[0]->foundCount < 1) {
+        $error = t('No address found.');
+      }
+      else {
+        $items = array();
+        foreach ($geocode_decoded->geocodingRequestsCollection[0]->result->features as $key => $address) {
+          $geometry = $address->geometry->coordinates;
+          // Don't add address if already added. Prevent duplicates.
+          $items[sha1($geo_field_name[0] . ',' . $geometry[1])] = array(
+            'data' => '<strong>' . $address->properties->formattedAddress . '</strong> [' . round($geometry[0], 4) . ', ' . round($geometry[1], 4) . ']',
+            'id' => 'geofield-search-item-' . $key,
+            'class' => array('geofield-search-item'),
+            'lat' => array($geometry[1]),
+            'lng' => array($geometry[0]),
+          );
+        }
+
+        $attributes = array(
+          'id' => 'geofield-search-results',
+          'class' => 'geofield-search-results',
+        );
+        $response = theme('item_list', array(
+          'items' => array_values($items),
+          'title' => '',
+          'type' => 'ul',
+          'attributes' => $attributes,
+        ));
+      }
+    }
+  }
+
+  if ($error) {
+    return '<ul id="geofield-search-results" class="geofield-search-results no-results"><div class="alert alert-warning" role="alert">' . $error . '</div></ul>';
+  }
+
+  return $response;
+}
+
+/**
  * Implements hook_node_validate().
  */
 function nexteuropa_geofield_node_validate($node, $form, &$form_state) {
@@ -335,7 +433,7 @@ function nexteuropa_geofield_node_validate($node, $form, &$form_state) {
       // Add the javascript files if there is a geofield_geojson field.
       if ($type == 'geofield_geojson') {
         $field_instance = $form_state['field'][$field_name][LANGUAGE_NONE];
-        drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->{$field_name}['und'][0]['geofield_geojson'])), 'setting');
+        drupal_add_js(array('nexteuropa_geojson' => array('map' => $node->{$field_name}[LANGUAGE_NONE][0]['geofield_geojson'])), 'setting');
         drupal_add_js(array('nexteuropa_geojson' => array('settings' => $field_instance['instance']['widget']['settings'])), 'setting');
         drupal_add_js(array('nexteuropa_geojson' => array('cardinality' => $field_instance['field']['cardinality'])), 'setting');
       }

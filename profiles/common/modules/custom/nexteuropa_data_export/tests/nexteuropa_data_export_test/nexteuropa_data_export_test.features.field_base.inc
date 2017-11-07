@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_data_export_test.features.field_base.inc
@@ -32,7 +33,7 @@ function nexteuropa_data_export_test_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'text',
     'settings' => array(),
     'translatable' => 0,
@@ -59,7 +60,7 @@ function nexteuropa_data_export_test_field_default_field_bases() {
         0 => 'format',
       ),
     ),
-    'locked' => 0,
+    'locked' => 1,
     'module' => 'text',
     'settings' => array(
       'max_length' => 255,

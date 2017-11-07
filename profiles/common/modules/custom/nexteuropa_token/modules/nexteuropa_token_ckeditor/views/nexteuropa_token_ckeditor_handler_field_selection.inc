@@ -50,10 +50,10 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
    * Return the rendered field.
    *
    * @param object $values
-   *    Render values.
+   *   Render values.
    *
    * @return string
-   *    Rendered output.
+   *   Rendered output.
    */
   public function render($values) {
     $entity_id = $values->{$this->field_alias};
@@ -63,7 +63,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
       $entity_label = $values->$field_alias;
     }
 
-    $attributes = array('class' => 'token-ckeditor-selection');
+    $attributes = array('class' => array('token-ckeditor-selection'));
     $attributes['token-ckeditor-label'] = $entity_label;
     $output = array();
 
@@ -79,6 +79,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
       }
     }
     $output[] = t('Token:') . '<input type="text" onfocus="this.select()" class="token-ckeditor-input" value="[node:' . $entity_id . ':url]" />';
+
     return implode($output, ' - ');
   }
 
@@ -86,7 +87,7 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
    * Get view modes machine names per entity type.
    *
    * @return array
-   *    List of view modes machine names.
+   *   List of view modes machine names.
    */
   private function get_view_modes_options() {
 
@@ -102,10 +103,10 @@ class nexteuropa_token_ckeditor_handler_field_selection extends views_handler_fi
    * Get view mode label.
    *
    * @param string $view_mode
-   *    View mode machine name.
+   *   View mode machine name.
    *
    * @return mixed
-   *    View mode options array.
+   *   View mode options array.
    */
   private function get_view_mode_label($view_mode) {
 

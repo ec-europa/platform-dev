@@ -1,4 +1,6 @@
-@api @poetry_mock @i18n @poetry
+@api @poetry_mock @i18n @theme_wip
+# They are all in wip for the europa theme because it implies a step referring a
+# region. This must be evaluate deeper before being able to know how to deal with.
 Feature: TMGMT Poetry features
   In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator
@@ -524,19 +526,6 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-  Scenario: Inspect the 'Last change' data of a translation request
-    Given I am logged in as a user with the 'administrator' role
-    And I am viewing a multilingual "page" content:
-      | language | title            | body                    |
-      | en       | Title            | Last change column test |
-    When I click "Translate" in the "primary_tabs" region
-    Then I should see "Last change"
-    When I check the box on the "French" row
-    And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days
-    And I press "Submit to translator"
-    Then I see the date of the last change in the "French" row
-
   @javascript @maximizedwindow
   Scenario: Adding new languages to the ongoing translation request
     Given I am logged in as a user with the 'editor' role
@@ -626,12 +615,14 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I see the date of the last change in the "French" row
 
-  Scenario: Inspect if the 'Requested delivery date' field is mandatory
+  Scenario: Inspect mandatory fields (date and languages)
     Given I am logged in as a user with the 'administrator' role
     And I am viewing a multilingual "page" content:
       | language | title            | body                    |
       | en       | Title            | Last change column test |
     When I click "Translate" in the "primary_tabs" region
+    And I press "Request translation"
+    Then I should see the error message "You have to select a language for requesting a translation."
     When I check the box on the "French" row
     And I press "Request translation"
     And I press "Submit to translator"
@@ -639,7 +630,11 @@ Feature: TMGMT Poetry features
     When I fill in "Date" with "01/01/1970"
     And I press "Submit to translator"
     Then I should see the error message "The expected requested delivery date cannot be in the past."
+    When I uncheck the box on the "French" row
+    And I press "Submit to translator"
+    Then I should see the error message "You have to select a language for requesting a translation."
     When I fill in "Date" with a relative date of "+5" days
+    When I check the box on the "French" row
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
 

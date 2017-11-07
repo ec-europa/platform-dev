@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Callbacks used by the administration area.
@@ -11,7 +12,7 @@ use Drupal\nexteuropa_piwik\Entity\PiwikRule;
  */
 function nexteuropa_piwik_rule_form($form, &$form_state, $piwik_rule, $op = 'edit', $entity_type = NULL) {
   // Adjusting the form page title.
-  drupal_set_title(t("@operation the Next Europa PIWIK rule", array('@operation' => ucfirst($op))));
+  drupal_set_title(t("@operation the Next Europa PIWIK rule", array('@operation' => drupal_ucfirst($op))));
 
   $form['rule_section'] = array(
     '#title' => t('Site section'),
@@ -140,7 +141,7 @@ function nexteuropa_piwik_rule_form_submit(&$form, &$form_state) {
  * @param string $rule_path_type
  *   PIWIK rule patt type.
  *
- * @return string $description
+ * @return string
  *   Description for the field.
  */
 function _nexteuropa_piwik_rule_path_description($rule_path_type) {

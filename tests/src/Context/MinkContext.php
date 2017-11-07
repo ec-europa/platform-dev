@@ -17,6 +17,7 @@ use Behat\Mink\Selector\Xpath\Escaper;
 use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
+use function bovigo\assert\predicate\isNotEmpty;
 use function bovigo\assert\assert;
 
 /**
@@ -245,7 +246,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @param NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|NULL
+   * @return NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -275,10 +276,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I check the box on the :row_text row
    */
@@ -288,6 +289,29 @@ class MinkContext extends DrupalExtensionMinkContext {
       ->find('css', 'input[type=checkbox]')
     ) {
       $checkbox->check();
+      return;
+    }
+    throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()
+      ->getCurrentUrl()), $this->getSession());
+  }
+
+  /**
+   * Attempts to find and uncheck a checkbox in a table row with a given text.
+   *
+   * @param string $row_text
+   *   Text on the table row.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
+   *   Throw exception if class table row was not found.
+   *
+   * @Given I uncheck the box on the :row_text row
+   */
+  public function uncheckCheckboxOnTableRow($row_text) {
+    $page = $this->getSession()->getPage();
+    if ($checkbox = $this->getTableRow($page, $row_text)
+      ->find('css', 'input[type=checkbox]')
+    ) {
+      $checkbox->uncheck();
       return;
     }
     throw new ExpectationException(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $row_text, $checkbox, $this->getSession()
@@ -349,15 +373,15 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Retrieve a table row containing specified text from a given element.
    *
    * @param Element $element
-   *    Mink element object.
+   *   Mink element object.
    * @param string $search
-   *    Table row text.
+   *   Table row text.
    *
    * @throws \Exception
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @return NodeElement
-   *    Table row node element.
+   *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
@@ -384,7 +408,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    *   Class of the second div.
    *
    * @throws \Exception
-   *    Throw exception if the two positions from top are different.
+   *   Throw exception if the two positions from top are different.
    *
    * @Then I check if :div1 and :div2 have the same position from top
    */
@@ -411,7 +435,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('Unable to find an element with the following id: "%s"', $id));
     }
     // Loading attributes from the step.
-    $attribs = $rules = $table->getHash();
+    $attribs = $table->getHash();
     // Checking if attributes of the element are equal.
     foreach ($attribs as $attrib) {
       $attrib_value = $element_node->getAttribute($attrib['Attribute']);
@@ -438,6 +462,20 @@ class MinkContext extends DrupalExtensionMinkContext {
     }
 
     $element->click();
+  }
+
+  /**
+   * Checks if a specified button is disabled.
+   *
+   * @Then the :button button is disabled
+   */
+  public function theButtonIsDisabled($button) {
+    $element = $this->getSession()->getPage();
+    $button_obj = $element->findButton($button);
+    assert($button_obj, isNotEmpty(), sprintf('The button "%s" has not been found', $button));
+
+    $disabled_attr = $button_obj->getAttribute('disabled');
+    assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
 }

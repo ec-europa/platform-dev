@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * events_core.views_default.inc
@@ -40,7 +41,7 @@ function events_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Consult planned events</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Consult planned events</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -264,22 +265,6 @@ function events_core_views_default_views() {
   $handler->display->display_options['filters']['field_event_date_value2']['operator'] = '>=';
   $handler->display->display_options['filters']['field_event_date_value2']['default_date'] = 'now';
   $export['events'] = $view;
-
-  $translatables['calendar'] = array(
-    t('Master'),
-    t('<none>'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('<h2>Consult planned events</h2>'),
-    t('All taxonomy terms'),
-    t('Body'),
-    t('Dates'),
-    t('Month'),
-  );
 
   return $export;
 }

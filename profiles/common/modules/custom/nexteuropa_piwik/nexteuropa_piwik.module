@@ -130,6 +130,7 @@ function nexteuropa_piwik_process_html(&$vars) {
     'siteID' => $id,
     'sitePath' => $site_path,
     'is404' => FALSE,
+    'is403' => FALSE,
     'instance' => $instance,
   );
 
@@ -151,6 +152,11 @@ function nexteuropa_piwik_process_html(&$vars) {
     $webtools_piwik_settings['is404'] = TRUE;
   }
 
+  // Track forbidden (403) accesses.
+  if ($status == '403 Forbidden') {
+    $webtools_piwik_settings['is403'] = TRUE;
+  }
+
   if (!empty($site_section)) {
     $webtools_piwik_settings['siteSection'] = $site_section;
   }
@@ -162,7 +168,7 @@ function nexteuropa_piwik_process_html(&$vars) {
     }
   }
 
-  $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
+  $webtools_piwik_settings = strip_tags(drupal_json_encode($webtools_piwik_settings));
   // Add application/json tag to the header.
   $element = array(
     '#type' => 'html_tag',

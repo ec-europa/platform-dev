@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install, uninstall, update and schema hooks for the Communities profile.
@@ -20,6 +21,18 @@ function multisite_drupal_communities_install() {
   ));
 }
 
+/**
+ * Implements hook_install_tasks().
+ */
+function multisite_drupal_communities_install_tasks() {
+  $tasks = array(
+    'cce_basic_config_profile_theme_default_form' => array(
+      'display_name' => st('Choose theme'),
+      'type' => 'form',
+    ),
+  );
+  return $tasks;
+}
 
 /**
  * NEXTEUROPA-3298: Disable ckeditor_link features.

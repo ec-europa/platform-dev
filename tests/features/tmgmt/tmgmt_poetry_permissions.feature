@@ -1,4 +1,4 @@
-@api @poetry @i18n
+@api @i18n
 Feature: TMGMT Poetry permissions features
   In order to configure the DGT connector.
   As a CEM agent
@@ -39,6 +39,8 @@ Feature: TMGMT Poetry permissions features
       | Email to           |
       | Email CC           |
 
+    @theme_wip
+    # This scenario is in THEME WIP until the NEPT-1242 is fixed
     Scenario: I should be able to fill in the configuration form and be notified
       when server config is missing
       When I fill in "Counter" with "NEXT_EUROPA_COUNTER"
@@ -48,7 +50,7 @@ Feature: TMGMT Poetry permissions features
       And I fill in "Poetry User" with "poetry_user"
       And I fill in "Poetry Password" with "poetry_password"
       And I fill in "Website identifier" with "my-website"
-      And I fill in "Responsable " with "DIGIT"
+      And I fill in "Responsable" with "DIGIT"
       And I fill in "DG Author" with "IE/CE/DIGIT"
       And I fill in "Requester" with "IE/CE/DIGIT/A/3"
       And I fill in "Author" with "leperde"

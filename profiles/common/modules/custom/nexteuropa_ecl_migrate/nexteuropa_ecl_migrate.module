@@ -1,0 +1,305 @@
+<?php
+
+/**
+ * @file
+ * Code to migrate blocks from ec_resp to EC Europa theme.
+ */
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _nexteuropa_ecl_migrate_blocks() {
+  // Migrate blocks from default install.
+  _nexteuropa_ecl_migrate_remove_blocks_default_blocks();
+  _nexteuropa_ecl_migrate_dt_menus();
+  _nexteuropa_ecl_migrate_europa_main_menu();
+  _nexteuropa_ecl_migrate_europa_utility_region();
+  _nexteuropa_ecl_migrate_move_taxonomy_browser();
+
+  // Migrate blocks from optional features.
+  _nexteuropa_ecl_migrate_move_facet_blocks();
+  _nexteuropa_ecl_migrate_move_community_blocks();
+  _nexteuropa_ecl_migrate_move_ne_registration_blocks();
+}
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _nexteuropa_ecl_migrate_dt_menus() {
+  $dt_menus = array(
+    array(
+      'menu_name' => 'menu-nexteuropa-site-links',
+      'title' => 'European Commission',
+      'description' => 'DT menu European Commission',
+      'region' => 'footer_left',
+    ),
+    array(
+      'menu_name' => 'menu-nexteuropa-social-media',
+      'title' => 'Follow the European Commission',
+      'description' => 'List of social networks links for the European Commission',
+      'region' => 'footer_middle',
+    ),
+    array(
+      'menu_name' => 'menu-nexteuropa-inst-links',
+      'title' => 'European Union',
+      'description' => 'DT menu',
+      'region' => 'footer_right',
+    ),
+    array(
+      'menu_name' => 'menu-nexteuropa-service-links',
+      'title' => 'Nexteuropa service links',
+      'description' => 'DT links to be put in the bottom footer',
+      'region' => 'footer_bottom',
+    ),
+  );
+
+  $dt_links = array(
+    array(
+      array(
+        'link_title' => 'Commission and its priorities',
+        'link_path' => 'https://ec.europa.eu/commission/index',
+        'menu_name' => 'menu-nexteuropa-site-links',
+        'weight' => 0,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+      array(
+        'link_title' => 'Policies, information and services',
+        'link_path' => 'https://ec.europa.eu/info/index',
+        'menu_name' => 'menu-nexteuropa-site-links',
+        'weight' => 1,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+    ),
+    array(
+      array(
+        'link_title' => 'EU institutions',
+        'link_path' => 'https://europa.eu/european-union/about-eu/institutions-bodies',
+        'menu_name' => 'menu-nexteuropa-inst-links',
+        'weight' => 0,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+      array(
+        'link_title' => 'European Union',
+        'link_path' => 'https://europa.eu/european-union/index',
+        'menu_name' => 'menu-nexteuropa-inst-links',
+        'weight' => 1,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+    ),
+    array(
+      array(
+        'link_title' => 'About the Commission\'s new web presence',
+        'link_path' => 'https://ec.europa.eu/info/about-commissions-new-web-presence',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -50,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+      array(
+        'link_title' => 'Resources for partners',
+        'link_path' => 'http://ec.europa.eu/info/resources-partners',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -49,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+      array(
+        'link_title' => 'Cookies',
+        'link_path' => 'https://ec.europa.eu/info/cookies',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -48,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+      array(
+        'link_title' => 'Legal notice',
+        'link_path' => 'https://ec.europa.eu/info/legal-notice',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -34,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+      array(
+        'link_title' => 'Contact',
+        'link_path' => 'https://ec.europa.eu/info/contact',
+        'menu_name' => 'menu-nexteuropa-service-links',
+        'weight' => -21,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+    ),
+    array(
+      array(
+        'link_title' => 'Facebook',
+        'link_path' => 'https://www.facebook.com/EuropeanCommission',
+        'menu_name' => 'menu-nexteuropa-social-media',
+        'weight' => 0,
+        'expanded' => 0,
+        'options' => array(
+          'attributes' => array(
+            'class' => array('ecl-icon', 'ecl-icon--facebook'),
+          ),
+        ),
+      ),
+      array(
+        'link_title' => 'Twitter',
+        'link_path' => 'https://twitter.com/eu_commission',
+        'menu_name' => 'menu-nexteuropa-social-media',
+        'weight' => 1,
+        'expanded' => 0,
+        'options' => array(
+          'attributes' => array(
+            'class' => array('ecl-icon', 'ecl-icon--twitter'),
+          ),
+        ),
+      ),
+      array(
+        'link_title' => 'Other social media',
+        'link_path' => 'http://ec.europa.eu/dgs/communication/services/journalist/social-media_en.htm',
+        'menu_name' => 'menu-nexteuropa-social-media',
+        'weight' => 2,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+    ),
+  );
+
+  // Save menu group into menu_custom table.
+  foreach ($dt_menus as $menu) {
+    // Look the table first if the data does exist.
+    $exists = db_query("SELECT title FROM {menu_custom} WHERE menu_name=:menu_name", array(':menu_name' => $menu['menu_name']))->fetchField();
+    // Save the record if the data does not exist.
+    if (!$exists) {
+      menu_save($menu);
+    }
+  }
+
+  foreach ($dt_links as $layer1) {
+    foreach ($layer1 as $link) {
+      // Look the table first if the data does exist.
+      $exists = db_query("SELECT mlid from {menu_links} WHERE link_title=:link_title AND link_path=:link_path", array(':link_title' => $link['link_title'], ':link_path' => $link['link_path']))->fetchField();
+      // Save the record if the data does not exist.
+      if (!$exists) {
+        menu_link_save($link);
+      }
+    }
+  }
+
+  // Add block in site-wide context.
+  $context = module_invoke('context', 'load', 'site_wide');
+  foreach ($dt_menus as $menu_to_add) {
+    $context->reactions['block']['blocks'][$menu_to_add['menu_name']] = array(
+      'module' => 'menu',
+      'delta' => $menu_to_add['menu_name'],
+      'region' => $menu_to_add['region'],
+      'weight' => '0',
+    );
+  }
+
+  module_invoke('context', 'save', $context);
+}
+
+/**
+ * Custom function that moves the proper blocks in the right areas.
+ */
+function _nexteuropa_ecl_migrate_europa_main_menu() {
+  multisite_drupal_toolbox_add_block_context('site_wide', 'main-menu', 'system', 'main-menu', 'navigation');
+}
+
+/**
+ * Custom function that moves the proper blocks in the utility area.
+ */
+function _nexteuropa_ecl_migrate_europa_utility_region() {
+  multisite_drupal_toolbox_add_block_context('site_wide', 'create-content-button', 'multisite_create_button', 'create-content-button', 'utility', 2);
+}
+
+/**
+ * Custom function that deletes blocks in the header_top region.
+ */
+function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'menu-service-tools');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'language_selector_site');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'footer');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'search-form');
+  _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
+}
+
+/**
+ * Custom function that moves blocks from the nexteuropa_community feature.
+ */
+function _nexteuropa_ecl_migrate_move_community_blocks() {
+  if (module_exists('nexteuropa_communities')) {
+    multisite_drupal_toolbox_remove_block_context('communities', 'menu-community-menu');
+    multisite_drupal_toolbox_remove_block_context('communities', 'og-contextual-links');
+    multisite_drupal_toolbox_remove_block_context('communities', 'community_members-block_1');
+    multisite_drupal_toolbox_add_block_context('communities', 'menu-community-menu', 'menu', 'menu-community-menu', 'sidebar_first', -10);
+    multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -9);
+    multisite_drupal_toolbox_add_block_context('communities', 'community_members-block_1', 'views', 'community_members-block_1', 'sidebar_first', -5);
+  }
+}
+
+/**
+ * Custom function that moves blocks from the nexteuropa_registration feature.
+ */
+function _nexteuropa_ecl_migrate_move_ne_registration_blocks() {
+  if (module_exists('multisite_registration_core')) {
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'registration-block');
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'registration_management-block');
+    multisite_drupal_toolbox_add_block_context('site_wide', 'registration-block', 'views', 'registration-block', 'sidebar_second', '-7');
+    multisite_drupal_toolbox_add_block_context('site_wide', 'registration_management-block', 'views', 'registration_management-block', 'sidebar_second', '-6');
+  }
+}
+
+/**
+ * Custom function that moves blocks from the taxonomy_browser feature.
+ */
+function _nexteuropa_ecl_migrate_move_taxonomy_browser() {
+  $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
+  multisite_drupal_toolbox_remove_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid);
+  multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'taxonomy_browser', 'taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'sidebar_first', '-10');
+}
+
+/**
+ * Custom function that moves blocks from the solr facet blocks.
+ */
+function _nexteuropa_ecl_migrate_move_facet_blocks() {
+  if (module_exists('facetapi')) {
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A');
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu');
+    multisite_drupal_toolbox_remove_block_context('site_wide', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j');
+    multisite_drupal_toolbox_remove_block_context('site_wide', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT');
+    multisite_drupal_toolbox_add_block_context('search', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'sidebar_first', '-17');
+    multisite_drupal_toolbox_add_block_context('search', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'sidebar_first', '-16');
+    multisite_drupal_toolbox_add_block_context('search', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'sidebar_first', '-15');
+    multisite_drupal_toolbox_add_block_context('search', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'sidebar_first', '-14');
+  }
+}
+/**
+ * Custom function to disable ec_resp blocks.
+ *
+ * Those were added on ec_resp in _cce_basic_config_post_install_default_blocks.
+ */
+function _nexteuropa_ecl_migrate_remove_ec_resp_blocks() {
+  db_update('block')
+    ->fields(array(
+      'status' => 0,
+    ))
+    ->condition('theme', 'ec_resp')
+    ->condition('module', 'system')
+    ->condition('delta', 'main')
+    ->execute();
+
+  db_update('block')
+    ->fields(array(
+      'status' => 0,
+    ))
+    ->condition('theme', 'ec_resp')
+    ->condition('module', 'system')
+    ->condition('delta', 'help')
+    ->execute();
+}

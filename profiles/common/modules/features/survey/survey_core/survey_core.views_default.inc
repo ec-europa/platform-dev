@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * survey_core.views_default.inc
@@ -54,7 +55,7 @@ function survey_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Participate or review surveys</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Participate or review surveys</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
 
@@ -117,7 +118,7 @@ function survey_core_views_default_views() {
   $handler->display->display_options['filters']['language']['field'] = 'language';
   $handler->display->display_options['filters']['language']['value'] = array(
     '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
+    LANGUAGE_NONE => LANGUAGE_NONE,
   );
   $handler->display->display_options['filters']['language']['group'] = 2;
 
@@ -137,7 +138,7 @@ function survey_core_views_default_views() {
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
   $handler->display->display_options['header']['area']['empty'] = TRUE;
-  $handler->display->display_options['header']['area']['content'] = '<h2>Participate or review surveys</h2>';
+  $handler->display->display_options['header']['area']['content'] = '<h2 class="ecl-heading ecl-heading--h2">Participate or review surveys</h2>';
   $handler->display->display_options['header']['area']['format'] = 'full_html';
   $handler->display->display_options['header']['area']['tokenize'] = 0;
   $handler->display->display_options['defaults']['empty'] = FALSE;
@@ -287,32 +288,7 @@ function survey_core_views_default_views() {
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = 1;
   $handler->display->display_options['fields']['title']['link_to_node'] = 1;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  $translatables['surveys_list'] = array(
-    t('Defaults'),
-    t('Surveys'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('<h2>Participate or review surveys</h2>'),
-    t('There is no content in this group.'),
-    t('Title'),
-    t('Body'),
-    t('Webform results link'),
-    t('# of Submissions'),
-    t('Page'),
-    t('Nid'),
-    t('Results'),
-    t('Results page'),
-    t('survey_analysis/[nid]'),
-    t('Block'),
-    t('Latest surveys'),
-  );
+
   $export['surveys_list'] = $view;
 
   return $export;

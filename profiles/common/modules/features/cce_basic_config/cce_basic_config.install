@@ -27,7 +27,7 @@ function cce_basic_config_requirements($phase) {
 
   if (file_exists(DRUPAL_ROOT . '/continuousphp.package')) {
     if ($continuousphp_package = file_get_contents(DRUPAL_ROOT . '/continuousphp.package')) {
-      $info = json_decode($continuousphp_package, TRUE);
+      $info = drupal_json_decode($continuousphp_package, TRUE);
       $t = get_t();
       $requirements['git_ref'] = array(
         'title' => $t('Git ref'),
@@ -305,7 +305,7 @@ function cce_basic_config_install() {
   db_delete('file_display')->execute();
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
-    if (substr($id_export, 0, 8) == 'document') {
+    if (drupal_substr($id_export, 0, 8) == 'document') {
       db_insert('file_display')->fields(
         array(
           'name' => $id_export,
@@ -450,6 +450,8 @@ function cce_basic_config_install() {
     multisite_config_service('wysiwyg')->addButtonsToProfile('full_html', $group, $buttons);
   }
 
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.4.8.ccd0038');
+
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
   // module is installed, which is different depending on the installation
@@ -474,21 +476,63 @@ function cce_basic_config_install() {
 }
 
 /**
- * Initialize 'theme default' and 'admin theme'.
+ * Form for the installation profile task "Choose theme".
+ *
+ * This form is shared by both standard and communities profile, hence it is
+ * exposed by the 'cce_basic_config' module.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ * @see multisite_drupal_communities_install_tasks()
+ */
+function cce_basic_config_profile_theme_default_form() {
+  $form = array();
+  $form['container'] = array(
+    '#type' => 'fieldset',
+    '#title' => st('Choose theme'),
+    '#collapsible' => FALSE,
+    '#tree' => FALSE,
+  );
+  $form['container']['theme_default'] = array(
+    '#type' => 'radios',
+    '#required' => TRUE,
+    '#options' => array(
+      'ec_resp' => st('EC Resp'),
+      'ec_europa' => st('EC Europa'),
+    ),
+    '#default_value' => 'ec_resp',
+  );
+  $form['container']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => st('Continue'),
+  );
+  return $form;
+}
+
+/**
+ * Form submit.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ */
+function cce_basic_config_profile_theme_default_form_submit($form, &$form_state) {
+  $theme_default = $form_state['values']['theme_default'];
+  $theme_list = array($theme_default);
+  if ($theme_default == 'ec_europa') {
+    $theme_list[] = 'atomium';
+    module_enable(array('nexteuropa_ecl_migrate'));
+    _nexteuropa_ecl_migrate_blocks();
+  }
+  theme_enable($theme_list);
+  variable_set('theme_default', $theme_default);
+  $theme_name = $form['container']['theme_default']['#options'][$theme_default];
+  drupal_set_message(st("'@name' has been set as default theme.", array('@name' => $theme_name)));
+}
+
+/**
+ * Initialize 'admin theme'.
  */
 function _cce_basic_config_post_install_theme() {
-  // Define themes.
-  $themes = array(
-    'theme_default' => 'ec_resp',
-    'admin_theme' => 'seven',
-  );
-  theme_enable($themes);
-
-  foreach ($themes as $var => $theme) {
-    if (!is_numeric($var)) {
-      variable_set($var, $theme);
-    }
-  }
+  theme_enable(array('seven'));
+  variable_set('admin_theme', 'seven');
 }
 
 /**
@@ -612,6 +656,15 @@ function _cce_basic_config_post_install_default_content_type() {
     node_add_body_field($type);
   }
 
+  if (module_exists('scheduler')) {
+    // Set up scheduler configuration for articles.
+    multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+    // Set unpublish moderation state to "expired".
+    // This call cannot be included in the API method above since it is
+    // a configuration specific to NextEuropa .
+    variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+  }
+
   // Insert default pre-defined RDF mapping into the database.
   $rdf_mappings = array(
     array(
@@ -653,6 +706,13 @@ function _cce_basic_config_post_install_user_config() {
   variable_set('user_picture_style', 'thumbnail');
   // Allow visitor account creation with administrative approval.
   variable_set('user_register', USER_REGISTER_VISITORS_ADMINISTRATIVE_APPROVAL);
+  // Remove the realname extra field from the display.
+  $profile_settings = field_bundle_settings('user', 'user');
+  $profile_settings['extra_fields']['display']['realname']['default'] = array(
+    'visible' => 0,
+    'weight' => -1,
+  );
+  field_bundle_settings('user', 'user', $profile_settings);
 }
 
 /**
@@ -706,7 +766,7 @@ function _cce_basic_config_post_install_user_roles_perms() {
     ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
     ->execute();
 
-  // Grant permissions for administrators.
+  // Revoke permissions for administrators.
   user_role_revoke_permissions($admin_role->rid, array(
     'administer features',
     'administer modules',
@@ -716,66 +776,94 @@ function _cce_basic_config_post_install_user_roles_perms() {
   ));
 
   // Grant permissions for contributors.
-  $permissions = array(
-    'access workbench',
+  $contributor_permissions = array(
+    'access media browser',
+    'access own broken links report',
     'create article content',
+    'create files',
     'delete own article content',
+    'delete own image files',
     'edit own article content',
+    'edit own image files',
     'moderate content from draft to needs_review',
     'moderate content from needs_review to draft',
+    're convert video',
     'revert revisions',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for taxonomy_term',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
-    'view moderation history',
-    'view moderation messages',
-    'view own unpublished content',
-    'view revisions',
-    'access media browser',
+    'view own files',
+    'view own private files',
     'use media wysiwyg',
     'use text format full_html',
-    'use text format basic_html',
-    'use text format filtered_html',
   );
-  multisite_config_service('user')->grantPermission('contributor', $permissions);
+  multisite_config_service('user')->grantPermission('contributor', $contributor_permissions);
 
   // Grant permissions for editors.
-  $permissions = array(
+  $editor_permissions = array(
+    'access broken links report',
+    'access media browser',
+    'access own broken links report',
     'create article content',
+    'create files',
     'delete any article content',
     'delete own article content',
+    'delete own image files',
     'delete revisions',
     'edit any article content',
     'edit own article content',
+    'edit own image files',
+    'moderate content from draft to needs_review',
+    'moderate content from needs_review to draft',
+    'moderate content from needs_review to published',
     'revert revisions',
+    'show format selection for comment',
+    'show format selection for file',
+    'show format selection for taxonomy_term',
+    'show format selection for user',
+    'show format tips',
+    'show more format tips link',
+    'use media wysiwyg',
+    'use text format full_html',
     'use workbench_moderation my drafts tab',
     'use workbench_moderation needs review tab',
     'view all unpublished content',
-    'view own unpublished content',
-    'access media browser',
-    'use media wysiwyg',
-    'use text format full_html',
-    'use text format basic_html',
-    'use text format filtered_html',
+    'view own files',
+    'view own private files',
   );
-  multisite_config_service('user')->grantPermission('editor', $permissions);
+  multisite_config_service('user')->grantPermission('editor', $editor_permissions);
 
   // Grant permissions for authenticated users.
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
+  $authenticated_permissions = array(
+    'access comments',
     'access PDF version',
     'access print',
+    'access send by email',
     'access user profiles',
     'access workbench',
+    'post comments',
+    'search content',
+    'show format selection for node',
+    'use advanced search',
     'use text format basic_html',
     'use text format filtered_html',
+    'view files',
     'view moderation history',
     'view moderation messages',
     'view own unpublished content',
     'view revisions',
-  ));
+  );
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, $authenticated_permissions);
 
   // Grant permissions for anonymous users.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
+  $anonymous_permissions = array(
+    'access comments',
     'access PDF version',
     'access print',
     'post comments',
@@ -783,7 +871,8 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'use advanced search',
     'use text format basic_html',
     'use text format filtered_html',
-  ));
+  );
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, $anonymous_permissions);
 }
 
 /**
@@ -805,8 +894,8 @@ function _cce_basic_config_post_install_users() {
   $account->init = $account->mail;
   $role = user_role_load_by_name('administrator');
   $account->roles[$role->rid] = $role->name;
-  $account->field_firstname['und'][0]['value'] = 'John';
-  $account->field_lastname['und'][0]['value'] = 'Smith';
+  $account->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account->field_lastname[LANGUAGE_NONE][0]['value'] = 'Smith';
   user_save($account);
 
   $account1 = new stdClass();
@@ -818,8 +907,8 @@ function _cce_basic_config_post_install_users() {
   $account1->init = $account1->mail;
   $role1 = user_role_load_by_name('contributor');
   $account1->roles[$role1->rid] = $role1->name;
-  $account1->field_firstname['und'][0]['value'] = 'John';
-  $account1->field_lastname['und'][0]['value'] = 'Doe';
+  $account1->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account1->field_lastname[LANGUAGE_NONE][0]['value'] = 'Doe';
   user_save($account1);
 
   $account2 = new stdClass();
@@ -831,8 +920,8 @@ function _cce_basic_config_post_install_users() {
   $account2->init = $account2->mail;
   $role2 = user_role_load_by_name('editor');
   $account2->roles[$role2->rid] = $role2->name;
-  $account2->field_firstname['und'][0]['value'] = 'John';
-  $account2->field_lastname['und'][0]['value'] = 'Blake';
+  $account2->field_firstname[LANGUAGE_NONE][0]['value'] = 'John';
+  $account2->field_lastname[LANGUAGE_NONE][0]['value'] = 'Blake';
   user_save($account2);
 
   // Assign dummy content to the 'administrator' user.
@@ -962,7 +1051,7 @@ function cce_basic_config_uninstall() {
   // This process must be temporary.
   $exports = cce_basic_config_file_default_displays();
   foreach ($exports as $id_export => $settings_export) {
-    if (substr($id_export, 0, 8) == 'document') {
+    if (drupal_substr($id_export, 0, 8) == 'document') {
       db_delete('file_display')
         ->condition('name', $id_export)
         ->execute();
@@ -1357,10 +1446,10 @@ function cce_basic_config_update_7170() {
     if ($vocab_object->name == "classification") {
       $classification = $vocab_object->vid;
       if ($classification) {
-        db_query('UPDATE {taxonomy_term_data} SET NAME=concat(name, :name) WHERE vid=:vid', array(
-          ':name' => '000',
-          ':vid' => $classification,
-        ));
+        db_update('taxonomy_term_data')
+          ->expression('NAME', 'NAME=concat(name, :name)', array(':name', '000'))
+          ->condition('vid', $classification, '=')
+          ->execute();
       }
       return;
     }
@@ -1603,7 +1692,7 @@ function cce_basic_config_update_7193() {
   // $content type : content type that contains fields to replace.
   // $module_name : module that contains fields.
   $content_type = 'article';
-  $module_name = basename(__FILE__, '.install');
+  $module_name = drupal_basename(__FILE__, '.install');
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);
 
@@ -1627,10 +1716,10 @@ function cce_basic_config_update_7193() {
 
     // Update only our fields defines to 'datestamp' in feature.field.
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
-      foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
+      foreach ($field_info['storage']['details']['sql'] as $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
 
-        foreach ($info_sql[$table_name] as $id => $column_name) {
+        foreach ($info_sql[$table_name] as $column_name) {
 
           if (field_has_data($field_info)) {
             // There is data: migrate data and update column to int.
@@ -1700,7 +1789,7 @@ function cce_basic_config_update_7193() {
 }
 
 /**
- * Implements hook_update_N().
+ * Add text format selection permissions to authenticated users.
  */
 function cce_basic_config_update_7194() {
   user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('show format selection for node'));
@@ -1835,9 +1924,8 @@ function cce_basic_config_update_7199() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Use jquery 1.10.
+ *
  * Define admin pages that should use default theme.
  * Disable user contact form for anonymous.
  * Activate captcha of user contact form.
@@ -1875,8 +1963,6 @@ function cce_basic_config_update_7200() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Set linkchecker interval from 3hrs [259200] to 4 weeks [2419200].
  */
 function cce_basic_config_update_7201() {
@@ -1884,9 +1970,8 @@ function cce_basic_config_update_7201() {
 }
 
 /**
- * Implements hook_update_n().
- *
  * Update list of admin pages using jquery 1.10.
+ *
  * Update display of user menu.
  */
 function cce_basic_config_update_7202() {
@@ -2020,9 +2105,11 @@ function cce_basic_config_update_7204() {
 
   foreach ($rate_widgets as &$rate_widget) {
     foreach (array('css', 'js') as $attachment) {
+      // @codingStandardsIgnoreStart: NEPT-1308: The following code tries to remove static urls from the database.
       if (!empty($rate_widget->$attachment) && strpos($rate_widget->$attachment, 'sites/all/modules/contributed/rate') === 0) {
         $rate_widget->$attachment = str_replace('sites/all/modules/contributed/rate', $path, $rate_widget->attachment);
       }
+      // @codingStandardsIgnoreEnd
     }
   }
 
@@ -2122,7 +2209,7 @@ function cce_basic_config_update_7208() {
     "rebuttal",
   );
 
-  if (in_array(basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
+  if (in_array(drupal_basename(conf_path()), $cce_basic_config_survey_whitelist_js, TRUE)) {
     variable_set('toolbox_survey_whitelist_js', TRUE);
   }
 
@@ -2151,8 +2238,6 @@ function cce_basic_config_update_7209() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Update platforme version.
  */
 function cce_basic_config_update_7210() {
@@ -2336,16 +2421,42 @@ function cce_basic_config_update_7216() {
 }
 
 /**
- * NEPT-7: Make files translatable.
+ * NEPT-1025: Consolidate scheduler settings for Pages and Articles.
  */
-function cce_basic_config_update_7217() {
-  // Make default image title and alt fields translatable.
-  $translatable_file_fields = array('field_caption', 'field_video_description');
-  foreach ($translatable_file_fields as $translatable_file_field) {
-    $file_field = field_info_field($translatable_file_field);
-    if (isset($file_field['translatable'])) {
-      $file_field['translatable'] = TRUE;
-      field_update_field($file_field);
-    }
+function cce_basic_config_update_7218() {
+  if (module_exists('scheduler')) {
+    // Set up scheduler configuration for articles.
+    multisite_config_service('scheduler')->enableSchedulerForContentType('article');
+    variable_set('scheduler_unpublish_moderation_state_article', 'expired');
+    variable_set('scheduler_unpublish_revision_article', 0);
+    // Prevent creating new revisions when unpublishing a page.
+    variable_set('scheduler_unpublish_revision_page', 0);
+    // Remove old article fields.
+    field_delete_field('field_article_publication_date');
+    field_delete_field('field_article_unpublish_on');
+    field_purge_batch(1);
   }
+}
+
+/**
+ * Force the activation of nexteuropa_europa_search.
+ */
+function cce_basic_config_update_7219() {
+  if (!module_exists('nexteuropa_europa_search')) {
+    module_enable(array('nexteuropa_europa_search'));
+  }
+}
+
+/**
+ * Update platform version to 2.4.
+ */
+function cce_basic_config_update_7220() {
+  variable_set('multisite_version', '2.4');
+}
+
+/**
+ * Add the ckeditor version we are expecting.
+ */
+function cce_basic_config_update_7221() {
+  multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.4.8.ccd0038');
 }

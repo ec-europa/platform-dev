@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Definition of CachePurgeRuleEntityUIController.
+ * Definition of NexteuropaVarnishCachePurgeRuleEntityUIController.
  */
 
 use Drupal\nexteuropa_varnish\PurgeRuleType;
@@ -9,7 +10,7 @@ use Drupal\nexteuropa_varnish\PurgeRuleType;
 /**
  * Entity UI controller for cache purge rules.
  */
-class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
+class NexteuropaVarnishCachePurgeRuleEntityUIController extends EntityDefaultUIController {
 
   /**
    * {@inheritdoc}
@@ -54,6 +55,10 @@ class CachePurgeRuleEntityUIController extends EntityDefaultUIController {
    * {@inheritdoc}
    */
   public function overviewTable($conditions = array()) {
+
+    // If the purge mechanism is prevented to work, then a warning message must
+    // be displayed.
+    _nexteuropa_varnish_temporary_message();
 
     $render = parent::overviewTable($conditions);
 

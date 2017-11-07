@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Module file.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function nexteuropa_formatters_theme($existing, $type, $theme, $path) {
+  $templates_path = sprintf('%s/templates', $path);
+
+  return array(
+    'banner' => array(
+      'variables' => array(
+        'quote' => NULL,
+        'author' => NULL,
+      ),
+      'template' => 'banner',
+      'path' => $templates_path,
+    ),
+    'card' => array(
+      'variables' => array(
+        'url' => NULL,
+        'image' => NULL,
+        'label' => NULL,
+      ),
+      'template' => 'card',
+      'path' => $templates_path,
+    ),
+    'blockquote' => array(
+      'variables' => array(
+        'body' => NULL,
+        'author' => NULL,
+      ),
+      'template' => 'blockquote',
+      'path' => $templates_path,
+    ),
+    'expandable' => array(
+      'variables' => array(
+        'title' => NULL,
+        'body' => NULL,
+        'id' => 'expandable',
+        'button' => FALSE,
+      ),
+      'template' => 'expandable',
+      'path' => $templates_path,
+    ),
+    'timelines' => array(
+      'variables' => array(
+        'title' => NULL,
+        'text' => NULL,
+        'footer' => NULL,
+      ),
+      'template' => 'timelines',
+      'path' => $templates_path,
+    ),
+    'social_icon' => array(
+      'variables' => array(
+        'text' => NULL,
+        'type' => NULL,
+      ),
+      'template' => 'social-icon',
+      'path' => $templates_path,
+    ),
+  );
+}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \\Drupal\\block\\Config.
@@ -47,6 +48,23 @@ class Config extends ConfigBase {
   }
 
   /**
+   * Add a preference to a WYSIWYG profile.
+   *
+   * @param string $format_name
+   *   Text format machine name, for example: "full_html".
+   * @param string $preference
+   *   Preference name. Ex. 'version', 'show_toggle', etc.
+   * @param string $value
+   *   Value to assign to the preference.
+   *   Ex. '1', '0', '4.6.1.580bcaf' etc.
+   */
+  public function addPreferenceToProfile($format_name, $preference, $value) {
+    if (($profile = $this->getProfile($format_name))) {
+      $profile->settings['_profile_preferences'][$preference] = $value;
+      $this->updateProfile($profile);
+    }
+  }
+  /**
    * Remove a button from a WYSIWYG profile.
    *
    * @param string $format_name
@@ -70,10 +88,10 @@ class Config extends ConfigBase {
    * Get WYSIWYG profile object.
    *
    * @param string $format_name
-   *    Text format machine name, for example: "full_html".
+   *   Text format machine name, for example: "full_html".
    *
    * @return object
-   *    WYSIWYG profile object.
+   *   WYSIWYG profile object.
    */
   public function getProfile($format_name) {
     wysiwyg_profile_cache_clear();
@@ -86,14 +104,14 @@ class Config extends ConfigBase {
    * Create a new WYSIWYG profile.
    *
    * @param string $format_name
-   *    Text format machine name, for example: "full_html".
+   *   Text format machine name, for example: "full_html".
    * @param string $editor
-   *    WYSIWYG JavaScript plugin machine name, for example: "ckeditor".
+   *   WYSIWYG JavaScript plugin machine name, for example: "ckeditor".
    * @param array $settings
-   *    Profile settings array.
+   *   Profile settings array.
    *
    * @return object
-   *    WYSIWYG profile object.
+   *   WYSIWYG profile object.
    */
   public function createProfile($format_name, $editor, $settings = array()) {
     $settings += $this->defaultSettings();
@@ -114,7 +132,7 @@ class Config extends ConfigBase {
    * Remove a WYSIWYG profile.
    *
    * @param string $format_name
-   *    Text format machine name, for example: "full_html".
+   *   Text format machine name, for example: "full_html".
    */
   public function deleteProfile($format_name) {
     wysiwyg_profile_delete($format_name);
@@ -143,7 +161,7 @@ class Config extends ConfigBase {
    * @see: wysiwyg_profile_form().
    *
    * @return array
-   *    Array of default profile settings.
+   *   Array of default profile settings.
    */
   private function defaultSettings() {
     return array(
@@ -155,21 +173,21 @@ class Config extends ConfigBase {
       'access' => 1,
       'access_pages' => "node/*\nuser/*\ncomment/*",
       'buttons' => array(),
-      'toolbar_loc' => 'top',
+      'toolbarLocation' => 'top',
       'toolbar_align' => 'left',
       'path_loc' => 'bottom',
-      'resizing' => TRUE,
+      'resize_enabled' => TRUE,
       // Also available, but buggy in TinyMCE 2.x: blockquote,code,dt,dd,samp.
       'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
       'verify_html' => TRUE,
       'preformatted' => FALSE,
       'convert_fonts_to_spans' => TRUE,
       'remove_linebreaks' => TRUE,
-      'apply_source_formatting' => FALSE,
-      'paste_auto_cleanup_on_paste' => FALSE,
+      'simple_source_formatting' => FALSE,
+      'forcePasteAsPlainText' => FALSE,
       'css_setting' => 'theme',
       'css_path' => NULL,
-      'css_classes' => NULL,
+      'stylesSet' => NULL,
     );
   }
 

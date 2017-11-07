@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the NextEuropa Multilingual feature.
@@ -490,7 +491,7 @@ function _nexteuropa_multilingual_path_und_sync($path) {
 
       default:
         // Update with custom alias
-        // (We update the 'und' value and delete the others).
+        // (We update the LANGUAGE_NONE value and delete the others).
         $language_none_exist = FALSE;
         foreach ($existing_paths as $existing_path) {
           if ($existing_path->language == LANGUAGE_NONE) {
@@ -502,8 +503,8 @@ function _nexteuropa_multilingual_path_und_sync($path) {
         }
         module_load_include('inc', 'pathauto');
         $is_old_alias_to_delete = variable_get('pathauto_update_action', PATHAUTO_UPDATE_ACTION_DELETE);
-        // Special case: If the 'und' value exists, the current treated path
-        // becomes the LANGUAGE_NONE value.
+        // Special case: If the LANGUAGE_NONE value exists, the current
+        // treated path becomes the LANGUAGE_NONE value.
         if (!$language_none_exist) {
           $path['language'] = LANGUAGE_NONE;
           drupal_write_record('url_alias', $path, array('pid'));
@@ -537,22 +538,6 @@ function nexteuropa_multilingual_path_delete($path) {
   // Force to delete all aliases related to this path.
   // Need to do so because of Path module implementation.
   db_delete('url_alias')->condition('source', $path['source'])->execute();
-}
-
-/**
- * Implements hook_pathauto_alias_alter().
- *
- * If entity has entity translation enabled,
- * force all aliases to be saved as language neutral.
- * All content translations will have a unique alias.
- */
-function nexteuropa_multilingual_pathauto_alias_alter(&$alias, array &$context) {
-
-  $translation_mechanism = variable_get('language_content_type_' . $context['type'], 0);
-
-  if ($translation_mechanism == ENTITY_TRANSLATION_ENABLED) {
-    $context['language'] = LANGUAGE_NONE;
-  }
 }
 
 /**
@@ -649,7 +634,7 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
   $handler = entity_translation_get_handler($context['entity_type'], $context['entity']);
   $translations = $handler->getTranslations();
   if (isset($translations->data) && isset($translations->data[$context['language']]) && !entity_translation_access($context['entity_type'], $translations->data[$context['language']])) {
-    foreach ($display_language as $field => &$language) {
+    foreach ($display_language as &$language) {
       if ($language == $context['language']) {
         $language = isset($translations->data[$context['language']]['source']) ? $translations->data[$context['language']]['source'] : LANGUAGE_NONE;
       }
@@ -672,7 +657,7 @@ function nexteuropa_multilingual_field_language_alter(&$display_language, $conte
 
     // Loop over, if we have a field that is using a teritary language, we set
     // it to undefined.
-    foreach ($display_language as $field => &$language) {
+    foreach ($display_language as &$language) {
       if (!in_array($language, $allowed_languages)) {
         $language = LANGUAGE_NONE;
       }
@@ -687,12 +672,12 @@ function nexteuropa_multilingual_entity_info_alter(&$entity_info) {
   if (module_exists('file_entity')) {
     if (!isset($entity_info['file']['translation']['entity_translation'])) {
       $entity_info['file']['translation']['entity_translation'] = array(
-        'class' => 'EntityTranslationFileHandler',
+        'class' => 'NexteuropaMultilingualEntityTranslationFileHandler',
         'edit form' => 'file',
       );
     }
     else {
-      $entity_info['file']['translation']['entity_translation']['class'] = 'EntityTranslationFileHandler';
+      $entity_info['file']['translation']['entity_translation']['class'] = 'NexteuropaMultilingualEntityTranslationFileHandler';
     }
   }
 }

@@ -1,11 +1,14 @@
 <?php
+
 /**
  * @file
  * Definition of Drupal\nexteuropa_varnish\Entity\PurgeRule.
  */
 
 namespace Drupal\nexteuropa_varnish\Entity;
+
 use Drupal\nexteuropa_varnish\PurgeRuleType;
+
 use \Entity;
 
 /**
@@ -47,6 +50,15 @@ class PurgeRule extends Entity {
    */
   public function paths() {
     return preg_split("/[\r\n]+/", $this->paths);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function save() {
+    $content_type = $this->content_type;
+    cache_clear_all('nexteuropa_varnish_get_node_purge_rules_' . $content_type, 'cache_nexteuropa_varnish');
+    return parent::save();
   }
 
 }

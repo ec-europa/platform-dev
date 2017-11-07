@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Export into DGT supported HTML format.
@@ -7,7 +8,7 @@
 /**
  * DGT aproved HTML format exporter.
  */
-class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
+class TmgmtDgtHtmlFormat implements TMGMTFileFormatInterface {
 
   /**
    * Returns base64 encoded data that is safe for use in xml ids.
@@ -22,17 +23,17 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
    */
   protected function decodeIdSafeBase64($data) {
     // Remove prefixed b.
-    $data = substr($data, 1);
-    return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+    $data = drupal_substr($data, 1);
+    return base64_decode(str_pad(strtr($data, '-_', '+/'), drupal_strlen($data) % 4, '=', STR_PAD_RIGHT));
   }
 
   /**
    * {@inheritdoc}
    */
-  public function export(TMGMTJob $job) {
+  public function export(TMGMTJob $job, $conditions = array()) {
 
     $items = array();
-    foreach ($job->getItems() as $item) {
+    foreach ($job->getItems($conditions) as $item) {
       $data = array_filter(tmgmt_flatten_data($item->getData()), '_tmgmt_filter_data');
       foreach ($data as $key => $value) {
         $items[$item->tjiid][$this->encodeIdSafeBase64($item->tjiid . '][' . $key)] = $value;
@@ -50,7 +51,7 @@ class TMGMTFileDGTFormatHTML implements TMGMTFileFormatInterface {
   /**
    * {@inheritdoc}
    */
-  public function import($imported_file) {
+  public function import($imported_file, $is_file = TRUE) {
     $xml = $this->getXml($imported_file);
     // Extract the translation data from the imported file.
     $data = array();
