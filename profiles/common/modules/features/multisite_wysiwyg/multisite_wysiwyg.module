@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Drupal needs this blank file.
@@ -47,10 +48,10 @@ function multisite_wysiwyg_element_info_alter(&$types) {
  * Pre-render callback that persists "create" or "edit" context on AJAX calls.
  *
  * @param mixed $element
- *    Element array.
+ *   Element array.
  *
  * @return mixed
- *    Element array.
+ *   Element array.
  *
  * @see multisite_wysiwyg_element_info_alter()
  */
@@ -79,10 +80,10 @@ function multisite_wysiwyg_pre_render_text_format($element) {
  *  - ignore: not possible to determine any state (i.e. Taxonomy Terms).
  *
  * @param string $state
- *    One of the states above.
+ *   One of the states above.
  *
  * @return string
- *    Current entity object state.
+ *   Current entity object state.
  *
  * @see multisite_wysiwyg_wysiwyg_editor_settings_alter()
  */
@@ -96,6 +97,8 @@ function multisite_wysiwyg_set_current_entity_object_state($state = NULL) {
 
 /**
  * Implements hook_ckeditor_plugin().
+ *
+ * Implements CKEditor module hook to provide support for subsites.
  */
 function multisite_wysiwyg_ckeditor_plugin() {
   return array(

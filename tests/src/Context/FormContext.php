@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\nexteuropa\Context\FormContext.
@@ -147,10 +148,10 @@ EOS;
    * Source: @link https://github.com/gambry/behat-contexts @endlink .
    *
    * @param string $argument
-   *    The argument.
+   *   The argument.
    *
    * @return string
-   *    The return.
+   *   The return.
    */
   protected function fixStepArgument($argument) {
     return str_replace('\\"', '"', $argument);

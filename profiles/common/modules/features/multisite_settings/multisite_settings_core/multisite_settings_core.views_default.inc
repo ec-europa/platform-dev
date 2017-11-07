@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_settings_core.views_default.inc
@@ -130,19 +131,6 @@ function multisite_settings_core_views_default_views() {
   );
   $handler->display->display_options['filters']['type']['group'] = 1;
 
-  $translatables['multisite_settings_core'] = array(
-    t('Master'),
-    t('Latest Content'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Latest Content block'),
-    t('Site wide block displaying latest content.'),
-    t('<i class="icon-[type]"></i>[title]<br />'),
-  );
   $export['multisite_settings_core'] = $view;
 
   return $export;

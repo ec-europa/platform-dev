@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * newsletters.features.field_base.inc

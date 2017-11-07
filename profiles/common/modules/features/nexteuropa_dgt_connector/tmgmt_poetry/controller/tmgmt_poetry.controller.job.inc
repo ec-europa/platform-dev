@@ -23,7 +23,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
       $origin_job_item = array_shift($origin_job_items);
       if (empty($origin_job_item)) {
-        drupal_set_message('The selected job cannot be used. Please make a new translation request.', 'warning');
+        drupal_set_message(t('The selected job cannot be used. Please make a new translation request.'), 'warning');
         drupal_goto('admin/tmgmt');
         return;
       }
@@ -104,6 +104,15 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     }
 
     return parent::save($origin_job, $transaction);
+  }
+
+  /**
+   * Remove unused Jobs.
+   */
+  public function removeUnusedJobs() {
+    // Remove Jobs that don't have an associated Job Item.
+    // @codingStandardsIgnoreLine: db_delete doesn't accept joins.
+    db_query('DELETE {tmgmt_job}.* FROM {tmgmt_job} LEFT JOIN {tmgmt_job_item} ON {tmgmt_job}.tjid={tmgmt_job_item}.tjid WHERE {tmgmt_job_item}.tjid IS NULL');
   }
 
 }

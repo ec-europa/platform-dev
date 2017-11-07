@@ -18,10 +18,16 @@ function multisite_drupal_toolbox_enable() {
     ->condition('delta', 'block', '=')
     ->execute();
 
-  // Enable toolbox_sanitize on all text filters.
+  // Enable toolbox_sanitize on all text filters and set their weight to the
+  // Drupal minimum value.
   multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('basic_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
   multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('filtered_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
   multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('full_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
+  multisite_config_service('filter')->enableTextFilter('full_html_track', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('full_html_track', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
 }
 
 /**
@@ -51,4 +57,46 @@ function multisite_drupal_toolbox_update_7201() {
   multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
   multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+}
+
+/**
+ * NEPT-1453: Enable HTML sanitize filter for all "non-checkplain" formats.
+ */
+function multisite_drupal_toolbox_update_7202() {
+  $formats = filter_formats();
+  $format_machine_names = array_keys($formats);
+  foreach ($format_machine_names as $format_machine_name) {
+    $filters = multisite_config_service('filter')->getFormatFilters($format_machine_name, TRUE);
+
+    $filter_html_escape_status = 0;
+    $toolbox_sanitize_status = 0;
+    // Set the actual value of the 'filter_html_escape' filter.
+    if (!empty($filters['filter_html_escape']) && ($filters['filter_html_escape']->status)) {
+      $filter_html_escape_status = $filters['filter_html_escape']->status;
+    }
+
+    // Set the actual value of the 'toolbox_sanitize' filter.
+    if (!empty($filters['toolbox_sanitize']) && ($filters['toolbox_sanitize']->status)) {
+      $toolbox_sanitize_status = $filters['toolbox_sanitize']->status;
+    }
+
+    // If both are different, nothing to do then.
+    if ($filter_html_escape_status != $toolbox_sanitize_status) {
+      continue;
+    }
+
+    if (!$toolbox_sanitize_status) {
+      multisite_config_service('filter')->enableTextFilter($format_machine_name, 'toolbox_sanitize');
+      // Put below the Drupal standard minimum value for the weight;
+      // It is a one shot and no exotic value has been detected in sub-sites;
+      // no need to complicating more.
+      multisite_config_service('filter')->setTextFilterWeight($format_machine_name, 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
+      watchdog('multisite drupal toolbox', '"Updatedb process: toolbox_sanitize" has been enabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
+      continue;
+    }
+
+    // If $filter_html_escape is enabled no need to use toolbox_sanitize.
+    multisite_config_service('filter')->disableTextFilter($format_machine_name, 'toolbox_sanitize');
+    watchdog('multisite drupal toolbox', '"Updatedb process: toolbox_sanitize" has been disabled for @text_format.', array('@text_format' => $format_machine_name), WATCHDOG_INFO);
+  }
 }

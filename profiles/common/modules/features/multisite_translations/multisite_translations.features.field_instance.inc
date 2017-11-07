@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_translations.features.field_instance.inc

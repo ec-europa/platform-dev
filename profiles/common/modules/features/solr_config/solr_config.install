@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Solr_config.install file.
@@ -45,6 +46,9 @@ function solr_config_enable() {
     'entity_type' => 'file',
     'bundle' => 'document',
   ))->execute();
+
+  _solr_config_place_facets();
+
 }
 
 
@@ -93,22 +97,9 @@ function solr_config_disable() {
 }
 
 /**
- * Implements hook_update_N().
+ * Custom function to add solr facet blocks to the search context.
  */
-function solr_config_update_7110() {
-  db_insert('apachesolr_index_bundles')->fields(array(
-    'env_id' => 'solr',
-    'entity_type' => 'file',
-    'bundle' => 'document',
-  ))->execute();
-}
-
-
-/**
- * Implements hook_update_N().
- */
-function solr_config_update_7120() {
-  // Add solr facet blocks to the search context.
+function _solr_config_place_facets() {
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
@@ -122,12 +113,29 @@ function solr_config_update_7120() {
   multisite_drupal_toolbox_add_block_context('search', 'facetapi-wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', $region, -15);
   multisite_drupal_toolbox_add_block_context('search', 'facetapi-odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', $region, -17);
   multisite_drupal_toolbox_add_block_context('search', 'facetapi-GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', $region, -16);
-
+  multisite_drupal_toolbox_add_block_context('search', 'apachesolr_search-sort', 'apachesolr_search', 'sort', $region, -10);
 }
 
 /**
- * Implements hook_update_N().
- *
+ * Add documents to the indexable file bundles.
+ */
+function solr_config_update_7110() {
+  db_insert('apachesolr_index_bundles')->fields(array(
+    'env_id' => 'solr',
+    'entity_type' => 'file',
+    'bundle' => 'document',
+  ))->execute();
+}
+
+
+/**
+ * Add solr facet blocks to the search context.
+ */
+function solr_config_update_7120() {
+  _solr_config_place_facets();
+}
+
+/**
  * Add a menu link for the solr facets settings.
  */
 function solr_config_update_7122() {
@@ -154,6 +162,7 @@ function solr_config_update_7122() {
  * Implements hook_install().
  */
 function solr_config_install() {
+  $t = get_t();
   // Add a menu link for the solr facets settings.
   $mlid_parent = db_select('menu_links', 'ml')
     ->condition('ml.link_path', 'admin/config/search')
@@ -162,11 +171,11 @@ function solr_config_install() {
     ->fetchField();
 
   $options = array();
-  $options['attributes']['title'] = t('Configure SolR facets');
+  $options['attributes']['title'] = $t('Configure SolR facets');
 
   $item = array(
     'link_path' => 'admin/config/search/apachesolr/settings/solr/facets',
-    'link_title' => t('SolR facets'),
+    'link_title' => $t('SolR facets'),
     'menu_name' => 'management',
     'options' => $options,
     'plid' => $mlid_parent,

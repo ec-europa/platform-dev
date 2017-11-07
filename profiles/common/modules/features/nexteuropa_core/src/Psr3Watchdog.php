@@ -22,7 +22,7 @@ class Psr3Watchdog extends AbstractLogger {
    *
    * @var array
    */
-  private $map = [
+  private $map = array(
     LogLevel::EMERGENCY => WATCHDOG_EMERGENCY,
     LogLevel::ALERT => WATCHDOG_ALERT,
     LogLevel::CRITICAL => WATCHDOG_CRITICAL,
@@ -31,7 +31,7 @@ class Psr3Watchdog extends AbstractLogger {
     LogLevel::NOTICE => WATCHDOG_NOTICE,
     LogLevel::INFO => WATCHDOG_INFO,
     LogLevel::DEBUG => WATCHDOG_DEBUG,
-  ];
+  );
 
   /**
    * Log type.
@@ -60,7 +60,7 @@ class Psr3Watchdog extends AbstractLogger {
    * @param array $context
    *   Log context.
    */
-  public function log($level, $message, array $context = []) {
+  public function log($level, $message, array $context = array()) {
     if (isset($context['message'])) {
       $context['message'] = htmlentities($context['message']);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for altering the view of the standard Survey feature.

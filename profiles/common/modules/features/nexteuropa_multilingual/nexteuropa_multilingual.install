@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Nexteuropa_multilingual install file.
@@ -94,10 +95,6 @@ function nexteuropa_multilingual_install() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'language');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
 
-  // Add new language switcher block.
-  multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_site', 'language_selector_site', 'language_selector_site', "header_top", -10);
-  multisite_drupal_toolbox_add_block_context('site_wide', 'language_selector_page', 'language_selector_page', 'language_selector_page', "content_top", -10);
-
   // Set the warning message when changing node state.
   variable_set('nexteuropa_multilingual_warning_message_languages', "The state of the content <b>[node:title]</b> and all its validated translations <b>[node:entity-translation-languages]</b> will be updated!");
 
@@ -130,5 +127,7 @@ function nexteuropa_multilingual_update_7001() {
  * NEPT-7: Make files translatable.
  */
 function nexteuropa_multilingual_update_7002() {
-  _nexteuropa_multilingual_make_files_translatable();
+  // Update File translation settings.
+  // Chose default LANGUAGE_NONE to not loose pre existing field values.
+  _nexteuropa_multilingual_make_files_translatable(LANGUAGE_NONE);
 }

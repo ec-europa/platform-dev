@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_business_indicators_community.views_default.inc
@@ -124,23 +125,7 @@ function multisite_business_indicators_community_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['business_indicators_community_active_users'] = array(
-    t('Master'),
-    t('Active users per community'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Group node from OG membership'),
-    t('node from OG membership'),
-    t('author'),
-    t('Name'),
-    t('Number of content items'),
-    t('Community'),
-    t('Block'),
-  );
+
   $export['business_indicators_community_active_users'] = $view;
 
   $view = new view();
@@ -226,23 +211,7 @@ function multisite_business_indicators_community_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $translatables['business_indicators_community_files'] = array(
-    t('Master'),
-    t('Files per community'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Group node from OG membership'),
-    t('node from OG membership'),
-    t('File'),
-    t('Community'),
-    t('File ID'),
-    t('Block: Table'),
-    t('Block: Chart'),
-  );
+
   $export['business_indicators_community_files'] = $view;
 
   $view = new view();
@@ -318,22 +287,7 @@ function multisite_business_indicators_community_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $translatables['business_indicators_community_nodes'] = array(
-    t('Master'),
-    t('Nodes per community'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Group node from OG membership'),
-    t('node from OG membership'),
-    t('Community'),
-    t('Number of content items'),
-    t('Block: Table'),
-    t('Block: Chart'),
-  );
+
   $export['business_indicators_community_nodes'] = $view;
 
   $view = new view();
@@ -464,24 +418,7 @@ function multisite_business_indicators_community_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['business_indicators_community_recent_comments'] = array(
-    t('Master'),
-    t('Recent comments per community'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Group node from OG membership'),
-    t('node from OG membership'),
-    t('Comments'),
-    t('Author'),
-    t('Post date'),
-    t('Comment title'),
-    t('Community'),
-    t('Block'),
-  );
+
   $export['business_indicators_community_recent_comments'] = $view;
 
   $view = new view();
@@ -615,24 +552,7 @@ function multisite_business_indicators_community_views_default_views() {
   /* Display: Block */
   $handler = $view->new_display('block', 'Block', 'block');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
-  $translatables['business_indicators_community_recent_nodes'] = array(
-    t('Master'),
-    t('Recent nodes per community'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Group node from OG membership'),
-    t('node from OG membership'),
-    t('author'),
-    t('Post date'),
-    t('Author'),
-    t('Title'),
-    t('Community'),
-    t('Block'),
-  );
+
   $export['business_indicators_community_recent_nodes'] = $view;
 
   $view = new view();
@@ -714,22 +634,7 @@ function multisite_business_indicators_community_views_default_views() {
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $translatables['business_indicators_community_users'] = array(
-    t('Master'),
-    t('Users per community'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Group node from OG membership'),
-    t('user from OG membership'),
-    t('Community'),
-    t('Number of users'),
-    t('Block: Table'),
-    t('Block: Chart'),
-  );
+
   $export['business_indicators_community_users'] = $view;
 
   return $export;
