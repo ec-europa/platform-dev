@@ -30,13 +30,6 @@ function cce_basic_config_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
- * Implements hook_views_api().
- */
-function cce_basic_config_views_api($module = NULL, $api = NULL) {
-  return array("api" => "3.0");
-}
-
-/**
  * Implements hook_image_default_styles().
  */
 function cce_basic_config_image_default_styles() {

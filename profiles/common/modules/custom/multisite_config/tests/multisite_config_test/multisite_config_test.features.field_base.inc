@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_config_test.features.field_base.inc

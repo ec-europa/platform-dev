@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ec_embedded_image.file_default_displays.inc
