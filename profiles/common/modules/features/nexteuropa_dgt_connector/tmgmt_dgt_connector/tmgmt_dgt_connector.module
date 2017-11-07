@@ -52,10 +52,10 @@ function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &
  * Calculate the total length of the translatable strings of a content.
  *
  * @param object $entity
- *    The entity to translate.
+ *   The entity to translate.
  *
  * @return int
- *    Length of all translatable content.
+ *   Length of all translatable content.
  */
 function _tmgmt_dgt_connector_get_content_length($entity) {
 
@@ -74,7 +74,7 @@ function _tmgmt_dgt_connector_get_content_length($entity) {
       $values = $entity->$field_name;
       if (!empty($values[$entity->language])) {
         foreach ($values[$entity->language] as $value) {
-          $length += strlen(strip_tags($value['value']));
+          $length += drupal_strlen(strip_tags($value['value']));
         }
       }
     }
@@ -119,8 +119,7 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
     }
   }
 
-  $jobs = array();
-  $remove_job_item_ids = array();
+  $jobs = $remove_job_item_ids = $reference = array();
   // Loop over all target languages, create a job for each source and target
   // language combination add add the relevant job items to it.
   foreach ($target_languages as $target_language) {
@@ -130,7 +129,7 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
         continue;
       }
 
-      if (isset($reference)) {
+      if (!empty($reference)) {
         // Poetry:
         // We need the reference to identify related jobs.
         $job = tmgmt_job_create($source_language, $target_language, $user->uid, $reference);
@@ -162,7 +161,7 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
         $jobs[] = $job;
 
         // Set reference to be based on main job ID.
-        if (!isset($reference)) {
+        if (empty($reference)) {
           $reference = ['reference' => 'SUB_' . $job->tjid];
         }
       }
@@ -235,7 +234,7 @@ function tmgmt_dgt_connector_tmgmt_translator_plugin_info() {
  * @return bool
  *   Boolean
  */
-function _tmgmt_dgt_connector_translator_access($op, $translator, $account) {
+function _tmgmt_dgt_connector_translator_access($op, array $translator, array $account) {
   if (!empty($translator) && $translator->plugin == 'tmgmt_dgt_connector') {
     if ($op == 'delete') {
       return FALSE;

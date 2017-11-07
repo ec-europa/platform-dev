@@ -280,7 +280,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    * @param array $settings
    *   Settings.
    *
-   * @return @array
+   * @return array
    *   The id data.
    */
   protected function generateRequestIdData(array $settings) {

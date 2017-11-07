@@ -129,7 +129,7 @@ class Subscriber implements EventSubscriberInterface {
    * @return bool|mixed
    *   The updated XML content.
    */
-  private function tmgmtPoetryRewriteReceivedXml($content, $job, $ids_collection) {
+  private function tmgmtPoetryRewriteReceivedXml($content, \TMGMTJob $job, array $ids_collection) {
 
     $dom = new \DOMDocument();
     if (!multisite_drupal_toolbox_load_html($dom, $content)) {
@@ -177,8 +177,8 @@ class Subscriber implements EventSubscriberInterface {
         /** @var SimpleXMLElement $div */
         foreach ($parent_div->div as $div) {
           if ($div['class'] == 'atom') {
-            $data = substr($div['id'], 1);
-            $data = base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+            $data = drupal_substr($div['id'], 1);
+            $data = base64_decode(str_pad(strtr($data, '-_', '+/'), drupal_strlen($data) % 4, '=', STR_PAD_RIGHT));
             $data = explode(']', $data);
             $main_tjiid = $data[0];
             // This is the main job item for main job.
@@ -226,7 +226,7 @@ class Subscriber implements EventSubscriberInterface {
     $languages_jobs = [];
     /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
     foreach ($attributions_statuses as $attribution_status) {
-      $languages_jobs[] = $translator->mapToLocalLanguage(strtolower($attribution_status->getLanguage()));
+      $languages_jobs[] = $translator->mapToLocalLanguage(drupal_strtolower($attribution_status->getLanguage()));
     }
     $ids = _tmgmt_poetry_obtain_related_translation_jobs(
       $languages_jobs,
@@ -354,17 +354,10 @@ class Subscriber implements EventSubscriberInterface {
         $job = tmgmt_job_load($ids->tjid);
         $job_item = tmgmt_job_item_load($ids->tjiid);
 
-        if (!empty($job->target_language) && !empty($languages[(string) $job->target_language])) {
-          $language = $languages[(string) $job->target_language]->name;
-        }
-        else {
-          $language = "";
-        }
-
         $main_job->addMessage(
           t("DGT update received. Affected language: @language. Request status: @status."),
           [
-            '@language' => $language,
+            '@language' => $language_code,
             '@status' => $status_message,
           ]
         );
