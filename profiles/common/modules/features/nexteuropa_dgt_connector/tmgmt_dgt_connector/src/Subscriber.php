@@ -226,7 +226,7 @@ class Subscriber implements EventSubscriberInterface {
     $languages_jobs = [];
     /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
     foreach ($attributions_statuses as $attribution_status) {
-      $languages_jobs[] = $attribution_status->getLanguage();
+      $languages_jobs[] = $translator->mapToLocalLanguage(strtolower($attribution_status->getLanguage()));
     }
     $ids = _tmgmt_poetry_obtain_related_translation_jobs(
       $languages_jobs,
