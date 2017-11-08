@@ -7,7 +7,6 @@
     <!-- Check if variable is actually used. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-815 -->
     <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.UndefinedVariable">
-        <exclude-pattern>common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.taxonomy.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/tests/TokenHandlerTest.php</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_dynamic_basetheme/multisite_dynamic_basetheme.drush.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.module</exclude-pattern>
@@ -27,7 +26,6 @@
     <!-- Use more descriptive variable names. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-817 -->
     <rule ref="DrupalPractice.General.VariableName.VariableName">
-        <exclude-pattern>profiles/common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.settings.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_language_negociation/multisite_drupal_language_negociation.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/multisite_drupal_toolbox.module</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/multisite_twitterblock.admin.inc</exclude-pattern>
