@@ -107,7 +107,7 @@ function ne_dgt_rules_rules_action_info() {
       'target_languages' => array(
         'type' => 'list<text>',
         'label' => t('Target Languages'),
-        'description' => t('Test'),
+        'description' => t('List of target languages. If empty, all enabled languages are selected.'),
         'options list' => 'ne_dgt_rules_enabled_languages',
         'optional' => TRUE,
       ),
@@ -227,7 +227,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_respo
  * @return array
  *   An Array with the job and the response, this element can be NULL.
  */
-function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', $target_languages = array()) {
+function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', array $target_languages = array()) {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -314,12 +314,13 @@ function ne_dgt_rules_accept_all_translations(\EC\Poetry\Messages\Components\Ide
  *   An array of enabled languages.
  */
 function ne_dgt_rules_enabled_languages() {
-  $available_languages = language_list();
   $enabled_languages = array();
-  foreach ($available_languages as $language_code => $language) {
+
+  foreach (language_list() as $language_code => $language) {
     if ($language->enabled && $language_code != 'en') {
       $enabled_languages[$language_code] = $language->name;
     }
   }
+
   return $enabled_languages;
 }
