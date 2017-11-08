@@ -10,6 +10,7 @@ namespace Drupal\nexteuropa\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Drupal\DrupalExtension\Context\DrupalContext as DrupalExtensionDrupalContext;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\Element;
 use function bovigo\assert\assert;
 use function bovigo\assert\predicate\hasKey;
 
@@ -268,6 +269,83 @@ class DrupalContext extends DrupalExtensionDrupalContext {
       $group->children[] = $field_name;
       field_group_group_save($group);
     }
+  }
+
+  /**
+   * Assert a text does not appear in a certain tag with a certain attribute.
+   *
+   * @Then I should not see (the text ):text in the :tag element with the :attribute attribute set to :value
+   */
+  public function assertTextNotInElement($text, $tag, $attribute, $value) {
+    $elements = $this->getElementsByAttribute($this->getSession()->getPage(), $tag, $attribute, $value);
+
+    $text_found = FALSE;
+    foreach ($elements as $element) {
+      if (strpos($element->getText(), $text) !== FALSE) {
+        $text_found = TRUE;
+        break;
+      }
+    }
+
+    if ($text_found) {
+      throw new \Exception(sprintf('The text "%s" was found in the "%s" element with the "%s" attribute set to "%s" on the page %s', $text, $tag, $attribute, $value, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
+  /**
+   * Assert a text does appear in a certain tag with a certain attribute.
+   *
+   * @Then I should see (the text ):text in the :tag element with the :attribute attribute set to :value
+   */
+  public function assertTextInElement($text, $tag, $attribute, $value) {
+    $elements = $this->getElementsByAttribute($this->getSession()->getPage(), $tag, $attribute, $value);
+
+    $text_found = FALSE;
+    foreach ($elements as $element) {
+      if (strpos($element->getText(), $text) !== FALSE) {
+        $text_found = TRUE;
+        break;
+      }
+    }
+
+    if (!$text_found) {
+      throw new \Exception(sprintf('The text "%s" was not found in the "%s" element with the "%s" attribute set to "%s" on the page %s', $text, $tag, $attribute, $value, $this->getSession()->getCurrentUrl()));
+    }
+  }
+
+  /**
+   * Retrieve a table row containing specified text from a given element.
+   *
+   * @param \Behat\Mink\Element\Element $source_element
+   *   The element where to search for the tag.
+   * @param string $tag
+   *   The tag to search for.
+   * @param string $attribute
+   *   The name of the attribute.
+   * @param string $value
+   *   The value of the attribute.
+   *
+   * @return array
+   *   An array of elements filtered by an attribute value.
+   *
+   * @throws \Exception
+   */
+  public function getElementsByAttribute(Element $source_element, $tag, $attribute, $value) {
+    $elements = $source_element->findAll('css', $tag);
+    $found_elements = array();
+    if (empty($elements)) {
+      throw new \Exception(sprintf('The element "%s" was not found on the page %s', $tag, $this->getSession()->getCurrentUrl()));
+    }
+    foreach ($elements as $element) {
+      $attr = $element->getAttribute($attribute);
+      if ($attr === $value) {
+        $found_elements[] = $element;
+      }
+    }
+    if (empty($found_elements)) {
+      throw new \Exception(sprintf('No element "%s" with the attribute "%s" set to "%s" was not found on the page %s', $tag, $attribute, $value, $this->getSession()->getCurrentUrl()));
+    }
+    return $found_elements;
   }
 
 }
