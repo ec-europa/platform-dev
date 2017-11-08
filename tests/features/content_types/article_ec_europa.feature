@@ -18,4 +18,4 @@ Feature: Article content type
     And I should see the link "Corporate tax law"
     And I should see the heading "EC decides tax advantages for Fiat are illegal"
     And I should see the text "Commissioner states tax rulings are not in line with state aid rules."
-    And I should see the text "Written by Anonymous"
+    And I should see the text "Written byAnonymous"
