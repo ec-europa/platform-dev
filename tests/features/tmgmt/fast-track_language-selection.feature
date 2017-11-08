@@ -58,6 +58,9 @@ Feature: Fast track language selection
         time: 02:41:53
         message: OK
     """
+    And "page" content:
+      | language | title     |
+      | en       | Test page |
 
   Scenario: All languages are selected by default.
     Given I have the following rule:
@@ -99,26 +102,18 @@ Feature: Fast track language selection
       }
     }
     """
-
-    And "page" content:
-      | language | title     |
-      | en       | Test page |
-
     And I am logged in as a user with the "administrator" role
     And I visit the "page" content with title "Test page"
     Then I should see "Revision state: Draft"
-
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
-
     When I go to "admin/tmgmt"
     Then I should see "German" in the "td" element with the "class" attribute set to "views-field views-field-target-language"
     And I should see "French" in the "td" element with the "class" attribute set to "views-field views-field-target-language"
     And I should see "Spanish" in the "td" element with the "class" attribute set to "views-field views-field-target-language"
 
   Scenario: Selecting a language only sends a request for that language.
-
     Given I have the following rule:
     """
     {
@@ -158,19 +153,12 @@ Feature: Fast track language selection
       }
     }
     """
-
-    And "page" content:
-      | language | title     |
-      | en       | Test page |
-
     And I am logged in as a user with the "administrator" role
     And I visit the "page" content with title "Test page"
     Then I should see "Revision state: Draft"
-
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
-
     When I go to "admin/tmgmt"
     Then I should see "French" in the "td" element with the "class" attribute set to "views-field views-field-target-language"
     And I should not see "German" in the "td" element with the "class" attribute set to "views-field views-field-target-language"
