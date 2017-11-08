@@ -8,7 +8,7 @@ Feature: Check the Sitemap
     Given the module is enabled
       | modules     |
       | sitemap     |
-    Given I am an administrator user
+    Given I am logged in as a user with the "administrator" role
     When I go to "/admin/config/search/xmlsitemap/settings"
     Then "Prefetch URL aliases during sitemap generation." checkbox should not be checked
 
@@ -17,7 +17,7 @@ Feature: Check the Sitemap
     Given the module is enabled
       | modules     |
       | sitemap     |
-    Given I am an anonymous user
+    Given I am logged in as a user with the "anonymous" role
     When I go to "/sitemap.xml"
     Then the response should not contain "Page not found"
     And the response should contain "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">"
