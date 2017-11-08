@@ -69,7 +69,6 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    * {@inheritdoc}
    */
   public function requestTranslation(TMGMTJob $job) {
-
     // Request translation from Poetry.
     /** @var EC\Poetry\Messages\Responses\Status $response */
     $response = $this->sendRequest($job);
@@ -109,9 +108,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
 
     // Insert or update the mapping information.
     $demande_id = $response->getIdentifier();
-
-    $items = $job->getItems();
-    $item = array_shift($items);
+    $item = array_shift($job->getItems());
 
     $result = db_select('poetry_map', 'pm')
       ->fields('pm', array('annee', 'numero', 'version', 'partie'))
@@ -119,6 +116,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       ->condition('entity_id', $item->item_id, '=')
       ->execute()
       ->fetchAssoc();
+
     if (!$result) {
       db_insert('poetry_map')
         ->fields(array(
@@ -194,8 +192,9 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       'service.password' => $settings['poetry_password'],
       'client.wsdl' => $callback_address,
       'logger' => new Psr3Watchdog(),
-      'log_level' => LogLevel::DEBUG,
+      'log_level' => variable_get('poetry_client_log_level', FALSE),
     );
+
     if (isset($id_data['numero'])) {
       $poetry_values['identifier.number'] = $id_data['numero'];
     }
@@ -260,12 +259,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
         }
       }
 
-      // @todo remove testing code here.
-      // $renderer = $poetry->get('renderer');
-      // dpm($renderer->render($message));
-      // .
       return $poetry->getClient()->send($message);
-
     }
     catch (Exceptions\ValidationException $exception) {
       drupal_set_message($exception->getMessage(), 'error');
@@ -284,17 +278,20 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    *   The id data.
    */
   protected function generateRequestIdData(array $settings) {
-
     // Check the highest number, (if it exists and if it's lower then 99).
-    $query = db_select('poetry_map', 'pm');
-    $query->addExpression('MAX(numero)', 'max_numero');
+    $query = db_select('poetry_map', 'pm')
+      ->addExpression('MAX(numero)', 'max_numero');
+
     $max_numero = $query->execute()->fetchAssoc();
+
     if (!empty($max_numero['max_numero'])) {
       $query = db_select('poetry_map', 'pm')
         ->fields('pm', array('annee', 'numero', 'version', 'partie'))
-        ->condition('numero', $max_numero['max_numero'], '=');
-      $query->addExpression('MAX(partie)', 'max_partie');
+        ->condition('numero', $max_numero['max_numero'], '=')
+        ->addExpression('MAX(partie)', 'max_partie');
+
       $result = $query->execute()->fetchAssoc();
+
       // If we have a number and we haven't reached the max partie,
       // increment it and return it.
       if ($result && $result['max_partie'] < 99 && $result['numero'] > -1) {
@@ -320,6 +317,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       'produit' => 'TRA',
 
     );
+
     return $id_data;
   }
 

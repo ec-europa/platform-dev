@@ -13,16 +13,19 @@ define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
  */
 function tmgmt_dgt_connector_menu() {
   $items = array();
+
   $items['tmgmt_dgt_connector/server'] = array(
     'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::endpoint',
     // Authentication is done within the service.
     'access callback' => TRUE,
   );
+
   $items['tmgmt_dgt_connector/DGTServicesIntegration.wsdl'] = array(
     'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::wsdl',
     // Authentication is done within the service.
     'access callback' => TRUE,
   );
+
   return $items;
 }
 
@@ -33,7 +36,6 @@ function tmgmt_dgt_connector_menu() {
  * nexteuropa_dgt_connector module functionalities.
  */
 function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
-
   $entity = $form_state['entity'];
   $length = _tmgmt_dgt_connector_get_content_length($entity);
 
@@ -58,7 +60,6 @@ function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &
  *   Length of all translatable content.
  */
 function _tmgmt_dgt_connector_get_content_length($entity) {
-
   $length = 0;
 
   $fields = field_read_fields(array(
@@ -88,8 +89,7 @@ function _tmgmt_dgt_connector_get_content_length($entity) {
  */
 function tmgmt_dgt_connector_form_tmgmt_ui_cart_content_alter(&$form, &$form_state) {
   // Add a callback function when submiting.
-  $callback = '_tmgmt_dgt_connector_workbench_store_request_languages_callback';
-  $form['request_translation']['#submit'] = [$callback];
+  $form['request_translation']['#submit'] = array('_tmgmt_dgt_connector_workbench_store_request_languages_callback');
 }
 
 /**
@@ -101,13 +101,10 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
   global $user;
 
   $target_languages = array_filter($form_state['values']['target_language']);
-  $enforced_source_language = NULL;
-  if ($form_state['values']['enforced_source_language']) {
-    $enforced_source_language = $form_state['values']['source_language'];
-  }
-
+  $enforced_source_language = $form_state['values']['enforced_source_language'] ? $enforced_source_language = $form_state['values']['source_language'] : NULL;
   $skipped_count = 0;
   $job_items_by_source_language = array();
+
   // Group the selected items by source language.
   foreach (tmgmt_job_item_load_multiple(array_filter($form_state['values']['items'])) as $job_item) {
     $source_language = $enforced_source_language ? $enforced_source_language : $job_item->getSourceLangCode();
@@ -130,8 +127,7 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
       }
 
       if (!empty($reference)) {
-        // Poetry:
-        // We need the reference to identify related jobs.
+        // Poetry: We need the reference to identify related jobs.
         $job = tmgmt_job_create($source_language, $target_language, $user->uid, $reference);
       }
       else {
@@ -162,7 +158,7 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
 
         // Set reference to be based on main job ID.
         if (empty($reference)) {
-          $reference = ['reference' => 'SUB_' . $job->tjid];
+          $reference = array('reference' => 'SUB_' . $job->tjid);
         }
       }
 
@@ -180,8 +176,12 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
     if ($enforced_source_language) {
       if ($skipped_count) {
         $languages = language_list();
-        drupal_set_message(format_plural($skipped_count, 'One item skipped. @language translation unavailable.',
-          '@count items skipped. @language translation unavailable.', array('@language' => $languages[$enforced_source_language]->name)), 'warning');
+        drupal_set_message(format_plural($skipped_count,
+          'One item skipped. @language translation unavailable.',
+          '@count items skipped. @language translation unavailable.',
+          array('@language' => $languages[$enforced_source_language]->name)),
+          'warning'
+        );
       }
     }
 
@@ -243,8 +243,6 @@ function _tmgmt_dgt_connector_translator_access($op, array $translator, array $a
       return user_access('manage feature nexteuropa_dgt_connector');
     }
   }
-  else {
-    return tmgmt_translator_access($op, $translator, $account);
-  }
 
+  return tmgmt_translator_access($op, $translator, $account);
 }

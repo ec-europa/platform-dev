@@ -10,8 +10,6 @@ namespace Drupal\tmgmt_dgt_connector;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EC\Poetry\Events\Notifications\TranslationReceivedEvent;
 use EC\Poetry\Events\Notifications\StatusUpdatedEvent;
-use EC\Poetry\Messages\Notifications\TranslationReceived;
-use EC\Poetry\Messages\Notifications\StatusUpdated;
 
 /**
  * Subscriber with listeners for Server events.
@@ -35,6 +33,9 @@ class Subscriber implements EventSubscriberInterface {
    *
    * @param \EC\Poetry\Events\Notifications\TranslationReceivedEvent $event
    *   The event for the Translation Received.
+   *
+   * @return bool
+   *   Return True if the translation is received without issues.
    */
   public function onTranslationReceivedEvent(TranslationReceivedEvent $event) {
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
@@ -45,14 +46,11 @@ class Subscriber implements EventSubscriberInterface {
 
     // Get main job in order to register the messages and get translator.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
-    $targets = $message->getTargets();
     /** @var \EC\Poetry\Messages\Components\Target $target */
-    $target = array_shift($targets);
+    $target = array_shift($message->getTargets());
 
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs(
-      array(),
-      $main_reference
-    )->fetchAll();
+    $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $main_reference)->fetchAll();
+
     if (empty($ids)) {
       watchdog(
         "tmgmt_poetry",
@@ -87,29 +85,25 @@ class Subscriber implements EventSubscriberInterface {
     if ($language_job != $main_job->target_language) {
       $imported_file = $this->tmgmtPoetryRewriteReceivedXml($imported_file, $job, $ids);
     }
-    $content = $controller->import($imported_file);
 
     try {
       // Validation successful, start import.
-      $job->addTranslatedData($content);
+      $job->addTranslatedData($controller->import($imported_file));
 
       $main_job->addMessage(
         t('@language Successfully received the translation file.'),
-        ['@language' => $job->target_language]
+        array('@language' => $job->target_language)
       );
 
       // Update the status to executed when we receive a translation.
       _tmgmt_poetry_update_item_status($job_item->tjiid, "", "Executed", "");
-
     }
     catch (Exception $e) {
-
       $main_job->addMessage(
-        t('@language File import failed with the following message: @message'),
-        [
+        t('@language File import failed with the following message: @message'), array(
           '@language' => $job->target_language,
           '@message' => $e->getMessage(),
-        ],
+        ),
         'error'
       );
       watchdog_exception('tmgmt_poetry', $e);
@@ -174,7 +168,7 @@ class Subscriber implements EventSubscriberInterface {
       }
       if ($parent_div['class'] == 'asset') {
 
-        /** @var SimpleXMLElement $div */
+        /** @var \SimpleXMLElement $div */
         foreach ($parent_div->div as $div) {
           if ($div['class'] == 'atom') {
             $data = drupal_substr($div['id'], 1);
@@ -223,7 +217,7 @@ class Subscriber implements EventSubscriberInterface {
 
     // Get main job in order to register the messages.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
-    $languages_jobs = [];
+    $languages_jobs = array();
     /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
     foreach ($attributions_statuses as $attribution_status) {
       $languages_jobs[] = $translator->mapToLocalLanguage(drupal_strtolower($attribution_status->getLanguage()));
@@ -236,7 +230,7 @@ class Subscriber implements EventSubscriberInterface {
       watchdog(
         "tmgmt_poetry",
         "Callback can't find a job with remote reference !reference .",
-        ['!reference' => $reference],
+        array('!reference' => $reference),
         WATCHDOG_ERROR
       );
       return;
@@ -249,11 +243,10 @@ class Subscriber implements EventSubscriberInterface {
     if ($request_status->getCode() != '0') {
       watchdog(
         'tmgmt_poetry',
-        'Job @reference received a Status Update with issues. Message: @message',
-        [
+        'Job @reference received a Status Update with issues. Message: @message', array(
           '@reference' => $reference,
           '@message' => $message->getRaw(),
-        ],
+        ),
         WATCHDOG_ERROR
       );
       return;
@@ -261,11 +254,10 @@ class Subscriber implements EventSubscriberInterface {
 
     watchdog(
       'tmgmt_poetry',
-      'Job @reference got a Status Update. Message: @message',
-      [
+      'Job @reference got a Status Update. Message: @message', array(
         '@reference' => $reference,
         '@message' => $message->getRaw(),
-      ],
+      ),
       WATCHDOG_INFO
     );
 
@@ -309,26 +301,25 @@ class Subscriber implements EventSubscriberInterface {
       }
 
       $main_job->addMessage(
-        t("DGT update received. Request status: @status. Message: @message"),
-        [
+        t("DGT update received. Request status: @status. Message: @message"), array(
           '@status' => $status_message,
           '@message' => $demand_status->getMessage(),
-        ]
+        )
       );
 
       if ($cancelled) {
         $reference = '%' . $reference;
 
-        $ids = _tmgmt_poetry_obtain_related_translation_jobs([], $reference)
+        $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
           ->fetchAll();
         foreach ($ids as $id) {
           $job = tmgmt_job_load($id->tjid);
-          $job->aborted(t('Request aborted by DGT.'), []);
+          $job->aborted(t('Request aborted by DGT.'), array());
         }
       }
       elseif ($main_job->isAborted()) {
         $reference = '%' . $reference;
-        $ids = _tmgmt_poetry_obtain_related_translation_jobs([], $reference)
+        $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
           ->fetchAll();
 
         foreach ($ids as $id) {
@@ -346,7 +337,7 @@ class Subscriber implements EventSubscriberInterface {
       foreach ($attributions_statuses as $attribution_status) {
         $language_code = drupal_strtolower($attribution_status->getLanguage());
         $language_code = $translator->mapToLocalLanguage($language_code);
-        $language_job = [$language_code];
+        $language_job = array($language_code);
 
         $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
           ->fetchAll();
@@ -355,11 +346,10 @@ class Subscriber implements EventSubscriberInterface {
         $job_item = tmgmt_job_item_load($ids->tjiid);
 
         $main_job->addMessage(
-          t("DGT update received. Affected language: @language. Request status: @status."),
-          [
+          t("DGT update received. Affected language: @language. Request status: @status."), array(
             '@language' => $language_code,
             '@status' => $status_message,
-          ]
+          )
         );
 
         _tmgmt_poetry_update_item_status($job_item->tjiid, "", $status_message, "");

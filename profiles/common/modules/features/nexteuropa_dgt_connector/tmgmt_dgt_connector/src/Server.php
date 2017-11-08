@@ -25,16 +25,15 @@ class Server {
    * Available from page "tmgmt_dgt_connector/server".
    */
   static public function endpoint() {
-
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
     $settings = $translator->getSetting('settings');
 
-    $poetry = new Poetry([
+    $poetry = new Poetry(array(
       'notification.username' => $settings['callback_user'],
       'notification.password' => $settings['callback_password'],
       'logger' => new Psr3Watchdog(),
-      'log_level' => LogLevel::DEBUG,
-    ]);
+      'log_level' => variable_get('poetry_client_log_level', FALSE),
+    ));
 
     $poetry->getEventDispatcher()->addSubscriber(new Subscriber());
     $poetry->getServer()->handle();
@@ -50,11 +49,11 @@ class Server {
   static public function wsdl() {
     drupal_add_http_header('Content-Type', 'application/xml; utf-8');
 
-    $url = url("tmgmt_dgt_connector/server", [
+    $url = url("tmgmt_dgt_connector/server", array(
       'absolute' => TRUE,
-      'language' => (object) ['language' => FALSE],
-    ]);
-    $poetry = new Poetry(['notification.endpoint' => $url]);
+      'language' => (object) array('language' => FALSE),
+    ));
+    $poetry = new Poetry(array('notification.endpoint' => $url));
     print $poetry->getWsdl()->getXml();
 
     exit();
