@@ -2451,3 +2451,13 @@ function cce_basic_config_update_7219() {
 function cce_basic_config_update_7220() {
   variable_set('multisite_version', '2.4');
 }
+
+/**
+ * Force the deactivation of multisite_twitterblock.
+ */
+function cce_basic_config_update_7221() {
+  if (module_exists('multisite_twitterblock')) {
+    module_disable(array('multisite_twitterblock'), FALSE);
+    drupal_uninstall_modules(array('multisite_twitterblock'), FALSE);
+  }
+}
