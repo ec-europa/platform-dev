@@ -2460,3 +2460,15 @@ function cce_basic_config_update_7220() {
 function cce_basic_config_update_7221() {
   multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.4.8.ccd0038');
 }
+
+/**
+ * Force xmlsitemap xmlsitemap_prefetch_aliases to 0.
+ *
+ * We cannot do this in sitemap feature because some users only enabled the
+ * xmlsitemap module. Ticket NEPT-1584.
+ */
+function cce_basic_config_update_7222() {
+  if (module_exists('xmlsitemap')) {
+    variable_set('xmlsitemap_prefetch_aliases', 0);
+  }
+}
