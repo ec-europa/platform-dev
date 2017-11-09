@@ -1317,7 +1317,6 @@ function _og_content_type_get_all_groups($group_type = 'node') {
  * Obtain all the allowed content-types in a group retrieved.
  */
 function og_content_type_admin_access_group($bundle_name = NULL) {
-  $required_site_wide = $allowed_types_group = array();
   $context = og_context();
   $gid = isset($context['gid']) ? $context['gid'] : 0;
 

@@ -13,11 +13,11 @@ function communities_requirements() {
   if (module_exists('nexteuropa_communities')) {
     $t = get_t();
     $args = array('%module' => 'Nexteuropa Communities');
-    $requirements['communities_module_conflict'] = [
+    $requirements['communities_module_conflict'] = array(
       'title' => 'Communities',
       'description' => $t('This module is not compatible with %module. Please disable that module first.', $args),
       'severity' => REQUIREMENT_ERROR,
-    ];
+    );
   }
   return $requirements;
 }
