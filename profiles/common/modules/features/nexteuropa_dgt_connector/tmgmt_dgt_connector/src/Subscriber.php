@@ -46,11 +46,11 @@ class Subscriber implements EventSubscriberInterface {
 
     // Get main job in order to register the messages and get translator.
     $main_reference = 'MAIN_%_POETRY_%' . $reference;
+    $targets = $message->getTargets();
     /** @var \EC\Poetry\Messages\Components\Target $target */
-    $target = array_shift($message->getTargets());
+    $target = current($targets);
 
     $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $main_reference)->fetchAll();
-
     if (empty($ids)) {
       watchdog(
         "tmgmt_poetry",
@@ -65,10 +65,22 @@ class Subscriber implements EventSubscriberInterface {
     $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
     if ($main_job->isAborted()) {
+      watchdog(
+        "tmgmt_poetry",
+        "Translation received for aborted job with reference !reference .",
+        array('!reference' => $main_reference),
+          WATCHDOG_ERROR
+      );
       return FALSE;
     }
     $controller = tmgmt_file_format_controller($main_job->getSetting('export_format'));
     if (!$controller) {
+      watchdog(
+        "tmgmt_poetry",
+        "Callback can't find controller with reference !reference .",
+        array('!reference' => $main_reference),
+          WATCHDOG_ERROR
+      );
       return FALSE;
     }
 

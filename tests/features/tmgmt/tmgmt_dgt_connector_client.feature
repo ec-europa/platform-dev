@@ -7,9 +7,7 @@ Feature: TMGMT Poetry features
   Background:
     Given the module is enabled
       | modules             |
-      | tmgmt_poetry_mock   |
       | tmgmt_dgt_connector |
-    And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
       | en        |
@@ -24,7 +22,7 @@ Feature: TMGMT Poetry features
       username: MockCallback
       password: MockCallbackPWD
     """
-    And Poetry will return the following "response.status" message response:
+    When Poetry will return the following "response.status" message response:
     """
     identifier:
       code: WEB
@@ -74,7 +72,6 @@ Feature: TMGMT Poetry features
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
-    And I store job ID of translation request page
     And I press "Submit to translator"
     Then I should see the message "Job was successfully sent for translation."
     When I visit the "page" content with title "My page 1"

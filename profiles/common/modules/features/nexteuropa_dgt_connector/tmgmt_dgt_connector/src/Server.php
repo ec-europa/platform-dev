@@ -49,7 +49,7 @@ class Server {
   static public function wsdl() {
     drupal_add_http_header('Content-Type', 'application/xml; utf-8');
 
-    $url = url("tmgmt_dgt_connector/server", array(
+    $url = url('tmgmt_dgt_connector/server', array(
       'absolute' => TRUE,
       'language' => (object) array('language' => FALSE),
     ));

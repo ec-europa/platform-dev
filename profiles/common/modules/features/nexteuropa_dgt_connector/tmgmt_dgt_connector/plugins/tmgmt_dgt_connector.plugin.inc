@@ -108,7 +108,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
 
     // Insert or update the mapping information.
     $demande_id = $response->getIdentifier();
-    $item = array_shift($job->getItems());
+    $items = $job->getItems();
+    $item = current($items);
 
     $result = db_select('poetry_map', 'pm')
       ->fields('pm', array('annee', 'numero', 'version', 'partie'))
@@ -279,9 +280,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    */
   protected function generateRequestIdData(array $settings) {
     // Check the highest number, (if it exists and if it's lower then 99).
-    $query = db_select('poetry_map', 'pm')
-      ->addExpression('MAX(numero)', 'max_numero');
-
+    $query = db_select('poetry_map', 'pm');
+    $query->addExpression('MAX(numero)', 'max_numero');
     $max_numero = $query->execute()->fetchAssoc();
 
     if (!empty($max_numero['max_numero'])) {
