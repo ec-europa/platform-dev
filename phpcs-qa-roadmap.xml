@@ -4,26 +4,6 @@
 
     <description>QA Roadmap</description>
 
-    <!-- Check if variable is actually used. -->
-    <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-815 -->
-    <rule ref="DrupalPractice.CodeAnalysis.VariableAnalysis.UndefinedVariable">
-        <exclude-pattern>common/modules/custom/multisite_og_navigation_tree/multisite_og_navigation_tree.taxonomy.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_token/tests/TokenHandlerTest.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/multisite_dynamic_basetheme/multisite_dynamic_basetheme.drush.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_mtec/tmgmt_mtec.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/ecas/includes/ecas.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_import_users/ecas_import_users.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_formatters/nexteuropa_formatters.field_group</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/social_bookmark/tests/social_bookmark.test</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_mediagallery_core/multisite_mediagallery_core.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_metatags/nexteuropa_metatags.tokens.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/events/events_resources/events_resources.module</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/ec_world_countries/nuts_regions/nuts_regions.views_default.inc</exclude-pattern>
-    </rule>
-
-
     <!-- Use more descriptive variable names. -->
     <!-- https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-817 -->
     <rule ref="DrupalPractice.General.VariableName.VariableName">
