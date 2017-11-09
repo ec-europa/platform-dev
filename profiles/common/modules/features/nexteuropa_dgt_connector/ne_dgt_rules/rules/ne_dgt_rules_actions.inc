@@ -221,13 +221,13 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_respo
  *   Organisation 'DG Author' value.
  * @param string $org_requester
  *   Organisation 'Requester' value.
- * @param array $target_languages
+ * @param array|null $target_languages
  *   Target languages.
  *
  * @return array
  *   An Array with the job and the response, this element can be NULL.
  */
-function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', array $target_languages = array()) {
+function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', $target_languages = array()) {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
