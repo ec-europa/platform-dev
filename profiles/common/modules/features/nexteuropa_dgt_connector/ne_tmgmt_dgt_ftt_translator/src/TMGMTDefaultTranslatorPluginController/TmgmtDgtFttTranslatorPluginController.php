@@ -271,11 +271,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $this->abortTmgmtJobAndJobItem($response, $jobs);
     }
 
-    // Prepare arrays for the 'Rules' and logging mechanism.
-    $response_data = $this->getRulesDataArrays($response);
-    $this->logResponseData($response_data);
-
-    return $response_data;
+    return $this->getRulesDataArrays($response);
   }
 
 }
