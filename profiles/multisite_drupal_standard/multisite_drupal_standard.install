@@ -5,6 +5,8 @@
  * Multisite Drupal Standard installation profile.
  */
 
+include_once 'multisite_drupal_standard.install.inc';
+
 /**
  * Install all basic configuration of the standard profile.
  */
