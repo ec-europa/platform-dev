@@ -50,4 +50,3 @@ features_exclude[dependencies][cce_basic_config] = cce_basic_config
 features_exclude[field_base][group_content_access] = group_content_access
 features_exclude[field_base][og_group_ref] = og_group_ref
 files[] = views/views_handler_area_nexteuropa_faq_collapsible_menu.inc
-project path = profiles/common/modules/features

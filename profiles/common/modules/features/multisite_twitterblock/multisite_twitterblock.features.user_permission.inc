@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_twitterblock.features.user_permission.inc

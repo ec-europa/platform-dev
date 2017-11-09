@@ -3,5 +3,3 @@ description = Override news_core
 core = 7.x
 package = Multisite Standard Features
 dependencies[] = news_core
-features[ctools][] = context:context:3
-features[features_api][] = api:2
