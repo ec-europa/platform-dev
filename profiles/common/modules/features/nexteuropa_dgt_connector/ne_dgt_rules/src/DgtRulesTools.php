@@ -11,6 +11,7 @@ use EntityFieldQuery;
 use TMGMTException;
 use TMGMTJob;
 use TMGMTJobItem;
+use EC\Poetry\Messages\Components\Identifier;
 
 /**
  * Class DgtRulesTools.
@@ -519,6 +520,26 @@ class DgtRulesTools {
       return array_shift($entities);
     }
     return NULL;
+  }
+
+  /**
+   * Logs the DGT Service response data.
+   *
+   * @param Identifier $identifier
+   *   The identifier.
+   * @param string $xml_dump
+   *   The XML to dump.
+   */
+  public static function logResponseData(Identifier $identifier, $xml_dump) {
+    watchdog(
+      'ne_dtmgmt_dgt_ftt_translator',
+      'Job @reference receives a Status Update. Message: @message',
+      array(
+        '@reference' => $identifier->getFormattedIdentifier(),
+        '@message' => $xml_dump,
+      ),
+      WATCHDOG_INFO
+    );
   }
 
 }

@@ -10,7 +10,6 @@ namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EC\Poetry\Events\Notifications\TranslationReceivedEvent;
 use EC\Poetry\Events\Notifications\StatusUpdatedEvent;
-use EC\Poetry\Messages\Components\Identifier;
 use Drupal\ne_dgt_rules\DgtRulesTools;
 
 /**
@@ -38,11 +37,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
     /** @var \EC\Poetry\Messages\Notifications\TranslationReceived $message */
     $message = $event->getMessage();
     $identifier = $message->getIdentifier();
-    $this->dumpPoetryRequest($identifier, $message->getRaw());
-
-    if (!$this->isFromFttTranslator($identifier)) {
-      return;
-    }
+    DgtRulesTools::logResponseData($identifier, $message->getRaw());
 
     $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
 
@@ -51,8 +46,11 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
       /** @var \TMGMTJob $job */
       foreach ($jobs as $job) {
         $translator = $job->getTranslator();
-        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
+        if ('dgt_ftt' != $translator->plugin) {
+          continue;
+        }
 
+        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
         if ($job_language == $attribution->getLanguage()) {
           if (DgtRulesTools::updateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
             if (module_exists('rules')) {
@@ -85,11 +83,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
     /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
     $message = $event->getMessage();
     $identifier = $message->getIdentifier();
-    $this->dumpPoetryRequest($identifier, $message->getRaw());
-
-    if (!$this->isFromFttTranslator($identifier)) {
-      return;
-    }
+    DgtRulesTools::logResponseData($identifier, $message->getRaw());
 
     $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
 
@@ -121,51 +115,18 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
       /** @var \TMGMTJob $job */
       foreach ($jobs as $job) {
         $translator = $job->getTranslator();
-        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
 
+        if ('dgt_ftt' != $translator->plugin) {
+          continue;
+        }
+
+        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
         if ($job_language == $attribution_status->getLanguage()) {
           DgtRulesTools::updateStatusTmgmtJob($job, $attribution_status);
           continue;
         }
       }
     }
-  }
-
-  /**
-   * Dump the poetry request.
-   *
-   * @param Identifier $identifier
-   *   The identifier.
-   * @param string $xml_dump
-   *   The XML to dump.
-   */
-  private function dumpPoetryRequest(Identifier $identifier, $xml_dump) {
-    watchdog(
-      'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update. Message: @message',
-      array(
-        '@reference' => $identifier->getFormattedIdentifier(),
-        '@message' => $xml_dump,
-      ),
-      WATCHDOG_INFO
-    );
-  }
-
-  /**
-   * Check if the identifier is managed bu a ftt translator.
-   *
-   * @param Identifier $identifier
-   *   The identifier.
-   *
-   * @return bool
-   *   Return TRUE if the identifier is from FTT translator.
-   */
-  private function isFromFttTranslator(Identifier $identifier) {
-    if (empty(DgtRulesTools::findMappingsByIdentifier($identifier))) {
-      return FALSE;
-    }
-
-    return TRUE;
   }
 
 }
