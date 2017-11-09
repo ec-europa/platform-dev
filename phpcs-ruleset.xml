@@ -106,6 +106,13 @@
         <exclude-pattern>*/views_handler*</exclude-pattern>
     </rule>
 
+    <!-- Views handlers function names don't follow camelcase. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>*/views_handler*</exclude-pattern>
+        <exclude-pattern>*/views_handler*</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/multisite_business_indicators_core_views_plugin_style_chart.inc</exclude-pattern>
+    </rule>
+
     <!-- Current QA rules give false positives for submodules of a feature. -->
     <!-- Todo: Remove this when MULTISITE-18366 is fixed. -->
     <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
