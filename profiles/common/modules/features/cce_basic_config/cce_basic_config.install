@@ -2472,3 +2472,10 @@ function cce_basic_config_update_7222() {
     variable_set('xmlsitemap_prefetch_aliases', 0);
   }
 }
+
+/**
+ * Force the first day to Monday on the platform.
+ */
+function cce_basic_config_update_7223() {
+  variable_set('date_first_day', 1);
+}
