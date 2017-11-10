@@ -22,6 +22,11 @@ function ne_dgt_rules_rules_action_info() {
         'label' => t('Content'),
         'description' => t('The content that requires review done by the DGT reviewer.'),
       ),
+      'publishing_date' => array(
+        'type' => 'date',
+        'label' => t('Publishing date'),
+        'description' => t('The publishing date for the translation request.'),
+      ),
       'code' => array(
         'type' => 'text',
         'label' => t('Requester code'),
@@ -79,6 +84,11 @@ function ne_dgt_rules_rules_action_info() {
         'type' => 'node',
         'label' => t('Content'),
         'description' => t('The content for the translation request.'),
+      ),
+      'publishing_date' => array(
+        'type' => 'date',
+        'label' => t('Publishing date'),
+        'description' => t('The publishing date for the translation request.'),
       ),
       'code' => array(
         'type' => 'text',
@@ -156,6 +166,10 @@ function ne_dgt_rules_rules_action_info() {
  *
  * @param object $node
  *   The node that needs to be reviewed by the DGT Reviewer.
+ * @param int $publishing_date
+ *   Timestamp of the publish date.
+ * @param string $code
+ *   Requester Code .
  * @param string $org_responsible
  *   Organisation 'Responsible' value.
  * @param string $org_dg_author
@@ -166,7 +180,7 @@ function ne_dgt_rules_rules_action_info() {
  * @return array
  *   An array of arrays with data which are exposed to the 'Rules'.
  */
-function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
+function ne_dgt_rules_ftt_node_send_review_request($node, $publishing_date, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -186,6 +200,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_respo
         'requester' => $org_requester,
       ),
     ),
+    'delay' => $publishing_date,
   );
 
   if ($default_translator = DgtRulesTools::getDefaultFttTranslator()) {
@@ -208,6 +223,10 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_respo
  *
  * @param object $node
  *   The node that needs to be reviewed by the DGT Reviewer.
+ * @param int $publishing_date
+ *   Timestamp of the publish date.
+ * @param string $code
+ *   Requester Code .
  * @param string $org_responsible
  *   Organisation 'Responsible' value.
  * @param string $org_dg_author
@@ -218,7 +237,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_respo
  * @return array
  *   An Array with the job and the response, this element can be NULL.
  */
-function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
+function ne_dgt_rules_ftt_node_send_translation_request($node, $publishing_date, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -238,6 +257,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_
         'requester' => $org_requester,
       ),
     ),
+    'delay' => $publishing_date,
   );
 
   $jobs = array();

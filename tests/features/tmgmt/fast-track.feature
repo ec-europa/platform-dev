@@ -58,7 +58,10 @@ Feature: Fast track
         ],
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
-              "USING" : { "node" : [ "node" ] },
+              "USING" : {
+                "node" : [ "node" ],
+                "publishing_date" : "2017-12-01 15:00:00"
+              },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
                 "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
@@ -123,3 +126,5 @@ Feature: Fast track
       | <organisationAuteur>John Smith</organisationAuteur>           |
       | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
+      | <delai>01/12/2017</delai>                                     |
+      | <attributionsDelai>01/12/2017</attributionsDelai>             |
