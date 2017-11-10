@@ -73,7 +73,7 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    Then I should see the message "Job was successfully sent for translation."
+    Then I should see the message "Job has been successfully sent for translation."
     When I visit the "page" content with title "My page 1"
     And I click "Translate" in the "primary_tabs" region
     Then I should see the message "Please wait for the translation request to be accepted before further update options."
