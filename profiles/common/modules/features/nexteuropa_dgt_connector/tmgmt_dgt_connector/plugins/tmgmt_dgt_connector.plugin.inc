@@ -148,7 +148,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       if (strpos($job->reference, '_POETRY_') === FALSE) {
         $job->reference .= '_POETRY_' . $demande_id->getFormattedIdentifier();
       }
-      $job->submitted('Job was successfully sent for translation. Project ID is: %project_id',
+      $job->submitted('Job has been successfully sent for translation. Project ID is: %project_id',
         array('%project_id' => $job->reference));
     }
   }
