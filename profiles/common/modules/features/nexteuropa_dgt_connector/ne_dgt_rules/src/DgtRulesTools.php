@@ -481,13 +481,13 @@ class DgtRulesTools {
   /**
    * Returns all mapping entities based on a request identifier.
    *
-   * @param \EC\Poetry\Messages\Components\Identifier $identifier
+   * @param Identifier $identifier
    *   The translation request identifier.
    *
    * @return array
    *   Array of FTT Map objects.
    */
-  public static function findMappingsByIdentifier(\EC\Poetry\Messages\Components\Identifier $identifier) {
+  public static function findMappingsByIdentifier(Identifier $identifier) {
     $query = new EntityFieldQuery();
     $query->entityCondition('entity_type', 'ne_tmgmt_dgt_ftt_map')
       ->propertyCondition('year', $identifier->getYear())
@@ -527,15 +527,18 @@ class DgtRulesTools {
    *
    * @param Identifier $identifier
    *   The identifier.
+   * @param string $type
+   *   The type of response, e.g. "Status Update" or "Translation Received".
    * @param string $xml_dump
    *   The XML to dump.
    */
-  public static function logResponseData(Identifier $identifier, $xml_dump) {
+  public static function logResponseData(Identifier $identifier, $type, $xml_dump) {
     watchdog(
       'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update. Message: @message',
+      'Job @reference has received a response. Type: @type. Message: @message',
       array(
         '@reference' => $identifier->getFormattedIdentifier(),
+        '@type' => $type,
         '@message' => $xml_dump,
       ),
       WATCHDOG_INFO

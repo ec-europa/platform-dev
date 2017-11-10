@@ -37,7 +37,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
     /** @var \EC\Poetry\Messages\Notifications\TranslationReceived $message */
     $message = $event->getMessage();
     $identifier = $message->getIdentifier();
-    DgtRulesTools::logResponseData($identifier, $message->getRaw());
+    DgtRulesTools::logResponseData($identifier, 'Translation Received', $message->getRaw());
 
     $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
 
@@ -83,7 +83,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
     /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
     $message = $event->getMessage();
     $identifier = $message->getIdentifier();
-    DgtRulesTools::logResponseData($identifier, $message->getRaw());
+    DgtRulesTools::logResponseData($identifier, 'Status Update', $message->getRaw());
 
     $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
 
