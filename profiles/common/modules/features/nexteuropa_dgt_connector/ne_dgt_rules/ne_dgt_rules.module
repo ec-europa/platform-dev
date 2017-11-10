@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * @file
+ * Next Europa DGT Rules module file.
+ */
+
+// Custom Rules elements.
+module_load_include('inc', 'ne_dgt_rules', 'rules/ne_dgt_rules_conditions');
+module_load_include('inc', 'ne_dgt_rules', 'rules/ne_dgt_rules_actions');
+module_load_include('inc', 'ne_dgt_rules', 'rules/ne_dgt_rules_data_types');
+
+/**
+ * Implements hook_menu().
+ */
+function ne_dgt_rules_menu() {
+  $items['admin/config/workflow/rules/ne_dgt_rules'] = array(
+    'title' => 'NE TMGMT DGT Rules',
+    'description' => 'Configure TMGMT DGT Rules settings.',
+    'position' => 'right',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ne_dgt_rules_admin_settings_form'),
+    'access arguments' => array('administer rules'),
+    'file' => 'ne_dgt_rules.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function ne_dgt_rules_form_node_type_form_alter(&$form, $form_state) {
+  if (isset($form['type'])) {
+    $type = $form['#node_type'];
+
+    $form['ne_dgt_rules'] = array(
+      '#title' => t('NE DGT Rules'),
+      '#type' => 'fieldset',
+      '#group' => 'additional_settings',
+      '#tree' => FALSE,
+    );
+    $form['ne_dgt_rules']['ne_dgt_rules_ftt_workflow'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Integrate with the fast track translations workflow.'),
+      '#description' => t('Integrate this content typw with the fast track translations workflow.'),
+      '#default_value' => variable_get('ne_dgt_rules_ftt_workflow_' . $type->type, FALSE),
+    );
+  }
+}

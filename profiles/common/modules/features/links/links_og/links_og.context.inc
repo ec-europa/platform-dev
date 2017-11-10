@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * links_og.context.inc

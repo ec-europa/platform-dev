@@ -22,12 +22,12 @@ class Config extends ConfigBase {
    * Create a base field, given its name and type.
    *
    * @param string $field_name
-   *    Field machine name.
+   *   Field machine name.
    * @param string $type
-   *    Field type, as specified by hook_field_info() implementations.
+   *   Field type, as specified by hook_field_info() implementations.
    *
    * @return \Drupal\field\BaseField\DefaultFieldHandler
-   *    Field handler object instance.
+   *   Field handler object instance.
    */
   public function createBaseField($field_name, $type) {
     $class = str_replace(' ', '', ucwords(str_replace('_', ' ', $type)));
@@ -39,14 +39,14 @@ class Config extends ConfigBase {
    * Create field instance given label, base field name, entity type and bundle.
    *
    * @param string $field_name
-   *    Machine name of an existing base field.
+   *   Machine name of an existing base field.
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle
-   *    Bundle machine name.
+   *   Bundle machine name.
    *
    * @return \Drupal\field\InstanceField\DefaultFieldHandler
-   *    Field handler object instance.
+   *   Field handler object instance.
    */
   public function createInstanceField($field_name, $entity_type, $bundle) {
     return new DefaultInstanceFieldHandler($field_name, $entity_type, $bundle);
@@ -56,11 +56,11 @@ class Config extends ConfigBase {
    * Delete field instance given label, base field name, entity type and bundle.
    *
    * @param string $field_name
-   *    Machine name of an existing base field.
+   *   Machine name of an existing base field.
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle
-   *    Bundle machine name.
+   *   Bundle machine name.
    */
   public function deleteInstanceField($field_name, $entity_type, $bundle) {
     if ($instance = field_info_instance($entity_type, $field_name, $bundle)) {
@@ -72,7 +72,7 @@ class Config extends ConfigBase {
    * Enable field translation.
    *
    * @param string $field_name
-   *    Field machine name.
+   *   Field machine name.
    */
   public function enableFieldTranslation($field_name) {
     $info = field_info_field($field_name);
