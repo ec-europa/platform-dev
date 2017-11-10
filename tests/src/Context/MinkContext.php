@@ -18,6 +18,7 @@ use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
+use function bovigo\assert\predicate\isTrue;
 use function bovigo\assert\assert;
 
 /**
@@ -246,7 +247,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @param NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|NULL
+   * @return NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -276,10 +277,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I check the box on the :row_text row
    */
@@ -299,10 +300,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and uncheck a checkbox in a table row with a given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I uncheck the box on the :row_text row
    */
@@ -373,15 +374,15 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Retrieve a table row containing specified text from a given element.
    *
    * @param Element $element
-   *    Mink element object.
+   *   Mink element object.
    * @param string $search
-   *    Table row text.
+   *   Table row text.
    *
    * @throws \Exception
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @return NodeElement
-   *    Table row node element.
+   *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
@@ -408,7 +409,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    *   Class of the second div.
    *
    * @throws \Exception
-   *    Throw exception if the two positions from top are different.
+   *   Throw exception if the two positions from top are different.
    *
    * @Then I check if :div1 and :div2 have the same position from top
    */
@@ -435,7 +436,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('Unable to find an element with the following id: "%s"', $id));
     }
     // Loading attributes from the step.
-    $attribs = $rules = $table->getHash();
+    $attribs = $table->getHash();
     // Checking if attributes of the element are equal.
     foreach ($attribs as $attrib) {
       $attrib_value = $element_node->getAttribute($attrib['Attribute']);
@@ -476,6 +477,24 @@ class MinkContext extends DrupalExtensionMinkContext {
 
     $disabled_attr = $button_obj->getAttribute('disabled');
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
+  }
+
+
+  /**
+   * Checks that a select box is set to a given value is selected in select box.
+   *
+   * @Then :option is selected in the :selector options list
+   */
+  public function selectedOptionShouldBeSetTo($selector, $value_label) {
+    $page = $this->getSession()->getPage();
+    $select_box = $page->findField($selector);
+
+    $optionField = $select_box->find('named', array(
+      'option',
+      $value_label,
+    ));
+
+    assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
   }
 
 }

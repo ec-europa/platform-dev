@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file of the translation management Poetry .
@@ -474,10 +475,10 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
  * Fetches active translation jobs based on a given entity id.
  *
  * @param int $entity_id
- *    Entity id.
+ *   Entity id.
  *
  * @return mixed
- *    An array of results with active translation jobs for given entity id.
+ *   An array of results with active translation jobs for given entity id.
  */
 function _tmgmt_poetry_get_active_translation_jobs_by_entity_id($entity_id) {
   $query = db_select('tmgmt_job_item', 'item');
@@ -1160,9 +1161,9 @@ function _tmgmt_poetry_add_target_languages_form_submit($form, &$form_state) {
  * Validation callback of the addition of languages to the ongoing translation.
  */
 function _tmgmt_poetry_add_target_languages_form_validate($form, &$form_state) {
-  if (isset($form_state['input']['translatable_languages'])) {
-    foreach ($form_state['input']['translatable_languages'] as $language) {
-      if (!is_null($language)) {
+  if (isset($form_state['values']['translatable_languages'])) {
+    foreach ($form_state['values']['translatable_languages'] as $language) {
+      if (!empty($language)) {
         return;
       }
 

@@ -38,11 +38,12 @@ function nexteuropa_metatags_requirements($phase) {
   $requirements = array();
 
   if ($messages = _nexteuropa_metatags_check_metatag_config()) {
+    $t = get_t();
     $requirements['nexteuropa_metatags'] = array(
       'title' => 'Nexteuropa Metatags',
       'value' => implode('<br/>', $messages),
       'severity' => REQUIREMENT_WARNING,
-      'description' => t('Check against empty meta tags.'),
+      'description' => $t('Check against empty meta tags.'),
     );
   }
 

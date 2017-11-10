@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * news_core.features.user_permission.inc
