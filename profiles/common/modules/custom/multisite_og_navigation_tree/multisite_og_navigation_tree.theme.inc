@@ -70,8 +70,6 @@ function theme_mont_group_settings(array $variables) {
 function theme_mont_taxonomy_overview_terms(array $variables) {
   $form = $variables['form'];
 
-  // @todo The $page_increment variable is unused in its scope.
-  $page_increment = $form['#page_increment'];
   $page_entries = $form['#page_entries'];
   $back_step = $form['#back_step'];
   $forward_step = $form['#forward_step'];
