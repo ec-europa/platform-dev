@@ -4,7 +4,6 @@ core = 7.x
 package = Multisite OG Features
 dependencies[] = communities
 dependencies[] = survey_core
-features[ctools][] = strongarm:strongarm:1
 features[ctools][] = field_group:field_group:1
 features[ctools][] = context:context:3
 features[context][] = survey_posts

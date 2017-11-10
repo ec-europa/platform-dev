@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * sitemap.features.menu_links.inc
@@ -29,7 +30,7 @@ function sitemap_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => 0,
     'customized' => 0,
-    'language' => 'und',
+    'language' => LANGUAGE_NONE,
     'menu_links_customized' => 0,
   );
   // Translatables
