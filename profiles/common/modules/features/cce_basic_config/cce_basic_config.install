@@ -2453,7 +2453,9 @@ function cce_basic_config_update_7220() {
 }
 
 /**
- * Uninstall multisite_business_indicatos.
+ * Uninstall multisite_business_indicators.
+ *
+ * Ticket NEPT-463.
  */
 function cce_basic_config_update_7221() {
   if (module_exists('multisite_business_indicators_core')) {

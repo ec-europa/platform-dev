@@ -406,16 +406,6 @@ feature_sets[multisite_notifications_core][font] = 'multisite-icon-notification'
 feature_sets[multisite_notifications_core][enable][] = multisite_notifications_core
 feature_sets[multisite_notifications_core][disable][] = multisite_notifications_core
 
-; Site management
-feature_sets[multisite_business_indicators_standard][title] = 'Business indicators'
-feature_sets[multisite_business_indicators_standard][description] = 'Provides a set of blocks with figures about a Multisite installation\'s user and content.'
-feature_sets[multisite_business_indicators_standard][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/fIlgAw'
-feature_sets[multisite_business_indicators_standard][category] = 'Site management'
-feature_sets[multisite_business_indicators_standard][icon] = ''
-feature_sets[multisite_business_indicators_standard][font] = 'multisite-icon-stats'
-feature_sets[multisite_business_indicators_standard][enable][] = multisite_business_indicators_standard
-feature_sets[multisite_business_indicators_standard][disable][] = multisite_business_indicators_standard
-
 ; NextEuropa Tracked Changes
 feature_sets[nexteuropa_trackedchanges][title] = 'WYSIWYG Tracked Changes'
 feature_sets[nexteuropa_trackedchanges][description] = 'Provides editorial teams with change tracking capabilities in WYSIWYG.'
