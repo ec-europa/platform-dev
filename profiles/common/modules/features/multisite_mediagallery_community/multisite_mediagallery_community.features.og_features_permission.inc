@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_mediagallery_community.features.og_features_permission.inc
