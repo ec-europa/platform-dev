@@ -1,0 +1,211 @@
+<?php
+
+/**
+ * @file
+ * Next Europa TMGMT DGT FTT translator module file.
+ */
+
+// Custom Rules elements.
+module_load_include('inc', 'ne_tmgmt_dgt_ftt_translator', 'rules/ne_tmgmt_dgt_ftt_translator_rules');
+
+use EC\Poetry\Poetry;
+use Drupal\nexteuropa_core\Psr3Watchdog;
+use Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultSubscriber\TMGMTDgtFttSubscriber;
+use Drupal\ne_dgt_rules\DgtRulesTools;
+
+/**
+ * Implements hook_tmgmt_translator_plugin_info().
+ */
+function ne_tmgmt_dgt_ftt_translator_tmgmt_translator_plugin_info() {
+  $info['dgt_ftt'] = array(
+    'label' => t('DGT FTT Translator'),
+    'description' => t('DGT Fast Track Translations translator.'),
+    'plugin controller class' => 'Drupal\\ne_tmgmt_dgt_ftt_translator\\TMGMTDefaultTranslatorPluginController\\TmgmtDgtFttTranslatorPluginController',
+    'ui controller class' => 'Drupal\\ne_tmgmt_dgt_ftt_translator\\TMGMTDefaultTranslatorUIController\\TmgmtDgtFttTranslatorUiController',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ne_tmgmt_dgt_ftt_translator_menu() {
+  $items = array();
+
+  $items['dgt_ftt_translator/dgt_service_callback'] = array(
+    'page callback' => '_ne_tmgmt_dgt_ftt_translator_callback',
+    // Access restriction is handled on the soap callback.
+    'access callback' => TRUE,
+  );
+
+  $items['dgt_ftt_translator/DGTServicesIntegration.wsdl'] = array(
+    'page callback' => '_ne_tmgmt_dgt_ftt_translator_wsdl',
+    // Access restriction is handled on the soap callback.
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_entity_info().
+ */
+function ne_tmgmt_dgt_ftt_translator_entity_info() {
+  return array(
+    'ne_tmgmt_dgt_ftt_map' => array(
+      'module' => 'ne_tmgmt_dgt_ftt_translator',
+      'label' => t('NE TMGMT DGT FTT Mapping'),
+      'fieldable' => FALSE,
+      'entity keys' => array(
+        'id' => 'id',
+      ),
+      'base table' => 'ne_tmgmt_dgt_ftt_map',
+      'entity class' => 'Drupal\\ne_tmgmt_dgt_ftt_translator\\Entity\\DgtFttTranslatorMapping',
+      'controller class' => 'EntityAPIController',
+    ),
+  );
+}
+
+/**
+ * Implements hook_entity_property_info().
+ */
+function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
+  $info = array();
+
+  // Adding the properties definition.
+  $properties = &$info['ne_tmgmt_dgt_ftt_map']['properties'];
+
+  $properties['tjid'] = array(
+    'label' => t('TMGMT Job ID'),
+    'type' => 'integer',
+    'description' => t('Translation Job ID'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'tjid',
+  );
+  $properties['entity_id'] = array(
+    'label' => t('Entity ID'),
+    'type' => 'text',
+    'description' => t('Entity ID.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'entity_id',
+  );
+  $properties['entity_type'] = array(
+    'label' => t('Entity type'),
+    'type' => 'text',
+    'description' => t('Entity type.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'entity_type',
+  );
+  $properties['year'] = array(
+    'label' => t('Year'),
+    'type' => 'integer',
+    'description' => t("'Annee' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'year',
+  );
+  $properties['number'] = array(
+    'label' => t('Number'),
+    'type' => 'integer',
+    'description' => t("'Numero' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'number',
+  );
+  $properties['version'] = array(
+    'label' => t('Version'),
+    'type' => 'integer',
+    'description' => t("'Version' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'version',
+  );
+  $properties['part'] = array(
+    'label' => t('Part'),
+    'type' => 'integer',
+    'description' => t("'Partie' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'part',
+  );
+  $properties['part'] = array(
+    'label' => t('Part'),
+    'type' => 'integer',
+    'description' => t("'Partie' in the official DGT service specification."),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'part',
+  );
+  $properties['delay'] = array(
+    'label' => t('Delay date'),
+    'type' => 'integer',
+    'description' => t("Delay date - The Unix timestamp"),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'delay',
+  );
+  $properties['client_action'] = array(
+    'label' => t('Client action'),
+    'type' => 'text',
+    'description' => t('Client action.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'client_action',
+  );
+
+  return $info;
+}
+
+/**
+ * Callback for requests/responses sent by the DGT Services (Poetry).
+ */
+function _ne_tmgmt_dgt_ftt_translator_callback() {
+  $translator = tmgmt_translator_load(DgtRulesTools::getDefaultFttTranslator());
+  $settings = $translator->getSetting('settings');
+
+  $poetry = new Poetry([
+    'notification.username' => $settings['callback_username'],
+    'notification.password' => $settings['callback_password'],
+    'logger' => new Psr3Watchdog(),
+    'log_level' => variable_get('poetry_client_log_level', FALSE),
+  ]);
+
+  $poetry->getEventDispatcher()
+    ->addSubscriber(new TMGMTDgtFttSubscriber());
+  $poetry->getServer()->handle();
+
+  exit();
+}
+
+/**
+ * Callback for exposing WSDL configuration.
+ */
+function _ne_tmgmt_dgt_ftt_translator_wsdl() {
+  drupal_add_http_header('Content-Type', 'application/xml; utf-8');
+
+  $url = url("dgt_ftt_translator/dgt_service_callback", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
+  $poetry = new Poetry(array('notification.endpoint' => $url));
+  print $poetry->getWsdl()->getXml();
+
+  exit();
+}
+
+/**
+ * Provides the Client WSDL URI path.
+ *
+ * @return string
+ *   Client WSDL URI path.
+ */
+function _ne_tmgmt_dgt_ftt_translator_get_client_wsdl() {
+  return url("dgt_ftt_translator/DGTServicesIntegration.wsdl", array(
+    'absolute' => TRUE,
+    'language' => (object) array('language' => FALSE),
+  ));
+}
