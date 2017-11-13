@@ -8,10 +8,9 @@ Feature: Contact module
     Given the module is enabled
       | modules |
       | contact_form |
-    Given I am logged in as a user with the 'administrator' role
 
   Scenario: Test that existing email adress is filled in for authenticated users
-  Given I am logged in as a user with the "authenticated user" role
+    Given I am logged in as a user with the "authenticated user" role
     Given I go to "/user"
     And I click "Edit"
     Then the "E-mail address *" field should not contain ""
@@ -19,8 +18,8 @@ Feature: Contact module
     And I press the "Save" button
     Then I should see the text "E-mail address field is required."
 
-  Scenario: Test that existing name is required in for authenticated users
-  Given I am logged in as a user with the "authenticated user" role
+  Scenario: Test that existing name is filled in for authenticated users
+    Given I am logged in as a user with the "authenticated user" role
     Given I go to "/user"
     And I click "Edit"
     #Then the "First name *" field should not contain ""
@@ -28,7 +27,7 @@ Feature: Contact module
     And I press the "Save" button
     Then I should see the text "First name field is required."
 
-    Scenario Outline: Test that email must be valid
+  Scenario Outline: Test that email must be valid
     Given I am not logged in
     Then I go to "/contact"
     Then I fill in "edit-mail" with "<mail>"
@@ -58,6 +57,7 @@ Feature: Contact module
 
   Scenario: Verify that mail is sent after the captcha is filled in when anonymous
     #Disable captcha while testing
+    Given I am logged in as a user with the 'administrator' role
     When I am on "/admin/config/people/captcha_en"
     And I select "- No challenge -" from "edit-captcha-form-id-overview-captcha-captcha-points-contact-site-form-captcha-type"
     And I press the "Save configuration" button
