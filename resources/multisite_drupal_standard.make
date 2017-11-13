@@ -440,9 +440,6 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.2"
 
-projects[media_crop][subdir] = "contrib"
-projects[media_crop][version] = "1.4"
-
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
 ; Issue #2560403: Provide Short URL for media dailymotion.
