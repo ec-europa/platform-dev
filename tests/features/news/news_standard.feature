@@ -5,7 +5,7 @@ Feature: news standard and news core
   I want to be able to propose news
 
   Background:
-    Given I use device with "1080" px and "1920" px resolution
+    Given I use device with "1920" px and "1080" px resolution
     And the module is enabled
       | modules       |
       | news_core     |
