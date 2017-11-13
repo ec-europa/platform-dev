@@ -71,13 +71,3 @@ function multisite_mediagallery_community_disable() {
   // Deactivation message.
   drupal_set_message(t('Multisite Media Gallery Community feature is now inactive on your site.'));
 }
-
-/**
- * Implements hook_modules_enabled().
- */
-function multisite_mediagallery_community_modules_enabled($modules) {
-  if (in_array('multisite_mediagallery_community', $modules)) {
-    // Force feature revert to update og permissions.
-    features_revert(array('multisite_mediagallery_community' => array('og_features_permission')));
-  }
-}

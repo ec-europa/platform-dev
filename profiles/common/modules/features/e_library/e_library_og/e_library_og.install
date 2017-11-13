@@ -38,16 +38,6 @@ function e_library_og_disable() {
 }
 
 /**
- * Hook_modules_enabled.
- */
-function e_library_og_modules_enabled($modules) {
-  if (in_array('e_library_og', $modules)) {
-    // Force feature revert to update og permissions.
-    features_revert(array('e_library_og' => array('og_features_permission')));
-  }
-}
-
-/**
  * Add document options on "communities_menu_item" context.
  */
 function e_library_og_update_7110() {

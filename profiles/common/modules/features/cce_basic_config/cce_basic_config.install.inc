@@ -6,14 +6,14 @@
  */
 
 /**
-* Form for the installation profile task "Choose theme".
-*
-* This form is shared by both standard and communities profile, hence it is
-* exposed by the 'cce_basic_config' module.
-*
-* @see multisite_drupal_standard_install_tasks()
-* @see multisite_drupal_communities_install_tasks()
-*/
+ * Form for the installation profile task "Choose theme".
+ *
+ * This form is shared by both standard and communities profile, hence it is
+ * exposed by the 'cce_basic_config' module.
+ *
+ * @see multisite_drupal_standard_install_tasks()
+ * @see multisite_drupal_communities_install_tasks()
+ */
 function cce_basic_config_profile_theme_default_form() {
   $form = array();
   $form['container'] = array(
@@ -55,6 +55,24 @@ function cce_basic_config_profile_theme_default_form_submit($form, &$form_state)
   variable_set('theme_default', $theme_default);
   $theme_name = $form['container']['theme_default']['#options'][$theme_default];
   drupal_set_message(st("'@name' has been set as default theme.", array('@name' => $theme_name)));
+}
+
+/**
+ * Finalize profile installation by inserting some site configurations.
+ *
+ * Insert user roles, assign permission to roles, define themes,
+ * define basic content type, etc...
+ */
+function cce_basic_config_post_install() {
+  _cce_basic_config_post_install_theme();
+  _cce_basic_config_post_install_default_blocks();
+  _cce_basic_config_post_install_default_content_type();
+  _cce_basic_config_post_install_user_config();
+  _cce_basic_config_post_install_user_roles_perms();
+  _cce_basic_config_post_install_users();
+  _cce_basic_config_post_install_default_images();
+  _cce_basic_config_post_install_default_menu_items();
+  _cce_basic_config_post_install_default_terms();
 }
 
 /**

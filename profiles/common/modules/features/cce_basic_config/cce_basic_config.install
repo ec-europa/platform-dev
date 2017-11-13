@@ -7,7 +7,6 @@
 
 module_load_include('inc', 'cce_basic_config', 'cce_basic_config.install');
 
-
 /**
  * Test and report cce installation requirements.
  *
@@ -476,24 +475,6 @@ function cce_basic_config_install() {
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
-}
-
-/**
- * Finalize profile installation by inserting some site configurations.
- *
- * Insert user roles, assign permission to roles, define themes,
- * define basic content type, etc...
- */
-function cce_basic_config_post_install() {
-  _cce_basic_config_post_install_theme();
-  _cce_basic_config_post_install_default_blocks();
-  _cce_basic_config_post_install_default_content_type();
-  _cce_basic_config_post_install_user_config();
-  _cce_basic_config_post_install_user_roles_perms();
-  _cce_basic_config_post_install_users();
-  _cce_basic_config_post_install_default_images();
-  _cce_basic_config_post_install_default_menu_items();
-  _cce_basic_config_post_install_default_terms();
 }
 
 /**

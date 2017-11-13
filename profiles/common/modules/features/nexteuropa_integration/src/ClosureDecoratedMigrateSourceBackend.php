@@ -3,7 +3,7 @@
 namespace Drupal\nexteuropa_integration;
 
 use Drupal\integration_consumer\Migrate\MigrateSourceBackend;
-use \Closure;
+use Closure;
 
 /**
  * Decorates the documents from another MigrateSourceBackend with a closure.

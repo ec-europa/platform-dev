@@ -53,19 +53,9 @@ function events_og_disable() {
 }
 
 /**
- * Implements hook_modules_enabled().
- */
-function events_og_modules_enabled($modules) {
-  if (in_array('events_og', $modules)) {
-    // Force feature revert to update og permissions.
-    features_revert(array('events_og' => array('og_features_permission')));
-  }
-}
-
-/**
  * Add events options on "communities_menu_item" context.
  */
-function events_og_udpate_7101() {
+function events_og_update_7101() {
   multisite_drupal_toolbox_add_path_context('communities_menu_item', 'community/*/event/*');
   multisite_drupal_toolbox_add_views_context('communities_menu_item', 'calendar:month');
 }

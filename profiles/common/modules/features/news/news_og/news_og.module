@@ -9,6 +9,17 @@ include_once 'news_og.features.inc';
 include_once 'news_og.views_alter.inc';
 
 /**
+ * Implements hook_modules_enabled().
+ */
+function news_og_modules_enabled($modules) {
+  if (in_array('news_og', $modules)) {
+
+    // Force feature revert to update og permissions.
+    features_revert(array('news_og' => array('og_features_permission')));
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function news_og_menu() {
