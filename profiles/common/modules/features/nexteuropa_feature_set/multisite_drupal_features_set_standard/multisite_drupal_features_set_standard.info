@@ -272,15 +272,6 @@ feature_sets[multisite_mediagallery_standard][font] = 'multisite-icon-pictures'
 feature_sets[multisite_mediagallery_standard][enable][] = multisite_mediagallery_standard
 feature_sets[multisite_mediagallery_standard][disable][] = multisite_mediagallery_standard
 
-feature_sets[multisite_crop_and_resize][title] = 'Crop & Resize'
-feature_sets[multisite_crop_and_resize][description] = 'Allows users to crop, resize and rotate images.'
-feature_sets[multisite_crop_and_resize][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/JYVgAw'
-feature_sets[multisite_crop_and_resize][category] = 'Media'
-feature_sets[multisite_crop_and_resize][icon] = ''
-feature_sets[multisite_crop_and_resize][font] = 'multisite-icon-crop'
-feature_sets[multisite_crop_and_resize][enable][] = multisite_crop_and_resize
-feature_sets[multisite_crop_and_resize][disable][] = multisite_crop_and_resize
-
 ; Multilingualism
 feature_sets[multisite_multilingual_references][title] = 'Multisite Multilingual reference'
 feature_sets[multisite_multilingual_references][description] = 'Replaces link to node with link to translation in the user\'s language, or allows the user to choose from the available translations.'
