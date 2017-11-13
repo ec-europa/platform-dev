@@ -1,7 +1,0 @@
-#media-format-form .media-item .media-thumbnail img {
-/* [if IE 8 and below] */
-  max-width: 350px\9;
-  width: auto\9;
-  height: auto\9;
-/* [endif] */
-}
