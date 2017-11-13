@@ -6,19 +6,6 @@
  */
 
 /**
- * Implements hook_schema_alter().
- *
- * Add the uuid field to the tmgmt_job schema definition.
- */
-function tmgmt_mtec_schema_alter(&$schema) {
-  if (module_exists('uuid')) {
-    $field = uuid_schema_field_definition();
-    $schema['tmgmt_job']['fields']['uuid'] = $field;
-    $schema['tmgmt_job']['indexes']['uuid'] = array('uuid');
-  }
-}
-
-/**
  * Implements hook_install().
  *
  * Add the uuid field to the tmgmt_job schema.

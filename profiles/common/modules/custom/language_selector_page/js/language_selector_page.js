@@ -3,7 +3,7 @@
  * This file provides a small modification to the autocomplete url paths.
  */
 
-(function($) {
+(function ($) {
   Drupal.behaviors.language_selector_page = {
     attach: function (context, settings) {
 
@@ -23,7 +23,7 @@
       function addSecondLanguage(paramName, paramValue) {
         // Only apply this to autocomplete paths. All other urls are parsed by
         // using hook_url_outbound_alter.
-        $('input.autocomplete').each(function() {
+        $('input.autocomplete').each(function () {
           // Lets ignore if the 2nd-language is somehow already set and if it is
           // an external url.
           if (!getParameter(paramName, this.value) && isCurrentDomain(this.value)) {

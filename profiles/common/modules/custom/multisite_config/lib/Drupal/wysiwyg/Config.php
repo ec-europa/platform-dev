@@ -59,6 +59,7 @@ class Config extends ConfigBase {
       $this->updateProfile($profile);
     }
   }
+
   /**
    * Remove a button from a WYSIWYG profile.
    *

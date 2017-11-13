@@ -2,10 +2,8 @@
 
 namespace Drupal\nexteuropa\Context;
 
-use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Drupal\nexteuropa\Component\Utility\Transliterate;
 
 /**
  * Class RulesContext.

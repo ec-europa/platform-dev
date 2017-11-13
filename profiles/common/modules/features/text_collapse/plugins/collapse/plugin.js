@@ -5,7 +5,7 @@
 
 CKEDITOR.plugins.add('collapse',
 {
-  init: function(editor) {
+  init: function (editor) {
     /* COMMAND */
     editor.addCommand('cmdCollapseDialog', new CKEDITOR.dialogCommand('collapseDialog'));
 
@@ -32,12 +32,12 @@ CKEDITOR.plugins.add('collapse',
             type : 'text',
             id : 'title',
             label : 'Block title',
-            onShow : function() { this.setValue('Hidden text');
+            onShow : function () { this.setValue('Hidden text');
             },
             validate : CKEDITOR.dialog.validate.notEmpty("Block title should be provided")
           }]
         }],
-        onOk : function() {
+        onOk : function () {
           var dialog = this;
           var title = dialog.getValueOf('tab1', 'title');
 

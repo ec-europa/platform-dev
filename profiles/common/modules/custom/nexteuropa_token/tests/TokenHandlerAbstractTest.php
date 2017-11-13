@@ -9,11 +9,25 @@ namespace Drupal\nexteuropa_token\Tests;
  */
 abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
 
-  // Test fixtures.
+  /**
+   * Test content type fixtures.
+   *
+   * @var object
+   */
   protected static $contentType = NULL;
+
+  /**
+   * Test vocabulary fixtures.
+   *
+   * @var object
+   */
   protected static $vocabulary = NULL;
 
-  // List of entities created during tests, keyed by entity type.
+  /**
+   * List of entities created during tests, keyed by entity type.
+   *
+   * @var array
+   */
   protected $entities = NULL;
 
   /**
