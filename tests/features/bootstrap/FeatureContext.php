@@ -562,13 +562,13 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * Wait $sec seconds before going to the next step
+   *
    * @Then I wait :sec seconds
    */
-  public function wait($sec)
-  {
+  public function wait($sec) {
       sleep($sec);
   }
-
 }
 
 
