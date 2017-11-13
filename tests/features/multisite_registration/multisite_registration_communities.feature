@@ -1,5 +1,5 @@
-@api @javascript
-Feature: Multisite registration standard
+@api @javascript @communities
+Feature: Multisite registration og
   In order to add registration option to different content types
   As different types of users
   I want to be able to add a registration field in an article, register users and manage registrations
