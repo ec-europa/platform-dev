@@ -6,6 +6,8 @@
  *
  * @see https://webgate.ec.europa.eu/CITnet
  * @see /confluence/display/MULTISITE/Custom+features
+ *
+ * DO NOT USE, DEPRECATED, replaced by WEBTOOLS module.
  */
 
 /**
