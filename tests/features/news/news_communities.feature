@@ -5,7 +5,7 @@ Feature: news standard and news core
   I want to be able to propose news
 
   Background:
-    Given I use device with "1080" px and "1920" px resolution
+    Given I use device with "1920" px and "1080" px resolution
     Given the module is enabled
       | modules       |
       | news_core     |
@@ -17,131 +17,223 @@ Feature: news standard and news core
       | workbench_moderation_state     | published           |
       | workbench_moderation_state_new | published           |
 
+    And I am viewing a "news" content:
+      | title                          | News test 1 public |
+      | author                         | admin              |
+      | body                           | news test 1 body   |
+      | field_news_publication_date    | 1510226280         |
+      | group_content_access           | 1                  |
+      | og_group_ref                   | Public community 1 |
+      | status                         | 1                  |
+      | workbench_moderation_state     | published          |
+      | workbench_moderation_state_new | published          |
 
-  Scenario: news menu link
+    And I am viewing a "news" content:
+      | title                          | News test 2 public highlighted |
+      | author                         | admin              |
+      | body                           | news test 2 body   |
+      | field_news_publication_date    | 1510226280         |
+      | og_group_ref                   | Public community 1 |
+      | group_content_access           | 1                  |
+      | field_highlighted              | highlight          |
+      | workbench_moderation_state     | published          |
+      | workbench_moderation_state_new | published          |
+      | status                         | 1                  |
+
+    And I am viewing a "news" content:
+      | title                          | News test 3 private higlighted|
+      | author                         | admin                         |
+      | body                           | news test 2 body              |
+      | field_news_publication_date    | 1510226280                    |
+      | og_group_ref                   | Public community 1            |
+      | group_content_access           | 2                             |
+      | field_highlighted              | highlight                     |
+      | workbench_moderation_state     | published                     |
+      | workbench_moderation_state_new | published                     |
+      | status                         | 1                             |
+
+    Given users:
+      | username      | name          | password | mail                   | roles         |
+      | administrator | administrator | pass     | administrator@test.com | administrator |
+      | contributor   | contributor   | pass     | contributor@test.com   | contributor   |
+
+    Given I am logged in as "administrator"
+    And   I have the "administrator member" role in the "Public community 1" group
+    When  I go to "/community/public-community-1"
+    And   I click "News" in the "sidebar_left" region
+    And   I wait
+    And   I click "News test 2 public highlighted"
+    And   I click "New draft"
+    And   I follow "Publishing options"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+    When  I go to "/community/public-community-1"
+    And   I click "News" in the "sidebar_left" region
+    And   I wait
+    And   I click "News test 3 private higlighted"
+    And   I click "New draft"
+    And   I follow "Publishing options"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+    When  I go to "/community/public-community-1"
+    And   I click "News" in the "sidebar_left" region
+    And   I wait
+    And   I click "News test 1 public"
+    And   I click "New draft"
+    And   I follow "Publishing options"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+
+
+  Scenario: as User, I can go to the public news section thanks to the "News" item in the main menu
     Given I am on "/"
     Then  I should see the link "Communities"
     Then  I should see the link "News"
     When  I click "News"
-    When  I go to "/news_public"
-    Then  I should see the text "News"
+    Then  I should be on "/news_public"
+    And   I should see the text "News"
 
 
   Scenario: as Member I can propose news for publication to the community manager
-    Given I am logged in as a user with the 'contributor' role and I have the following fields:
-      | username | contributor          |
-      | name     | contributor          |
-      | password | pass                 |
-      | mail     | contributor@test.com |
+    # Given I am logged in as a user with the 'contributor' role and I have the following fields:
+    #   | username | contributor          |
+    #   | name     | contributor          |
+    #   | password | pass                 |
+    #   | mail     | contributor@test.com |
+    Given I am logged in as "contributor"
     And   I have the "member" role in the "Public community 1" group
     When  I go to "communities_directory/my"
     Then  I should see "Public community 1"
     And   I click "Public community 1"
     And   I click "Create content"
-    # And   I click "News" in the "sidebar_left" region
+    # Click "News" in the "sidebar_left" region
     And   I click on the element with xpath "//*[@id='block-multisite-og-button-og-contextual-links']/div/ul/li[2]/a"
-    # Then  I should see the text "New content: Your draft will be placed in moderation"
     And   I fill in "edit-title" with "Test news behat"
     And   I fill in the rich text editor "Body" with "Body for test news behat"
     And   I wait
     And   I click "Community"
     And   I check "highlight"
     And   I select "Public - accessible to all site users" from "Group content visibility"
-    # I set the state to published
-    # And   I click on the element with xpath "//*[ws-node-form']/div/div[1]/ul/li[9]/a"
-    # And   I follow "Publishing options"
     And   I click "Revision information"
-    # And   I select "Published" from "Moderation state"
-    And   print last response
     And   I select "Needs Review" from "Moderation state"
     And   I press "Save"
     And   I should see the text "News Test news behat has been created"
-    And   print last response
-    And   I should not see the text "Latest content"
-    And   I should not see the link "Test news behat"
+    And   I should see the text "Latest content"
+    But   I should not see the link "Test news behat"
 
   Scenario: as Community manager I can create a news and publicate it
-    Given I am logged in as a user with the 'administrator' role and I have the following fields:
-      | username | administrator          |
-      | name     | administrator          |
-      | password | pass                   |
-      | mail     | administrator@test.com |
+    # Given I am logged in as a user with the 'administrator' role and I have the following fields:
+    #   | username | administrator          |
+    #   | name     | administrator          |
+    #   | password | pass                   |
+    #   | mail     | administrator@test.com |
+    Given I am logged in as "administrator"
     And   I have the "member" role in the "Public community 1" group
     When  I go to "communities_directory/my"
     Then  I should see "Public community 1"
     And   I click "Public community 1"
     And   I click "Create content"
-    # And   I click "News" in the "sidebar_left" region
+    # click "News" in the "sidebar_left" region
     And   I click on the element with xpath "//*[@id='block-multisite-og-button-og-contextual-links']/div/ul/li[2]/a"
-    # Then  I should see the text "New content: Your draft will be placed in moderation"
     And   I fill in "edit-title" with "Test news behat"
     And   I fill in the rich text editor "Body" with "Body for test news behat"
     And   I wait
-    And   print last response
     And   I click on the element with xpath "//*[@id='news-node-form']/div/div[1]/ul/li[4]/a/strong"
-    # And   I click "Community"
     And   I check "highlight"
     And   I select "Public - accessible to all site users" from "Group content visibility"
-    # I set the state to published
-    # And   I click on the element with xpath "//*[@id='news-node-form']/div/div[1]/ul/li[9]/a"
     And   I follow "Publishing options"
-    # And   I click "Revision information"
     And   I select "Published" from "Moderation state"
-    # And   I select "Needs review" from "Moderation state"
     And   I press "Save"
     And   I should see the text "News Test news behat has been created"
-    And   print last response
     And   I should see the text "Latest content"
     And   I should see the link "Test news behat"
 
   Scenario: as member I can see private news according to my membership
-     Given I am viewing a "news" content:
-      | title              | News test      |
-      | body               | news test body |
-      | status             | 1              |
-      | moderation state   | published      |
-      | revision state     | published      |
-      | community          |
-    # Given I am logged in as a user with the 'contributor' role and I have the following fields:
-    #   | username | contributor          |
-    #   | name     | contributor          |
-    #   | mail     | contributor@test.com |
-    # And I have the "member" role in the "Public community 1" group
-  #   When I go to "my communities"
-  #   And I click "One of the communities I'm member of"
-  #   Then I should see the text "--- mensaje de que a section shows a restricted list of news created in that community"
-  #   When I click "One of the news in the list"
-  #   Then I should see "...... cosas de la noticia"
+    Given I am logged in as a user with the 'contributor' role and I have the following fields:
+      | username | contributor2          |
+      | name     | contributor2          |
+      | mail     | contributor2@test.com |
+      | pass     | contributor          |
+    # Given I am logged in as "contributor"
+    And  I have the "administrator member" role in the "Public community 1" group
+    When I go to "communities_directory/my"
+    And  I click "Public community 1"
+        # Then I should see the text "--- mensaje de que a section shows a restricted list of news created in that community"
+    Then I should see "members list" in the "sidebar_left" region
+    And  I should see the link "contributor" in the "sidebar_left" region
+    Then I should see the text "Highlighted news" in the "content_top" region
+    Then I should see the link "News test 2 public highlighted" in the "content_top" region
+    Then I should see the link "News test 3 private higlighted" in the "content_top" region
+    But  I should not see the link "News test 1 public" in the "content_top" region
+    And  I should see "Latest Content"
+    And  I should see the link "News test 3 private higlighted" in the "sidebar_left" region
+    And  I should see the link "News test 2 public highlighted" in the "sidebar_left" region
+    And  I should see the link "News test 1 public" in the "sidebar_left" region
+    When I click "News test 2 public highlighted"
+    Then I should see the heading "News test 2 public highlighted"
 
-  # Scenario: as user, I can see featured public new on the homepage
-  #   When I go to "/home"
-  #   And  I click "one of the news in the homepage"
-  #   Then I should see ".......... cosas de la noticia"
+  Scenario: as user, I can see public news on the homepage
+    Given I am not logged in
+    When  I go to homepage
+    Then  I should see "News test 2 public highlighted"
+    And   I should see "News test 1 public"
+    But   I should not see "News test 3 private higlighted"
+    And   I click "News test 2 public highlighted"
+    Then  I should see the heading "News test 2 public highlighted"
 
   # Scenario: as User, I can go to the public news section thanks to the "News" item in the main menu
+  #   Given I am on homepage
   #   When I click "News"
-  #   Then I should see ..... complete list of featured public news
+  #   Then I should be on "/news_public"
   #   When I click "one of the news in the list"
   #   Then I should see ".... cosas de la noticia"
 
   # Scenario: as Community manager, I can flag news within my community as "Top news" so that they appear at site's homepage
-  #   When I go to "my communities"
+  #   When I go to "communities_directory/my"
   #   And  I click "All news"
   #   And I click "one of the news"
   #   And I check "It's a top news"
   #   And I check "Home link takeen from the breadcrumb or from the clickable site logo"
   #   Then I should see "--- cosas de la noticia"
 
+  # @test
   # Scenario: as Community manager, I can flag news within my community as "highlighted" so that they appear at community's homepage
-  #   When I go to "my communities"
-  #   And  I click "All news"
-  #   And  I click "One of the news from the list"
-  #   And  I click "highlight this news"
-  #   And I click "Community link taken from the breadcrumb or from the clikable community logo"
-  #   Then I should see "a block containing highlighted contents"
+  #   # Given I am logged in as a user with the 'administrator' role and I have the following fields:
+  #   #   | username | administrator          |
+  #   #   | name     | administrator          |
+  #   #   | password | password               |
+  #   #   | mail     | administrator@test.com |
+  #   Given I am logged in as "administrator"
+  #   And   I have the "administrator member" role in the "Public community 1" group
+  #   When  I go to "communities_directory/my"
+  #   And   I click "Public community 1"
+  #   And   I click "News" in the "sidebar_left" region
+  #   And   I click "News test 1 public"
+  #   And   I click "New draft"
+  #   And   I wait
+  #   And   I wait
+  #   And   I wait
+  #   And   print last response
+  #   And   I click "Community"
+  #   And   I check "highlight"
+  #   And   I follow "Publishing options"
+  #   And   I select "Published" from "Moderation state"
+  #   And   I press "Save"
+  #   When  I go to "communities_directory/my"
+  #   And   I click "Public community 1"
+  #   Then  I should see the link "News test 1 public" in the "content_top" region
 
-
-  # Scenario: as Community manager, I can manage New within my community thanks to my workbench
+  # @test
+  # Scenario: as Community manager, I can manage News within my community thanks to my workbench
+  # Given I am viewing a "news" content:
+  #     | title                          | News test 4 |
+  #     | body                           | news test 4 body   |
+  #     | field_news_publication_date    | 1510226280         |
+  #     | group_content_access           | 1                  |
+  #     | og_group_ref                   | Public community 1 |
+  #     | status                         | 0                  |
+  #     | workbench_moderation_state     | needs review       |
+  #     | workbench_moderation_state_new | needs review       |
   #   When  I click "My workbench"
   #   Then  I should see "a block dedicated to news showing most recent news to approve"
   #   When  I click "approve link taken from one of the news"
