@@ -25,7 +25,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
   /**
    * Implements the event onTranslationReceivedEvent.
    *
-   * @param TranslationReceivedEvent $event
+   * @param \EC\Poetry\Events\Notifications\TranslationReceivedEvent $event
    *   The event for the translation Received.
    */
   public function onTranslationReceivedEvent(TranslationReceivedEvent $event) {
@@ -78,7 +78,7 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
   /**
    * Implements the event onStatusUpdatedEvent.
    *
-   * @param StatusUpdatedEvent $event
+   * @param \EC\Poetry\Events\Notifications\StatusUpdatedEvent $event
    *   The event for the Status Update.
    */
   public function onStatusUpdatedEvent(StatusUpdatedEvent $event) {

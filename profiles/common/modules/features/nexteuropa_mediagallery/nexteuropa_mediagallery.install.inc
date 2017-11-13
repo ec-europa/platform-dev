@@ -5,7 +5,6 @@
  * Helper functions to install the feature Nexteuropa Galleries.
  */
 
-
 /**
  * Enable gallery view modes for 'image' and 'video' bundles.
  */

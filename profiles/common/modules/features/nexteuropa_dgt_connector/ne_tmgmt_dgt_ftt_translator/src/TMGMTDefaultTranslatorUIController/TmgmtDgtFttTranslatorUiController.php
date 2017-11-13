@@ -2,8 +2,8 @@
 
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultTranslatorUIController;
 
-use \TMGMTDefaultTranslatorUIController;
-use \TMGMTTranslator;
+use TMGMTDefaultTranslatorUIController;
+use TMGMTTranslator;
 
 /**
  * TMGMT DGT FTT translator plugin controller.

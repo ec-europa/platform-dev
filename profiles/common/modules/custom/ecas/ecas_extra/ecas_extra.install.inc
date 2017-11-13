@@ -6,11 +6,11 @@
  */
 
 /**
-* Returns the initial schema implementation.
-*
-* @return array
-*   The initial schema implementation.
-*/
+ * Returns the initial schema implementation.
+ *
+ * @return array
+ *   The initial schema implementation.
+ */
 function _ecas_extra_base_schema() {
   $schema['denied_users'] = array(
     'description' => 'Stores id of denied users.',
@@ -36,5 +36,5 @@ function _ecas_extra_base_schema() {
     ),
     'primary key' => array('uid'),
   );
-return $schema;
+  return $schema;
 }

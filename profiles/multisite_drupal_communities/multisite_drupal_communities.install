@@ -5,6 +5,8 @@
  * Install, uninstall, update and schema hooks for the Communities profile.
  */
 
+include_once 'multisite_drupal_communities.install.inc';
+
 /**
  * Implements hook_install().
  *
@@ -19,19 +21,6 @@ function multisite_drupal_communities_install() {
     'view all unpublished content',
     'moderate content from needs_review to draft',
   ));
-}
-
-/**
- * Implements hook_install_tasks().
- */
-function multisite_drupal_communities_install_tasks() {
-  $tasks = array(
-    'cce_basic_config_profile_theme_default_form' => array(
-      'display_name' => st('Choose theme'),
-      'type' => 'form',
-    ),
-  );
-  return $tasks;
 }
 
 /**
@@ -52,6 +41,6 @@ function multisite_drupal_communities_update_7202() {
 /**
  * NEXTEUROPA-11872: Enable username_enumeration_prevention module.
  */
-function multisite_drupal_standard_update_7203() {
+function multisite_drupal_communities_update_7203() {
   module_enable(array('username_enumeration_prevention'));
 }

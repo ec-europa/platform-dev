@@ -120,7 +120,7 @@ class DgtRulesTools {
    * @param string $target_language
    *   The target language.
    *
-   * @return TMGMTJob
+   * @return \TMGMTJob
    *   Returns created TMGMT Job.
    */
   public static function createTmgmtJobAndItemForNode($default_translator, $node, $target_language = '') {
@@ -194,7 +194,7 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT job.
    * @param \EC\Poetry\Messages\Components\Status $status
    *   The status.
@@ -242,7 +242,7 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT job.
    * @param string $content
    *   The content of the translation.
@@ -337,9 +337,9 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT Job object.
-   * @param TMGMTJobItem $job_item
+   * @param \TMGMTJobItem $job_item
    *   The TMGMT Job Item object.
    * @param string $content
    *   The translation content.
@@ -412,7 +412,7 @@ class DgtRulesTools {
   /**
    * Return related translations by the translated entity id.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   The TMGMT job.
    * @param string $message
    *   The message.
@@ -438,7 +438,7 @@ class DgtRulesTools {
   /**
    * Sends the review request to DGT Services for a given node.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    * @param array $parameters
    *   An array with additional parameters.
@@ -502,7 +502,7 @@ class DgtRulesTools {
    * @param object $node
    *   The Node Object.
    *
-   * @return object | NULL $maps
+   * @return object|null
    *   FTT Map object.
    */
   public static function findMappingsByNode($node) {
