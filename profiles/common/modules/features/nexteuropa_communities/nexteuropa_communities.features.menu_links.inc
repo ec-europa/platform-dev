@@ -54,7 +54,7 @@ function nexteuropa_communities_menu_default_menu_links() {
     'expanded' => 1,
     'weight' => 0,
     'customized' => 1,
-    'language' => 'und',
+    'language' => LANGUAGE_NONE,
     'menu_links_customized' => 1,
   );
 
