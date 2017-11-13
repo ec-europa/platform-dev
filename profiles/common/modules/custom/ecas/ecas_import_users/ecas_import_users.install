@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Installation file for ecas_import_users.
@@ -15,12 +16,13 @@ function ecas_import_users_uninstall() {
  * Implements hook_enable().
  */
 function ecas_import_users_enable() {
-  drupal_set_message('ECAS import users is now active on your site.');
+  $t = get_t();
+  drupal_set_message($t('ECAS import users is now active on your site.'));
 }
 
 /**
  * Implements hook_disable().
  */
 function ecas_import_users_disable() {
-  drupal_set_message('ECAS import users is now active on your site.');
+  drupal_set_message(t('ECAS import users is now active on your site.'));
 }

@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall callbacks for the Next Europa DGT Rules module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function ne_dgt_rules_enable() {
+  drupal_set_message(t('Next Europa DGT Rules module is now active on your site.'));
+}
+
+/**
+ * Implements hook_disable().
+ */
+function ne_dgt_rules_disable() {
+  drupal_set_message(t('Next Europa DGT Rules module is now disabled on your site.'));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ne_dgt_rules_uninstall() {
+  // Get all node types. Loop through them and delete module related variables.
+  $types = node_type_get_types();
+  foreach ($types as $type_object) {
+    $type = $type_object->type;
+    variable_del("ne_dgt_rules_ftt_workflow_$type");
+  }
+}
