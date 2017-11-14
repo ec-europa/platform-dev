@@ -162,7 +162,7 @@ function _multisite_wysiwyg_get_ckeditor_css_paths($default_theme = NULL) {
     $path_to_theme = drupal_get_path('theme', $implied_theme);
 
     $css_file_paths[] = $path_to_theme . '/wysiwyg/editor.css';
-    $css_file_paths[] = $path_to_theme . '/assets/css/wysiwyg/editor.css';
+    $css_file_paths[] = $path_to_theme . '/assets/styles/wysiwyg/editor.css';
   }
 
   $css_file_paths = array_values(array_map(
