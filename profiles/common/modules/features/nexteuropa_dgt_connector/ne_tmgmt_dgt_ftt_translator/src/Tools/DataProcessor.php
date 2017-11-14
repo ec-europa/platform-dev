@@ -9,9 +9,9 @@ namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
 use Drupal\nexteuropa_core\Psr3Watchdog;
+use EC\Poetry\Poetry;
+use EC\Poetry\Messages\Responses\Status;
 use EntityFieldQuery;
-use \EC\Poetry\Poetry;
-use \EC\Poetry\Messages\Responses\Status;
 use TMGMTJob;
 
 /**
@@ -603,16 +603,6 @@ trait DataProcessor {
     }
 
     return $identifier;
-  }
-
-  /**
-   * Logs the DGT Service response data.
-   *
-   * @param array $response_data
-   *   An array with the DGT Service response data.
-   */
-  private function logResponseData(array $response_data) {
-    // @todo: Implement logging into files system.
   }
 
   /**
