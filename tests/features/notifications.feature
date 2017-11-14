@@ -194,8 +194,11 @@ Feature: User notifications
     And I select "Article" from "Blocked content types"
     And I press the "Save configuration" button
     When I go to "admin/config/system/subscriptions/userdefaults/type"
-    Then I should see the "span" element with the "title" attribute set to "This content type is blocked." in the "page" region
-    Given I go to "admin/config/system/subscriptions"
+    When I am logged in as "authuser"
+    And I go to "community/articles/article-sub"
+    Then I should not see the text "Subscribe"
+    Given I am logged in as "administrator"
+    And I go to "admin/config/system/subscriptions"
     And I select "Article" from "Unlisted content types"
     And I select "<none>" from "Blocked content types"
     And I press the "Save configuration" button
