@@ -214,7 +214,6 @@ function _nexteuropa_ecl_migrate_europa_main_menu() {
  * Custom function that moves the proper blocks in the utility area.
  */
 function _nexteuropa_ecl_migrate_europa_utility_region() {
-  multisite_drupal_toolbox_add_block_context('site_wide', 'user-menu', 'system', 'user-menu', 'utility', 1);
   multisite_drupal_toolbox_add_block_context('site_wide', 'create-content-button', 'multisite_create_button', 'create-content-button', 'utility', 2);
 }
 
@@ -286,20 +285,19 @@ function _nexteuropa_ecl_migrate_move_facet_blocks() {
  * Those were added on ec_resp in _cce_basic_config_post_install_default_blocks.
  */
 function _nexteuropa_ecl_migrate_remove_ec_resp_blocks() {
-
   db_update('block')
-    ->fields([
+    ->fields(array(
       'status' => 0,
-    ])
+    ))
     ->condition('theme', 'ec_resp')
     ->condition('module', 'system')
     ->condition('delta', 'main')
     ->execute();
 
   db_update('block')
-    ->fields([
+    ->fields(array(
       'status' => 0,
-    ])
+    ))
     ->condition('theme', 'ec_resp')
     ->condition('module', 'system')
     ->condition('delta', 'help')
