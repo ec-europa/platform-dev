@@ -46,6 +46,12 @@ function ne_dgt_rules_rules_action_info() {
         'description' => t('Eg.: IE/CE/DIGIT/A/3'),
         'optional' => TRUE,
       ),
+      'dgt_ftt_workflow_code' => array(
+        'type' => 'text',
+        'label' => t('DGT FTT - workflow code'),
+        'description' => t('Eg.: STS'),
+        'optional' => TRUE,
+      ),
     ),
     'provides' => array(
       'tmgmt_job' => array(
@@ -104,6 +110,12 @@ function ne_dgt_rules_rules_action_info() {
         'description' => t('Eg.: IE/CE/DIGIT/A/3'),
         'optional' => TRUE,
       ),
+      'dgt_ftt_workflow_code' => array(
+        'type' => 'text',
+        'label' => t('DGT FTT - workflow code'),
+        'description' => t('Eg.: STS'),
+        'optional' => TRUE,
+      ),
     ),
     'provides' => array(
       'tmgmt_job' => array(
@@ -156,17 +168,21 @@ function ne_dgt_rules_rules_action_info() {
  *
  * @param object $node
  *   The node that needs to be reviewed by the DGT Reviewer.
+ * @param string $code
+ *   'Code' value.
  * @param string $org_responsible
  *   Organisation 'Responsible' value.
  * @param string $org_dg_author
  *   Organisation 'DG Author' value.
  * @param string $org_requester
  *   Organisation 'Requester' value.
+ * @param string $dgt_ftt_workflow_code
+ *   Dgt Ftt 'Workflow code' value.
  *
  * @return array
  *   An array of arrays with data which are exposed to the 'Rules'.
  */
-function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
+function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', $dgt_ftt_workflow_code = '') {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -184,13 +200,14 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_respo
         'responsible' => $org_responsible,
         'author' => $org_dg_author,
         'requester' => $org_requester,
+        'workflowCode' => $dgt_ftt_workflow_code,
       ),
     ),
   );
 
   if ($default_translator = DgtRulesTools::getDefaultFttTranslator()) {
     // The review request can be only sent for the english version of the node.
-    if (isset($node->language) && $node->language === 'en') {
+    if (isset($node->language) && 'en' === $node->language) {
       // Checking if review request conditions are met.
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)
         && $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node)) {
@@ -208,17 +225,21 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $code = '', $org_respo
  *
  * @param object $node
  *   The node that needs to be reviewed by the DGT Reviewer.
+ * @param string $code
+ *   Code value.
  * @param string $org_responsible
  *   Organisation 'Responsible' value.
  * @param string $org_dg_author
  *   Organisation 'DG Author' value.
  * @param string $org_requester
  *   Organisation 'Requester' value.
+ * @param string $dgt_ftt_workflow_code
+ *   Dgt Ftt 'Workflow code' value.
  *
  * @return array
  *   An Array with the job and the response, this element can be NULL.
  */
-function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '') {
+function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', $dgt_ftt_workflow_code = '') {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -236,6 +257,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_
         'responsible' => $org_responsible,
         'author' => $org_dg_author,
         'requester' => $org_requester,
+        'workflowCode' => $dgt_ftt_workflow_code,
       ),
     ),
   );
@@ -244,7 +266,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $code = '', $org_
 
   if ($default_translator = DgtRulesTools::getDefaultFttTranslator()) {
     // The review request can be only sent for the english version of the node.
-    if (isset($node->language) && $node->language === 'en') {
+    if (isset($node->language) && 'en' === $node->language) {
       // Checking if review request conditions are met.
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)) {
         foreach (language_list('enabled')[1] as $target_language) {
