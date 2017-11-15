@@ -3,6 +3,8 @@
 /**
  * @file
  * Install, uninstall, update and schema hooks.
+ *
+ * DO NOT USE, DEPRECATED.
  */
 
 /**
