@@ -580,6 +580,7 @@ projects[quicktabs][version] = "3.6"
 projects[quicktabs][patch][] = patches/quicktabs-ajax-default-tab-none_1741488-10.patch
 projects[quicktabs][patch][] = patches/quicktabs-tabs_broken-3880.patch
 projects[quicktabs][patch][] = patches/quicktabs-user-interface-2108935-2.patch
+projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_emtpy-2222805-13.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
