@@ -579,7 +579,7 @@ projects[print][version] = "2.0"
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
 projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
-projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_emtpy-2222805-13.patch
+projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_empty-2222805-14.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
