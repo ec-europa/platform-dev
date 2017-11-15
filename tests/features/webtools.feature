@@ -11,7 +11,7 @@ Feature: Webtools feature
     And a valid Smartload Url has been configured
     And I am logged in as a user with the 'administrator' role
 
-  @api
+  @api @standard_ec_resp
   Scenario: Create and delete a block 'Map'
     When I go to "block/add/webtools"
     And I fill in "Label" with "Block Map Webtools"
@@ -28,7 +28,7 @@ Feature: Webtools feature
     When I press "Delete"
     Then I should see the success message "webtools Block Map Webtools Title has been deleted."
 
-  @api @javascript
+  @api @javascript @standard_ec_resp
   Scenario: Insert a webtools block into a content by using the 2 full HTML text formats
     Given a map webtools "Block Webtools" exists
     And I use device with "1920" px and "1080" px resolution
