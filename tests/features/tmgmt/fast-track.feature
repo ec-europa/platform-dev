@@ -80,7 +80,7 @@ Feature: Fast track
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
               "USING" : { "node" : [ "node" ],
-               "publishing_date" : "2017-12-01 15:00:00"
+               "delay" : "2017-12-01 15:00:00"
               },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
@@ -140,7 +140,7 @@ Feature: Fast track
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_review_request" : {
               "USING" : { "node" : [ "node" ] ,
-                "publishing_date" : "2017-12-01 15:00:00",
+                "delay" : "2017-12-01 15:00:00",
                 "code" : "WEBREVIEW",
                 "org_responsible" : "DIGIT_REVIEW",
                 "org_dg_author" : "IE/CE/DIGIT/REVIEW",
@@ -183,7 +183,7 @@ Feature: Fast track
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
               "USING" : { "node" : [ "node" ],
-                "publishing_date" : "2017-12-01 15:00:00",
+                "delay" : "2017-12-01 15:00:00",
                 "code" : "WEBTRANSLATION",
                 "org_responsible" : "DIGIT_TRANSLATION",
                 "org_dg_author" : "IE/CE/DIGIT/TRANSLATION",
@@ -233,3 +233,81 @@ Feature: Fast track
       | <workflowCode>STS_TRANSLATION</workflowCode>                         |
       | <delai>01/12/2017</delai>                                            |
       | <attributionsDelai>01/12/2017</attributionsDelai>                    |
+
+  Scenario: Request using custom date field.
+    Given I am logged in as a user with the "administrator" role
+    And I go to "admin/structure/types/manage/page/fields"
+    And I fill in "edit-fields-add-new-field-label" with "Delay date"
+    And I fill in "edit-fields-add-new-field-field-name" with "delay_date"
+    And I select "datestamp" from "edit-fields-add-new-field-type"
+    And I select "date_popup" from "edit-fields-add-new-field-widget-type"
+    And I press the "Save" button
+    And I uncheck "edit-field-settings-granularity-minute"
+    And I uncheck "edit-field-settings-granularity-hour"
+    And I press the "Save field settings" button
+    Then I should see "Updated field Delay date field settings."
+    When I have the following rule:
+    """
+    {
+      "rules_dgt_ftt_translations" : {
+        "LABEL" : "DGT FTT Translations",
+        "PLUGIN" : "reaction rule",
+        "OWNER" : "rules",
+        "REQUIRES" : [ "ne_dgt_rules", "rules", "workbench_moderation" ],
+        "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+        "IF" : [
+          { "comparison_of_moderation_states_after_transition" : {
+              "previous_state_source" : [ "previous-state" ],
+              "previous_state_value" : "needs_review",
+              "new_state_source" : [ "new-state" ],
+              "new_state_value" : "validated"
+            },
+            "entity_has_field" : {
+              "entity" : [ "node" ],
+              "field" : "field_delay_date"
+            }
+          }
+        ],
+        "DO" : [
+          { "ne_dgt_rules_ftt_node_send_translation_request" : {
+              "USING" : { "node" : [ "node" ],
+               "delay" : [ "node:field-delay-date" ]
+              },
+              "PROVIDE" : {
+                "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
+                "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
+                "dgt_service_response_status" : { "dgt_service_response_status" : "DGT Service Response - Response status" },
+                "dgt_service_demand_status" : { "dgt_service_demand_status" : "DGT Service Response - Demand status" }
+              }
+            }
+          },
+          { "drupal_message" : { "message" : [ "dgt-service-response-status:message" ] } },
+          { "drupal_message" : { "message" : [ "dgt-service-demand-status:message" ] } },
+          { "drupal_message" : { "message" : [ "dgt-service-response:raw-xml" ] } }
+        ]
+      }
+    }
+    """
+    And "page" content:
+      | language | title     |
+      | en       | Test page |
+    And I visit the "page" content with title "Test page"
+    Then I should see "Revision state: Draft"
+    When I click "Edit draft"
+    And I fill in "edit-field-delay-date-und-0-value-datepicker-popup-0" with "14/11/2018"
+    And I press "Save"
+    Then I should see "Basic page Test page has been updated."
+    When I select "Needs Review" from "state"
+    And I press "Apply"
+    Then I should see "Revision state: Needs Review"
+    When I select "Validated" from "state"
+    And I press "Apply"
+    Then I should see "Revision state: Validated"
+    And Poetry service received request should contain the following text:
+      | <titre>Test page</titre>                                      |
+      | <organisationResponsable>DIGIT</organisationResponsable>      |
+      | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
+      | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
+      | <applicationReference>FPFIS</applicationReference>            |
+      | <delai>14/11/2018</delai>                                     |
+      | <attributionsDelai>14/11/2018</attributionsDelai>             |
