@@ -279,9 +279,6 @@ projects[feeds_tamper][version] = "1.1"
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
 
-projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta10"
-
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.5"
 ; https://www.drupal.org/node/2604284
