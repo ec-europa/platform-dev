@@ -26,9 +26,6 @@ Feature: Taxonomy browser
     Then I check "Override title"
     And I fill in "edit-options-title" with "%1"
     And I press the "Apply" button
-    And the module is enabled
-      | modules         |
-      | easy_breadcrumb |
     #Configure header
     When I go to "/admin/structure/views/nojs/add-item/view_articles/default/header_en"
     Then I check "edit-name-viewsview"
