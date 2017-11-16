@@ -247,7 +247,7 @@ projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
 
 projects[fblikebutton][subdir] = "contrib"
-projects[fblikebutton][version] = "2.3"
+projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.10"
@@ -278,9 +278,6 @@ projects[feeds_tamper][version] = "1.1"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
-
-projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta10"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.5"
@@ -580,10 +577,8 @@ projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
 
 projects[quicktabs][subdir] = "contrib"
-projects[quicktabs][version] = "3.6"
-projects[quicktabs][patch][] = patches/quicktabs-ajax-default-tab-none_1741488-10.patch
-projects[quicktabs][patch][] = patches/quicktabs-tabs_broken-3880.patch
-projects[quicktabs][patch][] = patches/quicktabs-user-interface-2108935-2.patch
+projects[quicktabs][version] = "3.8"
+projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
@@ -707,7 +702,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.17
+projects[views][version] = 3.18
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
@@ -715,6 +710,9 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_e
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
+; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
+; https://www.drupal.org/node/2908538
+projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -791,15 +789,10 @@ projects[workbench_og][version] = "2.0-beta1"
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.2"
-projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
-projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
-projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
+projects[wysiwyg][download][version] = "2.4"
+; Fix remote js loading on ckeditor plugin
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
-; Features export doesn't work correctly
-; https://www.drupal.org/node/2414575
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1
-projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-feature_export_object_to_array-2414575-10-7.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -900,6 +893,9 @@ libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"
 libraries[iCalcreator][download][destination] = "../common/libraries"
+; Adding patch for PHP7 compatibilty on IcalCreator.class.
+; https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
+libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 
 ; imgAreaSelect 0.9.10
 libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
@@ -1007,4 +1003,4 @@ projects[ec_resp][download][tag] = 2.3.2
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][branch] = 7.x-1.x
+projects[atomium][download][branch] = 7.x-2.x

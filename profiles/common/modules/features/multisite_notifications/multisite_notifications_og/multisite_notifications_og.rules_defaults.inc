@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_notifications_og.rules_defaults.inc

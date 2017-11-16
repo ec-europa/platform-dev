@@ -48,7 +48,6 @@ dependencies[] = i18nviews
 dependencies[] = image
 dependencies[] = image_captcha
 dependencies[] = jquery_update
-dependencies[] = language_cookie
 dependencies[] = libraries
 dependencies[] = link
 dependencies[] = linkchecker

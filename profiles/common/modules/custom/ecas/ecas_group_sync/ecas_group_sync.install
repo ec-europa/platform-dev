@@ -48,12 +48,13 @@ function ecas_group_sync_schema() {
  * Implements hook_enable().
  */
 function ecas_group_sync_enable() {
-  drupal_set_message('ecas_group_sync module enabled');
+  $t = get_t();
+  drupal_set_message($t('ecas_group_sync module enabled'));
 }
 
 /**
  * Implements hook_disable().
  */
 function ecas_group_sync_disable() {
-  drupal_set_message('ecas_group_sync module disabled');
+  drupal_set_message(t('ecas_group_sync module disabled'));
 }
