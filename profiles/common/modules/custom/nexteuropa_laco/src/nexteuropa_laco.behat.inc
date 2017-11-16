@@ -32,7 +32,7 @@ class NextEuropaLacoSubContext extends RawDrupalContext implements DrupalSubCont
   /**
    * Constructs a NextEuropaLacoSubContext object.
    *
-   * @param Drupal\DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {

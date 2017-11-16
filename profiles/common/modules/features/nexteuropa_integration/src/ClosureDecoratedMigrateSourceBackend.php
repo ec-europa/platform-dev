@@ -13,7 +13,7 @@ class ClosureDecoratedMigrateSourceBackend extends MigrateSourceBackend {
   /**
    * The actual MigrateSourceBackend to decorate.
    *
-   * @var Drupal\integration_consumer\Migrate\MigrateSourceBackend
+   * @var \Drupal\integration_consumer\Migrate\MigrateSourceBackend
    */
   protected $wrappedSource;
 
@@ -27,7 +27,7 @@ class ClosureDecoratedMigrateSourceBackend extends MigrateSourceBackend {
   /**
    * ClosureDecoratedMigrateSourceBackend constructor.
    *
-   * @param Drupal\integration_consumer\Migrate\MigrateSourceBackend $wrapped_source
+   * @param \Drupal\integration_consumer\Migrate\MigrateSourceBackend $wrapped_source
    *   The actual MigrateSourceBackend to decorate.
    * @param \Closure $closure
    *   The closure which will be used to decorate the documents.

@@ -76,7 +76,7 @@ function _nexteuropa_integration_language_code_replacement_map() {
 /**
  * Replaces occurrences of language codes.
  *
- * @param Drupal\integration\Document\DocumentInterface $document
+ * @param \Drupal\integration\Document\DocumentInterface $document
  *   The document to perform the replacements in.
  * @param array $replacements
  *   Replacements to perform.

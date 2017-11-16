@@ -25,7 +25,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   /**
    * The Drupal driver manager.
    *
-   * @var Drupal\DrupalDriverManager
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
@@ -46,7 +46,7 @@ class TMGMTPoetryMockSubContext extends RawDrupalContext implements DrupalSubCon
   /**
    * Constructs a TMGMTPoetryMockSubContext object.
    *
-   * @param Drupal\DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
