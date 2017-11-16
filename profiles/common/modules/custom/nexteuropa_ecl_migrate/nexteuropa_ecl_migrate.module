@@ -226,6 +226,7 @@ function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'footer');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'locale-language');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'search-form');
+  multisite_drupal_toolbox_remove_block_context('site_wide', 'print-print-links');
   _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
 }
 
