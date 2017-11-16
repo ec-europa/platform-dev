@@ -1,4 +1,4 @@
-@api @javascript
+@api @javascript @ec_resp_theme
 Feature: multisite media gallery
   In order to add content to the media gallery
   As different types of users
@@ -184,21 +184,21 @@ Feature: multisite media gallery
     Then  I should not see "New draft"
 
 
-
+  @wip
   # The following scenario doesn't work due to some php errors that appear when loading a video file
-  # Scenario: as Administrator I can post media content with video
-  #   Given I am logged in as a user with the "administrator" role
-  #   When  I go to "/node/add/gallerymedia_en"
-  #   And   I fill in "Title" with "My gallery video"
-  #   And   I fill in the rich text editor "Body" with "body for the Test News behat"
-  #   And   I click "Browse"
-  #   And   I attach the file "/tests/files/SampleVideo.mp4" to "edit-field-video-upload-und-0-upload"
-  #   When  I follow "Publishing options"
-  #   And   I select "Published" from "Moderation state"
-  #   And   I press "Save"
-  #   Then  I should see the text "Media Gallery My gallery video has been created."
-  #   When  I go to the homepage
-  #   And   I click "Galleries"
-  #   Then  I should see "My gallery video"
-  #   When  I click "My gallery"
-  #   Then  I should see "SampleVideo.mp4"
+  Scenario: as Administrator I can post media content with video
+    Given I am logged in as a user with the "administrator" role
+    When  I go to "/node/add/gallerymedia_en"
+    And   I fill in "Title" with "My gallery video"
+    And   I fill in the rich text editor "Body" with "body for the Test News behat"
+    And   I click "Browse"
+    And   I attach the file "/tests/files/SampleVideo.mp4" to "edit-field-video-upload-und-0-upload"
+    When  I follow "Publishing options"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+    Then  I should see the text "Media Gallery My gallery video has been created."
+    When  I go to the homepage
+    And   I click "Galleries"
+    Then  I should see "My gallery video"
+    When  I click "My gallery"
+    Then  I should see "SampleVideo.mp4"
