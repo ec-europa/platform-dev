@@ -27,15 +27,6 @@ function ecas_extra_schema() {
 }
 
 /**
- * Updade #1: create the denied_users table.
- */
-function ecas_extra_update_7100() {
-  $base_schema = _ecas_extra_base_schema();
-  db_create_table('denied_users', $base_schema['denied_users']);
-  return st('Denied users table was created');
-}
-
-/**
  * Implements hook_uninstall().
  */
 function ecas_extra_uninstall() {
