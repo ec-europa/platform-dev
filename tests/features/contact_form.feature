@@ -5,12 +5,9 @@ Feature: Contact Form
   I want to be able to access contact forms
 
   Background:
-  Given users:
-   | name          | mail                 | pass         | roles         |
-   | authenticated_user | authenticated@user.com    | password123  | authenticated user |
-  And the module is enabled
-    | modules |
-    | contact_form |
+    Given the module is enabled
+      | modules |
+      | contact_form |
 
   @javascript @theme_wip
   # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
@@ -48,20 +45,19 @@ Feature: Contact Form
       | success messages              |
       | Your message has been sent. |
 
-  Scenario: Test that existing email adress is filled in for authenticated users
-    Given I am logged in as "authenticated_user"
+  Scenario: Test that existing information is filled in for authenticated users
+    Given users:
+     | name               | mail                      | pass         | roles              |
+     | authenticated_user | authenticated@user.com    | password123  | authenticated user |
+    And I am logged in as "authenticated_user"
     When I am on "contact"
-    Then I should see the text "authenticated@user.com"
-
-  Scenario: Test that existing name is filled in for authenticated users
-    Given I am logged in as "authenticated_user"
-    When I am on "contact"
-    Then I should see the text "authenticated_user"
+    Then I should see "authenticated@user.com" in the "content"
+    And I should see "authenticated_user" in the "content"
 
   Scenario Outline: Test that email must be valid
     Given I am not logged in
-    Then I am on "contact"
-    Then I fill in "edit-mail" with "<mail>"
+    When I am on "contact"
+    And I fill in "edit-mail" with "<mail>"
     And I press the "Send message" button
     Then I should see the text "You must enter a valid e-mail address."
 
@@ -86,7 +82,7 @@ Feature: Contact Form
     | ”(),:;<>[\]@example.com       |
     | just”not”right@example.com    |
 
-  Scenario: Verify that mail is sent after the captcha is filled in when anonymous
+  Scenario: Verify that mail is sent when anonymous (captcha disabled)
     #Disable captcha while testing
     Given I am logged in as a user with the 'administrator' role
     When I am on "/admin/config/people/captcha_en"
