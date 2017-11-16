@@ -145,4 +145,14 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.admin.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.helper.inc</exclude-pattern>
     </rule>
+
+    <!-- Exclude readme, license and changelog files from checking line length. -->
+    <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
+        <exclude-pattern>*/README.md</exclude-pattern>
+        <exclude-pattern>*/README.txt</exclude-pattern>
+        <exclude-pattern>*/LICENSE.md</exclude-pattern>
+        <exclude-pattern>*/LICENSE.txt</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
+    </rule>
 </ruleset>

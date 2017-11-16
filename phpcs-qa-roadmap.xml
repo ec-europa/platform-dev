@@ -41,14 +41,4 @@
         <exclude-pattern>profiles/common/modules/features/news/news_og/news_og.module</exclude-pattern>
     </rule>
 
-    <!-- Line exceeds 80 characters. -->
-    <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
-        <exclude-pattern>*/README.md</exclude-pattern>
-        <exclude-pattern>*/README.txt</exclude-pattern>
-        <exclude-pattern>*/LICENSE.md</exclude-pattern>
-        <exclude-pattern>*/LICENSE.txt</exclude-pattern>
-        <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
-        <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
-     </rule>
-
 </ruleset>
