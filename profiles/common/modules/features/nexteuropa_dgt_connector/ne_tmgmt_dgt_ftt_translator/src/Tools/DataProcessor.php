@@ -78,7 +78,7 @@ trait DataProcessor {
    * @return array
    *   Request data array.
    */
-  public function getRequestData(array $jobs, $node) {
+  public function getRequestData(array $jobs, $node, $delay) {
     // Setting out the node object property.
     $this->node = $node;
     // Setting out the job property.
@@ -86,7 +86,7 @@ trait DataProcessor {
     // Setting out the translator property.
     $this->translator = $jobs[0]->getTranslator();
     // Setting out the default delay date - 72 hours.
-    $this->defaultDelayDate = date('d/m/Y', time() + 259200);
+    $this->defaultDelayDate = date('d/m/Y', $delay);
     // Getting the translator settings.
     $settings = $this->getTranslatorSettings();
 
