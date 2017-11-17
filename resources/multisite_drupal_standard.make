@@ -541,9 +541,7 @@ projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha5"
-; https://www.drupal.org/node/2489918 - MULTISITE-8185
-projects[password_policy][patch][] = https://www.drupal.org/files/issues/password_policy-7.x-2.x-fix_element_alter_error-2489918-4.patch
+projects[password_policy][version] = "2.0-alpha7"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
