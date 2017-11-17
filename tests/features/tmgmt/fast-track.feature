@@ -234,18 +234,17 @@ Feature: Fast track
       | <delai>01/12/2017</delai>                                            |
       | <attributionsDelai>01/12/2017</attributionsDelai>                    |
 
+  @wip
   Scenario: Request using custom date field.
     Given I am logged in as a user with the "administrator" role
+    #And I create a new "datestamp" field named "Delay date" on "page"
     And I go to "admin/structure/types/manage/page/fields"
     And I fill in "edit-fields-add-new-field-label" with "Delay date"
     And I fill in "edit-fields-add-new-field-field-name" with "delay_date"
     And I select "datestamp" from "edit-fields-add-new-field-type"
     And I select "date_popup" from "edit-fields-add-new-field-widget-type"
     And I press the "Save" button
-    And I uncheck "edit-field-settings-granularity-minute"
-    And I uncheck "edit-field-settings-granularity-hour"
     And I press the "Save field settings" button
-    Then I should see "Updated field Delay date field settings."
     When I have the following rule:
     """
     {
@@ -258,21 +257,16 @@ Feature: Fast track
         "IF" : [
           { "comparison_of_moderation_states_after_transition" : {
               "previous_state_source" : [ "previous-state" ],
-              "previous_state_value" : "needs_review",
+              "previous_state_value" : "draft",
               "new_state_source" : [ "new-state" ],
               "new_state_value" : "validated"
-            },
-            "entity_has_field" : {
-              "entity" : [ "node" ],
-              "field" : "field_delay_date"
             }
-          }
+          },
+          { "entity_has_field" : { "entity" : [ "node" ], "field" : "field_delay_date" } }
         ],
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
-              "USING" : { "node" : [ "node" ],
-               "delay" : [ "node:field-delay-date" ]
-              },
+              "USING" : { "node" : [ "node" ], "delay" : [ "node:field-delay-date" ] },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
                 "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
@@ -280,10 +274,7 @@ Feature: Fast track
                 "dgt_service_demand_status" : { "dgt_service_demand_status" : "DGT Service Response - Demand status" }
               }
             }
-          },
-          { "drupal_message" : { "message" : [ "dgt-service-response-status:message" ] } },
-          { "drupal_message" : { "message" : [ "dgt-service-demand-status:message" ] } },
-          { "drupal_message" : { "message" : [ "dgt-service-response:raw-xml" ] } }
+          }
         ]
       }
     }
@@ -295,14 +286,13 @@ Feature: Fast track
     Then I should see "Revision state: Draft"
     When I click "Edit draft"
     And I fill in "edit-field-delay-date-und-0-value-datepicker-popup-0" with "14/11/2018"
+    And I fill in "edit-field-delay-date-und-0-value-timeEntry-popup-1" with "12:00"
     And I press "Save"
     Then I should see "Basic page Test page has been updated."
-    When I select "Needs Review" from "state"
-    And I press "Apply"
-    Then I should see "Revision state: Needs Review"
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
+    And break
     And Poetry service received request should contain the following text:
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
