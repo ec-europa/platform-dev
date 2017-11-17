@@ -45,6 +45,8 @@ Feature: Contact Form
       | success messages              |
       | Your message has been sent. |
 
+  @theme_wip
+  # Wip for the europa theme because it implies a step referring a region.
   Scenario: Test that existing information is filled in for authenticated users
     Given users:
      | name               | mail                      | pass         | roles              |
