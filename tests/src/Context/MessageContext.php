@@ -15,7 +15,7 @@ class MessageContext extends DrupalExtensionMessageContext {
   /**
    * Checks if the current page contains the given error message.
    *
-   * @param Behat\Gherkin\Node\PyStringNode $message
+   * @param \Behat\Gherkin\Node\PyStringNode $message
    *   PyStringNode containing the text to be checked.
    *
    * @Then I should see this following error message:

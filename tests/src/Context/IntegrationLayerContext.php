@@ -52,14 +52,14 @@ class IntegrationLayerContext implements Context {
   /**
    * The mocked central Integration HTTP server.
    *
-   * @var InterNations\Component\HttpMock\Server
+   * @var \InterNations\Component\HttpMock\Server
    */
   protected $server;
 
   /**
    * Facade to access requests made to the mocked HTTP server.
    *
-   * @var InterNations\Component\HttpMock\RequestCollectionFacade
+   * @var \InterNations\Component\HttpMock\RequestCollectionFacade
    */
   protected $requests;
 
@@ -80,7 +80,7 @@ class IntegrationLayerContext implements Context {
    * By default it responds to any POST requests with 201 Created response,
    * additional behavior can be added in further steps.
    *
-   * @return InterNations\Component\HttpMock\Server
+   * @return \InterNations\Component\HttpMock\Server
    *   The mocked central Integration HTTP server.
    */
   protected function getServer() {
@@ -106,7 +106,7 @@ class IntegrationLayerContext implements Context {
   /**
    * Gets the requests made to the mocked Integration backend.
    *
-   * @return InterNations\Component\HttpMock\RequestCollectionFacade
+   * @return \InterNations\Component\HttpMock\RequestCollectionFacade
    *   The requests facade.
    */
   protected function getRequests() {

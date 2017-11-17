@@ -89,7 +89,7 @@ class PiwikRulesContext implements Context {
 
     \bovigo\assert\assert($rows, isOfSize(count($expected_rules)));
 
-    /** @var Behat\Mink\Element\Element $row */
+    /** @var \Behat\Mink\Element\Element $row */
     foreach (array_values($rows) as $i => $row) {
       $expected_rule = $expected_rules[$i];
 
@@ -100,7 +100,7 @@ class PiwikRulesContext implements Context {
   /**
    * Gets the PIWIK rules overview.
    *
-   * @return Behat\Mink\Element\Element
+   * @return \Behat\Mink\Element\Element
    *   The table body.
    */
   protected function getPiwikRulesOverview() {
@@ -112,13 +112,13 @@ class PiwikRulesContext implements Context {
   /**
    * Asserts a particular row from the PIWIK rules overview.
    *
-   * @param Behat\Mink\Element\Element $row
+   * @param \Behat\Mink\Element\Element $row
    *   The table row.
    * @param array $expected_rule
    *   The expected values for the PIWIK rule.
    */
   protected function assertOverviewPiwikRule(Element $row, array $expected_rule) {
-    /** @var Behat\Mink\Element\Element[] $cells */
+    /** @var \Behat\Mink\Element\Element[] $cells */
     $cells = $row->findAll('css', 'td');
     assert($cells[1]->getText(), equals($expected_rule['Rule section']));
     assert($cells[2]->getText(), equals($expected_rule['Rule language']));

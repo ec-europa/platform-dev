@@ -131,7 +131,7 @@ function nexteuropa_formatters_fields_field_formatter_settings_form($field, $ins
         '#title' => t('Variation'),
         '#options' => array(
           ' ' => t('Default'),
-          'live_streaming' => ('Events'),
+          'live_streaming' => t('Events'),
           'past' => t('Past events'),
         ),
         '#default_value' => $settings['variation'],

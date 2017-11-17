@@ -47,7 +47,7 @@ class ContentTypeContext implements Context {
    *
    * @param string $arg1
    *   The machine name of the content type to which attaching the field.
-   * @param Behat\Gherkin\Node\TableNode $settings
+   * @param \Behat\Gherkin\Node\TableNode $settings
    *   Two columns table containing field settings.
    *
    * @Given a field with the following settings is added to the :arg1 type:
@@ -145,7 +145,7 @@ class ContentTypeContext implements Context {
    *
    * @param string $arg1
    *   The machine name of the content type to which attaching the field.
-   * @param Behat\Gherkin\Node\TableNode $settings
+   * @param \Behat\Gherkin\Node\TableNode $settings
    *   Two columns table containing field settings.
    *
    * @Given a field group with the following settings is added to the :arg1 type view:

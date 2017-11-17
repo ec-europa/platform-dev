@@ -21,7 +21,7 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
   /**
    * The Drupal driver manager.
    *
-   * @var Drupal\DrupalDriverManager
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
@@ -49,7 +49,7 @@ class DrupalMailContext extends RawDrupalContext implements DrupalSubContextInte
   /**
    * Constructs a DrupalMailContext object.
    *
-   * @param Drupal\DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {

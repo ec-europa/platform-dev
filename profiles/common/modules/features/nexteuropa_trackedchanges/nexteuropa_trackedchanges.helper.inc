@@ -465,9 +465,9 @@ function _nexteuropa_trackedchanges_tracking_message_for_wbm_states($entity) {
  *
  * @param object $entity
  *   Entity to check.
- * @param bool|false $current_wbm_state
+ * @param bool $current_wbm_state
  *   Submitted entity workbench moderation state (node only).
- * @param bool|false $current_status
+ * @param bool $current_status
  *   Submitted entity current status (node without workbench moderation only).
  *
  * @return bool
