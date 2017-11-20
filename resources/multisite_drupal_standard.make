@@ -71,6 +71,12 @@ projects[apachesolr_multilingual][version] = "1.3"
 projects[apachesolr_multisitesearch][subdir] = "contrib"
 projects[apachesolr_multisitesearch][version] = "1.1"
 
+projects[autologout][subdir] = "contrib"
+projects[autologout][version] = "4.4"
+; Issue #2739114 : Change warning message to be more user friendly
+; https://www.drupal.org/node/2739114
+projects[autologout][patch][] = https://www.drupal.org/files/issues/change-warning-message-2739114-15.patch
+
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
@@ -154,7 +160,9 @@ projects[context_og][subdir] = "contrib"
 projects[context_og][version] = "2.1" 
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.11"
+projects[ctools][download][branch] = 7.x-1.x
+projects[ctools][download][revision] = e94ba64a8e8a0afbc4d6d231d09f040ebd1177d4
+projects[ctools][download][type] = git
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
@@ -216,16 +224,11 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
 
-projects[entityreference][download][branch] = 7.x-1.x
-projects[entityreference][download][revision] = 599b07585d37101bc7b38c9df5b2ef196a7416b2
-projects[entityreference][download][type] = git
 projects[entityreference][subdir] = "contrib"
+projects[entityreference][version] = "1.5"
 ; Allow handlers to modify $items before calling entity_view()
 ; https://www.drupal.org/node/2651982
 projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch
-; Fix issues with autocomplete callback and add constant to track control string
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1459
-projects[entityreference][patch][] = patches/entityreference-autocomplete-constant-control.patch
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
@@ -275,9 +278,6 @@ projects[feeds_tamper][version] = "1.1"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
-
-projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta10"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.5"
@@ -352,14 +352,13 @@ projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.13"
+projects[i18n][version] = "1.18"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
@@ -542,9 +541,7 @@ projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha5"
-; https://www.drupal.org/node/2489918 - MULTISITE-8185
-projects[password_policy][patch][] = https://www.drupal.org/files/issues/password_policy-7.x-2.x-fix_element_alter_error-2489918-4.patch
+projects[password_policy][version] = "2.0-alpha7"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
@@ -789,15 +786,10 @@ projects[workbench_og][version] = "2.0-beta1"
 projects[workbench_og][patch][] = https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch
 
 projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.2"
-projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor4-bug-version-1799.patch
-projects[wysiwyg][patch][] = patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch
-projects[wysiwyg][patch][] = patches/wysiwyg-local_css_file_paths-1793704-14.patch
+projects[wysiwyg][download][version] = "2.4"
+; Fix remote js loading on ckeditor plugin
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-9874
 projects[wysiwyg][patch][] = patches/wysiwyg-js-url-9874.patch
-; Features export doesn't work correctly
-; https://www.drupal.org/node/2414575
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1
-projects[wysiwyg][patch][] = https://www.drupal.org/files/issues/wysiwyg-feature_export_object_to_array-2414575-10-7.patch
 
 projects[xml_field][subdir] = "contrib"
 projects[xml_field][version] = "2.2"
@@ -898,6 +890,9 @@ libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"
 libraries[iCalcreator][download][destination] = "../common/libraries"
+; Adding patch for PHP7 compatibilty on IcalCreator.class.
+; https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
+libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 
 ; imgAreaSelect 0.9.10
 libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
