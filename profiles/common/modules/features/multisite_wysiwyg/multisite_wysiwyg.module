@@ -9,32 +9,28 @@
  * Implements hook__wysiwyg_editor_settings_alter().
  */
 function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
-  if ($context['profile']->editor == 'ckeditor') {
+  if ('ckeditor' == $context['profile']->editor) {
     global $base_url;
+
     $skins_path = drupal_get_path('module', 'multisite_wysiwyg') . '/ckeditor/skins';
     $active_skin = variable_get('multisite_ckeditor_skin', 'moonocolor');
+
     // Set custom skin.
     $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
 
     // Provide additional custom settings.
     $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
 
-    $default_theme = variable_get('theme_default', '');
     // If a specific css file has been created for CKEditor in the default
     // theme, we add it to the editor settings; even if it is displayed in
     // the admin theme.
     // This approach allows a "soft" configuration of the platform.
-    $css_file_paths = _multisite_wysiwyg_get_ckeditor_css_paths($default_theme);
-    if ($css_file_paths) {
-      foreach ($css_file_paths as $css_file_path) {
-        $settings['contentsCss'][] = $base_url . '/' . $css_file_path;
-      }
-    }
+    $settings['contentsCss'] = array_merge($settings['contentsCss'], _multisite_wysiwyg_get_ckeditor_css_paths());
+
     // This namespace must be applied even if the node edit forms are displayed
     // with the admin theme.
     $settings['bodyClass'] = 'ecl-editor';
   }
-
 }
 
 /**
@@ -135,6 +131,8 @@ function multisite_wysiwyg_wysiwyg_plugin($editor, $version) {
  *   The css file paths or empty.
  */
 function _multisite_wysiwyg_get_ckeditor_css_paths($default_theme = NULL) {
+  global $base_url;
+
   $cache_id = 'multisite_wysiwyg_css_paths';
 
   if ($cache = cache_get($cache_id)) {
@@ -142,27 +140,44 @@ function _multisite_wysiwyg_get_ckeditor_css_paths($default_theme = NULL) {
     return $css_file_paths;
   }
 
-  if (!$default_theme) {
+  if (is_null($default_theme)) {
     $default_theme = variable_get('theme_default', '');
   }
+
   $css_file_paths = array();
   $list_theme = list_themes();
   $implied_themes = !empty($list_theme[$default_theme]->info['base theme']) ? drupal_find_base_themes($list_theme, $default_theme) : array();
+
   // If drupal_find_base_themes can return an array with only one NULL item.
+  // Note: Prior to PHP 5.5, empty() only supports variables.
+  // Anything else will result in a parse error.
   if (empty(current($implied_themes))) {
     $implied_themes = array();
   }
+
   // Add the active theme to the list in order to retrieve its css file
   // reference, if exists.
   $implied_themes[] = $default_theme;
 
   // Build the css file paths list.
   foreach ($implied_themes as $implied_theme) {
-    $css_file_path = drupal_get_path('theme', $implied_theme) . '/wysiwyg/editor.css';
-    if (file_exists($css_file_path)) {
-      $css_file_paths[] = $css_file_path;
-    }
+    $path_to_theme = drupal_get_path('theme', $implied_theme);
+
+    $css_file_paths[] = $path_to_theme . '/wysiwyg/editor.css';
+    $css_file_paths[] = $path_to_theme . '/assets/styles/wysiwyg/editor.css';
   }
+
+  $css_file_paths = array_values(array_map(
+    function($item) use ($base_url) {
+      return $base_url . DIRECTORY_SEPARATOR . $item;
+    },
+    array_filter(
+      $css_file_paths,
+      function($path) {
+        return file_exists($path);
+      }
+    )
+  ));
 
   // Save in the Drupal cache.
   cache_set($cache_id, $css_file_paths, 'cache', CACHE_TEMPORARY);
