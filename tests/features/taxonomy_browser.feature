@@ -43,8 +43,6 @@ Feature: Taxonomy browser
     And I press the "Apply" button
     Then I should see the text "* All changes are stored temporarily. Click Save to make your changes permanent. Click Cancel to discard your changes."
     And I press the "Save" button
-        #When I go to "/admin/structure/views/view/view_articles/export_en"
-        #Then print last response
     Then I should see the text "has been saved."
     #Add the block to a region
     Given I visit "/admin/config/taxonomy_browser/settings_en"
@@ -55,7 +53,7 @@ Feature: Taxonomy browser
     When I select "Sidebar Left" from "Ec_resp (default theme)"
     And I press "Save block"
     Then I should see the text "The block configuration has been saved."
-     #Add some content
+    #Add some content
      And 'Article' content:
     | title           | author        | workbench_moderation_state_new | workbench_moderation_state | language | status | field_tags |
     | economic test 1 | administrator | published                      | published                  | en       | 1      | economic   |
