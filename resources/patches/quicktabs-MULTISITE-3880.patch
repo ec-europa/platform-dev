@@ -1,0 +1,27 @@
+diff --git a/quicktabs.classes.inc b/quicktabs.classes.inc
+index 750328c..a06e416 100644
+--- a/quicktabs.classes.inc
++++ b/quicktabs.classes.inc
+@@ -244,8 +244,13 @@ class QuickSet {
+   public function getActiveTab() {
+     $active_tab = isset($this->settings['default_tab']) ? $this->settings['default_tab'] : key($this->contents);
+     $active_tab = isset($_GET['qt-' . $this->name]) ? $_GET['qt-' . $this->name] : $active_tab;
+-    $active_tab = (isset($active_tab) && isset($this->contents[$active_tab])) ? $active_tab : QUICKTABS_DELTA_NONE;
+-    return $active_tab;
++    if(isset($this->settings['default_tab']) && $this->settings['default_tab'] == QUICKTABS_DELTA_NONE) {
++      $active_tab = (isset($active_tab) && isset($this->contents[$active_tab])) ? $active_tab : QUICKTABS_DELTA_NONE;
++    }
++    else {
++      $active_tab = (isset($active_tab) && isset($this->contents[$active_tab])) ? $active_tab : key($this->contents);
++    }
++  return $active_tab;
+   }
+ }
+ 
+@@ -532,4 +537,4 @@ class QuickPreRenderedContent implements QuickContentRenderable {
+  */
+ class InvalidQuickSetException extends Exception {
+   
+-}
+\ No newline at end of file
++}

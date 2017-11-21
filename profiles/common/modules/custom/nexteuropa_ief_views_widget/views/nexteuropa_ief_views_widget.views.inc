@@ -9,7 +9,7 @@
  * Implements hook_views_data_alter().
  */
 function nexteuropa_ief_views_widget_views_data_alter(&$data) {
-  foreach (entity_get_info() as $entity_type => $info) {
+  foreach (entity_get_info() as $info) {
     if (isset($info['base table']) && isset($data[$info['base table']]['table'])) {
       $data[$info['base table']]['nexteuropa_ief_views_widget_selection'] = array(
         'title' => $data[$info['base table']]['table']['group'],
