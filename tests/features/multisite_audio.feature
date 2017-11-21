@@ -2,7 +2,7 @@
 Feature: Multisite Audio
   In order to use allow administrators to attach audio files to nodes and reproduce playlists
   As an administrator
-  I want to be able to create, edit and delete block Webtools
+  I want to be able to attach an audio file to a node
 
   Background:
     Given the module is enabled
