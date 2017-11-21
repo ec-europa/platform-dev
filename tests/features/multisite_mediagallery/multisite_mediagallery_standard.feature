@@ -1,8 +1,8 @@
-@api @javascript @ec_resp_theme
+@api @javascript @theme_wip
 Feature: multisite media gallery
-  In order to add content to the media gallery
+  In order to add content to the media gallery and browse it
   As different types of users
-  I want to be able to add media content through the mediagallery feature
+  I want to be able to add media content through the mediagallery feature, and users can browse the media gallery
 
   Background:
     Given I use device with "1920" px and "1080" px resolution
@@ -45,13 +45,29 @@ Feature: multisite media gallery
     When  I click "Media gallery 2"
     Then  I should see the heading "Media gallery 2"
 
-  # Scenario: as user I can see the carousel in the homepage
-  #   Given I am not logged in
-  #   When  I go to the homepage
-  #   # Then  I should see ""
-  #   Then  the page should contain the element with following id "media-gallery-carousel" and given attributes:
-  #     | Attribute | Value           |
-  #     | class     | carousel slide  |
+  Scenario: as user I can see the carousel in the homepage
+    Given I am logged in as "administrator"
+    When  I click "Media gallery 1"
+    And   I click "New draft"
+    And   I click "Browse"
+    Then  the media browser opens
+    And   I attach the file "/tests/files/logo.png" to "edit-upload-upload"
+    And   I press "Next"
+    And   I wait
+    And   I press "Next"
+    And   I wait
+    And   I fill in "File name" with "My picture 1"
+    And   I press "Save"
+    Then  the media browser closes
+    When  I follow "Publishing options"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+    Then  I should see the text "Media Gallery Media gallery 1 has been updated."
+    Given I am not logged in
+    When  I go to the homepage
+    Then  the page should contain the element with following id "media-gallery-carousel" and given attributes:
+      | Attribute | Value           |
+      | class     | carousel slide  |
 
   Scenario: as administrator I can post media content with photo and I can see it in the carousel in the homepage
     Given I am logged in as a user with the "administrator" role
@@ -72,15 +88,6 @@ Feature: multisite media gallery
     And   I select "Published" from "Moderation state"
     And   I press "Save"
     Then  I should see the text "Media Gallery My gallery has been created."
-    When  I go to the homepage
-    And   I click "Galleries"
-    Then  I should see "My gallery"
-    When  I click "My gallery"
-    Then  I should see "My picture"
-    When  I go to the homepage
-    Then  the page should contain the element with following id "media-gallery-carousel" and given attributes:
-      | Attribute | Value           |
-      | class     | carousel slide  |
 
   Scenario Outline: as administrator, editor or contributor I can edit my own media gallery content
     Given I am logged in as "<user>"
