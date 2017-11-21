@@ -179,7 +179,9 @@ projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
 
 projects[diff][subdir] = "contrib"
-projects[diff][version] = "3.2"
+projects[diff][download][branch] = 7.x-3.x
+projects[diff][download][revision] = b1b09189d52380a008c9cb29b879e3aa140ec2e0
+projects[diff][download][type] = git
 
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.14"
