@@ -88,6 +88,10 @@ function _tmgmt_dgt_connector_get_content_length($entity) {
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_dgt_connector_form_tmgmt_ui_cart_content_alter(&$form, &$form_state) {
+
+  // Remove "Enforce source language" option, not interesting for our case.
+  $form['enforced_source_language']['#type'] = 'hidden';
+
   // Add a callback function when submiting.
   $form['request_translation']['#submit'] = array('_tmgmt_dgt_connector_workbench_store_request_languages_callback');
 }
@@ -101,18 +105,13 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
   global $user;
 
   $target_languages = array_filter($form_state['values']['target_language']);
-  $enforced_source_language = $form_state['values']['enforced_source_language'] ? $enforced_source_language = $form_state['values']['source_language'] : NULL;
-  $skipped_count = 0;
   $job_items_by_source_language = array();
 
   // Group the selected items by source language.
   foreach (tmgmt_job_item_load_multiple(array_filter($form_state['values']['items'])) as $job_item) {
-    $source_language = $enforced_source_language ? $enforced_source_language : $job_item->getSourceLangCode();
+    $source_language = $job_item->getSourceLangCode();
     if (in_array($source_language, $job_item->getExistingLangCodes())) {
       $job_items_by_source_language[$source_language][$job_item->tjiid] = $job_item;
-    }
-    else {
-      $skipped_count++;
     }
   }
 
@@ -173,18 +172,6 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
 
   // Start the checkout process if any jobs were created.
   if ($jobs) {
-    if ($enforced_source_language) {
-      if ($skipped_count) {
-        $languages = language_list();
-        drupal_set_message(format_plural($skipped_count,
-          'One item skipped. @language translation unavailable.',
-          '@count items skipped. @language translation unavailable.',
-          array('@language' => $languages[$enforced_source_language]->name)),
-          'warning'
-        );
-      }
-    }
-
     tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
   }
   else {
