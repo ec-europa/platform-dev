@@ -93,6 +93,8 @@ function multisite_wysiwyg_set_current_entity_object_state($state = NULL) {
 
 /**
  * Implements hook_ckeditor_plugin().
+ *
+ * Implements CKEditor module hook to provide support for subsites.
  */
 function multisite_wysiwyg_ckeditor_plugin() {
   return array(
