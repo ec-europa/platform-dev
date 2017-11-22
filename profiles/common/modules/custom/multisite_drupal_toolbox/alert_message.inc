@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Displays the default message for updates.
