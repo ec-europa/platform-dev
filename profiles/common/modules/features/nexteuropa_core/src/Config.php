@@ -22,7 +22,7 @@ class Config extends ConfigBase {
    * This method is usually called into hook_install().
    *
    * @param string $type
-   *    Content type machine name.
+   *   Content type machine name.
    *
    * @see nexteuropa_pages_install()
    */

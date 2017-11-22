@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * events_og.field_group.inc
