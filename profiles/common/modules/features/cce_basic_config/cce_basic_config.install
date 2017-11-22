@@ -2453,11 +2453,21 @@ function cce_basic_config_update_7220() {
 }
 
 /**
+ * Force the deactivation of multisite_og_navigation_tree.
+ */
+function cce_basic_config_update_7221() {
+  if (module_exists('multisite_og_navigation_tree')) {
+    module_disable(array('multisite_og_navigation_tree'), FALSE);
+    drupal_uninstall_modules(array('multisite_og_navigation_tree'), FALSE);
+  }
+}
+
+/**
  * Uninstall multisite_business_indicators.
  *
  * Ticket NEPT-463.
  */
-function cce_basic_config_update_7221() {
+function cce_basic_config_update_7222() {
   if (module_exists('multisite_business_indicators_core')) {
     module_disable(array('multisite_business_indicators_core',
       'multisite_business_indicators_standard',
