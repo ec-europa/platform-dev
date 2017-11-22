@@ -224,7 +224,7 @@ projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
 
 projects[fblikebutton][subdir] = "contrib"
-projects[fblikebutton][version] = "2.3"
+projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.9"
@@ -527,6 +527,10 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
+; NEXTEUROPA-14012 Adding membership from user profile is in pending status
+; https://www.drupal.org/node/2744405
+projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
+
 projects[og_linkchecker][download][branch] = 7.x-1.x
 projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
@@ -701,7 +705,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.17
+projects[views][version] = 3.18
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
@@ -709,6 +713,9 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_e
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
+; Thousands of results after update to 3.18 ..."
+; https://www.drupal.org/node/2908538
+https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
