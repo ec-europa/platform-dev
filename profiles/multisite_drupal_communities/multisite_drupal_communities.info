@@ -61,7 +61,6 @@ dependencies[] = menu_attributes
 dependencies[] = menu_block
 dependencies[] = menu_token
 dependencies[] = multisite_drupal_toolbox
-dependencies[] = multisite_dynamic_basetheme
 dependencies[] = multisite_settings_og
 dependencies[] = number
 dependencies[] = og
