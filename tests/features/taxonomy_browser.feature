@@ -7,7 +7,7 @@ Feature: Taxonomy browser
   Background:
     Given I am logged in as a user with the 'administrator' role
 
-  @api
+  @api @theme_wip
   Scenario: Administrator user creates a new view to show the taxonomy block.
     Given a content view with machine name "view_articles" is available
     When I go to "/admin/structure/views/view/view_articles"
