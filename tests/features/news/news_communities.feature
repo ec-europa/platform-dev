@@ -114,7 +114,8 @@ Feature: news standard and news core
     And   I should see the text "Latest content"
     But   I should not see the link "Test news behat"
 
-  Scenario: as Community manager I can create a news and publicate it
+
+  Scenario: as Community manager I can create a news and publish it
     Given I am logged in as "administrator"
     And   I have the "member" role in the "Public community 1" group
     When  I go to "communities_directory/my"
@@ -134,6 +135,7 @@ Feature: news standard and news core
     And   I should see the text "News Test news behat has been created"
     And   I should see the text "Latest content"
     And   I should see the link "Test news behat"
+
 
   Scenario: as member I can see private news according to my membership
     Given I am logged in as a user with the 'contributor' role and I have the following fields:
@@ -157,6 +159,7 @@ Feature: news standard and news core
     When I click "News test 2 public highlighted"
     Then I should see the heading "News test 2 public highlighted"
 
+
   Scenario: as user, I can see public news on the homepage
     Given I am not logged in
     When  I go to homepage
@@ -167,16 +170,25 @@ Feature: news standard and news core
     Then  I should see the heading "News test 2 public highlighted"
 
 
+  Scenario: as Community manager, I can flag news within my community as "Top news" so that they appear at site's homepage
+    Given I am logged in as "administrator"
+    And   I have the "administrator member" role in the "Public community 1" group
+    When  I go to "/community/public-community-1"
+    And   I click "News" in the "sidebar_left" region
+    And   I wait
+    And   I click "News test 1 public"
+    And   I click "New draft"
+    And   I follow "Publishing options"
+    And   I check "Promoted to front page"
+    And   I check "Sticky at top of lists"
+    And   I select "Published" from "Moderation state"
+    And   I press "Save"
+    And   I go to homepage
+    And   I should see the link "News test 1 public"
+    And   I should see the link "Read more"
+    And   I should see the link "about News test 1 public"
 
-  # Scenario: as Community manager, I can flag news within my community as "Top news" so that they appear at site's homepage
-  #   When I go to "communities_directory/my"
-  #   And  I click "All news"
-  #   And I click "one of the news"
-  #   And I check "It's a top news"
-  #   And I check "Home link takeen from the breadcrumb or from the clickable site logo"
-  #   Then I should see "--- cosas de la noticia"
 
-  @test
   Scenario: as Community manager, I can flag news within my community as "highlighted" so that they appear at community's homepage
     Given I am logged in as "administrator"
     And   I have the "administrator member" role in the "Public community 1" group
@@ -193,4 +205,3 @@ Feature: news standard and news core
     When  I go to "communities_directory/my"
     And   I click "Public community 1"
     Then  I should see the link "News test 1 public" in the "content_top" region
-
