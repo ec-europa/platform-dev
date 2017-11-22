@@ -39,6 +39,9 @@
          remove it from this list so it can be tested. -->
     <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
 
+    <!-- This module is not supported by Core team so we exclude it from QA, to avoid phpcs issue -->
+    <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
+
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>

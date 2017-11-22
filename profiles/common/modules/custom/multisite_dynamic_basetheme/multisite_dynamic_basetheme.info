@@ -1,6 +1,0 @@
-name = Multisite Dynamic Base theme
-description = Change base theme of a sub theme directly from UI
-package = multisite drupal toolbox
-core = 7.x
-
-datestamp = "1401893360"

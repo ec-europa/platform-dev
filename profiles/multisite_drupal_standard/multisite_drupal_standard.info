@@ -91,7 +91,6 @@ dependencies[] = admin_menu
 dependencies[] = tagclouds
 dependencies[] = link
 dependencies[] = transliteration
-dependencies[] = multisite_dynamic_basetheme
 dependencies[] = fpa
 dependencies[] = flag
 dependencies[] = entityreference_prepopulate
