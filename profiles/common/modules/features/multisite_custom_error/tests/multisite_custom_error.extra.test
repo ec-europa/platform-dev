@@ -10,7 +10,7 @@
 /**
  * Defines a base class for testing the Multisite Custom Error feature.
  */
-class MultisiteMultilingualEntityReferencesFeatureTest extends DrupalWebTestCase {
+class MultisiteCustomErrorFeatureTest extends DrupalWebTestCase {
   protected $webUser;
   protected $title;
   protected $description;

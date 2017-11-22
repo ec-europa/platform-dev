@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Page callbacks for the mocked Poetry server.

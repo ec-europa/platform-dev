@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Language negotiation callbacks.
