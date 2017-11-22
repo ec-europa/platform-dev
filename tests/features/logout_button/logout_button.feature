@@ -2,7 +2,7 @@
 Feature: Logout button in main pages
   In order to check that there is a functional log out button in main pages
   As a registered user
-  I want to be able to log out from the logout button in main pages
+  I want to be able to log out from main pages using the logout button
 
   Background:
     Given I am viewing an "page" content:
