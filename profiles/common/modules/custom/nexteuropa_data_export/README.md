@@ -37,5 +37,3 @@ user as possible options right before performing the export.
 
 You can find a working example of a correctly setup view in the
 ```nexteuropa_data_export_test``` feature.
-    
-

@@ -80,9 +80,9 @@ function nexteuropa_formatters_fields_field_formatter_info() {
     'ne_tags' => array(
       'label' => t('NE Tags'),
       'field types' => array(
-        'taxonomy_term_reference',
         'link_field',
         'entityreference',
+        'taxonomy_term_reference',
       ),
     ),
     'ne_labels' => array(
@@ -235,15 +235,16 @@ function nexteuropa_formatters_fields_field_formatter_settings_summary($field, $
 /**
  * Implements hook_field_formatter_prepare_view().
  */
-function nexteuropa_fields_formatters_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+function nexteuropa_formatters_fields_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
   $display_modes = array('ne_button', 'ne_tags');
   $target_ids = array();
   $target_type = FALSE;
+  $column = NULL;
 
   // Collect every possible entity attached to any of the entities.
   foreach ($entities as $id => $entity) {
     if (in_array($displays[$id]['type'], $display_modes)) {
-      if (!isset($column)) {
+      if (is_null($column)) {
         $field_type_settings = entityreference_field_type_settings($field);
         $target_type = $field_type_settings['entity_type'];
         $column = $field_type_settings['column'];
@@ -301,106 +302,53 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
   $elements = array();
   $settings = $display['settings'];
 
+  if ($field['type'] === 'taxonomy_term_reference' || $field['type'] === 'entityreference') {
+    $field_type_settings = entityreference_field_type_settings($field);
+    $target_type = $field_type_settings['entity_type'];
+  }
+
   // Switch for the different formatters.
   switch ($display['type']) {
     case 'ne_tags':
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
-            // If the access is denied to the term, we do not display it.
-            if (empty($item['access'])) {
-              continue;
-            }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
-            }
-
-            // Calling EntityReferenceHandler::getLabel() would make a repeated,
-            // wasteful call to entity_access().
-            $label = entity_label($target_type, $item['entity']);
-            $uri = entity_uri($target_type, $item['entity']);
-
-            $link = array(
-              '#theme' => 'link',
-              '#text' => $label,
-              '#path' => $uri['path'],
-              '#options' => array(
-                'attributes' => array(
-                  'class' => array(
-                    'ecl-tag__item',
-                  ),
-                ),
-              ),
-            );
-            break;
-
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
               continue;
             }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
-            }
-
             // Calling EntityReferenceHandler::getLabel() would make a repeated,
             // wasteful call to entity_access().
             $label = entity_label($target_type, $item['entity']);
             $uri = entity_uri($target_type, $item['entity']);
 
-            $link = array(
-              '#theme' => 'link',
-              '#text' => $label,
-              '#path' => $uri['path'],
-              '#options' => array(
-                'attributes' => array(
-                  'class' => array(
-                    'ecl-tag__item',
-                  ),
-                ),
-              ),
+            $elements[$delta] = array(
+              'value' => $label,
+              'href' => $uri['path'],
             );
             break;
 
           case 'link_field':
-            $link = array(
-              '#theme' => 'link',
-              '#text' => $item['title'],
-              '#path' => $item['url'],
-              '#options' => array(
-                'attributes' => array(
-                  'class' => array(
-                    'ecl-tag__item',
-                  ),
-                ),
-              ),
+            $elements[$delta] = array(
+              'value' => $item['title'],
+              'href' => $item['url'],
             );
             break;
         }
-        $elements[$delta] = $link;
       }
+
       break;
 
     case 'ne_button':
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
           case 'taxonomy_term_reference':
-
           case 'entityreference':
             // If the access is denied to the term, we do not display it.
             if (empty($item['access'])) {
               continue;
             }
-
-            if (!isset($target_type)) {
-              $field_type_settings = entityreference_field_type_settings($field);
-              $target_type = $field_type_settings['entity_type'];
-            }
-
             // Calling EntityReferenceHandler::getLabel() would make a repeated,
             // wasteful call to entity_access().
             $label = entity_label($target_type, $item['entity']);
@@ -442,7 +390,6 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
       $markup = '<div class="listing ' . $settings['class'] . '">';
       foreach ($items as $delta => $item) {
         switch ($field['type']) {
-
           case 'link_field':
             $link = array(
               '#theme' => 'link',
@@ -472,7 +419,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
 
     // @TODO improve and Fix this by using a template.
     case 'ne_download_button':
-      if ($field['type'] == 'link_field') {
+      if ('link_field' == $field['type']) {
         foreach ($items as $delta => $item) {
           $link = array(
             '#theme' => 'link',
@@ -538,6 +485,7 @@ function nexteuropa_formatters_fields_field_formatter_view($entity_type, $entity
       }
       break;
   }
+
   return $elements;
 }
 

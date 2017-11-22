@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template file for the POETRY mock about receiving wrong translation request.
