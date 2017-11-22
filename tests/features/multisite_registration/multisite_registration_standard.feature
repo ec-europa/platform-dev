@@ -46,13 +46,15 @@ Feature: Multisite registration standard
     And   I should see the text "Article Registration Article has been created"
     And   I should see the text "Revision state: Published"
 
+  @theme_wip
+  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: user registers someone in a content
     Given I am viewing an "article" content:
       | title              | Registration Article     |
       | body               | registration body        |
-      | status | 1 |
+      | status             | 1                        |
       | moderation state   | published                |
-      | revision state   | published                |
+      | revision state     | published                |
     Given I am logged in as a user with the 'contributor' role and I have the following fields:
       | username | contributor |
       | name | contributor |
@@ -77,6 +79,8 @@ Feature: Multisite registration standard
     Then  I should see the text "List of registrations for Registration Article"
     And   I should see the link "contributor@test.com"
 
+  @theme_wip
+  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: user cancels registration in a content
     Given I am viewing an "article" content:
       | title              | Registration Article  |
@@ -119,6 +123,8 @@ Feature: Multisite registration standard
     And   I should not see the text "Registration management"
     And   I should not see the text "Register"
 
+  @theme_wip
+  # In ec_europa registers the user, but we cannot see the blocks for "Registered user" and "Registration management"
   Scenario: user without permission can access content and see registered users, but he cannot register himself
     Given I am viewing an "article" content:
       | title              | Registration Article  |
