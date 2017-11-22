@@ -10,13 +10,25 @@ Feature: news standard and news core
       | modules       |
       | news_core     |
       | news_standard |
-      # | news_og       |
 
-  Scenario: news menu link
+    And I am viewing a "news" content:
+      | title                          | News test 1 |
+      | author                         | admin              |
+      | body                           | news test 1 body   |
+      | field_news_publication_date    | 1510226280         |
+      | group_content_access           | 1                  |
+      | status                         | 1                  |
+      | workbench_moderation_state     | published          |
+      | workbench_moderation_state_new | published          |
+
+  Scenario: as user, I can see news menu link and click on it to see the published news
     Given I am on the homepage
     Then  I should see "News"
     When  I click "News"
     Then  I should see the heading "News"
+    And   I should see "News test 1"
+    When  I click "News test 1"
+    Then  I should see "news test 1 body"
 
 
   Scenario Outline: as a user with permissions I can propose news for publication
@@ -31,26 +43,13 @@ Feature: news standard and news core
     And   I fill in "edit-field-news-publication-date-und-0-value-timeEntry-popup-1" with "12:00"
     And   I press "Save"
     Then  I should see the text "News <title> has been created"
-  #    ---> and an email should be sent
     Examples:
       | role          | title                   |
       | administrator | Test news administrator |
       | contributor   | Test news contributor   |
       | editor        | Test news editor        |
 
-  # Scenario: as member I can see private news according to my membership
-    # Given I am logged in as a user with the 'contributor' role and I have the following fields:
-    #   | username | contributor          |
-    #   | name     | contributor          |
-    #   | mail     | contributor@test.com |
-    # And I have the "member" role in the "Public community 1" group
-  #   When I go to "my communities"
-  #   And I click "One of the communities I'm member of"
-  #   Then I should see the text "--- mensaje de que a section shows a restricted list of news created in that community"
-  #   When I click "One of the news in the list"
-  #   Then I should see "...... cosas de la noticia"
-
-  Scenario: as user, I can see featured new on the homepage
+  Scenario: as user, I can see featured news on the homepage
     Given I am not logged in
     Given I am viewing an "news" content:
       | title              | News test      |
@@ -58,38 +57,7 @@ Feature: news standard and news core
       | status             | 1              |
       | moderation state   | published      |
       | revision state     | published      |
-    When I go to homepage
-    And  I click "News test"
-    Then I should see "News test body"
-
-  # Scenario: as User, I can go to the public news section thanks to the "News" item in the main menu
-  #   When I click "News"
-  #   Then I should see ..... complete list of featured public news
-  #   When I click "one of the news in the list"
-  #   Then I should see ".... cosas de la noticia"
-
-  # Scenario: as Community manager, I can flag news within my community as "Top news" so that they appear at site's homepage
-  #   When I go to "my communities"
-  #   And  I click "All news"
-  #   And I click "one of the news"
-  #   And I check "It's a top news"
-  #   And I check "Home link takeen from the breadcrumb or from the clickable site logo"
-  #   Then I should see "--- cosas de la noticia"
-
-  # Scenario: as a user with permission, I can flag news within my community as "highlighted" so that they appear at community's homepage
-  #   When I go to "my communities"
-  #   And  I click "All news"
-  #   And  I click "One of the news from the list"
-  #   And  I click "highlight this news"
-  #   And I click "Community link taken from the breadcrumb or from the clikable community logo"
-  #   Then I should see "a block containing highlighted contents"
-
-
-  # Scenario: as Community manager, I can manage News within my community thanks to my workbench
-  #   When  I click "My workbench"
-  #   Then  I should see "a block dedicated to news showing most recent news to approve"
-  #   When  I click "approve link taken from one of the news"
-  #   And   I click "Confirm"
-  #   Then  I should see the text "The approved news doesn't appear in the block"
-  #   When  I click "All news"
-  #   Then  I should see the text "Page shows a list of all news created in the community. For each news, following links exist depending on news's status : approve, deny, edit, remove, highlight, feature"
+    When  I go to homepage
+    Then  I should see "News test"
+    And   I click "News test"
+    Then  I should see "News test body"
