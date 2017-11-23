@@ -1,4 +1,4 @@
-@api @javascript @communities
+@api @javascript @communities @theme_wip
 Feature: news standard and news core
   In order to publish news
   As different types of users
