@@ -147,7 +147,7 @@ class DgtRulesTools {
 
       // Adding the TMGMT Job Item to the created TMGMT Job.
       try {
-        $tmgmt_job->addItem('workbench_moderation', $node->entity_type, $node->nid);
+        $tmgmt_job->addItem('workbench_moderation', 'node', $node->nid);
       }
       catch (TMGMTException $e) {
         watchdog_exception('ne_dgt_rules', $e);
