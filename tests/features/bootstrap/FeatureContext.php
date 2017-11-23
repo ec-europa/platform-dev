@@ -574,22 +574,16 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @When /^I click on the element with xpath "([^"]*)"$/
    */
-  public function iClickOnTheElementWithXPath($xpath)
-  {
-      $session = $this->getSession(); // get the mink session
+  public function iClickOnTheElementWithxPath($xpath) {
+      $session = $this->getSession();
       $element = $session->getPage()->find(
           'xpath',
           $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
-      ); // runs the actual query and returns the element
-
-      // errors must not pass silently
-      if (null === $element) {
+      );
+      if (NULL === $element) {
           throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
       }
-
-      // ok, let's click on it
       $element->click();
-
   }
 
 }
