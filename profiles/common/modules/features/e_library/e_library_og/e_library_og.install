@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install the feature e_library_og.
@@ -16,7 +17,7 @@ function e_library_og_enable() {
   multisite_drupal_toolbox_add_views_context('communities_menu_item', 'e_library:page');
 
   // Activation message.
-  drupal_set_message('E-library feature is now active on your site.');
+  drupal_set_message(t('E-library feature is now active on your site.'));
 
   drupal_flush_all_caches();
 }
@@ -34,7 +35,7 @@ function e_library_og_disable() {
   multisite_drupal_toolbox_remove_views_context('communities_menu_item', 'e_library:page');
 
   // Activation message.
-  drupal_set_message('E-library feature is now disabled on your site.');
+  drupal_set_message(t('E-library feature is now disabled on your site.'));
 }
 
 

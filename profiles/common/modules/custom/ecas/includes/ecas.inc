@@ -197,7 +197,7 @@ function ecas_login_page() {
   }
 
   $force_proto = variable_get('ecas_force_proto', FALSE);
-  if (strlen($force_proto)) {
+  if (drupal_strlen($force_proto)) {
     $destination = preg_replace('/^(https?:\/\/)/', $force_proto . '://', $destination);
   }
 
@@ -226,7 +226,7 @@ function ecas_logout($full_logout = TRUE) {
   unset($_SESSION['ecas_goto']);
   // Removes the optional sticky cookie.
   $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
-  if (strlen($http_cookie_name)) {
+  if (drupal_strlen($http_cookie_name)) {
     global $base_path;
     setcookie($http_cookie_name, 'deleted', time() - 86400, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
   }
@@ -388,12 +388,13 @@ function ecas_login_check() {
       phpCAS::forceAuthentication();
     }
 
-    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY && ($ecas_logout == NULL || $ecas_logout == 'false')) || ($force_login === ECAS_LOGIN))) {
+    if (phpCAS::isAuthenticated() && (($force_login === ECAS_GATEWAY) || ($force_login === ECAS_LOGIN))) {
       $ecas_name = phpCAS::getUser();
+      // @codingStandardsIgnoreStart: NEPT-1332: To be fixed during refactoring.
       $ecas_attributes = phpCAS::getAttributes();
       $ecas_groups = $ecas_attributes['cas:groups'];
       $ecas_email = $ecas_attributes['cas:email'];
-
+      // @codingStandardsIgnoreEnd
       // Try to log into Drupal.
       $account = user_load_by_name($ecas_name);
 
@@ -462,7 +463,7 @@ function ecas_login_check() {
         // using HTTPS and should not use HTTP for the duration of this
         // session".
         $http_cookie_name = variable_get('ecas_sticky_cookie_name', 'drupal_stick_to_https');
-        if (strlen($http_cookie_name)) {
+        if (drupal_strlen($http_cookie_name)) {
           global $base_path;
           setcookie($http_cookie_name, variable_get('ecas_sticky_cookie_value', 'y'), 0, $base_path, '.' . $_SERVER['HTTP_HOST'], FALSE, TRUE);
         }
@@ -566,7 +567,7 @@ function _ecas_force_login() {
   }
 
   // Allow users to access the drupal login page.
-  if ($arg0 == 'user' && empty($arg1)) {
+  if ($arg0 == 'user') {
     return ECAS_NO_LOGIN;
   }
 
@@ -661,7 +662,7 @@ function _ecas_init_phpcas_client() {
   $start_session      = (boolean) FALSE;
 
   // Drupal takes care of its own session.
-  $assurance_level    = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
+  $assurance_level = variable_get('ecas_assurance_level', constant('ECAS_DEFAULT_ASSURANCE_LEVEL'));
 
   // Before using the phpCas client, we optionally set it in debug mode.
   if (variable_get('ecas_phpcas_debug', FALSE)) {
@@ -696,7 +697,7 @@ function _ecas_init_phpcas_client() {
  * @param array $defaults
  *   An array of user fields and properties to save on the user object.
  *
- * @return FALSE|\stdClass
+ * @return false|\stdClass
  *   The user object, or FALSE if the user could not be created.
  */
 function ecas_create_user($ecas_name, $defaults = array()) {
