@@ -25,7 +25,7 @@ Feature: news standard and news core
     Given I am on the homepage
     Then  I should see "News"
     When  I click "News"
-    And   I wait
+    And   I wait 5 seconds
     Then  I should see the heading "News"
     And   I should see "News test 1"
     When  I click "News test 1"
