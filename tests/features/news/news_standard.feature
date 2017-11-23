@@ -1,4 +1,4 @@
-@api @javascript
+@api @javascript @theme_wip
 Feature: news standard and news core
   In order to publish news
   As different types of users
@@ -25,7 +25,7 @@ Feature: news standard and news core
     Given I am on the homepage
     Then  I should see "News"
     When  I click "News"
-    And   I wait 5 seconds
+    And   I wait
     Then  I should see the heading "News"
     And   I should see "News test 1"
     When  I click "News test 1"
