@@ -15,7 +15,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
 projects[administration_language_negotiation][subdir] = "contrib"
-projects[administration_language_negotiation][version] = "1.2"
+projects[administration_language_negotiation][version] = "1.4"
 
 projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.16"
@@ -79,7 +79,7 @@ projects[bean][version] = 1.11
 ; Issue #2084823 : Contextual links for entity view
 ; https://www.drupal.org/node/2084823
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
-projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
+projects[bean][patch][] = https://www.drupal.org/files/issues/bean-contextual_links_for_entity_view-2084823-18.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
@@ -583,6 +583,7 @@ projects[print][version] = "2.0"
 projects[quicktabs][subdir] = "contrib"
 projects[quicktabs][version] = "3.8"
 projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
+projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_empty-2222805-14.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
