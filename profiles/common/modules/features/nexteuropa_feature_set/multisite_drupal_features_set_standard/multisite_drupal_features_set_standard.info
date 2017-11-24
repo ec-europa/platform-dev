@@ -152,7 +152,7 @@ feature_sets[feed_rss_core][disable][] = aggregator
 
 feature_sets[ec_world_countries][title] = 'World Countries'
 feature_sets[ec_world_countries][description] = 'A list of World countries valid for EC.'
-feature_sets[ec_world_countries][documentation] = ''
+feature_sets[ec_world_countries][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/KJL4Aw'
 feature_sets[ec_world_countries][category] = 'Information to users'
 feature_sets[ec_world_countries][icon] = ''
 feature_sets[ec_world_countries][font] = 'multisite-icon-earth'
@@ -199,7 +199,7 @@ feature_sets[multisite_maxlength][disable][] = multisite_maxlength
 
 feature_sets[nexteuropa_notices][title] = 'Notices'
 feature_sets[nexteuropa_notices][description] = 'Allow web masters to create and manage notices on the web site.'
-feature_sets[nexteuropa_notices][documentation] = ''
+feature_sets[nexteuropa_notices][documentation] = 'No documentation available.'
 feature_sets[nexteuropa_notices][category] = 'Information to users'
 feature_sets[nexteuropa_notices][icon] = ''
 feature_sets[nexteuropa_notices][font] = 'multisite-icon-bubble2'
@@ -302,7 +302,7 @@ feature_sets[multisite_translations][disable][] = multisite_translations
 
 feature_sets[splash_screen][title] = 'Splash screen'
 feature_sets[splash_screen][description] = 'Provide a home page to choose language.'
-feature_sets[splash_screen][documentation] = ''
+feature_sets[splash_screen][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/04XhAg'
 feature_sets[splash_screen][category] = 'Multilingualism'
 feature_sets[splash_screen][icon] = ''
 feature_sets[splash_screen][font] = 'multisite-icon-publish'
@@ -312,7 +312,7 @@ feature_sets[splash_screen][disable][] = splash_screen
 ; Navigation
 feature_sets[fat_footer][title] = 'Fat footer'
 feature_sets[fat_footer][description] = 'Provide a expanded main menu at the bottom of page.'
-feature_sets[fat_footer][documentation] = ''
+feature_sets[fat_footer][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/6AXbB'
 feature_sets[fat_footer][category] = 'Navigation'
 feature_sets[fat_footer][icon] = ''
 feature_sets[fat_footer][font] = 'multisite-icon-reorder'
@@ -349,7 +349,7 @@ feature_sets[sitemap][disable][] = sitemap
 ; Users feedback
 feature_sets[contact_form][title] = 'Contact form'
 feature_sets[contact_form][description] = 'Allows to contact support by email.'
-feature_sets[contact_form][documentation] = ''
+feature_sets[contact_form][documentation] = 'https://webgate.ec.europa.eu/fpfis/wikis/x/_QXbB'
 feature_sets[contact_form][category] = 'Users feedback'
 feature_sets[contact_form][icon] = ''
 feature_sets[contact_form][font] = 'multisite-icon-mail'

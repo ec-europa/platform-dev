@@ -79,7 +79,7 @@ projects[bean][version] = 1.11
 ; Issue #2084823 : Contextual links for entity view
 ; https://www.drupal.org/node/2084823
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
-projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
+projects[bean][patch][] = https://www.drupal.org/files/issues/bean-contextual_links_for_entity_view-2084823-18.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
@@ -285,10 +285,11 @@ projects[field_group][version] = "1.5"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
-projects[file_entity][download][revision] = "f9b172177f340204fbed3ad0ac2fdcfef0d42271"
-projects[file_entity][download][type] = "git"
-projects[file_entity][download][url] = http://git.drupal.org/project/file_entity.git
 projects[file_entity][subdir] = "contrib"
+projects[file_entity][version] = "2.4"
+; https://www.drupal.org/node/2893132
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
+projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -577,10 +578,9 @@ projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
 
 projects[quicktabs][subdir] = "contrib"
-projects[quicktabs][version] = "3.6"
-projects[quicktabs][patch][] = patches/quicktabs-ajax-default-tab-none_1741488-10.patch
-projects[quicktabs][patch][] = patches/quicktabs-tabs_broken-3880.patch
-projects[quicktabs][patch][] = patches/quicktabs-user-interface-2108935-2.patch
+projects[quicktabs][version] = "3.8"
+projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
+projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_empty-2222805-14.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
