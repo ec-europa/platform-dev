@@ -15,11 +15,6 @@ Feature: User notifications
     And 'Article' content:
       | title       | author        | workbench_moderation_state_new | workbench_moderation_state | language | status |
       | Article sub | administrator | published                      | published                  | en       | 1      |
-    And I am logged in as "administrator"
-    And I go to "admin/config/system/site-information"
-    And I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
-    And I select "01000" from "classification"
-    And I press "Save configuration"
     And I am logged in as "authuser"
 
   Scenario: As and Authorized user I can configure my subscription settings

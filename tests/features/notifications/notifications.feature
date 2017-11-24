@@ -55,6 +55,26 @@ Feature: User notifications
       | to          | authuser@example.com                              |
       | subject     | NextEuropa updates : Article sub                  |
 
+  Scenario: As an Authorized user I receive an email when a content is created of a content type I am subscribed
+    Given I go to "user"
+    And I click "Subscriptions"
+    And I click "Content types"
+    And I check the box on the "Article" row
+    And I press the "Save" button
+    When I am logged in as "administrator"
+    And I go to "node/add/article"
+    And I fill in "Title" with "New article"
+    And I click "Publishing options"
+    And I select "Published" from "Moderation state"
+    And I press the "Save" button
+    And I am on "admin/config/system/cron"
+    And I press the "Run cron" button
+    Then the e-mail has been sent
+    And the sent e-mail has the following properties:
+      | from        | EC-FP-INTERNET-SERVICES-DO-NOT-REPLY@ec.europa.eu |
+      | to          | authuser@example.com                              |
+      | subject     | NextEuropa updates : New article                  |
+
   Scenario: As an Authorized user I can unsubscribe from a content I was subscribed to.
     Given I visit the "Article" content with title "Article sub"
     And I click "Subscribe"
@@ -93,5 +113,3 @@ Feature: User notifications
     And I press the "Save notifications" button
     Then I should see the text "The changes have been saved."
     And the radio button "Yes" is selected
-
-  Scenario:
