@@ -504,7 +504,7 @@ projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0-beta4"
+projects[mimemail][version] = "1.0"
 
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
