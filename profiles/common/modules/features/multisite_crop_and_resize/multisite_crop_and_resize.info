@@ -1,5 +1,5 @@
 name = Multisite Crop and Resize
-description = This feature integrates image cropping, image rotation and image scaling functions to the media module.
+description = DEPRECATED WILL BE REMOVED IN 2.5.0.
 core = 7.x
 package = Multisite_features
 dependencies[] = image

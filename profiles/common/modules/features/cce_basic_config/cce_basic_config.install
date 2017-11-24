@@ -2451,19 +2451,3 @@ function cce_basic_config_update_7219() {
 function cce_basic_config_update_7220() {
   variable_set('multisite_version', '2.4');
 }
-
-/**
- * Force the deactivation of multisite_crop_and_resize & media_crop.
- *
- * Ticket NEPT-317.
- */
-function cce_basic_config_update_7221() {
-  if (module_exists('media_crop')) {
-    module_disable(array('media_crop',
-      'multisite_crop_and_resize',
-    ), FALSE);
-    drupal_uninstall_modules(array('media_crop',
-      'multisite_crop_and_resize',
-    ), FALSE);
-  }
-}
