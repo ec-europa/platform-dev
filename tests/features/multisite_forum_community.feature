@@ -1,4 +1,4 @@
-@api
+@api @communities
 Feature: multisite_forum_community
   In order to test multisite forum community feature functionality
   As an administrator
