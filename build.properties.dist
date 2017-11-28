@@ -19,7 +19,7 @@ ec_europa.version = 0.0.4
 # The default Atomium and Europa theme build properties.
 # Used only if default theme is set to "ec_europa".
 platform.theme.atomium.repo.url = https://github.com/ec-europa/atomium.git
-platform.theme.atomium.repo.branch = 7.x-1.x
+platform.theme.atomium.repo.branch = 7.x-2.x
 platform.theme.europa.repo.url = https://github.com/ec-europa/ec_europa.git
 platform.theme.europa.repo.branch = master
 

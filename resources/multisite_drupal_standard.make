@@ -577,10 +577,8 @@ projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
 
 projects[quicktabs][subdir] = "contrib"
-projects[quicktabs][version] = "3.6"
-projects[quicktabs][patch][] = patches/quicktabs-ajax-default-tab-none_1741488-10.patch
-projects[quicktabs][patch][] = patches/quicktabs-tabs_broken-3880.patch
-projects[quicktabs][patch][] = patches/quicktabs-user-interface-2108935-2.patch
+projects[quicktabs][version] = "3.8"
+projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
@@ -1007,4 +1005,4 @@ projects[ec_resp][download][tag] = 2.3.2
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][branch] = 7.x-1.x
+projects[atomium][download][branch] = 7.x-2.x
