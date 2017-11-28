@@ -499,9 +499,10 @@ projects[metatag][patch][] = https://www.drupal.org/files/issues/undefined_group
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 ; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
 projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = 046c6ad
+projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
 projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
+projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0-beta4"
