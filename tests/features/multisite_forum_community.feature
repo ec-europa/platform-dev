@@ -63,7 +63,7 @@ Feature: multisite_forum_community
     Given I go to "/node/add/discussion"
     And I fill in "Title" with "Discussion test 1"
     And I fill in "Body" with "Discussion test 1 body"
-    And I select "Forum name test 2" from "Forums"
+    And I select "General discussion" from "Forums"
     And I press the "Save" button
     And I should see the text "Discussion Discussion test 1 has been created."
     #Manager can edit is own forum topics
