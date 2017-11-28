@@ -184,7 +184,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
-      $identifier = $this->getIdentifier($jobs[0], $node->nid);
+      $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
       // Using the latest reference id for the node.
       // This reference is created by the Review request.
@@ -198,8 +198,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         // Getting the request data.
         $data = $this->getRequestData($jobs, $node);
 
-        // Overwrite request identifier and data with parameters from 'Rules'.
-        $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
+        // Overwrite the data with parameters from 'Rules'.
         $data = $this->overwriteRequestData($data, $parameters['data']);
 
         // Sending a review request to DGT Services.

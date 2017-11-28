@@ -303,7 +303,8 @@ trait DataProcessor {
     // Getting the default values based on the configuration.
     $identifier = $this->getRequestIdentifierDefaults($job);
 
-    // Overwriting the default requester code.
+    // Overwriting the default requester code by value which comes from the
+    // custom 'Rules' action.
     if (!empty($requester_code)) {
       $identifier['identifier.code'] = $requester_code;
     }
@@ -315,7 +316,7 @@ trait DataProcessor {
 
     // Checking if there are mappings for the given entity id and incrementing
     // the version if so.
-    if ($mapping_entity = $this->getLatestMappingByEntityId($node_id, $requester_code)) {
+    if ($mapping_entity = $this->getLatestMappingByEntityId($node_id, $identifier['identifier.code'])) {
       $identifier['identifier.version'] = $mapping_entity->version + 1;
       $unset_key = 'identifier.sequence';
     }
@@ -374,7 +375,7 @@ trait DataProcessor {
     )->fetchField();
 
     // Checking if we have any entries in the table.
-    if (is_null($latest_entity_id)) {
+    if (!$latest_entity_id) {
       return FALSE;
     }
 
@@ -397,7 +398,7 @@ trait DataProcessor {
     // The db_query function works faster then the others and it's used mainly
     // because of the performance constrains.
     $latest_entity_id = db_query('
-      SELECT map.id, map.code
+      SELECT map.id
       FROM {ne_tmgmt_dgt_ftt_map} map
       WHERE map.entity_id = :entity_id AND map.code = :code
       ORDER BY map.version DESC LIMIT 1',
@@ -408,7 +409,7 @@ trait DataProcessor {
     )->fetchField();
 
     // Checking if we have any entries in the table.
-    if (is_null($latest_entity_id)) {
+    if (!$latest_entity_id) {
       return FALSE;
     }
 
@@ -426,7 +427,7 @@ trait DataProcessor {
     $latest_entity_id = db_query("SELECT MAX(id) FROM {ne_tmgmt_dgt_ftt_map}")->fetchField();
 
     // Checking if we have any entries in the table.
-    if (is_null($latest_entity_id)) {
+    if (!$latest_entity_id) {
       return FALSE;
     }
 
@@ -532,7 +533,8 @@ trait DataProcessor {
    */
   private function updateTmgmtJobAndJobItem(Status $response, array $jobs) {
     foreach ($jobs as $job) {
-      $job->reference = $response->getMessageId();
+      // Getting the reference number from the identifier.
+      $job->reference = $response->getIdentifier()->getFormattedIdentifier();
       $job->save();
     }
   }
@@ -574,7 +576,7 @@ trait DataProcessor {
 
     // Checking if there is a 'request status' in the response object.
     if ($response->hasRequestStatus()) {
-      $response_data['dgt_service_response']['ref_id'] = $response->getMessageId();
+      $response_data['dgt_service_response']['ref_id'] = $response->getIdentifier()->getFormattedIdentifier();
 
       $request_status = array(
         'code' => $response->getRequestStatus()->getCode(),
