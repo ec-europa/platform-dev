@@ -16,6 +16,7 @@ Feature: Wiki
       | title             | author        | workbench_moderation_state_new | workbench_moderation_state | language | status |
       | Community Example | administrator | published                      | published                  | en       | 1      |
 
+  @theme_wip
   Scenario: An administrator user can create a wiki on a community
     When I am logged in as "administrator"
     And I use device with "1920" px and "1080" px resolution
