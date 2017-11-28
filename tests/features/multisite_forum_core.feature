@@ -1,4 +1,4 @@
-@api
+@api @communities
 Feature: multisite_forum_core
   In order to test multisite forum core feature functionality
   As an administrator
@@ -10,7 +10,6 @@ Feature: multisite_forum_core
       | multisite_forum_core |
     Given I am logged in as a user with the 'administrator' role
 
-  @api
   Scenario: Initializes taxonomies and content type.
     Given the vocabulary forums exists
     Given I go to "/admin/structure/taxonomy/forums"
@@ -23,7 +22,7 @@ Feature: multisite_forum_core
     Given I go to "/admin/structure/types/manage/discussion/fields"
     #field with machine name"
     And I should see the text "taxonomy_forums"
-  @api
+
   Scenario: Tests discussions.
     Given users:
        | name  | mail               | pass         | roles       |
