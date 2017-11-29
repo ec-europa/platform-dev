@@ -13,7 +13,6 @@ use EntityFieldQuery;
 use \EC\Poetry\Poetry;
 use \EC\Poetry\Messages\Responses\Status;
 use TMGMTJob;
-use TMGMTTranslator;
 
 /**
  * Helper trait with methods for processing translator's data and settings.
@@ -291,7 +290,7 @@ trait DataProcessor {
    *
    * @param TMGMTJob $job
    *   TMGMT Job object.
-   * @param integer $node_id
+   * @param int $node_id
    *   Node id.
    * @param string $requester_code
    *   Requester code.
