@@ -316,7 +316,13 @@ trait DataProcessor {
     // Checking if there are mappings for the given entity id and incrementing
     // the version if so.
     if ($mapping_entity = $this->getLatestMappingByEntityId($node_id, $identifier['identifier.code'])) {
+      // Overwriting the identifier properties from the mapping entity.
+      $identifier['identifier.number'] = $mapping_entity->number;
+      $identifier['identifier.year'] = $mapping_entity->year;
+      $identifier['identifier.part'] = $mapping_entity->part;
+      // Incrementing the version value.
       $identifier['identifier.version'] = $mapping_entity->version + 1;
+      // Removing the sequence property from the identifier.
       $unset_key = 'identifier.sequence';
     }
 
