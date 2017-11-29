@@ -49,6 +49,12 @@ function ne_tmgmt_dgt_ftt_translator_schema() {
         'length' => 128,
         'not null' => TRUE,
       ),
+      'code' => array(
+        'description' => 'Requester code',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
       'year' => array(
         'description' => "'Annee' in the official DGT service specification.",
         'type' => 'int',
