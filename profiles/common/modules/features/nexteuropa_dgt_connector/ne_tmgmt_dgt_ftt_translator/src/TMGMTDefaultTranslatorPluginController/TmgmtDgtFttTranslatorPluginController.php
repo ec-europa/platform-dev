@@ -186,15 +186,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
-      // Using the latest reference id for the node.
-      // This reference is created by the Review request.
-      /** @var DgtFttTranslatorMapping $mapping_entity */
-      $mapping_entity = $this->getReviewIdentifier($node);
-      if (!is_null($mapping_entity)) {
-        $identifier['identifier.year'] = $mapping_entity->year;
-        $identifier['identifier.number'] = $mapping_entity->number;
-        $identifier['identifier.part'] = $mapping_entity->part;
-
+      if (!isset($identifier['identifier.sequence'])) {
         // Getting the request data.
         $data = $this->getRequestData($jobs, $node);
 
@@ -213,7 +205,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       else {
         watchdog(
           'ne_tmgmt_dgt_ftt_translator',
-          "There is no entry in the entity mapping table for given
+          "There is no entry in the entity mapping table for a given
           content. Please make sure that the review request was sent before
           the translation request. Node ID: %nid",
           array('%nid' => $node->nid),
