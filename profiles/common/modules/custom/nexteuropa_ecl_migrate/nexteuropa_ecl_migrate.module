@@ -28,22 +28,34 @@ function _nexteuropa_ecl_migrate_blocks() {
 function _nexteuropa_ecl_migrate_dt_menus() {
   $dt_menus = array(
     array(
+      'menu_name' => 'nexteuropa-site-social-media',
+      'title' => 'Follow us',
+      'description' => 'List of social networks links of site',
+      'region' => 'footer_middle',
+    ),
+    array(
+      'menu_name' => 'nexteuropa-site-custom-links',
+      'title' => '',
+      'description' => 'List of custom links.',
+      'region' => 'footer_right',
+    ),
+    array(
       'menu_name' => 'menu-nexteuropa-site-links',
       'title' => 'European Commission',
       'description' => 'DT menu European Commission',
-      'region' => 'footer_left',
+      'region' => 'footer_corporate_left',
     ),
     array(
       'menu_name' => 'menu-nexteuropa-social-media',
       'title' => 'Follow the European Commission',
       'description' => 'List of social networks links for the European Commission',
-      'region' => 'footer_middle',
+      'region' => 'footer_corporate_middle',
     ),
     array(
       'menu_name' => 'menu-nexteuropa-inst-links',
       'title' => 'European Union',
       'description' => 'DT menu',
-      'region' => 'footer_right',
+      'region' => 'footer_corporate_right',
     ),
     array(
       'menu_name' => 'menu-nexteuropa-service-links',
@@ -54,6 +66,24 @@ function _nexteuropa_ecl_migrate_dt_menus() {
   );
 
   $dt_links = array(
+    array(
+      array(
+        'link_title' => 'Contact',
+        'link_path' => '#',
+        'menu_name' => 'nexteuropa-site-custom-links',
+        'weight' => 0,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+      array(
+        'link_title' => 'Site map',
+        'link_path' => '#',
+        'menu_name' => 'nexteuropa-site-custom-links',
+        'weight' => 1,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+    ),
     array(
       array(
         'link_title' => 'Commission and its priorities',
@@ -166,12 +196,46 @@ function _nexteuropa_ecl_migrate_dt_menus() {
         'options' => array(),
       ),
     ),
+    array(
+      array(
+        'link_title' => 'Facebook',
+        'link_path' => 'https://www.facebook.com/EuropeanCommission',
+        'menu_name' => 'nexteuropa-site-social-media',
+        'weight' => 0,
+        'expanded' => 0,
+        'options' => array(
+          'attributes' => array(
+            'class' => array('ecl-icon', 'ecl-icon--facebook'),
+          ),
+        ),
+      ),
+      array(
+        'link_title' => 'Twitter',
+        'link_path' => 'https://twitter.com/eu_commission',
+        'menu_name' => 'nexteuropa-site-social-media',
+        'weight' => 1,
+        'expanded' => 0,
+        'options' => array(
+          'attributes' => array(
+            'class' => array('ecl-icon', 'ecl-icon--twitter'),
+          ),
+        ),
+      ),
+      array(
+        'link_title' => 'Other social media',
+        'link_path' => 'http://ec.europa.eu/dgs/communication/services/journalist/social-media_en.htm',
+        'menu_name' => 'nexteuropa-site-social-media',
+        'weight' => 2,
+        'expanded' => 0,
+        'options' => array(),
+      ),
+    ),
   );
 
   // Save menu group into menu_custom table.
   foreach ($dt_menus as $menu) {
     // Look the table first if the data does exist.
-    $exists = db_query("SELECT title FROM {menu_custom} WHERE menu_name=:menu_name", array(':menu_name' => $menu['menu_name']))->fetchField();
+    $exists = db_query("SELECT menu_name FROM {menu_custom} WHERE menu_name=:menu_name", array(':menu_name' => $menu['menu_name']))->fetchField();
     // Save the record if the data does not exist.
     if (!$exists) {
       menu_save($menu);
@@ -192,6 +256,14 @@ function _nexteuropa_ecl_migrate_dt_menus() {
   // Add block in site-wide context.
   $context = module_invoke('context', 'load', 'site_wide');
   foreach ($dt_menus as $menu_to_add) {
+    $menu_to_add += array(
+      'region' => NULL,
+    );
+
+    if (is_null($menu_to_add['region'] || empty($menu_to_add['region']))) {
+      continue;
+    }
+
     $context->reactions['block']['blocks'][$menu_to_add['menu_name']] = array(
       'module' => 'menu',
       'delta' => $menu_to_add['menu_name'],
