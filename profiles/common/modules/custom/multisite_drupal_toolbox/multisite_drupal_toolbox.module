@@ -5,7 +5,10 @@
  * Multisite Toolbox definition module.
  */
 
- define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+define('MULTISITE_DRUPAL_TOOLBOX_FEATURES_REVERT_BLACKLISTED', 'cce_basic_config,multisite_settings_core');
+define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT', -50);
+define('MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MAX_WEIGHT', 50);
+
 /**
  * Implements hook_menu().
  */
@@ -438,6 +441,75 @@ function multisite_drupal_toolbox_form_comment_admin_overview_alter(&$form, &$fo
  */
 function multisite_drupal_toolbox_form_user_pass_alter(&$form, &$form_state, $form_id) {
   $form['name']['#attributes']['autocomplete'] = 'off';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds important block in the description of toolbox_sanitize and
+ * filter_html_escape filter fields.
+ */
+function multisite_drupal_toolbox_form_filter_admin_format_form_alter(&$form, &$form_state, $form_id) {
+  $filter_html_escape = &$form['filters']['status']['filter_html_escape'];
+  $toolbox_sanitize = &$form['filters']['status']['toolbox_sanitize'];
+
+  $addendum = '<span style="font-weight: bold;color: red;">' . t('Important:') . '</span> ';
+  $filter_html_escape['#description'] .= $addendum;
+  $addendum = '<br />' . $addendum;
+  $toolbox_sanitize['#description'] .= $addendum;
+
+  $filter_title = $toolbox_sanitize['#title'];
+  $filter_html_escape['#description'] .= t('The "@title" filter is <strong>enforced automatically</strong> if this one is not enabled.', array('@title' => $filter_title));
+  $filter_title = $filter_html_escape['#title'];
+  $toolbox_sanitize['#description'] .= t('This filter is <strong>enforced automatically</strong> if the "@title" one is not enabled.', array('@title' => $filter_title));
+}
+
+/**
+ * Implements hook_filter_format_insert().
+ */
+function multisite_drupal_toolbox_filter_format_insert($format) {
+  multisite_drupal_toolbox_filter_format_update($format);
+}
+
+/**
+ * Implements hook_filter_format_update().
+ *
+ * Enforces the activation of 'toolbox_sanitize' filter, if
+ * 'filter_html_escape' is not.
+ */
+function multisite_drupal_toolbox_filter_format_update($format) {
+  $filters = &$format->filters;
+  $filter_html_escape_status = $filters['filter_html_escape']['status'];
+  $toolbox_sanitize_status = $filters['toolbox_sanitize']['status'];
+
+  // If the both status are different, configuration is safe.
+  // Then, nothing to do.
+  if ($filter_html_escape_status != $toolbox_sanitize_status) {
+    return;
+  }
+
+  if (!$toolbox_sanitize_status) {
+    // Save the enforcing. Cannot pass by a normal save because that causes an
+    // infinitive loop.
+    $fields = array(
+      'status' => 1,
+      'weight' => MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT,
+    );
+
+    db_merge('filter')
+      ->key(array(
+        'format' => $format->format,
+        'name' => 'toolbox_sanitize',
+      ))
+      ->fields($fields)
+      ->execute();
+
+    $watchdog_variables = array(
+      '@text_format' => $format->format,
+      '@value' => (!$filter_html_escape_status),
+    );
+    watchdog('multisite drupal toolbox', '"toolbox_sanitize" status has been set to @value for @text_format.', $watchdog_variables, WATCHDOG_INFO);
+  }
 }
 
 /**
