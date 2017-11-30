@@ -18,10 +18,16 @@ function multisite_drupal_toolbox_enable() {
     ->condition('delta', 'block', '=')
     ->execute();
 
-  // Enable toolbox_sanitize on all text filters.
+  // Enable toolbox_sanitize on all text filters and set their weight to the
+  // Drupal minimum value.
   multisite_config_service('filter')->enableTextFilter('basic_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('basic_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
   multisite_config_service('filter')->enableTextFilter('filtered_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('filtered_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
   multisite_config_service('filter')->enableTextFilter('full_html', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('full_html', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
+  multisite_config_service('filter')->enableTextFilter('full_html_track', 'toolbox_sanitize');
+  multisite_config_service('filter')->setTextFilterWeight('full_html_track', 'toolbox_sanitize', MULTISITE_DRUPAL_TOOLBOX_DRUPAL_MIN_WEIGHT);
 }
 
 /**
