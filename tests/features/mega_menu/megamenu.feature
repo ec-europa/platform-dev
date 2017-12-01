@@ -52,7 +52,7 @@ Feature: megamenu
     And   I press "Save"
 
     # I add the menu to be visible in the homepage
-    When  I go to "/admin/structure/block_en"
+    When  I go to "/admin/structure/block"
     And   I select "Header Top" from "edit-blocks-om-maximenu-om-maximenu-2-region"
     And   I press "Save blocks"
 
