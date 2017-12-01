@@ -5,8 +5,7 @@ Feature: newsletter feature
   I want to be able to manage newsletters and subscribe to them
 
   Background:
-    # Given I am logged in as a user with the 'administrator' role
-    And the module is enabled
+    Given the module is enabled
       | modules               |
       | bounce                |
       | mailsystem            |
@@ -35,17 +34,6 @@ Feature: newsletter feature
     And   I select the radio button "NextEuropa newsletter"
     And   I press "Save"
     Then  I should see the text "Simplenews newsletter Newsletter behat has been created"
-
-  @javascript
-  Scenario: create newsletter taxonomy
-    Given I am logged in as a user with the 'administrator' role
-    When  I go to "/admin/structure/taxonomy/newsletter/add"
-    And   I fill in "Name" with "AnotherTopic newsletter"
-    And   I fill in the rich text editor "Description" with "This is a new taxonomy to send another topic newsletters"
-    And   I press "Save"
-    Then  I should see the text "Created new term AnotherTopic newsletter"
-    When  I go to "/admin/structure/taxonomy/newsletter/"
-    Then  I should see the link "AnotherTopic newsletter"
 
   Scenario: browse and request subscription to Newsletter for logged users
     Given I am logged in as a user with the 'administrator' role and I have the following fields:
