@@ -541,6 +541,9 @@ projects[og_linkchecker][patch][] = patches/og_linkchecker-001-og_linkchecker-og
 
 projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
+;NEPT-1631: Creating a mega menu gives warnings
+;https://www.drupal.org/node/1824704
+projects[om_maximenu][patch][1824704] = https://www.drupal.org/files/issues/fix_illegal_string_offset-1824704-8.patch
 
 projects[password_policy][subdir] = "contrib"
 projects[password_policy][version] = "2.0-alpha5"
