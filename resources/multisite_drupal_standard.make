@@ -15,7 +15,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
 projects[administration_language_negotiation][subdir] = "contrib"
-projects[administration_language_negotiation][version] = "1.2"
+projects[administration_language_negotiation][version] = "1.4"
 
 projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.16"
@@ -79,7 +79,7 @@ projects[bean][version] = 1.11
 ; Issue #2084823 : Contextual links for entity view
 ; https://www.drupal.org/node/2084823
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
-projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
+projects[bean][patch][] = https://www.drupal.org/files/issues/bean-contextual_links_for_entity_view-2084823-18.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
 projects[better_exposed_filters][version] = "3.4"
@@ -244,7 +244,7 @@ projects[fast_404][subdir] = "contrib"
 projects[fast_404][version] = "1.5"
 
 projects[fblikebutton][subdir] = "contrib"
-projects[fblikebutton][version] = "2.3"
+projects[fblikebutton][version] = "2.6"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.10"
@@ -285,10 +285,11 @@ projects[field_group][version] = "1.5"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
-projects[file_entity][download][revision] = "f9b172177f340204fbed3ad0ac2fdcfef0d42271"
-projects[file_entity][download][type] = "git"
-projects[file_entity][download][url] = http://git.drupal.org/project/file_entity.git
 projects[file_entity][subdir] = "contrib"
+projects[file_entity][version] = "2.4"
+; https://www.drupal.org/node/2893132
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
+projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -577,10 +578,9 @@ projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
 
 projects[quicktabs][subdir] = "contrib"
-projects[quicktabs][version] = "3.6"
-projects[quicktabs][patch][] = patches/quicktabs-ajax-default-tab-none_1741488-10.patch
-projects[quicktabs][patch][] = patches/quicktabs-tabs_broken-3880.patch
-projects[quicktabs][patch][] = patches/quicktabs-user-interface-2108935-2.patch
+projects[quicktabs][version] = "3.8"
+projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
+projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_empty-2222805-14.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
@@ -704,7 +704,7 @@ projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
 projects[views][subdir] = "contrib"
-projects[views][version] = 3.17
+projects[views][version] = 3.18
 
 ; Error when configuring exposed group filter: "The value is required if title for this item is defined."
 ; https://www.drupal.org/node/1818176
@@ -712,6 +712,9 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-erroneous_e
 ; Default argument not skipped in breadcrumbs
 ; https://www.drupal.org/node/1201160
 projects[views][patch][] = https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch
+; Thousands of results after update to 3.18 - Put extras in parentheses, otherwise OR conditions in extras not correctly enclosed
+; https://www.drupal.org/node/2908538
+projects[views][patch][] = https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch
 
 projects[views_ajax_history][subdir] = "contrib"
 projects[views_ajax_history][version] = "1.0"
@@ -1004,4 +1007,4 @@ projects[ec_resp][download][tag] = 2.3.2
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][branch] = 7.x-1.x
+projects[atomium][download][branch] = 7.x-2.x

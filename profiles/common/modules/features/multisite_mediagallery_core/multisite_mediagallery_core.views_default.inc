@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_mediagallery_core.views_default.inc
@@ -304,34 +305,6 @@ function multisite_mediagallery_core_views_default_views() {
   $handler->display->display_options['filters']['field_video_upload_fid']['operator'] = 'not empty';
   $handler->display->display_options['filters']['field_video_upload_fid']['group'] = 2;
 
-  $translatables['galleries'] = array(
-    t('Master'),
-    t('Galleries'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<div class="galleries-item-wrapper">
-[field_picture_upload]
-</div>'),
-    t('Page'),
-    t('[Empty_gallery]'),
-    t('<div class="galleries-item-wrapper">
-[field_picture_upload][field_video_upload]
-</div>'),
-    t('<div id="nb_items">[nid]</div>'),
-    t('Latest Media block'),
-    t('[field_picture_upload][field_video_upload]'),
-  );
   $export['galleries'] = $view;
 
   return $export;

@@ -21,7 +21,7 @@ class ConfigBaseTest extends ConfigAbstractTest {
 
     $paths = glob(drupal_get_path('module', 'multisite_config') . '/lib/Drupal/*', GLOB_ONLYDIR);
     foreach ($paths as $path) {
-      $name = basename($path);
+      $name = drupal_basename($path);
       $this->assertTrue(class_exists("Drupal\\$name\\Config"));
     }
 

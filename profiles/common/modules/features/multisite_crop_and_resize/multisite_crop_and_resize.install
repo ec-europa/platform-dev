@@ -13,6 +13,7 @@ function multisite_crop_and_resize_requirements($phase) {
   $lpath = libraries_get_path('jquery.imgareaselect');
 
   if ($phase == 'runtime') {
+    $t = get_t();
     if (!empty($lpath)) {
       $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_OK;
       $requirements['multisite_crop_and_resize']['value'] = 'imgAreaSelect library found.';
@@ -20,9 +21,9 @@ function multisite_crop_and_resize_requirements($phase) {
     else {
       $requirements['multisite_crop_and_resize']['severity'] = REQUIREMENT_ERROR;
       $requirements['multisite_crop_and_resize']['value'] = 'imgAreaSelect library not found.';
-      $requirements['multisite_crop_and_resize']['description'] = t('Please download this library from <a href="@url">Odyniet site</a> and copy it into the library directory.', array('@url' => 'http://odyniec.net/projects/imgareaselect/'));
+      $requirements['multisite_crop_and_resize']['description'] = $t('Please download this library from <a href="@url">Odyniet site</a> and copy it into the library directory.', array('@url' => 'http://odyniec.net/projects/imgareaselect/'));
     }
-    $requirements['multisite_crop_and_resize']['title'] = t('Multisite Crop and Resize');
+    $requirements['multisite_crop_and_resize']['title'] = $t('Multisite Crop and Resize');
   }
   return $requirements;
 }
@@ -32,7 +33,8 @@ function multisite_crop_and_resize_requirements($phase) {
  */
 function multisite_crop_and_resize_enable() {
   // Activation message.
-  drupal_set_message(t('Multisite Crop and Resize feature is now active on your site.'));
+  $t = get_t();
+  drupal_set_message($t('Multisite Crop and Resize feature is now active on your site.'));
 
 }
 
@@ -52,10 +54,10 @@ function multisite_crop_and_resize_install() {
   $requires = array('media', 'media_crop');
   // Get media_crop's weight.
   $weight = db_select('system', 's')
-              ->fields('s', array('weight'))
-              ->condition('name', $requires, 'IN')
-              ->execute()
-              ->fetchCol(0);
+    ->fields('s', array('weight'))
+    ->condition('name', $requires, 'IN')
+    ->execute()
+    ->fetchCol(0);
   $weight = max($weight);
 
   // Update multisite_crop_and_resize's weight (media_crop + 1).
