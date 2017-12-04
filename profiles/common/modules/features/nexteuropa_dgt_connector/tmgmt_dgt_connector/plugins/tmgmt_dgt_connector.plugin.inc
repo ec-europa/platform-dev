@@ -156,7 +156,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
   /**
    * Execute a request against the Poetry API.
    */
-  protected function sendRequest(TMGMTJob $job) {
+  protected function sendRequestV(TMGMTJob $job) {
     global $base_url;
 
     // Generate the identifier for the request.
@@ -270,6 +270,111 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
   }
 
   /**
+   * Execute a request against the Poetry API.
+   */
+  protected function sendRequest(TMGMTJob $job) {
+    global $base_url;
+
+    // Generate the identifier for the request.
+    $translator = $job->getTranslator();
+    $settings = $translator->getSetting('settings');
+    $id_data = $this->generateRequestIdData($settings);
+
+    // Get other pieces of information.
+    $organization = $job->settings['organization'];
+    $details_title = 'NE-CMS: ';
+    $details_title .= (empty($settings['website_identifier']) ? '' : $settings['website_identifier'] . ' - ');
+    $details_title .= $job->label;
+    $delai = date('d/m/Y', strtotime($job->settings['delai']));
+
+    // Generate the data into a XML format and encode it to be translated.
+    $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
+    $export = $controller->export($job);
+    $content = base64_encode($export);
+
+    try {
+      // Get client from Poetry client factory.
+      /** @var \EC\Poetry\Poetry $poetry */
+      $poetry = nexteuropa_poetry_client();
+
+      // Start building the request message.
+      /** @var EC\Poetry\Messages\Requests\CreateTranslationRequest $message */
+      $message = $poetry->get('request.create_translation_request');
+
+      $identifier = $message->withIdentifier();
+      $identifier->setCode($id_data['codeDemandeur'])
+        ->setYear($id_data['annee'])
+        ->setVersion($id_data['version'])
+        ->setPart($id_data['partie'])
+        ->setProduct($id_data['produit']);
+
+      if (isset($id_data['numero'])) {
+        $identifier->setNumber($id_data['numero']);
+      }
+      else {
+        $identifier->setSequence($id_data['sequence']);
+      }
+
+      $message->withDetails()
+        ->setClientId('Job ID ' . $job->tjid)
+        ->setTitle($details_title)
+        ->setResponsible($organization['responsable'])
+        ->setRequester($organization['demandeur'])
+        ->setAuthor($organization['auteur'])
+        ->setApplicationId('FPFIS')
+        ->setDelay($delai)
+        ->setRemark('')
+        ->setReferenceFilesRemark($base_url)
+        ->setProcedure('NEANT')
+        ->setDestination('PUBLIC')
+        ->setType('INTER');
+
+      // Get contact information from translator and add it to the request.
+      foreach ($job->settings['contacts'] as $type => $value) {
+        $message->withContact()
+          ->setType($type)
+          ->setNickname($value);
+      }
+
+      $message->withReturnAddress()
+        ->setType('webService')
+        ->setAction('UPDATE')
+        ->setUser($poetry->getSettings()->get('notification.username'))
+        ->setPassword($poetry->getSettings()->get('notification.password'))
+        ->setAddress($poetry->getSettings()->get('client.wsdl'))
+        ->setPath('handle')
+        ->setRemark('');
+
+      $message->withSource()
+        ->setFormat('HTML')
+        ->setName('content.html')
+        ->setFile($content)
+        ->setLegiswriteFormat('No')
+        ->withSourceLanguage()
+        ->setCode(drupal_strtoupper($job->getTranslator()->mapToRemoteLanguage($job->source_language)))
+        ->setPages(1);
+
+      foreach ($job->settings['languages'] as $lang_val) {
+        if ($lang_val) {
+          $lang = drupal_strtoupper($translator->mapToRemoteLanguage($lang_val));
+          $message->withTarget()
+            ->setLanguage($lang)
+            ->setFormat('HTML')
+            ->setAction('INSERT')
+            ->setDelay($delai);
+        }
+      }
+
+      return $poetry->getClient()->send($message);
+    }
+    catch (Exceptions\ValidationException $exception) {
+      drupal_set_message($exception->getMessage(), 'error');
+      return FALSE;
+    }
+
+  }
+
+  /**
    * Helper method to generate a request id.
    *
    * @param array $settings
@@ -287,8 +392,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     if (!empty($max_numero['max_numero'])) {
       $query = db_select('poetry_map', 'pm')
         ->fields('pm', array('annee', 'numero', 'version', 'partie'))
-        ->condition('numero', $max_numero['max_numero'], '=')
-        ->addExpression('MAX(partie)', 'max_partie');
+        ->condition('numero', $max_numero['max_numero'], '=');
+      $query->addExpression('MAX(partie)', 'max_partie');
 
       $result = $query->execute()->fetchAssoc();
 
@@ -315,7 +420,6 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
       'version' => 00,
       'partie' => 00,
       'produit' => 'TRA',
-
     );
 
     return $id_data;

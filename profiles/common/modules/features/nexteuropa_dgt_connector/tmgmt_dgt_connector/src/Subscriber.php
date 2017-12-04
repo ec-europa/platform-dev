@@ -7,41 +7,27 @@
 
 namespace Drupal\tmgmt_dgt_connector;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use EC\Poetry\Events\Notifications\TranslationReceivedEvent;
-use EC\Poetry\Events\Notifications\StatusUpdatedEvent;
+use EC\Poetry\Messages\Notifications\TranslationReceived;
 
 /**
  * Subscriber with listeners for Server events.
  *
  * @package Drupal\tmgmt_dgt_connector
  */
-class Subscriber implements EventSubscriberInterface {
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function getSubscribedEvents() {
-    return array(
-      TranslationReceivedEvent::NAME => 'onTranslationReceivedEvent',
-      StatusUpdatedEvent::NAME => 'onStatusUpdatedEvent',
-    );
-  }
+class Subscriber {
 
   /**
    * Listener for the event onTranslationReceivedEvent.
    *
-   * @param \EC\Poetry\Events\Notifications\TranslationReceivedEvent $event
-   *   The event for the Translation Received.
+   * @param \EC\Poetry\Messages\Notifications\TranslationReceived $message
+   *   The Translation Received.
    *
    * @return bool
    *   Return True if the translation is received without issues.
    */
-  public function onTranslationReceivedEvent(TranslationReceivedEvent $event) {
+  public function onTranslationReceivedEvent(TranslationReceived $message) {
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
 
-    /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
-    $message = $event->getMessage();
     $reference = $message->getIdentifier()->getFormattedIdentifier();
 
     // Get main job in order to register the messages and get translator.
