@@ -5,9 +5,6 @@
  * Module file of the TMGMT DGT connector.
  */
 
-use EC\Poetry\Messages\Notifications\TranslationReceived;
-use Drupal\tmgmt_dgt_connector\Subscriber;
-
 define('TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH', 300);
 define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
 
@@ -29,7 +26,6 @@ function tmgmt_dgt_connector_nexteuropa_poetry_notification_translation_received
  * nexteuropa_dgt_connector module functionalities.
  */
 function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
-
   $entity = $form_state['entity'];
   $length = _tmgmt_dgt_connector_get_content_length($entity);
 
@@ -48,9 +44,13 @@ function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_dgt_connector_form_tmgmt_ui_cart_content_alter(&$form, &$form_state) {
+
+  // Remove "Enforce source language" option, not interesting for our case.
+  $form['enforced_source_language']['#type'] = 'hidden';
+
   // Add a callback function when submiting.
   $callback = '_tmgmt_dgt_connector_workbench_store_request_languages_callback';
-  $form['request_translation']['#submit'] = [$callback];
+  $form['request_translation']['#submit'] = array($callback);
 }
 
 /**
