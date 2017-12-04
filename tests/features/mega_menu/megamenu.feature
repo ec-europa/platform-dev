@@ -1,4 +1,4 @@
-@api @javascript
+@api @javascript @theme_wip
 Feature: megamenu
   In order to use megamenu feature
   As different types of users
@@ -26,7 +26,7 @@ Feature: megamenu
     And   I press "Save"
 
     # I create a block to add in the MEGA MENU in the menu
-    And   I go to "/admin/structure/block/add"
+    When  I go to "/admin/structure/block/add"
     And   I fill in "Block title" with "MEGA MENU ELEMENT 1"
     And   I fill in "Block description" with "block to add to the mega menu element in main menu"
     And   I click "Disable rich-text"
@@ -42,13 +42,13 @@ Feature: megamenu
     And   I click "Edit attached blocks" in the "FIRST LINK MEGA MENU" row
     And   I wait
     Then  I should see the text "BLOCK"
-    And   I click on the element with xpath "//*[@id='edit-om-maximenu-content-block']/legend/span/a"
+    When  I click on the element with xpath "//*[@id='edit-om-maximenu-content-block']/legend/span/a"
     And   I wait
-    And   I should see "MEGA MENU ELEMENT 1"
-    And   I click "MEGA MENU ELEMENT 1"
+    Then  I should see "MEGA MENU ELEMENT 1"
+    When  I click "MEGA MENU ELEMENT 1"
     And   I check "edit-om-maximenu-content-block-om-blocks-block-1-checked"
     And   I press "Save"
-    Then  I should see the text "Your settings have been saved."
+    And   I should see the text "Your settings have been saved."
     And   I press "Save"
 
     # I add the menu to be visible in the homepage
@@ -68,5 +68,5 @@ Feature: megamenu
     And   I click "Delete" in the "Mega Menu" row
     And   I wait
     Then  I should see the text "Are you sure you want to delete Mega Menu?"
-    And   I press "Delete"
+    When  I press "Delete"
     Then  I should see the text "Mega Menu has been deleted"
