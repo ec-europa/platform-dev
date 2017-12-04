@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Provides Google Translator ui controller.
+ * Provides DGT Translator ui controller.
  */
 
 /**

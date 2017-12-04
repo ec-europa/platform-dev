@@ -325,7 +325,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   }
 
   // Checking translator plugin type.
-  if ($origin_job->hasPoetryTranslator()) {
+  if (!$origin_job->hasPoetryTranslator()) {
     // The translator has benn changed,
     // proceed to clear the settings of origin job and the main reference.
     if (isset($origin_job->settings['languages'])) {
