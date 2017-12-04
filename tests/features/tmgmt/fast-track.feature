@@ -1,6 +1,9 @@
 @api @poetry
 Feature: Fast track
 
+  @wip
+  # To trigger this test you have to have an entry regarding the review request.
+  # When the steps which are creating that entry would be created we can remove the 'wip' tag.
   Scenario: Fast track workflow.
 
     Given these modules are enabled
