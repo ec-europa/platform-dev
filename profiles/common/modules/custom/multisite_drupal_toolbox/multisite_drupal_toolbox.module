@@ -60,12 +60,6 @@ function multisite_drupal_toolbox_menu() {
     'access arguments' => array('administer site configuration'),
     'weight' => -5,
   );
-  $items['check_url'] = array(
-    'title' => 'Check URLs',
-    'page callback' => '_multisite_drupal_toolbox_url_exists',
-    'access arguments' => array('use text format full_html'),
-    'type' => MENU_CALLBACK,
-  );
 
   return $items;
 }
@@ -1610,23 +1604,6 @@ function multisite_drupal_toolbox_library_alter(&$javascript, $module) {
 
     jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
   }
-}
-
-/**
- * Page callback that returns if an URL is valid with drupal_http_request().
- *
- * Returns a boolean in JSON format.
- *
- * @todo This is redundant and should be removed. The calling code can simply
- *   inspect the HTTP response code of the URL to see if it exists. This is now
- *   doing two requests where one would be sufficient.
- */
-function _multisite_drupal_toolbox_url_exists() {
-  $response = drupal_http_request($_GET['url']);
-  $output = isset($response->errno) && $response->errno == 0 && $response->code >= 200 && $response->code < 300;
-  drupal_add_http_header('Content-Type', 'application/json');
-  echo drupal_json_encode($output);
-  drupal_exit();
 }
 
 /**
