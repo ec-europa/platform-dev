@@ -260,31 +260,14 @@ trait DataProcessor {
    *   TMGMT Job object.
    * @param int $node_id
    *   Node ID.
+   * @param string $requester_code
+   *   Requester code.
    *
    * @return array|bool
-   *   An array with an identifier data or FALSE in case of errors;
+   *   An array with an identifier data or FALSE in case of errors.
    */
-  public function getIdentifier(TMGMTJob $job, $node_id) {
-    $identifier = $this->getRequestIdentifier($job, $node_id);
-
-    // If the 'sequence' key is set there are no entries in the mapping table
-    // or the 'part' counter value reached 99.
-    if (isset($identifier['identifier.sequence'])) {
-      $client_action = 'request.get_new_number';
-      $dgt_response = $this->sendRequest($client_action, $identifier);
-      // Checking the DGT services response status.
-      if ($dgt_response->isSuccessful()) {
-        // Creating a new mapping entity and performing the review request.
-        $job->client_action = $client_action;
-        $this->createDgtFttTranslatorMappingEntity($dgt_response, $job);
-
-        return $this->getIdentifier($job, $node_id);
-      }
-      else {
-        // Log the error or other details from the response to the watchdog.
-        return FALSE;
-      }
-    }
+  public function getIdentifier(TMGMTJob $job, $node_id, $requester_code) {
+    $identifier = $this->getRequestIdentifier($job, $node_id, $requester_code);
 
     return $identifier;
   }
@@ -307,42 +290,43 @@ trait DataProcessor {
    *
    * @param TMGMTJob $job
    *   TMGMT Job object.
-   * @param object $node_id
+   * @param int $node_id
    *   Node id.
+   * @param string $requester_code
+   *   Requester code.
    *
    * @return array
    *   An array with the identifier data.
    */
-  private function getRequestIdentifier(TMGMTJob $job, $node_id) {
+  private function getRequestIdentifier(TMGMTJob $job, $node_id, $requester_code) {
     // Getting the default values based on the configuration.
     $identifier = $this->getRequestIdentifierDefaults($job);
+
+    // Overwriting the default requester code by value which comes from the
+    // custom 'Rules' action.
+    if (!empty($requester_code)) {
+      $identifier['identifier.code'] = $requester_code;
+    }
 
     // Setting up helper default values.
     $identifier['identifier.part'] = 0;
     $identifier['identifier.version'] = 0;
     $unset_key = 'identifier.number';
 
-    // @todo: test the logic of this part.
-    // Getting the latest mapping entity in order to set the part and number.
-    if ($mapping_entity = $this->getLatestDgtFttTranslatorMappingEntity()) {
-      // Checking if the 'part' counter value reached 99.
-      if ($mapping_entity->part < 99) {
-        $identifier['identifier.number'] = $mapping_entity->number;
-        if ($mapping_entity->client_action != 'request.get_new_number') {
-          $identifier['identifier.part'] = $mapping_entity->part + 1;
-        }
-        $unset_key = 'identifier.sequence';
-      }
+    // Checking if there are mappings for the given entity id and incrementing
+    // the version if so.
+    if ($mapping_entity = $this->getLatestMappingByEntityId($node_id, $identifier['identifier.code'])) {
+      // Overwriting the identifier properties from the mapping entity.
+      $identifier['identifier.number'] = $mapping_entity->number;
+      $identifier['identifier.year'] = $mapping_entity->year;
+      $identifier['identifier.part'] = $mapping_entity->part;
+      // Incrementing the version value.
+      $identifier['identifier.version'] = $mapping_entity->version + 1;
+      // Removing the sequence property from the identifier.
+      $unset_key = 'identifier.sequence';
     }
 
     unset($identifier[$unset_key]);
-
-    // Checking if there are mappings for the given content and setting version.
-    if ($mapping_entity = $this->getDgtFttTranslatorMappingByProperty('entity_id', $node_id)) {
-      if ($mapping_entity->client_action != 'request.get_new_number') {
-        $identifier['identifier.version'] = $mapping_entity->version + 1;
-      }
-    }
 
     return $identifier;
   }
@@ -375,9 +359,72 @@ trait DataProcessor {
   }
 
   /**
+   * Provides the latest DGT FTT Translator Mapping entity for a given code.
+   *
+   * @param string $requester_code
+   *   Requester code.
+   *
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
+   *   Entity or FALSE if there are no entries in the entity table.
+   */
+  private function getLatestMappingByRequesterCode($requester_code) {
+    // Querying for the latest mapping for a given requester code.
+    $latest_entity_id = db_query('
+      SELECT map.id
+      FROM {ne_tmgmt_dgt_ftt_map} map
+      WHERE map.code = :code
+      ORDER BY map.year DESC, map.number DESC, map.part DESC LIMIT 1',
+      array(
+        ':code' => $requester_code,
+      )
+    )->fetchField();
+
+    // Checking if we have any entries in the table.
+    if (!$latest_entity_id) {
+      return FALSE;
+    }
+
+    return entity_load_single($this->translatorEntityType, $latest_entity_id);
+  }
+
+  /**
+   * Provides the latest DGT FTT Translator Mapping entity for a given code.
+   *
+   * @param string $entity_id
+   *   Entity ID.
+   * @param string $requester_code
+   *   Requester code.
+   *
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
+   *   Entity or FALSE if there are no entries in the entity table.
+   */
+  private function getLatestMappingByEntityId($entity_id, $requester_code) {
+    // Querying for the latest mapping for a given entity ID.
+    // The db_query function works faster then the others and it's used mainly
+    // because of the performance constrains.
+    $latest_entity_id = db_query('
+      SELECT map.id
+      FROM {ne_tmgmt_dgt_ftt_map} map
+      WHERE map.entity_id = :entity_id AND map.code = :code
+      ORDER BY map.version DESC LIMIT 1',
+      array(
+        ':entity_id' => $entity_id,
+        ':code' => $requester_code,
+      )
+    )->fetchField();
+
+    // Checking if we have any entries in the table.
+    if (!$latest_entity_id) {
+      return FALSE;
+    }
+
+    return entity_load_single($this->translatorEntityType, $latest_entity_id);
+  }
+
+  /**
    * Provides the latest DGT FTT Translator Mapping entity.
    *
-   * @return DgtFttTranslatorMapping|bool
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
    *   Entity or FALSE if there are no entries in the entity table.
    */
   private function getLatestDgtFttTranslatorMappingEntity() {
@@ -385,11 +432,11 @@ trait DataProcessor {
     $latest_entity_id = db_query("SELECT MAX(id) FROM {ne_tmgmt_dgt_ftt_map}")->fetchField();
 
     // Checking if we have any entries in the table.
-    if (is_null($latest_entity_id)) {
+    if (!$latest_entity_id) {
       return FALSE;
     }
 
-    return entity_load_single($this->translatorEntityType, $latest_entity_id);;
+    return entity_load_single($this->translatorEntityType, $latest_entity_id);
   }
 
   /**
@@ -400,7 +447,7 @@ trait DataProcessor {
    * @param string $property_value
    *   Property value.
    *
-   * @return DgtFttTranslatorMapping entity | bool
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
    *   A mapping entity or FALSE if there are no results.
    */
   protected function getDgtFttTranslatorMappingByProperty($property_name, $property_value) {
@@ -468,6 +515,7 @@ trait DataProcessor {
           'tjid' => $job_item->tjid,
           'entity_id' => $job_item->item_id,
           'entity_type' => $job_item->item_type,
+          'code' => $response->getIdentifier()->getCode(),
           'year' => $response->getIdentifier()->getYear(),
           'number' => $response->getIdentifier()->getNumber(),
           'version' => $response->getIdentifier()->getVersion(),
@@ -490,7 +538,8 @@ trait DataProcessor {
    */
   private function updateTmgmtJobAndJobItem(Status $response, array $jobs) {
     foreach ($jobs as $job) {
-      $job->reference = $response->getMessageId();
+      // Getting the reference number from the identifier.
+      $job->reference = $response->getIdentifier()->getFormattedIdentifier();
       $job->save();
     }
   }
@@ -532,7 +581,7 @@ trait DataProcessor {
 
     // Checking if there is a 'request status' in the response object.
     if ($response->hasRequestStatus()) {
-      $response_data['dgt_service_response']['ref_id'] = $response->getMessageId();
+      $response_data['dgt_service_response']['ref_id'] = $response->getIdentifier()->getFormattedIdentifier();
 
       $request_status = array(
         'code' => $response->getRequestStatus()->getCode(),
