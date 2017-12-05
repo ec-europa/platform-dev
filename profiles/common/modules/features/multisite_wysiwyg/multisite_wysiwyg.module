@@ -18,9 +18,6 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Set custom skin.
     $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
 
-    // Provide additional custom settings.
-    $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
-
     // If a specific css file has been created for CKEditor in the default
     // theme, we add it to the editor settings; even if it is displayed in
     // the admin theme.
