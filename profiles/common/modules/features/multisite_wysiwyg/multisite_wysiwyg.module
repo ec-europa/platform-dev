@@ -165,12 +165,12 @@ function _multisite_wysiwyg_get_ckeditor_css_paths($default_theme = NULL) {
   }
 
   $css_file_paths = array_values(array_map(
-    function($item) use ($base_url) {
+    function ($item) use ($base_url) {
       return $base_url . DIRECTORY_SEPARATOR . $item;
     },
     array_filter(
       $css_file_paths,
-      function($path) {
+      function ($path) {
         return file_exists($path);
       }
     )

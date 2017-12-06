@@ -473,7 +473,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
-
   /**
    * Checks that a select box is set to a given value is selected in select box.
    *
