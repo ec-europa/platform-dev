@@ -234,7 +234,6 @@ Feature: Fast track
       | <delai>01/12/2017</delai>                                            |
       | <attributionsDelai>01/12/2017</attributionsDelai>                    |
 
-  @wip
   Scenario: Request using custom date field.
     Given I am logged in as a user with the "administrator" role
     #And I create a new "datestamp" field named "Delay date" on "page"
@@ -245,6 +244,16 @@ Feature: Fast track
     And I select "date_popup" from "edit-fields-add-new-field-widget-type"
     And I press the "Save" button
     And I press the "Save field settings" button
+    And "page" content:
+      | language | title     |
+      | en       | Test page |
+    And I visit the "page" content with title "Test page"
+    Then I should see "Revision state: Draft"
+    When I click "Edit draft"
+    And I fill in "edit-field-delay-date-und-0-value-datepicker-popup-0" with "14/11/2018"
+    And I fill in "edit-field-delay-date-und-0-value-timeEntry-popup-1" with "12:00"
+    And I press "Save"
+    Then I should see "Basic page Test page has been updated."
     When I have the following rule:
     """
     {
@@ -266,7 +275,7 @@ Feature: Fast track
         ],
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
-              "USING" : { "node" : [ "node" ], "delay" : [ "node:field-delay-date" ] },
+              "USING" : { "node" : [ "node" ], "delay" : [ "node:field-delay-date" ], "target_languages" : { "value" : [] } },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
                 "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
@@ -279,20 +288,10 @@ Feature: Fast track
       }
     }
     """
-    And "page" content:
-      | language | title     |
-      | en       | Test page |
-    And I visit the "page" content with title "Test page"
-    Then I should see "Revision state: Draft"
-    When I click "Edit draft"
-    And I fill in "edit-field-delay-date-und-0-value-datepicker-popup-0" with "14/11/2018"
-    And I fill in "edit-field-delay-date-und-0-value-timeEntry-popup-1" with "12:00"
-    And I press "Save"
-    Then I should see "Basic page Test page has been updated."
-    When I select "Validated" from "state"
+    When I visit the "page" content with title "Test page"
+    And I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
-    And break
     And Poetry service received request should contain the following text:
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
