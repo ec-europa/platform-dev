@@ -85,6 +85,7 @@ Feature: Fast track language selection
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
               "USING" : {
                 "node" : [ "node" ],
+                "delay" : "2017-12-01 15:00:00",
                 "target_languages" : { "value" : [] }
               },
               "PROVIDE" : {
@@ -136,6 +137,7 @@ Feature: Fast track language selection
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
               "USING" : {
                 "node" : [ "node" ],
+                "delay" : "2017-12-01 15:00:00",
                 "target_languages" : { "value" : { "fr" : "fr" } }
               },
               "PROVIDE" : {
