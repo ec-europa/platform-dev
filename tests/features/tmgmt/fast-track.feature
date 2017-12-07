@@ -254,7 +254,8 @@ Feature: Fast track
     And I fill in "edit-field-delay-date-und-0-value-timeEntry-popup-1" with "12:00"
     And I press "Save"
     Then I should see "Basic page Test page has been updated."
-    When I have the following rule:
+    When the cache has been cleared
+    And I have the following rule:
     """
     {
       "rules_dgt_ftt_translations" : {
