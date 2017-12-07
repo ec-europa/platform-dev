@@ -24,7 +24,6 @@ function links_og_enable() {
   drupal_flush_all_caches();
 }
 
-
 /**
  * Implements hook_disable().
  *
@@ -40,16 +39,6 @@ function links_og_disable() {
   multisite_drupal_toolbox_remove_views_context('communities_menu_item', 'links:page');
 
   variable_del('pathauto_node_links_pattern');
-}
-
-/**
- * Implements hook_modules_enabled().
- */
-function links_og_modules_enabled($modules) {
-  if (in_array('links_og', $modules)) {
-    // Force feature revert to update og permissions.
-    features_revert(array('links_og' => array('og_features_permission')));
-  }
 }
 
 /**

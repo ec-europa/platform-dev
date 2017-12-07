@@ -9,6 +9,16 @@ include_once 'links_og.features.inc';
 include_once 'links_og.views_alter.inc';
 
 /**
+ * Implements hook_modules_enabled().
+ */
+function links_og_modules_enabled($modules) {
+  if (in_array('links_og', $modules)) {
+    // Force feature revert to update og permissions.
+    features_revert(array('links_og' => array('og_features_permission')));
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function links_og_menu() {

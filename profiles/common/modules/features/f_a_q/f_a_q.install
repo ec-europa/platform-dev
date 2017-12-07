@@ -45,13 +45,6 @@ function f_a_q_enable() {
 }
 
 /**
- * Implements hook_modules_enabled().
- */
-function f_a_q_modules_enabled($modules) {
-  node_types_rebuild();
-}
-
-/**
  * Implements hook_disable().
  */
 function f_a_q_disable() {

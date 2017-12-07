@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\BlockContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Context\Context;
@@ -97,7 +92,6 @@ class BlockContext implements Context {
         ->execute();
     }
   }
-
 
   /**
    * Get the Taxonomy Id by the name.

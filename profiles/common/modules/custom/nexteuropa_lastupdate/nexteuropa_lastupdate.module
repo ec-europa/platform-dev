@@ -141,7 +141,6 @@ function _nexteuropa_lastupdate_menu_get_any_entity() {
   }
 }
 
-
 /**
  * Callback to return the last published date of a node.
  *

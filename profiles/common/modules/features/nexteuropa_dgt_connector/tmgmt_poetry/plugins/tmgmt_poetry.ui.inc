@@ -9,6 +9,7 @@
  * DGT connector translator ui controller.
  */
 class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIController {
+
   /**
    * Overrides TMGMTDefaultTranslatorUIController::pluginSettingsForm().
    */

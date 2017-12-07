@@ -573,6 +573,10 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
    *
    * @param \SimpleXMLElement $poetry_xml
    *   Main XML document.
+   * @param string $poetry_user
+   *   The poetry user.
+   * @param int $poetry_password
+   *   The user password.
    *
    * @return mixed
    *   FALSE or string with XML response.

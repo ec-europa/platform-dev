@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Unit\AbstractUnitTest.
- */
-
 namespace Drupal\nexteuropa\Unit;
 
 use PHPUnit\Framework\TestCase;
