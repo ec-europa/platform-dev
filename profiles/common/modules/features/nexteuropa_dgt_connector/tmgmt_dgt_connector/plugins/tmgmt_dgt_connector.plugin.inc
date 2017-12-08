@@ -220,15 +220,6 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
           ->setNickname($value);
       }
 
-      $message->withReturnAddress()
-        ->setType('webService')
-        ->setAction('UPDATE')
-        ->setUser($poetry->getSettings()->get('notification.username'))
-        ->setPassword($poetry->getSettings()->get('notification.password'))
-        ->setAddress($poetry->getSettings()->get('client.wsdl'))
-        ->setPath('handle')
-        ->setRemark('');
-
       $message->withSource()
         ->setFormat('HTML')
         ->setName('content.html')
