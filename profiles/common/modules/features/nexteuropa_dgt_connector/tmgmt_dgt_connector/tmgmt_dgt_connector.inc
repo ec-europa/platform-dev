@@ -79,7 +79,7 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
         continue;
       }
 
-      if (is_null($reference)) {
+      if (!is_null($reference)) {
         // Poetry: we need the reference to identify related jobs.
         $job = tmgmt_job_create($source_language, $target_language, $user->uid, $reference);
       }
