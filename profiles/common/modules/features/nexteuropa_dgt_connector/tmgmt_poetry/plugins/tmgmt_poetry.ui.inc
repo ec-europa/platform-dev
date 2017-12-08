@@ -303,7 +303,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
     );
 
     // Load translator settings from submitted job: Organization.
-    $organization = $job->settings['organization'];
+    $organization = ($job->settings['organization']) ? $job->settings['organization'] : $translator->getSetting('organization');
     $form['organization'] = array(
       '#type' => 'fieldset',
       '#title' => t('Organization'),
