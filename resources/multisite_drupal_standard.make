@@ -816,7 +816,7 @@ projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteurop
 
 ; chosen 1.8.2
 libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/1.8.2/chosen_v1.8.2.zip
+libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.8.2/chosen_v1.8.2.zip
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
