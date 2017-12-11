@@ -290,7 +290,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     // Request a new number.
     $id_data = array(
       'codeDemandeur' => $settings['code'],
-      'annee' => date("Y"),
+      'annee' => date('Y'),
       'sequence' => $settings['counter'],
       'version' => 00,
       'partie' => 00,
