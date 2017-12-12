@@ -478,4 +478,26 @@ class MinkContext extends DrupalExtensionMinkContext {
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
+  /**
+   * Checks if a specified link is in a HTML element in a field display.
+   *
+   * @Then I should see the link :link in a :html_element in the field display (:container_selector)
+   */
+  public function assertLinkInElementOfField($link, $html_element, $container_selector) {
+    $element = $this->getSession()->getPage();
+    $field_container = $element->find('css', $container_selector);
+    $link_containers = $field_container->findAll('xpath', $html_element);
+
+    foreach ($link_containers as $link_container) {
+      $result = $link_container->findLink($link);
+      if ($result && !$result->isVisible()) {
+        throw new \Exception(sprintf("No link to '%s' in a %s", $link, $html_element));
+      }
+    }
+
+    if (empty($result)) {
+      throw new \Exception(sprintf("No link to '%s' in a %s", $link, $html_element));
+    }
+  }
+
 }
