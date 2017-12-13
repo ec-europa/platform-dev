@@ -486,7 +486,12 @@ class MinkContext extends DrupalExtensionMinkContext {
   public function assertLinkInElementOfField($link, $html_element, $container_selector) {
     $element = $this->getSession()->getPage();
     $field_container = $element->find('css', $container_selector);
+
+    assert($field_container, isNotEmpty(), sprintf('The container identified by the "%s" css selector has not been found', $container_selector));
+
     $link_containers = $field_container->findAll('xpath', $html_element);
+
+    assert($link_containers, isNotEmpty(), sprintf('The "%s" element has not been found in the container identified by the "%s" css selector', $html_element, $container_selector));
 
     foreach ($link_containers as $link_container) {
       $result = $link_container->findLink($link);
@@ -495,9 +500,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       }
     }
 
-    if (empty($result)) {
-      throw new \Exception(sprintf("No link to '%s' in a %s", $link, $html_element));
-    }
+    assert($result, isNotEmpty(), sprintf("No link to '%s' in a %s", $link, $html_element));
   }
 
 }
