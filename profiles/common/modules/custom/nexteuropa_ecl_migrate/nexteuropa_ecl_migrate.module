@@ -216,12 +216,14 @@ function _nexteuropa_ecl_migrate_dt_menus() {
     ),
   );
 
+  // Create menus and delete previous menu links.
   foreach ($menus as $menu) {
     menu_delete_links($menu['menu_name']);
     menu_delete($menu);
     menu_save($menu);
   }
 
+  // Create menus links.
   foreach ($links as $link) {
     menu_link_save($link);
   }
