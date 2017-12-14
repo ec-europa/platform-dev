@@ -14,7 +14,7 @@
     "rych/random": "v0.1.0",
     "bex/behat-screenshot-image-driver-img42": "^1.0",
     "phpunit/phpunit": "^5.0",
-    "ec-europa/oe-poetry-behat": "^0.1"
+    "ec-europa/oe-poetry-behat": "~0.3"
   },
   "autoload": {
     "psr-4": {

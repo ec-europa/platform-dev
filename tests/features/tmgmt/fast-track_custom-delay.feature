@@ -45,10 +45,10 @@ Feature: Fast track
     identifier:
       code: WEB
       year: 2017
-      number: 40029
+      number: 40012
       version: 0
       part: 0
-      product: TRA
+      product: REV
     status:
       -
         type: request
@@ -64,6 +64,44 @@ Feature: Fast track
     And I have the following rule:
     """
     {
+      "rules_dgt_ftt_review" : {
+        "LABEL" : "DGT FTT Review",
+        "PLUGIN" : "reaction rule",
+        "OWNER" : "rules",
+        "REQUIRES" : [ "ne_dgt_rules", "rules", "workbench_moderation" ],
+        "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+        "IF" : [
+          { "comparison_of_moderation_states_after_transition" : {
+              "previous_state_source" : [ "previous-state" ],
+              "previous_state_value" : "draft",
+              "new_state_source" : [ "new-state" ],
+              "new_state_value" : "needs_review"
+            }
+          }
+        ],
+        "DO" : [
+          { "ne_dgt_rules_ftt_node_send_review_request" : {
+              "USING" : { "node" : [ "node" ] ,
+                "delay" : "2017-12-01 15:00:00"
+              },
+              "PROVIDE" : {
+                "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
+                "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
+                "dgt_service_response_status" : { "dgt_service_response_status" : "DGT Service Response - Response status" },
+                "dgt_service_demand_status" : { "dgt_service_demand_status" : "DGT Service Response - Demand status" }
+              }
+            }
+          },
+          { "drupal_message" : { "message" : [ "dgt-service-response-status:message" ] } },
+          { "drupal_message" : { "message" : [ "dgt-service-demand-status:message" ] } },
+          { "drupal_message" : { "message" : [ "dgt-service-response:raw-xml" ] } }
+        ]
+      }
+    }
+    """
+    And I have the following rule:
+    """
+    {
       "rules_dgt_ftt_translations_delay" : {
         "LABEL" : "DGT FTT Translations",
         "PLUGIN" : "reaction rule",
@@ -73,7 +111,7 @@ Feature: Fast track
         "IF" : [
           { "comparison_of_moderation_states_after_transition" : {
               "previous_state_source" : [ "previous-state" ],
-              "previous_state_value" : "draft",
+              "previous_state_value" : "needs_review",
               "new_state_source" : [ "new-state" ],
               "new_state_value" : "validated"
             }
@@ -104,9 +142,13 @@ Feature: Fast track
     And I fill in "edit-delay-date-und-0-value-minute" with "00"
     And I press "Save"
     Then I should see "Revision state: Draft"
+    When I select "Needs Review" from "state"
+    And I press "Apply"
+    Then I should see "Revision state: Needs Review"
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
+    And break
     And Poetry service received request should contain the following text:
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |

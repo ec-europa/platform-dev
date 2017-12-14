@@ -16,7 +16,10 @@ Feature: Fast track
       address: http://localhost:28080/wsdl
       method: requestService
     """
-    And I update the "dgt_ftt" translator settings with the following values:
+    And I request to change the variable "ne_dgt_rules_translator" to "dgt_ftt"
+
+  Scenario: Fast track workflow.
+    Given I update the "dgt_ftt" translator settings with the following values:
     """
       settings:
         dgt_counter: '40012'
@@ -39,16 +42,15 @@ Feature: Fast track
         email_to: john.smith@example.com
         email_cc: john.smith@example.com
     """
-    And I request to change the variable "ne_dgt_rules_translator" to "dgt_ftt"
     And Poetry will return the following "response.status" message response:
     """
     identifier:
       code: WEB
       year: 2017
-      number: 40029
+      number: 40012
       version: 0
       part: 0
-      product: TRA
+      product: REV
     status:
       -
         type: request
@@ -57,12 +59,45 @@ Feature: Fast track
         time: 02:41:53
         message: OK
     """
-
-  @wip
-  # To trigger this test you have to have an entry regarding the review request.
-  # When the steps which are creating that entry would be created we can remove the 'wip' tag.
-  Scenario: Fast track workflow.
-    Given I have the following rule:
+    And I have the following rule:
+    """
+    {
+      "rules_dgt_ftt_review" : {
+        "LABEL" : "DGT FTT Review",
+        "PLUGIN" : "reaction rule",
+        "OWNER" : "rules",
+        "REQUIRES" : [ "ne_dgt_rules", "rules", "workbench_moderation" ],
+        "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+        "IF" : [
+          { "comparison_of_moderation_states_after_transition" : {
+              "previous_state_source" : [ "previous-state" ],
+              "previous_state_value" : "draft",
+              "new_state_source" : [ "new-state" ],
+              "new_state_value" : "needs_review"
+            }
+          }
+        ],
+        "DO" : [
+          { "ne_dgt_rules_ftt_node_send_review_request" : {
+              "USING" : { "node" : [ "node" ] ,
+                "delay" : "2017-12-01 15:00:00"
+              },
+              "PROVIDE" : {
+                "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
+                "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
+                "dgt_service_response_status" : { "dgt_service_response_status" : "DGT Service Response - Response status" },
+                "dgt_service_demand_status" : { "dgt_service_demand_status" : "DGT Service Response - Demand status" }
+              }
+            }
+          },
+          { "drupal_message" : { "message" : [ "dgt-service-response-status:message" ] } },
+          { "drupal_message" : { "message" : [ "dgt-service-demand-status:message" ] } },
+          { "drupal_message" : { "message" : [ "dgt-service-response:raw-xml" ] } }
+        ]
+      }
+    }
+    """
+    And I have the following rule:
     """
     {
       "rules_dgt_ftt_translations" : {
@@ -122,7 +157,47 @@ Feature: Fast track
       | <attributionsDelai>01/12/2017</attributionsDelai>             |
 
   Scenario: Optional action parameters.
-    Given I have the following rule:
+    Given I update the "dgt_ftt" translator settings with the following values:
+    """
+      settings:
+        dgt_counter: '40013'
+        dgt_code: WEB
+        callback_username: poetry
+        callback_password: pass
+        dgt_ftt_username: user
+        dgt_ftt_password: pass
+        dgt_ftt_workflow_code: STS
+      organization:
+        responsible: DIGIT
+        author: IE/CE/DIGIT
+        requester: IE/CE/DIGIT/A/3
+      contacts:
+        author: john_smith
+        secretary: john_smith
+        contact: john_smith
+        responsible: john_smith
+      feedback_contacts:
+        email_to: john.smith@example.com
+        email_cc: john.smith@example.com
+    """
+    And Poetry will return the following "response.status" message response:
+    """
+    identifier:
+      code: CUSTOM
+      year: 2017
+      number: 40013
+      version: 0
+      part: 0
+      product: REV
+    status:
+      -
+        type: request
+        code: '0'
+        date: 06/10/2017
+        time: 02:41:53
+        message: OK
+    """
+    And I have the following rule:
     """
     {
       "rules_dgt_ftt_review" : {
@@ -144,7 +219,7 @@ Feature: Fast track
           { "ne_dgt_rules_ftt_node_send_review_request" : {
               "USING" : { "node" : [ "node" ] ,
                 "delay" : "2017-12-01 15:00:00",
-                "code" : "WEBREVIEW",
+                "code" : "CUSTOM",
                 "org_responsible" : "DIGIT_REVIEW",
                 "org_dg_author" : "IE/CE/DIGIT/REVIEW",
                 "org_requester" : "IE/CE/DIGIT/A/3/REVIEW",
@@ -187,7 +262,7 @@ Feature: Fast track
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
               "USING" : { "node" : [ "node" ],
                 "delay" : "2017-12-01 15:00:00",
-                "code" : "WEBTRANSLATION",
+                "code" : "CUSTOM",
                 "org_responsible" : "DIGIT_TRANSLATION",
                 "org_dg_author" : "IE/CE/DIGIT/TRANSLATION",
                 "org_requester" : "IE/CE/DIGIT/A/3/TRANSLATION",
@@ -218,7 +293,7 @@ Feature: Fast track
     And I press "Apply"
     Then I should see "Revision state: Needs Review"
     And Poetry service received request should contain the following text:
-      | <codeDemandeur>WEBREVIEW</codeDemandeur>                        |
+      | <codeDemandeur>CUSTOM</codeDemandeur>                        |
       | <organisationResponsable>DIGIT_REVIEW</organisationResponsable> |
       | <organisationAuteur>IE/CE/DIGIT/REVIEW</organisationAuteur>     |
       | <serviceDemandeur>IE/CE/DIGIT/A/3/REVIEW</serviceDemandeur>     |
@@ -228,8 +303,9 @@ Feature: Fast track
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
+    And break
     And Poetry service received request should contain the following text:
-      | <codeDemandeur>WEBTRANSLATION</codeDemandeur>                        |
+      | <codeDemandeur>CUSTOM</codeDemandeur>                        |
       | <organisationResponsable>DIGIT_TRANSLATION</organisationResponsable> |
       | <organisationAuteur>IE/CE/DIGIT/TRANSLATION</organisationAuteur>     |
       | <serviceDemandeur>IE/CE/DIGIT/A/3/TRANSLATION</serviceDemandeur>     |
