@@ -55,11 +55,6 @@
         <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
     </rule>
 
-    <!-- Context reaction not strictly follow Drupal function name conventions. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
-    </rule>
-
     <!-- Code based on the classes from Web Service Clients or TMGMT do not follow Drupal function name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
         <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
