@@ -79,7 +79,9 @@ Feature: Fast track
         ],
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
-              "USING" : { "node" : [ "node" ] },
+              "USING" : { "node" : [ "node" ],
+               "delay" : "2017-12-01 15:00:00"
+              },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
                 "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
@@ -109,10 +111,12 @@ Feature: Fast track
     Then I should see "Revision state: Validated"
     And Poetry service received request should contain the following text:
       | <titre>Test page</titre>                                      |
-      | <organisationResponsable>DIGIT</organisationResponsable> |
-      | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>           |
+      | <organisationResponsable>DIGIT</organisationResponsable>      |
+      | <organisationAuteur>IE/CE/DIGIT</organisationAuteur>          |
       | <serviceDemandeur>IE/CE/DIGIT/A/3</serviceDemandeur>          |
       | <applicationReference>FPFIS</applicationReference>            |
+      | <delai>01/12/2017</delai>                                     |
+      | <attributionsDelai>01/12/2017</attributionsDelai>             |
 
   Scenario: Optional action parameters.
     Given I have the following rule:
@@ -136,6 +140,7 @@ Feature: Fast track
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_review_request" : {
               "USING" : { "node" : [ "node" ] ,
+                "delay" : "2017-12-01 15:00:00",
                 "code" : "WEBREVIEW",
                 "org_responsible" : "DIGIT_REVIEW",
                 "org_dg_author" : "IE/CE/DIGIT/REVIEW",
@@ -178,6 +183,7 @@ Feature: Fast track
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
               "USING" : { "node" : [ "node" ],
+                "delay" : "2017-12-01 15:00:00",
                 "code" : "WEBTRANSLATION",
                 "org_responsible" : "DIGIT_TRANSLATION",
                 "org_dg_author" : "IE/CE/DIGIT/TRANSLATION",
@@ -214,6 +220,8 @@ Feature: Fast track
       | <organisationAuteur>IE/CE/DIGIT/REVIEW</organisationAuteur>     |
       | <serviceDemandeur>IE/CE/DIGIT/A/3/REVIEW</serviceDemandeur>     |
       | <workflowCode>STS_REVIEW</workflowCode>                         |
+      | <delai>01/12/2017</delai>                                       |
+      | <attributionsDelai>01/12/2017</attributionsDelai>               |
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
@@ -223,3 +231,5 @@ Feature: Fast track
       | <organisationAuteur>IE/CE/DIGIT/TRANSLATION</organisationAuteur>     |
       | <serviceDemandeur>IE/CE/DIGIT/A/3/TRANSLATION</serviceDemandeur>     |
       | <workflowCode>STS_TRANSLATION</workflowCode>                         |
+      | <delai>01/12/2017</delai>                                            |
+      | <attributionsDelai>01/12/2017</attributionsDelai>                    |

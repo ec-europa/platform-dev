@@ -115,13 +115,17 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   public function requestReview(array $jobs, array $parameters) {
     $rules_response = array();
 
+    if (empty($jobs)) {
+      return $rules_response;
+    }
+
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid);
 
       // Getting the request data.
-      $data = $this->getRequestData($jobs, $node);
+      $data = $this->getRequestData($jobs, $node, $parameters['delay']);
 
       // Overwrite the request identifier and data with parameters from 'Rules'.
       $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
@@ -197,7 +201,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         $identifier['identifier.part'] = $mapping_entity->part;
 
         // Getting the request data.
-        $data = $this->getRequestData($jobs, $node);
+        $data = $this->getRequestData($jobs, $node, $parameters['delay']);
 
         // Overwrite request identifier and data with parameters from 'Rules'.
         $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
