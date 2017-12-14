@@ -100,6 +100,14 @@ function ne_tmgmt_dgt_ftt_translator_entity_property_info() {
     'required' => TRUE,
     'schema field' => 'entity_type',
   );
+  $properties['code'] = array(
+    'label' => t('Requester code'),
+    'type' => 'text',
+    'description' => t('Requester code.'),
+    'setter callback' => 'entity_property_verbatim_set',
+    'required' => TRUE,
+    'schema field' => 'entity_type',
+  );
   $properties['year'] = array(
     'label' => t('Year'),
     'type' => 'integer',
