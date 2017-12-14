@@ -211,9 +211,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $delay, $code = '', $o
 
   // Initializing the parameters array..
   $parameters = array(
-    'identifier' => array(
-      'identifier.code' => $code,
-    ),
+    'requester_code' => $code,
     'data' => array(
       'details' => array(
         'responsible' => $org_responsible,
@@ -273,9 +271,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $delay, $code = '
 
   // Initializing the parameters array..
   $parameters = array(
-    'identifier' => array(
-      'identifier.code' => $code,
-    ),
+    'requester_code' => $code,
     'data' => array(
       'details' => array(
         'responsible' => $org_responsible,
