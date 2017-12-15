@@ -17,10 +17,12 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: I can translate contents with Carts.
+    Given I change the variable "nexteuropa_poetry_notification_username" to "foo"
+    And I change the variable "nexteuropa_poetry_notification_password" to "bar"
     When Poetry service uses the following settings:
     """
-      username: MockCallback
-      password: MockCallbackPWD
+      username: foo
+      password: bar
     """
     When Poetry will return the following "response.status" message response:
     """

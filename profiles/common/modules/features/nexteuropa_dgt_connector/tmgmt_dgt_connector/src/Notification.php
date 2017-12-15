@@ -7,6 +7,7 @@
 
 namespace Drupal\tmgmt_dgt_connector;
 
+use EC\Poetry\Messages\Notifications\StatusUpdated;
 use EC\Poetry\Messages\Notifications\TranslationReceived;
 
 /**
@@ -14,10 +15,10 @@ use EC\Poetry\Messages\Notifications\TranslationReceived;
  *
  * @package Drupal\tmgmt_dgt_connector
  */
-class Subscriber {
+class Notification {
 
   /**
-   * Listener for the event onTranslationReceivedEvent.
+   * Process notification TranslationReceived.
    *
    * @param \EC\Poetry\Messages\Notifications\TranslationReceived $message
    *   The Translation Received.
@@ -25,7 +26,7 @@ class Subscriber {
    * @return bool
    *   Return True if the translation is received without issues.
    */
-  public function onTranslationReceivedEvent(TranslationReceived $message) {
+  public function translationReceived(TranslationReceived $message) {
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
 
     $reference = $message->getIdentifier()->getFormattedIdentifier();
@@ -55,7 +56,7 @@ class Subscriber {
         "tmgmt_poetry",
         "Translation received for aborted job with reference !reference .",
         array('!reference' => $main_reference),
-          WATCHDOG_ERROR
+        WATCHDOG_ERROR
       );
       return FALSE;
     }
@@ -65,7 +66,7 @@ class Subscriber {
         "tmgmt_poetry",
         "Callback can't find controller with reference !reference .",
         array('!reference' => $main_reference),
-          WATCHDOG_ERROR
+        WATCHDOG_ERROR
       );
       return FALSE;
     }
@@ -99,9 +100,9 @@ class Subscriber {
     catch (Exception $e) {
       $main_job->addMessage(
         t('@language File import failed with the following message: @message'), array(
-          '@language' => $job->target_language,
-          '@message' => $e->getMessage(),
-        ),
+        '@language' => $job->target_language,
+        '@message' => $e->getMessage(),
+      ),
         'error'
       );
       watchdog_exception('tmgmt_poetry', $e);
@@ -198,18 +199,15 @@ class Subscriber {
     return $result;
   }
 
-
   /**
-   * Listener for the event onStatusUpdatedEvent.
+   * Process notification StatusUpdated.
    *
-   * @param StatusUpdatedEvent $event
-   *   The event for the Status Update.
+   * @param \EC\Poetry\Messages\Notifications\StatusUpdated $message
+   *   The Translation Received.
    */
-  public function onStatusUpdatedEvent(StatusUpdatedEvent $event) {
+  public function statusUpdated(StatusUpdated $message) {
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
 
-    /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
-    $message = $event->getMessage();
     $reference = $message->getIdentifier()->getFormattedIdentifier();
     $attributions_statuses = $message->getAttributionStatuses();
 
@@ -242,9 +240,9 @@ class Subscriber {
       watchdog(
         'tmgmt_poetry',
         'Job @reference received a Status Update with issues. Message: @message', array(
-          '@reference' => $reference,
-          '@message' => $message->getRaw(),
-        ),
+        '@reference' => $reference,
+        '@message' => $message->getRaw(),
+      ),
         WATCHDOG_ERROR
       );
       return;
@@ -253,9 +251,9 @@ class Subscriber {
     watchdog(
       'tmgmt_poetry',
       'Job @reference got a Status Update. Message: @message', array(
-        '@reference' => $reference,
-        '@message' => $message->getRaw(),
-      ),
+      '@reference' => $reference,
+      '@message' => $message->getRaw(),
+    ),
       WATCHDOG_INFO
     );
 
@@ -350,7 +348,7 @@ class Subscriber {
           )
         );
 
-        _tmgmt_poetry_update_item_status($job_item->tjiid, "", $status_message, "");
+        _tmgmt_poetry_update_item_status($job_item->tjiid, '', $status_message, '');
       }
     }
   }
