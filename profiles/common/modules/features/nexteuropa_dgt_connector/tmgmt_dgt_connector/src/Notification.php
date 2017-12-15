@@ -99,10 +99,11 @@ class Notification {
     }
     catch (Exception $e) {
       $main_job->addMessage(
-        t('@language File import failed with the following message: @message'), array(
-        '@language' => $job->target_language,
-        '@message' => $e->getMessage(),
-      ),
+        t('@language File import failed with the following message: @message'),
+        array(
+          '@language' => $job->target_language,
+          '@message' => $e->getMessage(),
+        ),
         'error'
       );
       watchdog_exception('tmgmt_poetry', $e);
@@ -239,10 +240,11 @@ class Notification {
     if ($request_status->getCode() != '0') {
       watchdog(
         'tmgmt_poetry',
-        'Job @reference received a Status Update with issues. Message: @message', array(
-        '@reference' => $reference,
-        '@message' => $message->getRaw(),
-      ),
+        'Job @reference received a Status Update with issues. Message: @message',
+        array(
+          '@reference' => $reference,
+          '@message' => $message->getRaw(),
+        ),
         WATCHDOG_ERROR
       );
       return;
@@ -250,10 +252,11 @@ class Notification {
 
     watchdog(
       'tmgmt_poetry',
-      'Job @reference got a Status Update. Message: @message', array(
-      '@reference' => $reference,
-      '@message' => $message->getRaw(),
-    ),
+      'Job @reference got a Status Update. Message: @message',
+      array(
+        '@reference' => $reference,
+        '@message' => $message->getRaw(),
+      ),
       WATCHDOG_INFO
     );
 

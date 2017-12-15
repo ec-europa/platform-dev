@@ -5,11 +5,7 @@
  * Provides TMGMT DGT Connector translation plugin controller.
  */
 
-use EC\Poetry\Poetry;
-use EC\Poetry\Messages\Components;
 use EC\Poetry\Exceptions;
-use Drupal\nexteuropa_core\Psr3Watchdog;
-use Psr\Log\LogLevel;
 
 /**
  * TMGMT DGT Connector translation plugin controller.
