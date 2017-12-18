@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \\Drupal\\block\\Config.
- */
-
 namespace Drupal\wysiwyg;
 
 use Drupal\multisite_config\ConfigBase;
@@ -64,6 +59,7 @@ class Config extends ConfigBase {
       $this->updateProfile($profile);
     }
   }
+
   /**
    * Remove a button from a WYSIWYG profile.
    *

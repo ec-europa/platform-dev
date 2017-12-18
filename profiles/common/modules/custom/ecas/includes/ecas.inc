@@ -63,7 +63,6 @@ function ecas_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */

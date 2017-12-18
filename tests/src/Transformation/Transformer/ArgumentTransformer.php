@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\nexteuropa\Transformation\Transformer\ArgumentTransformer.
- */
-
 namespace Drupal\nexteuropa\Transformation\Transformer;
 
 use Behat\Behat\Definition\Call\DefinitionCall;
@@ -19,7 +14,7 @@ class ArgumentTransformer implements ArgumentTransformerInterface {
   /**
    * Extension configuration.
    *
-   * @var
+   * @var array
    */
   private $config;
 

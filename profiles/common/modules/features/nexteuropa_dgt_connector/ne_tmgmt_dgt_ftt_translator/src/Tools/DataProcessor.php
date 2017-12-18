@@ -1,17 +1,12 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator helper functions.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
 use Drupal\nexteuropa_core\Psr3Watchdog;
 use EntityFieldQuery;
-use \EC\Poetry\Poetry;
-use \EC\Poetry\Messages\Responses\Status;
+use EC\Poetry\Poetry;
+use EC\Poetry\Messages\Responses\Status;
 use TMGMTJob;
 
 /**
@@ -21,14 +16,14 @@ trait DataProcessor {
   /**
    * TMGMT Job object.
    *
-   * @var array TMGMTJob
+   * @var array
    */
   private $jobs;
 
   /**
    * Node object.
    *
-   * @var object.
+   * @var object
    */
   private $node;
 
@@ -256,7 +251,7 @@ trait DataProcessor {
   /**
    * Provides an identifier array.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    * @param int $node_id
    *   Node ID.
@@ -305,7 +300,7 @@ trait DataProcessor {
   /**
    * Provides an identifier array in order to send a request.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    * @param object $node_id
    *   Node id.
@@ -350,7 +345,7 @@ trait DataProcessor {
   /**
    * Provides the request identifier default values.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return array
@@ -400,7 +395,7 @@ trait DataProcessor {
    * @param string $property_value
    *   Property value.
    *
-   * @return DgtFttTranslatorMapping entity | bool
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping|bool
    *   A mapping entity or FALSE if there are no results.
    */
   protected function getDgtFttTranslatorMappingByProperty($property_name, $property_value) {
@@ -423,7 +418,7 @@ trait DataProcessor {
   /**
    * Provides a node object related to a given translation job.
    *
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return bool|mixed
@@ -435,7 +430,7 @@ trait DataProcessor {
 
     // Checking if we have job item for a given job.
     if (!empty($job_items)) {
-      /** @var TMGMTJobItem $job_item */
+      /** @var \TMGMTJobItem $job_item */
       $job_item = array_shift($job_items);
       // Checking if an item type is 'node'.
       if ($job_item->item_type === 'node') {
@@ -452,12 +447,12 @@ trait DataProcessor {
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   The DGT Service response.
-   * @param TMGMTJob $job
+   * @param \TMGMTJob $job
    *   TMGMT Job object.
    */
   private function createDgtFttTranslatorMappingEntity(Status $response, TMGMTJob $job) {
     // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
-    /** @var TMGMTJobItem $job_item */
+    /** @var \TMGMTJobItem $job_item */
     $job_items = $job->getItems();
     if (count($job_items) == 1) {
       $job_item = array_shift($job_items);
@@ -665,7 +660,7 @@ trait DataProcessor {
    * @param array $data
    *   An array with the request data.
    *
-   * @return \EC\Poetry\Messages\Responses\Status DGT Services response
+   * @return \EC\Poetry\Messages\Responses\Status
    *   DGT Services response
    */
   private function sendRequest($client_action, array $identifier, array $data = array()) {
