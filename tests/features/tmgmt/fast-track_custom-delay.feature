@@ -148,7 +148,6 @@ Feature: Fast track
     When I select "Validated" from "state"
     And I press "Apply"
     Then I should see "Revision state: Validated"
-    And break
     And Poetry service received request should contain the following text:
       | <titre>Test page</titre>                                      |
       | <organisationResponsable>DIGIT</organisationResponsable>      |
