@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2efc4d744352823fbb76231f93d730cb",
+    "content-hash": "a130257fe429cbc216d4467159973c47",
     "packages": [
         {
             "name": "ec-europa/oe-poetry-client",
