@@ -24,19 +24,4 @@ class CartBundle extends Entity {
     return $return;
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function discard() {
-    $this->discardRelatedItems();
-  }
-
-  private function discardRelatedItems(){
-    foreach ($this->getRelatedItems() as $item) {
-    }
-  }
-
-  private function getRelatedItems(){
-    return array();
-  }
 }
