@@ -57,7 +57,7 @@ function my_module_update_xxxx() {
     watchdog('NextEuropa DGT Connector Cleaning', 'The row that concerns the node with the nid @nid and the "partie" @partie is deleted  
   from "poetry_map" tables: @list.', [
       '@nid' => $implied_nid,
-      '@partie' => $implied_partie
+      '@partie' => $implied_partie,
     ]);
 
     // Clean "tmgmt_job" table.
@@ -72,7 +72,7 @@ function my_module_update_xxxx() {
       'Poetry job clean done for the reference @ref and the node @nid, please check the watchdog logs for more information.',
       ['@ref' => $implied_reference, '@nid' => $implied_nid]);
   }
-  else{
+  else {
     return t('No action needed for Poetry job.');
   }
 }
