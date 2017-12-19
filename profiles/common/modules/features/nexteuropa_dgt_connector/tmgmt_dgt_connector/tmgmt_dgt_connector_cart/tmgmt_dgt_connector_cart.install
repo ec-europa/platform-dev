@@ -1,0 +1,131 @@
+<?php
+
+/**
+ * @file
+ * Install file.
+ */
+
+
+/**
+ * Implements hook_schema().
+ */
+function bean_schema() {
+  $schema['cart_bundle'] = array(
+    'description' => 'Stores cart item bundles.',
+    'fields' => array(
+      'cbid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique translation bundle ID.',
+        'unsigned' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'The author of the revision.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'tjid' => array(
+        'description' => 'Related translation job id.',
+        'type' => 'varchar',
+        'length' => 128,
+      ),
+      'target_languages' => array(
+        'description' => 'Target languages of the bundle.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Status of the bundle.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the entity was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the entity was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('cbid'),
+  );
+
+  $schema['cart_item'] = array(
+    'description' => 'Stores cart item bundles.',
+    'fields' => array(
+      'ciid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique bundle item ID.',
+        'unsigned' => TRUE,
+      ),
+      'cbid' => array(
+        'description' => 'Related translation bundle ID.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_type' => array(
+        'description' => 'Target entity type.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_id' => array(
+        'description' => 'Target entity type ID.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'context_url' => array(
+        'description' => 'Target entity type ID.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'context_comment' => array(
+        'description' => 'Target entity type ID.',
+        'type' => 'longtext',
+      ),
+      'tjiid' => array(
+        'description' => 'Related translation job item ID.',
+        'type' => 'varchar',
+        'length' => 128,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the entity was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the entity was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'foreign keys' => array(
+      'cbid' => array(
+        'table' => 'cart_bundle',
+        'columns' => array('cbid' => 'cbid'),
+      ),
+      'tjiid' => array(
+        'table' => 'tmgmt_job_item',
+        'columns' => array('tjiid' => 'tjiid'),
+      ),
+    ),
+    'primary key' => array('ciid'),
+  );
+
+  return $schema;
+}
