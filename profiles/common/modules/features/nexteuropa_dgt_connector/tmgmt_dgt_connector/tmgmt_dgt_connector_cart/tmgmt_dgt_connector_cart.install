@@ -9,7 +9,7 @@
 /**
  * Implements hook_schema().
  */
-function bean_schema() {
+function tmgmt_dgt_connector_cart_schema() {
   $schema['cart_bundle'] = array(
     'description' => 'Stores cart item bundles.',
     'fields' => array(
@@ -28,8 +28,8 @@ function bean_schema() {
       ),
       'tjid' => array(
         'description' => 'Related translation job id.',
-        'type' => 'varchar',
-        'length' => 128,
+        'type' => 'int',
+        'unsigned' => TRUE,
       ),
       'target_languages' => array(
         'description' => 'Target languages of the bundle.',
@@ -54,6 +54,12 @@ function bean_schema() {
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
+      ),
+    ),
+    'foreign keys' => array(
+      'tjid' => array(
+        'table' => 'tmgmt_job',
+        'columns' => array('tjid' => 'tjid'),
       ),
     ),
     'primary key' => array('cbid'),
@@ -87,19 +93,21 @@ function bean_schema() {
         'not null' => TRUE,
       ),
       'context_url' => array(
-        'description' => 'Target entity type ID.',
+        'description' => 'Context url.',
         'type' => 'varchar',
         'length' => 128,
         'not null' => TRUE,
       ),
       'context_comment' => array(
-        'description' => 'Target entity type ID.',
-        'type' => 'longtext',
+        'description' => 'Context comment.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
       ),
       'tjiid' => array(
         'description' => 'Related translation job item ID.',
-        'type' => 'varchar',
-        'length' => 128,
+        'type' => 'int',
+        'unsigned' => TRUE,
       ),
       'created' => array(
         'description' => 'The Unix timestamp when the entity was created.',
