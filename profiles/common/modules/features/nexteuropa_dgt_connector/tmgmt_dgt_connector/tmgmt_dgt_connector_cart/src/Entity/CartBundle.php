@@ -10,7 +10,7 @@ use Entity;
 class CartBundle extends Entity {
 
   /**
-   * Override the save to add clearing of caches
+   * Override the save to update date properties.
    */
   public function save() {
 
@@ -20,9 +20,23 @@ class CartBundle extends Entity {
 
     $this->changed = REQUEST_TIME;
 
-    $this->plugin->submit($this);
-
     $return = parent::save();
     return $return;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function discard() {
+    $this->discardRelatedItems();
+  }
+
+  private function discardRelatedItems(){
+    foreach ($this->getRelatedItems() as $item) {
+    }
+  }
+
+  private function getRelatedItems(){
+    return array();
   }
 }

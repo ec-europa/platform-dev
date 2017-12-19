@@ -10,20 +10,18 @@ use Entity;
 class CartItem extends Entity {
 
   /**
-   * {@inheritdoc}
+   * Override the save to update date properties.
    */
-  public function discard() {
-    $this->discardRelatedItems();
-    $this->hasStatus();
-  }
+  public function save() {
 
-  private function discardRelatedItems(){
-    foreach ($this->getRelatedItems() as $item){
-
+    if (empty($this->created)) {
+      $this->created = REQUEST_TIME;
     }
+
+    $this->changed = REQUEST_TIME;
+
+    $return = parent::save();
+    return $return;
   }
 
-  private function getRelatedItems(){
-
-  }
 }
