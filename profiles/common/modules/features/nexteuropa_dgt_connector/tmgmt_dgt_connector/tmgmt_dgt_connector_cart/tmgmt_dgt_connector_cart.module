@@ -5,23 +5,22 @@
  * Module file of the TMGMT DGT connector cart.
  */
 
-
 /**
  * Implements hook_entity_info().
  */
 function tmgmt_dgt_connector_cart_entity_info() {
   return array(
     'cart_bundle' => array(
-      'label' => t('Cart bundle'),// label of the entity to be displayed in the views and all
+      'label' => t('Cart bundle'),
       'entity class' => 'Drupal\\tmgmt_dgt_connector_cart\\Entity\\CartBundle',
-      'controller class' => 'EntityAPIController',//default controller class, later we can extent this class to make properties of this entity
-      'base table' => 'cart_bundle',// base table for saving the entity properties
-      'fieldable' => FALSE,//set to true, if extra fields are to be attached to the entity
+      'controller class' => 'EntityAPIController',
+      'base table' => 'cart_bundle',
+      'fieldable' => FALSE,
       'entity keys' => array(
         'id' => 'cbid',
       ),
       'module' => 'tmgmt_dgt_connector_cart',
-      'metadata controller class' => 'Drupal\\tmgmt_dgt_connector_cart\\Metadata\\CartBundleMetadataController',// entity controller class extension in which properties can be created.
+      'metadata controller class' => 'Drupal\\tmgmt_dgt_connector_cart\\Metadata\\CartBundleMetadataController',
     ),
     'cart_item' => array(
       'label' => t('Cart Item'),

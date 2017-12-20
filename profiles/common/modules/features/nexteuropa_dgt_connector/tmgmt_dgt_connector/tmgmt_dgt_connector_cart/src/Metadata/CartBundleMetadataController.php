@@ -8,6 +8,10 @@ use EntityDefaultMetadataController;
  * DGT FTT Translator mapping entity.
  */
 class CartBundleMetadataController extends EntityDefaultMetadataController {
+
+  /**
+   * Override entity properties to add custom ones.
+   */
   public function entityPropertyInfo() {
     $info = parent::entityPropertyInfo();
     $properties = &$info[$this->type]['properties'];
@@ -62,4 +66,5 @@ class CartBundleMetadataController extends EntityDefaultMetadataController {
 
     return $info;
   }
+
 }
