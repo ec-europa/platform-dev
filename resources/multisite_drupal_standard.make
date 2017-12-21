@@ -601,7 +601,8 @@ projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.9"
 
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = 1.3
+projects[scheduler][version] = 1.5
+
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
