@@ -476,7 +476,7 @@ class DgtRulesTools {
   /**
    * Returns all mapping entities based on a request identifier.
    *
-   * @param \EC\Poetry\Messages\Components\Identifier $identifier
+   * @param Identifier $identifier
    *   The translation request identifier.
    *
    * @return array
@@ -515,6 +515,29 @@ class DgtRulesTools {
       return array_shift($entities);
     }
     return NULL;
+  }
+
+  /**
+   * Logs the DGT Service response data.
+   *
+   * @param Identifier $identifier
+   *   The identifier.
+   * @param string $type
+   *   The type of response, e.g. "Status Update" or "Translation Received".
+   * @param string $xml_dump
+   *   The XML to dump.
+   */
+  public static function logResponseData(Identifier $identifier, $type, $xml_dump) {
+    watchdog(
+      'ne_dtmgmt_dgt_ftt_translator',
+      'Job @reference has received a response. Type: @type. Message: @message',
+      array(
+        '@reference' => $identifier->getFormattedIdentifier(),
+        '@type' => $type,
+        '@message' => $xml_dump,
+      ),
+      WATCHDOG_INFO
+    );
   }
 
 }
