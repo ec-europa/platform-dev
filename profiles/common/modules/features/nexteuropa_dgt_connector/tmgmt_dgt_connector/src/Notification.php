@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Provides events subscriber for TMGMT DGT Connector.
- */
-
 namespace Drupal\tmgmt_dgt_connector;
 
 use EC\Poetry\Messages\Notifications\StatusUpdated;
