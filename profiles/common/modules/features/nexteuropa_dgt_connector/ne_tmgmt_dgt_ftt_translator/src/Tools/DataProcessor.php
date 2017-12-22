@@ -14,9 +14,9 @@ use TMGMTJob;
  */
 trait DataProcessor {
   /**
-   * TMGMT Job object.
+   * Array of TMGMT Job objects.
    *
-   * @var arrayTMGMTJob
+   * @var array
    */
   private $jobs;
 
