@@ -6,6 +6,7 @@
  */
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
+use EC\Poetry\Messages\Components\Identifier;
 
 /**
  * Implements hook_rules_condition_info().
@@ -139,7 +140,7 @@ function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous
  * @return true|false
  *   Returns true or false depending if all translations were received.
  */
-function ne_dgt_rules_all_translations_are_received(\EC\Poetry\Messages\Components\Identifier $identifier) {
+function ne_dgt_rules_all_translations_are_received(Identifier $identifier) {
   $ftt_jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
   foreach ($ftt_jobs as $ftt_job) {
     if ($ftt_job->getCountPending()) {

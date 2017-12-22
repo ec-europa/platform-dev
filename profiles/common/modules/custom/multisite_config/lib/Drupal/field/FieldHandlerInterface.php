@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field\FieldHandlerInterface.
- */
-
 namespace Drupal\field;
 
 /**

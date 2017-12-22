@@ -34,21 +34,11 @@
     <exclude-pattern>profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins</exclude-pattern>
     <exclude-pattern>profiles/common/modules/custom/multisite_drupal_toolbox/icons</exclude-pattern>
 
-    <!-- Legacy modules which are not compliant with coding standards. These are
-         being fixed in NEXTEUROPA-3575. Whenever a module is fixed, please
-         remove it from this list so it can be tested. -->
-    <exclude-pattern>profiles/multisite_drupal_communities/inject_data.php</exclude-pattern>
+    <!-- This module is not supported by Core team so we exclude it from QA -->
+    <exclude-pattern>profiles/*/modules/custom/nexteuropa_newsroom/</exclude-pattern>
 
     <!-- Views handlers/plugins not strictly follow Drupal class name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidClassName">
-        <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_*.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/*.inc</exclude-pattern>
-        <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
-    </rule>
-
-    <!-- Views handlers/plugins not strictly follow Drupal function name conventions. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName">
         <exclude-pattern>profiles/common/modules/custom/ecas/ecas_extra/includes/views/handlers/*.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_standard/includes/views_handler_*.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/*.inc</exclude-pattern>
@@ -111,6 +101,13 @@
         <exclude-pattern>*/views_handler*</exclude-pattern>
     </rule>
 
+    <!-- Views handlers function names don't follow camelcase. -->
+    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
+        <exclude-pattern>*/views_handler*</exclude-pattern>
+        <exclude-pattern>*/views_handler*</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/multisite_business_indicators_core_views_plugin_style_chart.inc</exclude-pattern>
+    </rule>
+
     <!-- Current QA rules give false positives for submodules of a feature. -->
     <!-- Todo: Remove this when MULTISITE-18366 is fixed. -->
     <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
@@ -144,9 +141,13 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_trackedchanges/nexteuropa_trackedchanges.helper.inc</exclude-pattern>
     </rule>
 
-    <!-- Current QA rules give false positives for submodules of a feature. -->
-    <!-- Todo: Remove this when MULTISITE-18366 is fixed. -->
-    <rule ref="QualityAssurance.InfoFiles.Features.CustomModule">
-        <exclude-pattern>*</exclude-pattern>
+    <!-- Exclude readme, license and changelog files from checking line length. -->
+    <rule ref="Drupal.Files.TxtFileLineLength.TooLong">
+        <exclude-pattern>*/README.md</exclude-pattern>
+        <exclude-pattern>*/README.txt</exclude-pattern>
+        <exclude-pattern>*/LICENSE.md</exclude-pattern>
+        <exclude-pattern>*/LICENSE.txt</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.md</exclude-pattern>
+        <exclude-pattern>*/CHANGELOG.txt</exclude-pattern>
     </rule>
 </ruleset>
