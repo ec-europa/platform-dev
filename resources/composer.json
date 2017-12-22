@@ -4,7 +4,7 @@
   "require": {
     "guzzlehttp/guzzle": "^6.2.1",
     "ec-europa/oe-poetry-client": "^0.3",
-    "drupol/drupal7_psr3_watchdog": "^1.0"
+    "ec-europa/nexteuropa_poetry": "dev-master"
   },
   "require-dev": {
     "behat/behat": "~3.1.0@rc",
