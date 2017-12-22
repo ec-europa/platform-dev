@@ -1,12 +1,17 @@
 <?php
 
+/**
+ * @file
+ * Provides Next Europa TMGMT DGT FTT translator helper functions.
+ */
+
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
 use Drupal\nexteuropa_core\Psr3Watchdog;
-use EntityFieldQuery;
 use EC\Poetry\Poetry;
 use EC\Poetry\Messages\Responses\Status;
+use EntityFieldQuery;
 use TMGMTJob;
 
 /**
@@ -16,14 +21,14 @@ trait DataProcessor {
   /**
    * TMGMT Job object.
    *
-   * @var array
+   * @var array TMGMTJob
    */
   private $jobs;
 
   /**
    * Node object.
    *
-   * @var object
+   * @var object.
    */
   private $node;
 
@@ -73,7 +78,7 @@ trait DataProcessor {
    * @return array
    *   Request data array.
    */
-  public function getRequestData(array $jobs, $node) {
+  public function getRequestData(array $jobs, $node, $delay) {
     // Setting out the node object property.
     $this->node = $node;
     // Setting out the job property.
@@ -81,7 +86,7 @@ trait DataProcessor {
     // Setting out the translator property.
     $this->translator = $jobs[0]->getTranslator();
     // Setting out the default delay date - 72 hours.
-    $this->defaultDelayDate = date('d/m/Y', time() + 259200);
+    $this->defaultDelayDate = date('d/m/Y', $delay);
     // Getting the translator settings.
     $settings = $this->getTranslatorSettings();
 
@@ -251,7 +256,7 @@ trait DataProcessor {
   /**
    * Provides an identifier array.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    * @param int $node_id
    *   Node ID.
@@ -283,7 +288,7 @@ trait DataProcessor {
   /**
    * Provides an identifier array in order to send a request.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    * @param int $node_id
    *   Node id.
@@ -329,7 +334,7 @@ trait DataProcessor {
   /**
    * Provides the request identifier default values.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return array
@@ -359,7 +364,7 @@ trait DataProcessor {
    * @param string $requester_code
    *   Requester code.
    *
-   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping|bool
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
    *   Entity or FALSE if there are no entries in the entity table.
    */
   private function getLatestMappingByRequesterCode($requester_code) {
@@ -390,7 +395,7 @@ trait DataProcessor {
    * @param string $requester_code
    *   Requester code.
    *
-   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping|bool
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
    *   Entity or FALSE if there are no entries in the entity table.
    */
   private function getLatestMappingByEntityId($entity_id, $requester_code) {
@@ -419,7 +424,7 @@ trait DataProcessor {
   /**
    * Provides the latest DGT FTT Translator Mapping entity.
    *
-   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping|bool
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
    *   Entity or FALSE if there are no entries in the entity table.
    */
   private function getLatestDgtFttTranslatorMappingEntity() {
@@ -442,7 +447,7 @@ trait DataProcessor {
    * @param string $property_value
    *   Property value.
    *
-   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping|bool
+   * @return \Drupal\ne_tmgmt_dgt_ftt_translator\Entity\DgtFttTranslatorMapping | bool
    *   A mapping entity or FALSE if there are no results.
    */
   protected function getDgtFttTranslatorMappingByProperty($property_name, $property_value) {
@@ -465,7 +470,7 @@ trait DataProcessor {
   /**
    * Provides a node object related to a given translation job.
    *
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    *
    * @return bool|mixed
@@ -477,7 +482,7 @@ trait DataProcessor {
 
     // Checking if we have job item for a given job.
     if (!empty($job_items)) {
-      /** @var \TMGMTJobItem $job_item */
+      /** @var TMGMTJobItem $job_item */
       $job_item = array_shift($job_items);
       // Checking if an item type is 'node'.
       if ($job_item->item_type === 'node') {
@@ -494,12 +499,12 @@ trait DataProcessor {
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
    *   The DGT Service response.
-   * @param \TMGMTJob $job
+   * @param TMGMTJob $job
    *   TMGMT Job object.
    */
   private function createDgtFttTranslatorMappingEntity(Status $response, TMGMTJob $job) {
     // Extracting TMGMT Job Item from the TMGMT Job in order to get data.
-    /** @var \TMGMTJobItem $job_item */
+    /** @var TMGMTJobItem $job_item */
     $job_items = $job->getItems();
     if (count($job_items) == 1) {
       $job_item = array_shift($job_items);
@@ -650,16 +655,6 @@ trait DataProcessor {
   }
 
   /**
-   * Logs the DGT Service response data.
-   *
-   * @param array $response_data
-   *   An array with the DGT Service response data.
-   */
-  private function logResponseData(array $response_data) {
-    // @todo: Implement logging into files system.
-  }
-
-  /**
    * Updating the TMGMT Job and TMGMT Job Item with data from the DGT response.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
@@ -709,7 +704,7 @@ trait DataProcessor {
    * @param array $data
    *   An array with the request data.
    *
-   * @return \EC\Poetry\Messages\Responses\Status
+   * @return \EC\Poetry\Messages\Responses\Status DGT Services response
    *   DGT Services response
    */
   private function sendRequest($client_action, array $identifier, array $data = array()) {
