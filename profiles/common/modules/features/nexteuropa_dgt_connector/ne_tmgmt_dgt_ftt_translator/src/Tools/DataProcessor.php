@@ -4,9 +4,9 @@ namespace Drupal\ne_tmgmt_dgt_ftt_translator\Tools;
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
 use Drupal\nexteuropa_core\Psr3Watchdog;
-use EntityFieldQuery;
 use EC\Poetry\Poetry;
 use EC\Poetry\Messages\Responses\Status;
+use EntityFieldQuery;
 use TMGMTJob;
 
 /**
@@ -14,7 +14,7 @@ use TMGMTJob;
  */
 trait DataProcessor {
   /**
-   * TMGMT Job object.
+   * Array of TMGMT Job objects.
    *
    * @var array
    */
@@ -69,11 +69,13 @@ trait DataProcessor {
    *   Array TMGMT Job object.
    * @param object $node
    *   Node object.
+   * @param int $delay
+   *   Timestamp of the deadline.
    *
    * @return array
    *   Request data array.
    */
-  public function getRequestData(array $jobs, $node) {
+  public function getRequestData(array $jobs, $node, $delay) {
     // Setting out the node object property.
     $this->node = $node;
     // Setting out the job property.
@@ -81,7 +83,7 @@ trait DataProcessor {
     // Setting out the translator property.
     $this->translator = $jobs[0]->getTranslator();
     // Setting out the default delay date - 72 hours.
-    $this->defaultDelayDate = date('d/m/Y', time() + 259200);
+    $this->defaultDelayDate = date('d/m/Y', $delay);
     // Getting the translator settings.
     $settings = $this->getTranslatorSettings();
 
@@ -650,16 +652,6 @@ trait DataProcessor {
   }
 
   /**
-   * Logs the DGT Service response data.
-   *
-   * @param array $response_data
-   *   An array with the DGT Service response data.
-   */
-  private function logResponseData(array $response_data) {
-    // @todo: Implement logging into files system.
-  }
-
-  /**
    * Updating the TMGMT Job and TMGMT Job Item with data from the DGT response.
    *
    * @param \EC\Poetry\Messages\Responses\Status $response
@@ -710,7 +702,7 @@ trait DataProcessor {
    *   An array with the request data.
    *
    * @return \EC\Poetry\Messages\Responses\Status
-   *   DGT Services response
+   *   DGT Services response.
    */
   private function sendRequest($client_action, array $identifier, array $data = array()) {
     // Instantiate the Poetry Client object.
