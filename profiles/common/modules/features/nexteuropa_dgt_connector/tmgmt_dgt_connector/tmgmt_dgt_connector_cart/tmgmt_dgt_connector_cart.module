@@ -5,6 +5,9 @@
  * Module file of the TMGMT DGT connector cart.
  */
 
+use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
+use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
+
 /**
  * Implements hook_entity_info().
  */
@@ -36,4 +39,68 @@ function tmgmt_dgt_connector_cart_entity_info() {
     ),
   );
 
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+  unset($form['top_actions']);
+  $form['actions']['cart'] = array(
+    '#type' => 'submit',
+    '#value' => 'Send to cart',
+    '#submit' => array('tmgmt_dgt_connector_cart_form_submit'),
+    '#validate' => array('tmgmt_dgt_connector_cart_form_validate'),
+  );
+
+}
+
+/**
+ * Custom submit function for cart functionality.
+ */
+function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
+
+  global $user;
+  $values = $form_state['values'];
+  $target_languages = implode('_', array_keys(array_filter($values['languages'])));
+
+  $cart_bundle_properties = array(
+    'uid' => $user->uid,
+    'target_languages' => $target_languages,
+  );
+  $cart_bundles = CartBundle::loadWithProperties($cart_bundle_properties);
+  if (empty($cart_bundles)) {
+    $cart_bundle = CartBundle::create($user->uid, $target_languages, 'OPEN');
+  }
+  else {
+    $cart_bundle = reset($cart_bundles);
+  }
+
+  $entity = $form_state['entity'];
+  $entity_type = $form_state['entity_type'];
+  list($entity_id) = entity_extract_ids($entity_type, $entity);
+  $cart_item_properties = array(
+    'cbid' => $cart_bundle->cbid,
+    'entity_type' => $entity_type,
+    'entity_id' => $entity_id,
+  );
+  $cart_items = CartItem::loadWithProperties($cart_item_properties);
+  if (empty($cart_items)) {
+    CartItem::create($cart_bundle->cbid, $entity_type, $entity_id);
+  }
+  else {
+    drupal_set_message(t('The content has already been added to the cart.'), 'error');
+    return;
+  }
+  drupal_set_message(t('The content has been added to the cart.'));
+}
+
+/**
+ * Custom validation function for cart functionality.
+ */
+function tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
+  $selected = array_filter($form_state['values']['languages']);
+  if (empty($selected)) {
+    form_set_error('languages', t('You have to select at least one language before sending content to the cart.'));
+  }
 }
