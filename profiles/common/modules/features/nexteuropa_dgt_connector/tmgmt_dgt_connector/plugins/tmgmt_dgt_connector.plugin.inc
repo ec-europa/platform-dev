@@ -6,10 +6,8 @@
  */
 
 use EC\Poetry\Poetry;
-use EC\Poetry\Messages\Components;
-use EC\Poetry\Exceptions;
+use EC\Poetry\Exceptions\ValidationException;
 use Drupal\nexteuropa_core\Psr3Watchdog;
-use Psr\Log\LogLevel;
 
 /**
  * TMGMT DGT Connector translation plugin controller.
@@ -262,7 +260,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
 
       return $poetry->getClient()->send($message);
     }
-    catch (Exceptions\ValidationException $exception) {
+    catch (ValidationException $exception) {
       drupal_set_message($exception->getMessage(), 'error');
       return FALSE;
     }
