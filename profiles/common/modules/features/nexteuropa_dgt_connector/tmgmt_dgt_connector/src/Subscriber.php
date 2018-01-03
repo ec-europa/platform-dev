@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Provides events subscriber for TMGMT DGT Connector.
- */
-
 namespace Drupal\tmgmt_dgt_connector;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -212,11 +207,10 @@ class Subscriber implements EventSubscriberInterface {
     return $result;
   }
 
-
   /**
    * Listener for the event onStatusUpdatedEvent.
    *
-   * @param StatusUpdatedEvent $event
+   * @param \EC\Poetry\Events\Notifications\StatusUpdatedEvent $event
    *   The event for the Status Update.
    */
   public function onStatusUpdatedEvent(StatusUpdatedEvent $event) {
