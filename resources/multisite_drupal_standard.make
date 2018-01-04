@@ -168,7 +168,7 @@ projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.10"
 ; Issue #2305049: Wrong timezone handling in migrate process.
 ; https://www.drupal.org/node/2305049
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
