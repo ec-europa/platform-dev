@@ -413,9 +413,9 @@ projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
 
 projects[linkchecker][subdir] = "contrib"
-projects[linkchecker][download][branch] = 7.x-1.x
-projects[linkchecker][download][revision] = 623819d04464b26af8e216113a88cd03f4bb4ccc
+projects[linkchecker][version] = "1.3"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
