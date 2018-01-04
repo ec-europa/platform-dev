@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\AgnosticBatchContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\MinkExtension\Context\RawMinkContext;

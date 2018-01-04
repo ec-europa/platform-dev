@@ -138,7 +138,6 @@ class MultisiteBusinessIndicatorsCommunityQAWebTestCase extends DrupalWebTestCas
     }
   }
 
-
   /**
    * Tests comment creation.
    */

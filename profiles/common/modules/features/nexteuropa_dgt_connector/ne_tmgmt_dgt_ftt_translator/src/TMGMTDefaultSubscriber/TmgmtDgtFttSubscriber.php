@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Provides Next Europa TMGMT DGT FTT translator listener.
- */
-
 namespace Drupal\ne_tmgmt_dgt_ftt_translator\TMGMTDefaultSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -30,34 +25,27 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
   /**
    * Implements the event onTranslationReceivedEvent.
    *
-   * @param TranslationReceivedEvent $event
+   * @param \EC\Poetry\Events\Notifications\TranslationReceivedEvent $event
    *   The event for the translation Received.
    */
   public function onTranslationReceivedEvent(TranslationReceivedEvent $event) {
     /** @var \EC\Poetry\Messages\Notifications\TranslationReceived $message */
     $message = $event->getMessage();
     $identifier = $message->getIdentifier();
-
-    watchdog(
-      'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Translation Received. Message: @message',
-      array(
-        '@reference' => $identifier->getFormattedIdentifier(),
-        '@message' => $message->getRaw(),
-      ),
-      WATCHDOG_INFO
-    );
+    DgtRulesTools::logResponseData($identifier, 'Translation Received', $message->getRaw());
 
     $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
-    $attributions = $message->getTargets();
 
     /** @var \EC\Poetry\Messages\Components\Target $attribution */
-    foreach ($attributions as $attribution) {
+    foreach ($message->getTargets() as $attribution) {
       /** @var \TMGMTJob $job */
       foreach ($jobs as $job) {
         $translator = $job->getTranslator();
-        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
+        if ('dgt_ftt' != $translator->plugin) {
+          continue;
+        }
 
+        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
         if ($job_language == $attribution->getLanguage()) {
           if (DgtRulesTools::updateTranslationTmgmtJob($job, $attribution->getTranslatedFile())) {
             if (module_exists('rules')) {
@@ -83,19 +71,19 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
   /**
    * Implements the event onStatusUpdatedEvent.
    *
-   * @param StatusUpdatedEvent $event
+   * @param \EC\Poetry\Events\Notifications\StatusUpdatedEvent $event
    *   The event for the Status Update.
    */
   public function onStatusUpdatedEvent(StatusUpdatedEvent $event) {
     /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
     $message = $event->getMessage();
     $identifier = $message->getIdentifier();
+    DgtRulesTools::logResponseData($identifier, 'Status Update', $message->getRaw());
 
     $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
-    $request_status = $message->getRequestStatus();
-    $demand_status = $message->getDemandStatus();
-    $attributions_statuses = $message->getAttributionStatuses();
 
+    // Checking the Request Status.
+    $request_status = $message->getRequestStatus();
     if ($request_status->getCode() != '0') {
       watchdog(
         'ne_dtmgmt_dgt_ftt_translator',
@@ -110,28 +98,23 @@ class TMGMTDgtFttSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    watchdog(
-      'ne_dtmgmt_dgt_ftt_translator',
-      'Job @reference receives a Status Update. Message: @message',
-      array(
-        '@reference' => $identifier->getFormattedIdentifier(),
-        '@message' => $message->getRaw(),
-      ),
-      WATCHDOG_INFO
-    );
-
     // Checking the Demand Status.
+    $demand_status = $message->getDemandStatus();
     foreach ($jobs as $job) {
       DgtRulesTools::updateStatusTmgmtJob($job, $demand_status);
     }
 
+    // Checking the Attribution Status.
     /** @var \EC\Poetry\Messages\Components\Status $attribution_status */
-    foreach ($attributions_statuses as $attribution_status) {
+    foreach ($message->getAttributionStatuses() as $attribution_status) {
       /** @var \TMGMTJob $job */
       foreach ($jobs as $job) {
         $translator = $job->getTranslator();
-        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
+        if ('dgt_ftt' != $translator->plugin) {
+          continue;
+        }
 
+        $job_language = drupal_strtoupper($translator->mapToRemoteLanguage($job->target_language));
         if ($job_language == $attribution_status->getLanguage()) {
           DgtRulesTools::updateStatusTmgmtJob($job, $attribution_status);
           continue;
