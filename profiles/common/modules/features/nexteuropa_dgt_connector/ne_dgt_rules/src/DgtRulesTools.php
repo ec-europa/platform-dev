@@ -476,7 +476,7 @@ class DgtRulesTools {
   /**
    * Returns all mapping entities based on a request identifier.
    *
-   * @param Identifier $identifier
+   * @param \EC\Poetry\Messages\Components\Identifier $identifier
    *   The translation request identifier.
    *
    * @return array
@@ -520,7 +520,7 @@ class DgtRulesTools {
   /**
    * Logs the DGT Service response data.
    *
-   * @param Identifier $identifier
+   * @param \EC\Poetry\Messages\Components\Identifier $identifier
    *   The identifier.
    * @param string $type
    *   The type of response, e.g. "Status Update" or "Translation Received".

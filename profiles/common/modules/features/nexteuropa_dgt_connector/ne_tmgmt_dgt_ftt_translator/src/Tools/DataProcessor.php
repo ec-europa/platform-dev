@@ -69,6 +69,8 @@ trait DataProcessor {
    *   Array TMGMT Job object.
    * @param object $node
    *   Node object.
+   * @param string $delay
+   *   Delay.
    *
    * @return array
    *   Request data array.

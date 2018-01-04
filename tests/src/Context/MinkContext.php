@@ -478,8 +478,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @Then :option is selected in the :selector options list
    */
-  public function selectedOptionShouldBeSetTo($selector, $value_label)
-  {
+  public function selectedOptionShouldBeSetTo($selector, $value_label) {
     $page = $this->getSession()->getPage();
     $select_box = $page->findField($selector);
 

@@ -17,7 +17,7 @@ use function bovigo\assert\assert;
  */
 class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
-   use \Drupal\nexteuropa\Context\ContextUtil;
+  use \Drupal\nexteuropa\Context\ContextUtil;
 
   /**
    * The Drupal driver manager.
