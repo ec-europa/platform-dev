@@ -46,7 +46,6 @@ function _nexteuropa_metatags_classification_options() {
   return $list;
 }
 
-
 /**
  * Create the "metatags ess gf".
  */

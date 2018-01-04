@@ -79,7 +79,6 @@ function nexteuropa_metatags_token_info() {
   return $info;
 }
 
-
 /**
  * Implements hook_tokens().
  */

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Contains Metatag specific hook implementations.
+ */
+
 module_load_include('inc', 'nexteuropa_metatags', 'nexteuropa_metatags.helpers');
 
 /**
