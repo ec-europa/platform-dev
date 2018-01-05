@@ -38,7 +38,6 @@ function tmgmt_dgt_connector_cart_entity_info() {
       'metadata controller class' => 'Drupal\\tmgmt_dgt_connector_cart\\Metadata\\CartItemMetadataController',
     ),
   );
-
 }
 
 /**
@@ -52,7 +51,6 @@ function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$fo
     '#submit' => array('tmgmt_dgt_connector_cart_form_submit'),
     '#validate' => array('tmgmt_dgt_connector_cart_form_validate'),
   );
-
 }
 
 /**
@@ -60,11 +58,14 @@ function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$fo
  */
 function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
   global $user;
+
   // Extracting languages from the form.
   $values = $form_state['values'];
   $target_languages = array_keys(array_filter($values['languages']));
+
   // Sorting in order to ensure that an array order is always the same.
   ksort($target_languages);
+
   // Concatenating languages in order to store them as a string.
   $target_languages = implode('.', $target_languages);
 
@@ -112,6 +113,7 @@ function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
  */
 function tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
   $selected = array_filter($form_state['values']['languages']);
+
   // Checking if at least one language was selected.
   if (empty($selected)) {
     form_set_error('languages', t('You have to select at least one language before sending content to the cart.'));

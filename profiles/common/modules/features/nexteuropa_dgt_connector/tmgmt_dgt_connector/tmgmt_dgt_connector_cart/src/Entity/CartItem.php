@@ -34,8 +34,8 @@ class CartItem extends Entity {
    *   An array of CartBundle entity objects indexed by their ids or an empty
    *   array if no results are found.
    */
-  public static function load($ciid, $reset) {
-    $ciids = (isset($ciid) ? array($ciid) : array());
+  public static function load($ciid, $reset = FALSE) {
+    $ciids = isset($ciid) ? array($ciid) : array();
     $cart_bundle = self::loadMultiple($ciids, $reset);
 
     return $cart_bundle ? reset($cart_bundle) : FALSE;
@@ -76,9 +76,9 @@ class CartItem extends Entity {
     $result = $query->execute();
 
     if (isset($result['cart_item'])) {
-      $cbids = array_keys($result['cart_item']);
+      $ciids = array_keys($result['cart_item']);
 
-      return self::loadMultiple($cbids);
+      return self::loadMultiple($ciids);
     }
 
     return array();

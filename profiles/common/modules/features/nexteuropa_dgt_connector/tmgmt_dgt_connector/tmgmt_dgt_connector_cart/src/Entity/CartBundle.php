@@ -18,7 +18,6 @@ class CartBundle extends Entity {
    * Override the save to update date properties.
    */
   public function save() {
-
     if (empty($this->created)) {
       $this->created = REQUEST_TIME;
     }
@@ -39,8 +38,9 @@ class CartBundle extends Entity {
    *   The CartBundle entity or FALSE if the entity was not found.
    */
   public static function load($cbid, $reset) {
-    $cbids = (isset($cbid) ? array($cbid) : array());
+    $cbids = isset($cbid) ? array($cbid) : array();
     $cart_bundle = self::loadMultiple($cbids, $reset);
+
     return $cart_bundle ? reset($cart_bundle) : FALSE;
   }
 
