@@ -303,8 +303,8 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
       '#default_value' => (!empty($job->settings['contacts']['responsable']) ? $job->settings['contacts']['responsable'] : $contacts['responsable']),
     );
 
-    // Load translator settings : Organization.
-    $organization = $translator->getSetting('organization');
+    // Load translator settings from submitted job: Organization.
+    $organization = ($job->settings['organization']) ? $job->settings['organization'] : $translator->getSetting('organization');
     $form['organization'] = array(
       '#type' => 'fieldset',
       '#title' => t('Organization'),
