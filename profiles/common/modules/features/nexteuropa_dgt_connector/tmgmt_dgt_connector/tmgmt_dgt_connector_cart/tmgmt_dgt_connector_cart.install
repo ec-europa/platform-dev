@@ -10,12 +10,12 @@
  */
 function tmgmt_dgt_connector_cart_schema() {
   $schema['cart_bundle'] = array(
-    'description' => 'Stores cart item bundles.',
+    'description' => 'Stores cart bundles.',
     'fields' => array(
       'cbid' => array(
         'type' => 'serial',
         'not null' => TRUE,
-        'description' => 'Primary Key: Unique translation bundle ID.',
+        'description' => 'Primary Key: Unique translation cart bundle ID.',
         'unsigned' => TRUE,
       ),
       'uid' => array(
@@ -65,16 +65,16 @@ function tmgmt_dgt_connector_cart_schema() {
   );
 
   $schema['cart_item'] = array(
-    'description' => 'Stores cart item bundles.',
+    'description' => 'Stores cart items.',
     'fields' => array(
       'ciid' => array(
         'type' => 'serial',
         'not null' => TRUE,
-        'description' => 'Primary Key: Unique bundle item ID.',
+        'description' => 'Primary Key: Unique cart item ID.',
         'unsigned' => TRUE,
       ),
       'cbid' => array(
-        'description' => 'Related translation bundle ID.',
+        'description' => 'Related translation cart bundle ID.',
         'type' => 'varchar',
         'length' => 128,
         'not null' => TRUE,
