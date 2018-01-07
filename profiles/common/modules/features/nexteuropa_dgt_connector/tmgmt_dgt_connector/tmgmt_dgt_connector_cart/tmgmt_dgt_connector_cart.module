@@ -5,6 +5,9 @@
  * Module file of the TMGMT DGT connector cart.
  */
 
+use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
+use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
+
 /**
  * Implements hook_entity_info().
  */
@@ -35,5 +38,84 @@ function tmgmt_dgt_connector_cart_entity_info() {
       'metadata controller class' => 'Drupal\\tmgmt_dgt_connector_cart\\Metadata\\CartItemMetadataController',
     ),
   );
+}
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+  unset($form['top_actions']);
+  $form['actions']['cart'] = array(
+    '#type' => 'submit',
+    '#value' => 'Send to cart',
+    '#submit' => array('tmgmt_dgt_connector_cart_form_submit'),
+    '#validate' => array('tmgmt_dgt_connector_cart_form_validate'),
+  );
+}
+
+/**
+ * Custom submit function for cart functionality.
+ */
+function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
+  global $user;
+
+  // Extracting languages from the form.
+  $values = $form_state['values'];
+  $target_languages = array_keys(array_filter($values['languages']));
+
+  // Sorting in order to ensure that an array order is always the same.
+  ksort($target_languages);
+
+  // Concatenating languages in order to store them as a string.
+  $target_languages = implode('.', $target_languages);
+
+  // Setting up properties to query for a CartBundle entities.
+  $cart_bundle_properties = array(
+    'uid' => $user->uid,
+    'target_languages' => $target_languages,
+    'status' => CartBundle::STATUS_OPEN,
+  );
+
+  // Checking if the CartBundle entities exist for a given entity or create one.
+  $cart_bundles = CartBundle::loadWithProperties($cart_bundle_properties);
+  if (empty($cart_bundles)) {
+    $cart_bundle = CartBundle::create($user->uid, $target_languages, CartBundle::STATUS_OPEN);
+  }
+  else {
+    $cart_bundle = reset($cart_bundles);
+  }
+
+  // Extracting and setting up properties to query for CartItem entities.
+  $entity = $form_state['entity'];
+  $entity_type = $form_state['entity_type'];
+  list($entity_id) = entity_extract_ids($entity_type, $entity);
+  $cart_item_properties = array(
+    'cbid' => $cart_bundle->cbid,
+    'entity_type' => $entity_type,
+    'entity_id' => $entity_id,
+  );
+
+  // Checking if the CartItem entities exist for a given entity and if so
+  // returning an error message.
+  $cart_items = CartItem::loadWithProperties($cart_item_properties);
+  if (empty($cart_items)) {
+    CartItem::create($cart_bundle->cbid, $entity_type, $entity_id);
+  }
+  else {
+    drupal_set_message(t('The content has already been added to the cart.'), 'error');
+    return;
+  }
+  drupal_set_message(t('The content has been added to the cart.'));
+}
+
+/**
+ * Custom validation function for cart functionality.
+ */
+function tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
+  $selected = array_filter($form_state['values']['languages']);
+
+  // Checking if at least one language was selected.
+  if (empty($selected)) {
+    form_set_error('languages', t('You have to select at least one language before sending content to the cart.'));
+  }
 }
