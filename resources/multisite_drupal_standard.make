@@ -366,7 +366,7 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][download][branch] = 7.x-1.x
 projects[integration][download][revision] = fb3cf87
@@ -1011,3 +1011,8 @@ projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
 projects[atomium][download][branch] = 7.x-2.x
+
+projects[ec_europa][type] = theme
+projects[ec_europa][download][type] = git
+projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
+projects[ec_europa][download][branch] = master
