@@ -168,7 +168,7 @@ function nexteuropa_piwik_process_html(&$vars) {
     }
   }
 
-  $webtools_piwik_settings = strip_tags(json_encode($webtools_piwik_settings));
+  $webtools_piwik_settings = strip_tags(drupal_json_encode($webtools_piwik_settings));
   // Add application/json tag to the header.
   $element = array(
     '#type' => 'html_tag',

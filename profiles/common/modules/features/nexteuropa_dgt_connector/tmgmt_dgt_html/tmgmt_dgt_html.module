@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Module file for DGT approved HMTL format.
@@ -10,7 +11,7 @@
 function tmgmt_dgt_html_tmgmt_file_format_plugin_info() {
 
   $info['html_poetry']['label'] = t('HTML DGT');
-  $info['html_poetry']['plugin controller class'] = 'TMGMTFileDGTFormatHTML';
+  $info['html_poetry']['plugin controller class'] = 'TmgmtDgtHtmlFormat';
 
   return $info;
 }

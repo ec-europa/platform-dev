@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Multisite Metatags feature.
@@ -19,7 +20,7 @@ function multisite_metatags_form_node_form_alter(&$form, &$form_state, $form_id)
 
     // Change the select to show name and description.
     $list[0] = 'none';
-    foreach ($classification as $key => $obj_term) {
+    foreach ($classification as $obj_term) {
       $list[$obj_term->tid] = $obj_term->name . ' - ' . strip_tags($obj_term->description);
     }
     $form['field_meta_classification'][LANGUAGE_NONE]['#options'] = $list;
@@ -139,16 +140,16 @@ function multisite_metatags_form_system_site_information_settings_alter(&$form, 
  * Handler Site information form submit.
  */
 function _multisite_metatags_form_submit($form, &$form_state) {
-  if (isset($form_state['input']['classification'])) {
-    variable_set('meta_configuration', $form_state['input']['classification']);
+  if (isset($form_state['values']['classification'])) {
+    variable_set('meta_configuration', $form_state['values']['classification']);
   }
 
-  if (isset($form_state['input']['reference'])) {
-    variable_set('meta_reference', $form_state['input']['reference']);
+  if (isset($form_state['values']['reference'])) {
+    variable_set('meta_reference', $form_state['values']['reference']);
   }
 
-  if (isset($form_state['input']['creator'])) {
-    variable_set('meta_creator', $form_state['input']['creator']);
+  if (isset($form_state['values']['creator'])) {
+    variable_set('meta_creator', $form_state['values']['creator']);
   }
 
   if (isset($form_state['values']['meta_og_image'])) {

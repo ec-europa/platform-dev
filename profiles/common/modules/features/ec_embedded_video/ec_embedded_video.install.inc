@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the ec_embedded_video module.

@@ -138,6 +138,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
   $term_deltas = array();
   $tree = taxonomy_get_tree($vocabulary->vid, $group_tid);
   $term = current($tree);
+  $complete_tree = FALSE;
   do {
     // In case this tree is completely empty.
     if (empty($term)) {
@@ -150,7 +151,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
       continue;
     }
     // Count entries after the current page.
-    elseif ($page_entries > $page_increment && isset($complete_tree)) {
+    elseif ($page_entries > $page_increment && $complete_tree) {
       $after_entries++;
       continue;
     }
@@ -206,6 +207,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
 
   // If this form was already submitted once, it's probably hit a validation
   // error. Ensure the form is rebuilt in the same order as the user submitted.
+  // @codingStandardsIgnoreStart: NEPT-1304: Using $form_state['input'] in order to compare the raw results from the $_POST.
   if (!empty($form_state['input'])) {
     $order = array_flip(array_keys($form_state['input']));
     // Get the $_POST order.
@@ -222,6 +224,7 @@ function _mont_overview_terms($form, &$form_state, $node) {
       }
     }
   }
+  // @codingStandardsIgnoreEnd
 
   $path = arg(0) . '/' . arg(1) . '/vocabulary/edit_term';
   // Build the actual form.

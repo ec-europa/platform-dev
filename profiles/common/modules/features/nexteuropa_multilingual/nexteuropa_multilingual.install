@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Nexteuropa_multilingual install file.
@@ -126,5 +127,7 @@ function nexteuropa_multilingual_update_7001() {
  * NEPT-7: Make files translatable.
  */
 function nexteuropa_multilingual_update_7002() {
-  _nexteuropa_multilingual_make_files_translatable();
+  // Update File translation settings.
+  // Chose default LANGUAGE_NONE to not loose pre existing field values.
+  _nexteuropa_multilingual_make_files_translatable(LANGUAGE_NONE);
 }

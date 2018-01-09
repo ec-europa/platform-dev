@@ -9,12 +9,14 @@
  * Implements hook_install().
  */
 function multisite_og_button_install() {
-  drupal_set_message(st("Organic groups buttons installed"));
+  $t = get_t();
+  drupal_set_message($t("Organic groups buttons installed"));
 }
 
 /**
  * Implements hook_uninstall().
  */
 function multisite_og_button_uninstall() {
-  drupal_set_message(st("Organic groups buttons uninstalled"));
+  $t = get_t();
+  drupal_set_message($t("Organic groups buttons uninstalled"));
 }

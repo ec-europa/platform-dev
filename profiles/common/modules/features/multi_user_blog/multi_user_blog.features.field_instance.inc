@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multi_user_blog.features.field_instance.inc

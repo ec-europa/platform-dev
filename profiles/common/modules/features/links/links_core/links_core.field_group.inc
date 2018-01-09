@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * links_core.field_group.inc

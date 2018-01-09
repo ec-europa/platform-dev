@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Multisite Drupal Communities installation profile.

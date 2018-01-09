@@ -88,6 +88,7 @@ function nexteuropa_token_ckeditor_theme($existing, $type, $theme, $path) {
  */
 function nexteuropa_token_ckeditor_ajax_callback($editor_id = '') {
   $filter_view = variable_get('nexteuropa_token_ckeditor_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_DEFAULT_FILTER_VIEW);
+  // @codingStandardsIgnoreLine: The render is generated from a view and must be displayed as is.
   return nexteuropa_token_ckeditor_ajax_sub_callback($filter_view, $editor_id);
 }
 
@@ -98,6 +99,7 @@ function nexteuropa_token_ckeditor_ajax_callback($editor_id = '') {
  */
 function nexteuropa_token_ckeditor_bean_ajax_callback($editor_id = '') {
   $filter_view = variable_get('nexteuropa_token_ckeditor_bean_filter_view', NEXTEUROPA_TOKEN_CKEDITOR_BEAN_DEFAULT_FILTER_VIEW);
+  // @codingStandardsIgnoreLine: The render is generated from a view and must be displayed as is.
   return nexteuropa_token_ckeditor_ajax_sub_callback($filter_view, $editor_id);
 }
 

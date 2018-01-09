@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Default views for NextEuropa Token CKEditor.

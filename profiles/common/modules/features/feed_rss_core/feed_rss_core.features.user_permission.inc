@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * feed_rss_core.features.user_permission.inc
