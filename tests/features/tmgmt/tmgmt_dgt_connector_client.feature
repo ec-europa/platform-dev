@@ -19,12 +19,12 @@ Feature: TMGMT Poetry features
   Scenario: I can translate contents with Carts.
     Given I change the variable "nexteuropa_poetry_notification_username" to "foo"
     And I change the variable "nexteuropa_poetry_notification_password" to "bar"
-    When Poetry service uses the following settings:
+    And Poetry service uses the following settings:
     """
       username: foo
       password: bar
     """
-    When Poetry will return the following "response.status" message response:
+    And Poetry will return the following "response.status" message response:
     """
     identifier:
       code: WEB
@@ -41,7 +41,6 @@ Feature: TMGMT Poetry features
         time: 02:41:53
         message: OK
     """
-    # Important: remove poetry_service overrides from your settings.php as it would override the following step.
     And the following Poetry settings:
     """
         address: http://localhost:28080/wsdl
@@ -51,7 +50,7 @@ Feature: TMGMT Poetry features
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
     And I click "Translate" in the "primary_tabs" region
-    When I press "Add to cart"
+    And I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
     And I should see "There is 1 item in the translation cart."
     When I am viewing a multilingual "page" content:

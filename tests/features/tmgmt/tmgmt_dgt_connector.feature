@@ -7,9 +7,37 @@ Feature: TMGMT Poetry features
   Background:
     Given the module is enabled
       | modules             |
-      | tmgmt_poetry_mock   |
       | tmgmt_dgt_connector |
-    And tmgmt_poetry is configured to use tmgmt_poetry_mock
+    Given I change the variable "nexteuropa_poetry_notification_username" to "foo"
+    And I change the variable "nexteuropa_poetry_notification_password" to "bar"
+    And Poetry service uses the following settings:
+    """
+      username: foo
+      password: bar
+    """
+    And Poetry will return the following "response.status" message response:
+    """
+    identifier:
+      code: WEB
+      year: 2017
+      number: 1234
+      version: 0
+      part: 0
+      product: TRA
+    status:
+      -
+        type: request
+        code: '0'
+        date: 06/10/2017
+        time: 02:41:53
+        message: OK
+    """
+    # Important: remove poetry_service overrides from your settings.php as it would override the following step.
+    And the following Poetry settings:
+    """
+        address: http://localhost:28080/wsdl
+        method: requestService
+    """
     And the following languages are available:
       | languages |
       | en        |
@@ -57,7 +85,7 @@ Feature: TMGMT Poetry features
     And I click "Needs review" in the "French" row
     And I press "Save as completed"
     Then I should see "None" in the "French" row
-  
+
   Scenario: I can translate menus with Carts.
     When I go to "admin/structure/menu/manage/user-menu/translate"
     Then I should see "There are 0 items in the translation cart."
