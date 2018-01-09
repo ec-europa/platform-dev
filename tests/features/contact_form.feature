@@ -9,15 +9,14 @@ Feature: Contact Form
       | modules |
       | contact_form |
 
-  @javascript @theme_wip
-  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
+  @javascript
   Scenario: Anonymous user can see the contact page
     Given I am not logged in
     And the module is enabled
       | modules      |
       | contact_form |
     When I am on "contact"
-    Then I should see "Contact - European Commission" in the "title" tag
+    Then I should see "Contact | European Commission" in the "title" tag
     When I fill in "Your name" with "Chuck"
     And I fill in "Your e-mail address" with "chuck.norris@improbabledommainname.com"
     And I fill in "Subject" with "Complaint"
@@ -27,15 +26,14 @@ Feature: Contact Form
       | error messages                   |
       | Math question field is required. |
 
-  @javascript @theme_wip
-  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
+  @javascript
   Scenario: Administrator user can submit the contact page
     Given I am logged in as a user with the administrator role
     And the module is enabled
       | modules      |
       | contact_form |
     When I am on "contact"
-    Then I should see "Contact - European Commission" in the "title" tag
+    Then I should see "Contact | European Commission" in the "title" tag
     And I should not see an "Your e-mail address" text form element
     And I should not see an "Your name" text form element
     When I fill in "Subject" with "Complaint"
