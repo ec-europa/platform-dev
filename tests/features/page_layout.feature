@@ -27,17 +27,17 @@ Feature: Page Layout
       | Search on Europa         | .region-footer           |
 
   @theme_wip
-  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
+  # Failed with the EUROPA theme because of in the page User, the title page in ec_europa is Log in, not User account.
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
     When I am on "<page>"
-    Then I should see "<text>" in the "nept_element:title-metatag" element
+    Then I should see "<text> | European Commission" in the "nept_element:title-metatag" element
 
   # Test the page head title in different pages
     Examples:
-      | page       | text                                        |
-      | /          | Welcome to NextEuropa - European Commission |
-      | user       | User account - European Commission          |
+      | page       | text                           |
+      | /          | Welcome to European Commission |
+      | user       | User account                   |
 
   @javascript @maximizedwindow
 

@@ -19,10 +19,10 @@ Feature: User menu
     Examples:
       | link                     | heading                  |
       | My workbench             | My Workbench             |
-      | My account               | Myrrine Augusta          |
-      | Manage translation tasks | Manage Translation Tasks |
-      | Translate                | Translate                |
-      | Log out                  | Welcome to NextEuropa    |
+      | My account               | Myrrine Augusta                   |
+      | Manage translation tasks | Manage Translation Tasks          |
+      | Translate                | Translate                         |
+      | Log out                  | Welcome to European Commission    |
 
   @api @theme_wip
   # It is in theme wip waiting for the resolution of the NEPT-1145.
@@ -36,10 +36,10 @@ Feature: User menu
     Then I should see the heading "<heading>"
 
     Examples:
-      | link         | heading               |
-      | My workbench | My Workbench          |
-      | My account   | Yami Vígdís           |
-      | Log out      | Welcome to NextEuropa |
+      | link         | heading                        |
+      | My workbench | My Workbench                   |
+      | My account   | Yami Vígdís                    |
+      | Log out      | Welcome to European Commission |
 
   @api @theme_wip
   # It is in theme wip waiting for the resolution of the NEPT-1145.
@@ -53,10 +53,10 @@ Feature: User menu
     Then I should see the heading "<heading>"
 
     Examples:
-      | link         | heading               |
-      | My workbench | My Workbench          |
-      | My account   | Cornelia Polyhymnia   |
-      | Log out      | Welcome to NextEuropa |
+      | link         | heading                        |
+      | My workbench | My Workbench                   |
+      | My account   | Cornelia Polyhymnia            |
+      | Log out      | Welcome to European Commission |
 
   @api
   Scenario Outline: Test that editors and editorial team members cannot access translation links
