@@ -88,7 +88,7 @@ projects[bean][version] = 1.11
 projects[bean][patch][] = https://www.drupal.org/files/issues/bean-contextual_links_for_entity_view-2084823-18.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.4"
+projects[better_exposed_filters][version] = "3.5"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
@@ -367,7 +367,7 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][download][branch] = 7.x-1.x
 projects[integration][download][revision] = fb3cf87
