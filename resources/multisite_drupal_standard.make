@@ -366,7 +366,7 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][download][branch] = 7.x-1.x
 projects[integration][download][revision] = fb3cf87
@@ -942,7 +942,7 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.0.zip
+libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/releases/download/v6.1.0/01-mPDF-v6.1.0.zip
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
