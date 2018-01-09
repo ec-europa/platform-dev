@@ -429,7 +429,7 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.8
+projects[media][version] = 2.14
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
