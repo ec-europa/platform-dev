@@ -72,7 +72,7 @@ projects[bean][subdir] = "contrib"
 projects[bean][version] = 1.9
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.4"
+projects[better_exposed_filters][version] = "3.5"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
