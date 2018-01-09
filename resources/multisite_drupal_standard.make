@@ -271,7 +271,7 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
-projects[feeds_tamper][version] = "1.1"
+projects[feeds_tamper][version] = "1.2"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
