@@ -600,6 +600,10 @@ projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.9"
+; #2851567 rules_init() and cache rebuilding are broken
+; https://www.drupal.org/project/rules/issues/2851567
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
+projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
