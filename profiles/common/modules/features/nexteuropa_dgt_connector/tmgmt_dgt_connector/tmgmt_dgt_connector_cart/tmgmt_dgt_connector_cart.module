@@ -8,6 +8,81 @@
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
 
+// Including the custom form callback.
+module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/forms/tmgmt_dgt_connector_form_cart_bundle_items');
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_dgt_connector_cart_menu() {
+  $items = array();
+
+  $items['admin/dgt_connector/cart-items-wrapper/%/%ctools_js'] = array(
+    'page callback' => 'tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper',
+    'page arguments' => array(3, 4),
+    'access callback' => array('access to the dgt connector cart'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Custom callback - Wrapper fot the CartItems entities form.
+ */
+function tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper($cbid, $ajax) {
+  if ($ajax) {
+    ctools_include('ajax');
+    ctools_include('modal');
+
+    $form_state = array(
+      'ajax' => TRUE,
+      'title' => t('Translation Bundle content.'),
+    );
+
+    $form_state['build_info']['args'][] = $cbid;
+
+    // Use ctools to generate ajax instructions for the browser to create
+    // a form in a modal popup.
+    $output = ctools_modal_form_wrapper('tmgmt_dgt_connector_form_cart_bundle_items', $form_state);
+
+    // If the form has been submitted, there may be additional instructions
+    // such as dismissing the modal popup.
+    if (!empty($form_state['ajax_commands'])) {
+      $output = $form_state['ajax_commands'];
+    }
+
+    // Return the ajax instructions to the browser via ajax_render().
+    print ajax_render($output);
+    drupal_exit();
+  }
+  else {
+    return drupal_get_form('tmgmt_dgt_connector_form_cart_bundle_items');
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function tmgmt_dgt_connector_cart_permission() {
+  return array(
+    'access to the dgt connector cart' => array(
+      'title' => 'Access to the DGT Connector cart',
+      'description' => 'Allows to access and use the DGT Connector cart.',
+    ),
+  );
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function tmgmt_dgt_connector_cart_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'tmgmt_dgt_connector_cart') . '/includes/views',
+  );
+}
+
 /**
  * Implements hook_entity_info().
  */
@@ -17,13 +92,20 @@ function tmgmt_dgt_connector_cart_entity_info() {
       'label' => t('Cart bundle'),
       'entity class' => 'Drupal\\tmgmt_dgt_connector_cart\\Entity\\CartBundle',
       'controller class' => 'EntityAPIController',
+      'views controller class' => 'Drupal\\tmgmt_dgt_connector_cart\\EntityViewsController\\CartBundleViewsController',
       'base table' => 'cart_bundle',
       'fieldable' => FALSE,
       'entity keys' => array(
         'id' => 'cbid',
+        'label' => 'cbid',
       ),
       'module' => 'tmgmt_dgt_connector_cart',
       'metadata controller class' => 'Drupal\\tmgmt_dgt_connector_cart\\Metadata\\CartBundleMetadataController',
+      'access callback' => 'tmgmt_dgt_connector_cart_bundle_access',
+      'admin ui' => array(
+        'path' => 'admin/config/system/dgt_connector/cart_bundles',
+        'controller class' => 'Drupal\\tmgmt_dgt_connector_cart\\EntityUIController\\CartBundleEntityUIController',
+      ),
     ),
     'cart_item' => array(
       'label' => t('Cart Item'),
@@ -118,4 +200,24 @@ function tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
   if (empty($selected)) {
     form_set_error('languages', t('You have to select at least one language before sending content to the cart.'));
   }
+}
+
+/**
+ * Access callback for the CartBundle entity.
+ *
+ * @param string $op
+ *   The operation being performed. One of 'view', 'update', 'create', 'delete'
+ *   or just 'edit' (being the same as 'create' or 'update').
+ * @param object $cart_bundle
+ *   (optional) A CartBundle entity to check access for. If nothing is given,
+ *   default access level is determined.
+ * @param object $account
+ *   (optional) The user to check for. Leave it to NULL to check for the
+ *   global user.
+ *
+ * @return bool
+ *   Whether access is allowed or not.
+ */
+function tmgmt_dgt_connector_cart_bundle_access($op, $cart_bundle = NULL, $account = NULL) {
+  return user_access('administer dgt connector', $account);
 }
