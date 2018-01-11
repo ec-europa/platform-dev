@@ -117,4 +117,22 @@ class CartBundle extends Entity {
     return $cart_bundle;
   }
 
+  /**
+   * Load CartItems entities by a given CartBundle ID.
+   *
+   * @param int $cbid
+   *   The CartBundle ID.
+   *
+   * @return array
+   *   An array of CartItems entity objects indexed by their IDs or an empty
+   *   array if no results are found.
+   */
+  public static function getCartItems($cbid) {
+    $properties = array(
+      'cbid' => $cbid,
+    );
+
+    return CartItem::loadWithProperties($properties);
+  }
+
 }

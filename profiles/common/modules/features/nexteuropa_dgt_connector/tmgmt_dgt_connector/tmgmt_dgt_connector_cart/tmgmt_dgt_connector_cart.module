@@ -20,7 +20,8 @@ function tmgmt_dgt_connector_cart_menu() {
   $items['admin/dgt_connector/cart-items-wrapper/%/%ctools_js'] = array(
     'page callback' => 'tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper',
     'page arguments' => array(3, 4),
-    'access callback' => array('access to the dgt connector cart'),
+    'access callback' => 'user_access',
+    'access arguments' => array('access to the dgt connector cart'),
     'type' => MENU_CALLBACK,
   );
 
