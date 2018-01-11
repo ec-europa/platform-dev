@@ -134,4 +134,5 @@ class CartBundle extends Entity {
 
     return CartItem::loadWithProperties($properties);
   }
+
 }
