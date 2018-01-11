@@ -79,6 +79,12 @@ function tmgmt_dgt_connector_cart_schema() {
         'length' => 128,
         'not null' => TRUE,
       ),
+      'plugin_type' => array(
+        'description' => 'TMGMT Job item plugin type.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
       'entity_type' => array(
         'description' => 'Target entity type.',
         'type' => 'varchar',

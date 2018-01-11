@@ -89,6 +89,8 @@ class CartItem extends Entity {
    *
    * @param int $cbid
    *   The CartBundle entity ID.
+   * @param string $plugin_type
+   *   A Tmgmt Job Item plugin type.
    * @param string $entity_type
    *   An entity type.
    * @param string $entity_id
@@ -103,11 +105,12 @@ class CartItem extends Entity {
    * @return bool
    *   A new instance of the CartItem entity or FALSE.
    */
-  public static function create($cbid, $entity_type, $entity_id, $context_url = '', $context_comment = '', $tjiid = 0) {
+  public static function create($cbid, $plugin_type, $entity_type, $entity_id, $context_url = '', $context_comment = '', $tjiid = 0) {
     $cart_item = entity_create(
       'cart_item',
       array(
         'cbid' => $cbid,
+        'plugin_type' => $plugin_type,
         'entity_type' => $entity_type,
         'entity_id' => $entity_id,
         'context_url' => $context_url,
@@ -118,6 +121,18 @@ class CartItem extends Entity {
     $cart_item->save();
 
     return $cart_item;
+  }
+
+  /**
+   * Create a Tmgmt job item from the data of the bundle.
+   *
+   * @return \TMGMTJobItem
+   *   An array of target language codes.
+   */
+  public function createJobItem() {
+    $job_item = tmgmt_job_item_create($this->plugin_type, $this->entity_type, $this->entity_id);
+    $job_item->save();
+    return $job_item;
   }
 
 }

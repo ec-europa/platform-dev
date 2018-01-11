@@ -123,11 +123,26 @@ function tmgmt_dgt_connector_cart_entity_info() {
   );
 }
 
+/**
+ * Implements hook_action_info().
+ */
 function tmgmt_dgt_connector_cart_action_info() {
   return array(
-    'tmgmt_send_cart_bundles' => array(
+    'tmgmt_dgt_connector_cart_send_cart_bundles' => array(
       'type' => 'cart_bundle',
       'label' => t('Send bundles'),
+      'configurable' => FALSE,
+      'vbo_configurable' => FALSE,
+    ),
+    'tmgmt_dgt_connector_cart_discard_cart_bundles' => array(
+      'type' => 'cart_bundle',
+      'label' => t('Discard bundles'),
+      'configurable' => FALSE,
+      'vbo_configurable' => FALSE,
+    ),
+    'tmgmt_dgt_connector_cart_restore_cart_bundles' => array(
+      'type' => 'cart_bundle',
+      'label' => t('Restore bundles'),
       'configurable' => FALSE,
       'vbo_configurable' => FALSE,
     ),
@@ -141,19 +156,17 @@ function tmgmt_dgt_connector_cart_action_info() {
  *   The selected CartBundle entity.
  * @param array $context
  *   An associative array of context information.
- *
- * @return bool|CartBundle
- *   The CartBundle entity or FALSE if the entity was not found.
  */
-function tmgmt_send_cart_bundles(&$cart_bundle, $context) {
+function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, array $context) {
   global $user;
-  drupal_set_message(t('wtf.'), 'error');
-die();
-  $target_languages = array_filter($form_state['values']['target_language']);
+
+  $cart_items = CartBundle::getCartItems($cart_bundle->cbid);
+  $target_languages = $cart_bundle->getTargetLanguages();
   $job_items_by_source_language = array();
 
   // Group the selected items by source language.
-  foreach (tmgmt_job_item_load_multiple(array_filter($form_state['values']['items'])) as $job_item) {
+  foreach ($cart_items as $cart_item) {
+    $job_item = $cart_item->createJobItem();
     $source_language = $job_item->getSourceLangCode();
     if (in_array($source_language, $job_item->getExistingLangCodes())) {
       $job_items_by_source_language[$source_language][$job_item->tjiid] = $job_item;
@@ -211,31 +224,68 @@ die();
 
   // Remove job items from the cart.
   if ($remove_job_item_ids) {
-    tmgmt_ui_cart_get()->removeJobItems($remove_job_item_ids);
     entity_delete_multiple('tmgmt_job_item', $remove_job_item_ids);
   }
 
+  // Change status of bundle.
+  $cart_bundle->updateStatus(CartBundle::STATUS_SENT);
+
   // Start the checkout process if any jobs were created.
   if ($jobs) {
-    tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
+    $redirects = tmgmt_ui_job_checkout_multiple($jobs);
+    // If necessary, do a redirect.
+    if ($redirects) {
+      // Count of the job messages is one less due to the final redirect.
+      drupal_set_message(t('One job needs to be checked out.'));
+      drupal_goto(array_shift($redirects));
+    }
   }
   else {
     drupal_set_message(t('It is not possible to create a translation job from the selection you made.'), 'error');
   }
-
-  // Store chosen translation request languages for further processing.
-  _tmgmt_poetry_workbench_store_request_languages($target_languages);
-
-  // Empty redirection queue, Poetry doesn't work with that.
-  tmgmt_ui_redirect_queue_set(array());
 }
 
+/**
+ * Discard the bundle.
+ *
+ * @param \Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle $cart_bundle
+ *   The selected CartBundle entity.
+ * @param array $context
+ *   An associative array of context information.
+ */
+function tmgmt_dgt_connector_cart_discard_cart_bundles(CartBundle &$cart_bundle, array $context) {
+  if ($cart_bundle->status == CartBundle::STATUS_OPEN) {
+    $cart_bundle->updateStatus(CartBundle::STATUS_DISCARDED);
+    drupal_set_message(t('The bundle has been discarded.'));
+  }
+  else {
+    drupal_set_message(t('Only OPEN bundles can be discarded.'), 'error');
+  }
+}
+
+/**
+ * Restore the bundle.
+ *
+ * @param \Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle $cart_bundle
+ *   The selected CartBundle entity.
+ * @param array $context
+ *   An associative array of context information.
+ */
+function tmgmt_dgt_connector_cart_restore_cart_bundles(CartBundle &$cart_bundle, array $context) {
+  if ($cart_bundle->status == CartBundle::STATUS_DISCARDED) {
+    $cart_bundle->updateStatus(CartBundle::STATUS_OPEN);
+    drupal_set_message(t('The bundle has been restored.'));
+  }
+  else {
+    drupal_set_message(t('Only DISCARDED bundles can be discarded.'), 'error');
+  }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
-  //unset($form['top_actions']);
+  unset($form['top_actions']);
   $form['actions']['cart'] = array(
     '#type' => 'submit',
     '#value' => 'Send to cart',
@@ -277,20 +327,18 @@ function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
   }
 
   // Extracting and setting up properties to query for CartItem entities.
-  $entity = $form_state['entity'];
-  $entity_type = $form_state['entity_type'];
-  list($entity_id) = entity_extract_ids($entity_type, $entity);
   $cart_item_properties = array(
     'cbid' => $cart_bundle->cbid,
-    'entity_type' => $entity_type,
-    'entity_id' => $entity_id,
+    'plugin_type' => $form_state['tmgmt_cart']['plugin'],
+    'entity_type' => $form_state['tmgmt_cart']['item_type'],
+    'entity_id' => $form_state['tmgmt_cart']['item_id'],
   );
 
   // Checking if the CartItem entities exist for a given entity and if so
   // returning an error message.
   $cart_items = CartItem::loadWithProperties($cart_item_properties);
   if (empty($cart_items)) {
-    CartItem::create($cart_bundle->cbid, $entity_type, $entity_id);
+    CartItem::create($cart_bundle->cbid, $form_state['tmgmt_cart']['plugin'], $form_state['tmgmt_cart']['item_type'], $form_state['tmgmt_cart']['item_id']);
   }
   else {
     drupal_set_message(t('The content has already been added to the cart.'), 'error');

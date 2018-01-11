@@ -10,7 +10,7 @@ use EntityFieldQuery;
  */
 class CartBundle extends Entity {
   const STATUS_OPEN = 'OPEN';
-  const STATUS_SEND = 'SEND';
+  const STATUS_SENT = 'SENT';
   const STATUS_FINISHED = 'FINISHED';
   const STATUS_DISCARDED = 'DISCARDED';
 
@@ -133,6 +133,27 @@ class CartBundle extends Entity {
     );
 
     return CartItem::loadWithProperties($properties);
+  }
+
+  /**
+   * Get formatted array of target languages.
+   *
+   * @return array
+   *   An array of target language codes.
+   */
+  public function getTargetLanguages() {
+    return explode('.', $this->target_languages);
+  }
+
+  /**
+   * Update status of the bundle.
+   *
+   * @param string $status
+   *   The new status.
+   */
+  public function updateStatus($status) {
+    $this->status = $status;
+    $this->save();
   }
 
 }

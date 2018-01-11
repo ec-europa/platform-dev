@@ -23,6 +23,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'required' => TRUE,
       'description' => t('Related cart bundle ID.'),
     );
+    $properties['plugin type'] = array(
+      'label' => t('Plugin type'),
+      'schema field' => 'entity_type',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('TMGMT Job item plugin type.'),
+    );
     $properties['entity_type'] = array(
       'label' => t('Entity type'),
       'schema field' => 'entity_type',
