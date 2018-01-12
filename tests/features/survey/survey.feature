@@ -1,4 +1,4 @@
-@api
+@api @ec_resp_theme
 Feature: Survey Standard test
   In order to protect the integrity of the website
   As a product owner
@@ -37,7 +37,8 @@ Scenario: Make sure we can create Survey from Create content drop-down Menu
 
     And I am logged in as a user with the "administrator" role
     And I visit "/survey"
-    Then I should see the link "Create content"
-    Then I should see the link "Survey"
+    Then I should see "Create content"
+    And I click "Create content"
+    And I should see the link "Survey"
     And I click "Survey"
     And I should see "Create Survey"
