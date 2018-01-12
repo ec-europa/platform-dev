@@ -126,6 +126,14 @@
         </composer>
     </target>
 
+    <!-- Symlink composer modules from Common to active profile. -->
+    <target name="link-composer-modules">
+        <!-- Delete the core profiles folder. -->
+        <delete dir="${platform.build.profiles.dir}/${platform.profile.name}/modules/composer" />
+        <!-- Symlink our profiles folder. -->
+        <symlink link="${platform.build.profiles.dir}/${platform.profile.name}/modules/composer" target="${platform.build.profiles.dir}/common/modules/composer" />
+    </target>
+
     <!-- Link site document root to Webserver document root. -->
     <target
         name="link-docroot"
@@ -163,12 +171,12 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, link-composer-modules, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory" />
 
     <target
         name="build-platform-dist"
         description="Build a version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, setup-files-directory" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, link-composer-modules, setup-files-directory" />
 
     <target
         name="build-multisite-dist"

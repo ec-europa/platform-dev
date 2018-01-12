@@ -7,37 +7,9 @@ Feature: TMGMT Poetry features
   Background:
     Given the module is enabled
       | modules             |
+      | tmgmt_poetry_mock   |
       | tmgmt_dgt_connector |
-    Given I change the variable "nexteuropa_poetry_notification_username" to "foo"
-    And I change the variable "nexteuropa_poetry_notification_password" to "bar"
-    And Poetry service uses the following settings:
-    """
-      username: foo
-      password: bar
-    """
-    And Poetry will return the following "response.status" message response:
-    """
-    identifier:
-      code: WEB
-      year: 2017
-      number: 1234
-      version: 0
-      part: 0
-      product: TRA
-    status:
-      -
-        type: request
-        code: '0'
-        date: 06/10/2017
-        time: 02:41:53
-        message: OK
-    """
-    # Important: remove poetry_service overrides from your settings.php as it would override the following step.
-    And the following Poetry settings:
-    """
-        address: http://localhost:28080/wsdl
-        method: requestService
-    """
+    And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
       | en        |

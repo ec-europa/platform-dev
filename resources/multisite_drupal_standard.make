@@ -594,9 +594,6 @@ projects[realname][version] = "1.3"
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
 
-projects[registry_autoload][subdir] = "contrib"
-projects[registry_autoload][version] = 1.3
-
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.9"
 
