@@ -26,7 +26,7 @@ function multisite_config_service($module) {
     return new $class();
   }
   elseif (class_exists($class) && !module_exists($module)) {
-    throw new \Exception('The the service class "' . $class . '" refers to a module "' . $module . '" which does not exist or is not enabled.');
+    throw new \Exception('The service class "' . $class . '" refers to a module "' . $module . '" which does not exist or is not enabled.');
   }
   elseif (!class_exists($class) && module_exists($module)) {
     throw new \Exception('The service class "' . $class . '" from the module "' . $module . '" does not exist.');
