@@ -3,7 +3,4 @@ description = "Contributors can add video and pictures in galleries."
 core = 7.x
 package = "Multisite Features"
 dependencies[] = "multisite_mediagallery_core"
-features[features_api][] = api:2
-features[ctools][] = context:context:3
-features[context][] = gallery_posts
 files[] = tests/multisite_mediagallery_standard.extra.test

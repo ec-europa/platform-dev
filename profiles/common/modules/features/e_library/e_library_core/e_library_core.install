@@ -70,7 +70,7 @@ function e_library_core_disable() {
 }
 
 /**
- * Implements hook_update_N().
+ * Create default media tags.
  */
 function e_library_core_update_7120() {
   // Check if the taxonomy media_tags already exists.

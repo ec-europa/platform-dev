@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ec_embedded_video.strongarm.inc

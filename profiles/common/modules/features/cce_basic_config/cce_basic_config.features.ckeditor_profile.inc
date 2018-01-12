@@ -156,7 +156,7 @@ function cce_basic_config_ckeditor_profile_defaults() {
           'ckeditor_link' => array(
             'name' => 'drupal_path',
             'desc' => 'CKEditor Link - A plugin to easily create links to Drupal internal paths',
-            'path' => '%base_path%sites/all/modules/contributed/ckeditor_link/plugins/link/',
+            'path' => '%base_path%' . drupal_get_path('module', 'ckeditor_link') . '/plugins/link/',
             'buttons' => FALSE,
           ),
           'drupalbreaks' => array(
@@ -242,7 +242,7 @@ function cce_basic_config_ckeditor_profile_defaults() {
           'ckeditor_link' => array(
             'name' => 'drupal_path',
             'desc' => 'CKEditor Link - A plugin to easily create links to Drupal internal paths',
-            'path' => '%base_path%sites/all/modules/contributed/ckeditor_link/plugins/link/',
+            'path' => '%base_path%' . drupal_get_path('module', 'ckeditor_link') . '/plugins/link/',
             'buttons' => FALSE,
           ),
           'drupalbreaks' => array(

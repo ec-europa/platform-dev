@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_eu_cookie_compliance.strongarm.inc

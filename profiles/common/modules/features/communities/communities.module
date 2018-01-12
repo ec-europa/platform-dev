@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the communities feature.
@@ -46,10 +47,13 @@ function communities_views_pre_render(&$view) {
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
-function communities_init() {
-  drupal_add_css(drupal_get_path('module', 'communities') . '/communities.css');
+function communities_page_build(&$page) {
+  $page['content']['#attached']['css'][] = array(
+    'type' => 'file',
+    'data' => drupal_get_path('module', 'communities') . '/communities.css',
+  );
 }
 
 /**
@@ -255,7 +259,7 @@ function _communities_get_url_in_group($path, $original_path) {
       if (!isset($paths_group[$group_path][$original_path])) {
         $paths_group[$group_path][$original_path] = NULL;
         // Find the node alias that matches with the current group path.
-        foreach ($paths[$original_path] as $pid => $alias) {
+        foreach ($paths[$original_path] as $alias) {
           if (0 === strpos($alias, $group_path)) {
             $paths_group[$group_path][$original_path] = $alias;
             break;
@@ -308,7 +312,6 @@ function group_name_to_arg($arg = NULL) {
  *   or NULL if the Community node could not be derived from the path alias.
  */
 function group_name_load($arg) {
-  global $language;
 
   if ($arg == 'none') {
     return 0;
@@ -390,7 +393,7 @@ function _communities_title_item($arg) {
  */
 function communities_block_view_alter(&$data, $block) {
   if ($block->delta == 'menu-communities-menu') {
-    $context  = og_context();
+    $context = og_context();
     if (isset($context['gid'])) {
       $node = node_load($context['gid']);
       $data['subject'] = $node->title;

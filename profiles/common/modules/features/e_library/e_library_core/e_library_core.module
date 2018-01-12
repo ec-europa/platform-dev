@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the E-library feature.
@@ -26,7 +27,6 @@ function e_library_core_token_info() {
  */
 function e_library_core_tokens($type, $tokens, $data = array(), $options = array()) {
   $replacements = array();
-  $sanitize = !empty($options['sanitize']);
   // Tokens for e_libray_core Breadcrumb.
   if ($type == 'Breadcrumb_el') {
     foreach ($tokens as $name => $original) {

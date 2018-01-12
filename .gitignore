@@ -28,6 +28,8 @@ profiles/common/themes/ec_resp/bootstrap/
 profiles/common/themes/ec_resp/scripts/html5shiv.min.js
 profiles/common/themes/ec_resp/scripts/jquery.mousewheel.min.js
 profiles/common/themes/ec_resp/scripts/respond.min.js
+profiles/common/themes/atomium
+profiles/common/themes/ec_europa
 profiles/common/libraries/fancybox/
 profiles/common/libraries/flexslider/
 profiles/common/libraries/fullcalendar/

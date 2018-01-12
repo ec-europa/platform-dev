@@ -1,4 +1,4 @@
-@api @poetry @i18n
+@api @i18n
 Feature: TMGMT Poetry permissions features
   In order to configure the DGT connector.
   As a CEM agent

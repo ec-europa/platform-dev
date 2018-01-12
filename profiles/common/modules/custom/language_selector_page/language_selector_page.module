@@ -6,18 +6,18 @@
  */
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  *
  * As we can not alter the autocomplete path without a hook_form_alter we add a
  * bit of javascript to alter these urls. We cannot load this last in the page
  * as this might break the purpose of it.
  */
-function language_selector_page_init() {
+function language_selector_page_page_build(&$page) {
   $path = drupal_get_path('module', 'language_selector_page');
-  drupal_add_js($path . '/js/language_selector_page.js', array(
-    'scope' => 'header',
-    'weight' => 0,
-  ));
+  $page['content']['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/js/language_selector_page.js',
+  );
 }
 
 /**

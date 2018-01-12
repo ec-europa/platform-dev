@@ -27,10 +27,10 @@ function multisite_autosave_disable() {
 function multisite_autosave_install() {
   // Get autosave's weight.
   $weight = db_select('system', 's')
-              ->fields('s', array('weight'))
-              ->condition('name', 'autosave', '=')
-              ->execute()
-              ->fetchField();
+    ->fields('s', array('weight'))
+    ->condition('name', 'autosave', '=')
+    ->execute()
+    ->fetchField();
 
   // Update multisite_autosave's weight (autosave + 1).
   db_update('system')

@@ -64,7 +64,7 @@ class SitemapCore extends DrupalWebTestCase {
     $this->assertTrue(module_exists('site_map'), t('%module feature enabled.', array('%module' => 'site_map')));
     $this->assertTrue(module_exists('xmlsitemap'), t('%module feature enabled.', array('%module' => 'xmlsitemap')));
 
-    $this->createSampleNodes($count = 3);
+    $this->createSampleNodes(3);
 
     // Access the sitemap.
     $edit['url'] = 'sitemap';

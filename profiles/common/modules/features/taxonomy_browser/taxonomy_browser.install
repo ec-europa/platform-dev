@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install, uninstall, update and schema hooks for Taxonomy Browser.
@@ -35,7 +36,7 @@ function taxonomy_browser_uninstall() {
 }
 
 /**
- * Implements hook_update_N().
+ * Replace old variables.
  */
 function taxonomy_browser_update_7200(&$sandbox) {
   // Delete old variables.

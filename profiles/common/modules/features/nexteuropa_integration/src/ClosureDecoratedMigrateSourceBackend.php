@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains \Drupal\nexteuropa_integration\ClosureDecoratedMigrateSourceBackend.

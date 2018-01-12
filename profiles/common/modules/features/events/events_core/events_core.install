@@ -6,8 +6,6 @@
  */
 
 /**
- * Implements hook_enable().
- *
  * Add block to the context.
  */
 function events_core_enable() {
@@ -25,8 +23,6 @@ function events_core_enable() {
 }
 
 /**
- * Implements hook_disable().
- *
  * Remove block from the context.
  */
 function events_core_disable() {
@@ -40,9 +36,8 @@ function events_core_disable() {
 }
 
 /**
- * Implements hook_update_N().
- *
  * Content types using date fields should be using timestamp instead datetime.
+ *
  * No need to update schema in hook_install().
  * On a clean installation the date fields are already set up.
  * DATE FIELD MIGRATION SCRIPT: datetime to datestamp.
@@ -52,7 +47,7 @@ function events_core_update_7202() {
   // $content type : content type that contains fiels to replace
   // $module_name : module that contains fields.
   $content_type = 'event';
-  $module_name = basename(__FILE__, '.install');
+  $module_name = drupal_basename(__FILE__, '.install');
   //
   // Get db fields instances of content type.
   $fields_instances = field_info_instances('node', $content_type);
@@ -77,10 +72,10 @@ function events_core_update_7202() {
 
     // Update our fields defines to 'datestamp' in feature.field.
     if ($field_info['type'] == 'datetime' && $field_info['locked'] && $field_features_info && $field_features_info['type'] == 'datestamp') {
-      foreach ($field_info['storage']['details']['sql'] as $type => $info_sql) {
+      foreach ($field_info['storage']['details']['sql'] as $info_sql) {
         $table_name = array_shift(array_keys($info_sql));
 
-        foreach ($info_sql[$table_name] as $id => $column_name) {
+        foreach ($info_sql[$table_name] as $column_name) {
 
           if (field_has_data($field_info)) {
             // There is data: migrate data and update column to int.
@@ -92,8 +87,8 @@ function events_core_update_7202() {
             db_add_field($table_name, $column_name . '_temp', $param);
 
             db_update($table_name)
-                    ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
-                    ->execute();
+              ->expression($column_name . '_temp', "UNIX_TIMESTAMP($column_name)")
+              ->execute();
 
             // Delete old column.
             db_drop_field($table_name, $column_name);

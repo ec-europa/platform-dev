@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains tmgmt_poetry_handler_field_progress class.

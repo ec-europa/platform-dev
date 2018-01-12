@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * File formatters for Platform needs.

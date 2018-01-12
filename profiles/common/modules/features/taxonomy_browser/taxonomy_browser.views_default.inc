@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Views integration for Taxonomy Browser.
@@ -67,26 +68,6 @@ function taxonomy_browser_views_default_views() {
   $handler = $view->new_display('page', 'Page', 'page');
   $handler->display->display_options['path'] = 'taxonomy-browser-header';
 
-  $translatables['taxonomy_browser_header'] = array(
-    t('Master'),
-    t('more'),
-    t('Apply'),
-    t('Reset'),
-    t('Sort by'),
-    t('Asc'),
-    t('Desc'),
-    t('Items per page'),
-    t('- All -'),
-    t('Offset'),
-    t('« first'),
-    t('‹ previous'),
-    t('next ›'),
-    t('last »'),
-    t('<hr />'),
-    t('All'),
-    t('Page'),
-    t('maritime_header_frontpage'),
-  );
   $export['taxonomy_browser_header'] = $view;
 
   return $export;

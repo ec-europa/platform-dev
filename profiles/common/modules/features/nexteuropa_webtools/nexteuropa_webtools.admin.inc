@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Administration forms for the NextEuropa Webtools feature.

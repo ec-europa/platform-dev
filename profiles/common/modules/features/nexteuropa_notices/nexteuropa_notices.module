@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the Nexteuropa Notices feature.
@@ -7,21 +8,19 @@
 include_once 'nexteuropa_notices.features.inc';
 
 /**
- * Implements hook_init().
+ * Implements hook_page_build().
  */
-function nexteuropa_notices_init() {
+function nexteuropa_notices_page_build(&$page) {
   $path = drupal_get_path('module', 'nexteuropa_notices');
-  drupal_add_css(
-    $path . '/nexteuropa_notices.css',
-    array('type' => 'file')
+  $page['content']['#attached']['css'][] = array(
+    'type' => 'file',
+    'data' => $path . '/nexteuropa_notices.css',
   );
-  drupal_add_js(
-    $path . '/nexteuropa_notices.js',
-    array(
-      'type' => 'file',
-      'scope' => 'footer',
-      'weight' => 100,
-    )
+  $page['content']['#attached']['js'][] = array(
+    'type' => 'file',
+    'data' => $path . '/nexteuropa_notices.css',
+    'scope' => 'footer',
+    'weight' => 100,
   );
 }
 
@@ -30,7 +29,7 @@ function nexteuropa_notices_init() {
  */
 function nexteuropa_notices_preprocess_block(&$variables) {
   if (isset($variables['block']->module) && $variables['block']->module == 'bean') {
-    foreach ($variables['elements']['bean'] as $key => $content) {
+    foreach ($variables['elements']['bean'] as $content) {
       if (isset($content['#bundle']) && $content['#bundle'] == 'notice') {
         $variables['classes_array'][] = 'notice';
       }

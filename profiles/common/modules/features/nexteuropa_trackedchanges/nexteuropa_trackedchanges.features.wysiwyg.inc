@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * nexteuropa_trackedchanges.features.wysiwyg.inc
