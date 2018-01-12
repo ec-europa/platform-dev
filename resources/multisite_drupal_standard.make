@@ -166,6 +166,7 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+projects[date][patch][] = https://www.drupal.org/files/issues/date-n2533080-4.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
