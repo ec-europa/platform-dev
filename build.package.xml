@@ -126,10 +126,11 @@
         </composer>
     </target>
 
-    <!-- Symlink composer modules from Common to active profile. -->
+    <!-- Symlink composer modules from Common to active profile and delete unintended core. -->
     <target name="link-composer-modules">
         <!-- Delete the core profiles folder. -->
         <delete dir="${platform.build.profiles.dir}/${platform.profile.name}/modules/composer" />
+        <delete dir="${platform.build.dir}/core" />
         <!-- Symlink our profiles folder. -->
         <symlink link="${platform.build.profiles.dir}/${platform.profile.name}/modules/composer" target="${platform.build.profiles.dir}/common/modules/composer" />
     </target>

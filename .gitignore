@@ -43,4 +43,4 @@ profiles/common/modules/features/multisite_wysiwyg/ckeditor/skins/
 profiles/*/modules/custom/nexteuropa_newsroom/
 
 # Ignore modules that are required through composer
-profiles/*/modules/composer/
+profiles/*/modules/composer
