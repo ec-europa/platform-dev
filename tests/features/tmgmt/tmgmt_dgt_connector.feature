@@ -7,19 +7,32 @@ Feature: TMGMT Poetry features
   Background:
     Given the module is enabled
       | modules             |
-      | tmgmt_poetry_mock   |
       | tmgmt_dgt_connector |
-    And tmgmt_poetry is configured to use tmgmt_poetry_mock
     And the following languages are available:
       | languages |
       | en        |
       | pt-pt     |
       | fr        |
     And I am logged in as a user with the "administrator" role
+    Given I change the variable "nexteuropa_poetry_notification_username" to "foo"
+    And I change the variable "nexteuropa_poetry_notification_password" to "bar"
+    And I change the variable "nexteuropa_poetry_service_username" to "bar"
+    And I change the variable "nexteuropa_poetry_service_password" to "foo"
+    And I change the variable "nexteuropa_poetry_service_wsdl" to "http://localhost:28080/wsdl"
+    And Poetry service uses the following settings:
+    """
+      username: foo
+      password: bar
+    """
+    And the following Poetry settings:
+    """
+        address: http://localhost:28080/wsdl
+        method: requestService
+    """
 
   @javascript
   Scenario: I can translate contents with Carts.
-    When I am viewing a multilingual "page" content:
+    Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
     And I click "Translate" in the "primary_tabs" region
@@ -47,6 +60,23 @@ Feature: TMGMT Poetry features
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
+    And Poetry will return the following "response.status" message response:
+    """
+    identifier:
+      code: WEB
+      year: 2017
+      number: 1234
+      version: 0
+      part: 0
+      product: TRA
+    status:
+      -
+        type: request
+        code: '0'
+        date: 06/10/2017
+        time: 02:41:53
+        message: OK
+    """
     And I press "Submit to translator"
     Then I should see the success message containing "Job has been successfully sent for translation."
     # End process
