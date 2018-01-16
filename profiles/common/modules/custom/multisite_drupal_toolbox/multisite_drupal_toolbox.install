@@ -107,7 +107,7 @@ function multisite_drupal_toolbox_update_7202() {
    */
   function multisite_drupal_toolbox_update_7203() {
     // Remove obsolete variables.
-    array_map(function($variable) {
+    array_map(function ($variable) {
       variable_del($variable);
     }, array('security_bypassed_nodes', 'security_allowed_tags'));
   }
