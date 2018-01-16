@@ -39,6 +39,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'required' => TRUE,
       'description' => t('Related entity ID.'),
     );
+    $properties['entity_title'] = array(
+      'label' => t('Entity title'),
+      'schema field' => 'entity_title',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('Related entity title.'),
+    );
     $properties['context_url'] = array(
       'label' => t('Context URL'),
       'schema field' => 'context_url',
@@ -62,6 +70,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'setter callback' => 'entity_property_verbatim_set',
       'required' => FALSE,
       'description' => t('Related translation job item ID.'),
+    );
+    $properties['status'] = array(
+      'label' => t('Status'),
+      'schema field' => 'status',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('Status of the item.'),
     );
     $properties['created'] = array(
       'label' => t('Creation date'),

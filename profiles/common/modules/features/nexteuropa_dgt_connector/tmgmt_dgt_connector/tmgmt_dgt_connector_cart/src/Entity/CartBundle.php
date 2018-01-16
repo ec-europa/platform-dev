@@ -117,4 +117,23 @@ class CartBundle extends Entity {
     return $cart_bundle;
   }
 
+  /**
+   * Gets the active CartItems entities by a given CartBundle ID.
+   *
+   * @param int $cbid
+   *   The CartBundle ID.
+   *
+   * @return array
+   *   An array of CartItems entity objects indexed by their IDs or an empty
+   *   array if no results are found.
+   */
+  public static function getActiveCartItems($cbid) {
+    $properties = array(
+      'cbid' => $cbid,
+      'status' => self::STATUS_OPEN,
+    );
+
+    return CartItem::loadWithProperties($properties);
+  }
+
 }
