@@ -41,7 +41,7 @@ function tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper($cbid, $ajax) {
       'title' => t('Translation Bundle content.'),
     );
 
-    $form_state['build_info']['args'][] = $cbid;
+    $form_state['build_info']['args']['cbid'] = $cbid;
 
     // Use ctools to generate ajax instructions for the browser to create
     // a form in a modal popup.
@@ -58,7 +58,10 @@ function tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper($cbid, $ajax) {
     drupal_exit();
   }
   else {
-    return drupal_get_form('tmgmt_dgt_connector_form_cart_bundle_items');
+    $form_state = form_state_defaults();
+    $form_state['build_info']['args']['cbid'] = $cbid;
+    $form = drupal_build_form('tmgmt_dgt_connector_form_cart_bundle_items', $form_state);
+    return drupal_render($form);
   }
 }
 
@@ -140,8 +143,34 @@ function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$fo
  * Custom submit function for cart functionality.
  */
 function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
-  global $user;
+  // Getting or creating a new CartBundle entity.
+  $cart_bundle = _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state);
 
+  // Getting the entity object and the CartBundle ID.
+  $entity = $form_state['entity'];
+  $cbid = $cart_bundle->cbid;
+
+  // Checking if the CartItem entities exist for a given entity and if so
+  // returning an error message.
+  if (empty(_tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity))) {
+    // Creating the CartItem entity.
+    _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity);
+    // Updating the 'changed' field of the CartBundle entity.
+    $cart_bundle->save();
+  }
+  else {
+    drupal_set_message(t('The content has already been added to the cart.'), 'error');
+    return;
+  }
+
+  drupal_set_message(t('The content has been added to the cart.'));
+}
+
+/**
+ * Getting the CartBundle from the form state.
+ */
+function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
+  global $user;
   // Extracting languages from the form.
   $values = $form_state['values'];
   $target_languages = array_keys(array_filter($values['languages']));
@@ -162,33 +191,63 @@ function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
   // Checking if the CartBundle entities exist for a given entity or create one.
   $cart_bundles = CartBundle::loadWithProperties($cart_bundle_properties);
   if (empty($cart_bundles)) {
-    $cart_bundle = CartBundle::create($user->uid, $target_languages, CartBundle::STATUS_OPEN);
+    return CartBundle::create($user->uid, $target_languages, CartBundle::STATUS_OPEN);
   }
   else {
-    $cart_bundle = reset($cart_bundles);
+    return reset($cart_bundles);
   }
+}
 
-  // Extracting and setting up properties to query for CartItem entities.
-  $entity = $form_state['entity'];
-  $entity_type = $form_state['entity_type'];
-  list($entity_id) = entity_extract_ids($entity_type, $entity);
+/**
+ * Creates the CartItem entity based on given attributes.
+ *
+ * @param int $cbid
+ *   The CartBundle entity ID.
+ * @param object $entity
+ *   An entity object.
+ */
+function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity) {
+  // @todo: in future we will have to cope with different entity types here.
+  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
+  $entity_title = $entity->title;
+  $entity_uri = entity_uri($entity->entity_type, $entity);
+  $context_url = url($entity_uri['path'], array('absolute' => TRUE));
+
+  // Creating the CartItem entity.
+  CartItem::create(
+    $cbid,
+    $entity->entity_type,
+    $entity_id,
+    $entity_title,
+    $context_url
+  );
+}
+
+/**
+ * Helper function to get the CartItem entities based on a given entity.
+ *
+ * @param int $cbid
+ *   The CartBundle entity ID.
+ * @param object $entity
+ *   An entity object.
+ *
+ * @return array
+ *   An array of CartItem entity objects indexed by their IDs or an empty
+ *   array if no results are found.
+ *
+ * @throws \EntityMalformedException
+ */
+function _tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity) {
+  // @todo: in future we will have to cope with different entity types here.
+  list($entity_id) = entity_extract_ids($entity->type, $entity);
   $cart_item_properties = array(
-    'cbid' => $cart_bundle->cbid,
-    'entity_type' => $entity_type,
+    'cbid' => $cbid,
+    'entity_type' => $entity->entity_type,
     'entity_id' => $entity_id,
+    'status' => CartItem::STATUS_OPEN,
   );
 
-  // Checking if the CartItem entities exist for a given entity and if so
-  // returning an error message.
-  $cart_items = CartItem::loadWithProperties($cart_item_properties);
-  if (empty($cart_items)) {
-    CartItem::create($cart_bundle->cbid, $entity_type, $entity_id);
-  }
-  else {
-    drupal_set_message(t('The content has already been added to the cart.'), 'error');
-    return;
-  }
-  drupal_set_message(t('The content has been added to the cart.'));
+  return CartItem::loadWithProperties($cart_item_properties);
 }
 
 /**
