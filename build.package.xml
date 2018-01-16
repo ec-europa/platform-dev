@@ -124,7 +124,8 @@
         <composer command="install" composer="${composer.bin}">
             <arg value="--working-dir=${platform.build.dir}" />
         </composer>
-    </target>
+    </target>:q
+
 
     <!-- Symlink composer modules from Common to active profile and delete unintended core. -->
     <target name="link-composer-modules">
@@ -133,6 +134,19 @@
         <delete dir="${platform.build.dir}/core" />
         <!-- Symlink our profiles folder. -->
         <symlink link="${platform.build.profiles.dir}/${platform.profile.name}/modules/composer" target="${platform.build.profiles.dir}/common/modules/composer" />
+    </target>
+
+    <!-- Copy composer modules from Common to active profile and delete unintended core for deploying on production. -->
+    <target name="copy-composer-modules">
+        <!-- Delete the core profiles folder. -->
+        <delete dir="${platform.build.profiles.dir}/${platform.profile.name}/modules/composer" includeemptydirs="true" />
+        <delete dir="${platform.build.dir}/core" includeemptydirs="true" />
+        <!-- Copy our profiles folder. -->
+        <copy todir="${platform.build.profiles.dir}/${platform.profile.name}/modules/composer">
+            <fileset dir="${platform.build.profiles.dir}/common/modules/composer">
+                <include name="**"></include>
+            </fileset>
+        </copy>
     </target>
 
     <!-- Link site document root to Webserver document root. -->
@@ -177,7 +191,7 @@
     <target
         name="build-platform-dist"
         description="Build a version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, link-composer-modules, setup-files-directory" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, copy-composer-modules, setup-files-directory" />
 
     <target
         name="build-multisite-dist"
