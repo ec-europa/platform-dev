@@ -150,7 +150,7 @@ function tmgmt_dgt_connector_cart_action_info() {
 }
 
 /**
- * Create the translation job asociated to the bundle and redirect the user.
+ * Create the translation job associated to the bundle and redirect the user.
  *
  * @param \Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle $cart_bundle
  *   The selected CartBundle entity.
@@ -237,6 +237,10 @@ function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, ar
     if ($redirects) {
       // Count of the job messages is one less due to the final redirect.
       drupal_set_message(t('One job needs to be checked out.'));
+
+      // Store chosen translation request languages for further processing.
+      _tmgmt_poetry_workbench_store_request_languages($target_languages);
+
       drupal_goto(array_shift($redirects));
     }
   }
