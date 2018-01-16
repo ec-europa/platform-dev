@@ -370,17 +370,20 @@ function _nexteuropa_ecl_migrate_enable_ec_europa_blocks() {
       'cache' => -1,
     ),
   );
-  $query = db_insert('block')->fields(array(
-    'module',
-    'delta',
-    'theme',
-    'status',
-    'weight',
-    'region',
-    'pages',
-    'cache',
-  )
+
+  $query = db_insert('block')->fields(
+    array(
+      'module',
+      'delta',
+      'theme',
+      'status',
+      'weight',
+      'region',
+      'pages',
+      'cache',
+    )
   );
+
   $query->values($block);
   $query->execute();
 }
