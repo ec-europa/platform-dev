@@ -28,7 +28,7 @@ Scenario Outline: Make sure we can create Survey
     | title          | content                                    | expected                                        |
     | The right way  | BDD TEST SURVEY PAGE                       | The right way                                   |
 
- @javascript
+ @javascript  @ec_resp_theme
 Scenario: Make sure we can create Survey from Create content drop-down Menu
 
     Given these modules are enabled
