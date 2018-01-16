@@ -747,8 +747,8 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.12"
-projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
+projects[webform][version] = "4.16"
+projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
