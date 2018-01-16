@@ -230,6 +230,7 @@ projects[entityreference][patch][] = patches/entityreference-autocomplete-consta
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
+projects[entityreference][patch][2850416] = https://www.drupal.org/files/issues/rendered_entity_is_not_language_aware_again-2850416-3.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
@@ -487,11 +488,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.21"
-; Notice : Undefined index: group in metatag_views_i18n_object_info()
-; https://www.drupal.org/node/2882048
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1039
-projects[metatag][patch][] = https://www.drupal.org/files/issues/undefined_group_in_i18n-2882048-5.patch 
+projects[metatag][version] = "1.22"
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
