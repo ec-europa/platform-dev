@@ -169,6 +169,10 @@ projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
+; Issue #2909036 : Clone is a reserved keyword since PHP5.
+; https://www.drupal.org/node/2909036
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-266
+projects[date_ical][patch][2909036] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
