@@ -486,6 +486,11 @@ projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.pa
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Fix for an error when the purge limit fall below 0 during the cron execution.
+; https://www.drupal.org/node/2030101
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1704
+projects[message][patch][2030101] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
+
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.22"
