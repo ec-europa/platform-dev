@@ -9,6 +9,8 @@ use EntityFieldQuery;
  * DGT FTT Translator mapping entity.
  */
 class CartItem extends Entity {
+  const STATUS_OPEN = 'OPEN';
+  const STATUS_DISCARDED = 'DISCARDED';
 
   /**
    * Override the save to update date properties.
@@ -95,17 +97,17 @@ class CartItem extends Entity {
    *   An entity type.
    * @param string $entity_id
    *   An entity ID.
+   * @param string $entity_title
+   *   An entity title.
    * @param string $context_url
    *   A context URL.
    * @param string $context_comment
    *   A context comment.
-   * @param int $tjiid
-   *   The TMGMTJobItem entity ID.
    *
-   * @return bool
+   * @return bool|CartItem
    *   A new instance of the CartItem entity or FALSE.
    */
-  public static function create($cbid, $plugin_type, $entity_type, $entity_id, $context_url = '', $context_comment = '', $tjiid = 0) {
+  public static function create($cbid, $plugin_type, $entity_type, $entity_id, $entity_title = '', $context_url = '', $context_comment = '') {
     $cart_item = entity_create(
       'cart_item',
       array(
@@ -113,9 +115,11 @@ class CartItem extends Entity {
         'plugin_type' => $plugin_type,
         'entity_type' => $entity_type,
         'entity_id' => $entity_id,
+        'entity_title' => $entity_title,
         'context_url' => $context_url,
         'context_comment' => $context_comment,
-        'tjiid' => $tjiid,
+        'tjiid' => 0,
+        'status' => self::STATUS_OPEN,
       )
     );
     $cart_item->save();
