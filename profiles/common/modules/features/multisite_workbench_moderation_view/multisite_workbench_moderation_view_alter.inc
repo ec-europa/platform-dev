@@ -225,6 +225,9 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
     $handler->display->display_options['defaults']['access'] = FALSE;
     $handler->display->display_options['access']['type'] = 'perm';
     $handler->display->display_options['access']['perm'] = 'use workbench_moderation needs review tab';
+    $handler->display->display_options['defaults']['query'] = FALSE;
+    $handler->display->display_options['query']['type'] = 'views_query';
+    $handler->display->display_options['query']['options']['distinct'] = TRUE;
     $handler->display->display_options['defaults']['empty'] = FALSE;
     // No results behavior: Global: Text area.
     $handler->display->display_options['empty']['area']['id'] = 'area';
