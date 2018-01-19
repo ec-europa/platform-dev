@@ -311,7 +311,7 @@ Feature: TMGMT Poetry features
     When I go to stored job Id translation request page
     Then I should see "Aborted" in the "French" row
 
-  @javascript
+  @javascript @theme_wip
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
     Given the vocabulary "Vocabulary Test" is created
     And I am logged in as a user with the "administrator" role

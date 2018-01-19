@@ -17,7 +17,6 @@ Feature: TMGMT Poetry permissions features
     And I go to "admin/config/regional/tmgmt_translator/manage/poetry"
 
   Scenario Outline: Configuration fields are mandatory.
-
     Then I should see "<field_name>"
     And I press "Save translator"
     Then I should see "<field_name> field is required."
@@ -30,7 +29,7 @@ Feature: TMGMT Poetry permissions features
       | Poetry User        |
       | Poetry Password    |
       | Responsable        |
-      | DG Author             |
+      | DG Author          |
       | Requester          |
       | Secretaire         |
       | Contact            |

@@ -76,7 +76,6 @@ Feature: Content translation
     When I click "New draft" in the "primary_tabs" region
     Then I should see the text "New Message!"
 
-  @theme_wip
   Scenario: Files can be translated in available languages
     Given the following languages are available:
       | languages |
