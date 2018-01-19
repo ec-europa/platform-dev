@@ -47,7 +47,7 @@ Feature: Change tracking features
     When I click "Default" in the "Block Webtools" row
     And I wait for AJAX to finish
     And I press "Save"
-    Then I should see the success message "Basic page with a Map has been created."
+    Then I should see the success message "Basic page Basic page with a Map has been created."
     And the response should contain "<script type=\"application/json\">{\"service\":\"map\",\"custom\":\"//europa.eu/webtools/showcase/demo/map/samples/demo.js\"}</script>"
 
   @javascript @maximizedwindow
@@ -156,8 +156,6 @@ Feature: Change tracking features
       | blocked                                                                                                                                                                                                                        |
       | <p>Article body<span class=\"ice-ins ice-cts-1\" data-changedata=\"\" data-cid=\"2\" data-last-change-time=\"1471619239866\" data-time=\"1471619234543\" data-userid=\"1\" data-username=\"admin\"> additional content</span></p> |
 
-  @theme_wip
-  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1213.
   Scenario Outline: Change tracking are visible while seeing the content page
     When I go to "admin/config/content/wysiwyg/tracked_changes/workbench"
     And I check the box "Validated"

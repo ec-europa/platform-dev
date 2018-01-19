@@ -78,6 +78,7 @@ default:
         paths:
           - '{{ behat.subcontexts.path }}'
       selectors:
+        node_tag: 'article'
         message_selector: '.messages'
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
@@ -136,6 +137,7 @@ standard_ec_resp:
         nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
+        node_tag: 'div'
         message_selector: '.messages'
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
@@ -177,6 +179,7 @@ communities_ec_resp:
         nept_element:field:color-selection-value: 'div.field-name-field-selectcolor div.field-items div.field-item'
     Drupal\nexteuropa\Extensions\DrupalExtension:
       selectors:
+        node_tag: 'div'
         message_selector: '.messages'
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
