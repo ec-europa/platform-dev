@@ -532,10 +532,6 @@ projects[og][patch][] = patches/og-og_field_access-bypass_field_access-5159.patc
 ; https://www.drupal.org/node/1880226
 projects[og][patch][] = https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch
 
-; NEXTEUROPA-13743 Issue with og_field_access hiding all content fields on creation
-; https://www.drupal.org/node/1743332
-projects[og][patch][] = https://www.drupal.org/files/issues/og-hidden-body-field-1743332-2_0.patch
-
 ; NEXTEUROPA-14012 Adding membership from user profile is in pending status
 ; https://www.drupal.org/node/2744405
 projects[og][patch][] = https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch
