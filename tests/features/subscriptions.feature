@@ -10,9 +10,7 @@ Feature: Subscription
       |modules                      |
       |multisite_notifications_core |
 
-  @javascript @theme_wip
-  # It is in wip for the europa theme because it implies a step referring a
-  # region. This must be evaluate deeper before being able to know how to deal with.
+  @javascript
   Scenario: Create a page and have someone subscribe to it
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"

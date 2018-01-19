@@ -5,7 +5,6 @@ Feature: Field Multilingual features
   I want to be able to read field label in my native language
 
   Background:
-
     Given the following languages are available:
       | languages |
       | en        |

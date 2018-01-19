@@ -12,9 +12,6 @@ Feature: Second favorite language tests
       | it        |
       | bg        |
 
-  @theme_wip
-  # It is in wip for the europa theme because it implies a step referring a
-  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario Outline: Check consistency of second favorite language fallback
     Given I am logged in as a user with the "administrator" role
     When I go to "admin/config/regional/translate/translate"
@@ -50,5 +47,3 @@ Feature: Second favorite language tests
       | content/title-english_de |                  | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français    | Corps de texte français    | Corps du texte  |
       | content/title-english_bg | ?2nd-language=fr | Italiano | content/title-english_bg | ?2nd-language=it | Questo titolo è in italiano | Corpo di testo in italiano | Corpo del testo |
       | content/title-english_de | ?2nd-language=it | Français | content/title-english_de | ?2nd-language=fr | Ce titre est en Français    | Corps de texte français    | Corps du texte  |
-
-
