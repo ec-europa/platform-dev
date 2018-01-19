@@ -1,6 +1,4 @@
-@api @poetry_mock @i18n @theme_wip
-# They are all in wip for the europa theme because it implies a step referring a
-# region. This must be evaluate deeper before being able to know how to deal with.
+@api @poetry_mock @i18n
 Feature: TMGMT Poetry features
   In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator
@@ -327,7 +325,7 @@ Feature: TMGMT Poetry features
     Then I should see the success message "One job needs to be checked out."
     When I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     When I click "List"
     And I click "Term Test"
     And I click "Translate" in the "primary_tabs" region
@@ -336,7 +334,7 @@ Feature: TMGMT Poetry features
     Then I should see the success message "One job needs to be checked out."
     When I fill in "Date" with a relative date of "+10" days
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->it" row
     Then I should see the success message "Translation was received. Check the translation page."
@@ -364,7 +362,7 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
 
   @javascript
   Scenario Outline: Request translation of a basic page into French.
@@ -636,7 +634,7 @@ Feature: TMGMT Poetry features
     When I fill in "Date" with a relative date of "+5" days
     When I check the box on the "French" row
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
 
   @javascript
   Scenario: Rejecting and resending translation request
@@ -653,7 +651,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
-    And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    And I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
@@ -686,7 +684,7 @@ Feature: TMGMT Poetry features
     And I fill in "Date" with a relative date of "+5" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
-    And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    And I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
