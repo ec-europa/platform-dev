@@ -99,7 +99,7 @@ default:
         footer: "#layout-footer"
         messages: "#console"
         sidebar_left: "#sidebar-left"
-        sidebar_right: "#sidebar-right"
+        sidebar_right: ".ecl-site-header"
       text:
         log_out: "Log out"
         log_in: "Log in"

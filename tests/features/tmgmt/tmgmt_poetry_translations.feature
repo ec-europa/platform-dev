@@ -18,7 +18,7 @@ Feature: TMGMT Poetry features
       | it        |
     And I am logged in as a user with the "cem" role
 
-  @resetPoetryNumero
+  @resetPoetryNumero @theme_wip
   Scenario: Checking a wrong configuration.
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
@@ -53,7 +53,7 @@ Feature: TMGMT Poetry features
   # Deliberately not using a JavaScript enabled browser here, as it will probably
   # respect the maximum length specified on the input field and automatically
   # trim any value we fill it with.
-  @cleanup-tmgmt-poetry-website-identifier
+  @cleanup-tmgmt-poetry-website-identifier @theme_wip
   Scenario: A website identifier longer than 15 characters is not accepted.
     Given I am logged in as a user with the "cem" role
     When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
@@ -68,7 +68,7 @@ Feature: TMGMT Poetry features
     And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
 
-  @cleanup-tmgmt-poetry-website-identifier
+  @cleanup-tmgmt-poetry-website-identifier @theme_wip
   Scenario: Check that sending translation request adds website name in title.
     Given I am logged in as a user with the "administrator" role
     And I am viewing a multilingual "page" content:

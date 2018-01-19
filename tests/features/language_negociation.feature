@@ -13,12 +13,12 @@ Feature: Second favorite language tests
       | bg        |
 
   Scenario Outline: Check the role of the second favorite language on the language fallback
-    Given I am viewing a multilingual "page" content:
+    When I am viewing a multilingual "page" content:
       | language | title                    |
       | en       | This title is in English |
       | fr       | Ce titre est en Français |
       | pt-pt    | Este titulo e Portugues  |
-    When I go to "<url><favorite>"
+    And I go to "<url><favorite>"
     Then I should see the heading "<title>"
 
     Examples:
@@ -28,12 +28,9 @@ Feature: Second favorite language tests
     | content/title-english_bg | ?2nd-language=pt-pt | Este titulo e Portugues  |
     | content/title-english_bg | ?2nd-language=de    | This title is in English |
 
-  @theme_wip
-  # It is in wip for the europa theme because it implies a step referring a
-  # region. This must be evaluate deeper before being able to know how to deal with.
   Scenario: Check that a user can view a page even if the language prefix was changed
     Given "prefix" for language "pt-pt" is set to "pt"
-    And I am viewing a multilingual "page" content:
+    When I am viewing a multilingual "page" content:
       | language | title               |
       | en       | An English title    |
       | pt-pt    | Um titulo Portugues |
