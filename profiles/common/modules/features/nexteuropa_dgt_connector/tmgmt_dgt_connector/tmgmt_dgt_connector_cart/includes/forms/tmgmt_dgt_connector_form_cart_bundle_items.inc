@@ -8,7 +8,6 @@
 define('TMGMT_DGT_CONNECTOR_CART_SUBMIT_CHANGES', 'Submit changes');
 define('TMGMT_DGT_CONNECTOR_CART_SUBMIT_DISCARD', 'Discard selected items');
 
-
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
 
@@ -21,6 +20,7 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
 
   $cart_items = CartBundle::getActiveCartItems($cbid);
 
+  // @todo: Implement a proper theme function to get rid of the markup.
   $details_list = array(
     '<strong>ID: </strong>' . $cbid,
     '<strong>Target languages: </strong>' . drupal_strtoupper($cart_bundle->target_languages),
@@ -94,13 +94,13 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
   $form['submit_changes'] = array(
     '#type' => 'submit',
     '#value' => 'Submit changes',
-    '#submit' => array('tmgmt_dgt_connector_form_cart_bundle_items_fields_submit'),
+    '#submit' => array('tmgmt_dgt_connector_form_cart_items_fields_submit'),
   );
 
   $form['submit_discard'] = array(
     '#type' => 'submit',
     '#value' => 'Discard selected items',
-    '#submit' => array('tmgmt_dgt_connector_form_cart_bundle_items_discard_submit'),
+    '#submit' => array('tmgmt_dgt_connector_form_cart_items_discard_submit'),
   );
 
   // Form validation:
@@ -110,46 +110,46 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
 }
 
 /**
- * Custom form validation handler to check editable fields.
+ * Custom form validation handler.
  */
 function tmgmt_dgt_connector_form_cart_custom_validation($form, &$form_state) {
   switch ($form_state['values']['op']) {
+    // Custom validation for submissions of exposed fields.
     case TMGMT_DGT_CONNECTOR_CART_SUBMIT_CHANGES:
-      // @todo: implement validation for submitting changes.
+      // @todo: Implement the 'url' and 'comment' validations.
+      if (!isset($form_state['values']['cart_items_fields'])
+        || empty($form_state['values']['cart_items_fields'])) {
+        form_set_error('form[cart_items_selected', t('No items found.'));
+      }
       break;
 
+    // Custom validation for discarding selected items.
     case TMGMT_DGT_CONNECTOR_CART_SUBMIT_DISCARD:
-      // @todo: implement validation for discarding CartItem entities.
+      if (empty(_tmgmt_dgt_connector_cart_get_selected_cart_items($form_state))) {
+        form_set_error('form[cart_items_selected', t('Please select item/s to perform an action.'));
+      }
       break;
-
   }
 }
 
 /**
  * Custom form submit handler for saving editable fields values.
  */
-function tmgmt_dgt_connector_form_cart_bundle_items_fields_submit($form, &$form_state) {
-  if (isset($form_state['values']['cart_items_fields'])
-    && !empty($form_state['values']['cart_items_fields'])) {
-    // Getting the CartItems IDs.
-    $ids = array_keys($form_state['values']['cart_items_fields']);
-    $fields = $form_state['values']['cart_items_fields'];
-    $cart_items = entity_load('cart_item', $ids);
+function tmgmt_dgt_connector_form_cart_items_fields_submit($form, &$form_state) {
+  // Updating CartItem entities properties.
+  _tmgmt_dgt_connector_cart_update_cart_items($form_state);
 
-    // Updating properties of CartItem entities.
-    foreach ($cart_items as $id => $cart_item) {
-      foreach ($fields[$id] as $field => $value) {
-        $cart_item->{$field} = $value;
-      }
-      // This will also update the 'changed' property with a new timestamp.
-      $cart_item->save();
-    }
+  // Updating the CartBundle entity properties.
+  _tmgmt_dgt_connector_cart_update_cart_bundle($form_state);
 
-    // Updating the 'changed' property of a CartBundle entity.
-    _tmgmt_dgt_connector_cart_update_cart_bundle_change_date($form_state['build_info']['args']['cbid']);
+  // Displaying confirmation message.
+  _tmgmt_dgt_connector_cart_display_message($form_state);
 
-    // Refreshing the form.
-    $form_state['rebuild'] = TRUE;
+  // Refreshing the form.
+  $form_state['rebuild'] = TRUE;
+
+  // Preventing of running the reload function if the ajax context is not set.
+  if (isset($form_state['ajax']) && $form_state['ajax']) {
     ctools_ajax_command_reload();
   }
 }
@@ -157,43 +157,136 @@ function tmgmt_dgt_connector_form_cart_bundle_items_fields_submit($form, &$form_
 /**
  * Custom form submit handler for discarding cart items.
  */
-function tmgmt_dgt_connector_form_cart_bundle_items_discard_submit($form, &$form_state) {
-  if (isset($form_state['values']['cart_items_selected'])
-    && !empty($form_state['values']['cart_items_selected'])) {
-    // Getting selected values from the form submission.
-    $selected_items = array_filter($form_state['values']['cart_items_selected'], function ($value) {
-      return($value);
-    });
+function tmgmt_dgt_connector_form_cart_items_discard_submit($form, &$form_state) {
+  // Getting selected values from the form submission.
+  $selected_items = _tmgmt_dgt_connector_cart_get_selected_cart_items($form_state);
+  // Loading the selected CartItems entities.
+  $cart_items = entity_load('cart_item', $selected_items);
 
-    // Loading the selected CartItems entities.
-    $cart_items = entity_load('cart_item', $selected_items);
+  // Setting up the status for each of the CartItem entity.
+  foreach ($cart_items as $cart_item) {
+    $cart_item->status = CartItem::STATUS_DISCARDED;
+    $cart_item->save();
+  }
 
-    // Setting up the status for each of the CartItem entity.
-    foreach ($cart_items as $cart_item) {
-      $cart_item->status = CartItem::STATUS_DISCARDED;
-      $cart_item->save();
-    }
+  // Updating the change date value of a CartBundle entity.
+  _tmgmt_dgt_connector_cart_update_cart_bundle($form_state);
 
-    if ($selected_items == $form_state['values']['cart_items_selected']) {
-      // @todo: remove the CartBundle as the last CartItem was discarded.
-    }
-    // Updating the change date value of a CartBundle entity.
-    _tmgmt_dgt_connector_cart_update_cart_bundle_change_date($form_state['build_info']['args']['cbid']);
+  // Displaying the message.
+  _tmgmt_dgt_connector_cart_display_message($form_state);
 
-    // Refreshing the form.
+  // Refreshing the form.
+  if (empty($form_state['redirect'])) {
     $form_state['rebuild'] = TRUE;
+  }
+
+  // Prevent running reload function if we are out of the ajax context.
+  if (isset($form_state['ajax']) && $form_state['ajax']) {
     ctools_ajax_command_reload();
   }
 }
 
 /**
- * Helper function for updating the change date of a CartBundle entity.
+ * Updates the CartBundle entity properties.
  *
- * @param int $cbid
- *   The CartBundle ID.
+ * @param array $form_state
+ *   The form state array.
  */
-function _tmgmt_dgt_connector_cart_update_cart_bundle_change_date($cbid) {
-  // Updating the change date of a CartBundle entity.
+function _tmgmt_dgt_connector_cart_update_cart_bundle(array &$form_state) {
+  // Loading the CartBundle entity.
+  $cbid = $form_state['build_info']['args']['cbid'];
   $cart_bundle = entity_load_single('cart_bundle', $cbid);
+
+  // Updating the change date of a CartBundle entity.
   $cart_bundle->save();
+
+  // Discard the CartBundle entity if needed and close the popup.
+  if (_tmgmt_dgt_connector_cart_discard_cart_bundle($form_state, $cart_bundle)) {
+    $form_state['redirect'] = TMGMT_DGT_CONNECTOR_CART_VIEW_PATH;
+    $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
+    $form_state['ajax_commands'][] = ctools_ajax_command_redirect(TMGMT_DGT_CONNECTOR_CART_VIEW_PATH);
+  }
+}
+
+/**
+ * Updates CartItem entities properties.
+ *
+ * @param array $form_state
+ *   The form state array.
+ */
+function _tmgmt_dgt_connector_cart_update_cart_items(array &$form_state) {
+  // Getting the CartItems IDs.
+  $ids = array_keys($form_state['values']['cart_items_fields']);
+  $fields = $form_state['values']['cart_items_fields'];
+  $cart_items = entity_load('cart_item', $ids);
+
+  // Iterating through the CartItem entities and setting their properties.
+  foreach ($cart_items as $id => $cart_item) {
+    foreach ($fields[$id] as $field => $value) {
+      $cart_item->{$field} = check_plain($value);
+    }
+    $cart_item->save();
+  }
+}
+
+/**
+ * Discards selected CartItems and a CartBundle if needed.
+ *
+ * @param array $form_state
+ *   The form state array.
+ * @param \Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle $cart_bundle
+ *   The CartBundle entity.
+ *
+ * @return bool
+ *   Returns TRUE if the CartBundle entity was discarded else FALSE.
+ */
+function _tmgmt_dgt_connector_cart_discard_cart_bundle(array &$form_state, CartBundle $cart_bundle) {
+  if ($form_state['values']['op'] == TMGMT_DGT_CONNECTOR_CART_SUBMIT_DISCARD) {
+    $selected_items = _tmgmt_dgt_connector_cart_get_selected_cart_items($form_state);
+    if ($selected_items == $form_state['values']['cart_items_selected']) {
+      $cart_bundle->status = CartBundle::STATUS_DISCARDED;
+      $cart_bundle->save();
+
+      return TRUE;
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Returns selected CartItem IDs based on the form state.
+ *
+ * @param array $form_state
+ *   The form state array.
+ *
+ * @return array
+ *   An array with IDs of selected CartItems entities.
+ */
+function _tmgmt_dgt_connector_cart_get_selected_cart_items(array &$form_state) {
+  return array_filter($form_state['values']['cart_items_selected'], function ($value) {
+    return($value);
+  });
+}
+
+/**
+ * Provides messages for submitted actions.
+ *
+ * @param array $form_state
+ *   The form state array.
+ */
+function _tmgmt_dgt_connector_cart_display_message(array &$form_state) {
+  switch ($form_state['values']['op']) {
+    // Messages for submissions of exposed fields.
+    case TMGMT_DGT_CONNECTOR_CART_SUBMIT_CHANGES:
+      $message = t('Your changes have been successfully submitted.');
+      break;
+
+    // Messages for discarding selected items.
+    case TMGMT_DGT_CONNECTOR_CART_SUBMIT_DISCARD:
+      $message = t('Selected translatable items were discarded.');
+      break;
+  }
+
+  drupal_set_message($message);
 }

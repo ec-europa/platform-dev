@@ -17,17 +17,15 @@ class CartBundleItemsFormLinkDynamicField extends views_handler_field {
     ctools_modal_add_js();
     $cbid = $this->get_value($values);
     $link_text = 'edit';
-    return '<div id="magical-modal-link">' .
-      l(
-        $link_text,
-        "admin/dgt_connector/cart-items-wrapper/$cbid/nojs",
-        array(
-          'attributes' => array(
-            'class' => 'ctools-use-modal',
-          ),
-        )
+    return l(
+      $link_text,
+      "admin/dgt_connector/cart-items-wrapper/$cbid/nojs",
+      array(
+        'attributes' => array(
+          'class' => 'ctools-use-modal',
+        ),
       )
-    . '</div>';
+    );
   }
 
 }

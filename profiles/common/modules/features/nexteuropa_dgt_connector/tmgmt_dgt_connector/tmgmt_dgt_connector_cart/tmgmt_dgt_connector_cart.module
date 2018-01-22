@@ -8,6 +8,8 @@
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
 
+define('TMGMT_DGT_CONNECTOR_CART_VIEW_PATH', 'admin/dgt_connector/cart');
+
 // Including the custom form callback.
 module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/forms/tmgmt_dgt_connector_form_cart_bundle_items');
 
@@ -33,17 +35,19 @@ function tmgmt_dgt_connector_cart_menu() {
  */
 function tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper($cbid, $ajax) {
   if ($ajax) {
-    ctools_include('ajax');
     ctools_include('modal');
+    ctools_include('ajax');
+    ctools_add_js('ajax-responder');
 
+    // Creating the scaffold of the form state.
     $form_state = array(
       'ajax' => TRUE,
       'title' => t('Translation Bundle content.'),
     );
-
+    // Injecting the CartBundle ID into the form state arguments.
     $form_state['build_info']['args']['cbid'] = $cbid;
 
-    // Use ctools to generate ajax instructions for the browser to create
+    // Using ctools to generate ajax instructions for the browser to create
     // a form in a modal popup.
     $output = ctools_modal_form_wrapper('tmgmt_dgt_connector_form_cart_bundle_items', $form_state);
 
@@ -55,12 +59,16 @@ function tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper($cbid, $ajax) {
 
     // Return the ajax instructions to the browser via ajax_render().
     print ajax_render($output);
+
+    // Ending up the rendering process as this is the AJAX context.
     drupal_exit();
   }
   else {
+    // Fallback for the browsers without JavaScript support.
     $form_state = form_state_defaults();
     $form_state['build_info']['args']['cbid'] = $cbid;
     $form = drupal_build_form('tmgmt_dgt_connector_form_cart_bundle_items', $form_state);
+
     return drupal_render($form);
   }
 }
