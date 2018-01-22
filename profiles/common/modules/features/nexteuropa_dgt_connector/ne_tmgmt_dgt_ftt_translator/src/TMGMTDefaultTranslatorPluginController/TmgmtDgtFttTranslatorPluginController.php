@@ -115,16 +115,19 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
   public function requestReview(array $jobs, array $parameters) {
     $rules_response = array();
 
+    if (empty($jobs)) {
+      return $rules_response;
+    }
+
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
-      $identifier = $this->getIdentifier($jobs[0], $node->nid);
+      $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
       // Getting the request data.
-      $data = $this->getRequestData($jobs, $node);
+      $data = $this->getRequestData($jobs, $node, $parameters['delay']);
 
-      // Overwrite the request identifier and data with parameters from 'Rules'.
-      $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
+      // Overwrite the request data with parameters from 'Rules'.
       $data = $this->overwriteRequestData($data, $parameters['data']);
 
       // Sending a review request to DGT Services.
@@ -185,22 +188,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
     // Checking if there is a node associated with the given job.
     if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
       // Getting the identifier data.
-      $identifier = $this->getIdentifier($jobs[0], $node->nid);
+      $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
-      // Using the latest reference id for the node.
-      // This reference is created by the Review request.
-      /** @var DgtFttTranslatorMapping $mapping_entity */
-      $mapping_entity = $this->getReviewIdentifier($node);
-      if (!is_null($mapping_entity)) {
-        $identifier['identifier.year'] = $mapping_entity->year;
-        $identifier['identifier.number'] = $mapping_entity->number;
-        $identifier['identifier.part'] = $mapping_entity->part;
-
+      if (!isset($identifier['identifier.sequence'])) {
         // Getting the request data.
-        $data = $this->getRequestData($jobs, $node);
+        $data = $this->getRequestData($jobs, $node, $parameters['delay']);
 
-        // Overwrite request identifier and data with parameters from 'Rules'.
-        $identifier = $this->overwriteRequestIdentifier($identifier, $parameters['identifier']);
+        // Overwrite the data with parameters from 'Rules'.
         $data = $this->overwriteRequestData($data, $parameters['data']);
 
         // Sending a review request to DGT Services.
@@ -215,7 +209,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       else {
         watchdog(
           'ne_tmgmt_dgt_ftt_translator',
-          "There is no entry in the entity mapping table for given
+          "There is no entry in the entity mapping table for a given
           content. Please make sure that the review request was sent before
           the translation request. Node ID: %nid",
           array('%nid' => $node->nid),
@@ -271,11 +265,7 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $this->abortTmgmtJobAndJobItem($response, $jobs);
     }
 
-    // Prepare arrays for the 'Rules' and logging mechanism.
-    $response_data = $this->getRulesDataArrays($response);
-    $this->logResponseData($response_data);
-
-    return $response_data;
+    return $this->getRulesDataArrays($response);
   }
 
 }
