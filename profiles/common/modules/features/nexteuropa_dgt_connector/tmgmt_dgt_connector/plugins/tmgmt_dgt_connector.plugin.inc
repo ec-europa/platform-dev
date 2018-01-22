@@ -285,8 +285,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     if (!empty($max_numero['max_numero'])) {
       $query = db_select('poetry_map', 'pm')
         ->fields('pm', array('annee', 'numero', 'version', 'partie'))
-        ->condition('numero', $max_numero['max_numero'], '=')
-        ->addExpression('MAX(partie)', 'max_partie');
+        ->condition('numero', $max_numero['max_numero'], '=');
+      $query->addExpression('MAX(partie)', 'max_partie');
 
       $result = $query->execute()->fetchAssoc();
 
@@ -308,12 +308,11 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     // Request a new number.
     $id_data = array(
       'codeDemandeur' => $settings['code'],
-      'annee' => date("Y"),
+      'annee' => date('Y'),
       'sequence' => $settings['counter'],
       'version' => 00,
       'partie' => 00,
       'produit' => 'TRA',
-
     );
 
     return $id_data;
