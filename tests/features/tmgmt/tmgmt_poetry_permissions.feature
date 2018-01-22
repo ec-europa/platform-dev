@@ -59,8 +59,6 @@ Feature: TMGMT Poetry permissions features
     And I fill in "Email to" with "delphine.lepers@badaboum.com"
     And I fill in "Email CC" with "delphine.lepers@badaboum.com"
     And I press "Save translator"
-    And print last response
-    And break
     Then I should see "The DGT webservice address is not set. Please contact your support team."
     And I should see "The credentials for your Drupal service are not correctly set. Please contact COMM EUROPA MANAGEMENT."
     And I should see "The credentials for your DGT service are not correctly set. Please contact COMM EUROPA MANAGEMENT."
