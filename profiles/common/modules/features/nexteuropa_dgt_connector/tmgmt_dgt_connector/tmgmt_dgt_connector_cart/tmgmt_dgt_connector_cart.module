@@ -171,7 +171,7 @@ function tmgmt_dgt_connector_cart_action_info() {
 function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, array $context) {
   global $user;
 
-  $cart_items = CartBundle::getCartItems($cart_bundle->cbid);
+  $cart_items = CartBundle::getActiveCartItems($cart_bundle->cbid);
   $target_languages = $cart_bundle->getTargetLanguages();
   $job_items_by_source_language = array();
 
@@ -313,19 +313,21 @@ function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$fo
  * Custom submit function for cart functionality.
  */
 function tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
+
   // Getting or creating a new CartBundle entity.
   $cart_bundle = _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state);
 
   // Getting the entity object and the CartBundle ID.
   $entity = $form_state['entity'];
+  $entity_type = $form_state['entity_type'];
   $cbid = $cart_bundle->cbid;
   $plugin_type = $form_state['tmgmt_cart']['plugin'];
 
   // Checking if the CartItem entities exist for a given entity and if so
   // returning an error message.
-  if (empty(_tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity, $plugin_type))) {
+  if (empty(_tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity, $entity_type, $plugin_type))) {
     // Creating the CartItem entity.
-    _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $plugin_type);
+    _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $entity_type, $plugin_type);
     // Updating the 'changed' field of the CartBundle entity.
     $cart_bundle->save();
   }
@@ -376,9 +378,12 @@ function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
  *   The CartBundle entity ID.
  * @param object $entity
  *   An entity object.
+ * @param string $entity_type
+ *   The type of the entity.
+ * @param string $plugin_type
+ *   TMGMT plugin type.
  */
-function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $plugin_type) {
-  // @todo: in future we will have to cope with different entity types here.
+function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $entity_type, $plugin_type) {
   list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
   $entity_title = $entity->title;
   $entity_uri = entity_uri($entity->entity_type, $entity);
@@ -388,7 +393,7 @@ function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $plugin_type
   CartItem::create(
     $cbid,
     $plugin_type,
-    $entity->entity_type,
+    $entity_type,
     $entity_id,
     $entity_title,
     $context_url
@@ -402,6 +407,10 @@ function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $plugin_type
  *   The CartBundle entity ID.
  * @param object $entity
  *   An entity object.
+ * @param string $entity_type
+ *   The type of the entity.
+ * @param string $plugin_type
+ *   TMGMT plugin type.
  *
  * @return array
  *   An array of CartItem entity objects indexed by their IDs or an empty
@@ -409,13 +418,12 @@ function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $plugin_type
  *
  * @throws \EntityMalformedException
  */
-function _tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity, $plugin_type) {
-  // @todo: in future we will have to cope with different entity types here.
-  list($entity_id) = entity_extract_ids($entity->type, $entity);
+function _tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity, $entity_type, $plugin_type) {
+  list($entity_id) = entity_extract_ids($entity_type, $entity);
   $cart_item_properties = array(
     'cbid' => $cbid,
     'plugin_type' => $plugin_type,
-    'entity_type' => $entity->entity_type,
+    'entity_type' => $entity_type,
     'entity_id' => $entity_id,
     'status' => CartItem::STATUS_OPEN,
   );
