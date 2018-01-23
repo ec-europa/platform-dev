@@ -4,7 +4,6 @@ core = 7.x
 package = Multisite Core Features
 dependencies[] = cce_basic_config
 dependencies[] = views
-features[ctools][] = context:context:3
 features[features_api][] = api:2
 features[user_permission][] = access business indicators
 features_exclude[dependencies][ctools] = ctools

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains the constants used for connecting to the ECAS server.

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \NextEuropa\build\Phing\PhpCodeSnifferConfigurationTask.
- */
-
 namespace NextEuropa\Phing;
 
 require_once 'phing/Task.php';
@@ -90,7 +85,6 @@ class PhpCodeSnifferConfigurationTask extends \Task {
    * @var string
    */
   private $installedPaths = '';
-
 
   /**
    * Configures PHP CodeSniffer.
@@ -350,7 +344,7 @@ PHP;
    * @param string $token
    *   A list of token, by default is space, comma and semicolon.
    *
-   * @return array $array
+   * @return array
    *   A list of items in an array.
    */
   private function explodeToken($string, $token = ' ,;') {

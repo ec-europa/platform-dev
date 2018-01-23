@@ -1,10 +1,11 @@
 <?php
+
 /**
  * @file
  * Contains ECEmbeddedImageSubContext.
  */
 
-use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
+use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 
 /**
  * Behat context for test setup related to the Embedded Image feature.

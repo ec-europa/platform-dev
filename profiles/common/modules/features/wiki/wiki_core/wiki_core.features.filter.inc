@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * wiki_core.features.filter.inc

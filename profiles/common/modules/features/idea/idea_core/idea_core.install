@@ -139,7 +139,7 @@ function idea_core_disable() {
 }
 
 /**
- * Implements hook_update_N().
+ * Add default tags to feature vocabularies..
  */
 function idea_core_update_7120() {
   // Add default categories.

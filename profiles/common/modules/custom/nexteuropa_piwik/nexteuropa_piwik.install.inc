@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Helper functions for the installation file.

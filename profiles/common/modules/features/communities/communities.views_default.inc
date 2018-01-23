@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * communities.views_default.inc

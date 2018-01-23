@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the E-library feature.
@@ -6,6 +7,16 @@
 
 include_once 'e_library_og.features.inc';
 include_once 'e_library_og.views_alter.inc';
+
+/**
+ * Hook_modules_enabled.
+ */
+function e_library_og_modules_enabled($modules) {
+  if (in_array('e_library_og', $modules)) {
+    // Force feature revert to update og permissions.
+    features_revert(array('e_library_og' => array('og_features_permission')));
+  }
+}
 
 /**
  * Implements hook_menu().

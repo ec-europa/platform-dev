@@ -113,7 +113,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Checks that the given element is of the given type.
    *
-   * @param NodeElement $element
+   * @param \Behat\Mink\Element\NodeElement $element
    *   The element to check.
    * @param string $type
    *   The expected type.
@@ -153,7 +153,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @param string $filename
    *   Name of the file (relative path).
-   * @param PyStringNode $content
+   * @param \Behat\Gherkin\Node\PyStringNode $content
    *   PyString string instance.
    *
    * @Given /^(?:there is )?a file named "([^"]*)" with:$/
@@ -179,10 +179,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Transforms human readable field labels for Articles into machine names.
    *
-   * @param TableNode $article_table
+   * @param \Behat\Gherkin\Node\TableNode $article_table
    *   The original table.
    *
-   * @return TableNode
+   * @return Behat\Gherkin\Node\TableNode
    *   The transformed table.
    *
    * @Transform rowtable:title,body,tags,moderation state
@@ -201,10 +201,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Transforms human readable field labels for Users into machine names.
    *
-   * @param TableNode $user_table
+   * @param \Behat\Gherkin\Node\TableNode $user_table
    *   The original table.
    *
-   * @return TableNode
+   * @return Behat\Gherkin\Node\TableNode
    *   The transformed table.
    *
    * @Transform rowtable:first name,last name
@@ -258,11 +258,11 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Check for PHP errors log.
    *
-   * @param AfterStepScope $scope
-   *    AfterStep hook scope object.
+   * @param \Behat\Behat\Hook\Scope\AfterStepScope $scope
+   *   AfterStep hook scope object.
    *
    * @throws \Exception
-   *    Print out descriptive error message by throwing an exception.
+   *   Print out descriptive error message by throwing an exception.
    *
    * @AfterStep
    */
@@ -314,10 +314,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Assert the given class exists.
    *
    * @param string $class_name
-   *    Fully namespaced class name.
+   *   Fully namespaced class name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class specified has not been found.
+   *   Throw exception if class specified has not been found.
    *
    * @Then the class :arg1 exists in my codebase
    */
@@ -333,7 +333,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Given I am a/an :roles user, member of entity :entity_name of type :entity_type as :group_role
    */
   public function iAmMemberOfEntityHavingRole($roles, $group_role, $entity_name, $entity_type) {
-    $admin = user_load(1);
     // Create the user.
     $account = (object) array(
       'name' => $this->getRandom()->name(8),
@@ -434,10 +433,10 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * Check if given field is translatable.
    *
    * @param string $field_name
-   *    Field machine name.
+   *   Field machine name.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if field is not translatable.
+   *   Throw exception if field is not translatable.
    *
    * @Given the :field_name field is translatable
    */
@@ -454,8 +453,9 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Then I should see highlighted elements
    */
   public function iShouldSeeHighlightedElements() {
-    // div.ICE-Tracking is the css definition that highlights page elements.
-    $this->assertSession()->elementExists('css', 'div.ICE-Tracking');
+    // ICE-Tracking is the css class that highlights page elements.
+    $node_tag = $this->getDrupalSelector('node_tag');
+    $this->assertSession()->elementExists('css', $node_tag . '.ICE-Tracking');
   }
 
   /**
@@ -465,7 +465,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function iShouldNotSeeHighlightedElements() {
     // div.ICE-Tracking is the css definition that highlights page elements.
-    $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
+    $node_tag = $this->getDrupalSelector('node_tag');
+    $this->assertSession()->elementNotExists('css', $node_tag . 'div.ICE-Tracking');
   }
 
   /**
@@ -559,6 +560,29 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     if ($results > 0) {
       throw new ExpectationException("Other languages than '{$language}' have been found for '{$field_name}' field.", $this->getSession());
     }
+  }
+
+  /**
+   * Wait $sec seconds before going to the next step.
+   *
+   * @Then I wait :sec seconds
+   */
+  public function wait($sec) {
+    sleep($sec);
+  }
+
+  /**
+   * Returns a specific css selector.
+   *
+   * @param string $name
+   *   string CSS selector name.
+   */
+  public function getDrupalSelector($name) {
+    $text = $this->getDrupalParameter('selectors');
+    if (!isset($text[$name])) {
+      throw new \Exception(sprintf('No such selector configured: %s', $name));
+    }
+    return $text[$name];
   }
 
 }

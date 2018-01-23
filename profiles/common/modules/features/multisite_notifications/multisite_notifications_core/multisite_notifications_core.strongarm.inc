@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * multisite_notifications_core.strongarm.inc
@@ -30,15 +31,6 @@ function multisite_notifications_core_strongarm() {
   $strongarm->name = 'subscriptions_avoid_empty_subscribe_links';
   $strongarm->value = 0;
   $export['subscriptions_avoid_empty_subscribe_links'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'subscriptions_blocked_content_types';
-  $strongarm->value = array(
-    0 => '0',
-  );
-  $export['subscriptions_blocked_content_types'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -85,24 +77,6 @@ function multisite_notifications_core_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'subscriptions_omitted_taxa';
-  $strongarm->value = array(
-    1 => '1',
-  );
-  $export['subscriptions_omitted_taxa'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'subscriptions_restricted_taxa';
-  $strongarm->value = array(
-    1 => '1',
-  );
-  $export['subscriptions_restricted_taxa'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'subscriptions_showmailkeys';
   $strongarm->value = 0;
   $export['subscriptions_showmailkeys'] = $strongarm;
@@ -136,15 +110,6 @@ function multisite_notifications_core_strongarm() {
     0 => '0',
   );
   $export['subscriptions_static_content_types'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'subscriptions_unlisted_content_types';
-  $strongarm->value = array(
-    0 => '0',
-  );
-  $export['subscriptions_unlisted_content_types'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

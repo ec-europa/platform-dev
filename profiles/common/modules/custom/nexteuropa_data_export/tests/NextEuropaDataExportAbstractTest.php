@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Class \Drupal\nexteuropa_data_export\Tests\NextEuropaDataExportAbstractTest.
- */
-
 namespace Drupal\nexteuropa_data_export\Tests;
 
 use Behat\Mink\Mink;
@@ -55,7 +50,7 @@ abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestC
    * Mink wrapper: get current session.
    *
    * @return \Behat\Mink\Session
-   *    Session object instance.
+   *   Session object instance.
    */
   public function getSession() {
     return $this->mink->getSession();
@@ -65,7 +60,7 @@ abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestC
    * Mink wrapper: visit specified relative path.
    *
    * @param string $path
-   *    Relative URL path.
+   *   Relative URL path.
    */
   public function visit($path) {
     $this->getSession()->visit(BASE_URL . '/' . $path);
@@ -75,7 +70,7 @@ abstract class NextEuropaDataExportAbstractTest extends \PHPUnit_Framework_TestC
    * Mink wrapper: get current page.
    *
    * @return \Behat\Mink\Element\DocumentElement
-   *    Document object instance.
+   *   Document object instance.
    */
   public function page() {
     return $this->getSession()->getPage();

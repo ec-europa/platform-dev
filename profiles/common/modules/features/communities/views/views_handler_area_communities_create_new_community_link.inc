@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Definition of views_handler_area_communities_create_new_community_link.
@@ -8,6 +9,7 @@
  * Views area handler to display create a new community button.
  */
 class views_handler_area_communities_create_new_community_link extends views_handler_area {
+
   /**
    * Return create a new community button.
    */

@@ -1,13 +1,6 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\field\InstanceField\DefaultFieldHandler.
- */
-
 namespace Drupal\field_group;
-
-use Drupal\field_group\Config;
 
 /**
  * Class DefaultFieldHandler.
@@ -15,21 +8,26 @@ use Drupal\field_group\Config;
  * @package Drupal\field_group\InstanceField
  */
 class FieldGroupHandler implements FieldGroupHandlerInterface {
+  /**
+   * Field group definition array as required by field_group_save().
+   *
+   * @var array
+   */
+  protected $definition = array();
 
   /**
    * Construct instance field handler with required information.
    *
    * @param string $label
-   *    Field group label.
+   *   Field group label.
    * @param string $group_name
-   *    Field group machine name.
+   *   Field group machine name.
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param string $bundle
-   *    Bundle machine name.
+   *   Bundle machine name.
    */
   public function __construct($label, $group_name, $entity_type, $bundle) {
-
     $this->definition = new \stdClass();
     $this->definition->identifier = "$group_name|$entity_type|$bundle|form";
     $this->definition->group_name = $group_name;
@@ -46,17 +44,10 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
   }
 
   /**
-   * Field group definition array as required by field_group_save().
-   *
-   * @var array
-   */
-  protected $definition = array();
-
-  /**
    * Return field array built using field handler methods.
    *
    * @return object
-   *    Field settings object.
+   *   Field settings object.
    */
   public function getDefinition() {
     return $this->definition;
@@ -66,10 +57,9 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Create field group instance using internal definition array.
    *
    * @return object
-   *    Field group configuration object.
+   *   Field group configuration object.
    */
   public function save() {
-
     $service = new Config();
     $group = $service->loadFieldGroupByIdentifier($this->definition->identifier);
     if ($group) {
@@ -88,7 +78,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Set field group child.
    *
    * @param string $field_name
-   *    Machine name of the field belonging to the field group.
+   *   Machine name of the field belonging to the field group.
    *
    * @return $this
    */
@@ -101,7 +91,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Set field group children.
    *
    * @param array $children
-   *    Array of field machine names.
+   *   Array of field machine names.
    *
    * @return $this
    */
@@ -116,7 +106,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Set field group weight.
    *
    * @param int $weight
-   *    Field group weight.
+   *   Field group weight.
    *
    * @return $this
    */
@@ -129,7 +119,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Set field group format type.
    *
    * @param string $format_type
-   *    Field group format type.
+   *   Field group format type.
    *
    * @return $this
    */
@@ -142,7 +132,7 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Set field group format setting formatter.
    *
    * @param string $formatter
-   *    Field group formatter.
+   *   Field group formatter.
    *
    * @return $this
    */
@@ -155,9 +145,9 @@ class FieldGroupHandler implements FieldGroupHandlerInterface {
    * Set field group instance setting name and value.
    *
    * @param string $name
-   *    Instance setting name.
+   *   Instance setting name.
    * @param string $value
-   *    Instance setting value.
+   *   Instance setting value.
    *
    * @return $this
    */

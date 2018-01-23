@@ -315,7 +315,7 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
     foreach (array('width', 'height', 'x', 'y', 'rotate') as $name) {
       // @codingStandardsIgnoreStart : Ignore the variable translation
       $form[$name] = array(
-        '#title' => t(ucfirst($name), array(), array('context' => 'Media crop')),
+        '#title' => t(drupal_ucfirst($name), array(), array('context' => 'Media crop')),
         '#title_display' => 'invisible',
         '#type' => 'textfield',
         '#attributes' => array(
@@ -373,7 +373,6 @@ function multisite_crop_and_resize_media_format_form_prepare_alter(&$form, $form
     $form['#attached']['library'][] = array('media_crop', 'imgareaselect');
   }
 }
-
 
 /**
  * Implements hook_image_default_styles().
@@ -455,7 +454,7 @@ function _multisite_crop_and_resize_get_image($media_crop_instance) {
 
   $derivative_uri = _media_crop_get_path($media_crop_instance->mciid, $file->uri);
 
-  if (($scheme = file_uri_scheme($derivative_uri)) == 'private') {
+  if ((file_uri_scheme($derivative_uri)) == 'private') {
     $headers = module_invoke_all('file_download', $file->uri);
     if (in_array(-1, $headers) || empty($headers)) {
       watchdog('media_crop', 'No headers for file download.');
@@ -609,7 +608,6 @@ function multisite_media_crop_image($variables) {
     return theme('image', $image_variables);
   }
 }
-
 
 /**
  * Implements hook_entity_info_alter().

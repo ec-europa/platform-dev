@@ -98,7 +98,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'date_first_day';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['date_first_day'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -143,6 +143,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'file_private_path';
+  // @codingStandardsIgnoreLine: NEPT-1308: The default file path is replaced on development and production sites.
   $strongarm->value = 'sites/default/files/private_files';
   $export['file_private_path'] = $strongarm;
 

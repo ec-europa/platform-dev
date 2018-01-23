@@ -3,7 +3,7 @@
  * CKEDITOR plugin file.
  */
 
-(function($) {
+(function ($) {
 
   /**
    * NextEuropa Token CKEditor behavior.
@@ -19,14 +19,14 @@
         var editor = Drupal.nexteuropa_token_ckeditor[editor_id];
         var content = context[0];
 
-        $(content).find('.token-ckeditor-tips-toggle').once('token-ckeditor-tips-toggle', function() {
+        $(content).find('.token-ckeditor-tips-toggle').once('token-ckeditor-tips-toggle', function () {
           $(this).click(function (e) {
             e.preventDefault();
             $('.token-ckeditor-tips-container').toggle();
           });
         });
 
-        $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function() {
+        $(content).find('.token-ckeditor-selection').once('token-ckeditor-selection', function () {
           $(this).click(function (e) {
             e.preventDefault();
             var token = $(this).attr('token-ckeditor-token');
@@ -43,9 +43,9 @@
   };
 
   CKEDITOR.plugins.add('nexteuropa_token_ckeditor', {
-    init: function(editor) {
+    init: function (editor) {
 
-      CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function() {
+      CKEDITOR.dialog.add('nexteuropa_token_ckeditor_dialog', function () {
         return {
           title: Drupal.t('Insert internal content'),
           minWidth: 750,
@@ -79,7 +79,7 @@
           onShow:function () {
             $('a.cke_dialog_tab').removeClass('cke_dialog_tab_disabled');
           },
-          onLoad: function() {
+          onLoad: function () {
             // Get CKEditor object.
             var editor = this.getParentEditor();
 
@@ -141,31 +141,35 @@
       editor.addContentsCss(this.path + 'plugin.css');
 
       // Define DTD rules for placeholder tag "nexteuropatoken".
-      CKEDITOR.dtd['nexteuropatoken'] = CKEDITOR.dtd;
-      CKEDITOR.dtd.$blockLimit['nexteuropatoken'] = true;
-      CKEDITOR.dtd.$inline['nexteuropatoken'] = true;
-      CKEDITOR.dtd.$nonEditable['nexteuropatoken'] = true;
+      CKEDITOR.dtd.$blockLimit['nexteuropatoken'] = 1;
+      CKEDITOR.dtd.$inline['nexteuropatoken'] = 1;
+      CKEDITOR.dtd.$nonEditable['nexteuropatoken'] = 1;
+      // Set tags in which the placeholder tag can be included.
+      // Note that CKEditor sets already some of them by default like for
+      // "p", "div".
+      CKEDITOR.dtd['td']['nexteuropatoken'] = 1;
+      CKEDITOR.dtd['li']['nexteuropatoken'] = 1;
       if (parseFloat(CKEDITOR.version) >= 4.1) {
         // Register allowed tag for advanced filtering.
         editor.filter.allow('nexteuropatoken[!*]', 'nexteuropatoken', true);
         // Objects should be selected as a whole in the editor.
-        CKEDITOR.dtd.$object['nexteuropatoken'] = true;
+        CKEDITOR.dtd.$object['nexteuropatoken'] = 1;
       }
 
       // Ensure tokens instead the html element is saved.
-      editor.on('setData', function(event) {
+      editor.on('setData', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
       });
 
       // Replace tokens with WYSIWYG placeholders.
-      editor.on('getData', function(event) {
+      editor.on('getData', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replacePlaceholderWithToken(content);
       });
 
       // Replace tokens with WYSIWYG placeholders.
-      editor.on('insertHtml', function(event) {
+      editor.on('insertHtml', function (event) {
         var content = event.data.dataValue;
         event.data.dataValue = Drupal.nexteuropa_token_ckeditor.filter.replaceTokenWithPlaceholder(content);
       });
@@ -195,7 +199,7 @@
      *
      * @returns {string}
      */
-    getPlaceholderFromToken: function(token) {
+    getPlaceholderFromToken: function (token) {
       var matches = token.match(this.regex.parse_token);
       return (matches) ? '<nexteuropatoken contenteditable="false" token="' + matches[1] + '">' + matches[3] + '</nexteuropatoken>' : '';
     },
@@ -208,7 +212,7 @@
      *
      * @returns {string}
      */
-    getTokenFromPlaceholder: function(placeholder) {
+    getTokenFromPlaceholder: function (placeholder) {
       var matches = placeholder.match(this.regex.parse_placeholder);
       return (matches) ? '[' + matches[1] + ']{' + matches[2] + '}' : '';
     },
@@ -221,7 +225,7 @@
      *
      * @returns {string}
      */
-    replaceTokenWithPlaceholder: function(content) {
+    replaceTokenWithPlaceholder: function (content) {
       var matches = content.match(this.regex.get_tokens);
       if (matches) {
         for (var i = 0; i < matches.length; i++) {
@@ -236,7 +240,7 @@
      *
      * @param content
      */
-    replacePlaceholderWithToken: function(content) {
+    replacePlaceholderWithToken: function (content) {
       var matches = content.match(this.regex.get_placeholders);
       if (matches) {
         for (var i = 0; i < matches.length; i++) {

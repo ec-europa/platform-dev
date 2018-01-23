@@ -8,23 +8,28 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Mink\Element\Element;
+use function bovigo\assert\predicate\isNotEmpty;
+use function bovigo\assert\assert;
 
 /**
  * Behat step definitions for the NextEuropa Editorial module.
  */
 class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
+  use \Drupal\nexteuropa\Context\ContextUtil;
+
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
   /**
    * Constructs a NextEuropaTokenSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
@@ -97,17 +102,16 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $driver = $this->getSession()->getDriver();
 
     $modal_id = $modal;
-    if ('ckeditor' == strtolower($modal) && $field_id) {
+    if ('ckeditor' == drupal_strtolower($modal) && $field_id) {
       // Example: cke_editor_edit-field-ne-body-und-0-value_dialog.
       $modal_id = 'cke_editor_' . $field_id . '_dialog';
     }
-    $modal_element = $driver->find("//div[contains(@class, 'cke_reset_all') and contains(@class, '$modal_id')]");
+    $modal_element = $driver->find("//div[contains(@class, 'cke_reset_all') and contains(@class, '$modal_id') and not(contains(@style,'display: none'))]");
     $modal_element = !empty($modal_element) ? $modal_element[0] : NULL;
 
     if (!$modal_element) {
       throw new \Exception(sprintf('Modal dialog for editor "%s" was not found on the page %s', $instance_id, $this->getSession()->getCurrentUrl()));
     }
-
     return $modal_element;
   }
 
@@ -151,7 +155,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $modal_element = $this->getWysiwygModalDialog($instance_id, $modal_id, $field_id);
 
     // Click the action link.
-    $action_test = strtolower($action);
+    $action_test = drupal_strtolower($action);
     switch ($action_test) {
       case 'ok':
         $close_modal_link = $modal_element->find("xpath", "//a[contains(@class, 'cke_dialog_ui_button_ok')]/span[@class='cke_dialog_ui_button']");
@@ -160,7 +164,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
         break;
 
       case 'cancel':
-        $close_modal_link = $modal_element->find("xpath", "//a[contains(@class, 'cke_dialog_ui_button_cancel']/span[@class='cke_dialog_ui_button']");
+        $close_modal_link = $modal_element->find("xpath", "//a[contains(@class, 'cke_dialog_ui_button_cancel')]/span[@class='cke_dialog_ui_button']");
         $close_modal_link->click();
         $driver->wait(1000, TRUE);
         break;
@@ -171,6 +175,24 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
         $driver->wait(1000, TRUE);
         break;
     }
+  }
+
+  /**
+   * Clicking links in the Next Europa Tokens modal dialog from WYSIWYG editor.
+   *
+   * @When /^I click the "([^"]*)" link in the "([^"]*)" row of the "([^"]*)" "([^"]*)" modal dialog$/
+   */
+  public function iClickTheLinkInTheRowOfTheModalDialog($link, $rowText, $instance_id, $modal_id) {
+    $field_id = $this->getFieldIdFromInputLabel($instance_id);
+    $instance_id = $this->getWysiwygInstance($field_id);
+    $modal_element = $this->getWysiwygModalDialog($instance_id, $modal_id, $field_id);
+    $row_element = $this->getWysiwygModalTableRow($modal_element, $rowText);
+    if ($link_element = $row_element->findLink($link)) {
+      // Click the link and return.
+      $link_element->click();
+      return;
+    }
+    throw new \Exception(sprintf('Found a row containing "%s", but no "%s" link on the page %s', $rowText, $link, $this->getSession()->getCurrentUrl()));
   }
 
   /**
@@ -198,7 +220,7 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     $field_id = $this->getFieldIdFromInputLabel($instance_id);
     $instance = $this->getWysiwygInstance($field_id);
     $content = $this->getSession()->evaluateScript("return $instance.getContent()");
-    if (strpos($text, $content) === FALSE) {
+    if (strpos($content, $text) === FALSE) {
       throw new \Exception(sprintf('The text "%s" was not found in the "%s" WYSWIYG editor on the page %s', $text, $instance_id, $this->getSession()->getCurrentUrl()));
     }
   }
@@ -277,6 +299,32 @@ class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubCo
     // scenario step calling the function must decide what to do with the
     // returned value.
     return $label_value;
+  }
+
+  /**
+   * Retrieve a table row containing specified text from a WYSIWYG modal.
+   *
+   * @param \Behat\Mink\Element\Element $element
+   *   The DOM element where to search in.
+   * @param string $search
+   *   The text to search for in the table row.
+   *
+   * @return \Behat\Mink\Element\NodeElement
+   *   The row containing the searched text.
+   */
+  protected function getWysiwygModalTableRow(Element $element, $search) {
+    $modal_tables = $element->findAll('xpath', "//td[@class='cke_dialog_ui_vbox_child']");
+
+    assert($modal_tables, isNotEmpty(), sprintf('No rows found in the Wysiwyg modal on the page %s', $this->getSession()->getCurrentUrl()));
+
+    foreach ($modal_tables as $modal_table) {
+      $row = $this->getTableRow($modal_table, $search);
+      if (!empty($row)) {
+        return $row;
+      }
+    }
+
+    assert($row, isNotEmpty(), sprintf('Failed to find a row containing "%s" in the Wysiwyg modal on the page %s', $search, $this->getSession()->getCurrentUrl()));
   }
 
 }

@@ -8,7 +8,7 @@
 /**
  * Extend class tests for OG button module.
  */
-class OGButtonTestCase extends DrupalWebTestCase {
+class MultisiteOgButtonTestCase extends DrupalWebTestCase {
   protected $users;
   protected $groups;
   protected $content;

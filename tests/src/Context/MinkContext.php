@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MinkContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -18,6 +13,7 @@ use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
+use function bovigo\assert\predicate\isTrue;
 use function bovigo\assert\assert;
 
 /**
@@ -32,7 +28,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     $frontpage = variable_get('site_frontpage', 'node');
     $this->visitPath($frontpage);
   }
-
 
   /**
    * {@inheritdoc}
@@ -243,10 +238,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @param callable $matcher
    *   Callable which returns if the element matches or not.
-   * @param NodeElement[] $elements
+   * @param \Behat\Mink\Element\NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|NULL
+   * @return \Behat\Mink\Element\NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -276,10 +271,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and check a checkbox in a table row containing given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I check the box on the :row_text row
    */
@@ -299,10 +294,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    * Attempts to find and uncheck a checkbox in a table row with a given text.
    *
    * @param string $row_text
-   *    Text on the table row.
+   *   Text on the table row.
    *
    * @throws \Behat\Mink\Exception\ExpectationException
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
    * @Given I uncheck the box on the :row_text row
    */
@@ -372,16 +367,16 @@ class MinkContext extends DrupalExtensionMinkContext {
   /**
    * Retrieve a table row containing specified text from a given element.
    *
-   * @param Element $element
-   *    Mink element object.
+   * @param \Behat\Mink\Element\Element $element
+   *   Mink element object.
    * @param string $search
-   *    Table row text.
+   *   Table row text.
    *
    * @throws \Exception
-   *    Throw exception if class table row was not found.
+   *   Throw exception if class table row was not found.
    *
-   * @return NodeElement
-   *    Table row node element.
+   * @return \Behat\Mink\Element\NodeElement
+   *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
     $rows = $element->findAll('css', 'tr');
@@ -389,7 +384,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
         ->getCurrentUrl()));
     }
-    /** @var NodeElement $row */
+    /** @var \Behat\Mink\Element\NodeElement $row */
     foreach ($rows as $row) {
       if (strpos($row->getText(), $search) !== FALSE) {
         return $row;
@@ -408,7 +403,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    *   Class of the second div.
    *
    * @throws \Exception
-   *    Throw exception if the two positions from top are different.
+   *   Throw exception if the two positions from top are different.
    *
    * @Then I check if :div1 and :div2 have the same position from top
    */
@@ -435,7 +430,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('Unable to find an element with the following id: "%s"', $id));
     }
     // Loading attributes from the step.
-    $attribs = $rules = $table->getHash();
+    $attribs = $table->getHash();
     // Checking if attributes of the element are equal.
     foreach ($attribs as $attrib) {
       $attrib_value = $element_node->getAttribute($attrib['Attribute']);
@@ -476,6 +471,48 @@ class MinkContext extends DrupalExtensionMinkContext {
 
     $disabled_attr = $button_obj->getAttribute('disabled');
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
+  }
+
+  /**
+   * Checks that a select box is set to a given value is selected in select box.
+   *
+   * @Then :option is selected in the :selector options list
+   */
+  public function selectedOptionShouldBeSetTo($selector, $value_label) {
+    $page = $this->getSession()->getPage();
+    $select_box = $page->findField($selector);
+
+    $optionField = $select_box->find('named', array(
+      'option',
+      $value_label,
+    ));
+
+    assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
+  }
+
+  /**
+   * Checks if a specified link is in a HTML element in a field display.
+   *
+   * @Then I should see the link :link in a :html_element in the field display (:container_selector)
+   */
+  public function assertLinkInElementOfField($link, $html_element, $container_selector) {
+    $element = $this->getSession()->getPage();
+    $field_container = $element->find('css', $container_selector);
+
+    assert($field_container, isNotEmpty(), sprintf('The container identified by the "%s" css selector has not been found', $container_selector));
+
+    $link_containers = $field_container->findAll('xpath', $html_element);
+
+    assert($link_containers, isNotEmpty(), sprintf('The "%s" element has not been found in the container identified by the "%s" css selector', $html_element, $container_selector));
+
+    foreach ($link_containers as $link_container) {
+      $result = $link_container->findLink($link);
+      if ($result && !$result->isVisible()) {
+        throw new \Exception(sprintf("No link to '%s' in a %s", $link, $html_element));
+      }
+    }
+
+    assert($result, isNotEmpty(), sprintf("No link to '%s' in a %s", $link, $html_element));
   }
 
 }

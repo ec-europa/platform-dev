@@ -17,7 +17,6 @@ function subscriptions_og_permission() {
   );
 }
 
-
 /**
  * Implements hook_subscriptions().
  */
@@ -99,7 +98,7 @@ function subscriptions_og_subscriptions($op, $arg0 = NULL, $arg1 = NULL, $arg2 =
       $options = array();
       if (og_is_group('node', $arg1)) {
         // Check if user is a member for private group.
-        if (og_is_member('node', $arg1->nid) || $arg1->group_access['und'][0]['value'] == 1) {
+        if (og_is_member('node', $arg1->nid) || $arg1->group_access[LANGUAGE_NONE][0]['value'] == 1) {
           $options['group_audience'][] = array(
             'name' => t('To content posted in %name', array('%name' => $arg1->title)),
             'link' => 'node/' . $arg1->nid,
@@ -121,7 +120,7 @@ function subscriptions_og_subscriptions($op, $arg0 = NULL, $arg1 = NULL, $arg2 =
  * @param array $form
  *   Array form.
  * @param int $uid
- *     The user's UID.
+ *   The user's UID.
  */
 function subscriptions_og_page(array $form, $uid) {
   // Load all active OG subscriptions for this user.

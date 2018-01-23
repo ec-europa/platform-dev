@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\HashTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token;
 
 /**
@@ -18,15 +13,53 @@ class HashTokenHandler extends TokenAbstractHandler {
   const TOKEN_NAME = 'url-hash';
 
   /**
-   * Character sets used in encoding routine.
+   * Slice character hash.
+   *
+   * @var string
    */
-  protected $sliceChars   = "5zqcn9l7mg0rskjb621pwtv3xd84fh";
-  protected $typeChars    = "d3gxr6zws4fb2qp8mk9n1vtcj7l5h0";
-  protected $firstChars   = "6svjw1z7dmt9kqgcr405b3nxp82hlf";
-  protected $secondChars  = "fnwjpx30tlr276419qgbc85zmdvksh";
-  protected $thirdChars   = "f6tjlvq5r3n1phdswzbc7xg02k9m48";
-  protected $fourthChars  = "9pvmj1cs5bt763w2frx04qngkdz8hl";
-  protected $allChars     = array();
+  protected $sliceChars = "5zqcn9l7mg0rskjb621pwtv3xd84fh";
+
+  /**
+   * Hash for entity types.
+   *
+   * @var string
+   */
+  protected $typeChars = "d3gxr6zws4fb2qp8mk9n1vtcj7l5h0";
+
+  /**
+   * First character hash.
+   *
+   * @var string
+   */
+  protected $firstChars = "6svjw1z7dmt9kqgcr405b3nxp82hlf";
+
+  /**
+   * Second character hash.
+   *
+   * @var string
+   */
+  protected $secondChars = "fnwjpx30tlr276419qgbc85zmdvksh";
+
+  /**
+   * Third character hash.
+   *
+   * @var string
+   */
+  protected $thirdChars = "f6tjlvq5r3n1phdswzbc7xg02k9m48";
+
+  /**
+   * Fourth character hash.
+   *
+   * @var string
+   */
+  protected $fourthChars = "9pvmj1cs5bt763w2frx04qngkdz8hl";
+
+  /**
+   * Array containing all tokens.
+   *
+   * @var array
+   */
+  protected $allChars = array();
 
   /**
    * {@inheritdoc}
@@ -73,14 +106,14 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Generate URL hash given the following three arguments.
    *
    * @param string $prefix
-   *    Unique prefix identifier.
+   *   Unique prefix identifier.
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    * @param int $entity_id
-   *    Entity ID in the current site.
+   *   Entity ID in the current site.
    *
    * @return string
-   *    Encoded URL hash.
+   *   Encoded URL hash.
    *
    * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
@@ -92,7 +125,7 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Get system wide hash prefix.
    *
    * @return string
-   *    Return hash prefix.
+   *   Return hash prefix.
    */
   protected function getHashPrefix() {
     return variable_get('nexteuropa_token_hash_prefix', self::DEFAULT_PREFIX);
@@ -102,10 +135,10 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Return encoded prefix portion.
    *
    * @param string $prefix
-   *    Hash prefix.
+   *   Hash prefix.
    *
    * @return string
-   *    Encoded hash prefix.
+   *   Encoded hash prefix.
    */
   public function encodePrefix($prefix) {
     $numeric = '';
@@ -119,10 +152,10 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Return encoded entity type portion.
    *
    * @param string $entity_type
-   *    Entity type machine name.
+   *   Entity type machine name.
    *
    * @return string
-   *    Encoded entity type.
+   *   Encoded entity type.
    *
    * @see https://webgate.ec.europa.eu/CITnet/confluence/display/NEXTEUROPA/Hash+id+generation#comment-403571860
    */
@@ -138,10 +171,10 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Return encoded entity ID portion.
    *
    * @param int $entity_id
-   *    Entity ID.
+   *   Entity ID.
    *
    * @return string
-   *    Encoded eintity ID.
+   *   Encoded eintity ID.
    */
   public function encodeEntityId($entity_id) {
     return $this->encodeNumericValue($entity_id, $this->allChars);
@@ -151,21 +184,21 @@ class HashTokenHandler extends TokenAbstractHandler {
    * Encode numeric value following specifications available at:.
    *
    * @param int $numeric
-   *    Numeric value.
+   *   Numeric value.
    * @param string $charset
-   *    Charset on which to encode to.
+   *   Charset on which to encode to.
    *
    * @return string
-   *    Encoded numeric value.
+   *   Encoded numeric value.
    */
   public function encodeNumericValue($numeric, $charset) {
     $hash = '';
     $charset = is_array($charset) ? $charset : array($charset);
     $crumbs = $numeric;
     for ($i = 0; $i < count($charset); $i++) {
-      $position = $crumbs % strlen($charset[$i]);
+      $position = $crumbs % drupal_strlen($charset[$i]);
       $hash .= $charset[$i]{$position};
-      $crumbs = round($crumbs / strlen($charset[$i]));
+      $crumbs = round($crumbs / drupal_strlen($charset[$i]));
     }
     return $hash;
   }

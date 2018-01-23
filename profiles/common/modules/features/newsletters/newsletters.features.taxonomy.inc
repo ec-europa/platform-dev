@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * newsletters.features.taxonomy.inc
@@ -16,7 +17,7 @@ function newsletters_taxonomy_default_vocabularies() {
       'hierarchy' => 0,
       'module' => 'simplenews',
       'weight' => 0,
-      'language' => 'und',
+      'language' => LANGUAGE_NONE,
       'i18n_mode' => 0,
       'rdf_mapping' => array(
         'rdftype' => array(

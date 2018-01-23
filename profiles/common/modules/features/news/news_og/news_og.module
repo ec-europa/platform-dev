@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the News feature.
@@ -6,6 +7,17 @@
 
 include_once 'news_og.features.inc';
 include_once 'news_og.views_alter.inc';
+
+/**
+ * Implements hook_modules_enabled().
+ */
+function news_og_modules_enabled($modules) {
+  if (in_array('news_og', $modules)) {
+
+    // Force feature revert to update og permissions.
+    features_revert(array('news_og' => array('og_features_permission')));
+  }
+}
 
 /**
  * Implements hook_menu().
@@ -26,11 +38,10 @@ function news_og_menu() {
   return $items;
 }
 
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function news_og_form_news_node_form_alter(&$form, &$form_state, $form_id) {
-  $desc = $form['field_top_news']['und']['#description'];
-  $form['field_top_news']['und']['#description'] = $desc . " " . t('(The visibility of the news must be set to public to appear on the site homepage)');
+  $desc = $form['field_top_news'][LANGUAGE_NONE]['#description'];
+  $form['field_top_news'][LANGUAGE_NONE]['#description'] = $desc . " " . t('(The visibility of the news must be set to public to appear on the site homepage)');
 }

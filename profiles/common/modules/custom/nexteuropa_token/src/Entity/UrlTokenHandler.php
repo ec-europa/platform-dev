@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Entity\UrlTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token\Entity;
 
 /**
@@ -48,7 +43,7 @@ class UrlTokenHandler extends TokenAbstractHandler {
 
     if ($this->isValidTokenType($type)) {
       $token_types = token_get_entity_mapping();
-      foreach ($tokens as $name => $original) {
+      foreach ($tokens as $original) {
         if ($this->isValidToken($original)) {
           $entity_id = $this->getEntityIdFromToken($original);
           $entity_type = $token_types[$type];

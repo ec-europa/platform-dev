@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Multisite_wysiwyg.features.wysiwyg.inc.
@@ -33,21 +34,21 @@ function multisite_wysiwyg_wysiwyg_default_profiles() {
           'break' => 1,
         ),
       ),
-      'toolbar_loc' => 'top',
+      'toolbarLocation' => 'top',
       'toolbar_align' => 'left',
       'path_loc' => 'bottom',
-      'resizing' => 1,
+      'resize_enabled' => 1,
       'default_toolbar_grouping' => 1,
       'verify_html' => 1,
       'preformatted' => 0,
       'convert_fonts_to_spans' => 1,
       'remove_linebreaks' => 1,
-      'apply_source_formatting' => 1,
-      'paste_auto_cleanup_on_paste' => 0,
+      'simple_source_formatting' => 0,
+      'forcePasteAsPlainText' => 0,
       'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
       'css_setting' => 'theme',
       'css_path' => '',
-      'css_classes' => '',
+      'stylesSet' => '',
       'advanced__active_tab' => 'edit-appearance',
     ),
     'rdf_mapping' => array(),

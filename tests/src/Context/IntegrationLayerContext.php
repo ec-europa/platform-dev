@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\IntegrationLayerContext.
- */
 
 namespace Drupal\nexteuropa\Context;
 
@@ -56,14 +52,14 @@ class IntegrationLayerContext implements Context {
   /**
    * The mocked central Integration HTTP server.
    *
-   * @var Server
+   * @var \InterNations\Component\HttpMock\Server
    */
   protected $server;
 
   /**
    * Facade to access requests made to the mocked HTTP server.
    *
-   * @var RequestCollectionFacade
+   * @var \InterNations\Component\HttpMock\RequestCollectionFacade
    */
   protected $requests;
 
@@ -84,7 +80,7 @@ class IntegrationLayerContext implements Context {
    * By default it responds to any POST requests with 201 Created response,
    * additional behavior can be added in further steps.
    *
-   * @return Server
+   * @return \InterNations\Component\HttpMock\Server
    *   The mocked central Integration HTTP server.
    */
   protected function getServer() {
@@ -110,7 +106,7 @@ class IntegrationLayerContext implements Context {
   /**
    * Gets the requests made to the mocked Integration backend.
    *
-   * @return RequestCollectionFacade
+   * @return \InterNations\Component\HttpMock\RequestCollectionFacade
    *   The requests facade.
    */
   protected function getRequests() {
@@ -336,7 +332,7 @@ class IntegrationLayerContext implements Context {
    *   """
    *
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
+   *   PyString containing configuration in YAML format.
    *
    * @Given the following Integration Layer node producer is created:
    */
@@ -374,7 +370,7 @@ class IntegrationLayerContext implements Context {
    *   """
    *
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
+   *   PyString containing configuration in YAML format.
    *
    * @Given the following Integration Layer node consumer is created:
    */
@@ -410,7 +406,7 @@ class IntegrationLayerContext implements Context {
    *   """
    *
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    PyString containing configuration in YAML format.
+   *   PyString containing configuration in YAML format.
    *
    * @Given the following Integration Layer resource schema is created:
    */
@@ -436,7 +432,7 @@ class IntegrationLayerContext implements Context {
    * Assert that configuration array is actually valid.
    *
    * @param array $configuration
-   *    Configuration array.
+   *   Configuration array.
    */
   protected function assertValidConfiguration(array $configuration) {
     assert($configuration, hasKey('name'));
@@ -473,13 +469,13 @@ class IntegrationLayerContext implements Context {
    *     """
    *
    * @param string $producer_name
-   *    Producer machine name.
+   *   Producer machine name.
    * @param string $type
-   *    Node type.
+   *   Node type.
    * @param string $title
-   *    Node title.
+   *   Node title.
    * @param \Behat\Gherkin\Node\PyStringNode $node
-   *    Expected document in YAML format.
+   *   Expected document in YAML format.
    *
    * @Then the :producer_name producer builds the following document for the :type with title :title:
    */

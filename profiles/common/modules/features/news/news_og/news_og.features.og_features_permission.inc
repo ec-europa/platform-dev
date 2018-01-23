@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * news_og.features.og_features_permission.inc

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Tests\TokenHandlerAbstractTest.
- */
-
 namespace Drupal\nexteuropa_token\Tests;
 
 /**
@@ -15,13 +10,23 @@ namespace Drupal\nexteuropa_token\Tests;
 abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
 
   /**
-   * Test fixtures.
+   * Test content type fixtures.
+   *
+   * @var object
    */
   protected static $contentType = NULL;
+
+  /**
+   * Test vocabulary fixtures.
+   *
+   * @var object
+   */
   protected static $vocabulary = NULL;
 
   /**
    * List of entities created during tests, keyed by entity type.
+   *
+   * @var array
    */
   protected $entities = NULL;
 
@@ -72,7 +77,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Get test content type.
    *
    * @return string
-   *    Content type object.
+   *   Content type object.
    */
   protected function getTestContentType() {
     return self::$contentType;
@@ -118,7 +123,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Get test vocabulary.
    *
    * @return object
-   *    Vocabulary object.
+   *   Vocabulary object.
    */
   protected function getTestVocabulary() {
     return self::$vocabulary;
@@ -149,7 +154,7 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Create and return test node.
    *
    * @return \stdClass
-   *    Return node object.
+   *   Return node object.
    */
   protected function getTestNode() {
     $content_type = $this->getTestContentType();
@@ -178,10 +183,10 @@ abstract class TokenHandlerAbstractTest extends \PHPUnit_Framework_TestCase {
    * Borrowed from DrupalTestCase::randomName().
    *
    * @param int $length
-   *    Length of randomly generated name.
+   *   Length of randomly generated name.
    *
    * @return string
-   *    Randomly generated name.
+   *   Randomly generated name.
    */
   public static function randomName($length = 8) {
     $values = array_merge(range(65, 90), range(97, 122), range(48, 57));
