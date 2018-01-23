@@ -245,7 +245,7 @@ function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, ar
     if (isset($main_job)) {
       /** @var TMGMTJobItem $job_item */
       foreach ($main_job->getItems() as $job_item) {
-        /** @var CartItem $cart_item */
+        /** @var Drupal\tmgmt_dgt_connector_cart\Entity\CartItem $cart_item */
         foreach ($cart_items as $cart_item) {
           if (($job_item->item_id == $cart_item->entity_id) && ($job_item->item_type == $cart_item->entity_type)) {
             $cart_item->tjiid = $job_item->tjiid;
