@@ -24,6 +24,14 @@ print $xml;
   <body>
     <?php foreach ($items as $item_key => $item): ?>
       <div class="asset" id="item-<?php echo filter_xss($item_key); ?>">
+        <?php if (isset($items_context[$item_key])): ?>
+          <!--
+          label="context"
+          -->
+          <div class="context" style="color:#ff0000;">
+            <?php echo $items_context[$item_key]; ?>
+          </div>
+        <?php endif; ?>
         <?php foreach ($item as $field_key => $field): ?>
           <?php
             $key = drupal_substr($field_key, 1);

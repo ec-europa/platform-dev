@@ -462,3 +462,16 @@ function tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
 function tmgmt_dgt_connector_cart_bundle_access($op, $cart_bundle = NULL, $account = NULL) {
   return user_access('administer dgt connector', $account);
 }
+
+/**
+ * Helper function to get the CartItem entities based on a Job Items list.
+ *
+ * @param array $job_items
+ *   Array with Job Items.
+ *
+ * @return array
+ *   An array of CartItem entity objects indexed by their IDs.
+ */
+function tmgmt_dgt_connector_cart_get_items_by_jobitems(array $job_items) {
+  return CartItem::loadWithProperties(array('tjiid' => $job_items));
+}
