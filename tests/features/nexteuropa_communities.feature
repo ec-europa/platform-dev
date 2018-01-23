@@ -1,7 +1,7 @@
-@api @reset-nodes @theme_wip
+@api @reset-nodes
 Feature: Nexteuropa Communities
   In order to effectively manage groups of people
-  As a site administrator
+  As an Administrator
   I want to be able to add, edit and delete communities
 
   Background:
@@ -12,6 +12,7 @@ Feature: Nexteuropa Communities
     Given I am logged in as a user with the 'administrator' role
     And the group access field is configured for test
 
+  @theme_wip
   Scenario: As a group admin, all community's block are present.
     Given "community" content:
       | title          | workbench_moderation_state_new | status | language |
@@ -57,6 +58,7 @@ Feature: Nexteuropa Communities
     When I go to "community/public-community/basic-page/page-public-community"
     Then I should see the heading "A page in a public community"
 
+  @theme_wip
   Scenario: As an anonymous user, I can see content of public community, and community's block
     Given I am not logged in
     When I am viewing a "community" content:
@@ -110,7 +112,6 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state_new | published                            |
     Then I should get an access denied error
 
-
   Scenario: As an authenticated user, I can subscribes/un-subscribe on a public community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
@@ -128,7 +129,7 @@ Feature: Nexteuropa Communities
     When I press the "Remove" button
     Then I should see the link "Request group membership"
 
-
+  @theme_wip
   Scenario: As a group member, I can create/edit/delete a group content (page) on my public community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
@@ -156,7 +157,7 @@ Feature: Nexteuropa Communities
     When I press the "Delete" button
     Then I should see the success message "Page 1 in My public Community has been deleted."
 
-
+  @theme_wip
   Scenario: As a group member, I can create/edit/delete a group content (page) on my private community
     Given I am logged in as a user with the 'authenticated user' role
     When I am viewing a "community" content:
@@ -165,8 +166,7 @@ Feature: Nexteuropa Communities
       | workbench_moderation_state     | published            |
       | workbench_moderation_state_new | published            |
     And I have the "member" role in the "My private Community" group
-    When I reload the page
-    And I click "Basic page" in the sidebar_left
+    When I go to "node/add/page"
     And I fill in "title_field[en][0][value]" with "Page in My private Community"
     And I fill in "field_ne_body[en][0][value]" with "Lorem ipsum dolor sit amet"
     And I press the "Save" button
@@ -183,7 +183,6 @@ Feature: Nexteuropa Communities
     Then I should see the heading "Are you sure you want to delete Page 1 in My private Community?"
     When I press the "Delete" button
     Then I should see the success message "Page 1 in My private Community has been deleted."
-
 
   Scenario: As a site administrator, I can enable/disable the private area
     When I am logged in as a user with the 'administrator' role

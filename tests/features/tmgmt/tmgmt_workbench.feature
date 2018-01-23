@@ -1,6 +1,4 @@
-@api @theme_wip
-# They are all in wip for the europa theme because it implies a step referring a
-# region. This must be evaluate deeper before being able to know how to deal with.
+@api
 Feature: TMGMT Workbench features
   In order to request a new translation for moderated content
   As a Translation manager user

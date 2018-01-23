@@ -1,5 +1,4 @@
-@api @theme_wip
-# The feature is in THEME WIP because of the NEPT-1240
+@api
 Feature: Splash Screen features
   In order navigate on the site in my language of preference
   As a citizen of the European Union
@@ -16,6 +15,7 @@ Feature: Splash Screen features
       | fr        |
       | bg        |
 
+  @theme_wip
   Scenario: Users can access to splash screen pages
     Given I am an anonymous user
     When I go to "/"
@@ -25,6 +25,7 @@ Feature: Splash Screen features
     And I should see the link "Français"
     And I should see the link "Български"
 
+  @theme_wip
   # Regression test for a bug that broke the Portuguese (pt-pt) link.
   # See https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-5585
   Scenario: Test language with a custom prefix
@@ -38,6 +39,7 @@ Feature: Splash Screen features
     When I click "Português"
     Then the url should match "(.*)_pt"
 
+  @theme_wip
   Scenario: Administrators can blacklisted languages for the splash screen page
     Given I am logged in as a user with the 'administrator' role
     When I go to "admin/config/regional/splash_screen_settings"

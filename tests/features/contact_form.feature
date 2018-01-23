@@ -13,9 +13,6 @@ Feature: Contact Form
   # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
   Scenario: Anonymous user can see the contact page
     Given I am not logged in
-    And the module is enabled
-      | modules      |
-      | contact_form |
     When I am on "contact"
     Then I should see "Contact - European Commission" in the "title" tag
     When I fill in "Your name" with "Chuck"
@@ -31,9 +28,6 @@ Feature: Contact Form
   # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
   Scenario: Administrator user can submit the contact page
     Given I am logged in as a user with the administrator role
-    And the module is enabled
-      | modules      |
-      | contact_form |
     When I am on "contact"
     Then I should see "Contact - European Commission" in the "title" tag
     And I should not see an "Your e-mail address" text form element
@@ -45,8 +39,6 @@ Feature: Contact Form
       | success messages              |
       | Your message has been sent. |
 
-  @theme_wip
-  # Wip for the europa theme because it implies a step referring a region.
   Scenario: Test that existing information is filled in for authenticated users
     Given users:
      | name               | mail                      | pass         | roles              |

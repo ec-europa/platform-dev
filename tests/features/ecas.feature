@@ -17,8 +17,6 @@ Scenario: Administrators can add the last update block in a region
   Then I should see the text "EU Login"
 
 @theme_wip
-# It is in wip for the europa theme because it implies a step referring a
-# region. This must be evaluate deeper before being able to know how to deal with.
 Scenario: Logged in users can logout with the EU Login block
   Given I am logged in as a user with the "administrator" role
   And that the block "ecas" from module "ecas" is assigned to the region "sidebar_right"
@@ -26,8 +24,6 @@ Scenario: Logged in users can logout with the EU Login block
   Then I should see the link "Logout" in the "sidebar_right" region
 
 @theme_wip
-# It is in wip for the europa theme because it implies a step referring a
-# region. This must be evaluate deeper before being able to know how to deal with.
 Scenario: Anonymous users can login with the EU Login block
   Given I am an anonymous user
   And that the block "ecas" from module "ecas" is assigned to the region "sidebar_right"
@@ -40,8 +36,7 @@ Scenario: Anonymous users can login with ECAS
   And I go to "ecas"
   Then I should be on the ecas page
 
-@Ecas @theme_wip
-# Test is in THEME WIP until the NEPT-1241 is fixed.
+@Ecas
 Scenario: ECAS users can't edit their information
   Given I am logged in as an Ecas user with the "authenticated" role
   When I click "My account"

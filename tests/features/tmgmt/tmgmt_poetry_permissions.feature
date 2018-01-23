@@ -17,7 +17,6 @@ Feature: TMGMT Poetry permissions features
     And I go to "admin/config/regional/tmgmt_translator/manage/poetry"
 
   Scenario Outline: Configuration fields are mandatory.
-
     Then I should see "<field_name>"
     And I press "Save translator"
     Then I should see "<field_name> field is required."
@@ -30,7 +29,7 @@ Feature: TMGMT Poetry permissions features
       | Poetry User        |
       | Poetry Password    |
       | Responsable        |
-      | DG Author             |
+      | DG Author          |
       | Requester          |
       | Secretaire         |
       | Contact            |
@@ -39,27 +38,27 @@ Feature: TMGMT Poetry permissions features
       | Email to           |
       | Email CC           |
 
-    @theme_wip
-    # This scenario is in THEME WIP until the NEPT-1242 is fixed
-    Scenario: I should be able to fill in the configuration form and be notified
-      when server config is missing
-      When I fill in "Counter" with "NEXT_EUROPA_COUNTER"
-      And I fill in "Requester code" with "WEB"
-      And I fill in "Callback User" with "drupal_callback_user"
-      And I fill in "Callback Password" with "drupal_callback_password"
-      And I fill in "Poetry User" with "poetry_user"
-      And I fill in "Poetry Password" with "poetry_password"
-      And I fill in "Website identifier" with "my-website"
-      And I fill in "Responsable" with "DIGIT"
-      And I fill in "DG Author" with "IE/CE/DIGIT"
-      And I fill in "Requester" with "IE/CE/DIGIT/A/3"
-      And I fill in "Author" with "leperde"
-      And I fill in "Secretaire" with "leperde"
-      And I fill in "Contact" with "leperde"
-      And I fill in "Responsible" with "leperde"
-      And I fill in "Email to" with "delphine.lepers@badaboum.com"
-      And I fill in "Email CC" with "delphine.lepers@badaboum.com"
-      And I press "Save translator"
-      Then I should see "The DGT webservice address is not set. Please contact your support team."
-      And I should see "The credentials for your Drupal service are not correctly set. Please contact COMM EUROPA MANAGEMENT."
-      And I should see "The credentials for your DGT service are not correctly set. Please contact COMM EUROPA MANAGEMENT."
+  @theme_wip
+  # This scenario is in THEME WIP until the NEPT-1242 is fixed
+  Scenario: I should be able to fill in the configuration form and be notified
+    when server config is missing
+    When I fill in "Counter" with "NEXT_EUROPA_COUNTER"
+    And I fill in "Requester code" with "WEB"
+    And I fill in "Callback User" with "drupal_callback_user"
+    And I fill in "Callback Password" with "drupal_callback_password"
+    And I fill in "Poetry User" with "poetry_user"
+    And I fill in "Poetry Password" with "poetry_password"
+    And I fill in "Website identifier" with "my-website"
+    And I fill in "Responsable" with "DIGIT"
+    And I fill in "DG Author" with "IE/CE/DIGIT"
+    And I fill in "Requester" with "IE/CE/DIGIT/A/3"
+    And I fill in "Author" with "leperde"
+    And I fill in "Secretaire" with "leperde"
+    And I fill in "Contact" with "leperde"
+    And I fill in "Responsible" with "leperde"
+    And I fill in "Email to" with "delphine.lepers@badaboum.com"
+    And I fill in "Email CC" with "delphine.lepers@badaboum.com"
+    And I press "Save translator"
+    Then I should see "The DGT webservice address is not set. Please contact your support team."
+    And I should see "The credentials for your Drupal service are not correctly set. Please contact COMM EUROPA MANAGEMENT."
+    And I should see "The credentials for your DGT service are not correctly set. Please contact COMM EUROPA MANAGEMENT."

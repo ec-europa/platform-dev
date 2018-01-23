@@ -1,6 +1,4 @@
-@api @poetry_mock @i18n @theme_wip
-# They are all in wip for the europa theme because it implies a step referring a
-# region. This must be evaluate deeper before being able to know how to deal with.
+@api @poetry_mock @i18n
 Feature: TMGMT Poetry features
   In order request new translations for nodes/taxonomies with Poetry service.
   As an Administrator
@@ -18,9 +16,9 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
-    And I am logged in as a user with the "cem" role
+    And I am logged in as a user with the "administrator" role
 
-  @resetPoetryNumero
+  @resetPoetryNumero @theme_wip
   Scenario: Checking a wrong configuration.
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
@@ -55,9 +53,8 @@ Feature: TMGMT Poetry features
   # Deliberately not using a JavaScript enabled browser here, as it will probably
   # respect the maximum length specified on the input field and automatically
   # trim any value we fill it with.
-  @cleanup-tmgmt-poetry-website-identifier
+  @cleanup-tmgmt-poetry-website-identifier @theme_wip
   Scenario: A website identifier longer than 15 characters is not accepted.
-    Given I am logged in as a user with the "cem" role
     When I go to "admin/config/regional/tmgmt_translator/manage/poetry"
     And inside fieldset "General settings" I fill in "Website identifier" with "tmgmt_poetry_website_identifier"
     And I press the "Save translator" button
@@ -70,13 +67,12 @@ Feature: TMGMT Poetry features
     And I fill in "Poetry Password" with "poetry_password"
     And I press the "Save translator" button
 
-  @cleanup-tmgmt-poetry-website-identifier
+  @cleanup-tmgmt-poetry-website-identifier @theme_wip
   Scenario: Check that sending translation request adds website name in title.
-    Given I am logged in as a user with the "administrator" role
-    And I am viewing a multilingual "page" content:
+    When I am viewing a multilingual "page" content:
       | language | title   |
       | en       | My page |
-    When I click "Translate" in the "primary_tabs" region
+    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     And I fill in "Date" with a relative date of "+20" days
@@ -87,9 +83,8 @@ Feature: TMGMT Poetry features
 
   @javascript @cleanup-tmgmt-poetry-website-identifier @poetry_mock_cleanup_translator
   Scenario: Send translation request including a website identifier with
-  characters that have a special meaning in HTML.
-    Given I am logged in as a user with the "cem" role
-    And I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
+    characters that have a special meaning in HTML.
+    When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And inside fieldset "General settings" I fill in "Website identifier" with "/>&mywebsite<"
     And I fill in "Callback Password" with "drupal_callback_password"
     And I fill in "Poetry Password" with "poetry_password"
@@ -142,7 +137,6 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: I can access an overview of recent translation jobs.
-    Given I am logged in as a user with the "administrator" role
     Given local translator "Translator A" is available
     When I create the following multilingual "page" content:
       | language | title              | field_ne_body     |
@@ -186,15 +180,14 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Request main job before other translations + request a new translation.
-    Given I am logged in as a user with the "administrator" role
-    And I go to "node/add/page"
-    When I select "Basic HTML" from "Text format"
+    When I go to "node/add/page"
+    And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Page for main and sub jobs"
     And I fill in "Body" with "Here is the content of the page for main and sub jobs."
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
-    Then I click "Translate" in the "primary_tabs" region
+    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
@@ -204,12 +197,12 @@ Feature: TMGMT Poetry features
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
     And I store node ID of translation request page
-    Then I go to "admin/poetry_mock/dashboard"
+    When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->it" row
     And I click "Check the translation page"
     And I click "Needs review" in the "Italian" row
     And I press "Save as completed"
-    Then I go to "admin/poetry_mock/dashboard"
+    And I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->fr" row
     And I click "Check the translation page"
     And I click "Needs review" in the "French" row
@@ -217,8 +210,7 @@ Feature: TMGMT Poetry features
     Then I should see "None" in the "Italian" row
 
   Scenario: A request for translation that is not submitted won't generate a job item.
-    Given I am logged in as a user with the "administrator" role
-    And I am viewing a multilingual "page" content:
+    When I am viewing a multilingual "page" content:
       | language | title                     |
       | en       | English  Title NoJobItem  |
     And I click "Translate" in the "primary_tabs" region
@@ -229,21 +221,20 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test not sending one job and moving to another job.
-    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "Original version"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
-    Then I click "Translate" in the "primary_tabs" region
+    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    Then I go to "node/add/page"
+    And I go to "node/add/page"
     And I fill in "Title" with "A second original version"
     And I press "Save"
     And I select "Published" from "state"
     And I press "Apply"
-    Then I click "Translate" in the "primary_tabs" region
+    And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
@@ -259,7 +250,6 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Request main job before other translations.
-    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "Page for main and subjobs"
     And I press "Save"
@@ -290,7 +280,6 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test rejection of a translation.
-    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "Original version"
@@ -313,10 +302,9 @@ Feature: TMGMT Poetry features
     When I go to stored job Id translation request page
     Then I should see "Aborted" in the "French" row
 
-  @javascript
+  @javascript @theme_wip
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
     Given the vocabulary "Vocabulary Test" is created
-    And I am logged in as a user with the "administrator" role
     And the term "Term Test" in the vocabulary "Vocabulary Test" exists
     When I go to "admin/structure/taxonomy/vocabulary_test/edit"
     And I select the radio button "Localize. Terms are common for all languages, but their name and description may be localized."
@@ -327,7 +315,7 @@ Feature: TMGMT Poetry features
     Then I should see the success message "One job needs to be checked out."
     When I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     When I click "List"
     And I click "Term Test"
     And I click "Translate" in the "primary_tabs" region
@@ -336,7 +324,7 @@ Feature: TMGMT Poetry features
     Then I should see the success message "One job needs to be checked out."
     When I fill in "Date" with a relative date of "+10" days
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     When I go to "admin/poetry_mock/dashboard"
     And I click "Translate" in the "en->it" row
     Then I should see the success message "Translation was received. Check the translation page."
@@ -354,7 +342,6 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Test creation of translation jobs for vocabularies using TMGMT.
-    Given I am logged in as a user with the "administrator" role
     When I go to "admin/tmgmt/sources/i18n_string_taxonomy_vocabulary"
     And I should see "classification (taxonomy:vocabulary:1)"
     And I check the box on the "classification (taxonomy:vocabulary:1)" row
@@ -364,11 +351,10 @@ Feature: TMGMT Poetry features
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
 
   @javascript
   Scenario Outline: Request translation of a basic page into French.
-    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "<title>"
     And I fill in the rich text editor "Body" with <body>
@@ -398,7 +384,6 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario Outline: Request translation of a page with HTML5 or IFRAME video into French.
-    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I select "Basic HTML" from "Text format"
     And I fill in "Title" with "<title>"
@@ -436,7 +421,6 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario Outline: Request translation for multiple languages.
-    Given I am logged in as a user with the "administrator" role
     When I go to "node/add/page"
     And I fill in "Title" with "<title>"
     And I fill in the rich text editor "Body" with <body>
@@ -468,7 +452,6 @@ Feature: TMGMT Poetry features
       | Page title | '<p>Body content</p>' |
 
   Scenario: Poetry replaces all tokens present in the node.
-    Given I am logged in as a user with the "administrator" role
     When I create the following multilingual "page" content:
       | language | title             | field_ne_body                                                                                      |
       | en       | Two tokens please | <p>[node:1:link]{Title in English 1 as Link}.</p><p>[node:2:link]{Title in English 2 as Link}.</p> |
@@ -486,7 +469,6 @@ Feature: TMGMT Poetry features
 
   @javascript
   Scenario: Fill in metadata when requesting a translation.
-    Given I am logged in as a user with the "administrator" role
     And I go to "node/add/page"
     And I fill in "Title" with "Title"
     And I fill in the rich text editor "Body" with "Metadata test"
@@ -526,7 +508,7 @@ Feature: TMGMT Poetry features
     And the translation request has serviceDemandeur "& DG/directorate/unit of the person submitting the request"
     And the translation request has remarque "Further remarks & comments"
 
-  @javascript @maximizedwindow
+  @javascript @maximizedwindow @theme_wip
   Scenario: Adding new languages to the ongoing translation request
     Given I am logged in as a user with the 'editor' role
     And I have the 'contributor' role in the 'Global editorial team' group
@@ -636,7 +618,7 @@ Feature: TMGMT Poetry features
     When I fill in "Date" with a relative date of "+5" days
     When I check the box on the "French" row
     And I press "Submit to translator"
-    Then I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    Then I should see the success message "Job has been successfully submitted for translation. Project ID is:"
 
   @javascript
   Scenario: Rejecting and resending translation request
@@ -653,7 +635,7 @@ Feature: TMGMT Poetry features
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Portuguese" row
-    And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    And I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
@@ -686,7 +668,7 @@ Feature: TMGMT Poetry features
     And I fill in "Date" with a relative date of "+5" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
-    And I should see the success message containing "Job has been successfully submitted for translation. Project ID is:"
+    And I should see the success message "Job has been successfully submitted for translation. Project ID is:"
     And I should see "Please wait for the translation request to be accepted before further update options."
     When I am logged in as a user with the 'administrator' role
     And I go to "admin/poetry_mock/dashboard"
@@ -766,7 +748,6 @@ Feature: TMGMT Poetry features
   @javascript
   Scenario Outline: Check not-poetry translator still works with poetry enabled.
     Given <translatorType> translator "Translator <translatorType>" is available
-    And I am logged in as a user with the 'administrator' role
     When I go to "node/add/page"
     And I fill in "Title" with "Test"
     And I fill in the rich text editor "Body" with "Test."
