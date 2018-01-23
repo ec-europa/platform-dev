@@ -171,7 +171,7 @@ function tmgmt_dgt_connector_cart_action_info() {
 function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, array $context) {
   global $user;
 
-  $cart_items = CartBundle::getCartItems($cart_bundle->cbid);
+  $cart_items = CartBundle::getActiveCartItems($cart_bundle->cbid);
   $target_languages = $cart_bundle->getTargetLanguages();
   $job_items_by_source_language = array();
 
