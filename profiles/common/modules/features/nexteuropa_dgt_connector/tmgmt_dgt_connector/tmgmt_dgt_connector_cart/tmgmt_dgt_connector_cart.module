@@ -365,7 +365,7 @@ function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
   // Checking if the CartBundle entities exist for a given entity or create one.
   $cart_bundles = CartBundle::loadWithProperties($cart_bundle_properties);
   if (empty($cart_bundles)) {
-    return CartBundle::create($user->uid, $target_languages, CartBundle::STATUS_OPEN);
+    return CartBundle::create($user->uid, $target_languages);
   }
   else {
     return reset($cart_bundles);

@@ -5,7 +5,7 @@ namespace Drupal\tmgmt_dgt_connector_cart\Metadata;
 use EntityDefaultMetadataController;
 
 /**
- * DGT FTT Translator mapping entity.
+ * TMGMT DGT Translator mapping entity.
  */
 class CartItemMetadataController extends EntityDefaultMetadataController {
 
