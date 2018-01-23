@@ -120,7 +120,14 @@ function tmgmt_dgt_connector_cart_views_default_views() {
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 1;
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
   $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
-    'action::views_bulk_operations_delete_item' => array(
+    'action::tmgmt_dgt_connector_cart_discard_cart_bundles' => array(
+      'selected' => 1,
+      'postpone_processing' => 0,
+      'skip_confirmation' => 0,
+      'override_label' => 0,
+      'label' => '',
+    ),
+    'action::tmgmt_dgt_connector_cart_send_cart_bundles' => array(
       'selected' => 1,
       'postpone_processing' => 0,
       'skip_confirmation' => 0,
