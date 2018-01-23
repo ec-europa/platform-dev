@@ -135,6 +135,7 @@ class CartItem extends Entity {
   public function createJobItem() {
     $job_item = tmgmt_job_item_create($this->plugin_type, $this->entity_type, $this->entity_id);
     $job_item->save();
+
     return $job_item;
   }
 

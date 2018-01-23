@@ -200,7 +200,7 @@ function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, ar
         $job = tmgmt_job_create($source_language, $target_language, $user->uid, $reference);
       }
       else {
-        $job = tmgmt_job_create($source_language, $target_language, $user->uid);
+        $main_job = $job = tmgmt_job_create($source_language, $target_language, $user->uid);
       }
 
       $job_empty = TRUE;
@@ -239,11 +239,26 @@ function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, ar
     entity_delete_multiple('tmgmt_job_item', $remove_job_item_ids);
   }
 
-  // Change status of bundle.
-  $cart_bundle->updateStatus(CartBundle::STATUS_SENT);
-
   // Start the checkout process if any jobs were created.
   if ($jobs) {
+    // Update cart item with related job_item.
+    if (isset($main_job)) {
+      /** @var TMGMTJobItem $job_item */
+      foreach ($main_job->getItems() as $job_item) {
+        /** @var CartItem $cart_item */
+        foreach ($cart_items as $cart_item) {
+          if (($job_item->item_id == $cart_item->entity_id) && ($job_item->item_type == $cart_item->entity_type)) {
+            $cart_item->tjiid = $job_item->tjiid;
+            $cart_item->save();
+            continue;
+          }
+        }
+      }
+    }
+
+    // Change status of bundle.
+    $cart_bundle->updateStatus(CartBundle::STATUS_SENT);
+
     $redirects = tmgmt_ui_job_checkout_multiple($jobs);
     // If necessary, do a redirect.
     if ($redirects) {
