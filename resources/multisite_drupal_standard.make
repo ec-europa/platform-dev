@@ -396,6 +396,10 @@ projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_up
 
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "2.2"
+; Issue #2922809: When trying to update i have "Recoverable fatal error: Argument 2 passed to format_string".
+; The fix is made of 2 patches.
+; https://www.drupal.org/node/2922809
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-272
 projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-missing-log-vars-2922809-2.patch
 projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-missing-log-vars-2922809-3.patch
 
