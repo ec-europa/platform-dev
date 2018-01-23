@@ -416,13 +416,9 @@ projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
 
 projects[linkchecker][subdir] = "contrib"
-projects[linkchecker][version] = "1.2"
+projects[linkchecker][version] = "1.3"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
-; Linkchecker PHP 7.0 compatibility.
-; https://www.drupal.org/node/2660694
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
-projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
