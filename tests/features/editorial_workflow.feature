@@ -107,7 +107,7 @@ Feature: Editorial workflow
     And I click "Edit"
     Then the "editorial team member" checkbox should be disabled
 
-   Scenario: A message is displayed when a workflow transition meets certain
+   Scenario: A message is displayed when a new workflow transition meets certain
      criterias
      Given I am logged in as a user with the "administrator" role
      And I have the following rule:
@@ -137,3 +137,38 @@ Feature: Editorial workflow
      And I press "Apply"
      Then I should see "Revision state: Needs Review"
      And I should see the message "This node had the state draft and now has the state needs_review"
+
+  Scenario: A message is displayed when an old workflow transition meets certain
+  criterias
+    Given I am logged in as a user with the "administrator" role
+    And I have the following rule:
+     """
+     {
+       "rules_transition_test" : {
+         "LABEL" : "Test the transition rules",
+         "PLUGIN" : "reaction rule",
+         "OWNER" : "rules",
+         "REQUIRES" : [ "workbench_moderation", "rules" ],
+         "ON" : { "workbench_moderation_after_moderation_transition" : [] },
+         "IF" : [
+           { "contents_previous_state" : { "node" : [ "node" ], "moderation_state" : "needs_review" } }
+         ],
+         "DO" : [
+           { "drupal_message" : { "message" : "This node had the state [previous-state:value] and now has the state [new-state:value]" } }
+         ]
+       }
+     }
+     """
+    And "page" content:
+      | language | title     |
+      | en       | Test page |
+    And I visit the "page" content with title "Test page"
+    Then I should see "Revision state: Draft"
+    When I select "Needs Review" from "state"
+    And I press "Apply"
+    Then I should see "Revision state: Needs Review"
+    And I should not see the message "This node had the state draft and now has the state needs_review"
+    When I select "Validated" from "state"
+    And I press "Apply"
+    Then I should see "Revision state: Validated"
+    And I should see the message "This node had the state needs_review and now has the state validated"
