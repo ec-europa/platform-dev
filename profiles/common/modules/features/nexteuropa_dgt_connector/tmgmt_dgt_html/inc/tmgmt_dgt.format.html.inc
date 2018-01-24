@@ -45,14 +45,11 @@ class TmgmtDgtHtmlFormat implements TMGMTFileFormatInterface {
       if (module_exists('tmgmt_dgt_connector_cart')) {
         $cart_items = tmgmt_dgt_connector_cart_get_items_by_jobitems(array_keys($items));
         foreach ($cart_items as $cart_item) {
-          $comment = empty($cart_item->context_comment) ? '' : filter_xss($cart_item->context_comment) . ' ';
-          $items_context[$cart_item->tjiid] = '[REF '
-            . $comment
-            . 'Link: <a href="'
-            . filter_xss($cart_item->context_url)
-            . '" target="blank">'
-            . filter_xss($cart_item->context_url)
-            . '</a>]';
+          $comment = empty($cart_item->context_comment) ? '' : $cart_item->context_comment . ' ';
+          $items_context[$cart_item->tjiid] = array(
+            'comment' => $comment,
+            'url' => $cart_item->context_url,
+          );
         }
       }
     }
