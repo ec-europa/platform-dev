@@ -39,3 +39,16 @@ Feature: TMGMT Poetry Cart features
     And I wait for AJAX to finish
     And I should see text matching "Translation Bundle content."
     And I fill in "Comment 1" for "Insert comment"
+    And I press "Submit changes"
+    And I wait for AJAX to finish
+    Then I should see the message "Your changes have been successfully submitted."
+    When I click "Close Window"
+    And I check the radio button in the "Type: node | Title: My page 1" row
+    And I press "Send bundles"
+    And I press "Confirm"
+    # Checkout page
+    And I click "Change translator"
+    And I select "tmgmt_dgt_connector" from "Translator"
+    And I wait for AJAX to finish
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
