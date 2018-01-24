@@ -71,6 +71,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'required' => FALSE,
       'description' => t('Context comment.'),
     );
+    $properties['char_count'] = array(
+      'label' => t('Character count'),
+      'schema field' => 'context_comment',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => FALSE,
+      'description' => t('Number of characters in the related entity.'),
+    );
     $properties['tjiid'] = array(
       'label' => t('Translation job item ID'),
       'schema field' => 'tjiid',

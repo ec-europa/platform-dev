@@ -115,6 +115,11 @@ function tmgmt_dgt_connector_cart_schema() {
         'not null' => FALSE,
         'size' => 'big',
       ),
+      'char_count' => array(
+        'description' => 'Number of characters on the related entity.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+      ),
       'tjiid' => array(
         'description' => 'Related translation job item ID.',
         'type' => 'int',

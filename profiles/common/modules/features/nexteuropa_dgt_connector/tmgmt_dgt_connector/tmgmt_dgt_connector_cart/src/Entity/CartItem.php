@@ -4,6 +4,7 @@ namespace Drupal\tmgmt_dgt_connector_cart\Entity;
 
 use Entity;
 use EntityFieldQuery;
+use TMGMTException;
 
 /**
  * DGT FTT Translator mapping entity.
@@ -38,9 +39,9 @@ class CartItem extends Entity {
    */
   public static function load($ciid, $reset = FALSE) {
     $ciids = isset($ciid) ? array($ciid) : array();
-    $cart_bundle = self::loadMultiple($ciids, $reset);
+    $cart_item = self::loadMultiple($ciids, $reset);
 
-    return $cart_bundle ? reset($cart_bundle) : FALSE;
+    return $cart_item ? reset($cart_item) : FALSE;
   }
 
   /**
@@ -137,6 +138,54 @@ class CartItem extends Entity {
     $job_item = tmgmt_job_item_create($this->plugin_type, $this->entity_type, $this->entity_id);
     $job_item->save();
     return $job_item;
+  }
+
+  /**
+   * Loads the structured source data array from the source.
+   */
+  private function getSourceData() {
+    $data_collector = '_tmgmt_dgt_connector_cart_get_' . $this->plugin_type . '_data';
+    if (function_exists($data_collector)) {
+      return $data_collector($this);
+    }
+    throw new TMGMTException(t('Unable to find data loader for plugin type %type', array('%type' => $this->plugin_type)));
+  }
+
+  /**
+   * Parse all data items recursively and sums up all the characters in them.
+   *
+   * @param array $item
+   *   The current data item.
+   */
+  private function count(array &$item = NULL) {
+    if (!$item) {
+      $item = $this->getSourceData();
+    }
+    if (!empty($item['#text'])) {
+      if (_tmgmt_filter_data($item)) {
+        // Count words of the data item.
+        $this->char_count += drupal_strlen(strip_tags($item['#text']));
+      }
+    }
+    elseif (is_array($item)) {
+      foreach (element_children($item) as $key) {
+        $this->count($item[$key]);
+      }
+    }
+  }
+
+  /**
+   * Return the sum of all characters in the related entity.
+   *
+   * @return int
+   *   The sum of all characters in the related entity.
+   */
+  public function getCharCount() {
+    if (empty($this->char_count)) {
+      $this->count();
+      $this->save();
+    }
+    return $this->char_count;
   }
 
 }
