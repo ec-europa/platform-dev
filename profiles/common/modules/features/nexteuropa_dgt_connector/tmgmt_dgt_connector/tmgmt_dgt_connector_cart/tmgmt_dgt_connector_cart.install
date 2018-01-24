@@ -159,3 +159,10 @@ function tmgmt_dgt_connector_cart_schema() {
 
   return $schema;
 }
+
+/**
+ * Implements hook_enable().
+ */
+function tmgmt_dgt_connector_cart_enable() {
+  views_invalidate_cache();
+}

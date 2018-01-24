@@ -102,7 +102,7 @@ class CartBundle extends Entity {
    * @return bool
    *   A new instance of the CartBundle entity or FALSE.
    */
-  public static function create($uid, $target_languages, $status, $tjid = 0) {
+  public static function create($uid, $target_languages, $status = CartBundle::STATUS_OPEN, $tjid = 0) {
     $cart_bundle = entity_create(
       'cart_bundle',
       array(
