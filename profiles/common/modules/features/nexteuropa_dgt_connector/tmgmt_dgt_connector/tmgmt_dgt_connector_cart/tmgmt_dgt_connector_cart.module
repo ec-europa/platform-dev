@@ -11,6 +11,7 @@ use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
 define('TMGMT_DGT_CONNECTOR_CART_VIEW_PATH', 'admin/dgt_connector/cart');
 
 // Including the custom form callback.
+module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/views/tmgmt_dgt_connector_cart.views_default');
 module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/forms/tmgmt_dgt_connector_form_cart_bundle_items');
 
 /**
@@ -199,7 +200,7 @@ function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, ar
         $job = tmgmt_job_create($source_language, $target_language, $user->uid, $reference);
       }
       else {
-        $job = tmgmt_job_create($source_language, $target_language, $user->uid);
+        $main_job = $job = tmgmt_job_create($source_language, $target_language, $user->uid);
       }
 
       $job_empty = TRUE;
@@ -238,11 +239,26 @@ function tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, ar
     entity_delete_multiple('tmgmt_job_item', $remove_job_item_ids);
   }
 
-  // Change status of bundle.
-  $cart_bundle->updateStatus(CartBundle::STATUS_SENT);
-
   // Start the checkout process if any jobs were created.
   if ($jobs) {
+    // Update cart item with related job_item.
+    if (isset($main_job)) {
+      /** @var TMGMTJobItem $job_item */
+      foreach ($main_job->getItems() as $job_item) {
+        /** @var Drupal\tmgmt_dgt_connector_cart\Entity\CartItem $cart_item */
+        foreach ($cart_items as $cart_item) {
+          if (($job_item->item_id == $cart_item->entity_id) && ($job_item->item_type == $cart_item->entity_type)) {
+            $cart_item->tjiid = $job_item->tjiid;
+            $cart_item->save();
+            continue;
+          }
+        }
+      }
+    }
+
+    // Change status of bundle.
+    $cart_bundle->updateStatus(CartBundle::STATUS_SENT);
+
     $redirects = tmgmt_ui_job_checkout_multiple($jobs);
     // If necessary, do a redirect.
     if ($redirects) {
@@ -364,7 +380,7 @@ function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
   // Checking if the CartBundle entities exist for a given entity or create one.
   $cart_bundles = CartBundle::loadWithProperties($cart_bundle_properties);
   if (empty($cart_bundles)) {
-    return CartBundle::create($user->uid, $target_languages, CartBundle::STATUS_OPEN);
+    return CartBundle::create($user->uid, $target_languages);
   }
   else {
     return reset($cart_bundles);

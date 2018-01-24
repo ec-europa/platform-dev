@@ -32,15 +32,14 @@ class CartItem extends Entity {
    * @param bool $reset
    *   Optional reset of the internal cache for the requested entity type.
    *
-   * @return array
+   * @return array|bool
    *   An array of CartBundle entity objects indexed by their ids or an empty
    *   array if no results are found.
    */
   public static function load($ciid, $reset = FALSE) {
-    $ciids = isset($ciid) ? array($ciid) : array();
-    $cart_bundle = self::loadMultiple($ciids, $reset);
+    $cart_bundle = self::loadMultiple(array($ciid), $reset);
 
-    return $cart_bundle ? reset($cart_bundle) : FALSE;
+    return reset($cart_bundle);
   }
 
   /**
@@ -136,6 +135,7 @@ class CartItem extends Entity {
   public function createJobItem() {
     $job_item = tmgmt_job_item_create($this->plugin_type, $this->entity_type, $this->entity_id);
     $job_item->save();
+
     return $job_item;
   }
 

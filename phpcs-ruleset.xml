@@ -45,16 +45,6 @@
         <exclude-pattern>profiles/*/modules/**/views/*.inc</exclude-pattern>
     </rule>
 
-    <!-- Context reaction not strictly follow Drupal function name conventions. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
-    </rule>
-
-    <!-- Code based on the classes from Web Service Clients or TMGMT do not follow Drupal function name conventions. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
-    </rule>
-
     <!-- Callbacks for the SoapServer class (part of the Soap extension) do not follow Drupal function name conventions. -->
     <rule ref="Drupal.NamingConventions.ValidFunctionName.InvalidName">
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry/tmgmt_poetry.module</exclude-pattern>
@@ -71,18 +61,6 @@
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/**</exclude-pattern>
         <exclude-pattern>profiles/multisite_drupal_standard/modules/features/nexteuropa_dgt_connector/**</exclude-pattern>
         <exclude-pattern>profiles/multisite_drupal_communities/modules/features/nexteuropa_dgt_connector/**</exclude-pattern>
-    </rule>
-
-    <!-- Next Europa EntityUIController extends do not follow the camelcase format. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityUIController/*</exclude-pattern>
-    </rule>
-
-    <!-- Next Europa EntityViewsController extends do not follow the camelcase format. -->
-    <rule ref="Drupal.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityViewsController/*</exclude-pattern>
     </rule>
 
     <!-- Phing tasks require to use CamelCaps for argument names. -->
@@ -109,6 +87,12 @@
         <exclude-pattern>*/views_handler*</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/multisite_business_indicators/multisite_business_indicators_core/plugins/multisite_business_indicators_core_views_plugin_style_chart.inc</exclude-pattern>
         <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/ViewsHandler/*</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/multisite_twitterblock/plugins/multisite_twitterblock_reaction.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/tmgmt_workbench/includes/tmgmt_workbench.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_piwik/src/EntityDefaultUIController/PiwikRuleEntityUIController.php</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/custom/nexteuropa_varnish/includes/cache_purge_rule.ui.inc</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityUIController/*</exclude-pattern>
+        <exclude-pattern>profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_dgt_connector/tmgmt_dgt_connector_cart/src/EntityViewsController/*</exclude-pattern>
     </rule>
 
     <!-- Current QA rules give false positives for submodules of a feature. -->

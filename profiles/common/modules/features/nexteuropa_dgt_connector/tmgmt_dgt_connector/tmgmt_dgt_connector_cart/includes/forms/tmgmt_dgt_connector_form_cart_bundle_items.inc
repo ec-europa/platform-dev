@@ -288,5 +288,7 @@ function _tmgmt_dgt_connector_cart_display_message(array &$form_state) {
       break;
   }
 
-  drupal_set_message($message);
+  if (isset($message)) {
+    drupal_set_message($message);
+  }
 }
