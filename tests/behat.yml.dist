@@ -48,7 +48,7 @@ default:
     EC\Behat\PoetryExtension:
       application:
         base_url: '{{ behat.base_url }}'
-        endpoint: '/tmgmt_dgt_connector/server'
+        endpoint: '/poetry/notification'
     Behat\MinkExtension:
       goutte: ~
       javascript_session: 'selenium2'

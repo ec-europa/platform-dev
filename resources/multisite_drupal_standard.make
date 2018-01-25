@@ -600,9 +600,6 @@ projects[realname][version] = "1.3"
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
 
-projects[registry_autoload][subdir] = "contrib"
-projects[registry_autoload][version] = 1.3
-
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.9"
 
@@ -1019,3 +1016,12 @@ projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
 projects[ec_europa][download][branch] = master
+
+; ==============
+; Custom modules
+; ==============
+
+projects[nexteuropa_poetry][type] = module
+projects[nexteuropa_poetry][download][type] = git
+projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
+projects[nexteuropa_poetry][download][branch] = master

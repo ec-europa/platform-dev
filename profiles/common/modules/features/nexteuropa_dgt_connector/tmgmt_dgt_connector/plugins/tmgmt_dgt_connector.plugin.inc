@@ -5,9 +5,7 @@
  * Provides TMGMT DGT Connector translation plugin controller.
  */
 
-use EC\Poetry\Poetry;
-use EC\Poetry\Exceptions\ValidationException;
-use Drupal\nexteuropa_core\Psr3Watchdog;
+use Exceptions\ValidationException;
 
 /**
  * TMGMT DGT Connector translation plugin controller.
@@ -163,50 +161,39 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     $id_data = $this->generateRequestIdData($settings);
 
     // Get other pieces of information.
-    $poetry_service = variable_get("poetry_service");
     $organization = $job->settings['organization'];
     $details_title = 'NE-CMS: ';
     $details_title .= (empty($settings['website_identifier']) ? '' : $settings['website_identifier'] . ' - ');
     $details_title .= $job->label;
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
 
-    // Generate the callback parameters for the request.
-    $callback_address = url('tmgmt_dgt_connector/DGTServicesIntegration.wsdl', array(
-      'absolute' => TRUE,
-      'language' => (object) array('language' => FALSE),
-    ));
-
     // Generate the data into a XML format and encode it to be translated.
     $controller = tmgmt_file_format_controller($job->getSetting('export_format'));
     $export = $controller->export($job);
     $content = base64_encode($export);
 
-    $poetry_values = array(
-      'identifier.code' => $id_data['codeDemandeur'],
-      'identifier.year' => $id_data['annee'],
-      'identifier.version' => $id_data['version'],
-      'identifier.part' => $id_data['partie'],
-      'service.wsdl' => $poetry_service['address'],
-      'service.username' => $settings['poetry_user'],
-      'service.password' => $settings['poetry_password'],
-      'client.wsdl' => $callback_address,
-      'logger' => new Psr3Watchdog(),
-      'log_level' => variable_get('poetry_client_log_level', FALSE),
-    );
-
-    if (isset($id_data['numero'])) {
-      $poetry_values['identifier.number'] = $id_data['numero'];
-    }
-    else {
-      $poetry_values['identifier.sequence'] = $id_data['sequence'];
-    }
-
     try {
-      $poetry = new Poetry($poetry_values);
+      // Get client from Poetry client factory.
+      /** @var \EC\Poetry\Poetry $poetry */
+      $poetry = nexteuropa_poetry_client();
 
       // Start building the request message.
       /** @var EC\Poetry\Messages\Requests\CreateTranslationRequest $message */
       $message = $poetry->get('request.create_translation_request');
+
+      $identifier = $message->withIdentifier();
+      $identifier->setCode($id_data['codeDemandeur'])
+        ->setYear($id_data['annee'])
+        ->setVersion($id_data['version'])
+        ->setPart($id_data['partie'])
+        ->setProduct($id_data['produit']);
+
+      if (isset($id_data['numero'])) {
+        $identifier->setNumber($id_data['numero']);
+      }
+      else {
+        $identifier->setSequence($id_data['sequence']);
+      }
 
       $message->withDetails()
         ->setClientId('Job ID ' . $job->tjid)
@@ -228,15 +215,6 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
           ->setType($type)
           ->setNickname($value);
       }
-
-      $message->withReturnAddress()
-        ->setType('webService')
-        ->setAction('UPDATE')
-        ->setUser($settings['callback_user'])
-        ->setPassword($settings['callback_password'])
-        ->setAddress($callback_address)
-        ->setPath('handle')
-        ->setRemark('');
 
       $message->withSource()
         ->setFormat('HTML')

@@ -3,6 +3,7 @@ description = TMGMT implementation of Poetry European Service (currently limited
 package = Translation Management
 core = 7.x
 dependencies[] = tmgmt_poetry
+dependencies[] = nexteuropa_poetry
 files[] = plugins/tmgmt_dgt_connector.plugin.inc
 files[] = plugins/tmgmt_dgt_connector.ui.inc
 
