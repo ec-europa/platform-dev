@@ -169,8 +169,6 @@ function _tmgmt_dgt_connector_translator_access($op, array $translator, array $a
       return user_access('manage feature nexteuropa_dgt_connector');
     }
   }
-  else {
-    return tmgmt_translator_access($op, $translator, $account);
-  }
 
+  return tmgmt_translator_access($op, $translator, $account);
 }
