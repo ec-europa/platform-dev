@@ -317,12 +317,21 @@ function tmgmt_dgt_connector_cart_restore_cart_bundles(CartBundle &$cart_bundle,
  */
 function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
   unset($form['top_actions']);
-  $form['actions']['cart'] = array(
-    '#type' => 'submit',
-    '#value' => 'Send to cart',
-    '#submit' => array('tmgmt_dgt_connector_cart_form_submit'),
-    '#validate' => array('tmgmt_dgt_connector_cart_form_validate'),
-  );
+  $entity = $form_state['entity'];
+  $cart = $form_state['tmgmt_cart'];
+  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
+  $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
+  $length = 0;
+  _tmgmt_dgt_connector_count_source_data($length, $source_data);
+
+  if ($length <= TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH) {
+    $form['actions']['cart'] = array(
+      '#type' => 'submit',
+      '#value' => 'Send to cart',
+      '#submit' => array('tmgmt_dgt_connector_cart_form_submit'),
+      '#validate' => array('tmgmt_dgt_connector_cart_form_validate'),
+    );
+  }
 }
 
 /**
@@ -477,37 +486,4 @@ function tmgmt_dgt_connector_cart_form_validate($form, &$form_state) {
  */
 function tmgmt_dgt_connector_cart_bundle_access($op, $cart_bundle = NULL, $account = NULL) {
   return user_access('administer dgt connector', $account);
-}
-
-/**
- * Returns the translatable data from a workbench moderated entity.
- *
- * @param \Drupal\tmgmt_dgt_connector_cart\Entity\CartItem $cart_item
- *   The job item entity.
- *
- * @return array
- *   Returns an array of structured data
- */
-function _tmgmt_dgt_connector_cart_get_workbench_moderation_data(CartItem $cart_item) {
-  return _tmgmt_dgt_connector_cart_get_entity_data($cart_item);
-}
-
-/**
- * Returns the translatable data from an entity.
- *
- * @param \Drupal\tmgmt_dgt_connector_cart\Entity\CartItem $cart_item
- *   The job item entity.
- *
- * @throws \TMGMTException
- *
- * @return array
- *   Returns an array of structured data
- */
-function _tmgmt_dgt_connector_cart_get_entity_data(CartItem $cart_item) {
-  $entities = entity_load($cart_item->entity_type, array($cart_item->entity_id));
-  $entity = $entities ? reset($entities) : FALSE;
-  if (!$entity) {
-    throw new TMGMTException(t('Unable to load entity %type with id %id', array('%type' => $cart_item->entity_type, $cart_item->entity_id)));
-  }
-  return tmgmt_field_get_source_data($cart_item->entity_type, $entity, $entity->language, TRUE);
 }
