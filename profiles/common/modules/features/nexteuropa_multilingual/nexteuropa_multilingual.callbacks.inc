@@ -11,17 +11,18 @@
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
   $language_url = FALSE;
   $current_path = request_path();
+  if (!empty($current_path)) {
+    if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
+      return $language_url;
+    }
 
-  if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
-    return $language_url;
-  }
-
-  // $_GET['q'] might not be available at this time, because
-  // path initialization runs after the language bootstrap phase.
-  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($current_path) ? $current_path : NULL, $languages);
-  if ($check_prefix[0] !== FALSE) {
-    $language_url = $check_prefix[0]->language;
-    $_GET['q'] = $check_prefix[1];
+    // $_GET['q'] might not be available at this time, because
+    // path initialization runs after the language bootstrap phase.
+    $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($current_path) ? $current_path : NULL, $languages);
+    if ($check_prefix[0] !== FALSE) {
+      $language_url = $check_prefix[0]->language;
+      $_GET['q'] = $check_prefix[1];
+    }
   }
   return $language_url;
 }
@@ -33,27 +34,42 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
  * @todo: Add documentation.
  */
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
-  // Don't add the language suffix for an internal file URL.
-  $file_public = variable_get('file_public_path', conf_path() . '/files');
-  $file_private = 'system/files';
-  if ($file_public && preg_match("#^/?$file_public#", $path) ||
-    $file_private && preg_match("#^/?$file_private#", $path)) {
+
+  if (empty($path)) {
     return;
   }
 
-  // Don't add the language suffix for sitemap.*** and ecas.
-  if (strpos($path, 'sitemap.') === 0 || strpos($path, 'ecas') === 0) {
-    return;
+  $exceptions = array();
+  // Don't add the language suffix for an internal public file URLs.
+  $exceptions[] = variable_get('file_public_path', conf_path() . '/files');
+  $exceptions[] = 'system/files';
+  $exceptions[] = 'sitemap';
+  $exceptions[] = 'ecas';
+  $exceptions[] = '<front>';
+
+  foreach ($exceptions as $exception) {
+    if (preg_match("#^/?$exception#", $path)) {
+      return;
+    }
+  }
+
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['languages'] = &drupal_static(__FUNCTION__);
+  }
+  $languages = &$drupal_static_fast['languages'];
+
+  if (!isset($languages)) {
+    $languages = language_list('enabled');
+    $languages = array_flip(array_keys($languages[1]));
   }
 
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
-  $language_list = language_list('enabled');
-  $languages = $language_list[1];
 
   // Language can be passed as an option, or we go for current URL language.
   if (!isset($options['language'])) {
     if (isset($options['attributes']['lang'])) {
-      $options['language'] = $language_list[1][$options['attributes']['lang']];
+      $options['language'] = $languages[$options['attributes']['lang']];
     }
     else {
       global $language_url;
@@ -66,10 +82,8 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     return;
   }
 
-  // We don't add the language suffix if $path is empty.
-  // We don't force the frontpage URL to $path if $path is empty.
   if (!empty($path)) {
-    $path = drupal_get_path_alias(($path == '<front>') ? variable_get('site_frontpage', 'node') : $path, $options['language']->language);
+    $path = drupal_get_path_alias($path, $options['language']->language);
 
     // Remove duplicate base_path in URL (NEXTEUROPA-9311).
     // Temporary fix until the next version of the link module.
@@ -85,7 +99,6 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
     $options['alias'] = TRUE;
   }
-
 }
 
 
@@ -205,13 +218,11 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
  *   Source path if any, input path if none.
  */
 function _nexteuropa_multilingual_get_source_path($path) {
-  $result = db_select('url_alias', 'a')
-    ->fields('a', ['source'])
-    ->condition('a.alias', $path)
-    ->execute()
-    ->fetchAssoc();
-  if (is_array($result) && !empty($result)) {
-    return array_shift($result);
+
+  $result = drupal_lookup_path('source', $path);
+  if (!empty($result)) {
+    return $result;
   }
   return $path;
+
 }
