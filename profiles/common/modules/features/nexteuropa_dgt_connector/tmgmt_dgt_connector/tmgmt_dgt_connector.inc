@@ -63,7 +63,7 @@ function _tmgmt_dgt_connector_count_source_data(&$count, array &$item) {
 
   if (!empty($item['#text'])) {
     if (_tmgmt_filter_data($item)) {
-      // Count words of the data item.
+      // Count characters of the data item.
       $count += drupal_strlen(strip_tags($item['#text']));
     }
   }
