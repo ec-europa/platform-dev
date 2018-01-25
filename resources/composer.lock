@@ -4,298 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ae82071ee990889f471ebfe917058aa",
+    "content-hash": "b8ddd7ec2b4269a94064c678f175b06a",
     "packages": [
         {
-            "name": "composer/installers",
-            "version": "v1.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/composer/installers.git",
-                "reference": "049797d727261bf27f2690430d935067710049c2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/composer/installers/zipball/049797d727261bf27f2690430d935067710049c2",
-                "reference": "049797d727261bf27f2690430d935067710049c2",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0"
-            },
-            "replace": {
-                "roundcube/plugin-installer": "*",
-                "shama/baton": "*"
-            },
-            "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpunit/phpunit": "^4.8.36"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "Composer\\Installers\\Plugin",
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Composer\\Installers\\": "src/Composer/Installers"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kyle Robinson Young",
-                    "email": "kyle@dontkry.com",
-                    "homepage": "https://github.com/shama"
-                }
-            ],
-            "description": "A multi-framework Composer library installer",
-            "homepage": "https://composer.github.io/installers/",
-            "keywords": [
-                "Craft",
-                "Dolibarr",
-                "Eliasis",
-                "Hurad",
-                "ImageCMS",
-                "Kanboard",
-                "Lan Management System",
-                "MODX Evo",
-                "Mautic",
-                "Maya",
-                "OXID",
-                "Plentymarkets",
-                "Porto",
-                "RadPHP",
-                "SMF",
-                "Thelia",
-                "WolfCMS",
-                "agl",
-                "aimeos",
-                "annotatecms",
-                "attogram",
-                "bitrix",
-                "cakephp",
-                "chef",
-                "cockpit",
-                "codeigniter",
-                "concrete5",
-                "croogo",
-                "dokuwiki",
-                "drupal",
-                "eZ Platform",
-                "elgg",
-                "expressionengine",
-                "fuelphp",
-                "grav",
-                "installer",
-                "itop",
-                "joomla",
-                "kohana",
-                "laravel",
-                "lavalite",
-                "lithium",
-                "magento",
-                "majima",
-                "mako",
-                "mediawiki",
-                "modulework",
-                "modx",
-                "moodle",
-                "osclass",
-                "phpbb",
-                "piwik",
-                "ppi",
-                "puppet",
-                "pxcms",
-                "reindex",
-                "roundcube",
-                "shopware",
-                "silverstripe",
-                "sydes",
-                "symfony",
-                "typo3",
-                "wordpress",
-                "yawik",
-                "zend",
-                "zikula"
-            ],
-            "time": "2017-12-29T09:13:20+00:00"
-        },
-        {
-            "name": "drupal/drupal",
-            "version": "7.56.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/drupal",
-                "reference": "7.56"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/drupal-7.56.zip",
-                "reference": "7.56",
-                "shasum": "325ef6a8c504d35725ef6e693564ead1b47ee219"
-            },
-            "type": "drupal-core",
-            "extra": {
-                "branch-alias": {
-                    "dev-7.x": "7.x-dev"
-                },
-                "drupal": {
-                    "version": "7.56",
-                    "datestamp": "1508351739",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/7/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Cottser",
-                    "homepage": "https://www.drupal.org/user/1167326"
-                },
-                {
-                    "name": "David_Rothstein",
-                    "homepage": "https://www.drupal.org/user/124982"
-                },
-                {
-                    "name": "Dries",
-                    "homepage": "https://www.drupal.org/user/1"
-                },
-                {
-                    "name": "Drupal",
-                    "homepage": "https://www.drupal.org/user/3"
-                },
-                {
-                    "name": "Fabianx",
-                    "homepage": "https://www.drupal.org/user/693738"
-                },
-                {
-                    "name": "Gábor Hojtsy",
-                    "homepage": "https://www.drupal.org/user/4166"
-                },
-                {
-                    "name": "alexpott",
-                    "homepage": "https://www.drupal.org/user/157725"
-                },
-                {
-                    "name": "catch",
-                    "homepage": "https://www.drupal.org/user/35733"
-                },
-                {
-                    "name": "cilefen",
-                    "homepage": "https://www.drupal.org/user/1850070"
-                },
-                {
-                    "name": "drumm",
-                    "homepage": "https://www.drupal.org/user/3064"
-                },
-                {
-                    "name": "effulgentsia",
-                    "homepage": "https://www.drupal.org/user/78040"
-                },
-                {
-                    "name": "larowlan",
-                    "homepage": "https://www.drupal.org/user/395439"
-                },
-                {
-                    "name": "lauriii",
-                    "homepage": "https://www.drupal.org/user/1078742"
-                },
-                {
-                    "name": "plach",
-                    "homepage": "https://www.drupal.org/user/183211"
-                },
-                {
-                    "name": "stefan.r",
-                    "homepage": "https://www.drupal.org/user/551886"
-                },
-                {
-                    "name": "webchick",
-                    "homepage": "https://www.drupal.org/user/24967"
-                },
-                {
-                    "name": "xjm",
-                    "homepage": "https://www.drupal.org/user/65776"
-                },
-                {
-                    "name": "yoroy",
-                    "homepage": "https://www.drupal.org/user/41502"
-                }
-            ],
-            "homepage": "https://www.drupal.org/project/drupal",
-            "support": {
-                "source": "http://cgit.drupalcode.org/drupal"
-            }
-        },
-        {
-            "name": "drupal/registry_autoload",
-            "version": "1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/registry_autoload",
-                "reference": "7.x-1.3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/registry_autoload-7.x-1.3.zip",
-                "reference": "7.x-1.3",
-                "shasum": "c6685fdb184f68bc3b5fccd2ccf454e312f87e1a"
-            },
-            "require": {
-                "drupal/drupal": "~7.0"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "7.x-1.3",
-                    "datestamp": "1441286339",
-                    "security-coverage": {
-                        "status": "covered",
-                        "message": "Covered by Drupal's security advisory policy"
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/7/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Fabianx",
-                    "homepage": "https://www.drupal.org/user/693738"
-                }
-            ],
-            "description": "Adds support for PSR-0 and PSR-4 to the Drupal 7 core registry.",
-            "homepage": "https://www.drupal.org/project/registry_autoload",
-            "support": {
-                "source": "http://cgit.drupalcode.org/registry_autoload"
-            }
-        },
-        {
             "name": "drupol/drupal7_psr3_watchdog",
-            "version": "1.0.1",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupol/drupal7_psr3_watchdog.git",
-                "reference": "31d524741f025638cc411b9c64eefca08c5d50bc"
+                "reference": "ff6cc052847d49a4561e5412e0291bcab6761c45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupol/drupal7_psr3_watchdog/zipball/31d524741f025638cc411b9c64eefca08c5d50bc",
-                "reference": "31d524741f025638cc411b9c64eefca08c5d50bc",
+                "url": "https://api.github.com/repos/drupol/drupal7_psr3_watchdog/zipball/ff6cc052847d49a4561e5412e0291bcab6761c45",
+                "reference": "ff6cc052847d49a4561e5412e0291bcab6761c45",
                 "shasum": ""
             },
             "require": {
@@ -325,7 +47,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "EUPL"
+                "EUPL-1.1"
             ],
             "authors": [
                 {
@@ -342,79 +64,7 @@
                 "psr-3",
                 "watchdog"
             ],
-            "time": "2017-11-22T11:44:56+00:00"
-        },
-        {
-            "name": "ec-europa/nexteuropa_poetry",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ec-europa/nexteuropa_poetry.git",
-                "reference": "a42680c37d007076c9d58fc9dd81e32be81cbc71"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ec-europa/nexteuropa_poetry/zipball/a42680c37d007076c9d58fc9dd81e32be81cbc71",
-                "reference": "a42680c37d007076c9d58fc9dd81e32be81cbc71",
-                "shasum": ""
-            },
-            "require": {
-                "drupal/registry_autoload": "^1.0",
-                "drupol/drupal7_psr3_watchdog": "^1.0",
-                "ec-europa/oe-poetry-client": "~0.3",
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "composer/installers": "^1.2",
-                "cweagans/composer-patches": "^1.6",
-                "drupal-composer/preserve-paths": "^0.1",
-                "drupal/composer_autoloader": "^1.0",
-                "drupal/drupal": "~7.0",
-                "drupal/drupal-extension": "~3.0",
-                "drush/drush": "8.x-dev",
-                "ec-europa/oe-code-review": "~0.1",
-                "ec-europa/oe-poetry-behat": "~0.3",
-                "ec-europa/oe-task-runner": "~0.1",
-                "mikey179/vfsstream": "~1.2",
-                "webflo/drupal-finder": "^1.0.0",
-                "webmozart/path-util": "^2.3"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "patches": {
-                    "drupal/drupal": {
-                        "https://www.drupal.org/node/2482549": "https://www.drupal.org/files/issues/ignore_node_module-2482549-27_0.patch"
-                    }
-                },
-                "installer-paths": {
-                    "build/": [
-                        "type:drupal-core"
-                    ],
-                    "build/profiles/{$name}/": [
-                        "type:drupal-profile"
-                    ],
-                    "build/sites/all/drush/{$name}/": [
-                        "type:drupal-drush"
-                    ],
-                    "build/sites/all/modules/contrib/{$name}/": [
-                        "type:drupal-module"
-                    ]
-                },
-                "preserve-paths": [
-                    "build/sites/default"
-                ]
-            },
-            "autoload": {
-                "psr-4": {
-                    "Drupal\\nexteuropa_poetry\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "EUPL-1.1"
-            ],
-            "description": "NextEuropa integration for Poetry Client.",
-            "time": "2018-01-06T11:33:47+00:00"
+            "time": "2018-01-24T20:08:31+00:00"
         },
         {
             "name": "ec-europa/oe-poetry-client",
@@ -704,16 +354,16 @@
         },
         {
             "name": "pimple/pimple",
-            "version": "v3.2.2",
+            "version": "v3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "4d45fb62d96418396ec58ba76e6f065bca16e10a"
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/4d45fb62d96418396ec58ba76e6f065bca16e10a",
-                "reference": "4d45fb62d96418396ec58ba76e6f065bca16e10a",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/9e403941ef9d65d20cba7d54e29fe906db42cf32",
+                "reference": "9e403941ef9d65d20cba7d54e29fe906db42cf32",
                 "shasum": ""
             },
             "require": {
@@ -750,7 +400,7 @@
                 "container",
                 "dependency injection"
             ],
-            "time": "2017-07-23T07:32:15+00:00"
+            "time": "2018-01-21T07:42:36+00:00"
         },
         {
             "name": "psr/cache",
@@ -1120,30 +770,27 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.3",
+            "version": "v2.8.33",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "26b87b6bca8f8f797331a30b76fdae5342dc26ca"
+                "reference": "d64be24fc1eba62f9daace8a8918f797fc8e87cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/26b87b6bca8f8f797331a30b76fdae5342dc26ca",
-                "reference": "26b87b6bca8f8f797331a30b76fdae5342dc26ca",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/d64be24fc1eba62f9daace8a8918f797fc8e87cc",
+                "reference": "d64be24fc1eba62f9daace8a8918f797fc8e87cc",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8"
-            },
-            "conflict": {
-                "symfony/dependency-injection": "<3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.8|~3.0|~4.0",
-                "symfony/dependency-injection": "~3.3|~4.0",
-                "symfony/expression-language": "~2.8|~3.0|~4.0",
-                "symfony/stopwatch": "~2.8|~3.0|~4.0"
+                "symfony/config": "^2.0.5|~3.0.0",
+                "symfony/dependency-injection": "~2.6|~3.0.0",
+                "symfony/expression-language": "~2.6|~3.0.0",
+                "symfony/stopwatch": "~2.3|~3.0.0"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -1152,7 +799,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
@@ -1179,7 +826,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2018-01-03T07:37:34+00:00"
+            "time": "2018-01-03T07:36:31+00:00"
         },
         {
             "name": "symfony/expression-language",
@@ -2448,22 +2095,22 @@
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.8.1",
+            "version": "v3.9.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba"
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
-                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=5.3.3",
-                "symfony/event-dispatcher": ">=2.1"
+                "symfony/event-dispatcher": "~2.1"
             },
             "replace": {
                 "guzzle/batch": "self.version",
@@ -2490,18 +2137,21 @@
                 "guzzle/stream": "self.version"
             },
             "require-dev": {
-                "doctrine/cache": "*",
-                "monolog/monolog": "1.*",
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
                 "phpunit/phpunit": "3.7.*",
-                "psr/log": "1.0.*",
-                "symfony/class-loader": "*",
-                "zendframework/zend-cache": "<2.3",
-                "zendframework/zend-log": "<2.3"
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.8-dev"
+                    "dev-master": "3.9-dev"
                 }
             },
             "autoload": {
@@ -2525,7 +2175,7 @@
                     "homepage": "https://github.com/guzzle/guzzle/contributors"
                 }
             ],
-            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
                 "client",
@@ -2537,7 +2187,7 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2014-01-28T22:29:15+00:00"
+            "time": "2015-03-18T18:23:50+00:00"
         },
         {
             "name": "instaclick/php-webdriver",
@@ -5266,7 +4916,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "ec-europa/nexteuropa_poetry": 20,
         "behat/behat": 5
     },
     "prefer-stable": true,

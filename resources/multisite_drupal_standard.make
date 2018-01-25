@@ -1010,3 +1010,12 @@ projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
 projects[ec_europa][download][branch] = master
+
+; ==============
+; Custom modules
+; ==============
+
+projects[nexteuropa_poetry][type] = module
+projects[nexteuropa_poetry][download][type] = git
+projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
+projects[nexteuropa_poetry][download][branch] = master
