@@ -318,14 +318,14 @@ projects[flexslider][version] = "2.0-rc1"
 
 projects[flexslider_views_slideshow][download][revision] = "0b1f8e7e24c168d1820ccded63c319327d57a97e"
 projects[flexslider_views_slideshow][download][type] = "git"
-projects[flexslider_views_slideshow][download][url] = http://git.drupal.org/project/flexslider_views_slideshow.git
+projects[flexslider_views_slideshow][download][url] = https://git.drupal.org/project/flexslider_views_slideshow.git
 projects[flexslider_views_slideshow][subdir] = "contrib"
 projects[fpa][subdir] = "contrib"
 projects[fpa][version] = "2.6"
 
 projects[freepager][download][revision] = "c11c40f6e3e54ff728515589600a0d8e26d831f1"
 projects[freepager][download][type] = "git"
-projects[freepager][download][url] = http://git.drupal.org/project/freepager.git
+projects[freepager][download][url] = https://git.drupal.org/project/freepager.git
 projects[freepager][subdir] = "contrib"
 
 projects[fullcalendar][subdir] = "contrib"
@@ -380,7 +380,7 @@ projects[integration][subdir] = contrib
 
 projects[integration_couchdb][download][revision] = "dcadb1ea483cbdaa7f476f7e0e8530873f484616"
 projects[integration_couchdb][download][type] = "git"
-projects[integration_couchdb][download][url] = http://git.drupal.org/project/integration_couchdb.git
+projects[integration_couchdb][download][url] = https://git.drupal.org/project/integration_couchdb.git
 projects[integration_couchdb][subdir] = "contrib"
 
 projects[job_scheduler][subdir] = "contrib"
@@ -519,10 +519,10 @@ projects[nagios][subdir] = "contrib"
 ; https://www.drupal.org/node/2854854
 projects[nagios][patch][] = https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch
 
-projects[nexteuropa_newsroom][download][type] = get
-projects[nexteuropa_newsroom][download][file_type] = "zip"
-projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa-newsroom-reference/archive/master.zip
-projects[nexteuropa_newsroom][subdir] = custom
+;projects[nexteuropa_newsroom][download][type] = git
+;projects[nexteuropa_newsroom][download][url] = https://github.com/ec-europa/nexteuropa_newsroom.git
+;projects[nexteuropa_newsroom][download][branch] = master
+;projects[nexteuropa_newsroom][subdir] = custom
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.9"
@@ -756,8 +756,8 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.12"
-projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
+projects[webform][version] = "3.x-dev"
+;projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
@@ -842,7 +842,7 @@ libraries[colorbox][destination] = libraries
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
+libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
 libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
 libraries[ckeditor][directory_name] = "ckeditor"
 
@@ -850,7 +850,7 @@ libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor_lite][download][type]= "file"
 libraries[ckeditor_lite][download][request_type]= "get"
 libraries[ckeditor_lite][download][file_type] = "zip"
-libraries[ckeditor_lite][download][url] = http://download.ckeditor.com/lite/releases/lite_1.1.30.zip
+libraries[ckeditor_lite][download][url] = https://download.ckeditor.com/lite/releases/lite_1.1.30.zip
 libraries[ckeditor_lite][subdir] = ckeditor/plugins
 libraries[ckeditor_lite][directory_name] = "lite"
 
@@ -858,7 +858,7 @@ libraries[ckeditor_lite][directory_name] = "lite"
 libraries[ckeditor_moono][download][type]= "file"
 libraries[ckeditor_moono][download][request_type]= "get"
 libraries[ckeditor_moono][download][file_type] = "zip"
-libraries[ckeditor_moono][download][url] = http://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip
+libraries[ckeditor_moono][download][url] = https://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip
 libraries[ckeditor_moono][destination] = "../common/modules/features/multisite_wysiwyg/ckeditor/skins"
 libraries[ckeditor_moono][directory_name] = "moonocolor"
 
@@ -890,7 +890,7 @@ libraries[fullcalendar][download][file_type] = "zip"
 libraries[fullcalendar][destination] = "../common/libraries"
 
 ; fullcalendar 1.5.4 fork (used for the events_resources module)
-libraries[fullcalendar_resources][download][url] = http://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip
+libraries[fullcalendar_resources][download][url] = https://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip
 libraries[fullcalendar_resources][download][type]= "file"
 libraries[fullcalendar_resources][download][request_type]= "get"
 libraries[fullcalendar_resources][download][file_type] = "zip"
@@ -925,7 +925,7 @@ libraries[jplayer][download][file_type] = "zip"
 libraries[jplayer][destination] = "../common/libraries"
 
 ; jquery 1.11.3
-libraries[jquery][download][url] = http://code.jquery.com/jquery-1.11.3.min.js
+libraries[jquery][download][url] = https://code.jquery.com/jquery-1.11.3.min.js
 libraries[jquery][download][type]= "file"
 libraries[jquery][download][request_type]= "get"
 libraries[jquery][destination] = "../common/libraries"

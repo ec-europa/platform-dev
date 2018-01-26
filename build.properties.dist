@@ -24,7 +24,7 @@ platform.theme.europa.repo.url = https://github.com/ec-europa/ec_europa.git
 platform.theme.europa.repo.branch = master
 
 # The Drupal core make file.
-drupal.make = ${platform.resources.dir}/drupal-core.make
+drupal.make = ${platform.resources.profile.dir}/drupal-core.make
 
 # Database settings.
 drupal.db.type = mysql
@@ -55,7 +55,7 @@ drupal.htaccess.append.text =
 platform.basedir = ${project.basedir}
 
 # The make file for the platform.
-platform.make = ${platform.resources.dir}/${platform.profile.name}.make
+platform.make = ${platform.resources.profile.dir}/${platform.profile.name}.make
 
 
 # Paths
@@ -85,7 +85,7 @@ platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.p
 
 platform.resources.composer.json = ${platform.resources.dir}/composer.json
 platform.resources.composer.lock = ${platform.resources.dir}/composer.lock
-platform.resources.favicon.ico = ${platform.resources.dir}/favicon.ico
+platform.resources.favicon.ico = ${platform.resources.profile.dir}/favicon.ico
 
 platform.resources.source.dir = ${platform.basedir}/src
 

@@ -1,0 +1,248 @@
+{
+    "extra": {
+        "patches": {
+            "drupal/drupal": [
+                "patches/ajax-js_url_suffix.patch",
+                "patches/node-node_access_views_relationship-1349080.patch",
+                "https://www.drupal.org/files/issues/2385069-19-drupal7-do-not-test.patch",
+                "patches/default-settings-updates.patch",
+                "https://www.drupal.org/files/issues/drupal-n1256368-91.patch",
+                "https://www.drupal.org/files/issues/cleanup-files-1399846-315.patch",
+                "https://www.drupal.org/files/issues/drupal_add_js_sanitize_external-2697611-4.patch",
+                "https://www.drupal.org/files/issues/drupal-doc-theme-attributes-d7-569362-53.patch",
+                "https://www.drupal.org/files/issues/980144-98_0.patch",
+                "https://www.drupal.org/files/issues/drupal-revision-revert-messes-up-field-translation-1992010-31_D7.patch",
+                "https://www.drupal.org/files/601776-contact-core-134.patch"
+            ],
+            "drupal/apachesolr": [
+                "https://www.drupal.org/files/issues/apachesolr-invalidate-caches-new-node-type-2178283.patch",
+                "https://www.drupal.org/files/apachesolr-multiple-dates-hack-1649158-15.patch",
+                "https://www.drupal.org/files/issues/apachesolr_search-overwritten_menu_items-2446419.patch",
+                "https://www.drupal.org/files/issues/apachesolr-undefined-property-2657666-4-D7.patch",
+                "https://www.drupal.org/files/issues/apachesolr-missing-tabs-2333447-10-D7.patch",
+                "patches/apachesolr-changing_drupal_http_request_timeout_value.patch",
+                "https://www.drupal.org/files/issues/apachesolr-delay-entity-removal-2764637-1.patch"
+            ],
+            "drupal/apachesolr_attachments": [
+                "https://www.drupal.org/files/issues/apachesolr_attachments-empty_parent_entity_id-2581925-0.patch",
+                "https://www.drupal.org/files/issues/apachesolr_attachments-cleanup_efficiency_and_deadlock_chance_reduction-1854088-16.patch",
+                "https://www.drupal.org/files/issues/mysql-56-compatibility-2677866-12.patch"
+            ],
+            "drupal/bean": [
+                "https://www.drupal.org/files/issues/bean-contextual_links_for_entity_view-2084823-18.patch"
+            ],
+            "drupal/better_formats": [
+                "https://www.drupal.org/files/issues/better_format-strict-warning-1717470-11.patch"
+            ],
+            "drupal/chr": [
+                "https://www.drupal.org/files/issues/chr-1.6-patch-rewrite-header-host-without-standard-port-number_0.patch",
+                "https://www.drupal.org/files/issues/chr-ltrim-response-2816399-1.patch",
+                "https://www.drupal.org/files/issues/chr-purge-2825701-2.patch"
+            ],
+            "drupal/collapse_text": [
+                "http://cgit.drupalcode.org/collapse_text/patch/?id=85656e4960d22fc145d5c3e3a79b81eaeb4cbde5"
+            ],
+            "drupal/context": [
+                "https://www.drupal.org/files/issues/massively-increase-pe-reroll-873936-67.patch"
+            ],
+            "drupal/context_entity_field": [
+                "https://www.drupal.org/files/add-entity-references.patch"
+            ],
+            "drupal/date": [
+                "https://www.drupal.org/files/issues/2305049-12.patch"
+            ],
+            "drupal/date_ical": {
+                "2909036": "https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch"
+            },
+            "drupal/easy_breadcrumb": [
+                "https://www.drupal.org/files/issues/check-plain-vs-filter-xss_0_1.patch"
+            ],
+            "drupal/entity": [
+                "https://www.drupal.org/files/issues/Use-array-in-foreach-statement-2564119-1.patch"
+            ],
+            "drupal/entity_translation": [
+                "https://www.drupal.org/files/issues/workbench_moderation-1707156-63.patch",
+                "https://www.drupal.org/files/issues/entity_translation-strict_warning_only_variables_should_be_passed_by_reference-2859223-2.patch",
+                "https://www.drupal.org/files/issues/entity_translation-2856927-8-dual_setter_logic.patch",
+                "https://www.drupal.org/files/issues/entity_translation-respect_pathauto_state-2741407-6_0.patch",
+                "https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch",
+                "https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch"
+            ],
+            "drupal/entityreference": {
+                "0": "https://www.drupal.org/files/issues/feature--entityreference-alter-items.patch",
+                "1": "patches/entityreference-autocomplete-constant-control.patch",
+                "2850416": "https://www.drupal.org/files/issues/rendered_entity_is_not_language_aware_again-2850416-3.patch"
+            },
+            "drupal/entityreference_prepopulate": [
+                "patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch"
+            ],
+            "drupal/features": [
+                "https://www.drupal.org/files/issues/features-var-export-object-1437264-12_0.patch"
+            ],
+            "drupal/feature_set": [
+                "patches/feature_set-add_categories_management-nexteuropa_4459-nept_930.patch",
+                "patches/feature_set-check_disable_enable-nexteuropa_4459.patch",
+                "patches/feature_set-misc-nexteuropa_4459.patch",
+                "https://www.drupal.org/files/issues/feature_set_invoke_hook_requirements-2831766-6.patch"
+            ],
+            "drupal/feeds": [
+                "https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch"
+            ],
+            "drupal/field_group": [
+                "https://www.drupal.org/files/issues/field_group_label_translation_patch.patch"
+            ],
+            "drupal/file_entity": [
+                "https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch"
+            ],
+            "drupal/filefield_sources": [
+                "https://www.drupal.org/files/issues/filefield-sources-2888308-2.patch"
+            ],
+            "drupal/filefield_sources_plupload": [
+                "https://www.drupal.org/files/issues/filefield_sources_plupload-metadata_persistance-2705523.patch"
+            ],
+            "drupal/fullcalendar": [
+                "https://www.drupal.org/files/issues/ajax_date_format-2185449-17.patch",
+                "https://www.drupal.org/files/issues/uncaught_typeerror-1803770-10.patch",
+                "https://www.drupal.org/files/issues/2325549-jquery19_ajax.patch"
+            ],
+            "drupal/geofield": [
+                "https://www.drupal.org/files/issues/geofield-feeds_import_not_saving-2534822-17.patch"
+            ],
+            "drupal/i18n": [
+                "https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch",
+                "https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch"
+            ],
+            "drupal/jquery_update": [
+                "https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch"
+            ],
+            "drupal/l10n_update": [
+                "https://www.drupal.org/files/issues/l10n_update-allow-alternate-http-client-750000-15.patch"
+            ],
+            "drupal/linkchecker": [
+                "https://www.drupal.org/files/issues/bean-integration-2127731-0.patch",
+                "https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch",
+                "https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch"
+            ],
+            "drupal/media": [
+                "https://www.drupal.org/files/issues/media-delete-embedded-document-2028231-11.patch"
+            ],
+            "drupal/media_dailymotion": [
+                "https://www.drupal.org/files/issues/media_dailymotion-mini-url-2560403-7-7.x.patch",
+                "patches/media_dailymotion-handle_protocol-4103.patch"
+            ],
+            "drupal/media_flickr": [
+                "patches/media_flickr-missing_thumbnail-2494.patch",
+                "patches/media_flickr-undefined_index-2183.patch"
+            ],
+            "drupal/media_node": [
+                "patches/media_node-incorrect_permission_check-4273.patch"
+            ],
+            "drupal/menu_attributes": [
+                "patches/menu_attributes-add_icon_for_menu_item-2327.patch",
+                "patches/menu_attributes-option_to_disable_css_class-2988.patch",
+                "patches/menu_attributes-option_to_hide_children-6757.patch"
+            ],
+            "drupal/menu_block": [
+                "patches/menu_block-jqueryUI_issue-5211.patch"
+            ],
+            "drupal/menu_token": [
+                "https://www.drupal.org/files/issues/2838033_1.patch"
+            ],
+            "drupal/message": {
+                "2030101": "https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch"
+            },
+            "drupal/nagios": [
+                "https://www.drupal.org/files/issues/nagios-id-support-2854854-5.patch"
+            ],
+            "drupal/og": [
+                "https://www.drupal.org/files/issues/og_vbo_and_og_2561507-6.patch",
+                "patches/og-og_field_access-bypass_field_access-5159.patch",
+                "https://www.drupal.org/files/issues/og-use_numeric_id_for_membership_etid-1880226-5.patch",
+                "https://www.drupal.org/files/issues/og_default_state_pending_2744405_11650415-20.patch"
+            ],
+            "drupal/og_linkchecker": [
+                "https://www.drupal.org/files/issues/og_linkchecker-og-2-x-compatibility-2214661-2.patch"
+            ],
+            "drupal/om_maximenu": {
+                "1824704": "https://www.drupal.org/files/issues/fix_illegal_string_offset-1824704-8.patch"
+            },
+            "drupal/password_policy": [
+                "https://www.drupal.org/files/issues/password_policy-7.x-2.x-fix_element_alter_error-2489918-4.patch"
+            ],
+            "drupal/pathauto": [
+                "patches/pathauto-admin_patterns-1267966-140.patch",
+                "https://www.drupal.org/files/issues/pathauto-patch_for_pathautho1.3.patch"
+            ],
+            "drupal/quicktabs": {
+                "0": "patches/quicktabs-MULTISITE-3880.patch",
+                "2222805": "https://www.drupal.org/files/issues/quicktabs-log_empty-2222805-14.patch"
+            },
+            "drupal/rate": [
+                "patches/rate-translate_description-1178.patch"
+            ],
+            "drupal/simplenews": [
+                "patches/simplenews-fieldset-weight-4330.patch",
+                "https://www.drupal.org/files/issues/entitycache_issue-2801239-3.patch"
+            ],
+            "drupal/simplenews_statistics": [
+                "https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch",
+                "https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch"
+            ],
+            "drupal/term_reference_tree": [
+                "patches/term_reference_tree-i18n-2000.patch",
+                "patches/term_reference_tree-ie8-2000.patch"
+            ],
+            "drupal/tmgmt": [
+                "https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch",
+                "https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch",
+                "https://www.drupal.org/files/issues/2812863.patch"
+            ],
+            "drupal/token": [
+                "https://www.drupal.org/files/token-1058912-88-limit-token-depth.patch"
+            ],
+            "drupal/translation_overview": [
+                "https://www.drupal.org/files/issues/translation_overview-simpletest-warning-message-2673314-2-D7.patch"
+            ],
+            "drupal/video": [
+                "patches/video-revert_issue-1891012-0.patch",
+                "patches/video-security-883.patch"
+            ],
+            "drupal/views": [
+                "https://www.drupal.org/files/issues/views-erroneous_empty_not_empty_filter_error-1818176-37.patch",
+                "https://www.drupal.org/files/issues/views-contextual_filter_exception_breadcrumbs-1201160-17.patch",
+                "https://www.drupal.org/files/issues/views-and_missing_parenthesis-2908538-2-D7.patch"
+            ],
+            "drupal/workbench_email": [
+                "https://www.drupal.org/files/issues/workbench_email-add_email_subject_message_to_feature-2501321-1.patch",
+                "patches/workbench_email-revert_feature_error-1.patch"
+            ],
+            "drupal/drafty": [
+                "https://www.drupal.org/files/issues/2487013.patch"
+            ],
+            "drupal/workbench_moderation": [
+                "https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch"
+            ],
+            "drupal/workbench_og": [
+                "https://www.drupal.org/files/issues/workbench_og-node_access-2835937.patch"
+            ],
+            "drupal/wysiwyg": [
+                "patches/wysiwyg-ckeditor4-bug-version-1799.patch",
+                "patches/wysiwyg-ckeditor_ie_fix-1914904-5.patch",
+                "patches/wysiwyg-local_css_file_paths-1793704-14.patch",
+                "patches/wysiwyg-js-url-9874.patch",
+                "https://www.drupal.org/files/issues/wysiwyg-feature_export_object_to_array-2414575-10-7.patch"
+            ],
+            "drupal/xmlsitemap": [
+                "https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch",
+                "patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch"
+            ],
+            "drupal/og-delete": [
+                "patches/og_delete-remove_community-4481-2.patch",
+                "patches/og_delete-warning_fix-issue-3629.patch"
+            ],
+            "drupal/plupload": {
+                "1903850": "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
+            }
+        }
+    }
+}

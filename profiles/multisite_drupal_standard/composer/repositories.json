@@ -1,0 +1,686 @@
+{
+    "repositories": {
+        "0": {
+            "type": "package",
+            "package": {
+                "name": "drupal/ec_resp",
+                "type": "drupal-theme",
+                "version": "1.x-dev",
+                "source": {
+                    "url": "https://github.com/ec-europa/ec_resp.git",
+                    "type": "git",
+                    "reference": "2.3.4"
+                }
+            }
+        },
+        "1": {
+            "type": "package",
+            "package": {
+                "name": "drupal/atomium",
+                "type": "drupal-theme",
+                "version": "2.x-dev",
+                "source": {
+                    "url": "https://github.com/ec-europa/atomium.git",
+                    "type": "git",
+                    "reference": "7.x-2.x"
+                }
+            }
+        },
+        "2": {
+            "type": "package",
+            "package": {
+                "name": "drupal/ec_europa",
+                "type": "drupal-theme",
+                "version": "master-dev",
+                "source": {
+                    "url": "https://github.com/ec-europa/ec_europa.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        },
+        "libraries/chosen": {
+            "type": "package",
+            "package": {
+                "name": "library/chosen",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        "libraries/colorbox": {
+            "type": "package",
+            "package": {
+                "name": "library/colorbox",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/jackmoore/colorbox/archive/1.6.3.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        "libraries/ckeditor": {
+            "type": "package",
+            "package": {
+                "name": "library/ckeditor",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/ckeditor_lite": {
+            "type": "package",
+            "package": {
+                "name": "library/ckeditor_lite",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://download.ckeditor.com/lite/releases/lite_1.1.30.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/ckeditor_moono": {
+            "type": "package",
+            "package": {
+                "name": "library/ckeditor_moono",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/cycle": {
+            "type": "package",
+            "package": {
+                "name": "library/cycle",
+                "version": "1.0",
+                "type": "drupal-library",
+                "source": {
+                    "url": "https://github.com/malsup/cycle.git",
+                    "type": "git",
+                    "reference": "3.0.3"
+                }
+            }
+        },
+        "libraries/fancybox": {
+            "type": "package",
+            "package": {
+                "name": "library/fancybox",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/fancyapps/fancyBox/zipball/v2.1.5",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/flexslider": {
+            "type": "package",
+            "package": {
+                "name": "library/flexslider",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/fullcalendar": {
+            "type": "package",
+            "package": {
+                "name": "library/fullcalendar",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/fullcalendar/fullcalendar/archive/v1.6.7.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/fullcalendar_resources": {
+            "type": "package",
+            "package": {
+                "name": "library/fullcalendar_resources",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/history": {
+            "type": "package",
+            "package": {
+                "name": "library/history",
+                "version": "1.0",
+                "type": "drupal-library",
+                "source": {
+                    "url": "https://github.com/browserstate/history.js/",
+                    "type": "git",
+                    "reference": "1.8.0b2"
+                }
+            }
+        },
+        "libraries/iCalcreator": {
+            "type": "package",
+            "package": {
+                "name": "library/iCalcreator",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/jquery.imgareaselect": {
+            "type": "package",
+            "package": {
+                "name": "library/jquery.imgareaselect",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/jplayer": {
+            "type": "package",
+            "package": {
+                "name": "library/jplayer",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/happyworm/jPlayer/archive/2.9.2.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/jquery": {
+            "type": "package",
+            "package": {
+                "name": "library/jquery",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://code.jquery.com/jquery-1.11.3.min.js",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/Leaflet.draw": {
+            "type": "package",
+            "package": {
+                "name": "library/Leaflet.draw",
+                "version": "1.0",
+                "type": "drupal-library",
+                "source": {
+                    "url": "https://github.com/Leaflet/Leaflet.draw.git",
+                    "type": "git",
+                    "reference": "v0.3.0"
+                }
+            }
+        },
+        "libraries/modernizr": {
+            "type": "package",
+            "package": {
+                "name": "library/modernizr",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/mpdf": {
+            "type": "package",
+            "package": {
+                "name": "library/mpdf",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/mpdf/mpdf/releases/download/v6.1.0/01-mPDF-v6.1.0.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/leaflet": {
+            "type": "package",
+            "package": {
+                "name": "library/leaflet",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/plupload": {
+            "type": "package",
+            "package": {
+                "name": "library/plupload",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/moxiecode/plupload/archive/v1.5.8.zip",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/ec_resp_bootstrap": {
+            "type": "package",
+            "package": {
+                "name": "library/ec_resp_bootstrap",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        "libraries/ec_resp_bootstrap_less": {
+            "type": "package",
+            "package": {
+                "name": "library/ec_resp_bootstrap_less",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/twbs/bootstrap/archive/v3.3.5.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        "libraries/html5shiv": {
+            "type": "package",
+            "package": {
+                "name": "library/html5shiv",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://raw.githubusercontent.com/aFarkas/html5shiv/a3c7567c5f7055f9b76230bbbc79967d0b9f7003/dist/html5shiv.min.js",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/mousewheel": {
+            "type": "package",
+            "package": {
+                "name": "library/mousewheel",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://raw.githubusercontent.com/jquery/jquery-mousewheel/33dc8f1090da2eaadbca8e782965d7fd6c28db42/jquery.mousewheel.min.js",
+                    "type": "file"
+                }
+            }
+        },
+        "libraries/respond": {
+            "type": "package",
+            "package": {
+                "name": "library/respond",
+                "version": "1.0",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://raw.githubusercontent.com/scottjehl/Respond/9d91fd47eb59c11a80d570d4ea0beaa59cfc71bf/dest/respond.min.js",
+                    "type": "file"
+                }
+            }
+        },
+        "3": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_feature_set"
+        },
+        "4": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_pages"
+        },
+        "5": {
+            "type": "path",
+            "url": "modules/features/ec_world_countries"
+        },
+        "6": {
+            "type": "path",
+            "url": "modules/features/multilingual_tools"
+        },
+        "7": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_dgt_connector"
+        },
+        "8": {
+            "type": "path",
+            "url": "modules/features/multisite_megamenu"
+        },
+        "9": {
+            "type": "path",
+            "url": "modules/features/multi_user_blog"
+        },
+        "10": {
+            "type": "path",
+            "url": "modules/features/cce_basic_config"
+        },
+        "11": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_news"
+        },
+        "12": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_communities"
+        },
+        "13": {
+            "type": "path",
+            "url": "modules/features/taxonomy_browser"
+        },
+        "14": {
+            "type": "path",
+            "url": "modules/features/solr_config"
+        },
+        "15": {
+            "type": "path",
+            "url": "modules/features/splash_screen"
+        },
+        "16": {
+            "type": "path",
+            "url": "modules/features/multisite_maps"
+        },
+        "17": {
+            "type": "path",
+            "url": "modules/features/multisite_metatags"
+        },
+        "18": {
+            "type": "path",
+            "url": "modules/features/contact_form"
+        },
+        "19": {
+            "type": "path",
+            "url": "modules/features/multisite_mediagallery_standard"
+        },
+        "20": {
+            "type": "path",
+            "url": "modules/features/multisite_custom_error"
+        },
+        "21": {
+            "type": "path",
+            "url": "modules/features/f_a_q"
+        },
+        "22": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_webtools"
+        },
+        "23": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_mediagallery"
+        },
+        "24": {
+            "type": "path",
+            "url": "modules/features/multisite_workbench_moderation_view"
+        },
+        "25": {
+            "type": "path",
+            "url": "modules/features/multisite_maxlength"
+        },
+        "26": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_europa_search"
+        },
+        "27": {
+            "type": "path",
+            "url": "modules/features/node_pager"
+        },
+        "28": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_geofield"
+        },
+        "29": {
+            "type": "path",
+            "url": "modules/features/sitemap"
+        },
+        "30": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_core"
+        },
+        "31": {
+            "type": "path",
+            "url": "modules/features/multisite_crop_and_resize"
+        },
+        "32": {
+            "type": "path",
+            "url": "modules/features/multisite_wysiwyg"
+        },
+        "33": {
+            "type": "path",
+            "url": "modules/features/ec_embedded_image"
+        },
+        "34": {
+            "type": "path",
+            "url": "modules/features/multisite_translations"
+        },
+        "35": {
+            "type": "path",
+            "url": "modules/features/text_collapse"
+        },
+        "36": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_trackedchanges"
+        },
+        "37": {
+            "type": "path",
+            "url": "modules/features/ecas_env"
+        },
+        "38": {
+            "type": "path",
+            "url": "modules/features/ec_embedded_video"
+        },
+        "39": {
+            "type": "path",
+            "url": "modules/features/multisite_mediagallery_core"
+        },
+        "40": {
+            "type": "path",
+            "url": "modules/features/feed_rss_core"
+        },
+        "41": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_faq"
+        },
+        "42": {
+            "type": "path",
+            "url": "modules/features/multisite_multilingual_references"
+        },
+        "43": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_geojson_feeds"
+        },
+        "44": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_metatags"
+        },
+        "45": {
+            "type": "path",
+            "url": "modules/features/ec_content_slider"
+        },
+        "46": {
+            "type": "path",
+            "url": "modules/features/multisite_audio"
+        },
+        "47": {
+            "type": "path",
+            "url": "modules/features/social_bookmark"
+        },
+        "48": {
+            "type": "path",
+            "url": "modules/features/multisite_charts"
+        },
+        "49": {
+            "type": "path",
+            "url": "modules/features/multisite_forum_core"
+        },
+        "50": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_event"
+        },
+        "51": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_notices"
+        },
+        "52": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_editorial"
+        },
+        "53": {
+            "type": "path",
+            "url": "modules/features/fat_footer"
+        },
+        "54": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_multilingual"
+        },
+        "55": {
+            "type": "path",
+            "url": "modules/features/multisite_autosave"
+        },
+        "56": {
+            "type": "path",
+            "url": "modules/features/ec_profiles"
+        },
+        "57": {
+            "type": "path",
+            "url": "modules/features/newsletters"
+        },
+        "58": {
+            "type": "path",
+            "url": "modules/features/multisite_eu_cookie_compliance"
+        },
+        "59": {
+            "type": "path",
+            "url": "modules/features/multisite_twitterblock"
+        },
+        "60": {
+            "type": "path",
+            "url": "modules/features/nexteuropa_integration"
+        },
+        "61": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_piwik"
+        },
+        "62": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_token"
+        },
+        "63": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_formatters"
+        },
+        "64": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_nagios"
+        },
+        "65": {
+            "type": "path",
+            "url": "modules/custom/version_management"
+        },
+        "66": {
+            "type": "path",
+            "url": "modules/custom/multisite_og_button"
+        },
+        "67": {
+            "type": "path",
+            "url": "modules/custom/multisite_drupal_toolbox"
+        },
+        "68": {
+            "type": "path",
+            "url": "modules/custom/language_selector_site"
+        },
+        "69": {
+            "type": "path",
+            "url": "modules/custom/language_selector_page"
+        },
+        "70": {
+            "type": "path",
+            "url": "modules/custom/multisite_og_navigation_tree"
+        },
+        "71": {
+            "type": "path",
+            "url": "modules/custom/multisite_drupal_wiki_toc"
+        },
+        "72": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_data_export"
+        },
+        "73": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_json_field"
+        },
+        "74": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_laco"
+        },
+        "75": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_varnish"
+        },
+        "76": {
+            "type": "path",
+            "url": "modules/custom/tmgmt_og"
+        },
+        "77": {
+            "type": "path",
+            "url": "modules/custom/multisite_dynamic_basetheme"
+        },
+        "78": {
+            "type": "path",
+            "url": "modules/custom/multisite_block_carousel"
+        },
+        "79": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_ief_views_widget"
+        },
+        "80": {
+            "type": "path",
+            "url": "modules/custom/ecas"
+        },
+        "81": {
+            "type": "path",
+            "url": "modules/custom/multisite_config"
+        },
+        "82": {
+            "type": "path",
+            "url": "modules/custom/multisite_create_button"
+        },
+        "83": {
+            "type": "path",
+            "url": "modules/custom/tmgmt_workbench"
+        },
+        "84": {
+            "type": "path",
+            "url": "modules/custom/multisite_drupal_language_negociation"
+        },
+        "85": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_ecl_migrate"
+        },
+        "86": {
+            "type": "path",
+            "url": "modules/custom/nexteuropa_lastupdate"
+        },
+        "87": {
+            "type": "path",
+            "url": "modules/custom/subscriptions_og"
+        }
+    }
+}
