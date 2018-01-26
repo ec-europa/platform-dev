@@ -21,6 +21,7 @@
 
     <exclude-pattern>profiles/common/themes/</exclude-pattern>
     <exclude-pattern>profiles/multisite_drupal_*/themes/</exclude-pattern>
+    <exclude-pattern>profiles/multisite_drupal_*/patches/*</exclude-pattern>
 
     <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal" />
 
