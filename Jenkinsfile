@@ -119,9 +119,13 @@ void executeStages(String label) {
             wrap([$class: 'AnsiColorBuildWrapper', colorMapName: 'xterm']) {
                 timeout(time: 2, unit: 'HOURS') {
                     if (env.WD_BROWSER_NAME == 'phantomjs') {
-                        sh "phantomjs --webdriver=${env.WD_HOST}:${env.WD_PORT} &"
+                        sh "docker run -d -p ${env.WD_PORT}:8910 --name phantomjs-${env.WD_PORT} wernight/phantomjs phantomjs --webdriver=8910"
                     }
                     sh "./bin/behat -c build/behat.yml -p ${env.BEHAT_PROFILE} --colors -f pretty --strict"
+                    if (env.WD_BROWSER_NAME == 'phantomjs') {
+                        sh "docker stop phantomjs-${env.WD_PORT}"
+                        sh "docker rm phantomjs-${env.WD_PORT}"
+                    }
                 }
             }
         }
