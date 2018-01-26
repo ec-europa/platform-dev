@@ -5,7 +5,7 @@ core = 7.x
 ; Multisite Drupal Standard
 ; =========================
 
-includes[] = "../multisite_drupal_standard/multisite_drupal_standard.make"
+includes[] = "multisite_drupal_standard.make"
 
 ; ===================
 ; Contributed modules
