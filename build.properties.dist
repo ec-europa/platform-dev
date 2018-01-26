@@ -81,7 +81,7 @@ platform.build.dir = ${project.basedir}/${phing.project.build.dir}
 platform.resources.dir = ${platform.basedir}/resources
 platform.resources.profiles.dir = ${platform.basedir}/profiles
 platform.resources.profiles.common.themes.dir = ${platform.basedir}/profiles/common/themes
-platform.resources.profile.dir = ${platform.resources.dir}/${platform.profile.name}
+platform.resources.profile.dir = ${platform.resources.profiles.dir}/${platform.profile.name}
 
 platform.resources.composer.json = ${platform.resources.dir}/composer.json
 platform.resources.composer.lock = ${platform.resources.dir}/composer.lock
