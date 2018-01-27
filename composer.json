@@ -1,5 +1,5 @@
 {
-  "name": "ec-europa/platform-dev",
+  "name": "verbruggenalex/platform-dev",
   "type": "drupal-core",
   "require": {
     "php": ">=5.4.0",
