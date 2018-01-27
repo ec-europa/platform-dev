@@ -2,7 +2,8 @@
     "require": {
         "wikimedia/composer-merge-plugin": "dev-master",
         "composer/installers": "~1.0",
-        "cweagans/composer-patches": "~1.0"
+        "cweagans/composer-patches": "~1.0",
+        "drupal/drupal": "7.56.0"
     },
     "provide": {
         "drupal/admin_menu": "3.0.0-rc5",
@@ -193,6 +194,33 @@
         "library/html5shiv": "1.0",
         "library/mousewheel": "1.0",
         "library/respond": "1.0",
+        "custom/nexteuropa_piwik": "1.0.0",
+        "custom/nexteuropa_token": "1.0.0",
+        "custom/nexteuropa_formatters": "1.0.0",
+        "custom/nexteuropa_nagios": "1.0.0",
+        "custom/version_management": "1.0.0",
+        "custom/multisite_og_button": "1.0.0",
+        "custom/multisite_drupal_toolbox": "1.0.0",
+        "custom/language_selector_site": "1.0.0",
+        "custom/language_selector_page": "1.0.0",
+        "custom/multisite_og_navigation_tree": "1.0.0",
+        "custom/multisite_drupal_wiki_toc": "1.0.0",
+        "custom/nexteuropa_data_export": "1.0.0",
+        "custom/nexteuropa_json_field": "1.0.0",
+        "custom/nexteuropa_laco": "1.0.0",
+        "custom/nexteuropa_varnish": "1.0.0",
+        "custom/tmgmt_og": "1.0.0",
+        "custom/multisite_dynamic_basetheme": "1.0.0",
+        "custom/multisite_block_carousel": "1.0.0",
+        "custom/nexteuropa_ief_views_widget": "1.0.0",
+        "custom/ecas": "1.0.0",
+        "custom/multisite_config": "1.0.0",
+        "custom/multisite_create_button": "1.0.0",
+        "custom/tmgmt_workbench": "1.0.0",
+        "custom/multisite_drupal_language_negociation": "1.0.0",
+        "custom/nexteuropa_ecl_migrate": "1.0.0",
+        "custom/nexteuropa_lastupdate": "1.0.0",
+        "custom/subscriptions_og": "1.0.0",
         "features/nexteuropa_feature_set": "1.0.0",
         "features/nexteuropa_pages": "1.0.0",
         "features/ec_world_countries": "1.0.0",
@@ -250,67 +278,20 @@
         "features/newsletters": "1.0.0",
         "features/multisite_eu_cookie_compliance": "1.0.0",
         "features/multisite_twitterblock": "1.0.0",
-        "features/nexteuropa_integration": "1.0.0",
-        "custom/nexteuropa_piwik": "1.0.0",
-        "custom/nexteuropa_token": "1.0.0",
-        "custom/nexteuropa_formatters": "1.0.0",
-        "custom/nexteuropa_nagios": "1.0.0",
-        "custom/version_management": "1.0.0",
-        "custom/multisite_og_button": "1.0.0",
-        "custom/multisite_drupal_toolbox": "1.0.0",
-        "custom/language_selector_site": "1.0.0",
-        "custom/language_selector_page": "1.0.0",
-        "custom/multisite_og_navigation_tree": "1.0.0",
-        "custom/multisite_drupal_wiki_toc": "1.0.0",
-        "custom/nexteuropa_data_export": "1.0.0",
-        "custom/nexteuropa_json_field": "1.0.0",
-        "custom/nexteuropa_laco": "1.0.0",
-        "custom/nexteuropa_varnish": "1.0.0",
-        "custom/tmgmt_og": "1.0.0",
-        "custom/multisite_dynamic_basetheme": "1.0.0",
-        "custom/multisite_block_carousel": "1.0.0",
-        "custom/nexteuropa_ief_views_widget": "1.0.0",
-        "custom/ecas": "1.0.0",
-        "custom/multisite_config": "1.0.0",
-        "custom/multisite_create_button": "1.0.0",
-        "custom/tmgmt_workbench": "1.0.0",
-        "custom/multisite_drupal_language_negociation": "1.0.0",
-        "custom/nexteuropa_ecl_migrate": "1.0.0",
-        "custom/nexteuropa_lastupdate": "1.0.0",
-        "custom/subscriptions_og": "1.0.0"
+        "features/nexteuropa_integration": "1.0.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "config": {
+        "secure-http": false
+    },
     "extra": {
-        "installer-paths": {
-            "vendor/drupal/core": [
-                "type:drupal-core"
-            ],
-            "vendor/drupal/profiles/{$name}": [
-                "type:drupal-profile"
-            ],
-            "vendor/drupal/modules/{$name}": [
-                "type:drupal-module"
-            ],
-            "vendor/drupal/themes/{$name}": [
-                "type:drupal-theme"
-            ],
-            "vendor/drupal/libraries/{$name}": [
-                "type:drupal-library"
-            ],
-            "vendor/drupal/drush/{$name}": [
-                "type:drupal-drush"
-            ]
-        },
         "merge-plugin": {
             "require": [
                 "composer/*.json"
             ],
             "merge-extra": true
         }
-    },
-    "config": {
-        "secure-http": false
     },
     "repositories": [
         {

@@ -120,7 +120,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/fancyapps/fancyBox/zipball/v2.1.5",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -344,343 +344,343 @@
         },
         "3": {
             "type": "path",
-            "url": "modules/features/nexteuropa_feature_set"
+            "url": "modules/custom/nexteuropa_piwik"
         },
         "4": {
             "type": "path",
-            "url": "modules/features/nexteuropa_pages"
+            "url": "modules/custom/nexteuropa_token"
         },
         "5": {
             "type": "path",
-            "url": "modules/features/ec_world_countries"
+            "url": "modules/custom/nexteuropa_formatters"
         },
         "6": {
             "type": "path",
-            "url": "modules/features/multilingual_tools"
+            "url": "modules/custom/nexteuropa_nagios"
         },
         "7": {
             "type": "path",
-            "url": "modules/features/nexteuropa_dgt_connector"
+            "url": "modules/custom/version_management"
         },
         "8": {
             "type": "path",
-            "url": "modules/features/multisite_megamenu"
+            "url": "modules/custom/multisite_og_button"
         },
         "9": {
             "type": "path",
-            "url": "modules/features/multi_user_blog"
+            "url": "modules/custom/multisite_drupal_toolbox"
         },
         "10": {
             "type": "path",
-            "url": "modules/features/cce_basic_config"
+            "url": "modules/custom/language_selector_site"
         },
         "11": {
             "type": "path",
-            "url": "modules/features/nexteuropa_news"
+            "url": "modules/custom/language_selector_page"
         },
         "12": {
             "type": "path",
-            "url": "modules/features/nexteuropa_communities"
+            "url": "modules/custom/multisite_og_navigation_tree"
         },
         "13": {
             "type": "path",
-            "url": "modules/features/taxonomy_browser"
+            "url": "modules/custom/multisite_drupal_wiki_toc"
         },
         "14": {
             "type": "path",
-            "url": "modules/features/solr_config"
+            "url": "modules/custom/nexteuropa_data_export"
         },
         "15": {
             "type": "path",
-            "url": "modules/features/splash_screen"
+            "url": "modules/custom/nexteuropa_json_field"
         },
         "16": {
             "type": "path",
-            "url": "modules/features/multisite_maps"
+            "url": "modules/custom/nexteuropa_laco"
         },
         "17": {
             "type": "path",
-            "url": "modules/features/multisite_metatags"
+            "url": "modules/custom/nexteuropa_varnish"
         },
         "18": {
             "type": "path",
-            "url": "modules/features/contact_form"
+            "url": "modules/custom/tmgmt_og"
         },
         "19": {
             "type": "path",
-            "url": "modules/features/multisite_mediagallery_standard"
+            "url": "modules/custom/multisite_dynamic_basetheme"
         },
         "20": {
             "type": "path",
-            "url": "modules/features/multisite_custom_error"
+            "url": "modules/custom/multisite_block_carousel"
         },
         "21": {
             "type": "path",
-            "url": "modules/features/f_a_q"
+            "url": "modules/custom/nexteuropa_ief_views_widget"
         },
         "22": {
             "type": "path",
-            "url": "modules/features/nexteuropa_webtools"
+            "url": "modules/custom/ecas"
         },
         "23": {
             "type": "path",
-            "url": "modules/features/nexteuropa_mediagallery"
+            "url": "modules/custom/multisite_config"
         },
         "24": {
             "type": "path",
-            "url": "modules/features/multisite_workbench_moderation_view"
+            "url": "modules/custom/multisite_create_button"
         },
         "25": {
             "type": "path",
-            "url": "modules/features/multisite_maxlength"
+            "url": "modules/custom/tmgmt_workbench"
         },
         "26": {
             "type": "path",
-            "url": "modules/features/nexteuropa_europa_search"
+            "url": "modules/custom/multisite_drupal_language_negociation"
         },
         "27": {
             "type": "path",
-            "url": "modules/features/node_pager"
+            "url": "modules/custom/nexteuropa_ecl_migrate"
         },
         "28": {
             "type": "path",
-            "url": "modules/features/nexteuropa_geofield"
+            "url": "modules/custom/nexteuropa_lastupdate"
         },
         "29": {
             "type": "path",
-            "url": "modules/features/sitemap"
+            "url": "modules/custom/subscriptions_og"
         },
         "30": {
             "type": "path",
-            "url": "modules/features/nexteuropa_core"
+            "url": "modules/features/nexteuropa_feature_set"
         },
         "31": {
             "type": "path",
-            "url": "modules/features/multisite_crop_and_resize"
+            "url": "modules/features/nexteuropa_pages"
         },
         "32": {
             "type": "path",
-            "url": "modules/features/multisite_wysiwyg"
+            "url": "modules/features/ec_world_countries"
         },
         "33": {
             "type": "path",
-            "url": "modules/features/ec_embedded_image"
+            "url": "modules/features/multilingual_tools"
         },
         "34": {
             "type": "path",
-            "url": "modules/features/multisite_translations"
+            "url": "modules/features/nexteuropa_dgt_connector"
         },
         "35": {
             "type": "path",
-            "url": "modules/features/text_collapse"
+            "url": "modules/features/multisite_megamenu"
         },
         "36": {
             "type": "path",
-            "url": "modules/features/nexteuropa_trackedchanges"
+            "url": "modules/features/multi_user_blog"
         },
         "37": {
             "type": "path",
-            "url": "modules/features/ecas_env"
+            "url": "modules/features/cce_basic_config"
         },
         "38": {
             "type": "path",
-            "url": "modules/features/ec_embedded_video"
+            "url": "modules/features/nexteuropa_news"
         },
         "39": {
             "type": "path",
-            "url": "modules/features/multisite_mediagallery_core"
+            "url": "modules/features/nexteuropa_communities"
         },
         "40": {
             "type": "path",
-            "url": "modules/features/feed_rss_core"
+            "url": "modules/features/taxonomy_browser"
         },
         "41": {
             "type": "path",
-            "url": "modules/features/nexteuropa_faq"
+            "url": "modules/features/solr_config"
         },
         "42": {
             "type": "path",
-            "url": "modules/features/multisite_multilingual_references"
+            "url": "modules/features/splash_screen"
         },
         "43": {
             "type": "path",
-            "url": "modules/features/nexteuropa_geojson_feeds"
+            "url": "modules/features/multisite_maps"
         },
         "44": {
             "type": "path",
-            "url": "modules/features/nexteuropa_metatags"
+            "url": "modules/features/multisite_metatags"
         },
         "45": {
             "type": "path",
-            "url": "modules/features/ec_content_slider"
+            "url": "modules/features/contact_form"
         },
         "46": {
             "type": "path",
-            "url": "modules/features/multisite_audio"
+            "url": "modules/features/multisite_mediagallery_standard"
         },
         "47": {
             "type": "path",
-            "url": "modules/features/social_bookmark"
+            "url": "modules/features/multisite_custom_error"
         },
         "48": {
             "type": "path",
-            "url": "modules/features/multisite_charts"
+            "url": "modules/features/f_a_q"
         },
         "49": {
             "type": "path",
-            "url": "modules/features/multisite_forum_core"
+            "url": "modules/features/nexteuropa_webtools"
         },
         "50": {
             "type": "path",
-            "url": "modules/features/nexteuropa_event"
+            "url": "modules/features/nexteuropa_mediagallery"
         },
         "51": {
             "type": "path",
-            "url": "modules/features/nexteuropa_notices"
+            "url": "modules/features/multisite_workbench_moderation_view"
         },
         "52": {
             "type": "path",
-            "url": "modules/features/nexteuropa_editorial"
+            "url": "modules/features/multisite_maxlength"
         },
         "53": {
             "type": "path",
-            "url": "modules/features/fat_footer"
+            "url": "modules/features/nexteuropa_europa_search"
         },
         "54": {
             "type": "path",
-            "url": "modules/features/nexteuropa_multilingual"
+            "url": "modules/features/node_pager"
         },
         "55": {
             "type": "path",
-            "url": "modules/features/multisite_autosave"
+            "url": "modules/features/nexteuropa_geofield"
         },
         "56": {
             "type": "path",
-            "url": "modules/features/ec_profiles"
+            "url": "modules/features/sitemap"
         },
         "57": {
             "type": "path",
-            "url": "modules/features/newsletters"
+            "url": "modules/features/nexteuropa_core"
         },
         "58": {
             "type": "path",
-            "url": "modules/features/multisite_eu_cookie_compliance"
+            "url": "modules/features/multisite_crop_and_resize"
         },
         "59": {
             "type": "path",
-            "url": "modules/features/multisite_twitterblock"
+            "url": "modules/features/multisite_wysiwyg"
         },
         "60": {
             "type": "path",
-            "url": "modules/features/nexteuropa_integration"
+            "url": "modules/features/ec_embedded_image"
         },
         "61": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_piwik"
+            "url": "modules/features/multisite_translations"
         },
         "62": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_token"
+            "url": "modules/features/text_collapse"
         },
         "63": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_formatters"
+            "url": "modules/features/nexteuropa_trackedchanges"
         },
         "64": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_nagios"
+            "url": "modules/features/ecas_env"
         },
         "65": {
             "type": "path",
-            "url": "modules/custom/version_management"
+            "url": "modules/features/ec_embedded_video"
         },
         "66": {
             "type": "path",
-            "url": "modules/custom/multisite_og_button"
+            "url": "modules/features/multisite_mediagallery_core"
         },
         "67": {
             "type": "path",
-            "url": "modules/custom/multisite_drupal_toolbox"
+            "url": "modules/features/feed_rss_core"
         },
         "68": {
             "type": "path",
-            "url": "modules/custom/language_selector_site"
+            "url": "modules/features/nexteuropa_faq"
         },
         "69": {
             "type": "path",
-            "url": "modules/custom/language_selector_page"
+            "url": "modules/features/multisite_multilingual_references"
         },
         "70": {
             "type": "path",
-            "url": "modules/custom/multisite_og_navigation_tree"
+            "url": "modules/features/nexteuropa_geojson_feeds"
         },
         "71": {
             "type": "path",
-            "url": "modules/custom/multisite_drupal_wiki_toc"
+            "url": "modules/features/nexteuropa_metatags"
         },
         "72": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_data_export"
+            "url": "modules/features/ec_content_slider"
         },
         "73": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_json_field"
+            "url": "modules/features/multisite_audio"
         },
         "74": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_laco"
+            "url": "modules/features/social_bookmark"
         },
         "75": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_varnish"
+            "url": "modules/features/multisite_charts"
         },
         "76": {
             "type": "path",
-            "url": "modules/custom/tmgmt_og"
+            "url": "modules/features/multisite_forum_core"
         },
         "77": {
             "type": "path",
-            "url": "modules/custom/multisite_dynamic_basetheme"
+            "url": "modules/features/nexteuropa_event"
         },
         "78": {
             "type": "path",
-            "url": "modules/custom/multisite_block_carousel"
+            "url": "modules/features/nexteuropa_notices"
         },
         "79": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_ief_views_widget"
+            "url": "modules/features/nexteuropa_editorial"
         },
         "80": {
             "type": "path",
-            "url": "modules/custom/ecas"
+            "url": "modules/features/fat_footer"
         },
         "81": {
             "type": "path",
-            "url": "modules/custom/multisite_config"
+            "url": "modules/features/nexteuropa_multilingual"
         },
         "82": {
             "type": "path",
-            "url": "modules/custom/multisite_create_button"
+            "url": "modules/features/multisite_autosave"
         },
         "83": {
             "type": "path",
-            "url": "modules/custom/tmgmt_workbench"
+            "url": "modules/features/ec_profiles"
         },
         "84": {
             "type": "path",
-            "url": "modules/custom/multisite_drupal_language_negociation"
+            "url": "modules/features/newsletters"
         },
         "85": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_ecl_migrate"
+            "url": "modules/features/multisite_eu_cookie_compliance"
         },
         "86": {
             "type": "path",
-            "url": "modules/custom/nexteuropa_lastupdate"
+            "url": "modules/features/multisite_twitterblock"
         },
         "87": {
             "type": "path",
-            "url": "modules/custom/subscriptions_og"
+            "url": "modules/features/nexteuropa_integration"
         }
     }
 }
