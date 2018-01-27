@@ -1,6 +1,7 @@
 {
     "name": "ec-europa/multisite_drupal_standard",
     "type": "drupal-profile",
+    "version": "1.0.0",
     "require": {
         "wikimedia/composer-merge-plugin": "dev-master",
         "composer/installers": "~1.0",

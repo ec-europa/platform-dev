@@ -1,18 +1,25 @@
 {
+  "name": "ec-europa/platform-dev",
+  "type": "drupal-core",
   "require": {
     "php": ">=5.4.0",
-    "drupal/phingdrushtask": "^1.1",
-    "drupol/phingbehattask": "^1.0",
-    "drush/drush": "8.0.5",
-    "ec-europa/qa-automation": "^3.0",
     "ext-json": "*",
     "ext-phar": "*",
     "ext-xml": "*",
+    "composer/installers": "~1.0",
+    "cweagans/composer-patches": "~1.0",
+    "wikimedia/composer-merge-plugin": "dev-master",
+    "drupal/phingdrushtask": "^1.1",
+    "ec-europa/drush-m2c": "dev-master",
+    "ec-europa/multisite_drupal_standard": "*",
+    "ec-europa/multisite_drupal_communities": "*",
+    "drupol/phingbehattask": "^1.0",
+    "drush/drush": "8.0.5",
+    "ec-europa/qa-automation": "^3.0",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2",
-    "wimg/php-compatibility": "~7.0.7",
-    "ec-europa/drush-m2c": "dev-master"
+    "wimg/php-compatibility": "~7.0.7"
   },
   "prefer-stable": true,
   "autoload": {
@@ -21,6 +28,18 @@
     }
   },
   "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/7"
+    },
+    {
+      "type": "path",
+      "url": "profiles/multisite_drupal_standard"
+    },
+    {
+      "type": "path",
+      "url": "profiles/multisite_drupal_communities"
+    },
     {
       "type": "vcs",
       "url": "https://git.drupal.org/project/phingdrushtask.git"
@@ -50,5 +69,12 @@
   "config": {
     "bin-dir": "bin/",
     "process-timeout": 1200
+  },
+  "extra": {
+    "installer-paths": {
+      "build/": ["type:drupal-core"],
+      "build/profiles/{$name}/": ["type:drupal-profile"],
+      "vendor/{$vendor}/{$name}/": [ "drupal/phingdrushtask"]
+    }
   }
 }
