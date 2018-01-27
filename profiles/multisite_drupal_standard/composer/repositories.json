@@ -120,7 +120,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/fancyapps/fancyBox/zipball/v2.1.5",
-                    "type": "zip"
+                    "type": "file"
                 }
             }
         },
