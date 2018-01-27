@@ -1,6 +1,7 @@
 {
   "name": "verbruggenalex/platform-dev",
   "type": "drupal-core",
+  "version": "2.4.73",
   "require": {
     "php": ">=5.4.0",
     "ext-json": "*",
