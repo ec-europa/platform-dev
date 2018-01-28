@@ -36,27 +36,51 @@ class PlatformCommands extends AbstractCommands implements ComposerAwareInterfac
       'tag' => InputOption::VALUE_OPTIONAL,
     ])
     {
+        $branch = "";
+        $tag = "";
         $workingDir = $this->getComposer()->getWorkingDir();
         $source = $workingDir . "/profiles/multisite_drupal_standard/";
         $target = $workingDir . "/vendor/release/multisite_drupal_standard/";
-        if (file_exists($source) && file_exists($target . "/.git")) {
-          $this->taskComposerInstall()
-           ->dir($source)
-           ->preferDist()
-           ->run();
 
-          $this->taskRsync()
-            ->fromPath($source)
-            ->toPath($target)
-            ->recursive()
-            ->excludeVcs()
-            ->exclude($source . "/vendor/")
-            ->verbose()
-            ->progress()
-            ->rawArg("-L")
-            ->humanReadable()
-            ->stats()
+        exec('git rev-parse --abbrev-ref HEAD', $sourceBranch);
+        $onReleaseBranch = in_array(strtok($sourceBranch[0], '/'), array("release", "master"));
+        $rsyncLocations = file_exists($source) && file_exists($target . "/.git");
+
+        if ($onReleaseBranch && $rsyncLocations) {
+          $tag = $this->taskGitStack()->exec('describe --abbrev=0 --tags')->dir($target)->stopOnFail()->run();
+
+          $this->taskGitStack()
+            ->stopOnFail()
+            ->checkout($sourceBranch[0])
+            ->pull()
+            ->dir($target)
             ->run();
+
+//          $this->taskComposerInstall()
+//           ->dir($source)
+//           ->preferDist()
+//           ->run();
+
+//          $this->taskRsync()
+//            ->fromPath($source)
+//            ->toPath($target)
+//            ->recursive()
+//            ->excludeVcs()
+//            ->progress()
+//            ->rawArg("-L")
+//            ->humanReadable()
+//            ->stats()
+//            ->run();
+
+//         $this->taskGitStack()
+//           ->stopOnFail()
+//           ->add('-A')
+//           ->commit('First release test.')
+//           ->push('origin','master')
+//           ->tag('0.0.1')
+//           ->push('origin','0.0.1')
+//           ->dir($target)
+//           ->run();
         }
     }
 }
