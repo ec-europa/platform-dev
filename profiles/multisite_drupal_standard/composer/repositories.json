@@ -253,7 +253,7 @@
                 "version": "1.0",
                 "type": "drupal-library",
                 "dist": {
-                    "url": "https://github.com/mpdf/mpdf/releases/download/v6.1.0/01-mPDF-v6.1.0.zip",
+                    "url": "https://github.com/mpdf/mpdf/releases/download/v6.1.0/03-mPDF-v6.1.0-without-examples-and-fonts.zip",
                     "type": "file"
                 }
             }

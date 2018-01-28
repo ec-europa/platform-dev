@@ -50,9 +50,10 @@ class PlatformCommands extends AbstractCommands implements ComposerAwareInterfac
             ->toPath($target)
             ->recursive()
             ->excludeVcs()
-            ->wholeFile()
+            ->exclude($source . "/vendor/")
             ->verbose()
             ->progress()
+            ->rawArg("-L")
             ->humanReadable()
             ->stats()
             ->run();
