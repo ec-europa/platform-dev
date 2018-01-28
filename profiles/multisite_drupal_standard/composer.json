@@ -289,6 +289,20 @@
         "secure-http": false
     },
     "extra": {
+        "installer-paths": {
+            "vendor/drupal/core": [
+                "type:drupal-core"
+            ],
+            "libraries/{$name}/": [
+                "type:drupal-library"
+            ],
+            "modules/contrib/{$name}/": [
+                "type:drupal-module"
+            ],
+            "themes/{$name}/": [
+                "type:drupal-theme"
+            ]
+        },
         "merge-plugin": {
             "require": [
                 "composer/*.json"
