@@ -43,44 +43,42 @@ class PlatformCommands extends AbstractCommands implements ComposerAwareInterfac
         $target = $workingDir . "/vendor/release/multisite_drupal_standard/";
 
         exec('git rev-parse --abbrev-ref HEAD', $sourceBranch);
-        $onReleaseBranch = in_array(strtok($sourceBranch[0], '/'), array("release", "master"));
+        $onReleaseBranch = !empty($sourceBranch) ? in_array(strtok($sourceBranch[0], '/'), array("release", "master")) : false;
         $rsyncLocations = file_exists($source) && file_exists($target . "/.git");
 
         if ($onReleaseBranch && $rsyncLocations) {
-          $tag = $this->taskGitStack()->exec('describe --abbrev=0 --tags')->dir($target)->stopOnFail()->run();
 
-          $this->taskGitStack()
-            ->stopOnFail()
-            ->checkout($sourceBranch[0])
-            ->pull()
-            ->dir($target)
+          exec('git --git-dir=' . $target . '.git show-ref refs/heads/pre-' . $sourceBranch[0], $targetBranch, $targetBranchExists);
+          $this->taskGitStack()->pull()->dir($target)->run();
+
+          if ($targetBranchExists === 1) {
+            $this->taskGitStack()->exec('git checkout -b pre-' .  $sourceBranch[0])->dir($target)->run();
+            $this->taskGitStack()->exec('git push -u origin pre-' . $sourceBranch[0])->dir($target)->run();
+          }
+          else {
+            $this->taskGitStack()->checkout('pre-' . $sourceBranch[0])->pull()->dir($target)->run();
+          }
+
+          $this->taskComposerInstall()
+           ->dir($source)
+           ->run();
+
+          $this->taskRsync()
+            ->fromPath($source)
+            ->toPath($target)
+            ->recursive()
+            ->excludeVcs()
+            ->rawArg("-L")
+            ->humanReadable()
+            ->stats()
             ->run();
 
-//          $this->taskComposerInstall()
-//           ->dir($source)
-//           ->preferDist()
-//           ->run();
-
-//          $this->taskRsync()
-//            ->fromPath($source)
-//            ->toPath($target)
-//            ->recursive()
-//            ->excludeVcs()
-//            ->progress()
-//            ->rawArg("-L")
-//            ->humanReadable()
-//            ->stats()
-//            ->run();
-
-//         $this->taskGitStack()
-//           ->stopOnFail()
-//           ->add('-A')
-//           ->commit('First release test.')
-//           ->push('origin','master')
-//           ->tag('0.0.1')
-//           ->push('origin','0.0.1')
-//           ->dir($target)
-//           ->run();
+         $this->taskGitStack()
+           ->add('-A')
+           ->commit('Pre release delivery.')
+           ->push()
+           ->dir($target)
+           ->run();
         }
     }
 }
