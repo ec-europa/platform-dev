@@ -147,10 +147,9 @@ class CartItem extends Entity {
    */
   public function getCharCount() {
     $source_data = _tmgmt_dgt_connector_get_source_data($this->plugin_type, $this->entity_type, $this->entity_id);
-    $count = 0;
-    _tmgmt_dgt_connector_count_source_data($count, $source_data);
-    $this->char_count = $count;
+    $this->char_count = _tmgmt_dgt_connector_count_source_data($source_data);
     $this->save();
+
     return $this->char_count;
   }
 

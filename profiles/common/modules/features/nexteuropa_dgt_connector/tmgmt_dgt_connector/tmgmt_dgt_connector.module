@@ -75,8 +75,7 @@ function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &
   list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
 
   $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
-  $length = 0;
-  _tmgmt_dgt_connector_count_source_data($length, $source_data);
+  $length = _tmgmt_dgt_connector_count_source_data($source_data);
 
   if ($length > TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH) {
     // Remove add to cart button.
