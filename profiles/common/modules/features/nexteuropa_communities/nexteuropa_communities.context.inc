@@ -51,7 +51,7 @@ function nexteuropa_communities_context_default_contexts() {
           'region' => 'sidebar_left',
           'weight' => '-9',
         ),
-        'views-communities_members-block_1' => array(
+        'communities_members-block_1' => array(
           'module' => 'views',
           'delta' => 'communities_members-block_1',
           'region' => 'sidebar_left',
