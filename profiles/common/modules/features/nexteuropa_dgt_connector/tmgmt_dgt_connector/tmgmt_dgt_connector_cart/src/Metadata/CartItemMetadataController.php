@@ -5,7 +5,7 @@ namespace Drupal\tmgmt_dgt_connector_cart\Metadata;
 use EntityDefaultMetadataController;
 
 /**
- * DGT FTT Translator mapping entity.
+ * TMGMT DGT Translator mapping entity.
  */
 class CartItemMetadataController extends EntityDefaultMetadataController {
 
@@ -23,6 +23,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'required' => TRUE,
       'description' => t('Related cart bundle ID.'),
     );
+    $properties['plugin type'] = array(
+      'label' => t('Plugin type'),
+      'schema field' => 'entity_type',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('TMGMT Job item plugin type.'),
+    );
     $properties['entity_type'] = array(
       'label' => t('Entity type'),
       'schema field' => 'entity_type',
@@ -38,6 +46,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'setter callback' => 'entity_property_verbatim_set',
       'required' => TRUE,
       'description' => t('Related entity ID.'),
+    );
+    $properties['entity_title'] = array(
+      'label' => t('Entity title'),
+      'schema field' => 'entity_title',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('Related entity title.'),
     );
     $properties['context_url'] = array(
       'label' => t('Context URL'),
@@ -62,6 +78,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'setter callback' => 'entity_property_verbatim_set',
       'required' => FALSE,
       'description' => t('Related translation job item ID.'),
+    );
+    $properties['status'] = array(
+      'label' => t('Status'),
+      'schema field' => 'status',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('Status of the item.'),
     );
     $properties['created'] = array(
       'label' => t('Creation date'),

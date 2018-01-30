@@ -9,6 +9,18 @@ define('TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH', 300);
 define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
 
 /**
+ * Implements hook_permission().
+ */
+function tmgmt_dgt_connector_permission() {
+  return array(
+    'administer dgt connector' => array(
+      'title' => 'Administer DGT Connector features',
+      'description' => 'Allows to administer of the DGT Connector features.',
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function tmgmt_dgt_connector_menu() {
@@ -24,6 +36,21 @@ function tmgmt_dgt_connector_menu() {
     'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::wsdl',
     // Authentication is done within the service.
     'access callback' => TRUE,
+  );
+
+  $items['admin/config/system/dgt_connector'] = array(
+    'title' => 'TMGMT DGT Connector - Configuration',
+    'description' => 'Configuration of the TMGMT DGT Connector.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tmgmt_dgt_connector_admin_settings_form'),
+    'access arguments' => array('administer dgt connector'),
+    'file' => 'tmgmt_dgt_connector.admin.inc',
+  );
+
+  $items['admin/config/system/dgt_connector/general'] = array(
+    'title' => 'General settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
   );
 
   return $items;

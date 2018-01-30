@@ -9,6 +9,8 @@ use EntityFieldQuery;
  * DGT FTT Translator mapping entity.
  */
 class CartItem extends Entity {
+  const STATUS_OPEN = 'OPEN';
+  const STATUS_DISCARDED = 'DISCARDED';
 
   /**
    * Override the save to update date properties.
@@ -30,15 +32,14 @@ class CartItem extends Entity {
    * @param bool $reset
    *   Optional reset of the internal cache for the requested entity type.
    *
-   * @return array
+   * @return array|bool
    *   An array of CartBundle entity objects indexed by their ids or an empty
    *   array if no results are found.
    */
   public static function load($ciid, $reset = FALSE) {
-    $ciids = isset($ciid) ? array($ciid) : array();
-    $cart_bundle = self::loadMultiple($ciids, $reset);
+    $cart_bundle = self::loadMultiple(array($ciid), $reset);
 
-    return $cart_bundle ? reset($cart_bundle) : FALSE;
+    return reset($cart_bundle);
   }
 
   /**
@@ -89,35 +90,53 @@ class CartItem extends Entity {
    *
    * @param int $cbid
    *   The CartBundle entity ID.
+   * @param string $plugin_type
+   *   A Tmgmt Job Item plugin type.
    * @param string $entity_type
    *   An entity type.
    * @param string $entity_id
    *   An entity ID.
+   * @param string $entity_title
+   *   An entity title.
    * @param string $context_url
    *   A context URL.
    * @param string $context_comment
    *   A context comment.
-   * @param int $tjiid
-   *   The TMGMTJobItem entity ID.
    *
-   * @return bool
+   * @return bool|CartItem
    *   A new instance of the CartItem entity or FALSE.
    */
-  public static function create($cbid, $entity_type, $entity_id, $context_url = '', $context_comment = '', $tjiid = 0) {
+  public static function create($cbid, $plugin_type, $entity_type, $entity_id, $entity_title = '', $context_url = '', $context_comment = '') {
     $cart_item = entity_create(
       'cart_item',
       array(
         'cbid' => $cbid,
+        'plugin_type' => $plugin_type,
         'entity_type' => $entity_type,
         'entity_id' => $entity_id,
+        'entity_title' => $entity_title,
         'context_url' => $context_url,
         'context_comment' => $context_comment,
-        'tjiid' => $tjiid,
+        'tjiid' => 0,
+        'status' => self::STATUS_OPEN,
       )
     );
     $cart_item->save();
 
     return $cart_item;
+  }
+
+  /**
+   * Create a Tmgmt job item from the data of the bundle.
+   *
+   * @return \TMGMTJobItem
+   *   An array of target language codes.
+   */
+  public function createJobItem() {
+    $job_item = tmgmt_job_item_create($this->plugin_type, $this->entity_type, $this->entity_id);
+    $job_item->save();
+
+    return $job_item;
   }
 
 }

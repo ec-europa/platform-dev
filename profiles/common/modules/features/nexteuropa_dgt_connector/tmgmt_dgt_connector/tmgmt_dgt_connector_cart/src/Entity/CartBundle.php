@@ -10,7 +10,7 @@ use EntityFieldQuery;
  */
 class CartBundle extends Entity {
   const STATUS_OPEN = 'OPEN';
-  const STATUS_SEND = 'SEND';
+  const STATUS_SENT = 'SENT';
   const STATUS_FINISHED = 'FINISHED';
   const STATUS_DISCARDED = 'DISCARDED';
 
@@ -102,7 +102,7 @@ class CartBundle extends Entity {
    * @return bool
    *   A new instance of the CartBundle entity or FALSE.
    */
-  public static function create($uid, $target_languages, $status, $tjid = 0) {
+  public static function create($uid, $target_languages, $status = CartBundle::STATUS_OPEN, $tjid = 0) {
     $cart_bundle = entity_create(
       'cart_bundle',
       array(
@@ -115,6 +115,46 @@ class CartBundle extends Entity {
     $cart_bundle->save();
 
     return $cart_bundle;
+  }
+
+  /**
+   * Gets the active CartItems entities by a given CartBundle ID.
+   *
+   * @param int $cbid
+   *   The CartBundle ID.
+   *
+   * @return array
+   *   An array of CartItems entity objects indexed by their IDs or an empty
+   *   array if no results are found.
+   */
+  public static function getActiveCartItems($cbid) {
+    $properties = array(
+      'cbid' => $cbid,
+      'status' => self::STATUS_OPEN,
+    );
+
+    return CartItem::loadWithProperties($properties);
+  }
+
+  /**
+   * Get formatted array of target languages.
+   *
+   * @return array
+   *   An array of target language codes.
+   */
+  public function getTargetLanguages() {
+    return explode('.', $this->target_languages);
+  }
+
+  /**
+   * Update status of the bundle.
+   *
+   * @param string $status
+   *   The new status.
+   */
+  public function updateStatus($status) {
+    $this->status = $status;
+    $this->save();
   }
 
 }

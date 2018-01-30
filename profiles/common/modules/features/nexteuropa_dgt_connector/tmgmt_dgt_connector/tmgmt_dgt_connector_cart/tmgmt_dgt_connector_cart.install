@@ -79,6 +79,12 @@ function tmgmt_dgt_connector_cart_schema() {
         'length' => 128,
         'not null' => TRUE,
       ),
+      'plugin_type' => array(
+        'description' => 'TMGMT Job item plugin type.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
       'entity_type' => array(
         'description' => 'Target entity type.',
         'type' => 'varchar',
@@ -89,6 +95,12 @@ function tmgmt_dgt_connector_cart_schema() {
         'description' => 'Target entity type ID.',
         'type' => 'varchar',
         'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_title' => array(
+        'description' => 'Target entity title.',
+        'type' => 'varchar',
+        'length' => 256,
         'not null' => TRUE,
       ),
       'context_url' => array(
@@ -107,6 +119,12 @@ function tmgmt_dgt_connector_cart_schema() {
         'description' => 'Related translation job item ID.',
         'type' => 'int',
         'unsigned' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Status of the item.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
       ),
       'created' => array(
         'description' => 'The Unix timestamp when the entity was created.',
@@ -135,4 +153,11 @@ function tmgmt_dgt_connector_cart_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function tmgmt_dgt_connector_cart_enable() {
+  views_invalidate_cache();
 }
