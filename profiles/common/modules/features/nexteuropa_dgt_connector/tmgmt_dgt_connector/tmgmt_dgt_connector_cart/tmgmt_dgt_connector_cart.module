@@ -20,8 +20,22 @@ module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/forms/tmgmt_dgt
 function tmgmt_dgt_connector_cart_menu() {
   $items = array();
 
-  $items['admin/dgt_connector/cart-items-wrapper/%/%ctools_js'] = array(
-    'page callback' => 'tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper',
+  $items['admin/dgt_connector/cart-items-edit/%/%ctools_js'] = array(
+    'page callback' => 'tmgmt_dgt_connector_cart_cart_bundle_edit_wrapper',
+    'page arguments' => array(3, 4),
+    'access callback' => 'user_access',
+    'access arguments' => array('access to the dgt connector cart'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/dgt_connector/cart-items-send/%'] = array(
+    'page callback' => 'tmgmt_dgt_connector_cart_cart_bundle_send_wrapper',
+    'page arguments' => array(3, 4),
+    'access callback' => 'user_access',
+    'access arguments' => array('access to the dgt connector cart'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/dgt_connector/cart-items-discard/%/%ctools_js'] = array(
+    'page callback' => 'tmgmt_dgt_connector_cart_form_cart_bundle_discard_wrapper',
     'page arguments' => array(3, 4),
     'access callback' => 'user_access',
     'access arguments' => array('access to the dgt connector cart'),
@@ -34,7 +48,7 @@ function tmgmt_dgt_connector_cart_menu() {
 /**
  * Custom callback - Wrapper fot the CartItems entities form.
  */
-function tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper($cbid, $ajax) {
+function tmgmt_dgt_connector_cart_cart_bundle_edit_wrapper($cbid, $ajax) {
   if ($ajax) {
     ctools_include('modal');
     ctools_include('ajax');
@@ -72,6 +86,29 @@ function tmgmt_dgt_connector_cart_form_cart_bundle_items_wrapper($cbid, $ajax) {
 
     return drupal_render($form);
   }
+}
+
+/**
+ * Custom callback - Wrapper fot the CartItems entities form.
+ */
+function tmgmt_dgt_connector_cart_cart_bundle_send_wrapper($cbid) {
+  $cart_bundle = entity_load('cart_bundle', array($cbid));
+  $cart_bundle = reset($cart_bundle);
+  tmgmt_dgt_connector_cart_send_cart_bundles($cart_bundle, array());
+}
+
+/**
+ * Custom callback - Wrapper fot the CartItems entities form.
+ */
+function tmgmt_dgt_connector_cart_form_cart_bundle_discard_wrapper($cbid, $ajax) {
+  $cart_bundle = entity_load('cart_bundle', array($cbid));
+  $cart_bundle = reset($cart_bundle);
+  tmgmt_dgt_connector_cart_discard_cart_bundles($cart_bundle, array());
+  $parameters = drupal_get_query_parameters();
+  if (isset($parameters['destination'])) {
+    drupal_goto($parameters['destination']);
+  }
+  drupal_goto();
 }
 
 /**
