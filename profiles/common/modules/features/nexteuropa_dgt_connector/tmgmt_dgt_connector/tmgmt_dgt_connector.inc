@@ -41,26 +41,41 @@ function _tmgmt_dgt_connector_get_content_length($entity) {
 
 /**
  * Loads the structured source data array from the source.
+ *
+ * @param string $plugin_type
+ *   The TMGMT Job item plugin type.
+ * @param string $entity_type
+ *   The entity type.
+ * @param string $entity_id
+ *   The entity ID.
+ *
+ * @return array
+ *   Returns an array of structured data.
+ *
+ * @throws \TMGMTException
  */
 function _tmgmt_dgt_connector_get_source_data($plugin_type, $entity_type, $entity_id) {
-  $data_collector = '_tmgmt_dgt_connector_get_' . $plugin_type . '_data';
+  $data_collector_func = sprintf('_tmgmt_dgt_connector_get_%s_data', $plugin_type);
 
-  if (function_exists($data_collector)) {
-    return $data_collector($entity_type, $entity_id);
+  if (function_exists($data_collector_func)) {
+    return call_user_func($data_collector_func, $entity_type, $entity_id);
   }
+
   throw new TMGMTException(t('Unable to find data loader for plugin type %type', array('%type' => $plugin_type)));
 }
 
 /**
  * Parse all data items recursively and sums up all the characters in them.
  *
- * @param int $count
- *   The total count of characters.
  * @param array $item
  *   The current data item.
+ * @param int $count
+ *   The total count of characters.
+ *
+ * @return int
+ *   Returns the count of the characters.
  */
-function _tmgmt_dgt_connector_count_source_data(&$count, array &$item) {
-
+function _tmgmt_dgt_connector_count_source_data(array $item, &$count = 0) {
   if (!empty($item['#text'])) {
     if (_tmgmt_filter_data($item)) {
       // Count characters of the data item.
@@ -69,9 +84,11 @@ function _tmgmt_dgt_connector_count_source_data(&$count, array &$item) {
   }
   elseif (is_array($item)) {
     foreach (element_children($item) as $key) {
-      _tmgmt_dgt_connector_count_source_data($count, $item[$key]);
+      _tmgmt_dgt_connector_count_source_data($item[$key], $count);
     }
   }
+
+  return $count;
 }
 
 /**
@@ -103,13 +120,13 @@ function _tmgmt_dgt_connector_get_workbench_moderation_data($entity_type, $entit
  *   Returns an array of structured data
  */
 function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
-
   $entities = entity_load($entity_type, array($entity_id));
 
   $entity = $entities ? reset($entities) : FALSE;
   if (!$entity) {
     throw new TMGMTException(t('Unable to load entity %type with id %id', array('%type' => $entity_type, $entity_id)));
   }
+
   return tmgmt_field_get_source_data($entity_type, $entity, $entity->language, TRUE);
 }
 
