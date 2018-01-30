@@ -146,6 +146,12 @@ function tmgmt_dgt_connector_cart_views_default_views() {
   $handler->display->display_options['fields']['cart_bundle_items_titles']['id'] = 'cart_bundle_items_titles';
   $handler->display->display_options['fields']['cart_bundle_items_titles']['table'] = 'cart_bundle';
   $handler->display->display_options['fields']['cart_bundle_items_titles']['field'] = 'cart_bundle_items_titles';
+  /* Field: Cart bundle: Bundle items character count */
+  $handler->display->display_options['fields']['cart_bundle_items_count']['id'] = 'cart_bundle_items_count';
+  $handler->display->display_options['fields']['cart_bundle_items_count']['table'] = 'cart_bundle';
+  $handler->display->display_options['fields']['cart_bundle_items_count']['field'] = 'cart_bundle_items_count';
+  $handler->display->display_options['fields']['cart_bundle_items_count']['label'] = 'Character count';
+  $handler->display->display_options['fields']['cart_bundle_items_count']['element_label_colon'] = FALSE;
   /* Field: Cart bundle: Translation job ID */
   $handler->display->display_options['fields']['tjid']['id'] = 'tjid';
   $handler->display->display_options['fields']['tjid']['table'] = 'cart_bundle';
