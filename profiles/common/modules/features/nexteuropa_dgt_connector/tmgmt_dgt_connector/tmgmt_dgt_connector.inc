@@ -15,7 +15,6 @@
  *   Length of all translatable content.
  */
 function _tmgmt_dgt_connector_get_content_length($entity) {
-
   $length = 0;
 
   $fields = field_read_fields(array(
@@ -41,6 +40,97 @@ function _tmgmt_dgt_connector_get_content_length($entity) {
 }
 
 /**
+ * Loads the structured source data array from the source.
+ *
+ * @param string $plugin_type
+ *   The TMGMT Job item plugin type.
+ * @param string $entity_type
+ *   The entity type.
+ * @param string $entity_id
+ *   The entity ID.
+ *
+ * @return array
+ *   Returns an array of structured data.
+ *
+ * @throws \TMGMTException
+ */
+function _tmgmt_dgt_connector_get_source_data($plugin_type, $entity_type, $entity_id) {
+  $data_collector_func = sprintf('_tmgmt_dgt_connector_get_%s_data', $plugin_type);
+
+  if (function_exists($data_collector_func)) {
+    return call_user_func($data_collector_func, $entity_type, $entity_id);
+  }
+
+  throw new TMGMTException(t('Unable to find data loader for plugin type %type', array('%type' => $plugin_type)));
+}
+
+/**
+ * Parse all data items recursively and sums up all the characters in them.
+ *
+ * @param array $item
+ *   The current data item.
+ * @param int $count
+ *   The total count of characters.
+ *
+ * @return int
+ *   Returns the count of the characters.
+ */
+function _tmgmt_dgt_connector_count_source_data(array $item, &$count = 0) {
+  if (!empty($item['#text'])) {
+    if (_tmgmt_filter_data($item)) {
+      // Count characters of the data item.
+      $count += drupal_strlen(strip_tags($item['#text']));
+    }
+  }
+  elseif (is_array($item)) {
+    foreach (element_children($item) as $key) {
+      _tmgmt_dgt_connector_count_source_data($item[$key], $count);
+    }
+  }
+
+  return $count;
+}
+
+/**
+ * Returns the translatable data from a workbench moderated entity.
+ *
+ * @param string $entity_type
+ *   The entity type.
+ * @param string $entity_id
+ *   The entity id.
+ *
+ * @return array
+ *   Returns an array of structured data
+ */
+function _tmgmt_dgt_connector_get_workbench_moderation_data($entity_type, $entity_id) {
+  return _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id);
+}
+
+/**
+ * Returns the translatable data from an entity.
+ *
+ * @param string $entity_type
+ *   The entity type.
+ * @param string $entity_id
+ *   The entity id.
+ *
+ * @throws \TMGMTException
+ *
+ * @return array
+ *   Returns an array of structured data
+ */
+function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
+  $entities = entity_load($entity_type, array($entity_id));
+
+  $entity = $entities ? reset($entities) : FALSE;
+  if (!$entity) {
+    throw new TMGMTException(t('Unable to load entity %type with id %id', array('%type' => $entity_type, $entity_id)));
+  }
+
+  return tmgmt_field_get_source_data($entity_type, $entity, $entity->language, TRUE);
+}
+
+/**
  * Change the #cart submit logic.
  *
  * @see tmgmt_ui_cart_request_translation_form_submit()
@@ -49,27 +139,17 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
   global $user;
 
   $target_languages = array_filter($form_state['values']['target_language']);
-  $enforced_source_language = NULL;
-  if ($form_state['values']['enforced_source_language']) {
-    $enforced_source_language = $form_state['values']['source_language'];
-  }
-
-  $skipped_count = 0;
   $job_items_by_source_language = array();
+
   // Group the selected items by source language.
   foreach (tmgmt_job_item_load_multiple(array_filter($form_state['values']['items'])) as $job_item) {
-    $source_language = $enforced_source_language ? $enforced_source_language : $job_item->getSourceLangCode();
+    $source_language = $job_item->getSourceLangCode();
     if (in_array($source_language, $job_item->getExistingLangCodes())) {
       $job_items_by_source_language[$source_language][$job_item->tjiid] = $job_item;
     }
-    else {
-      $skipped_count++;
-    }
   }
 
-  $jobs = array();
-  $remove_job_item_ids = array();
-  $reference = NULL;
+  $jobs = $remove_job_item_ids = $reference = array();
   // Loop over all target languages, create a job for each source and target
   // language combination add add the relevant job items to it.
   foreach ($target_languages as $target_language) {
@@ -79,8 +159,8 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
         continue;
       }
 
-      if (!is_null($reference)) {
-        // Poetry: we need the reference to identify related jobs.
+      if (!empty($reference)) {
+        // Poetry: We need the reference to identify related jobs.
         $job = tmgmt_job_create($source_language, $target_language, $user->uid, $reference);
       }
       else {
@@ -110,8 +190,8 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
         $jobs[] = $job;
 
         // Set reference to be based on main job ID.
-        if (is_null($reference)) {
-          $reference = ['reference' => 'SUB_' . $job->tjid];
+        if (empty($reference)) {
+          $reference = array('reference' => 'SUB_' . $job->tjid);
         }
       }
 
@@ -126,14 +206,6 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
 
   // Start the checkout process if any jobs were created.
   if ($jobs) {
-    if ($enforced_source_language) {
-      if ($skipped_count) {
-        $languages = language_list();
-        drupal_set_message(format_plural($skipped_count, 'One item skipped. @language translation unavailable.',
-          '@count items skipped. @language translation unavailable.', array('@language' => $languages[$enforced_source_language]->name)), 'warning');
-      }
-    }
-
     tmgmt_ui_job_checkout_and_redirect($form_state, $jobs);
   }
   else {
@@ -169,8 +241,6 @@ function _tmgmt_dgt_connector_translator_access($op, array $translator, array $a
       return user_access('manage feature nexteuropa_dgt_connector');
     }
   }
-  else {
-    return tmgmt_translator_access($op, $translator, $account);
-  }
 
+  return tmgmt_translator_access($op, $translator, $account);
 }
