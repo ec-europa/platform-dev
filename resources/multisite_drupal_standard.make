@@ -400,8 +400,7 @@ projects[l10n_update][version] = "2.2"
 ; The fix is made of 2 patches.
 ; https://www.drupal.org/node/2922809
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-272
-projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-missing-log-vars-2922809-2.patch
-projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-missing-log-vars-2922809-3.patch
+projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-missing-log-vars-2922809-10.patch
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
