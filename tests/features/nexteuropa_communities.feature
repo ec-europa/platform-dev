@@ -20,12 +20,12 @@ Feature: Nexteuropa Communities
     When I go to "community/test-community"
     Then I should see the heading "Test community"
     And I should see "Test community" in the "#block-menu-menu-community-menu" element
-    And I should see "Test community" in the "#block-views-community-members-block-1" element
+    And I should see "Test community" in the "#block-views-communities-members-block-1" element
     And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
     When I go to "community/test-community/foo"
     Then I should see the heading "Page not found"
     And I should see "Test community" in the "#block-menu-menu-community-menu" element
-    And I should see "Test community" in the "#block-views-community-members-block-1" element
+    And I should see "Test community" in the "#block-views-communities-members-block-1" element
     And I should see "Create Content" in the "#block-multisite-og-button-og-contextual-links" element
 
   Scenario: URL alias for community contents are correctly generated.
