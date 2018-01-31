@@ -14,7 +14,7 @@ use TMGMTJob;
  */
 trait DataProcessor {
   /**
-   * Array of TMGMT Job objects.
+   * TMGMT Job object.
    *
    * @var array
    */
@@ -69,8 +69,8 @@ trait DataProcessor {
    *   Array TMGMT Job object.
    * @param object $node
    *   Node object.
-   * @param int $delay
-   *   Timestamp of the deadline.
+   * @param string $delay
+   *   Delay.
    *
    * @return array
    *   Request data array.
@@ -702,7 +702,7 @@ trait DataProcessor {
    *   An array with the request data.
    *
    * @return \EC\Poetry\Messages\Responses\Status
-   *   DGT Services response.
+   *   DGT Services response
    */
   private function sendRequest($client_action, array $identifier, array $data = array()) {
     // Instantiate the Poetry Client object.

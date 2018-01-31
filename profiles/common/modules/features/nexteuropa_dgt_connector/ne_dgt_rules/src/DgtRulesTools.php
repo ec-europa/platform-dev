@@ -2,11 +2,11 @@
 
 namespace Drupal\ne_dgt_rules;
 
-use EC\Poetry\Messages\Components\Status;
 use EntityFieldQuery;
 use TMGMTException;
 use TMGMTJob;
 use TMGMTJobItem;
+use EC\Poetry\Messages\Components\Status;
 use EC\Poetry\Messages\Components\Identifier;
 
 /**
@@ -29,11 +29,9 @@ class DgtRulesTools {
     foreach ($parameters as $parameters_group) {
       foreach ($parameters_group as $parameter) {
         if (empty($parameter)) {
-
           return FALSE;
         }
       }
-
     }
 
     return TRUE;

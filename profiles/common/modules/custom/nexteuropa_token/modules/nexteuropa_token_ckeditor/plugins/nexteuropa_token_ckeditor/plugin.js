@@ -141,15 +141,19 @@
       editor.addContentsCss(this.path + 'plugin.css');
 
       // Define DTD rules for placeholder tag "nexteuropatoken".
-      CKEDITOR.dtd['nexteuropatoken'] = CKEDITOR.dtd;
-      CKEDITOR.dtd.$blockLimit['nexteuropatoken'] = true;
-      CKEDITOR.dtd.$inline['nexteuropatoken'] = true;
-      CKEDITOR.dtd.$nonEditable['nexteuropatoken'] = true;
+      CKEDITOR.dtd.$blockLimit['nexteuropatoken'] = 1;
+      CKEDITOR.dtd.$inline['nexteuropatoken'] = 1;
+      CKEDITOR.dtd.$nonEditable['nexteuropatoken'] = 1;
+      // Set tags in which the placeholder tag can be included.
+      // Note that CKEditor sets already some of them by default like for
+      // "p", "div".
+      CKEDITOR.dtd['td']['nexteuropatoken'] = 1;
+      CKEDITOR.dtd['li']['nexteuropatoken'] = 1;
       if (parseFloat(CKEDITOR.version) >= 4.1) {
         // Register allowed tag for advanced filtering.
         editor.filter.allow('nexteuropatoken[!*]', 'nexteuropatoken', true);
         // Objects should be selected as a whole in the editor.
-        CKEDITOR.dtd.$object['nexteuropatoken'] = true;
+        CKEDITOR.dtd.$object['nexteuropatoken'] = 1;
       }
 
       // Ensure tokens instead the html element is saved.
