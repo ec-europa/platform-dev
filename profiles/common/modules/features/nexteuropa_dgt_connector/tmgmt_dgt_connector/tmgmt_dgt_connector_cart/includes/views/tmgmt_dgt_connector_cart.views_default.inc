@@ -109,58 +109,24 @@ function tmgmt_dgt_connector_cart_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = '<h3>No bundles were found.</h3>';
   $handler->display->display_options['empty']['area']['format'] = 'full_html';
-  /* Field: Bulk operations: Cart bundle */
-  $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'cart_bundle';
-  $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['label'] = 'Bundle';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['display_type'] = '1';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['enable_select_all_pages'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['row_clickable'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['force_single'] = 1;
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_settings']['entity_load_capacity'] = '10';
-  $handler->display->display_options['fields']['views_bulk_operations']['vbo_operations'] = array(
-    'action::tmgmt_dgt_connector_cart_discard_cart_bundles' => array(
-      'selected' => 1,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-    'action::tmgmt_dgt_connector_cart_send_cart_bundles' => array(
-      'selected' => 1,
-      'postpone_processing' => 0,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-    ),
-  );
   /* Field: Cart bundle: Label */
   $handler->display->display_options['fields']['cbid']['id'] = 'cbid';
   $handler->display->display_options['fields']['cbid']['table'] = 'cart_bundle';
   $handler->display->display_options['fields']['cbid']['field'] = 'cbid';
-  $handler->display->display_options['fields']['cbid']['label'] = 'Bundle ID';
-  $handler->display->display_options['fields']['cbid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['cbid']['label'] = 'Bundle';
   $handler->display->display_options['fields']['cbid']['separator'] = '';
   /* Field: Cart bundle: Bundle items titles */
   $handler->display->display_options['fields']['cart_bundle_items_titles']['id'] = 'cart_bundle_items_titles';
   $handler->display->display_options['fields']['cart_bundle_items_titles']['table'] = 'cart_bundle';
   $handler->display->display_options['fields']['cart_bundle_items_titles']['field'] = 'cart_bundle_items_titles';
-  /* Field: Cart bundle: Translation job ID */
-  $handler->display->display_options['fields']['tjid']['id'] = 'tjid';
-  $handler->display->display_options['fields']['tjid']['table'] = 'cart_bundle';
-  $handler->display->display_options['fields']['tjid']['field'] = 'tjid';
-  /* Field: Cart bundle: Creation date */
-  $handler->display->display_options['fields']['created']['id'] = 'created';
-  $handler->display->display_options['fields']['created']['table'] = 'cart_bundle';
-  $handler->display->display_options['fields']['created']['field'] = 'created';
-  $handler->display->display_options['fields']['created']['date_format'] = 'short';
-  $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
+  $handler->display->display_options['fields']['cart_bundle_items_titles']['label'] = 'Bundle items';
   /* Field: Cart bundle: Changed */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'cart_bundle';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'short';
+  $handler->display->display_options['fields']['changed']['label'] = 'Item added on';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['changed']['custom_date_format'] = 'd/m/Y G:i:s';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
   /* Field: Cart bundle: Bundle items link */
   $handler->display->display_options['fields']['cart_bundle_items_form_link']['id'] = 'cart_bundle_items_form_link';
@@ -171,7 +137,7 @@ function tmgmt_dgt_connector_cart_views_default_views() {
   $handler->display->display_options['fields']['target_languages']['id'] = 'target_languages';
   $handler->display->display_options['fields']['target_languages']['table'] = 'cart_bundle';
   $handler->display->display_options['fields']['target_languages']['field'] = 'target_languages';
-  $handler->display->display_options['fields']['target_languages']['label'] = 'Languages';
+  $handler->display->display_options['fields']['target_languages']['label'] = 'Target Languages';
   $handler->display->display_options['fields']['target_languages']['exclude'] = TRUE;
   /* Sort criterion: Cart bundle: Changed */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';

@@ -17,16 +17,14 @@ class CartBundleItemsTitlesDynamicField extends views_handler_field {
     // Get related CartItems entities.
     $cbid = $this->get_value($values);
     $cart_items = CartBundle::getActiveCartItems($cbid);
-    $titles = array();
+    $header = array(t('Item Title'), t('Item Type'));
+    $rows = array();
     /** @var \Drupal\tmgmt_dgt_connector_cart\Entity\CartItem $cart_item */
     foreach ($cart_items as $cart_item) {
-      $titles[] = t('Type: <strong>%item_type</strong> | Title: <strong>%item_title</strong>', array(
-        '%item_type' => $cart_item->entity_type,
-        '%item_title' => $cart_item->entity_title,
-      ));
+      $rows[] = array($cart_item->entity_title, $cart_item->entity_type);
     }
 
-    return theme('item_list', array('items' => $titles));
+    return theme('table', array('header' => $header, 'rows' => $rows));
   }
 
 }
