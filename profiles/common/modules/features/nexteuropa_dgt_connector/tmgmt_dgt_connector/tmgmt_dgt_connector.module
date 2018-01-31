@@ -59,6 +59,7 @@ function tmgmt_dgt_connector_menu() {
 
   return $items;
 }
+
 /**
  * Implements hook_nexteuropa_poetry_notification_translation_received().
  */
