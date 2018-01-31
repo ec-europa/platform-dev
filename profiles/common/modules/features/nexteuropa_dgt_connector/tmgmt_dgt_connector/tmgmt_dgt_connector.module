@@ -5,6 +5,8 @@
  * Module file of the TMGMT DGT connector.
  */
 
+use Drupal\tmgmt_dgt_connector\Notification;
+
 define('TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH', 300);
 define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
 
@@ -56,6 +58,24 @@ function tmgmt_dgt_connector_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_nexteuropa_poetry_notification_translation_received().
+ */
+function tmgmt_dgt_connector_nexteuropa_poetry_notification_translation_received($message) {
+
+  $subscriber = new Notification();
+  $subscriber->translationReceived($message);
+}
+
+/**
+ * Implements hook_nexteuropa_poetry_notification_status_updated().
+ */
+function tmgmt_dgt_connector_nexteuropa_poetry_notification_status_updated($message) {
+
+  $subscriber = new Notification();
+  $subscriber->statusUpdated($message);
 }
 
 /**

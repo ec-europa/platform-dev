@@ -5,8 +5,6 @@
  * Install file.
  */
 
-use Drupal\tmgmt_poetry_mock\Mock\PoetryMock;
-
 /**
  * Implements hook_install().
  */
@@ -21,13 +19,13 @@ function tmgmt_dgt_connector_install() {
     "settings" : {
       "auto_accept" : 0,
       "settings" : {
-        "counter" : "' . PoetryMock::COUNTER_STRING . '",
+        "counter" : "",
         "code" : "WEB",
         "website_identifier" : "my-website",
-        "callback_user" : "' . PoetryMock::CALLBACK_USER . '",
-        "callback_password" : "' . PoetryMock::CALLBACK_PASSWORD . '",
-        "poetry_user" : "' . PoetryMock::POETRY_USER . '",
-        "poetry_password" : "' . PoetryMock::POETRY_PASSWORD . '"
+        "callback_user" : "",
+        "callback_password" : "",
+        "poetry_user" : "",
+        "poetry_password" : ""
       },
       "organization" : {
         "responsable" : "DIGIT",

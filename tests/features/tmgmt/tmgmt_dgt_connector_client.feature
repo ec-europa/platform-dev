@@ -14,42 +14,29 @@ Feature: TMGMT Poetry features
       | es        |
       | fr        |
     And I am logged in as a user with the "administrator" role
-
-  @javascript
-  Scenario: I can translate contents with Carts.
-    When Poetry service uses the following settings:
+    Given I change the variable "nexteuropa_poetry_notification_username" to "foo"
+    And I change the variable "nexteuropa_poetry_notification_password" to "bar"
+    And I change the variable "nexteuropa_poetry_service_username" to "bar"
+    And I change the variable "nexteuropa_poetry_service_password" to "foo"
+    And I change the variable "nexteuropa_poetry_service_wsdl" to "http://localhost:28080/wsdl"
+    And Poetry service uses the following settings:
     """
-      username: MockCallback
-      password: MockCallbackPWD
+      username: foo
+      password: bar
     """
-    When Poetry will return the following "response.status" message response:
-    """
-    identifier:
-      code: WEB
-      year: 2017
-      number: 1234
-      version: 0
-      part: 0
-      product: TRA
-    status:
-      -
-        type: request
-        code: '0'
-        date: 06/10/2017
-        time: 02:41:53
-        message: OK
-    """
-    # Important: remove poetry_service overrides from your settings.php as it would override the following step.
     And the following Poetry settings:
     """
         address: http://localhost:28080/wsdl
         method: requestService
     """
-    When I am viewing a multilingual "page" content:
+
+  @javascript
+  Scenario: I can translate contents with Carts.
+    Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
     And I click "Translate" in the "primary_tabs" region
-    When I press "Add to cart"
+    And I press "Add to cart"
     Then I should see the success message "1 content source was added into the cart."
     And I should see "There is 1 item in the translation cart."
     When I am viewing a multilingual "page" content:
@@ -72,6 +59,23 @@ Feature: TMGMT Poetry features
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
     And I fill in "Date" with a relative date of "+20" days
+    And Poetry will return the following "response.status" message response:
+    """
+    identifier:
+      code: WEB
+      year: 2017
+      number: 1234
+      version: 0
+      part: 0
+      product: TRA
+    status:
+      -
+        type: request
+        code: '0'
+        date: 06/10/2017
+        time: 02:41:53
+        message: OK
+    """
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
     When I visit the "page" content with title "My page 1"
