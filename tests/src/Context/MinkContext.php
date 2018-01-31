@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MinkContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -33,7 +28,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     $frontpage = variable_get('site_frontpage', 'node');
     $this->visitPath($frontpage);
   }
-
 
   /**
    * {@inheritdoc}
@@ -244,10 +238,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @param callable $matcher
    *   Callable which returns if the element matches or not.
-   * @param NodeElement[] $elements
+   * @param \Behat\Mink\Element\NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|null
+   * @return \Behat\Mink\Element\NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -373,7 +367,7 @@ class MinkContext extends DrupalExtensionMinkContext {
   /**
    * Retrieve a table row containing specified text from a given element.
    *
-   * @param Element $element
+   * @param \Behat\Mink\Element\Element $element
    *   Mink element object.
    * @param string $search
    *   Table row text.
@@ -381,7 +375,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @throws \Exception
    *   Throw exception if class table row was not found.
    *
-   * @return NodeElement
+   * @return \Behat\Mink\Element\NodeElement
    *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
@@ -390,7 +384,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
         ->getCurrentUrl()));
     }
-    /** @var NodeElement $row */
+    /** @var \Behat\Mink\Element\NodeElement $row */
     foreach ($rows as $row) {
       if (strpos($row->getText(), $search) !== FALSE) {
         return $row;
@@ -479,7 +473,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
   }
 
-
   /**
    * Checks that a select box is set to a given value is selected in select box.
    *
@@ -495,6 +488,31 @@ class MinkContext extends DrupalExtensionMinkContext {
     ));
 
     assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
+  }
+
+  /**
+   * Checks if a specified link is in a HTML element in a field display.
+   *
+   * @Then I should see the link :link in a :html_element in the field display (:container_selector)
+   */
+  public function assertLinkInElementOfField($link, $html_element, $container_selector) {
+    $element = $this->getSession()->getPage();
+    $field_container = $element->find('css', $container_selector);
+
+    assert($field_container, isNotEmpty(), sprintf('The container identified by the "%s" css selector has not been found', $container_selector));
+
+    $link_containers = $field_container->findAll('xpath', $html_element);
+
+    assert($link_containers, isNotEmpty(), sprintf('The "%s" element has not been found in the container identified by the "%s" css selector', $html_element, $container_selector));
+
+    foreach ($link_containers as $link_container) {
+      $result = $link_container->findLink($link);
+      if ($result && !$result->isVisible()) {
+        throw new \Exception(sprintf("No link to '%s' in a %s", $link, $html_element));
+      }
+    }
+
+    assert($result, isNotEmpty(), sprintf("No link to '%s' in a %s", $link, $html_element));
   }
 
 }

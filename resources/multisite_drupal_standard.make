@@ -15,7 +15,7 @@ projects[admin_menu][subdir] = "contrib"
 projects[admin_menu][version] = "3.0-rc5"
 
 projects[administration_language_negotiation][subdir] = "contrib"
-projects[administration_language_negotiation][version] = "1.2"
+projects[administration_language_negotiation][version] = "1.4"
 
 projects[advagg][subdir] = "contrib"
 projects[advagg][version] = "2.16"
@@ -85,10 +85,10 @@ projects[bean][version] = 1.11
 ; Issue #2084823 : Contextual links for entity view
 ; https://www.drupal.org/node/2084823
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-12156
-projects[bean][patch][] = https://www.drupal.org/files/issues/2084823.patch
+projects[bean][patch][] = https://www.drupal.org/files/issues/bean-contextual_links_for_entity_view-2084823-18.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.4"
+projects[better_exposed_filters][version] = "3.5"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
@@ -107,7 +107,7 @@ projects[cdn][subdir] = "contrib"
 projects[cdn][version] = "2.9"
 
 projects[chosen][subdir] = "contrib"
-projects[chosen][version] = 2.0-beta4
+projects[chosen][version] = "2.1"
 
 projects[chr][subdir] = "contrib"
 projects[chr][version] = "1.8"
@@ -177,9 +177,15 @@ projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
+; Issue #2909036 : Clone is a reserved keyword since PHP5.
+; https://www.drupal.org/node/2909036
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-266
+projects[date_ical][patch][2909036] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch
 
 projects[diff][subdir] = "contrib"
-projects[diff][version] = "3.2"
+projects[diff][download][branch] = 7.x-3.x
+projects[diff][download][revision] = b1b09189d52380a008c9cb29b879e3aa140ec2e0
+projects[diff][download][type] = git
 
 projects[ds][subdir] = "contrib"
 projects[ds][version] = "2.14"
@@ -274,13 +280,10 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
-projects[feeds_tamper][version] = "1.1"
+projects[feeds_tamper][version] = "1.2"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
-
-projects[field_collection][subdir] = "contrib"
-projects[field_collection][version] = "1.0-beta10"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.5"
@@ -288,10 +291,11 @@ projects[field_group][version] = "1.5"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-6603
 projects[field_group][patch][] = https://www.drupal.org/files/issues/field_group_label_translation_patch.patch
 
-projects[file_entity][download][revision] = "f9b172177f340204fbed3ad0ac2fdcfef0d42271"
-projects[file_entity][download][type] = "git"
-projects[file_entity][download][url] = http://git.drupal.org/project/file_entity.git
 projects[file_entity][subdir] = "contrib"
+projects[file_entity][version] = "2.4"
+; https://www.drupal.org/node/2893132
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-672
+projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
 
 projects[filefield_sources][subdir] = "contrib"
 projects[filefield_sources][version] = "1.10"
@@ -355,20 +359,19 @@ projects[hidden_captcha][subdir] = "contrib"
 projects[hidden_captcha][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.13"
+projects[i18n][version] = "1.18"
 ; Language field display should default to hidden.
 ; https://www.drupal.org/node/1350638
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-3996
 ; Also requires a patch for Drupal core issue https://www.drupal.org/node/1256368,
 ; you can find it in drupal-core.make.
 projects[i18n][patch][] = https://www.drupal.org/files/i18n-hide_language_by_default-1350638-5.patch
-projects[i18n][patch][] = https://www.drupal.org/files/issues/i18n-2092883-5-term%20field-not%20displayed.patch
 
 projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][download][branch] = 7.x-1.x
 projects[integration][download][revision] = fb3cf87
@@ -484,25 +487,27 @@ projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.pa
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Fix for an error when the purge limit fall below 0 during the cron execution.
+; https://www.drupal.org/node/2030101
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1704
+projects[message][patch][2030101] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
+
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.21"
-; Notice : Undefined index: group in metatag_views_i18n_object_info()
-; https://www.drupal.org/node/2882048
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1039
-projects[metatag][patch][] = https://www.drupal.org/files/issues/undefined_group_in_i18n-2882048-5.patch 
+projects[metatag][version] = "1.22"
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 ; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
 projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = 046c6ad
+projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
 projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
+projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
 
 projects[mimemail][subdir] = "contrib"
-projects[mimemail][version] = "1.0-beta4"
+projects[mimemail][version] = "1.0"
 
 projects[nagios][download][branch] = 7.x-1.x
 projects[nagios][download][revision] = 7da732e2d4943ec5368243f4cd2e33eb02769f23
@@ -540,11 +545,12 @@ projects[og_linkchecker][patch][] = patches/og_linkchecker-001-og_linkchecker-og
 
 projects[om_maximenu][subdir] = "contrib"
 projects[om_maximenu][version] = "1.44"
+;NEPT-1631: Creating a mega menu gives warnings
+;https://www.drupal.org/node/1824704
+projects[om_maximenu][patch][1824704] = https://www.drupal.org/files/issues/fix_illegal_string_offset-1824704-8.patch
 
 projects[password_policy][subdir] = "contrib"
-projects[password_policy][version] = "2.0-alpha5"
-; https://www.drupal.org/node/2489918 - MULTISITE-8185
-projects[password_policy][patch][] = https://www.drupal.org/files/issues/password_policy-7.x-2.x-fix_element_alter_error-2489918-4.patch
+projects[password_policy][version] = "2.0-alpha7"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.3"
@@ -577,10 +583,9 @@ projects[print][subdir] = "contrib"
 projects[print][version] = "2.0"
 
 projects[quicktabs][subdir] = "contrib"
-projects[quicktabs][version] = "3.6"
-projects[quicktabs][patch][] = patches/quicktabs-ajax-default-tab-none_1741488-10.patch
-projects[quicktabs][patch][] = patches/quicktabs-tabs_broken-3880.patch
-projects[quicktabs][patch][] = patches/quicktabs-user-interface-2108935-2.patch
+projects[quicktabs][version] = "3.8"
+projects[quicktabs][patch][] = patches/quicktabs-MULTISITE-3880.patch
+projects[quicktabs][patch][2222805] = https://www.drupal.org/files/issues/quicktabs-log_empty-2222805-14.patch
 
 projects[rate][subdir] = "contrib"
 projects[rate][version] = "1.7"
@@ -596,7 +601,11 @@ projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.9"
+projects[rules][version] = "2.10"
+; #2851567 rules_init() and cache rebuilding are broken
+; https://www.drupal.org/project/rules/issues/2851567
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
+projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
@@ -812,9 +821,9 @@ projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteurop
 ; Libraries
 ; =========
 
-; chosen 1.4.2
+; chosen 1.8.2
 libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip
+libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.8.2/chosen_v1.8.2.zip
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
@@ -895,6 +904,9 @@ libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"
 libraries[iCalcreator][download][destination] = "../common/libraries"
+; Adding patch for PHP7 compatibilty on IcalCreator.class.
+; https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
+libraries[iCalcreator][patch][2707373] = https://www.drupal.org/files/issues/iCalcreator-php-7-2707373-6.patch
 
 ; imgAreaSelect 0.9.10
 libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
@@ -934,7 +946,7 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.0.zip
+libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/archive/v6.1.4.zip
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
@@ -997,9 +1009,14 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.2
+projects[ec_resp][download][tag] = 2.3.4
 
 projects[atomium][type] = theme
 projects[atomium][download][type] = git
 projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][branch] = 7.x-1.x
+projects[atomium][download][branch] = 7.x-2.x
+
+projects[ec_europa][type] = theme
+projects[ec_europa][download][type] = git
+projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
+projects[ec_europa][download][branch] = master

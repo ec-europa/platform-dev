@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Tests\UrlEntityTokenHandlerTest.
- */
-
 namespace Drupal\nexteuropa_token\Tests\Entity;
 
 use Drupal\nexteuropa_token\Entity\UrlTokenHandler;
@@ -93,7 +88,6 @@ class UrlEntityTokenHandlerTest extends TokenHandlerAbstractTest {
       array('[node:123:uriiii]', ''),
     );
   }
-
 
   /**
    * Data provider: provides list of entity machine names.

@@ -5,7 +5,7 @@
  * Contains NexteuropaCoreSubContext.
  */
 
-use \Drupal\DrupalExtension\Context\DrupalSubContextBase;
+use Drupal\DrupalExtension\Context\DrupalSubContextBase;
 
 /**
  * Behat context for the test setup related to Nexteuropa core tokens.

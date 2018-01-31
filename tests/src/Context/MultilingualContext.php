@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MultilingualContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -69,7 +64,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * Constructs a NextEuropaMultilingualSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
@@ -93,7 +88,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $type
    *   Content type machine name.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and field translations.
    *
    * @return object
@@ -152,7 +147,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *   Content type machine name.
    * @param string $title
    *   Source node title.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and field translations.
    *
    * @Then I create the following translations for :type content with title :arg2:
@@ -240,7 +235,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $type
    *   Content type machine name.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and title translations.
    *
    * @throws \InvalidArgumentException
@@ -273,6 +268,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $name
    *   Local translator human readable name.
+   * @param string $plugin
+   *   The plugin's name.
    *
    * @Given :plugin translator :name is available
    */
@@ -516,6 +513,21 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
       foreach ($this->jobs as $job) {
         $controller->delete([$job->identifier()]);
       }
+    }
+  }
+
+  /**
+   * Remove all existing tmgmt_job entities.
+   *
+   * @AfterScenario @CleanTmgmtJobs
+   */
+  public function cleanJobs() {
+    $jobs = entity_load('tmgmt_job', FALSE);
+    /** @var \TMGMTJobController $controller */
+    $controller = entity_get_controller('tmgmt_job');
+    /** @var \TMGMTJob $translator */
+    foreach ($jobs as $job) {
+      $controller->delete([$job->identifier()]);
     }
   }
 
