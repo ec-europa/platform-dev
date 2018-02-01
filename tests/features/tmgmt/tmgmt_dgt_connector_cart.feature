@@ -51,8 +51,7 @@ Feature: TMGMT Poetry Cart features
     When I click "edit" in the "Type: node | Title: My page 1" row
     And I wait for AJAX to finish
     And I should see text matching "Translation Bundle content."
-    And I fill in "http://example.com" for "Insert URL"
-    And I fill in "Comment 1" for "Insert comment"
+    And I fill in "Comment for test 1" for "Insert comment"
     And I press "Submit changes"
     And I wait for AJAX to finish
     Then I should see the message "Your changes have been successfully submitted."
@@ -84,4 +83,4 @@ Feature: TMGMT Poetry Cart features
     """
     And I press "Submit to translator"
     Then Poetry service received request should contain the following text:
-      | <documentSourceFile>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhRE9DVFlQRSBodG1sIFBVQkxJQyAiLS8vVzNDLy9EVEQgWEhUTUwgMS4wIFN0cmljdC8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9UUi94aHRtbDEvRFREL3hodG1sMS1zdHJpY3QuZHRkIj4NCjxodG1sIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hodG1sIj4NCiAgPGhlYWQ+DQogICAgPG1ldGEgaHR0cC1lcXVpdj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9VVRGLTgiIC8+DQogICAgPG1ldGEgbmFtZT0iSm9iSUQiIGNvbnRlbnQ9IjEiIC8+DQogICAgPG1ldGEgbmFtZT0ibGFuZ3VhZ2VTb3VyY2UiIGNvbnRlbnQ9ImVuIiAvPg0KICAgIDxtZXRhIG5hbWU9Imxhbmd1YWdlVGFyZ2V0IiBjb250ZW50PSJmciIgLz4NCiAgICA8dGl0bGU+Sm9iIElEIDE8L3RpdGxlPg0KICA8L2hlYWQ+DQogIDxib2R5Pg0KICAgICAgICAgIDxkaXYgY2xhc3M9ImFzc2V0IiBpZD0iaXRlbS0yIj4NCiAgICAgICAgICAgICAgICA8IS0tDQogICAgICAgICAgbGFiZWw9ImNvbnRleHQiDQogICAgICAgIC0tPg0KICAgICAgICA8ZGl2IGNsYXNzPSJjb250ZXh0IiBzdHlsZT0iY29sb3I6I2ZmMDAwMDsiPg0KICAgICAgICAgIFtSRUYgQ29tbWVudCAxIExpbms6IDxhIGhyZWY9Imh0dHA6Ly9leGFtcGxlLmNvbSIgdGFyZ2V0PSJibGFuayI+aHR0cDovL2V4YW1wbGUuY29tPC9hPl0NCiAgICAgICAgPC9kaXY+DQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPCEtLQ0KICAgICAgICAgIGxhYmVsPSJUaXRsZSINCiAgICAgICAgICBjb250ZXh0PSJbMl1bdGl0bGVfZmllbGRdWzBdW3ZhbHVlXSINCiAgICAgICAgLS0+DQogICAgICAgIDxkaXYgY2xhc3M9ImF0b20iIGlkPSJiTWwxYmRHbDBiR1ZmWm1sbGJHUmRXekJkVzNaaGJIVmwiPk15IHBhZ2UgMTwvZGl2Pg0KICAgICAgICAgICAgICAgICAgICAgICAgICA8IS0tDQogICAgICAgICAgbGFiZWw9IkJvZHkiDQogICAgICAgICAgY29udGV4dD0iWzJdW2ZpZWxkX25lX2JvZHldWzBdW3ZhbHVlXSINCiAgICAgICAgLS0+DQogICAgICAgIDxkaXYgY2xhc3M9ImF0b20iIGlkPSJiTWwxYlptbGxiR1JmYm1WZlltOWtlVjFiTUYxYmRtRnNkV1UiPlNob3J0IGJvZHk8L2Rpdj4NCiAgICAgICAgICAgICAgPC9kaXY+DQogICAgICA8L2JvZHk+DQo8L2h0bWw+DQo=</documentSourceFile> |
+      | Q29tbWVudCBmb3IgdGVzdCAx |
