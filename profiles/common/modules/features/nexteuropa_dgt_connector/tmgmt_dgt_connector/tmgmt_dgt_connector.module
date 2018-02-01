@@ -25,10 +25,22 @@ function tmgmt_dgt_connector_permission() {
 }
 
 /**
- * Implements hook_nexteuropa_poetry_notification_translation_received().
+ * Implements hook_menu().
  */
 function tmgmt_dgt_connector_menu() {
   $items = array();
+
+  $items['tmgmt_dgt_connector/server'] = array(
+    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::endpoint',
+    // Authentication is done within the service.
+    'access callback' => TRUE,
+  );
+
+  $items['tmgmt_dgt_connector/DGTServicesIntegration.wsdl'] = array(
+    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::wsdl',
+    // Authentication is done within the service.
+    'access callback' => TRUE,
+  );
 
   $items['admin/config/system/dgt_connector'] = array(
     'title' => 'TMGMT DGT Connector - Configuration',
@@ -73,17 +85,21 @@ function tmgmt_dgt_connector_nexteuropa_poetry_notification_status_updated($mess
  * nexteuropa_dgt_connector module functionalities.
  */
 function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+  // Set plugin for #cart .
+  if (isset($form_state['tmgmt_cart'])) {
+    $form_state['tmgmt_cart']['plugin'] = 'workbench_moderation';
+  }
+
   $entity = $form_state['entity'];
-  $length = _tmgmt_dgt_connector_get_content_length($entity);
+  $cart = $form_state['tmgmt_cart'];
+  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
+
+  $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
+  $length = _tmgmt_dgt_connector_count_source_data($source_data);
 
   if ($length > TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH) {
     // Remove add to cart button.
     unset($form['top_actions']);
-  }
-
-  // Set plugin for #cart .
-  if (isset($form_state['tmgmt_cart'])) {
-    $form_state['tmgmt_cart']['plugin'] = 'workbench_moderation';
   }
 }
 
@@ -96,8 +112,7 @@ function tmgmt_dgt_connector_form_tmgmt_ui_cart_content_alter(&$form, &$form_sta
   $form['enforced_source_language']['#type'] = 'hidden';
 
   // Add a callback function when submiting.
-  $callback = '_tmgmt_dgt_connector_workbench_store_request_languages_callback';
-  $form['request_translation']['#submit'] = array($callback);
+  $form['request_translation']['#submit'] = array('_tmgmt_dgt_connector_workbench_store_request_languages_callback');
 }
 
 /**

@@ -280,7 +280,7 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
-projects[feeds_tamper][version] = "1.1"
+projects[feeds_tamper][version] = "1.2"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
@@ -600,8 +600,15 @@ projects[realname][version] = "1.3"
 projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
 
+projects[registry_autoload][subdir] = "contrib"
+projects[registry_autoload][version] = "1.3"
+
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.9"
+projects[rules][version] = "2.10"
+; #2851567 rules_init() and cache rebuilding are broken
+; https://www.drupal.org/project/rules/issues/2851567
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
+projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
@@ -1021,6 +1028,7 @@ projects[ec_europa][download][branch] = master
 ; Custom modules
 ; ==============
 
+projects[nexteuropa_poetry][subdir] = "contrib"
 projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git

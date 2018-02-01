@@ -44,6 +44,7 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
     'entity_type' => t('Entity type'),
     'entity_id' => t('Entity ID'),
     'entity_title' => t('Title'),
+    'char_count' => t('Character count'),
     'status' => t('Status'),
     'context_url' => t('Context URL'),
     'context_comment' => t('Context comment'),
@@ -57,6 +58,7 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
       'entity_type' => $item->entity_type,
       'entity_id' => $item->entity_id,
       'entity_title' => $item->entity_title,
+      'char_count' => $item->getCharCount(),
       'status' => $item->status,
       'context_url' => array(
         'data' => array(

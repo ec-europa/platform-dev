@@ -33,6 +33,7 @@ projects[og_linkchecker][patch][] = https://www.drupal.org/files/issues/og_linkc
 ; Custom modules
 ; ==============
 
+projects[nexteuropa_poetry][subdir] = "contrib"
 projects[nexteuropa_poetry][type] = module
 projects[nexteuropa_poetry][download][type] = git
 projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
