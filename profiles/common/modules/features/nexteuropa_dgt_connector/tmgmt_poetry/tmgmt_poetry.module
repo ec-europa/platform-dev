@@ -753,6 +753,8 @@ function tmgmt_poetry_page_alter(&$page) {
  */
 function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
 
+  // Disable default translate buttons (request and cart).
+  unset($form['actions']['request']);
   if (!module_exists('tmgmt_dgt_connector')) {
     // Remove add to cart button.
     unset($form['top_actions']);
@@ -773,14 +775,6 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
         $form_state['tmgmt_workbench']['existing_jobs'] = _tmgmt_workbench_get_existing_jobs($node);
       }
       $existing_jobs = $form_state['tmgmt_workbench']['existing_jobs'];
-
-      // Getting the moderation states which allows to request the translation.
-      $states = array_values(_tmgmt_workbench_available_states());
-      $state = $node->workbench_moderation['current']->state;
-
-      // Checking if the 'request translation' is possible for given moderation
-      // state.
-      $translation_possible = in_array($state, $states, 'strict');
 
       // Custom header for the 'last change' column.
       $form['languages']['#header'][TMGMT_WORKBENCH_REQUEST_LAST_CHANGE_INDEX] = t('Last change');
@@ -835,8 +829,8 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
       }
       // Case if there aren't any of the existing jobs.
       else {
-        // Checking if we have a node with the appropriate moderation state.
-        if ($translation_possible) {
+        $translations_possible = _tmgmt_poetry_translations_possible($form_state);
+        if (in_array('regular', $translations_possible)) {
           $form['actions']['#type'] = 'actions';
           $form['actions']['request'] = [
             '#type' => 'submit',
@@ -846,8 +840,7 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
           ];
         }
         // If not, unset actions and disable checkboxes for available languages.
-        else {
-          unset($form['actions']);
+        else if (empty($translations_possible)){
           foreach ($lang_codes as $lang_code) {
             $form['languages'][$lang_code] = [
               '#type' => 'checkbox',
@@ -861,6 +854,35 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
       $form['languages']['#multiple'] = TRUE;
     }
   }
+}
+
+/**
+ * Check if 'request translation' is possible.
+ *
+ * @param $form_state
+ * @return bool
+ */
+function _tmgmt_poetry_translations_possible($form_state) {
+
+  $translations_possible = array();
+
+  // Checking if we have a node with the appropriate moderation state.
+  // Getting the moderation states which allows to request the translation.
+  $states = array_values(_tmgmt_workbench_available_states());
+  $state = $form_state['entity']->workbench_moderation['current']->state;
+
+  if (in_array($state, $states, 'strict')) {
+    $translations_possible = array('regular');
+  }
+
+  // If Cart translation is possible for content, Regular translation shouldn't be possible.
+  if (function_exists('_tmgmt_dgt_connector_translation_possible') && isset($form_state['tmgmt_cart'])) {
+    if (_tmgmt_dgt_connector_translation_possible($form_state['entity'], $form_state['tmgmt_cart'])) {
+      $translations_possible = array('cart');
+    }
+  }
+
+  return $translations_possible;
 }
 
 /**
