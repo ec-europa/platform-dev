@@ -20,23 +20,23 @@ class CartBundleViewsController extends EntityDefaultViewsController {
     $data['cart_bundle']['changed']['field']['handler'] = 'views_handler_field_date';
 
     // Injecting the custom handler for the target languages.
-    $data['cart_bundle']['target_languages']['field']['handler'] = 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleField';
+    $data['cart_bundle']['target_languages']['field']['handler'] = 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleLanguagesField';
 
-    $data['cart_bundle']['cart_bundle_items_titles'] = array(
-      'title' => t('Bundle items titles'),
-      'help' => t('The titles list of related CartItems entities.'),
+    $data['cart_bundle']['cart_bundle_items'] = array(
+      'title' => t('Bundle items'),
+      'help' => t('The list of related Cart Items entities.'),
       'real field' => 'cbid',
       'field' => array(
-        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleItemsTitlesDynamicField',
+        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleItemsField',
       ),
     );
 
     $data['cart_bundle']['cart_bundle_items_form_link'] = array(
-      'title' => t('Bundle items link'),
-      'help' => t('The list of CartItems entities for a given CartBundle.'),
+      'title' => t('Bundle actions'),
+      'help' => t('List of actions to perform on a Cart Bundle.'),
       'real field' => 'cbid',
       'field' => array(
-        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleItemsFormLinkDynamicField',
+        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleActionsField',
       ),
     );
 
