@@ -649,7 +649,7 @@ projects[tagclouds][subdir] = "contrib"
 projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
-projects[term_reference_tree][version] = "1.10"
+projects[term_reference_tree][version] = "1.11"
 projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
 projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
 
