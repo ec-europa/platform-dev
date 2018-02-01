@@ -216,7 +216,6 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-pathauto_update-2743685-2_0.patch
 ; https://www.drupal.org/node/2877074
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
-; Issue MULTISITE-15175 : Undefined index path wildcard
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = 1.2
