@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Extra view functionality for translation carts.
+ */
+
+/**
  * Implements hook_views_data_alter().
  */
 function tmgmt_dgt_connector_cart_views_data_alter(&$data) {

@@ -2,7 +2,6 @@
 
 namespace Drupal\tmgmt_dgt_connector_cart\ViewsHandler;
 
-use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
 use views_handler_field;
 
 /**
