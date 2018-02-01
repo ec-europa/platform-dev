@@ -51,7 +51,7 @@ Feature: TMGMT Poetry Cart features
     When I click "edit" in the "Type: node | Title: My page 1" row
     And I wait for AJAX to finish
     And I should see text matching "Translation Bundle content."
-    And I fill in "Comment for test 1" for "Insert comment"
+    And I fill in "Comment Page 1" for "Insert comment"
     And I press "Submit changes"
     And I wait for AJAX to finish
     Then I should see the message "Your changes have been successfully submitted."
@@ -83,4 +83,4 @@ Feature: TMGMT Poetry Cart features
     """
     And I press "Submit to translator"
     Then Poetry service received request should contain the following text:
-      | Q29tbWVudCBmb3IgdGVzdCAx |
+      | Q29tbWVudCBQYWdlIDE= |
