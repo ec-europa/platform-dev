@@ -56,9 +56,9 @@ function tmgmt_dgt_connector_cart_schema() {
       ),
     ),
     'foreign keys' => array(
-      'tjid' => array(
-        'table' => 'tmgmt_job',
-        'columns' => array('tjid' => 'tjid'),
+      'cbid_uid' => array(
+        'table' => 'user',
+        'columns' => array('uid' => 'uid'),
       ),
     ),
     'primary key' => array('cbid'),
@@ -75,9 +75,10 @@ function tmgmt_dgt_connector_cart_schema() {
       ),
       'cbid' => array(
         'description' => 'Related translation cart bundle ID.',
-        'type' => 'varchar',
-        'length' => 128,
+        'type' => 'int',
+        'unsigned' => TRUE,
         'not null' => TRUE,
+        'default' => 0,
       ),
       'plugin_type' => array(
         'description' => 'TMGMT Job item plugin type.',
@@ -140,13 +141,9 @@ function tmgmt_dgt_connector_cart_schema() {
       ),
     ),
     'foreign keys' => array(
-      'cbid' => array(
+      'ciid_cbid' => array(
         'table' => 'cart_bundle',
         'columns' => array('cbid' => 'cbid'),
-      ),
-      'tjiid' => array(
-        'table' => 'tmgmt_job_item',
-        'columns' => array('tjiid' => 'tjiid'),
       ),
     ),
     'primary key' => array('ciid'),
