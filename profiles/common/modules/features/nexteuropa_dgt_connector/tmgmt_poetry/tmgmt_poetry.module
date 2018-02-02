@@ -840,7 +840,7 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
           ];
         }
         // If not, unset actions and disable checkboxes for available languages.
-        else if (empty($translations_possible)){
+        elseif (empty($translations_possible)) {
           foreach ($lang_codes as $lang_code) {
             $form['languages'][$lang_code] = [
               '#type' => 'checkbox',
@@ -857,12 +857,15 @@ function tmgmt_poetry_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_s
 }
 
 /**
- * Check if 'request translation' is possible.
+ * Check if 'Request translation' is possible.
  *
- * @param $form_state
+ * @param array $form_state
+ *   The $form_state variable from form.
+ *
  * @return bool
+ *   Returns true if 'Request translation' is possible, false otherwise.
  */
-function _tmgmt_poetry_translations_possible($form_state) {
+function _tmgmt_poetry_translations_possible(array $form_state) {
 
   $translations_possible = array();
 
@@ -875,8 +878,9 @@ function _tmgmt_poetry_translations_possible($form_state) {
     $translations_possible = array('regular');
   }
 
-  // If Cart translation is possible for content, Regular translation shouldn't be possible.
-  if (function_exists('_tmgmt_dgt_connector_translation_possible') && isset($form_state['tmgmt_cart'])) {
+  // If Cart translation is possible, Regular translation shouldn't be possible.
+  $test_cart = function_exists('_tmgmt_dgt_connector_translation_possible');
+  if ($test_cart && isset($form_state['tmgmt_cart'])) {
     if (_tmgmt_dgt_connector_translation_possible($form_state['entity'], $form_state['tmgmt_cart'])) {
       $translations_possible = array('cart');
     }

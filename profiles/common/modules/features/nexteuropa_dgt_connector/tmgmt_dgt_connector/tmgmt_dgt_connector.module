@@ -7,7 +7,7 @@
 
 use Drupal\tmgmt_dgt_connector\Notification;
 
-define('TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH', 300);
+define('TMGMT_DGT_CONNECTOR_MAX_LENGTH', 300);
 define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
 
 module_load_include('inc', 'tmgmt_dgt_connector');
@@ -96,24 +96,6 @@ function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &
     // Remove add to cart button.
     unset($form['top_actions']);
   }
-}
-
-/**
-/**
- * Check if 'Send to cart' is possible.
- *
- * @param $entity
- * @param $cart
- * @return bool
- */
-function _tmgmt_dgt_connector_translation_possible($entity, $cart) {
-
-  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
-
-  $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
-  $length = _tmgmt_dgt_connector_count_source_data($source_data);
-
-  return $length <= TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH;
 }
 
 /**

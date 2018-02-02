@@ -18,10 +18,10 @@ Feature: TMGMT Poetry features
       | fr        |
       | de        |
       | it        |
-    And I am logged in as a user with the "cem" role
 
   @resetPoetryNumero
   Scenario: Checking a wrong configuration.
+    Given I am logged in as a user with the "cem" role
     When I go to "admin/config/regional/tmgmt_translator/manage/tmgmt_poetry_test_translator"
     And I fill in "Counter" with "WRONG_NEXT_EUROPA_COUNTER"
     And I fill in "Callback Password" with "MockCallbackPWD"
@@ -39,7 +39,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I check the box on the "Italian" row
     And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see the error message "There was an error with the Poetry request."
     And I should see "Rejected" in the "French" row
@@ -119,7 +119,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -199,7 +199,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I check the box on the "Italian" row
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -236,7 +236,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     When I go to "admin/poetry_mock/dashboard"
@@ -260,7 +260,7 @@ Feature: TMGMT Poetry features
     And I select "TMGMT Poetry Test translator" from "Translator"
     And I wait for AJAX to finish
     And I check the box "settings[languages][it]"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -292,7 +292,7 @@ Feature: TMGMT Poetry features
     And I press "Request translation"
     And I wait
     And I store job ID of translation request page
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     When I go to "admin/poetry_mock/dashboard"
@@ -368,7 +368,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -399,7 +399,7 @@ Feature: TMGMT Poetry features
     And I check the box on the "French" row
     And I press "Request translation"
     And I wait
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     And I store the job reference of the translation request page
     Then the poetry translation service received the translation request
@@ -446,7 +446,7 @@ Feature: TMGMT Poetry features
     And the "edit-settings-languages-fr" field should contain "fr"
     And the "edit-settings-languages-it" field should contain "it"
     And the "edit-settings-languages-pt-pt" field should contain "pt-pt"
-    And I fill in "Date" with a relative date of "+20" days    
+    And I fill in "Date" with a relative date of "+20" days
     And I press "Submit to translator"
     Then I should see "In progress" in the "French" row
     And I should see "In progress" in the "Italian" row
@@ -774,3 +774,60 @@ Feature: TMGMT Poetry features
       | translatorType   | message                                 |
       | local            | The translation job has been submitted. |
       | file             | Exported file can be downloaded here.   |
+
+  Scenario: Check the existing buttons accordingly with enabled modules.
+    Given I am logged in as a user with the "administrator" role
+    And the module is not enabled
+      | modules                  |
+      | tmgmt_dgt_connector      |
+      | tmgmt_dgt_connector_cart |
+    When I am viewing a multilingual "page" content:
+      | language | title     | field_ne_body | status |
+      | en       | My page 1 | Body short    | 1      |
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see the "Request translation" button
+    And I should not see the "Add to cart" button
+    And I should not see the "Send to cart" button
+    Given the module is enabled
+      | modules             |
+      | tmgmt_dgt_connector |
+    And I reload the page
+    Then I should not see the "Request translation" button
+    And I should see the "Add to cart" button
+    And I should not see the "Send to cart" button
+    Given the module is enabled
+      | modules                  |
+      | tmgmt_dgt_connector_cart |
+    And I reload the page
+    Then I should not see the "Request translation" button
+    And I should not see the "Add to cart" button
+    And I should see the "Send to cart" button
+
+  Scenario: Check the existing buttons accordingly with enabled modules for long content.
+    Given I am logged in as a user with the "administrator" role
+    And the module is not enabled
+      | modules                  |
+      | tmgmt_dgt_connector      |
+      | tmgmt_dgt_connector_cart |
+    And I request to change the variable "tmgmt_dgt_connector_max_lenght" to 10
+    When I am viewing a multilingual "page" content:
+      | language | title     | field_ne_body | status |
+      | en       | My page 2 | Body too long | 1      |
+    And I click "Translate" in the "primary_tabs" region
+    Then I should see the "Request translation" button
+    And I should not see the "Add to cart" button
+    And I should not see the "Send to cart" button
+    Given the module is enabled
+      | modules             |
+      | tmgmt_dgt_connector |
+    When I reload the page
+    Then I should see the "Request translation" button
+    And I should not see the "Add to cart" button
+    And I should not see the "Send to cart" button
+    Given the module is enabled
+      | modules                  |
+      | tmgmt_dgt_connector_cart |
+    When I reload the page
+    Then I should see the "Request translation" button
+    And I should not see the "Add to cart" button
+    And I should not see the "Send to cart" button
