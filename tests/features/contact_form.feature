@@ -9,8 +9,25 @@ Feature: Contact Form
       | modules |
       | contact_form |
 
-  @javascript
-  Scenario: Anonymous user can see the contact page
+  @javascript @ec_resp_theme
+  Scenario: Anonymous user can see the contact page in ec_resp_theme
+    Given I am not logged in
+    And the module is enabled
+      | modules      |
+      | contact_form |
+    When I am on "contact"
+    Then I should see "Contact - European Commission" in the "title" tag
+    When I fill in "Your name" with "Chuck"
+    And I fill in "Your e-mail address" with "chuck.norris@improbabledommainname.com"
+    And I fill in "Subject" with "Complaint"
+    And I fill in "Message" with "I am not happy with this contact page"
+    And I press the "Send message" button
+    Then I should see the following error messages:
+      | error messages                   |
+      | Math question field is required. |
+
+  @javascript @ec_europa_theme
+  Scenario: Anonymous user can see the contact page in ec_europa_theme
     Given I am not logged in
     And the module is enabled
       | modules      |
@@ -26,8 +43,25 @@ Feature: Contact Form
       | error messages                   |
       | Math question field is required. |
 
-  @javascript
-  Scenario: Administrator user can submit the contact page
+  @javascript @ec_resp_theme
+  Scenario: Administrator user can submit the contact page in ec_resp theme
+    Given I am logged in as a user with the administrator role
+    And the module is enabled
+      | modules      |
+      | contact_form |
+    When I am on "contact"
+    Then I should see "Contact - European Commission" in the "title" tag
+    And I should not see an "Your e-mail address" text form element
+    And I should not see an "Your name" text form element
+    When I fill in "Subject" with "Complaint"
+    And I fill in "Message" with "I am not happy with this contact page"
+    And I press the "Send message" button
+    Then I should see the following success messages:
+      | success messages              |
+      | Your message has been sent. |
+
+  @javascript @ec_europa_theme
+  Scenario: Administrator user can submit the contact page in ec_europa theme
     Given I am logged in as a user with the administrator role
     And the module is enabled
       | modules      |

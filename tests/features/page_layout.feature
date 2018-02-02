@@ -26,8 +26,20 @@ Feature: Page Layout
       | Contact on Europa        | .region-footer           |
       | Search on Europa         | .region-footer           |
 
-  @theme_wip
-  # Failed with the EUROPA theme because of in the page User, the title page in ec_europa is Log in, not User account.
+  @ec_resp_theme
+  Scenario Outline: Anonymous user can see the page title
+    Given I am not logged in
+    When I am on "<page>"
+    Then I should see "<text> - European Commission" in the "nept_element:title-metatag" element
+
+  # Test the page head title in different pages
+    Examples:
+      | page       | text                  |
+      | /          | Welcome to European Commission |
+      | user       | User account          |
+
+  @theme_wip @ec_europa_theme
+  # Failed with the EUROPA theme because in the page User, the title page in ec_europa is Log in, not User account.
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
     When I am on "<page>"
@@ -35,9 +47,9 @@ Feature: Page Layout
 
   # Test the page head title in different pages
     Examples:
-      | page       | text                           |
+      | page       | text                  |
       | /          | Welcome to European Commission |
-      | user       | User account                   |
+      | user       | User account          |
 
   @javascript @maximizedwindow
 
