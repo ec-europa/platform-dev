@@ -656,9 +656,15 @@ projects[tagclouds][subdir] = "contrib"
 projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
-projects[term_reference_tree][version] = "1.10"
-projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
-projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
+projects[term_reference_tree][version] = "1.11"
+; i18n compatibility
+; https://www.drupal.org/node/1514794
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][1514794] = https://www.drupal.org/files/i18n_compatibility_rerolled-1514794-27.patch
+; Slider layout broken in IE lt i8
+; https://www.drupal.org/project/term_reference_tree/issues/1277268
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][] = https://www.drupal.org/files/issues/slider_layout_broken_in_ie8-1277268-25.patch
 
 projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
