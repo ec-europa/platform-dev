@@ -37,9 +37,9 @@ class CartItem extends Entity {
    *   array if no results are found.
    */
   public static function load($ciid, $reset = FALSE) {
-    $cart_bundle = self::loadMultiple(array($ciid), $reset);
+    $cart_item = self::loadMultiple(array($ciid), $reset);
 
-    return reset($cart_bundle);
+    return reset($cart_item);
   }
 
   /**
@@ -137,6 +137,20 @@ class CartItem extends Entity {
     $job_item->save();
 
     return $job_item;
+  }
+
+  /**
+   * Return the sum of all characters in the related entity.
+   *
+   * @return int
+   *   The sum of all characters in the related entity.
+   */
+  public function getCharCount() {
+    $source_data = _tmgmt_dgt_connector_get_source_data($this->plugin_type, $this->entity_type, $this->entity_id);
+    $this->char_count = _tmgmt_dgt_connector_count_source_data($source_data);
+    $this->save();
+
+    return $this->char_count;
   }
 
 }

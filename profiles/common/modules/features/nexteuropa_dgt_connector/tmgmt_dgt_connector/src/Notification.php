@@ -2,41 +2,28 @@
 
 namespace Drupal\tmgmt_dgt_connector;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use EC\Poetry\Events\Notifications\TranslationReceivedEvent;
-use EC\Poetry\Events\Notifications\StatusUpdatedEvent;
+use EC\Poetry\Messages\Notifications\StatusUpdated;
+use EC\Poetry\Messages\Notifications\TranslationReceived;
 
 /**
  * Subscriber with listeners for Server events.
  *
  * @package Drupal\tmgmt_dgt_connector
  */
-class Subscriber implements EventSubscriberInterface {
+class Notification {
 
   /**
-   * {@inheritdoc}
-   */
-  public static function getSubscribedEvents() {
-    return array(
-      TranslationReceivedEvent::NAME => 'onTranslationReceivedEvent',
-      StatusUpdatedEvent::NAME => 'onStatusUpdatedEvent',
-    );
-  }
-
-  /**
-   * Listener for the event onTranslationReceivedEvent.
+   * Process notification TranslationReceived.
    *
-   * @param \EC\Poetry\Events\Notifications\TranslationReceivedEvent $event
-   *   The event for the Translation Received.
+   * @param \EC\Poetry\Messages\Notifications\TranslationReceived $message
+   *   The Translation Received.
    *
    * @return bool
    *   Return True if the translation is received without issues.
    */
-  public function onTranslationReceivedEvent(TranslationReceivedEvent $event) {
+  public function translationReceived(TranslationReceived $message) {
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
 
-    /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
-    $message = $event->getMessage();
     $reference = $message->getIdentifier()->getFormattedIdentifier();
 
     // Get main job in order to register the messages and get translator.
@@ -64,7 +51,7 @@ class Subscriber implements EventSubscriberInterface {
         "tmgmt_poetry",
         "Translation received for aborted job with reference !reference .",
         array('!reference' => $main_reference),
-          WATCHDOG_ERROR
+        WATCHDOG_ERROR
       );
       return FALSE;
     }
@@ -74,7 +61,7 @@ class Subscriber implements EventSubscriberInterface {
         "tmgmt_poetry",
         "Callback can't find controller with reference !reference .",
         array('!reference' => $main_reference),
-          WATCHDOG_ERROR
+        WATCHDOG_ERROR
       );
       return FALSE;
     }
@@ -107,7 +94,8 @@ class Subscriber implements EventSubscriberInterface {
     }
     catch (Exception $e) {
       $main_job->addMessage(
-        t('@language File import failed with the following message: @message'), array(
+        t('@language File import failed with the following message: @message'),
+        array(
           '@language' => $job->target_language,
           '@message' => $e->getMessage(),
         ),
@@ -208,16 +196,14 @@ class Subscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Listener for the event onStatusUpdatedEvent.
+   * Process notification StatusUpdated.
    *
-   * @param \EC\Poetry\Events\Notifications\StatusUpdatedEvent $event
-   *   The event for the Status Update.
+   * @param \EC\Poetry\Messages\Notifications\StatusUpdated $message
+   *   The Translation Received.
    */
-  public function onStatusUpdatedEvent(StatusUpdatedEvent $event) {
+  public function statusUpdated(StatusUpdated $message) {
     $translator = tmgmt_translator_load(TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME);
 
-    /** @var \EC\Poetry\Messages\Notifications\StatusUpdated $message */
-    $message = $event->getMessage();
     $reference = $message->getIdentifier()->getFormattedIdentifier();
     $attributions_statuses = $message->getAttributionStatuses();
 
@@ -249,7 +235,8 @@ class Subscriber implements EventSubscriberInterface {
     if ($request_status->getCode() != '0') {
       watchdog(
         'tmgmt_poetry',
-        'Job @reference received a Status Update with issues. Message: @message', array(
+        'Job @reference received a Status Update with issues. Message: @message',
+        array(
           '@reference' => $reference,
           '@message' => $message->getRaw(),
         ),
@@ -260,7 +247,8 @@ class Subscriber implements EventSubscriberInterface {
 
     watchdog(
       'tmgmt_poetry',
-      'Job @reference got a Status Update. Message: @message', array(
+      'Job @reference got a Status Update. Message: @message',
+      array(
         '@reference' => $reference,
         '@message' => $message->getRaw(),
       ),
@@ -358,7 +346,7 @@ class Subscriber implements EventSubscriberInterface {
           )
         );
 
-        _tmgmt_poetry_update_item_status($job_item->tjiid, "", $status_message, "");
+        _tmgmt_poetry_update_item_status($job_item->tjiid, '', $status_message, '');
       }
     }
   }

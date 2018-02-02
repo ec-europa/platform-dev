@@ -40,6 +40,15 @@ class CartBundleViewsController extends EntityDefaultViewsController {
       ),
     );
 
+    $data['cart_bundle']['cart_bundle_items_count'] = array(
+      'title' => t('Bundle items character count'),
+      'help' => t('The sum of all characters of related CartItem entities.'),
+      'real field' => 'cbid',
+      'field' => array(
+        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleItemsCountDynamicField',
+      ),
+    );
+
     return $data;
   }
 
