@@ -112,8 +112,9 @@ class PlatformCommands extends AbstractCommands implements ComposerAwareInterfac
       // Check if we can create release.
       if ($onReleaseBranch && $rsyncLocations) {
 
-        // Make sure target has latest code available.
-        $this->taskGitStack()->pull()->dir($target)->run();
+        // Make sure target has latest code available and clean up any leftovers.
+        $this->taskDeleteDir($source)->run();
+        $this->taskGitStack()->dir(dirname($source))->exec('checkout ' . $source)->run();
 
         // Ensure release and pre-release branches are on the remote of target.
         $branches = array($sourceBranch[0], 'pre-' . $sourceBranch[0]);
@@ -138,9 +139,21 @@ class PlatformCommands extends AbstractCommands implements ComposerAwareInterfac
           ->dir($target)
           ->run();
 
+        // Delete composer.lock because we follow the versions as defined in the make file.
+        $this->taskFilesystemStack()->remove($source . 'composer.lock')->run();
+
+        // Run the drush script command on the make file and custom modules.
+        $this->taskExec('../../bin/drush')
+          ->rawArg('m2c ' . $source . 'multisite_drupal_' . $profile . '.make composer.json')
+          ->option('--custom', 'modules/custom,modules/features', '=')
+          ->option('--require-dev')
+          ->dir($source)
+          ->run();
+
         // Run composer install.
         $this->taskComposerInstall()
           ->dir($source)
+          ->option('--ignore-platform-reqs')
           ->run();
 
         // Rsync the files to the release location in vendor/release/*
@@ -154,11 +167,24 @@ class PlatformCommands extends AbstractCommands implements ComposerAwareInterfac
           ->stats()
           ->run();
 
+        // Replace any local patches with a raw url from github.
+        $prefix = 'https://github.com/ec-europa/platform-dev/blob/';
+        exec('git log --pretty="%H" -n1 HEAD', $currentHash);
+        foreach(array('composer.json', 'composer/patches.json') as $file) {
+          if (!empty($currentHash[0])) {
+            $url = $prefix . $currentHash[0] . '/resources/';
+            $this->taskReplaceInFile($target . $file)
+              ->from('"patches/')
+              ->to('"' . $url . 'patches/')
+              ->run();
+          }
+        }
+
         // Commit the synced files to the pre-release branch.
         // @todo: Make message configurable.
         $this->taskGitStack()
           ->add('-A')
-          ->commit('Pre release delivery.')
+          ->commit('Pre release delivery with absolut patches..')
           ->push()
           ->dir($target)
           ->run();

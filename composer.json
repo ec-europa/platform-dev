@@ -16,13 +16,11 @@
     "drupol/phingbehattask": "^1.0",
     "drush/drush": "8.0.5",
     "ec-europa/drush-m2c": "dev-master",
-    "ec-europa/multisite_drupal_standard": "*",
-    "ec-europa/multisite_drupal_communities": "*",
     "ec-europa/oe-task-runner": "dev-master",
     "ec-europa/qa-automation": "^3.0",
     "lesstif/php-jira-rest-client": "^1.8.0",
-    "release/multisite_drupal_standard": "*",
-    "release/multisite_drupal_communities": "*",
+    "release/multisite_drupal_standard": "dev-master as 1.0",
+    "release/multisite_drupal_communities": "dev-master as 1.0",
     "pear/versioncontrol_git": "dev-master",
     "pfrenssen/phpcs-pre-push": "1.0",
     "phing/phing": "~2",
@@ -39,14 +37,6 @@
     {
       "type": "composer",
       "url": "https://packages.drupal.org/7"
-    },
-    {
-      "type": "path",
-      "url": "profiles/multisite_drupal_standard"
-    },
-    {
-      "type": "path",
-      "url": "profiles/multisite_drupal_communities"
     },
     {
       "type": "vcs",
@@ -69,7 +59,7 @@
       "type": "package",
       "package": {
         "name": "release/multisite_drupal_standard",
-        "version": "1.0",
+        "version": "dev-master",
         "source": {
           "url": "git@github.com:verbruggenalex/multisite_drupal_standard.git",
           "type": "git",
@@ -81,7 +71,7 @@
       "type": "package",
       "package": {
         "name": "release/multisite_drupal_communities",
-        "version": "1.0",
+        "version": "dev-master",
         "source": {
           "url": "git@github.com:verbruggenalex/multisite_drupal_communities.git",
           "type": "git",

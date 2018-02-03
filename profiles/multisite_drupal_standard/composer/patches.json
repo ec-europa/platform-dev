@@ -188,10 +188,10 @@
                 "https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch",
                 "https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch"
             ],
-            "drupal/term_reference_tree": [
-                "patches/term_reference_tree-i18n-2000.patch",
-                "patches/term_reference_tree-ie8-2000.patch"
-            ],
+            "drupal/term_reference_tree": {
+                "1514794": "https://www.drupal.org/files/i18n_compatibility_rerolled-1514794-27.patch",
+                "1": "https://www.drupal.org/files/issues/slider_layout_broken_in_ie8-1277268-25.patch"
+            },
             "drupal/tmgmt": [
                 "https://www.drupal.org/files/issues/support_for_link_field-2489134-9.patch",
                 "https://www.drupal.org/files/issues/tmgmt-test_translator_missing-2722455-2.patch",
