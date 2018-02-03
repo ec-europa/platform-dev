@@ -827,22 +827,26 @@ projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteurop
 ; =========
 
 ; chosen 1.4.2
-libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip
-libraries[chosen][directory_name] = chosen
-libraries[chosen][destination] = libraries
+libraries[chosen][download][type] = "file"
+libraries[chosen][download][request_type] = "get"
+libraries[chosen][download][file_type] = "zip"
+libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
+libraries[chosen][directory_name] = "chosen"
+libraries[chosen][destination] = "libraries"
 
 ; colorbox 1.6.3
-libraries[colorbox][download][type] = get
+libraries[colorbox][download][type] = "file"
+libraries[colorbox][download][request_type] = "get"
+libraries[colorbox][download][file_type] = "zip"
 libraries[colorbox][download][url] = https://github.com/jackmoore/colorbox/archive/1.6.3.zip
-libraries[colorbox][directory_name] = colorbox
-libraries[colorbox][destination] = libraries
+libraries[colorbox][directory_name] = "colorbox"
+libraries[colorbox][destination] = "libraries"
 
 ; ckeditor 4.4.8
 libraries[ckeditor][download][type]= "file"
 libraries[ckeditor][download][request_type]= "get"
 libraries[ckeditor][download][file_type] = "zip"
-libraries[ckeditor][download][url] = https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip
+libraries[ckeditor][download][url] = "https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip"
 libraries[ckeditor][download][sha1] = "ed246ac87cad3c4cfa1f723fcfbe4a6e3a5c6992"
 libraries[ckeditor][directory_name] = "ckeditor"
 
@@ -850,8 +854,8 @@ libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor_lite][download][type]= "file"
 libraries[ckeditor_lite][download][request_type]= "get"
 libraries[ckeditor_lite][download][file_type] = "zip"
-libraries[ckeditor_lite][download][url] = https://download.ckeditor.com/lite/releases/lite_1.1.30.zip
-libraries[ckeditor_lite][subdir] = ckeditor/plugins
+libraries[ckeditor_lite][download][url] = "https://download.ckeditor.com/lite/releases/lite_1.1.30.zip"
+libraries[ckeditor_lite][subdir] = "ckeditor/plugins"
 libraries[ckeditor_lite][directory_name] = "lite"
 
 ; ckeditor_moono specific skin : moonocolor
@@ -865,32 +869,32 @@ libraries[ckeditor_moono][directory_name] = "moonocolor"
 ; cycle 3.0.2 (commit d6557ca)
 libraries[cycle][download][type] = "git"
 libraries[cycle][destination] = "libraries"
-libraries[cycle][download][url] = https://github.com/malsup/cycle.git
+libraries[cycle][download][url] = "https://github.com/malsup/cycle.git"
 libraries[cycle][download][tag] = "3.0.3"
 
 ; fancybox 2.1.5
 libraries[fancybox][download][type]= "file"
 libraries[fancybox][download][request_type]= "get"
 libraries[fancybox][download][file_type] = "zip"
-libraries[fancybox][download][url] = https://github.com/fancyapps/fancyBox/zipball/v2.1.5
+libraries[fancybox][download][url] = "https://github.com/fancyapps/fancyBox/zipball/v2.1.5"
 libraries[fancybox][destination] = "../common/libraries"
 
 ; flexslider 2.5.0
 libraries[flexslider][download][type]= "file"
-libraries[flexslider][download][url] = https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip
+libraries[flexslider][download][url] = "https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip"
 libraries[flexslider][download][request_type]= "get"
 libraries[flexslider][download][file_type] = "zip"
 libraries[flexslider][destination] = "../common/libraries"
 
 ; fullcalendar 1.6.7
-libraries[fullcalendar][download][url] = https://github.com/fullcalendar/fullcalendar/archive/v1.6.7.zip
+libraries[fullcalendar][download][url] = "https://github.com/fullcalendar/fullcalendar/archive/v1.6.7.zip"
 libraries[fullcalendar][download][type]= "file"
 libraries[fullcalendar][download][request_type]= "get"
 libraries[fullcalendar][download][file_type] = "zip"
 libraries[fullcalendar][destination] = "../common/libraries"
 
 ; fullcalendar 1.5.4 fork (used for the events_resources module)
-libraries[fullcalendar_resources][download][url] = https://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip
+libraries[fullcalendar_resources][download][url] = "https://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip"
 libraries[fullcalendar_resources][download][type]= "file"
 libraries[fullcalendar_resources][download][request_type]= "get"
 libraries[fullcalendar_resources][download][file_type] = "zip"
@@ -898,34 +902,34 @@ libraries[fullcalendar_resources][destination] = "../common/libraries"
 
 ; history.js v1.8b2
 libraries[history][download][type] = "git"
-libraries[history][download][url] = https://github.com/browserstate/history.js/
+libraries[history][download][url] = "https://github.com/browserstate/history.js/"
 libraries[history][directory_name] = "history.js"
 libraries[history][destination] = "libraries"
 libraries[history][download][tag] = "1.8.0b2"
 
 ; iCalcreator 2.20.2
-libraries[iCalcreator][download][url] = https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip
+libraries[iCalcreator][download][url] = "https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip"
 libraries[iCalcreator][download][type] = "file"
 libraries[iCalcreator][download][request_type]= "get"
 libraries[iCalcreator][download][file_type] = "zip"
 libraries[iCalcreator][download][destination] = "../common/libraries"
 
 ; imgAreaSelect 0.9.10
-libraries[jquery.imgareaselect][download][url] = http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][download][url] = "http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip"
 libraries[jquery.imgareaselect][download][type]= "file"
 libraries[jquery.imgareaselect][download][request_type]= "get"
 libraries[jquery.imgareaselect][download][file_type] = "zip"
 libraries[jquery.imgareaselect][destination] = "../common/libraries"
 
 ; jplayer 2.9.2
-libraries[jplayer][download][url] = https://github.com/happyworm/jPlayer/archive/2.9.2.zip
+libraries[jplayer][download][url] = "https://github.com/happyworm/jPlayer/archive/2.9.2.zip"
 libraries[jplayer][download][type]= "file"
 libraries[jplayer][download][request_type]= "get"
 libraries[jplayer][download][file_type] = "zip"
 libraries[jplayer][destination] = "../common/libraries"
 
 ; jquery 1.11.3
-libraries[jquery][download][url] = https://code.jquery.com/jquery-1.11.3.min.js
+libraries[jquery][download][url] = "https://code.jquery.com/jquery-1.11.3.min.js"
 libraries[jquery][download][type]= "file"
 libraries[jquery][download][request_type]= "get"
 libraries[jquery][destination] = "../common/libraries"
@@ -934,7 +938,7 @@ libraries[jquery][directory_name] = "jquery"
 ; Leaflet.draw
 libraries[Leaflet.draw][destination] = "libraries"
 libraries[Leaflet.draw][download][type] = "git"
-libraries[Leaflet.draw][download][url] = https://github.com/Leaflet/Leaflet.draw.git
+libraries[Leaflet.draw][download][url] = "https://github.com/Leaflet/Leaflet.draw.git"
 libraries[Leaflet.draw][download][tag] = "v0.3.0"
 
 ; modernizr 2.8.3
@@ -948,13 +952,15 @@ libraries[modernizr][destination] = "../common/libraries"
 libraries[mpdf][download][type]= "file"
 libraries[mpdf][download][request_type]= "get"
 libraries[mpdf][download][file_type] = "zip"
-libraries[mpdf][download][url] = https://github.com/mpdf/mpdf/releases/download/v6.1.0/03-mPDF-v6.1.0-without-examples-and-fonts.zip
+libraries[mpdf][download][url] = "https://github.com/mpdf/mpdf/releases/download/v6.1.0/03-mPDF-v6.1.0-without-examples-and-fonts.zip"
 libraries[mpdf][destination] = "libraries"
 
 ; Leaflet
 libraries[leaflet][destination] = "libraries"
 libraries[leaflet][download][type] = "file"
-libraries[leaflet][download][url] = http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip
+libraries[leaflet][download][request_type] = "get"
+libraries[leaflet][download][file_type] = "zip"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip"
 libraries[leaflet][directory_name] = "leaflet"
 
 ; Plupload
@@ -973,15 +979,18 @@ libraries[plupload][patch][1903850] = "https://www.drupal.org/files/issues/plupl
 ; ===========================
 
 ; Ec_resp theme: Bootstrap 3.3.5
-libraries[ec_resp_bootstrap][download][type] = get
-libraries[ec_resp_bootstrap][download][url] = https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip
+libraries[ec_resp_bootstrap][download][type] = "file"
+libraries[ec_resp_bootstrap][download][request_type] = "get"
+libraries[ec_resp_bootstrap][download][url] = "https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip"
 libraries[ec_resp_bootstrap][download][file_type] = "zip"
 libraries[ec_resp_bootstrap][destination] =  "themes/ec_resp"
-libraries[ec_resp_bootstrap][directory_name] = bootstrap
+libraries[ec_resp_bootstrap][directory_name] = "bootstrap"
 
 ; Ec_resp theme: Bootstrap less
-libraries[ec_resp_bootstrap_less][download][type] = "get"
-libraries[ec_resp_bootstrap_less][download][url] = https://github.com/twbs/bootstrap/archive/v3.3.5.zip
+libraries[ec_resp_bootstrap_less][download][type] = "file"
+libraries[ec_resp_bootstrap_less][download][request_type] = "get"
+libraries[ec_resp_bootstrap_less][download][file_type] = "zip"
+libraries[ec_resp_bootstrap_less][download][url] = "https://github.com/twbs/bootstrap/archive/v3.3.5.zip"
 libraries[ec_resp_bootstrap_less][download][subtree] = "bootstrap-3.3.5/less"
 libraries[ec_resp_bootstrap_less][destination] =  "themes/ec_resp/bootstrap"
 libraries[ec_resp_bootstrap_less][directory_name] = less
@@ -989,19 +998,19 @@ libraries[ec_resp_bootstrap_less][directory_name] = less
 ; Ec_resp theme: Html5
 libraries[html5shiv][destination] = "themes/ec_resp"
 libraries[html5shiv][directory_name] = "scripts"
-libraries[html5shiv][download][type] = "get"
+libraries[html5shiv][download][type] = "file"
 libraries[html5shiv][download][url] = https://raw.githubusercontent.com/aFarkas/html5shiv/a3c7567c5f7055f9b76230bbbc79967d0b9f7003/dist/html5shiv.min.js
 
 ; Ec_resp theme: jQuery Mousewheel
 libraries[mousewheel][destination] = "themes/ec_resp"
 libraries[mousewheel][directory_name] = "scripts"
-libraries[mousewheel][download][type] = "get"
+libraries[mousewheel][download][type] = "file"
 libraries[mousewheel][download][url] = https://raw.githubusercontent.com/jquery/jquery-mousewheel/33dc8f1090da2eaadbca8e782965d7fd6c28db42/jquery.mousewheel.min.js
 
 ; Ec_resp theme: Respond JS
 libraries[respond][destination] = "themes/ec_resp"
 libraries[respond][directory_name] = "scripts"
-libraries[respond][download][type] = "get"
+libraries[respond][download][type] = "file"
 libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/Respond/9d91fd47eb59c11a80d570d4ea0beaa59cfc71bf/dest/respond.min.js
 
 ; ======

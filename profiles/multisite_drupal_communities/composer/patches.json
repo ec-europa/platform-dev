@@ -240,7 +240,7 @@
                 "patches/og_delete-remove_community-4481-2.patch",
                 "patches/og_delete-warning_fix-issue-3629.patch"
             ],
-            "drupal/plupload": {
+            "library/plupload": {
                 "1903850": "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
             }
         }

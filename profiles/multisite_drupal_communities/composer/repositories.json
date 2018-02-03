@@ -71,7 +71,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.8/ckeditor_4.4.8_full.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -83,7 +83,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://download.ckeditor.com/lite/releases/lite_1.1.30.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -95,7 +95,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://download.ckeditor.com/moonocolor/releases/moonocolor_4.5.1.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -120,7 +120,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/fancyapps/fancyBox/zipball/v2.1.5",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -132,7 +132,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/woothemes/FlexSlider/archive/version/2.5.0.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -144,7 +144,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/fullcalendar/fullcalendar/archive/v1.6.7.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -156,7 +156,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://ikelin.github.io/fullcalendar/fullcalendar-1.5.4.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -181,7 +181,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/iCalcreator/iCalcreator/archive/e3dbec2cb3bb91a8bde989e467567ae8831a4026.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -193,7 +193,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -205,7 +205,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/happyworm/jPlayer/archive/2.9.2.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -242,7 +242,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/Modernizr/Modernizr/archive/v2.8.3.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -254,7 +254,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/mpdf/mpdf/releases/download/v6.1.0/03-mPDF-v6.1.0-without-examples-and-fonts.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -266,7 +266,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "http://cdn.leafletjs.com/downloads/leaflet-0.7.5.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },
@@ -278,7 +278,7 @@
                 "type": "drupal-library",
                 "dist": {
                     "url": "https://github.com/moxiecode/plupload/archive/v1.5.8.zip",
-                    "type": "file"
+                    "type": "zip"
                 }
             }
         },

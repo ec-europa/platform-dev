@@ -236,7 +236,7 @@
                 "https://www.drupal.org/files/issues/xmlsitemap-using_rel_alternate-1670086-50.patch",
                 "patches/xmlsitemap-using_rel_alternate-nexteuropa_multilingual_url_suffix.patch"
             ],
-            "drupal/plupload": {
+            "library/plupload": {
                 "1903850": "https://www.drupal.org/files/issues/plupload-1_5_8-rm_examples-1903850-29.patch"
             }
         }
