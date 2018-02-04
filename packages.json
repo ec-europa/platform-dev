@@ -1,9 +1,9 @@
 {
     "packages": {
         "ec-europa\/platform-dev-repackaged": {
-            "2.4.77": {
+            "3.0.0": {
                 "name": "ec-europa\/platform-dev-repackaged",
-                "version": "2.4.77",
+                "version": "3.0.0",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
