@@ -5,9 +5,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -27,7 +29,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -323,9 +325,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -345,7 +349,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -641,9 +645,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -663,7 +669,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -959,9 +965,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -981,7 +989,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -1277,9 +1285,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -1299,7 +1309,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -1595,9 +1605,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -1617,7 +1629,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -1913,9 +1925,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -1935,7 +1949,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -2231,9 +2245,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -2253,7 +2269,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -2549,9 +2565,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -2571,7 +2589,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -2867,9 +2885,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -2889,7 +2909,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -3185,9 +3205,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -3207,7 +3229,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -3503,9 +3525,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -3525,7 +3549,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -3821,9 +3845,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -3843,7 +3869,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -4139,9 +4165,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -4161,7 +4189,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -4457,9 +4485,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -4479,7 +4509,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -4775,9 +4805,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -4797,7 +4829,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -5093,9 +5125,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -5115,7 +5149,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -5411,9 +5445,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -5433,7 +5469,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -5729,9 +5765,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -5751,7 +5789,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -6047,9 +6085,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -6069,7 +6109,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -6365,9 +6405,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -6387,7 +6429,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -6683,9 +6725,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -6705,7 +6749,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -7001,9 +7045,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -7023,7 +7069,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -7319,9 +7365,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -7341,7 +7389,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -7637,9 +7685,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -7659,7 +7709,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -7955,9 +8005,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -7977,7 +8029,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -8273,9 +8325,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -8295,7 +8349,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -8591,9 +8645,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -8613,7 +8669,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -8909,9 +8965,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -8931,7 +8989,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
@@ -9227,9 +9285,11 @@
                 "name": "ec-eropa\/platform-dev-repackaged",
                 "type": "drupal-core",
                 "require": {
-                    "drupal\/drupal": "7.56.0",
                     "composer\/installers": "~1.0",
                     "cweagans\/composer-patches": "~1.0"
+                },
+                "replace": {
+                    "drupal\/drupal": "*"
                 },
                 "dist": {
                     "url": "https:\/\/github.com\/verbruggenalex\/platform-dev\/releases\/download\/3.0.0\/platform-dev-2.4.77-repackaged.tar.gz",
@@ -9249,7 +9309,7 @@
                 "extra": {
                     "enable-patching": true,
                     "patches": {
-                        "drupal\/drupal": [
+                        "ec-europa\/platform-dev": [
                             "<generate-prefix-on-packages-json-generation>\/patches\/ajax-js_url_suffix.patch",
                             "<generate-prefix-on-packages-json-generation>\/patches\/node-node_access_views_relationship-1349080.patch",
                             "https:\/\/www.drupal.org\/files\/issues\/2385069-19-drupal7-do-not-test.patch",
