@@ -3,6 +3,7 @@
         "ec-europa\/platform-dev-repackaged": {
             "2.4.77": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.77",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -308,11 +309,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.76": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.76",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -618,11 +619,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.3.92": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.3.92",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -928,11 +929,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.75": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.75",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -1238,11 +1239,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.74": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.74",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -1548,11 +1549,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.73": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.73",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -1858,11 +1859,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.72": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.72",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -2168,11 +2169,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.71": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.71",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -2478,11 +2479,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.70": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.70",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -2788,11 +2789,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.69": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.69",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -3098,11 +3099,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.68": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.68",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -3408,11 +3409,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.67": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.67",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -3718,11 +3719,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.66": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.66",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -4028,11 +4029,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.2.193": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.2.193",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -4338,11 +4339,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.65": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.65",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -4648,11 +4649,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.3.91": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.3.91",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -4958,11 +4959,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.64": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.64",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -5268,11 +5269,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.3.90": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.3.90",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -5578,11 +5579,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.63": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.63",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -5888,11 +5889,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.62": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.62",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -6198,11 +6199,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.3.89": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.3.89",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -6508,11 +6509,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.61": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.61",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -6818,11 +6819,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.3.88": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.3.88",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -7128,11 +7129,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.60": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.60",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -7438,11 +7439,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.59": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.59",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -7748,11 +7749,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.58": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.58",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -8058,11 +8059,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.3.87": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.3.87",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -8368,11 +8369,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.57": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.57",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -8678,11 +8679,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.56": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.56",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -8988,11 +8989,11 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             },
             "2.4.55": {
                 "name": "ec-europa\/platform-dev-repackaged",
+                "version": "2.4.55",
                 "type": "drupal-core",
                 "require": {
                     "composer\/installers": "~1.0",
@@ -9298,8 +9299,7 @@
                     "features\/multisite_eu_cookie_compliance": "1.0.0",
                     "features\/multisite_twitterblock": "1.0.0",
                     "features\/nexteuropa_integration": "1.0.0"
-                },
-                "version": "2.4.55"
+                }
             }
         }
     }
