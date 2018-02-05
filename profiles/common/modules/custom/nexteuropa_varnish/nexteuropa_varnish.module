@@ -257,10 +257,7 @@ function _nexteuropa_varnish_get_paths_to_purge($node) {
   }
 
   // NEPT-1163: Removing base path from the collected paths.
-  foreach ($paths as $key => $path) {
-    $paths[$key] = _nexteuropa_varnish_trim_base_path($path);
-  }
-
+  $paths = array_map('_nexteuropa_varnish_trim_base_path', $paths);
   return $paths;
 }
 
@@ -566,9 +563,9 @@ function _nexteuropa_varnish_get_updated_node_paths($node) {
   if (isset($node->nexteuropa_varnish_old_paths)) {
     $old_paths = $node->nexteuropa_varnish_old_paths;
   }
-
+  $old_paths = array_map('_nexteuropa_varnish_trim_base_path', $old_paths);
   $new_paths = _nexteuropa_varnish_get_node_paths($node);
-
+  $new_paths = array_map('_nexteuropa_varnish_trim_base_path', $new_paths);
   return _nexteuropa_varnish_compare_node_path_revisions($old_paths, $new_paths);
 }
 
