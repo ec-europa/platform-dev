@@ -359,3 +359,30 @@ function cce_basic_config_preprocess_container(&$variables) {
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
   }
 }
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area" widget.
+ */
+function cce_basic_config_field_widget_text_textarea_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area with a summary" widget.
+ */
+function cce_basic_config_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text field" widget.
+ */
+function cce_basic_config_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
