@@ -75,7 +75,6 @@ function _cce_basic_config_field_widget_form_alter(&$element, &$form_state, $con
  */
 function _cce_basic_config_field_validate($element, &$form_state, $form) {
   $entity = $element['#entity'];
-  $values = $form_state['values'];
 
   $value = '';
   if (isset($element['#value'])) {
@@ -107,7 +106,10 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
  * This evaluate if there is an emoji in the text.
  *
  * @param array $text
+ *   Text to evaluate.
+ *
  * @return array
+ *   Emoji found inside the text.
  */
 function _cce_basic_config_check_emoji($text) {
   $emojis = array();
