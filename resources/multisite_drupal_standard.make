@@ -169,6 +169,10 @@ projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
+; Issue #2909036 : Clone is a reserved keyword since PHP5.
+; https://www.drupal.org/node/2909036
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-266
+projects[date_ical][patch][2909036] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
@@ -486,6 +490,11 @@ projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.pa
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Fix for an error when the purge limit fall below 0 during the cron execution.
+; https://www.drupal.org/node/2030101
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1704
+projects[message][patch][2030101] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
+
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] = "1.22"
@@ -640,9 +649,15 @@ projects[tagclouds][subdir] = "contrib"
 projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
-projects[term_reference_tree][version] = "1.10"
-projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
-projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
+projects[term_reference_tree][version] = "1.11"
+; i18n compatibility
+; https://www.drupal.org/node/1514794
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][1514794] = https://www.drupal.org/files/i18n_compatibility_rerolled-1514794-27.patch
+; Slider layout broken in IE lt i8
+; https://www.drupal.org/project/term_reference_tree/issues/1277268
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][] = https://www.drupal.org/files/issues/slider_layout_broken_in_ie8-1277268-25.patch
 
 projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
@@ -726,7 +741,7 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta9"
+projects[views_data_export][version] = "3.2"
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
@@ -1002,14 +1017,12 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.3
+projects[ec_resp][download][tag] = 2.3.4
 
 projects[atomium][type] = theme
-projects[atomium][download][type] = git
-projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][branch] = 7.x-2.x
+projects[atomium][version] = 2.6
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][branch] = master
+projects[ec_europa][download][tag] = 0.0.8
