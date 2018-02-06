@@ -7,6 +7,8 @@
 
 namespace Drupal\nexteuropa\Context;
 
+use Behat\Behat\Hook\Scope\AfterFeatureScope;
+use Behat\Behat\Hook\Scope\BeforeFeatureScope;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Gherkin\Node\TableNode;
 use function bovigo\assert\assert;
@@ -32,14 +34,14 @@ class ModuleContext extends RawDrupalContext {
   /**
    * Enable dblog module for tests.
    *
-   * Before all scenarios, we need to ensure the dblog module is enable as
+   * Before a behat suite, we need to ensure the dblog module is enable as
    * it is not enabled by default by the platform.
    * The module is required by some tests retrieving data from the
    * "watchdog" DB table.
    *
-   * @BeforeScenario
+   * @BeforeFeature
    */
-  public function enableDbLogModule() {
+  public static function enableDbLogModule(BeforeFeatureScope $scope) {
     if (!module_exists('dblog')) {
       module_enable(array('dblog'));
     }
