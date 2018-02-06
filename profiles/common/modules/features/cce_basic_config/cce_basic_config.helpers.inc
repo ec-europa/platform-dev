@@ -50,6 +50,10 @@ function _cce_basic_config_import_images($images) {
  * @see cce_basic_config_field_widget_text_textarea_form_alter()
  * @see cce_basic_config_field_widget_text_textarea_with_summary_form_alter()
  * @see cce_basic_config_field_widget_text_textfield_form_alter()
+ * @see NEPT-1679
+ * @FIXME To be removed when UTF-8 will be supported.
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
  */
 function _cce_basic_config_field_widget_form_alter(&$element, &$form_state, $context) {
   if (isset($element['#entity'])) {
@@ -72,6 +76,10 @@ function _cce_basic_config_field_widget_form_alter(&$element, &$form_state, $con
  *   Submitted form.
  *
  * @see _cce_basic_config_entity_validate()
+ * @see NEPT-1679
+ * @see To be removed in NEPT-1817
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
  */
 function _cce_basic_config_field_validate($element, &$form_state, $form) {
   $entity = $element['#entity'];
@@ -97,7 +105,7 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
       $title = check_plain($info['label']);
     }
 
-    $message = t('The field [!title] contains external emojis : Like !emojis, this is not allowed.', array('!title' => $title, '!emojis' => $emoji[0]));
+    $message = t('The field [!title] contains external emojis : Like !emojis. This is not allowed. Please remove it.', array('!title' => $title, '!emojis' => $emoji[0]));
     form_error($element, $message);
   }
 }
@@ -110,9 +118,63 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
  *
  * @return array
  *   Emoji found inside the text.
+ *
+ * @see NEPT-1679
+ * @see To be removed in NEPT-1817
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
  */
 function _cce_basic_config_check_emoji($text) {
   $emojis = array();
   preg_match('/([0-9#][\x{20E3}])|[\x{00ae}\x{00a9}\x{203C}\x{2047}\x{2048}\x{2049}\x{3030}\x{303D}\x{2139}\x{2122}\x{3297}\x{3299}][\x{FE00}-\x{FEFF}]?|[\x{2190}-\x{21FF}][\x{FE00}-\x{FEFF}]?|[\x{2300}-\x{23FF}][\x{FE00}-\x{FEFF}]?|[\x{2460}-\x{24FF}][\x{FE00}-\x{FEFF}]?|[\x{25A0}-\x{25FF}][\x{FE00}-\x{FEFF}]?|[\x{2600}-\x{27BF}][\x{FE00}-\x{FEFF}]?|[\x{2900}-\x{297F}][\x{FE00}-\x{FEFF}]?|[\x{2B00}-\x{2BF0}][\x{FE00}-\x{FEFF}]?|[\x{1F000}-\x{1F6FF}][\x{FE00}-\x{FEFF}]?/u', $text, $emojis);
   return $emojis;
+}
+
+/**
+ * Validate subject
+ *
+ * @param array $form
+ *   The form.
+ * @param array $form_state
+ *   The form state.
+ *
+ * @see NEPT-1679
+ * @see To be removed in NEPT-1817
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ */
+function _cce_basic_config_subject_validate($form, &$form_state) {
+  if (isset($form_state['values']['subject']) && !empty($form_state['values']['subject'])) {
+    $title = isset($form_state['complete form']['subject']['#title']) ? $form_state['complete form']['subject']['#title'] : 'Title field';
+    $emoji = _cce_basic_config_check_emoji($form_state['values']['subject']);
+    if (!empty($emoji)) {
+      $message = t('The [!title] contains external emojis : !emojis. This is not allowed. Please remove it.', array('!title' => $title, '!emojis' => $emoji[0]));
+      form_set_error('title', $message);
+    }
+  }
+}
+
+/**
+ * Validate title
+ *
+ * @param array $form
+ *   The form.
+ * @param array $form_state
+ *   The form state.
+ *
+ * @see NEPT-1679
+ * @see To be removed in NEPT-1817
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ */
+function _cce_basic_config_title_validate($form, &$form_state) {
+
+  if (isset($form_state['values']['title']) && !empty($form_state['values']['title'])) {
+    $title = 'Title';
+    $emoji = _cce_basic_config_check_emoji($form_state['values']['title']);
+    if (!empty($emoji)) {
+      $message = t('The [!title] contains external emojis : !emojis. This is not allowed. Please remove it.', array('!title' => $title, '!emojis' => $emoji[0]));
+      form_set_error('title', $message);
+    }
+  }
 }
