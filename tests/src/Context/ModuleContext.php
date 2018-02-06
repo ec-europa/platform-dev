@@ -30,6 +30,22 @@ class ModuleContext extends RawDrupalContext {
   }
 
   /**
+   * Enable dblog module for tests.
+   *
+   * Before all scenarios, we need to ensure the dblog module is enable as
+   * it is not enabled by default by the platform.
+   * The module is required by some tests retrieving data from the
+   * "watchdog" DB table.
+   *
+   * @BeforeScenario
+   */
+  public function enableDbLogModule() {
+    if (!module_exists('dblog')) {
+      module_enable(array('dblog'));
+    }
+  }
+
+  /**
    * Enables one or more modules.
    *
    * Provide modules data in the following format:
