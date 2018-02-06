@@ -18,9 +18,6 @@ function multisite_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
     // Set custom skin.
     $settings['skin'] = sprintf('%s,' . '%s/%s/%s/', $active_skin, $base_url, $skins_path, $active_skin);
 
-    // Provide additional custom settings.
-    $settings['customConfig'] = base_path() . drupal_get_path('module', 'multisite_wysiwyg') . '/multisite_wysiwyg_config.js';
-
     // Make sure this key exists before doing an array_merge().
     $settings += array(
       'contentsCss' => array(),
