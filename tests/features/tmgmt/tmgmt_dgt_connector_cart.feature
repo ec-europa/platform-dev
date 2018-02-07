@@ -83,4 +83,4 @@ Feature: TMGMT Poetry Cart features
     """
     And I press "Submit to translator"
     Then Poetry service received request should contain the following text:
-      | Q29tbWVudCBQYWdlIDE= |
+      | W1JFRiBDb21tZW50IFBhZ2UgMS |
