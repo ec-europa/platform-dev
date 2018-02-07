@@ -167,7 +167,7 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
-  // NEPT-1679: Add validation on comment subject field. To be removed in NEPT-1817.
+  // NEPT-1679: Add validation on subject field. To be removed in NEPT-1817.
   if (isset($form['subject'])) {
     $form['#validate'][] = '_cce_basic_config_subject_validate';
   }
@@ -307,7 +307,7 @@ function cce_basic_config_form_node_form_alter(&$form, $form_state) {
 
   $form['#after_build'][] = 'cce_basic_config_form_node_form_after_build';
 
-  // NEPT-1679: Add validation on comment subject field... to be removed in NEPT-1817.
+  // NEPT-1679: Add validation on title field... to be removed in NEPT-1817.
   $form['#validate'][] = '_cce_basic_config_title_validate';
 }
 
