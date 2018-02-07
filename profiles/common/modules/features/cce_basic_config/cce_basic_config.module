@@ -167,8 +167,8 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 
-  // FIXME NEPT-1679: Add validation on comment subject field... to be removed in NEPT-1817
-  if (isset($form_state['input']['subject'])) {
+  // NEPT-1679: Add validation on comment subject field. To be removed in NEPT-1817.
+  if (isset($form['subject'])) {
     $form['#validate'][] = '_cce_basic_config_subject_validate';
   }
 
@@ -307,10 +307,8 @@ function cce_basic_config_form_node_form_alter(&$form, $form_state) {
 
   $form['#after_build'][] = 'cce_basic_config_form_node_form_after_build';
 
-  // FIXME NEPT-1679: Add validation on comment subject field... to be removed in NEPT-1817
+  // NEPT-1679: Add validation on comment subject field... to be removed in NEPT-1817.
   $form['#validate'][] = '_cce_basic_config_title_validate';
-
-
 }
 
 /**
@@ -376,9 +374,9 @@ function cce_basic_config_preprocess_container(&$variables) {
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  *
  * It implements it for "Text area" widget.
+ * NEPT-1679
+ * To be removed in NEPT-1817
  *
- * @see NEPT-1679
- * @see To be removed in NEPT-1817
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
  */
@@ -392,9 +390,9 @@ function cce_basic_config_field_widget_text_textarea_form_alter(&$element, &$for
  * It implements it for "Text area with a summary" widget.
  *
  * @see NEPT-1679
- * @see To be removed in NEPT-1817
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
  */
 function cce_basic_config_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
   _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
@@ -406,9 +404,9 @@ function cce_basic_config_field_widget_text_textarea_with_summary_form_alter(&$e
  * It implements it for "Text field" widget.
  *
  * @see NEPT-1679
- * @see To be removed in NEPT-1817
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
  */
 function cce_basic_config_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
   _cce_basic_config_field_widget_form_alter($element, $form_state, $context);

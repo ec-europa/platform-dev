@@ -51,9 +51,9 @@ function _cce_basic_config_import_images($images) {
  * @see cce_basic_config_field_widget_text_textarea_with_summary_form_alter()
  * @see cce_basic_config_field_widget_text_textfield_form_alter()
  * @see NEPT-1679
- * @FIXME To be removed when UTF-8 will be supported.
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
+ * To be removed when UTF-8 will be supported.
  */
 function _cce_basic_config_field_widget_form_alter(&$element, &$form_state, $context) {
   if (isset($element['#entity'])) {
@@ -77,9 +77,9 @@ function _cce_basic_config_field_widget_form_alter(&$element, &$form_state, $con
  *
  * @see _cce_basic_config_entity_validate()
  * @see NEPT-1679
- * @see To be removed in NEPT-1817
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
  */
 function _cce_basic_config_field_validate($element, &$form_state, $form) {
   $entity = $element['#entity'];
@@ -120,9 +120,9 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
  *   Emoji found inside the text.
  *
  * @see NEPT-1679
- * @see To be removed in NEPT-1817
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
  */
 function _cce_basic_config_check_emoji($text) {
   $emojis = array();
@@ -131,7 +131,7 @@ function _cce_basic_config_check_emoji($text) {
 }
 
 /**
- * Validate subject
+ * Validate subject.
  *
  * @param array $form
  *   The form.
@@ -139,9 +139,9 @@ function _cce_basic_config_check_emoji($text) {
  *   The form state.
  *
  * @see NEPT-1679
- * @see To be removed in NEPT-1817
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
  */
 function _cce_basic_config_subject_validate($form, &$form_state) {
   if (isset($form_state['values']['subject']) && !empty($form_state['values']['subject'])) {
@@ -155,7 +155,7 @@ function _cce_basic_config_subject_validate($form, &$form_state) {
 }
 
 /**
- * Validate title
+ * Validate title.
  *
  * @param array $form
  *   The form.
@@ -163,9 +163,9 @@ function _cce_basic_config_subject_validate($form, &$form_state) {
  *   The form state.
  *
  * @see NEPT-1679
- * @see To be removed in NEPT-1817
  * @see https://www.drupal.org/project/drupal/issues/2488180
  * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
  */
 function _cce_basic_config_title_validate($form, &$form_state) {
 
