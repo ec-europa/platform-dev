@@ -1,0 +1,181 @@
+diff --git a/date.devel_generate.inc b/date.devel_generate.inc
+index 6c61e23..739d0d0 100644
+--- a/date.devel_generate.inc
++++ b/date.devel_generate.inc
+@@ -41,7 +41,7 @@ function date_devel_generate($entity, $field, $instance, $bundle) {
+ 
+   // Modify End date by 1 hour to 3 days, shorter for repeating dates
+   // longer for others.
+-  $start2 = clone($start);
++  $start2 = clone $start;
+   $max = !empty($field['settings']['repeat']) ? 720 : 4320;
+   $max = 240;
+   date_modify($start2, '+' . mt_rand(60, $max) . ' minutes');
+diff --git a/date.field.inc b/date.field.inc
+index fa31122..a41cf65 100644
+--- a/date.field.inc
++++ b/date.field.inc
+@@ -374,7 +374,7 @@ function date_field_validate($entity_type, $entity, $field, $instance, $langcode
+         $process = date_process_values($field, $instance);
+         $date1 = new DateObject($item['value'], $item['timezone'], date_type_format($field['type']));
+         if (count($process) == 1 || (empty($item['value2']) && $item['value2'] !== 0)) {
+-          $date2 = clone($date1);
++          $date2 = clone $date1;
+         }
+         else {
+           $date2 = new DateObject($item['value2'], $item['timezone'], date_type_format($field['type']));
+diff --git a/date_api/date_api.module b/date_api/date_api.module
+index 2a973cc..2a4fa9e 100644
+--- a/date_api/date_api.module
++++ b/date_api/date_api.module
+@@ -998,8 +998,8 @@ class DateObject extends DateTime {
+   public function difference($date2_in, $measure = 'seconds', $absolute = TRUE) {
+     // Create cloned objects or original dates will be impacted by the
+     // date_modify() operations done in this code.
+-    $date1 = clone($this);
+-    $date2 = clone($date2_in);
++    $date1 = clone $this;
++    $date2 = clone $date2_in;
+     if (is_object($date1) && is_object($date2)) {
+       $diff = date_format($date2, 'U') - date_format($date1, 'U');
+       if ($diff == 0) {
+@@ -2049,7 +2049,7 @@ function date_week_range($week, $year) {
+   date_modify($min_date, '-' . strval((7 + $day_wday - $first_day) % 7) . ' days');
+ 
+   // Move forwards to the last day of the week.
+-  $max_date = clone($min_date);
++  $max_date = clone $min_date;
+   date_modify($max_date, '+6 days');
+ 
+   if (date_format($min_date, 'Y') != $year) {
+@@ -2083,7 +2083,7 @@ function date_iso_week_range($week, $year) {
+   }
+ 
+   // Move forwards to the last day of the week.
+-  $max_date = clone($min_date);
++  $max_date = clone $min_date;
+   date_modify($max_date, '+6 days');
+   return array($min_date, $max_date);
+ }
+@@ -2134,7 +2134,7 @@ function date_week($date) {
+ 
+   // Remove the leap week if it's present.
+   if ($date_year > intval($parts[0])) {
+-    $last_date = clone($date);
++    $last_date = clone $date;
+     date_modify($last_date, '-7 days');
+     $week = date_format($last_date, 'W') + 1;
+   }
+diff --git a/date_api/date_api_ical.inc b/date_api/date_api_ical.inc
+index 4911298..9f7b894 100644
+--- a/date_api/date_api_ical.inc
++++ b/date_api/date_api_ical.inc
+@@ -535,7 +535,7 @@ function date_ical_parse_duration(&$subgroup, $field = 'DURATION') {
+     $timezone = 'UTC';
+   }
+   $date = new DateObject($start_date, $timezone);
+-  $date2 = clone($date);
++  $date2 = clone $date;
+   foreach ($items as $item => $count) {
+     if ($count > 0) {
+       date_modify($date2, '+' . $count . ' ' . $item);
+diff --git a/date_api/date_api_sql.inc b/date_api/date_api_sql.inc
+index a95ca4e..6294fc6 100644
+--- a/date_api/date_api_sql.inc
++++ b/date_api/date_api_sql.inc
+@@ -1143,7 +1143,7 @@ class date_sql_handler {
+     // Build a range from a period-only argument (assumes the min date is now.)
+     if (empty($parts[0]['date']) && !empty($parts[0]['period']) && (empty($parts[1]))) {
+       $min_date = date_now();
+-      $max_date = clone($min_date);
++      $max_date = clone $min_date;
+       foreach ($parts[0]['period'] as $part => $value) {
+         date_modify($max_date, "+$value $part");
+       }
+@@ -1153,7 +1153,7 @@ class date_sql_handler {
+     // Build a range from a period to period argument.
+     if (empty($parts[0]['date']) && !empty($parts[0]['period']) && !empty($parts[1]['period'])) {
+       $min_date = date_now();
+-      $max_date = clone($min_date);
++      $max_date = clone $min_date;
+       foreach ($parts[0]['period'] as $part => $value) {
+         date_modify($min_date, "+$value $part");
+       }
+@@ -1176,7 +1176,7 @@ class date_sql_handler {
+       // Build a range from start date + period.
+       elseif (!empty($parts[1]['period'])) {
+         foreach ($parts[1]['period'] as $part => $value) {
+-          $max_date = clone($min_date);
++          $max_date = clone $min_date;
+           date_modify($max_date, "+$value $part");
+         }
+         date_modify($max_date, '-1 second');
+diff --git a/date_repeat/date_repeat_calc.inc b/date_repeat/date_repeat_calc.inc
+index d840df6..bb02928 100644
+--- a/date_repeat/date_repeat_calc.inc
++++ b/date_repeat/date_repeat_calc.inc
+@@ -132,7 +132,7 @@ function _date_repeat_calc($rrule, $start, $end, $exceptions, $timezone, $additi
+ 
+   if (!empty($rrule['BYMONTHDAY'])) {
+     $finished = FALSE;
+-    $current_day = clone($start_date);
++    $current_day = clone $start_date;
+     $direction_days = array();
+     // Deconstruct the day in case it has a negative modifier.
+     foreach ($rrule['BYMONTHDAY'] as $day) {
+@@ -193,7 +193,7 @@ function _date_repeat_calc($rrule, $start, $end, $exceptions, $timezone, $additi
+ 
+   elseif (empty($rrule['BYDAY'])) {
+     // $current_day will keep track of where we are in the calculation.
+-    $current_day = clone($start_date);
++    $current_day = clone $start_date;
+     $finished = FALSE;
+     $months = !empty($rrule['BYMONTH']) ? $rrule['BYMONTH'] : array();
+     while (!$finished) {
+@@ -275,7 +275,7 @@ function _date_repeat_calc($rrule, $start, $end, $exceptions, $timezone, $additi
+     // need to be processed one month or year at a time.
+     if (!empty($direction_days) && in_array($rrule['FREQ'], array('MONTHLY', 'YEARLY'))) {
+       $finished = FALSE;
+-      $current_day = clone($start_date);
++      $current_day = clone $start_date;
+       while (!$finished) {
+         foreach ($direction_days as $day) {
+           // Find the BYDAY date in the current month.
+@@ -314,7 +314,7 @@ function _date_repeat_calc($rrule, $start, $end, $exceptions, $timezone, $additi
+     if (!empty($week_days) &&
+       in_array($rrule['FREQ'], array('MONTHLY', 'WEEKLY', 'YEARLY'))) {
+       $finished = FALSE;
+-      $current_day = clone($start_date);
++      $current_day = clone $start_date;
+       $format = $rrule['FREQ'] == 'YEARLY' ? 'Y' : 'n';
+       $current_period = date_format($current_day, $format);
+ 
+diff --git a/date_repeat_field/date_repeat_field.module b/date_repeat_field/date_repeat_field.module
+index d4d4c90..042136f 100644
+--- a/date_repeat_field/date_repeat_field.module
++++ b/date_repeat_field/date_repeat_field.module
+@@ -503,7 +503,7 @@ function date_repeat_build_dates($rrule = NULL, $rrule_values = NULL, $field, $i
+     $date_start = new DateObject($date, $timezone, DATE_FORMAT_DATETIME);
+     $date_start->limitGranularity($field['settings']['granularity']);
+     date_timezone_set($date_start, timezone_open($timezone_db));
+-    $date_end = clone($date_start);
++    $date_end = clone $date_start;
+     date_modify($date_end, '+' . $duration . ' seconds');
+     $value[$delta] = array(
+       'value' => date_format($date_start, date_type_format($field['type'])),
+diff --git a/date_views/includes/date_views_plugin_pager.inc b/date_views/includes/date_views_plugin_pager.inc
+index 5caca4e..39dda41 100644
+--- a/date_views/includes/date_views_plugin_pager.inc
++++ b/date_views/includes/date_views_plugin_pager.inc
+@@ -279,9 +279,9 @@ class date_views_plugin_pager extends views_plugin_pager {
+           $this->view->date_info->next_date = $nextdate ? new DateObject($nextdate, NULL, $format) : NULL;
+         }
+         else {
+-          $this->view->date_info->prev_date = clone($argument->min_date);
++          $this->view->date_info->prev_date = clone $argument->min_date;
+           date_modify($this->view->date_info->prev_date, '-1 ' . $argument->date_handler->granularity);
+-          $this->view->date_info->next_date = clone($argument->max_date);
++          $this->view->date_info->next_date = clone $argument->max_date;
+           date_modify($this->view->date_info->next_date, '+1 ' . $argument->date_handler->granularity);
+         }
+         // Write the date_info properties that depend on the current value.
