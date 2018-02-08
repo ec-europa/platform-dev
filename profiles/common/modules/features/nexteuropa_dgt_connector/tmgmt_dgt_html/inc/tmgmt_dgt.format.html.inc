@@ -43,7 +43,7 @@ class TmgmtDgtHtmlFormat implements TMGMTFileFormatInterface {
     $items_context = array();
     if ('tmgmt_dgt_connector' === $job->translator) {
       if (module_exists('tmgmt_dgt_connector_cart')) {
-        $cart_items = tmgmt_dgt_connector_cart_get_items_by_jobitems(array_keys($items));
+        $cart_items = _tmgmt_dgt_connector_cart_get_items_by_jobitems(array_keys($items));
         foreach ($cart_items as $cart_item) {
           $comment = empty($cart_item->context_comment) ? '' : $cart_item->context_comment . ' ';
           $items_context[$cart_item->tjiid] = array(
