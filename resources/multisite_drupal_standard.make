@@ -88,7 +88,7 @@ projects[bean][version] = 1.11
 projects[bean][patch][] = https://www.drupal.org/files/issues/bean-contextual_links_for_entity_view-2084823-18.patch
 
 projects[better_exposed_filters][subdir] = "contrib"
-projects[better_exposed_filters][version] = "3.4"
+projects[better_exposed_filters][version] = "3.5"
 
 projects[better_formats][subdir] = "contrib"
 projects[better_formats][version] = "1.0-beta1"
@@ -107,7 +107,7 @@ projects[cdn][subdir] = "contrib"
 projects[cdn][version] = "2.9"
 
 projects[chosen][subdir] = "contrib"
-projects[chosen][version] = 2.0-beta4
+projects[chosen][version] = "2.1"
 
 projects[chr][subdir] = "contrib"
 projects[chr][version] = "1.8"
@@ -174,9 +174,20 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+; Nept-265 Make Date module compatible with php7
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-265
+; Known Issue #2533080: 'clone' is a reserved keyword introduced in PHP version 5.0 and cannot be invoked as a function.
+; https://www.drupal.org/node/2533080
+; However the patch is only for version 2.10, so it needs a patch that applies to oldest version such as 2.9,
+; until the platform upgrade to 2.10 (Still having some issue to be solved, so the upgrade is hold.)
+projects[date][patch][] = patches/date-clone_is_not_function-265.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
+; Issue #2909036 : Clone is a reserved keyword since PHP5.
+; https://www.drupal.org/node/2909036
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-266
+projects[date_ical][patch][2909036] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909036-1.patch
 
 projects[diff][subdir] = "contrib"
 projects[diff][download][branch] = 7.x-3.x
@@ -276,7 +287,7 @@ projects[feeds][version] = "2.0-beta3"
 projects[feeds][patch][] = https://www.drupal.org/files/issues/feeds-moved-module-2828605-7.patch
 
 projects[feeds_tamper][subdir] = "contrib"
-projects[feeds_tamper][version] = "1.1"
+projects[feeds_tamper][version] = "1.2"
 
 projects[feeds_xpathparser][subdir] = "contrib"
 projects[feeds_xpathparser][version] = "1.1"
@@ -367,7 +378,7 @@ projects[i18nviews][subdir] = "contrib"
 projects[i18nviews][version] = "3.0-alpha1"
 
 projects[inline_entity_form][subdir] = "contrib"
-projects[inline_entity_form][version] = "1.6"
+projects[inline_entity_form][version] = "1.8"
 
 projects[integration][download][branch] = 7.x-1.x
 projects[integration][download][revision] = fb3cf87
@@ -395,12 +406,12 @@ projects[jquery_update][version] = "2.7"
 projects[jquery_update][patch][] = https://www.drupal.org/files/issues/jquery_update_permissions-2621436-2_0.patch
 
 projects[l10n_update][subdir] = "contrib"
-projects[l10n_update][version] = "2.0"
-; Allow to override the http client code, to support proxying secure
-; http connections with the chr module.
-; https://www.drupal.org/node/750000
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11765
-projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-allow-alternate-http-client-750000-15.patch
+projects[l10n_update][version] = "2.2"
+; Issue #2922809: When trying to update i have "Recoverable fatal error: Argument 2 passed to format_string".
+; The fix is made of 2 patches.
+; https://www.drupal.org/node/2922809
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-272
+projects[l10n_update][patch][] = https://www.drupal.org/files/issues/l10n_update-missing-log-vars-2922809-10.patch
 
 projects[language_cookie][subdir] = "contrib"
 projects[language_cookie][version] = "1.9"
@@ -486,22 +497,24 @@ projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.pa
 
 projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
+; Fix for an error when the purge limit fall below 0 during the cron execution.
+; https://www.drupal.org/node/2030101
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1704
+projects[message][patch][2030101] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
+
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] = "1.21"
-; Notice : Undefined index: group in metatag_views_i18n_object_info()
-; https://www.drupal.org/node/2882048
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1039
-projects[metatag][patch][] = https://www.drupal.org/files/issues/undefined_group_in_i18n-2882048-5.patch 
+projects[metatag][version] = "1.22"
 
 ; A recent version of the Migrate module is pinned that contains a fix for
 ; https://www.drupal.org/node/2504517
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 ; Todo: revert back to the stable version when Migrate 7.x-2.9 is released.
 projects[migrate][download][branch] = 7.x-2.x
-projects[migrate][download][revision] = 046c6ad
+projects[migrate][download][revision] = bdb5a86116295df7c35fbb39bdd4397f743498c1
 projects[migrate][download][type] = git
 projects[migrate][subdir] = contrib
+projects[migrate][patch][2909252] = https://www.drupal.org/files/issues/clone_is_reserved_keyword-2909252-1.patch
 
 projects[mimemail][subdir] = "contrib"
 projects[mimemail][version] = "1.0"
@@ -598,7 +611,11 @@ projects[registry_autoload][subdir] = "contrib"
 projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.9"
+projects[rules][version] = "2.10"
+; #2851567 rules_init() and cache rebuilding are broken
+; https://www.drupal.org/project/rules/issues/2851567
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
+projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
@@ -642,9 +659,15 @@ projects[tagclouds][subdir] = "contrib"
 projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
-projects[term_reference_tree][version] = "1.10"
-projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
-projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
+projects[term_reference_tree][version] = "1.11"
+; i18n compatibility
+; https://www.drupal.org/node/1514794
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][1514794] = https://www.drupal.org/files/i18n_compatibility_rerolled-1514794-27.patch
+; Slider layout broken in IE lt i8
+; https://www.drupal.org/project/term_reference_tree/issues/1277268
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][] = https://www.drupal.org/files/issues/slider_layout_broken_in_ie8-1277268-25.patch
 
 projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
@@ -728,7 +751,7 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.4"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta9"
+projects[views_data_export][version] = "3.2"
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
@@ -814,9 +837,9 @@ projects[xmlsitemap][patch][] = patches/xmlsitemap-using_rel_alternate-nexteurop
 ; Libraries
 ; =========
 
-; chosen 1.4.2
+; chosen 1.8.2
 libraries[chosen][download][type] = get
-libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip
+libraries[chosen][download][url] = https://github.com/harvesthq/chosen/releases/download/v1.8.2/chosen_v1.8.2.zip
 libraries[chosen][directory_name] = chosen
 libraries[chosen][destination] = libraries
 
@@ -1002,14 +1025,12 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.3
+projects[ec_resp][download][tag] = 2.3.4
 
 projects[atomium][type] = theme
-projects[atomium][download][type] = git
-projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][branch] = 7.x-2.x
+projects[atomium][version] = 2.6
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][branch] = master
+projects[ec_europa][download][tag] = 0.0.8
