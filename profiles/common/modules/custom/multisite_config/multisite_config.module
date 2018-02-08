@@ -26,12 +26,12 @@ function multisite_config_service($module) {
     return new $class();
   }
   elseif (class_exists($class) && !module_exists($module)) {
-    throw new \Exception(t('The module the service class "!class" refers to does not exists or is not enabled.', array('!class' => $class)));
+    throw new \Exception('The service class "' . $class . '" refers to a module "' . $module . '" which does not exist or is not enabled.');
   }
   elseif (!class_exists($class) && module_exists($module)) {
-    throw new \Exception(t('The service class the module "!module" refers to does not exists.', array('!module' => $module)));
+    throw new \Exception('The service class "' . $class . '" from the module "' . $module . '" does not exist.');
   }
   else {
-    throw new \Exception(t('Service class "!class" and module "!module" does not exists.', array('!module' => $module, '!class' => $class)));
+    throw new \Exception('The service class "' . $class . '" and the module "' . $module . '" do not exist.');
   }
 }
