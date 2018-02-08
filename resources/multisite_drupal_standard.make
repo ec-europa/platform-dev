@@ -237,11 +237,14 @@ projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature
 ; Fix issues with autocomplete callback and add constant to track control string
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1459
 projects[entityreference][patch][] = patches/entityreference-autocomplete-constant-control.patch
+; https://www.drupal.org/node/2850416
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1750
+projects[entityreference][patch][2850416] = https://www.drupal.org/files/issues/rendered_entity_is_not_language_aware_again-2850416-3.patch
+
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
-projects[entityreference][patch][2850416] = https://www.drupal.org/files/issues/rendered_entity_is_not_language_aware_again-2850416-3.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
