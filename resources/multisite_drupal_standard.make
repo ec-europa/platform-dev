@@ -174,6 +174,13 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+; Nept-265 Make Date module compatible with php7
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-265
+; Known Issue #2533080: 'clone' is a reserved keyword introduced in PHP version 5.0 and cannot be invoked as a function.
+; https://www.drupal.org/node/2533080
+; However the patch is only for version 2.10, so it needs a patch that applies to oldest version such as 2.9,
+; until the platform upgrade to 2.10 (Still having some issue to be solved, so the upgrade is hold.)
+projects[date][patch][] = patches/date-clone_is_not_function-265.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
@@ -652,9 +659,15 @@ projects[tagclouds][subdir] = "contrib"
 projects[tagclouds][version] = "1.11"
 
 projects[term_reference_tree][subdir] = "contrib"
-projects[term_reference_tree][version] = "1.10"
-projects[term_reference_tree][patch][] = patches/term_reference_tree-i18n-2000.patch
-projects[term_reference_tree][patch][] = patches/term_reference_tree-ie8-2000.patch
+projects[term_reference_tree][version] = "1.11"
+; i18n compatibility
+; https://www.drupal.org/node/1514794
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][1514794] = https://www.drupal.org/files/i18n_compatibility_rerolled-1514794-27.patch
+; Slider layout broken in IE lt i8
+; https://www.drupal.org/project/term_reference_tree/issues/1277268
+; https://webgate.ec.europa.eu/CITnet/jira/browse/MULTISITE-2000
+projects[term_reference_tree][patch][] = https://www.drupal.org/files/issues/slider_layout_broken_in_ie8-1277268-25.patch
 
 projects[title][download][branch] = 7.x-1.x
 projects[title][download][revision] = 8119fa2
@@ -738,7 +751,7 @@ projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 
 projects[views_data_export][subdir] = "contrib"
-projects[views_data_export][version] = "3.0-beta9"
+projects[views_data_export][version] = "3.2"
 
 projects[views_datasource][version] = "1.0-alpha2"
 projects[views_datasource][subdir] = "contrib"
@@ -1015,11 +1028,9 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.4
 
 projects[atomium][type] = theme
-projects[atomium][download][type] = git
-projects[atomium][download][url] = https://github.com/ec-europa/atomium.git
-projects[atomium][download][branch] = 7.x-2.x
+projects[atomium][version] = 2.6
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][branch] = master
+projects[ec_europa][download][tag] = 0.0.8
