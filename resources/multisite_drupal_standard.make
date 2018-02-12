@@ -618,7 +618,7 @@ projects[rules][version] = "2.10"
 projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
 
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = 1.3
+projects[scheduler][version] = 1.5
 
 projects[scheduler_workbench][subdir] = "contrib"
 projects[scheduler_workbench][version] = 1.3
