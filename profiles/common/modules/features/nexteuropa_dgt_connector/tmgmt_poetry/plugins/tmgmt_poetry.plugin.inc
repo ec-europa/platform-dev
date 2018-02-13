@@ -408,13 +408,15 @@ xsi:noNamespaceSchemaLocation=\"http://intragate.ec.europa.eu/DGT/poetry_service
     }
     else {
       // If it doesn't, check the highest numero.
-      $query = db_select('poetry_map', 'pm');
+      $query = db_select('poetry_map', 'pm')
+        ->condition('annee', date("Y"));
       $query->addExpression('MAX(numero)', 'max_numero');
       $max_numero = $query->execute()
         ->fetchAssoc();
       if (!empty($max_numero['max_numero'])) {
         $query = db_select('poetry_map', 'pm')
           ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+          ->condition('annee', date("Y"))
           ->condition('numero', $max_numero['max_numero'], '=');
         $query->addExpression('MAX(partie)', 'max_partie');
         $result = $query->execute()
