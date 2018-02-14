@@ -12,7 +12,7 @@ function multisite_drupal_access_node_access_records($node) {
   $grants = array();
 
   // Give the right for any users to view community type.
-  if ($node->type == 'community') {
+  if (($node->type == 'community') && $node->status) {
     $grants[] = array(
       'realm' => 'all',
       'gid' => 0,
