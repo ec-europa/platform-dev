@@ -86,3 +86,20 @@ Feature: Page Layout
     When I am not logged in
     And I visit "content/example-compare-two-divs"
     Then I check if "field-name-field-field-1" and "field-name-field-field-2" have the same position from top
+
+  Background:
+    Given I am logged in as a user with the 'administrator' role
+  @api @ec_europa_theme
+  Scenario: User can see the content title in header
+    When I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I press "Save"
+    And I should see "Page title" in the "h1" element with the "class" attribute set to "ecl-heading ecl-heading--h1 ecl-u-color-white"
+  Scenario: User can select see the basic header
+    When I go to "admin/appearance/settings/ec_europa"
+    And I check the box "Use basic header?"
+    And I press "Save configuration"
+    And I go to "node/add/page"
+    And I fill in "Title" with "Page title"
+    And I press "Save"
+    Then I should not see "Page title" in the "div" element with the "class" attribute set to "ecl-page-header__body"
