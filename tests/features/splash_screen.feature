@@ -54,7 +54,7 @@ Feature: Splash Screen features
   Scenario: Being able to change the splash screen title
     Given I am logged in as a user with the 'administrator' role
     When I go to "/"
-    Then I should see "NextEuropa" in the "nept_element:title-metatag" element
+    Then I should see "European Commission" in the "nept_element:title-metatag" element
     When I go to "admin/config/regional/splash_screen_settings"
     And I fill in "edit-splash-screen-title-value" with "Splash screen testing title"
     And I press the "Save" button
