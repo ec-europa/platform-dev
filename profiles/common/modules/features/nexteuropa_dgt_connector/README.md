@@ -77,8 +77,8 @@ It is filled with appropriate values depending on the environment.
 
 ### On Playground environment:
 
-In order to test against acceptance webservice, the file **settings.common.php** must 
-contain:
+In order to test against acceptance webservice, the file **settings.common.php**
+must contain:
 
 ```php
    $conf['poetry_service'] = array(
@@ -112,8 +112,8 @@ and edits 'DGT Connector', or go to:
 > admin/config/regional/tmgmt_translator/manage/poetry 
 
 ### TRANSLATOR SETTINGS
-- *Auto accept finished translations*: Check this if the site owner wants to review a translation before 
-publishing it.
+- *Auto accept finished translations*: Check this if the site owner wants to
+review a translation before publishing it.
 
 ### Translator plugin:
 This is shown for information, please do not change it.
@@ -126,12 +126,17 @@ you forgot!
 ### GENERAL SETTINGS [See DGT reference explanation]
 - *Counter*: **NEXT_EUROPA_COUNTER**
 - *Requester code*: **WEB** ([more information](#dgt-reference-number))
-- *Callback User / Callback Password*: drupal credential - in lowercase, limited to 15 characters and different to poetry credential. Example: **namesiteproduction/namesiteproduction**
-- *Poetry Username / Poetry Password*: Those credential are provided by DGT. Example **NE-SITENAME/NE-SITENAME**.
-- *Website identifier*: This helps DGT identifying which site requested the translation. Example: **SITENAME**
+- *Callback User / Callback Password*: drupal credential - in lowercase, limited
+to 15 characters and different to poetry credential. Example:
+**namesiteproduction/namesiteproduction**
+- *Poetry Username / Poetry Password*: Those credential are provided by DGT.
+Example **NE-SITENAME/NE-SITENAME**.
+- *Website identifier*: This helps DGT identifying which site requested the
+translation. Example: **SITENAME**
    
 ### ORGANIZATION
-Organization responsible, Author and requester: consult the values examples shown below each form field as an example.
+Organization responsible, Author and requester: consult the values examples
+shown below each form field as an example.
    
 ### CONTACT USERNAMES
 Should be the **user names** (you connect to the network,
@@ -175,7 +180,8 @@ your production environment.
 
 # Usage
 ## How to request a translation
-- When you are browsing a node that is translatable, an additional tab **Translate** appears,
+- When you are browsing a node that is translatable, an additional tab
+**Translate** appears,
 
 - Click that tab and select languages you wish to request a translation for,
 
@@ -186,30 +192,34 @@ can click **Change translator** to change it if needed,
 
 - You can change the languages you want to be translated,
 
-- Default values: The values that show in **Contact Usernames** and in **Organization** are the
-default values you entered when [CEM configured your translator](#configure-the-dgt-connector). Those values can be overridden on a page per
-page basis. To do this, just click **Contact Usernames** or **Organization** and
-changes the values.
+- Default values: The values that show in **Contact Usernames** and in
+**Organization** are the default values you entered when
+[CEM configured your translator](#configure-the-dgt-connector).Those values can
+be overridden on a page per page basis. To do this, just click
+**Contact Usernames** or **Organization** and changes the values.
 
 - You can select an **Expected delivery time**: Click the field and select a
 date from the calendar that pops up. This is an indicative date, DGT might
 want to change that date,
 
-- The field **remark** is not mandatory, you can add there any comment you want to
-share with DGT.
+- The field **remark** is not mandatory, you can add there any comment you want
+to share with DGT.
 
 [Go to top](#table-of-content)
 
 ## How to update a translation request
 - After a translation request has been accepted by DGT,
-- Click the **Translation** tab and select the languages you wish to request a translation for,
+- Click the **Translation** tab and select the languages you wish to request a
+translation for,
 - Submit the **Update Request translation** button,
 
-> Note: This action will cancel all jobs in progress and jobs that need a review.
+> Note: This action will cancel all jobs in progress and jobs that need a
+review.
 
 - By default the **DGT connector (auto created)** translator will be selected,
 - You can modify the selection of languages you want to be translated,
-- You can select an **Expected delivery time**: Click the field and select a date from the calendar that will pop up. This is an indicative date, DGT
+- You can select an **Expected delivery time**: Click the field and select a
+date from the calendar that will pop up. This is an indicative date, DGT
 
 [Go to top](#table-of-content)
 
@@ -217,8 +227,9 @@ share with DGT.
 ## DGT Web app: Checking the translation was received
 Once a translation has been requested to DGT, the status is updated on the
 Drupal site. In addition it is also possible for EC staff to view translation
-status and references using the [Test DGT web app](http://www.test.cc.cec/translation/webpoetry/)
-or the [DGT web app](http://www.cc.cec/translation/webpoetry/).
+status and references using the
+[Test DGT web app](http://www.test.cc.cec/translation/webpoetry/) or the
+[DGT web app](http://www.cc.cec/translation/webpoetry/).
 
 The requester of a translation is also able to read the actual content
 of the translations via this application.
@@ -240,9 +251,10 @@ Files messages are saved in:
 ### Log of activities from Drupal and from DGT in watchdog
 Translations sent and received from the webservices are saved into the watchdog.
 
-:warning: We gradually move the _dblog_ to [kibana](https://webgate.ec.europa.eu/fpfis/logging/) and if dblog is disabled from your
- instance, request access to Kibana by creating a request in
- [Jira's MULTISITE project](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa).
+:warning: We gradually move the _dblog_ to
+[kibana](https://webgate.ec.europa.eu/fpfis/logging/) and if dblog is disabled
+from your instance, request access to Kibana by creating a request in
+[Jira's MULTISITE project](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa).
 
 [Go to top](#table-of-content)
 
@@ -254,13 +266,13 @@ several variables:
 > Every Website instance using DGT-Connector will have as a requester code
 *WEB*.
 
-  - The **year** a new counter was received *(ex: 2016)*,
+  - The **year** a new counter was received *(ex: 2016)*
 
-  - The **counter** used when request was sent *(ex: 72000)*,
+  - The **counter** used when request was sent *(ex: 72000)*
 
-  - The **version** is incremented each time a *partie* version is sent *(ex:0)*,
+  - The **version** is incremented each time a *partie* version is sent *(ex:0)*
 
-  - The **partie** in our case this is a unique page id *(ex: 1)*.
+  - The **partie** in our case this is a unique page id *(ex: 1)*
 
 [Go to top](#table-of-content)
 
@@ -272,18 +284,19 @@ debugging steps:
 Contact your site administrator.
 
 ### You are administrator
-Go to URL admin/reports/status and check the status of the 'DGT connector webservice'
+Go to URL admin/reports/status and check the status of the 'DGT connector
+webservice'
   - **Status is red**
 
      - If **"The DGT webservice endpoint is not set. Please ask your support
-       team to check the configuration."** is shown, the URL of the DGT webservice
-        endpoint is not set.  Please contact your support. 
-        The URL should be set in the settings.common.php file on the server.
+       team to check the configuration."** is shown, the URL of the DGT
+       webservice endpoint is not set.  Please contact your support.
+       The URL should be set in the settings.common.php file on the server.
         
      - If **"The local connector credentials are not set.  Please contact CEM
-       support."** is shown, the credentials of the Drupal endpoint have not been 
-       set. This information should be filled in by a member of CEM team at the 
-       time of install.
+       support."** is shown, the credentials of the Drupal endpoint have not
+       been set. This information should be filled in by a member of CEM team at
+       the time of install.
        
      - If **"The DGT remote credentials are not set.  Please contact CEM
        support."** is shown, the credentials of the DGT endpoint have not been 
