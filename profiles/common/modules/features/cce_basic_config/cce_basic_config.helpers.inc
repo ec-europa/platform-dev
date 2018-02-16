@@ -105,7 +105,7 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
       $title = check_plain($info['label']);
     }
 
-    $message = t('The field [!title] contains external emojis : Like !emojis. This is not allowed. Please remove it.', array('!title' => $title, '!emojis' => $emoji[0]));
+    $message = t('!title field contains not allowed emojis like !emoji. Please remove them.', array('!title' => $title, '!emoji' => $emoji[0]));
     form_error($element, $message);
   }
 }

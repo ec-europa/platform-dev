@@ -411,3 +411,45 @@ function cce_basic_config_field_widget_text_textarea_with_summary_form_alter(&$e
 function cce_basic_config_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
   _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
 }
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "taxonomy autocomplete" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_taxonomy_autocomplete_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "entityreference autocomplete" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_entityreference_autocomplete_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "entityreference autocomplete tags" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_entityreference_autocomplete_tags_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
