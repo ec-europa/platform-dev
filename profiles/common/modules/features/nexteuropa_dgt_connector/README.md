@@ -127,12 +127,15 @@ you forgot!
 - *Counter*: **NEXT_EUROPA_COUNTER**
 - *Requester code*: **WEB** ([more information](#dgt-reference-number))
 - *Callback User / Callback Password*: drupal credential - in lowercase, limited
-to 15 characters and different to poetry credential. Example:
-**namesiteproduction/namesiteproduction**
-- *Poetry Username / Poetry Password*: Those credential are provided by DGT.
-Example **NE-SITENAME/NE-SITENAME**.
+to 15 characters and different to poetry credential. It must identify uniquely
+the platform where the translation have to be delivered to. Example:
+**projectnameproduction/projectnameproduction**
+- *Poetry Username / Poetry Password*: must have been created beforehand in the
+Poetry DB. Any valid username/password will work. However, this is supposed to
+identify the calling application.
+Example **NE-projectname/NE-projectname**.
 - *Website identifier*: This helps DGT identifying which site requested the
-translation. Example: **SITENAME**
+translation. Example: **PROJECTNAME**
    
 ### ORGANIZATION
 Organization responsible, Author and requester: consult the values examples
