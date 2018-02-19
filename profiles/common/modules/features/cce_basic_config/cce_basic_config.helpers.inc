@@ -148,7 +148,7 @@ function _cce_basic_config_subject_validate($form, &$form_state) {
     $title = isset($form_state['complete form']['subject']['#title']) ? $form_state['complete form']['subject']['#title'] : 'Title field';
     $emoji = _cce_basic_config_check_emoji($form_state['values']['subject']);
     if (!empty($emoji)) {
-      $message = t('The [!title] contains external emojis : !emojis. This is not allowed. Please remove it.', array('!title' => $title, '!emojis' => $emoji[0]));
+      $message = t('!title field contains not allowed emojis like !emoji. Please remove them.', array('!title' => $title, '!emoji' => $emoji[0]));
       form_set_error('title', $message);
     }
   }
@@ -173,7 +173,7 @@ function _cce_basic_config_title_validate($form, &$form_state) {
     $title = 'Title';
     $emoji = _cce_basic_config_check_emoji($form_state['values']['title']);
     if (!empty($emoji)) {
-      $message = t('The [!title] contains external emojis : !emojis. This is not allowed. Please remove it.', array('!title' => $title, '!emojis' => $emoji[0]));
+      $message = t('!title field contains not allowed emojis like !emoji. Please remove them.', array('!title' => $title, '!emoji' => $emoji[0]));
       form_set_error('title', $message);
     }
   }
