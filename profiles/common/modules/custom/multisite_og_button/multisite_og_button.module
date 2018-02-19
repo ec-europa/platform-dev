@@ -34,6 +34,7 @@ function multisite_og_button_block_view($delta = '') {
  * Helper function to fetch the links.
  */
 function _multisite_og_button_contextual_links() {
+  global $theme_key;
   $context = og_context();
   if ($context) {
     // Use different theme components for the different themes.
