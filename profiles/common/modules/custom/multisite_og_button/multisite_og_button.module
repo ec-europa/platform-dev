@@ -33,20 +33,6 @@ function multisite_og_button_block_view($delta = '') {
 /**
  * Helper function to fetch the links.
  */
-// function _multisite_og_button_contextual_links() {
-//   $context = og_context();
-//   if ($context) {
-//     $links = og_node_create_links('node', $context['gid'], 'og_group_ref');
-//     if ($links) {
-//       $links['og_node_create_links']['#theme'] = 'dropdown';
-//     }
-//     return $links;
-//   }
-// }
-
-/**
- * Helper function to fetch the links.
- */
 function _multisite_og_button_contextual_links() {
   $context = og_context();
   if ($context) {
@@ -58,7 +44,6 @@ function _multisite_og_button_contextual_links() {
       }
     } else {
       $types = array_keys(node_type_get_types());
-      dpm($types, 'types'); ////////////////////////////////////////////
       foreach ($types as $type_name) {
         // Show only the options to create content for this community
         $instance = field_info_instance('node', 'og_group_ref', $type_name);
@@ -68,7 +53,6 @@ function _multisite_og_button_contextual_links() {
         }
         $names[$type_name] = node_type_get_name($type_name);
       }
-      dpm($names, 'final_names'); /////////////////////////////////////
       if (empty($names)) {
         return;
       }
@@ -78,19 +62,15 @@ function _multisite_og_button_contextual_links() {
       $query  = array(
         'og_group_ref' => $context['gid'],
       );
-      dpm($query, 'query'); ////////////////////////////////////////////
 
       $query += drupal_get_destination();
-      dpm($query, 'final_query'); //////////////////////////////////////
 
       $options = array(
         '#' => t('Create content'),
       );
       foreach ($names as $content_type) {
         // links for the select options, for each content type
-        dpm($content_type, 'content_type'); ///////////////////////////
         $options[url('node/add/'.strtolower($content_type), array('absolute' => TRUE, 'query' => $query))] = $content_type;
-        dpm($options, 'options'); /////////////////////////////////////
       }
       $links = array(
         '#theme' => array('select__create_content_button'),
@@ -100,7 +80,6 @@ function _multisite_og_button_contextual_links() {
           'onChange' => 'if (this.value) window.location.href=this.value;',
         ),
       );
-      dpm($links, 'links'); //////////////////////////////////////////////
     }
     return $links;
   }
