@@ -14,10 +14,10 @@ function events_og_enable() {
   global $theme_key;
 
   if ($theme_key == 'ec_resp') {
-    multisite_drupal_toolbox_add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_left');
+    multisite_drupal_toolbox_add_block_context('communities', 'events-block_1', 'views', 'events-block_1', 'sidebar_left');
   }
   else {
-    multisite_drupal_toolbox_add_block_context('communities', 'views-calendar-upcoming_events', 'views', 'calendar-upcoming_events', 'sidebar_first');
+    multisite_drupal_toolbox_add_block_context('communities', 'events-block_1', 'views', 'events-block_1', 'sidebar_first');
   }
   multisite_drupal_toolbox_add_views_context('communities', 'calendar');
   multisite_drupal_toolbox_add_views_context('communities', 'calendar:month');
@@ -39,7 +39,7 @@ function events_og_enable() {
  * Remove block from the context.
  */
 function events_og_disable() {
-  multisite_drupal_toolbox_remove_block_context('communities', 'views-calendar-upcoming_events');
+  multisite_drupal_toolbox_remove_block_context('communities', 'events-block_1');
   multisite_drupal_toolbox_remove_views_context('communities', 'calendar');
   multisite_drupal_toolbox_remove_views_context('communities', 'calendar:month');
   multisite_drupal_toolbox_remove_views_context('communities', 'calendar:week');
