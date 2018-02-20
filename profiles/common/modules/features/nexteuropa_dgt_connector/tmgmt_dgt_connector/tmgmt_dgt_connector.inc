@@ -257,7 +257,6 @@ function _tmgmt_dgt_connector_translator_access($op, array $translator, array $a
  *   Returns true if 'Send to cart' is possible, false otherwise.
  */
 function _tmgmt_dgt_connector_smalljob_translation_possible($entity, array $cart) {
-
   list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
 
   $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
