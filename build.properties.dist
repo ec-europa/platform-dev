@@ -5,16 +5,16 @@
 platform.profile.name = multisite_drupal_standard
 
 # The site name.
-platform.site.name = NextEuropa
+platform.site.name = European Commission
 
 # The default theme to enable, set to either "ec_europa" or "ec_resp".
 platform.site.theme_default = ec_resp
 
 # The default Europa Component Library release
-ecl.version = v0.10.0
+ecl.version = 0.21.0
 
 # The default EC Europa theme release
-ec_europa.version = 0.0.4
+ec_europa.version = 0.0.8
 
 # The default Atomium and Europa theme build properties.
 # Used only if default theme is set to "ec_europa".

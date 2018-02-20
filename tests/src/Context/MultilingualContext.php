@@ -520,6 +520,21 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   }
 
   /**
+   * Remove all existing tmgmt_job entities.
+   *
+   * @AfterScenario @CleanTmgmtJobs
+   */
+  public function cleanJobs() {
+    $jobs = entity_load('tmgmt_job', FALSE);
+    /** @var \TMGMTJobController $controller */
+    $controller = entity_get_controller('tmgmt_job');
+    /** @var \TMGMTJob $translator */
+    foreach ($jobs as $job) {
+      $controller->delete([$job->identifier()]);
+    }
+  }
+
+  /**
    * Assert current translation job state.
    *
    * @param string $expected
