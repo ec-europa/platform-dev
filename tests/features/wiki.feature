@@ -5,11 +5,7 @@ Feature: Wiki
   I want to make sure auhtenticated users with proper permissions can create wiki pages
 
   Background:
-    Given users:
-      | name          | mail                 | pass         | roles         |
-      | administrator | admin@ecample.com    | password123  | administrator |
-      | contribuser   | contrib@example.com  | password456  | contributor   |
-    And these featureSet are enabled
+    Given these featureSet are enabled
       | featureSet     |
       | Wiki           |
 
@@ -19,7 +15,7 @@ Feature: Wiki
     Then I should see the text "Access Denied"
 
   Scenario: Contributor user can create and wiki pages
-    Given I am logged in as "contribuser"
+    Given I am logged in as a user with the "contributor" role
     When I go to "node/add/wiki"
     Then I should see the text "Title"
     When I fill in "Title" with "New Wiki Page"
