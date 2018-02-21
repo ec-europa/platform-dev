@@ -134,6 +134,49 @@ function tmgmt_dgt_connector_cart_views_api() {
 }
 
 /**
+ * Implements hook_theme_registry_alter().
+ */
+function tmgmt_dgt_connector_cart_theme_registry_alter(&$theme_registry) {
+  if (isset($theme_registry['views_view_table'])) {
+    $theme_registry['views_view_table']['preprocess functions'][] = '_tmgmt_dgt_connector_cart_preprocess_callback';
+  }
+}
+
+/**
+ * Theme preprocess callback.
+ */
+function _tmgmt_dgt_connector_cart_preprocess_callback(&$vars) {
+  $view = $vars['view'];
+  // Rows to separate group in table.
+  $seperator_rows = array();
+  if (isset($view->rowspan)) {
+    foreach ($view->rowspan as $field_name => $rowspan) {
+      foreach ($rowspan as $row_index => $num_span) {
+        $vars['field_attributes'][$field_name][$row_index] = array('rowspan' => count($num_span));
+        $vars['field_classes'][$field_name][$row_index] .= ' cell-rowspan';
+
+        if ($field_name == $view->style_options['grouping'][0]['field']) {
+          $seperator_rows[] = $num_span[count($num_span) - 1];
+        }
+
+        // Hide other columns.
+        array_shift($num_span);
+        foreach ($num_span as $row_span_index) {
+          $vars['field_attributes'][$field_name][$row_span_index] = array('style' => 'display:none');
+        }
+      }
+    }
+  }
+
+  $seperator_rows = array_unique($seperator_rows);
+  foreach ($view->field as $view_field_name => $view_field) {
+    foreach ($seperator_rows as $row_index) {
+      $vars['field_classes'][$view_field_name][$row_index] .= ' cell-seperator';
+    }
+  }
+}
+
+/**
  * Implements hook_entity_info().
  */
 function tmgmt_dgt_connector_cart_entity_info() {

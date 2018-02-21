@@ -7,7 +7,7 @@ use views_handler_field;
 /**
  * Custom Views field handler to present a target languages field.
  */
-class CartBundleItemsField extends views_handler_field {
+class CartBundleTableField extends views_handler_field {
 
   /**
    * {@inheritdoc}
@@ -15,7 +15,7 @@ class CartBundleItemsField extends views_handler_field {
   public function render($values) {
 
     $cbid = $this->get_value($values);
-    $view = views_get_view('bundle_items');
+    $view = views_get_view('tmgmt_dgt_connector_bundle');
     $view->set_display('master');
     $view->pre_execute(array($cbid));
     $view->execute();

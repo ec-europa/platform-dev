@@ -15,6 +15,14 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
   public function entityPropertyInfo() {
     $info = parent::entityPropertyInfo();
     $properties = &$info[$this->type]['properties'];
+    $properties['ciid'] = array(
+      'label' => t('Cart Item ID'),
+      'schema field' => 'ciid',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('The ID of the Cart Item.'),
+    );
     $properties['cbid'] = array(
       'label' => t('Cart bundle ID'),
       'type' => 'cart_bundle',

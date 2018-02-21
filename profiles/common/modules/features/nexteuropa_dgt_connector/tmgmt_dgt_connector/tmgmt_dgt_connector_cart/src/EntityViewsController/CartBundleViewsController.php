@@ -22,12 +22,21 @@ class CartBundleViewsController extends EntityDefaultViewsController {
     // Injecting the custom handler for the target languages.
     $data['cart_bundle']['target_languages']['field']['handler'] = 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleLanguagesField';
 
-    $data['cart_bundle']['cart_bundle_items'] = array(
-      'title' => t('Bundle items'),
-      'help' => t('The list of related Cart Items entities.'),
+    $data['cart_bundle']['cart_bundle_info'] = array(
+      'title' => t('Bundle information'),
+      'help' => t('Information related to the bundle.'),
       'real field' => 'cbid',
       'field' => array(
-        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleItemsField',
+        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleInfoField',
+      ),
+    );
+
+    $data['cart_bundle']['cart_bundle_table'] = array(
+      'title' => t('Bundle table'),
+      'help' => t('A table with the properties of the bundle.'),
+      'real field' => 'cbid',
+      'field' => array(
+        'handler' => 'Drupal\\tmgmt_dgt_connector_cart\\ViewsHandler\\CartBundleTableField',
       ),
     );
 
