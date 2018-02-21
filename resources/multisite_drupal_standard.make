@@ -1031,7 +1031,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.4
+projects[ec_resp][download][tag] = 2.3.5
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.6
