@@ -40,10 +40,8 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
   );
 
   $header = array(
-    'ciid' => t('Item ID'),
-    'entity_type' => t('Entity type'),
-    'entity_id' => t('Entity ID'),
-    'entity_title' => t('Title'),
+    'entity_title' => t('Bundle item'),
+    'entity_type' => t('Item type'),
     'char_count' => t('Character count'),
     'status' => t('Status'),
     'context_url' => t('Context URL'),
@@ -54,10 +52,8 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
   /** @var \Drupal\tmgmt_dgt_connector_cart\Entity\CartItem $item */
   foreach ($cart_items as $item) {
     $options[$item->ciid] = array(
-      'ciid' => $item->ciid,
-      'entity_type' => $item->entity_type,
-      'entity_id' => $item->entity_id,
       'entity_title' => $item->entity_title,
+      'entity_type' => $item->entity_type,
       'char_count' => $item->getCharCount(),
       'status' => $item->status,
       'context_url' => array(

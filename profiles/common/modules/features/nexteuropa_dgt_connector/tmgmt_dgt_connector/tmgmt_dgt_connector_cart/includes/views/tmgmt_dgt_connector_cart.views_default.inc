@@ -105,28 +105,33 @@ function tmgmt_dgt_connector_cart_views_default_views() {
   $handler->display->display_options['fields']['cart_bundle_info']['id'] = 'cart_bundle_info';
   $handler->display->display_options['fields']['cart_bundle_info']['table'] = 'cart_bundle';
   $handler->display->display_options['fields']['cart_bundle_info']['field'] = 'cart_bundle_info';
+  $handler->display->display_options['fields']['cart_bundle_info']['label'] = 'Bundle details';
   /* Field: Cart Item: Entity title */
   $handler->display->display_options['fields']['entity_title']['id'] = 'entity_title';
   $handler->display->display_options['fields']['entity_title']['table'] = 'cart_item';
   $handler->display->display_options['fields']['entity_title']['field'] = 'entity_title';
   $handler->display->display_options['fields']['entity_title']['relationship'] = 'cart_item';
-  /* Field: Cart Item: Changed date */
-  $handler->display->display_options['fields']['changed']['id'] = 'changed';
-  $handler->display->display_options['fields']['changed']['table'] = 'cart_item';
-  $handler->display->display_options['fields']['changed']['field'] = 'changed';
-  $handler->display->display_options['fields']['changed']['relationship'] = 'cart_item';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'long';
-  $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
+  $handler->display->display_options['fields']['entity_title']['label'] = 'Bundle item';
   /* Field: Cart Item: Entity type */
   $handler->display->display_options['fields']['entity_type']['id'] = 'entity_type';
   $handler->display->display_options['fields']['entity_type']['table'] = 'cart_item';
   $handler->display->display_options['fields']['entity_type']['field'] = 'entity_type';
   $handler->display->display_options['fields']['entity_type']['relationship'] = 'cart_item';
+  $handler->display->display_options['fields']['entity_type']['label'] = 'Item type';
+  /* Field: Cart Item: Changed date */
+  $handler->display->display_options['fields']['changed']['id'] = 'changed';
+  $handler->display->display_options['fields']['changed']['table'] = 'cart_item';
+  $handler->display->display_options['fields']['changed']['field'] = 'changed';
+  $handler->display->display_options['fields']['changed']['relationship'] = 'cart_item';
+  $handler->display->display_options['fields']['changed']['label'] = 'Added on';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['changed']['custom_date_format'] = 'd/m/Y G:i:s';
+  $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
   /* Field: Cart bundle: Bundle actions */
   $handler->display->display_options['fields']['cart_bundle_items_form_link']['id'] = 'cart_bundle_items_form_link';
   $handler->display->display_options['fields']['cart_bundle_items_form_link']['table'] = 'cart_bundle';
   $handler->display->display_options['fields']['cart_bundle_items_form_link']['field'] = 'cart_bundle_items_form_link';
-  $handler->display->display_options['fields']['cart_bundle_items_form_link']['label'] = '';
+  $handler->display->display_options['fields']['cart_bundle_items_form_link']['label'] = 'Actions';
   $handler->display->display_options['fields']['cart_bundle_items_form_link']['element_label_colon'] = FALSE;
   /* Sort criterion: Cart bundle: Changed date */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
