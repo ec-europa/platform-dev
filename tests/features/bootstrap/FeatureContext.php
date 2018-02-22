@@ -592,7 +592,9 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @param string $name
    *   string CSS selector name.
    *
-   * @return
+   * @return string text
+   *   The selector.
+   *
    * @throws Exception
    */
   public function getDrupalSelector($name) {
@@ -602,4 +604,5 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
     }
     return $text[$name];
   }
+
 }
