@@ -128,12 +128,16 @@ function template_preprocess_language_selector_site_language_list(&$variables) {
   $path_components = drupal_parse_url($destination);
   $path = $path_components['path'];
 
+  $translations = translation_path_get_translations($path);
+
   // Export variables to template.
   $variables['icon'] = theme('nexteuropa_multilingual_language_icon');
   $variables['close_button'] = l(t('Close'), $path, $options);
+
   $variables['languages_list'] = theme('nexteuropa_multilingual_language_list', array(
     'languages' => language_list('enabled')[1],
     'path' => $path,
+    'all_paths' => $translations,
     'options' => $options,
   ));
 }
