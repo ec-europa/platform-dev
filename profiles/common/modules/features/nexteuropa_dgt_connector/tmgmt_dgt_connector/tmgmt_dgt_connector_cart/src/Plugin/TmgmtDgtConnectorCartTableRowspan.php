@@ -19,8 +19,10 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
    */
   function option_definition() {
     $options = parent::option_definition();
+
     // Option to merge duplicate rows in to one row.
     $options['rowspan'] = array('default' => TRUE);
+
     return $options;
   }
 
@@ -57,6 +59,7 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
         $this->options['grouping'] = array();
       }
     }
+
     return parent::render_grouping_sets($sets, $level);
   }
 
@@ -65,7 +68,7 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
    *
    * @param array $sets
    *   Views grouping sets.
-   * @param integer $level
+   * @param int $level
    *   Nesting level.
    * @param array $parent
    *   Parent set.
@@ -73,10 +76,11 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
    * @return array
    *   An array of rows in table.
    */
-  protected function get_colspan_rows(array $sets, $level = 0, $parent = NULL) {
+  protected function get_colspan_rows(array $sets, $level = 0, array $parent = array()) {
     $rows = array();
     $leaf_rows = array();
     $group_field_name = $this->options['grouping'][$level]['field'];
+
     foreach ($sets as $set) {
       $new_level = $level + 1;
 
@@ -95,6 +99,7 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
         }
       }
     }
+
     return $rows;
   }
 
@@ -106,6 +111,7 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
    */
   protected function _get_deepest_row(array $set) {
     $row = reset($set['rows']);
+
     // Check set is a group or a row.
     if (is_array($row) && isset($row['group'])) {
       $result = array();
@@ -113,6 +119,7 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
         $subset_result = $this->_get_deepest_row($sub_set);
         $result += $subset_result;
       }
+
       return $result;
     }
     else {
@@ -120,8 +127,10 @@ class TmgmtDgtConnectorCartTableRowspan extends views_plugin_style_table {
       foreach ($set['rows'] as $row_index => $row) {
         $_result[$row_index] = $row;
       }
+
       return $_result;
     }
   }
   // @codingStandardsIgnoreEnd
+
 }

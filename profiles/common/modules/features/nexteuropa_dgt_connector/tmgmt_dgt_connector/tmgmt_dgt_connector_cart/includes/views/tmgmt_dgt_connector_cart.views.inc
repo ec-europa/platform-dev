@@ -26,7 +26,7 @@ function tmgmt_dgt_connector_cart_views_data_alter(&$data) {
  * Define new view display format.
  */
 function tmgmt_dgt_connector_cart_views_plugins() {
-  $plugins = array(
+  return array(
     'style' => array(
       'table_rowspan' => array(
         'title' => t('Table Rowspan'),
@@ -43,5 +43,4 @@ function tmgmt_dgt_connector_cart_views_plugins() {
       ),
     ),
   );
-  return $plugins;
 }

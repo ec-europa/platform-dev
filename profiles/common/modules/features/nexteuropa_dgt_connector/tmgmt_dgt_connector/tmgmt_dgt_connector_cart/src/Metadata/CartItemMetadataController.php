@@ -122,6 +122,7 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
       'required' => TRUE,
       'description' => t('Updated date of the item.'),
     );
+
     return $info;
   }
 

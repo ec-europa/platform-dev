@@ -150,6 +150,7 @@ function _tmgmt_dgt_connector_cart_preprocess_callback(&$vars) {
   $view = $vars['view'];
   // Rows to separate group in table.
   $seperator_rows = array();
+
   if (isset($view->rowspan)) {
     foreach ($view->rowspan as $field_name => $rowspan) {
       foreach ($rowspan as $row_index => $num_span) {
