@@ -67,6 +67,7 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
           '#size' => 60,
           '#disabled' => TRUE,
           '#name' => "cart_items_fields[$item->ciid][context_url]",
+          '#attributes' => array('placeholder' => t('Insert URL')),
         ),
       ),
       'context_comment' => array(
@@ -76,6 +77,7 @@ function tmgmt_dgt_connector_form_cart_bundle_items($form, &$form_state) {
           '#size' => 10,
           '#disabled' => TRUE,
           '#name' => "cart_items_fields[$item->ciid][context_comment]",
+          '#attributes' => array('placeholder' => t('Insert comment')),
         ),
       ),
     );

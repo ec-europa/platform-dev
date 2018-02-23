@@ -11,6 +11,7 @@ use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
 define('TMGMT_DGT_CONNECTOR_CART_VIEW_PATH', 'admin/dgt_connector/cart');
 
 // Including the custom form callback.
+module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/tmgmt_dgt_connector_cart');
 module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/views/tmgmt_dgt_connector_cart.views_default');
 module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/forms/tmgmt_dgt_connector_form_cart_bundle_items');
 
