@@ -2,9 +2,8 @@ The NextEuropa DGT connector feature allows the creation of translation managers
 that make use of the European Commission DGT connector services
 (translations served by DGT).
 
-Table of content:
-=================
-- [Installation](#a-installation)
+## Table of Contents
+- [Installation](#installation)
   - [Webmaster / Site builder](#webmaster--site-builder)
     - [Requesting access](#requesting-access-to-the-dgt-connector)
     - [Configuration of the feature](#activation-of-the-feature)
@@ -27,11 +26,11 @@ Table of content:
   - [DGT reference number](#dgt-reference-number)
   - [Error debugging](#error-debugging)
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Installation
-## Webmaster / Site builder:
-### Requesting access to the DGT-Connector:
+## Webmaster / Site builder
+### Requesting access to the DGT-Connector
 Before you can start using the DGT-Connector on Playground or Production,
 a representative of your DG at the 
 [Europa Forum](http://www.cc.cec/home/europa-info/basics/management/committees/forum_europa/members/index_en.htm) 
@@ -55,9 +54,9 @@ must make a formal request to the **COMM EUROPA MANAGEMENT (CEM)**.
  Thank you,
 ```
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
-###  Activation of the feature:
+###  Activation of the feature
 You cannot enable DGT-Connector feature using feature sets.
 
 - Once approved by **CEM**, CEM will enable the feature on your playground 
@@ -66,7 +65,7 @@ environment.
 - Part of the shared configuration has already been set globally on production 
 and playground environments by the **DevOps** in the settings.common.php file.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## Server configuration (DevOps)
 **DIGIT DevOps** are in charge of the endpoint configuration.
@@ -97,19 +96,22 @@ The file **settings.common.php** must contain:
     );
 ```
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## DGT-Connector configuration (CEM):
-CEM enable the feature 'Nexteuropa DGT connector' through their feature set 
-access Then it proceeds with with the module's configuration.
+CEM enables the feature 'Nexteuropa DGT connector' through their feature set 
+access Then it proceeds with the module's configuration.
 
 In order to do this, CEM navigates to:
 
 > Configuration > Regional and Language > Translation management Translator
 
-and edits 'DGT Connector', or go to:
+which points here:
 
-> admin/config/regional/tmgmt_translator/manage/poetry 
+> admin/config/regional/tmgmt_translator/manage/poetry
+
+and edits 'DGT Connector'.
+ 
 
 ### TRANSLATOR SETTINGS
 - *Auto accept finished translations*: Check this if the site owner wants to
@@ -119,16 +121,15 @@ review a translation before publishing it.
 This is shown for information, please do not change it.
 
 ### DGT CONNECTOR PLUGIN SETTINGS:
-You should see **Main "poetry_service" variable is properly set.** if all
-the steps above were correctly followed. Otherwise, get back and check what
-you forgot!
+You should see 'Main "poetry_service" variable is properly set.' if all
+the steps above were correctly followed. If not, please check the saved settings.
    
 ### GENERAL SETTINGS [See DGT reference explanation]
 - *Counter*: **NEXT_EUROPA_COUNTER**
 - *Requester code*: **WEB** ([more information](#dgt-reference-number))
 - *Callback User / Callback Password*: drupal credential - in lowercase, limited
 to 15 characters and different to poetry credential. It must identify uniquely
-the platform where the translation have to be delivered to. Example:
+the platform where the translations have to be delivered to. Example:
 **projectnameproduction/projectnameproduction**
 - *Poetry Username / Poetry Password*: must have been created beforehand in the
 Poetry DB. Any valid username/password will work. However, this is supposed to
@@ -142,8 +143,8 @@ Organization responsible, Author and requester: consult the values examples
 shown below each form field as an example.
    
 ### CONTACT USERNAMES
-Should be the **user names** (you connect to the network,
-ecas or the proxy with your user name) of the persons in charge of the request.
+Should be the user names of the persons in charge of the request. This is the same user name used to connect to the 
+network, ecas or the proxy.
 This is important as only these persons can view translation details in the
 web app.
   
@@ -158,12 +159,12 @@ DGT-Connector to the corresponding language code supported.
 > Typical example is when the site is configured for using 'Portuguese from 
 Portugal' (code pt-pt) that should be mapped to 'pt'.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Testing
 ## Testing locally (for developers)
-If you are working in collaboration with a contractor and he needs to test 
-locally the DGT-Connector UI and the workflow, this can be done without the 
+If you are working in collaboration with a contractor and he needs to test
+the DGT-Connector UI and the workflow locally, this can be done without the 
 need to access the webservice by using the tmgmt_poetry_mock module.
 
  Contractors : see [the mock readme](tmgmt_poetry_mock/README.md) for more 
@@ -171,15 +172,15 @@ need to access the webservice by using the tmgmt_poetry_mock module.
 
 ## Testing in-house (for webmasters)
 When the DGT-Connector is properly enabled and configured in your 
-playground environment, CEM will ask you to perform few tests monitored by DGT.
+playground environment, CEM will ask you to perform a number of tests monitored by DGT.
 
 Go to next section ([Usage](#usage)) on how to complete your test.
 
-When your test are successful, please inform CEM team.
+If your test are successful, please inform CEM team.
 Once tests are successful on playground CEM will enable the DGT-Connector in 
 your production environment.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Usage
 ## How to request a translation
@@ -208,7 +209,7 @@ want to change that date,
 - The field **remark** is not mandatory, you can add there any comment you want
 to share with DGT.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## How to update a translation request
 - After a translation request has been accepted by DGT,
@@ -222,9 +223,9 @@ review.
 - By default the **DGT connector (auto created)** translator will be selected,
 - You can modify the selection of languages you want to be translated,
 - You can select an **Expected delivery time**: Click the field and select a
-date from the calendar that will pop up. This is an indicative date, DGT
+date from the calendar that will pop up. This is an indicative date for DGT.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 # Interesting information regarding the DGT connector
 ## DGT Web app: Checking the translation was received
@@ -237,7 +238,7 @@ status and references using the
 The requester of a translation is also able to read the actual content
 of the translations via this application.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## Logs
 ### Files backup
@@ -259,17 +260,17 @@ Translations sent and received from the webservices are saved into the watchdog.
 from your instance, request access to Kibana by creating a request in
 [Jira's MULTISITE project](https://webgate.ec.europa.eu/CITnet/jira/secure/RapidBoard.jspa).
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## DGT reference number
-DGT reference has a format of type *WEB/2016/72000/0/1* and is a suite of
+DGT reference has a format of type *WEB/2018/72000/0/1* and is a suite of
 several variables:
 
   - The **requester code** *(ex: WEB)*,
 > Every Website instance using DGT-Connector will have as a requester code
 *WEB*.
 
-  - The **year** a new counter was received *(ex: 2016)*
+  - The **year** a new counter was received *(ex: 2018)*
 
   - The **counter** used when request was sent *(ex: 72000)*
 
@@ -277,16 +278,16 @@ several variables:
 
   - The **partie** in our case this is a unique page id *(ex: 1)*
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
 
 ## Error debugging
 If your connection to DGT service is broken, please check the following 
 debugging steps:
 
-### You are not administrator
+#### If you are not an administrator
 Contact your site administrator.
 
-### You are administrator
+#### You are an administrator
 Go to URL admin/reports/status and check the status of the 'DGT connector
 webservice'
   - **Status is red**
@@ -299,7 +300,7 @@ webservice'
      - If **"The local connector credentials are not set.  Please contact CEM
        support."** is shown, the credentials of the Drupal endpoint have not
        been set. This information should be filled in by a member of CEM team at
-       the time of install.
+       the time of installation.
        
      - If **"The DGT remote credentials are not set.  Please contact CEM
        support."** is shown, the credentials of the DGT endpoint have not been 
@@ -308,8 +309,8 @@ webservice'
 
   - **Status is green**
 
-      All the required fields have been filled. However, if
+      All the required fields have been filled in correctly. However, if
       you still experience issues, contact CEM and ask them to check the values
       that have been configured.
 
-[Go to top](#table-of-content)
+[Go to top](#table-of-contents)
