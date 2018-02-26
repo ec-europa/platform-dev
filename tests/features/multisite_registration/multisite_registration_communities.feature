@@ -1,4 +1,4 @@
-@api @javascript @communities
+@api @javascript @communities @theme_wip
 Feature: Multisite registration og
   In order to add registration option to different content types
   As different types of users
@@ -178,4 +178,3 @@ Feature: Multisite registration og
     Then  I should see "Register"
     When  I click "Register"
     Then  I should see the text "Sorry, registrations are no longer available"
-
