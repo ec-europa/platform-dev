@@ -7,9 +7,10 @@ Table of content:
 - [Installation](#a-installation)
   - [Webmaster / Site builder](#webmaster--site-builder)
     - [Requesting access](#requesting-access-to-the-dgt-connector)
-    - [Configuration of the feature](#activation-of-the-feature)
-  - [Server configuration](#server-configuration-devops)
-  - [Connector configuration](#dgt-connector-configuration-cem)
+    - [Activation of the feature](#activation-of-the-feature)
+    - [Using the feature](#using-the-feature)
+  - [Server configuration (DevOps)](#server-configuration-devops)
+  - [Connector configuration (cem)](#dgt-connector-configuration-cem)
 
 - [Testing](#testing)
   - [Testing locally](#testing)
@@ -68,6 +69,10 @@ and playground environments by the DevOps in the settings.common.php file.
 
 [Go to top](#table-of-content)
 
+###  Using the feature:
+
+The user documentation can be found on the [Nexteuropa DGT connector wiki page](https://webgate.ec.europa.eu/fpfis/wikis/display/MULTISITE/User+Manual+for+Nexteuropa_dgt_connector)
+
 ## Server configuration (DevOps)
 :construction: DIGIT DevOps are in charge of the endpoint configuration.
 
@@ -112,7 +117,7 @@ and edits "DGT Connector", or go to:
     admin/config/regional/tmgmt_translator/manage/poetry 
 
  - Translator settings: [x] Auto accept finished translations
-   - Check this if the site owner wants to review a translation before 
+   - Uncheck this if the site owner wants to review a translation before 
    publishing it.
 
  - Translator plugin:
@@ -133,8 +138,10 @@ and edits "DGT Connector", or go to:
    *Example: NE-ERASMUSPLUS*
    - Callback Password: is the same as the callback_username.
    These fields are limited to 15 characters.
-   - Poetry Username and Poetry Password: Those credential are provided by DGT.
+   - Poetry Username and Poetry Password.
    On playground, you should use 'Poetry' & 'PoetryPWD'.
+   For production those credential are provided by DGT and are common to all
+   sites.
    - Organization responsible, Author & requester: consult the values examples
    shown below each form field as an example.
    - Contact usernames: should be the *user names* (you connect to the network,
