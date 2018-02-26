@@ -234,31 +234,6 @@ class MinkContext extends DrupalExtensionMinkContext {
   }
 
   /**
-   * Find and check a radio button in a table row containing given text.
-   *
-   * @param string $row_text
-   *   Text on the table row.
-   *
-   * @throws \Behat\Mink\Exception\ExpectationException
-   *   Throw exception if class table row was not found.
-   *
-   * @Given I check the radio button in the :row_text row
-   */
-  public function checkRadioButtonOnTableRow($row_text) {
-    $page = $this->getSession()->getPage();
-    if ($radio = $this->getTableRow($page, $row_text)
-      ->find('css', 'input[type=radio]')
-    ) {
-      $value = $radio->getAttribute('value');
-      $radio->selectOption($value);
-      return;
-    }
-    $msg = 'Found a row containing "%s", but not "%s" in the row %s';
-    $msg = sprintf($msg, $row_text, $radio, $this->getSession()->getCurrentUrl());
-    throw new ExpectationException($msg, $this->getSession());
-  }
-
-  /**
    * Find an element matching the criteria defined by a callable.
    *
    * @param callable $matcher
