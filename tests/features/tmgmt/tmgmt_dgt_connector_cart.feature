@@ -49,9 +49,7 @@ Feature: TMGMT Poetry Cart features
     When I am not logged in
     And I am logged in as "admin_cart"
     And I go to "admin/dgt_connector/cart"
-    Then I should see text matching "Languages: FR, PT"
-
-    When I click "edit" in the "Type: node | Title: My page 1" row
+    And I click "Edit" in the "Target languages: FR, PT" row
     And I wait for AJAX to finish
     And I should see text matching "Translation Bundle content."
     And I fill in "Comment Page 1" for "Insert comment"
@@ -60,9 +58,7 @@ Feature: TMGMT Poetry Cart features
     Then I should see the message "Your changes have been successfully submitted."
 
     When I click "Close Window"
-    And I check the radio button in the "Type: node | Title: My page 1" row
-    And I press "Send bundles"
-    And I press "Confirm"
+    And I click "Send" in the "Target languages: FR, PT" row
     # Checkout page
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"

@@ -7,7 +7,7 @@ use views_handler_field;
 /**
  * Custom Views field handler to present a target languages field.
  */
-class CartBundleField extends views_handler_field {
+class CartBundleLanguagesField extends views_handler_field {
 
   /**
    * {@inheritdoc}

@@ -15,8 +15,17 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
   public function entityPropertyInfo() {
     $info = parent::entityPropertyInfo();
     $properties = &$info[$this->type]['properties'];
+    $properties['ciid'] = array(
+      'label' => t('Cart Item ID'),
+      'schema field' => 'ciid',
+      'getter callback' => 'entity_property_getter_method',
+      'setter callback' => 'entity_property_verbatim_set',
+      'required' => TRUE,
+      'description' => t('The ID of the Cart Item.'),
+    );
     $properties['cbid'] = array(
       'label' => t('Cart bundle ID'),
+      'type' => 'cart_bundle',
       'schema field' => 'cbid',
       'getter callback' => 'entity_property_getter_method',
       'setter callback' => 'entity_property_verbatim_set',
@@ -97,20 +106,23 @@ class CartItemMetadataController extends EntityDefaultMetadataController {
     );
     $properties['created'] = array(
       'label' => t('Creation date'),
+      'type' => 'date',
       'schema field' => 'created',
       'getter callback' => 'entity_property_getter_method',
       'setter callback' => 'entity_property_verbatim_set',
       'required' => TRUE,
       'description' => t('Creation date of the item.'),
     );
-    $properties['updated'] = array(
-      'label' => t('training updated'),
-      'schema field' => 'Updated date',
+    $properties['changed'] = array(
+      'label' => t('Changed date'),
+      'type' => 'date',
+      'schema field' => 'changed',
       'getter callback' => 'entity_property_getter_method',
       'setter callback' => 'entity_property_verbatim_set',
       'required' => TRUE,
       'description' => t('Updated date of the item.'),
     );
+
     return $info;
   }
 
