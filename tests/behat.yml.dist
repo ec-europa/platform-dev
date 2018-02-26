@@ -96,7 +96,7 @@ default:
         header_top: ".region-header-top"
         header: "#layout-header"
         primary_tabs: ".tabs-primary"
-        content: "#layout-body"
+        content: ".page-content"
         footer: "#layout-footer"
         messages: "#console"
         sidebar_left: "#sidebar-left"
