@@ -192,8 +192,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
-      // When the sequence is already defined then there was a review step and translation is not direct,
-      // When the sequence is not defined then there was not a review step and translation is direct.
+      // Ensure that if sequence is:
+      // * defined, then there was a review and translation is not direct;
+      // * not defined, then there was not any review and translation is direct.
       if (isset($identifier['identifier.sequence']) !== $direct_translation) {
         // Getting the request data.
         $data = $this->getRequestData($jobs, $node, $parameters['delay']);
@@ -223,8 +224,8 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         }
         watchdog(
           'ne_tmgmt_dgt_ftt_translator',
-          $msg . " Node ID: %nid",
-          array('%nid' => $node->nid),
+          "%msg  Node ID: %nid",
+          array('%msg' => $msg, '%nid' => $node->nid),
           WATCHDOG_ERROR
         );
       }
