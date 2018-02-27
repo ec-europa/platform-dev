@@ -307,11 +307,7 @@ projects[file_entity][version] = "2.4"
 projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
 
 projects[filefield_sources][subdir] = "contrib"
-projects[filefield_sources][version] = "1.10"
-; Update custom version of file_save_upload() to match Drupal 7.56
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1185
-; https://www.drupal.org/node/2888308
-projects[filefield_sources][patch][] = https://www.drupal.org/files/issues/filefield-sources-2888308-2.patch
+projects[filefield_sources][version] = "1.11"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
@@ -1031,7 +1027,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.4
+projects[ec_resp][download][tag] = 2.3.5
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.6

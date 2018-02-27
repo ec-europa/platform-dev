@@ -4,9 +4,7 @@ Feature: Page Layout
   As a citizen of the European Union
   I want to be able to see components in the right regions
 
-  @ec_resp_theme @theme_wip
-  # THEME WIP because it needs to be duplicated for Europa theme and cannot be done
-  # while all implied components are not achieved.
+  @ec_resp_theme
   Scenario Outline: Anonymous user can see the links in header and footer
     Given I am not logged in
     When I am on the homepage
@@ -26,23 +24,31 @@ Feature: Page Layout
       | Contact on Europa        | .region-footer           |
       | Search on Europa         | .region-footer           |
 
-  @theme_wip
-  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1216.
+  @ec_resp_theme
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
     When I am on "<page>"
-    Then I should see "<text>" in the "nept_element:title-metatag" element
+    Then I should see "<text> - European Commission" in the "nept_element:title-metatag" element
 
-  # Test the page head title in different pages
+    # Test the page head title in different pages
     Examples:
-      | page       | text                                        |
-      | /          | Welcome to NextEuropa - European Commission |
-      | user       | User account - European Commission          |
+      | page       | text                           |
+      | /          | Welcome to European Commission |
+      | user       | User account                   |
 
-  @javascript @maximizedwindow
+  @ec_europa_theme @theme_wip
+  Scenario Outline: Anonymous user can see the page title
+    Given I am not logged in
+    When I am on "<page>"
+    Then I should see "<text> | European Commission" in the "nept_element:title-metatag" element
 
-  @theme_wip
-  # Failed with the EUROPA theme because of the bug covered by the ticket NEPT-1218.
+    # Test the page head title in different pages
+    Examples:
+      | page       | text                           |
+      | /          | Welcome to European Commission |
+      | user       | User account                   |
+
+  @javascript @maximizedwindow @ec_resp_theme
   Scenario: Logged user can see the content in the column right and left
     Given I am logged in as a user with the 'administrator' role
     When I visit "admin/structure/types/add"
