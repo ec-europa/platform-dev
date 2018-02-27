@@ -283,11 +283,11 @@ function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
  * Custom function that moves blocks from the nexteuropa_community feature.
  */
 function _nexteuropa_ecl_migrate_move_community_blocks() {
-  if (module_exists('nexteuropa_communities')) {
-    multisite_drupal_toolbox_remove_block_context('communities', 'menu-community-menu');
+  if (module_exists('communities')) {
+    multisite_drupal_toolbox_remove_block_context('communities', 'menu-communities-menu');
     multisite_drupal_toolbox_remove_block_context('communities', 'og-contextual-links');
     multisite_drupal_toolbox_remove_block_context('communities', 'community_members-block_1');
-    multisite_drupal_toolbox_add_block_context('communities', 'menu-community-menu', 'menu', 'menu-community-menu', 'sidebar_first', -10);
+    multisite_drupal_toolbox_add_block_context('communities', 'menu-communities-menu', 'menu', 'menu-communities-menu', 'sidebar_first', -20);
     multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -9);
     multisite_drupal_toolbox_add_block_context('communities', 'community_members-block_1', 'views', 'community_members-block_1', 'sidebar_first', -5);
   }
