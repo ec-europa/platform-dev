@@ -193,9 +193,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
       // Ensure that if sequence is:
-      // * defined, then there was a review and translation is not direct;
-      // * not defined, then there was not any review and translation is direct.
-      if (isset($identifier['identifier.sequence']) !== $direct_translation) {
+      // * defined, then there was not a review and translation is direct;
+      // * undefined, then there was a review and translation not is direct.
+      if (isset($identifier['identifier.sequence']) === (bool) $direct_translation) {
         // Getting the request data.
         $data = $this->getRequestData($jobs, $node, $parameters['delay']);
 
