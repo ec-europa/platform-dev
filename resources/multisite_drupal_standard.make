@@ -166,6 +166,13 @@ projects[date][version] = "2.9"
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
+; Nept-265 Make Date module compatible with php7
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-265
+; Known Issue #2533080: 'clone' is a reserved keyword introduced in PHP version 5.0 and cannot be invoked as a function.
+; https://www.drupal.org/node/2533080
+; However the patch is only for version 2.10, so it needs a patch that applies to oldest version such as 2.9,
+; until the platform upgrade to 2.10 (Still having some issue to be solved, so the upgrade is hold.)
+projects[date][patch][] = patches/date-clone_is_not_function-265.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
@@ -230,11 +237,14 @@ projects[entityreference][patch][] = https://www.drupal.org/files/issues/feature
 ; Fix issues with autocomplete callback and add constant to track control string
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1459
 projects[entityreference][patch][] = patches/entityreference-autocomplete-constant-control.patch
+; https://www.drupal.org/node/2850416
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1750
+projects[entityreference][patch][2850416] = https://www.drupal.org/files/issues/rendered_entity_is_not_language_aware_again-2850416-3.patch
+
 
 projects[entityreference_prepopulate][subdir] = "contrib"
 projects[entityreference_prepopulate][version] = "1.5"
 projects[entityreference_prepopulate][patch][] = patches/entityreference_prepopulate-ajax-prepopulation-1958800-1.5.patch
-projects[entityreference][patch][2850416] = https://www.drupal.org/files/issues/rendered_entity_is_not_language_aware_again-2850416-3.patch
 
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
@@ -297,11 +307,7 @@ projects[file_entity][version] = "2.4"
 projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
 
 projects[filefield_sources][subdir] = "contrib"
-projects[filefield_sources][version] = "1.10"
-; Update custom version of file_save_upload() to match Drupal 7.56
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1185
-; https://www.drupal.org/node/2888308
-projects[filefield_sources][patch][] = https://www.drupal.org/files/issues/filefield-sources-2888308-2.patch
+projects[filefield_sources][version] = "1.11"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
@@ -606,6 +612,10 @@ projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.9"
+; #2851567 rules_init() and cache rebuilding are broken
+; https://www.drupal.org/project/rules/issues/2851567
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1325
+projects[rules][patch][2851567] = https://www.drupal.org/files/issues/rules_init_and_cache-2851567-8.patch
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = 1.3
@@ -762,8 +772,8 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.12"
-projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
+projects[webform][version] = "4.16"
+projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
@@ -1017,7 +1027,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.4
+projects[ec_resp][download][tag] = 2.3.5
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.6
