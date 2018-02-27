@@ -483,11 +483,7 @@ class DgtRulesTools {
     $translator = tmgmt_translator_load($default_translator);
     $controller = $translator->getController();
 
-    if (TRUE == $direct_translation) {
-      return $controller->requestDirectTranslations($jobs, $parameters);
-    }
-
-    return $controller->requestTranslations($jobs, $parameters);
+    return $controller->requestTranslations($jobs, $parameters, $direct_translation);
   }
 
   /**

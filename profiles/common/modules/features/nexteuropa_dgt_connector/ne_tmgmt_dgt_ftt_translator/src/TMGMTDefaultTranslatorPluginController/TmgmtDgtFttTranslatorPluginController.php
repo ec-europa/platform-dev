@@ -178,11 +178,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   Array of TMGMT Job object.
    * @param array $parameters
    *   An array with additional parameters like the organisation data.
+   * @param bool $direct_translation
+   *   TRUE if the translation is direct (it skips initial review).
    *
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestTranslations(array $jobs, array $parameters) {
+  public function requestTranslations(array $jobs, array $parameters, $direct_translation = FALSE) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
@@ -190,7 +192,9 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
-      if (!isset($identifier['identifier.sequence'])) {
+      // When the sequence is already defined then there was a review step and translation is not direct,
+      // When the sequence is not defined then there was not a review step and translation is direct.
+      if (isset($identifier['identifier.sequence']) !== $direct_translation) {
         // Getting the request data.
         $data = $this->getRequestData($jobs, $node, $parameters['delay']);
 
@@ -207,63 +211,19 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         $rules_response = $this->processResponse($dgt_response, $jobs);
       }
       else {
-        watchdog(
-          'ne_tmgmt_dgt_ftt_translator',
-          "There is no entry in the entity mapping table for a given
-          content. Please make sure that the review request was sent before
-          the translation request. Node ID: %nid",
-          array('%nid' => $node->nid),
-          WATCHDOG_ERROR
-        );
-      }
-    }
-
-    $rules_response['tmgmt_job'] = $jobs[0];
-
-    return $rules_response;
-  }
-
-  /**
-   * Sends the direct translation request to the DGT Service.
-   *
-   * @param array $jobs
-   *   Array of TMGMT Job object.
-   * @param array $parameters
-   *   An array with additional parameters like the organisation data.
-   *
-   * @return array|bool
-   *   An array with data for the 'Rules workflow' or FALSE if errors appear.
-   */
-  public function requestDirectTranslations(array $jobs, array $parameters) {
-    $rules_response = array();
-
-    // Checking if there is a node associated with the given job.
-    if ($node = $this->getNodeFromTmgmtJob($jobs[0])) {
-      // Getting the identifier data.
-      $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
-
-      if (isset($identifier['identifier.sequence'])) {
-        // Getting the request data.
-        $data = $this->getRequestData($jobs, $node, $parameters['delay']);
-
-        // Overwrite the data with parameters from 'Rules'.
-        $data = $this->overwriteRequestData($data, $parameters['data']);
-
-        // Sending a review request to DGT Services.
-        $client_action = 'request.create_translation_request';
-        $dgt_response = $this->sendRequest($client_action, $identifier, $data);
-
-        // Process the DGT response to get the Rules response.
-        $jobs[0]->client_action = $client_action;
-        $jobs[0]->client_request_data = $data;
-        $rules_response = $this->processResponse($dgt_response, $jobs);
-      }
-      else {
-        watchdog(
-          'ne_tmgmt_dgt_ftt_translator',
-          "There is an entry in the entity mapping table for a given
+        if ($direct_translation) {
+          $msg = 'There is an entry in the entity mapping table for a given
           content. Please make sure that no requests were sent before
-          sending the direct translation request. Node ID: %nid",
+          sending the direct translation request.';
+        }
+        else {
+          $msg = 'There is no entry in the entity mapping table for given
+          content. Please make sure that the review request was sent before
+          the translation request.';
+        }
+        watchdog(
+          'ne_tmgmt_dgt_ftt_translator',
+          $msg . " Node ID: %nid",
           array('%nid' => $node->nid),
           WATCHDOG_ERROR
         );
