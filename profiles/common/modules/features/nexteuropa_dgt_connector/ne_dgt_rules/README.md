@@ -49,8 +49,8 @@ Allows to send the translation request to the DGT TS.
 This action can be performed in two different modes:
 * Normal translation: If using the normal translation workflow, the action will first
 check whether a review request has been completed for the related item. 
-* Direct translation: If using the direct translation workflow, the action will be send
-regardless of any review status on the related item.
+* Direct translation: If using the direct translation workflow, the action will be sent
+directly, but only if no review was sent previously.
 
 ## 2.3. Custom data types.
 ### 2.3.1. DGT Translation Service response
