@@ -399,13 +399,8 @@ function _tmgmt_dgt_connector_cart_restore_cart_bundles(CartBundle &$cart_bundle
  */
 function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
   unset($form['top_actions']);
-  $entity = $form_state['entity'];
-  $cart = $form_state['tmgmt_cart'];
-  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
-  $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
-  $length = _tmgmt_dgt_connector_count_source_data($source_data);
 
-  if ($length <= TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH) {
+  if (_tmgmt_dgt_connector_smalljob_translation_possible($form_state['entity'], $form_state['tmgmt_cart'])) {
     $form['actions']['cart'] = array(
       '#type' => 'submit',
       '#value' => 'Send to cart',

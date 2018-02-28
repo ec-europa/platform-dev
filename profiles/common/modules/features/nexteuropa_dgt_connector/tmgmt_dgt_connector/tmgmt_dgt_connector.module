@@ -7,7 +7,7 @@
 
 use Drupal\tmgmt_dgt_connector\Notification;
 
-define('TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH', 300);
+define('TMGMT_DGT_CONNECTOR_MAX_LENGTH', 300);
 define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
 
 module_load_include('inc', 'tmgmt_dgt_connector');
@@ -85,19 +85,14 @@ function tmgmt_dgt_connector_nexteuropa_poetry_notification_status_updated($mess
  * nexteuropa_dgt_connector module functionalities.
  */
 function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
-  // Set plugin for #cart .
-  if (isset($form_state['tmgmt_cart'])) {
-    $form_state['tmgmt_cart']['plugin'] = 'workbench_moderation';
+  if (!isset($form_state['tmgmt_cart'])) {
+    return;
   }
 
-  $entity = $form_state['entity'];
-  $cart = $form_state['tmgmt_cart'];
-  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
+  // Set plugin for #cart .
+  $form_state['tmgmt_cart']['plugin'] = 'workbench_moderation';
 
-  $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
-  $length = _tmgmt_dgt_connector_count_source_data($source_data);
-
-  if ($length > TMGMT_DGT_CONNECTOR_MAX_SMALLJOB_LENGTH) {
+  if (!_tmgmt_dgt_connector_smalljob_translation_possible($form_state['entity'], $form_state['tmgmt_cart'])) {
     // Remove add to cart button.
     unset($form['top_actions']);
   }

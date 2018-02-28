@@ -244,3 +244,23 @@ function _tmgmt_dgt_connector_translator_access($op, array $translator, array $a
 
   return tmgmt_translator_access($op, $translator, $account);
 }
+
+/**
+ * Check if 'Send to cart' is possible.
+ *
+ * @param object $entity
+ *   The entity to check.
+ * @param array $cart
+ *   The cart to be generated.
+ *
+ * @return bool
+ *   Returns true if 'Send to cart' is possible, false otherwise.
+ */
+function _tmgmt_dgt_connector_smalljob_translation_possible($entity, array $cart) {
+  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
+
+  $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
+  $length = _tmgmt_dgt_connector_count_source_data($source_data);
+
+  return $length <= variable_get('tmgmt_dgt_connector_max_lenght', TMGMT_DGT_CONNECTOR_MAX_LENGTH);
+}

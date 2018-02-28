@@ -95,7 +95,7 @@ default:
         content_top: ".region-content-top"
         header_top: ".region-header-top"
         header: "#layout-header"
-        primary_tabs: ".tabs-primary"
+        primary_tabs: ".ecl-navigation-list--tabs"
         content: ".page-content"
         footer: "#layout-footer"
         messages: "#console"
