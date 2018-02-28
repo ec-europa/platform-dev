@@ -10,9 +10,7 @@ Feature: Drupal Mail features
       | name  | mail         | roles        |
       | foo   | foo@bar.com  | contributor  |
 
-  @theme_wip
-  # It is in wip for the europa theme because it implies a step referring a
-  # region. This must be evaluate deeper before being able to know how to deal with.
+  @ec_resp_theme
   Scenario: Checking the basic mail functionality for requesting new password by using the username as identifier.
     When I go to "/user"
     And I click "Request new password" in the "primary_tabs" region
@@ -21,6 +19,6 @@ Feature: Drupal Mail features
     Then I should see the success message "Further instructions have been sent to your e-mail address."
     And the e-mail has been sent
     And the sent e-mail has the following properties:
-      | from        | admin@example.com                                   |
-      | to          | foo@bar.com                                         |
-      | subject     | Replacement login information for foo at NextEuropa |
+      | from        | admin@example.com                                            |
+      | to          | foo@bar.com                                                  |
+      | subject     | Replacement login information for foo at European Commission |
