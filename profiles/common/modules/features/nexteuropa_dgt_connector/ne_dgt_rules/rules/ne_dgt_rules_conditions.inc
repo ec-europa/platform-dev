@@ -76,6 +76,28 @@ function ne_dgt_rules_rules_condition_info() {
     ),
   );
 
+  $items['received_translation_belongs_to_langs_subset'] = array(
+    'group' => t("Next Europa DGT Rules"),
+    'label' => t("Received translation belongs to a subset of languages"),
+    'base' => 'ne_dgt_rules_received_translation_belongs_to_langs_subset',
+    'parameter' => array(
+      'langs_subset' => array(
+        'type' => 'list<text>',
+        'label' => t('Target Languages'),
+        'description' => t("Select the languages for which action will apply."),
+        'options list' => 'ne_dgt_rules_enabled_languages',
+        'optional' => FALSE,
+        'default mode' => 'selector',
+        'save' => TRUE,
+      ),
+      'identifier' => array(
+        'type' => 'struct',
+        'label' => t("Translation request identifier"),
+        'restriction' => 'selector',
+      ),
+    ),
+  );
+
   return $items;
 }
 
@@ -147,4 +169,26 @@ function ne_dgt_rules_all_translations_are_received(\EC\Poetry\Messages\Componen
     }
   }
   return TRUE;
+}
+
+/**
+ * Condition: A received translation belongs to a given subset of languages.
+ *
+ * @param array|null $target_languages
+ *   Target languages.
+ * @param \EC\Poetry\Messages\Components\Identifier $identifier
+ *   The translation request identifier.
+ *
+ * @return true|false
+ *   Returns true or false depending if all translations were received.
+ */
+function ne_dgt_rules_received_translation_belongs_to_langs_subset($target_languages, \EC\Poetry\Messages\Components\Identifier $identifier) {
+  $ftt_jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
+  /** @var TMGMTJob $ftt_job */
+  foreach ($ftt_jobs as $ftt_job) {
+    if (in_array($ftt_job->target_language, $target_languages)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
