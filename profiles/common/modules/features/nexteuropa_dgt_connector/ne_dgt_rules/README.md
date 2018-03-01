@@ -44,6 +44,13 @@ Action provides variable 'dgt_service_response' which includes
 information received from the DGT TS.
 >**Please, remember to include and set out required conditions 
 before triggering this action.**
+### 2.2.2. Send the translation request
+Allows to send the translation request to the DGT TS.
+This action can be performed in two different modes:
+* Normal translation: If using the normal translation workflow, the action will first
+check whether a review request has been completed for the related item. 
+* Direct translation: If using the direct translation workflow, the action will be sent
+directly, but only if no review was sent previously.
 
 ## 2.3. Custom data types.
 ### 2.3.1. DGT Translation Service response
