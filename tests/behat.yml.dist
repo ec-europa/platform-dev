@@ -23,6 +23,7 @@ default:
             key: '{{ flickr.key }}'
             secret: '{{ flickr.secret }}'
         - Drupal\nexteuropa\Context\MediaContext
+        - Drupal\nexteuropa\Context\SliderContext
         - Drupal\nexteuropa\Context\TaxonomyContext
         - Drupal\nexteuropa\Context\ViewsContext
         - Drupal\nexteuropa\Context\MultilingualContext
