@@ -35,6 +35,8 @@ class SliderContext implements Context {
   }
 
   /**
+   * Clone view.
+   *
    * @Then I clone view :arg1 as :arg2
    */
   public function iCloneViewAs($arg1, $arg2) {
@@ -50,6 +52,8 @@ class SliderContext implements Context {
   }
 
   /**
+   * Add view to context.
+   *
    * @Then I add :arg1 view to :arg2 context section :arg3
    */
   public function iAddViewToContextSection($arg1, $arg2, $arg3) {
