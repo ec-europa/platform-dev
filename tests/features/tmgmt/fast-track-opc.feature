@@ -50,7 +50,7 @@ Feature: Fast track
       number: 40012
       version: 0
       part: 0
-      product: REV
+      product: TRA
     status:
       -
         type: request
@@ -114,12 +114,3 @@ Feature: Fast track
       | <workflowCode>OPC</workflowCode>                              |
       | <delai>01/12/2017</delai>                                     |
       | <attributionsDelai>01/12/2017</attributionsDelai>             |
-    And the following entity mapping entry has been created:
-      | entity_id     | 2                                  |
-      | entity_type   | node                               |
-      | client_action | request.create_translation_request |
-      | code          | WEB                                |
-      | year          | 2017                               |
-      | number        | 40012                              |
-      | part          | 0                                  |
-      | version       | 0                                  |
