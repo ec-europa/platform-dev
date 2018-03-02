@@ -138,9 +138,10 @@ function ne_dgt_rules_rules_action_info() {
       ),
       'dgt_ftt_workflow_code' => array(
         'type' => 'text',
-        'label' => t('DGT FTT - workflow code'),
-        'description' => t('Eg.: STS'),
-        'optional' => TRUE,
+        'label' => t('Workflow code'),
+        'description' => t("Select a translation workflow code to apply."),
+        'options list' => 'ne_dgt_rules_get_workflow_codes',
+        'restriction' => 'input',
       ),
     ),
     'provides' => array(
@@ -308,7 +309,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($direct_translation, $no
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)) {
         foreach ($target_languages as $target_language => $language) {
           if ($target_language != $node->language) {
-            $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $target_language);
+            $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $parameters, $target_language);
             if ($job) {
               $jobs[] = $job;
             }

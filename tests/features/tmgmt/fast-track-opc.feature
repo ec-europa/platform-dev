@@ -87,7 +87,8 @@ Feature: Fast track
                 "direct_translation" : "1",
                 "node" : [ "node" ],
                 "delay" : "2017-12-01 15:00:00",
-                "target_languages" : { "value" : [] }
+                "target_languages" : { "value" : [] },
+                "dgt_ftt_workflow_code" : "OPC"
               },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
@@ -111,8 +112,9 @@ Feature: Fast track
         "REQUIRES" : [ "ne_dgt_rules", "rules", "ne_tmgmt_dgt_ftt_translator" ],
         "ON" : { "ftt_translation_received" : [] },
         "IF" : [
-          { "received_translation_belongs_to_langs_subset" : {
-              "langs_subset" : { "value" : { "fr" : "fr", "es" : "es" } },
+          { "received_translation_belongs_to_specified_workflow" : {
+              "dgt_ftt_workflow_code" : "OPC",
+              "job" : [ "job" ],
               "identifier" : [ "identifier" ]
             }
           }
