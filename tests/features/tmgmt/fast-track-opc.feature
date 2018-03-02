@@ -42,6 +42,11 @@ Feature: Fast track
         email_to: john.smith@example.com
         email_cc: john.smith@example.com
     """
+    And Poetry service uses the following settings:
+    """
+      username: poetry
+      password: pass
+    """
     And Poetry will return the following "response.status" message response:
     """
     identifier:
@@ -96,6 +101,32 @@ Feature: Fast track
       }
     }
     """
+    And I have the following rule:
+    """
+    {
+      "rules_dgt_ftt_translation_received" : {
+        "LABEL" : "DGT FTT Translation received",
+        "PLUGIN" : "reaction rule",
+        "OWNER" : "rules",
+        "REQUIRES" : [ "ne_dgt_rules", "rules", "ne_tmgmt_dgt_ftt_translator" ],
+        "ON" : { "ftt_translation_received" : [] },
+        "IF" : [
+          { "received_translation_belongs_to_langs_subset" : {
+              "langs_subset" : { "value" : { "fr" : "fr", "es" : "es" } },
+              "identifier" : [ "identifier" ]
+            }
+          }
+        ],
+        "DO" : [
+          { "variable_add" : {
+              "USING" : { "type" : "text", "value" : "123" },
+              "PROVIDE" : { "variable_added" : { "variable_added" : "Added variable" } }
+            }
+          }
+        ]
+      }
+    }
+    """
     And "page" content:
       | language | title     |
       | en       | Test page |
@@ -114,3 +145,21 @@ Feature: Fast track
       | <workflowCode>OPC</workflowCode>                              |
       | <delai>01/12/2017</delai>                                     |
       | <attributionsDelai>01/12/2017</attributionsDelai>             |
+    When Poetry notifies the client with the following XML:
+    """
+    <POETRY xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="">
+      <request communication="synchrone" id="3558615" type="translation">
+        <demandeId>
+           <codeDemandeur>WEB</codeDemandeur>
+           <annee>2017</annee>
+           <numero>40012</numero>
+           <version>0</version>
+           <partie>0</partie>
+           <produit>TRA</produit>
+        </demandeId>
+        <attributions format="HTML" lgCode="FR">
+           <attributionsFile>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBYSFRNTCAxLjAgU3RyaWN0Ly9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL3hodG1sMS9EVEQveGh0bWwxLXN0cmljdC5kdGQiPgo8aHRtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+CiAgPGhlYWQ+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD1VVEYtOCIgLz4KICAgIDxtZXRhIG5hbWU9IkpvYklEIiBjb250ZW50PSIxIiAvPgogICAgPG1ldGEgbmFtZT0ibGFuZ3VhZ2VTb3VyY2UiIGNvbnRlbnQ9ImVuIiAvPgogICAgPG1ldGEgbmFtZT0ibGFuZ3VhZ2VUYXJnZXQiIGNvbnRlbnQ9ImZyIiAvPgogICAgPHRpdGxlPkpvYiBJRCAxPC90aXRsZT4KICA8L2hlYWQ+CiAgPGJvZHk+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJhc3NldCIgaWQ9Iml0ZW0tMSI+CiAgICAgICAgICAgICAgICAgICAgICAgICAgPCEtLQogICAgICAgICAgbGFiZWw9IlRpdGxlIgogICAgICAgICAgY29udGV4dD0iWzFdW3RpdGxlX2ZpZWxkXVswXVt2YWx1ZV0iCiAgICAgICAgLS0+CiAgICAgICAgPGRpdiBjbGFzcz0iYXRvbSIgaWQ9ImJNVjFiZEdsMGJHVmZabWxsYkdSZFd6QmRXM1poYkhWbCI+VGVzdCBwYWdlIEZSPC9kaXY+CiAgICAgICAgICAgICAgPC9kaXY+CiAgICAgIDwvYm9keT4KPC9odG1sPgo=</attributionsFile>
+        </attributions>
+     </request>
+   </POETRY>
+    """
