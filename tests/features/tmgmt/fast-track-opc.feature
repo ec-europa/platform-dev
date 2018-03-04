@@ -66,7 +66,8 @@ Feature: Fast track
     """
     And I have the following rule:
     """
-    { "rules_ne_dgt_opc_send_translation_request" : {
+    {
+      "rules_ne_dgt_opc_send_translation_request" : {
         "LABEL" : "NE DGT OPC | Send translation request",
         "PLUGIN" : "reaction rule",
         "OWNER" : "rules",
@@ -109,20 +110,20 @@ Feature: Fast track
         "LABEL" : "DGT FTT Translation received",
         "PLUGIN" : "reaction rule",
         "OWNER" : "rules",
-        "REQUIRES" : [ "ne_dgt_rules", "rules", "ne_tmgmt_dgt_ftt_translator" ],
+        "REQUIRES" : [ "ne_dgt_rules", "ne_tmgmt_dgt_ftt_translator" ],
         "ON" : { "ftt_translation_received" : [] },
         "IF" : [
-          { "received_translation_belongs_to_specified_workflow" : {
-              "dgt_ftt_workflow_code" : "OPC",
-              "job" : [ "job" ],
-              "identifier" : [ "identifier" ]
+          { "received_translation_belongs_to_specified_workflow" : { "dgt_ftt_workflow_code" : "OPC", "job" : [ "job" ] } },
+          { "received_translation_belongs_to_langs_subset" : {
+              "langs_subset" : { "value" : { "fr" : "fr", "es" : "es" } },
+              "job" : [ "job" ]
             }
           }
         ],
         "DO" : [
-          { "variable_add" : {
-              "USING" : { "type" : "text", "value" : "123" },
-              "PROVIDE" : { "variable_added" : { "variable_added" : "Added variable" } }
+          { "accept_all_translations" : {
+              "USING" : { "identifier" : [ "identifier" ] },
+              "PROVIDE" : { "entity_id" : { "entity_id" : "Translated content ID." } }
             }
           }
         ]
@@ -165,3 +166,5 @@ Feature: Fast track
      </request>
    </POETRY>
     """
+    And I go to "admin/tmgmt"
+    Then I should see "Finished" in the "Spanish" row

@@ -325,7 +325,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($direct_translation, $no
 }
 
 /**
- * Condition: All translations are received for a content.
+ * Action: Accept all content translations.
  *
  * @param \EC\Poetry\Messages\Components\Identifier $identifier
  *   The translation request identifier.

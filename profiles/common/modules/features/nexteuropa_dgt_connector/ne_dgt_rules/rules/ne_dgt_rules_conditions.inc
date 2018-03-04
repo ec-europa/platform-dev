@@ -83,7 +83,7 @@ function ne_dgt_rules_rules_condition_info() {
     'base' => 'ne_dgt_rules_received_translation_belongs_to_langs_subset',
     'parameter' => array(
       'langs_subset' => array(
-        'type' => 'text',
+        'type' => 'list<text>',
         'label' => t('Target Languages'),
         'description' => t("Select the languages for which action will apply."),
         'options list' => 'ne_dgt_rules_enabled_languages',
@@ -92,10 +92,10 @@ function ne_dgt_rules_rules_condition_info() {
         'save' => TRUE,
         'restriction' => 'input',
       ),
-      'identifier' => array(
-        'type' => 'struct',
-        'label' => t("Translation request identifier"),
-        'restriction' => 'selector',
+      'job' => array(
+        'type' => 'tmgmt_job',
+        'label' => t('Translation Job'),
+        'description' => t('The translation job for which translations should be accepted.'),
       ),
     ),
   );
@@ -198,19 +198,15 @@ function ne_dgt_rules_all_translations_are_received(Identifier $identifier) {
  *
  * @param array|null $target_languages
  *   Target languages.
- * @param Identifier $identifier
- *   The translation request identifier.
+ * @param \TMGMTJob $job
+ *   The TMGMTJob object.
  *
  * @return true|false
  *   Returns true or false depending if all translations were received.
  */
-function ne_dgt_rules_received_translation_belongs_to_langs_subset($target_languages, Identifier $identifier) {
-  $ftt_jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
-  /** @var TMGMTJob $ftt_job */
-  foreach ($ftt_jobs as $ftt_job) {
-    if (in_array($ftt_job->target_language, $target_languages)) {
-      return TRUE;
-    }
+function ne_dgt_rules_received_translation_belongs_to_langs_subset($target_languages, TMGMTJob $job) {
+  if (is_array($target_languages) && in_array($job->target_language, $target_languages)) {
+    return TRUE;
   }
   return FALSE;
 }
