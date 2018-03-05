@@ -36,17 +36,17 @@ Feature: Page Layout
       | /          | Welcome to European Commission |
       | user       | User account                   |
 
-  @ec_europa_theme @theme_wip
+  @ec_europa_theme
   Scenario Outline: Anonymous user can see the page title
     Given I am not logged in
     When I am on "<page>"
-    Then I should see "<text> | European Commission" in the "nept_element:title-metatag" element
+    Then I should see "<text> | European Commission" in the "html head title" element
 
     # Test the page head title in different pages
     Examples:
       | page       | text                           |
       | /          | Welcome to European Commission |
-      | user       | User account                   |
+      | user       | Log in                         |
 
   @javascript @maximizedwindow @ec_resp_theme
   Scenario: Logged user can see the content in the column right and left
@@ -92,3 +92,27 @@ Feature: Page Layout
     When I am not logged in
     And I visit "content/example-compare-two-divs"
     Then I check if "field-name-field-field-1" and "field-name-field-field-2" have the same position from top
+
+  @ec_europa_theme
+  Scenario: User can see the content title in header
+    Given I am not logged in
+    When I am viewing a "page" content:
+      | title                          | Page title                           |
+      | workbench_moderation_state     | published                            |
+      | workbench_moderation_state_new | published                            |
+    And I should see "Page title" in the "h1.ecl-heading.ecl-heading--h1" element
+
+  @ec_europa_theme
+  Scenario: User can select see the basic header
+    Given I am logged in as a user with the 'administrator' role
+    When I go to "admin/appearance/settings/ec_europa"
+    And I check the box "Use basic header?"
+    And I press "Save configuration"
+    Then I should see the success message "The configuration options have been saved."
+
+    When I am not logged in
+    And I am viewing a "page" content:
+      | title                          | Page title                           |
+      | workbench_moderation_state     | published                            |
+      | workbench_moderation_state_new | published                            |
+    Then I should not see "Page title" in the ".ecl-page-header" element
