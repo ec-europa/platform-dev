@@ -1032,9 +1032,9 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.5
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.6
+projects[atomium][version] = 2.7
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.8
+projects[ec_europa][download][tag] = 0.0.10
