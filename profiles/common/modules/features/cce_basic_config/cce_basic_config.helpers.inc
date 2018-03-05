@@ -104,10 +104,26 @@ function _cce_basic_config_field_validate($element, &$form_state, $form) {
       $info = field_info_instance($entity->entity_type, $element['#field_name'], $element['#bundle']);
       $title = check_plain($info['label']);
     }
-
-    $message = t('!title field contains not allowed emojis like !emoji. Please remove them.', array('!title' => $title, '!emoji' => $emoji[0]));
+    $message = _cce_basic_config_emoji_error($title, $emoji[0]);
     form_error($element, $message);
   }
+}
+
+/**
+ * Returns an error message regarding the use of emojis.
+ *
+ * @param string $title
+ *   Title of field.
+ * @param img $emoji
+ *   Emoji character.
+ *
+ * @return string
+ *   The error message.
+ */
+function _cce_basic_config_emoji_error($title, $emoji) {
+  $message = t('The !title field contains at least one prohibited emoji. Please check your content before saving.',
+      array('!title' => $title, '!emoji' => $emoji));
+  return $message;
 }
 
 /**
@@ -148,7 +164,7 @@ function _cce_basic_config_subject_validate($form, &$form_state) {
     $title = isset($form_state['complete form']['subject']['#title']) ? $form_state['complete form']['subject']['#title'] : 'Title field';
     $emoji = _cce_basic_config_check_emoji($form_state['values']['subject']);
     if (!empty($emoji)) {
-      $message = t('!title field contains not allowed emojis like !emoji. Please remove them.', array('!title' => $title, '!emoji' => $emoji[0]));
+      $message = _cce_basic_config_emoji_error($title, $emoji[0]);
       form_set_error('title', $message);
     }
   }
@@ -173,7 +189,7 @@ function _cce_basic_config_title_validate($form, &$form_state) {
     $title = 'Title';
     $emoji = _cce_basic_config_check_emoji($form_state['values']['title']);
     if (!empty($emoji)) {
-      $message = t('!title field contains not allowed emojis like !emoji. Please remove them.', array('!title' => $title, '!emoji' => $emoji[0]));
+      $message = _cce_basic_config_emoji_error($title, $emoji[0]);
       form_set_error('title', $message);
     }
   }
