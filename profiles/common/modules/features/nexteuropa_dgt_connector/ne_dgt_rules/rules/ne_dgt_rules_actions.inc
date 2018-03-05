@@ -238,7 +238,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $delay, $code = '', $o
     if (isset($node->language) && 'en' === $node->language) {
       // Checking if review request conditions are met.
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)
-        && $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node)) {
+        && $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $parameters)) {
         // Sending the review request to DGT Services.
         $return = DgtRulesTools::sendReviewRequest($job, $parameters);
       }

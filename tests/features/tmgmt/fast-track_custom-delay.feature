@@ -125,7 +125,8 @@ Feature: Fast track
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
                 "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
                 "dgt_service_response_status" : { "dgt_service_response_status" : "DGT Service Response - Response status" },
-                "dgt_service_demand_status" : { "dgt_service_demand_status" : "DGT Service Response - Demand status" }
+                "dgt_service_demand_status" : { "dgt_service_demand_status" : "DGT Service Response - Demand status" },
+                "dgt_ftt_workflow_code" : "STS"
               }
             }
           }
