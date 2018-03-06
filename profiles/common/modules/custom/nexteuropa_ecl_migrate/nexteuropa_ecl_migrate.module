@@ -283,13 +283,15 @@ function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
  * Custom function that moves blocks from the nexteuropa_community feature.
  */
 function _nexteuropa_ecl_migrate_move_community_blocks() {
-  if (module_exists('nexteuropa_communities')) {
+  if (module_exists('communities')) {
     multisite_drupal_toolbox_remove_block_context('communities', 'menu-community-menu');
     multisite_drupal_toolbox_remove_block_context('communities', 'og-contextual-links');
     multisite_drupal_toolbox_remove_block_context('communities', 'community_members-block_1');
+    multisite_drupal_toolbox_remove_block_context('communities', 'community_content-block_content');
     multisite_drupal_toolbox_add_block_context('communities', 'menu-community-menu', 'menu', 'menu-community-menu', 'sidebar_first', -10);
-    multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -9);
+    multisite_drupal_toolbox_add_block_context('communities', 'og-contextual-links', 'multisite_og_button', 'og-contextual-links', 'sidebar_first', -10);
     multisite_drupal_toolbox_add_block_context('communities', 'community_members-block_1', 'views', 'community_members-block_1', 'sidebar_first', -5);
+    multisite_drupal_toolbox_add_block_context('communities', 'community_content-block_content', 'views', 'community_content-block_content', 'sidebar_first', -9);
   }
 }
 
@@ -312,6 +314,7 @@ function _nexteuropa_ecl_migrate_move_taxonomy_browser() {
   $tags_vocab = taxonomy_vocabulary_machine_name_load('tags');
   multisite_drupal_toolbox_remove_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid);
   multisite_drupal_toolbox_add_block_context('workbench_moderate_all', 'taxonomy_browser-taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'taxonomy_browser', 'taxonomy_browser_vocabulary_' . $tags_vocab->vid, 'sidebar_first', '-10');
+  multisite_drupal_toolbox_add_block_context('workbench_moderate_all', '59508d0f437626106c5ca550ee37ee6e', 'views', '59508d0f437626106c5ca550ee37ee6e', 'sidebar_first', '-9');
 }
 
 /**
@@ -323,10 +326,12 @@ function _nexteuropa_ecl_migrate_move_facet_blocks() {
     multisite_drupal_toolbox_remove_block_context('site_wide', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu');
     multisite_drupal_toolbox_remove_block_context('site_wide', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j');
     multisite_drupal_toolbox_remove_block_context('site_wide', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT');
-    multisite_drupal_toolbox_add_block_context('search', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'sidebar_first', '-17');
-    multisite_drupal_toolbox_add_block_context('search', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'sidebar_first', '-16');
-    multisite_drupal_toolbox_add_block_context('search', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'sidebar_first', '-15');
-    multisite_drupal_toolbox_add_block_context('search', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'sidebar_first', '-14');
+    // NEPT-1348: Show the current search block on search page.
+    multisite_drupal_toolbox_add_block_context('search', 'current_search-standard', 'current_search', 'standard', 'sidebar_first', -18);
+    multisite_drupal_toolbox_add_block_context('search', 'facetapi-odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'facetapi', 'odQxTWyhGW1WU7Sl00ISAnQ21BCdJG3A', 'sidebar_first', '-17');
+    multisite_drupal_toolbox_add_block_context('search', 'facetapi-GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'facetapi', 'GiIy4zr9Gu0ZSa0bumw1Y9qIIpIDf1wu', 'sidebar_first', '-16');
+    multisite_drupal_toolbox_add_block_context('search', 'facetapi-wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'facetapi', 'wWWinJ0eOefOtAMbjo2yl86Mnf1rO12j', 'sidebar_first', '-15');
+    multisite_drupal_toolbox_add_block_context('search', 'facetapi-8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'facetapi', '8o8kdtP8CKjahDIu1Wy5LGxnDHg3ZYnT', 'sidebar_first', '-14');
   }
 }
 /**
