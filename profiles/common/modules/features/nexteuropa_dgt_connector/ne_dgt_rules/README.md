@@ -37,6 +37,9 @@ also provide the source for those states.
 Checks if all of requested translations have been received successfully
 from the DGT Translation Service. The rule allows to exclude a set of 
 languages which won't be checked.
+### 2.1.4. A received translation belongs to a given translation workflow.
+Checks if received translation belongs to a given type of the translation
+workflow.
 
 ## 2.2. Custom actions
 ### 2.2.1. Send the review request
