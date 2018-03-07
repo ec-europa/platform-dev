@@ -74,28 +74,15 @@ function ne_dgt_rules_rules_condition_info() {
         'label' => t("Translation request identifier"),
         'restriction' => 'selector',
       ),
-    ),
-  );
-
-  $items['received_translation_belongs_to_langs_subset'] = array(
-    'group' => t("Next Europa DGT Rules"),
-    'label' => t("Received translation belongs to a subset of languages"),
-    'base' => 'ne_dgt_rules_received_translation_belongs_to_langs_subset',
-    'parameter' => array(
-      'langs_subset' => array(
+      'excluded_langs' => array(
         'type' => 'list<text>',
-        'label' => t('Target Languages'),
-        'description' => t("Select the languages for which action will apply."),
+        'label' => t('Excluded Languages'),
+        'description' => t("Select languages that are excluded from the set to be checked."),
         'options list' => 'ne_dgt_rules_enabled_languages',
-        'optional' => FALSE,
+        'optional' => TRUE,
         'default mode' => 'selector',
         'save' => TRUE,
         'restriction' => 'input',
-      ),
-      'job' => array(
-        'type' => 'tmgmt_job',
-        'label' => t('Translation Job'),
-        'description' => t('The translation job for which translations should be accepted.'),
       ),
     ),
   );
@@ -179,36 +166,21 @@ function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous
  *
  * @param Identifier $identifier
  *   The translation request identifier.
+ * @param array $excluded_languages
+ *   Exclude given languages from the set to be checked.
  *
  * @return true|false
  *   Returns true or false depending if all translations were received.
  */
-function ne_dgt_rules_all_translations_are_received(Identifier $identifier) {
-  $ftt_jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
-  foreach ($ftt_jobs as $ftt_job) {
-    if ($ftt_job->getCountPending()) {
+function ne_dgt_rules_all_translations_are_received(Identifier $identifier, array $excluded_languages) {
+  $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
+  /** @var TMGMTJob $job */
+  foreach ($jobs as $job) {
+    if (!in_array($job->target_language, $excluded_languages) && $job->getCountPending()) {
       return FALSE;
     }
   }
   return TRUE;
-}
-
-/**
- * Condition: A received translation belongs to a given subset of languages.
- *
- * @param array|null $target_languages
- *   Target languages.
- * @param \TMGMTJob $job
- *   The TMGMTJob object.
- *
- * @return true|false
- *   Returns true or false depending if all translations were received.
- */
-function ne_dgt_rules_received_translation_belongs_to_langs_subset($target_languages, TMGMTJob $job) {
-  if (is_array($target_languages) && in_array($job->target_language, $target_languages)) {
-    return TRUE;
-  }
-  return FALSE;
 }
 
 /**

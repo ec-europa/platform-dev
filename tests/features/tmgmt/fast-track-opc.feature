@@ -114,9 +114,9 @@ Feature: Fast track
         "ON" : { "ftt_translation_received" : [] },
         "IF" : [
           { "received_translation_belongs_to_specified_workflow" : { "dgt_ftt_workflow_code" : "OPC", "job" : [ "job" ] } },
-          { "received_translation_belongs_to_langs_subset" : {
-              "langs_subset" : { "value" : { "fr" : "fr", "es" : "es" } },
-              "job" : [ "job" ]
+          { "all_translations_are_received" : {
+              "identifier" : [ "identifier" ],
+              "excluded_langs" : { "value" : { "es" : "es" } }
             }
           }
         ],

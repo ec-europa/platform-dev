@@ -35,13 +35,8 @@ by providing expected values for the previous and new state. You have to
 also provide the source for those states.
 ### 2.1.3. All translations are received for a content.
 Checks if all of requested translations have been received successfully
-from the DGT Translation Service.
-### 2.1.4. A received translation belongs to a given subset of languages.
-Checks if all preselected translations have been received successfully
-from the DGT Translation Service.
-### 2.1.5. A received translation belongs to a given translation workflow.
-Checks if received translation belongs to a given type of the translation
-workflow.
+from the DGT Translation Service. The rule allows to exclude a set of 
+languages which won't be checked.
 
 ## 2.2. Custom actions
 ### 2.2.1. Send the review request
