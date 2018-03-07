@@ -642,6 +642,8 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
 ; https://www.drupal.org/node/2673290
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch
+; https://www.drupal.org/node/2351763
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics.module_0.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
