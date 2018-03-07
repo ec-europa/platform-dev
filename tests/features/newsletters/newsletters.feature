@@ -31,8 +31,7 @@ Feature: newsletter feature
     Then  I should see the text "Create Simplenews newsletter"
     When  I fill in "title" with "Newsletter behat"
     And   I fill in the rich text editor "Body" with "body for Newsletter behat"
-    Then  print last response
-    And   I select the radio button "NextEuropa newsletter"
+    And   I select the radio button "Newsletter behat category"
     And   I press "Save"
     Then  I should see the text "Simplenews newsletter Newsletter behat has been created"
 
@@ -43,7 +42,7 @@ Feature: newsletter feature
     Then  I should see the link "Newsletters"
     And   I click "Newsletters"
     Then  I should see the heading "Newsletters"
-    When  I check the box "NextEuropa newsletter"
+    When  I check the box "Newsletter behat category"
     And   I press "Update"
     Then  I should see the text "The newsletter subscriptions for admin@test.com have been updated"
 
@@ -51,7 +50,7 @@ Feature: newsletter feature
     Given I am not logged in
     When  I click "Newsletters"
     Then  I should see the heading "Newsletters"
-    When  I check the box "NextEuropa newsletter"
+    When  I check the box "Newsletter behat category"
     And   I fill in "E-mail" with "test@test.com"
     And   I press "Subscribe"
     Then  I should see the text "You will receive a confirmation e-mail shortly containing further instructions on how to complete your subscription"
