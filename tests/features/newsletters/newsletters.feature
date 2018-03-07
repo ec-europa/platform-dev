@@ -31,6 +31,7 @@ Feature: newsletter feature
     Then  I should see the text "Create Simplenews newsletter"
     When  I fill in "title" with "Newsletter behat"
     And   I fill in the rich text editor "Body" with "body for Newsletter behat"
+    Then  print last response
     And   I select the radio button "NextEuropa newsletter"
     And   I press "Save"
     Then  I should see the text "Simplenews newsletter Newsletter behat has been created"
