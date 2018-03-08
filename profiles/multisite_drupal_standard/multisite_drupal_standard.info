@@ -15,7 +15,6 @@ dependencies[] = number
 dependencies[] = options
 dependencies[] = path
 dependencies[] = taxonomy
-dependencies[] = dblog
 dependencies[] = search
 dependencies[] = field_ui
 dependencies[] = file

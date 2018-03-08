@@ -223,7 +223,7 @@ Feature: Fast track
                 "org_responsible" : "DIGIT_REVIEW",
                 "org_dg_author" : "IE/CE/DIGIT/REVIEW",
                 "org_requester" : "IE/CE/DIGIT/A/3/REVIEW",
-                "dgt_ftt_workflow_code" : "STS_REVIEW"
+                "dgt_ftt_workflow_code" : "STS"
               },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
@@ -266,7 +266,7 @@ Feature: Fast track
                 "org_responsible" : "DIGIT_TRANSLATION",
                 "org_dg_author" : "IE/CE/DIGIT/TRANSLATION",
                 "org_requester" : "IE/CE/DIGIT/A/3/TRANSLATION",
-                "dgt_ftt_workflow_code" : "STS_TRANSLATION"
+                "dgt_ftt_workflow_code" : "STS"
               },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
@@ -293,11 +293,11 @@ Feature: Fast track
     And I press "Apply"
     Then I should see "Revision state: Needs Review"
     And Poetry service received request should contain the following text:
-      | <codeDemandeur>CUSTOM</codeDemandeur>                        |
+      | <codeDemandeur>CUSTOM</codeDemandeur>                           |
       | <organisationResponsable>DIGIT_REVIEW</organisationResponsable> |
       | <organisationAuteur>IE/CE/DIGIT/REVIEW</organisationAuteur>     |
       | <serviceDemandeur>IE/CE/DIGIT/A/3/REVIEW</serviceDemandeur>     |
-      | <workflowCode>STS_REVIEW</workflowCode>                         |
+      | <workflowCode>STS</workflowCode>                                |
       | <delai>01/12/2017</delai>                                       |
       | <attributionsDelai>01/12/2017</attributionsDelai>               |
     When I select "Validated" from "state"
@@ -308,6 +308,6 @@ Feature: Fast track
       | <organisationResponsable>DIGIT_TRANSLATION</organisationResponsable> |
       | <organisationAuteur>IE/CE/DIGIT/TRANSLATION</organisationAuteur>     |
       | <serviceDemandeur>IE/CE/DIGIT/A/3/TRANSLATION</serviceDemandeur>     |
-      | <workflowCode>STS_TRANSLATION</workflowCode>                         |
+      | <workflowCode>STS</workflowCode>                                     |
       | <delai>01/12/2017</delai>                                            |
       | <attributionsDelai>01/12/2017</attributionsDelai>                    |
