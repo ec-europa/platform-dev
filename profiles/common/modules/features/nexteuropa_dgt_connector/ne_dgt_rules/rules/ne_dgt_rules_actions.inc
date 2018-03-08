@@ -87,6 +87,15 @@ function ne_dgt_rules_rules_action_info() {
     'label' => t('FTT | Node | Send the translation request'),
     'group' => t('Next Europa DGT Rules'),
     'parameter' => array(
+      'direct_translation' => array(
+        'type' => 'boolean',
+        'label' => t('Direct translation'),
+        'description' => t("If enabled,translation requests are sent directly to the Poetry Service without a previous review request.
+        Otherwise, a prior review request is required in order to send a translation request."),
+        'default value' => FALSE,
+        'optional' => TRUE,
+        'restriction' => 'input',
+      ),
       'node' => array(
         'type' => 'node',
         'label' => t('Content'),
@@ -130,9 +139,10 @@ function ne_dgt_rules_rules_action_info() {
       ),
       'dgt_ftt_workflow_code' => array(
         'type' => 'text',
-        'label' => t('DGT FTT - workflow code'),
-        'description' => t('Eg.: STS'),
-        'optional' => TRUE,
+        'label' => t('Workflow code'),
+        'description' => t("Select a translation workflow code to apply."),
+        'options list' => 'ne_dgt_rules_get_workflow_codes',
+        'restriction' => 'input',
       ),
     ),
     'provides' => array(
@@ -229,7 +239,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $delay, $code = '', $o
     if (isset($node->language) && 'en' === $node->language) {
       // Checking if review request conditions are met.
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)
-        && $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node)) {
+        && $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $parameters)) {
         // Sending the review request to DGT Services.
         $return = DgtRulesTools::sendReviewRequest($job, $parameters);
       }
@@ -242,6 +252,8 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $delay, $code = '', $o
 /**
  * Action: Send the translation request for a given node.
  *
+ * @param bool $direct_translation
+ *   The direct translation flag.
  * @param object $node
  *   The node that needs to be reviewed by the DGT Reviewer.
  * @param int $delay
@@ -262,7 +274,7 @@ function ne_dgt_rules_ftt_node_send_review_request($node, $delay, $code = '', $o
  * @return array
  *   An Array with the job and the response, this element can be NULL.
  */
-function ne_dgt_rules_ftt_node_send_translation_request($node, $delay, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', $target_languages = array(), $dgt_ftt_workflow_code = '') {
+function ne_dgt_rules_ftt_node_send_translation_request($direct_translation, $node, $delay, $code = '', $org_responsible = '', $org_dg_author = '', $org_requester = '', $target_languages = array(), $dgt_ftt_workflow_code = '') {
   $return = array(
     'tmgmt_job' => NULL,
     'dgt_service_response' => array(),
@@ -298,14 +310,14 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $delay, $code = '
       if (!DgtRulesTools::getActiveTmgmtJobItemsIds($node->nid)) {
         foreach ($target_languages as $target_language => $language) {
           if ($target_language != $node->language) {
-            $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $target_language);
+            $job = DgtRulesTools::createTmgmtJobAndItemForNode($default_translator, $node, $parameters, $target_language);
             if ($job) {
               $jobs[] = $job;
             }
           }
         }
         // Sending the translation request to DGT Services.
-        $return = DgtRulesTools::sendTranslationRequest($default_translator, $jobs, $parameters);
+        $return = DgtRulesTools::sendTranslationRequest($direct_translation, $default_translator, $jobs, $parameters);
       }
     }
   }
@@ -314,7 +326,7 @@ function ne_dgt_rules_ftt_node_send_translation_request($node, $delay, $code = '
 }
 
 /**
- * Condition: All translations are received for a content.
+ * Action: Accept all content translations.
  *
  * @param \EC\Poetry\Messages\Components\Identifier $identifier
  *   The translation request identifier.
