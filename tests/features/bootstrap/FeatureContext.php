@@ -453,8 +453,9 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Then I should see highlighted elements
    */
   public function iShouldSeeHighlightedElements() {
-    // div.ICE-Tracking is the css definition that highlights page elements.
-    $this->assertSession()->elementExists('css', 'div.ICE-Tracking');
+    // ICE-Tracking is the css class that highlights page elements.
+    $node_tag = $this->getDrupalSelector('node_tag');
+    $this->assertSession()->elementExists('css', $node_tag . '.ICE-Tracking');
   }
 
   /**
@@ -464,7 +465,8 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function iShouldNotSeeHighlightedElements() {
     // div.ICE-Tracking is the css definition that highlights page elements.
-    $this->assertSession()->elementNotExists('css', 'div.ICE-Tracking');
+    $node_tag = $this->getDrupalSelector('node_tag');
+    $this->assertSession()->elementNotExists('css', $node_tag . 'div.ICE-Tracking');
   }
 
   /**
@@ -561,7 +563,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Wait $sec seconds before going to the next step.
+   * Wait ":sec" seconds before going to the next step.
    *
    * @Then I wait :sec seconds
    */
@@ -584,6 +586,20 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
           throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
       }
       $element->click();
+  }
+  
+  /**
+   * Returns a specific css selector.
+   *
+   * @param string $name
+   *   string CSS selector name.
+   */
+  public function getDrupalSelector($name) {
+    $text = $this->getDrupalParameter('selectors');
+    if (!isset($text[$name])) {
+      throw new \Exception(sprintf('No such selector configured: %s', $name));
+    }
+    return $text[$name];
   }
 
 }
