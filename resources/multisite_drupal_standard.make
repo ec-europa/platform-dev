@@ -750,6 +750,10 @@ projects[views_bootstrap][version] = "3.1"
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.4"
 
+; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
+; https://www.drupal.org/node/2856974
+projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
+
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
 
