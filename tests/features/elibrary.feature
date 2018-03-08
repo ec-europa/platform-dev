@@ -45,8 +45,9 @@ Feature: E-Library
     Then I select "Published" from "edit-state"
     And I press "Apply"
     Then I should see "Revision state: Published"
-    Then I am logged in as "contributor_user"
     And the cache has been cleared
+    And I am logged in as "contributor_user"
+    And I am on "e_library"
     And I click "E-library"
     Then I should see "Document title"
     And I click "Document title"
