@@ -587,7 +587,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
       }
       $element->click();
   }
-  
+
   /**
    * Returns a specific css selector.
    *
