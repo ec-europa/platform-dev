@@ -6,6 +6,16 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function tmgmt_dgt_connector_cart_install() {
+  db_update('system')
+    ->fields(array('weight' => 1))
+    ->condition('name', 'tmgmt_dgt_connector_cart', '=')
+    ->execute();
+}
+
+/**
  * Implements hook_schema().
  */
 function tmgmt_dgt_connector_cart_schema() {

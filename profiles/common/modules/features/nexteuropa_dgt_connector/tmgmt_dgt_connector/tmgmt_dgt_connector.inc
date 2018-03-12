@@ -130,6 +130,27 @@ function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
   return tmgmt_field_get_source_data($entity_type, $entity, $entity->language, TRUE);
 }
 
+function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
+
+  // Get i18n object from id.
+  list(, $type, $object_id) = explode(':', $item_id, 3);
+  $i18n_object = tmgmt_i18n_string_get_wrapper($item_type, (object) array('type' => $type, 'objectid' => $object_id));
+  $structure = array();
+
+  if ($i18n_object instanceof i18n_string_object_wrapper) {
+    $i18n_strings = $i18n_object->get_strings();
+    foreach ($i18n_strings as $string_id => $string) {
+      // If '#label' is empty theme_tmgmt_ui_translator_review_form() fails.
+      $structure[$string_id] = array(
+        '#label' => !empty($string->title) ? $string->title : $string->property,
+        '#text' => $string->string,
+        '#translate' => TRUE
+      );
+    }
+  }
+  return $structure;
+}
+
 /**
  * Change the #cart submit logic.
  *
@@ -248,18 +269,18 @@ function _tmgmt_dgt_connector_translator_access($op, array $translator, array $a
 /**
  * Check if 'Send to cart' is possible.
  *
- * @param object $entity
- *   The entity to check.
- * @param array $cart
- *   The cart to be generated.
+ * @param string $plugin_type
+ *   The cart plugin type.
+ * @param string $item_type
+ *   The type of the item to be checked.
+ * @param string $item_id
+ *   The id of the item to be checked.
  *
  * @return bool
  *   Returns true if 'Send to cart' is possible, false otherwise.
  */
-function _tmgmt_dgt_connector_smalljob_translation_possible($entity, array $cart) {
-  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
-
-  $source_data = _tmgmt_dgt_connector_get_source_data($cart['plugin'], $entity->entity_type, $entity_id);
+function _tmgmt_dgt_connector_smalljob_translation_possible($plugin_type, $item_type, $item_id) {
+  $source_data = _tmgmt_dgt_connector_get_source_data($plugin_type, $item_type, $item_id);
   $length = _tmgmt_dgt_connector_count_source_data($source_data);
 
   return $length <= variable_get('tmgmt_dgt_connector_max_lenght', TMGMT_DGT_CONNECTOR_MAX_LENGTH);
