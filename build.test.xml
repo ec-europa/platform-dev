@@ -21,8 +21,11 @@
             <!-- Setup default theme. -->
             <param>cce_basic_config_profile_theme_default_form.theme_default=${platform.site.theme_default}</param>
         </drush>
+        
+        <!-- Enable the "Database logging" module needed to develop and to run the platform behat tests (NEPT-308). -->
+        <phingcall target="enable-dblog-module" />
 
-		<!-- Rebuild node access after site installation -->
+	<!-- Rebuild node access after site installation -->
         <phingcall target="rebuild-node-access" />
     </target>
 
@@ -164,6 +167,18 @@
             bin="${drush.bin}"
             verbose="${drush.verbose}">
             <param>"node_access_rebuild()"</param>
+        </drush>
+    </target>
+
+    <!-- Enable the "Database logging" module. -->
+    <target name="enable-dblog-module">
+        <drush
+            command="pm-enable"
+            assume="yes"
+            root="${platform.build.dir}"
+            bin="${drush.bin}"
+            verbose="${drush.verbose}">
+            <param>"dblog"</param>
         </drush>
     </target>
 </project>
