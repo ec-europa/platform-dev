@@ -15,8 +15,5 @@
 
 ### Commands
 
-```sh
 [Insert commands here]
-
-```
 
