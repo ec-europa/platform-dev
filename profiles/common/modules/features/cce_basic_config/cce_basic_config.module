@@ -387,7 +387,9 @@ function cce_basic_config_entitycache_node_load(&$entities) {
       $entities[$nid] = $entity;
     }
   }
+}
 
+/**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  *
  * It implements it for "Text area" widget.
