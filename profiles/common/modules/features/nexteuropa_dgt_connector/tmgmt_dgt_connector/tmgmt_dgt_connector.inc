@@ -130,6 +130,17 @@ function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
   return tmgmt_field_get_source_data($entity_type, $entity, $entity->language, TRUE);
 }
 
+/**
+ * Get data for string.
+ *
+ * @param string $item_type
+ *   The type of the item to be checked.
+ * @param string $item_id
+ *   The id of the item to be checked.
+ *
+ * @return array
+ *   Returns an array with data of the string.
+ */
 function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
 
   // Get i18n object from id.
@@ -144,7 +155,7 @@ function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
       $structure[$string_id] = array(
         '#label' => !empty($string->title) ? $string->title : $string->property,
         '#text' => $string->string,
-        '#translate' => TRUE
+        '#translate' => TRUE,
       );
     }
   }
