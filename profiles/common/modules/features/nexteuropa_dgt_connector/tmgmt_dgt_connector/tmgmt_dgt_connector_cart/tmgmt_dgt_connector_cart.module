@@ -402,7 +402,11 @@ function _tmgmt_dgt_connector_cart_restore_cart_bundles(CartBundle &$cart_bundle
  */
 function tmgmt_dgt_connector_cart_form_i18n_string_translate_page_overview_form_alter(&$form, &$form_state) {
   unset($form['actions']['request_translation']);
-  $form_state['tmgmt_cart']['item_title'] = $form_state['tmgmt_cart']['item_id'];
+  $title = $form['object']['#value']->get_title();
+  if (empty($title)) {
+    $title = $form_state['tmgmt_cart']['item_id'];
+  }
+  $form_state['tmgmt_cart']['item_title'] = $title;
   _tmgmt_dgt_connector_cart_add_cart_button($form, $form_state);
 }
 
