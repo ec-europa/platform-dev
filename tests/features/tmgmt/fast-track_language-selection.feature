@@ -86,7 +86,8 @@ Feature: Fast track language selection
               "USING" : {
                 "node" : [ "node" ],
                 "delay" : "2017-12-01 15:00:00",
-                "target_languages" : { "value" : [] }
+                "target_languages" : { "value" : [] },
+                "dgt_ftt_workflow_code" : "STS"
               },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
@@ -138,7 +139,8 @@ Feature: Fast track language selection
               "USING" : {
                 "node" : [ "node" ],
                 "delay" : "2017-12-01 15:00:00",
-                "target_languages" : { "value" : { "fr" : "fr" } }
+                "target_languages" : { "value" : { "fr" : "fr" } },
+                "dgt_ftt_workflow_code" : "STS"
               },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
