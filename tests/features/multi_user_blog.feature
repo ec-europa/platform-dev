@@ -1,4 +1,4 @@
-@api @javascript
+@api @javascript @maximizedwindow
 Feature: Multiuser blog
   In order to allow users to create a blog
   As a user of the site
@@ -8,8 +8,7 @@ Feature: Multiuser blog
     Given the module is enabled
       | modules         |
       | multi_user_blog |
-
-  Scenario Outline: A user see published post on the blog list and the user blog tab and rate the post.
+  Scenario Outline: A user sees published post on the blog list and the user blog tab and rate the post.
     Given users:
      | name             | mail                      | pass        | roles       |
      | contributor_user | contributor_user@user.com | password123 | contributor |
@@ -41,7 +40,7 @@ Feature: Multiuser blog
     And I should see the text "<body>"
     And I click "<title>"
     And I click "Voting results"
-    Then I should see "1" in the ".tableheader-processed .row-3" element
+    Then I should see the text "Vote count: 1 Average: 75"
 
     Examples:
       | title                  | body                |
