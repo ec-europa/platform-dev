@@ -7,6 +7,7 @@
 
 /**
  * Implements hook_install().
+ *
  * The current implementation of hook_form_FORM_ID_alter in the different
  * tmgmt modules leads to inconsistent form states when invoking the same hooks
  * in our module. In order to avoid this we need to run our hooks after all the
