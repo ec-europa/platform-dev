@@ -6,6 +6,7 @@
  */
 
 use Drupal\ne_dgt_rules\DgtRulesTools;
+use EC\Poetry\Messages\Components\Identifier;
 
 /**
  * Implements hook_rules_condition_info().
@@ -73,6 +74,36 @@ function ne_dgt_rules_rules_condition_info() {
         'label' => t("Translation request identifier"),
         'restriction' => 'selector',
       ),
+      'excluded_langs' => array(
+        'type' => 'list<text>',
+        'label' => t('Excluded Languages'),
+        'description' => t("Select languages that are excluded from the set to be checked."),
+        'options list' => 'ne_dgt_rules_enabled_languages',
+        'optional' => TRUE,
+        'default mode' => 'selector',
+        'save' => TRUE,
+        'restriction' => 'input',
+      ),
+    ),
+  );
+
+  $items['received_translation_belongs_to_specified_workflow'] = array(
+    'group' => t("Next Europa DGT Rules"),
+    'label' => t("Received translation belongs to a specified workflow"),
+    'base' => 'ne_dgt_rules_received_translation_belongs_to_specified_workflow',
+    'parameter' => array(
+      'dgt_ftt_workflow_code' => array(
+        'type' => 'text',
+        'label' => t('Workflow code'),
+        'description' => t("Select a translation workflow code to apply."),
+        'options list' => 'ne_dgt_rules_get_workflow_codes',
+        'restriction' => 'input',
+      ),
+      'job' => array(
+        'type' => 'tmgmt_job',
+        'label' => t('Translation Job'),
+        'description' => t('The translation job for which translations should be accepted.'),
+      ),
     ),
   );
 
@@ -133,18 +164,50 @@ function ne_dgt_rules_comparison_of_moderation_states_after_transition($previous
 /**
  * Condition: All translations are received for a content.
  *
- * @param \EC\Poetry\Messages\Components\Identifier $identifier
+ * @param Identifier $identifier
  *   The translation request identifier.
+ * @param array $excluded_languages
+ *   Exclude given languages from the set to be checked.
  *
  * @return true|false
  *   Returns true or false depending if all translations were received.
  */
-function ne_dgt_rules_all_translations_are_received(\EC\Poetry\Messages\Components\Identifier $identifier) {
-  $ftt_jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
-  foreach ($ftt_jobs as $ftt_job) {
-    if ($ftt_job->getCountPending()) {
+function ne_dgt_rules_all_translations_are_received(Identifier $identifier, array $excluded_languages) {
+  $jobs = DgtRulesTools::loadTmgmtJobsByReference($identifier->getFormattedIdentifier());
+  /** @var TMGMTJob $job */
+  foreach ($jobs as $job) {
+    if (!in_array($job->target_language, $excluded_languages) && $job->getCountPending()) {
       return FALSE;
     }
   }
   return TRUE;
+}
+
+/**
+ * Condition: A received translation belongs to a given translation workflow.
+ *
+ * @param string $workflow_code
+ *   An expected workflow code.
+ * @param \TMGMTJob $job
+ *   The TMGMTJob object.
+ *
+ * @return bool
+ *   Returns true or false depending on the result of workflow codes comparison.
+ */
+function ne_dgt_rules_received_translation_belongs_to_specified_workflow($workflow_code, TMGMTJob $job) {
+  $trans_workflow_code = $job->settings['data']['details']['workflowCode'];
+  return $trans_workflow_code === $workflow_code ? TRUE : FALSE;
+}
+
+/**
+ * Returns translation workflow codes.
+ *
+ * @return array
+ *   An array with the translation workflow codes.
+ */
+function ne_dgt_rules_get_workflow_codes() {
+  return array(
+    'STS' => 'STS',
+    'OPC' => 'OPC',
+  );
 }

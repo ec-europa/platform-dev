@@ -5,6 +5,7 @@ package = Translation Management
 core = 7.x
 
 dependencies[] = registry_autoload
+dependencies[] = rules
 dependencies[] = tmgmt
 dependencies[] = tmgmt_entity_ui
 dependencies[] = tmgmt_node
