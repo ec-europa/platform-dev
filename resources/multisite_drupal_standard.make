@@ -18,7 +18,7 @@ projects[administration_language_negotiation][subdir] = "contrib"
 projects[administration_language_negotiation][version] = "1.4"
 
 projects[advagg][subdir] = "contrib"
-projects[advagg][version] = "2.16"
+projects[advagg][version] = "2.30"
 
 projects[advanced_help][subdir] = "contrib"
 projects[advanced_help][version] = "1.3"
@@ -419,13 +419,9 @@ projects[link][subdir] = "contrib"
 projects[link][version] = "1.4"
 
 projects[linkchecker][subdir] = "contrib"
-projects[linkchecker][version] = "1.2"
+projects[linkchecker][version] = "1.3"
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/bean-integration-2127731-0.patch
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-max_redirects-2593465-1-D7_0.patch
-; Linkchecker PHP 7.0 compatibility.
-; https://www.drupal.org/node/2660694
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-11467
-projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-php_7_0_errors-2660694-2.patch
 
 projects[mail_edit][subdir] = "contrib"
 projects[mail_edit][version] = "1.1"
@@ -437,7 +433,9 @@ projects[maxlength][subdir] = "contrib"
 projects[maxlength][version] = "3.2-beta2"
 
 projects[media][subdir] = contrib
-projects[media][version] = 2.8
+projects[media][version] = 2.16
+; Embedded documents in the WYSIWYG can be very hard to delete.
+; https://www.drupal.org/node/2028231
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-771
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1015
 ; Media markup navigation causes duplicated links
@@ -604,7 +602,7 @@ projects[registration][subdir] = "contrib"
 projects[registration][version] = "1.6"
 
 projects[registry_autoload][subdir] = "contrib"
-projects[registry_autoload][version] = "1.3"
+projects[registry_autoload][version] = 1.3
 
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.10"
@@ -1024,12 +1022,12 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.5
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.6
+projects[atomium][version] = 2.7
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.8
+projects[ec_europa][download][tag] = 0.0.10
 
 ; ==============
 ; Custom modules
