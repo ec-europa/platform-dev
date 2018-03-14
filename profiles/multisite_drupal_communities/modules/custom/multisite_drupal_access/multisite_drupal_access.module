@@ -91,13 +91,22 @@ function multisite_drupal_access_og_get_all_groups($group_type = 'node') {
   if (!field_info_field(OG_GROUP_FIELD)) {
     return array();
   }
+  $groups_access = &drupal_static(__FUNCTION__);
+  if (!isset($groups_access)) {
+    if ($cache = cache_get('multisite_drupal_access_og_get_all_groups')) {
+      $groups_access = $cache->data;
+    }
+    else {
+      $query = new EntityFieldQuery();
+      $return = $query
+        ->entityCondition('entity_type', $group_type)
+        ->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=')
+        ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
+        ->execute();
 
-  $query = new EntityFieldQuery();
-  $return = $query
-    ->entityCondition('entity_type', $group_type)
-    ->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=')
-    ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
-    ->execute();
-
-  return !empty($return[$group_type]) ? array_keys($return[$group_type]) : array();
+      $groups_access = !empty($return[$group_type]) ? array_keys($return[$group_type]) : array();
+      cache_set('multisite_drupal_access_og_get_all_groups', $groups_access, 'cache');
+    }
+  }
+  return $groups_access;
 }
