@@ -57,7 +57,7 @@ Feature: Subscription
     And I go to "admin/reports/dblog"
     Then I should see text matching "Subscriptions sent"
 
-  @javascript
+  @javascript @theme_wip
   Scenario: Have someone subscribe to Basic page content
     And I go to "admin/config/system/site-information_en"
     When I fill in "E-mail address" with "automated-notifications@nomail.ec.europa.eu"
@@ -98,4 +98,3 @@ Feature: Subscription
     And I go to the page of the node I remembered
     Then I should see "A new page title"
     And I should not see "subscribe"
-
