@@ -396,11 +396,42 @@ function _tmgmt_dgt_connector_cart_restore_cart_bundles(CartBundle &$cart_bundle
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove the request button and add the custom cart button for i18n string
+ * translation forms.
+ */
+function tmgmt_dgt_connector_cart_form_i18n_string_translate_page_overview_form_alter(&$form, &$form_state) {
+  unset($form['actions']['request_translation']);
+  $title = $form['object']['#value']->get_title();
+  if (empty($title)) {
+    $title = $form_state['tmgmt_cart']['item_id'];
+  }
+  $form_state['tmgmt_cart']['item_title'] = $title;
+  _tmgmt_dgt_connector_cart_add_cart_button($form, $form_state);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add the custom cart button for entity translation forms.
  */
 function tmgmt_dgt_connector_cart_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
-  unset($form['top_actions']);
+  $form_state['tmgmt_cart']['item_title'] = entity_label($form_state['tmgmt_cart']['item_type'], $form_state['entity']);
+  _tmgmt_dgt_connector_cart_add_cart_button($form, $form_state);
+}
 
-  if (_tmgmt_dgt_connector_smalljob_translation_possible($form_state['entity'], $form_state['tmgmt_cart'])) {
+/**
+ * Helper function to add the custom cart button to a translate form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
+ */
+function _tmgmt_dgt_connector_cart_add_cart_button(array &$form, array &$form_state) {
+  unset($form['top_actions']);
+  $cart_info = $form_state['tmgmt_cart'];
+  if (_tmgmt_dgt_connector_smalljob_translation_possible($cart_info['plugin'], $cart_info['item_type'], $cart_info['item_id'])) {
     $form['actions']['cart'] = array(
       '#type' => 'submit',
       '#value' => 'Send to cart',
@@ -417,17 +448,15 @@ function _tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
   // Getting or creating a new CartBundle entity.
   $cart_bundle = _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state);
 
-  // Getting the entity object and the CartBundle ID.
-  $entity = $form_state['entity'];
-  $entity_type = $form_state['entity_type'];
+  // Getting the cart info and the CartBundle ID.
   $cbid = $cart_bundle->cbid;
-  $plugin_type = $form_state['tmgmt_cart']['plugin'];
+  $cart_info = $form_state['tmgmt_cart'];
 
   // Checking if the CartItem entities exist for a given entity and if so
   // returning an error message.
-  if (empty(_tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity, $entity_type, $plugin_type))) {
+  if (empty(_tmgmt_dgt_connector_cart_get_cart_items($cbid, $cart_info['plugin'], $cart_info['item_type'], $cart_info['item_id']))) {
     // Creating the CartItem entity.
-    _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $entity_type, $plugin_type);
+    _tmgmt_dgt_connector_cart_create_cart_item($cbid, $cart_info['plugin'], $cart_info['item_type'], $cart_info['item_id'], $cart_info['item_title']);
     // Updating the 'changed' field of the CartBundle entity.
     $cart_bundle->save();
   }
@@ -447,6 +476,13 @@ function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
   // Extracting languages from the form.
   $values = $form_state['values'];
   $target_languages = array_keys(array_filter($values['languages']));
+  foreach ($target_languages as &$language) {
+    // i18n options include the id on the value so we need to remove them first.
+    if (strpos($language, ':') !== FALSE) {
+      $identifiers = explode(':', $language);
+      $language = end($identifiers);
+    }
+  }
 
   // Sorting in order to ensure that an array order is always the same.
   ksort($target_languages);
@@ -476,18 +512,24 @@ function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
  *
  * @param int $cbid
  *   The CartBundle entity ID.
- * @param object $entity
- *   An entity object.
- * @param string $entity_type
- *   The type of the entity.
  * @param string $plugin_type
  *   TMGMT plugin type.
+ * @param string $entity_type
+ *   The type of the entity.
+ * @param object $entity_id
+ *   The id of an entity.
+ * @param object $entity_title
+ *   The title of an entity.
  */
-function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $entity_type, $plugin_type) {
-  list($entity_id) = entity_extract_ids($entity->entity_type, $entity);
-  $entity_title = $entity->title;
-  $entity_uri = entity_uri($entity->entity_type, $entity);
-  $context_url = url($entity_uri['path'], array('absolute' => TRUE));
+function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $plugin_type, $entity_type, $entity_id, $entity_title) {
+
+  $context_url = '';
+  if ($plugin_type == 'entity' || $plugin_type == 'workbench_moderation') {
+    $entity = entity_load($entity_type, array($entity_id));
+    $entity = reset($entity);
+    $entity_uri = entity_uri($entity_type, $entity);
+    $context_url = url($entity_uri['path'], ['absolute' => TRUE]);
+  }
 
   // Creating the CartItem entity.
   CartItem::create(
@@ -505,12 +547,12 @@ function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $entity_type
  *
  * @param int $cbid
  *   The CartBundle entity ID.
- * @param object $entity
- *   An entity object.
- * @param string $entity_type
- *   The type of the entity.
  * @param string $plugin_type
  *   TMGMT plugin type.
+ * @param string $entity_type
+ *   The type of the entity.
+ * @param object $entity_id
+ *   The id of an entity.
  *
  * @return array
  *   An array of CartItem entity objects indexed by their IDs or an empty
@@ -518,8 +560,7 @@ function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $entity, $entity_type
  *
  * @throws \EntityMalformedException
  */
-function _tmgmt_dgt_connector_cart_get_cart_items($cbid, $entity, $entity_type, $plugin_type) {
-  list($entity_id) = entity_extract_ids($entity_type, $entity);
+function _tmgmt_dgt_connector_cart_get_cart_items($cbid, $plugin_type, $entity_type, $entity_id) {
   $cart_item_properties = array(
     'cbid' => $cbid,
     'plugin_type' => $plugin_type,

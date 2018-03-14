@@ -6,6 +6,21 @@
  */
 
 /**
+ * Implements hook_install().
+ *
+ * The current implementation of hook_form_FORM_ID_alter in the different
+ * tmgmt modules leads to inconsistent form states when invoking the same hooks
+ * in our module. In order to avoid this we need to run our hooks after all the
+ * tmgmt hooks have finished.
+ */
+function tmgmt_dgt_connector_cart_install() {
+  db_update('system')
+    ->fields(array('weight' => 1))
+    ->condition('name', 'tmgmt_dgt_connector_cart', '=')
+    ->execute();
+}
+
+/**
  * Implements hook_schema().
  */
 function tmgmt_dgt_connector_cart_schema() {

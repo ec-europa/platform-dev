@@ -916,7 +916,8 @@ function _tmgmt_poetry_translations_possible(array $form_state) {
   // If Cart translation is possible, Regular translation shouldn't be possible.
   $test_cart = function_exists('_tmgmt_dgt_connector_smalljob_translation_possible');
   if ($test_cart && isset($form_state['tmgmt_cart'])) {
-    if (_tmgmt_dgt_connector_smalljob_translation_possible($form_state['entity'], $form_state['tmgmt_cart'])) {
+    $cart_info = $form_state['tmgmt_cart'];
+    if (_tmgmt_dgt_connector_smalljob_translation_possible($cart_info['plugin'], $cart_info['item_type'], $cart_info['item_id'])) {
       $translations_possible = array('cart');
     }
   }
