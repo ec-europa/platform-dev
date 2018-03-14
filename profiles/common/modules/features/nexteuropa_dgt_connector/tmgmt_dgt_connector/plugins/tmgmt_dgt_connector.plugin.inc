@@ -162,7 +162,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
 
     // Get other pieces of information.
     $organization = $job->settings['organization'];
-    $details_title = 'NE-CMS: ';
+    $details_title = 'NE-CMS BUNDLE: ';
     $details_title .= (empty($settings['website_identifier']) ? '' : $settings['website_identifier'] . ' - ');
     $details_title .= $job->label;
     $delai = date('d/m/Y', strtotime($job->settings['delai']));
