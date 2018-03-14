@@ -5,8 +5,6 @@
  * Provides TMGMT DGT Connector translation plugin controller.
  */
 
-use Exceptions\ValidationException;
-
 /**
  * TMGMT DGT Connector translation plugin controller.
  *
@@ -238,9 +236,8 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
 
       return $poetry->getClient()->send($message);
     }
-    catch (ValidationException $exception) {
-      drupal_set_message($exception->getMessage(), 'error');
-      return FALSE;
+    catch (Exception $e) {
+      drupal_set_message($e->getMessage(), 'error');
     }
 
   }
