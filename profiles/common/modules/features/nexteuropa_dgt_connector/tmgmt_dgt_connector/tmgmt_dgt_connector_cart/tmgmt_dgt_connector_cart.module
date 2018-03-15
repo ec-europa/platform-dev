@@ -42,8 +42,27 @@ function tmgmt_dgt_connector_cart_menu() {
     'access arguments' => array('access to the dgt connector cart'),
     'type' => MENU_CALLBACK,
   );
+  $items['admin/dgt_connector/cart222'] = array(
+    'title' => 'Small Jobs',
+    'title callback' => '_tmgmt_dgt_connector_cart_menu_title',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tmgmt_ui_cart_content'),
+    'access arguments' => array('create translation jobs'),
+    'type' => MENU_NORMAL_ITEM,
+    'menu_name' => 'management',
+    'weight' => 21,
+  );
 
   return $items;
+}
+
+/**
+ * Cart page title callback.
+ *
+ * @return string
+ */
+function _tmgmt_dgt_connector_cart_menu_title() {
+  return t('Small Jobs (@count)', array('@count' => tmgmt_ui_cart_get()->count()));
 }
 
 /**
@@ -465,7 +484,9 @@ function _tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
     return;
   }
 
-  drupal_set_message(t('The content has been added to the cart.'));
+  drupal_set_message(t('The content has been added to the <a href="@url">cart</a>.', array(
+    '@url' => url('admin/dgt_connector/cart'),
+  )));
 }
 
 /**
