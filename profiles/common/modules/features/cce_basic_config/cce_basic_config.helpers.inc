@@ -41,7 +41,6 @@ function _cce_basic_config_import_images($images) {
   }
 }
 
-
 /**
  * Field widget form alter callback.
  *
