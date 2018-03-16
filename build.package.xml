@@ -159,10 +159,10 @@
             <istrue value="${platform.build.files.dir}" />
             <then>
                 <mkdir dir="${platform.build.files.dir}/private_files" />
+                <chmod file="${platform.build.files.dir}" mode="777" />
             </then>
         </if>
     </target>
-
 
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
