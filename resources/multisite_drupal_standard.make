@@ -235,7 +235,7 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
-projects[entitycache][version] = 1.2
+projects[entitycache][version] = 1.5
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
