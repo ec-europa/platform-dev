@@ -48,7 +48,7 @@ Feature: TMGMT Poetry Cart features
 
     When I am not logged in
     And I am logged in as "admin_cart"
-    And I go to "admin/dgt_connector/cart"
+    And I go to "admin/tmgmt/dgt_cart"
     And I click "Edit" in the "Target languages: FR, PT" row
     And I wait for AJAX to finish
     And I should see text matching "Translation Bundle content."
