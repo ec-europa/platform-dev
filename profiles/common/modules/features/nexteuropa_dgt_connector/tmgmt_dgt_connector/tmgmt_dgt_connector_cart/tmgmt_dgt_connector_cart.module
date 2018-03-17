@@ -466,7 +466,7 @@ function _tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
   }
 
   drupal_set_message(t('The content has been added to the <a href="@url">cart</a>.', array(
-    '@url' => url('admin/dgt_connector/cart'),
+    '@url' => url('admin/tmgmt/dgt_cart'),
   )));
 }
 
