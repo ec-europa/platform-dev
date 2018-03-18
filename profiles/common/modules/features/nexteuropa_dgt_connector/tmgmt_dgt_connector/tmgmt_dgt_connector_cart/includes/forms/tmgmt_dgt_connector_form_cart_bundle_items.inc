@@ -200,9 +200,9 @@ function _tmgmt_dgt_connector_cart_update_cart_bundle(array &$form_state) {
 
   // Discard the CartBundle entity if needed and close the popup.
   if (_tmgmt_dgt_connector_cart_discard_cart_bundle($form_state, $cart_bundle)) {
-    $form_state['redirect'] = TMGMT_DGT_CONNECTOR_CART_VIEW_PATH;
+    $form_state['redirect'] = TMGMT_DGT_CART_VIEW_PATH;
     $form_state['ajax_commands'][] = ctools_modal_command_dismiss();
-    $form_state['ajax_commands'][] = ctools_ajax_command_redirect(TMGMT_DGT_CONNECTOR_CART_VIEW_PATH);
+    $form_state['ajax_commands'][] = ctools_ajax_command_redirect(TMGMT_DGT_CART_VIEW_PATH);
   }
 }
 
