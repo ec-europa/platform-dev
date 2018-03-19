@@ -28,13 +28,13 @@ Feature: TMGMT Poetry Cart features
         address: http://localhost:28080/wsdl
         method: requestService
     """
+    And I am logged in as a user with the "administrator" role and I have the following fields:
+      | name | admin_cart |
+      | pass | admin_cart |
 
   @javascript
   Scenario: I can add contents to cart.
-    Given I am logged in as a user with the "administrator" role and I have the following fields:
-      | name | admin_cart |
-      | pass | admin_cart |
-    When I am viewing a multilingual "page" content:
+    Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
     And I click "Translate" in the "primary_tabs" region
@@ -86,11 +86,8 @@ Feature: TMGMT Poetry Cart features
       | W1JFRiBDb21tZW50IFBhZ2UgMS |
 
   @javascript @remove-menus
-  Scenario: I can add menu items to cart.
-    Given I am logged in as a user with the "administrator" role and I have the following fields:
-      | name | admin_cart |
-      | pass | admin_cart |
-    When I create a multilingual "test" menu called "Test menu"
+  Scenario: I can add menu and menu items to cart.
+    Given I create a multilingual "test" menu called "Test menu"
     And I go to "admin/structure/menu/manage/test/translate"
     When I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
@@ -131,5 +128,5 @@ Feature: TMGMT Poetry Cart features
         message: OK
     """
     And I press "Submit to translator"
-    Then Poetry service received request should contain the following text:
-      | PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBYSFRNTCAxLjAgU3RyaWN0Ly9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL3hodG1sMS9EVEQveGh0bWwxLXN0cmljdC5kdGQiPgo8aHRtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+CiAgPGhlYWQ+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD1VVEYtOCIgLz4KICAgIDxtZXRhIG5hbWU9IkpvYklEIiBjb250ZW50PSIxIiAvPgogICAgPG1ldGEgbmFtZT0ibGFuZ3VhZ2VTb3VyY2UiIGNvbnRlbnQ9ImVuIiAvPgogICAgPG1ldGEgbmFtZT0ibGFuZ3VhZ2VUYXJnZXQiIGNvbnRlbnQ9ImZyIiAvPgogICAgPHRpdGxlPkpvYiBJRCAxPC90aXRsZT4KICA8L2hlYWQ+CiAgPGJvZHk+CiAgICAgICAgICA8ZGl2IGNsYXNzPSJhc3NldCIgaWQ9Iml0ZW0tMyI+CiAgICAgICAgICAgICAgICA8IS0tCiAgICAgICAgICBsYWJlbD0iY29udGV4dCIKICAgICAgICAtLT4KICAgICAgICA8ZGl2IGNsYXNzPSJjb250ZXh0IiBzdHlsZT0iY29sb3I6I2ZmMDAwMDsiPgogICAgICAgICAgW1JFRiBMaW5rOiA8YSBocmVmPSIiIHRhcmdldD0iYmxhbmsiPjwvYT5dCiAgICAgICAgPC9kaXY+CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8IS0tCiAgICAgICAgICBsYWJlbD0iVGl0bGUiCiAgICAgICAgICBjb250ZXh0PSJbM11bbWVudTptZW51OnRlc3Q6dGl0bGVdIgogICAgICAgIC0tPgogICAgICAgIDxkaXYgY2xhc3M9ImF0b20iIGlkPSJiTTExYmJXVnVkVHB0Wlc1MU9uUmxjM1E2ZEdsMGJHVSI+VGVzdCBtZW51PC9kaXY+CiAgICAgICAgICAgICAgICAgICAgICAgICAgPCEtLQogICAgICAgICAgbGFiZWw9IkRlc2NyaXB0aW9uIgogICAgICAgICAgY29udGV4dD0iWzNdW21lbnU6bWVudTp0ZXN0OmRlc2NyaXB0aW9uXSIKICAgICAgICAtLT4KICAgICAgICA8ZGl2IGNsYXNzPSJhdG9tIiBpZD0iYk0xMWJiV1Z1ZFRwdFpXNTFPblJsYzNRNlpHVnpZM0pwY0hScGIyNCI+dGVzdDwvZGl2PgogICAgICAgICAgICAgIDwvZGl2PgogICAgICAgICAgPGRpdiBjbGFzcz0iYXNzZXQiIGlkPSJpdGVtLTQiPgogICAgICAgICAgICAgICAgPCEtLQogICAgICAgICAgbGFiZWw9ImNvbnRleHQiCiAgICAgICAgLS0+CiAgICAgICAgPGRpdiBjbGFzcz0iY29udGV4dCIgc3R5bGU9ImNvbG9yOiNmZjAwMDA7Ij4KICAgICAgICAgIFtSRUYgTGluazogPGEgaHJlZj0iIiB0YXJnZXQ9ImJsYW5rIj48L2E+XQogICAgICAgIDwvZGl2PgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPCEtLQogICAgICAgICAgbGFiZWw9IlRpdGxlIgogICAgICAgICAgY29udGV4dD0iWzRdW21lbnU6aXRlbTo4NzE6dGl0bGVdIgogICAgICAgIC0tPgogICAgICAgIDxkaXYgY2xhc3M9ImF0b20iIGlkPSJiTkYxYmJXVnVkVHBwZEdWdE9qZzNNVHAwYVhSc1pRIj5UZXN0PC9kaXY+CiAgICAgICAgICAgICAgPC9kaXY+CiAgICAgIDwvYm9keT4KPC9odG1sPgo= |
+    Then I should see the message "Job has been successfully sent for translation."
+    And I should see text matching "Test menu \(menu\:menu\:test\) and 1 more"
