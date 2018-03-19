@@ -8,7 +8,7 @@
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
 
-define('TMGMT_DGT_CART_VIEW_PATH', 'admin/tmgmt/dgt_cart');
+define('TMGMT_DGT_CONNECTOR_CART_VIEW_PATH', 'admin/tmgmt/dgt_cart');
 
 // Including the custom form callback.
 module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/tmgmt_dgt_connector_cart');
@@ -44,6 +44,16 @@ function tmgmt_dgt_connector_cart_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Update menu link's title to distinguish from Small Jobs Cart.
+ */
+function tmgmt_dgt_connector_cart_menu_alter(&$items) {
+  $items['admin/tmgmt/cart']['title'] = 'TMGMT Cart';
+  unset($items['admin/tmgmt/cart']['title callback']);
 }
 
 /**
