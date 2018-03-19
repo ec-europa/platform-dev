@@ -1,4 +1,4 @@
-@api @javascript
+@api
 Feature: E-Library
   In order to allow to store documents in digital form
   As an administrator
@@ -34,14 +34,12 @@ Feature: E-Library
     When I am on "node/add/document"
     And I fill in "Title" with "Document title"
     And I attach the file "/tests/files/logo.png" to "edit-field-document-und-0-upload"
-    And I click "Revision information"
-    Then I select "Needs Review" from "edit-workbench-moderation-state-new"
     And I press "Save"
     Then I should see "Document Document title has been created."
     Then I am logged in as a user with the 'administrator' role
     And I am on "admin/workbench/moderate-all"
     And I click "Document title"
-    Then I should see "Revision state: Needs Review"
+    Then I should see "Revision state: Draft"
     Then I select "Published" from "edit-state"
     And I press "Apply"
     Then I should see "Revision state: Published"
