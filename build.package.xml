@@ -159,7 +159,7 @@
             <istrue value="${platform.build.files.dir}" />
             <then>
                 <mkdir dir="${platform.build.files.dir}/private_files" />
-                <chmod file="${platform.build.files.dir}" mode="777" />
+                <chmod file="${platform.build.files.dir}/private_files" mode="777" />
             </then>
         </if>
     </target>
