@@ -134,7 +134,7 @@ class DgtRulesTools {
    * @return TMGMTJob
    *   Returns created TMGMT Job.
    */
-  public static function createTmgmtJobAndItemForNode($default_translator, $node, $target_language = '') {
+  public static function createTmgmtJobAndItemForNode($default_translator, $node, $parameters, $target_language = '') {
     // Getting the default translator object.
     $translator = tmgmt_translator_load($default_translator);
 
@@ -147,7 +147,8 @@ class DgtRulesTools {
       }
 
       // Creating TMGMT Main job.
-      $tmgmt_job = tmgmt_job_create($node->language, $target_language);
+      $parameters = array('settings' => $parameters);
+      $tmgmt_job = tmgmt_job_create($node->language, $target_language, NULL, $parameters);
 
       // Assiging the default translator to the job.
       $tmgmt_job->translator = $default_translator;
