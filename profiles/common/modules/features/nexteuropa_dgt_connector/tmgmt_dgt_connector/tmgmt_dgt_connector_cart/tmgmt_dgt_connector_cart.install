@@ -122,7 +122,7 @@ function tmgmt_dgt_connector_cart_schema() {
       'context_url' => array(
         'description' => 'Context url.',
         'type' => 'varchar',
-        'length' => 128,
+        'length' => 2048,
         'not null' => TRUE,
       ),
       'context_comment' => array(
