@@ -52,5 +52,17 @@ function nexteuropa_formatters_views_views_plugins() {
         'type' => 'normal',
       ),
     ),
+    'style' => array(
+      'ec_europa_links_block' => array(
+        'title' => t('EC Europa Links block'),
+        'help' => t('Displays links using the EC Europa Links block component.'),
+        'handler' => 'nexteuropa_links_block_style',
+        'theme' => 'links_block',
+        'uses row plugin' => TRUE,
+        'uses row class' => TRUE,
+        'uses options' => TRUE,
+        'type' => 'normal',
+      ),
+    ),
   );
 }
