@@ -81,6 +81,15 @@ function tmgmt_dgt_connector_nexteuropa_poetry_notification_status_updated($mess
 /**
  * Implements hook_form_FORM_ID_alter().
  *
+ * Prevent users from leaving the form without creating or deleting the job.
+ */
+function tmgmt_dgt_connector_form_tmgmt_job_form_alter(&$form, &$form_state) {
+  $form['#attached']['js'][] = drupal_get_path('module', 'tmgmt_dgt_connector') . '/js/tmgmt_dgt_connector.js';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
  * Change the form on the 'Translate' tab to provide the
  * nexteuropa_dgt_connector module functionalities.
  */
