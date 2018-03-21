@@ -1,4 +1,4 @@
-@api @poetry_mock @i18n @poetry @theme_wip
+@api @poetry_mock @i18n @poetry
 Feature: TMGMT Poetry Cart features
   In order to request Carts translations with Poetry service.
   As an Administrator
@@ -45,6 +45,8 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
+    When I click "cart"
+    And I should see "Target languages: FR, PT"
 
     When I am not logged in
     And I am logged in as "admin_cart"
