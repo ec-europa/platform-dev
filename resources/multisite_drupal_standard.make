@@ -642,6 +642,8 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
 ; https://www.drupal.org/node/2673290
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch
+; Patch to prevent simplenews module to throw an SQL error when creating new newsletters
+projects[simplenews_statistics][patch][] = http://cgit.drupalcode.org/simplenews_statistics/patch/?id=a48f9eb412132f7f266c633cbd91335a368c7438
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
