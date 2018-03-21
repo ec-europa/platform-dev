@@ -19,6 +19,12 @@ include_once 'nexteuropa_multilingual.tokens.inc';
 function nexteuropa_multilingual_theme($existing, $type, $theme, $path) {
   return array(
     'nexteuropa_multilingual_language_list' => array(
+      'variables' => array(
+        'languages' => NULL,
+        'path' => NULL,
+        'options' => array(),
+        'all_paths' => array(),
+      ),
       'path' => $path . '/theme',
     ),
     'nexteuropa_multilingual_language_icon' => array(

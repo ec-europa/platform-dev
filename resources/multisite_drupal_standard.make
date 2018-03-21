@@ -198,7 +198,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.8"
+projects[entity][version] = "1.9"
 ; Invalid argument supplied for foreach() in entity_metadata_convert_schema()
 ; https://www.drupal.org/node/2564119
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
@@ -307,11 +307,7 @@ projects[file_entity][version] = "2.4"
 projects[file_entity][patch][] = https://www.drupal.org/files/issues/D7-file_entity-file_description_missing-2893132-2.patch
 
 projects[filefield_sources][subdir] = "contrib"
-projects[filefield_sources][version] = "1.10"
-; Update custom version of file_save_upload() to match Drupal 7.56
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1185
-; https://www.drupal.org/node/2888308
-projects[filefield_sources][patch][] = https://www.drupal.org/files/issues/filefield-sources-2888308-2.patch
+projects[filefield_sources][version] = "1.11"
 
 projects[filefield_sources_plupload][subdir] = "contrib"
 projects[filefield_sources_plupload][version] = "1.1"
@@ -483,7 +479,7 @@ projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
 
 projects[menu_attributes][subdir] = "contrib"
-projects[menu_attributes][version] = "1.0-rc3"
+projects[menu_attributes][version] = "1.0"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_css_class-2988.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
@@ -776,8 +772,8 @@ projects[votingapi][subdir] = "contrib"
 projects[votingapi][version] = "2.12"
 
 projects[webform][subdir] = "contrib"
-projects[webform][version] = "4.12"
-projects[webform][patch][] = patches/webform-use_ecas_link-1235.patch
+projects[webform][version] = "4.16"
+projects[webform][patch][] = patches/webform-use_ecas_link-MULTISITE-1235.patch
 
 projects[webform_rules][subdir] = "contrib"
 projects[webform_rules][version] = "1.6"
@@ -811,6 +807,10 @@ projects[workbench_moderation][version] = "3.0"
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
+; Issue #2825391 Fix current state for transition rules
+; https://www.drupal.org/node/2825391
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
@@ -1031,12 +1031,12 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.4
+projects[ec_resp][download][tag] = 2.3.5
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.6
+projects[atomium][version] = 2.7
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.8
+projects[ec_europa][download][tag] = 0.0.10
