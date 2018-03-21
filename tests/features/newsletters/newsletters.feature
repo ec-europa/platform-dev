@@ -14,11 +14,11 @@ Feature: newsletter feature
       | simplenews_statistics |
       | newsletters           |
 
-  Scenario: manage suscriptions
+  Scenario: manage subscriptions
     Given I am logged in as a user with the 'administrator' role
     And   I go to "/admin/config/services/simplenews/add_en"
     When  I fill in "Name" with "Newsletter behat category"
-    And   I fill in "Description" with "Description of Newsletteer behat category"
+    And   I fill in "Description" with "Description of Newsletter behat category"
     When  I check the box "Subscription block"
     And   I press "Save"
     And   I go to "/admin/config/services/simplenews"
