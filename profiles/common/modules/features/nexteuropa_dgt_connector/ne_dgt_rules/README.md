@@ -33,6 +33,13 @@ mechanism.
 Compares a moderation states transition. You can configure this condition
 by providing expected values for the previous and new state. You have to
 also provide the source for those states.
+### 2.1.3. All translations are received for a content.
+Checks if all of requested translations have been received successfully
+from the DGT Translation Service. The rule allows to exclude a set of 
+languages which won't be checked.
+### 2.1.4. A received translation belongs to a given translation workflow.
+Checks if received translation belongs to a given type of the translation
+workflow.
 
 ## 2.2. Custom actions
 ### 2.2.1. Send the review request
@@ -44,6 +51,15 @@ Action provides variable 'dgt_service_response' which includes
 information received from the DGT TS.
 >**Please, remember to include and set out required conditions 
 before triggering this action.**
+### 2.2.2. Send the translation request
+Allows to send the translation request to the DGT TS.
+>**Please, remember to set up the translation workflow accordingly to the
+current needs.**
+This action can be performed in two different modes:
+* Normal translation: If using the normal translation workflow, the action will first
+check whether a review request has been completed for the related item. 
+* Direct translation: If using the direct translation workflow, the action will be sent
+directly, but only if no review was sent previously.
 
 ## 2.3. Custom data types.
 ### 2.3.1. DGT Translation Service response

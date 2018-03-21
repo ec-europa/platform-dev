@@ -120,7 +120,12 @@ Feature: Fast track
         ],
         "DO" : [
           { "ne_dgt_rules_ftt_node_send_translation_request" : {
-              "USING" : { "node" : [ "node" ], "delay" : [ "node:delay-date" ], "target_languages" : { "value" : [] } },
+              "USING" : {
+                "node" : [ "node" ],
+                "delay" : [ "node:delay-date" ],
+                "target_languages" : { "value" : [] },
+                "dgt_ftt_workflow_code" : "STS"
+              },
               "PROVIDE" : {
                 "tmgmt_job" : { "tmgmt_job" : "Translation Job" },
                 "dgt_service_response" : { "dgt_service_response" : "DGT Service response" },
