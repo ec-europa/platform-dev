@@ -1,4 +1,4 @@
-@api @poetry_mock @i18n @poetry
+@api @poetry_mock @i18n @poetry @theme_wip
 Feature: TMGMT Poetry Cart features
   In order to request Carts translations with Poetry service.
   As an Administrator
@@ -28,13 +28,13 @@ Feature: TMGMT Poetry Cart features
         address: http://localhost:28080/wsdl
         method: requestService
     """
+    And I am logged in as a user with the "administrator" role and I have the following fields:
+      | name | admin_cart |
+      | pass | admin_cart |
 
   @javascript
   Scenario: I can add contents to cart.
-    Given I am logged in as a user with the "administrator" role and I have the following fields:
-      | name | admin_cart |
-      | pass | admin_cart |
-    When I am viewing a multilingual "page" content:
+    Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
     And I click "Translate" in the "primary_tabs" region
@@ -84,6 +84,53 @@ Feature: TMGMT Poetry Cart features
     And I press "Submit to translator"
     Then Poetry service received request should contain the following text:
       | W1JFRiBDb21tZW50IFBhZ2UgMS |
+
+  @javascript @remove-menus
+  Scenario: I can add menu and menu items to cart.
+    Given I create a multilingual "test" menu called "Test menu"
+    And I go to "admin/structure/menu/manage/test/translate"
+    When I check the box on the "French" row
+    And I check the box on the "Portuguese, Portugal" row
+    And I press "Send to cart"
+    Then I should see the success message "The content has been added to the cart."
+    And I create a multilingual "Test" menu item pointing to "http://example.com" for the menu "test"
+    And I go to "admin/structure/menu/manage/test"
+    # TODO: Remove the following two steps and configure link properly on creation
+    And I click "edit"
+    And I press "Save"
+    And I click "translate"
+    When I check the box on the "French" row
+    And I check the box on the "Portuguese, Portugal" row
+    And I press "Send to cart"
+    Then I should see the success message "The content has been added to the cart."
+    When I go to "admin/dgt_connector/cart"
+    And I click "Send" in the "Target languages: FR, PT" row
+    # Checkout page
+    And I click "Change translator"
+    And I select "tmgmt_dgt_connector" from "Translator"
+    And I wait for AJAX to finish
+    And I fill in "Date" with a relative date of "+20" days
+    And Poetry will return the following "response.status" message response:
+    """
+    identifier:
+      code: WEB
+      year: 2017
+      number: 1234
+      version: 0
+      part: 0
+      product: TRA
+    status:
+      -
+        type: request
+        code: '0'
+        date: 06/10/2017
+        time: 02:41:53
+        message: OK
+    """
+    And I press "Submit to translator"
+    Then I should see the message "Job has been successfully sent for translation."
+    And I should see text matching "Test menu \(menu\:menu\:test\) and 1 more"
+
 
   @javascript
   Scenario: I can add vocabularies to cart.

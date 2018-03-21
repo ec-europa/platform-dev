@@ -147,6 +147,7 @@ function tmgmt_dgt_connector_cart_theme_registry_alter(&$theme_registry) {
  * Theme preprocess callback.
  */
 function _tmgmt_dgt_connector_cart_preprocess_callback(&$vars) {
+  drupal_add_css(drupal_get_path('module', 'tmgmt_dgt_connector_cart') . '/css/tmgmt_dgt_connector_cart.css');
   $view = $vars['view'];
   // Rows to separate group in table.
   $seperator_rows = array();
