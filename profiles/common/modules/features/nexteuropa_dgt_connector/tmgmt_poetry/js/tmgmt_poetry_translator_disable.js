@@ -4,6 +4,17 @@
  */
 
 (function ($) {
+  /**
+   * Prevent users from leaving the page without selecting one option.
+   */
+  $(document).ready(function () {
+      needToConfirm = true;
+  });
+  $(window).bind('beforeunload', function () {
+    if (needToConfirm) {
+      return "Please send or delete the job before leaving the page";
+    }
+  });
 
   /**
    * Small script for making Translator select field disabled on /admin/tmgmt/jobs/% path.
