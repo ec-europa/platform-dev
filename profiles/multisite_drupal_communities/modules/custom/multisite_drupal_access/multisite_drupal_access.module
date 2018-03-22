@@ -56,14 +56,17 @@ function multisite_drupal_access_node_grants($account, $op) {
   if (($op != 'view') && ($account->status != 0)) {
     return;
   }
-  $grants = array();
-  // Get all OG Group.
-  // (Not only user's group in order to check perm for non-member OG role.).
-  $groups = multisite_drupal_access_og_get_all_groups();
-  if (!empty($groups)) {
-    foreach ($groups as $group_id) {
-      if (og_user_access('node', $group_id, 'view own unpublished content') || og_user_access('node', $group_id, 'View all unpublished content')) {
-        $grants['multisite_drupal_access_og_view_own_unpublished_' . $account->uid][] = $group_id;
+  $grants = &drupal_static(__FUNCTION__);
+  if (!isset($grants)) {
+    $grants = array();
+    // Get all OG Group.
+    // (Not only user's group in order to check perm for non-member OG role.).
+    $groups = multisite_drupal_access_og_get_all_groups();
+    if (!empty($groups)) {
+      foreach ($groups as $group_id) {
+        if (og_user_access('node', $group_id, 'view own unpublished content') || og_user_access('node', $group_id, 'View all unpublished content')) {
+          $grants['multisite_drupal_access_og_view_own_unpublished_' . $account->uid][] = $group_id;
+        }
       }
     }
   }
