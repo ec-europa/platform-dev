@@ -51,7 +51,7 @@ Feature: TMGMT Poetry Cart features
 
   @javascript
   Scenario: I can add contents to cart.
-    Given I am viewing a multilingual "page" content:
+    When I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
     And I click "Translate" in the "primary_tabs" region
@@ -63,20 +63,24 @@ Feature: TMGMT Poetry Cart features
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
 
+    When I click "cart" in the "front_messages" region
+    Then I should see "Target languages: FR, PT"
+
     When I am not logged in
     And I am logged in as "admin_cart"
-    And I go to "admin/dgt_connector/cart"
+    And I click "Translation" in the "admin_menu"
+    And I click "Small Jobs Cart" in the "back_primary_tabs"
     And I click "Edit" in the "Target languages: FR, PT" row
     And I wait for AJAX to finish
-    And I should see text matching "Translation Bundle content."
-    And I fill in "Comment Page 1" for "Insert comment"
+    Then I should see text matching "Translation Bundle content."
+
+    When I fill in "Comment Page 1" for "Insert comment"
     And I press "Submit changes"
     And I wait for AJAX to finish
     Then I should see the message "Your changes have been successfully submitted."
 
     When I click "Close Window"
     And I click "Send" in the "Target languages: FR, PT" row
-    # Checkout page
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
@@ -88,24 +92,25 @@ Feature: TMGMT Poetry Cart features
   @javascript @remove-menus
   Scenario: I can add menu and menu items to cart.
     Given I create a multilingual "test" menu called "Test menu"
-    And I go to "admin/structure/menu/manage/test/translate"
-    When I check the box on the "French" row
+    When I go to "admin/structure/menu/manage/test/translate"
+    And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
-    And I create a multilingual "Test" menu item pointing to "http://example.com" for the menu "test"
+
+    When I create a multilingual "Test" menu item pointing to "http://example.com" for the menu "test"
     And I go to "admin/structure/menu/manage/test"
     # TODO: Remove the following two steps and configure link properly on creation
     And I click "edit"
     And I press "Save"
     And I click "translate"
-    When I check the box on the "French" row
+    And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
-    When I go to "admin/dgt_connector/cart"
+
+    When I click "cart" in the "messages" region
     And I click "Send" in the "Target languages: FR, PT" row
-    # Checkout page
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
@@ -123,21 +128,23 @@ Feature: TMGMT Poetry Cart features
     And the radio button "Localize" is selected
     And I press "Save"
     Then I should see "Updated vocabulary Vocab."
+
     When I go to "admin/structure/taxonomy/vocab/translate"
-    When I check the box on the "French" row
+    And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
+
     When I go to "admin/structure/taxonomy/vocab"
     And I click "edit" in the "Term" row
     And I click "Translate"
-    When I check the box on the "French" row
+    And I check the box on the "French" row
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
-    Then I should see the success message "The content has been added to the cart."
-    When I go to "admin/dgt_connector/cart"
+    And I should see "The content has been added to the cart."
+
+    When I click "cart" in the "messages" region
     And I click "Send" in the "Target languages: FR, PT" row
-    # Checkout page
     And I click "Change translator"
     And I select "tmgmt_dgt_connector" from "Translator"
     And I wait for AJAX to finish
