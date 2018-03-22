@@ -62,10 +62,13 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
+    When I click "cart"
+    And I should see "Target languages: FR, PT"
 
     When I am not logged in
     And I am logged in as "admin_cart"
-    And I go to "admin/dgt_connector/cart"
+    And I click "Translation" in the "admin_menu"
+    And I click "Small Jobs Cart" in the "back_primary_tabs"
     And I click "Edit" in the "Target languages: FR, PT" row
     And I wait for AJAX to finish
     And I should see text matching "Translation Bundle content."
@@ -103,7 +106,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
-    When I go to "admin/dgt_connector/cart"
+    When I click "cart" in the "messages" region
     And I click "Send" in the "Target languages: FR, PT" row
     # Checkout page
     And I click "Change translator"
