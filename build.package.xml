@@ -153,6 +153,17 @@
         </if>
     </target>
 
+    <!-- Setup file directory for eve purposes -->
+    <target name="setup-files-directory-dev">
+                 <if>
+            <istrue value="${platform.build.files.dir}" />
+            <then>
+                <mkdir dir="${platform.build.files.dir}/private_files" />
+            </then>
+        </if>
+    </target>
+
+
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
         <composer command="install" composer="${composer.bin}">
@@ -163,7 +174,7 @@
     <target
         name="build-platform-dev"
         description="Build a local development version of the platform."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory-dev" />
 
     <target
         name="build-platform-dist"
@@ -237,7 +248,7 @@
     <target
         name="build-europa-dev"
         description="Build a local development version of the platform based on the EC Europa theme."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory, europa-theme-repo-clone, europa-theme-build" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, link-platform-profiles, make-platform, link-platform-resources, install-platform-dev-dependencies, setup-behat, setup-behat-balancer, setup-phpunit, setup-php-codesniffer, update-htaccess, setup-files-directory, europa-theme-repo-clone, europa-theme-build, setup-files-directory-dev" />
 
     <!-- Cloning and checking out the branch of the Atomium and EC Europa theme repositories. -->
     <target name="europa-theme-repo-clone">
