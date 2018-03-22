@@ -232,6 +232,7 @@ Feature: TMGMT Poetry features
     And I click "Translate" in the "primary_tabs" region
     And I check the box on the "French" row
     And I press "Request translation"
+    And I press the "Delete" button
     And I go to "node/add/page"
     And I fill in "Title" with "A second original version"
     And I press "Save"
