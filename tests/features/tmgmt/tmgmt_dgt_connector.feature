@@ -31,7 +31,7 @@ Feature: TMGMT Poetry features
     """
 
   @javascript
-  Scenario: I can translate contents with Carts.
+  Scenario: I can translate contents with TMGMT Cart.
     Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
@@ -88,7 +88,7 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "None" in the "French" row
 
-  Scenario: I can translate menus with Carts.
+  Scenario: I can translate menus with TMGMT Cart.
     When I go to "admin/structure/menu/manage/user-menu/translate"
     Then I should see "There are 0 items in the translation cart."
     When I press "Add to cart"
@@ -97,7 +97,7 @@ Feature: TMGMT Poetry features
     When I click "cart" in the "messages" region
     And I should see "User menu (menu:menu:user-menu)"
 
-  Scenario: I can translate vocabularies with Carts.
+  Scenario: I can translate vocabularies with TMGMT Cart.
     When I go to "admin/structure/taxonomy/classification/translate"
     Then I should see "There are 0 items in the translation cart."
     When I press "Add to cart"
@@ -106,7 +106,7 @@ Feature: TMGMT Poetry features
     When I click "cart" in the "messages" region
     Then I should see "classification (taxonomy:vocabulary:1)"
 
-  Scenario: I can translate terms with Carts.
+  Scenario: I can translate terms with TMGMT Cart.
     When I go to "admin/structure/taxonomy/classification/edit"
     And I select the radio button "Localize. Terms are common for all languages, but their name and description may be localized."
     And I press "Save and translate"
@@ -118,7 +118,7 @@ Feature: TMGMT Poetry features
     When I click "cart" in the "messages" region
     Then I should see "classification (taxonomy:vocabulary:1)"
 
-  Scenario: I can translate blocks with Carts.
+  Scenario: I can translate blocks with TMGMT Cart.
     When I go to "admin/structure/block/manage/user/login/configure"
     And I check the box "Make this block translatable"
     And I press "Save and translate"
@@ -130,7 +130,7 @@ Feature: TMGMT Poetry features
     When I click "cart" in the "front_messages" region
     Then I should see "(blocks:user:login)"
 
-  Scenario: I can translate strings with Carts.
+  Scenario: I can translate strings with TMGMT Cart.
     When I go to "admin/tmgmt/sources/locale_default?label=Edit"
     And I check the box on the "Edit" row
     And I press "Add to cart"
