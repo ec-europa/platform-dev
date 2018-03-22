@@ -247,6 +247,10 @@ function _tmgmt_poetry_validate_job_mandatory_fields($form, &$form_state) {
     return;
   }
 
+  if (empty($form_state['values']['settings'])) {
+    return;
+  }
+
   // Delivery date is mandatory.
   $delai = $form_state['values']['settings']['delai'];
   if (is_string($delai)) {

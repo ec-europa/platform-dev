@@ -311,6 +311,7 @@ Feature: TMGMT Poetry features
 
     When I go to stored job Id translation request page
     Then I should see "Aborted" in the "French" row
+    And I press the "Delete" button
 
   @javascript @theme_wip
   Scenario: Test creation of translation jobs for vocabularies and terms using TMGMT.
