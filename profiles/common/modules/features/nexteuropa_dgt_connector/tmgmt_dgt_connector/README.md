@@ -1,6 +1,6 @@
 TMGMT DGT Connector
 ===================
-This module integrates [TMGMT module](https://www.drupal.org/project/tmgmt) 
+This module integrates the [TMGMT module](https://www.drupal.org/project/tmgmt) 
 and the European Commission DGT connector services, enabling translation managers,
 a custom cart and all required logic.
 
@@ -8,21 +8,21 @@ a custom cart and all required logic.
 
 After enabling this module, it will be possible to translate:
 
-## Contents with length above 300 characters
+#### Content with length above 300 characters
 
-This will work like when using only  ```TMGMT Poetry``` module and translator ```Poetry Connector```.
+This will work like when using only the  ```TMGMT Poetry``` module and translator ```Poetry Connector```.
 
-## Other translatable items using Small Jobs Cart
+#### Other translatable items using Small Jobs Cart
 
 It is now possible to bundle other different translatable items
 in the ```Small Jobs Cart```, using the translator ```TMGMT DGT Translator```:
 
-* Contents with length under 300 characters;
+* Content with length under 300 characters;
 * Menu and Menu items;
 * Taxonomies and Terms;
 * Blocks 
 
-To add one translatable item to the ```Small Jobs Cart``, 
+To add one translatable item to the ``Small Jobs Cart``, 
 go to the translation page of that item,
 chose the target languages and then use the "Send to cart" button.
 
@@ -42,8 +42,8 @@ It is also possible to bundle these translatable items:
 * Strings/Locale
 * Form labels/Field Instances
 
-Currently we are using the ```TMGMT Cart``` for this propose. Using the ```Small Jobs Cart```
-is not possible yet but should be possible soon. Main difference between
+Currently we are using the ```TMGMT Cart``` for this purpose. Using the ```Small Jobs Cart```
+is not possible yet but should be possible soon. The main difference between
 the two carts is the workflow for choosing the target languages.
 To make these translations, go to the ```TMGMT Sources (admin/tmgmt/sources)``` page
 and chose "Locale" or "Field Instance" tabs. After adding all desired items
@@ -62,7 +62,7 @@ as described in "Configuration" section.
 
 # Next developments
 
-In first phase, this module will run in parallel with
+In the first phase, this module will run in parallel with
 [TMGMT poetry](https://github.com/ec-europa/platform-dev/tree/master/profiles/common/modules/features/nexteuropa_dgt_connector/tmgmt_poetry)
 module and will focus on "Small jobs" (content translations of
 less than 300 characters). It is foreseen to eventually abandon the
