@@ -106,7 +106,7 @@ Feature: TMGMT Poetry Cart features
     And I check the box on the "Portuguese, Portugal" row
     And I press "Send to cart"
     Then I should see the success message "The content has been added to the cart."
-    When I go to "admin/dgt_connector/cart"
+    When I click "cart" in the "messages" region
     And I click "Send" in the "Target languages: FR, PT" row
     # Checkout page
     And I click "Change translator"
