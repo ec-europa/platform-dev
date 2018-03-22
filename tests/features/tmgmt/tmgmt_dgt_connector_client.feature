@@ -1,5 +1,5 @@
 @api @poetry_mock @i18n @poetry @theme_wip
-Feature: TMGMT Poetry features
+Feature: TMGMT Poetry Client features
   In order to request Carts translations with Poetry service.
   As an Administrator
   I want to be able to create/manage translation requests.
@@ -31,7 +31,7 @@ Feature: TMGMT Poetry features
     """
 
   @javascript
-  Scenario: I can translate contents with Carts.
+  Scenario: I can translate contents using Poetry Client.
     Given I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
