@@ -272,7 +272,13 @@ function tmgmt_dgt_connector_cart_views_default_views() {
   /* Display: Cart Bundle | Page */
   $handler = $view->new_display('page', 'Cart Bundle | Page', 'cart_page_view');
   $handler->display->display_options['display_description'] = 'Page view for the Cart Bundle entities';
-  $handler->display->display_options['path'] = 'admin/dgt_connector/cart';
+  $handler->display->display_options['path'] = 'admin/tmgmt/dgt_cart';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Small Jobs Cart';
+  $handler->display->display_options['menu']['weight'] = '21';
+  $handler->display->display_options['menu']['name'] = 'management';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
 
   $views[$view->name] = $view;
 
