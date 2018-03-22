@@ -22,7 +22,8 @@ in the ```Small Jobs Cart```, using the translator ```TMGMT DGT Translator```:
 * Taxonomies and Terms;
 * Blocks 
 
-To add one translatable item to the Small Jobs Cart, go to the translation page of that item,
+To add one translatable item to the ```Small Jobs Cart``, 
+go to the translation page of that item,
 chose the target languages and then use the "Send to cart" button.
 
 Then, in the ```Small Jobs Cart (admin/tmgmt/dgt_cart)```, you can send a bundle to be translated.
@@ -38,12 +39,12 @@ In the translation checkout page, the translator ```TMGMT DGT Translator``` must
 
 It is also possible to bundle these translatable items:
 
-* Strings/locale
-* Form labels
+* Strings/Locale
+* Form labels/Field Instances
 
 Currently we are using the ```TMGMT Cart``` for this propose. Using the ```Small Jobs Cart```
 is not possible yet but should be possible soon. Main difference between
-the two carts is the workflow for chosing the target languages.
+the two carts is the workflow for choosing the target languages.
 To make these translations, go to the ```TMGMT Sources (admin/tmgmt/sources)``` page
 and chose "Locale" or "Field Instance" tabs. After adding all desired items
 to the cart, go to the ```TMGMT Cart (admin/tmgmt/cart)``` page and request the translation.
