@@ -168,19 +168,16 @@ projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.10"
 ; Issue #2305049: Wrong timezone handling in migrate process.
 ; https://www.drupal.org/node/2305049
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
-; Nept-265 Make Date module compatible with php7
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-265
-; Known Issue #2533080: 'clone' is a reserved keyword introduced in PHP version 5.0 and cannot be invoked as a function.
-; https://www.drupal.org/node/2533080
-; However the patch is only for version 2.10, so it needs a patch that applies to oldest version such as 2.9,
-; until the platform upgrade to 2.10 (Still having some issue to be solved, so the upgrade is hold.)
-projects[date][patch][] = patches/date-clone_is_not_function-265.patch
+; Fix PHP 7.1 Error on Exposed Date Filter.
+; https://www.drupal.org/node/2889759
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1672
+projects[date][patch][] = https://www.drupal.org/files/issues/date-php7Offset-2889759-2.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
