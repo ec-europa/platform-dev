@@ -38,3 +38,15 @@ function nexteuropa_webtools_requirements($phase) {
   }
   return $requirements;
 }
+
+/**
+ * Set defer_on_js_to_load for "bean-webtools-field_json_object" field.
+ */
+function nexteuropa_webtools_update_7001() {
+  // Needs to flush the cache before the revert.
+  // The hook update meet the same issue described in
+  // https://www.drupal.org/project/i18n/issues/2082573.
+  // The cache flush was enough to fix.
+  drupal_flush_all_caches();
+  features_revert_module('nexteuropa_webtools');
+}
