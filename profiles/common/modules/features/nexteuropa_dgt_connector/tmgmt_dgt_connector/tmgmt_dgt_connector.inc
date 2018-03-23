@@ -265,8 +265,8 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
  *   Boolean
  */
 function _tmgmt_dgt_connector_translator_access($op, TMGMTTranslator $translator, array $account) {
-  if (!empty($translator) && $translator->plugin == 'tmgmt_dgt_connector') {
-    if ($op == 'delete') {
+  if ('tmgmt_dgt_connector' === $translator->plugin) {
+    if ('delete' === $op) {
       return FALSE;
     }
     else {
