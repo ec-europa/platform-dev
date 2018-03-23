@@ -243,10 +243,14 @@ function multisite_drupal_toolbox_media_wysiwyg_token_to_markup_alter(&$element,
     }
   }
 
-  // Add title and alt attributes to the img markup.
+  // Add alt attribute to the img markup.
   if (isset($tag_info['attributes']['alt'])) {
     $element['content']['file']['#item']['alt'] = $tag_info['attributes']['alt'];
-    $element['content']['file']['#item']['title'] = $tag_info['attributes']['alt'];
+  }
+
+  // Add title attribute to the img markup.
+  if (isset($tag_info['attributes']['title'])) {
+    $element['content']['file']['#item']['title'] = $tag_info['attributes']['title'];
   }
 }
 
