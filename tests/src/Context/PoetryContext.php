@@ -10,7 +10,11 @@ namespace Drupal\nexteuropa\Context;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 use Drupal\nexteuropa\Component\PyStringYamlParser;
+use Drupal\ne_dgt_rules\DgtRulesTools;
+use function bovigo\assert\assert;
+use function bovigo\assert\predicate\equals;
 
 /**
  * Class PoetryContext.
