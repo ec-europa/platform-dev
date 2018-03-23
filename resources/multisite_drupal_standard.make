@@ -168,19 +168,16 @@ projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.9"
+projects[date][version] = "2.10"
 ; Issue #2305049: Wrong timezone handling in migrate process.
 ; https://www.drupal.org/node/2305049
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-3324
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-4710
 projects[date][patch][] = https://www.drupal.org/files/issues/2305049-12.patch
-; Nept-265 Make Date module compatible with php7
-; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-265
-; Known Issue #2533080: 'clone' is a reserved keyword introduced in PHP version 5.0 and cannot be invoked as a function.
-; https://www.drupal.org/node/2533080
-; However the patch is only for version 2.10, so it needs a patch that applies to oldest version such as 2.9,
-; until the platform upgrade to 2.10 (Still having some issue to be solved, so the upgrade is hold.)
-projects[date][patch][] = patches/date-clone_is_not_function-265.patch
+; Fix PHP 7.1 Error on Exposed Date Filter.
+; https://www.drupal.org/node/2889759
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1672
+projects[date][patch][] = https://www.drupal.org/files/issues/date-php7Offset-2889759-2.patch
 
 projects[date_ical][subdir] = "contrib"
 projects[date_ical][version] = "3.9"
@@ -235,7 +232,7 @@ projects[entity_translation][patch][] = https://www.drupal.org/files/issues/enti
 projects[entity_translation][patch][] = https://www.drupal.org/files/issues/entity_translation-fix_content_translation_test-2877074-4.patch
 
 projects[entitycache][subdir] = "contrib"
-projects[entitycache][version] = 1.2
+projects[entitycache][version] = 1.5
 
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.5"
@@ -443,9 +440,6 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.2"
-
-projects[media_crop][subdir] = "contrib"
-projects[media_crop][version] = "1.4"
 
 projects[media_dailymotion][subdir] = "contrib"
 projects[media_dailymotion][version] = "1.1"
@@ -712,7 +706,7 @@ projects[username_enumeration_prevention][subdir] = "contrib"
 projects[username_enumeration_prevention][version] = "1.2"
 
 projects[uuid][subdir] = "contrib"
-projects[uuid][version] = "1.0-beta2"
+projects[uuid][version] = "1.0"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
@@ -742,7 +736,11 @@ projects[views_bootstrap][subdir] = "contrib"
 projects[views_bootstrap][version] = "3.1"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.3"
+projects[views_bulk_operations][version] = "3.4"
+
+; Rules actions 'View and display' only works if Bulk Ops field is in 'master' of a view.
+; https://www.drupal.org/node/2856974
+projects[views_bulk_operations][patch][] = https://www.drupal.org/files/issues/non_master_views_actions_2856974-2.patch
 
 projects[views_data_export][subdir] = "contrib"
 projects[views_data_export][version] = "3.2"
