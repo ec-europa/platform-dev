@@ -43,11 +43,11 @@ function nexteuropa_json_field_field_instance_settings_form($field, $instance) {
 
     $form['defer_on_js_to_load'] = array(
       '#type' => 'checkboxes',
-      '#title' => t('Add the "refer" attribute to'),
+      '#title' => t('Add the "defer" attribute to'),
       '#default_value' => isset($settings['defer_on_js_to_load']) ? $settings['defer_on_js_to_load'] : array(),
       '#options' => $options,
       '#description' => t(
-        'Add the "<a href="@url" target="_blank">refer</a>" attribute in the &lt;script&gt; HTML tag of the Javascript files selected above.',
+        'Add the "<a href="@url" target="_blank">defer</a>" attribute in the &lt;script&gt; HTML tag of the Javascript files selected above.',
         array('@url' => 'https://dev.w3.org/html5/spec-preview/the-script-element.html#attr-script-defer')),
       '#weight' => 2,
     );
