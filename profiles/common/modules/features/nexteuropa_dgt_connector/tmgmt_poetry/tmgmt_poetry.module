@@ -143,9 +143,6 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   // Changing fieldsets labels.
   $form['translator_wrapper']['#title'] = t('Translation request details');
 
-  // Attaching the custom script for the 'Translator' select field.
-  $form['#attached']['js'][] = drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js';
-
   // If job form was never submitted load default translator settings.
   if (!isset($form_state['values'])) {
 
@@ -170,15 +167,19 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     }
   }
 
-  // If tmgmt_poetry job form was submitted, check translator and load settings.
+  // If job form was submitted, check translator and load settings.
   if (isset($form_state['values']['translator'])) {
     $job->translator = $form_state['values']['translator'];
     _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
   }
 
-  // If job is submittable to the translator then don't show job items fieldset.
   if ($job->isSubmittable()) {
+    // Don't show job items fieldset.
     $form['job_items_wrapper']['#access'] = FALSE;
+
+    // Avoid user from leaving page without further actions.
+    $form['#attached']['js'][] = drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js';
+    drupal_set_message(t('Please remember to either send or delete the job before leaving this page.'), 'warning');
   }
 
   // Overwriting details which are coming from tmgmt_ui.pages.inc.
@@ -234,7 +235,6 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
       );
     }
   }
-  drupal_set_message(t('Please remember to either send or delete the job before leaving this page.'), 'warning');
 }
 
 /**
