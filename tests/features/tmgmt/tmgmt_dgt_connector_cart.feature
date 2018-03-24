@@ -51,6 +51,7 @@ Feature: TMGMT Poetry Cart features
 
   @javascript
   Scenario: I can add contents to cart.
+    Given I go to "admin/tmgmt/dgt_cart"
     When I am viewing a multilingual "page" content:
       | language | title     | field_ne_body | status |
       | en       | My page 1 | Short body    | 1      |
