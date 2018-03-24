@@ -572,23 +572,6 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * Click on the element with the provided xpath query.
-   *
-   * @When /^I click on the element with xpath "([^"]*)"$/
-   */
-  public function iClickOnTheElementWithxPath($xpath) {
-      $session = $this->getSession();
-      $element = $session->getPage()->find(
-          'xpath',
-          $session->getSelectorsHandler()->selectorToXpath('xpath', $xpath)
-      );
-      if (NULL === $element) {
-          throw new \InvalidArgumentException(sprintf('Could not evaluate XPath: "%s"', $xpath));
-      }
-      $element->click();
-  }
-
-  /**
    * Returns a specific css selector.
    *
    * @param string $name
