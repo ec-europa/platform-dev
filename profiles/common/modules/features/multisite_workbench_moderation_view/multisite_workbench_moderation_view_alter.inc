@@ -295,6 +295,7 @@ function multisite_workbench_moderation_view_views_default_views_alter(&$views) 
     $handler->display->display_options['menu']['title'] = 'Moderate All';
     $handler->display->display_options['menu']['weight'] = '99';
     $handler->display->display_options['menu']['context'] = 0;
+    $handler->display->display_options['exposed_block'] = TRUE;
 
     /*
      * Remove menu tab

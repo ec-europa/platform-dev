@@ -166,6 +166,12 @@ function cce_basic_config_form_alter(&$form, &$form_state, $form_id) {
       '#default_value' => $settings['presets']['#default_value'],
     );
   }
+
+  // NEPT-1679: Add validation on subject field. To be removed in NEPT-1817.
+  if (isset($form['subject'])) {
+    $form['#validate'][] = '_cce_basic_config_subject_validate';
+  }
+
   return $form;
 }
 
@@ -298,7 +304,11 @@ function cce_basic_config_field_default_fields_instances_alter(&$fields) {
  * @see https://www.drupal.org/node/2412221
  */
 function cce_basic_config_form_node_form_alter(&$form, $form_state) {
+
   $form['#after_build'][] = 'cce_basic_config_form_node_form_after_build';
+
+  // NEPT-1679: Add validation on title field... to be removed in NEPT-1817.
+  $form['#validate'][] = '_cce_basic_config_title_validate';
 }
 
 /**
@@ -358,4 +368,88 @@ function cce_basic_config_preprocess_container(&$variables) {
     }
     $variables['theme_hook_suggestions'][] = $prefix . $suffix;
   }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area" widget.
+ * NEPT-1679
+ * To be removed in NEPT-1817
+ *
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ */
+function cce_basic_config_field_widget_text_textarea_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text area with a summary" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_text_textarea_with_summary_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "Text field" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_text_textfield_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "taxonomy autocomplete" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_taxonomy_autocomplete_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "entityreference autocomplete" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_entityreference_autocomplete_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * It implements it for "entityreference autocomplete tags" widget.
+ *
+ * @see NEPT-1679
+ * @see https://www.drupal.org/project/drupal/issues/2488180
+ * @see https://www.drupal.org/node/2754539
+ * To be removed in NEPT-1817
+ */
+function cce_basic_config_field_widget_entityreference_autocomplete_tags_form_alter(&$element, &$form_state, $context) {
+  _cce_basic_config_field_widget_form_alter($element, $form_state, $context);
 }
