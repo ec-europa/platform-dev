@@ -511,6 +511,8 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
       'error');
     _tmgmt_poetry_update_item_status($related_job->tjiid, "", $status_message, "");
   }
+
+  drupal_set_message($internal_message, 'error');
 }
 
 /**

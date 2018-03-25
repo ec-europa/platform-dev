@@ -238,6 +238,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     }
     catch (Exception $e) {
       drupal_set_message($e->getMessage(), 'error');
+      watchdog_exception('tmgmt_poetry', $e);
     }
 
   }
