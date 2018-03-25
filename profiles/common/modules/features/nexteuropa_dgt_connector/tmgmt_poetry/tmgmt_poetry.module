@@ -68,7 +68,7 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
  */
 function tmgmt_poetry_tmgmt_job_delete($job) {
   if ($job->hasPoetryTranslator() && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
-    $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+    $related_jobs = tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
     foreach ($related_jobs as $related_job) {
       entity_get_controller('tmgmt_job')->delete(array($related_job->tjid));
       entity_get_controller('tmgmt_job_item')->delete(array($related_job->tjiid));
@@ -332,7 +332,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 
       // If there was already a job item for new target language, delete it.
       // This is usefull for the #cart.
-      $result = _tmgmt_poetry_obtain_related_translation_jobs(array($new_main_lg), 'SUB_' . $origin_job->tjid);
+      $result = tmgmt_poetry_obtain_related_translation_jobs(array($new_main_lg), 'SUB_' . $origin_job->tjid);
 
       if ($row = $result->fetchAssoc()) {
         entity_get_controller('tmgmt_job')->delete(array($row['tjid']));
@@ -417,7 +417,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   }
 
   if (!empty($language_targets_to_remove)) {
-    $result = _tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
+    $result = tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
 
     // If any, removed found translations.
     if ($result) {
@@ -459,7 +459,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
  * @return mixed
  *   mixed.
  */
-function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
+function tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
   $query->fields('job', array('tjid'));
@@ -501,7 +501,7 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
   }
 
   // Reject the related sub Job.
-  $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+  $related_jobs = tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
 
   foreach ($related_jobs as $related_job) {
     $job_rejected = tmgmt_job_load($related_job->tjid);

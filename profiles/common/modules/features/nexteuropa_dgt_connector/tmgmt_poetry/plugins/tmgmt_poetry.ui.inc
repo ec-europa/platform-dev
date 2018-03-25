@@ -202,7 +202,7 @@ class TMGMTPoetryTranslatorUIController extends TMGMTDefaultTranslatorUIControll
         continue;
       }
 
-      $language_job_ids = _tmgmt_poetry_obtain_related_translation_jobs(array($language->language), '%' . str_replace('MAIN_', '', $job->reference))->fetchAll();
+      $language_job_ids = tmgmt_poetry_obtain_related_translation_jobs(array($language->language), '%' . str_replace('MAIN_', '', $job->reference))->fetchAll();
       if (count($language_job_ids) > 0) {
         $language_job_id = array_shift($language_job_ids);
         $language_job_item = tmgmt_job_item_load($language_job_id->tjiid);
