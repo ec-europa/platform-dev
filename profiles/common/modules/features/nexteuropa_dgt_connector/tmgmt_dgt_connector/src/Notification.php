@@ -227,7 +227,7 @@ class Notification {
       );
       return;
     }
-    $main_id = $ids[0];
+    $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
     // 1. Check status of request.
