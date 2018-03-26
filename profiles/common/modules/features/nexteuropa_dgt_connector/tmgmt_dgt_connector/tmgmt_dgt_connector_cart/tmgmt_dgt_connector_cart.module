@@ -312,6 +312,7 @@ function _tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, a
           // to fail for others, so remove it from the array.
           unset($job_items_by_source_language[$source_language][$id]);
           drupal_set_message($e->getMessage(), 'error');
+          watchdog_exception('tmgmt_poetry' , $e);
         }
       }
 

@@ -233,14 +233,20 @@ class Notification {
     // 1. Check status of request.
     $request_status = $message->getRequestStatus();
     if ($request_status->getCode() != '0') {
+      $msg_info = array(
+        '@reference' => $reference,
+        '@message' => $message->getRaw(),
+      ),
       watchdog(
         'tmgmt_poetry',
         'Job @reference received a Status Update with issues. Message: @message',
-        array(
-          '@reference' => $reference,
-          '@message' => $message->getRaw(),
-        ),
+        $msg_info,
         WATCHDOG_ERROR
+      );
+      $main_job->addMessage(
+        'Job @reference received a Status Update with issues. Message: @message',
+        $msg_info,
+        'error'
       );
       return;
     }
