@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * @file
+ * Nexteuropa_admin_language install file.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Sets the "administration_language_negotiation" settings.
+ */
+function nexteuropa_admin_language_install() {
+  // Set administration_language_negotiation as default language negotiation.
+  $enabled_providers_interface = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE);
+  $enabled_providers_content = variable_get('language_negotiation_' . LANGUAGE_TYPE_CONTENT);
+  $language_admin_provider = array(
+    'language-administration' => array(
+      'callbacks' => array(
+        'language' => 'administration_language_negotiation_admin_language',
+      ),
+      'file' => drupal_get_path('module', 'administration_language_negotiation') . '/administration_language_negotiation.module',
+      'cache' => 0,
+    ),
+  );
+
+  // NEPT-8: Don't use interface language as admin interface is always EN.
+  unset($enabled_providers_content[LOCALE_LANGUAGE_NEGOTIATION_INTERFACE]);
+
+  drupal_static_reset("language_negotiation_info");
+  variable_set('administration_language_negotiation_default', 'en');
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers_interface + $language_admin_provider);
+  language_negotiation_set(LANGUAGE_TYPE_CONTENT, $enabled_providers_content);
+}
+
+/**
+ * Implements hook_disable().
+ *
+ * Unset "administration_language_negotiation" settings.
+ */
+function nexteuropa_admin_language_disable() {
+  $enabled_providers_interface = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE, FALSE);
+  if (!empty($enabled_providers_interface['language-administration'])) {
+    // Disable admin language negotiation.
+    unset($enabled_providers_interface['language-administration']);
+    language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers_interface);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Uninstall "administration_language_negotiation" module.
+ */
+function nexteuropa_admin_language_uninstall() {
+  module_disable(array('administration_language_negotiation'));
+  drupal_uninstall_modules(array('administration_language_negotiation'));
+}
