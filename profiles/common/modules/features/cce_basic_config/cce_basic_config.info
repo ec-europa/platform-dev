@@ -122,7 +122,6 @@ features[variable][] = clean_url
 features[variable][] = comment_anonymous_article
 features[variable][] = comment_article
 features[variable][] = comment_default_mode_article
-features[variable][] = comment_form_location_article
 features[variable][] = comment_preview_article
 features[variable][] = comment_subject_field_article
 features[variable][] = date_api_version
