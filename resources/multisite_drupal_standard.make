@@ -484,11 +484,19 @@ projects[menu_token][subdir] = "contrib"
 projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.patch
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.10"
+projects[message][version] = "1.12"
 ; Fix for an error when the purge limit fall below 0 during the cron execution.
 ; https://www.drupal.org/node/2030101
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1704
 projects[message][patch][2030101] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
+; Fix Message type receive new internal ID on feature revert.
+; https://www.drupal.org/project/message/issues/2719823
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1744
+projects[message][patch][2719823] = https://www.drupal.org/files/issues/message-preserve-local-ids-on-revert-2719823-2.patch
+; Fix Cloning fails when changing the form with ajax.
+; https://www.drupal.org/project/message/issues/2872964
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1744
+projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-message-cloneajax-2.patch
 
 
 projects[metatag][subdir] = "contrib"
