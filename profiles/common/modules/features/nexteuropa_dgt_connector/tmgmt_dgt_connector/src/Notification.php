@@ -236,7 +236,7 @@ class Notification {
       $msg_info = array(
         '@reference' => $reference,
         '@message' => $message->getRaw(),
-      ),
+      );
       watchdog(
         'tmgmt_poetry',
         'Job @reference received a Status Update with issues. Message: @message',
