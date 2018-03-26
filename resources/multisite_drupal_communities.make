@@ -28,3 +28,13 @@ projects[og_linkchecker][download][revision] = 7257d0e
 projects[og_linkchecker][download][type] = git
 projects[og_linkchecker][subdir] = contrib
 projects[og_linkchecker][patch][] = https://www.drupal.org/files/issues/og_linkchecker-og-2-x-compatibility-2214661-2.patch
+
+; ==============
+; Custom modules
+; ==============
+
+projects[nexteuropa_poetry][subdir] = "contrib"
+projects[nexteuropa_poetry][type] = module
+projects[nexteuropa_poetry][download][type] = git
+projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
+projects[nexteuropa_poetry][download][branch] = master

@@ -183,7 +183,6 @@ function _cce_basic_config_subject_validate($form, &$form_state) {
  * To be removed in NEPT-1817
  */
 function _cce_basic_config_title_validate($form, &$form_state) {
-
   if (isset($form_state['values']['title']) && !empty($form_state['values']['title'])) {
     $title = 'Title';
     $emoji = _cce_basic_config_check_emoji($form_state['values']['title']);

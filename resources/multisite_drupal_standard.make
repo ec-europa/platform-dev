@@ -484,11 +484,19 @@ projects[menu_token][subdir] = "contrib"
 projects[menu_token][patch][] = https://www.drupal.org/files/issues/2838033_1.patch
 
 projects[message][subdir] = "contrib"
-projects[message][version] = "1.10"
+projects[message][version] = "1.12"
 ; Fix for an error when the purge limit fall below 0 during the cron execution.
 ; https://www.drupal.org/node/2030101
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1704
 projects[message][patch][2030101] = https://www.drupal.org/files/issues/fix-cron-purge-messages-error-2030101-2.patch
+; Fix Message type receive new internal ID on feature revert.
+; https://www.drupal.org/project/message/issues/2719823
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1744
+projects[message][patch][2719823] = https://www.drupal.org/files/issues/message-preserve-local-ids-on-revert-2719823-2.patch
+; Fix Cloning fails when changing the form with ajax.
+; https://www.drupal.org/project/message/issues/2872964
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1744
+projects[message][patch][2872964] = https://www.drupal.org/files/issues/2872964-message-cloneajax-2.patch
 
 
 projects[metatag][subdir] = "contrib"
@@ -712,7 +720,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[video][subdir] = "contrib"
-projects[video][version] = "2.11"
+projects[video][version] = "2.13"
 projects[video][patch][] = patches/video-revert_issue-1891012-0.patch
 projects[video][patch][] = patches/video-security-883.patch
 
@@ -1026,3 +1034,13 @@ projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
 projects[ec_europa][download][tag] = 0.0.10
+
+; ==============
+; Custom modules
+; ==============
+
+projects[nexteuropa_poetry][subdir] = "contrib"
+projects[nexteuropa_poetry][type] = module
+projects[nexteuropa_poetry][download][type] = git
+projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
+projects[nexteuropa_poetry][download][branch] = master

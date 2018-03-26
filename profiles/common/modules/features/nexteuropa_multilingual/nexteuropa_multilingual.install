@@ -59,7 +59,7 @@ function nexteuropa_multilingual_install() {
   // NEPT-8: Don't use interface language as admin interface is always EN.
   multisite_config_service('locale')->disableLanguageNegotiation(LOCALE_LANGUAGE_NEGOTIATION_INTERFACE, LANGUAGE_TYPE_CONTENT);
 
-  // Set nexteuropa_multilingual_url_suffix as default language negotiation
+  // Set nexteuropa_multilingual_url_suffix as default language negotiation.
   multisite_config_service('locale')->addLanguageNegotiation('nexteuropa_multilingual_url_suffix');
   multisite_config_service('locale')->addLanguageNegotiation('nexteuropa_multilingual_url_suffix', -8, LANGUAGE_TYPE_CONTENT);
 
