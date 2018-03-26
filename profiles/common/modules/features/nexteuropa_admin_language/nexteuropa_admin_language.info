@@ -3,3 +3,4 @@ description = Feature with the default settings for the "Administration language
 core = 7.x
 
 dependencies[] = administration_language_negotiation
+dependencies[] = multisite_config
