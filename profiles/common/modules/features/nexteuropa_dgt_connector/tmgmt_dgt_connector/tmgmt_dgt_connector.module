@@ -1,0 +1,132 @@
+<?php
+
+/**
+ * @file
+ * Module file of the TMGMT DGT connector.
+ */
+
+use Drupal\tmgmt_dgt_connector\Notification;
+
+define('TMGMT_DGT_CONNECTOR_MAX_LENGTH', 300);
+define('TMGMT_DGT_CONNECTOR_TRANSLATOR_NAME', 'tmgmt_dgt_connector');
+
+module_load_include('inc', 'tmgmt_dgt_connector');
+
+/**
+ * Implements hook_permission().
+ */
+function tmgmt_dgt_connector_permission() {
+  return array(
+    'administer dgt connector' => array(
+      'title' => 'Administer DGT Connector features',
+      'description' => 'Allows to administer of the DGT Connector features.',
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function tmgmt_dgt_connector_menu() {
+  $items = array();
+
+  $items['tmgmt_dgt_connector/server'] = array(
+    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::endpoint',
+    // Authentication is done within the service.
+    'access callback' => TRUE,
+  );
+
+  $items['tmgmt_dgt_connector/DGTServicesIntegration.wsdl'] = array(
+    'page callback' => '\Drupal\\tmgmt_dgt_connector\\Server::wsdl',
+    // Authentication is done within the service.
+    'access callback' => TRUE,
+  );
+
+  $items['admin/config/system/dgt_connector'] = array(
+    'title' => 'TMGMT DGT Connector - Configuration',
+    'description' => 'Configuration of the TMGMT DGT Connector.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tmgmt_dgt_connector_admin_settings_form'),
+    'access arguments' => array('administer dgt connector'),
+    'file' => 'tmgmt_dgt_connector.admin.inc',
+  );
+
+  $items['admin/config/system/dgt_connector/general'] = array(
+    'title' => 'General settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_nexteuropa_poetry_notification_translation_received().
+ */
+function tmgmt_dgt_connector_nexteuropa_poetry_notification_translation_received($message) {
+  $subscriber = new Notification();
+  $subscriber->translationReceived($message);
+}
+
+/**
+ * Implements hook_nexteuropa_poetry_notification_status_updated().
+ */
+function tmgmt_dgt_connector_nexteuropa_poetry_notification_status_updated($message) {
+  $subscriber = new Notification();
+  $subscriber->statusUpdated($message);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Change the form on the 'Translate' tab to provide the
+ * nexteuropa_dgt_connector module functionalities.
+ */
+function tmgmt_dgt_connector_form_tmgmt_entity_ui_translate_form_alter(&$form, &$form_state) {
+  if (!isset($form_state['tmgmt_cart'])) {
+    return;
+  }
+  $cart_info = $form_state['tmgmt_cart'];
+  // Set plugin for #cart .
+  $form_state['tmgmt_cart']['plugin'] = 'workbench_moderation';
+
+  if (!_tmgmt_dgt_connector_smalljob_translation_possible($cart_info['plugin'], $cart_info['item_type'], $cart_info['item_id'])) {
+    // Remove add to cart button.
+    unset($form['top_actions']);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function tmgmt_dgt_connector_form_tmgmt_ui_cart_content_alter(&$form, &$form_state) {
+
+  // Remove "Enforce source language" option, not interesting for our case.
+  $form['enforced_source_language']['#type'] = 'hidden';
+
+  // Define callback function when submiting.
+  $form['request_translation']['#submit'] = array('_tmgmt_dgt_connector_workbench_store_request_languages_callback');
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function tmgmt_dgt_connector_entity_info_alter(&$entity_info) {
+  $entity_info['tmgmt_job']['controller class'] = 'TMGMTPoetryJobController';
+  $entity_info['tmgmt_job']['entity class'] = 'TMGMTPoetryJob';
+  $entity_info['tmgmt_translator']['access callback'] = '_tmgmt_dgt_connector_translator_access';
+}
+
+/**
+ * Implements hook_tmgmt_translator_plugin_info().
+ */
+function tmgmt_dgt_connector_tmgmt_translator_plugin_info() {
+  return array(
+    'tmgmt_dgt_connector' => array(
+      'label' => t('TMGMT DGT Connector'),
+      'description' => t('TMGMT DGT Connector Translation service.'),
+      'plugin controller class' => 'TmgmtDgtConnectorTranslatorPluginController',
+      'ui controller class' => 'TmgmtDgtConnectorTranslatorUIController',
+    ),
+  );
+}
