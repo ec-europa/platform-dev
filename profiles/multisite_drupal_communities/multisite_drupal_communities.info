@@ -2,6 +2,7 @@ name = Multisite communities platform
 description = Install with starting features pre-configured and modules required by the multisite platform.
 core = 7.x
 
+dependencies[] = administration_language_negotiation
 dependencies[] = admin_menu
 dependencies[] = advanced_help
 dependencies[] = better_formats
