@@ -47,7 +47,6 @@ features[taxonomy][] = nexteuropa_event_type
 features[variable][] = comment_anonymous_nexteuropa_event
 features[variable][] = comment_default_mode_nexteuropa_event
 features[variable][] = comment_default_per_page_nexteuropa_event
-features[variable][] = comment_form_location_nexteuropa_event
 features[variable][] = comment_nexteuropa_event
 features[variable][] = comment_preview_nexteuropa_event
 features[variable][] = comment_subject_field_nexteuropa_event
