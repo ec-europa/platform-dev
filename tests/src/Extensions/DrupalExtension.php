@@ -30,6 +30,7 @@ class DrupalExtension extends OriginalDrupalExtension {
       children()->
         arrayNode('selectors')->
           children()->
+            scalarNode('node_tag')->end()->
             scalarNode('message_selector')->end()->
             scalarNode('error_message_selector')->end()->
             scalarNode('success_message_selector')->end()->
