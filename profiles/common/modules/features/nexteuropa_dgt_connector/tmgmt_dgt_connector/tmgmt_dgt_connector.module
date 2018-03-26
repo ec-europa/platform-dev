@@ -105,7 +105,7 @@ function tmgmt_dgt_connector_form_tmgmt_ui_cart_content_alter(&$form, &$form_sta
   $form['enforced_source_language']['#type'] = 'hidden';
 
   // Add a callback function when submiting.
-  $form['request_translation']['#submit'] = array('_tmgmt_dgt_connector_workbench_store_request_languages_callback');
+  $form['request_translation']['#submit'][] = array('_tmgmt_dgt_connector_workbench_store_request_languages_callback');
 }
 
 /**
