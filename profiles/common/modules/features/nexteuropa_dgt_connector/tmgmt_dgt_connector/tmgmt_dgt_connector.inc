@@ -51,17 +51,16 @@ function _tmgmt_dgt_connector_get_content_length($entity) {
  *
  * @return array
  *   Returns an array of structured data.
- *
- * @throws \TMGMTException
  */
 function _tmgmt_dgt_connector_get_source_data($plugin_type, $entity_type, $entity_id) {
+  $data = array();
   $data_collector_func = sprintf('_tmgmt_dgt_connector_get_%s_data', $plugin_type);
 
   if (function_exists($data_collector_func)) {
-    return call_user_func($data_collector_func, $entity_type, $entity_id);
+    $data = call_user_func($data_collector_func, $entity_type, $entity_id);
   }
 
-  throw new TMGMTException(t('Unable to find data loader for plugin type %type', array('%type' => $plugin_type)));
+  return $data;
 }
 
 /**
@@ -292,6 +291,9 @@ function _tmgmt_dgt_connector_translator_access($op, TMGMTTranslator $translator
  */
 function _tmgmt_dgt_connector_smalljob_translation_possible($plugin_type, $item_type, $item_id) {
   $source_data = _tmgmt_dgt_connector_get_source_data($plugin_type, $item_type, $item_id);
+  if (empty($source_data)) {
+    return FALSE;
+  }
   $length = _tmgmt_dgt_connector_count_source_data($source_data);
 
   return $length <= variable_get('tmgmt_dgt_connector_max_lenght', TMGMT_DGT_CONNECTOR_MAX_LENGTH);
