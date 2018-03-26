@@ -178,11 +178,13 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
    *   Array of TMGMT Job object.
    * @param array $parameters
    *   An array with additional parameters like the organisation data.
+   * @param bool $direct_translation
+   *   TRUE if the translation is direct (it skips initial review).
    *
    * @return array|bool
    *   An array with data for the 'Rules workflow' or FALSE if errors appear.
    */
-  public function requestTranslations(array $jobs, array $parameters) {
+  public function requestTranslations(array $jobs, array $parameters, $direct_translation = FALSE) {
     $rules_response = array();
 
     // Checking if there is a node associated with the given job.
@@ -190,7 +192,10 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
       // Getting the identifier data.
       $identifier = $this->getIdentifier($jobs[0], $node->nid, $parameters['requester_code']);
 
-      if (!isset($identifier['identifier.sequence'])) {
+      // Ensure that if sequence is:
+      // * defined, then there was not a review and translation is direct;
+      // * undefined, then there was a review and translation not is direct.
+      if (isset($identifier['identifier.sequence']) === (bool) $direct_translation) {
         // Getting the request data.
         $data = $this->getRequestData($jobs, $node, $parameters['delay']);
 
@@ -207,12 +212,20 @@ class TmgmtDgtFttTranslatorPluginController extends TMGMTDefaultTranslatorPlugin
         $rules_response = $this->processResponse($dgt_response, $jobs);
       }
       else {
+        if ($direct_translation) {
+          $msg = 'There is an entry in the entity mapping table for a given
+          content. Please make sure that no requests were sent before
+          sending the direct translation request.';
+        }
+        else {
+          $msg = 'There is no entry in the entity mapping table for given
+          content. Please make sure that the review request was sent before
+          the translation request.';
+        }
         watchdog(
           'ne_tmgmt_dgt_ftt_translator',
-          "There is no entry in the entity mapping table for a given
-          content. Please make sure that the review request was sent before
-          the translation request. Node ID: %nid",
-          array('%nid' => $node->nid),
+          "%msg  Node ID: %nid",
+          array('%msg' => $msg, '%nid' => $node->nid),
           WATCHDOG_ERROR
         );
       }
