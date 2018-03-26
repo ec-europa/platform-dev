@@ -10,7 +10,7 @@ After enabling this module, it will be possible to translate:
 
 #### Content with length above 300 characters
 
-This will work like when using only the  ```TMGMT Poetry``` module and translator ```Poetry Connector```.
+This will work like when using only the  ```TMGMT Poetry``` module and translator ```DGT Connector```.
 
 #### Other translatable items using Small Jobs Cart
 
