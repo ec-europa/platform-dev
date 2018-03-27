@@ -214,6 +214,9 @@ function nexteuropa_webtools_field_default_field_instances() {
       'js_to_load' => array(
         'nexteuropa_webtools_smartloader_prurl' => 'nexteuropa_webtools_smartloader_prurl',
       ),
+      'defer_on_js_to_load' => array(
+        'nexteuropa_webtools_smartloader_prurl' => 'nexteuropa_webtools_smartloader_prurl',
+      ),
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),

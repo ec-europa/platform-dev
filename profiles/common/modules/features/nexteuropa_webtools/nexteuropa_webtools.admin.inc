@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Administration forms for the NextEuropa Webtools feature.
@@ -12,7 +13,7 @@ function nexteuropa_webtools_settings_form() {
 
   $form['nexteuropa_webtools_smartloader_prurl'] = array(
     '#type' => 'textfield',
-    '#title' => t('Smarloader Protocol-Relative URL'),
+    '#title' => t('Smartloader Protocol-Relative URL'),
     '#default_value' => variable_get('nexteuropa_webtools_smartloader_prurl', ''),
     '#description' => t("The URL of the webtools smartloader script. e.g. '//example.com/load.js'"),
     '#required' => TRUE,
