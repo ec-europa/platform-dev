@@ -26,7 +26,6 @@ features[user_permission][] = edit own gallerymedia content
 features[variable][] = comment_anonymous_gallerymedia
 features[variable][] = comment_default_mode_gallerymedia
 features[variable][] = comment_default_per_page_gallerymedia
-features[variable][] = comment_form_location_gallerymedia
 features[variable][] = comment_gallerymedia
 features[variable][] = comment_preview_gallerymedia
 features[variable][] = comment_subject_field_gallerymedia

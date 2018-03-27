@@ -24,6 +24,13 @@ function multisite_forum_core_enable() {
 }
 
 /**
+ * Use soft config for article comment form location.
+ */
+function multisite_forum_core_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('discussion', 1);
+}
+
+/**
  * Implements hook_disable().
  */
 function multisite_forum_core_disable() {

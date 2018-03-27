@@ -28,7 +28,6 @@ function nexteuropa_json_field_field_info() {
  */
 function nexteuropa_json_field_field_instance_settings_form($field, $instance) {
   $options = module_invoke_all('json_field_js_to_load');
-
   $form = array();
 
   if (!empty($options)) {
@@ -39,8 +38,21 @@ function nexteuropa_json_field_field_instance_settings_form($field, $instance) {
       '#default_value' => isset($settings['js_to_load']) ? $settings['js_to_load'] : array(),
       '#options' => $options,
       '#description' => t('Select external javascripts to load for this field'),
+      '#weight' => 1,
+    );
+
+    $form['defer_on_js_to_load'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('Add the "defer" attribute to'),
+      '#default_value' => isset($settings['defer_on_js_to_load']) ? $settings['defer_on_js_to_load'] : array(),
+      '#options' => $options,
+      '#description' => t(
+        'Add the "<a href="@url" target="_blank">defer</a>" attribute in the &lt;script&gt; HTML tag of the Javascript files selected above.',
+        array('@url' => 'https://dev.w3.org/html5/spec-preview/the-script-element.html#attr-script-defer')),
+      '#weight' => 2,
     );
   }
+
   return $form;
 }
 
@@ -80,12 +92,30 @@ function nexteuropa_json_field_field_formatter_view($entity_type, $entity, $fiel
       $settings = $instance['settings'];
       if (isset($settings['js_to_load']) && !empty($settings['js_to_load'])) {
         static $javascript_included;
-        foreach ($settings['js_to_load'] as $js_variable) {
+
+        $defer_settings = (!empty($settings['defer_on_js_to_load'])) ? $settings['defer_on_js_to_load'] : array();
+
+        foreach ($settings['js_to_load'] as $key => $js_variable) {
+          // If the field instance is saved and a listed "js to load" is not
+          // selected, $js_variable == 0 instead of the parameter name.
+          if (empty($js_variable)) {
+            continue;
+          }
+
           $js_url = variable_get($js_variable, '');
+
           if ($js_url != '' && !$javascript_included[$js_variable]) {
+            // NEPT-1894: The $defer parameter is set as below in order to
+            // ensure the backward compatibility of this evolution without
+            // implying a hook_update that was forbidden at implementation time.
+            $defer = TRUE;
+            if (isset($defer_settings[$key])) {
+              $defer = $defer_settings[$key];
+            }
+
             // Ensure to use a PR URL (compatibility for http/https).
             $js_url = preg_replace("#^https?:#", "", $js_url);
-            drupal_add_js($js_url, 'external');
+            drupal_add_js($js_url, array('type' => 'external', 'defer' => $defer));
             $javascript_included[$js_variable] = TRUE;
           }
         }
