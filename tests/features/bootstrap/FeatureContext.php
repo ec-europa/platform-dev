@@ -576,12 +576,18 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @param string $name
    *   string CSS selector name.
+   *
+   * @return string
+   *   The selector.
+   *
+   * @throws Exception
    */
   public function getDrupalSelector($name) {
     $text = $this->getDrupalParameter('selectors');
     if (!isset($text[$name])) {
       throw new \Exception(sprintf('No such selector configured: %s', $name));
     }
+
     return $text[$name];
   }
 

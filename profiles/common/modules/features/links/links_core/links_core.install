@@ -21,6 +21,13 @@ function links_core_enable() {
 }
 
 /**
+ * Use soft config for article comment form location.
+ */
+function links_core_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('links', 0);
+}
+
+/**
  * Implements hook_disable().
  *
  * Edit communities context to remove block

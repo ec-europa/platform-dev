@@ -23,6 +23,13 @@ function wiki_core_enable() {
 }
 
 /**
+ * Use soft config for wiki comment form location.
+ */
+function wiki_core_install() {
+  multisite_config_service('comment')->setThreadingCommentForContentType('wiki', 0);
+}
+
+/**
  * Implements hook_disable().
  */
 function wiki_core_disable() {
