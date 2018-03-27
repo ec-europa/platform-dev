@@ -87,64 +87,11 @@ function multisite_settings_core_update_7123() {
 }
 
 /**
- * Enable "Administration language negotiation" with the platform settings.
+ * Enable "NextEuropa Administration Language" with the platform settings.
  */
 function multisite_settings_core_update_7124() {
-  // Ensure that the module is enabled.
-  if (!module_exists('administration_language_negotiation')) {
-    // If not, enable it UNLESS if its alternative "admin_language" is enabled
-    // like on the REPS sites.
-    if (module_exists('admin_language')) {
-      return t('administration_language_negotiation is not enabled because "admin_language" already is.');
-    }
-
-    module_enable(array('administration_language_negotiation'));
+  if (module_exists('admin_language')) {
+    return t('nexteuropa_admin_language is not enabled because "admin_language" already is.');
   }
-
-  // Ensure that the 'language-administration' provider is enabled.
-  $enabled_providers_interface = variable_get('language_negotiation_' . LANGUAGE_TYPE_INTERFACE, FALSE);
-  if (empty($enabled_providers_interface['language-administration'])) {
-    $language_admin_provider = array(
-      'language-administration' => array(
-        'callbacks' => array(
-          'language' => 'administration_language_negotiation_admin_language',
-        ),
-        'file' => drupal_get_path('module', 'administration_language_negotiation') . '/administration_language_negotiation.module',
-        'cache' => 0,
-      ),
-    );
-    language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $enabled_providers_interface + $language_admin_provider);
-  }
-
-  // Ensure that the "admin" language is set.
-  // If not, set to English.
-  if (empty(variable_get('administration_language_negotiation_default', FALSE))) {
-    $admin_language = 'en';
-    // In case, a site has not enabled "english".
-    $language_list = language_list();
-    if (isset($language_list['en']) || !$language_list['en']->status) {
-      $admin_language = language_default('language');
-    }
-    variable_set('administration_language_negotiation_default', $admin_language);
-  }
-
-  // Ensure that the paths that are considered as admin page are set.
-  // If not, set the default platform list.
-  if (empty(variable_get('administration_language_negotiation_paths', FALSE))) {
-    variable_set(
-      'administration_language_negotiation_paths',
-      array(
-        '*admin',
-        '*admin/*',
-        '*node/*/edit*',
-        '*node/*/translate*',
-        '*admin_menu/*',
-        '/*/admin/*',
-        '/*/node/*/edit',
-        '/*/node/*/translate',
-        '/*/admin_menu/*',
-      )
-    );
-  }
-
+  module_enable(array('nexteuropa_admin_language'));
 }
