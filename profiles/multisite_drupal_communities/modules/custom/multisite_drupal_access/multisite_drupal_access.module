@@ -11,8 +11,8 @@
 function multisite_drupal_access_node_access_records($node) {
   $grants = array();
 
-  // Give the right for any users to view community type.
-  if ($node->type == 'community') {
+  // Give the right for any users to view community type when it is published.
+  if ($node->type == 'community' && !empty($node->status)) {
     $grants[] = array(
       'realm' => 'all',
       'gid' => 0,
@@ -26,9 +26,9 @@ function multisite_drupal_access_node_access_records($node) {
   // Allow users to see their own unpublished contents in OG group.
   // If revision is not published we need to grant access to group.
   if (isset($node->workbench_moderation['my_revision']) && !$node->workbench_moderation['my_revision']->published) {
-    // Fet the groups defined in the node.
+    // Fetch the groups defined in the node.
     $groups = og_get_entity_groups('node', $node);
-    if (isset($groups['node']) && !empty($groups)) {
+    if (isset($groups['node'])) {
       // For each group set a grant.
       foreach ($groups['node'] as $gid) {
         $grants[] = array(
@@ -53,20 +53,25 @@ function multisite_drupal_access_node_access_records($node) {
  * Implements hook_node_grants().
  */
 function multisite_drupal_access_node_grants($account, $op) {
-  if ($op != 'view') {
+  if (($op != 'view') && (!empty($account->status))) {
     return;
   }
-  $grants = array();
-  // Get all OG Group.
-  // (Not only user's group in order to check perm for non-member OG role.).
-  $groups = multisite_drupal_access_og_get_all_group();
-  if (!empty($groups)) {
-    foreach ($groups as $group_id) {
-      if (($account->uid || ($account->uid == 0 && user_access("view own unpublished content"))) && (og_user_access('node', $group_id, 'view own unpublished content') || og_user_access('node', $group_id, 'View all unpublished content'))) {
-        $grants['multisite_drupal_access_og_view_own_unpublished_' . $account->uid][] = $group_id;
+
+  $grants = &drupal_static(__FUNCTION__ . '_' . $op . '_' . $account->uid);
+  if (!isset($grants)) {
+    $grants = array();
+    // Get all OG Group.
+    // (Not only user's group in order to check perm for non-member OG role.).
+    $groups = multisite_drupal_access_og_get_all_groups();
+    if (!empty($groups)) {
+      foreach ($groups as $group_id) {
+        if (og_user_access('node', $group_id, 'view own unpublished content') || og_user_access('node', $group_id, 'View all unpublished content')) {
+          $grants['multisite_drupal_access_og_view_own_unpublished_' . $account->uid][] = $group_id;
+        }
       }
     }
   }
+
   return $grants;
 }
 
@@ -87,17 +92,52 @@ function multisite_drupal_access_og_permission() {
 /**
  * Return all existing groups of an entity type (bypass node access).
  */
-function multisite_drupal_access_og_get_all_group($group_type = 'node') {
+function multisite_drupal_access_og_get_all_groups($group_type = 'node') {
   if (!field_info_field(OG_GROUP_FIELD)) {
     return array();
   }
 
-  $query = new EntityFieldQuery();
-  $return = $query
-    ->entityCondition('entity_type', $group_type)
-    ->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=')
-    ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
-    ->execute();
+  $groups_access = &drupal_static(__FUNCTION__);
+  if (!isset($groups_access)) {
+    if ($cache = cache_get('multisite_drupal_access_og_get_all_groups')) {
+      $groups_access = $cache->data;
+    }
+    else {
+      $query = new EntityFieldQuery();
+      $return = $query
+        ->entityCondition('entity_type', $group_type)
+        ->fieldCondition(OG_GROUP_FIELD, 'value', 1, '=')
+        ->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT')
+        ->execute();
 
-  return !empty($return[$group_type]) ? array_keys($return[$group_type]) : array();
+      $groups_access = !empty($return[$group_type]) ? array_keys($return[$group_type]) : array();
+      cache_set('multisite_drupal_access_og_get_all_groups', $groups_access, 'cache');
+    }
+  }
+
+  return $groups_access;
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Clear "multisite_drupal_access_og_get_all_groups" cache item if the created
+ * node is OG group.
+ */
+function multisite_drupal_access_node_insert($node) {
+  if (og_is_group('node', $node)) {
+    cache_clear_all('multisite_drupal_access_og_get_all_groups', 'cache');
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * Clear "multisite_drupal_access_og_get_all_groups" cache item if the deleted
+ * node is OG group.
+ */
+function multisite_drupal_access_node_delete($node) {
+  if (og_is_group('node', $node)) {
+    cache_clear_all('multisite_drupal_access_og_get_all_groups', 'cache');
+  }
 }
