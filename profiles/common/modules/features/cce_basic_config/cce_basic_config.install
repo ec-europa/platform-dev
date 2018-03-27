@@ -471,6 +471,9 @@ function cce_basic_config_install() {
   foreach ($dynamic_variables as $variable => $value) {
     variable_set($variable, $value);
   }
+
+  // Use soft config for article comment form location.
+  multisite_config_service('comment')->setThreadingCommentForContentType('article', 1);
 }
 
 /**
