@@ -55,18 +55,19 @@ class nexteuropa_link_blocks_style extends views_plugin_style {
    * {@inheritdoc}
    */
   function render_grouping_sets($sets, $level = 0) {
-    $output = '';
+    $output = array();
+
     foreach ($sets as $set) {
       $row = reset($set['rows']);
       // Render as a grouping set.
       if (is_array($row) && isset($row['group'])) {
-        $output .= theme(views_theme_functions('views_view_grouping', $this->view, $this->display),
-          array(
-            'view' => $this->view,
-            'grouping' => $this->options['grouping'][$level],
-            'grouping_level' => $level,
-            'items' => $set['rows'],
-            'title' => $set['group'])
+        $output[] = array(
+          '#theme' => 'views_view_grouping',
+          '#view' => $this->view,
+          '#grouping' => $this->options['grouping'][$level],
+          '#grouping_level' => $level,
+          '#items' => $set['rows'],
+          '#title' => $set['group'],
         );
       }
       // Render as a record set.
@@ -75,27 +76,31 @@ class nexteuropa_link_blocks_style extends views_plugin_style {
           foreach ($set['rows'] as $index => $row) {
             $this->view->row_index = $index;
 
-            $text = $set['rows'][$index]->users_name;
-            $path = 'user/' . $set['rows'][$index]->uid;
-            $options['attributes']['class'][] = array(
-              'ecl-link',
-              'ecl-link--standalone',
-              'ecl-link-block__link',
+            $set['rows'][$index] = array(
+              '#theme' => 'link__' . $this->view->name . '__' . $this->view->current_display,
+              '#text' => $set['rows'][$index]->users_name,
+              '#path' => 'user/' . $set['rows'][$index]->uid,
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'ecl-link--standalone',
+                    'ecl-link-block__link',
+                  ),
+                ),
+              ),
             );
-            $set['rows'][$index] = theme('link', array('text' => $text, 'path' => $path , 'options' => $options));
           }
         }
 
-        $output .= theme($this->theme_functions(),
-          array(
-            'view' => $this->view,
-            'options' => $this->options,
-            'grouping_level' => $level,
-            'items' => $set['rows'],
-            'title' => $set['group'])
+        $output[] = array(
+          '#theme' => 'link_blocks__' . $this->view->name . '__' . $this->view->current_display,
+          '#view' => $this->view,
+          '#options' => $this->options,
+          '#grouping_level' => $level,
+          '#items' => $set['rows'],
+          '#title' => $set['group'],
         );
       }
-
     }
     unset($this->view->row_index);
     return $output;
