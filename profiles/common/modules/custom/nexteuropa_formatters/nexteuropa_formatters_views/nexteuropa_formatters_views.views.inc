@@ -53,11 +53,11 @@ function nexteuropa_formatters_views_views_plugins() {
       ),
     ),
     'style' => array(
-      'ec_europa_links_block' => array(
-        'title' => t('EC Europa Links block'),
-        'help' => t('Displays links using the EC Europa Links block component.'),
-        'handler' => 'nexteuropa_links_block_style',
-        'theme' => 'links_block',
+      'ec_europa_link_blocks' => array(
+        'title' => t('EC Europa Link blocks'),
+        'help' => t('Displays link using the EC Europa link blocks component.'),
+        'handler' => 'nexteuropa_link_blocks_style',
+        'theme' => 'link_blocks',
         'uses row plugin' => TRUE,
         'uses row class' => TRUE,
         'uses options' => TRUE,
