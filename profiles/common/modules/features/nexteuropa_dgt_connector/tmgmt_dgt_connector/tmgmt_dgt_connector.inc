@@ -51,17 +51,16 @@ function _tmgmt_dgt_connector_get_content_length($entity) {
  *
  * @return array
  *   Returns an array of structured data.
- *
- * @throws \TMGMTException
  */
 function _tmgmt_dgt_connector_get_source_data($plugin_type, $entity_type, $entity_id) {
+  $data = array();
   $data_collector_func = sprintf('_tmgmt_dgt_connector_get_%s_data', $plugin_type);
 
   if (function_exists($data_collector_func)) {
-    return call_user_func($data_collector_func, $entity_type, $entity_id);
+    $data = call_user_func($data_collector_func, $entity_type, $entity_id);
   }
 
-  throw new TMGMTException(t('Unable to find data loader for plugin type %type', array('%type' => $plugin_type)));
+  return $data;
 }
 
 /**
@@ -142,7 +141,6 @@ function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
  *   Returns an array with data of the string.
  */
 function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
-
   // Get i18n object from id.
   list(, $type, $object_id) = explode(':', $item_id, 3);
   $i18n_object = tmgmt_i18n_string_get_wrapper($item_type, (object) array('type' => $type, 'objectid' => $object_id));
@@ -159,6 +157,7 @@ function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
       );
     }
   }
+
   return $structure;
 }
 
@@ -256,7 +255,7 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
  *
  * @param string $op
  *   Which operation is performed.
- * @param array $translator
+ * @param TMGMTTranslator $translator
  *   The translator the operation is performed on.
  * @param array $account
  *   The account which is performing the update.
@@ -264,9 +263,9 @@ function _tmgmt_dgt_connector_workbench_store_request_languages_callback(&$form,
  * @return bool
  *   Boolean
  */
-function _tmgmt_dgt_connector_translator_access($op, array $translator, array $account) {
-  if (!empty($translator) && $translator->plugin == 'tmgmt_dgt_connector') {
-    if ($op == 'delete') {
+function _tmgmt_dgt_connector_translator_access($op, TMGMTTranslator $translator, array $account) {
+  if ('tmgmt_dgt_connector' === $translator->plugin) {
+    if ('delete' === $op) {
       return FALSE;
     }
     else {
@@ -292,6 +291,9 @@ function _tmgmt_dgt_connector_translator_access($op, array $translator, array $a
  */
 function _tmgmt_dgt_connector_smalljob_translation_possible($plugin_type, $item_type, $item_id) {
   $source_data = _tmgmt_dgt_connector_get_source_data($plugin_type, $item_type, $item_id);
+  if (empty($source_data)) {
+    return FALSE;
+  }
   $length = _tmgmt_dgt_connector_count_source_data($source_data);
 
   return $length <= variable_get('tmgmt_dgt_connector_max_lenght', TMGMT_DGT_CONNECTOR_MAX_LENGTH);

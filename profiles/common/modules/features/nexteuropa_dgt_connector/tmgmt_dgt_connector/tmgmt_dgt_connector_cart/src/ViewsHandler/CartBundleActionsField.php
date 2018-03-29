@@ -19,13 +19,13 @@ class CartBundleActionsField extends views_handler_field {
 
     $send_link = l(
       t('Send'),
-      "admin/dgt_connector/cart-items-send/$cbid",
+      "admin/tmgmt/dgt_cart/items-send/$cbid",
       array()
     );
 
     $edit_link = l(
       t('Edit'),
-      "admin/dgt_connector/cart-items-edit/$cbid/nojs",
+      "admin/tmgmt/dgt_cart/items-edit/$cbid/nojs",
       array(
         'attributes' => array(
           'class' => 'ctools-use-modal',
@@ -35,7 +35,7 @@ class CartBundleActionsField extends views_handler_field {
 
     $discard_link = l(
       t('Discard'),
-      "admin/dgt_connector/cart-items-discard/$cbid/nojs",
+      "admin/tmgmt/dgt_cart/items-discard/$cbid/nojs",
       array('query' => drupal_get_destination())
     );
 

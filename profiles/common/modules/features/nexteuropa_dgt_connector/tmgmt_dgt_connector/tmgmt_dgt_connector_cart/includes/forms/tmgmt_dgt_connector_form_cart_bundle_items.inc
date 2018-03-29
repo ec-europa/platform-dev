@@ -262,9 +262,7 @@ function _tmgmt_dgt_connector_cart_discard_cart_bundle(array &$form_state, CartB
  *   An array with IDs of selected CartItems entities.
  */
 function _tmgmt_dgt_connector_cart_get_selected_cart_items(array &$form_state) {
-  return array_filter($form_state['values']['cart_items_selected'], function ($value) {
-    return($value);
-  });
+  return array_filter($form_state['values']['cart_items_selected']);
 }
 
 /**

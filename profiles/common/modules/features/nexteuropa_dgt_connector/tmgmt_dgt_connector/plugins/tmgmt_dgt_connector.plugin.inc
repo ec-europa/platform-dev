@@ -238,6 +238,7 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
     }
     catch (Exception $e) {
       drupal_set_message($e->getMessage(), 'error');
+      watchdog_exception('tmgmt_poetry', $e);
     }
 
   }
@@ -253,13 +254,15 @@ class TmgmtDgtConnectorTranslatorPluginController extends TMGMTPoetryTranslatorP
    */
   protected function generateRequestIdData(array $settings) {
     // Check the highest number, (if it exists and if it's lower then 99).
-    $query = db_select('poetry_map', 'pm');
+    $query = db_select('poetry_map', 'pm')
+      ->condition('annee', date("Y"));
     $query->addExpression('MAX(numero)', 'max_numero');
     $max_numero = $query->execute()->fetchAssoc();
 
     if (!empty($max_numero['max_numero'])) {
       $query = db_select('poetry_map', 'pm')
         ->fields('pm', array('annee', 'numero', 'version', 'partie'))
+        ->condition('annee', date("Y"))
         ->condition('numero', $max_numero['max_numero'], '=');
       $query->addExpression('MAX(partie)', 'max_partie');
 

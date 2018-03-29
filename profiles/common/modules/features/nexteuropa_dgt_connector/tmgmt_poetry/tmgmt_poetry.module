@@ -50,7 +50,7 @@ function _tmgmt_poetry_translator_access($op, $translator, $account) {
 function tmgmt_poetry_tmgmt_translator_plugin_info() {
   return array(
     'poetry' => array(
-      'label' => t('Poetry Connector'),
+      'label' => t('DGT Connector'),
       'description' => t('DGT Translation service.'),
       'plugin controller class' => 'TMGMTPoetryTranslatorPluginController',
       'ui controller class' => 'TMGMTPoetryTranslatorUIController',
@@ -68,7 +68,7 @@ function tmgmt_poetry_tmgmt_translator_plugin_info() {
  */
 function tmgmt_poetry_tmgmt_job_delete($job) {
   if ($job->hasPoetryTranslator() && isset($job->settings['languages']) && (strpos($job->reference, 'MAIN_' . $job->tjid) !== FALSE)) {
-    $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+    $related_jobs = tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
     foreach ($related_jobs as $related_job) {
       entity_get_controller('tmgmt_job')->delete(array($related_job->tjid));
       entity_get_controller('tmgmt_job_item')->delete(array($related_job->tjiid));
@@ -143,11 +143,6 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   // Changing fieldsets labels.
   $form['translator_wrapper']['#title'] = t('Translation request details');
 
-  // Attaching the custom script for the 'Translator' select field.
-  $form['#attached']['js'] = array(
-    drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js',
-  );
-
   // If job form was never submitted load default translator settings.
   if (!isset($form_state['values'])) {
 
@@ -172,15 +167,19 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
     }
   }
 
-  // If tmgmt_poetry job form was submitted, check translator and load settings.
+  // If job form was submitted, check translator and load settings.
   if (isset($form_state['values']['translator'])) {
     $job->translator = $form_state['values']['translator'];
     _tmgmt_poetry_form_load_translator_settings($form_state, $form, $job);
   }
 
-  // If job is submittable to the translator then don't show job items fieldset.
   if ($job->isSubmittable()) {
+    // Don't show job items fieldset.
     $form['job_items_wrapper']['#access'] = FALSE;
+
+    // Avoid user from leaving page without further actions.
+    $form['#attached']['js'][] = drupal_get_path('module', 'tmgmt_poetry') . '/js/tmgmt_poetry_translator_disable.js';
+    drupal_set_message(t('Please remember to either send or delete the job before leaving this page.'), 'warning');
   }
 
   // Overwriting details which are coming from tmgmt_ui.pages.inc.
@@ -229,6 +228,13 @@ function tmgmt_poetry_form_tmgmt_job_form_alter(&$form, &$form_state, $form_id) 
   // it should only send translation request or delete the job.
   unset($form['actions']['submit']);
   unset($form['actions']['cancel']);
+  foreach ($form['actions'] as $key => $action) {
+    if (is_array($action)) {
+      $form['actions'][$key]['#attributes'] = array(
+        'onClick' => 'window.needToConfirm = false;',
+      );
+    }
+  }
 }
 
 /**
@@ -238,6 +244,10 @@ function _tmgmt_poetry_validate_job_mandatory_fields($form, &$form_state) {
   // This function also runs when changing the Translator Combo box,
   // we need to check if the form was really submitted.
   if (empty($form_state['submitted'])) {
+    return;
+  }
+
+  if (empty($form_state['values']['settings'])) {
     return;
   }
 
@@ -322,7 +332,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
 
       // If there was already a job item for new target language, delete it.
       // This is usefull for the #cart.
-      $result = _tmgmt_poetry_obtain_related_translation_jobs(array($new_main_lg), 'SUB_' . $origin_job->tjid);
+      $result = tmgmt_poetry_obtain_related_translation_jobs(array($new_main_lg), 'SUB_' . $origin_job->tjid);
 
       if ($row = $result->fetchAssoc()) {
         entity_get_controller('tmgmt_job')->delete(array($row['tjid']));
@@ -407,7 +417,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
   }
 
   if (!empty($language_targets_to_remove)) {
-    $result = _tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
+    $result = tmgmt_poetry_obtain_related_translation_jobs($language_targets_to_remove, 'SUB_' . $origin_job->tjid);
 
     // If any, removed found translations.
     if ($result) {
@@ -449,7 +459,7 @@ function _tmgmt_poetry_form_tmgmt_job_submit($form, &$form_state) {
  * @return mixed
  *   mixed.
  */
-function _tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
+function tmgmt_poetry_obtain_related_translation_jobs($languages, $reference = '', $not_poetry = FALSE) {
   $query = db_select('tmgmt_job', 'job');
   $query->join('tmgmt_job_item', 'job_item', 'job.tjid = job_item.tjid');
   $query->fields('job', array('tjid'));
@@ -491,7 +501,7 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
   }
 
   // Reject the related sub Job.
-  $related_jobs = _tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
+  $related_jobs = tmgmt_poetry_obtain_related_translation_jobs($job->settings['languages'], 'SUB_' . $job->tjid);
 
   foreach ($related_jobs as $related_job) {
     $job_rejected = tmgmt_job_load($related_job->tjid);
@@ -501,6 +511,8 @@ function _tmgmt_poetry_tmgmt_job_reject($job, $status_message, $internal_message
       'error');
     _tmgmt_poetry_update_item_status($related_job->tjiid, "", $status_message, "");
   }
+
+  drupal_set_message($internal_message, 'error');
 }
 
 /**

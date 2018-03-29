@@ -96,10 +96,11 @@ default:
         header_top: ".region-header-top"
         header: "#layout-header"
         primary_tabs: ".ecl-navigation-list--tabs"
+        back_primary_tabs: ".tabs.primary"
         content: ".page-content"
         footer: "#layout-footer"
         messages: "#console"
-        front_messages: ".ecl-message"
+        front_messages: ".ecl-message.ecl-message--success"
         sidebar_left: "#sidebar-left"
         sidebar_right: "#sidebar-right"
       text:

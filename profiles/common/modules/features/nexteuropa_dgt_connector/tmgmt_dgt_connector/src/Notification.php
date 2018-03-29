@@ -32,7 +32,7 @@ class Notification {
     /** @var \EC\Poetry\Messages\Components\Target $target */
     $target = current($targets);
 
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $main_reference)->fetchAll();
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $main_reference)->fetchAll();
     if (empty($ids)) {
       watchdog(
         "tmgmt_poetry",
@@ -68,7 +68,7 @@ class Notification {
 
     // Get main job.
     $language_job = $translator->mapToLocalLanguage(drupal_strtolower($target->getLanguage()));
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference)
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(array($language_job), $reference)
       ->fetchAll();
     $main_ids = $ids[0];
     $job = tmgmt_job_load($main_ids->tjid);
@@ -214,7 +214,7 @@ class Notification {
     foreach ($attributions_statuses as $attribution_status) {
       $languages_jobs[] = $translator->mapToLocalLanguage(drupal_strtolower($attribution_status->getLanguage()));
     }
-    $ids = _tmgmt_poetry_obtain_related_translation_jobs(
+    $ids = tmgmt_poetry_obtain_related_translation_jobs(
       $languages_jobs,
       $main_reference
     )->fetchAll();
@@ -227,20 +227,26 @@ class Notification {
       );
       return;
     }
-    $main_id = $ids[0];
+    $main_id = array_shift($ids);
     $main_job = tmgmt_job_load($main_id->tjid);
 
     // 1. Check status of request.
     $request_status = $message->getRequestStatus();
     if ($request_status->getCode() != '0') {
+      $msg_info = array(
+        '@reference' => $reference,
+        '@message' => $message->getRaw(),
+      );
       watchdog(
         'tmgmt_poetry',
         'Job @reference received a Status Update with issues. Message: @message',
-        array(
-          '@reference' => $reference,
-          '@message' => $message->getRaw(),
-        ),
+        $msg_info,
         WATCHDOG_ERROR
+      );
+      $main_job->addMessage(
+        'Job @reference received a Status Update with issues. Message: @message',
+        $msg_info,
+        'error'
       );
       return;
     }
@@ -304,7 +310,7 @@ class Notification {
       if ($cancelled) {
         $reference = '%' . $reference;
 
-        $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
           ->fetchAll();
         foreach ($ids as $id) {
           $job = tmgmt_job_load($id->tjid);
@@ -313,7 +319,7 @@ class Notification {
       }
       elseif ($main_job->isAborted()) {
         $reference = '%' . $reference;
-        $ids = _tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs(array(), $reference)
           ->fetchAll();
 
         foreach ($ids as $id) {
@@ -333,7 +339,7 @@ class Notification {
         $language_code = $translator->mapToLocalLanguage($language_code);
         $language_job = array($language_code);
 
-        $ids = _tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
+        $ids = tmgmt_poetry_obtain_related_translation_jobs($language_job, $reference)
           ->fetchAll();
         $ids = array_shift($ids);
         $job = tmgmt_job_load($ids->tjid);

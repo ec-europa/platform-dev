@@ -8,7 +8,7 @@
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartBundle;
 use Drupal\tmgmt_dgt_connector_cart\Entity\CartItem;
 
-define('TMGMT_DGT_CONNECTOR_CART_VIEW_PATH', 'admin/dgt_connector/cart');
+define('TMGMT_DGT_CONNECTOR_CART_VIEW_PATH', 'admin/tmgmt/dgt_cart');
 
 // Including the custom form callback.
 module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/tmgmt_dgt_connector_cart');
@@ -21,29 +21,39 @@ module_load_include('inc', 'tmgmt_dgt_connector_cart', 'includes/forms/tmgmt_dgt
 function tmgmt_dgt_connector_cart_menu() {
   $items = array();
 
-  $items['admin/dgt_connector/cart-items-edit/%/%ctools_js'] = array(
+  $items['admin/tmgmt/dgt_cart/items-edit/%/%ctools_js'] = array(
     'page callback' => '_tmgmt_dgt_connector_cart_cart_bundle_edit_wrapper',
-    'page arguments' => array(3, 4),
+    'page arguments' => array(4, 5),
     'access callback' => 'user_access',
     'access arguments' => array('access to the dgt connector cart'),
     'type' => MENU_CALLBACK,
   );
-  $items['admin/dgt_connector/cart-items-send/%'] = array(
+  $items['admin/tmgmt/dgt_cart/items-send/%'] = array(
     'page callback' => '_tmgmt_dgt_connector_cart_cart_bundle_send_wrapper',
-    'page arguments' => array(3, 4),
+    'page arguments' => array(4, 5),
     'access callback' => 'user_access',
     'access arguments' => array('access to the dgt connector cart'),
     'type' => MENU_CALLBACK,
   );
-  $items['admin/dgt_connector/cart-items-discard/%/%ctools_js'] = array(
+  $items['admin/tmgmt/dgt_cart/items-discard/%/%ctools_js'] = array(
     'page callback' => '_tmgmt_dgt_connector_cart_form_cart_bundle_discard_wrapper',
-    'page arguments' => array(3, 4),
+    'page arguments' => array(4, 5),
     'access callback' => 'user_access',
     'access arguments' => array('access to the dgt connector cart'),
     'type' => MENU_CALLBACK,
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Update menu link's title to distinguish from Small Jobs Cart.
+ */
+function tmgmt_dgt_connector_cart_menu_alter(&$items) {
+  $items['admin/tmgmt/cart']['title'] = 'TMGMT Cart';
+  unset($items['admin/tmgmt/cart']['title callback']);
 }
 
 /**
@@ -302,6 +312,7 @@ function _tmgmt_dgt_connector_cart_send_cart_bundles(CartBundle &$cart_bundle, a
           // to fail for others, so remove it from the array.
           unset($job_items_by_source_language[$source_language][$id]);
           drupal_set_message($e->getMessage(), 'error');
+          watchdog_exception('tmgmt_poetry', $e);
         }
       }
 
@@ -466,7 +477,9 @@ function _tmgmt_dgt_connector_cart_form_submit($form, &$form_state) {
     return;
   }
 
-  drupal_set_message(t('The content has been added to the cart.'));
+  drupal_set_message(t('The content has been added to the <a href="@url">cart</a>.', array(
+    '@url' => url('admin/tmgmt/dgt_cart'),
+  )));
 }
 
 /**

@@ -64,7 +64,6 @@ function tmgmt_dgt_connector_menu() {
  * Implements hook_nexteuropa_poetry_notification_translation_received().
  */
 function tmgmt_dgt_connector_nexteuropa_poetry_notification_translation_received($message) {
-
   $subscriber = new Notification();
   $subscriber->translationReceived($message);
 }
@@ -73,7 +72,6 @@ function tmgmt_dgt_connector_nexteuropa_poetry_notification_translation_received
  * Implements hook_nexteuropa_poetry_notification_status_updated().
  */
 function tmgmt_dgt_connector_nexteuropa_poetry_notification_status_updated($message) {
-
   $subscriber = new Notification();
   $subscriber->statusUpdated($message);
 }
@@ -106,7 +104,7 @@ function tmgmt_dgt_connector_form_tmgmt_ui_cart_content_alter(&$form, &$form_sta
   // Remove "Enforce source language" option, not interesting for our case.
   $form['enforced_source_language']['#type'] = 'hidden';
 
-  // Add a callback function when submiting.
+  // Define callback function when submiting.
   $form['request_translation']['#submit'] = array('_tmgmt_dgt_connector_workbench_store_request_languages_callback');
 }
 
