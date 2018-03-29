@@ -83,7 +83,7 @@ default:
         error_message_selector: '.messages.error'
         success_message_selector: '.messages.status'
         warning_message_selector: '.messages.warning'
-        front_message_selector: "div.ecl-message > ul.ecl-message--body > li"
+        front_message_selector: "div.ecl-message > ul.ecl-message__body > li"
         front_error_message_selector: "div.ecl-message.ecl-message--error > ul.ecl-list.ecl-message__body > li"
         front_success_message_selector: "div.ecl-message.ecl-message--success > ul.ecl-list.ecl-message__body > li"
         front_warning_message_selector: "div.ecl-message.ecl-message--warning > ul.ecl-list.ecl-message__body > li"
@@ -96,7 +96,7 @@ default:
         header_top: ".region-header-top"
         header: "#layout-header"
         primary_tabs: ".tabs-primary"
-        content: "#layout-body"
+        content: ".page-content"
         footer: "#layout-footer"
         messages: "#console"
         sidebar_left: "#sidebar-left"
