@@ -347,5 +347,42 @@ class DrupalContext extends DrupalExtensionDrupalContext {
     }
     return $found_elements;
   }
-
+  /**
+   * Click on a selector element.
+   *
+   * @param string $arg1
+   *   Selector css.
+   *
+   * @Then I click on selector :arg1
+   */
+  public function iClickOnSelector($arg1) {
+      $session = $this->getSession();
+      $element = $session->getPage()->find("css", $arg1);
+      if (null === $element) {
+          throw new \Exception(sprintf('Could not find: "%s"', $arg1));
+      }
+      $element->click();
+  }
+  /**
+   * Click on a selector element option.
+   *
+   * @param string $arg1
+   *   Selector css.
+   * @param string $arg2
+   *   Option text.
+   *
+   * @Then I click on option :arg1 from selector :arg2
+   */
+  public function iClickOnOptionFromSelector($arg1, $arg2) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find("css", $arg2);
+    if (null === $element) {
+        throw new \Exception(sprintf('Could not find selector: "%s"', $arg2));
+    }
+    $element = $element->find("xpath", 'option[text()="' . $arg1 . '"]');
+    if (null === $element) {
+        throw new \Exception(sprintf('Could not find text: "%s"', $arg1));
+    }
+    $element->click();
+  }
 }
