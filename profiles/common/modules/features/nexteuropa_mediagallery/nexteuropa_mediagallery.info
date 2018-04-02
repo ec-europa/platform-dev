@@ -153,7 +153,6 @@ features[variable][] = autosave_nexteuropa_mediagallery
 features[variable][] = comment_anonymous_nexteuropa_mediagallery
 features[variable][] = comment_default_mode_nexteuropa_mediagallery
 features[variable][] = comment_default_per_page_nexteuropa_mediagallery
-features[variable][] = comment_form_location_nexteuropa_mediagallery
 features[variable][] = comment_nexteuropa_mediagallery
 features[variable][] = comment_preview_nexteuropa_mediagallery
 features[variable][] = comment_subject_field_nexteuropa_mediagallery
