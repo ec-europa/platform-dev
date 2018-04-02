@@ -27,7 +27,6 @@ features[variable][] = comment_anonymous_blog_post
 features[variable][] = comment_blog_post
 features[variable][] = comment_default_mode_blog_post
 features[variable][] = comment_default_per_page_blog_post
-features[variable][] = comment_form_location_blog_post
 features[variable][] = comment_preview_blog_post
 features[variable][] = comment_subject_field_blog_post
 features[variable][] = field_bundle_settings_node__blog_post

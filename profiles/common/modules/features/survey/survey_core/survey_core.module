@@ -28,11 +28,12 @@ function survey_core_node_view($node, $view_mode, $langcode) {
  */
 function survey_core_menu() {
   $items = array();
-  $items['survey_analysis/%'] = array(
+  $items['survey_analysis/%node'] = array(
     'title' => 'Analysis',
     'page callback' => 'survey_analysis',
     'page arguments' => array(1),
-    'access callback' => TRUE,
+    'access callback' => 'webform_results_access',
+    'access arguments' => array(1),
     'weight' => 5,
   );
 
@@ -42,9 +43,18 @@ function survey_core_menu() {
 
 /**
  * Display analysis results of a webform.
+ *
+ * @param mixed $node
+ *   The nid or the object of the node to which the webform is attached.
+ *
+ * @return string
+ *   The survey analysis page to display.
  */
-function survey_analysis($nid) {
-  $node = node_load($nid);
+function survey_analysis($node) {
+  if (!is_object($node)) {
+    $node = node_load($node);
+  }
+
   $sids = array();
   $components = $node->webform['components'];
   $data = array();

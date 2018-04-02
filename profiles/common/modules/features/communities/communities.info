@@ -70,7 +70,6 @@ features[variable][] = comment_anonymous_community
 features[variable][] = comment_community
 features[variable][] = comment_default_mode_community
 features[variable][] = comment_default_per_page_community
-features[variable][] = comment_form_location_community
 features[variable][] = comment_preview_community
 features[variable][] = comment_subject_field_community
 features[variable][] = enable_revisions_page_community
