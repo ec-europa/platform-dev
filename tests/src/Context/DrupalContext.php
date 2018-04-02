@@ -358,7 +358,7 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   public function iClickOnSelector($arg1) {
       $session = $this->getSession();
       $element = $session->getPage()->find("css", $arg1);
-      if (null === $element) {
+      if (NULL === $element) {
           throw new \Exception(sprintf('Could not find: "%s"', $arg1));
       }
       $element->click();
@@ -376,13 +376,14 @@ class DrupalContext extends DrupalExtensionDrupalContext {
   public function iClickOnOptionFromSelector($arg1, $arg2) {
     $session = $this->getSession();
     $element = $session->getPage()->find("css", $arg2);
-    if (null === $element) {
+    if (NULL === $element) {
         throw new \Exception(sprintf('Could not find selector: "%s"', $arg2));
     }
     $element = $element->find("xpath", 'option[text()="' . $arg1 . '"]');
-    if (null === $element) {
+    if (NULL === $element) {
         throw new \Exception(sprintf('Could not find text: "%s"', $arg1));
     }
     $element->click();
   }
+
 }
