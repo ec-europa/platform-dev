@@ -76,7 +76,7 @@ class nexteuropa_link_blocks_style extends views_plugin_style {
           foreach ($set['rows'] as $index => $row) {
             $this->view->row_index = $index;
 
-            $set['rows'][$index] = array(
+            $set['rows'][$index]->link = array(
               '#theme' => 'link__' . $this->view->name . '__' . $this->view->current_display,
               '#text' => $set['rows'][$index]->users_name,
               '#path' => 'user/' . $set['rows'][$index]->uid,
@@ -87,6 +87,14 @@ class nexteuropa_link_blocks_style extends views_plugin_style {
                     'ecl-link-block__link',
                   ),
                 ),
+              ),
+            );
+            $set['rows'][$index] = array(
+              '#theme' => 'html_tag__' . $this->view->name . '__' . $this->view->current_display,
+              '#tag' => 'li',
+              '#value' => $set['rows'][$index]->link,
+              '#attributes' => array(
+                  'class' => 'ecl-link-block__item',
               ),
             );
           }
