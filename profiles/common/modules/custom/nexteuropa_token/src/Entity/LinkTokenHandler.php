@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa_token\Entity\LinkTokenHandler.
- */
-
 namespace Drupal\nexteuropa_token\Entity;
 
 /**

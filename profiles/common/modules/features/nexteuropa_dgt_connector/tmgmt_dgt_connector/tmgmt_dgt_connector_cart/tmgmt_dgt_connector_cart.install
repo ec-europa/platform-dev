@@ -1,0 +1,180 @@
+<?php
+
+/**
+ * @file
+ * Install file.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * The current implementation of hook_form_FORM_ID_alter in the different
+ * tmgmt modules leads to inconsistent form states when invoking the same hooks
+ * in our module. In order to avoid this we need to run our hooks after all the
+ * tmgmt hooks have finished.
+ */
+function tmgmt_dgt_connector_cart_install() {
+  db_update('system')
+    ->fields(array('weight' => 1))
+    ->condition('name', 'tmgmt_dgt_connector_cart', '=')
+    ->execute();
+}
+
+/**
+ * Implements hook_schema().
+ */
+function tmgmt_dgt_connector_cart_schema() {
+  $schema['cart_bundle'] = array(
+    'description' => 'Stores cart bundles.',
+    'fields' => array(
+      'cbid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique translation cart bundle ID.',
+        'unsigned' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'The author of the revision.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'tjid' => array(
+        'description' => 'Related translation job id.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+      ),
+      'target_languages' => array(
+        'description' => 'Target languages of the bundle.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Status of the bundle.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the entity was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the entity was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'foreign keys' => array(
+      'cbid_uid' => array(
+        'table' => 'user',
+        'columns' => array('uid' => 'uid'),
+      ),
+    ),
+    'primary key' => array('cbid'),
+  );
+
+  $schema['cart_item'] = array(
+    'description' => 'Stores cart items.',
+    'fields' => array(
+      'ciid' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique cart item ID.',
+        'unsigned' => TRUE,
+      ),
+      'cbid' => array(
+        'description' => 'Related translation cart bundle ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'plugin_type' => array(
+        'description' => 'TMGMT Job item plugin type.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_type' => array(
+        'description' => 'Target entity type.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_id' => array(
+        'description' => 'Target entity type ID.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'entity_title' => array(
+        'description' => 'Target entity title.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+      ),
+      'context_url' => array(
+        'description' => 'Context url.',
+        'type' => 'varchar',
+        'length' => 2048,
+        'not null' => TRUE,
+      ),
+      'context_comment' => array(
+        'description' => 'Context comment.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
+      ),
+      'char_count' => array(
+        'description' => 'Number of characters on the related entity.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+      ),
+      'tjiid' => array(
+        'description' => 'Related translation job item ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Status of the item.',
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the entity was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the entity was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'foreign keys' => array(
+      'ciid_cbid' => array(
+        'table' => 'cart_bundle',
+        'columns' => array('cbid' => 'cbid'),
+      ),
+    ),
+    'primary key' => array('ciid'),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_enable().
+ */
+function tmgmt_dgt_connector_cart_enable() {
+  views_invalidate_cache();
+}

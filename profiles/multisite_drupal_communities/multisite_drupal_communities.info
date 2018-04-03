@@ -47,7 +47,6 @@ dependencies[] = i18nviews
 dependencies[] = image
 dependencies[] = image_captcha
 dependencies[] = jquery_update
-dependencies[] = language_cookie
 dependencies[] = libraries
 dependencies[] = link
 dependencies[] = linkchecker
@@ -61,7 +60,6 @@ dependencies[] = menu_attributes
 dependencies[] = menu_block
 dependencies[] = menu_token
 dependencies[] = multisite_drupal_toolbox
-dependencies[] = multisite_dynamic_basetheme
 dependencies[] = multisite_settings_og
 dependencies[] = number
 dependencies[] = og
@@ -113,3 +111,6 @@ dependencies[] = multisite_autosave
 dependencies[] = multisite_custom_error
 dependencies[] = multisite_settings_core
 dependencies[] = multisite_wysiwyg
+
+; NextEuropa features.
+dependencies[] = nexteuropa_admin_language

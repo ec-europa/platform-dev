@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\nexteuropa\Extensions\TransformExtension.
- */
-
 namespace Drupal\nexteuropa\Extensions;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;

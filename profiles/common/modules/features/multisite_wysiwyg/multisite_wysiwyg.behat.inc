@@ -17,19 +17,19 @@ use function bovigo\assert\assert;
  */
 class MultisiteWysiwygSubContext extends RawDrupalContext implements DrupalSubContextInterface {
 
-   use \Drupal\nexteuropa\Context\ContextUtil;
+  use \Drupal\nexteuropa\Context\ContextUtil;
 
   /**
    * The Drupal driver manager.
    *
-   * @var \Drupal\DrupalDriverManager;
+   * @var \Drupal\DrupalDriverManager
    */
   protected $drupal;
 
   /**
    * Constructs a NextEuropaTokenSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {

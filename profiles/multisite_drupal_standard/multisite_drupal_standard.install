@@ -5,24 +5,13 @@
  * Multisite Drupal Standard installation profile.
  */
 
+include_once 'multisite_drupal_standard.install.inc';
+
 /**
  * Install all basic configuration of the standard profile.
  */
 function multisite_drupal_standard_install() {
   cce_basic_config_post_install();
-}
-
-/**
- * Implements hook_install_tasks().
- */
-function multisite_drupal_standard_install_tasks() {
-  $tasks = array(
-    'cce_basic_config_profile_theme_default_form' => array(
-      'display_name' => st('Choose theme'),
-      'type' => 'form',
-    ),
-  );
-  return $tasks;
 }
 
 /**

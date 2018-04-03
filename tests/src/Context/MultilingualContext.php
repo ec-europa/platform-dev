@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MultilingualContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -39,6 +34,13 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   protected $translators = [];
 
   /**
+   * List of menus created during test execution.
+   *
+   * @var array
+   */
+  protected $menus = [];
+
+  /**
    * List of translators updated during test execution.
    *
    * @var array
@@ -69,7 +71,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   /**
    * Constructs a NextEuropaMultilingualSubContext object.
    *
-   * @param DrupalDriverManager $drupal
+   * @param \Drupal\DrupalDriverManager $drupal
    *   The Drupal driver manager.
    */
   public function __construct(DrupalDriverManager $drupal) {
@@ -93,7 +95,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $type
    *   Content type machine name.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and field translations.
    *
    * @return object
@@ -146,13 +148,59 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
   }
 
   /**
+   * Create a multilingual menu.
+   *
+   * @param string $menu_name
+   *   Machine name for the menu.
+   * @param string $title
+   *   Title for the menu.
+   *
+   * @Given I create a multilingual :menu_name menu called :title
+   */
+  public function createMultilingualMenu($menu_name, $title) {
+    $menu = [
+      'menu_name' => $menu_name,
+      'description' => $menu_name,
+      'title' => $title,
+      'i18n_mode' => 5,
+    ];
+    menu_save($menu);
+    $this->menus[$menu_name] = $menu;
+  }
+
+  /**
+   * Create a multilingual menu.
+   *
+   * @param string $title
+   *   Title of the link.
+   * @param string $url
+   *   Path of the link.
+   * @param string $menu
+   *   Menu machine name.
+   *
+   * @Given I create a multilingual :title menu item pointing to :url for the menu :menu
+   */
+  public function createMultilingualMenuItem($title, $url, $menu) {
+    $item = [
+      'link_title' => $title,
+      'link_path' => $url,
+      'menu_name' => $menu,
+      'language' => LANGUAGE_NONE,
+      'weight' => 0,
+      'plid' => 0,
+    ];
+    menu_link_save($item);
+    i18n_string_object_update('menu_link', $item);
+  }
+
+  /**
    * Add a translation to an existing node.
    *
    * @param string $type
    *   Content type machine name.
    * @param string $title
    *   Source node title.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and field translations.
    *
    * @Then I create the following translations for :type content with title :arg2:
@@ -240,7 +288,7 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $type
    *   Content type machine name.
-   * @param TableNode $table
+   * @param \Behat\Gherkin\Node\TableNode $table
    *   List of available languages and title translations.
    *
    * @throws \InvalidArgumentException
@@ -273,6 +321,8 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
    *
    * @param string $name
    *   Local translator human readable name.
+   * @param string $plugin
+   *   The plugin's name.
    *
    * @Given :plugin translator :name is available
    */
@@ -787,6 +837,19 @@ class MultilingualContext extends RawDrupalContext implements DrupalSubContextIn
       if (isset($this->settings['language'])) {
         $lang = $this->settings['language'];
         $this->updateLanguage($lang['field'], $lang['value'], $lang['langcode']);
+      }
+    }
+  }
+
+  /**
+   * Remove menus created during a scenario.
+   *
+   * @AfterScenario @remove-menus
+   */
+  public function removeMenus() {
+    if (!empty($this->menus)) {
+      foreach ($this->menus as $menu) {
+        menu_delete($menu);
       }
     }
   }

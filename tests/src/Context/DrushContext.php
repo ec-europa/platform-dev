@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\DrushContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Behat\Hook\Scope\BeforeFeatureScope;

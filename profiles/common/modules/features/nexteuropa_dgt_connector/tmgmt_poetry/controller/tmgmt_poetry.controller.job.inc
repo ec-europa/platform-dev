@@ -17,10 +17,9 @@ class TMGMTPoetryJobController extends TMGMTJobController {
    */
   public function save($origin_job, DatabaseTransaction $transaction = NULL) {
 
-    $translator = $origin_job->getTranslator();
-    $origin_job_items = $origin_job->jobItemSessionGetSaveAndUnset();
+    $origin_job_items = $origin_job->getItems();
 
-    if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
+    if ($origin_job->reference === NULL && isset($origin_job->settings['languages']) && $origin_job->hasPoetryTranslator()) {
       $origin_job->reference = 'MAIN_' . $origin_job->tjid;
       $origin_job_item = array_shift($origin_job_items);
       if (empty($origin_job_item)) {
@@ -31,7 +30,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
       _tmgmt_poetry_insert_item_status($origin_job_item->tjiid, $origin_job->target_language, "Pending", date('d/m/Y', strtotime($origin_job->settings['delai'])));
     }
 
-    if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $translator->plugin == 'poetry') {
+    if ((count($origin_job_items) > 0) && isset($origin_job->settings['languages']) && $origin_job->hasPoetryTranslator()) {
 
       $origin_job_item = array_shift($origin_job_items);
       $languages = language_list('language');
@@ -45,8 +44,15 @@ class TMGMTPoetryJobController extends TMGMTJobController {
           }
 
           // Check if job is already created
-          // and in that case don't create it again.
-          if (_tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid)->rowCount() > 0) {
+          // and in that case don't create it again, just update it.
+          // The update is useful for #card .
+          $result = tmgmt_poetry_obtain_related_translation_jobs(array($requested_language), 'SUB_' . $origin_job->tjid);
+          if ($result->rowCount() > 0) {
+            $row = $result->fetchAssoc();
+            $job = tmgmt_job_load($row['tjid']);
+            $job->translator = $origin_job->translator;
+            $job->label = $origin_job->label . ' ' . $languages[$requested_language]->name;
+            $job->save();
             continue;
           }
 
@@ -73,7 +79,7 @@ class TMGMTPoetryJobController extends TMGMTJobController {
     // we should update the related additional sub translation jobs
     // with a reference returned by poetry.
     if ($origin_job->state !== TMGMT_JOB_STATE_UNPROCESSED && (strpos($origin_job->reference, 'MAIN_' . $origin_job->tjid . '_POETRY') !== FALSE)) {
-      $jobs = _tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $origin_job->tjid, TRUE);
+      $jobs = tmgmt_poetry_obtain_related_translation_jobs(array(), 'SUB_' . $origin_job->tjid, TRUE);
       foreach ($jobs as $ids) {
         $job = tmgmt_job_load($ids->tjid);
         $initial_reference = $job->reference;
