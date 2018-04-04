@@ -1,4 +1,4 @@
-@api
+@wip @api
 Feature: E-Library
   In order to allow to store documents in digital form
   As an administrator
