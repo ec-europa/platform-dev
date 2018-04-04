@@ -1045,8 +1045,8 @@ projects[ec_europa][download][tag] = 0.0.10
 ; Custom modules
 ; ==============
 
-projects[nexteuropa_poetry][subdir] = "contrib"
-projects[nexteuropa_poetry][type] = module
-projects[nexteuropa_poetry][download][type] = git
-projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry.git
-projects[nexteuropa_poetry][download][branch] = master
+projects[nexteuropa_poetry][download][type] = get
+projects[nexteuropa_poetry][download][file_type] = "zip"
+projects[nexteuropa_poetry][download][url] = https://github.com/ec-europa/nexteuropa_poetry/archive/0.1.0.zip
+projects[nexteuropa_poetry][subdir] = contrib
+
