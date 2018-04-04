@@ -155,7 +155,7 @@ function _ecas_menu(array &$items) {
  * Apply ECAS logout logic when logging out because of autologout rules.
  */
 function ecas_user_logout($account) {
-  if (isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout') {
+  if (isset($_GET['q']) && $_GET['q'] == 'autologout_ahah_logout/alt') {
     if (ecas_menu_logout_check()) {
       ecas_logout(TRUE, FALSE);
     }
