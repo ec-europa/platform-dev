@@ -440,6 +440,9 @@ projects[media][patch][] = https://www.drupal.org/files/issues/media-delete-embe
 
 projects[media_avportal][subdir] = "contrib"
 projects[media_avportal][version] = "1.2"
+; Support the new AV Portal web service.
+; https://www.drupal.org/node/2891051
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1198
 projects[media_avportal][patch][] = https://www.drupal.org/files/issues/support_the_new_av-2891051-16.patch
 
 projects[media_dailymotion][subdir] = "contrib"
