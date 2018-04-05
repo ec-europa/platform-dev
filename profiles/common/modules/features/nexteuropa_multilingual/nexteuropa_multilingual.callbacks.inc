@@ -9,22 +9,28 @@
  * Callback functions for the nexteuropa language negotiation providers.
  */
 function nexteuropa_multilingual_language_negotiation_provider_callback($languages) {
-  $language_url = FALSE;
   $current_path = request_path();
-  if (!empty($current_path)) {
-    if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
-      return $language_url;
-    }
 
-    // $_GET['q'] might not be available at this time, because
-    // path initialization runs after the language bootstrap phase.
-    $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix(isset($current_path) ? $current_path : NULL, $languages);
-    if ($check_prefix[0] !== FALSE) {
-      $language_url = $check_prefix[0]->language;
-      $_GET['q'] = $check_prefix[1];
-    }
+  // $_GET['q'] might not be available at this time, because
+  // path initialization runs after the language bootstrap phase.
+  if (empty($current_path)) {
+    return FALSE;
   }
-  return $language_url;
+
+  // If not enabled, the process is stop and Drupal passes to the next language
+  // negotiation mechanism.
+  if (!language_negotiation_get_any('nexteuropa_multilingual_url_suffix')) {
+    return FALSE;
+  }
+
+  $check_prefix = _nexteuropa_multilingual_language_negotiation_split_suffix($current_path, $languages);
+  if ($check_prefix[0] === FALSE) {
+    return FALSE;
+  }
+
+  $_GET['q'] = $check_prefix[1];
+
+  return $check_prefix[0]->language;
 }
 
 
@@ -34,7 +40,6 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
  * We add the suffix using the delimiter that is chosen in config screens.
  */
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
-
   if (empty($path)) {
     return;
   }
@@ -54,14 +59,17 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   }
 
   // Load languages in the static cache.
-  $languages = &drupal_static(__FUNCTION__);
+  // Taken from locale_language_url_rewrite_url().
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['languages_suffix'] = &drupal_static(__FUNCTION__);
+  }
+  $languages = &$drupal_static_fast['languages_suffix'];
 
   if (!isset($languages)) {
-    $language_list = language_list('enabled');
-    $languages = $language_list[1];
+    $languages = language_list('enabled');
+    $languages = $languages[1];
   }
-
-  $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   // Language can be passed as an option, or we go for current URL language.
   if (!isset($options['language'])) {
@@ -79,30 +87,39 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     return;
   }
 
+  // Treat the path to append the suffix.
   $path = drupal_get_path_alias($path, $options['language']->language);
 
   // Remove duplicate base_path in URL (NEXTEUROPA-9311).
   // Temporary fix until the next version of the link module.
-  if (base_path() != '/' && strpos($path, base_path()) == 0) {
+  if (base_path() != '/' && strpos($path, base_path()) === 0) {
     $path = str_replace(base_path(), '', $path);
   }
 
   $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
 
   // Check if the language suffix has been already added.
-  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
+  $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
+  $check_prefix = _nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
   $path = $check_prefix[1] . $delimiter . $language_suffix;
 
   $options['alias'] = TRUE;
-
 }
-
 
 /**
  * Extract the suffix from the path.
+ *
+ * @param string $path
+ *   The path where to extract the suffix.
+ * @param array $languages
+ *   An array of valid language objects.
+ *
+ * @return array
+ *   The path split in 2 elements:
+ *   - The language object deduced from the suffix, or FALSE if not found;
+ *   - The patch without the suffix.
  */
-function nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages) {
-
+function _nexteuropa_multilingual_language_negotiation_split_suffix($path, array $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   if (_nexteuropa_multilingual_get_source_path($path) != $path) {
@@ -126,13 +143,10 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
   // /foo/bar_en  (supported),
   // /_en/foo/bar (not supported),
   // /en/foo/bar  (not supported).
-  $languages_prefix = array();
+  $languages_with_suffix = _nexteuropa_multilingual_get_languages_with_suffix($languages);
 
-  // Use the suffix language.
-  foreach ($languages as $language) {
-    $languages_prefix[] = _nexteuropa_multilingual_get_language_suffix($language);
-  }
-  $pattern = '/' . $delimiter . '(' . implode($languages_prefix, '|') . ')(\/|$)/';
+  $languages_suffix = array_keys($languages_with_suffix);
+  $pattern = '/' . $delimiter . '(' . implode($languages_suffix, '|') . ')(\/|$)/';
   // Search the language suffix with the delimiter in the path.
   if (!preg_match($pattern, $path)) {
     // No language suffix found.
@@ -146,33 +160,38 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, $langu
   $extra_params = explode("/", $suffix);
   $suffix = array_shift($extra_params);
 
-  // Search prefix within enabled languages.
-  foreach ($languages as $language) {
-    $language_suffix = _nexteuropa_multilingual_get_language_suffix($language);
-    if ($language_suffix && $language_suffix == $suffix) {
-      // Rebuild $path with the language removed.
-      $path = implode($delimiter, $args);
-      // Handle the path homepage.
-      $path = ($path == 'index') ? '' : $path;
-      // Add extra params after suffix.
-      if (count($extra_params) > 0) {
-        $path .= ($path == '') ? '' : '/';
-        $path .= implode("/", $extra_params);
-      }
-      // English does not have a prefix by default, so we add it for the future
-      // comparisons that rely on prefix.
-      $language->prefix = empty($language->prefix) ? $language->language : $language->prefix;
-
-      return array($language, $path);
-    }
+  if (!isset($languages_with_suffix[$suffix])) {
+    return array(FALSE, $path);
   }
-  return array(FALSE, $path);
+
+  // Search prefix within enabled languages.
+  $language = $languages_with_suffix[$suffix];
+
+  // Rebuild $path with the language removed.
+  $path = implode($delimiter, $args);
+  // Handle the path homepage.
+  $path = ($path == 'index') ? '' : $path;
+  // Add extra params after suffix.
+  if (count($extra_params) > 0) {
+    $path .= ($path == '') ? '' : '/';
+    $path .= implode("/", $extra_params);
+  }
+
+  return array($language, $path);
 }
 
 /**
- * Function nexteuropa_multilingual_language_negotiation_switcher_url.
+ * Return the URL for language switcher block.
  *
- * @todo: Add documentation.
+ * The translation links may be provided by other modules.
+ *
+ * @param string $type
+ *   The URL type.
+ * @param string $path
+ *   The patch on which generate the urls.
+ *
+ * @return array
+ *   An array of
  */
 function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path) {
   $languages = language_list('enabled');
@@ -189,21 +208,54 @@ function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path)
 }
 
 /**
- * Return the language suffix for the language passed as parameter.
+ * Gets the list of suffixes corresponding to languages set in the site.
  *
- * Suffix corresponds to language prefix. If not defined, the langcode is used.
+ * @param array $languages
+ *   An array of valid language objects.
+ *
+ * @return array
+ *   An array of the language objects keyed by their corresponding suffix.
+ */
+function _nexteuropa_multilingual_get_languages_with_suffix(array $languages = array()) {
+  $suffix_list = array();
+
+  // Use the suffix language.
+  foreach ($languages as $language) {
+    $language_suffix = _nexteuropa_multilingual_get_language_suffix($language);
+
+    if (!empty($language_suffix)) {
+      $suffix_list[$language_suffix] = $language;
+    }
+  }
+
+  return $suffix_list;
+}
+
+/**
+ * Gets the language suffix for the language passed as parameter.
+ *
+ * The suffix corresponds to language prefix stored in DB. If not defined, the
+ * langcode is used.
  * This suffix is used on the last part of the URL.
+ *
+ * @param stdClass $language
+ *   The language object from which extract the suffix.
+ *
+ * @return string
+ *   The suffix value.
  */
 function _nexteuropa_multilingual_get_language_suffix($language) {
   if (is_object($language)) {
     if (!empty($language->prefix)) {
       return $language->prefix;
     }
-    elseif (!empty($language->language)) {
+
+    if (!empty($language->language)) {
       return $language->language;
     }
   }
-  return NULL;
+
+  return FALSE;
 }
 
 /**
@@ -216,11 +268,11 @@ function _nexteuropa_multilingual_get_language_suffix($language) {
  *   Source path if any, input path if none.
  */
 function _nexteuropa_multilingual_get_source_path($path) {
-
   $result = drupal_lookup_path('source', $path);
+
   if (!empty($result)) {
     return $result;
   }
-  return $path;
 
+  return $path;
 }
