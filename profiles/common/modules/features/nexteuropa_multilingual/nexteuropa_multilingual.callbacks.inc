@@ -23,7 +23,7 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
     return FALSE;
   }
 
-  $check_prefix = _nexteuropa_multilingual_language_negotiation_split_suffix($current_path, $languages);
+  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($current_path, $languages);
   if ($check_prefix[0] === FALSE) {
     return FALSE;
   }
@@ -100,7 +100,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
 
   // Check if the language suffix has been already added.
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
-  $check_prefix = _nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
+  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
   $path = $check_prefix[1] . $delimiter . $language_suffix;
 
   $options['alias'] = TRUE;
@@ -119,7 +119,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  *   - The language object deduced from the suffix, or FALSE if not found;
  *   - The patch without the suffix.
  */
-function _nexteuropa_multilingual_language_negotiation_split_suffix($path, array $languages) {
+function nexteuropa_multilingual_language_negotiation_split_suffix($path, array $languages) {
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   if (_nexteuropa_multilingual_get_source_path($path) != $path) {
