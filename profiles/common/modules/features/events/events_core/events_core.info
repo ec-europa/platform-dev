@@ -33,7 +33,6 @@ features[variable][] = comment_anonymous_event
 features[variable][] = comment_default_mode_event
 features[variable][] = comment_default_per_page_event
 features[variable][] = comment_event
-features[variable][] = comment_form_location_event
 features[variable][] = comment_preview_event
 features[variable][] = comment_subject_field_event
 features[variable][] = enable_revisions_page_event
