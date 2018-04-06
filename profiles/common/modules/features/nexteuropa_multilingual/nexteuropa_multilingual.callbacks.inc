@@ -50,7 +50,6 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   $exceptions[] = 'system/files';
   $exceptions[] = 'sitemap';
   $exceptions[] = 'ecas';
-  $exceptions[] = '<front>';
 
   foreach ($exceptions as $exception) {
     if (preg_match("#^/?$exception#", $path)) {
@@ -59,12 +58,12 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   }
 
   // Load languages in the static cache.
-  // Taken from locale_language_url_rewrite_url().
+  // The code below is based on the locale_language_url_rewrite_url() one.
   static $drupal_static_fast;
   if (!isset($drupal_static_fast)) {
-    $drupal_static_fast['languages_suffix'] = &drupal_static(__FUNCTION__);
+    $drupal_static_fast['nexteuropa_multilingual_enabled_languages'] = &drupal_static(__FUNCTION__);
   }
-  $languages = &$drupal_static_fast['languages_suffix'];
+  $languages = &$drupal_static_fast['nexteuropa_multilingual_enabled_languages'];
 
   if (!isset($languages)) {
     $languages = language_list('enabled');
@@ -88,6 +87,9 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   }
 
   // Treat the path to append the suffix.
+  if ($path == '<front>') {
+    $path = variable_get('site_frontpage', 'node');
+  }
   $path = drupal_get_path_alias($path, $options['language']->language);
 
   // Remove duplicate base_path in URL (NEXTEUROPA-9311).
@@ -217,7 +219,16 @@ function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path)
  *   An array of the language objects keyed by their corresponding suffix.
  */
 function _nexteuropa_multilingual_get_languages_with_suffix(array $languages = array()) {
-  $suffix_list = array();
+  // The code below is based on the locale_language_url_rewrite_url() one.
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['nexteuropa_multilingual_languages_with_suffix'] = &drupal_static(__FUNCTION__, array());
+  }
+  $suffix_list = &$drupal_static_fast['nexteuropa_multilingual_languages_with_suffix'];
+
+  if (!empty($suffix_list)) {
+    return $suffix_list;
+  }
 
   // Use the suffix language.
   foreach ($languages as $language) {
