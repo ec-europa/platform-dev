@@ -33,30 +33,12 @@ function nexteuropa_multilingual_language_negotiation_provider_callback($languag
   return $check_prefix[0]->language;
 }
 
-
 /**
  * Function nexteuropa_multilingual_language_negotiation_url_rewrite_callback.
  *
  * We add the suffix using the delimiter that is chosen in config screens.
  */
 function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$path, &$options) {
-  if (empty($path)) {
-    return;
-  }
-
-  // Some paths should not have a suffix.
-  $exceptions = array();
-  $exceptions[] = variable_get('file_public_path', conf_path() . '/files');
-  $exceptions[] = 'system/files';
-  $exceptions[] = 'sitemap';
-  $exceptions[] = 'ecas';
-
-  foreach ($exceptions as $exception) {
-    if (preg_match("#^/?$exception#", $path)) {
-      return;
-    }
-  }
-
   // Load languages in the static cache.
   // Use drupal static fast pattern like in locale_language_url_rewrite_url().
   static $drupal_static_fast;
@@ -86,9 +68,26 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
     return;
   }
 
-  // Treat the path to append the suffix.
-  $path = _nexteuropa_multilingual_get_path_with_suffix($path, $options['language'], $languages);
+  // We don't add the language suffix if $path is empty.
+  // We don't force the frontpage URL to $path if $path is empty.
+  if (empty($path)) {
+    return;
+  }
 
+  // Some paths should not have a suffix.
+  $exceptions = array();
+  $exceptions[] = variable_get('file_public_path', conf_path() . '/files');
+  $exceptions[] = 'system/files';
+  $exceptions[] = 'sitemap';
+  $exceptions[] = 'ecas';
+
+  foreach ($exceptions as $exception) {
+    if (preg_match("#^/?$exception#", $path)) {
+      return;
+    }
+  }
+
+  $path = _nexteuropa_multilingual_get_path_with_suffix($path, $options['language'], $languages);
   $options['alias'] = TRUE;
 }
 
@@ -106,10 +105,23 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
  *   - The patch without the suffix.
  */
 function nexteuropa_multilingual_language_negotiation_split_suffix($path, array $languages) {
+  // Use drupal static fast pattern like in locale_language_url_rewrite_url().
+  $static_reference = $path;
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['nexteuropa_multilingual_languages_with_suffix'] = &drupal_static(__FUNCTION__, array());
+  }
+  $static_suffix_info = &$drupal_static_fast['nexteuropa_multilingual_languages_with_suffix'];
+
+  if (!empty($static_suffix_info[$static_reference])) {
+    return $static_suffix_info[$static_reference];
+  }
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
 
   if (_nexteuropa_multilingual_get_source_path($path) != $path) {
-    return array(FALSE, $path);
+    $static_suffix_info[$static_reference] = array(FALSE, $path);
+
+    return $static_suffix_info[$static_reference];
   }
 
   // Handle adding an Entity Translation field to a view with Estonian enabled.
@@ -120,7 +132,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, array 
     // then the function process must go on, otherwise we stop here and
     // it returns FALSE for the path.
     if (strrpos($path, '_et_et', -6) === FALSE) {
-      return array(FALSE, $path);
+      $static_suffix_info[$static_reference] = array(FALSE, $path);
+
+      return $static_suffix_info[$static_reference];
     }
   }
 
@@ -136,7 +150,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, array 
   // Search the language suffix with the delimiter in the path.
   if (!preg_match($pattern, $path)) {
     // No language suffix found.
-    return array(FALSE, $path);
+    $static_suffix_info[$static_reference] = array(FALSE, $path);
+
+    return $static_suffix_info[$static_reference];
   }
 
   $args = empty($path) ? array() : explode($delimiter, $path);
@@ -147,7 +163,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, array 
   $suffix = array_shift($extra_params);
 
   if (!isset($languages_with_suffix[$suffix])) {
-    return array(FALSE, $path);
+    $static_suffix_info[$static_reference] = array(FALSE, $path);
+
+    return $static_suffix_info[$static_reference];
   }
 
   // Search prefix within enabled languages.
@@ -163,7 +181,9 @@ function nexteuropa_multilingual_language_negotiation_split_suffix($path, array 
     $path .= implode("/", $extra_params);
   }
 
-  return array($language, $path);
+  $static_suffix_info[$static_reference] = array($language, $path);
+
+  return $static_suffix_info[$static_reference];
 }
 
 /**
@@ -286,21 +306,10 @@ function _nexteuropa_multilingual_get_source_path($path) {
  *   The path with the language suffix.
  */
 function _nexteuropa_multilingual_get_path_with_suffix($path, $path_language, array $valid_languages) {
-  // Use drupal static fast pattern like in locale_language_url_rewrite_url().
-  static $drupal_static_fast;
-  if (!isset($drupal_static_fast)) {
-    $drupal_static_fast['nexteuropa_multilingual_built_paths'] = &drupal_static(__FUNCTION__, array());
-  }
-  $built_paths = &$drupal_static_fast['nexteuropa_multilingual_built_paths'];
-
-  $static_reference = $path . '_' . $path_language->language;
-  if (isset($built_paths[$static_reference])) {
-    return $built_paths[$static_reference];
-  }
-
   if ($path == '<front>') {
     $path = variable_get('site_frontpage', 'node');
   }
+
   $path = drupal_get_path_alias($path, $path_language->language);
 
   // Remove duplicate base_path in URL (NEXTEUROPA-9311).
@@ -315,7 +324,5 @@ function _nexteuropa_multilingual_get_path_with_suffix($path, $path_language, ar
   $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
   $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $valid_languages);
 
-  $built_paths[$static_reference] = $check_prefix[1] . $delimiter . $language_suffix;
-
-  return $built_paths[$static_reference];
+  return $check_prefix[1] . $delimiter . $language_suffix;
 }
