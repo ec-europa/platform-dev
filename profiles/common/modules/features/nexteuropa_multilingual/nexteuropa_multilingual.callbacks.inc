@@ -58,7 +58,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   }
 
   // Load languages in the static cache.
-  // The code below is based on the locale_language_url_rewrite_url() one.
+  // Use drupal static fast pattern like in locale_language_url_rewrite_url().
   static $drupal_static_fast;
   if (!isset($drupal_static_fast)) {
     $drupal_static_fast['nexteuropa_multilingual_enabled_languages'] = &drupal_static(__FUNCTION__);
@@ -87,23 +87,7 @@ function nexteuropa_multilingual_language_negotiation_url_rewrite_callback(&$pat
   }
 
   // Treat the path to append the suffix.
-  if ($path == '<front>') {
-    $path = variable_get('site_frontpage', 'node');
-  }
-  $path = drupal_get_path_alias($path, $options['language']->language);
-
-  // Remove duplicate base_path in URL (NEXTEUROPA-9311).
-  // Temporary fix until the next version of the link module.
-  if (base_path() != '/' && strpos($path, base_path()) === 0) {
-    $path = str_replace(base_path(), '', $path);
-  }
-
-  $language_suffix = _nexteuropa_multilingual_get_language_suffix($options['language']);
-
-  // Check if the language suffix has been already added.
-  $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
-  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $languages);
-  $path = $check_prefix[1] . $delimiter . $language_suffix;
+  $path = _nexteuropa_multilingual_get_path_with_suffix($path, $options['language'], $languages);
 
   $options['alias'] = TRUE;
 }
@@ -219,7 +203,7 @@ function nexteuropa_multilingual_language_negotiation_switcher_url($type, $path)
  *   An array of the language objects keyed by their corresponding suffix.
  */
 function _nexteuropa_multilingual_get_languages_with_suffix(array $languages = array()) {
-  // The code below is based on the locale_language_url_rewrite_url() one.
+  // Use drupal static fast pattern like in locale_language_url_rewrite_url().
   static $drupal_static_fast;
   if (!isset($drupal_static_fast)) {
     $drupal_static_fast['nexteuropa_multilingual_languages_with_suffix'] = &drupal_static(__FUNCTION__, array());
@@ -286,4 +270,52 @@ function _nexteuropa_multilingual_get_source_path($path) {
   }
 
   return $path;
+}
+
+/**
+ * Gets final path with the language suffix.
+ *
+ * @param string $path
+ *   The raw path to treat.
+ * @param stdClass $path_language
+ *   The language object attached to the path.
+ * @param array $valid_languages
+ *   The list of valid language set in the Drupal instance.
+ *
+ * @return string
+ *   The path with the language suffix.
+ */
+function _nexteuropa_multilingual_get_path_with_suffix($path, $path_language, array $valid_languages) {
+  // Use drupal static fast pattern like in locale_language_url_rewrite_url().
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['nexteuropa_multilingual_built_paths'] = &drupal_static(__FUNCTION__, array());
+  }
+  $built_paths = &$drupal_static_fast['nexteuropa_multilingual_built_paths'];
+
+  $static_reference = $path . '_' . $path_language->language;
+  if (isset($built_paths[$static_reference])) {
+    return $built_paths[$static_reference];
+  }
+
+  if ($path == '<front>') {
+    $path = variable_get('site_frontpage', 'node');
+  }
+  $path = drupal_get_path_alias($path, $path_language->language);
+
+  // Remove duplicate base_path in URL (NEXTEUROPA-9311).
+  // Temporary fix until the next version of the link module.
+  if (base_path() != '/' && strpos($path, base_path()) === 0) {
+    $path = str_replace(base_path(), '', $path);
+  }
+
+  $language_suffix = _nexteuropa_multilingual_get_language_suffix($path_language);
+
+  // Check if the language suffix has been already added.
+  $delimiter = variable_get('nexteuropa_multilingual_language_suffix_delimiter', '_');
+  $check_prefix = nexteuropa_multilingual_language_negotiation_split_suffix($path, $valid_languages);
+
+  $built_paths[$static_reference] = $check_prefix[1] . $delimiter . $language_suffix;
+
+  return $built_paths[$static_reference];
 }
