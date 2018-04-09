@@ -168,12 +168,12 @@
     <target
         name="build-platform-dist"
         description="Build a version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, setup-files-directory, remove-behat-inc-files" />
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, make-platform, copy-platform-resources, install-platform-dependencies, setup-files-directory" />
 
     <target
         name="build-multisite-dist"
         description="Build a multisite version of the platform intended to distribute as a release package."
-        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles, remove-behat-inc-files">
+        depends="install-build-dependencies, delete-platform, make-drupal-core, copy-platform-profiles">
 
         <!-- First make the standard profile. -->
         <property name="platform.profile.name" value="multisite_drupal_standard" override="yes" />
@@ -286,14 +286,6 @@
             <fileset dir="${platform.resources.profiles.common.themes.dir}/ec_europa/wysiwyg">
                 <include name="*.map" />
             </fileset>
-        </delete>
-    </target>
-    <!-- NEPT-1741: Remove "*.behat.inc" files from feature/module repositories. -->
-    <target name="remove-behat-inc-files">
-        <delete>
-             <fileset dir="${platform.build.dir}">
-                  <include name="**/*.behat.inc"></include>
-             </fileset> 
         </delete>
     </target>
 </project>
