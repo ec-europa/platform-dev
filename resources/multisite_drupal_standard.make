@@ -198,7 +198,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.8"
+projects[entity][version] = "1.9"
 ; Invalid argument supplied for foreach() in entity_metadata_convert_schema()
 ; https://www.drupal.org/node/2564119
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1025
@@ -479,7 +479,7 @@ projects[media_colorbox][subdir] = "contrib"
 projects[media_colorbox][version] = "1.0-rc4"
 
 projects[menu_attributes][subdir] = "contrib"
-projects[menu_attributes][version] = "1.0-rc3"
+projects[menu_attributes][version] = "1.0"
 projects[menu_attributes][patch][] = patches/menu_attributes-add_icon_for_menu_item-2327.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_disable_css_class-2988.patch
 projects[menu_attributes][patch][] = patches/menu_attributes-option_to_hide_children-6757.patch
@@ -642,6 +642,8 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
 ; https://www.drupal.org/node/2673290
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch
+; https://www.drupal.org/node/2351763
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics.module_0.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
@@ -796,10 +798,10 @@ projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workben
 projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[drafty][subdir] = "contrib"
-projects[drafty][version] = "1.0-beta4"
+projects[drafty][version] = "1.0-rc1"
 ; Issue #2487013: Make Drafty work with the Title module patch.
 ; https://www.drupal.org/node/2487013
-projects[drafty][patch][] =https://www.drupal.org/files/issues/2487013.patch
+projects[drafty][patch][] = https://www.drupal.org/files/issues/title-module-fix-2487013-13.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "3.0"
@@ -807,6 +809,10 @@ projects[workbench_moderation][version] = "3.0"
 ; https://www.drupal.org/node/2360091
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEXTEUROPA-10670
 projects[workbench_moderation][patch][] = https://www.drupal.org/files/issues/workbench_moderation-7.x-dev_update_tab_count.patch
+; Issue #2825391 Fix current state for transition rules
+; https://www.drupal.org/node/2825391
+; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1722
+projects[workbench_moderation][patch][2825391] = https://www.drupal.org/files/issues/workbench_moderation_fix_rules_current_state-2825391-42.patch
 
 projects[workbench_og][subdir] = "contrib"
 projects[workbench_og][version] = "2.0-beta1"
@@ -1027,12 +1033,12 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.5
+projects[ec_resp][download][tag] = 2.3.6
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.6
+projects[atomium][version] = 2.7
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.8
+projects[ec_europa][download][tag] = 0.0.10

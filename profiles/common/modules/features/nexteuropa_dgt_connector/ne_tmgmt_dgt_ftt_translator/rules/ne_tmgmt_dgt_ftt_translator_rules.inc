@@ -16,6 +16,7 @@ function ne_tmgmt_dgt_ftt_translator_rules_event_info() {
       'group' => 'DGT FTT translator',
       'variables' => array(
         'identifier' => array('type' => 'struct', 'label' => t('Poetry request identifier.')),
+        'job' => array('type' => 'tmgmt_job', 'label' => t('The Translation Job.')),
       ),
     ),
   );
