@@ -28,7 +28,6 @@ features[user_permission][] = edit own webform submissions
 features[variable][] = comment_anonymous_webform
 features[variable][] = comment_default_mode_webform
 features[variable][] = comment_default_per_page_webform
-features[variable][] = comment_form_location_webform
 features[variable][] = comment_preview_webform
 features[variable][] = comment_subject_field_webform
 features[variable][] = comment_webform

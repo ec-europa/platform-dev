@@ -36,7 +36,6 @@ features[variable][] = comment_anonymous_editorial_team
 features[variable][] = comment_default_mode_editorial_team
 features[variable][] = comment_default_per_page_editorial_team
 features[variable][] = comment_editorial_team
-features[variable][] = comment_form_location_editorial_team
 features[variable][] = comment_preview_editorial_team
 features[variable][] = comment_subject_field_editorial_team
 features[variable][] = field_bundle_settings_node__editorial_team

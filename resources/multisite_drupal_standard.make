@@ -642,6 +642,8 @@ projects[simplenews_statistics][version] = "1.0-alpha1"
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-syntax_error-2607422-3.patch
 ; https://www.drupal.org/node/2673290
 projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics-simpletest-warning-message-2673290-3-D7.patch
+; https://www.drupal.org/node/2351763
+projects[simplenews_statistics][patch][] = https://www.drupal.org/files/issues/simplenews_statistics.module_0.patch
 
 projects[site_map][subdir] = "contrib"
 projects[site_map][version] = "1.3"
@@ -796,10 +798,10 @@ projects[workbench_email][patch][] = https://www.drupal.org/files/issues/workben
 projects[workbench_email][patch][] = patches/workbench_email-revert_feature_error-1.patch
 
 projects[drafty][subdir] = "contrib"
-projects[drafty][version] = "1.0-beta4"
+projects[drafty][version] = "1.0-rc1"
 ; Issue #2487013: Make Drafty work with the Title module patch.
 ; https://www.drupal.org/node/2487013
-projects[drafty][patch][] =https://www.drupal.org/files/issues/2487013.patch
+projects[drafty][patch][] = https://www.drupal.org/files/issues/title-module-fix-2487013-13.patch
 
 projects[workbench_moderation][subdir] = "contrib"
 projects[workbench_moderation][version] = "3.0"
@@ -1031,7 +1033,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.5
+projects[ec_resp][download][tag] = 2.3.6
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.7
