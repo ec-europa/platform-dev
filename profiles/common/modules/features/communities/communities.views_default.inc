@@ -548,9 +548,10 @@ function communities_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  if($theme_key == 'ec_resp') {
+  if ($theme_key == 'ec_resp') {
     $handler->display->display_options['style_plugin'] = 'list';
-  } else {
+  }
+  else {
     $handler->display->display_options['style_plugin'] = 'ec_europa_link_blocks';
   }
   $handler->display->display_options['style_options']['class'] = 'list-group list-group-flush list-unstyled';
@@ -754,9 +755,10 @@ function communities_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
-  if($theme_key == 'ec_resp') {
+  if ($theme_key == 'ec_resp') {
     $handler->display->display_options['style_plugin'] = 'list';
-  } else {
+  }
+  else {
     $handler->display->display_options['style_plugin'] = 'ec_europa_link_blocks';
   }
   $handler->display->display_options['row_plugin'] = 'fields';
