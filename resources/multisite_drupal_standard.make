@@ -395,9 +395,6 @@ projects[job_scheduler][version] = "2.0-alpha3"
 projects[jplayer][subdir] = "contrib"
 projects[jplayer][version] = "2.0-beta1"
 
-projects[jqmulti][subdir] = "contrib"
-projects[jqmulti][version] = "1.0"
-
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.7"
 ; Issue #2621436: Allow permissions to granted roles.
