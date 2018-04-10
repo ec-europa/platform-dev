@@ -253,7 +253,7 @@ function _nexteuropa_multilingual_get_languages_with_suffix(array $languages = a
  * langcode is used.
  * This suffix is used on the last part of the URL.
  *
- * @param stdClass $language
+ * @param object $language
  *   The language object from which extract the suffix.
  *
  * @return string
@@ -297,7 +297,7 @@ function _nexteuropa_multilingual_get_source_path($path) {
  *
  * @param string $path
  *   The raw path to treat.
- * @param stdClass $path_language
+ * @param object $path_language
  *   The language object attached to the path.
  * @param array $valid_languages
  *   The list of valid language set in the Drupal instance.
