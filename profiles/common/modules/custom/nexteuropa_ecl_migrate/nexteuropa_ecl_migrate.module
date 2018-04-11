@@ -276,7 +276,6 @@ function _nexteuropa_ecl_migrate_remove_blocks_default_blocks() {
   multisite_drupal_toolbox_remove_block_context('site_wide', 'print-print-links');
   multisite_drupal_toolbox_remove_block_context('site_wide', 'multisite_create_button');
   _nexteuropa_ecl_migrate_remove_ec_resp_blocks();
-  _nexteuropa_ecl_migrate_enable_ec_europa_blocks();
 }
 
 /**
@@ -357,54 +356,4 @@ function _nexteuropa_ecl_migrate_remove_ec_resp_blocks() {
     ->condition('module', 'system')
     ->condition('delta', 'help')
     ->execute();
-}
-
-/**
- * Custom function to enable the system-main block on ec_europa.
- */
-function _nexteuropa_ecl_migrate_enable_ec_europa_blocks() {
-  $block = array(
-    'module' => 'system',
-    'delta' => 'main',
-    'theme' => 'ec_europa',
-    'status' => 1,
-    'weight' => 0,
-    'region' => 'content',
-    'pages' => '',
-    'cache' => -1,
-  );
-  // Let's check if the block is not already defined in the DB table in order
-  // to avoid a PDO exception: "exception 'PDOException' with message
-  // 'SQLSTATE[23000]: Integrity constraint violation: 1062 Duplicate entry
-  // 'ec_europa-system-main' for key 'tmd''".
-  $is_exist_query = db_select('block')
-    ->condition('module', 'system')
-    ->condition('delta', 'main')
-    ->condition('theme', 'ec_europa');
-  $is_exist_query->addExpression(1);
-  $is_block_exist = $is_exist_query->execute()->fetchField();
-  if ($is_block_exist) {
-    // If it already exits, we update the row in the DB.
-    db_update('block')
-      ->fields($block)
-      ->condition('theme', 'ec_europa')
-      ->condition('module', 'system')
-      ->condition('delta', 'main')
-      ->execute();
-    return;
-  }
-  $query = db_insert('block')->fields(
-    array(
-      'module',
-      'delta',
-      'theme',
-      'status',
-      'weight',
-      'region',
-      'pages',
-      'cache',
-    )
-  );
-  $query->values(array($block));
-  $query->execute();
 }
