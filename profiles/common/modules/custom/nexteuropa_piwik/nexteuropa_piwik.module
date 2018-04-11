@@ -108,10 +108,28 @@ function nexteuropa_piwik_page_alter(&$page) {
 /**
  * Implements hook_process_html().
  *
+ * Add the custom instance variables.
+ */
+function nexteuropa_piwik_process_maintenance_page(&$variables) {
+  $script = _nexteuropa_piwik_generate_json();
+  $variables['scripts'] .= drupal_render($script);
+}
+
+/**
+ * Implements hook_process_html().
+ *
  * Add the custom instance variables. That has to be done in the footer region.
  * drupal_add_js won't work as we need application/json.
  */
 function nexteuropa_piwik_process_html(&$vars) {
+  $script = _nexteuropa_piwik_generate_json();
+  $vars['page_bottom'] .= drupal_render($script);
+}
+
+/**
+ * Helper function to generate the required json.
+ */
+function _nexteuropa_piwik_generate_json() {
   $id = variable_get('nexteuropa_piwik_site_id', '');
   $instance = variable_get('nexteuropa_piwik_site_instance', '');
 
@@ -169,8 +187,7 @@ function nexteuropa_piwik_process_html(&$vars) {
   }
 
   $webtools_piwik_settings = strip_tags(drupal_json_encode($webtools_piwik_settings));
-  // Add application/json tag to the header.
-  $element = array(
+  return array(
     '#type' => 'html_tag',
     '#tag' => 'script',
     '#attributes' => array(
@@ -179,8 +196,6 @@ function nexteuropa_piwik_process_html(&$vars) {
     '#weight' => '99999',
     '#value' => $webtools_piwik_settings,
   );
-
-  $vars['page_bottom'] .= drupal_render($element);
 }
 
 /**
