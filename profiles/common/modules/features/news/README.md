@@ -1,4 +1,4 @@
-The "News" feature provides a link in the main menu to the list of news, and allows to filter news according to the community in "multisite_drupal_communities" configuration.
+The "News" feature provides a link in the main menu to the list of news, and allows filtering news according to the community in "multisite_drupal_communities" configuration.
 
 Table of content:
 =================
@@ -8,15 +8,15 @@ Table of content:
 
 # Important
 
- News uses 3 modules to work. News_core is not designed to work alone, but with one of the 2 other sub-modules depending on the profile configuration used in the site.
+News uses 3 modules to work. "news_core" is not designed to work alone, but with one of the 2 other sub-modules depending on the profile configuration used in the site.
 
  [Go to top](#table-of-content)
 
 
 # Installation
 
-For "multisite_drupal_standard" configuration enable the modules news_core and news_standard.
-For "multisite_drupal_communities" configuration enable the modules news_core and news_og.
+For "multisite_drupal_standard" configuration enable the modules "news_core" and "news_standard".
+For "multisite_drupal_communities" configuration enable the modules "news_core" and "news_og".
 
 [Go to top](#table-of-content)
 
@@ -29,11 +29,12 @@ For "multisite_drupal_communities" configuration enable the modules news_core an
 ## Communities configuration:
 
 ### Propose News for publication
-- A Member can create a news as any other content. When the news is saved, it will remain ad "Draft" or "Needs Review".
+- A Member can create a news as any other content. When the news is saved, it will remain ad "Draft" or "Needs Review".<br />
 To request approval from community manager the news must be saved with the moderation state of "Needs Review".
 
 ### Community News
-- A Member can see private news according to his membership by going to the community page. The community page will filter the news of this community for its members.
+- A Member can see private news according to his membership by going to the community page.<br />
+The community page will filter the news of this community for its members.
 
 ### Public News
 - A User can see featured public news on the homepage
@@ -41,8 +42,8 @@ To request approval from community manager the news must be saved with the moder
 
 ### Flag News
 - A Community manager can flag news within his community as "highlighted" while creating or editing a news:
-  - check "Promoted to front page" to make the news appear at community's homepage.
-  - check "Sticky at top of lists" to keep it always at top.
-- A Community manager can manage News within his community thanks to my workbench
+  - Check "Promoted to front page" to make the news appear at community's homepage.
+  - Check "Sticky at top of lists" to keep it always at top.
+- A Community manager can manage News within his community thanks to my workbench.
 
 [Go to top](#table-of-content)
