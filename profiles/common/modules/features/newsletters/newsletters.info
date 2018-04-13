@@ -23,6 +23,7 @@ features[field_instance][] = node-simplenews-body
 features[field_instance][] = node-simplenews-field_related_contents
 features[field_instance][] = node-simplenews-field_simplenews_term
 features[field_instance][] = node-simplenews-field_tags
+features[field_instance][] = node-simplenews-title_field
 features[node][] = simplenews
 features[taxonomy][] = newsletter
 features[user_permission][] = administer email non-delivery report processing
