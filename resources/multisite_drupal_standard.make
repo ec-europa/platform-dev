@@ -389,9 +389,6 @@ projects[job_scheduler][version] = "2.0-alpha3"
 projects[jplayer][subdir] = "contrib"
 projects[jplayer][version] = "2.0-beta1"
 
-projects[jqmulti][subdir] = "contrib"
-projects[jqmulti][version] = "1.0"
-
 projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.7"
 ; Issue #2621436: Allow permissions to granted roles.
@@ -1031,7 +1028,7 @@ libraries[respond][download][url] = https://raw.githubusercontent.com/scottjehl/
 projects[ec_resp][type] = theme
 projects[ec_resp][download][type] = git
 projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
-projects[ec_resp][download][tag] = 2.3.6
+projects[ec_resp][download][tag] = 2.3.7
 
 projects[atomium][type] = theme
 projects[atomium][version] = 2.7
