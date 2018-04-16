@@ -710,9 +710,6 @@ projects[transliteration][version] = "3.2"
 projects[tweetbutton][subdir] = "contrib"
 projects[tweetbutton][version] = "2.0-beta1"
 
-projects[updater][subdir] = "contrib"
-projects[updater][version] = "1.0"
-
 projects[user_dashboard][subdir] = "contrib"
 projects[user_dashboard][version] = "1.4"
 
