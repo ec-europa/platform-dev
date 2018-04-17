@@ -15,7 +15,6 @@ Feature: Content editing as administrator
   Scenario: See and filter the list of countries
     When I go to "/ec-world-countries"
     Then I should see the text "EC world countries"
-    # And  I should see the button "Refine results"
     And  I should see "Algeria"
     And  I should see "Africa" in the "Algeria" row
     And  I should see "Albania"
