@@ -10,12 +10,11 @@ Feature: Content editing as administrator
     | modules            |
     | ec_world_countries |
 
-  @theme_wip
+  # @theme_wip
   #They appear several notices about pager template that make the test fail in ec_europa theme.
   Scenario: See and filter the list of countries
     When I go to "/ec-world-countries"
     Then I should see the text "EC world countries"
-    And  I should see the button "Refine results"
     And  I should see "Algeria"
     And  I should see "Africa" in the "Algeria" row
     And  I should see "Albania"
