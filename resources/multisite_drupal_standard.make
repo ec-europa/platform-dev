@@ -685,7 +685,7 @@ projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2812863.patch
 ; #2955245 : i18nviews strings are not shown on sources view
 ; https://www.drupal.org/node/2955245
 ; https://webgate.ec.europa.eu/CITnet/jira/browse/NEPT-1878
-projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-03-22/2955245-2.patch
+projects[tmgmt][patch][] = https://www.drupal.org/files/issues/2018-04-17/2955245-5.patch
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.7"

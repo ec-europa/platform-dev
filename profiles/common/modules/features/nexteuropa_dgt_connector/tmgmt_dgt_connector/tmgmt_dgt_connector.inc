@@ -141,14 +141,10 @@ function _tmgmt_dgt_connector_get_entity_data($entity_type, $entity_id) {
  *   Returns an array with data of the string.
  */
 function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
+
   // Get i18n object from id.
   list(, $type, $object_id) = explode(':', $item_id, 3);
-  if ('views' === $item_type) {
-    $i18n_object = tmgmt_i18n_string_get_wrapper('views', (object) array('type' => $object_id, 'objectid' => 'default'));
-  }
-  else {
-    $i18n_object = tmgmt_i18n_string_get_wrapper($item_type, (object) array('type' => $type, 'objectid' => $object_id));
-  }
+  $i18n_object = tmgmt_i18n_string_get_wrapper($item_type, (object) array('type' => $type, 'objectid' => $object_id));
   $structure = array();
 
   if ($i18n_object instanceof i18n_string_object_wrapper) {
