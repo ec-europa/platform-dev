@@ -117,6 +117,10 @@ communities:
     default:
       filters:
         tags: "~@wip&&~@ec_resp_theme&&~@theme_wip&&@communities"
+  extensions:
+    Drupal\nexteuropa\Extensions\DrupalExtension:
+      region_map:
+        sidebar_left: ".region-sidebar-first"
 
 standard_ec_resp:
   suites:
