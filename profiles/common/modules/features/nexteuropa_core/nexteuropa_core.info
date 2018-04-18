@@ -2,6 +2,7 @@ name = NextEuropa Core
 description = NextEuropa Core feature.
 core = 7.x
 package = NextEuropa
+dependencies[] = autologout
 dependencies[] = bean
 dependencies[] = bean_admin_ui
 dependencies[] = bean_entitycache

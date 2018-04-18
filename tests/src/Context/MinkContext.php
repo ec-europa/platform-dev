@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\nexteuropa\Context\MinkContext.
- */
-
 namespace Drupal\nexteuropa\Context;
 
 use Behat\Gherkin\Node\PyStringNode;
@@ -18,6 +13,7 @@ use Drupal\DrupalExtension\Context\MinkContext as DrupalExtensionMinkContext;
 use GuzzleHttp\Client;
 use function bovigo\assert\predicate\equals;
 use function bovigo\assert\predicate\isNotEmpty;
+use function bovigo\assert\predicate\isTrue;
 use function bovigo\assert\assert;
 
 /**
@@ -32,7 +28,6 @@ class MinkContext extends DrupalExtensionMinkContext {
     $frontpage = variable_get('site_frontpage', 'node');
     $this->visitPath($frontpage);
   }
-
 
   /**
    * {@inheritdoc}
@@ -243,10 +238,10 @@ class MinkContext extends DrupalExtensionMinkContext {
    *
    * @param callable $matcher
    *   Callable which returns if the element matches or not.
-   * @param NodeElement[] $elements
+   * @param \Behat\Mink\Element\NodeElement[] $elements
    *   Array of elements to search through.
    *
-   * @return NodeElement|null
+   * @return \Behat\Mink\Element\NodeElement|null
    *   The matching element, or NULL if no matching element was found.
    */
   protected function findElementMatching(callable $matcher, array $elements) {
@@ -372,7 +367,7 @@ class MinkContext extends DrupalExtensionMinkContext {
   /**
    * Retrieve a table row containing specified text from a given element.
    *
-   * @param Element $element
+   * @param \Behat\Mink\Element\Element $element
    *   Mink element object.
    * @param string $search
    *   Table row text.
@@ -380,7 +375,7 @@ class MinkContext extends DrupalExtensionMinkContext {
    * @throws \Exception
    *   Throw exception if class table row was not found.
    *
-   * @return NodeElement
+   * @return \Behat\Mink\Element\NodeElement
    *   Table row node element.
    */
   public function getTableRow(Element $element, $search) {
@@ -389,7 +384,7 @@ class MinkContext extends DrupalExtensionMinkContext {
       throw new \Exception(sprintf('No rows found on the page %s', $this->getSession()
         ->getCurrentUrl()));
     }
-    /** @var NodeElement $row */
+    /** @var \Behat\Mink\Element\NodeElement $row */
     foreach ($rows as $row) {
       if (strpos($row->getText(), $search) !== FALSE) {
         return $row;
@@ -476,6 +471,23 @@ class MinkContext extends DrupalExtensionMinkContext {
 
     $disabled_attr = $button_obj->getAttribute('disabled');
     assert($disabled_attr, equals('disabled'), sprintf('The button "%s" is not disabled', $button));
+  }
+
+  /**
+   * Checks that a select box is set to a given value is selected in select box.
+   *
+   * @Then :option is selected in the :selector options list
+   */
+  public function selectedOptionShouldBeSetTo($selector, $value_label) {
+    $page = $this->getSession()->getPage();
+    $select_box = $page->findField($selector);
+
+    $optionField = $select_box->find('named', array(
+      'option',
+      $value_label,
+    ));
+
+    assert($optionField->isSelected(), isTrue(), sprintf('The selected option in "%s" is not "%s".', $selector, $value_label));
   }
 
   /**

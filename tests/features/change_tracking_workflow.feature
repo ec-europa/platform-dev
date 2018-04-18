@@ -8,10 +8,10 @@ Feature: Change tracking features
   translation; otherwise the content publishing is blocked
 
   Background:
-    Given I am logged in as a user with the 'administrator' role
-    And the module is enabled
+    Given the module is enabled
       | modules                   |
       | nexteuropa_trackedchanges |
+    And I am logged in as a user with the 'administrator' role
 
   Scenario: Text formats should be available
     When I go to "admin/config/content/formats"

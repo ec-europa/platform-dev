@@ -89,7 +89,7 @@ function cce_basic_config_strongarm() {
   $strongarm->disabled = FALSE;
   $strongarm->api_version = 1;
   $strongarm->name = 'date_first_day';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['date_first_day'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -296,25 +296,18 @@ example.org';
   $export['linkchecker_scan_blocks'] = $strongarm;
 
   $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_scan_comments';
-  $strongarm->value = 0;
-  $export['linkchecker_scan_comments'] = $strongarm;
+  $strongarm->name = 'linkchecker_scan_node_article';
+  $strongarm->value = 1;
+  $export['linkchecker_scan_node_article'] = $strongarm;
 
   $strongarm = new stdClass();
-  /* Edit this to true to make a default strongarm disabled initially */
-
-  $strongarm->disabled = FALSE;
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'linkchecker_scan_nodetypes';
-  $strongarm->value = array(
-    'article' => 'article',
-    'page' => 'page',
-  );
-  $export['linkchecker_scan_nodetypes'] = $strongarm;
+  $strongarm->name = 'linkchecker_scan_node_page';
+  $strongarm->value = 1;
+  $export['linkchecker_scan_node_page'] = $strongarm;
 
   $strongarm = new stdClass();
   /* Edit this to true to make a default strongarm disabled initially */

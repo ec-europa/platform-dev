@@ -109,7 +109,6 @@ class CommunitiesWebTestCase extends DrupalWebTestCase {
     $this->assertRaw('Your membership to this group is pending', 'Membership in pending state.');
   }
 
-
   /**
    * Creates a user with the give role.
    */

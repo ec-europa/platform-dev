@@ -1,0 +1,11 @@
+name = TMGMT DGT connector
+description = TMGMT implementation of Poetry European Service (currently limited to Small Jobs).
+package = Translation Management
+core = 7.x
+dependencies[] = tmgmt_poetry
+dependencies[] = nexteuropa_poetry
+files[] = plugins/tmgmt_dgt_connector.plugin.inc
+files[] = plugins/tmgmt_dgt_connector.ui.inc
+
+dependencies[] = registry_autoload
+registry_autoload[] = PSR-4
