@@ -162,6 +162,57 @@ function _tmgmt_dgt_connector_get_i18n_string_data($item_type, $item_id) {
 }
 
 /**
+ * Get data for string.
+ *
+ * @param string $item_type
+ *   The type of the item to be checked.
+ * @param string $item_id
+ *   The id of the item to be checked.
+ *
+ * @return array
+ *   Returns an array with data of the string.
+ *
+ * @throws TMGMTException
+ */
+function _tmgmt_dgt_connector_get_locale_data($item_type, $item_id) {
+  // Check existence of the string.
+  $exists = db_query("SELECT COUNT(lid) FROM {locales_source} WHERE lid = :lid", array(':lid' => $item_id))->fetchField();
+  if (!$exists) {
+    throw new TMGMTException(t('Unable to load locale with id %id', array('%id' => $item_id)));
+  }
+  $query = db_select('locales_source', 'ls');
+  $query
+    ->fields('ls')
+    ->condition('ls.lid', $item_id);
+  $locale_object = $query
+    ->execute()
+    ->fetchObject();
+
+  if (empty($locale_object)) {
+    return NULL;
+  }
+  $text = $locale_object->source;
+  // Identify placeholders that need to be escaped. Assume that placeholders
+  // consist of alphanumeric characters and _,- only and are delimited by
+  // non-alphanumeric characters. There are cases that don't match, for
+  // example appended SI units like "@valuems", there only @value is the
+  // actual placeholder.
+  $escape = array();
+  if (preg_match_all('/([@!%][a-zA-Z0-9_-]+)/', $text, $matches, PREG_OFFSET_CAPTURE)) {
+    foreach ($matches[0] as $match) {
+      $escape[$match[1]]['string'] = $match[0];
+    }
+  }
+  $structure['singular'] = array(
+    '#label' => t('Singular'),
+    '#text' => (string) $text,
+    '#translate' => TRUE,
+    '#escape' => $escape,
+  );
+  return $structure;
+}
+
+/**
  * Change the #cart submit logic.
  *
  * @see tmgmt_ui_cart_request_translation_form_submit()
@@ -290,6 +341,7 @@ function _tmgmt_dgt_connector_translator_access($op, TMGMTTranslator $translator
  *   Returns true if 'Send to cart' is possible, false otherwise.
  */
 function _tmgmt_dgt_connector_smalljob_translation_possible($plugin_type, $item_type, $item_id) {
+
   $source_data = _tmgmt_dgt_connector_get_source_data($plugin_type, $item_type, $item_id);
   if (empty($source_data)) {
     return FALSE;
