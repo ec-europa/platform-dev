@@ -10,8 +10,29 @@ Feature: Content editing as administrator
     | modules            |
     | ec_world_countries |
 
-  # @theme_wip
-  #They appear several notices about pager template that make the test fail in ec_europa theme.
+  @ec_resp_theme
+  Scenario: See and filter the list of countries
+    When I go to "/ec-world-countries"
+    Then I should see the text "EC world countries"
+    And  I should see "Algeria"
+    And  I should see "Africa" in the "Algeria" row
+    And  I should see "Albania"
+    And  I should see "Europe" in the "Albania" row
+    And  I should see "AL" in the "Albania" row
+    And  I should have the following options for "edit-name":
+      | options       |
+      | Africa        |
+      | Asia          |
+      | Europe        |
+      | North America |
+      | Oceania       |
+      | South America |
+    When I select "Africa" from "edit-name"
+    And  I press "Apply"
+    Then I should see "Algeria"
+    But  I should not see "Albania"
+
+  @ec_europa_theme
   Scenario: See and filter the list of countries
     When I go to "/ec-world-countries"
     Then I should see the text "EC world countries"
