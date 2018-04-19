@@ -121,7 +121,7 @@ Feature: TMGMT Poetry Cart features
     And I should see text matching "Test menu \(menu\:menu\:test\) and 1 more"
 
   @javascript
-  Scenario: I can add vocabolaries to cart.
+  Scenario: I can add vocabularies to cart.
     Given the vocabulary "Vocab" is created
     And the term "Term" in the vocabulary "Vocab" exists
     When I go to "admin/structure/taxonomy/vocab/edit"
@@ -153,3 +153,59 @@ Feature: TMGMT Poetry Cart features
     And I press "Submit to translator"
     Then I should see the message "Job has been successfully sent for translation."
     And I should see text matching "Vocab \(taxonomy\:vocabulary\:\d\) and 1 more"
+
+  @javascript
+  Scenario: I can add blocks and beans to cart.
+    Given I create the new block type "New bean"
+    And I go to "admin/structure/block-types"
+    # It does not work without cc
+    And the cache has been cleared
+    And I click "manage fields" in the "New bean" row
+    And I click "replace"
+    And I check the box "Replace title with a field instance"
+    And I press "Save settings"
+    And I wait for the end of the batch job
+    And I go to "/block/add"
+    # When there is only one bean it goes directly to that bean's creation page
+    # And I click "New bean"
+    And I fill in "Label" with "Label for New bean Block"
+    And I fill in "Title" with "Title for New bean Block"
+    And I press "Save"
+    Then I should see "New bean Title for New bean Block has been created."
+
+    When I click "Translate" in the "primary_tabs" region
+    And I check the box on the "French" row
+    And I check the box on the "Portuguese, Portugal" row
+    And I press "Send to cart"
+    Then I should see "The content has been added to the cart."
+
+    When I go to "/admin/structure/block/add"
+    And I fill in "Block title" with "Title for New block"
+    And I fill in "Block description" with "Description for New block"
+    And I fill in the rich text editor "Block body" with "Body for New block."
+    And I click "Not translatable, Not restricted"
+    And I check the box "Make this block translatable"
+    And I press the "Save and translate" button
+    And I check the box on the "French" row
+    And I check the box on the "Portuguese, Portugal" row
+    And I press "Send to cart"
+    Then I should see "The content has been added to the cart."
+
+    When I click "cart" in the "front_messages" region
+    And I click "Send" in the "Target languages: FR, PT" row
+    And I click "Change translator"
+    And I select "tmgmt_dgt_connector" from "Translator"
+    And I wait for AJAX to finish
+    And I fill in "Date" with a relative date of "+20" days
+    And I press "Submit to translator"
+    Then I should see the message "Job has been successfully sent for translation."
+    And I should see text matching "Title for New bean Block and 1 more"
+
+    # Delete created bean and blocks
+    When I go to "admin/structure/block-types"
+    And I click "Delete" in the "New bean" row
+    And I press the "Delete" button
+    And I go to "admin/structure/block"
+    And I click "delete" in the "Description for New block" row
+    And I press "Delete"
+    Then I should see the message "The block Description for New block has been removed."
