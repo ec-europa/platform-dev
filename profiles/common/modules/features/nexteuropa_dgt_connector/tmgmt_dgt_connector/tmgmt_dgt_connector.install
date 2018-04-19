@@ -55,7 +55,6 @@ function tmgmt_dgt_connector_install() {
     variable_set('entity_translation_entity_types', $translatable_entities);
   }
 
-
 }
 
 /**
