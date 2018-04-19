@@ -642,11 +642,22 @@ function _tmgmt_dgt_connector_cart_get_cart_get_cart_bundle($form_state) {
 function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $plugin_type, $entity_type, $entity_id, $entity_title) {
 
   $context_url = '';
+  $context_comment = '';
   if ($plugin_type == 'entity' || $plugin_type == 'workbench_moderation') {
     $entity = entity_load($entity_type, array($entity_id));
     $entity = reset($entity);
     $entity_uri = entity_uri($entity_type, $entity);
     $context_url = url($entity_uri['path'], ['absolute' => TRUE]);
+  }
+  elseif ($plugin_type == 'locale') {
+    $locale_context = db_select('locales_source', 'ls')
+      ->fields('ls', array('location'))
+      ->condition('lid', $entity_id, '=')
+      ->execute()
+      ->fetchAssoc();
+    if (!empty($locale_context['location'])) {
+      $context_comment = 'Origin: ' . $locale_context['location'];
+    }
   }
 
   // Creating the CartItem entity.
@@ -656,7 +667,8 @@ function _tmgmt_dgt_connector_cart_create_cart_item($cbid, $plugin_type, $entity
     $entity_type,
     $entity_id,
     $entity_title,
-    $context_url
+    $context_url,
+    $context_comment
   );
 }
 
