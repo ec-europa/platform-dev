@@ -454,6 +454,32 @@ function cce_basic_config_install() {
 
   multisite_config_service('wysiwyg')->addPreferenceToProfile('full_html', 'version', '4.4.8.ccd0038');
 
+  // Create WYSIWYG profile for Filtered  HTML text format.
+  multisite_config_service('wysiwyg')->createProfile('filtered_html', 'ckeditor');
+
+  $plugin_settings = array(
+    'default' => array(
+      'Bold',
+      'Italic',
+      'Underline',
+      'BulletedList',
+      'NumberedList',
+      'Undo',
+      'Link',
+      'Unlink',
+      'Anchor',
+      'TextColor',
+      'BGColor',
+      'Blockquote',
+      'Font',
+      'FontSize',
+      'Maximize',
+    ),
+  );
+  foreach ($plugin_settings as $group => $buttons) {
+    multisite_config_service('wysiwyg')->addButtonsToProfile('filtered_html', $group, $buttons);
+  }
+
   // Dynamically set the 'print_pdf_pdf_tool' variable. It cannot be exported
   // in a regular feature since it includes the path to where the Print PDF
   // module is installed, which is different depending on the installation
