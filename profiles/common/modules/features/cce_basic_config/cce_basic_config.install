@@ -784,7 +784,8 @@ function _cce_basic_config_post_install_user_roles_perms() {
   $admin_role->name = 'administrator';
   $admin_role->weight = 2;
   user_role_save($admin_role);
-  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+  $all_permissions = array_keys(module_invoke_all('permission'));
+  user_role_grant_permissions($admin_role->rid, $all_permissions);
 
   // Set this as the administrator role.
   variable_set('user_admin_role', $admin_role->rid);
@@ -904,7 +905,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
 
   // Grant permissions for cem.
   $cem_permissions = array(
-
     'accept translation jobs',
     'access administration menu',
     'access administration pages',
@@ -1008,7 +1008,10 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'view rate results page',
     'view the administration theme',
   );
-  multisite_config_service('user')->grantPermission('cem', $cem_permissions);
+  // Depending on the platform profile, some default platform modules are not
+  // enabled.
+  // We need to only keep the enabled permissions of the array above.
+  multisite_config_service('user')->grantPermission('cem', array_intersect($all_permissions, $cem_permissions));
 }
 
 /**
