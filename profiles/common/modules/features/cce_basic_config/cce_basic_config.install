@@ -919,7 +919,6 @@ function _cce_basic_config_post_install_user_roles_perms() {
     'access own broken links report',
     'add media from remote sources',
     'administer content translations',
-    'administer ecas',
     'administer feature sets',
     'administer menu',
     'change own username',
