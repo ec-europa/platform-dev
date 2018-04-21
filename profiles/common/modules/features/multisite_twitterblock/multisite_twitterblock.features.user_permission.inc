@@ -37,6 +37,7 @@ function multisite_twitterblock_user_default_permissions() {
       'administrator' => 'administrator',
       'contributor' => 'contributor',
       'editor' => 'editor',
+      'cem' => 'cem',
     ),
     'module' => 'multisite_twitterblock',
   );
