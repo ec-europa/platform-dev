@@ -2057,10 +2057,10 @@ function cce_basic_config_update_7226() {
   }
 
   if (module_exists('survey_core')) {
-    $components_to_revert[''] = array('user_permission');
+    $components_to_revert['survey_core'] = array('user_permission');
   }
 
-  if (module_exists('survey_core')) {
+  if (module_exists('wiki_core')) {
     $components_to_revert['wiki_core'] = array('user_permission');
   }
 
