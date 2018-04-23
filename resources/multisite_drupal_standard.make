@@ -1131,12 +1131,16 @@ projects[ec_resp][download][url] = https://github.com/ec-europa/ec_resp.git
 projects[ec_resp][download][tag] = 2.3.10
 
 projects[atomium][type] = theme
-projects[atomium][version] = 2.12
+;projects[atomium][version] = 2.12
+projects[ec_europa][download][type] = git
+projects[ec_europa][download][url] = https://github.com/ec-europa/atomium.git
+projects[ec_europa][download][branch] = 7.x-3.x
 
 projects[ec_europa][type] = theme
 projects[ec_europa][download][type] = git
 projects[ec_europa][download][url] = https://github.com/ec-europa/ec_europa.git
-projects[ec_europa][download][tag] = 0.0.15
+;projects[ec_europa][download][tag] = 0.0.15
+projects[ec_europa][download][branch] = nept-1889
 
 ; ==============
 ; Custom modules
