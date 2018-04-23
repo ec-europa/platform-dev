@@ -156,7 +156,11 @@ Feature: TMGMT Poetry Cart features
 
   @javascript
   Scenario: I can add blocks and beans to cart.
-    Given I create the new block type "New bean"
+    Given I go to "admin/config/regional/entity_translation"
+    And I click "Translatable entity types"
+    Then the "Block" checkbox should be checked
+
+    When I create the new block type "New bean"
     And I go to "admin/structure/block-types"
     # It does not work without cc
     And the cache has been cleared
